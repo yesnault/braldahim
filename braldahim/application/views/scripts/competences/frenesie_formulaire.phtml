@@ -4,18 +4,18 @@
 		Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
 	<? else: ?>
 	  	<? if ($this->estRegionPvp == false) :?>
-			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
+			Vous ne pouvez pas attaquer de braldun dans cette r&eacute;gion.<br><br>
 		<? endif;?>
 		
-		<? if ($this->user->est_soule_hobbit == 'oui') :?>
+		<? if ($this->user->est_soule_braldun == 'oui') :?>
 			Vous ne pouvez attaquer que des adversaires pendant un match de soule.<br><br>
 		<? endif;?>
 		
-		<? if ($this->user->est_intangible_hobbit == 'oui') :?>
+		<? if ($this->user->est_intangible_braldun == 'oui') :?>
 			Vous êtes actuellement intangible, vous ne pouvez pas attaquer.<br><br>
 		<? endif;?>
 		
-	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+	 	<? if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave attaquer ici...<br />
 	 	<? else: ?>
 	 		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer avec frénésie ce qu'il y a sur votre case.<br /><br />
@@ -24,6 +24,6 @@
  </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->armeTirPortee == false && ($this->nHobbits > 0 || $this->nMonstres > 0) && $this->user->est_soule_hobbit == 'non' && $this->user->est_intangible_hobbit == 'non') : ?>
+<?php if ($this->assezDePa == true && $this->armeTirPortee == false && ($this->nBralduns > 0 || $this->nMonstres > 0) && $this->user->est_soule_braldun == 'non' && $this->user->est_intangible_braldun == 'non') : ?>
 <input type='button' class='button1' value='Fr&eacute;n&eacute;sie !' id='bouton_frenesie' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_frenesie");'>
 <? endif ?>

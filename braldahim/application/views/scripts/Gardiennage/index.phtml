@@ -11,20 +11,20 @@
       	<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
    		<? else: ?>
-			<? if (empty($this->tabHobbitGarde)) : ?>
-				Vous n'avez aucun Hobbit en garde actuellement.
+			<? if (empty($this->tabBraldunGarde)) : ?>
+				Vous n'avez aucun Braldun en garde actuellement.
 			<? else: ?>
 				<ul class="titre textalic textsized">Gardes à effectuer</ul><br>
 				<table class="table_liste">
 				<thead class="table_liste">
 					<tr class="table_liste">
 					<th>S&eacute;lectionner</th>
-					<th>Hobbit</th>
+					<th>Braldun</th>
 					<th>Date de d&eacute;but</th>
 					<th>Nombre de jour(s)</th>
 					<th>Commentaire</th>
 				</thead>
-				<? foreach($this->tabHobbitGarde as $g): ?>
+				<? foreach($this->tabBraldunGarde as $g): ?>
 					<tr>
 						<td>
 							<? if($g["date_ok"] === true): ?>
@@ -34,8 +34,8 @@
 							<? endif; ?>
 						</td>
 						<td nowrap>
-							<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$g["id_hobbit"] ?>');" title="Cliquez pour voir le profil">
-						  		<?=htmlspecialchars(stripslashes($g["prenom_hobbit"])). " ". htmlspecialchars(stripslashes($g["nom_hobbit"])). ' ('.$g["id_hobbit"].')';?>
+							<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
+						  		<?=htmlspecialchars(stripslashes($g["prenom_braldun"])). " ". htmlspecialchars(stripslashes($g["nom_braldun"])). ' ('.$g["id_braldun"].')';?>
 						  	</a>
 						</td>
 						<td nowrap>Le <?=Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$g["date_debut"]); ?></td>
@@ -51,9 +51,9 @@
 		<? endif; ?>
 <br />
 <div id="formbutton">
-<? if (!empty($this->tabHobbitGarde) && $this->uneGardePossible) : ?>
+<? if (!empty($this->tabBraldunGarde) && $this->uneGardePossible) : ?>
 <input type="submit" name="add" class='button1' value="Jouer !" />
-<? elseif (!empty($this->tabHobbitGarde)): ?>
+<? elseif (!empty($this->tabBraldunGarde)): ?>
 Aucune des gardes débute aujourd'hui.<br><br>
 <? endif; ?>
 <input type="button" name="retour" class='button1' value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>

@@ -59,7 +59,7 @@ Zend_Loader::loadClass("Bral_Helper_Tooltip");
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 
-Zend_Loader::loadClass("Hobbit");
+Zend_Loader::loadClass("Braldun");
 Zend_Loader::loadClass("Message");
 Zend_Loader::loadClass("Session");
 

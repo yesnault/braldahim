@@ -3,17 +3,17 @@
  	<? if ($this->possedeBallon !== true) :?>
  		Vous n'avez pas le ballon !<br><br>
 	<? else: ?>
-	 	<? if ($this->nHobbits == 0): ?>
-	 		Il n'y a pas de hobbit de votre &eacute;quipe sur votre case<br />
+	 	<? if ($this->nBralduns == 0): ?>
+	 		Il n'y a pas de braldun de votre &eacute;quipe sur votre case<br />
 	 	<? else: ?>
 	 		Pour <?=$this->nb_pa?> PA, vous pouvez donner le ballon.<br /><br />
 			
-	 		<? if ($this->nHobbits > 0): ?>
-	 		 Hobbit destinataire : <br />
+	 		<? if ($this->nBralduns > 0): ?>
+	 		 Braldun destinataire : <br />
 	 			<select name='valeur_1' id="valeur_1" onChange="javascript:if (this.value==-1){$('bouton_donnerballon').disabled=true } else {$('bouton_donnerballon').disabled=false }">
-					<option value='-1'>(Choisissez un hobbit)</option>
-	 				<? foreach ($this->tabHobbits as $h) : ?>
-					<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
+					<option value='-1'>(Choisissez un braldun)</option>
+	 				<? foreach ($this->tabBralduns as $h) : ?>
+					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
 					<? endforeach; ?>
 				</select><br /><br />
 			<? endif;?>

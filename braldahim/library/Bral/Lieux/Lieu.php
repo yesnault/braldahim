@@ -23,7 +23,7 @@ abstract class Bral_Lieux_Lieu {
 		$this->nom_systeme = $nomSystemeLieu;
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($view->user->x_hobbit, $view->user->y_hobbit, $view->user->z_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($view->user->x_braldun, $view->user->y_braldun, $view->user->z_braldun);
 		$this->view->estLieuCourant = false;
 
 		if (count($lieuRowset) > 1) {
@@ -52,12 +52,12 @@ abstract class Bral_Lieux_Lieu {
 					$this->view->nomVille = $lieu["nom_ville"];
 				}
 			} else {
-				throw new Zend_Exception(get_class($this)."::type de lieu invalide ! s:".$nomSystemeLieu. " id:".$view->user->id_hobbit. " x:".$view->user->x_hobbit. " y:".$view->user->y_hobbit);
+				throw new Zend_Exception(get_class($this)."::type de lieu invalide ! s:".$nomSystemeLieu. " id:".$view->user->id_braldun. " x:".$view->user->x_braldun. " y:".$view->user->y_braldun);
 			}
 		} else {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppesTable = new Echoppe();
-			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			if (count($echoppeRowset) > 1) {
 				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
 			} elseif (count($echoppeRowset) == 1) {
@@ -70,7 +70,7 @@ abstract class Bral_Lieux_Lieu {
 
 		$this->view->estQueteEvenement = false;
 
-		$this->view->utilisationPaPossible = (($view->user->pa_hobbit - $this->view->paUtilisationLieu) >= 0);
+		$this->view->utilisationPaPossible = (($view->user->pa_braldun - $this->view->paUtilisationLieu) >= 0);
 
 		$this->prepareCommun();
 
@@ -98,8 +98,8 @@ abstract class Bral_Lieux_Lieu {
 	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		$id_type = $this->view->config->game->evenements->type->service;
-		$details = "[h".$this->view->user->id_hobbit."] a utilisé un service";
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailsBot, $this->view->user->niveau_hobbit);
+		$details = "[h".$this->view->user->id_braldun."] a utilisé un service";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $details, $detailsBot, $this->view->user->niveau_braldun);
 	}
 
 	function getNomInterne() {
@@ -133,46 +133,46 @@ abstract class Bral_Lieux_Lieu {
 		}
 	}
 
-	public function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	public function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->paUtilisationLieu;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
 
-		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0;
+		if ($this->view->user->balance_faim_braldun < 0) {
+			$this->view->user->balance_faim_braldun = 0;
 		}
 
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
-			'duree_prochain_tour_hobbit' =>  $this->view->user->duree_prochain_tour_hobbit,
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'pi_hobbit' => $this->view->user->pi_hobbit,
-			'force_base_hobbit' => $this->view->user->force_base_hobbit,
-			'agilite_base_hobbit' => $this->view->user->agilite_base_hobbit,
-			'vigueur_base_hobbit' => $this->view->user->vigueur_base_hobbit,
-			'sagesse_base_hobbit' => $this->view->user->sagesse_base_hobbit,
-			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
-			'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
-			'force_bbdf_hobbit' => $this->view->user->force_bbdf_hobbit, 
-			'agilite_bbdf_hobbit' => $this->view->user->agilite_bbdf_hobbit,
-			'vigueur_bbdf_hobbit' => $this->view->user->vigueur_bbdf_hobbit, 
-			'sagesse_bbdf_hobbit' => $this->view->user->sagesse_bbdf_hobbit,
-			'x_hobbit' => $this->view->user->x_hobbit,
-			'y_hobbit' => $this->view->user->y_hobbit,
-			'z_hobbit' => $this->view->user->z_hobbit,
-			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
-			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
-			'regeneration_hobbit' => $this->view->user->regeneration_hobbit,
-			'est_quete_hobbit' => $this->view->user->est_quete_hobbit,
-			'pi_academie_hobbit' => $this->view->user->pi_academie_hobbit,
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'px_perso_braldun' => $this->view->user->px_perso_braldun,
+			'duree_prochain_tour_braldun' =>  $this->view->user->duree_prochain_tour_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'pi_braldun' => $this->view->user->pi_braldun,
+			'force_base_braldun' => $this->view->user->force_base_braldun,
+			'agilite_base_braldun' => $this->view->user->agilite_base_braldun,
+			'vigueur_base_braldun' => $this->view->user->vigueur_base_braldun,
+			'sagesse_base_braldun' => $this->view->user->sagesse_base_braldun,
+			'balance_faim_braldun' => $this->view->user->balance_faim_braldun,
+			'poids_transportable_braldun' => $this->view->user->poids_transportable_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
+			'force_bbdf_braldun' => $this->view->user->force_bbdf_braldun, 
+			'agilite_bbdf_braldun' => $this->view->user->agilite_bbdf_braldun,
+			'vigueur_bbdf_braldun' => $this->view->user->vigueur_bbdf_braldun, 
+			'sagesse_bbdf_braldun' => $this->view->user->sagesse_bbdf_braldun,
+			'x_braldun' => $this->view->user->x_braldun,
+			'y_braldun' => $this->view->user->y_braldun,
+			'z_braldun' => $this->view->user->z_braldun,
+			'pv_restant_braldun' => $this->view->user->pv_restant_braldun,
+			'armure_naturelle_braldun' => $this->view->user->armure_naturelle_braldun,
+			'regeneration_braldun' => $this->view->user->regeneration_braldun,
+			'est_quete_braldun' => $this->view->user->est_quete_braldun,
+			'pi_academie_braldun' => $this->view->user->pi_academie_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 
 	protected function constructListBoxRefresh($tab = null) {
@@ -181,7 +181,7 @@ abstract class Bral_Lieux_Lieu {
 		if ($this->view->estQueteEvenement) {
 			$tab[] = "box_quetes";
 		}
-		if ($this->view->user->pa_hobbit < 1) {
+		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}

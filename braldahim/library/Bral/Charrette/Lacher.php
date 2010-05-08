@@ -30,7 +30,7 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 
 		$charretteTable = new Charrette();
 
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrette = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 		if ($charrette != null && count($charrette) > 0) {
 			foreach ($charrette as $c) {
 				$this->view->idCharrette = $c["id_charrette"];
@@ -51,7 +51,7 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification abattre arbre
@@ -67,10 +67,10 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 		$this->calculBalanceFaim();
 
 		$id_type = $this->view->config->game->evenements->type->deposer;
-		$details = "[h".$this->view->user->id_hobbit."] a lâché sa charrette";
+		$details = "[h".$this->view->user->id_braldun."] a lâché sa charrette";
 		$this->setDetailsEvenement($details, $id_type);
 		
-		$details = "[h".$this->view->user->id_hobbit."] a lâché la charrette n°".$this->view->idCharrette ;
+		$details = "[h".$this->view->user->id_braldun."] a lâché la charrette n°".$this->view->idCharrette ;
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $this->view->idCharrette , $details);
 	}
@@ -78,12 +78,12 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 	private function calculLacherCharrette() {
 		$charretteTable = new Charrette();
 		$dataUpdate = array(
-			"id_fk_hobbit_charrette" => null,
-			"x_charrette" => $this->view->user->x_hobbit,
-			"y_charrette" => $this->view->user->y_hobbit,
-			"z_charrette" => $this->view->user->z_hobbit,
+			"id_fk_braldun_charrette" => null,
+			"x_charrette" => $this->view->user->x_braldun,
+			"y_charrette" => $this->view->user->y_braldun,
+			"z_charrette" => $this->view->user->z_braldun,
 		);
-		$where = "id_fk_hobbit_charrette = ".$this->view->user->id_hobbit;
+		$where = "id_fk_braldun_charrette = ".$this->view->user->id_braldun;
 		$charretteTable->update($dataUpdate, $where);
 	}
 

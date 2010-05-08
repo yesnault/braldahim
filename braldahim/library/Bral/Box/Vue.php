@@ -43,7 +43,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("ElementRune");
 			Zend_Loader::loadClass("ElementTabac");
 			Zend_Loader::loadClass("Lieu");
-			Zend_Loader::loadClass("HobbitsMetiers");
+			Zend_Loader::loadClass("BraldunsMetiers");
 			Zend_Loader::loadClass("Monstre");
 			Zend_Loader::loadClass("Nid");
 			Zend_Loader::loadClass("Palissade");
@@ -80,10 +80,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$bm = 10;
 
 		} else {
-			$x = $this->view->user->x_hobbit;
-			$y = $this->view->user->y_hobbit;
-			$z = $this->view->user->z_hobbit;
-			$bm = $this->view->user->vue_bm_hobbit;
+			$x = $this->view->user->x_braldun;
+			$y = $this->view->user->y_braldun;
+			$z = $this->view->user->z_braldun;
+			$bm = $this->view->user->vue_bm_braldun;
 		}
 
 		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z) + $bm;
@@ -183,16 +183,16 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->centre_nom_ville = null;
 		$this->view->centre_est_capitale = null;
 			
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		unset($hobbitsMetiersTable);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+		unset($braldunsMetiersTable);
 		$tabMetiers = null;
-		if ($hobbitsMetierRowset != null) {
-			foreach($hobbitsMetierRowset as $m) {
+		if ($braldunsMetierRowset != null) {
+			foreach($braldunsMetierRowset as $m) {
 				$possedeMetier = true;
 				$tabMetiers[] = $m["nom_systeme_metier"];
 			}
-			unset($hobbitsMetierRowset);
+			unset($braldunsMetierRowset);
 		}
 
 		$monstreTable = new Monstre();
@@ -246,9 +246,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementTabacTable = new ElementTabac();
 		$elementsTabac = $elementTabacTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementTabacTable);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
-		unset($hobbitTable);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		unset($braldunTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($lieuxTable);
@@ -334,7 +334,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabElementsIngredients = null;
 				$tabElementsRunes = null;
 				$tabElementsTabac = null;
-				$tabHobbits = null;
+				$tabBralduns = null;
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabNids = null;
@@ -398,12 +398,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($echoppes != null) {
 						foreach($echoppes as $e) {
 							if ($display_x == $e["x_echoppe"] && $display_y == $e["y_echoppe"]) {
-								if ($e["sexe_hobbit"] == 'feminin') {
+								if ($e["sexe_braldun"] == 'feminin') {
 									$nom_metier = $e["nom_feminin_metier"];
 								} else {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
-								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_echoppe" => $e["nom_echoppe"], "nom_systeme_metier"=> $e["nom_systeme_metier"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_echoppe" => $e["nom_echoppe"], "nom_systeme_metier"=> $e["nom_systeme_metier"], "nom_metier" => $nom_metier, "nom_braldun" => $e["nom_braldun"], "prenom_braldun" => $e["prenom_braldun"], "id_braldun" => $e["id_braldun"]);
 							}
 						}
 					}
@@ -411,7 +411,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($champs != null) {
 						foreach($champs as $e) {
 							if ($display_x == $e["x_champ"] && $display_y == $e["y_champ"]) {
-								$tabChamps[] = array("id_champ" => $e["id_champ"], "nom_champ" => $e["nom_champ"], "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+								$tabChamps[] = array("id_champ" => $e["id_champ"], "nom_champ" => $e["nom_champ"], "nom_braldun" => $e["nom_braldun"], "prenom_braldun" => $e["prenom_braldun"], "id_braldun" => $e["id_braldun"]);
 							}
 						}
 					}
@@ -583,10 +583,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
-					if ($hobbits != null) {
-						foreach($hobbits as $h) {
-							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"], "id_communaute" => $h["id_fk_communaute_hobbit"], "nom_communaute" => $h["nom_communaute"], "sexe_hobbit" => $h["sexe_hobbit"]);
+					if ($bralduns != null) {
+						foreach($bralduns as $h) {
+							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
+								$tabBralduns[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"]);
 							}
 						}
 					}
@@ -708,7 +708,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					}
 				}
 
-				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
+				if ($this->view->user->x_braldun == $display_x && $this->view->user->y_braldun == $display_y) { // Position du joueur
 					$cssActuelle = "actuelle";
 					$this->view->environnement = $nom_environnement;
 					$this->view->centre_nom_region = $region["nom"];
@@ -736,13 +736,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						} elseif ($tabRoutes[0]["type_route"] == "echoppe") {
 							$css = "pave";
 						} elseif ($tabRoutes[0]["type_route"] == "route") {
-							//$css = "route";
-							//TODO A modifier en VF
-							if ($this->view->user->administrationvue === true) {
-								$css = "route";
-							} else {
-								$css = "pave";
-							}
+							$css = "route";
 						} else {
 							$css .= "-gr";
 						}
@@ -756,7 +750,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$this->view->centre_environnement = $nom_environnement;
 				}
 
-				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) {
+				if ($this->view->user->x_braldun == $display_x && $this->view->user->y_braldun == $display_y) {
 					$tabMarcher["case"] = null;
 				} else if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
 					$tabMarcher["case"] = $marcher["tableauValidationXY"][$display_x][$display_y];
@@ -811,8 +805,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements_runes" => $tabElementsRunes,
 					"n_elements_tabac" => count($tabElementsTabac),
 					"elements_tabc" => $tabElementsTabac,
-					"n_hobbits" => count($tabHobbits),
-					"hobbits" => $tabHobbits,
+					"n_bralduns" => count($tabBralduns),
+					"bralduns" => $tabBralduns,
 					"n_lieux" => count($tabLieux),
 					"lieux" => $tabLieux,
 					"n_monstres" => count($tabMonstres),
@@ -852,7 +846,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($elementsMinerais);
 		unset($elementsPotions);
 		unset($elementsRunes);
-		unset($hobbits);
+		unset($bralduns);
 		unset($lieux);
 		unset($monstres);
 		unset($palissades);

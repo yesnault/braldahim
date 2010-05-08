@@ -125,10 +125,10 @@ class Bral_Util_Equipement {
 		unset($equipementBonus);
 	}
 
-	public static function getTabEmplacementsEquipement($idHobbit, $niveauHobbit) {
+	public static function getTabEmplacementsEquipement($idBraldun, $niveauBraldun) {
 
 		Zend_Loader::loadClass("TypeEmplacement");
-		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("EquipementBonus");
 
@@ -166,10 +166,10 @@ class Bral_Util_Equipement {
 
 		// on va chercher l'équipement porté
 		$tabEquipementPorte = null;
-		$hobbitEquipementTable = new HobbitEquipement();
-		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($idHobbit);
-		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $niveauHobbit);
-		unset($hobbitEquipementTable);
+		$braldunEquipementTable = new BraldunEquipement();
+		$equipementPorteRowset = $braldunEquipementTable->findByIdBraldun($idBraldun);
+		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $niveauBraldun);
+		unset($braldunEquipementTable);
 
 		$equipementPorte = null;
 
@@ -188,12 +188,12 @@ class Bral_Util_Equipement {
 	}
 
 
-	public static function calculNouvelleDlaEquipement($idHobbit, $x, $y) {
-		Zend_Loader::loadClass("HobbitEquipement");
+	public static function calculNouvelleDlaEquipement($idBraldun, $x, $y) {
+		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("Equipement");
 
-		$hobbitEquipementTable = new HobbitEquipement();
-		$equipements = $hobbitEquipementTable->findByIdHobbit($idHobbit);
+		$braldunEquipementTable = new BraldunEquipement();
+		$equipements = $braldunEquipementTable->findByIdBraldun($idBraldun);
 
 		$equipementTable = new Equipement();
 
@@ -206,14 +206,14 @@ class Bral_Util_Equipement {
 			$etat = $e["etat_courant_equipement"] - 15;
 			if ($etat <= 0) {
 				$where = "id_equipement_hequipement =".$e["id_equipement_hequipement"];
-				$hobbitEquipementTable->delete($where);
+				$braldunEquipementTable->delete($where);
 				self::destructionEquipement($e["id_equipement_hequipement"]);
 
 				$texteDetruit .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
 				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
 				$retour["detruit"] = $texteDetruit;
 
-				$details = "[h".$idHobbit."] n'a pas réparé la pièce d'équipement n°".$e["id_equipement_hequipement"]. ". Elle est détruite.";
+				$details = "[h".$idBraldun."] n'a pas réparé la pièce d'équipement n°".$e["id_equipement_hequipement"]. ". Elle est détruite.";
 				self::insertHistorique(self::HISTORIQUE_DESTRUCTION_ID, $e["id_equipement_hequipement"], $details);
 			} else {
 				$data = array("etat_courant_equipement" => $etat);
@@ -267,10 +267,10 @@ class Bral_Util_Equipement {
 		$historiqueEquipementTable->insert($data);
 	}
 
-	public static function prepareTabEquipements($equipementsRowset, $filtreEquipable = false, $niveauHobbit = null) {
+	public static function prepareTabEquipements($equipementsRowset, $filtreEquipable = false, $niveauBraldun = null) {
 
 		$filtreEquipableAFaire = false;
-		if ($filtreEquipable == true && $niveauHobbit != null) {
+		if ($filtreEquipable == true && $niveauBraldun != null) {
 			$filtreEquipableAFaire = true;
 		}
 
@@ -280,7 +280,7 @@ class Bral_Util_Equipement {
 		foreach ($equipementsRowset as $e) {
 				
 			if ($filtreEquipableAFaire == false ||
-			($filtreEquipableAFaire == true && $e["est_equipable_type_emplacement"] == "oui" && floor($niveauHobbit / 10) >= $e["niveau_recette_equipement"])) {
+			($filtreEquipableAFaire == true && $e["est_equipable_type_emplacement"] == "oui" && floor($niveauBraldun / 10) >= $e["niveau_recette_equipement"])) {
 					
 				$equipement = array(
 					"id_equipement" => $e["id_equipement"],
@@ -295,15 +295,15 @@ class Bral_Util_Equipement {
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-					"armure" => self::calculBmSet($e, 'armure_equipement', $niveauHobbit),
-					"force" => self::calculBmSet($e, 'force_equipement', $niveauHobbit),
-					"agilite" => self::calculBmSet($e, 'agilite_equipement', $niveauHobbit),
-					"vigueur" => self::calculBmSet($e, 'vigueur_equipement', $niveauHobbit),
-					"sagesse" => self::calculBmSet($e, 'sagesse_equipement', $niveauHobbit),
+					"armure" => self::calculBmSet($e, 'armure_equipement', $niveauBraldun),
+					"force" => self::calculBmSet($e, 'force_equipement', $niveauBraldun),
+					"agilite" => self::calculBmSet($e, 'agilite_equipement', $niveauBraldun),
+					"vigueur" => self::calculBmSet($e, 'vigueur_equipement', $niveauBraldun),
+					"sagesse" => self::calculBmSet($e, 'sagesse_equipement', $niveauBraldun),
 					"vue" => $e["vue_recette_equipement"],
-					"attaque" => self::calculBmSet($e, 'attaque_equipement', $niveauHobbit),
-					"degat" => self::calculBmSet($e, 'degat_equipement', $niveauHobbit),
-					"defense" => self::calculBmSet($e, 'defense_equipement', $niveauHobbit),
+					"attaque" => self::calculBmSet($e, 'attaque_equipement', $niveauBraldun),
+					"degat" => self::calculBmSet($e, 'degat_equipement', $niveauBraldun),
+					"defense" => self::calculBmSet($e, 'defense_equipement', $niveauBraldun),
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 					"id_fk_region" => $e["id_fk_region_equipement"],
@@ -329,9 +329,9 @@ class Bral_Util_Equipement {
 		return $tabEquipements;
 	}
 	
-	private static function calculBmSet($equipement, $key, $niveauHobbit) {
-		if ($equipement["id_fk_donjon_type_equipement"] != null && $niveauHobbit != null) {
-			return $equipement[$key] * intval($niveauHobbit / 10);
+	private static function calculBmSet($equipement, $key, $niveauBraldun) {
+		if ($equipement["id_fk_donjon_type_equipement"] != null && $niveauBraldun != null) {
+			return $equipement[$key] * intval($niveauBraldun / 10);
 		} else {
 			return $equipement[$key];
 		}

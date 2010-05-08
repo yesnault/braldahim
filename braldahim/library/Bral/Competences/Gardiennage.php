@@ -28,14 +28,14 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 	function prepareFormulaire() {
 		$tabGardiens = null;
 		$gardiennageTable = new Gardiennage();
-		$gardiens = $gardiennageTable->findGardiens($this->view->user->id_hobbit);
-		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id_hobbit);
+		$gardiens = $gardiennageTable->findGardiens($this->view->user->id_braldun);
+		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id_braldun);
 		
 		foreach($gardiens as $gardien) {
 			$tabGardiens[] = array(
 				"id_gardien" => $gardien["id_fk_gardien_gardiennage"], 
-				"nom_gardien" => $gardien["nom_hobbit"],
-				"prenom_gardien" => $gardien["prenom_hobbit"]);
+				"nom_gardien" => $gardien["nom_braldun"],
+				"prenom_gardien" => $gardien["prenom_braldun"]);
 		}
 		if (count($gardiennageEnCours) < $this->view->config->game->gardiennage->nb_max_en_cours) {
 			$this->view->tabJoursDebut = $this->tabJoursDebut;
@@ -100,8 +100,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		}
 		
 		// Il ne faut pas que le gardien soit le joueur lui même
-		if ($idGardien == $this->view->user->id_hobbit) {
-			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id_hobbit);
+		if ($idGardien == $this->view->user->id_braldun) {
+			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id_braldun);
 		}
 		
 		$break = explode("-", $premierJour);
@@ -114,7 +114,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		$gardiennageTable = new Gardiennage();
 		$data = array (
-			'id_fk_hobbit_gardiennage' => $this->view->user->id_hobbit,
+			'id_fk_braldun_gardiennage' => $this->view->user->id_braldun,
 			'id_fk_gardien_gardiennage' => $idGardien,
 			'date_debut_gardiennage' => $premierJour,
 			'date_fin_gardiennage' => $dernierJour,
@@ -125,29 +125,29 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$this->view->nouveauGardiennage = true;
 		
 		$message = "[Ceci est un message automatique de gardiennage]".PHP_EOL;
-		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
-		$message .= " (".$this->view->user->id_hobbit.") vous confie son hobbit.".PHP_EOL;
+		$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
+		$message .= " (".$this->view->user->id_braldun.") vous confie son braldun.".PHP_EOL;
 		$message .= " Premier jour de garde : ".$premierJourTexte.PHP_EOL;
 		$message .= " Dernier jour de garde (inclus) : ".$dernierJourTexte.PHP_EOL;
 		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
 		$message .= " Commentaire : ".$commentaire.PHP_EOL;
 		
-		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $idGardien, $message, $this->view);
+		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idGardien, $message, $this->view);
 	}
 	
 	private function voirGardiennage() {
 		$this->view->nouveauGardiennage = false;
 		
 		$gardiennageTable = new Gardiennage();
-		$gardiennages = $gardiennageTable->findGardiennageEnCours($this->view->user->id_hobbit);
+		$gardiennages = $gardiennageTable->findGardiennageEnCours($this->view->user->id_braldun);
 		
 		$tabGardiennage = null;
 		
 		foreach($gardiennages as $g) {
 			$tabGardiennage[] = array(
 				"id_gardien" => $g["id_fk_gardien_gardiennage"], 
-				"nom_gardien" => $g["nom_hobbit"],
-				"prenom_gardien" => $g["prenom_hobbit"],
+				"nom_gardien" => $g["nom_braldun"],
+				"prenom_gardien" => $g["prenom_braldun"],
 				"date_debut" => $g["date_debut_gardiennage"],
 				"nb_jours" => $g["nb_jours_gardiennage"],
 				"commentaire" => $g["commentaire_gardiennage"]);

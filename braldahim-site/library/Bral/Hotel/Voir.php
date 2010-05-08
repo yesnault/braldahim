@@ -1053,9 +1053,9 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 	private function prepareRowVente($r, $minerai, $partiesPlantes) {
 
 		$tab = array("id_vente" => $r["id_vente"],
-			 	"id_hobbit" => $r["id_hobbit"],
-				"prenom_hobbit" => $r["prenom_hobbit"],
-				"nom_hobbit" => $r["nom_hobbit"],
+			 	"id_braldun" => $r["id_braldun"],
+				"prenom_braldun" => $r["prenom_braldun"],
+				"nom_braldun" => $r["nom_braldun"],
 				"unite_1_vente" => $r["unite_1_vente"],
 				"unite_2_vente" => $r["unite_2_vente"],
 				"unite_3_vente" => $r["unite_3_vente"],

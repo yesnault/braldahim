@@ -42,12 +42,12 @@ abstract class Bral_Soule_Soule {
 	abstract function calculNbPa();
 
 	protected function constructListBoxRefresh($tab = null) {
-		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
+		if ($this->view->user->niveau_braldun > 0 && ($this->view->user->niveau_braldun % 10) == 0) {
 			$tab[] = "box_titres";
 		}
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
-		if ($this->view->user->pa_hobbit < 1) {
+		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
@@ -60,11 +60,11 @@ abstract class Bral_Soule_Soule {
 	}
 
 	/*
-	 * Mise à jour des événements du hobbit : type : compétence.
+	 * Mise à jour des événements du braldun : type : compétence.
 	 */
 	private function majEvenementsSoule($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 
 	public function getIdEchoppeCourante() {
@@ -99,25 +99,25 @@ abstract class Bral_Soule_Soule {
 		}
 	}
 
-	protected function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	protected function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->nb_pa;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
 
-		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0;
+		if ($this->view->user->balance_faim_braldun < 0) {
+			$this->view->user->balance_faim_braldun = 0;
 		}
 
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 
 }

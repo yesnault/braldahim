@@ -39,7 +39,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		$this->view->suivantOk = false;
 		
 		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
 		}
@@ -48,19 +48,19 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
 		
-		$hobbitTable = new Hobbit();
-		$nbMembresTotal = $hobbitTable->countByIdCommunaute($communaute["id_communaute"]);
+		$braldunTable = new Braldun();
+		$nbMembresTotal = $braldunTable->countByIdCommunaute($communaute["id_communaute"]);
 		
-		$hobbitRowset = $hobbitTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
-		foreach($hobbitRowset as $m) {
+		foreach($braldunRowset as $m) {
 			$tabMembres[] = array(
-				"id_hobbit" => $m["id_hobbit"],
-				"nom_hobbit" => $m["nom_hobbit"],
-				"prenom_hobbit" => $m["prenom_hobbit"],
-				"niveau_hobbit" => $m["niveau_hobbit"],
-				"date_entree" => $m["date_entree_communaute_hobbit"],
+				"id_braldun" => $m["id_braldun"],
+				"nom_braldun" => $m["nom_braldun"],
+				"prenom_braldun" => $m["prenom_braldun"],
+				"niveau_braldun" => $m["niveau_braldun"],
+				"date_entree" => $m["date_entree_communaute_braldun"],
 				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
@@ -145,19 +145,19 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		} elseif ($ordre == 2) {
-			$retour = "nom_hobbit";
+			$retour = "nom_braldun";
 		} elseif ($ordre == 3) {
-			$retour = "id_hobbit";
+			$retour = "id_braldun";
 		} elseif ($ordre == 4) {
-			$retour = "niveau_hobbit";
+			$retour = "niveau_braldun";
 		} elseif ($ordre == 5) {
-			$retour = "date_entree_communaute_hobbit";
+			$retour = "date_entree_communaute_braldun";
 		} elseif ($ordre == 6) {
 			$retour = "id_rang_communaute";
 		} else {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		}
 		return $retour;
 	}

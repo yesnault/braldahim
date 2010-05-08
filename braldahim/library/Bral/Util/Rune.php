@@ -19,7 +19,7 @@ class Bral_Util_Rune {
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
 	const HISTORIQUE_IDENTIFIER_ID = 6;
 	
-	public static function dropRune($x, $y, $z, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
+	public static function dropRune($x, $y, $z, $niveauTue, $niveauBraldun, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
 
 		// on ne prend pas le config initialise ici,
 		// methode pouvant etre appelée en static de l'exterieur de la classe
@@ -33,8 +33,8 @@ class Bral_Util_Rune {
 		Zend_Loader::loadClass("TypeRune");
 
 		//Si 10+2*(Niv tué - Niveau attaquant)+Niveau tué <= 0 alors pas de drop de rune
-		if ((10 + 2 * ($niveauTue - $niveauHobbit) + $niveauTue) <= 0) {
-			Bral_Util_Log::tech()->debug(" - dropRune - pas de drop de rune : niveauTue=".$niveauTue." niveauHobbit=".$niveauHobbit);
+		if ((10 + 2 * ($niveauTue - $niveauBraldun) + $niveauTue) <= 0) {
+			Bral_Util_Log::tech()->debug(" - dropRune - pas de drop de rune : niveauTue=".$niveauTue." niveauBraldun=".$niveauBraldun);
 			return false;
 		}
 

@@ -12,15 +12,15 @@
  */
 class LabanPartieplante extends Zend_Db_Table {
 	protected $_name = 'laban_partieplante';
-	protected $_primary = array('id_fk_type_laban_partieplante', 'id_fk_hobbit_laban_partieplante');
+	protected $_primary = array('id_fk_type_laban_partieplante', 'id_fk_braldun_laban_partieplante');
 	
-    function findByIdHobbit($id_hobbit) {
+    function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_partieplante', '*')
 		->from('type_partieplante', '*')
 		->from('type_plante', '*')
-		->where('id_fk_hobbit_laban_partieplante = '.intval($id_hobbit))
+		->where('id_fk_braldun_laban_partieplante = '.intval($id_braldun))
 		->where('laban_partieplante.id_fk_type_laban_partieplante = type_partieplante.id_type_partieplante')
 		->where('laban_partieplante.id_fk_type_plante_laban_partieplante = type_plante.id_type_plante')
 		->order(array('nom_type_plante', 'nom_type_partieplante'));
@@ -34,7 +34,7 @@ class LabanPartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('laban_partieplante', 'count(*) as nombre, quantite_laban_partieplante as quantiteBrute,  quantite_preparee_laban_partieplante as quantitePreparee')
 		->where('id_fk_type_laban_partieplante = ?',$data["id_fk_type_laban_partieplante"])
-		->where('id_fk_hobbit_laban_partieplante = ?',$data["id_fk_hobbit_laban_partieplante"])
+		->where('id_fk_braldun_laban_partieplante = ?',$data["id_fk_braldun_laban_partieplante"])
 		->where('id_fk_type_plante_laban_partieplante = ?',$data["id_fk_type_plante_laban_partieplante"])
 		->group(array('quantiteBrute', 'quantitePreparee'));
 		$sql = $select->__toString();
@@ -64,7 +64,7 @@ class LabanPartieplante extends Zend_Db_Table {
 			);
 			
 			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
-			$where .= ' AND id_fk_hobbit_laban_partieplante = '.$data["id_fk_hobbit_laban_partieplante"];
+			$where .= ' AND id_fk_braldun_laban_partieplante = '.$data["id_fk_braldun_laban_partieplante"];
 			$where .= ' AND id_fk_type_plante_laban_partieplante = '.$data["id_fk_type_plante_laban_partieplante"];
 			$this->update($dataUpdate, $where);
 		}

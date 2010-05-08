@@ -32,19 +32,19 @@ class Bral_Util_Distinction {
 	function __construct() {
 	}
 
-	public static function ajouterDistinction($idHobbit, $idTypeDistinction, $texte, $url = null, $quete = null) {
-		Zend_Loader::loadClass("HobbitsDistinction");
-		$hobbitsDistinctionTable = new HobbitsDistinction();
+	public static function ajouterDistinction($idBraldun, $idTypeDistinction, $texte, $url = null, $quete = null) {
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
 
 		$data = array(
-			'id_fk_hobbit_hdistinction' => $idHobbit,
+			'id_fk_braldun_hdistinction' => $idBraldun,
 			'id_fk_type_distinction_hdistinction' => $idTypeDistinction,
 			'texte_hdistinction' => $texte,
 			'url_hdistinction' => $url,
 			'date_hdistinction' => date("Y-m-d"),
 		);
 
-		$hobbitsDistinctionTable->insert($data);
+		$braldunsDistinctionTable->insert($data);
 
 		if ($quete != null) {
 			Zend_Loader::loadClass("Quete");
@@ -58,15 +58,15 @@ class Bral_Util_Distinction {
 		}
 	}
 
-	public static function prepareDistinctions($idHobbit) {
-		Zend_Loader::loadClass("HobbitsDistinction");
-		$hobbitsDistinctionTable = new HobbitsDistinction();
-		$hobbitsDistinctionRowset = $hobbitsDistinctionTable->findDistinctionsByHobbitId($idHobbit);
-		unset($hobbitsDistinctionTable);
+	public static function prepareDistinctions($idBraldun) {
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($idBraldun);
+		unset($braldunsDistinctionTable);
 		$tabDistinctions = null;
 		$possedeDistinction = false;
 
-		foreach($hobbitsDistinctionRowset as $t) {
+		foreach($braldunsDistinctionRowset as $t) {
 			$possedeDistinction = true;
 
 			$tabDistinctions[$t["id_type_categorie"]]["nom"] = $t["nom_type_categorie"];
@@ -80,7 +80,7 @@ class Bral_Util_Distinction {
 			);
 
 		}
-		unset($hobbitsDistinctionRowset);
+		unset($braldunsDistinctionRowset);
 
 		$retour["tabDistinctions"] = $tabDistinctions;
 		$retour["possedeDistinction"] = $possedeDistinction;

@@ -62,9 +62,9 @@
 						<? if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
 						       $e["effet"]["caracteristique"] == "STOUT" || 
 						       $e["effet"]["caracteristique"] == "TOUR") : ?>
-							<?=$e["effet"]["texte_calcule_effet_hobbit"]?>
+							<?=$e["effet"]["texte_calcule_effet_braldun"]?>
 						<? else: ?>
-							<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
+							<?=$e["effet"]["bm_effet_braldun"] ?> point<? if ($e["effet"]["bm_effet_braldun"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
 							<? if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
 								ATT / DEG / DEF
 							<? else: ?>
@@ -74,8 +74,8 @@
 						<? if ($e["effet"]["caracteristique"] != "TOUR") : ?>
 							et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
 						<? endif;?>
-						<? if ($e["effet"]["texte_effet_hobbit"]) : ?>
-							<br></i><?=$e["effet"]["texte_effet_hobbit"]?></i>
+						<? if ($e["effet"]["texte_effet_braldun"]) : ?>
+							<br></i><?=$e["effet"]["texte_effet_braldun"]?></i>
 						<? endif;?>
 						<? if ($e["effet"]["actif"] == false):?>
 							   Effet non cumulable donc non actif.

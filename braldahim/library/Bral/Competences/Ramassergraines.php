@@ -20,7 +20,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		$this->view->placeDispo = false;
 
 		$buissonTable = new Buisson();
-		$buissons = $buissonTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$buissons = $buissonTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$buisson = null;
 		$this->view->ramasserGrainesEnvironnementOk = false;
@@ -43,7 +43,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		$tabDestinationRamasser[] = array("id_destination" => "laban", "texte" => "votre laban", "selected" => $selectedLaban);
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -57,7 +57,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			if ($this->view->idDestinationCourante == "charrette" && $charrette != null) {
 				$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];
 			} else {
-				$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+				$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 			}
 
 			if ($poidsRestant < Bral_Util_Poids::POIDS_POIGNEE_GRAINES) {
@@ -79,7 +79,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification abattre arbre
@@ -97,7 +97,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRamasserGraines() {
@@ -133,13 +133,13 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			$charretteGraineTable->insertOrUpdate($data);
 			unset($charretteGraineTable);
 
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		} else {
 			Zend_Loader::loadClass("LabanGraine");
 			$labanGraineTable = new LabanGraine();
 			$data = array(
 				'quantite_laban_graine' => $this->view->nbGraines,
-				'id_fk_hobbit_laban_graine' => $this->view->user->id_hobbit,
+				'id_fk_braldun_laban_graine' => $this->view->user->id_braldun,
 				'id_fk_type_laban_graine' => $this->view->buissonCourant["id_fk_type_buisson_buisson"],
 			);
 			$labanGraineTable->insertOrUpdate($data);
@@ -148,8 +148,8 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
-		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
+		$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 		$dataRecolteurs["nb_graines_stats_recolteurs"] = $this->view->nbGraines;
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);

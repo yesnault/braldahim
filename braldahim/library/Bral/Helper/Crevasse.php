@@ -12,7 +12,7 @@
  */
 class Bral_Helper_Crevasse {
 
-	public static function afficheResultat($hobbit) {
+	public static function afficheResultat($braldun) {
 
 		Zend_Loader::loadClass("Bral_Helper_Profil");
 		$config = Zend_Registry::get('config');
@@ -28,16 +28,16 @@ class Bral_Helper_Crevasse {
 		$retour .= '<td width="10%" nowrap>Points de Vie</td>';
 		$retour .= '<td width="80%">';
 
-		$retour .= Bral_Helper_Profil::afficheBarreVie($hobbit->pv_restant_hobbit, $config->game->pv_base, $hobbit->vigueur_base_hobbit, $config->game->pv_max_coef,  $hobbit->pv_max_bm_hobbit, $hobbit->duree_prochain_tour_hobbit);
+		$retour .= Bral_Helper_Profil::afficheBarreVie($braldun->pv_restant_braldun, $config->game->pv_base, $braldun->vigueur_base_braldun, $config->game->pv_max_coef,  $braldun->pv_max_bm_braldun, $braldun->duree_prochain_tour_braldun);
 		$retour .= '</td>';
 		$retour .= '<td width="10%" nowrap>';
-		$retour .= $hobbit->pv_restant_hobbit.' /';
-		$retour .= '<span style="cursor:pointer" title="('.($config->game->pv_base + $hobbit->vigueur_base_hobbit * $config->game->pv_max_coef);
-		if ($hobbit->pv_max_bm_hobbit >= 0) {
+		$retour .= $braldun->pv_restant_braldun.' /';
+		$retour .= '<span style="cursor:pointer" title="('.($config->game->pv_base + $braldun->vigueur_base_braldun * $config->game->pv_max_coef);
+		if ($braldun->pv_max_bm_braldun >= 0) {
 			$retour .= "+"; 	
 		}
-		$retour .= $hobbit->pv_max_bm_hobbit.')">';
-		$retour .= ($config->game->pv_base + ($hobbit->vigueur_base_hobbit * $config->game->pv_max_coef) + $hobbit->pv_max_bm_hobbit);
+		$retour .= $braldun->pv_max_bm_braldun.')">';
+		$retour .= ($config->game->pv_base + ($braldun->vigueur_base_braldun * $config->game->pv_max_coef) + $braldun->pv_max_bm_braldun);
 		$retour .= '</span>';
 		$retour .= '</td>';
 		$retour .= '</tr>';

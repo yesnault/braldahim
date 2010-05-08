@@ -44,7 +44,7 @@ abstract class Bral_Charrette_Charrette {
 
 	private function prepareCharrette() {
 		$charretteTable = new Charrette();
-		$charretteRowset = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charretteRowset = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 		if (count($charretteRowset) == 1) {
 			$this->view->possedeCharrette = true;
 			$this->view->charrette = $charretteRowset[0];
@@ -70,7 +70,7 @@ abstract class Bral_Charrette_Charrette {
 	}
 	
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - $this->view->config->game->charrette->nb_pa_action < 0) {
+		if ($this->view->user->pa_braldun - $this->view->config->game->charrette->nb_pa_action < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -84,10 +84,10 @@ abstract class Bral_Charrette_Charrette {
 	}
 
 	/*
-	 * Mise à jour des événements du hobbit : type : compétence.
+	 * Mise à jour des événements du braldun : type : compétence.
 	 */
 	private function majEvenementsCharrette($detailsBot) {
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 
 	function render() {
@@ -103,7 +103,7 @@ abstract class Bral_Charrette_Charrette {
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsCharrette(Bral_Helper_Affiche::copie($this->view->texte));
-				$this->majHobbit();
+				$this->majBraldun();
 				return $this->view->render("commun/commun_resultat.phtml");
 				break;
 			default:
@@ -115,7 +115,7 @@ abstract class Bral_Charrette_Charrette {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
 		$tab[] = "box_charrette";
-		if ($this->view->user->pa_hobbit < 1) {
+		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
@@ -125,26 +125,26 @@ abstract class Bral_Charrette_Charrette {
 	protected function calculBalanceFaim() {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = -1;
-		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
+		$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $this->view->balance_faim;
 		Zend_Loader::loadClass("Bral_Util_Faim");
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 	}
 
-	private function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	private function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->nb_pa ;
 
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 
 }

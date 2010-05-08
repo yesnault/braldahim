@@ -41,7 +41,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_emplacement')
 		->from('type_piece')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->from('equipement')
 		->from('type_ingredient')
 		->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement')
@@ -53,7 +53,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement ='. $liste)
 		->where('id_fk_vente_equipement = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
@@ -70,7 +70,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_emplacement')
 		->from('type_piece')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->from('equipement')
 		->from('type_ingredient')
 		->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement')
@@ -82,7 +82,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_type_emplacement = ?', $idTypeEmplacement)
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
@@ -99,7 +99,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_emplacement')
 		->from('type_piece')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->from('equipement')
 		->from('type_ingredient')
 		->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement')
@@ -111,7 +111,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_type_equipement = ?', $idTypeEquipement)
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();

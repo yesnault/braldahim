@@ -22,9 +22,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		$typePotionCourante = null;
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->elaborerEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -34,11 +34,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == self::NOM_METIER &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit &&
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun &&
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->elaborerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -94,7 +94,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].", ".$t["bm2_type_potion"]." sur ".$t["caract2_type_potion"].")";
 			}
 
-			if ($t["type_potion"] == "potion" || $this->view->user->niveau_hobbit > 9) {
+			if ($t["type_potion"] == "potion" || $this->view->user->niveau_braldun > 9) {
 				$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
 				$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
 			}
@@ -128,12 +128,12 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->etape1 = true;
 
 		if ($typePotionCourante["type_potion"] == "potion") {
-			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
+			for ($i = 0; $i <= $this->view->user->niveau_braldun / 10 ; $i++) {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
 			}
 			$this->preparePotionCourante($typePotionCourante, $tabNiveaux, $partiesPlantes);
 		} else {
-			for ($i = 1; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
+			for ($i = 1; $i <= $this->view->user->niveau_braldun / 10 ; $i++) {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
 			}
 			$this->prepareVernisCourant($typePotionCourante, $tabNiveaux, $partiesPlantes);
@@ -292,7 +292,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification elaborer
@@ -358,7 +358,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->nomPotionVernis = $nom;
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculCoutElaborerPotion($niveau, $coef) {
@@ -452,7 +452,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 	private function calculElaborer($idTypePotion, $niveau) {
 		$this->view->effetRune = false;
 
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
 		$chance_a = -0.375 * $maitrise + 53.75 ;
 		$chance_b = 0.25 * $maitrise + 42.5 ;
@@ -461,7 +461,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
 		 */
-		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
+		$n = (($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun) / 2 ) + 1;
 
 		if ($n < 1) $n = 1;
 
@@ -474,7 +474,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			}
 		}
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il possede une rune AP
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "AP")) { // s'il possede une rune AP
 			$this->view->effetRune = true;
 			$tirage = $tirage + 10;
 			if ($tirage > 100) {
@@ -526,15 +526,15 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			} else {
 				$type = "le vernis";
 			}
-			$details = "[h".$this->view->user->id_hobbit."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
+			$details = "[h".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionLaban['id_echoppe_potion'], $details);
 		}
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
-		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
+		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbPotions;
 		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
@@ -543,7 +543,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_Competence");
 		$nomSystemeCompetence = "produire".self::NOM_METIER;
-		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_hobbit);
+		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_braldun);
 	}
 
 	// Gain : [(nivP+1)/(nivH+1)+1+NivQ]*10 PX
@@ -551,7 +551,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
-			$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
+			$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_braldun/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
 		} else {
 			$this->view->nb_px_perso = 0;
 		}

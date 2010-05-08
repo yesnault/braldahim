@@ -6,21 +6,21 @@
 		<? if ($this->proche === true): ?>
 			en X=<?=$this->monstre["x_monstre"]?> et Y=<?=$this->monstre["y_monstre"]?><br /> 
 		<? endif; ?>
-		<? if ($this->user->y_hobbit < $this->monstre["y_monstre"] && $this->user->x_hobbit == $this->monstre["x_monstre"]): ?>
+		<? if ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
 		en direction du Nord
-		<? elseif ($this->user->y_hobbit < $this->monstre["y_monstre"] && $this->user->x_hobbit < $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction du Nord Est
-		<? elseif ($this->user->y_hobbit < $this->monstre["y_monstre"] && $this->user->x_hobbit > $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction du Nord Ouest
-		<? elseif ($this->user->y_hobbit > $this->monstre["y_monstre"] && $this->user->x_hobbit == $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
 		en direction du Sud 
-		<? elseif ($this->user->y_hobbit > $this->monstre["y_monstre"] && $this->user->x_hobbit < $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction du Sud Est		
-		<? elseif ($this->user->y_hobbit > $this->monstre["y_monstre"] && $this->user->x_hobbit > $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction du Sud Ouest
-		<? elseif ($this->user->y_hobbit == $this->monstre["y_monstre"] && $this->user->x_hobbit < $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction de l'Est
-		<? elseif ($this->user->y_hobbit == $this->monstre["y_monstre"] && $this->user->x_hobbit > $this->monstre["x_monstre"]): ?>
+		<? elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction de l'Ouest
 		<? else: ?>
 		sur place !

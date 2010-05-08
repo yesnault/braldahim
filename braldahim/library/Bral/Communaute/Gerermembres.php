@@ -22,8 +22,8 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		
 		$this->view->message = null;
 		$this->preparePage();
-		$this->updateRangHobbit();
-		$this->updateExclureHobbit();
+		$this->updateRangBraldun();
+		$this->updateExclureBraldun();
 	}
 
 	function getNomInterne() {
@@ -55,7 +55,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->view->suivantOk = false;
 		
 		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
 		}
@@ -64,19 +64,19 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
 		
-		$hobbitTable = new Hobbit();
-		$nbMembresTotal = $hobbitTable->countByIdCommunaute($communaute["id_communaute"]);
+		$braldunTable = new Braldun();
+		$nbMembresTotal = $braldunTable->countByIdCommunaute($communaute["id_communaute"]);
 		
-		$hobbitRowset = $hobbitTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
-		foreach($hobbitRowset as $m) {
+		foreach($braldunRowset as $m) {
 			$tabMembres[] = array(
-				"id_hobbit" => $m["id_hobbit"],
-				"nom_hobbit" => $m["nom_hobbit"],
-				"prenom_hobbit" => $m["prenom_hobbit"],
-				"niveau_hobbit" => $m["niveau_hobbit"],
-				"date_entree" => $m["date_entree_communaute_hobbit"],
+				"id_braldun" => $m["id_braldun"],
+				"nom_braldun" => $m["nom_braldun"],
+				"prenom_braldun" => $m["prenom_braldun"],
+				"niveau_braldun" => $m["niveau_braldun"],
+				"date_entree" => $m["date_entree_communaute_braldun"],
 				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
@@ -170,19 +170,19 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		} elseif ($ordre == 2) {
-			$retour = "nom_hobbit";
+			$retour = "nom_braldun";
 		} elseif ($ordre == 3) {
-			$retour = "id_hobbit";
+			$retour = "id_braldun";
 		} elseif ($ordre == 4) {
-			$retour = "niveau_hobbit";
+			$retour = "niveau_braldun";
 		} elseif ($ordre == 5) {
-			$retour = "date_entree_communaute_hobbit";
+			$retour = "date_entree_communaute_braldun";
 		} elseif ($ordre == 6) {
 			$retour = "id_rang_communaute";
 		} else {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		}
 		return $retour;
 	}
@@ -197,71 +197,71 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		return $sens;
 	}
 	
-	private function updateRangHobbit() {
+	private function updateRangBraldun() {
 		if ($this->_request->get("valeur_1") == "r") {
 			$this->prepareRender();
 			
-			$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
-			$idRangHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_8"));
+			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
+			$idRangBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_8"));
 			
-			$hobbitTrouve = false;
+			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
-				if ($m["id_hobbit"] == $idHobbit && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
-					$hobbitTrouve = true;
+				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
+					$braldunTrouve = true;
 					break;
 				}
 			}
-			if ($hobbitTrouve == false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide : val=".$idHobbit);
+			if ($braldunTrouve == false) {
+				throw new Zend_Exception(get_class($this)." Braldun invalide : val=".$idBraldun);
 			}
 			
 			$rangTrouve = false;
 			foreach($this->view->tabRangs as $r) {
-			if ($r["id_rang"] == $idRangHobbit) {
+			if ($r["id_rang"] == $idRangBraldun) {
 					$rangTrouve = true;
 					break;
 				}
 			}
 			if ($rangTrouve == false) {
-				throw new Zend_Exception(get_class($this)." rang invalide : val=".$idRangHobbit);
+				throw new Zend_Exception(get_class($this)." rang invalide : val=".$idRangBraldun);
 			}
 			
-			$hobbitTable = new Hobbit();
-			$data = array('id_fk_rang_communaute_hobbit' => $idRangHobbit);
-			$where = 'id_hobbit = '.$idHobbit;
-			$hobbitTable->update($data, $where);
+			$braldunTable = new Braldun();
+			$data = array('id_fk_rang_communaute_braldun' => $idRangBraldun);
+			$where = 'id_braldun = '.$idBraldun;
+			$braldunTable->update($data, $where);
 			
-			$this->view->message = "Modification du Hobbit ".$idHobbit. " effectuée";
+			$this->view->message = "Modification du Braldun ".$idBraldun. " effectuée";
 		}
 	}
 	
-	private function updateExclureHobbit() {
+	private function updateExclureBraldun() {
 		if ($this->_request->get("valeur_1") == "e") {
 			$this->prepareRender();
 			
-			$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_9"));
+			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_9"));
 			
-			$hobbitTrouve = false;
+			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
-				if ($m["id_hobbit"] == $idHobbit && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre exclu
-					$hobbitTrouve = true;
+				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre exclu
+					$braldunTrouve = true;
 					break;
 				}
 			}
-			if ($hobbitTrouve == false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide : val=".$idHobbit);
+			if ($braldunTrouve == false) {
+				throw new Zend_Exception(get_class($this)." Braldun invalide : val=".$idBraldun);
 			}
 			
-			$hobbitTable = new Hobbit();
+			$braldunTable = new Braldun();
 			$data = array(
-				'id_fk_communaute_hobbit' => null,
-				'id_fk_rang_communaute_hobbit' => null ,
-				'date_entree_communaute_hobbit' => null,
+				'id_fk_communaute_braldun' => null,
+				'id_fk_rang_communaute_braldun' => null ,
+				'date_entree_communaute_braldun' => null,
 			);
-			$where = 'id_hobbit = '.$idHobbit;
-			$hobbitTable->update($data, $where);
+			$where = 'id_braldun = '.$idBraldun;
+			$braldunTable->update($data, $where);
 			
-			$this->view->message = "Exclusion du Hobbit ".$idHobbit. " effectuée";
+			$this->view->message = "Exclusion du Braldun ".$idBraldun. " effectuée";
 		}
 	}
 }

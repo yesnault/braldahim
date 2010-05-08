@@ -41,11 +41,11 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		$this->idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->get("idEquipement"));
 
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false, "possible_force" => false);
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -187,7 +187,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	private function prepareEquipementMinerai($destination, $echoppeEquipementMinerai, &$minerai) {
 		if ($destination["id_destination"] == "laban") {
 			$table = new LabanMinerai();
-			$minerais = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$minerais = $table->findByIdBraldun($this->view->user->id_braldun);
 			$i = 0;
 		} else {
 			$table = new CharretteMinerai();
@@ -233,7 +233,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	private function prepareEquipementPartiePlante($destination, $echoppeEquipementPartiePlante, &$partiesPlantes) {
 		if ($destination["id_destination"] == "laban") {
 			$labanPartiePlanteTable = new LabanPartieplante();
-			$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+			$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 			$i = 0;
 		} else {
 			$table = new CharrettePartieplante();
@@ -397,7 +397,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		if ($destination["id_destination"] == "laban") {
 			$table = new Laban();
-			$conteneur = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$conteneur = $table->findByIdBraldun($this->view->user->id_braldun);
 			$suffixe = "laban";
 			$possedeConteneur = true;
 			if ($conteneur == null || count($conteneur) < 1) {
@@ -422,7 +422,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			}
 		} elseif ($nomSysteme == "castar") {
 			if ($destination["id_destination"] == "laban") {
-				if ($this->view->user->castars_hobbit >= $prix) {
+				if ($this->view->user->castars_braldun >= $prix) {
 					$retour = true;
 				}
 			} else {
@@ -450,7 +450,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::prix invalide. non connu");
 		}
 
-		// on verifie que le hobbit a assez de ressources.
+		// on verifie que le braldun a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}
@@ -507,7 +507,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] a acheté la pièce d'équipement n°".$this->view->equipement["id_equipement"]. " dans l'échoppe";
+		$details = "[h".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->equipement["id_equipement"]. " dans l'échoppe";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_ACHETER_ID, $this->view->equipement["id_equipement"], $details);
 	}
 
@@ -526,7 +526,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$nomSysteme = Bral_Util_Registre::getNomUnite($prix["unite"], true);
 		if ($nomSysteme  == "peau" ||$nomSysteme == "rondin") {
 			$data = array(
-				"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+				"id_fk_braldun_".$suffixe => $this->view->user->id_braldun,
 				"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
 			);
 			$table->insertOrUpdate($data);
@@ -544,12 +544,12 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		} elseif ($nomSysteme  == "castar") {
 			if ($prix["id_destination"] == "charrette") {
 				$data = array(
-					"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+					"id_fk_braldun_".$suffixe => $this->view->user->id_braldun,
 					"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
 				);
 				$table->insertOrUpdate($data);
 			} else {
-				$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
+				$this->view->user->castars_braldun = $this->view->user->castars_braldun - $prix["prix"];
 			}
 
 			if ($prix["prix"] > 0) {
@@ -582,7 +582,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_minerai"] = $this->view->user->id_braldun;
 		}
 
 		$table->insertOrUpdate($data);
@@ -618,7 +618,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_partieplante"] = $this->view->user->id_braldun;
 		}
 
 		$table->insertOrUpdate($data);
@@ -658,7 +658,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			if ($idDestination == "charrette") {
 				$data["id_fk_charrette_munition"] = $this->view->charrette["id_charrette"];
 			} else {
-				$data["id_fk_hobbit_laban_munition"] = $this->view->user->id_hobbit;
+				$data["id_fk_braldun_laban_munition"] = $this->view->user->id_braldun;
 			}
 			$table->insertOrUpdate($data);
 		} else {
@@ -679,7 +679,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			if ($idDestination == "charrette") {
 				$data["id_fk_charrette_equipement"] = $this->view->charrette["id_charrette"];
 			} else {
-				$data["id_fk_hobbit_laban_equipement"] = $this->view->user->id_hobbit;
+				$data["id_fk_braldun_laban_equipement"] = $this->view->user->id_braldun;
 			}
 			$table->insert($data);
 		}
@@ -689,7 +689,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$echoppeEquipementTable->delete($where);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 	}
 

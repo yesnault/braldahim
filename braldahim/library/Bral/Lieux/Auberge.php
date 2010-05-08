@@ -21,14 +21,14 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("ElementAliment");
 
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
 
-		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$this->view->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
 		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_ALIMENT);
 
-		$castarsRestants = $this->view->user->castars_hobbit -  $this->_coutCastars;
-		$nbPossibleAvecCastars = floor($this->view->user->castars_hobbit / $this->_coutCastars);
+		$castarsRestants = $this->view->user->castars_braldun -  $this->_coutCastars;
+		$nbPossibleAvecCastars = floor($this->view->user->castars_braldun / $this->_coutCastars);
 
 		$this->view->nbDeduction = 0;
 		if ($this->view->nbPossible >= $nbPossibleAvecCastars) {
@@ -69,7 +69,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
@@ -104,9 +104,9 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$typeAlimentTable = new TypeAliment();
 			$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 				
-			$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $aliment->bbdf_base_type_aliment;
-			if ($this->view->user->balance_faim_hobbit > 100) {
-				$this->view->user->balance_faim_hobbit = 100;
+			$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $aliment->bbdf_base_type_aliment;
+			if ($this->view->user->balance_faim_braldun > 100) {
+				$this->view->user->balance_faim_braldun = 100;
 			}
 			Zend_Loader::loadClass("Bral_Util_Quete");
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, true);
@@ -121,10 +121,10 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			}
 		}
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 		Zend_Loader::loadClass("Bral_Util_Faim");
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
-		$this->majHobbit();
+		$this->majBraldun();
 
 		$this->view->coutCastars = $this->_coutCastars;
 	}
@@ -162,7 +162,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			
 			$data = array(
 				'id_laban_aliment' => $id_aliment,
-				'id_fk_hobbit_laban_aliment' => $this->view->user->id_hobbit,
+				'id_fk_braldun_laban_aliment' => $this->view->user->id_braldun,
 			);
 			$labanAlimentTable->insert($data);
 		}

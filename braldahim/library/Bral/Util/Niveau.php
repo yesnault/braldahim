@@ -23,9 +23,9 @@ class Bral_Util_Niveau {
 	 * qui doit être >= à :
 	 * NiveauSuivantPX = NiveauSuivant x 5
 	 */
-	public static function calculNiveau(&$hobbit, &$changeNiveau = null) {
+	public static function calculNiveau(&$braldun, &$changeNiveau = null) {
 
-		if ($hobbit->niveau_hobbit >= self::NIVEAU_MAX) {
+		if ($braldun->niveau_braldun >= self::NIVEAU_MAX) {
 			return false;
 		}
 		
@@ -33,83 +33,83 @@ class Bral_Util_Niveau {
 			$changeNiveau = false;
 		}
 
-		$niveauDiv10Precedent = floor($hobbit->niveau_hobbit / 10);
+		$niveauDiv10Precedent = floor($braldun->niveau_braldun / 10);
 
-		$niveauSuivantPx = ($hobbit->niveau_hobbit + 1) * 5;
-		if ($hobbit->px_perso_hobbit >= $niveauSuivantPx) {
-			$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit - $niveauSuivantPx;
-			$hobbit->niveau_hobbit = $hobbit->niveau_hobbit + 1;
-			$hobbit->pi_cumul_hobbit = $hobbit->pi_cumul_hobbit + $niveauSuivantPx;
-			$hobbit->pi_hobbit = $hobbit->pi_hobbit + $niveauSuivantPx;
+		$niveauSuivantPx = ($braldun->niveau_braldun + 1) * 5;
+		if ($braldun->px_perso_braldun >= $niveauSuivantPx) {
+			$braldun->px_perso_braldun = $braldun->px_perso_braldun - $niveauSuivantPx;
+			$braldun->niveau_braldun = $braldun->niveau_braldun + 1;
+			$braldun->pi_cumul_braldun = $braldun->pi_cumul_braldun + $niveauSuivantPx;
+			$braldun->pi_braldun = $braldun->pi_braldun + $niveauSuivantPx;
 			$changeNiveau = true;
 
-			$niveauDiv10Actuel = floor($hobbit->niveau_hobbit / 10);
+			$niveauDiv10Actuel = floor($braldun->niveau_braldun / 10);
 			if ($niveauDiv10Precedent != $niveauDiv10Actuel) {
-				self::calculTitre(&$hobbit);
+				self::calculTitre(&$braldun);
 				Zend_Loader::loadClass("Bral_Util_Soule");
-				Bral_Util_Soule::calculDesinscription($hobbit->id_hobbit);
-				self::calculAccesNiveau40($hobbit);
+				Bral_Util_Soule::calculDesinscription($braldun->id_braldun);
+				self::calculAccesNiveau40($braldun);
 			}
 			
-			self::gainCastars($hobbit);
+			self::gainCastars($braldun);
 		}
 
-		$niveauSuivantPx = ($hobbit->niveau_hobbit + 1) * 5;
-		if ($hobbit->px_perso_hobbit >= $niveauSuivantPx) {
-			self::calculNiveau(&$hobbit, &$changeNiveau);
+		$niveauSuivantPx = ($braldun->niveau_braldun + 1) * 5;
+		if ($braldun->px_perso_braldun >= $niveauSuivantPx) {
+			self::calculNiveau(&$braldun, &$changeNiveau);
 		}
 		return $changeNiveau;
 	}
 	
-	private static function calculAccesNiveau40(&$hobbit) {
+	private static function calculAccesNiveau40(&$braldun) {
 		// Si niveau >= 40
-		// pi = 4100 - pi_hobbit + pi_academie
-		if ($hobbit->niveau_hobbit >= self::NIVEAU_MAX) {
-			$pi = self::NB_PI_NIVEAU_MAX - $hobbit->pi_academie_hobbit;
-			$hobbit->pi_hobbit = $pi;
+		// pi = 4100 - pi_braldun + pi_academie
+		if ($braldun->niveau_braldun >= self::NIVEAU_MAX) {
+			$pi = self::NB_PI_NIVEAU_MAX - $braldun->pi_academie_braldun;
+			$braldun->pi_braldun = $pi;
 		}
 	}
 
-	private static function calculTitre(&$hobbit) {
+	private static function calculTitre(&$braldun) {
 		Zend_Loader::loadClass("TypeTitre");
-		Zend_Loader::loadClass("HobbitsTitres");
+		Zend_Loader::loadClass("BraldunsTitres");
 		Zend_Loader::loadClass("Bral_Util_Titre");
 
 		$idTitre = Bral_Util_De::get_1d4();
 
 		$data = array(
-			'id_fk_hobbit_htitre' => $hobbit->id_hobbit,
+			'id_fk_braldun_htitre' => $braldun->id_braldun,
 			'id_fk_type_htitre' => $idTitre,
-			'niveau_acquis_htitre' => floor($hobbit->niveau_hobbit / 10) * 10,
+			'niveau_acquis_htitre' => floor($braldun->niveau_braldun / 10) * 10,
 			'date_acquis_htitre' => date("Y-m-d"),
 		);
 
-		$hobbitsTitres = new HobbitsTitres();
-		$hobbitsTitres->insert($data);
+		$braldunsTitres = new BraldunsTitres();
+		$braldunsTitres->insert($data);
 
 		$typeTitre = new TypeTitre();
 		$typeTitreRowset = $typeTitre->findById($idTitre);
 
-		if ($hobbit->sexe_hobbit == "feminin") {
-			$hobbit->titre_courant_hobbit = $typeTitreRowset->nom_feminin_type_titre;
+		if ($braldun->sexe_braldun == "feminin") {
+			$braldun->titre_courant_braldun = $typeTitreRowset->nom_feminin_type_titre;
 		} else {
-			$hobbit->titre_courant_hobbit = $typeTitreRowset->nom_masculin_type_titre;
+			$braldun->titre_courant_braldun = $typeTitreRowset->nom_masculin_type_titre;
 		}
 
-		Bral_Util_Titre::calculNouveauTitre(&$hobbit, $typeTitreRowset);
+		Bral_Util_Titre::calculNouveauTitre(&$braldun, $typeTitreRowset);
 	}
 
 	// jusqu'au niveau 10 inclut, niveau*50 castars sont placés à la banque
-	private static function gainCastars($hobbit) {
+	private static function gainCastars($braldun) {
 
-		if ($hobbit->niveau_hobbit < 11) {
-			$nbCastars = $hobbit->niveau_hobbit * 50;
+		if ($braldun->niveau_braldun < 11) {
+			$nbCastars = $braldun->niveau_braldun * 50;
 
 			Zend_Loader::loadClass("Coffre");
 			$coffreTable = new Coffre();
 			$data = array(
 				"quantite_castar_coffre" => $nbCastars,
-				"id_fk_hobbit_coffre" => $hobbit->id_hobbit,
+				"id_fk_braldun_coffre" => $braldun->id_braldun,
 			);
 			$coffreTable->insertOrUpdate($data);
 		}

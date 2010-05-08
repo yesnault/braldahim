@@ -21,7 +21,7 @@
   <? if (count($this->resultats) > 0): ?>
 	<tbody>
 	
-	<? if ($this->user->pa_hobbit >= $this->paUtilisationHotel): 
+	<? if ($this->user->pa_braldun >= $this->paUtilisationHotel): 
 		$disabled = "";
 	else:
 		$disabled = "disabled" ;
@@ -62,10 +62,10 @@
 	  		?>
 	  		</td>
 	  		<td class="table_liste">
-	  			<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["vente"]["id_hobbit"]?>');" title="Cliquez pour voir le profil">
-		  		<?=$e["vente"]["prenom_hobbit"]?> <?=$e["vente"]["nom_hobbit"]?> (<?=$e["vente"]["id_hobbit"]?>)
+	  			<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["vente"]["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		  		<?=$e["vente"]["prenom_braldun"]?> <?=$e["vente"]["nom_braldun"]?> (<?=$e["vente"]["id_braldun"]?>)
 		  		</a>
-		  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$e["vente"]["id_hobbit"]?>');" style='cursor:pointer'/>
+		  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$e["vente"]["id_braldun"]?>');" style='cursor:pointer'/>
 	  		</td>
 	  		<td class="table_liste">
 	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>

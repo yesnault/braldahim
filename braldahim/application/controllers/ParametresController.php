@@ -29,7 +29,7 @@ class ParametresController extends Zend_Controller_Action {
 			$this->_redirect('/erreur/gardiennage');
 		}
 
-		if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_hobbit == "non") {
+		if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_braldun == "non") {
 			$this->_redirect('/charte');
 		}
 
@@ -55,9 +55,9 @@ class ParametresController extends Zend_Controller_Action {
 
 		$valeur = htmlspecialchars($filter->filter($this->_request->getPost("valeur_2")));
 			
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 			
 		if ($this->_request->isPost()) {
 			$controle = $this->_request->getPost("valeur_1");
@@ -65,22 +65,22 @@ class ParametresController extends Zend_Controller_Action {
 			if ($controle == 2) {
 				//$valeur = $this->_request->getPost("valeur_2");
 				$data = array(
-					'description_hobbit' => $valeur,
+					'description_braldun' => $valeur,
 				);
-				$where = "id_hobbit=".$this->view->user->id_hobbit;
-				$hobbitTable = new Hobbit();
-				$hobbitTable->update($data, $where);
+				$where = "id_braldun=".$this->view->user->id_braldun;
+				$braldunTable = new Braldun();
+				$braldunTable->update($data, $where);
 
-				$this->view->user->description_hobbit = $valeur;
+				$this->view->user->description_braldun = $valeur;
 			}
 		}
 		$this->render();
 	}
 
 	function imagesAction() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 			
 		$this->view->urlAvatarValide = true;
 		$this->view->urlBlasonValide = true;
@@ -114,15 +114,15 @@ class ParametresController extends Zend_Controller_Action {
 			}
 
 			$data = array(
-				'url_avatar_hobbit' => $urlAvatar,
-				'url_blason_hobbit' => $urlBlason,
+				'url_avatar_braldun' => $urlAvatar,
+				'url_blason_braldun' => $urlBlason,
 			);
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable = new Hobbit();
-			$hobbitTable->update($data, $where);
+			$where = "id_braldun=".$this->view->user->id_braldun;
+			$braldunTable = new Braldun();
+			$braldunTable->update($data, $where);
 
-			$this->view->user->url_avatar_hobbit = $urlAvatar;
-			$this->view->user->url_blason_hobbit = $urlBlason;
+			$this->view->user->url_avatar_braldun = $urlAvatar;
+			$this->view->user->url_blason_braldun = $urlBlason;
 
 
 			$this->view->urlAvatarValide = $urlAvatarValide;
@@ -139,26 +139,26 @@ class ParametresController extends Zend_Controller_Action {
 			$validateurPasswordNouveau = new Bral_Validate_StringLength(5, 20);
 
 			$filter = new Zend_Filter_StripTags();
-			$this->password_actuel_hobbit = trim($filter->filter(trim($this->_request->getPost('password_actuel_hobbit'))));
-			$this->password_nouveau_hobbit = trim($filter->filter(trim($this->_request->getPost('password_nouveau_hobbit'))));
-			$this->password_confirm_hobbit = trim($filter->filter(trim($this->_request->getPost('password_confirm_hobbit'))));
+			$this->password_actuel_braldun = trim($filter->filter(trim($this->_request->getPost('password_actuel_braldun'))));
+			$this->password_nouveau_braldun = trim($filter->filter(trim($this->_request->getPost('password_nouveau_braldun'))));
+			$this->password_confirm_braldun = trim($filter->filter(trim($this->_request->getPost('password_confirm_braldun'))));
 
 			$validPasswordActuel = false;
-			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-			$hobbit = $hobbitRowset->current();
+			$braldunTable = new Braldun();
+			$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+			$braldun = $braldunRowset->current();
 
-			$validPasswordActuel = (md5($this->password_actuel_hobbit) == $hobbit->password_hobbit);
-			$validPasswordNouveau = $validateurPasswordNouveau->isValid($this->password_nouveau_hobbit);
-			$validPasswordConfirm = ($this->password_confirm_hobbit == $this->password_nouveau_hobbit);
+			$validPasswordActuel = (md5($this->password_actuel_braldun) == $braldun->password_braldun);
+			$validPasswordNouveau = $validateurPasswordNouveau->isValid($this->password_nouveau_braldun);
+			$validPasswordConfirm = ($this->password_confirm_braldun == $this->password_nouveau_braldun);
 
 			if (($validPasswordActuel) && ($validPasswordNouveau) && ($validPasswordConfirm)) {
 
 				$data = array(
-					'password_hobbit' => md5($this->password_nouveau_hobbit),
+					'password_braldun' => md5($this->password_nouveau_braldun),
 				);
-				$where = "id_hobbit=".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
+				$where = "id_braldun=".$braldun->id_braldun;
+				$braldunTable->update($data, $where);
 				$this->view->message = "Votre mot de passe est modifi&eacute;";
 				echo $this->view->render("Parametres/index.phtml");
 				return;
@@ -182,43 +182,43 @@ class ParametresController extends Zend_Controller_Action {
 	}
 
 	function emailAction() {
-		$this->email_actuel_hobbit = null;
-		$this->email_nouveau_hobbit = null;
-		$this->email_confirm_hobbit =  null;
+		$this->email_actuel_braldun = null;
+		$this->email_nouveau_braldun = null;
+		$this->email_confirm_braldun =  null;
 
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass("Bral_Validate_StringLength");
-			Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
+			Zend_Loader::loadClass("Bral_Validate_Inscription_EmailBraldun");
 			Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 
-			$validateurEmailNouveau = new Bral_Validate_Inscription_EmailHobbit();
+			$validateurEmailNouveau = new Bral_Validate_Inscription_EmailBraldun();
 
 			$filter = new Zend_Filter_StripTags();
-			$this->password_hobbit = trim($filter->filter(trim($this->_request->getPost('email_password_actuel_hobbit'))));
-			$this->email_actuel_hobbit = trim($filter->filter(trim($this->_request->getPost('email_actuel_hobbit'))));
-			$this->email_nouveau_hobbit = trim($filter->filter(trim($this->_request->getPost('email_nouveau_hobbit'))));
-			$this->email_confirm_hobbit = trim($filter->filter(trim($this->_request->getPost('email_confirm_hobbit'))));
+			$this->password_braldun = trim($filter->filter(trim($this->_request->getPost('email_password_actuel_braldun'))));
+			$this->email_actuel_braldun = trim($filter->filter(trim($this->_request->getPost('email_actuel_braldun'))));
+			$this->email_nouveau_braldun = trim($filter->filter(trim($this->_request->getPost('email_nouveau_braldun'))));
+			$this->email_confirm_braldun = trim($filter->filter(trim($this->_request->getPost('email_confirm_braldun'))));
 
 			$validEmailActuel = false;
-			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-			$hobbit = $hobbitRowset->current();
+			$braldunTable = new Braldun();
+			$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+			$braldun = $braldunRowset->current();
 
-			$validPassword = (md5($this->password_hobbit) == $hobbit->password_hobbit);
-			$validEmailActuel = ($this->email_actuel_hobbit == $hobbit->email_hobbit);
-			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_hobbit, ($this->view->config->general->production == 1));
-			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_nouveau_hobbit);
+			$validPassword = (md5($this->password_braldun) == $braldun->password_braldun);
+			$validEmailActuel = ($this->email_actuel_braldun == $braldun->email_braldun);
+			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_braldun, ($this->view->config->general->production == 1));
+			$validEmailConfirm = ($this->email_confirm_braldun == $this->email_nouveau_braldun);
 
 			if (($validPassword) && ($validEmailActuel) && ($validEmailNouveau) && ($validEmailConfirm)) {
 
 				$data = array(
-					'email_hobbit' => $this->email_nouveau_hobbit,
+					'email_braldun' => $this->email_nouveau_braldun,
 				);
-				$where = "id_hobbit=".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
+				$where = "id_braldun=".$braldun->id_braldun;
+				$braldunTable->update($data, $where);
 
-				$this->view->message = "L'adresse ".$this->email_nouveau_hobbit." est bien prise en compte";
+				$this->view->message = "L'adresse ".$this->email_nouveau_braldun." est bien prise en compte";
 				echo $this->view->render("Parametres/index.phtml");
 				return;
 			} else {
@@ -242,9 +242,9 @@ class ParametresController extends Zend_Controller_Action {
 			}
 		}
 
-		$this->view->email_actuel_hobbit = $this->email_actuel_hobbit;
-		$this->view->email_nouveau_hobbit = $this->email_nouveau_hobbit;
-		$this->view->email_confirm_hobbit = $this->email_confirm_hobbit;
+		$this->view->email_actuel_braldun = $this->email_actuel_braldun;
+		$this->view->email_nouveau_braldun = $this->email_nouveau_braldun;
+		$this->view->email_confirm_braldun = $this->email_confirm_braldun;
 
 		$this->render();
 	}
@@ -255,22 +255,22 @@ class ParametresController extends Zend_Controller_Action {
 		$envoi_mail_message = $this->_request->getPost("valeur_1");
 		$envoi_mail_evenement = $this->_request->getPost("valeur_2");
 
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 			
 		if ($this->_request->isPost()) {
 
-			$this->view->user->envoi_mail_message_hobbit = $envoi_mail_message;
-			$this->view->user->envoi_mail_evenement_hobbit = $envoi_mail_evenement;
+			$this->view->user->envoi_mail_message_braldun = $envoi_mail_message;
+			$this->view->user->envoi_mail_evenement_braldun = $envoi_mail_evenement;
 
 			$data = array(
-				'envoi_mail_message_hobbit' => $this->view->user->envoi_mail_message_hobbit,
-				'envoi_mail_evenement_hobbit' => $this->view->user->envoi_mail_evenement_hobbit,
+				'envoi_mail_message_braldun' => $this->view->user->envoi_mail_message_braldun,
+				'envoi_mail_evenement_braldun' => $this->view->user->envoi_mail_evenement_braldun,
 			);
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable = new Hobbit();
-			$hobbitTable->update($data, $where);
+			$where = "id_braldun=".$this->view->user->id_braldun;
+			$braldunTable = new Braldun();
+			$braldunTable->update($data, $where);
 
 			$this->view->message = "Modifications effectu&eacute;es";
 			echo $this->view->render("Parametres/index.phtml");
@@ -288,28 +288,28 @@ class ParametresController extends Zend_Controller_Action {
 		$filter->addFilter(new Zend_Filter_StringTrim());
 
 		$this->view->idPartage = null;
-		$this->view->erreurHobbit = false;
-		$hobbit = null;
+		$this->view->erreurBraldun = false;
+		$braldun = null;
 
 		if ($this->_request->isPost()) {
-			$idHobbit = intval($filter->filter($this->_request->getPost("id_hobbit")));
+			$idBraldun = intval($filter->filter($this->_request->getPost("id_braldun")));
 			$message = htmlspecialchars($filter->filter($this->_request->getPost("message")));
 
-			$hobbitTable = new Hobbit();
-			$hobbit = $hobbitTable->findById($idHobbit);
+			$braldunTable = new Braldun();
+			$braldun = $braldunTable->findById($idBraldun);
 
-			if ($hobbit == null || count($hobbit) < 1) {
-				$this->view->erreurHobbit = true;
+			if ($braldun == null || count($braldun) < 1) {
+				$this->view->erreurBraldun = true;
 			}
 		}
 
-		if ($this->_request->isPost() && $this->view->erreurHobbit == false) {
+		if ($this->_request->isPost() && $this->view->erreurBraldun == false) {
 
 			$data = array(
 				'commentaire_partage' => $message,
 				'date_declaration_partage' => date("Y-m-d H:i:s"),
-				'id_fk_hobbit_declarant_partage' => $this->view->user->id_hobbit,
-				'id_fk_hobbit_declare_partage' => $idHobbit,
+				'id_fk_braldun_declarant_partage' => $this->view->user->id_braldun,
+				'id_fk_braldun_declare_partage' => $idBraldun,
 			);
 
 			$partageTable = new Partage();
@@ -321,10 +321,10 @@ class ParametresController extends Zend_Controller_Action {
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idPartage);
-			$texte = "--------> Hobbit déclarant : ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
-			$texte .= "--------> Hobbit déclaré : ".$hobbit->prenom_hobbit." ".$hobbit->nom_hobbit. " (".$hobbit->id_hobbit.")".PHP_EOL;
-			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_hobbit.PHP_EOL;
-			$texte .= "--------> Mail du déclaré : ".$hobbit->email_hobbit.PHP_EOL;
+			$texte = "--------> Braldun déclarant : ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
+			$texte .= "--------> Braldun déclaré : ".$braldun->prenom_braldun." ".$braldun->nom_braldun. " (".$braldun->id_braldun.")".PHP_EOL;
+			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_braldun.PHP_EOL;
+			$texte .= "--------> Mail du déclaré : ".$braldun->email_braldun.PHP_EOL;
 			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR'];
 			$texte .= "--------> Message : ".PHP_EOL;
 			$texte .= $message.PHP_EOL;
@@ -352,7 +352,7 @@ class ParametresController extends Zend_Controller_Action {
 			$data = array(
 				'message_enquete' => $message,
 				'date_enquete' => date("Y-m-d H:i:s"),
-				'id_fk_hobbit_enquete' => $this->view->user->id_hobbit,
+				'id_fk_braldun_enquete' => $this->view->user->id_braldun,
 			);
 
 			$enqueteTable = new Enquete();
@@ -364,8 +364,8 @@ class ParametresController extends Zend_Controller_Action {
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->setSubject("[Braldahim-Enqueteur Jeu] Enquête n°".$this->view->idEnquete);
-			$texte = "--------> Hobbit ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
-			$texte .= "--------> Mail ".$this->view->user->email_hobbit.PHP_EOL;
+			$texte = "--------> Braldun ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
+			$texte .= "--------> Mail ".$this->view->user->email_braldun.PHP_EOL;
 			$texte .= "--------> Message : ".PHP_EOL;
 			$texte .= $message.PHP_EOL;
 
@@ -378,22 +378,22 @@ class ParametresController extends Zend_Controller_Action {
 	function betanomAction() {
 		$this->view->modification = false;
 
-		$beta_conserver_nom_hobbit = $this->_request->getPost("valeur_1");
+		$beta_conserver_nom_braldun = $this->_request->getPost("valeur_1");
 
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 			
 		if ($this->_request->isPost()) {
 
-			$this->view->user->beta_conserver_nom_hobbit = $beta_conserver_nom_hobbit;
+			$this->view->user->beta_conserver_nom_braldun = $beta_conserver_nom_braldun;
 
 			$data = array(
-				'beta_conserver_nom_hobbit' => $this->view->user->beta_conserver_nom_hobbit,
+				'beta_conserver_nom_braldun' => $this->view->user->beta_conserver_nom_braldun,
 			);
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable = new Hobbit();
-			$hobbitTable->update($data, $where);
+			$where = "id_braldun=".$this->view->user->id_braldun;
+			$braldunTable = new Braldun();
+			$braldunTable->update($data, $where);
 
 			$this->view->message = "Modifications effectu&eacute;es";
 			echo $this->view->render("Parametres/index.phtml");

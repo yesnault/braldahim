@@ -12,14 +12,14 @@
  */
 class LabanIngredient extends Zend_Db_Table {
 	protected $_name = 'laban_ingredient';
-	protected $_primary = array('id_fk_hobbit_laban_ingredient', 'id_fk_type_laban_ingredient');
+	protected $_primary = array('id_fk_braldun_laban_ingredient', 'id_fk_type_laban_ingredient');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_ingredient', '*')
 		->from('type_ingredient', '*')
-		->where('id_fk_hobbit_laban_ingredient = ?', intval($idHobbit))
+		->where('id_fk_braldun_laban_ingredient = ?', intval($idBraldun))
 		->where('laban_ingredient.id_fk_type_laban_ingredient = type_ingredient.id_type_ingredient');
 		$sql = $select->__toString();
 
@@ -31,7 +31,7 @@ class LabanIngredient extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('laban_ingredient', 'count(*) as nombre, quantite_laban_ingredient as quantite')
 		->where('id_fk_type_laban_ingredient = ?',$data["id_fk_type_laban_ingredient"])
-		->where('id_fk_hobbit_laban_ingredient = ?',$data["id_fk_hobbit_laban_ingredient"])
+		->where('id_fk_braldun_laban_ingredient = ?',$data["id_fk_braldun_laban_ingredient"])
 		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -49,7 +49,7 @@ class LabanIngredient extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_laban_ingredient = '.$data["id_fk_type_laban_ingredient"];
-			$where .= ' AND id_fk_hobbit_laban_ingredient = '.$data["id_fk_hobbit_laban_ingredient"];
+			$where .= ' AND id_fk_braldun_laban_ingredient = '.$data["id_fk_braldun_laban_ingredient"];
 			
 			if ($dataUpdate['quantite_laban_ingredient'] <= 0) { // delete
 				$this->delete($where);

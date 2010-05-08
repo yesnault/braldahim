@@ -12,7 +12,7 @@ s&eacute;curit&eacute;. Il y stocke les diff&eacute;rentes monnaies d'&eacute;ch
 	<? include("arriere_boutique_ressources.phtml") ?>
 <? endif;?>
 	
-<? if ($this->estSurEchoppe === true && $this->user->activation == true && $this->user->pa_hobbit >= 1): 
+<? if ($this->estSurEchoppe === true && $this->user->activation == true && $this->user->pa_braldun >= 1): 
 	$disabled = "";
 else:
 	$disabled = "disabled" ;
@@ -21,7 +21,7 @@ else:
   		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
   	<? elseif ($this->user->activation == false) :?>
   		Tour non activé à la connexion, vous n'avez pas acc&egrave;s aux actions...<br />
-  	<? elseif ($this->user->pa_hobbit < 1) :?>
+  	<? elseif ($this->user->pa_braldun < 1) :?>
   		Vous n'avez pas assez de PA, vous n'avez pas acc&egrave;s aux actions...<br />
   	<? endif; ?>
 <? endif; ?>

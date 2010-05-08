@@ -48,7 +48,7 @@ class EffetPotionMonstre extends Zend_Db_Table {
 				Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionMonstre');
 				$this->delete($where);
 			} else {
-				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - mise a jour de la potion '.$potion["id_potion"].' de la table EffetPotionMonstre');
+				Bral_Util_Log::potion()->debug('EffetPotionBraldun - enleveUnTour - mise a jour de la potion '.$potion["id_potion"].' de la table EffetPotionMonstre');
 				$dataUpdate["nb_tour_restant_effet_potion_monstre"] = $resultat["nb_tour_restant_effet_potion_monstre"];
 				$this->update($dataUpdate, $where);
 			}

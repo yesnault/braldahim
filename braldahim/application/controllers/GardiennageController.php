@@ -33,9 +33,9 @@ class GardiennageController extends Zend_Controller_Action {
 			$this->_redirect('/Gardiennage/garde'); 
 		// Si le gardiennage est active
 		} else if ($this->view->user->gardiennage === true) {
-			$tabHobbitGarde = null;
+			$tabBraldunGarde = null;
 			$gardiennageTable = new Gardiennage();
-			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id_hobbit);
+			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id_braldun);
 			
 			$dateCourante = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
 			
@@ -46,17 +46,17 @@ class GardiennageController extends Zend_Controller_Action {
 					$dateOk = true;
 					$uneGardePossible = true;
 				}
-				$tabHobbitGarde[] = array(
+				$tabBraldunGarde[] = array(
 					"id_gardiennage" => $g["id_gardiennage"], 
-					"id_hobbit" => $g["id_fk_hobbit_gardiennage"], 
-					"nom_hobbit" => $g["nom_hobbit"],
-					"prenom_hobbit" => $g["prenom_hobbit"],
+					"id_braldun" => $g["id_fk_braldun_gardiennage"], 
+					"nom_braldun" => $g["nom_braldun"],
+					"prenom_braldun" => $g["prenom_braldun"],
 					"date_debut" => $g["date_debut_gardiennage"],
 					"nb_jours" => $g["nb_jours_gardiennage"],
 					"commentaire" => $g["commentaire_gardiennage"],
 					"date_ok" => $dateOk) ;
 			}
-			$this->view->tabHobbitGarde = $tabHobbitGarde;
+			$this->view->tabBraldunGarde = $tabBraldunGarde;
 			$this->view->uneGardePossible = $uneGardePossible;
 		} else {
 			$this->view->message = "Vous n'avez pas activé le gardiennage à la connexion";
@@ -66,8 +66,8 @@ class GardiennageController extends Zend_Controller_Action {
 	
 	function gardeAction() {
 		$id_garde = intval($this->_request->getPost('id_gardiennage'));
-		$id_hobbit = null;
-		$email_hobbit = null;
+		$id_braldun = null;
+		$email_braldun = null;
 		
 		if ($this->view->user->gardeEnCours === true) {
 			// rien a faire
@@ -75,9 +75,9 @@ class GardiennageController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Zend_Filter_StripTags'); 
             $f = new Zend_Filter_StripTags(); 
             
-			// verification que le hobbit peut garder ce hobbit
+			// verification que le braldun peut garder ce braldun
 			$gardiennageTable = new Gardiennage();
-			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id_hobbit);
+			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id_braldun);
 			$garde = false;
 			$dateCourante = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 			
@@ -86,46 +86,46 @@ class GardiennageController extends Zend_Controller_Action {
 					&& $g["date_debut_gardiennage"] <= $dateCourante
 					&& $g["date_fin_gardiennage"] >= $dateCourante) {
 					$garde = true;
-					$id_hobbit = $g["id_fk_hobbit_gardiennage"];
-					$email_hobbit = $g["email_hobbit"];
+					$id_braldun = $g["id_fk_braldun_gardiennage"];
+					$email_braldun = $g["email_braldun"];
 				}
 			}
 			
 			// s'il peut garder, on lance l'authentification 
-			if ($garde === false || $id_hobbit == null || $email_hobbit == null) {
-				$this->view->message = "Erreur. Garde inconnue $id_garde idHobbit=$id_hobbit emailHobbit=$email_hobbit";
+			if ($garde === false || $id_braldun == null || $email_braldun == null) {
+				$this->view->message = "Erreur. Garde inconnue $id_garde idBraldun=$id_braldun emailBraldun=$email_braldun";
 			} else {
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable'); 
 				Zend_Loader::loadClass('Session');
 				
 				// suppression de la session courante dans la table
 	            $sessionTable = new Session();
-				$where = "id_fk_hobbit_session = ".$this->view->user->id_hobbit; 
+				$where = "id_fk_braldun_session = ".$this->view->user->id_braldun; 
 				$sessionTable->delete($where);
 				
 				Zend_Auth::getInstance()->clearIdentity();
 				
 	            $dbAdapter = Zend_Registry::get('dbAdapter'); 
 	            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
-	            $authAdapter->setTableName('hobbit'); 
-	            $authAdapter->setIdentityColumn('email_hobbit'); 
-	            $authAdapter->setCredentialColumn('id_hobbit'); 
+	            $authAdapter->setTableName('braldun'); 
+	            $authAdapter->setIdentityColumn('email_braldun'); 
+	            $authAdapter->setCredentialColumn('id_braldun'); 
 	             
 	            // Set the input credential values to authenticate against 
-	            $authAdapter->setIdentity($email_hobbit); 
-	            $authAdapter->setCredential($id_hobbit); 
+	            $authAdapter->setIdentity($email_braldun); 
+	            $authAdapter->setCredential($id_braldun); 
 	            
 	            // authentication  
 	            $auth = Zend_Auth::getInstance(); 
 	            $result = $auth->authenticate($authAdapter); 
 	            if ($result->isValid()) {
-	            	$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit'); 
-	            	if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_en_hibernation_hobbit == "non") {
-		                $auth->getStorage()->write($hobbit); 
+	            	$braldun = $authAdapter->getResultRowObject(null,'password_braldun'); 
+	            	if ($braldun->est_compte_actif_braldun == "oui" && $braldun->est_en_hibernation_braldun == "non") {
+		                $auth->getStorage()->write($braldun); 
 						// activation du tour
 
 						$sessionTable = new Session();
-						$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
+						$data = array("id_fk_braldun_session" => $braldun->id_braldun, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
 						$sessionTable->insertOrUpdate($data);
 					
 		                Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));

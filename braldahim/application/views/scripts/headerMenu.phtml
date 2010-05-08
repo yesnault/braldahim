@@ -1,10 +1,10 @@
-<? if (isset($this->user) && isset($this->user->email_hobbit) && $this->controleur != "voir") : ?> 
+<? if (isset($this->user) && isset($this->user->email_braldun) && $this->controleur != "voir") : ?> 
 
 <div id="header">
 	<div id="frisetopvide">
 		<h1><a href="/">Braldahim - Site</a></h1>
 		 <div class="inner_top">
-			 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
+			 <?=$this->escape($this->user->prenom_braldun);?> <?=$this->escape($this->user->nom_braldun);?> | 
 			 <? if ($this->user->administrateur === true) : ?>
 			  	<a href="/Administration/" class="menu_lien">Administration</a> |
 			 <? endif; ?>
@@ -25,7 +25,7 @@
 			 <a href="/auth/logout"> D&eacute;connexion </a>
 			 
 			 <? if ($this->user->gardeEnCours === true) : ?>
-			 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_hobbit) ?> <?=htmlspecialchars($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>) en cours</a>
+			 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_braldun) ?> <?=htmlspecialchars($this->user->nom_braldun) ?> (<?=$this->user->id_braldun?>) en cours</a>
 			 <? endif; ?>
 			 
 			 <div style='line-height : 20px;'>

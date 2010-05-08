@@ -35,8 +35,8 @@
 	   <? endif; ?>
 	   <br>
 	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
-	   	<? $s=""; if ($this->user->points_distinctions_hobbit > 1): $s='s'; endif; ?>
-	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_hobbit ?> point<?=$s?> de distinction. (?)</span>
+	   	<? $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
+	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_braldun ?> point<?=$s?> de distinction. (?)</span>
 	   	<br>
 	   	<? foreach($this->tabDistinctions as $d): ?>
 	   		<br>

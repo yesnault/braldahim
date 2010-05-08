@@ -51,7 +51,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 	private function transfert() {
 		Zend_Loader::loadClass("LabanTabac");
 		$this->view->coutCastars = 0;
-		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$this->view->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		
 		$this->view->elementsAchetes = "";
 		$this->view->manqueCastars = false;
@@ -71,7 +71,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 			
 			$this->transfertElement($quantite, $prixUnitaire, $idTypeTabac, $nomTypeTabac, $idStock);
 		}
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
 		
 		if ($this->view->elementsAchetes != "") {
 			$this->view->elementsAchetes = mb_substr($this->view->elementsAchetes, 0, -2);
@@ -85,7 +85,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 		$nbPossible = $quantite;//floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
 		
 		$prixTotal = $prixUnitaire * $quantite;
-		$castarsRestants = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		$castarsRestants = $this->view->user->castars_braldun - $this->view->coutCastars;
 		if ($prixTotal > $castarsRestants) {
 			$quantite = floor($castarsRestants / $prixUnitaire);
 			$prixTotal = floor($prixUnitaire * $quantite);
@@ -111,7 +111,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 		$data = array(
 			"quantite_feuille_laban_tabac" => $quantite,
 			"id_fk_type_laban_tabac" => $idTypeTabac,
-			"id_fk_hobbit_laban_tabac" => $this->view->user->id_hobbit,
+			"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
 		);
 		
 		$labanTabacTable = new LabanTabac();
@@ -121,7 +121,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 			"date_achat_boutique_tabac" => date("Y-m-d H:i:s"),
 			"id_fk_type_boutique_tabac" => $idTypeTabac,
 			"id_fk_lieu_boutique_tabac" => $this->view->idBoutique,
-			"id_fk_hobbit_boutique_tabac" => $this->view->user->id_hobbit,
+			"id_fk_braldun_boutique_tabac" => $this->view->user->id_braldun,
 			"quantite_feuille_boutique_tabac" => $quantite,
 			"prix_unitaire_boutique_tabac" => $prixUnitaire,
 			"id_fk_region_boutique_tabac" => $this->idRegion,

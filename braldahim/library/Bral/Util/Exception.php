@@ -21,9 +21,9 @@ class Bral_Util_Exception {
 			echo " en indiquant cette heure ".date("Y-m-d H:m:s");
 		}
 
-		$user = "hobbit:inconnu";
+		$user = "braldun:inconnu";
 		if ($view != null && $view->user != null) {
-			$user = $view->user->prenom_hobbit . " ". $view->user->nom_hobbit. " (".$view->user->id_hobbit.")";
+			$user = $view->user->prenom_braldun . " ". $view->user->nom_braldun. " (".$view->user->id_braldun.")";
 		}
 		$user .= PHP_EOL;
 		Bral_Util_Log::exception()->alert($user.$e);

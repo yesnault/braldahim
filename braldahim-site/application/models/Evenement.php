@@ -14,20 +14,20 @@ class Evenement extends Zend_Db_Table {
 	protected $_name = 'evenement';
 	protected $_primary = 'id_evenement';
 
-	function findTop10($dateDebut, $dateFin, $type, $hobbitOnly = false) {
+	function findTop10($dateDebut, $dateFin, $type, $braldunOnly = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->from('evenement', 'count(id_evenement) as nombre');
-		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_braldun_evenement = id_braldun');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		if ($hobbitOnly) { 
+		if ($braldunOnly) { 
 			$select->where('id_fk_monstre_evenement IS NULL');
 		}
 		$select->order("nombre DESC");
-		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->limit(10, 0);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -71,18 +71,18 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByFamille($dateDebut, $dateFin, $type, $hobbitOnly = false) {
+	function findByFamille($dateDebut, $dateFin, $type, $braldunOnly = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('evenement', 'count(id_evenement) as nombre');
 		$select->from('nom', 'nom');
-		$select->where('id_fk_hobbit_evenement = id_hobbit');
-		$select->where('id_nom = id_fk_nom_initial_hobbit');
+		$select->where('id_fk_braldun_evenement = id_braldun');
+		$select->where('id_nom = id_fk_nom_initial_braldun');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		if ($hobbitOnly) {
+		if ($braldunOnly) {
 			$select->where('id_fk_monstre_evenement IS NULL');
 		}
 		$select->order("nombre DESC");
@@ -91,7 +91,7 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByNiveau($dateDebut, $dateFin, $type, $hobbitOnly = false) {
+	function findByNiveau($dateDebut, $dateFin, $type, $braldunOnly = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', array('count(id_evenement) as nombre', 'floor(niveau_evenement/10) as niveau'));
@@ -99,7 +99,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
 		$select->order("niveau ASC");
-		if ($hobbitOnly) {
+		if ($braldunOnly) {
 			$select->where('id_fk_monstre_evenement IS NULL');
 		}
 		$select->group(array('niveau'));
@@ -107,20 +107,20 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findBySexe($dateDebut, $dateFin, $type, $hobbitOnly = false) {
+	function findBySexe($dateDebut, $dateFin, $type, $braldunOnly = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', 'sexe_hobbit');
+		$select->from('braldun', 'sexe_braldun');
 		$select->from('evenement', 'count(id_evenement) as nombre');
-		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_braldun_evenement = id_braldun');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		if ($hobbitOnly) {
+		if ($braldunOnly) {
 			$select->where('id_fk_monstre_evenement IS NULL');
 		}
 		$select->order("nombre DESC");
-		$select->group(array('sexe_hobbit'));
+		$select->group(array('sexe_braldun'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -128,9 +128,9 @@ class Evenement extends Zend_Db_Table {
 	function findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->from('evenement', array('id_evenement', 'date_evenement', 'details_evenement'));
-		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_braldun_evenement = id_braldun');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
@@ -161,9 +161,9 @@ class Evenement extends Zend_Db_Table {
 	public function findByIdMatch($idMatch) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->from('evenement', array('id_evenement', 'date_evenement', 'details_evenement'));
-		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_braldun_evenement = id_braldun');
 		$select->where('id_fk_soule_match_evenement = ?', (int)$idMatch);
 		$select->order("date_evenement DESC");
 		$sql = $select->__toString();

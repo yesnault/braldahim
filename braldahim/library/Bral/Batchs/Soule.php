@@ -152,7 +152,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - enter -");
 		$retour = "";
 
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 
 		$ecartX = $match["x_max_soule_terrain"] - $match["x_min_soule_terrain"];
 		if ($ecartX <= 2) {
@@ -168,34 +168,34 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		}
 
 		$data = array(
-			"x_hobbit" => $x,
-			"y_hobbit" => $y,
-			"est_soule_hobbit" => "oui",
-			"soule_camp_hobbit" => $joueur["camp_soule_equipe"], // dénormalisation
-			"id_fk_soule_match_hobbit" => $match["id_soule_match"], // dénormalisation
+			"x_braldun" => $x,
+			"y_braldun" => $y,
+			"est_soule_braldun" => "oui",
+			"soule_camp_braldun" => $joueur["camp_soule_equipe"], // dénormalisation
+			"id_fk_soule_match_braldun" => $match["id_soule_match"], // dénormalisation
 		);
-		$where = "id_hobbit = ".(int)$joueur["id_hobbit"];
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun = ".(int)$joueur["id_braldun"];
+		$braldunTable->update($data, $where);
 
 		$souleEquipe = new SouleEquipe();
 		$data = array(
-			"x_avant_hobbit_soule_equipe" => $joueur["x_hobbit"],
-			"y_avant_hobbit_soule_equipe" => $joueur["y_hobbit"],
+			"x_avant_braldun_soule_equipe" => $joueur["x_braldun"],
+			"y_avant_braldun_soule_equipe" => $joueur["y_braldun"],
 		);
-		$where = "id_fk_hobbit_soule_equipe = ".(int)$joueur["id_hobbit"];
+		$where = "id_fk_braldun_soule_equipe = ".(int)$joueur["id_braldun"];
 		$souleEquipe->update($data, $where);
 
 		$idType = $this->config->game->evenements->type->soule;
-		$details = "La roulotte a pris [h".$joueur["id_hobbit"]."] pour aller jouer un match sur le ".$match["nom_soule_terrain"];
+		$details = "La roulotte a pris [h".$joueur["id_braldun"]."] pour aller jouer un match sur le ".$match["nom_soule_terrain"];
 		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. PHP_EOL."Le nom de votre équipe est : ";
 		if ($joueur["camp_soule_equipe"] == "a") {
 			$detailsBot .= $match["nom_equipea_soule_match"];
 		} else {
 			$detailsBot .= $match["nom_equipeb_soule_match"];
 		}
-		Bral_Util_Evenement::majEvenements($joueur["id_hobbit"], $idType, $details, $detailsBot, $joueur["niveau_hobbit"], "hobbit", true, $this->view);
+		Bral_Util_Evenement::majEvenements($joueur["id_braldun"], $idType, $details, $detailsBot, $joueur["niveau_braldun"], "braldun", true, $this->view);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - joueur(".$joueur["id_hobbit"].") x:".$x." y:".$y);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - joueur(".$joueur["id_braldun"].") x:".$x." y:".$y);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - exit -");
 		return $retour;

@@ -32,7 +32,7 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 		$regionCourante = null;
 
 		$champsTable = new Champ();
-		$champsRowset = $champsTable->findByIdHobbit($this->view->user->id_hobbit);
+		$champsRowset = $champsTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$tabChamps = null;
 		$tabRegions = null;
@@ -41,10 +41,10 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 			
 			$region = $r;
 			$region["champs"] = null;
-			if ($r["x_min_region"] <= $this->view->user->x_hobbit &&
-			$r["x_max_region"] >= $this->view->user->x_hobbit &&
-			$r["y_min_region"] <= $this->view->user->y_hobbit &&
-			$r["y_max_region"] >= $this->view->user->y_hobbit) {
+			if ($r["x_min_region"] <= $this->view->user->x_braldun &&
+			$r["x_max_region"] >= $this->view->user->x_braldun &&
+			$r["y_min_region"] <= $this->view->user->y_braldun &&
+			$r["y_max_region"] >= $this->view->user->y_braldun) {
 				$regionCourante = $r;
 			}
 				
@@ -59,9 +59,9 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 						"id_region" => $c["id_region"],
 						"nom_region" => $c["nom_region"]
 					);
-					if ($this->view->user->x_hobbit == $c["x_champ"] &&
-					$this->view->user->y_hobbit == $c["y_champ"] &&
-					$this->view->user->z_hobbit == $c["z_champ"]) {
+					if ($this->view->user->x_braldun == $c["x_champ"] &&
+					$this->view->user->y_braldun == $c["y_champ"] &&
+					$this->view->user->z_braldun == $c["z_champ"]) {
 						$this->idChampCourant = $c["id_champ"];
 					}
 					if ($c["id_region"] == $r["id_region"]) {

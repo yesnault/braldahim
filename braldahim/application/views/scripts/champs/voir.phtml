@@ -30,7 +30,7 @@ Champ <br></ul>
 <? 
 if ($this->competences != null) :
 	foreach($this->competences as $c) : ?>
-		<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+		<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
 	      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 	    else:
 	      $attr = " disabled ";

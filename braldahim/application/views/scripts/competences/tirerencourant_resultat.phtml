@@ -23,9 +23,9 @@
 		 	<br />
 		 	<? if ($this->retourAttaque["mort"] === true): ?>
 		 		Vous avez 
-		 		<? if ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "oui") :?>
+		 		<? if ($this->retourAttaque["cible"]["type_cible"] == "braldun" && $this->user->est_soule_braldun == "oui") :?>
 		 			plaqu&eacute;
-		 		<? elseif ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "non") :?>
+		 		<? elseif ($this->retourAttaque["cible"]["type_cible"] == "braldun" && $this->user->est_soule_braldun == "non") :?>
 		 			mis KO
 		 		<? else: ?>	
 		 			tu&eacute; 
@@ -51,7 +51,7 @@
 		 	<? endif; ?>
 	 	<? endif; ?>
 	 	<br />
-	 	Vous vous &ecirc;tes d&eacute;plac&eacute; en x=<?=$this->user->x_hobbit ?>, y=<?=$this->user->y_hobbit ?>
+	 	Vous vous &ecirc;tes d&eacute;plac&eacute; en x=<?=$this->user->x_braldun ?>, y=<?=$this->user->y_braldun ?>
 		<br />
 	<? else: ?>
 		Vous avez manqu&eacute; votre tir !<br />

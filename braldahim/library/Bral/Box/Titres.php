@@ -38,14 +38,14 @@ class Bral_Box_Titres extends Bral_Box_Box {
 
 	private function data() {
 		Zend_Loader::loadClass("Bral_Util_Titre");
-		$tab = Bral_Util_Titre::prepareTitre($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+		$tab = Bral_Util_Titre::prepareTitre($this->view->user->id_braldun, $this->view->user->sexe_braldun);
 		$this->view->tabTitres = $tab["tabTitres"];
 		$this->view->possedeTitre = $tab["possedeTitre"];
 		$this->view->nom_interne = $this->getNomInterne();
 
 		Zend_Loader::loadClass("Bral_Util_Distinction");
 		$tabDistinctions = null;
-		$tabDistinctions = Bral_Util_Distinction::prepareDistinctions($this->view->user->id_hobbit);
+		$tabDistinctions = Bral_Util_Distinction::prepareDistinctions($this->view->user->id_braldun);
 		$this->view->tabDistinctions = $tabDistinctions["tabDistinctions"];
 	}
 }

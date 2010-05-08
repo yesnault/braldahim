@@ -1,4 +1,4 @@
-hobbits.csv : liste des hobbits, avec les personnages non joueurs (PNJ) 
+bralduns.csv : liste des bralduns, avec les personnages non joueurs (PNJ) 
 
 communautes.csv : liste des communautées
 

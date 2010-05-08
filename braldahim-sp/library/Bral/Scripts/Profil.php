@@ -36,34 +36,34 @@ class Bral_Scripts_Profil extends Bral_Scripts_Script {
 
 	private function calculProfil(&$retour) {
 
-		$retour1 = 'idHobbit;prenom;nom;x;y;z;';
-		$retour2 = $this->hobbit->id_hobbit.';'.$this->hobbit->prenom_hobbit.';'.$this->hobbit->nom_hobbit.';'.$this->hobbit->x_hobbit.';'.$this->hobbit->y_hobbit.';'.$this->hobbit->z_hobbit.';';
+		$retour1 = 'idBraldun;prenom;nom;x;y;z;';
+		$retour2 = $this->braldun->id_braldun.';'.$this->braldun->prenom_braldun.';'.$this->braldun->nom_braldun.';'.$this->braldun->x_braldun.';'.$this->braldun->y_braldun.';'.$this->braldun->z_braldun.';';
 		$retour1 .= 'paRestant;DLA;DureeProchainTour;';
-		$retour2 .= $this->hobbit->pa_hobbit.';'.$this->hobbit->date_fin_tour_hobbit.';'.$this->hobbit->duree_prochain_tour_hobbit.';';
+		$retour2 .= $this->braldun->pa_braldun.';'.$this->braldun->date_fin_tour_braldun.';'.$this->braldun->duree_prochain_tour_braldun.';';
 		$retour1 .= 'PvRestant;bmPVmax;bbdf;';
-		$retour2 .= $this->hobbit->pv_restant_hobbit.';'.$this->hobbit->pv_max_bm_hobbit.';'.$this->hobbit->balance_faim_hobbit.';';
+		$retour2 .= $this->braldun->pv_restant_braldun.';'.$this->braldun->pv_max_bm_braldun.';'.$this->braldun->balance_faim_braldun.';';
 		$retour1 .= 'nivAgilite;nivForce;nivVigueur;nivSagesse;';
-		$retour2 .= $this->hobbit->agilite_base_hobbit.';'.$this->hobbit->force_base_hobbit.';'.$this->hobbit->vigueur_base_hobbit.';'.$this->hobbit->sagesse_base_hobbit.';';
+		$retour2 .= $this->braldun->agilite_base_braldun.';'.$this->braldun->force_base_braldun.';'.$this->braldun->vigueur_base_braldun.';'.$this->braldun->sagesse_base_braldun.';';
 		$retour1 .= 'bmAgilite;bmForce;bmVigueur;bmSagesse;';
-		$retour2 .= $this->hobbit->agilite_bm_hobbit.';'.$this->hobbit->force_bm_hobbit.';'.$this->hobbit->vigueur_bm_hobbit.';'.$this->hobbit->sagesse_bm_hobbit.';';
+		$retour2 .= $this->braldun->agilite_bm_braldun.';'.$this->braldun->force_bm_braldun.';'.$this->braldun->vigueur_bm_braldun.';'.$this->braldun->sagesse_bm_braldun.';';
 		$retour1 .= 'bmBddfAgilite;bmBddfForce;bmBddfVigueur;bmBddfSagesse;';
-		$retour2 .= $this->hobbit->agilite_bbdf_hobbit.';'.$this->hobbit->force_bbdf_hobbit.';'.$this->hobbit->vigueur_bbdf_hobbit.';'.$this->hobbit->sagesse_bbdf_hobbit.';';
+		$retour2 .= $this->braldun->agilite_bbdf_braldun.';'.$this->braldun->force_bbdf_braldun.';'.$this->braldun->vigueur_bbdf_braldun.';'.$this->braldun->sagesse_bbdf_braldun.';';
 		$retour1 .= 'bmVue;regeneration;bmRegeneration;';
-		$retour2 .= $this->hobbit->vue_bm_hobbit.';'.$this->hobbit->regeneration_hobbit.';'.$this->hobbit->regeneration_malus_hobbit.';';
+		$retour2 .= $this->braldun->vue_bm_braldun.';'.$this->braldun->regeneration_braldun.';'.$this->braldun->regeneration_malus_braldun.';';
 		$retour1 .= 'pxPerso;pxCommun;pi;niveau;';
-		$retour2 .= $this->hobbit->px_perso_hobbit.';'.$this->hobbit->px_commun_hobbit.';'.$this->hobbit->pi_hobbit.';'.$this->hobbit->niveau_hobbit.';';
+		$retour2 .= $this->braldun->px_perso_braldun.';'.$this->braldun->px_commun_braldun.';'.$this->braldun->pi_braldun.';'.$this->braldun->niveau_braldun.';';
 		$retour1 .= 'poidsTransportable;poidsTransporte;';
-		$retour2 .= $this->hobbit->poids_transportable_hobbit.';'.$this->hobbit->poids_transporte_hobbit.';';
+		$retour2 .= $this->braldun->poids_transportable_braldun.';'.$this->braldun->poids_transporte_braldun.';';
 		$retour1 .= 'armureNaturelle;armureEquipement;';
-		$retour2 .= $this->hobbit->armure_naturelle_hobbit.';'.$this->hobbit->armure_equipement_hobbit.';';
+		$retour2 .= $this->braldun->armure_naturelle_braldun.';'.$this->braldun->armure_equipement_braldun.';';
 		$retour1 .= 'bmAttaque;bmDegat;bmDefense;';
-		$retour2 .= $this->hobbit->bm_attaque_hobbit.';'.$this->hobbit->bm_degat_hobbit.';'.$this->hobbit->bm_defense_hobbit.';';
-		$retour1 .= 'nbKo;nbKill;nbKoHobbit;';
-		$retour2 .= $this->hobbit->nb_ko_hobbit.';'.$this->hobbit->nb_monstre_kill_hobbit.';'.$this->hobbit->nb_hobbit_ko_hobbit.';';
+		$retour2 .= $this->braldun->bm_attaque_braldun.';'.$this->braldun->bm_degat_braldun.';'.$this->braldun->bm_defense_braldun.';';
+		$retour1 .= 'nbKo;nbKill;nbKoBraldun;';
+		$retour2 .= $this->braldun->nb_ko_braldun.';'.$this->braldun->nb_monstre_kill_braldun.';'.$this->braldun->nb_braldun_ko_braldun.';';
 		$retour1 .= 'estEngage;estEngageProchainTour;estIntangible;';
-		$retour2 .= $this->hobbit->est_engage_hobbit.';'.$this->hobbit->est_engage_next_dla_hobbit.';'.$this->hobbit->est_intangible_hobbit.';';
+		$retour2 .= $this->braldun->est_engage_braldun.';'.$this->braldun->est_engage_next_dla_braldun.';'.$this->braldun->est_intangible_braldun.';';
 		$retour1 .= 'nbPlaquagesSubis;nbPlaquagesEffectues'.PHP_EOL;
-		$retour2 .= $this->hobbit->nb_plaque_hobbit.';'.$this->hobbit->nb_hobbit_plaquage_hobbit;
+		$retour2 .= $this->braldun->nb_plaque_braldun.';'.$this->braldun->nb_braldun_plaquage_braldun;
 		$retour2 .= PHP_EOL;
 		
 		$retour .= $retour1;

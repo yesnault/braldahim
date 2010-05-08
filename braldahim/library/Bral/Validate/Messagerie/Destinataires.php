@@ -34,7 +34,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 
 		if (mb_strlen($valeur) > 60) {
-			$this->_messages[] = "Trop de Hobbits destinataires (vous pouvez en mettre environ 20 maximum)";
+			$this->_messages[] = "Trop de Bralduns destinataires (vous pouvez en mettre environ 20 maximum)";
 			$valid = false;
 		}
 		
@@ -46,11 +46,11 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 		
 		if ($valid) {
-			$hobbitTable = new Hobbit();
+			$braldunTable = new Braldun();
 			foreach ($matches[0] as $id) {
-				$r = $hobbitTable->findById(trim($id));
+				$r = $braldunTable->findById(trim($id));
 				if ($r == null || count($r) == 0) {
-					$this->_messages[] = "Le hobbit est inconnu";
+					$this->_messages[] = "Le braldun est inconnu";
 					$valid = false;
 				}
 			}

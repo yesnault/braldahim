@@ -1,0 +1,1321 @@
+/* ************************************************ */
+/* ********************** SITE ******************** */
+/* ************************************************ */
+
+body {
+	font: 11px arial, verdana, sans-serif;
+	background: #003b00;
+	letter-spacing: 0pt;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 0px;
+	margin-right: 0px;
+	color:#000000;
+}
+
+#frisebot, #frisetop {
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+	height:50px;
+	padding:0px;
+	margin-left: -10px;
+}
+
+#frisetop {
+	margin-top: 5px;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+}
+
+#frisetopvide {
+	margin-top: 5px;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frisevide.gif) repeat-x scroll 0 0;
+}
+
+#frisebot {
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+	margin-top: -10px;
+}
+
+#logo {
+	position: absolute;
+	float: left;
+	font-weight: bolder;
+	margin-top: 0.5em;
+	text-align: left;
+}
+
+#logo a:link,#logo a:visited,#logo a:hover,#logo a:active {
+	color: #791E1E;
+	font-size: 2em;
+	font-variant: small-caps;
+	letter-spacing: 2pt;
+	text-decoration: none;
+}
+
+#logo a:hover,#logo a:active {
+	color: #a92929;
+}
+
+input {
+	margin: 2px 2pt;
+	background: #C3E691 none repeat-x scroll center top;
+	color: #791E1E;
+	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+	padding-bottom: 1px;
+	padding-top: 2px;
+	width: auto !important;
+	border: 1px solid #666666;
+}
+
+input:focus {
+	border: 1px solid #791E1E;
+	color: #791E1E;
+}
+
+input:hover {
+	border: 1px solid #791E1E;
+	color: #cc0000;
+}
+
+* html input.button1 {
+	margin-bottom: 1px;
+	padding-bottom: 0pt;
+}
+
+input.button1 {
+	background-color: #FAFAFA;
+	color: #000000;
+	border-color: #666666;
+	font-size: 11px;
+	border: 1px solid #666666;
+	background-image:
+		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+}
+
+input.button1:hover {
+	border-color: #791E1E;
+	color: #791E1E;
+	cursor: pointer;
+}
+
+input.button1:active {
+	color: #000000;
+	background-image:
+		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+}
+
+input.button1:disabled {
+	background-color:#eeeeee;
+	background-position: 0pt 100%;
+	border: 1px solid #BCBCBC;
+	color: #BCBCBC;
+}
+
+.racine_gauche,.racine_milieu,.racine_droite {
+	top: 10px;
+	float: left;
+	padding: 10px;
+}
+
+a,.alabel {
+	color: #003b00;
+	text-align: center;
+}
+
+.inner_top a, .inner_bot a, .inner_top .alabel {
+	color: #eeeeee;
+	text-align: center;
+}
+
+#contenuTooltip .alabel:hover, a:hover,.alabel:hover {
+	color: #cc0000;
+	cursor: pointer;
+}
+
+#contenuTooltip .alabel:hover {
+	color: #000000;
+}
+
+#contenuTooltip .alabel {
+	color: #791E1E;
+}
+
+.alabeldark {
+	color: #000000;
+	text-align: center;
+}
+
+.alabeldark:hover {
+	color: #cc0000;
+	cursor: pointer;
+}
+
+span.id_braldun {
+	color: red;
+}
+
+#navigation {
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
+	width: 200px;
+}
+
+#navigation h3.head {
+	background: #497621 url(/public/images/collapsed.gif) no-repeat scroll
+		3px 4px;
+	border: 1px solid #2A5911;
+	color: #232323;
+	cursor: pointer;
+	display: block;
+	font-size:11px;
+	margin: 2px;
+	padding: 2px;
+	text-decoration: none;
+	text-indent: 14px;
+}
+
+#navigation h3.head:hover {
+	color: #003b00;
+}
+
+#navigation h3.selected {
+	background-image: url(/public/images/expanded.gif);
+}
+
+#navigation h3.current {
+	background-color: #FFFF99;
+}
+
+#navigation ul {
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
+}
+
+#navigation li {
+	display: block;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+#navigation li li h3 {
+	color: #000000;
+	display: block;
+	text-decoration: none;
+	text-indent: 10px;
+}
+
+#navigation li li h3:hover {
+	background-color: #FFFF99;
+	color: #FF0000;
+}
+
+/* ************************************************ */
+/* ********************** Onglets ***************** */
+/* ************************************************ */
+.boite_a,.boite_b,.boite_c {
+	margin-top: 10px;
+	width: auto;
+}
+
+.boite_a,.boite_b {
+	margin-top: 10px;
+	width: 365px;
+}
+
+.onglet {
+	border-style: solid;
+	border-color: #000000;
+	border-width: 1px;
+	margin: 2px;
+	margin-left: 10px;
+	color:#000000;
+}
+
+.onglet.actif {
+	background-color: #628b28;
+	border-bottom-color: transparent;
+}
+
+.onglet.inactif {
+	background-color: #6c973a;
+}
+
+.onglet:hover {
+	background-color: #497621;
+	cursor: pointer;
+}
+
+.box_authentification, .box_pub_login {
+	width: 340px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.box_pub_login {
+	width: 300px;
+}
+
+.box_infos_jeu {
+	width: 350px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.box_gazette {
+	width: 350px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.gazette_histoire{
+	padding : 10px;
+}
+
+.contenu {
+	border-width: 0px;
+	border-color: #000000;
+	height: auto;
+}
+
+.contenuA,.contenuB {
+	border-width: 0px;
+	border-color: #000000;
+	height: auto;
+}
+
+.contenuC {
+	border-width: 0px;
+	border-color: #000000;
+	height: auto;
+}
+
+.box_contenu3 {
+	text-align: left;
+}
+
+.titre {
+	padding: 0px;
+	font-weight: bolder;
+	margin: 0.0em;
+	font-variant: small-caps;
+	letter-spacing: 2pt;
+}
+
+.textsizea {
+	font-size: 2em;
+	color: #f0ae21;
+}
+
+.textsizeb {
+	font-size: 1.4em;
+	color: #0E0E0E;
+}
+
+.textsizec {
+	font-size: 1.2em;
+	color: #0E0E0E;
+}
+
+.textsized {
+	font-size: 1.1em;
+	letter-spacing: 1pt;
+	color: #791E1E;
+}
+
+.textalia {
+	text-align: left;
+}
+
+.textalib {
+	text-align: right;
+}
+
+.textalic {
+	text-align: center;
+}
+
+.box_titre1,.comp_titre {
+	padding: 0px;
+	font-weight: bolder;
+	margin-top: 0.5em;
+	text-align: left;
+	color: #000000;
+	font-size: 1.4em;
+	font-variant: small-caps;
+	letter-spacing: 2pt;
+	text-decoration: none;
+}
+
+.box_chargement {
+	position: absolute;
+	width: 200px;
+	height: 60px;
+	valign: center;
+	margin-left: -110px;
+	margin-top: -100px;
+	text-align: center;
+	border-width: 0px;
+	color: black;
+	font-weight: bold;
+	z-index: 1000;
+}
+
+.box_info {
+	background-color: #CCCC99;
+	color: red;
+}
+
+.menu_classic {
+	float: left;
+}
+
+.menu_date_heure {
+	float: right;
+}
+
+.menu_deconnexion {
+	background-color: #CCCC99;
+	float: right;
+}
+
+.menu_deconnexion:hover {
+	background-color: #ffd363;
+	cursor: pointer;
+}
+
+.box_informations {
+	width: auto;
+	height: auto;
+	text-align: center;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #eeeeee;
+	background-color: #d9ffd6;
+	color: black;
+	padding: 5pt 5px;
+}
+
+.box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration
+	{
+	width: 70%;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	text-align: center;
+	position: relative;
+}
+
+.box_messagerie_menu {
+	position: absolute;
+	color: black;
+	width: 250px;
+	height: auto;
+	text-align: center;
+	z-index: 10;
+}
+
+.box_administration {
+	width: auto;
+}
+
+.box_menu {
+	top: 0px;
+	left: 0px;
+	background-color: #ffd363;
+	color: black;
+	border-style: dashed;
+	border-width: 1px;
+	margin-left: 1px;
+	width: 99.5%;
+	height: auto;
+	text-align: left;
+}
+
+.box_action {
+	width: auto;
+	height: auto;
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #990000;
+	background: #FFFFFF
+		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
+	color: black;
+	padding: 5pt 5px;
+}
+
+.box_erreur *{
+	background-color: #FF3300;
+	color: black;
+	text-align: center;
+	width: auto;
+	height: auto;
+	font: 11px arial, verdana, sans-serif;
+}
+
+.box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
+	       , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie,.box_famille,.box_effets
+	       , .box_communaute, .box_soule,.box_coffre, .box_quetes {
+	color: black;
+	height: auto;
+	text-align: center;
+	z-index: 10;
+	background: #transparent none repeat scroll 0% 0%;
+}
+
+.inner { /* exterieur de boite */
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	padding: 1pt 10px;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 1pt 1px;
+	display: block;
+	background: #628b28 repeat-x scroll 0pt 0%;
+}
+
+.inner_top { /* Interieur de la boite pour le bandeau haut*/
+	height: 50px;
+	padding:4px 10px 1pt;
+	display: block;
+	text-align: right;
+	color:#f0ae21;
+	margin-top:5px;
+}
+
+.inner_bot { /* Interieur de la boite pour le bandeau bas */
+	height: 30px;
+	padding: 1pt 10px;
+	display: block;
+	text-align: center;
+	color:#eeeeee;
+}
+
+.box_contenu { /* interieur de la boite */
+	background: #003b00 repeat-x scroll 0pt 0%;
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid #000000;
+}
+
+.box_contenu1 { /* interieur de la boite */
+	background: #C3E691 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+}
+
+.box_contenu2Fonce {
+	background-color: #ffd363;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu3 {
+	padding: 0px;
+	margin: 0px;
+}
+
+.laban_plante {
+	background-color: #eeeeee;
+}
+
+.barre_faim,.barre_vie, .barre_niveau, .barre_poids {
+	background-color: #FFFFFF;
+	width: 200px;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 10px;
+	border-color: #6f5f6f;
+}
+
+.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite {
+	background-color: #FFFFFF;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 0px;
+	border-color: #6f5f6f;
+}
+
+.barre_tour_sommeil {
+	width:50px;
+}
+
+.barre_tour_eveil {
+	width: 50px;
+}
+
+.barre_tour_activite {
+	width: 100px;
+}
+
+.ligne_espace {
+	padding: 2px 0pt;
+}
+
+.action_ok {
+	background-color: #99FFCC;
+}
+
+.action_ko {
+	background-color: #FF9966;
+}
+
+.rune {
+	width: 40px;
+}
+
+.liste_runes {
+	border: 1px solid #000;
+	color: #000;
+	background-color: #eeeeee;
+	height: auto;
+	vertical-align: center;
+}
+
+table.equipement {
+	border-style: solid;
+	border: solid #777;
+	border-spacing: 1;
+	border-width: 0.0pt;
+}
+
+td.equipement {
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 1;
+	border-width: 0.1pt;
+	vertical-align: top;
+	background: #CCCC99 none repeat-x scroll 0pt;
+}
+
+table.table_liste {
+	border: 1px solid #000000;
+	border-collapse: collapse;
+	width: 70%;
+	margin: auto;
+	align: center;
+}
+
+tr.table_liste0.hhover:hover, tr.table_liste1.hhover:hover {
+	background-color: #4c872d;	
+	cursor:pointer;
+}
+
+thead.table_liste,tfoot.table_liste {
+	color: #232323;
+	background-color: #5d8231;
+	border: 1px solid #000000;
+	text-align: center;
+}
+
+td.table_liste_th {
+	color: #f0ae21;
+	background-color: #2a5911;
+	border: 1px solid #000000;
+}
+
+th.table_liste {
+	padding: 5px;
+	background-color: #000000;
+	width: 25%;
+	text-align: center;
+}
+tr.table_liste0 {
+	background: #C3E691;
+}
+
+tr.table_liste1 {
+	background: #628b28;/*2a5911;*/
+}
+
+td.table_liste_border {
+	border: 1px solid #000000;
+}
+
+td.table_liste {
+	padding: 5px;
+	text-align: center;
+}
+
+
+/* ************************************************ */
+/* ******************* Competence ***************** */
+/* ************************************************ */
+.comp_titre {
+	margin: 3px;
+	text-align: center;
+}
+
+.comp_marcher_position {
+	border: 1px solid #000000;
+	width: 200px;
+}
+
+.comp_marcher_position_td {
+	border: 1px dashed #CCCC99;
+}
+
+/* ************************************************ */
+/* ********************* Message ****************** */
+/* ************************************************ */
+.message_erreur {
+	background-color: #FF6666;
+	color: black;
+	text-align: center;
+}
+
+/* ************************************************ */
+/* ******************** ModalBox ****************** */
+/* ************************************************ */
+#MB_overlay {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background-color: #EFEFEF !important;
+}
+
+#MB_overlay[id] {
+	position: fixed;
+}
+
+#MB_window {
+	position: absolute;
+	top: 0;
+	border: 0 solid;
+	text-align: center;
+	z-index: 10000;
+}
+
+#MB_window[id] {
+	position: absolute !important;
+}
+
+#MB_frame {
+	position: relative;
+	background-color: #EFEFEF;
+	height: 100%;
+}
+
+#MB_header {
+	margin: 0;
+	padding: 0;
+}
+
+#MB_content {
+	padding: 6px .75em;
+	overflow: auto;
+}
+
+#MB_caption {
+	font: bold 85% "Lucida Grande", Arial, sans-serif;
+	text-shadow: #FFF 0 1px 0;
+	padding: .5em 2em 0 .75em;
+	margin: 0;
+	text-align: left;
+}
+
+#MB_close {
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 4px;
+	padding: 2px 3px;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 13px;
+}
+
+#MB_close :hover {
+	background: transparent;
+}
+
+#MB_loading {
+	padding: 1.5em;
+	text-indent: -10000px;
+	background: transparent url('/public/images/spinner.gif') 50% 0
+		no-repeat;
+}
+
+/* Color scheme */
+#MB_frame {
+	padding-bottom: 7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+#MB_window {
+	background-color: #EFEFEF;
+	color: #000;
+	-webkit-box-shadow: 0 8px 64px #000;
+	-moz-box-shadow: 0 0 64px #000;
+	box-shadow: 0 0 64px #000;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+#MB_content {
+	border-top: 1px solid #F9F9F9;
+}
+
+#MB_content .inputbox {
+	font: 11px arial, verdana, sans-serif;
+}
+
+#MB_header {
+	background-color: #e7c57b;
+	border-bottom: 1px solid #791E1E;
+}
+
+#MB_caption {
+	color: #791E1E
+}
+
+#MB_close {
+	color: #777
+}
+
+#MB_close :hover {
+	color: #000
+}
+
+/* Alert message */
+.MB_alert {
+	margin: 10px 0;
+	text-align: center;
+}
+
+/* ************************************************ */
+	/* *********************** Popup ****************** */
+	/* ************************************************ */
+.popup_fg { #
+	background: #FFFFFF
+		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
+	background: transparent;
+}
+
+.popup_bg {
+	background: transparent
+}
+
+.popup_text {
+	color: #000000;
+}
+
+.popup_caption {
+	color: #FADC9B;
+	font-weight: bold;
+}
+
+.popup_close A:link {
+	text-decoration: none;
+	color: #FADC9B;
+}
+
+.popup_close A:visited {
+	text-decoration: none;
+	color: #FADC9B;
+}
+
+.popup_close A:active {
+	text-decoration: none;
+	color: #FADC9B;
+}
+
+.popup_close A:hover {
+	text-decoration: underline;
+	color: #cc0000;
+}
+
+/* (C) 2007 YOOtheme.com */
+div.yoo-tooltip-toggler {
+	cursor: pointer;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-tl {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tl.png)
+		0 7pt no-repeat;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-tr {
+	padding: 0px 15px 0px 15px;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tr.png)
+		100% 7pt no-repeat;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-t {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_t.png)
+		0 7pt repeat-x;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-l {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_l.png)
+		0 7pt repeat-y;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-r {
+	padding: 0px 15px 0px 15px;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_r.png)
+		100% 7pt repeat-y;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-m {
+	background: #ffffff;
+	padding: 10px 0px 0px 0px;
+	overflow: hidden;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-bl {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_bl.png)
+		0 0 no-repeat;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-br {
+	padding: 0px 15px 0px 15px;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_br.png)
+		100% 0 no-repeat;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-b {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_b.png)
+		0 0 repeat-x;
+}
+
+div.yoo-tooltip div.yoodefault .tooltip-arrow {
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
+		50% 0 no-repeat;
+}
+
+/* ************************************************ */
+/* ******************* Recherche ****************** */
+/* ************************************************ */
+/* Autocompletion */
+.recherche {
+	position: absolute;
+	width: 250px;
+	background-color: white;
+	border: 0px solid #888;
+	margin: 0px;
+	padding: 0px;
+}
+
+ul.resultats {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+}
+
+ul.resultats li.selected {
+	background-color: #ffb;
+	cursor: pointer;
+}
+
+li.resultat {
+	list-style-type: none;
+	display: block;
+	margin: 0;
+	padding: 2px;
+	height: 12px;
+}
+
+li.resultat div.image {
+	float: left;
+	width: 32px;
+	height: 15px;
+	margin-right: 8px;
+}
+
+li.resultat div.nom {
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 1.2em;
+}
+
+table.champ2d {
+	border: solid #777;
+	text-align: center;
+	border-spacing: 1;
+	border-width: 1pt;
+	background:#C2E15F;
+}
+
+td.champ2d {
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 0;
+	border-width: 0.0pt;
+	font-size: 7pt;
+	vertical-align: top;
+	horizontal-align: center;
+	width: 32px;
+	height: 32px;
+}
+
+td.champ2d.seme { background: url('/public/styles/braldahim_defaut/images/champ/seme.png') no-repeat; }
+td.champ2d.a_recolter { background: url('/public/styles/braldahim_defaut/images/champ/a_recolter.png') no-repeat; }
+td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/champ/jachere.png') no-repeat; }
+
+
+/* ************************************************ */
+/* ************************* Vue ****************** */
+/* ************************************************ */
+table.vue2d {
+	text-align: center;
+	border-spacing: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	
+}
+
+td.vue2d {
+	border-collapse: collapse; 
+	font-size: 7pt;
+	vertical-align: top;
+	horizontal-align: center;
+	width: 64px;
+	height: 64px;
+	border-top:1px solid #628B28;
+	border-left:1px solid #628B28;
+	background-color:#F1D499;
+}
+
+td.vue2d.actuelle {
+	border-width: 1px; 
+	border-style: solid;
+	border-color:#ff6666;
+	width: 60px;
+	height: 60px;
+}
+
+td.vue2d.plaine { background: url('/public/styles/braldahim_defaut/images/vue/environnement/plaine.png') repeat; }
+td.vue2d.plaine-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/plaine-gr.png') repeat; }
+td.vue2d.gazon { background: url('/public/styles/braldahim_defaut/images/vue/environnement/gazon.png') repeat; }
+td.vue2d.gazon-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/gazon-gr.png') repeat;}
+td.vue2d.marais { background: url('/public/styles/braldahim_defaut/images/vue/environnement/marais.png') repeat; }
+td.vue2d.marais-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/marais-gr.png') repeat; }
+td.vue2d.montagne { background: url('/public/styles/braldahim_defaut/images/vue/environnement/montagne.png') repeat; }
+td.vue2d.montagne-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/montagne-gr.png') repeat;}
+td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne.png') repeat;}
+td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-gr.png') repeat;}
+td.vue2d.caverne-crevasse { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-crevasse.png') repeat;}
+td.vue2d.caverne-gr-crevasse { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-gr-crevasse.png') repeat;}
+
+td.vue2d.route { background: url('/public/styles/braldahim_defaut/images/vue/route.png') repeat; }
+td.vue2d.pave { background: url('/public/styles/braldahim_defaut/images/vue/pave.png') repeat; }
+
+
+td.vue2d.palissade {
+	background: url('/public/styles/braldahim_defaut/images/vue/palissade.png') repeat;
+}
+
+td.vue2d.inconnu {
+	background: url('/public/styles/braldahim_defaut/images/vue/inconnu.png') repeat;
+}
+
+td.vue2d.erables { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/erables.png') repeat; }
+td.vue2d.erables-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/erables-gr.png') repeat; }
+td.vue2d.chenes { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/chenes.png') repeat; }
+td.vue2d.chenes-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/chenes-gr.png') repeat; }
+td.vue2d.peupliers { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/peupliers.png') repeat; }
+td.vue2d.peupliers-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/peupliers-gr.png') repeat; }
+td.vue2d.hetres { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/hetres.png') repeat; }
+td.vue2d.hetres-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/hetres-gr.png') repeat; }
+
+td.vue2d.peuprofonde { background: url('/public/styles/braldahim_defaut/images/vue/eaux/peuprofonde.png') repeat; }
+td.vue2d.profonde { background: url('/public/styles/braldahim_defaut/images/vue/eaux/profonde.png') repeat; }
+td.vue2d.lac { background: url('/public/styles/braldahim_defaut/images/vue/eaux/lac.png') repeat; }
+td.vue2d.mer { background: url('/public/styles/braldahim_defaut/images/vue/eaux/mer.png') repeat; }
+
+.vue2d_case_num {
+	text-align: right;
+	font-size: 7pt;
+	color: #e0ffe0;
+	height:0.5px;
+	position:relative;
+	top : -7px;
+	z-index: 100;
+}
+
+div.cases { width:64px; padding: 0px;}
+div.cases.actuelle { width:30px; padding: 0px;}
+
+table.cases {
+	padding: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse; 
+	width:64px;
+}
+
+table.cases.actuelle {
+	width:60px;
+}
+
+td.cases {
+	width: 32px;
+	height: 32px;
+	padding:0px;
+}
+
+td.cases.actuelle {
+	width: 30px;
+	height: 30px;
+}
+
+#modalPage {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 1500px;
+    top: 0px; left: 0px;
+}
+.modalBackground {
+    filter: Alpha(Opacity=40); -moz-opacity:0.0; opacity: 0.0;
+    width: 100%; height: 100%; background-color: #999999;
+    position: absolute;
+    z-index: 500;
+    top: 0px; left: 0px;
+}
+.modalContainer {
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    top: 20%;
+    z-index: 750;
+}
+.modal {
+    background-color: white;
+    border: solid 4px black; position: relative;
+    top: -150px;
+    left: -150px;
+    z-index: 1000;
+    width: 300px;
+    height: 300px;
+    padding: 0px;
+}
+.modalTop {
+    width: 292px;
+    background-color: #000099;
+    padding: 4px;
+    color: #ffffff;
+    text-align: right;
+}
+.modalTop a, .modalTop a:visited {
+    color: #ffffff;
+}
+.modalBody {
+    padding: 10px;
+}
+
+/* ************************************************ */
+/* ********************** Menu *********************** */
+/* ************************************************ */
+
+#menu {
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:51px;
+	margin-top: -10px;
+}
+#menu ul {
+	height:50px;
+	list-style-type:none;
+	margin:0 auto;
+	padding:1 50px;
+	text-align:center;
+	width:640px;
+}
+#menu li {
+	background-repeat:no-repeat;
+	float:left;
+}
+#menu li a {
+	float:left;
+	font-size:0;
+	text-indent:-9999em;
+	margin:10px auto;
+	height:46px;
+}
+#menu li.accueil a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position: 0 0;
+	width:120px;
+}
+#menu li.accueil a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position: 0 -45px;
+}
+#menu li.jouer a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-120px 0;
+	width:70px;
+}
+#menu li.jouer a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-120px -45px;
+}
+#menu li.bourg a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-190px 0;
+	width:110px;
+}
+#menu li.bourg a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-190px -45px;
+}
+#menu li.forums a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-300px 0;
+	width:95px;
+}
+#menu li.forums a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-300px -45px;
+}
+#menu li.regles a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-395px 0;
+	width:75px;
+}
+#menu li.regles a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-395px -45px;
+}
+#menu li.projet a {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-480px 0;
+	width:115px;
+}
+#menu li.projet a:hover {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
+	background-position:-480px -45px;
+}
+
+#wrapper {
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:290px;
+	margin-top: -10px;
+}
+
+#header {
+	height:50px;
+	position:relative;
+}
+#header h1 {
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/logo.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:60px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:280px;
+	position:absolute;
+}
+
+#braldunjeu {
+	z-index:1000;
+	background:transparent url(/public/images/braldun-jeu.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:220px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:190px;
+	position:absolute;
+	margin-top:25px;
+	margin-left:-110px;
+}
+
+#header-logo h1 a {
+	display:block;
+	height:100%;
+	text-decoration:none;
+	width:100%;
+}
+
+.feed {
+  margin-left: 3px;
+  padding: 0 0 0 19px;
+  background: url("/public/images/rss.png") no-repeat 0 50%;
+} 
+
+.lune {
+	cursor : pointer;
+	line-height : 10px;
+	padding : 4px;
+}
+
+.lune.lune0 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon0.png) no-repeat scroll 0 0; }
+.lune.lune1 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon1.png) no-repeat scroll 0 0; }
+.lune.lune2 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon2.png) no-repeat scroll 0 0; }
+.lune.lune3 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon3.png) no-repeat scroll 0 0; }
+.lune.lune4 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon4.png) no-repeat scroll 0 0; }
+.lune.lune5 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon5.png) no-repeat scroll 0 0; }
+.lune.lune6 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon6.png) no-repeat scroll 0 0; }
+.lune.lune7 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon7.png) no-repeat scroll 0 0; }
+.lune.lune8 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon8.png) no-repeat scroll 0 0; }
+.lune.lune9 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon9.png) no-repeat scroll 0 0; }
+.lune.lune10 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon10.png) no-repeat scroll 0 0; }
+.lune.lune11 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon11.png) no-repeat scroll 0 0; }
+.lune.lune12 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon12.png) no-repeat scroll 0 0; }
+.lune.lune13 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon13.png) no-repeat scroll 0 0; }
+.lune.lune14 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon14.png) no-repeat scroll 0 0; }
+.lune.lune15 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon15.png) no-repeat scroll 0 0; }
+.lune.lune16 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon16.png) no-repeat scroll 0 0; }
+.lune.lune17 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon17.png) no-repeat scroll 0 0; }
+.lune.lune18 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon18.png) no-repeat scroll 0 0; }
+.lune.lune19 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon19.png) no-repeat scroll 0 0; }
+.lune.lune20 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon20.png) no-repeat scroll 0 0; }
+.lune.lune21 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon21.png) no-repeat scroll 0 0; }
+.lune.lune22 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon22.png) no-repeat scroll 0 0; }
+.lune.lune23 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon23.png) no-repeat scroll 0 0; }
+.lune.lune24 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon24.png) no-repeat scroll 0 0; }
+.lune.lune25 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon25.png) no-repeat scroll 0 0; }
+.lune.lune26 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon26.png) no-repeat scroll 0 0; }
+.lune.lune27 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon27.png) no-repeat scroll 0 0; }
+.lune.lune28 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon28.png) no-repeat scroll 0 0; }
+.lune.lune29 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon29.png) no-repeat scroll 0 0; }

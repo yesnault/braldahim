@@ -12,14 +12,14 @@
  */
 class LabanMunition extends Zend_Db_Table {
 	protected $_name = 'laban_munition';
-	protected $_primary = array('id_fk_hobbit_laban_munition', 'id_fk_type_laban_munition');
+	protected $_primary = array('id_fk_braldun_laban_munition', 'id_fk_type_laban_munition');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_munition', '*')
 		->from('type_munition', '*')
-		->where('id_fk_hobbit_laban_munition = '.intval($id_hobbit))
+		->where('id_fk_braldun_laban_munition = '.intval($id_braldun))
 		->where('laban_munition.id_fk_type_laban_munition = type_munition.id_type_munition');
 		$sql = $select->__toString();
 
@@ -32,7 +32,7 @@ class LabanMunition extends Zend_Db_Table {
 		$select->from('laban_munition', 'count(*) as nombre, 
 		quantite_laban_munition as quantite')
 		->where('id_fk_type_laban_munition = ?',$data["id_fk_type_laban_munition"])
-		->where('id_fk_hobbit_laban_munition = ?',$data["id_fk_hobbit_laban_munition"])
+		->where('id_fk_braldun_laban_munition = ?',$data["id_fk_braldun_laban_munition"])
 		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -50,7 +50,7 @@ class LabanMunition extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_laban_munition = '.$data["id_fk_type_laban_munition"];
-			$where .= ' AND id_fk_hobbit_laban_munition = '.$data["id_fk_hobbit_laban_munition"];
+			$where .= ' AND id_fk_braldun_laban_munition = '.$data["id_fk_braldun_laban_munition"];
 			
 			if ($dataUpdate['quantite_laban_munition'] <= 0) { // delete
 				$this->delete($where);

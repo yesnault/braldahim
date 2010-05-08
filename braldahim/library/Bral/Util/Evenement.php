@@ -17,9 +17,9 @@ class Bral_Util_Evenement {
 	const RIPOSTE = 'riposte';
 
 	/*
-	 * Mise a jour des Evenements du hobbit / du monstre.
+	 * Mise a jour des Evenements du braldun / du monstre.
 	 */
-	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null, $idMatchSoule = null, $actionEvenement = null, $tour = null) {
+	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="braldun", $estAEnvoyer = false, $view = null, $idMatchSoule = null, $actionEvenement = null, $tour = null) {
 		Zend_Loader::loadClass('Evenement');
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		
@@ -27,9 +27,9 @@ class Bral_Util_Evenement {
 		
 		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 		
-		if ($type == "hobbit") {
+		if ($type == "braldun") {
 			$data = array(
-				'id_fk_hobbit_evenement' => $idConcerne,
+				'id_fk_braldun_evenement' => $idConcerne,
 				'date_evenement' => date("Y-m-d H:i:s"),
 				'id_fk_type_evenement' => $idTypeEvenement,
 				'details_evenement' => $detailsTransforme,
@@ -37,7 +37,7 @@ class Bral_Util_Evenement {
 				'niveau_evenement' => $niveau,
 				'id_fk_soule_match_evenement' => $idMatchSoule,
 				'action_evenement' => $actionEvenement,
-				'tour_hobbit_evenement' => $tour,
+				'tour_braldun_evenement' => $tour,
 			);
 		} else {
 			$data = array(
@@ -52,12 +52,12 @@ class Bral_Util_Evenement {
 		}
 		$evenementTable->insert($data);
 		
-		if ($type == "hobbit" && $estAEnvoyer == true && $view != null) {
+		if ($type == "braldun" && $estAEnvoyer == true && $view != null) {
 			self::envoiMail($idConcerne, $detailsBot, $view);
 		}
 	}
 	
-	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view, $numTourHobbit = null, $numTourMonstre = null, $actionEvenement = null) {
+	public static function majEvenementsFromVieMonstre($idBraldunConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view, $numTourBraldun = null, $numTourMonstre = null, $actionEvenement = null) {
 		Zend_Loader::loadClass('Evenement');
 		Zend_loader::loadClass("Bral_Util_Lien");
 		$evenementTable = new Evenement();
@@ -65,37 +65,37 @@ class Bral_Util_Evenement {
 		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 		
 		$data = array(
-			'id_fk_hobbit_evenement' => $idHobbitConcerne,
+			'id_fk_braldun_evenement' => $idBraldunConcerne,
 			'id_fk_monstre_evenement' => $idMonstreConcerne,
 			'date_evenement' => date("Y-m-d H:i:s"),
 			'id_fk_type_evenement' => $idTypeEvenement,
 			'details_evenement' => $detailsTransforme,
 			'details_bot_evenement' => $detailsBot,
 			'niveau_evenement' => $niveau,
-			'tour_hobbit_evenement' => $numTourHobbit,
+			'tour_braldun_evenement' => $numTourBraldun,
 			'tour_monstre_evenement' => $numTourMonstre,
 			'action_evenement' => $actionEvenement,
 		);
 		$evenementTable->insert($data);
 		
-		if ($idHobbitConcerne != null) {
-			self::envoiMail($idHobbitConcerne, $detailsBot, $view);
+		if ($idBraldunConcerne != null) {
+			self::envoiMail($idBraldunConcerne, $detailsBot, $view);
 		}
 	}
 	
-	private static function envoiMail($idHobbitConcerne, $detailsBot, $view) {
+	private static function envoiMail($idBraldunConcerne, $detailsBot, $view) {
 		Zend_Loader::loadClass('Bral_Util_Mail');
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($idHobbitConcerne);
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->findById($idBraldunConcerne);
 		
-		if ($hobbitRowset != null) {
-			$hobbit = $hobbitRowset->toArray();
+		if ($braldunRowset != null) {
+			$braldun = $braldunRowset->toArray();
 			$c = Zend_Registry::get('config');
-			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
-				Bral_Util_Mail::envoiMailAutomatique($hobbit, $c->mail->evenement->titre, $detailsBot, $view);
+			if ($braldun["envoi_mail_evenement_braldun"] == "oui") {
+				Bral_Util_Mail::envoiMailAutomatique($braldun, $c->mail->evenement->titre, $detailsBot, $view);
 			}
 		} else {
-			throw new Zend_Exception('Bral_Util_Evenement::envoiMail id Hobbit inconnu:'.$idHobbitConcerne);
+			throw new Zend_Exception('Bral_Util_Evenement::envoiMail id Braldun inconnu:'.$idBraldunConcerne);
 		}
 	}
 }

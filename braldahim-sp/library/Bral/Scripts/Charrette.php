@@ -19,7 +19,7 @@ class Bral_Scripts_Charrette extends Bral_Scripts_Conteneur {
 		
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->hobbit->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->braldun->id_braldun);
 		if ($charrettes != null && count($charrettes) == 1) {
 			$idCharrette = $charrettes[0]["id_charrette"];
 			$retour = "CHARRETTE;".$idCharrette.";".$charrettes[0]["durabilite_max_charrette"].';'.$charrettes[0]["durabilite_actuelle_charrette"].';'.$charrettes[0]["poids_transportable_charrette"].';'. $charrettes[0]["poids_transporte_charrette"].PHP_EOL;

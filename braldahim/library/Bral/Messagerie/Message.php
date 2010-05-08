@@ -112,29 +112,29 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$filter = new Zend_Filter_StripTags();
 
-		$tabHobbit["destinataires"] = "";
-		$tabHobbit["aff_js_destinataires"] = "";
+		$tabBraldun["destinataires"] = "";
+		$tabBraldun["aff_js_destinataires"] = "";
 		if ($this->request->get('valeur_2') != "") {
-			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+			$tabBraldun = Bral_Util_Messagerie::constructTabBraldun($filter->filter(trim($this->request->get('valeur_2'))));
 		}
 
 		$tabContacts["contacts"] = "";
 		$tabContacts["aff_js_contacts"] = "";
 		$tabContacts["userids"] = "";
 		if ($this->request->get('valeur_4') != "") {
-			$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_hobbit);
+			$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_braldun);
 		}
 
 		$tabMessage = array(
 			'contenu' => "",
-			'destinataires' => $tabHobbit["destinataires"],
-			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			'destinataires' => $tabBraldun["destinataires"],
+			'aff_js_destinataires' => $tabBraldun["aff_js_destinataires"],
 			"contacts" => $tabContacts["contacts"],
 			"aff_js_contacts" => $tabContacts["aff_js_contacts"],
 			"userids" => $tabContacts["userids"],
 		);
 		$this->view->message = $tabMessage;
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun);
 	}
 
 	private function prepareRepondre($transferer, $repondretous) {
@@ -143,12 +143,12 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$listeId = $this->view->message["fromid"].",";
 			if ($repondretous) {
 				$listeId = $listeId.$this->view->message["toids"].",";
-				$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId, "valeur_2", $this->view->user->id_hobbit);
+				$tabBraldun = Bral_Util_Messagerie::constructTabBraldun($listeId, "valeur_2", $this->view->user->id_braldun);
 			} else {
-				$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId);
+				$tabBraldun = Bral_Util_Messagerie::constructTabBraldun($listeId);
 			}
 		} else {
-			$tabHobbit = array("destinataires" => "",
+			$tabBraldun = array("destinataires" => "",
 				"aff_js_destinataires" => "",
 			);
 		}
@@ -161,13 +161,13 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 		$tabMessage = array(
 			"contenu" => $contenu,
-			"destinataires" => $tabHobbit["destinataires"],
-			"aff_js_destinataires" => $tabHobbit["aff_js_destinataires"],
+			"destinataires" => $tabBraldun["destinataires"],
+			"aff_js_destinataires" => $tabBraldun["aff_js_destinataires"],
 			"contacts" => "",
 			"aff_js_contacts" => "",
 		);
 		$this->view->message = $tabMessage;
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun);
 	}
 
 	private function envoiMessage() {
@@ -176,16 +176,16 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Contacts");
 		Zend_Loader::loadClass("Zend_Filter_StripTags");
 
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun);
 
 		$filter = new Zend_Filter_StripTags();
-		$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
-		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_hobbit);
+		$tabBraldun = Bral_Util_Messagerie::constructTabBraldun($filter->filter(trim($this->request->get('valeur_2'))));
+		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_braldun);
 
 		$tabMessage = array(
 			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
-			'destinataires' => $tabHobbit["destinataires"],
-			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			'destinataires' => $tabBraldun["destinataires"],
+			'aff_js_destinataires' => $tabBraldun["aff_js_destinataires"],
 			"contacts" => $tabContacts["contacts"],
 			"aff_js_contacts" => $tabContacts["aff_js_contacts"],
 			"userids" => $tabContacts["userids"],
@@ -194,7 +194,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 		if ($this->view->listesContacts != null) {
 			$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(false);
-			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_hobbit);
+			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_braldun);
 			$validContacts = $validateurContacts->isValid($this->view->message["contacts"]);
 			$avecContacts = true;
 
@@ -222,17 +222,17 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		if (($validDestinataires || ($validContacts && $avecContacts) ) && ($validContenu)) {
 			$messageTable = new Message();
 
-			$debutContenuMail = "Message de ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit." (".$this->view->user->id_hobbit.") : ";
+			$debutContenuMail = "Message de ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun." (".$this->view->user->id_braldun.") : ";
 
 			$tabIdDestinatairesDejaEnvoye = array();
-			$tabHobbits = array();
+			$tabBralduns = array();
 			$idDestinatairesTab = array();
 			$idDestinatairesListe = null;
 
 			if ($this->view->message["destinataires"] != "") {
 				$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 				$idDestinatairesListe = $this->view->message["destinataires"];
-				$tabHobbits = $tabHobbit["hobbits"];
+				$tabBralduns = $tabBraldun["bralduns"];
 			}
 
 			if ($this->view->message["userids"] != "") {
@@ -241,17 +241,17 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 					$idDestinatairesListe .= ",";
 				}
 				$idDestinatairesListe = $idDestinatairesListe . $this->view->message["userids"];
-				$tabHobbits = $tabHobbits + $tabContacts["hobbits"];
+				$tabBralduns = $tabBralduns + $tabContacts["bralduns"];
 			}
 
-			if ($tabHobbits != null && count($idDestinatairesTab) > 0) {
-				foreach ($idDestinatairesTab as $idHobbit) {
-					$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
-					if (!in_array($idHobbit, $tabIdDestinatairesDejaEnvoye)) {
+			if ($tabBralduns != null && count($idDestinatairesTab) > 0) {
+				foreach ($idDestinatairesTab as $idBraldun) {
+					$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_braldun, $idBraldun, $tabMessage["contenu"], $idDestinatairesListe);
+					if (!in_array($idBraldun, $tabIdDestinatairesDejaEnvoye)) {
 						$messageTable->insert($data);
-						$tabIdDestinatairesDejaEnvoye[] = $idHobbit;
-						if ($tabHobbits[$idHobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$idHobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+						$tabIdDestinatairesDejaEnvoye[] = $idBraldun;
+						if ($tabBralduns[$idBraldun]["envoi_mail_message_braldun"] == "oui") {
+							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
@@ -280,21 +280,21 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	private function prepareMessage() {
 		$messageTable = new Message();
-		$message = $messageTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
+		$message = $messageTable->findById($this->view->user->id_braldun, (int)$this->request->get("valeur_2"));
 
 		$tabMessage = null;
 		if ($message != null && count($message) == 1) {
 			$message = $message[0];
 
-			$idsHobbit[] = $message["toid"];
-			$idsHobbit[] = $message["fromid"];
-			$idsHobbit = array_merge($idsHobbit, split(',', $message["toids"]));
-			if ($idsHobbit != null) {
-				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByIdList($idsHobbit);
-				if ($hobbits != null) {
-					foreach($hobbits as $h) {
-						$tabHobbits[$h["id_hobbit"]] = $h;
+			$idsBraldun[] = $message["toid"];
+			$idsBraldun[] = $message["fromid"];
+			$idsBraldun = array_merge($idsBraldun, split(',', $message["toids"]));
+			if ($idsBraldun != null) {
+				$braldunTable = new Braldun();
+				$bralduns = $braldunTable->findByIdList($idsBraldun);
+				if ($bralduns != null) {
+					foreach($bralduns as $h) {
+						$tabBralduns[$h["id_braldun"]] = $h;
 					}
 				}
 			}
@@ -302,26 +302,26 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$expediteur = "";
 			$destinataire = "";
 			$destinataires = "";
-			if ($tabHobbits != null) {
-				if (array_key_exists($message["fromid"], $tabHobbits)) {
-					$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$message["fromid"]]["id_hobbit"], $tabHobbits[$message["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$message["fromid"]]["id_hobbit"].")");
+			if ($tabBralduns != null) {
+				if (array_key_exists($message["fromid"], $tabBralduns)) {
+					$expediteur = Bral_Util_Lien::getJsBraldun($tabBralduns[$message["fromid"]]["id_braldun"], $tabBralduns[$message["fromid"]]["prenom_braldun"] . " ". $tabBralduns[$message["fromid"]]["nom_braldun"]. " (".$tabBralduns[$message["fromid"]]["id_braldun"].")");
 				} else {
 					$expediteur = " Erreur ".$message["fromid"];
 				}
 
-				if (array_key_exists($message["toid"], $tabHobbits)) {
-					$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$message["toid"]]["id_hobbit"], $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")");
+				if (array_key_exists($message["toid"], $tabBralduns)) {
+					$destinataire = Bral_Util_Lien::getJsBraldun($tabBralduns[$message["toid"]]["id_braldun"], $tabBralduns[$message["toid"]]["prenom_braldun"] . " ". $tabBralduns[$message["toid"]]["nom_braldun"]. " (".$tabBralduns[$message["toid"]]["id_braldun"].")");
 				} else {
-					$destinataire = " Erreur Hobbit n°".$message["toid"];
+					$destinataire = " Erreur Braldun n°".$message["toid"];
 				}
 
 				$tabDestinataires = split(',', $message["toids"]);
 				foreach ($tabDestinataires as $k=>$d) {
-					if (array_key_exists($d, $tabHobbits)) {
-						$destinataires .= Bral_Util_Lien::getJsHobbit($tabHobbits[$d]["id_hobbit"], $tabHobbits[$d]["prenom_hobbit"] . " ". $tabHobbits[$d]["nom_hobbit"]. " (".$tabHobbits[$d]["id_hobbit"].")");
+					if (array_key_exists($d, $tabBralduns)) {
+						$destinataires .= Bral_Util_Lien::getJsBraldun($tabBralduns[$d]["id_braldun"], $tabBralduns[$d]["prenom_braldun"] . " ". $tabBralduns[$d]["nom_braldun"]. " (".$tabBralduns[$d]["id_braldun"].")");
 						$destinataires .= ", ";
 					} else {
-						$destinataires .= " Erreur Hobbit n°:".$d.", ";
+						$destinataires .= " Erreur Braldun n°:".$d.", ";
 					}
 				}
 			}
@@ -354,7 +354,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			);
 
 			// Flag de lecture
-			if ($message["toid"] == $this->view->user->id_hobbit && $message["toread"] == 0) {
+			if ($message["toid"] == $this->view->user->id_braldun && $message["toread"] == 0) {
 				$data = array(
 					"toread" => 1,
 				);
@@ -364,7 +364,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			unset($messageTable);
 			unset($message);
 		} else {
-			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
 		}
 		$this->view->message = $tabMessage;
 	}
@@ -379,15 +379,15 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		if ($listMessages == null) {
 			$listMessages = split(',', $this->request->get("valeur_2"));
 		}
-		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
 			foreach ($messages as $message) {
-				if ($message["fromid"] == $this->view->user->id_hobbit) {
+				if ($message["fromid"] == $this->view->user->id_braldun) {
 					$data = array(
 						"totrashoutbox" => 1,
 					);
-					if ($message["toid"] == $this->view->user->id_hobbit) {
+					if ($message["toid"] == $this->view->user->id_braldun) {
 						$data["totrash"] = 1;
 
 					}
@@ -407,7 +407,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->view->information = "Le message sélectionné est supprimé.";
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
 		}
 		unset($messageTable);
 		unset($message);
@@ -420,12 +420,12 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	private function prepareArchiverSelection($listMessages = null) {
 		$messageTable = new Message();
-		$nbDejaArchives = $messageTable->countByToIdArchived($this->view->user->id_hobbit);
+		$nbDejaArchives = $messageTable->countByToIdArchived($this->view->user->id_braldun);
 
 		if ($listMessages == null) {
 			$listMessages = split(',', $this->request->get("valeur_2"));
 		}
-		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		$s = "";
 		if ($nbDejaArchives >= 1) {
@@ -436,7 +436,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$this->view->information .= " Vous ne pouvez pas archiver plus de message, le message n'est donc pas archivé.";
 		} elseif ($messages != null && count($messages) >= 1) {
 			foreach ($messages as $message) {
-				if ($message["toid"] == $this->view->user->id_hobbit) {
+				if ($message["toid"] == $this->view->user->id_braldun) {
 					$data = array("archived" => 1);
 					$where = "id=".$message["id"];
 					$messageTable->update($data, $where);
@@ -454,7 +454,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->view->information = "Le message sélectionné est archivé. Vous avez ".$nbDejaArchives." message$s archivé$s.";
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
 		}
 		unset($messageTable);
 		unset($message);
@@ -463,11 +463,11 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 	private function prepareMarquerLueSelection() {
 		$messageTable = new Message();
 		$listMessages = split(',', $this->request->get("valeur_2"));
-		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
 			foreach ($messages as $message) {
-				if ($message["toid"] == $this->view->user->id_hobbit) {
+				if ($message["toid"] == $this->view->user->id_braldun) {
 					$data = array("toread" => 1);
 					$where = "id=".$message["id"];
 					$messageTable->update($data, $where);
@@ -480,7 +480,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->view->information = "Le message sélectionné est marqué comme lu.";
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)."::marquerlueselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)."::marquerlueselection Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
 		}
 		unset($messageTable);
 		unset($message);

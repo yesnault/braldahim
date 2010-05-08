@@ -16,7 +16,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - enter -");
 		$retour = null;
 
-		$retour = $this->genereFichierHobbits();
+		$retour = $this->genereFichierBralduns();
 		$retour .= $this->genereFichierCommunautes();
 		$retour .= $this->genereFichierCommunautesRangs();
 		$retour .= $this->genereFichierCompetences();
@@ -28,47 +28,47 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function genereFichierHobbits() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierHobbits - enter -");
+	private function genereFichierBralduns() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierBralduns - enter -");
 		$retour = "";
 		Zend_Loader::loadClass("Bral_Util_Fichier");
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueursAvecPnj();
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findAllJoueursAvecPnj();
 
-		$contenu = "id_hobbit;prenom_hobbit;nom_hobbit;niveau_hobbit;";
-		$contenu .= "nb_ko_hobbit;nb_hobbit_ko_hobbit;nb_plaque_hobbit;nb_hobbit_plaquage_hobbit;";
-		$contenu .= "nb_monstre_kill_hobbit;id_fk_mere_hobbit;id_fk_pere_hobbit;id_fk_communaute_hobbit;";
-		$contenu .= "id_fk_rang_communaute_hobbit;url_blason_hobbit;url_avatar_hobbit;est_pnj_hobbit";
+		$contenu = "id_braldun;prenom_braldun;nom_braldun;niveau_braldun;";
+		$contenu .= "nb_ko_braldun;nb_braldun_ko_braldun;nb_plaque_braldun;nb_braldun_plaquage_braldun;";
+		$contenu .= "nb_monstre_kill_braldun;id_fk_mere_braldun;id_fk_pere_braldun;id_fk_communaute_braldun;";
+		$contenu .= "id_fk_rang_communaute_braldun;url_blason_braldun;url_avatar_braldun;est_pnj_braldun";
 
 		$contenu .= PHP_EOL;
 
-		if (count($hobbits) > 0) {
-			foreach ($hobbits as $h) {
-				$contenu .= $h["id_hobbit"].';';
-				$contenu .= $h["prenom_hobbit"].';';
-				$contenu .= $h["nom_hobbit"].';';
-				$contenu .= $h["niveau_hobbit"].';';
-				$contenu .= $h["nb_ko_hobbit"].';';
-				$contenu .= $h["nb_hobbit_ko_hobbit"].';';
-				$contenu .= $h["nb_plaque_hobbit"].';';
-				$contenu .= $h["nb_hobbit_plaquage_hobbit"].';';
-				$contenu .= $h["nb_monstre_kill_hobbit"].';';
-				$contenu .= $h["id_fk_mere_hobbit"].';';
-				$contenu .= $h["id_fk_pere_hobbit"].';';
-				$contenu .= $h["id_fk_communaute_hobbit"].';';
-				$contenu .= $h["id_fk_rang_communaute_hobbit"].';';
-				$contenu .= $h["url_blason_hobbit"].';';
-				$contenu .= $h["url_avatar_hobbit"].';';
-				$contenu .= $h["est_pnj_hobbit"];
+		if (count($bralduns) > 0) {
+			foreach ($bralduns as $h) {
+				$contenu .= $h["id_braldun"].';';
+				$contenu .= $h["prenom_braldun"].';';
+				$contenu .= $h["nom_braldun"].';';
+				$contenu .= $h["niveau_braldun"].';';
+				$contenu .= $h["nb_ko_braldun"].';';
+				$contenu .= $h["nb_braldun_ko_braldun"].';';
+				$contenu .= $h["nb_plaque_braldun"].';';
+				$contenu .= $h["nb_braldun_plaquage_braldun"].';';
+				$contenu .= $h["nb_monstre_kill_braldun"].';';
+				$contenu .= $h["id_fk_mere_braldun"].';';
+				$contenu .= $h["id_fk_pere_braldun"].';';
+				$contenu .= $h["id_fk_communaute_braldun"].';';
+				$contenu .= $h["id_fk_rang_communaute_braldun"].';';
+				$contenu .= $h["url_blason_braldun"].';';
+				$contenu .= $h["url_avatar_braldun"].';';
+				$contenu .= $h["est_pnj_braldun"];
 
 				$contenu .= PHP_EOL;
 			}
 		}
 
-		Bral_Util_Fichier::ecrire($this->config->fichier->liste_hobbits, $contenu);
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_bralduns, $contenu);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierHobbits - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierBralduns - exit -");
 		return $retour;
 	}
 
@@ -81,14 +81,14 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$communauteTable = new Communaute();
 		$communautes = $communauteTable->findAll();
 
-		$contenu = "id_communaute;nom_communaute;id_fk_hobbit_gestionnaire_communaute;site_web_communaute";
+		$contenu = "id_communaute;nom_communaute;id_fk_braldun_gestionnaire_communaute;site_web_communaute";
 		$contenu .= PHP_EOL;
 
 		if (count($communautes) > 0) {
 			foreach ($communautes as $c) {
 				$contenu .= $c["id_communaute"].';';
 				$contenu .= $c["nom_communaute"].';';
-				$contenu .= $c["id_fk_hobbit_gestionnaire_communaute"].';';
+				$contenu .= $c["id_fk_braldun_gestionnaire_communaute"].';';
 				$contenu .= $c["site_web_communaute"];
 				$contenu .= PHP_EOL;
 			}

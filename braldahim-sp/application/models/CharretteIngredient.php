@@ -12,7 +12,7 @@
  */
 class CharretteIngredient extends Zend_Db_Table {
 	protected $_name = 'charrette_ingredient';
-	protected $_primary = array('id_fk_hobbit_charrette_ingredient', 'id_fk_type_charrette_ingredient');
+	protected $_primary = array('id_fk_braldun_charrette_ingredient', 'id_fk_type_charrette_ingredient');
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();

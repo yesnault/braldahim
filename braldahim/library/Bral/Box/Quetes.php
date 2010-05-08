@@ -45,7 +45,7 @@ class Bral_Box_Quetes extends Bral_Box_Box {
 
 		Zend_Loader::loadClass("Quete");
 		$queteTable = new Quete();
-		$quetes = $queteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$quetes = $queteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$idQueteEnCours = -1;
 

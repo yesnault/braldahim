@@ -19,12 +19,12 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
 
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$this->hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$this->braldun = $braldunRowset->current();
 
 		$this->nomsTour = Zend_Registry::get('nomsTour');
-		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_hobbit];
+		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_braldun];
 		$this->calculInfoTour();
 	}
 
@@ -42,16 +42,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 	function render() {
 		$paginator = null;
-		$this->view->messages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $paginator, null, 1, 5, true);
+		$this->view->messages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_braldun, $paginator, null, 1, 5, true);
 		Zend_Loader::loadClass("Message");
 		$messageTable = new Message();
-		$this->view->nbMessagesNonLus = $messageTable->countByToIdNotRead($this->view->user->id_hobbit);
-		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_hobbit];
+		$this->view->nbMessagesNonLus = $messageTable->countByToIdNotRead($this->view->user->id_braldun);
+		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_braldun];
 		return $this->view->render("interface/tour.phtml");
 	}
 
 	public function modificationTour() {
-		Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - enter - user=".$this->view->user->id_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - enter - user=".$this->view->user->id_braldun);
 
 		$this->is_update_tour = false;
 		$this->is_nouveau_tour = false;
@@ -69,7 +69,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
 			$this->calculDLA();
 
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_latence;
 			$this->is_update_tour = true;
 		}
 
@@ -78,63 +78,63 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		 * directement en position de cumul
 		 */
 
-		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$this->hobbit->date_fin_latence_hobbit);
-		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$this->hobbit->date_debut_cumul_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$this->braldun->date_fin_latence_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$this->braldun->date_debut_cumul_braldun);
 		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->hobbit->date_fin_tour_hobbit);
-		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->hobbit->tour_position_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->braldun->date_fin_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->braldun->tour_position_braldun);
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
-		if ($this->hobbit->est_ko_hobbit == "oui") {
-			Bral_Util_Log::tour()->debug(get_class($this)." KO du hobbit");
+		if ($this->braldun->est_ko_braldun == "oui") {
+			Bral_Util_Log::tour()->debug(get_class($this)." KO du braldun");
 			$mdate = date("Y-m-d H:i:s");
-			$this->hobbit->date_debut_cumul_hobbit = $mdate;
-			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
-			$this->hobbit->date_debut_tour_hobbit = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
-			$this->hobbit->date_fin_latence_hobbit = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu);
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
+			$this->braldun->date_debut_cumul_braldun = $mdate;
+			$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
+			$this->braldun->date_debut_tour_braldun = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
+			$this->braldun->date_fin_latence_braldun = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu);
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_cumul;
 			$this->is_update_tour = true;
-			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
-		} else if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
+			$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
+		} else if ($date_courante > $this->braldun->date_fin_tour_braldun) { // Perte d'un tour
 			Bral_Util_Log::tour()->debug(get_class($this)." Perte d'un tour");
-			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
-			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
-			$this->hobbit->est_engage_next_dla_hobbit = "non";
-			$this->hobbit->est_engage_hobbit = "non";
+			$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_cumul;
+			$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
+			$this->braldun->est_engage_next_dla_braldun = "non";
+			$this->braldun->est_engage_braldun = "non";
 			$this->is_tour_manque  = true;
 			$this->is_update_tour = true;
-		} elseif(($date_courante < $this->hobbit->date_fin_latence_hobbit) // Latence
+		} elseif(($date_courante < $this->braldun->date_fin_latence_braldun) // Latence
 		&& $this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Latence Tour");
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
-			$this->hobbit->pa_hobbit = 0;
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_latence;
+			$this->braldun->pa_braldun = 0;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $this->hobbit->date_fin_latence_hobbit && $date_courante < $this->hobbit->date_debut_cumul_hobbit) // Milieu
-		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_milieu))
+		} elseif(($date_courante >= $this->braldun->date_fin_latence_braldun && $date_courante < $this->braldun->date_debut_cumul_braldun) // Milieu
+		&& ( (!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_milieu))
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Milieu Tour");
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_milieu;
-			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_milieu;
+			$this->braldun->pa_braldun = $this->view->config->game->pa_max;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $this->hobbit->date_debut_cumul_hobbit && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
-		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
+		} elseif(($date_courante >= $this->braldun->date_debut_cumul_braldun && $date_courante < $this->braldun->date_fin_tour_braldun)  // Cumul
+		&& ( (!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
 			// Si le joueur a deja  eu des PA
-			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu && !$this->is_nouveau_tour) {
+			if ($this->braldun->tour_position_braldun == $this->view->config->game->tour->position_milieu && !$this->is_nouveau_tour) {
 				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur a deja eu des PA");
-				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
+				$this->braldun->pa_braldun = $this->braldun->pa_braldun + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour
 				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur n'a pas encore eu de PA");
-				$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
+				$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
 			}
-			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
+			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_cumul;
 			$this->is_update_tour = true;
 		}
 
-		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_ko_hobbit == "oui")) {
+		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->braldun->est_ko_braldun == "oui")) {
 			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - true");
 			return true;
 		} else {
@@ -152,7 +152,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 
 		$this->view->effetPotion = false;
-		$this->view->effetHobbit = false;
+		$this->view->effetBraldun = false;
 
 		$this->view->effetMotB = false;
 		$this->view->effetMotE = false;
@@ -180,86 +180,86 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		// Ensuite, on les recalcule suivant l'equipement porte et les potions en cours
 		if ($this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_nouveau_tour - true");
-			$this->hobbit->force_bm_hobbit = 0;
-			$this->hobbit->agilite_bm_hobbit = 0;
-			$this->hobbit->vigueur_bm_hobbit = 0;
-			$this->hobbit->sagesse_bm_hobbit = 0;
-			$this->hobbit->vue_bm_hobbit = 0;
-			$this->hobbit->regeneration_hobbit = 0;
-			$this->hobbit->armure_naturelle_hobbit = 0;
-			$this->hobbit->armure_equipement_hobbit = 0;
-			$this->hobbit->armure_bm_hobbit = 0;
-			$this->hobbit->pv_max_bm_hobbit = 0;
-			$this->hobbit->bm_attaque_hobbit = 0;
-			$this->hobbit->bm_degat_hobbit = 0;
-			$this->hobbit->bm_defense_hobbit = 0;
-			$this->hobbit->duree_bm_tour_hobbit = 0;
-			$this->hobbit->bm_marcher_hobbit = 0;
+			$this->braldun->force_bm_braldun = 0;
+			$this->braldun->agilite_bm_braldun = 0;
+			$this->braldun->vigueur_bm_braldun = 0;
+			$this->braldun->sagesse_bm_braldun = 0;
+			$this->braldun->vue_bm_braldun = 0;
+			$this->braldun->regeneration_braldun = 0;
+			$this->braldun->armure_naturelle_braldun = 0;
+			$this->braldun->armure_equipement_braldun = 0;
+			$this->braldun->armure_bm_braldun = 0;
+			$this->braldun->pv_max_bm_braldun = 0;
+			$this->braldun->bm_attaque_braldun = 0;
+			$this->braldun->bm_degat_braldun = 0;
+			$this->braldun->bm_defense_braldun = 0;
+			$this->braldun->duree_bm_tour_braldun = 0;
+			$this->braldun->bm_marcher_braldun = 0;
 			
 			// Nouvelle DLA
-			$this->hobbit->nb_dla_jouees_hobbit = $this->hobbit->nb_dla_jouees_hobbit + 1;
+			$this->braldun->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun + 1;
 			 
 			// Recalcul de l'armure naturelle
-			$this->hobbit->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->hobbit->force_base_hobbit, $this->hobbit->vigueur_base_hobbit);
+			$this->braldun->armure_naturelle_braldun = Bral_Util_Commun::calculArmureNaturelle($this->braldun->force_base_braldun, $this->braldun->vigueur_base_braldun);
 
 			/* Application du malus de vue. */
-			$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_malus_hobbit;
+			$this->braldun->vue_bm_braldun = $this->braldun->vue_malus_braldun;
 			/* Remise a  zero du malus de vue. */
-			$this->hobbit->vue_malus_hobbit = 0;
+			$this->braldun->vue_malus_braldun = 0;
 
 			/* Application du malus d'agilite. */
-			$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_malus_hobbit;
+			$this->braldun->agilite_bm_braldun = $this->braldun->agilite_malus_braldun;
 			/* Remise a  zero du malus d'agilite. */
-			$this->hobbit->agilite_malus_hobbit = 0;
+			$this->braldun->agilite_malus_braldun = 0;
 
 			// Calcul du poids transportable. // c'est aussi mis a  jour dans l'eujimnasiumne
 			Zend_Loader::loadClass("Bral_Util_Poids");
-			$this->hobbit->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->hobbit->force_base_hobbit);
-			$this->hobbit->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->hobbit->id_hobbit, $this->hobbit->castars_hobbit);
+			$this->braldun->poids_transportable_braldun = Bral_Util_Poids::calculPoidsTransportable($this->braldun->force_base_braldun);
+			$this->braldun->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->braldun->id_braldun, $this->braldun->castars_braldun);
 
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
 			$this->calculBMEffet();
 
 			// Mise a  jour de la regeneration // c'est aussi mis a  jour dans l'eujimnasiumne
-			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
+			$this->braldun->regeneration_braldun = floor($this->braldun->vigueur_base_braldun / 4) + 1;
 
 			// calcul des pvs restants avec la regeneration
-			$this->hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit);
+			$this->braldun->pv_max_braldun = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->braldun->vigueur_base_braldun);
 
-			$this->hobbit->est_engage_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
-			$this->hobbit->est_engage_next_dla_hobbit = 'non';
+			$this->braldun->est_engage_braldun = $this->braldun->est_engage_next_dla_braldun;
+			$this->braldun->est_engage_next_dla_braldun = 'non';
 
-			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_hobbit);
+			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_braldun);
 			if ($effetMotE != null) {
 				Bral_Util_Log::tour()->trace(get_class($this)." activer - effetMotE Actif - effetMotE=".$effetMotE);
 				$this->view->effetMotE = true;
-				$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit - $effetMotE;
+				$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun - $effetMotE;
 			}
 
-			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
+			if ($this->braldun->pv_restant_braldun > $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun) {
+				$this->braldun->pv_restant_braldun = $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun;
 			}
 
 			$this->calculPv();
 
 			if ($this->est_ko == false) {
-				$this->hobbit->est_intangible_hobbit = "non";
+				$this->braldun->est_intangible_braldun = "non";
 			}
 
 			Zend_Loader::loadClass("Bral_Util_Faim");
-			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
+			Bral_Util_Faim::calculBalanceFaim($this->braldun);
 			Zend_Loader :: loadClass("Bral_Util_Tour");
-			Bral_Util_Tour::updateTourTabac($this->hobbit);
+			Bral_Util_Tour::updateTourTabac($this->braldun);
 
 			Zend_Loader::loadClass("Bral_Monstres_Util");
-			Bral_Monstres_Util::marqueAJouer($this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			Bral_Monstres_Util::marqueAJouer($this->braldun->x_braldun, $this->braldun->y_braldun);
 
 			Zend_Loader::loadClass("Bral_Util_Charrette");
-			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
-			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
 		}
 
 		if ($this->is_update_tour) {
@@ -288,10 +288,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	 */
 	private function calcul_debut_nouveau($date_courante) {
 		Bral_Util_Log::tour()->trace(get_class($this)." calcul_debut_nouveau - enter -");
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->braldun->date_fin_tour_braldun=".$this->braldun->date_fin_tour_braldun);
 		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_ko_hobbit=".$this->hobbit->est_ko_hobbit);
-		if ($this->hobbit->date_fin_tour_hobbit < $date_courante || $this->hobbit->est_ko_hobbit == 'oui') {
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->braldun->est_ko_braldun=".$this->braldun->est_ko_braldun);
+		if ($this->braldun->date_fin_tour_braldun < $date_courante || $this->braldun->est_ko_braldun == 'oui') {
 			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
 			return true;
 		} else {
@@ -302,48 +302,48 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 	private function calculKo() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - enter -");
-		$this->est_ko = ($this->hobbit->est_ko_hobbit == "oui");
+		$this->est_ko = ($this->braldun->est_ko_braldun == "oui");
 
 		if ($this->est_ko) {
 			Zend_Loader::loadClass('Lieu');
 			$this->is_update_tour = true;
 
 			// remise en vu
-			$this->hobbit->est_ko_hobbit = "non";
+			$this->braldun->est_ko_braldun = "non";
 
-			$this->hobbit->est_intangible_hobbit = "oui";
+			$this->braldun->est_intangible_braldun = "oui";
 
 			// perte des PX
-			if ($this->hobbit->est_soule_hobbit == "non") {
-				$this->hobbit->px_commun_hobbit = 0;
-				$this->hobbit->px_perso_hobbit = $this->hobbit->px_perso_hobbit - floor($this->hobbit->px_perso_hobbit / 3);
+			if ($this->braldun->est_soule_braldun == "non") {
+				$this->braldun->px_commun_braldun = 0;
+				$this->braldun->px_perso_braldun = $this->braldun->px_perso_braldun - floor($this->braldun->px_perso_braldun / 3);
 			}
 
 			// balance de faim
-			$this->hobbit->balance_faim_hobbit = 50;
+			$this->braldun->balance_faim_braldun = 50;
 
 			// points de vie
-			$this->hobbit->pv_restant_hobbit = floor(($this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit*$this->view->config->game->pv_max_coef) / 2);
+			$this->braldun->pv_restant_braldun = floor(($this->view->config->game->pv_base + $this->braldun->vigueur_base_braldun*$this->view->config->game->pv_max_coef) / 2);
 
 			// statut engage
-			$this->hobbit->est_engage_hobbit = "non";
-			$this->hobbit->est_engage_next_dla_hobbit = "non";
+			$this->braldun->est_engage_braldun = "non";
+			$this->braldun->est_engage_next_dla_braldun = "non";
 
 			$this->calculKoPosition();
 
-			Zend_Loader::loadClass("EffetPotionHobbit");
-			$effetPotionHobbitTable = new EffetPotionHobbit();
-			$where = "id_fk_hobbit_cible_effet_potion_hobbit = ".intval($this->hobbit->id_hobbit);
-			$effetPotionHobbitTable->delete($where);
+			Zend_Loader::loadClass("EffetPotionBraldun");
+			$effetPotionBraldunTable = new EffetPotionBraldun();
+			$where = "id_fk_braldun_cible_effet_potion_braldun = ".intval($this->braldun->id_braldun);
+			$effetPotionBraldunTable->delete($where);
 
-			Zend_Loader::loadClass("EffetHobbit");
-			$effetHobbitTable = new EffetHobbit();
-			$where = "id_fk_hobbit_cible_effet_hobbit = ".intval($this->hobbit->id_hobbit);
-			$effetHobbitTable->delete($where);
+			Zend_Loader::loadClass("EffetBraldun");
+			$effetBraldunTable = new EffetBraldun();
+			$where = "id_fk_braldun_cible_effet_braldun = ".intval($this->braldun->id_braldun);
+			$effetBraldunTable->delete($where);
 
-			Zend_Loader::loadClass("HobbitsCompetences");
-			$hobbitsCompetencesTable = new HobbitsCompetences();
-			$hobbitsCompetencesTable->annuleEffetsTabacByIdHobbit($this->hobbit->id_hobbit);
+			Zend_Loader::loadClass("BraldunsCompetences");
+			$braldunsCompetencesTable = new BraldunsCompetences();
+			$braldunsCompetencesTable->annuleEffetsTabacByIdBraldun($this->braldun->id_braldun);
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - exit -");
 	}
@@ -354,45 +354,45 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		
 		// recalcul de la position
 		$lieuTable = new Lieu();
-		if ($this->hobbit->est_soule_hobbit == "oui" && $this->hobbit->id_fk_soule_match_hobbit != null) { // match de Soule
+		if ($this->braldun->est_soule_braldun == "oui" && $this->braldun->id_fk_soule_match_braldun != null) { // match de Soule
 			Zend_Loader::loadClass("SouleMatch");
 			$souleMatchTable = new SouleMatch();
-			$rowset = $souleMatchTable->findByIdMatch($this->hobbit->id_fk_soule_match_hobbit);
+			$rowset = $souleMatchTable->findByIdMatch($this->braldun->id_fk_soule_match_braldun);
 			$match = $rowset[0];
 
 			$x = $match["x_min_soule_terrain"] + ($match["x_max_soule_terrain"] - $match["x_min_soule_terrain"]);
-			if ($this->hobbit->soule_camp_hobbit == "a") {
+			if ($this->braldun->soule_camp_braldun == "a") {
 				$y = $match["y_max_soule_terrain"];
 			} else {
 				$y = $match["y_min_soule_terrain"];
 			}
 
 			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $x, $y);
-		} elseif ($this->hobbit->est_donjon_hobbit == "oui") { // Donjon
-			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_POSTEDEGARDE, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
+		} elseif ($this->braldun->est_donjon_braldun == "oui") { // Donjon
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_POSTEDEGARDE, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
 			$lieuRowset[0]["z_lieu"] = $lieuRowset[0]["z_lieu"] - 1; // 1 case en dessous le poste de garde
 		} else {
-			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
 		}
-		$this->hobbit->x_hobbit = $lieuRowset[0]["x_lieu"];
-		$this->hobbit->y_hobbit = $lieuRowset[0]["y_lieu"];
-		$this->hobbit->z_hobbit = $lieuRowset[0]["z_lieu"];
+		$this->braldun->x_braldun = $lieuRowset[0]["x_lieu"];
+		$this->braldun->y_braldun = $lieuRowset[0]["y_lieu"];
+		$this->braldun->z_braldun = $lieuRowset[0]["z_lieu"];
 	}
 
 	private function calculBMEquipement() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - enter -");
-		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("EquipementBonus");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 
 		// on va chercher l'equipement porte et les runes
 		$tabEquipementPorte = null;
-		$hobbitEquipementTable = new HobbitEquipement();
-		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
-		unset($hobbitEquipementTable);
+		$braldunEquipementTable = new BraldunEquipement();
+		$equipementPorteRowset = $braldunEquipementTable->findByIdBraldun($this->view->user->id_braldun);
+		unset($braldunEquipementTable);
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $this->view->user->niveau_hobbit);
+		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $this->view->user->niveau_braldun);
 
 		if (count($tabEquipementPorte) > 0) {
 
@@ -408,21 +408,21 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			foreach ($tabEquipementPorte as $e) {
 				$idEquipements[] = $e["id_equipement"];
 
-				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force"];
-				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite"];
-				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur"];
-				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse"];
-				$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + $e["vue"];
-				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure"];
-				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["attaque"];
-				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["degat"];
-				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["defense"];
+				$this->braldun->force_bm_braldun = $this->braldun->force_bm_braldun + $e["force"];
+				$this->braldun->agilite_bm_braldun = $this->braldun->agilite_bm_braldun + $e["agilite"];
+				$this->braldun->vigueur_bm_braldun = $this->braldun->vigueur_bm_braldun + $e["vigueur"];
+				$this->braldun->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun + $e["sagesse"];
+				$this->braldun->vue_bm_braldun = $this->braldun->vue_bm_braldun + $e["vue"];
+				$this->braldun->armure_equipement_braldun = $this->braldun->armure_equipement_braldun + $e["armure"];
+				$this->braldun->bm_attaque_braldun = $this->braldun->bm_attaque_braldun + $e["attaque"];
+				$this->braldun->bm_degat_braldun = $this->braldun->bm_degat_braldun + $e["degat"];
+				$this->braldun->bm_defense_braldun = $this->braldun->bm_defense_braldun + $e["defense"];
 					
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
 					$this->view->effetMotB = true;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit);
-					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (3 * ($e["niveau"] + 1));
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau"]));
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->braldun->sagesse_bm_braldun".$this->braldun->sagesse_bm_braldun);
+					$this->braldun->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun + (3 * ($e["niveau"] + 1));
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->braldun->sagesse_bm_braldun".$this->braldun->sagesse_bm_braldun. " ajout de :".(2 * $e["niveau"]));
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
@@ -432,10 +432,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					} else { // negatif
 						$val = abs($e["attaque"]) / 2;
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_hobbit=".$val);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
-					$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $val;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - apres : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_braldun=".$val);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->braldun->bm_attaque_braldun".$this->braldun->bm_attaque_braldun);
+					$this->braldun->bm_attaque_braldun = $this->braldun->bm_attaque_braldun + $val;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - apres : this->braldun->bm_attaque_braldun".$this->braldun->bm_attaque_braldun);
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
@@ -445,22 +445,22 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					} else { // negatif
 						$val = abs($e["defense"]) / 2;
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_hobbit=".$val);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
-					$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $val;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - apres : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_braldun=".$val);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->braldun->bm_defense_braldun".$this->braldun->bm_defense_braldun);
+					$this->braldun->bm_defense_braldun = $this->braldun->bm_defense_braldun + $val;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - apres : this->braldun->bm_defense_braldun".$this->braldun->bm_defense_braldun);
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_n") {
 					$this->view->effetMotN = true;
 					$this->view->effetMotNPointsDegats = Bral_Util_De::getLanceDe6(4 * $e["niveau"]);
-					$this->view->ciblesEffetN = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $this->view->effetMotNPointsDegats, $this->view);
+					$this->view->ciblesEffetN = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->braldun, $this->view->effetMotNPointsDegats, $this->view);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotN actif - logs presents dans bral_attaque.log");
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_o") {
 					$this->view->effetMotO = true;
-					$this->view->ciblesEffetO = Bral_Util_Attaque::calculSoinCase($this->view->config, $this->hobbit, Bral_Util_De::getLanceDe6(4 * $e["niveau"]));
+					$this->view->ciblesEffetO = Bral_Util_Attaque::calculSoinCase($this->view->config, $this->braldun, Bral_Util_De::getLanceDe6(4 * $e["niveau"]));
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotO actif - logs presents dans bral_attaque.log");
 				}
 
@@ -468,25 +468,25 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					$this->view->effetMotU = true;
 					$this->view->effetMotUPointsDegats = Bral_Util_De::getLanceDe6(3 * $e["niveau"]);
 					$this->view->effetMotUNbPv = 0;
-					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $this->view->effetMotUPointsDegats, $this->view);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
+					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->braldun, $this->view->effetMotUPointsDegats, $this->view);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->braldun->pv_restant_braldun=".$this->braldun->pv_restant_braldun);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
 						$this->view->effetMotUNbPv = Bral_Util_De::getLanceDe6($ciblesEffetU["n_cible"] * $e["niveau"]);
 						
-						$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->effetMotUNbPv;
-						if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-							$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
+						$this->braldun->pv_restant_braldun = $this->braldun->pv_restant_braldun + $this->view->effetMotUNbPv;
+						if ($this->braldun->pv_restant_braldun > $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun) {
+							$this->braldun->pv_restant_braldun = $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun;
 						}
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - apres recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - apres recuperation pv this->braldun->pv_restant_braldun=".$this->braldun->pv_restant_braldun);
 					$this->view->ciblesEffetU = $ciblesEffetU;
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - logs presents dans bral_attaque.log");
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_v") {
 					$this->view->effetMotV = true;
-					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotV actif - this->hobbit->vue_bm_hobbit=".$this->hobbit->vue_bm_hobbit);
+					$this->braldun->vue_bm_braldun = $this->braldun->vue_bm_braldun + 2;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotV actif - this->braldun->vue_bm_braldun=".$this->braldun->vue_bm_braldun);
 				}
 
 			}
@@ -496,16 +496,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			if (count($equipementBonus) > 0) {
 				foreach($equipementBonus as $b) {
-					$this->hobbit->armure_equipement_hobbit = intval($this->hobbit->armure_equipement_hobbit + $b["armure_equipement_bonus"] + $b["vernis_bm_armure_equipement_bonus"]);
-					$this->hobbit->agilite_bm_hobbit = intval($this->hobbit->agilite_bm_hobbit + $b["agilite_equipement_bonus"] + $b["vernis_bm_agilite_equipement_bonus"]);
-					$this->hobbit->force_bm_hobbit = intval($this->hobbit->force_bm_hobbit + $b["force_equipement_bonus"] + $b["vernis_bm_force_equipement_bonus"]);
-					$this->hobbit->sagesse_bm_hobbit = intval($this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"]);
-					$this->hobbit->vigueur_bm_hobbit = intval($this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"]);
+					$this->braldun->armure_equipement_braldun = intval($this->braldun->armure_equipement_braldun + $b["armure_equipement_bonus"] + $b["vernis_bm_armure_equipement_bonus"]);
+					$this->braldun->agilite_bm_braldun = intval($this->braldun->agilite_bm_braldun + $b["agilite_equipement_bonus"] + $b["vernis_bm_agilite_equipement_bonus"]);
+					$this->braldun->force_bm_braldun = intval($this->braldun->force_bm_braldun + $b["force_equipement_bonus"] + $b["vernis_bm_force_equipement_bonus"]);
+					$this->braldun->sagesse_bm_braldun = intval($this->braldun->sagesse_bm_braldun + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"]);
+					$this->braldun->vigueur_bm_braldun = intval($this->braldun->vigueur_bm_braldun + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"]);
 
-					$this->hobbit->vue_bm_hobbit = intval($this->hobbit->vue_bm_hobbit + $b["vernis_bm_vue_equipement_bonus"]);
-					$this->hobbit->bm_attaque_hobbit = intval($this->hobbit->bm_attaque_hobbit + $b["vernis_bm_attaque_equipement_bonus"]);
-					$this->hobbit->bm_degat_hobbit = intval($this->hobbit->bm_degat_hobbit + $b["vernis_bm_degat_equipement_bonus"]);
-					$this->hobbit->bm_defense_hobbit = intval($this->hobbit->bm_defense_hobbit + $b["vernis_bm_defense_equipement_bonus"]);
+					$this->braldun->vue_bm_braldun = intval($this->braldun->vue_bm_braldun + $b["vernis_bm_vue_equipement_bonus"]);
+					$this->braldun->bm_attaque_braldun = intval($this->braldun->bm_attaque_braldun + $b["vernis_bm_attaque_equipement_bonus"]);
+					$this->braldun->bm_degat_braldun = intval($this->braldun->bm_degat_braldun + $b["vernis_bm_degat_equipement_bonus"]);
+					$this->braldun->bm_defense_braldun = intval($this->braldun->bm_defense_braldun + $b["vernis_bm_defense_equipement_bonus"]);
 				}
 			}
 
@@ -517,42 +517,42 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				foreach($equipementRunes as $r) {
 					if ($r["nom_type_rune"] == "KR") {
 						// KR Bonus de AGI = Niveau d'AGI/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - avant this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
-						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + floor($this->hobbit->agilite_base_hobbit / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - apres this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - avant this->braldun->agilite_bm_braldun=".$this->braldun->agilite_bm_braldun);
+						$this->braldun->agilite_bm_braldun = $this->braldun->agilite_bm_braldun + floor($this->braldun->agilite_base_braldun / 3);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - apres this->braldun->agilite_bm_braldun=".$this->braldun->agilite_bm_braldun);
 					} else if ($r["nom_type_rune"] == "ZE") {
 						// ZE Bonus de FOR = Niveau de FOR/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune ZE active - avant this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
-						$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + floor($this->hobbit->force_base_hobbit / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune ZE active - avant this->braldun->force_bm_braldun=".$this->braldun->force_bm_braldun);
+						$this->braldun->force_bm_braldun = $this->braldun->force_bm_braldun + floor($this->braldun->force_base_braldun / 3);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->braldun->force_bm_braldun=".$this->braldun->force_bm_braldun);
 					} else if ($r["nom_type_rune"] == "IL") {
 						// IL Reduit le tour de jeu de 10 minutes
-						$this->hobbit->duree_bm_tour_hobbit = $this->hobbit->duree_bm_tour_hobbit - 10;
+						$this->braldun->duree_bm_tour_braldun = $this->braldun->duree_bm_tour_braldun - 10;
 					} else if ($r["nom_type_rune"] == "MU") {
-						// MU PV + niveau du Hobbit/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
-						$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit + floor($this->hobbit->niveau_hobbit / 10) + 1;
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
+						// MU PV + niveau du Braldun/10 arrondi inferieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->braldun->pv_max_bm_braldun=".$this->braldun->pv_max_bm_braldun);
+						$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun + floor($this->braldun->niveau_braldun / 10) + 1;
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->braldun->pv_max_bm_braldun=".$this->braldun->pv_max_bm_braldun);
 					} else if ($r["nom_type_rune"] == "RE") {
-						// RE ARM NAT + Niveau du Hobbit/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
-						$this->hobbit->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit + floor($this->hobbit->niveau_hobbit / 10);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
+						// RE ARM NAT + Niveau du Braldun/10 arrondi inferieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=".$this->braldun->armure_naturelle_braldun);
+						$this->braldun->armure_naturelle_braldun = $this->braldun->armure_naturelle_braldun + floor($this->braldun->niveau_braldun / 10);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=".$this->braldun->armure_naturelle_braldun);
 					} else if ($r["nom_type_rune"] == "OG") {
 						// OG Bonus de VIG = Niveau de VIG/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
-						$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + floor($this->hobbit->vigueur_base_hobbit / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=".$this->braldun->vigueur_bm_braldun);
+						$this->braldun->vigueur_bm_braldun = $this->braldun->vigueur_bm_braldun + floor($this->braldun->vigueur_base_braldun / 3);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=".$this->braldun->vigueur_bm_braldun);
 					} else if ($r["nom_type_rune"] == "OX") {
-						// OX Poids maximum porte augmente de Niveau du Hobbit/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
-						$this->hobbit->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit + floor($this->hobbit->niveau_hobbit / 10);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
+						// OX Poids maximum porte augmente de Niveau du Braldun/10 arrondi inferieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=".$this->braldun->poids_transportable_braldun);
+						$this->braldun->poids_transportable_braldun = $this->braldun->poids_transportable_braldun + floor($this->braldun->niveau_braldun / 10);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=".$this->braldun->poids_transportable_braldun);
 					} else if ($r["nom_type_rune"] == "UP") {
 						// UP Bonus de SAG = Niveau de SAG/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
-						$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + floor($this->hobbit->sagesse_base_hobbit / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=".$this->braldun->sagesse_bm_braldun);
+						$this->braldun->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun + floor($this->braldun->sagesse_base_braldun / 3);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=".$this->braldun->sagesse_bm_braldun);
 					}
 				}
 				unset($equipementRunes);
@@ -565,7 +565,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	private function calculBMPotion() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - enter -");
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
-		$effetsPotions = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit, true);
+		$effetsPotions = Bral_Util_EffetsPotion::calculPotionBraldun($this->braldun, true);
 
 		if (count($effetsPotions) > 0) {
 			$this->view->effetPotion = true;
@@ -577,11 +577,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	private function calculBMEffet() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - enter -");
 		Zend_Loader::loadClass("Bral_Util_Effets");
-		$effetsHobbit = Bral_Util_Effets::calculEffetHobbit($this->hobbit, true);
+		$effetsBraldun = Bral_Util_Effets::calculEffetBraldun($this->braldun, true);
 
-		if (count($effetsHobbit) > 0) {
-			$this->view->effetHobbit = true;
-			$this->view->effetHobbitEffets = $effetsHobbit;
+		if (count($effetsBraldun) > 0) {
+			$this->view->effetBraldun = true;
+			$this->view->effetBraldunEffets = $effetsBraldun;
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - exit -");
 	}
@@ -589,10 +589,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	private function calculInfoTour() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
 		$info = "";
-		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
-			$info = "Fin latence &agrave; ".$this->hobbit->date_fin_latence_hobbit;
-		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
-			$info = "Cumul &agrave; ".$this->hobbit->date_debut_cumul_hobbit;
+		if ($this->view->user->tour_position_braldun == $this->view->config->game->tour->position_latence) {
+			$info = "Fin latence &agrave; ".$this->braldun->date_fin_latence_braldun;
+		} else if ($this->view->user->tour_position_braldun == $this->view->config->game->tour->position_milieu) {
+			$info = "Cumul &agrave; ".$this->braldun->date_debut_cumul_braldun;
 		}
 		$this->view->user->info_prochaine_position = $info;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
@@ -600,57 +600,57 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 	private function calculDLA() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - enter -");
-		$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
+		$this->braldun->duree_courant_tour_braldun = $this->braldun->duree_prochain_tour_braldun;
 		// Ajouter la prise en compte du niveau de sagesse
 		//Duree DLA (en minutes) = 1440 â€“ 10 * Niveau SAG
 
-		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_prochain_tour_braldun=".$this->braldun->duree_prochain_tour_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Tour");
-		$tabProchainTour = Bral_Util_Tour::getTabMinutesProchainTour($this->hobbit);
+		$tabProchainTour = Bral_Util_Tour::getTabMinutesProchainTour($this->braldun);
 		$minutesCourant = $tabProchainTour["minutesBase"];
 
 		Bral_Util_Log::tour()->debug(get_class($this)." minutesCourant=".$minutesCourant);
-		// Ajouter les blessures : pour chaque PV : Arrondi inf"rieur [duree DLA (+BM) / (4*max PV du Hobbit)].
+		// Ajouter les blessures : pour chaque PV : Arrondi inf"rieur [duree DLA (+BM) / (4*max PV du Braldun)].
 
 		$minutesAAjouter = 0;
-		if (($this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) - $this->hobbit->pv_restant_hobbit > 0) {
+		if (($this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun) - $this->braldun->pv_restant_braldun > 0) {
 			$minutesAAjouter = $tabProchainTour["minutesBlessures"];
 		}
 
 		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);
 
-		$this->hobbit->duree_courant_tour_hobbit = $tabProchainTour["heureMinuteTotal"];
-		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_courant_tour_hobbit=".$this->hobbit->duree_courant_tour_hobbit);
+		$this->braldun->duree_courant_tour_braldun = $tabProchainTour["heureMinuteTotal"];
+		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_courant_tour_braldun=".$this->braldun->duree_courant_tour_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Tour");
-		$this->hobbit->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeBaseProchainTour($this->hobbit, $this->view->config);
-		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);
+		$this->braldun->duree_prochain_tour_braldun = Bral_Util_Tour::getDureeBaseProchainTour($this->braldun, $this->view->config);
+		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_prochain_tour_braldun=".$this->braldun->duree_prochain_tour_braldun);
 
-		$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-		$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+		$this->braldun->date_debut_tour_braldun = $this->braldun->date_fin_tour_braldun;
+		$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_fin_tour_braldun, $this->braldun->duree_courant_tour_braldun);
 
-		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
-		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
+		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->braldun->duree_courant_tour_braldun, $this->view->config->game->tour->diviseur_latence);
+		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->braldun->duree_courant_tour_braldun, $this->view->config->game->tour->diviseur_cumul);
 
-		$this->hobbit->date_fin_latence_hobbit =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-		$this->hobbit->date_debut_cumul_hobbit =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
+		$this->braldun->date_fin_latence_braldun =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_latence);
+		$this->braldun->date_debut_cumul_braldun =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_cumul);
 
-		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->date_fin_tour_braldun=".$this->braldun->date_fin_tour_braldun);
 		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - exit -");
 	}
 
 	private function calculPv() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
-		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->hobbit->regeneration_malus_hobbit=".$this->hobbit->regeneration_malus_hobbit);
+		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->braldun->regeneration_malus_braldun=".$this->braldun->regeneration_malus_braldun);
 
 		$this->view->jetRegeneration = 0;
 
 		Zend_Loader::loadClass("Bral_Util_Vie");
-		Bral_Util_Vie::calculRegenerationHobbit(&$this->hobbit, $this->view->jetRegeneration);
+		Bral_Util_Vie::calculRegenerationBraldun(&$this->braldun, $this->view->jetRegeneration);
 
 		/* Remise a  zero du malus de regeneration. */
-		$this->hobbit->regeneration_malus_hobbit = 0;
+		$this->braldun->regeneration_malus_braldun = 0;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - exit -");
 	}
 
@@ -658,100 +658,100 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - enter -");
 
 		// Mise a jour du joueur dans la base de donnees
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->hobbit->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->braldun->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
-		$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
-		$this->view->user->z_hobbit  = $this->hobbit->z_hobbit;
+		$this->view->user->x_braldun = $this->braldun->x_braldun;
+		$this->view->user->y_braldun  = $this->braldun->y_braldun;
+		$this->view->user->z_braldun  = $this->braldun->z_braldun;
 
-		$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
-		$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-		$this->view->user->date_debut_cumul_hobbit = $this->hobbit->date_debut_cumul_hobbit;
-		$this->view->user->date_fin_latence_hobbit = $this->hobbit->date_fin_latence_hobbit;
-		$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
-		$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
-		$this->view->user->duree_bm_tour_hobbit = $this->hobbit->duree_bm_tour_hobbit;
-		$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
-		$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
-		$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
-		$this->view->user->est_ko_hobbit = $this->hobbit->est_ko_hobbit;
-		$this->view->user->px_commun_hobbit = $this->hobbit->px_commun_hobbit;
-		$this->view->user->px_perso_hobbit = $this->hobbit->px_perso_hobbit;
-		$this->view->user->pv_max_hobbit = $this->hobbit->pv_max_hobbit;
-		$this->view->user->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit;
-		$this->view->user->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit;
-		$this->view->user->balance_faim_hobbit = $this->hobbit->balance_faim_hobbit;
+		$this->view->user->date_debut_tour_braldun = $this->braldun->date_debut_tour_braldun;
+		$this->view->user->date_fin_tour_braldun = $this->braldun->date_fin_tour_braldun;
+		$this->view->user->date_debut_cumul_braldun = $this->braldun->date_debut_cumul_braldun;
+		$this->view->user->date_fin_latence_braldun = $this->braldun->date_fin_latence_braldun;
+		$this->view->user->duree_courant_tour_braldun = $this->braldun->duree_courant_tour_braldun;
+		$this->view->user->duree_prochain_tour_braldun = $this->braldun->duree_prochain_tour_braldun;
+		$this->view->user->duree_bm_tour_braldun = $this->braldun->duree_bm_tour_braldun;
+		$this->view->user->tour_position_braldun = $this->braldun->tour_position_braldun;
+		$this->view->user->pa_braldun = $this->braldun->pa_braldun;
+		$this->view->user->armure_naturelle_braldun = $this->braldun->armure_naturelle_braldun;
+		$this->view->user->est_ko_braldun = $this->braldun->est_ko_braldun;
+		$this->view->user->px_commun_braldun = $this->braldun->px_commun_braldun;
+		$this->view->user->px_perso_braldun = $this->braldun->px_perso_braldun;
+		$this->view->user->pv_max_braldun = $this->braldun->pv_max_braldun;
+		$this->view->user->pv_restant_braldun = $this->braldun->pv_restant_braldun;
+		$this->view->user->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun;
+		$this->view->user->balance_faim_braldun = $this->braldun->balance_faim_braldun;
 
-		$this->view->user->force_bm_hobbit = $this->hobbit->force_bm_hobbit;
-		$this->view->user->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit;
-		$this->view->user->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit;
-		$this->view->user->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit;
-		$this->view->user->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit;
-		$this->view->user->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit;
-		$this->view->user->poids_transporte_hobbit = $this->hobbit->poids_transporte_hobbit;
+		$this->view->user->force_bm_braldun = $this->braldun->force_bm_braldun;
+		$this->view->user->agilite_bm_braldun = $this->braldun->agilite_bm_braldun;
+		$this->view->user->vigueur_bm_braldun = $this->braldun->vigueur_bm_braldun;
+		$this->view->user->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun;
+		$this->view->user->vue_bm_braldun = $this->braldun->vue_bm_braldun;
+		$this->view->user->poids_transportable_braldun = $this->braldun->poids_transportable_braldun;
+		$this->view->user->poids_transporte_braldun = $this->braldun->poids_transporte_braldun;
 
-		$this->view->user->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit;
-		$this->view->user->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit;
-		$this->view->user->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit;
+		$this->view->user->bm_attaque_braldun = $this->braldun->bm_attaque_braldun;
+		$this->view->user->bm_degat_braldun = $this->braldun->bm_degat_braldun;
+		$this->view->user->bm_defense_braldun = $this->braldun->bm_defense_braldun;
 
-		$this->view->user->regeneration_malus_hobbit = $this->hobbit->regeneration_malus_hobbit;
+		$this->view->user->regeneration_malus_braldun = $this->braldun->regeneration_malus_braldun;
 
-		$this->view->user->est_engage_hobbit = $this->hobbit->est_engage_hobbit;
-		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
+		$this->view->user->est_engage_braldun = $this->braldun->est_engage_braldun;
+		$this->view->user->est_engage_next_dla_braldun = $this->braldun->est_engage_next_dla_braldun;
 
-		$this->view->user->est_intangible_hobbit = $this->hobbit->est_intangible_hobbit;
-		$this->view->user->nb_dla_jouees_hobbit = $this->hobbit->nb_dla_jouees_hobbit;
+		$this->view->user->est_intangible_braldun = $this->braldun->est_intangible_braldun;
+		$this->view->user->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun;
 		
 		$data = array(
-			'x_hobbit' => $this->hobbit->x_hobbit,
-			'y_hobbit'  => $this->hobbit->y_hobbit,
-			'z_hobbit'  => $this->hobbit->z_hobbit,
-			'date_debut_tour_hobbit' => $this->hobbit->date_debut_tour_hobbit,
-			'date_fin_tour_hobbit' => $this->hobbit->date_fin_tour_hobbit,
-			'date_fin_latence_hobbit' => $this->hobbit->date_fin_latence_hobbit,
-			'date_debut_cumul_hobbit' => $this->hobbit->date_debut_cumul_hobbit,
-			'duree_courant_tour_hobbit' => $this->hobbit->duree_courant_tour_hobbit,
-			'duree_prochain_tour_hobbit' => $this->hobbit->duree_prochain_tour_hobbit,
-			'duree_bm_tour_hobbit' => $this->hobbit->duree_bm_tour_hobbit,
-			'tour_position_hobbit' => $this->hobbit->tour_position_hobbit,
-			'pa_hobbit' => $this->hobbit->pa_hobbit,
-			'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
-			'armure_equipement_hobbit' => $this->hobbit->armure_equipement_hobbit,
-			'armure_bm_hobbit' => $this->hobbit->armure_bm_hobbit,
-			'est_ko_hobbit' => $this->hobbit->est_ko_hobbit,
-			'px_commun_hobbit' => $this->hobbit->px_commun_hobbit,
-			'px_perso_hobbit' => $this->hobbit->px_perso_hobbit,
-			'pv_max_hobbit' => $this->hobbit->pv_max_hobbit,
-			'pv_restant_hobbit' => $this->hobbit->pv_restant_hobbit,
-			'pv_max_bm_hobbit' => $this->hobbit->pv_max_bm_hobbit,
-			'balance_faim_hobbit' => $this->hobbit->balance_faim_hobbit,
-			'force_bm_hobbit' => $this->hobbit->force_bm_hobbit,
-			'force_bbdf_hobbit' => $this->hobbit->force_bbdf_hobbit,
-			'agilite_bm_hobbit' => $this->hobbit->agilite_bm_hobbit,
-			'agilite_bbdf_hobbit' => $this->hobbit->agilite_bbdf_hobbit,
-			'vigueur_bm_hobbit' => $this->hobbit->vigueur_bm_hobbit,
-			'vigueur_bbdf_hobbit' => $this->hobbit->vigueur_bbdf_hobbit,
-			'sagesse_bm_hobbit' => $this->hobbit->sagesse_bm_hobbit,
-			'sagesse_bbdf_hobbit' => $this->hobbit->sagesse_bbdf_hobbit,
-			'vue_bm_hobbit' => $this->hobbit->vue_bm_hobbit,
-			'poids_transportable_hobbit' => $this->hobbit->poids_transportable_hobbit,
-			'poids_transporte_hobbit' => $this->hobbit->poids_transporte_hobbit,
-			'regeneration_hobbit' => $this->hobbit->regeneration_hobbit,
-			'regeneration_malus_hobbit' => $this->hobbit->regeneration_malus_hobbit,
-			'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
-			'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
-			'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
-			'bm_marcher_hobbit' => $this->hobbit->bm_marcher_hobbit,
-			'est_engage_hobbit' => $this->hobbit->est_engage_hobbit,
-			'est_engage_next_dla_hobbit' => $this->hobbit->est_engage_next_dla_hobbit,
-			'est_intangible_hobbit' => $this->hobbit->est_intangible_hobbit,
-			'nb_dla_jouees_hobbit' => $this->hobbit->nb_dla_jouees_hobbit,
+			'x_braldun' => $this->braldun->x_braldun,
+			'y_braldun'  => $this->braldun->y_braldun,
+			'z_braldun'  => $this->braldun->z_braldun,
+			'date_debut_tour_braldun' => $this->braldun->date_debut_tour_braldun,
+			'date_fin_tour_braldun' => $this->braldun->date_fin_tour_braldun,
+			'date_fin_latence_braldun' => $this->braldun->date_fin_latence_braldun,
+			'date_debut_cumul_braldun' => $this->braldun->date_debut_cumul_braldun,
+			'duree_courant_tour_braldun' => $this->braldun->duree_courant_tour_braldun,
+			'duree_prochain_tour_braldun' => $this->braldun->duree_prochain_tour_braldun,
+			'duree_bm_tour_braldun' => $this->braldun->duree_bm_tour_braldun,
+			'tour_position_braldun' => $this->braldun->tour_position_braldun,
+			'pa_braldun' => $this->braldun->pa_braldun,
+			'armure_naturelle_braldun' => $this->braldun->armure_naturelle_braldun,
+			'armure_equipement_braldun' => $this->braldun->armure_equipement_braldun,
+			'armure_bm_braldun' => $this->braldun->armure_bm_braldun,
+			'est_ko_braldun' => $this->braldun->est_ko_braldun,
+			'px_commun_braldun' => $this->braldun->px_commun_braldun,
+			'px_perso_braldun' => $this->braldun->px_perso_braldun,
+			'pv_max_braldun' => $this->braldun->pv_max_braldun,
+			'pv_restant_braldun' => $this->braldun->pv_restant_braldun,
+			'pv_max_bm_braldun' => $this->braldun->pv_max_bm_braldun,
+			'balance_faim_braldun' => $this->braldun->balance_faim_braldun,
+			'force_bm_braldun' => $this->braldun->force_bm_braldun,
+			'force_bbdf_braldun' => $this->braldun->force_bbdf_braldun,
+			'agilite_bm_braldun' => $this->braldun->agilite_bm_braldun,
+			'agilite_bbdf_braldun' => $this->braldun->agilite_bbdf_braldun,
+			'vigueur_bm_braldun' => $this->braldun->vigueur_bm_braldun,
+			'vigueur_bbdf_braldun' => $this->braldun->vigueur_bbdf_braldun,
+			'sagesse_bm_braldun' => $this->braldun->sagesse_bm_braldun,
+			'sagesse_bbdf_braldun' => $this->braldun->sagesse_bbdf_braldun,
+			'vue_bm_braldun' => $this->braldun->vue_bm_braldun,
+			'poids_transportable_braldun' => $this->braldun->poids_transportable_braldun,
+			'poids_transporte_braldun' => $this->braldun->poids_transporte_braldun,
+			'regeneration_braldun' => $this->braldun->regeneration_braldun,
+			'regeneration_malus_braldun' => $this->braldun->regeneration_malus_braldun,
+			'bm_attaque_braldun' => $this->braldun->bm_attaque_braldun,
+			'bm_degat_braldun' => $this->braldun->bm_degat_braldun,
+			'bm_defense_braldun' => $this->braldun->bm_defense_braldun,
+			'bm_marcher_braldun' => $this->braldun->bm_marcher_braldun,
+			'est_engage_braldun' => $this->braldun->est_engage_braldun,
+			'est_engage_next_dla_braldun' => $this->braldun->est_engage_next_dla_braldun,
+			'est_intangible_braldun' => $this->braldun->est_intangible_braldun,
+			'nb_dla_jouees_braldun' => $this->braldun->nb_dla_jouees_braldun,
 		);
-		$where = "id_hobbit=".$this->hobbit->id_hobbit;
-		$hobbitTable->update($data, $where);
-		Bral_Util_Log::tour()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
+		$where = "id_braldun=".$this->braldun->id_braldun;
+		$braldunTable->update($data, $where);
+		Bral_Util_Log::tour()->debug(get_class($this)." activer() - update braldun ".$this->braldun->id_braldun." en base");
 		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - exit -");
 	}
 }

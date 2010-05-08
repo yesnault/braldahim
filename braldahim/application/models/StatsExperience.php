@@ -18,7 +18,7 @@ class StatsExperience extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_experience', 'count(*) as nombre, nb_px_perso_gagnes_stats_experience as quantitePxPerso, nb_px_commun_gagnes_stats_experience as quantitePxCommun')
-		->where('niveau_hobbit_stats_experience = '.$data["niveau_hobbit_stats_experience"].' AND id_fk_hobbit_stats_experience = '.$data["id_fk_hobbit_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'')
+		->where('niveau_braldun_stats_experience = '.$data["niveau_braldun_stats_experience"].' AND id_fk_braldun_stats_experience = '.$data["id_fk_braldun_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'')
 		->group(array('quantitePxPerso', 'quantitePxCommun'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -54,7 +54,7 @@ class StatsExperience extends Zend_Db_Table {
 				}
 			}
 			
-			$where = 'niveau_hobbit_stats_experience = '.$data["niveau_hobbit_stats_experience"].' AND id_fk_hobbit_stats_experience = '.$data["id_fk_hobbit_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'';
+			$where = 'niveau_braldun_stats_experience = '.$data["niveau_braldun_stats_experience"].' AND id_fk_braldun_stats_experience = '.$data["id_fk_braldun_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'';
 			$this->update($dataUpdate, $where);
 		}
 	}

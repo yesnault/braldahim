@@ -20,11 +20,11 @@ class Bral_Monstres_Competences_Crachatacide extends Bral_Monstres_Competences_A
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], -1, false);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], -1, false);
 
-		if ($hobbits != null) {
-			foreach($hobbits as $h) {
+		if ($bralduns != null) {
+			foreach($bralduns as $h) {
 				$malus = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
 				$malus = floor(($malus + $this->monstre["vigueur_bm_monstre"]) / 2);
 
@@ -37,15 +37,15 @@ class Bral_Monstres_Competences_Crachatacide extends Bral_Monstres_Competences_A
 				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
 				$jetMonstre = $jetMonstre + $this->monstre["vigueur_bm_monstre"];
 
-				$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $h["vigueur_base_hobbit"]);
-				$jetHobbit = $jetHobbit + $h["vigueur_bm_hobbit"] + $h["vigueur_bbdf_hobbit"];
+				$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $h["vigueur_base_braldun"]);
+				$jetBraldun = $jetBraldun + $h["vigueur_bm_braldun"] + $h["vigueur_bbdf_braldun"];
 
-				if ($jetHobbit > $jetMonstre) {
+				if ($jetBraldun > $jetMonstre) {
 					$malus = floor($malus / 2);
 				}
 
-				Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($h["id_hobbit"], Bral_Util_Effets::CARACT_ARMURE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Crachat Acide');
-				$this->majEvenement($h, $malus, $nbTours, $jetMonstre, $jetHobbit);
+				Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($h["id_braldun"], Bral_Util_Effets::CARACT_ARMURE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Crachat Acide');
+				$this->majEvenement($h, $malus, $nbTours, $jetMonstre, $jetBraldun);
 			}
 		}
 
@@ -53,22 +53,22 @@ class Bral_Monstres_Competences_Crachatacide extends Bral_Monstres_Competences_A
 		return null;
 	}
 
-	private function majEvenement($hobbit, $malus, $nbTours, $jetMonstre, $jetHobbit) {
+	private function majEvenement($braldun, $malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] crache de l'acide sur le hobbit [h".$hobbit["id_hobbit"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
+		$details = "[m".$this->monstre["id_monstre"]."] crache de l'acide sur le braldun [h".$braldun["id_braldun"]."]";
+		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit) {
+	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous crache de l'acidité :";
 		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet de vigueur) : ".$jetHobbit;
-		if ($jetHobbit > $jetMonstre) {
+		$retour .= PHP_EOL."Jet de résistance (jet de vigueur) : ".$jetBraldun;
+		if ($jetBraldun > $jetMonstre) {
 			$retour .= PHP_EOL."Vous avez résisté au crachat, le malus est divisé par 2.";
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté au crachat.";

@@ -5,7 +5,7 @@
 		<? if ($this->proche === true): ?>
 			Le filon le plus proche se situe en : 
 			X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br />
-			<? if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) : ?>
+			<? if (($this->user->y_braldun == $this->filon["y_filon"]) && ($this->user->x_braldun == $this->filon["x_filon"])) : ?>
 				Vous &ecirc;tes sur le filon !
 			<? else: ?>
 				 en direction
@@ -13,21 +13,21 @@
 		<? elseif ($this->proche === false): ?>
 			Le filon le plus proche se situe en direction <br />
 		<? endif; ?>
-		<? if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+		<? if ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
 		du Nord
-		<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		du Nord Est
-		<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		du Nord Ouest
-		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
 		du Sud 
-		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		du Sud Est		
-		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		du Sud Ouest
-		<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		de l'Est
-		<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		<? elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		de l'Ouest
 		<? endif; ?>
 	<? else: ?>

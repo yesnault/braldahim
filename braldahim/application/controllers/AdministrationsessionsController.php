@@ -38,8 +38,8 @@ class AdministrationsessionsController extends Zend_Controller_Action {
 		$sessions = null;
 		foreach($sessionsRowset as $s) {
 			$sessions[] = array(
-				"nom" => $s["prenom_hobbit"]. " ".$s["nom_hobbit"],
-				"id_fk_hobbit_session" => $s["id_fk_hobbit_session"],
+				"nom" => $s["prenom_braldun"]. " ".$s["nom_braldun"],
+				"id_fk_braldun_session" => $s["id_fk_braldun_session"],
 				"id_php_session" => $s["id_php_session"],
 				"ip_session" => $s["ip_session"],
 				"date_derniere_action_session" => $s["date_derniere_action_session"],

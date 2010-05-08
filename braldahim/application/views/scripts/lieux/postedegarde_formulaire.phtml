@@ -12,13 +12,13 @@
  		Vous ne pouvez pas entrer dans le Donjon en étant inscrit à un match de Soule.
  	<? elseif ($this->nouvelleEquipePossible === true) : ?>
  		
- 		<? if ($this->inscriptionParHobbitNouvelleEquipePossible === true):?>
+ 		<? if ($this->inscriptionParBraldunNouvelleEquipePossible === true):?>
 	 		Vous êtes Bourlingueur de cette Comté. Félicitations !<br>
 	 		Vous pouvez inscrire une équipe pour entrer dans ce Donjon. <br><br>
 	 		Vous devez choisir 8 coéquipiers, également Bourlingueurs de cette Comté.<br><br>
-	 		Saisissez un prénom de hobbit ci-dessous. Attention, les hobbits qui ne sont pas 
+	 		Saisissez un prénom de braldun ci-dessous. Attention, les bralduns qui ne sont pas 
 	 		Bourlingueurs de cette Comté ne seront pas retournés par la recherche, ainsi que
-	 		les hobbits inscrits à un match de soule.<br>
+	 		les bralduns inscrits à un match de soule.<br>
 	 		De plus, vous êtes directement inclus dans l'équipe, ne prenez donc pas la peine
 	 		de vous rechercher, vous n'apparaitrez pas dans la recherche également.<br><br>
  		<? else:?>
@@ -69,7 +69,7 @@
 		<input type="hidden" name="valeur_1" id="valeur_1" value="" />
 		
 		<? if ($this->nouvelleEquipePossible === true && 
-		   	   $this->inscriptionParHobbitNouvelleEquipePossible === true) : ?>
+		   	   $this->inscriptionParBraldunNouvelleEquipePossible === true) : ?>
  		
  			<div id='aff_valeur_1_coequiper' name='aff_valeur_1_coequiper'></div>
 			<input type="hidden" name="valeur_1_coequiper" id="valeur_1_coequiper" value=""/>

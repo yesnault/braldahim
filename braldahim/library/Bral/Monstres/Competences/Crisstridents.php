@@ -28,18 +28,18 @@ class Bral_Monstres_Competences_Crisstridents extends Bral_Monstres_Competences_
 		$y_max = $this->monstre["y_monstre"];
 		$z = $this->monstre["z_monstre"];
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $z, -1, false);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z, -1, false);
 
 		$koCible = false;
 
-		if ($hobbits != null) {
-			foreach($hobbits as $h) {
+		if ($bralduns != null) {
+			foreach($bralduns as $h) {
 				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_sagesse + $this->monstre["sagesse_base_monstre"]);
 				$jetMonstre = $jetMonstre + $this->monstre["sagesse_bm_monstre"];
 
-				$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_sagesse + $this->cible["sagesse_base_hobbit"]);
-				$jetHobbit = $jetHobbit + $this->cible["sagesse_bm_hobbit"] + $this->cible["sagesse_bbdf_hobbit"];
+				$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_sagesse + $this->cible["sagesse_base_braldun"]);
+				$jetBraldun = $jetBraldun + $this->cible["sagesse_bm_braldun"] + $this->cible["sagesse_bbdf_braldun"];
 
 				$malus = $this->monstre["niveau_monstre"] / 2 + Bral_Util_De::get_1d10();
 				if ($malus <= 0) {
@@ -48,12 +48,12 @@ class Bral_Monstres_Competences_Crisstridents extends Bral_Monstres_Competences_
 				
 				$nbTours = 1;
 
-				Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_DUREE_TOUR, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Cris stridents');
-				if ($jetHobbit <= $jetMonstre) {
+				Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_DUREE_TOUR, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Cris stridents');
+				if ($jetBraldun <= $jetMonstre) {
 					$malusVue = 1;
-					Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malusVue, 'Cris stridents');
+					Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malusVue, 'Cris stridents');
 				}
-				$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetHobbit);
+				$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetBraldun);
 			}
 		}
 
@@ -61,22 +61,22 @@ class Bral_Monstres_Competences_Crisstridents extends Bral_Monstres_Competences_
 		return null;
 	}
 
-	private function majEvenement($hobbit, $malus, $nbTours, $jetMonstre, $jetHobbit) {
+	private function majEvenement($braldun, $malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a effectué un Cris Strident, influant le hobbit [h".$hobbit["id_hobbit"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
+		$details = "[m".$this->monstre["id_monstre"]."] a effectué un Cris Strident, influant le braldun [h".$braldun["id_braldun"]."]";
+		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit) {
+	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué un Cris Strident vous influançant :";
 		$retour .= PHP_EOL."Jet du Monstre (jet de sagesse) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet de sagesse) : ".$jetHobbit;
-		if ($jetHobbit > $jetMonstre) {
+		$retour .= PHP_EOL."Jet de résistance (jet de sagesse) : ".$jetBraldun;
+		if ($jetBraldun > $jetMonstre) {
 			$retour .= PHP_EOL."Vous avez résisté au cris, vous n'avez pas de malus en vue.";
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté au cris, vous avez 1 de malus en vue.";

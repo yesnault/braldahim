@@ -1,6 +1,6 @@
 <?=$this->render("/commun/commun_quete_resultat.phtml") ?>
 
-Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> <? if ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?>, vous avez appris <br />
+Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?>, vous avez appris <br />
 la comp&eacute;tence : <?=$this->nomCompetence ?> <br /><br />
  
 Faites-en bon usage...

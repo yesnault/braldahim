@@ -12,14 +12,14 @@
  */
 class CoffreIngredient extends Zend_Db_Table {
 	protected $_name = 'coffre_ingredient';
-	protected $_primary = array('id_fk_hobbit_coffre_ingredient', 'id_fk_type_coffre_ingredient');
+	protected $_primary = array('id_fk_braldun_coffre_ingredient', 'id_fk_type_coffre_ingredient');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_ingredient', '*')
 		->from('type_ingredient', '*')
-		->where('id_fk_hobbit_coffre_ingredient = '.intval($id_hobbit))
+		->where('id_fk_braldun_coffre_ingredient = '.intval($id_braldun))
 		->where('coffre_ingredient.id_fk_type_coffre_ingredient = type_ingredient.id_type_ingredient');
 		$sql = $select->__toString();
 
@@ -32,7 +32,7 @@ class CoffreIngredient extends Zend_Db_Table {
 		$select->from('coffre_ingredient', 'count(*) as nombre, 
 		quantite_coffre_ingredient as quantite')
 		->where('id_fk_type_coffre_ingredient = ?',$data["id_fk_type_coffre_ingredient"])
-		->where('id_fk_hobbit_coffre_ingredient = ?',$data["id_fk_hobbit_coffre_ingredient"])
+		->where('id_fk_braldun_coffre_ingredient = ?',$data["id_fk_braldun_coffre_ingredient"])
 		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -49,7 +49,7 @@ class CoffreIngredient extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_coffre_ingredient = '.$data["id_fk_type_coffre_ingredient"];
-			$where .= ' AND id_fk_hobbit_coffre_ingredient = '.$data["id_fk_hobbit_coffre_ingredient"];
+			$where .= ' AND id_fk_braldun_coffre_ingredient = '.$data["id_fk_braldun_coffre_ingredient"];
 			
 			if ($dataUpdate['quantite_coffre_ingredient'] <= 0) { // delete
 				$this->delete($where);

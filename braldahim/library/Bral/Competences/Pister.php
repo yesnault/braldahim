@@ -12,20 +12,20 @@
 class Bral_Competences_Pister extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Bral_Util_Commun");
-		Zend_Loader::loadClass("HobbitsCdm");
+		Zend_Loader::loadClass("BraldunsCdm");
 		//Zend_Loader::loadClass("TypeMonstre");
 		
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun ) * 2;
 		
-		$typeMonstreTable = new HobbitsCdm();
-		$typeMonstreHobbit = $typeMonstreTable->findByIdHobbit($this->view->user->id_hobbit);
+		$typeMonstreTable = new BraldunsCdm();
+		$typeMonstreBraldun = $typeMonstreTable->findByIdBraldun($this->view->user->id_braldun);
 		$tabTypeMonstrePistable = null;
 		$tabTypeMonstreCdm = null;
-		$hobbitsCdmTable = new HobbitsCdm();	
-		foreach($typeMonstreHobbit as $t) {
+		$braldunsCdmTable = new BraldunsCdm();	
+		foreach($typeMonstreBraldun as $t) {
 			$typeMonstreCdm = null;
-			$typeMonstreCdm = $hobbitsCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$t["id_fk_type_monstre_hcdm"]);
+			$typeMonstreCdm = $braldunsCdmTable->findByIdBraldunAndIdTypeMonstre($this->view->user->id_braldun,$t["id_fk_type_monstre_hcdm"]);
 			if (count ($typeMonstreCdm) == 0){
 				$tabTypeMonstrePistable[] = array(
 					'id_type_monstre' => $t["id_fk_type_monstre_hcdm"],
@@ -40,7 +40,7 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 				);
 			}
 		}
-		$this->view->tabTailleMonstre = $hobbitsCdmTable->findTaille();
+		$this->view->tabTailleMonstre = $braldunsCdmTable->findTaille();
 		$this->view->tabTypeMonstrePistable = $tabTypeMonstrePistable;
 		$this->view->tabTypeMonstreCdm = $tabTypeMonstreCdm;
 	}
@@ -53,7 +53,7 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
@@ -83,17 +83,17 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 	
 	private function calculPister($idTypeMonstre){
 		Zend_Loader::loadClass("Monstre");
 		// La distance max de repérage d'un monstre est : jet SAG+BM
-		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
-		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 		
 		$monstreTable = new Monstre();
-		$monstreRow = $monstreTable->findLePlusProcheParType($idTypeMonstre,$this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->rayon_max);
+		$monstreRow = $monstreTable->findLePlusProcheParType($idTypeMonstre,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->rayon_max);
 
 		if (!empty($monstreRow)) {
 			$monstre = array(

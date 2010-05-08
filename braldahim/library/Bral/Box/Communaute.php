@@ -34,15 +34,15 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 		
 		Zend_Loader::loadClass("RangCommunaute");
 		$rangCommunauteTable = new RangCommunaute();
-		$rang = $rangCommunauteTable->findRangCreateur($this->view->user->id_fk_communaute_hobbit);
+		$rang = $rangCommunauteTable->findRangCreateur($this->view->user->id_fk_communaute_braldun);
 
-		if ($this->view->user->id_fk_rang_communaute_hobbit == $rang["id_rang_communaute"]) { // rang 1 : Gestionnaire
+		if ($this->view->user->id_fk_rang_communaute_braldun == $rang["id_rang_communaute"]) { // rang 1 : Gestionnaire
 			$estGestionnaire = true;
 		}
-		if ($this->view->user->id_fk_communaute_hobbit != null) {
+		if ($this->view->user->id_fk_communaute_braldun != null) {
 			Zend_Loader::loadClass("Communaute");
 			$communauteTable = new Communaute();
-			$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+			$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 			if (count($communaute) == 1) {
 				$communaute = $communaute[0];
 			} else {

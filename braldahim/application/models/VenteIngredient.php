@@ -36,9 +36,9 @@ class VenteIngredient extends Zend_Db_Table {
 		$select->from('vente_ingredient', '*')
 		->from('type_ingredient', '*')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->where('id_fk_vente_ingredient = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->where('id_fk_type_vente_ingredient = id_type_ingredient')
 		->where('id_fk_vente_ingredient = '.$liste)
 		->order('date_fin_vente desc');
@@ -52,9 +52,9 @@ class VenteIngredient extends Zend_Db_Table {
 		$select->from('vente_ingredient', '*')
 		->from('type_ingredient')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->where('id_fk_vente_ingredient = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->where('id_fk_type_vente_ingredient = id_type_ingredient')
 		->where('id_fk_type_vente_ingredient = ?', $idType)
 		->order('date_fin_vente desc');

@@ -40,10 +40,10 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		$estGestionnaire = false;
 		
 		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
-			if ($communaute["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+			if ($communaute["id_fk_braldun_gestionnaire_communaute"] == $this->view->user->id_braldun) {
 				$estGestionnaire = true;
 			}
 		}
@@ -60,22 +60,22 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	
 	private function prepareRender() {
 		$c = array(
-			"prenom_hobbit" => $this->communaute["prenom_hobbit"], 
-			"nom_hobbit" => $this->communaute["nom_hobbit"], 
-			"id_hobbit" => $this->communaute["id_hobbit"], 
+			"prenom_braldun" => $this->communaute["prenom_braldun"], 
+			"nom_braldun" => $this->communaute["nom_braldun"], 
+			"id_braldun" => $this->communaute["id_braldun"], 
 		);
 		$this->view->communaute = $c;
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findByIdCommunaute($this->communaute["id_communaute"]);
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->findByIdCommunaute($this->communaute["id_communaute"]);
 		$tabMembres = null;
 
-		foreach($hobbitRowset as $m) {
+		foreach($braldunRowset as $m) {
 			if ($m["ordre_rang_communaute"] != 1) { // on ne met pas le gestionnaire actuel dans la liste
 				$tabMembres[] = array(
-					"id_hobbit" => $m["id_hobbit"],
-					"nom_hobbit" => $m["nom_hobbit"],
-					"prenom_hobbit" => $m["prenom_hobbit"],
+					"id_braldun" => $m["id_braldun"],
+					"nom_braldun" => $m["nom_braldun"],
+					"prenom_braldun" => $m["prenom_braldun"],
 					"id_rang_communaute" => $m["id_rang_communaute"],
 					"nom_rang_communaute" => $m["nom_rang_communaute"],
 				);
@@ -92,40 +92,40 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	}
 
 	private function updateGestionnaire() {
-		$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost("valeur_1"));
+		$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost("valeur_1"));
 		
 		$this->prepareRender();
 		
-		$hobbitTrouve = false;
+		$braldunTrouve = false;
 		foreach($this->view->tabMembres as $m) {
-			if ($m["id_hobbit"] == $idHobbit) {
-				$hobbitTrouve = true;
+			if ($m["id_braldun"] == $idBraldun) {
+				$braldunTrouve = true;
 				break;
 			}
 		}
 		
-		if ($hobbitTrouve == false) {
-			throw new Zend_Exception(get_class($this)." Hobbit Invalide:".$idHobbit);
+		if ($braldunTrouve == false) {
+			throw new Zend_Exception(get_class($this)." Braldun Invalide:".$idBraldun);
 		}
 		
 		$communauteTable = new Communaute();
-		$data = array("id_fk_hobbit_gestionnaire_communaute" => $idHobbit);
+		$data = array("id_fk_braldun_gestionnaire_communaute" => $idBraldun);
 		$where = " id_communaute=".$this->communaute["id_communaute"];
 		$communauteTable->update($data, $where);
 		
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		$rangCommunauteTable = new RangCommunaute();
 		$rowSet = $rangCommunauteTable->findRangCreateur($this->communaute["id_communaute"]);
 		
-		$data = array('id_fk_rang_communaute_hobbit' => $rowSet["id_rang_communaute"]);
-		$where = 'id_hobbit = '.$idHobbit;
-		$hobbitTable->update($data, $where);
+		$data = array('id_fk_rang_communaute_braldun' => $rowSet["id_rang_communaute"]);
+		$where = 'id_braldun = '.$idBraldun;
+		$braldunTable->update($data, $where);
 		
 		$rowSet = $rangCommunauteTable->findRangSecond($this->communaute["id_communaute"]);
-		$this->view->user->id_fk_rang_communaute_hobbit = $rowSet["id_rang_communaute"];
-		$data = array('id_fk_rang_communaute_hobbit' => $this->view->user->id_fk_rang_communaute_hobbit);
-		$where = 'id_hobbit = '.$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$this->view->user->id_fk_rang_communaute_braldun = $rowSet["id_rang_communaute"];
+		$data = array('id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun);
+		$where = 'id_braldun = '.$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 		
 		$this->view->isUpdateGestionnaire = true;
 	}

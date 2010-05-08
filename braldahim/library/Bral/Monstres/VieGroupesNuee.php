@@ -55,33 +55,33 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				$cibleDuMonstre = null;
 
 				// s'il un monstre à une cible à lui, on verifie qu'elle peut être atteinte
-				if ($m["id_fk_hobbit_cible_monstre"] != null) {
-					$hobbitTable = new Hobbit();
-					$cibleDuMonstre = $hobbitTable->findHobbitAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"], $m["id_fk_hobbit_cible_monstre"], false);
+				if ($m["id_fk_braldun_cible_monstre"] != null) {
+					$braldunTable = new Braldun();
+					$cibleDuMonstre = $braldunTable->findBraldunAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"], $m["id_fk_braldun_cible_monstre"], false);
 					if (count($cibleDuMonstre) > 0) {
 						$cibleDuMonstre = $cibleDuMonstre[0];
-						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
+						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_braldun_cible_monstre"]);
 						$koCibleMonstre = $vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
 						if ($koCibleMonstre === true || $koCibleMonstre === null) {
-							$m["id_fk_hobbit_cible_monstre"] = null;
+							$m["id_fk_braldun_cible_monstre"] = null;
 						}
 					} else {
-						$m["id_fk_hobbit_cible_monstre"] = null;
+						$m["id_fk_braldun_cible_monstre"] = null;
 					}
 				}
 
 				// on regarde si la cible demandée est bien la cible du groupe
-				if ($cible["id_hobbit"] == $m["id_fk_hobbit_cible_monstre"] || $m["id_fk_hobbit_cible_monstre"] == null) {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_hobbit"]);
+				if ($cible["id_braldun"] == $m["id_fk_braldun_cible_monstre"] || $m["id_fk_braldun_cible_monstre"] == null) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_braldun"]);
 					$koCible = $vieMonstre->attaqueCible($cible, $this->view);
 				}
 
 				if ($cibleDuMonstre != null) {
-					$vieMonstre->deplacementMonstre($cibleDuMonstre["x_hobbit"], $cibleDuMonstre["y_hobbit"]);
+					$vieMonstre->deplacementMonstre($cibleDuMonstre["x_braldun"], $cibleDuMonstre["y_braldun"]);
 				} else if ($koCible == null) { // null => cible hors vue
 					$vieMonstre->deplacementMonstre($groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"]);
 				} else if ($koCible === true) {
-					$groupe["id_fk_hobbit_cible_groupe_monstre"] = null;
+					$groupe["id_fk_braldun_cible_groupe_monstre"] = null;
 					$cible = $this->rechercheNouvelleCible($monstre_role_a, $groupe, $monstres);
 				}
 			} else {
@@ -100,7 +100,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		foreach($monstres as $m) {
 			if ($cible != null) {
 				// si le monstre est sur la même case que la cible, deplacement a une case
-				if ($m["x_monstre"] == $cible["x_hobbit"] && $m["y_monstre"] == $cible["y_hobbit"]) {
+				if ($m["x_monstre"] == $cible["x_braldun"] && $m["y_monstre"] == $cible["y_braldun"]) {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - phaseTactique3 - deplacement du monstre a une case");
 					// deplacement
 					$dx = -1;
@@ -114,7 +114,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 					}
 
 					$vieMonstre->setMonstre($m);
-					$vieMonstre->deplacementMonstre($cible["x_hobbit"] + $dx, $cible["y_hobbit"] + $dy);
+					$vieMonstre->deplacementMonstre($cible["x_braldun"] + $dx, $cible["y_braldun"] + $dy);
 				} else {
 					// rien a faire ici
 				}

@@ -18,7 +18,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
 		$bosquetTable = new Bosquet();
-		$bosquets = $bosquetTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$bosquets = $bosquetTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$bosquet = null;
 		$this->view->abattreArbreEnvironnementOk = false;
@@ -28,12 +28,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		}
 
 		$charretteTable = new Charrette();
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 		$this->view->charettePleine = true;
 		if ($nombre == 1) {
 			$this->view->possedeCharrette = true;
 
-			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
 			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
 
 			if ($nbPossibleDansCharretteMaximum > 0) {
@@ -55,7 +55,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification abattre arbre
@@ -76,12 +76,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	/*
 	 * Uniquement utilisable en forêt.
-	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette).
+	 * Le Braldun abat un arbre : il ramasse n rondins (directement dans la charrette).
 	 * Le nombre de rondins ramassés est fonction de la VIGUEUR :
 	 * de 0 à 4 : 1D3 + BM VIG/2
 	 * de 5 à 9 : 2D3 + BM VIG/2
@@ -96,18 +96,18 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		$this->view->effetRune = false;
 
-		$nb = floor($this->view->user->vigueur_base_hobbit / 5) + 1;
+		$nb = floor($this->view->user->vigueur_base_braldun / 5) + 1;
 		$this->view->nbRondins = Bral_Util_De::getLanceDeSpecifique($nb, 1, 3);
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possède une rune VA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "VA")) { // s'il possède une rune VA
 			$this->view->effetRune = true;
 			$this->view->nbRondins = ceil($this->view->nbRondins * 1.5);
 		}
 
-		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit) / 2 ;
+		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
 
-		$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+		$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
 		$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
 
 		if ($this->view->nbRondins <= 0) {
@@ -136,17 +136,17 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => $this->view->nbRondins,
-			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+			'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 
-		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
-		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
+		$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 		$dataRecolteurs["nb_bois_stats_recolteurs"] = $this->view->nbRondins;
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);

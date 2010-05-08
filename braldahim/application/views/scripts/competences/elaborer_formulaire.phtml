@@ -3,9 +3,9 @@
 	 <? if ($this->elaborerEchoppeOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions ou vernis<br /><br />
      
-     <? if ($this->user->niveau_hobbit <= 9) :  ?>
+     <? if ($this->user->niveau_braldun <= 9) :  ?>
      Les vernis ne sont accessibles qu'à partir du niveau 10. 
-     Vous êtes niveau <?=$this->user->niveau_hobbit?>.<br><br>
+     Vous êtes niveau <?=$this->user->niveau_braldun?>.<br><br>
      <? endif;?>
      Type de potion / vernis :<br />
      <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">

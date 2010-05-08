@@ -28,13 +28,13 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		}
 
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$tabEchoppe = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun) {
 				$tabEchoppe = array(
 					'id_echoppe' => $e["id_echoppe"],
 					'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
@@ -47,7 +47,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			}
 		}
 		if ($tabEchoppe == null) {
-			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_hobbit." ide:".$id_echoppe);
+			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_braldun." ide:".$id_echoppe);
 		}
 
 		$this->view->echoppe = $tabEchoppe;
@@ -57,7 +57,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$tabLaban["nb_fourrure"] = 0;
 		$tabLaban["nb_planche"] = 0;
 		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		$laban = $labanTable->findByIdBraldun($this->view->user->id_braldun);
 
 		if (count($laban) == 1) {
 			$p = $laban[0];
@@ -71,7 +71,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 
 		$tabCharrette["nb_rondin"] = 0;
 		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrette = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 		if ($charrette != null && count($charrette) > 0) {
 			foreach ($charrette as $c) {
 				$tabCharrette = array(
@@ -89,7 +89,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 
 		$this->view->charretteOk = false;
 		$charretteTable = new Charrette();
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 		if ($nombre > 0) {
 			$this->view->charretteOk = true;
 		}
@@ -173,7 +173,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		// on retire du laban
 		$labanTable = new Laban();
 		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban' => $this->view->user->id_braldun,
 			'quantite_peau_laban' => -$nb_peau,
 			'quantite_cuir_laban' => -$nb_cuir,
 			'quantite_fourrure_laban' => -$nb_fourrure,
@@ -207,7 +207,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			$charretteTable = new Charrette();
 			$data = array(
 					'quantite_rondin_charrette' => -$nb_rondins,
-					'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+					'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 			);
 			$charretteTable->updateCharrette($data);
 
@@ -215,7 +215,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
 
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 
 			$nb_rondins = $this->view->echoppe["quantite_rondin_arriere_echoppe"] + $nb_rondins;
 		} else {
@@ -277,7 +277,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$data = array(
 						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
 						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
-						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
 						'quantite_laban_partieplante' => -$nbBrutes,
 						'quantite_preparee_laban_partieplante' => -$nbPreparees
 				);
@@ -335,7 +335,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 
 				$data = array(
 					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
-					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+					'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 					'quantite_brut_laban_minerai' => -$nbBrut,
 					'quantite_lingots_laban_minerai' => -$nbLingot,
 				);
@@ -358,7 +358,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 
 		$tabPartiePlantes = null;
 		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$this->view->nb_valeurs = 6;
 		$this->view->nb_partiePlantes = 0;
@@ -373,7 +373,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 						"nom_plante" => $p["nom_type_plante"],
 						"id_fk_type_laban_partieplante" => $p["id_fk_type_laban_partieplante"],
 						"id_fk_type_plante_laban_partieplante" => $p["id_fk_type_plante_laban_partieplante"],
-						"id_fk_hobbit_laban_partieplante" => $p["id_fk_hobbit_laban_partieplante"],
+						"id_fk_braldun_laban_partieplante" => $p["id_fk_braldun_laban_partieplante"],
 						"quantite_laban_partieplante" => $p["quantite_laban_partieplante"],
 						"quantite_preparee_laban_partieplante" => $p["quantite_preparee_laban_partieplante"],
 						"indice_valeur" => $this->view->nb_valeurs,
@@ -390,7 +390,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 
 		$tabMinerais = null;
 		$labanMineraiTable = new labanMinerai();
-		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+		$minerais = $labanMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$this->view->nb_minerai_brut = 0;
 		$this->view->nb_minerai_lingot = 0;
@@ -402,7 +402,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 					$tabMinerais[$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_minerai"],
 						"id_fk_type_laban_minerai" => $m["id_fk_type_laban_minerai"],
-						"id_fk_hobbit_laban_minerai" => $m["id_fk_hobbit_laban_minerai"],
+						"id_fk_braldun_laban_minerai" => $m["id_fk_braldun_laban_minerai"],
 						"quantite_brut_laban_minerai" => $m["quantite_brut_laban_minerai"],
 						"quantite_lingots_laban_minerai" => $m["quantite_lingots_laban_minerai"],
 						"indice_valeur" => $this->view->nb_valeurs,

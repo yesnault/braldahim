@@ -19,7 +19,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("LabanRune");
 		$tabLabanRune = null;
 		$labanRuneTable = new LabanRune();
-		$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, "oui");
+		$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
 
 		foreach($labanRunes as $l) {
 			if ($l["niveau_type_rune"] == "d" || $l["niveau_type_rune"] == "c") {
@@ -49,7 +49,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 						$tabLabanRune[$l["id_type_rune"]]["cout_castars"] = 21;
 					}
 
-					if ($this->view->user->castars_hobbit >= $tabLabanRune[$l["id_type_rune"]]["cout_castars"]) {
+					if ($this->view->user->castars_braldun >= $tabLabanRune[$l["id_type_rune"]]["cout_castars"]) {
 						$tabLabanRune[$l["id_type_rune"]]["achat_possible"] = true;
 						$this->view->achatPossibleCastars = true;
 					}
@@ -68,7 +68,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 
 		// verification qu'il a assez de PA
 		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_braldun);
 		}
 
 		// verification que la valeur recue est bien numerique
@@ -82,19 +82,19 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." idTypeRune interdit A=".$idTypeRune);
 		}
 
-		if ($this->view->labanRunes[$idTypeRune]["achat_possible"] !== true || $this->view->labanRunes[$idTypeRune]["cout_castars"] > $this->view->user->castars_hobbit) {
+		if ($this->view->labanRunes[$idTypeRune]["achat_possible"] !== true || $this->view->labanRunes[$idTypeRune]["cout_castars"] > $this->view->user->castars_braldun) {
 			throw new Zend_Exception(get_class($this)." Achat impossible");
 		}
 
 		$this->echange($idTypeRune);
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function echange($idTypeRune) {
 		Zend_Loader::loadClass("Bral_Util_Rune");
 
 		$this->view->cout = $this->view->labanRunes[$idTypeRune]["cout_castars"];
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->cout;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->cout;
 
 		$texte = "";
 		$labanRuneTable = new LabanRune();
@@ -105,7 +105,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			if ($i < 2) {
 				$texte .= ",";
 			}
-			$details = "[h".$this->view->user->id_hobbit."] a échangé la rune n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"]. " chez l'échangeur";
+			$details = "[h".$this->view->user->id_braldun."] a échangé la rune n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"]. " chez l'échangeur";
 			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"], $details);
 		}
 
@@ -143,13 +143,13 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		$labanRuneTable = new LabanRune();
 		$dataLaban = array (
 			"id_rune_laban_rune" => $idRune,
-			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
+			"id_fk_braldun_laban_rune" => $this->view->user->id_braldun,
 		);
 		$labanRuneTable->insert($dataLaban);
 
 		$this->view->texte = $texte;
 
-		$details = "L'échangeur de rune a donné la rune n°".$idRune. " à [h".$this->view->user->id_hobbit."]";
+		$details = "L'échangeur de rune a donné la rune n°".$idRune. " à [h".$this->view->user->id_braldun."]";
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
 	}
 

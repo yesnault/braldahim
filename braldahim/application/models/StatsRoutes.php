@@ -20,8 +20,8 @@ class StatsRoutes extends Zend_Db_Table {
 		$select->from('stats_routes', 
 			'count(*) as nombre, 
 			nb_stats_routes as quantiteRoute')
-		->where('niveau_hobbit_stats_routes = '.$data["niveau_hobbit_stats_routes"]
-				.' AND id_fk_hobbit_stats_routes = '.$data["id_fk_hobbit_stats_routes"]
+		->where('niveau_braldun_stats_routes = '.$data["niveau_braldun_stats_routes"]
+				.' AND id_fk_braldun_stats_routes = '.$data["id_fk_braldun_stats_routes"]
 				.' AND id_fk_metier_stats_routes = '.$data["id_fk_metier_stats_routes"]
 				.' AND mois_stats_routes = \''.$data["mois_stats_routes"].'\'')
 		->group(array('quantiteRoute'));
@@ -47,8 +47,8 @@ class StatsRoutes extends Zend_Db_Table {
 				}
 			}
 			
-			$where = 'niveau_hobbit_stats_routes = '.$data["niveau_hobbit_stats_routes"]
-				.' AND id_fk_hobbit_stats_routes = '.$data["id_fk_hobbit_stats_routes"]
+			$where = 'niveau_braldun_stats_routes = '.$data["niveau_braldun_stats_routes"]
+				.' AND id_fk_braldun_stats_routes = '.$data["id_fk_braldun_stats_routes"]
 				.' AND id_fk_metier_stats_routes = '.$data["id_fk_metier_stats_routes"]
 				.' AND mois_stats_routes = \''.$data["mois_stats_routes"].'\'';
 			$this->update($dataUpdate, $where);

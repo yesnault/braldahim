@@ -25,13 +25,13 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		$dlaActuelle["texte"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["heure"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["min"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("i", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["seconde"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("s", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["jour"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("d", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["mois"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("m", $this->view->user->date_fin_tour_hobbit);
-		$dlaActuelle["annee"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y", $this->view->user->date_fin_tour_hobbit);
+		$dlaActuelle["texte"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["heure"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["min"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("i", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["seconde"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("s", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["jour"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("d", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["mois"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("m", $this->view->user->date_fin_tour_braldun);
+		$dlaActuelle["annee"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y", $this->view->user->date_fin_tour_braldun);
 		$this->view->dlaActuelle = $dlaActuelle;
 		$this->view->tabHeures = $this->_tabHeures;
 		$this->view->tabMinutes = $this->_tabMinutes;
@@ -67,23 +67,23 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Minutes invalides : ".$newMinutes);
 		}
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 		
 		$ajout = $newHeure.":".$newMinutes.":0";
-		$nouvelleDla = Bral_Util_ConvertDate::get_date_add_time_to_date($this->view->user->date_fin_tour_hobbit, $ajout);
-		$this->view->user->date_fin_tour_hobbit = $nouvelleDla;
+		$nouvelleDla = Bral_Util_ConvertDate::get_date_add_time_to_date($this->view->user->date_fin_tour_braldun, $ajout);
+		$this->view->user->date_fin_tour_braldun = $nouvelleDla;
 		
 		$data = array( 
-			'date_fin_tour_hobbit' => $this->view->user->date_fin_tour_hobbit,
+			'date_fin_tour_braldun' => $this->view->user->date_fin_tour_braldun,
 		); 
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 		
 		$this->view->heures = $newHeure;
 		$this->view->minutes = $newMinutes;
-		$dlaActuelle["texte"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
+		$dlaActuelle["texte"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_braldun);
 		$this->view->dlaActuelle = $dlaActuelle;
 		
 	}

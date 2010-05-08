@@ -16,12 +16,12 @@ class Bral_Util_Competence {
 
 	private function __construct() {}
 
-	public static function updateCompetence1d2($nomSystemeCompetence, $idHobbit) {
-		$hobbitsCompetencesTable = new HobbitsCompetences();
+	public static function updateCompetence1d2($nomSystemeCompetence, $idBraldun) {
+		$braldunsCompetencesTable = new BraldunsCompetences();
 
-		$competences = $hobbitsCompetencesTable->findByIdHobbitAndNomSysteme($idHobbit, $nomSystemeCompetence);
+		$competences = $braldunsCompetencesTable->findByIdBraldunAndNomSysteme($idBraldun, $nomSystemeCompetence);
 		if ($competences == null || count($competences) != 1) {
-			throw new Zend_Exception(get_class($this)." Competences invalides :".$idHobbit.",".$nomSystemeCompetence);
+			throw new Zend_Exception(get_class($this)." Competences invalides :".$idBraldun.",".$nomSystemeCompetence);
 		}
 
 		$tabCompetenceAmelioree = null;
@@ -34,8 +34,8 @@ class Bral_Util_Competence {
 				$pourcentage = $c["pourcentage_max_competence"];
 			}
 			$data = array('pourcentage_hcomp' => $pourcentage);
-			$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$idHobbit);
-			$hobbitsCompetencesTable->update($data, $where);
+			$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$idBraldun);
+			$braldunsCompetencesTable->update($data, $where);
 			$tabCompetenceAmelioree["competence"] = $c;
 			$tabCompetenceAmelioree["gain"] = $gain;
 		}

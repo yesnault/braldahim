@@ -32,7 +32,7 @@ class Bral_Echoppes_Vendremateriel extends Bral_Echoppes_Echoppe {
 
 		// on verifie que c'est bien l'echoppe du joueur
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {
@@ -194,7 +194,7 @@ class Bral_Echoppes_Vendremateriel extends Bral_Echoppes_Echoppe {
 		$this->calculPrixMinerai($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente le matériel n°".$id_materiel. " dans son échoppe";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente le matériel n°".$id_materiel. " dans son échoppe";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $id_materiel, $details);
 	}

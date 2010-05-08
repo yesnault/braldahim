@@ -15,9 +15,9 @@ class Bral_Lieux_Lieumythique extends Bral_Lieux_Lieu {
 	private $_distinction = null;
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("HobbitsDistinction");
-		$hobbitsDistinctionTable = new HobbitsDistinction();
-		$distinction = $hobbitsDistinctionTable->findDistinctionsByHobbitIdAndIdFkLieuDistinction($this->view->user->id_hobbit, $this->view->idLieu);
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$distinction = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndIdFkLieuDistinction($this->view->user->id_braldun, $this->view->idLieu);
 		if (count($distinction) >= 1) {
 			$this->view->utilisationPossible = false;
 		} else {
@@ -39,9 +39,9 @@ class Bral_Lieux_Lieumythique extends Bral_Lieux_Lieu {
 
 	function prepareResultat() {
 		Zend_Loader::loadClass("Bral_Util_Distinction");
-		Bral_Util_Distinction::ajouterDistinction($this->view->user->id_hobbit, $this->_distinction->id_type_distinction, $this->_distinction->nom_type_distinction);
+		Bral_Util_Distinction::ajouterDistinction($this->view->user->id_braldun, $this->_distinction->id_type_distinction, $this->_distinction->nom_type_distinction);
 
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {

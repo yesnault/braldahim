@@ -2,14 +2,14 @@
  <div class='comp_contenu'>
 	 <? if ($this->reparermenuisierEchoppeOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez r&eacute;parer une charrette<br />
-	 appartenant &agrave; un hobbit pr&eacute;sent sur votre case.<br>
+	 appartenant &agrave; un braldun pr&eacute;sent sur votre case.<br>
 	 <br />
      
      Charrette &agrave; r&eacute;parer :<br />
      <select name="valeur_1" id="valeur_1"  onchange="if (this.value == -1) {$('bouton_reparermenuisier').disabled = true} else {$('bouton_reparermenuisier').disabled = false}">
 	 	<option value="-1">(Choisissez une charrette)</option>
 	 	<? foreach($this->charrettes as $c) : ?>
-	 		<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false) : echo "disabled"; endif; ?>><?=$c["nom_type_materiel"]?>, <?=$c["prenom_hobbit"]?> <?=$c["nom_hobbit"]?> (<?=$c["id_hobbit"]?>) - Coût : <?=$c["cout_reparation_planche"]?> planche<? if ($c["cout_reparation_planche"] > 1): echo "s"; endif; ?></option>
+	 		<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false) : echo "disabled"; endif; ?>><?=$c["nom_type_materiel"]?>, <?=$c["prenom_braldun"]?> <?=$c["nom_braldun"]?> (<?=$c["id_braldun"]?>) - Coût : <?=$c["cout_reparation_planche"]?> planche<? if ($c["cout_reparation_planche"] > 1): echo "s"; endif; ?></option>
 	 	<? endforeach; ?>
 	 </select>
 	 

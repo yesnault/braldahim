@@ -14,7 +14,7 @@ class LabanMateriel extends Zend_Db_Table {
 	protected $_name = 'laban_materiel';
 	protected $_primary = array('id_laban_materiel');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_materiel', '*')
@@ -22,7 +22,7 @@ class LabanMateriel extends Zend_Db_Table {
 		->from('materiel', '*')
 		->where('id_laban_materiel = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_hobbit_laban_materiel = ?', intval($idHobbit));
+		->where('id_fk_braldun_laban_materiel = ?', intval($idBraldun));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

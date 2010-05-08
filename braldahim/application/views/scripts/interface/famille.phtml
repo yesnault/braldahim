@@ -13,46 +13,46 @@
 	<td>
 		<? if ($this->pereMereOk === true) :?>
 	  		Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
-	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->user->id_fk_mere_hobbit ?>');">
+	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_mere_braldun ?>');">
 	  		<? if ($this->mere == null): ?>
-	  			Hobbit inconnue (n&deg;<?=$this->user->id_fk_mere_hobbit ?>)</a>
+	  			Braldun inconnue (n&deg;<?=$this->user->id_fk_mere_braldun ?>)</a>
 	  		<? else : ?>
 	  			<? if ($this->mereAncienne) : ?>
-	  				<?=$this->mere->prenom_ancien_hobbit ?> <?=$this->mere->nom_ancien_hobbit ?>
+	  				<?=$this->mere->prenom_ancien_braldun ?> <?=$this->mere->nom_ancien_braldun ?>
 	  			<? else: ?>
-	  				<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?>
+	  				<?=$this->mere->prenom_braldun ?> <?=$this->mere->nom_braldun ?>
 	  			<? endif;?>
-	  			(n&deg;<?=$this->user->id_fk_mere_hobbit ?>)</a>
+	  			(n&deg;<?=$this->user->id_fk_mere_braldun ?>)</a>
 	  		<? endif;?>
 		  	et votre p&egrave;re
-	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->user->id_fk_pere_hobbit ?>');">
+	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_pere_braldun ?>');">
 	  		<? if ($this->pere == null): ?>
-	  			Hobbit inconnu (n&deg;<?=$this->user->id_fk_pere_hobbit ?>)</a>
+	  			Braldun inconnu (n&deg;<?=$this->user->id_fk_pere_braldun ?>)</a>
 	  		<? else : ?>
 	  			<? if ($this->pereAncien) : ?>
-	  				<?=$this->pere->prenom_ancien_hobbit ?> <?=$this->pere->nom_ancien_hobbit ?>
+	  				<?=$this->pere->prenom_ancien_braldun ?> <?=$this->pere->nom_ancien_braldun ?>
 	  			<? else: ?>
-	  				<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?>
+	  				<?=$this->pere->prenom_braldun ?> <?=$this->pere->nom_braldun ?>
 	  			<? endif;?>
-	  			(n&deg;<?=$this->user->id_fk_pere_hobbit ?>)</a>
+	  			(n&deg;<?=$this->user->id_fk_pere_braldun ?>)</a>
 	  		<? endif;?>
 		    		
-	  	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
+	  	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_braldun == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
 	  	
 	  	<? else: ?>
-	  	Vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> orphelin<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>
+	  	Vous &ecirc;tes n&eacute;<? if ($this->user->sexe_braldun == 'feminin') echo "e"?> orphelin<? if ($this->user->sexe_braldun == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>
 	  	<? endif; ?>
 	    <br /><br />
 	
 		<? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
-	    	Vous n'avez ni enfant, ni conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>.
+	    	Vous n'avez ni enfant, ni conjoint<? if ($this->user->sexe_braldun != 'feminin') echo "e"?>.
 	    <? else : ?>
-	    	Avec votre conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>
+	    	Avec votre conjoint<? if ($this->user->sexe_braldun != 'feminin') echo "e"?>
 	    	<? if ($this->conjoint != null) : ?>
-		    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
-		    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)</a>,
+		    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->conjoint["id_braldun"] ?>');">
+		    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_braldun"] ?>)</a>,
 		    <? else: ?>
-		    	disparu<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>
+		    	disparu<? if ($this->user->sexe_braldun != 'feminin') echo "e"?>
 		    <? endif; ?>
 	    	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
 	    <? endif; ?>
@@ -64,15 +64,15 @@
     	<table class="table_liste" style="width:80%">
 			<thead class="table_liste">
 			  <tr class="table_liste" title="Cliquer pour Trier">
-				<th>Hobbit</th>
+				<th>Braldun</th>
 				<th>Naissance</th>
 			  </tr>
 			</thead>
 			<tbody>
 				<? foreach($this->enfants as $e) :?>
 				<tr class="table_liste">
-					<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["id_hobbit"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_hobbit"]?>)</a></td>
-					<td nowrap>n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
+					<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["id_braldun"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_braldun"]?>)</a></td>
+					<td nowrap>n&eacute;<? if ($e["sexe_braldun"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
 				</tr>
 				<? endforeach; ?>
 			</tbody>

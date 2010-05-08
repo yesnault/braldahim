@@ -14,9 +14,9 @@ class Bral_Util_Messagerie {
 
 	private function __construct() {}
 
-	public static function setXmlResponseMessagerie(&$xml_response, $id_hobbit) {
+	public static function setXmlResponseMessagerie(&$xml_response, $id_braldun) {
 		$messageTable = new Message();
-		$nbNotRead = $messageTable->countByToIdNotRead($id_hobbit);
+		$nbNotRead = $messageTable->countByToIdNotRead($id_braldun);
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("action");
 		$xml_entry->set_valeur("messagerie");
@@ -24,20 +24,20 @@ class Bral_Util_Messagerie {
 		$xml_response->add_entry($xml_entry);
 	}
 
-	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1, $afficheSupprimer = true) {
+	public static function constructTabBraldun($tabDestinataires, $valeur = "valeur_2", $sansIdBraldun = -1, $afficheSupprimer = true) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		$idDestinatairesTab = split(',', $tabDestinataires);
 
-		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
+		$bralduns = $braldunTable->findByIdList($idDestinatairesTab);
 
-		if ($hobbits == null) {
+		if ($bralduns == null) {
 			return null;
 		}
 			
 		$destinataires = "";
 		$aff_js_destinataires = "";
-		$tabHobbits = null;
+		$tabBralduns = null;
 
 		if ($afficheSupprimer) {
 			$afficheLien = false;
@@ -45,39 +45,39 @@ class Bral_Util_Messagerie {
 			$afficheLien = true;
 		}
 
-		foreach($hobbits as $h) {
+		foreach($bralduns as $h) {
 
-			if (in_array($h["id_hobbit"],$idDestinatairesTab) && ($sansIdHobbit == -1 || $sansIdHobbit != $h["id_hobbit"])) {
+			if (in_array($h["id_braldun"],$idDestinatairesTab) && ($sansIdBraldun == -1 || $sansIdBraldun != $h["id_braldun"])) {
 				if ($destinataires == "") {
-					$destinataires = $h["id_hobbit"];
+					$destinataires = $h["id_braldun"];
 				} else {
-					$destinataires = $destinataires.",".$h["id_hobbit"];
+					$destinataires = $destinataires.",".$h["id_braldun"];
 				}
-				if ($afficheSupprimer) $aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
-				$aff_js_destinataires .= Bral_Util_Lien::getJsHobbit($h["id_hobbit"], $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')', $afficheLien);
+				if ($afficheSupprimer) $aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_braldun"].'">';
+				$aff_js_destinataires .= Bral_Util_Lien::getJsBraldun($h["id_braldun"], $h["prenom_braldun"].' '.$h["nom_braldun"].' ('.$h["id_braldun"].')', $afficheLien);
 				if ($afficheSupprimer)  {
 					$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
-					$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
+					$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_braldun"].'\', \''.$valeur.'_dest\', \''.$h["id_braldun"].'\')" />';
 					$aff_js_destinataires .= '</span>';
 				} else {
 					$aff_js_destinataires .= "<br>";
 				}
 
-				$tabHobbits[$h["id_hobbit"]] = $h;
+				$tabBralduns[$h["id_braldun"]] = $h;
 			}
 		}
 		$tab = array(
-			"hobbits" => $tabHobbits,
+			"bralduns" => $tabBralduns,
 			"destinataires" => $destinataires,
 			"aff_js_destinataires" => $aff_js_destinataires,
 		);
 		return $tab;
 	}
 
-	public static function constructTabContacts($tabContacts, $idHobbit, $valeur = "valeur_4_contacts") {
+	public static function constructTabContacts($tabContacts, $idBraldun, $valeur = "valeur_4_contacts") {
 		Zend_Loader::loadClass('MessagerieContacts');
 
-		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "hobbits" => null);
+		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "bralduns" => null);
 
 		if ($tabContacts == null || $tabContacts == "") {
 			return $tab;
@@ -86,7 +86,7 @@ class Bral_Util_Messagerie {
 		$messagerieContactsTable = new MessagerieContacts();
 		$idContactsTab = split(',', $tabContacts);
 
-		$contactsTab = $messagerieContactsTable->findByIdsList($idContactsTab, $idHobbit);
+		$contactsTab = $messagerieContactsTable->findByIdsList($idContactsTab, $idBraldun);
 		if ($contactsTab == null) {
 			return $tab;
 		}
@@ -94,8 +94,8 @@ class Bral_Util_Messagerie {
 		$contacts = "";
 		$aff_js_contacts = "";
 		$userIds = "";
-		$hobbits = "";
-		$tabHobbits = null;
+		$bralduns = "";
+		$tabBralduns = null;
 
 		foreach($contactsTab as $c) {
 			if (in_array($c["id"], $idContactsTab)) {
@@ -116,26 +116,26 @@ class Bral_Util_Messagerie {
 			$userIds .= $c["userids"];
 			$tab = split(',', $c["userids"]);
 			foreach($tab as $t) {
-				$tabHobbits[] = $t;
+				$tabBralduns[] = $t;
 			}
 		}
 
 		$userIdsControlles = "";
 
-		if ($tabHobbits != null) {
-			$hobbitTable = new Hobbit();
-			$hobbitsRowset = $hobbitTable->findByIdList($tabHobbits);
-			foreach($hobbitsRowset as $h) {
-				$hobbits[$h["id_hobbit"]] = $h;
+		if ($tabBralduns != null) {
+			$braldunTable = new Braldun();
+			$braldunsRowset = $braldunTable->findByIdList($tabBralduns);
+			foreach($braldunsRowset as $h) {
+				$bralduns[$h["id_braldun"]] = $h;
 				if ($userIdsControlles != "") {
 					$userIdsControlles .= ",";
 				}
-				$userIdsControlles .= $h["id_hobbit"];
+				$userIdsControlles .= $h["id_braldun"];
 			}
 		}
 
 		$tab = array(
-			"hobbits" => $hobbits,
+			"bralduns" => $bralduns,
 			"aff_js_contacts" => $aff_js_contacts,
 			"userids" => $userIdsControlles,
 			"contacts" => $contacts,
@@ -143,14 +143,14 @@ class Bral_Util_Messagerie {
 		return $tab;
 	}
 
-	public static function prepareListe($idHobbit, $prepareHobbits = false) {
+	public static function prepareListe($idBraldun, $prepareBralduns = false) {
 		Zend_Loader::loadClass("MessagerieContacts");
 		$messagerieContactsTable = new MessagerieContacts();
-		$listesContacts = $messagerieContactsTable->findByUserId($idHobbit);
+		$listesContacts = $messagerieContactsTable->findByUserId($idBraldun);
 
 		$tabListes = null;
 		if ($listesContacts != null && count($listesContacts) > 0) {
-			$idsHobbit = null;
+			$idsBraldun = null;
 			foreach($listesContacts as $l) {
 				$tab = array(
 					'id' => $l["id"],
@@ -159,8 +159,8 @@ class Bral_Util_Messagerie {
 					'userids' => $l["userids"],
 				);
 
-				if ($prepareHobbits) {
-					$tab["hobbits"] = Bral_Util_Messagerie::constructTabHobbit($l["userids"], "listecontact", -1, false);
+				if ($prepareBralduns) {
+					$tab["bralduns"] = Bral_Util_Messagerie::constructTabBraldun($l["userids"], "listecontact", -1, false);
 				}
 				$tabListes[] = $tab;
 			}
@@ -169,9 +169,9 @@ class Bral_Util_Messagerie {
 		return $tabListes;
 	}
 
-	public static function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idDestinatairesListe) {
-		return array ('fromid' => $idHobbitSource,
-					  'toid' => $idHobbitDestinataire,
+	public static function prepareMessageAEnvoyer($idBraldunSource, $idBraldunDestinataire, $contenu, $idDestinatairesListe) {
+		return array ('fromid' => $idBraldunSource,
+					  'toid' => $idBraldunDestinataire,
 						'toids' => $idDestinatairesListe,
 						'message' => $contenu,
 						'date_message' => date("Y-m-d H:i:s"),
@@ -182,18 +182,18 @@ class Bral_Util_Messagerie {
 		);
 	}
 
-	public static function envoiMessageAutomatique($idHobbitSource, $idHobbitDestinataire, $contenu, $view) {
+	public static function envoiMessageAutomatique($idBraldunSource, $idBraldunDestinataire, $contenu, $view) {
 		Zend_Loader::loadClass("Message");
-		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
+		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idBraldunSource, $idBraldunDestinataire, $contenu, $idBraldunDestinataire);
 		$messageTable = new Message();
 		$messageTable->insert($data);
 
 		$envoiEmail = "non";
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($idHobbitDestinataire);
-		if ($hobbitRowset != null) {
-			$hobbit = $hobbitRowset->toArray();
-			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->findById($idBraldunDestinataire);
+		if ($braldunRowset != null) {
+			$braldun = $braldunRowset->toArray();
+			if ($braldun["envoi_mail_evenement_braldun"] == "oui") {
 				$envoiEmail = "oui";
 			}
 		}
@@ -201,24 +201,24 @@ class Bral_Util_Messagerie {
 		if ($envoiEmail == "oui") {
 			$config = Zend_Registry::get('config');
 			Zend_Loader::loadClass("Bral_Util_Mail");
-			Bral_Util_Mail::envoiMailAutomatique($hobbit, $config->mail->message->titre, $contenu, $view);
+			Bral_Util_Mail::envoiMailAutomatique($braldun, $config->mail->message->titre, $contenu, $view);
 		}
 	}
 
-	public static function prepareMessages($idHobbit, &$paginator, $filtre, $page, $nbMax, $toread = null) {
+	public static function prepareMessages($idBraldun, &$paginator, $filtre, $page, $nbMax, $toread = null) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 
 		$messageTable = new Message();
 		$config = Zend_Registry::get('config');
 
 		if ($filtre == $config->messagerie->message->type->envoye) {
-			$select = $messageTable->getSelectByFromId($idHobbit);
+			$select = $messageTable->getSelectByFromId($idBraldun);
 		} else if ($filtre == $config->messagerie->message->type->supprime) {
-			$select = $messageTable->getSelectByToOrFromIdSupprime($idHobbit);
+			$select = $messageTable->getSelectByToOrFromIdSupprime($idBraldun);
 		} else if ($filtre == $config->messagerie->message->type->archive) {
-			$select = $messageTable->getSelectByToIdArchive($idHobbit);
+			$select = $messageTable->getSelectByToIdArchive($idBraldun);
 		} else { // reception
-			$select = $messageTable->getSelectByToId($idHobbit, $toread);
+			$select = $messageTable->getSelectByToId($idBraldun, $toread);
 		}
 
 		Zend_Loader::loadClass('Zend_Paginator');
@@ -227,22 +227,22 @@ class Bral_Util_Messagerie {
 		$paginator->setCurrentPageNumber($page);
 		$paginator->setItemCountPerPage($nbMax);
 
-		$idsHobbit = "";
-		$tabHobbits = null;
+		$idsBraldun = "";
+		$tabBralduns = null;
 		$tabMessages = null;
 
 		if (count($paginator) > 0) {
 			foreach ($paginator as $m) {
-				$idsHobbit[$m["toid"]] = $m["toid"];
-				$idsHobbit[$m["fromid"]] = $m["fromid"];
+				$idsBraldun[$m["toid"]] = $m["toid"];
+				$idsBraldun[$m["fromid"]] = $m["fromid"];
 			}
 
-			if ($idsHobbit != null) {
-				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByIdList($idsHobbit);
-				if ($hobbits != null) {
-					foreach($hobbits as $h) {
-						$tabHobbits[$h["id_hobbit"]] = $h;
+			if ($idsBraldun != null) {
+				$braldunTable = new Braldun();
+				$bralduns = $braldunTable->findByIdList($idsBraldun);
+				if ($bralduns != null) {
+					foreach($bralduns as $h) {
+						$tabBralduns[$h["id_braldun"]] = $h;
 					}
 				}
 			}
@@ -250,15 +250,15 @@ class Bral_Util_Messagerie {
 			foreach ($paginator as $m) {
 				$expediteur = "";
 				$destinataire = "";
-				if ($tabHobbits != null) {
-					if (array_key_exists($m["toid"], $tabHobbits)) {
-						$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["toid"]]["id_hobbit"], $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")");
+				if ($tabBralduns != null) {
+					if (array_key_exists($m["toid"], $tabBralduns)) {
+						$destinataire = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["toid"]]["id_braldun"], $tabBralduns[$m["toid"]]["prenom_braldun"] . " ". $tabBralduns[$m["toid"]]["nom_braldun"]. " (".$tabBralduns[$m["toid"]]["id_braldun"].")");
 					} else {
 						$destinataire = " Erreur ".$m["toid"];
 					}
 
-					if (array_key_exists($m["fromid"], $tabHobbits)) {
-						$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["fromid"]]["id_hobbit"], $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")");
+					if (array_key_exists($m["fromid"], $tabBralduns)) {
+						$expediteur = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["fromid"]]["id_braldun"], $tabBralduns[$m["fromid"]]["prenom_braldun"] . " ". $tabBralduns[$m["fromid"]]["nom_braldun"]. " (".$tabBralduns[$m["fromid"]]["id_braldun"].")");
 					} else {
 						$expediteur = " Erreur ".$m["fromid"];
 					}

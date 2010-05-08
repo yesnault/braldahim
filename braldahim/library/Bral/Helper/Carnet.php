@@ -12,7 +12,7 @@
  */
 class Bral_Helper_Carnet {
 
-	public static function affiche($hobbit) {
+	public static function affiche($braldun) {
 		
 		$jsBefore = "if ($('loaded_carnet').value == 0) { $('loaded_carnet').value = 1; _get_('/carnet/doaction?caction=do_carnet_voir'); };";
 		

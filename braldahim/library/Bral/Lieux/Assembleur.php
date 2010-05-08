@@ -17,10 +17,10 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 
 		Zend_Loader::loadClass("Bral_Util_Charrette");
-		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
 		
 		$this->view->coutCastars = $this->calculCoutCastars();
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->view->coutCastars >= 0);
+		$this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->view->coutCastars >= 0);
 		if ($this->view->achatPossibleCastars == false) {
 			return;
 		}
@@ -34,7 +34,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$tabMaterielsBase = null;
 		$materielCourant = null;
@@ -60,7 +60,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 				$materielCourant = $m;
 			}
 		} else if (count($charrettes) > 1) {
-			throw new Zend_Exception(get_class($this)." Nb Charrettes invalide:".count($charrettes). " idh=".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." Nb Charrettes invalide:".count($charrettes). " idh=".$this->view->user->id_braldun);
 		}
 
 		$this->prepareMaterielBase("laban", $materielCourant, $tabMaterielsBase);
@@ -83,7 +83,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			$table = new LabanMateriel();
 			$suffixe = "laban";
 			$origine = "le laban";
-			$materielsBase = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$materielsBase = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($type == "charrette") {
 			$table = new CharretteMateriel();
 			$suffixe = "charrette";
@@ -134,7 +134,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			$table = new LabanMateriel();
 			$suffixe = "laban";
 			$origine = "le laban";
-			$materiels = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$materiels = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($type == "charrette") {
 			$table = new CharretteMateriel();
 			$suffixe = "charrette";
@@ -210,12 +210,12 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 
 		// verification qu'il a assez de PA
 		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_braldun);
 		}
 
 		// verification qu'il y a assez de castars
 		if ($this->view->achatPossibleCastars == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->view->coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->view->coutCastars);
 		}
 
 		$trouve = false;
@@ -244,10 +244,10 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Materiel a assembler invalide");
 		}
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
 
 		$this->assembler($materielBase, $materielAAssembler);
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function assembler($materielBase, $materielAAssembler) {
@@ -261,7 +261,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		$this->view->materielBase = $materielBase;
 		$this->view->materielAAssembler = $materielAAssembler;
 		
-		$details = "[h".$this->view->user->id_hobbit."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
+		$details = "[h".$this->view->user->id_braldun."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $materielAAssembler["id_materiel"], $details);
 	}
@@ -279,7 +279,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		$this->supprimeMaterielAAsembler($materielAAssembler);
 
 		Zend_Loader::loadClass("Bral_Util_Charrette");
-		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
 	}
 
 	private function supprimeMaterielAAsembler($materielAAssembler) {

@@ -6,7 +6,7 @@
  	Pour <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu ?> PA, vous pouvez vous restaurer
  	et, si vous le souhaitez, acheter des ragoûts (&agrave; <?=$this->coutCastars?> castars l'unit&eacute;). <br /><br />
 
-   	Vous avez <?=$this->user->castars_hobbit ?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif; ?> et <?=$this->poidsRestant?> Kg de poids transportable disponible.<br>
+   	Vous avez <?=$this->user->castars_braldun ?> castar<? if ($this->user->castars_braldun > 1): echo "s"; endif; ?> et <?=$this->poidsRestant?> Kg de poids transportable disponible.<br>
 
 	<? if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars !<br />

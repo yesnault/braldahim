@@ -5,25 +5,25 @@
   Pour <?=$this->paUtilisationLieu ?> PA, le professeur <br />
   vous propose d'am&eacute;liorer une caract&eacute;ristique.<br /><br />
  
- <? if ($this->user->pi_academie_hobbit > 0) : ?>
- Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_hobbit?> PI à l'académie.<br><br>
+ <? if ($this->user->pi_academie_braldun > 0) : ?>
+ Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_braldun?> PI à l'académie.<br><br>
  <? endif;?>
  
- <? if ($this->user->niveau_hobbit > 20 && $this->user->niveau_hobbit < Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ <? if ($this->user->niveau_braldun > 20 && $this->user->niveau_braldun < Bral_Util_Niveau::NIVEAU_MAX) : ?>
  	Une fois que vous aurez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pourrez plus obtenir de nouveaux PI.
  	Vous aurez à ce moment là, en comptant les PI déjà dépensés, la possibilité de dépenser <?=Bral_Util_Niveau::NB_PI_NIVEAU_MAX?> en tout à l'académie.
  	<br><br>
- <? elseif ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ <? elseif ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
  	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br>
- 	Il vous reste <?=$this->user->pi_hobbit?> PI à dépenser à l'académie.<br><br>
+ 	Il vous reste <?=$this->user->pi_braldun?> PI à dépenser à l'académie.<br><br>
  <? endif;?>
  
- Vous avez actuellement <?=$this->user->pi_hobbit?> PI à dépenser.<br><br>
+ Vous avez actuellement <?=$this->user->pi_braldun?> PI à dépenser.<br><br>
  
  <? if ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br /><br />
  <? elseif ($this->achatPossibleCumul == false) : ?>
- 	Vous ne pouvez déjà dépensé <?=$this->user->pi_academie_hobbit?> PI, vous ne pouvez plus vous améliorer<br /><br />
+ 	Vous ne pouvez déjà dépensé <?=$this->user->pi_academie_braldun?> PI, vous ne pouvez plus vous améliorer<br /><br />
  <? elseif ($this->achatPossible == false): ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI ou de castars<br /><br />
  <? endif; ?>
@@ -35,7 +35,7 @@
    <ul class="ligne_espace">
    Agilit&eacute; (AGI): <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
-     <? if ($this->coutAgilite <= $this->user->pi_hobbit): ?>
+     <? if ($this->coutAgilite <= $this->user->pi_braldun): ?>
       <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
@@ -45,7 +45,7 @@
     <ul class="ligne_espace">
     Force (FOR) : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
-     <? if ($this->coutForce <= $this->user->pi_hobbit): ?>
+     <? if ($this->coutForce <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
@@ -55,7 +55,7 @@
     <ul class="ligne_espace">
 	Vigueur (VIG) : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
-     <? if ($this->coutVigueur <= $this->user->pi_hobbit): ?>
+     <? if ($this->coutVigueur <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
@@ -65,7 +65,7 @@
     <ul class="ligne_espace">
     Sagesse (SAG) :  <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
-     <? if ($this->coutSagesse <= $this->user->pi_hobbit): ?>
+     <? if ($this->coutSagesse <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !

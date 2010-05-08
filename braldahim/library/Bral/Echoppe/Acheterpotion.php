@@ -47,7 +47,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$potions = $echoppePotionTable->findByIdEchoppe($this->idEchoppe);
 
 		$labanMineraiTable = new LabanMinerai();
-		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+		$minerais = $labanMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$trouve = false;
 		foreach ($potions as $p) {
@@ -95,7 +95,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$echoppePotionPartiePlante = $echoppePotionPartiePlanteTable->findByIdsPotion($idPotions);
 
 		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$partiesPlantes = null;
 		if (count($echoppePotionPartiePlante) > 0) {
@@ -127,7 +127,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			}
 		}
 
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 
 		if ($poidsRestant < Bral_Util_Poids::POIDS_POTION) {
 			$placeDispo = false;
@@ -165,7 +165,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 
 	private function preparePrix() {
 		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		$laban = $labanTable->findByIdBraldun($this->view->user->id_braldun);
 
 		if (count($laban) != 1) {
 			$laban = null;
@@ -241,7 +241,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$retour = false;
 		if ($nomSysteme == "rondin") {
 			$charretteTable = new Charrette();
-			$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+			$charrette = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 			if (count($charrette) == 1) {
 				$charrette = $charrette[0];
 				if ($charrette["quantite_rondin_charrette"] >= $prix) {
@@ -253,7 +253,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 				$retour = true;
 			}
 		} elseif ($nomSysteme == "castar") {
-			if ($this->view->user->castars_hobbit >= $prix) {
+			if ($this->view->user->castars_braldun >= $prix) {
 				$retour = true;
 			}
 		}
@@ -276,7 +276,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::prix invalide. non connu");
 		}
 
-		// on verifie que le hobbit a assez de ressources.
+		// on verifie que le braldun a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}
@@ -303,7 +303,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] a acheté ".$this->view->potion["nom_type"]." ".$this->view->potion["nom"]. " n°".$this->view->potion["id_potion"]. " dans l'échoppe";
+		$details = "[h".$this->view->user->id_braldun."] a acheté ".$this->view->potion["nom_type"]." ".$this->view->potion["nom"]. " n°".$this->view->potion["id_potion"]. " dans l'échoppe";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->potion["id_potion"], $details);
 
 	}
@@ -315,7 +315,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$charretteTable = new Charrette();
 			$data = array(
 				'quantite_rondin_charrette' => -$prix["prix"],
-				'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+				'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 			);
 			$charretteTable->updateCharrette($data);
 				
@@ -332,7 +332,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "peau") {
 			$labanTable = new Laban();
 			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+				'id_fk_braldun_laban' => $this->view->user->id_braldun,
 				'quantite_peau_laban' => -$prix["prix"],
 			);
 			$labanTable->insertOrUpdate($data);
@@ -348,7 +348,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 				
 		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "castar") {
-			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
+			$this->view->user->castars_braldun = $this->view->user->castars_braldun - $prix["prix"];
 				
 			if ($prix["prix"] > 0) {
 				$data = array(
@@ -367,7 +367,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$labanMineraiTable = new LabanMinerai();
 		$data = array(
 			'id_fk_type_laban_minerai' => $prix["minerais"]["id_fk_type_minerai"],
-			'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 			'quantite_brut_laban_minerai' => - $prix["prix"],
 		);
 		$labanMineraiTable->insertOrUpdate($data);
@@ -391,7 +391,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$data = array(
 			'id_fk_type_laban_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
 			'id_fk_type_plante_laban_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-			'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
 			'quantite_laban_partieplante' => - $prix["prix"],
 		);
 		$labanPartiePlanteTable->insertOrUpdate($data);
@@ -414,7 +414,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$labanPotionTable = new LabanPotion();
 		$data = array(
 			'id_laban_potion' => $this->potion["id_echoppe_potion"],
-			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban_potion' => $this->view->user->id_braldun,
 		);
 		$labanPotionTable->insert($data);
 

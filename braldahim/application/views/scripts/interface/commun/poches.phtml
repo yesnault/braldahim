@@ -18,8 +18,8 @@
 		</ul>
 	</li>
 	
-	<? if (count($this->tabHobbitMetiers) > 0) :?>
-		<? foreach ($this->tabHobbitMetiers as $m) : ?>
+	<? if (count($this->tabBraldunMetiers) > 0) :?>
+		<? foreach ($this->tabBraldunMetiers as $m) : ?>
 			<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
 			<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
 				<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>

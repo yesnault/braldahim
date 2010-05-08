@@ -10,7 +10,7 @@
 	    		<table class="table_liste" style="width:80%">
 					<thead class="table_liste">
 					  <tr class="table_liste" title="Cliquer pour Trier">
-						<th>ID Hobbit</th>
+						<th>ID Braldun</th>
 						<th>Id PHP session</th>
 						<th>IP</th>
 						<th>Dernière activité</th>
@@ -19,7 +19,7 @@
 					<tbody>
 						<? foreach($this->sessions as $s) :?>
 							<tr class="table_liste">
-							<td style="cursor:pointer" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$s["id_fk_hobbit_session"]?>');"><?=$s["nom"]?> (<?=$s["id_fk_hobbit_session"]?>)</td>
+							<td style="cursor:pointer" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$s["id_fk_braldun_session"]?>');"><?=$s["nom"]?> (<?=$s["id_fk_braldun_session"]?>)</td>
 							<td><?=$s["id_php_session"]?></td>
 							<td><?=$s["ip_session"]?></td>
 							<td><?=$s["date_derniere_action_session"]?></td>

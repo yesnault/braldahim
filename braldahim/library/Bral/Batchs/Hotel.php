@@ -56,7 +56,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - Message -".$retour);
 		
-		//TODO Message vers Hobbit
+		//TODO Message vers Braldun
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - exit -");
 	}
@@ -76,7 +76,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			foreach($aliments as $a) {
 				$data = array(
 					"id_coffre_aliment" => $a["id_vente_aliment"],
-					"id_fk_hobbit_coffre_aliment" => $vente["id_fk_hobbit_vente"],
+					"id_fk_braldun_coffre_aliment" => $vente["id_fk_braldun_vente"],
 					"id_fk_type_qualite_coffre_aliment" => $a["id_fk_type_qualite_vente_aliment"],
 					"bbdf_coffre_aliment" => $a["bbdf_vente_aliment"],
 				);
@@ -115,7 +115,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$prefix = "_".$element["type_vente_element"];
 
 			$data = array(
-				"id_fk_hobbit_coffre" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre" => $vente["id_fk_braldun_vente"],
 				"quantite".$prefix."_coffre" => $element["quantite_vente_element"],
 			);
 			$coffreTable->insertOrUpdate($data);
@@ -179,7 +179,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_coffre_equipement" => $equipement["id_vente_equipement"],
-				"id_fk_hobbit_coffre_equipement" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_equipement" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreEquipementTable->insert($data);
 			
@@ -212,7 +212,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_coffre_materiel" => $materiel["id_vente_materiel"],
-				"id_fk_hobbit_coffre_materiel" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_materiel" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreMaterielTable->insert($data);
 			
@@ -243,7 +243,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_fk_type_coffre_munition" => $munition["id_fk_type_vente_munition"],
-				"id_fk_hobbit_coffre_munition" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_munition" => $vente["id_fk_braldun_vente"],
 				"quantite_coffre_munition" => $munition["quantite_vente_munition"],
 			);
 			$coffreMunitionTable->insertOrUpdate($data);
@@ -287,7 +287,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				
 			$data = array(
 				"id_fk_type_coffre_minerai" => $minerai["id_fk_type_vente_minerai"],
-				"id_fk_hobbit_coffre_minerai" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_minerai" => $vente["id_fk_braldun_vente"],
 				"quantite_".$prefix."_coffre_minerai" => $minerai["quantite_vente_minerai"],
 			);
 			$coffreMineraiTable->insertOrUpdate($data);
@@ -337,7 +337,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$data = array(
 				"id_fk_type_coffre_partieplante" => $partieplante["id_fk_type_vente_partieplante"],
 				"id_fk_type_plante_coffre_partieplante" => $partieplante["id_fk_type_plante_vente_partieplante"],
-				"id_fk_hobbit_coffre_partieplante" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_partieplante" => $vente["id_fk_braldun_vente"],
 				"quantite".$prefix."_coffre_partieplante" => $partieplante["quantite_vente_partieplante"],
 			);
 			$coffrePartieplanteTable->insertOrUpdate($data);
@@ -377,7 +377,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_coffre_potion" => $potion["id_vente_potion"],
-				"id_fk_hobbit_coffre_potion" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_potion" => $vente["id_fk_braldun_vente"],
 			);
 			$coffrePotionTable->insert($data);
 			
@@ -408,7 +408,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_rune_coffre_rune" => $rune["id_rune_vente_rune"],
-				"id_fk_hobbit_coffre_rune" => $vente["id_fk_hobbit_vente"],
+				"id_fk_braldun_coffre_rune" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreRuneTable->insert($data);
 			

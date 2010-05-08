@@ -25,12 +25,12 @@
 			 <br>
 			 
 			  <div id="label_description">
-			  <?=Bral_Util_BBParser::bbcodeReplace($this->user->description_hobbit) ?><? if (mb_strlen(trim($this->user->description_hobbit)) == 0 || $this->user->description_hobbit == null) :?> [vide]<? endif; ?>
+			  <?=Bral_Util_BBParser::bbcodeReplace($this->user->description_braldun) ?><? if (mb_strlen(trim($this->user->description_braldun)) == 0 || $this->user->description_braldun == null) :?> [vide]<? endif; ?>
 			  </div>
 			  
 			  <div id="edition" style="display:none">
 			  <?=Bral_Helper_BBBoutons::affiche('valeur_2')?>
-			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?=stripslashes($this->user->description_hobbit) ?></textarea>
+			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?=stripslashes($this->user->description_braldun) ?></textarea>
 			 
 				  <input type="button" class='button1' id="bouton_description" 
 				  	onClick="

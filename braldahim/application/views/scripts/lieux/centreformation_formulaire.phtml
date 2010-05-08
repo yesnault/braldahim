@@ -60,7 +60,7 @@
 		    	<select id='valeur_3' name='valeur_3' onChange="javascript:$('changer_metier').disabled=true;$('valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').disabled=false;} else { $('apprendre_metier').disabled=true}">
 		    		<option value='-1'>(Choisissez un m&eacute;tier)</option>
 		    		<? foreach ($this->tabNouveauMetiers as $t) : ?>
-		    			<option value='<?=$t["id_metier"]?>' <? if ($this->user->niveau_hobbit < $t["niveau_min_metier"]) :echo 'disabled'; endif;?>><?=$t["nom"]?> <? if ($this->user->niveau_hobbit < $t["niveau_min_metier"]) : echo "Niveau minimum requis pour apprendre ce métier: ".$t["niveau_min_metier"]; endif;?> </option>
+		    			<option value='<?=$t["id_metier"]?>' <? if ($this->user->niveau_braldun < $t["niveau_min_metier"]) :echo 'disabled'; endif;?>><?=$t["nom"]?> <? if ($this->user->niveau_braldun < $t["niveau_min_metier"]) : echo "Niveau minimum requis pour apprendre ce métier: ".$t["niveau_min_metier"]; endif;?> </option>
 		    		<? endforeach; ?>
 		    	</select>
 		    <? else : ?>

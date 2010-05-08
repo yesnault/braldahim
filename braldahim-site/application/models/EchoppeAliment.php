@@ -24,10 +24,10 @@ class EchoppeAliment extends Zend_Db_Table {
 		$select->from('region');
 		$select->from('aliment');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
-		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
+		$select->from('braldun', array('id_braldun', 'prenom_braldun', 'nom_braldun', 'sexe_braldun'));
 		$select->where('id_fk_type_qualite_aliment = id_type_qualite');
 		$select->where("type_vente_echoppe_aliment like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_fk_echoppe_echoppe_aliment = id_echoppe');
 		$select->where('id_fk_metier_echoppe = id_metier');
 		$select->where('id_echoppe_aliment = id_aliment');
@@ -60,11 +60,11 @@ class EchoppeAliment extends Zend_Db_Table {
 		$select->from('echoppe_aliment', 'count(id_echoppe_aliment) as nombre');
 		$select->from('type_aliment', null);
 		$select->from('echoppe', null);
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('region', null);
 		$select->from('aliment', null);
 		$select->where("type_vente_echoppe_aliment like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_echoppe_aliment = id_aliment');
 		$select->where('id_fk_type_aliment = id_type_aliment');
 		$select->where('id_fk_echoppe_echoppe_aliment = id_echoppe');

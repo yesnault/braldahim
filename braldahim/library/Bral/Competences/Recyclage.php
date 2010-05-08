@@ -16,7 +16,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanEquipement");
 
 		/*
-		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
+		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa == false) {
@@ -26,7 +26,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		// on va chercher l'équipement présent dans le laban
 		$tabEquipementLaban = null;
 		$labanEquipementTable = new LabanEquipement();
-		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipementLabanRowset = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 
@@ -56,7 +56,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
@@ -88,7 +88,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRecyclage($idEquipement, $idTypeEquipement, $nivEquipement, $poidsEquipement){
@@ -103,7 +103,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$tabMineraiLaban = null;
 		$tabMineraiTerre = null;
 
-		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $poidsEquipement;
+		$this->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun + $poidsEquipement;
 
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
@@ -123,8 +123,8 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		 * Si Ni*30 < Js  alors 80 % des ...
 		 */
 
-		$jetSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
-		$jetSag = $jetSag + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$jetSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$jetSag = $jetSag + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
 		if ($jetSag < $nivEquipement*10) {
 			$perte = 0.25;
@@ -157,7 +157,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		// on ajoute dans le laban
 		$labanTable = new Laban();
 		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban' => $this->view->user->id_braldun,
 			'quantite_cuir_laban' => $nbCuirLaban,
 			'quantite_fourrure_laban' => $nbFourrureLaban,
 			'quantite_planche_laban' => $nbPlancheLaban,
@@ -170,9 +170,9 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 			"quantite_cuir_element" => $nbCuirTerre,
 			"quantite_fourrure_element" => $nbFourrureTerre,
 			"quantite_planche_element" => $nbPlancheTerre,
-			"x_element" => $this->view->user->x_hobbit,
-			"y_element" => $this->view->user->y_hobbit,
-			"z_element" => $this->view->user->z_hobbit,
+			"x_element" => $this->view->user->x_braldun,
+			"y_element" => $this->view->user->y_braldun,
+			"z_element" => $this->view->user->z_braldun,
 		);
 		$elementTable->insertOrUpdate($data);
 
@@ -198,7 +198,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 					$data = array(
 						'id_fk_type_laban_minerai' => $r["id_type_minerai"],
-						'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+						'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 						'quantite_lingots_laban_minerai' => $nbMineraiLaban,
 					);
 					$labanMineraiTable->insertOrUpdate($data);
@@ -213,9 +213,9 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 					$elementMineraiTable = new ElementMinerai();
 					$data = array (
-						"x_element_minerai" => $this->view->user->x_hobbit,
-						"y_element_minerai" => $this->view->user->y_hobbit,
-						"z_element_minerai" => $this->view->user->z_hobbit,
+						"x_element_minerai" => $this->view->user->x_braldun,
+						"y_element_minerai" => $this->view->user->y_braldun,
+						"z_element_minerai" => $this->view->user->z_braldun,
 						"id_fk_type_element_minerai" => $r["id_type_minerai"],
 						"quantite_lingots_element_minerai" => $nbMineraiTerre,
 					);
@@ -234,7 +234,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->view->mineraiTerre = $tabMineraiTerre;
 		$this->view->jetRecyclage = $jetSag;
 
-		$details = "[h".$this->view->user->id_hobbit."] a recyclé la pièce d'équipement n°".$idEquipement;
+		$details = "[h".$this->view->user->id_braldun."] a recyclé la pièce d'équipement n°".$idEquipement;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_DESTRUCTION_ID, $idEquipement, $details);
 
 	}

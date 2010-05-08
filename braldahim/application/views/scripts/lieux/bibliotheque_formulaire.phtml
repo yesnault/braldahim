@@ -9,7 +9,7 @@
 	  C'est votre première visite, la première compétence est gratuite en castars!<br><br>
   <? endif; ?>
   
-  <? if ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
+  <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
  	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous devez
  	acheter les nouvelles compétences à l'aide de PX et non de PI.<br><br>
  <? endif;?>
@@ -19,7 +19,7 @@
  <? elseif ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de PA<br /><br />
  <? elseif ($this->achatPiPossible == false): ?>
- 	Vous ne pouvez rien apprendre, vous n'avez pas assez de <? if ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?><br /><br />
+ 	Vous ne pouvez rien apprendre, vous n'avez pas assez de <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?><br /><br />
  <? elseif ($this->achatPossibleCastars == false): ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de Castars<br /><br />
  <? endif; ?>
@@ -32,7 +32,7 @@
  <? foreach ($this->tabCompetences as $c):?>
    <tr>
      <td><?=$c["nom"]?></td>
-     <td nowrap> co&ucirc;t : <?=$c["pi_cout"]?> <? if ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?> </td>
+     <td nowrap> co&ucirc;t : <?=$c["pi_cout"]?> <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?> </td>
      <td align='left'>
      <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
      	<? if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>

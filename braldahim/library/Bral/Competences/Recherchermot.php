@@ -14,7 +14,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('LabanRune');
-		// on verifie que le hobbit possede au moins une rune
+		// on verifie que le braldun possede au moins une rune
 
 		$this->view->rechercherMotOk = false;
 
@@ -23,7 +23,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		$motsRuniques = $motRuniqueTable->fetchAll(null, "suffixe_mot_runique ASC");
 
 		$tabMotsRuniques = null;
-		$longueurMax = floor($this->view->user->sagesse_base_hobbit / 2);
+		$longueurMax = floor($this->view->user->sagesse_base_braldun / 2);
 
 		$motCourant = null;
 		$id_mot_courant = (int)$this->request->get("id_mot");
@@ -58,7 +58,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanRune");
 		$tabLabanRune = null;
 		$labanRuneTable = new LabanRune();
-		$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, "oui");
+		$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
 			
 		foreach($labanRunes as $l) {
 			$tabLabanRune[$l["id_rune_laban_rune"]] = array(
@@ -107,7 +107,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->rechercherMotOk == false) {
@@ -182,7 +182,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRecherchermot($motRecherche, $tabRunes) {

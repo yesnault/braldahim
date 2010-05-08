@@ -59,7 +59,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->arBoutiqueCaisse["ingredients"]  = array("nom_systeme" => "ingredients", "nom" => "Ingrédients", "a_afficher" => false);
 
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$this->view->estSurEchoppe == false;
 		$this->view->afficheType = "equipements";
@@ -68,7 +68,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$id_metier = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe) {
-				if ($this->view->user->sexe_hobbit == 'feminin') {
+				if ($this->view->user->sexe_braldun == 'feminin') {
 					$nom_metier = $e["nom_feminin_metier"];
 				} else {
 					$nom_metier = $e["nom_masculin_metier"];
@@ -121,8 +121,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$this->arBoutiqueCaisse["peaux"]["a_afficher"] = true;
 				}
 
-				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
-				$this->view->user->y_hobbit == $e["y_echoppe"]) {
+				if ($this->view->user->x_braldun == $e["x_echoppe"] &&
+				$this->view->user->y_braldun == $e["y_echoppe"]) {
 					$this->view->estSurEchoppe = true;
 				}
 				if ($e["nom_systeme_metier"] == "apothicaire") {
@@ -134,16 +134,16 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			}
 		}
 		if ($tabEchoppe == null) {
-			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_hobbit." ide:".$id_echoppe);
+			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_braldun." ide:".$id_echoppe);
 		}
 
-		Zend_Loader::loadClass("HobbitsCompetences");
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 
 		$competence = null;
 		$tabCompetences = null;
-		foreach($hobbitCompetences as $c) {
+		foreach($braldunCompetences as $c) {
 			if ($id_metier == $c["id_fk_metier_competence"]) {
 				$pa_texte = $c["pa_utilisation_competence"];
 				if ($c["nom_systeme_competence"] == "cuisiner") {

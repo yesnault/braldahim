@@ -64,11 +64,11 @@ class Bral_Util_Nom {
 
 		$idNom = -1;
 
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		$nomOk = false;
 		while ($nomOk != true) {
 			$idNom = array_pop($idNoms);
-			$r = $hobbitTable->findByIdNomInitialPrenom($idNom, $prenom);
+			$r = $braldunTable->findByIdNomInitialPrenom($idNom, $prenom);
 			if (count($r) > 0) {
 				// association nom / prenom deja presente
 				// on regarde s'il reste des noms dispo dans la liste

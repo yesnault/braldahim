@@ -33,7 +33,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			$this->data();
 			$this->view->pocheNom = "Poche";
 			$this->view->pocheNomSysteme = "Laban";
-			$this->view->nb_castars = $this->view->user->castars_hobbit;
+			$this->view->nb_castars = $this->view->user->castars_braldun;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/laban.phtml");
@@ -53,33 +53,33 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("LabanMateriel");
 		Zend_Loader::loadClass("LabanRune");
 		Zend_Loader::loadClass("LabanTabac");
-		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("BraldunsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
 
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		unset($hobbitsMetiersTable);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+		unset($braldunsMetiersTable);
 
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
 		unset($metiersTable);
 		$metiersRowset = $metiersRowset->toArray();
-		$tabHobbitMetiers = null;
+		$tabBraldunMetiers = null;
 		$tabMetiers = null;
 
 		foreach($metiersRowset as $m) {
-			if ($this->view->user->sexe_hobbit == 'feminin') {
+			if ($this->view->user->sexe_braldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
 
 			$possedeMetier = false;
-			foreach($hobbitsMetierRowset as $h) {
+			foreach($braldunsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
 					$possedeMetier = true;
 					break;
@@ -87,7 +87,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			}
 
 			if ($possedeMetier == true) {
-				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
+				$tabBraldunMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
 						"nom" => $nom_metier,
 						"nom_systeme" => $m["nom_systeme_metier"],
@@ -107,7 +107,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$tabMineraisBruts = null;
 		$tabLingots = null;
 		$labanMineraiTable = new LabanMinerai();
-		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+		$minerais = $labanMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanMineraiTable);
 
 		foreach ($minerais as $m) {
@@ -142,7 +142,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		$tabLaban = null;
 		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		$laban = $labanTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanTable);
 
 		foreach ($laban as $p) {
@@ -185,7 +185,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
-		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
 		unset($labanRuneTable);
 
 		foreach ($runes as $r) {
@@ -232,7 +232,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->renderTabac();
 
 		$this->view->laban = $tabLaban;
-		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
+		$this->view->tabBraldunMetiers = $tabBraldunMetiers;
 		$this->view->tabMetiers = $tabMetiers;
 
 		$this->view->estElementsEtal = false;
@@ -241,7 +241,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		$this->view->nom_interne = $this->getNomInterne();
 
-		unset($tabHobbitMetiers);
+		unset($tabBraldunMetiers);
 		unset($tabMetiers);
 		unset($tabMineraisBruts);
 		unset($tabLingots);
@@ -252,7 +252,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderTabac() {
 		$tabTabac = null;
 		$labanTabacTable = new LabanTabac();
-		$tabacs = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabacs = $labanTabacTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanTabacTable);
 
 		foreach ($tabacs as $m) {
@@ -280,7 +280,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		$tabTypePlantes = null;
 		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanPartiePlanteTable);
 
 		foreach($typePartiePlantesRowset as $p) {
@@ -354,7 +354,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderEquipement() {
 		$tabEquipements = null;
 		$labanEquipementTable = new LabanEquipement();
-		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanEquipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -375,7 +375,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderMateriel() {
 		$tabMateriels = null;
 		$labanMaterielTable = new LabanMateriel();
-		$materiels = $labanMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+		$materiels = $labanMaterielTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanMaterielTable);
 
 		$tabWhere = null;
@@ -401,7 +401,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderMunition() {
 		$tabMunitions = null;
 		$labanMunitionTable = new LabanMunition();
-		$munitions = $labanMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+		$munitions = $labanMunitionTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanMunitionTable);
 
 		foreach ($munitions as $m) {
@@ -421,7 +421,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
-		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanPotionTable);
 
 		foreach ($potions as $p) {
@@ -447,7 +447,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderAliment() {
 		$tabAliments = null;
 		$labanAlimentTable = new LabanAliment();
-		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		$aliments = $labanAlimentTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanAlimentTable);
 
 		Zend_Loader::loadClass("Bral_Util_Aliment");
@@ -470,7 +470,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderGraine() {
 		$tabGraines = null;
 		$labanGraineTable = new LabanGraine();
-		$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+		$graines = $labanGraineTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanGraineTable);
 
 		foreach ($graines as $g) {
@@ -492,7 +492,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	private function renderIngredient(&$tabMetiers, &$tabLaban) {
 		$tabIngredients = null;
 		$labanIngredientTable = new LabanIngredient();
-		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+		$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanIngredientTable);
 
 		Zend_Loader::loadClass("TypeIngredient");

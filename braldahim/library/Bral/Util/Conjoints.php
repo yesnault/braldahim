@@ -14,41 +14,41 @@ class Bral_Util_Conjoints {
 
 	private function __construct(){}
 
-	public static function getConjoint($sexe, $idHobbit) {
+	public static function getConjoint($sexe, $idBraldun) {
 		Zend_Loader::loadClass('Couple');
 		$coupleTable = new Couple();
-		$conjointRowset = $coupleTable->findConjoint($sexe, $idHobbit);
+		$conjointRowset = $coupleTable->findConjoint($sexe, $idBraldun);
 
 		$conjoint = null;
 		if (count($conjointRowset) > 1) {
-			throw new Zend_Exception("Bral_Util_Conjoints::getConjoint nb conjoints invalide. idh:".$idHobbit);
+			throw new Zend_Exception("Bral_Util_Conjoints::getConjoint nb conjoints invalide. idh:".$idBraldun);
 		} else if (count($conjointRowset) == 1) {
 			$c = $conjointRowset[0];
 			$conjoint = array(
-				"prenom" => $c["prenom_hobbit"],
-				"nom" => $c["nom_hobbit"],
-				"id_hobbit" => $c["id_hobbit"]
+				"prenom" => $c["prenom_braldun"],
+				"nom" => $c["nom_braldun"],
+				"id_braldun" => $c["id_braldun"]
 			);
 		} else {
-			$conjoint =  self::getAncienConjoint($sexe, $idHobbit);
+			$conjoint =  self::getAncienConjoint($sexe, $idBraldun);
 		}
 
 		return $conjoint;
 	}
 
-	private static function getAncienConjoint($sexe, $idHobbit) {
+	private static function getAncienConjoint($sexe, $idBraldun) {
 		$coupleTable = new Couple();
-		$conjointRowset = $coupleTable->findConjoint($sexe, $idHobbit, true);
+		$conjointRowset = $coupleTable->findConjoint($sexe, $idBraldun, true);
 
 		$conjoint = null;
 		if (count($conjointRowset) > 1) {
-			throw new Zend_Exception("Bral_Util_Conjoints::getAncienConjoint nb conjoints invalide. idh:".$idHobbit);
+			throw new Zend_Exception("Bral_Util_Conjoints::getAncienConjoint nb conjoints invalide. idh:".$idBraldun);
 		} else if (count($conjointRowset) == 1) {
 			$c = $conjointRowset[0];
 			$conjoint = array(
-				"prenom" => $c["prenom_ancien_hobbit"],
-				"nom" => $c["nom_ancien_hobbit"],
-				"id_hobbit" => $c["id_ancien_hobbit"]
+				"prenom" => $c["prenom_ancien_braldun"],
+				"nom" => $c["nom_ancien_braldun"],
+				"id_braldun" => $c["id_ancien_braldun"]
 			);
 		}
 		

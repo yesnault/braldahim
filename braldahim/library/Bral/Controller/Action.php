@@ -25,13 +25,13 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		|| ($this->_request->action != 'index' &&
 		$this->view->user->initialCall == false &&
 		$this->_request->get("dateAuth") != $this->view->user->dateAuth)
-		|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+		|| !isset($this->view->user) || !isset($this->view->user->email_braldun)) {
 			if (!Zend_Auth::getInstance()->hasIdentity() ) {
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1A - Session perdue");
 			} else {
-				$texte = "hobbit:inconnu";
+				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
 				}
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B ".$texte." action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
 			}
@@ -40,9 +40,9 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
-				$texte = "hobbit:inconnu";
+				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
 				}
 				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
@@ -135,7 +135,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 						self::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
 					}
 				}
-				Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
+				Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_braldun);
 			} catch (Zend_Exception $e) {
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 				$xml_entry->set_valeur($b->getNomInterne());

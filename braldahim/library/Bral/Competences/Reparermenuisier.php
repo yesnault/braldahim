@@ -25,9 +25,9 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->reparermenuisierEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -38,11 +38,11 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 7, strlen($this->nom_systeme) - 7);
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit && 
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun && 
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->reparermenuisierEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -72,13 +72,13 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		$this->view->nom_systeme = $this->nom_systeme;
 	}
 
-	// Récupération des charrettes portées par les hobbits, sur la cases de l'échoppe.
+	// Récupération des charrettes portées par les bralduns, sur la cases de l'échoppe.
 	private function prepareCharrettes() {
 		$tabCharrettes = null;
 
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
-		$charrettesRowset = $charretteTable->findByPositionAvecHobbit($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$charrettesRowset = $charretteTable->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		if ($charrettesRowset != null && count($charrettesRowset) > 0) {
 
@@ -103,9 +103,9 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 				$tabCharrettes[] = array(
 					"id_charrette" => $c["id_charrette"],
 					"nom_type_materiel" => $c["nom_type_materiel"],
-					"id_hobbit" => $c["id_hobbit"],
-					"nom_hobbit" => $c["nom_hobbit"],
-					"prenom_hobbit" => $c["prenom_hobbit"],
+					"id_braldun" => $c["id_braldun"],
+					"nom_braldun" => $c["nom_braldun"],
+					"prenom_braldun" => $c["prenom_braldun"],
 					"durabilite_max_charrette" => $c["durabilite_max_charrette"],
 					"durabilite_actuelle_charrette" => $c["durabilite_actuelle_charrette"],
 					"poids_transportable_charrette" => $c["poids_transportable_charrette"],
@@ -161,7 +161,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification reparer
@@ -186,21 +186,21 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		}
 
 		if ($charrette == null) {
-			throw new Zend_Exception(get_class($this)." idCharrette interdit A=".$idCharrette. " idh=".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." idCharrette interdit A=".$idCharrette. " idh=".$this->view->user->id_braldun);
 		}
 
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			$this->calculReparer($charrette);
 			$id_type = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a réparé un matériel";
+			$details = "[h".$this->view->user->id_braldun."] a réparé un matériel";
 			$this->setDetailsEvenement($details, $id_type);
 		}
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 
 		$this->view->charrette = $charrette;
 	}

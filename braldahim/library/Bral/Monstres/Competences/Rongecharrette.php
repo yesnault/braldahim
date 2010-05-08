@@ -25,22 +25,22 @@ class Bral_Monstres_Competences_Rongecharrette extends Bral_Monstres_Competences
 		$y = $this->monstre["y_monstre"];
 		$z = $this->monstre["z_monstre"];
 		$charrettes = $charretteTable->findByCase($x, $y, $z);
-		$charrettesavecHobbit = $charretteTable->findByPositionAvecHobbit($x, $y, $z);
+		$charrettesavecBraldun = $charretteTable->findByPositionAvecBraldun($x, $y, $z);
 
-		if (count($charrettes) > 0 && count($charrettesavecHobbit) > 0) {
+		if (count($charrettes) > 0 && count($charrettesavecBraldun) > 0) {
 			if (Bral_Util_De::get_1d2() == 1) {
 				shuffle($charrettes);
 				$this->updateCharrette($charrettes[0]);
 			} else {
-				shuffle($charrettesavecHobbit);
-				$this->updateCharrette($charrettesavecHobbit[0]);
+				shuffle($charrettesavecBraldun);
+				$this->updateCharrette($charrettesavecBraldun[0]);
 			}
 		} elseif (count($charrettes) > 0) {
 			shuffle($charrettes);
 			$this->updateCharrette($charrettes[0]);
-		} elseif (count($charrettesavecHobbit) > 0) {
-			shuffle($charrettesavecHobbit);
-			$this->updateCharrette($charrettesavecHobbit[0]);
+		} elseif (count($charrettesavecBraldun) > 0) {
+			shuffle($charrettesavecBraldun);
+			$this->updateCharrette($charrettesavecBraldun[0]);
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
@@ -53,21 +53,21 @@ class Bral_Monstres_Competences_Rongecharrette extends Bral_Monstres_Competences
 		$where = "id_charrette = ".$charrette["id_charrette"];
 		$charretteTable->update($data, $where);
 
-		$this->majEvenement($charrette["id_charrette"], $charrette["id_fk_hobbit_charrette"]);
+		$this->majEvenement($charrette["id_charrette"], $charrette["id_fk_braldun_charrette"]);
 	}
 
-	private function majEvenement($idCharrette, $idHobbit = null) {
+	private function majEvenement($idCharrette, $idBraldun = null) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
 
 		$details = "[m".$this->monstre["id_monstre"]."] ronge la [t".$idCharrette."]";
 		$detailsBot = "";
-		if ($idHobbit != null) {
-			$details .= " portée par [h".$idHobbit."]";
+		if ($idBraldun != null) {
+			$details .= " portée par [h".$idBraldun."]";
 			$detailsBot = "Le Rat a rongé votre charrette, elle perd 1 point en durabilité."; 
 		}
 
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($idHobbit, $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $this->monstre["niveau_monstre"], $this->view);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($idBraldun, $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $this->monstre["niveau_monstre"], $this->view);
 		Zend_loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ATTAQUER_ID, $idCharrette, $details);
 

@@ -28,7 +28,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("Echoppe");
 
 		$echoppesTable = new Echoppe();
-		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($echoppeRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
 		} else if (count($echoppeRowset) == 0) {
@@ -44,15 +44,15 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		} else {
 			$nom .= " de ";
 		}
-		if ($echoppe["sexe_hobbit"] == "masculin") {
+		if ($echoppe["sexe_braldun"] == "masculin") {
 			$nom .= $echoppe["nom_masculin_metier"];
 		} else {
 			$nom .= $echoppe["nom_feminin_metier"];
 		}
 		$nom = htmlspecialchars($nom). "<br>";
-		$nom .= " appartenant &agrave ".htmlspecialchars($echoppe["prenom_hobbit"]);
-		$nom .= " ".htmlspecialchars($echoppe["nom_hobbit"]);
-		$nom .= " n°".$echoppe["id_hobbit"];
+		$nom .= " appartenant &agrave ".htmlspecialchars($echoppe["prenom_braldun"]);
+		$nom .= " ".htmlspecialchars($echoppe["nom_braldun"]);
+		$nom .= " n°".$echoppe["id_braldun"];
 
 		if ($echoppe["nom_systeme_metier"] == "apothicaire") {
 			$this->view->afficheType = "potions";

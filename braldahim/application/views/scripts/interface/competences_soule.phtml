@@ -7,12 +7,12 @@
  <?php 
  if ($this->user->activation == false) {
  	echo "Tour non activé à la connexion";
- } else if ($this->user->est_soule_hobbit == "non") {
+ } else if ($this->user->est_soule_braldun == "non") {
  	echo "Pas de compétence de soule, aucun match en cours";
  } else if (count($this->competences) > 0) {
  	foreach($this->competences as $c) : ?>
   <ul class="ligne_espace">
-      <? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+      <? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
       		$attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 	    else:
 	      $attr = "disabled alt=\"Vous n'avez pas assez de PA\"";

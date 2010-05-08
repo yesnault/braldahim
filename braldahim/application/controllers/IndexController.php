@@ -25,7 +25,7 @@ class IndexController extends Zend_Controller_Action {
 	function preDispatch() {
 		if ($this->view->config->general->actif == 1) {
 			$auth = Zend_Auth::getInstance();
-			if (!$auth->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+			if (!$auth->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_braldun)) {
 				$this->_redirect('auth/login');
 			} else {
 				$this->_redirect('interface/');

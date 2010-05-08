@@ -24,40 +24,40 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Attaque');
-		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("BraldunEquipement");
 
-		$tabHobbits = null;
+		$tabBralduns = null;
 		$tabMonstres = null;
 
 		$armeTirPortee = false;
-		$hobbitEquipement = new HobbitEquipement();
-		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
+		$braldunEquipement = new BraldunEquipement();
+		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
 
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		} else if ($this->view->user->est_intangible_hobbit == "non") {
-			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		} else if ($this->view->user->est_intangible_braldun == "non") {
+			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 			if ($estRegionPvp) {
-				// recuperation des hobbits qui sont presents sur la vue
-				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
-				foreach($hobbits as $h) {
+				// recuperation des bralduns qui sont presents sur la vue
+				$braldunTable = new Braldun();
+				$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
+				foreach($bralduns as $h) {
 					$tab = array(
-						'id_hobbit' => $h["id_hobbit"],
-						'nom_hobbit' => $h["nom_hobbit"],
-						'prenom_hobbit' => $h["prenom_hobbit"],
+						'id_braldun' => $h["id_braldun"],
+						'nom_braldun' => $h["nom_braldun"],
+						'prenom_braldun' => $h["prenom_braldun"],
 					);
-					if ($this->view->user->est_soule_hobbit == 'non' ||
-					($this->view->user->est_soule_hobbit == 'oui' && $h["soule_camp_hobbit"] != $this->view->user->soule_camp_hobbit)) {
-						$tabHobbits[] = $tab;
+					if ($this->view->user->est_soule_braldun == 'non' ||
+					($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
+						$tabBralduns[] = $tab;
 					}
 				}
 			}
 
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
-			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+			$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			foreach($monstres as $m) {
 				if ($m["genre_type_monstre"] == 'feminin') {
 					$m_taille = $m["nom_taille_f_monstre"];
@@ -72,9 +72,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], 'est_gibier' => $estGibier);
 			}
 
-			$this->view->nHobbits = count($tabHobbits);
-			if ($this->view->nHobbits > 0) shuffle($tabHobbits);
-			$this->view->tabHobbits = $tabHobbits;
+			$this->view->nBralduns = count($tabBralduns);
+			if ($this->view->nBralduns > 0) shuffle($tabBralduns);
+			$this->view->tabBralduns = $tabBralduns;
 			
 			$this->view->nMonstres = count($tabMonstres);
 			if ($this->view->nMonstres > 0) shuffle($tabMonstres);
@@ -92,7 +92,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	function prepareResultat() {
 
 		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false && 
-		($this->view->nHobbits > 0 || $this->view->nMonstres > 0) && $this->view->user->est_soule_hobbit == 'non' && $this->view->user->est_intangible_hobbit == 'non') {
+		($this->view->nBralduns > 0 || $this->view->nMonstres > 0) && $this->view->user->est_soule_braldun == 'non' && $this->view->user->est_intangible_braldun == 'non') {
 			// OK
 		} else {
 			throw new Zend_Exception("Erreur Frenesie");
@@ -103,9 +103,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$retours = null;
 
 		if ($this->view->okJet1 === true) {
-			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
-				foreach ($this->view->tabHobbits as $h) {
-					$this->retourAttaque = $this->attaqueHobbit($this->view->user, $h["id_hobbit"]);
+			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
+				foreach ($this->view->tabBralduns as $h) {
+					$this->retourAttaque = $this->attaqueBraldun($this->view->user, $h["id_braldun"]);
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
 					$this->_coef = $this->_coef * 0.8;
@@ -124,17 +124,17 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 		$this->view->retoursAttaques = $retours;
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_lieu"));
 	}
 
-	protected function calculJetAttaque($hobbit) {
+	protected function calculJetAttaque($braldun) {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
-		$jetAttaquant = floor((0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
+		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
+		$jetAttaquant = floor((0.5 * $jetAttaquant) + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun);
 
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
@@ -142,7 +142,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		return floor($this->_coef * $jetAttaquant);
 	}
 
-	protected function calculDegat($hobbit) {
+	protected function calculDegat($braldun) {
 		$this->view->effetRune = false;
 
 		$jetsDegat["critique"] = 0;
@@ -150,9 +150,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$jetDegatForce = 0;
 		$coefCritique = 1.5;
 			
-		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $hobbit->force_base_hobbit);
+		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $braldun->force_base_braldun);
 
-		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) {
+		if (Bral_Util_Commun::isRunePortee($braldun->id_braldun, "EM")) {
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
 			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
@@ -165,8 +165,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}
 
-		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit));
-		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit));
+		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
+		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 
 		return $jetsDegat;
 	}
@@ -186,7 +186,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 		if ($this->retourAttaque["mort"] === true) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->retourAttaque["cible"]["niveau_cible"];
+			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
 			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
 				$this->view->nb_px_commun = $this->view->nb_px_perso;
 			}

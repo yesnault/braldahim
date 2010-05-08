@@ -15,7 +15,7 @@ abstract class Bral_Palmares_Box {
 	protected $loadWithBoxes = true;
 	
 	function __construct($request, $view, $interne, $filtre = 1, $type = null) {
-		Zend_Loader::loadClass("Hobbit");
+		Zend_Loader::loadClass("Braldun");
 		
 		$this->_request = $request;
 		$this->view = $view;

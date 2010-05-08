@@ -15,9 +15,9 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->decouperEchoppeOk = false;
 		$this->view->decouperPlancheOk = false;
@@ -28,7 +28,7 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 		}
 		$idEchoppe = -1;
 
-		$this->view->nbRondinsMax = $this->view->user->sagesse_base_hobbit;
+		$this->view->nbRondinsMax = $this->view->user->sagesse_base_braldun;
 		if ($this->view->nbRondinsMax < 1) {
 			$this->view->nbRondinsMax = 1;
 		}
@@ -36,11 +36,11 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 		$this->view->nbArriereRondin = 0;
 
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == "menuisier" &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit && 
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun && 
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->decouperEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -83,7 +83,7 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->decouperEchoppeOk == false || $this->view->decouperPlancheOk == false) {
@@ -110,7 +110,7 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	/*Découpe un rondin présent dans l'échoppe en planches.
@@ -120,10 +120,10 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 		$this->view->quantitePlanches = 0;
 
 		for($j = 1; $j <= $nb; $j++) {
-			$tirage = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
-			$tirage = $tirage + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+			$tirage = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+			$tirage = $tirage + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
-			$tirage2 = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
+			$tirage2 = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 
 			if ($tirage > $tirage2) {
 				$this->view->quantitePlanches = $this->view->quantitePlanches + 1;

@@ -14,7 +14,7 @@ class CoffrePotion extends Zend_Db_Table {
 	protected $_name = 'coffre_potion';
 	protected $_primary = array('id_coffre_potion');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_potion', '*')
@@ -24,16 +24,16 @@ class CoffrePotion extends Zend_Db_Table {
 		->where('id_coffre_potion = id_potion')
 		->where('id_fk_type_potion = id_type_potion')
 		->where('id_fk_type_qualite_potion = id_type_qualite')
-		->where('id_fk_hobbit_coffre_potion = ?', intval($idHobbit));
+		->where('id_fk_braldun_coffre_potion = ?', intval($idBraldun));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-    function countByIdHobbit($idHobbit) {
+    function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_potion', 'count(*) as nombre')
-		->where('id_fk_hobbit_coffre_potion = '.intval($idHobbit));
+		->where('id_fk_braldun_coffre_potion = '.intval($idBraldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

@@ -62,9 +62,9 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->render("index");
 	}
 
-	function superhobbitsAction() {
+	function superbraldunsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperhobbits($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperbralduns($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -179,7 +179,7 @@ class PalmaresController extends Bral_Controller_Box {
 		$selection[] = array("nom" => "KO", "url" => "ko");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
-		$selection[] = array("nom" => "Super Hobbits", "url" => "superhobbits");
+		$selection[] = array("nom" => "Super Bralduns", "url" => "superbralduns");
 		$this->view->selection = $selection;
 		
 		$selectionRecolteurs = null;

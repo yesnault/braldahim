@@ -27,7 +27,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->view->entretenirChampOk = false;
 
 		$champTable = new Champ();
-		$champs = $champTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit);
+		$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
 
 		$retour = false;
 		if (count($champs) == 1) {
@@ -89,7 +89,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification semer
@@ -111,13 +111,13 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->entretenir($x, $y);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a entretenu son champ";
+		$details = "[h".$this->view->user->id_braldun."] a entretenu son champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function entretenir($x, $y) {

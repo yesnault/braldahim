@@ -12,14 +12,14 @@
  */
 class CoffreTabac extends Zend_Db_Table {
 	protected $_name = 'coffre_tabac';
-	protected $_primary = array('id_fk_hobbit_coffre_tabac', 'id_fk_type_coffre_tabac');
+	protected $_primary = array('id_fk_braldun_coffre_tabac', 'id_fk_type_coffre_tabac');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_tabac', '*')
 		->from('type_tabac', '*')
-		->where('id_fk_hobbit_coffre_tabac = '.intval($id_hobbit))
+		->where('id_fk_braldun_coffre_tabac = '.intval($id_braldun))
 		->where('coffre_tabac.id_fk_type_coffre_tabac = type_tabac.id_type_tabac');
 		$sql = $select->__toString();
 
@@ -32,7 +32,7 @@ class CoffreTabac extends Zend_Db_Table {
 		$select->from('coffre_tabac', 'count(*) as nombre, 
 		quantite_feuille_coffre_tabac as quantiteFeuille')
 		->where('id_fk_type_coffre_tabac = ?',$data["id_fk_type_coffre_tabac"])
-		->where('id_fk_hobbit_coffre_tabac = ?',$data["id_fk_hobbit_coffre_tabac"])
+		->where('id_fk_braldun_coffre_tabac = ?',$data["id_fk_braldun_coffre_tabac"])
 		->group(array('quantiteFeuille'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -50,7 +50,7 @@ class CoffreTabac extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_coffre_tabac = '.$data["id_fk_type_coffre_tabac"];
-			$where .= ' AND id_fk_hobbit_coffre_tabac = '.$data["id_fk_hobbit_coffre_tabac"];
+			$where .= ' AND id_fk_braldun_coffre_tabac = '.$data["id_fk_braldun_coffre_tabac"];
 			
 			if ($dataUpdate['quantite_feuille_coffre_tabac'] <= 0) { // delete
 				$this->delete($where);

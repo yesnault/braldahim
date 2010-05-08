@@ -45,13 +45,13 @@ class Echoppe extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe', '*')
 		->from('metier', '*')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'sexe_braldun', 'id_braldun'))
 		->where('x_echoppe <= ?',$x_max)
 		->where('x_echoppe >= ?',$x_min)
 		->where('y_echoppe >= ?',$y_min)
 		->where('y_echoppe <= ?',$y_max)
 		->where('z_echoppe = ?',$z)
-		->where('hobbit.id_hobbit = echoppe.id_fk_hobbit_echoppe' )
+		->where('braldun.id_braldun = echoppe.id_fk_braldun_echoppe' )
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -62,13 +62,13 @@ class Echoppe extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe', '*')
 		->from('metier', '*')
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->from('region', '*')
 		->where('x_echoppe = ?',$x)
 		->where('y_echoppe = ?',$y)
 		->where('z_echoppe = ?',$z)
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier')
-		->where('id_fk_hobbit_echoppe = id_hobbit')
+		->where('id_fk_braldun_echoppe = id_braldun')
 		->where('region.x_min_region <= echoppe.x_echoppe')
 		->where('region.x_max_region >= echoppe.x_echoppe')
 		->where('region.y_min_region <= echoppe.y_echoppe')
@@ -77,13 +77,13 @@ class Echoppe extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', '*')
 		->from('metier', '*')
 		->from('region', '*')
-		->where('id_fk_hobbit_echoppe = ?', $id_hobbit)
+		->where('id_fk_braldun_echoppe = ?', $id_braldun)
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier')
 		->where('region.x_min_region <= echoppe.x_echoppe')
 		->where('region.x_max_region >= echoppe.x_echoppe')

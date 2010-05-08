@@ -38,7 +38,7 @@ class Bral_Monstres_Competences_Fuitecrevasse extends Bral_Monstres_Competences_
 				$this->majEvenement();
 			}
 
-			$this->monstre["id_fk_hobbit_cible_monstre"] = null;
+			$this->monstre["id_fk_braldun_cible_monstre"] = null;
 		} else {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Pas de Fuite du monstre - (idm:".$this->monstre["id_monstre"].")");
 		}

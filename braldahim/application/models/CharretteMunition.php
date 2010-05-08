@@ -12,7 +12,7 @@
  */
 class CharretteMunition extends Zend_Db_Table {
 	protected $_name = 'charrette_munition';
-	protected $_primary = array('id_fk_hobbit_charrette_munition', 'id_fk_type_charrette_munition');
+	protected $_primary = array('id_fk_braldun_charrette_munition', 'id_fk_type_charrette_munition');
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();

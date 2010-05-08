@@ -18,12 +18,12 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Plantes');
 
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun ) * 2;
 
 		$this->view->avecChoix = false;
 		$tabChoix = array();
 
-		if ($this->hobbit_competence["pourcentage_hcomp"] >= 80) {
+		if ($this->braldun_competence["pourcentage_hcomp"] >= 80) {
 			$this->view->avecChoix = true;
 			$tabChoix = Bral_Util_Plantes::getTabPlantes();
 		}
@@ -56,15 +56,15 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function rechercherPlante($choix) {
 		
 		// La distance max de repérage d'une plante est : jet SAG+BM
-		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
+		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 		
-		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
 		$idTypePlante = null;
 		$idTypePartiePlante = null;
@@ -80,7 +80,7 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 		}
 		
 		$planteTable = new Plante();
-		$planteRow = $planteTable->findLaPlusProche($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->rayon_max, $idTypePlante, $idTypePartiePlante);
+		$planteRow = $planteTable->findLaPlusProche($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->rayon_max, $idTypePlante, $idTypePartiePlante);
 
 		if (!empty($planteRow)) {
 			$plante = array('categorie' => $planteRow["categorie_type_plante"],'x_plante' => $planteRow["x_plante"], 'y_plante' => $planteRow["y_plante"]);

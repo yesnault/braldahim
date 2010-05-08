@@ -26,7 +26,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->filonOk = false;
 
 		$filonTable = new Filon();
-		$filons = $filonTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$filons = $filonTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		
 		$tabFilons = null;
 		if (count($filons) > 0) {
@@ -53,12 +53,12 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		Zend_Loader::loadClass('LabanMinerai');
-		Zend_Loader::loadClass('Hobbit');
+		Zend_Loader::loadClass('Braldun');
 		Zend_Loader::loadClass('StatsRecolteurs');
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		} elseif ($this->view->poidsPlaceDisponible == false) {
 			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
@@ -71,7 +71,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		} else { // ($this->view->filonOk == false) {
 			$this->calculPx();
 			$this->calculBalanceFaim();
-			$this->majHobbit();
+			$this->majBraldun();
 			return;
 		}
 
@@ -97,7 +97,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$labanMineraiTable = new LabanMinerai();
 			$data = array(
 				'id_fk_type_laban_minerai' => $id_fk_type_minerai_filon,
-				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+				'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 				'quantite_brut_laban_minerai' => $quantiteExtraite,
 			);
 	
@@ -105,8 +105,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-			$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
-			$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
+			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 			$dataRecolteurs["nb_minerai_stats_recolteurs"] = $quantiteExtraite;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
@@ -139,7 +139,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
@@ -148,7 +148,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
 	 * disponible à cet endroit du filon (ce qu'il reste à exploiter) et
-	 * le niveau de FOR du Hobbit :
+	 * le niveau de FOR du Braldun :
 	 * de 0 à 4 : 1D3 + BM FOR
 	 * de 5 à 9 : 1D3+1 + BM FOR
 	 * de 10 à 14 :1D3+2 + BM FOR
@@ -158,14 +158,14 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->effetRune = false;
 		
 		$n = Bral_Util_De::get_1d3();
-		$n = $n + floor($this->view->user->force_base_hobbit / 5);
+		$n = $n + floor($this->view->user->force_base_braldun / 5);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "MI")) { // s'il possède une rune MI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "MI")) { // s'il possède une rune MI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}
 		
-		$n = $n + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
+		$n = $n + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2 ;
 		$n = intval($n);
 		if ($n <= 0) {
 			$n = 1;
@@ -193,7 +193,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 	
 	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		if ($poidsRestant < 0) $poidsRestant = 0;
 		
 		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);

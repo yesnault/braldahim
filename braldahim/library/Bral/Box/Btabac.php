@@ -30,7 +30,7 @@ class Bral_Box_Btabac extends Bral_Box_Boutique {
 		Zend_Loader::loadClass('Bral_Util_BoutiqueTabac');
 		Zend_Loader::loadClass('Region');
 		$regionTable = new Region();
-		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_braldun, $this->view->user->y_braldun);
 		$this->view->tabac = Bral_Util_BoutiqueTabac::construireTabPrix(false, $idRegion);
 		if ($this->view->tabac == null) {
 			Bral_Util_Log::erreur()->err("Bral_Box_Btabac - Erreur de prix dans la table stock_tabac, id_region=".$idRegion);

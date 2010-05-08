@@ -27,7 +27,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// calcul des jets
@@ -40,7 +40,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculDebusquer() {
@@ -61,7 +61,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$coefD = $this->calculCoefD();
 		$coefT = $this->calculCoefT();
 
-		$nbGibier = floor($this->view->user->agilite_base_hobbit / 4) + 1 + $coefH + $coefM + $coefD + $coefT;
+		$nbGibier = floor($this->view->user->agilite_base_braldun / 4) + 1 + $coefH + $coefM + $coefD + $coefT;
 		if ($nbGibier < 1) {
 			$nbGibier = 1;
 		}
@@ -94,8 +94,8 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			$aleaY = -$aleaY;
 		}
 
-		$x_monstre = $this->view->user->x_hobbit + $aleaX;
-		$y_monstre = $this->view->user->y_hobbit + $aleaY;
+		$x_monstre = $this->view->user->x_braldun + $aleaX;
+		$y_monstre = $this->view->user->y_braldun + $aleaY;
 
 		$surPalissade = true;
 		while($surPalissade) {
@@ -141,7 +141,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("ZoneNid");
 		$zoneNidTable = new ZoneNid();
 
-		$zoneNid = $zoneNidTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit); 
+		$zoneNid = $zoneNidTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun); 
 		
 		if (count($zoneNid) != 1) {
 			throw new Zend_Exception(" Debusquer Zone Nid Invalide idZoneNid:x".$x." y:".$y." z:".$z);
@@ -154,7 +154,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"id_fk_groupe_monstre" => null,
 			"x_monstre" => $x_monstre,
 			"y_monstre" => $y_monstre,
-			"z_monstre" => $this->view->user->z_hobbit,
+			"z_monstre" => $this->view->user->z_braldun,
 			"x_direction_monstre" => $x_monstre,
 			"y_direction_monstre" => $y_monstre,
 			"x_min_monstre" => $zoneNid["x_min_zone_nid"],
@@ -162,7 +162,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"y_min_monstre" => $zoneNid["y_min_zone_nid"],
 			"y_max_monstre" => $zoneNid["y_max_zone_nid"],
 			"id_fk_zone_nid_monstre" => $zoneNid["id_zone_nid"],
-			"id_fk_hobbit_cible_monstre" => null,
+			"id_fk_braldun_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
 			"niveau_monstre" => $niveau_monstre,
@@ -197,7 +197,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	 * Gigantesque : 0,125 * % comp Débusquer + 3,75
 	 */
 	private function calculTaille() {
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
 		$chance_a = -0.5625 * $maitrise + 55.625 ;
 		$chance_b = 0.125 * $maitrise + 38.75 ;
@@ -207,7 +207,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM AGI/2)+1.
 		 */
-		$n = (($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ) + 1;
+		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ) + 1;
 
 		if ($n < 1) $n = 1;
 		$tirage = 0;
@@ -234,15 +234,15 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	}
 
 	private function initVariablesVue() {
-		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
-		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
-		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
-		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
-		$this->view->y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
+		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun;
+		$this->view->x_min = $this->view->user->x_braldun - $this->view->vue_nb_cases;
+		$this->view->x_max = $this->view->user->x_braldun + $this->view->vue_nb_cases;
+		$this->view->y_min = $this->view->user->y_braldun - $this->view->vue_nb_cases;
+		$this->view->y_max = $this->view->user->y_braldun + $this->view->vue_nb_cases;
 	}
 
 	/*
-	 * CoefH : nb Hobbit dans sa vue :
+	 * CoefH : nb Braldun dans sa vue :
 	 * < 2 : 1
 	 * de 2 à 5 : -1
 	 * de 6 à 10 : -3
@@ -251,17 +251,17 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	private function calculCoefH() {
 		$retour = 0;
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
-		$nbHobbits = count($hobbits);
-		if ($nbHobbits < 2) {
+		$nbBralduns = count($bralduns);
+		if ($nbBralduns < 2) {
 			$retour = 1;
-		} else if ($nbHobbits <= 5) {
+		} else if ($nbBralduns <= 5) {
 			$retour = -1;
-		} else if ($nbHobbits <= 10) {
+		} else if ($nbBralduns <= 10) {
 			$retour = -3;
-		} else if ($nbHobbits > 10) {
+		} else if ($nbBralduns > 10) {
 			$retour = -5;
 		}
 		return $retour;
@@ -277,7 +277,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	private function calculCoefM() {
 		$retour = 0;
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$nbMonstres = count($monstres);
 		if ($nbMonstres < 2) {
@@ -304,7 +304,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Lieu");
 		$lieu = new Lieu();
 		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->findByPositionMax($this->view->user->x_hobbit, $this->view->user->y_hobbit, 20);
+		$lieux = $lieuxTable->findByPositionMax($this->view->user->x_braldun, $this->view->user->y_braldun, 20);
 
 		if ($lieux == null || count($lieux) <= 0) {
 			$retour = 1;
@@ -334,14 +334,14 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Zone");
 
 		$zoneTable = new Zone();
-		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$zones = $zoneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);
 
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
-		$nombreBosquets = $bosquetTable->countByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$nombreBosquets = $bosquetTable->countByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		if ($nombreBosquets >= 1) {
 			$environnement = "bosquet";
@@ -363,7 +363,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 				$retour = 1;
 				break;
 			default :
-				throw new Exception("Debusquer Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_hobbit." y=".$this->view->user->y_hobbit);
+				throw new Exception("Debusquer Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_braldun." y=".$this->view->user->y_braldun);
 		}
 
 		return $retour;

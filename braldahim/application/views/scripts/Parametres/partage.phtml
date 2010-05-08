@@ -9,8 +9,8 @@
 	<div class="contenu">
 	<ul class="box_contenu1 textalic">
 	
-	<? if ($this->erreurHobbit) : ?>
-		Une erreur est survenue. Veuillez bien renseigner le n° de Hobbit avec lequel vous partagez la connexion.<br>
+	<? if ($this->erreurBraldun) : ?>
+		Une erreur est survenue. Veuillez bien renseigner le n° de Braldun avec lequel vous partagez la connexion.<br>
 		<br><br>
 		<input type="button" class='button1' name="Retour" value="Retour" onClick="javascript:document.location.href='/Parametres/partage'"/>
 		
@@ -35,18 +35,18 @@
 			
 			<br><br>
 		 
-		 Hobbit concerné : 
-		<input type="text" name="recherche_valeur_1_voir" size='40' id="recherche_valeur_1_voir" value="Recherche Hobbit - Entrez un nom" onFocus='this.value=""; activerRechercheAdminHobbit("valeur_1_voir");' />
+		 Braldun concerné : 
+		<input type="text" name="recherche_valeur_1_voir" size='40' id="recherche_valeur_1_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_1_voir");' />
 		<input type="hidden" name="recherche_valeur_1_voir_actif" id="recherche_valeur_1_voir_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_1_voir_update" ></div> <img src="/public/images/loupe.gif" />
 		<span id="indicateur_recherche_valeur_1_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 		<br>
-	    Identifiant du Hobbit (remplit automatiquement) <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5' readonly> 
+	    Identifiant du Braldun (remplit automatiquement) <input type='text' name='id_braldun' id='id_braldun' value='' size='5' readonly> 
 	    <br> <br>
-		 Décrivez ici vos liens avec le joueur du Hobbit cité ci-dessus  : <br>
+		 Décrivez ici vos liens avec le joueur du Braldun cité ci-dessus  : <br>
 		 <textarea rows='10' cols='80' name="message" id="message"></textarea>
 		 <br><br></br>
-		 <input type="button" class='button1' name="bouton_partage"  id="bouton_partage" onClick="if (parseInt($('id_hobbit').value * 1) > 0 && $('message').value !='') { $('form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
+		 <input type="button" class='button1' name="bouton_partage"  id="bouton_partage" onClick="if (parseInt($('id_braldun').value * 1) > 0 && $('message').value !='') { $('form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
 		 <input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
 	
 	 <? endif;?>

@@ -25,9 +25,9 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		$typeEquipementCourant = null;
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->confectionnerEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -36,11 +36,11 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		}
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == self::NOM_METIER &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit &&
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun &&
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->confectionnerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -62,7 +62,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Region");
-		$this->region = Bral_Util_Region::getRegionByXY($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->region = Bral_Util_Region::getRegionByXY($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
@@ -102,7 +102,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 			$this->view->etape1 = true;
 
-			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
+			for ($i = 0; $i <= $this->view->user->niveau_braldun / 10 ; $i++) {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true, 'a_afficher' => false);
 			}
 
@@ -134,7 +134,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$recetteCout = $recetteCoutTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 
 			foreach($recetteCout as $r) {
-				if ($r["niveau_recette_cout"] <= floor($this->view->user->niveau_hobbit / 10) ) {
+				if ($r["niveau_recette_cout"] <= floor($this->view->user->niveau_braldun / 10) ) {
 					if ($r["cuir_recette_cout"] > 0) {
 						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Cuir", "nom_systeme"=>"cuir", "cout" => $r["cuir_recette_cout"]);
 						if ($r["cuir_recette_cout"] > $echoppeCourante["quantite_cuir_arriere_echoppe"]) {
@@ -169,7 +169,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 			foreach($recetteCoutMinerai as $r) {
 				if (($r["quantite_recette_cout_minerai"] > 0) &&
-				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_hobbit / 10))) {
+				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_braldun / 10))) {
 					$tabCout[$r["niveau_recette_cout_minerai"]][] = array("nom"=>$r["nom_type_minerai"], "nom_systeme"=>$r["nom_systeme_type_minerai"], "id_type_minerai"=>$r["id_type_minerai"], "cout" => $r["quantite_recette_cout_minerai"], "unite" => "lingot");
 					$ressourceMinerai = false;
 					foreach($this->echoppeMinerai as $m) {
@@ -218,7 +218,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification confectionner
@@ -269,7 +269,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRateConfectionner($niveau) {
@@ -280,7 +280,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
 
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
 		$chance_a = -0.375 * $maitrise + 53.75 ;
 		$chance_b = 0.25 * $maitrise + 42.5 ;
@@ -289,7 +289,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM AGI/2)+1.
 		 */
-		$n = (($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ) + 1;
+		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ) + 1;
 
 		if ($n < 1) $n = 1;
 
@@ -302,7 +302,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			}
 		}
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "BA")) { // s'il possede une rune BA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "BA")) { // s'il possede une rune BA
 			$this->view->effetRune = true;
 			$tirage = $tirage + 10;
 			if ($tirage > 100) {
@@ -381,8 +381,8 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("StatsFabricants");
 			$statsFabricants = new StatsFabricants();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-			$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
-			$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+			$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
+			$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 			$dataFabricants["nb_piece_stats_fabricants"] = 1;
 			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $this->recetteEquipementACreer["niveau_recette_equipement"];
@@ -390,7 +390,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$statsFabricants->insertOrUpdate($dataFabricants);
 
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {
-				$details = "[h".$this->view->user->id_hobbit."] a confectionné la pièce d'équipement n°".$id_equipement;
+				$details = "[h".$this->view->user->id_braldun."] a confectionné la pièce d'équipement n°".$id_equipement;
 				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $id_equipement, $details);
 			}
 		} else {
@@ -399,7 +399,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_Competence");
 		$nomSystemeCompetence = "produire".self::NOM_METIER;
-		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_hobbit);
+		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_braldun);
 	}
 
 	private function majCout($niveau, $estReussi) {
@@ -477,7 +477,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] == "munition") {
 				$this->view->nb_px_perso = 2;
 			} else {
-				$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
+				$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_braldun/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
 			}
 		} else {
 			$this->view->nb_px_perso = 0;

@@ -14,7 +14,7 @@ class VenteTabac extends Zend_Db_Table {
 	protected $_name = 'vente_tabac';
 	protected $_primary = array('id_vente_tabac');
 
-	function findByIdHobbit($idVente) {
+	function findByIdBraldun($idVente) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente_tabac', '*')

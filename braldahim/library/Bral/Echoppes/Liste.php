@@ -20,7 +20,7 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 	}
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
-		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("BraldunsMetiers");
 		Zend_Loader::loadClass("Region");
 		
 		$this->idEchoppeCourante = null;
@@ -31,17 +31,17 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 		
 		$regionCourante = null;
 		foreach ($regions as $r) {
-			if ($r["x_min_region"] <= $this->view->user->x_hobbit && 
-			$r["x_max_region"] >= $this->view->user->x_hobbit && 
-			$r["y_min_region"] <= $this->view->user->y_hobbit && 
-			$r["y_max_region"] >= $this->view->user->y_hobbit) {
+			if ($r["x_min_region"] <= $this->view->user->x_braldun && 
+			$r["x_max_region"] >= $this->view->user->x_braldun && 
+			$r["y_min_region"] <= $this->view->user->y_braldun && 
+			$r["y_max_region"] >= $this->view->user->y_braldun) {
 				$regionCourante = $r;
 				break;
 			}
 		}
 		
 		$echoppesTable = new Echoppe();
-		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppesRowset = $echoppesTable->findByIdBraldun($this->view->user->id_braldun);
 		
 		$tabEchoppes = null;
 		foreach($echoppesRowset as $e) {
@@ -53,20 +53,20 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 				"id_region" => $e["id_region"],
 				"nom_region" => $e["nom_region"]
 			);
-			if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
-				$this->view->user->y_hobbit == $e["y_echoppe"]) {
+			if ($this->view->user->x_braldun == $e["x_echoppe"] &&
+				$this->view->user->y_braldun == $e["y_echoppe"]) {
 				$this->idEchoppeCourante = $e["id_echoppe"];
 			}
 		}
 		
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
 		$tabMetiers = null;
 		$tabMetierCourant = null;
 		$this->view->constructionPossible = false;
 
-		foreach($hobbitsMetierRowset as $m) {
-			if ($this->view->user->sexe_hobbit == 'feminin') {
+		foreach($braldunsMetierRowset as $m) {
+			if ($this->view->user->sexe_braldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];

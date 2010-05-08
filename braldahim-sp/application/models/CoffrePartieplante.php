@@ -12,15 +12,15 @@
  */
 class CoffrePartieplante extends Zend_Db_Table {
 	protected $_name = 'coffre_partieplante';
-	protected $_primary = array('id_fk_type_coffre_partieplante', 'id_fk_hobbit_coffre_partieplante');
+	protected $_primary = array('id_fk_type_coffre_partieplante', 'id_fk_braldun_coffre_partieplante');
 	
-    function findByIdHobbit($id_hobbit) {
+    function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_partieplante', '*')
 		->from('type_partieplante', '*')
 		->from('type_plante', '*')
-		->where('id_fk_hobbit_coffre_partieplante = '.intval($id_hobbit))
+		->where('id_fk_braldun_coffre_partieplante = '.intval($id_braldun))
 		->where('coffre_partieplante.id_fk_type_coffre_partieplante = type_partieplante.id_type_partieplante')
 		->where('coffre_partieplante.id_fk_type_plante_coffre_partieplante = type_plante.id_type_plante')
 		->order(array('nom_type_plante', 'nom_type_partieplante'));
@@ -34,7 +34,7 @@ class CoffrePartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('coffre_partieplante', 'count(*) as nombre, quantite_coffre_partieplante as quantiteBrute,  quantite_preparee_coffre_partieplante as quantitePreparee')
 		->where('id_fk_type_coffre_partieplante = ?',$data["id_fk_type_coffre_partieplante"])
-		->where('id_fk_hobbit_coffre_partieplante = ?',$data["id_fk_hobbit_coffre_partieplante"])
+		->where('id_fk_braldun_coffre_partieplante = ?',$data["id_fk_braldun_coffre_partieplante"])
 		->where('id_fk_type_plante_coffre_partieplante = ?',$data["id_fk_type_plante_coffre_partieplante"])
 		->group(array('quantiteBrute', 'quantitePreparee'));
 		$sql = $select->__toString();
@@ -64,7 +64,7 @@ class CoffrePartieplante extends Zend_Db_Table {
 			);
 			
 			$where = ' id_fk_type_coffre_partieplante = '.$data["id_fk_type_coffre_partieplante"];
-			$where .= ' AND id_fk_hobbit_coffre_partieplante = '.$data["id_fk_hobbit_coffre_partieplante"];
+			$where .= ' AND id_fk_braldun_coffre_partieplante = '.$data["id_fk_braldun_coffre_partieplante"];
 			$where .= ' AND id_fk_type_plante_coffre_partieplante = '.$data["id_fk_type_plante_coffre_partieplante"];
 			$this->update($dataUpdate, $where);
 		}

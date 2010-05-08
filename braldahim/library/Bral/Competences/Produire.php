@@ -21,9 +21,9 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 
 		$typeMaterielCourant = null;
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->produireEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -34,11 +34,11 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 8, strlen($this->nom_systeme) - 8);
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit && 
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun && 
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->produireEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -238,7 +238,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification produire
@@ -263,7 +263,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRateProduire() {
@@ -297,7 +297,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$echoppeMaterielTable->insert($dataEchoppe);
 		
 		Zend_Loader::loadClass("Bral_Util_Materiel");
-		$details = "[h".$this->view->user->id_hobbit."] a produit le matériel n°".$idMateriel;
+		$details = "[h".$this->view->user->id_braldun."] a produit le matériel n°".$idMateriel;
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_CREATION_ID, $idMateriel, $details);
 		
 		$this->view->id_materiel_cree = $idMateriel;

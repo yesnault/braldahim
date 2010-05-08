@@ -15,19 +15,19 @@
 		  	foreach($equipe["joueurs"] as $j): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste" nowrap>
-			  		<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$j["id_hobbit"]?>');" title="Cliquez pour voir le profil">
-			  		<?=$j["prenom_hobbit"]?> <?=$j["nom_hobbit"]?> (<?=$j["id_hobbit"]?>)
+			  		<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+			  		<?=$j["prenom_braldun"]?> <?=$j["nom_braldun"]?> (<?=$j["id_braldun"]?>)
 			  		</a>
 			  		<? if ($this->matchEnCours != null) : ?>
-			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_hobbit"]?>, <?=$j["y_hobbit"]?></span>.
-			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_hobbit_plaquage_soule_equipe"]?> fois.
+			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_braldun"]?>, <?=$j["y_braldun"]?></span>.
+			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_braldun_plaquage_soule_equipe"]?> fois.
 			  		<? endif;?>
 			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
-				  		<? if ($j["est_ko_hobbit"] == "oui") :?>
+				  		<? if ($j["est_ko_braldun"] == "oui") :?>
 				  		Actuellement plaqué
 				  		<? endif;?>
 			  		<? endif;?>
-			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
+			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
 		  		</tr>
 		  	<? endforeach; ?>
 		<? else: ?>

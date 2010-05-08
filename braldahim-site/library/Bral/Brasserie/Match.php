@@ -27,7 +27,7 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 	function render() {
 		Zend_Loader::loadClass("Bral_Helper_Tooltip");
 		Zend_Loader::loadClass("Bral_Util_Lien");
-		Zend_Loader::loadClass("Hobbit");
+		Zend_Loader::loadClass("Braldun");
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->prepareMatch();
 		$this->prepareEquipes();
@@ -55,10 +55,10 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$porteur = null;
 		if ($this->match != null && $this->match["id_fk_joueur_ballon_soule_match"] != null) {
 			$idPorteur = $this->match["id_fk_joueur_ballon_soule_match"];
-			$hobbitTable = new Hobbit();
-			$hobbit = $hobbitTable->findById($idPorteur);
-			if ($hobbit != null) {
-				$porteur = $hobbit->toArray();
+			$braldunTable = new Braldun();
+			$braldun = $braldunTable->findById($idPorteur);
+			if ($braldun != null) {
+				$porteur = $braldun->toArray();
 			}
 		}
 
@@ -90,11 +90,11 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 			foreach($joueurs as $j) {
 				if ($j["camp_soule_equipe"] == 'a') {
 					$equipes["equipea"]["joueurs"][] = $j;
-					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
 					$equipes["equipea"]["plaques"] = $equipes["equipea"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				} else {
 					$equipes["equipeb"]["joueurs"][] = $j;
-					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
 					$equipes["equipeb"]["plaques"] = $equipes["equipeb"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				}
 			}
@@ -111,9 +111,9 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 
 		$tab = null;
 		foreach($rowset as $r) {
-			$hobbit = $r["prenom_hobbit"]." ".$r["nom_hobbit"]." (".$r["id_hobbit"].")";
+			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
 			$tab[] = array ("date_evenement" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]),
-							"hobbit_evenement" => $hobbit,
+							"braldun_evenement" => $braldun,
 							"details_evenement" => $r["details_evenement"]);
 		}
 		$this->view->evenements = $tab;

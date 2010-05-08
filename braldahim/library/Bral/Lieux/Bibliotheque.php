@@ -17,20 +17,20 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 	private $_tabCompetences = null;
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("BraldunsCompetences");
 		Zend_Loader::loadClass("Competence");
 		Zend_Loader::loadClass("Bral_Util_Niveau");
 
 		$competenceTable = new Competence();
-		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_braldun);
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 		$achatPiPossible = false;
 		$possedeCdm = false;
 		$pisterPossible = false;
 		$possedeCompetenceCommune = false;
 
-		foreach ($hobbitCompetences as $h) {
+		foreach ($braldunCompetences as $h) {
 			if ($h["type_competence"] == "commun") {
 				$possedeCompetenceCommune = true;
 				break;
@@ -39,7 +39,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 		foreach ($competenceRowset as $c) {
 			$possible = true;
-			foreach ($hobbitCompetences as $h) {
+			foreach ($braldunCompetences as $h) {
 				if ($h["nom_systeme_competence"] == "connaissancemonstres"){
 					$possedeCdm = true;
 				}
@@ -57,10 +57,10 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 				$tropCher = true;
 				$piCout = $c["pi_cout_competence"];
 
-				if ($this->view->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX && $piCout <= $this->view->user->px_perso_hobbit) {
+				if ($this->view->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX && $piCout <= $this->view->user->px_perso_braldun) {
 					$tropCher = false;
 					$achatPiPossible = true;
-				} elseif ($piCout <= $this->view->user->pi_hobbit) {
+				} elseif ($piCout <= $this->view->user->pi_braldun) {
 					$tropCher = false;
 					$achatPiPossible = true;
 				}
@@ -84,7 +84,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		$this->view->tabCompetences = $this->_tabCompetences;
 		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
+		$this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->_coutCastars >= 0);
 		$this->view->pisterPossible = $pisterPossible;
 		$this->view->possedeCompetenceCommune = $possedeCompetenceCommune;
 	}
@@ -107,17 +107,17 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 		// verification qu'il a assez de PA
 		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_braldun);
 		}
 
 		// verification qu'il a assez de PI
 		if ($this->view->achatPiPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PI:".$this->view->user->pi_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : PI:".$this->view->user->pi_braldun);
 		}
 
 		// verification qu'il y a assez de castars
 		if ($this->view->achatPossibleCastars == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 
 		$comptenceOk = false;
@@ -136,7 +136,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		}
 
 		$data = array(
-			'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+			'id_fk_braldun_hcomp' => $this->view->user->id_braldun,
 			'id_fk_competence_hcomp'  => $idCompetence,
 			'pourcentage_hcomp'  => 10,
 			'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
@@ -144,22 +144,22 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 			'nb_gain_tour_hcomp' => 0,
 		);
 
-		$hobbitCompetenceTable = new HobbitsCompetences();
-		$hobbitCompetenceTable->insert($data);
+		$braldunCompetenceTable = new BraldunsCompetences();
+		$braldunCompetenceTable->insert($data);
 
-		$hobbitTable = new Hobbit();
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$braldunTable = new Braldun();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 
-		if ($this->view->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) {
-			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit -$this->view->coutPi;
+		if ($this->view->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) {
+			$this->view->user->px_perso_braldun = $this->view->user->px_perso_braldun -$this->view->coutPi;
 		} else {
-			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit -$this->view->coutPi;	
+			$this->view->user->pi_braldun = $this->view->user->pi_braldun -$this->view->coutPi;	
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreIdentificationRune($this->view->user, $nomSysteme);
 
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 

@@ -74,12 +74,12 @@ class Bral_Util_Commun {
 	/*
 	 * Regarde si la rune de @param est portée
 	 */
-	public static function isRunePortee($idHobbit, $nomTypeRune) {
+	public static function isRunePortee($idBraldun, $nomTypeRune) {
 		$retour = false;
-		Zend_Loader::loadClass("HobbitEquipement");
-		$hobbitEquipementTable = new HobbitEquipement();
-		$runesRowset = $hobbitEquipementTable->findRunesOnly($idHobbit);
-		unset($hobbitEquipementTable);
+		Zend_Loader::loadClass("BraldunEquipement");
+		$braldunEquipementTable = new BraldunEquipement();
+		$runesRowset = $braldunEquipementTable->findRunesOnly($idBraldun);
+		unset($braldunEquipementTable);
 
 		if ($runesRowset != null && count($runesRowset) > 0) {
 			foreach ($runesRowset as $r) {
@@ -93,12 +93,12 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEquipementByNomSystemeMot($idHobbit, $nomSystemeMot) {
+	public static function getEquipementByNomSystemeMot($idBraldun, $nomSystemeMot) {
 		$retour = null;
-		Zend_Loader::loadClass("HobbitEquipement");
-		$hobbitEquipementTable = new HobbitEquipement();
-		$equipementRowset = $hobbitEquipementTable->findByNomSystemeMot($idHobbit, $nomSystemeMot);
-		unset($hobbitEquipementTable);
+		Zend_Loader::loadClass("BraldunEquipement");
+		$braldunEquipementTable = new BraldunEquipement();
+		$equipementRowset = $braldunEquipementTable->findByNomSystemeMot($idBraldun, $nomSystemeMot);
+		unset($braldunEquipementTable);
 
 		if ($equipementRowset != null && count($equipementRowset) > 0) {
 			foreach ($equipementRowset as $e) {
@@ -110,46 +110,46 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function calculPvMaxBaseSansEffetMotE($config, $vigueur_base_hobbit) {
+	public static function calculPvMaxBaseSansEffetMotE($config, $vigueur_base_braldun) {
 		// calcul des pvs restants avec la regeneration
-		return ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef);
+		return ($config->game->pv_base + $vigueur_base_braldun * $config->game->pv_max_coef);
 	}
 
 	public static function calculArmureNaturelle($forceBase, $vigueurBase) {
 		return intval(($forceBase + $vigueurBase) / 5) + 2;
 	}
 
-	public static function ajouteEffetMotR($idHobbit) {
-		Zend_Loader::loadClass("HobbitsCompetences");
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
-		unset($hobbitsCompetencesTables);
+	public static function ajouteEffetMotR($idBraldun) {
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($idBraldun);
+		unset($braldunsCompetencesTables);
 
-		foreach($hobbitCompetences as $c) {
+		foreach($braldunCompetences as $c) {
 			if ($c["type_competence"] == "metier") {
 				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] + 2);
-				$where = array("id_fk_hobbit_hcomp = ".intval($idHobbit). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
-				$hobbitsCompetencesTables->update($data, $where);
+				$where = array("id_fk_braldun_hcomp = ".intval($idBraldun). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
+				$braldunsCompetencesTables->update($data, $where);
 			}
 		}
-		unset($hobbitCompetences);
+		unset($braldunCompetences);
 	}
 
-	public static function retireEffetMotR($idHobbit) {
-		Zend_Loader::loadClass("HobbitsCompetences");
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
-		foreach($hobbitCompetences as $c) {
+	public static function retireEffetMotR($idBraldun) {
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($idBraldun);
+		foreach($braldunCompetences as $c) {
 			if ($c["type_competence"] == "metier") {
 				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] - 2);
-				$where = array("id_fk_hobbit_hcomp = ".intval($idHobbit). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
-				$hobbitsCompetencesTables->update($data, $where);
+				$where = array("id_fk_braldun_hcomp = ".intval($idBraldun). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
+				$braldunsCompetencesTables->update($data, $where);
 			}
 		}
 	}
 
-	public static function getEffetMotA($idHobbit, $jetDegat) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_a");
+	public static function getEffetMotA($idBraldun, $jetDegat) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_a");
 		if ($equipement != null) {
 			if ($jetDegat > $equipement["niveau_recette_equipement"]) {
 				$jetDegat = $equipement["niveau_recette_equipement"];
@@ -158,8 +158,8 @@ class Bral_Util_Commun {
 		return $jetDegat;
 	}
 
-	public static function getEffetMotD($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_d");
+	public static function getEffetMotD($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_d");
 		$retour = 0;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"];
@@ -167,8 +167,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotE($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_e");
+	public static function getEffetMotE($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_e");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"];
@@ -176,8 +176,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotF($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_f");
+	public static function getEffetMotF($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_f");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"];
@@ -185,8 +185,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotG($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_g");
+	public static function getEffetMotG($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_g");
 		$retour = null;
 		if ($equipement != null) {
 			if ($equipement["degat_equipement"] < 0) {
@@ -198,8 +198,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotH($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_h");
+	public static function getEffetMotH($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_h");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -207,8 +207,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotI($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_i");
+	public static function getEffetMotI($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_i");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipement["niveau_recette_equipement"];
@@ -216,8 +216,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotJ($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_j");
+	public static function getEffetMotJ($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_j");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipement["niveau_recette_equipement"];
@@ -225,8 +225,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotL($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_l");
+	public static function getEffetMotL($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_l");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -234,8 +234,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotN($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_n");
+	public static function getEffetMotN($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_n");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"] * 2;
@@ -243,8 +243,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotO($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_o");
+	public static function getEffetMotO($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_o");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"] * 2;
@@ -252,8 +252,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotQ($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_q");
+	public static function getEffetMotQ($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_q");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipement["niveau_recette_equipement"];
@@ -261,8 +261,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotS($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_s");
+	public static function getEffetMotS($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_s");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipement["niveau_recette_equipement"];
@@ -270,8 +270,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public static function getEffetMotX($idHobbit) {
-		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_x");
+	public static function getEffetMotX($idBraldun) {
+		$equipement = self::getEquipementByNomSystemeMot($idBraldun, "mot_x");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -280,25 +280,25 @@ class Bral_Util_Commun {
 	}
 
 	/*
-	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+	 * Lorqu'un Braldun meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
-	public static function dropHobbitCastars($cible, $effetH = null) {
+	public static function dropBraldunCastars($cible, $effetH = null) {
 		$nbCastars = 0;
 
-		if ($cible->castars_hobbit > 0) {
-			$nbCastars = floor($cible->castars_hobbit / 3);
+		if ($cible->castars_braldun > 0) {
+			$nbCastars = floor($cible->castars_braldun / 3);
 				
 			if ($effetH != null && $effetH == true) {
 				$nbCastars = $nbCastars * 2;
 			}
 				
-			if ($nbCastars > 0 && $cible->castars_hobbit >= $nbCastars) {
+			if ($nbCastars > 0 && $cible->castars_braldun >= $nbCastars) {
 				Zend_Loader::loadClass("Element");
 				$elementTable = new Element();
 				$data = array(
 					"quantite_castar_element" => $nbCastars,
-					"x_element" => $cible->x_hobbit,
-					"y_element" => $cible->y_hobbit,
+					"x_element" => $cible->x_braldun,
+					"y_element" => $cible->y_braldun,
 				);
 				$elementTable->insertOrUpdate($data);
 

@@ -27,19 +27,19 @@ class Bral_Util_Metier {
 	function __construct() {
 	}
 
-	public static function prepareMetier($idHobbit, $sexeHobbit) {
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($idHobbit);
-		unset($hobbitsMetiersTable);
+	public static function prepareMetier($idBraldun, $sexeBraldun) {
+		Zend_Loader::loadClass("BraldunsMetiers");
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($idBraldun);
+		unset($braldunsMetiersTable);
 		$tabMetiers = null;
 		$tabMetierCourant = null;
 		$possedeMetier = false;
 
-		foreach($hobbitsMetierRowset as $m) {
+		foreach($braldunsMetierRowset as $m) {
 			$possedeMetier = true;
 				
-			if ($sexeHobbit == 'feminin') {
+			if ($sexeBraldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
@@ -61,7 +61,7 @@ class Bral_Util_Metier {
 				$tabMetierCourant = $t;
 			}
 		}
-		unset($hobbitsMetierRowset);
+		unset($braldunsMetierRowset);
 
 		$retour["tabMetierCourant"] = $tabMetierCourant;
 		$retour["tabMetiers"] = $tabMetiers;
@@ -69,17 +69,17 @@ class Bral_Util_Metier {
 		return $retour;
 	}
 
-	public static function getIdMetierCourant($hobbit) {
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($hobbit->id_hobbit);
+	public static function getIdMetierCourant($braldun) {
+		Zend_Loader::loadClass("BraldunsMetiers");
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetierCourantByBraldunId($braldun->id_braldun);
 
-		if (count($hobbitsMetiersTable) > 1) {
-			throw new Zend_Exception("Bral_Util_Metier::getIdMetierCourant metier courant invalide:".$hobbit->id_hobbit);
+		if (count($braldunsMetiersTable) > 1) {
+			throw new Zend_Exception("Bral_Util_Metier::getIdMetierCourant metier courant invalide:".$braldun->id_braldun);
 		}
 
-		if (count($hobbitsMetiersTable) == 1) {
-			$idMetier = $hobbitsMetierRowset[0]["id_metier"];
+		if (count($braldunsMetiersTable) == 1) {
+			$idMetier = $braldunsMetierRowset[0]["id_metier"];
 		} else {
 			$idMetier = null;
 		}

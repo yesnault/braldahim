@@ -1,26 +1,22 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<? if ($this->route != null && $this->config->general->production == 1) : //TODO à supprimer en VF. ?>
-	Bizarre, bizarre... Soit un sentier existe d&eacute;j&agrave;, soit vous ne pouvez pas baliser cette case...
-<? else : ?>
-	<? if ($this->construireOk == true) : ?>
-		Pour <?=$this->nb_pa ?> PA, vous pouvez baliser un sentier &agrave; l'endroit où vous &ecirc;tes.
+<? if ($this->construireOk == true) : ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez baliser un sentier &agrave; l'endroit où vous &ecirc;tes.
+	
+	<? if ($this->construireRouteContinueOk == true) : ?>
+		<br><br>Il y a d&eacute;j&agrave; un sentier balisé autour de vous. 
+		<br>Vous avez donc 10% de chance de plus de r&eacute;ussir la balise.<br>
 		
-		<? if ($this->construireRouteContinueOk == true) : ?>
-			<br><br>Il y a d&eacute;j&agrave; un sentier balisé autour de vous. 
-			<br>Vous avez donc 10% de chance de plus de r&eacute;ussir la balise.<br>
-			
-			<br>En cas de réussite, vous devrez quitter la case. <br>
-			Dans ce cas, où voulez-vous vous déplacer gratuitement ?<br>
-			<? include('marcher_tableau.phtml'); ?>
-		<? else : ?>
-			<input type='hidden' name='valeur_1' id='valeur_1' value='-1'>
-		<? endif;?>
-	<? else: ?>
-		Vous ne pouvez pas baliser de sentier &agrave; cet endroit
+		<br>En cas de réussite, vous devrez quitter la case. <br>
+		Dans ce cas, où voulez-vous vous déplacer gratuitement ?<br>
+		<? include('marcher_tableau.phtml'); ?>
+	<? else : ?>
+		<input type='hidden' name='valeur_1' id='valeur_1' value='-1'>
 	<? endif;?>
-<? endif; ?>
+<? else: ?>
+	Vous ne pouvez pas baliser de sentier &agrave; cet endroit
+<? endif;?>
 <br><br>
 </div>
 

@@ -38,7 +38,7 @@ class Bral_Box_Metier extends Bral_Box_Box {
 	
 	private function data() {
 		Zend_Loader::loadClass("Bral_Util_Metier");
-		$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+		$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_braldun, $this->view->user->sexe_braldun);
 		$this->view->tabMetierCourant = $tab["tabMetierCourant"];
 		$this->view->tabMetiers = $tab["tabMetiers"];
 		$this->view->possedeMetier = $tab["possedeMetier"];

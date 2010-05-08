@@ -17,14 +17,14 @@ class StatsFabricants extends Zend_Db_Table {
 	function findTop10($dateDebut, $dateFin, $type, $config) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->from('stats_fabricants', array('sum(nb_piece_stats_fabricants) as nombre', 'sum(somme_niveau_piece_stats_fabricants)/sum(nb_piece_stats_fabricants) as moyenne'));
-		$select->where('id_fk_hobbit_stats_fabricants = id_hobbit');
+		$select->where('id_fk_braldun_stats_fabricants = id_braldun');
 		$select->where('mois_stats_fabricants >= ?', $dateDebut);
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
 		$select->order(array("nombre DESC", "moyenne DESC"));
-		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->limit(10, 0);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -33,11 +33,11 @@ class StatsFabricants extends Zend_Db_Table {
 	function findByFamille($dateDebut, $dateFin, $type, $config) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('stats_fabricants', array('sum(nb_piece_stats_fabricants) as nombre', 'sum(somme_niveau_piece_stats_fabricants)/sum(nb_piece_stats_fabricants) as moyenne'));
 		$select->from('nom', 'nom');
-		$select->where('id_fk_hobbit_stats_fabricants = id_hobbit');
-		$select->where('id_nom = id_fk_nom_initial_hobbit');
+		$select->where('id_fk_braldun_stats_fabricants = id_braldun');
+		$select->where('id_nom = id_fk_nom_initial_braldun');
 		$select->where('mois_stats_fabricants >= ?', $dateDebut);
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
@@ -50,7 +50,7 @@ class StatsFabricants extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin, $type, $config) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stats_fabricants', array('sum(nb_piece_stats_fabricants) as nombre', 'floor(niveau_hobbit_stats_fabricants/10) as niveau', 'sum(somme_niveau_piece_stats_fabricants)/sum(nb_piece_stats_fabricants) as moyenne'));
+		$select->from('stats_fabricants', array('sum(nb_piece_stats_fabricants) as nombre', 'floor(niveau_braldun_stats_fabricants/10) as niveau', 'sum(somme_niveau_piece_stats_fabricants)/sum(nb_piece_stats_fabricants) as moyenne'));
 		$select->where('mois_stats_fabricants >= ?', $dateDebut);
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
@@ -63,14 +63,14 @@ class StatsFabricants extends Zend_Db_Table {
 	function findBySexe($dateDebut, $dateFin, $type, $config) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', 'sexe_hobbit');
+		$select->from('braldun', 'sexe_braldun');
 		$select->from('stats_fabricants', array('sum(nb_piece_stats_fabricants) as nombre', 'sum(somme_niveau_piece_stats_fabricants)/sum(nb_piece_stats_fabricants) as moyenne'));
-		$select->where('id_fk_hobbit_stats_fabricants = id_hobbit');
+		$select->where('id_fk_braldun_stats_fabricants = id_braldun');
 		$select->where('mois_stats_fabricants >= ?', $dateDebut);
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
 		$select->order("nombre DESC");
-		$select->group(array('sexe_hobbit'));
+		$select->group(array('sexe_braldun'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

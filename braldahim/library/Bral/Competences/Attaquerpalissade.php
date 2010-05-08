@@ -15,32 +15,32 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass('Palissade');
-		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("BraldunEquipement");
 
 		$this->view->attaquerPalissadeOk = false;
 
 		$armeTirPortee = false;
-		$hobbitEquipement = new HobbitEquipement();
-		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
+		$braldunEquipement = new BraldunEquipement();
+		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
 
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		} else if ($this->view->user->est_intangible_hobbit == "non") {
+		} else if ($this->view->user->est_intangible_braldun == "non") {
 			$this->distance = 1;
-			$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
-			$this->view->x_max = $this->view->user->x_hobbit + $this->distance;
-			$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
-			$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
+			$this->view->x_min = $this->view->user->x_braldun - $this->distance;
+			$this->view->x_max = $this->view->user->x_braldun + $this->distance;
+			$this->view->y_min = $this->view->user->y_braldun - $this->distance;
+			$this->view->y_max = $this->view->user->y_braldun + $this->distance;
 				
 			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 			$defautChecked = false;
 				
 			for ($j = $this->distance; $j >= -$this->distance; $j --) {
 				$change_level = true;
 				for ($i = -$this->distance; $i <= $this->distance; $i ++) {
-					$x = $this->view->user->x_hobbit + $i;
-					$y = $this->view->user->y_hobbit + $j;
+					$x = $this->view->user->x_braldun + $i;
+					$y = $this->view->user->y_braldun + $j;
 
 					$display = $x;
 					$display .= " ; ";
@@ -108,7 +108,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->attaquerPalissadeOk == false) {
@@ -135,13 +135,13 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		}
 
 		$idType = $this->view->config->game->evenements->type->attaquer;
-		$details = "[h".$this->view->user->id_hobbit."] a attaqué une palissade";
+		$details = "[h".$this->view->user->id_braldun."] a attaqué une palissade";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 		$this->calculAttaquerPalissade();
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculAttaquerPalissade() {

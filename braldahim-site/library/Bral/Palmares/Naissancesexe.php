@@ -36,14 +36,14 @@ class Bral_Palmares_Naissancesexe extends Bral_Palmares_Box {
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("Hobbit");
+		Zend_Loader::loadClass("Braldun");
 		$mdate = $this->getTabDateFiltre();
-		$hobbitTable = new Hobbit();
-		$rowset = $hobbitTable->findAllByDateCreationAndSexe($mdate["dateDebut"], $mdate["dateFin"]);
+		$braldunTable = new Braldun();
+		$rowset = $braldunTable->findAllByDateCreationAndSexe($mdate["dateDebut"], $mdate["dateFin"]);
 		$sexes = null;
 		$total = 0;
 		foreach($rowset as $r) {
-			if ($r["sexe_hobbit"] == "masculin") {
+			if ($r["sexe_braldun"] == "masculin") {
 				$nom = "Masculin";
 			} else {
 				$nom = "Féminin";

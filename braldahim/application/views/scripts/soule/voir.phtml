@@ -11,8 +11,8 @@
 		Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
 		y:<?=$this->matchEnCours["y_ballon_soule_match"]?>
 	<? elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
-		Le ballon est actuellement port&eacute; par <?=Bral_Util_Lien::getJsHobbit($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_hobbit"]." ".$this->porteur["nom_hobbit"]." (".$this->porteur["id_hobbit"].")")?>
-		qui est en x:<?=$this->porteur["x_hobbit"]?> y:<?=$this->porteur["y_hobbit"]?>
+		Le ballon est actuellement port&eacute; par <?=Bral_Util_Lien::getJsBraldun($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_braldun"]." ".$this->porteur["nom_braldun"]." (".$this->porteur["id_braldun"].")")?>
+		qui est en x:<?=$this->porteur["x_braldun"]?> y:<?=$this->porteur["y_braldun"]?>
 	<? else: ?>
 	Erreur. Merci de le signaler sur le forum.
 	<? endif;?>
@@ -31,7 +31,7 @@
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>
 		Vous pouvez vous inscrire.
-		<? if ($this->user->pa_hobbit >= 1) : 
+		<? if ($this->user->pa_braldun >= 1) : 
 	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
 	    else:
 	      $attr = "disabled";
@@ -45,7 +45,7 @@
 	<br>
 	<? if ($this->desinscriptionPossible === true): ?>
 		Vous pouvez vous désinscrire.
-		<? if ($this->user->pa_hobbit >=2) : 
+		<? if ($this->user->pa_braldun >=2) : 
 	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');\"";
 	    else:
 	      $attr = "disabled";

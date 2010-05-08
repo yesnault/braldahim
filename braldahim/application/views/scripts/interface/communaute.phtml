@@ -15,7 +15,7 @@
   		Vous faites partie de la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>,
   		 n&deg; <?=$this->communaute["id_communaute"] ?> depuis le
   		
-  		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_entree_communaute_hobbit); ?>
+  		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_entree_communaute_braldun); ?>
   		
   		<br /><br />
   		<input type='button' class='button1' value='Voir le profil public' onClick='ouvrirWin("/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?=$this->communaute["id_communaute"] ?>");'>

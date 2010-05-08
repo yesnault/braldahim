@@ -10,21 +10,21 @@
 			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
 			se situe   
 		<? endif; ?>
-		<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
+		<? if ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
 		en direction du Nord.
-		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction du Nord Est.
-		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction du Nord Ouest.
-		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
 		en direction du Sud.
-		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction du Sud Est.
-		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction du Sud Ouest.
-		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction de l'Est.
-		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		<? elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction de l'Ouest.
 		<? else: ?>
 		sur place !

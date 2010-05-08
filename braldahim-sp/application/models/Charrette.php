@@ -14,7 +14,7 @@ class Charrette extends Zend_Db_Table {
 	protected $_name = 'charrette';
 	protected $_primary = array('id_charrette');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
@@ -22,7 +22,7 @@ class Charrette extends Zend_Db_Table {
 		->from('materiel', '*')
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_hobbit_charrette = '.intval($idHobbit));
+		->where('id_fk_braldun_charrette = '.intval($idBraldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -42,20 +42,20 @@ class Charrette extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByPositionAvecHobbit($x, $y, $z) {
+	function findByPositionAvecBraldun($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->from('materiel', '*')
-		->where('id_hobbit = id_fk_hobbit_charrette')
+		->where('id_braldun = id_fk_braldun_charrette')
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('est_ko_hobbit = ?', 'non')
-		->where('x_hobbit = ?', intval($x))
-		->where('y_hobbit = ?', intval($y))
-		->where('z_hobbit = ?', intval($z));
+		->where('est_ko_braldun = ?', 'non')
+		->where('x_braldun = ?', intval($x))
+		->where('y_braldun = ?', intval($y))
+		->where('z_braldun = ?', intval($z));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -64,7 +64,7 @@ class Charrette extends Zend_Db_Table {
 	function findByCase($x, $y, $z, $avecProprietaire = true) {
 		$and = "";
 		if ($avecProprietaire === false) {
-			$and = " AND id_fk_hobbit_charrette is null";
+			$and = " AND id_fk_braldun_charrette is null";
 		}
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -98,16 +98,16 @@ class Charrette extends Zend_Db_Table {
 		->where('z_charrette = ?', $z)
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_hobbit_charrette is NULL');
+		->where('id_fk_braldun_charrette is NULL');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function countByIdHobbit($id_hobbit) {
+	function countByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'count(*) as nombre')
-		->where('id_fk_hobbit_charrette = '.intval($id_hobbit));
+		->where('id_fk_braldun_charrette = '.intval($id_braldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -123,7 +123,7 @@ class Charrette extends Zend_Db_Table {
 		if (isset($data["id_charrette"])) {
 			$select->where('id_charrette = ?',$data["id_charrette"]);
 		} else {
-			$select->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
+			$select->where('id_fk_braldun_charrette = ?',$data["id_fk_braldun_charrette"]);
 		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -136,7 +136,7 @@ class Charrette extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_charrette'] = $quantiteRodin + $data["quantite_rondin_charrette"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_hobbit_charrette = '.$data["id_fk_hobbit_charrette"];
+				$where = 'id_fk_braldun_charrette = '.$data["id_fk_braldun_charrette"];
 				$this->update($dataUpdate, $where);
 			}
 		}
@@ -155,7 +155,7 @@ class Charrette extends Zend_Db_Table {
 		if (isset($data["id_charrette"])) {
 			$select->where('id_charrette = ?',$data["id_charrette"]);
 		} else {
-			$select->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
+			$select->where('id_fk_braldun_charrette = ?',$data["id_fk_braldun_charrette"]);
 		}
 		$select->group(array('quantitePeau', 'quantiteCastar', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
@@ -194,7 +194,7 @@ class Charrette extends Zend_Db_Table {
 				if (isset($data["id_charrette"])) {
 					$where = 'id_charrette = '.$data["id_charrette"];
 				} else {
-					$where = 'id_fk_hobbit_charrette = '.$data["id_fk_hobbit_charrette"];
+					$where = 'id_fk_braldun_charrette = '.$data["id_fk_braldun_charrette"];
 				}
 				$this->update($dataUpdate, $where);
 			}

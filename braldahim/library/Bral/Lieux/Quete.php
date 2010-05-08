@@ -24,25 +24,25 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$this->view->niveauOk = false;
 		$this->view->niveauRequis = 0;
 
-		if ($this->view->user->niveau_hobbit >= $this->view->niveauRequis) {
+		if ($this->view->user->niveau_braldun >= $this->view->niveauRequis) {
 			$this->view->niveauOk = true;
 		}
 
-		$quete = $queteTable->findByIdHobbitAndIdLieu($this->view->user->id_hobbit, $this->view->idLieu);
+		$quete = $queteTable->findByIdBraldunAndIdLieu($this->view->user->id_braldun, $this->view->idLieu);
 		if ($quete != null || count($quete) > 0) {
 			$this->view->queteObtenue = true;
 		} else {
 			$this->view->queteObtenue = false;
 		}
 
-		if ($this->view->user->est_quete_hobbit == "non") {
+		if ($this->view->user->est_quete_braldun == "non") {
 			$this->view->queteEnCours = false;
 		} else {
 			$this->view->queteEnCours = true;
 		}
 
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
 	}
 
 	function prepareFormulaire() {
@@ -54,20 +54,20 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		// verification qu'il y a assez de castars
 		if ($this->view->queteObtenue === true) {
-			throw new Zend_Exception(get_class($this)." Quete impossible : id:".$this->view->user->id_hobbit." l:".$this->view->idLieu);
+			throw new Zend_Exception(get_class($this)." Quete impossible : id:".$this->view->user->id_braldun." l:".$this->view->idLieu);
 		}
 
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 
 		if ($this->view->queteEnCours == true) {
-			throw new Zend_Exception(get_class($this)." Quete en cours id:".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." Quete en cours id:".$this->view->user->id_braldun);
 		}
 
 		if ($this->view->niveauOk == false) {
-			throw new Zend_Exception(get_class($this)." Niveau KO:".$this->view->user->niveau_hobbit);
+			throw new Zend_Exception(get_class($this)." Niveau KO:".$this->view->user->niveau_braldun);
 		}
 
 		if ($this->view->idLieu == Bral_Util_Quete::QUETE_ID_LIEU_INITIATIQUE) {
@@ -75,22 +75,22 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else {
 			$this->calculQuete();
 		}
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		$this->view->user->est_quete_hobbit = "oui";
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
+		$this->view->user->est_quete_braldun = "oui";
+		$this->majBraldun();
 
 		$this->view->coutCastars = $this->_coutCastars;
 	}
 
 	private function calculQuete() {
-		$idQuete = Bral_Util_Quete::creationQueteDb($this->view->user->id_hobbit, $this->view->idLieu);
+		$idQuete = Bral_Util_Quete::creationQueteDb($this->view->user->id_braldun, $this->view->idLieu);
 		$this->calculEtapes($idQuete);
 	}
 
 	private function calculEtapes($idQuete) {
 		Zend_Loader::loadClass("Etape");
 		Zend_Loader::loadClass("TypeEtape");
-		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("BraldunsMetiers");
 
 		$typeEtapes = $this->getTypesEtapesPossibles();
 
@@ -110,19 +110,19 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function getTypesEtapesPossibles() {
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($this->view->user->id_hobbit);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetierCourantByBraldunId($this->view->user->id_braldun);
 
-		if (count($hobbitsMetierRowset) > 1) {
-			throw new Zend_Exception(get_class($this)."::getTypesEtapesPossibles metier courant invalide:".$this->view->user->id_hobbit);
+		if (count($braldunsMetierRowset) > 1) {
+			throw new Zend_Exception(get_class($this)."::getTypesEtapesPossibles metier courant invalide:".$this->view->user->id_braldun);
 		}
 
 		$typeEtapeTable = new TypeEtape();
 		$typeEtapes = $typeEtapeTable->fetchAllNonIntiatiqueSansMetier();
 
-		if (count($hobbitsMetierRowset) == 1) {
-			$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
-			$this->_idMetierCourant = $hobbitsMetierRowset[0]["id_metier"];
+		if (count($braldunsMetierRowset) == 1) {
+			$idMetiers[] = $braldunsMetierRowset[0]["id_metier"];
+			$this->_idMetierCourant = $braldunsMetierRowset[0]["id_metier"];
 			$typeEtapesMetier = $typeEtapeTable->fetchAllNonIntiatiqueAvecIdsMetier($idMetiers);
 
 			if ($typeEtapesMetier != null) {
@@ -147,7 +147,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$data = array(
 			"id_fk_quete_etape" => $idQuete,
 			"id_fk_type_etape" => $typeEtape["id_type_etape"],
-			"id_fk_hobbit_etape" => $this->view->user->id_hobbit, // denormalisation
+			"id_fk_braldun_etape" => $this->view->user->id_braldun, // denormalisation
 			"libelle_etape" => $dataTypeEtape["libelle_etape"],
 			"date_debut_etape" => $dateDebutEtape,
 			"param_1_etape" => $dataTypeEtape["param1"],
@@ -258,7 +258,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$dataTypeEtape["param4"] = $types[$deType]["id_type_monstre"];
 			$dataTypeEtape["libelle_etape"] .= " de type ".$types[$deType]["nom_type_monstre"];
 		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM3_NIVEAU == $dataTypeEtape["param3"]) {
-			$dataTypeEtape["param4"] = $this->view->user->niveau_hobbit + Bral_Util_De::get_1d6();
+			$dataTypeEtape["param4"] = $this->view->user->niveau_braldun + Bral_Util_De::get_1d6();
 			$dataTypeEtape["libelle_etape"] .= " de niveau ".$dataTypeEtape["param4"];
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeTuer param1 invalide:".$param1);
@@ -466,7 +466,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	private function pepareParamTypeEtapePossederParam1et2(&$dataTypeEtape) {
 
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_CASTAR == $dataTypeEtape["param3"]) {
-			$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_hobbit * 10, $this->view->user->niveau_hobbit * 20);
+			$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_braldun * 10, $this->view->user->niveau_braldun * 20);
 		} else { // Pour les materiaux : 1D20 + 5
 			$dataTypeEtape["param1"] = Bral_Util_De::get_1d20() + 5;
 		}
@@ -632,19 +632,19 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$dataTypeEtape["param1"] = 1;
 
 		if ($dataTypeEtape["param1"] == Bral_Util_Quete::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE) {
-			Zend_Loader::loadClass("HobbitsMetiers");
-			$hobbitsMetiersTable = new HobbitsMetiers();
-			$hobbitsMetiers = $hobbitsMetiersTable->findMetierCourantByHobbitId($this->view->user->id_hobbit);
-			if ($hobbitsMetiers == null || count($hobbitsMetiers) != 1) {
-				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 metier invalide h:".$this->view->user->id_hobbit);
+			Zend_Loader::loadClass("BraldunsMetiers");
+			$braldunsMetiersTable = new BraldunsMetiers();
+			$braldunsMetiers = $braldunsMetiersTable->findMetierCourantByBraldunId($this->view->user->id_braldun);
+			if ($braldunsMetiers == null || count($braldunsMetiers) != 1) {
+				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 metier invalide h:".$this->view->user->id_braldun);
 			}
 
 			Zend_Loader::loadClass("TypeEquipement");
 			$typeEquipementTable = new TypeEquipement();
-			$typeEquipements = $typeEquipementTable->findByIdMetier($hobbitsMetiers[0]["id_metier"], "nom_type_equipement");
+			$typeEquipements = $typeEquipementTable->findByIdMetier($braldunsMetiers[0]["id_metier"], "nom_type_equipement");
 
 			if ($typeEquipements == null || count($typeEquipements) < 1) {
-				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 typeEqupement invalide h:".$this->view->user->id_hobbit." m:".$hobbitsMetiers[0]["id_metier"]);
+				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 typeEqupement invalide h:".$this->view->user->id_braldun." m:".$braldunsMetiers[0]["id_metier"]);
 			}
 
 			$deTypeEquipement = Bral_Util_De::get_de_specifique(0, count($typeEquipements) -1);

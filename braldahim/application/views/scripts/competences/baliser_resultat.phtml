@@ -9,14 +9,14 @@
 		
 		Ce sentier a les caract&eacute;ristiques suivantes : <br />
 		Qualit&eacute; : <?=$this->qualite?><br />
-		Position : <?=$this->user->x_hobbit ?>, <?=$this->user->y_hobbit ?><br />
+		Position : <?=$this->user->x_braldun ?>, <?=$this->user->y_braldun ?><br />
 		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->route["date_fin_route"]); ?>
 		
 		<br><br>
 		
 		<? if ($this->construireRouteContinueOk == true) : ?>
 			<? if ($this->deplacement == true) : ?>
-				Vous êtes arrivé en x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?>.<br><br>
+				Vous êtes arrivé en x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?>.<br><br>
 			<? endif;?>
 		Vous avez balisé à côté d'un autre sentier balisé, vous avez donc bénéficié de -10% sur votre jet d'action.
 		<? endif;?>

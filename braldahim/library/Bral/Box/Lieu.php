@@ -29,7 +29,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		Zend_Loader::loadClass("Lieu");
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($lieuxTable);
 		$this->view->estLieuCourant = false;
 
@@ -65,7 +65,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 
 	private function prepareEchoppe() {
 		$echoppesTable = new Echoppe();
-		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($echoppesTable);
 		if (count($echoppeRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
@@ -80,14 +80,14 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			} else {
 				$nom .= " de ";
 			}
-			if ($echoppe["sexe_hobbit"] == "masculin") {
+			if ($echoppe["sexe_braldun"] == "masculin") {
 				$nom .= $echoppe["nom_masculin_metier"];
 			} else {
 				$nom .= $echoppe["nom_feminin_metier"];
 			}
-			$nom .= " appartenant à ".$echoppe["prenom_hobbit"];
-			$nom .= " ".$echoppe["nom_hobbit"];
-			$nom .= " n°".$echoppe["id_hobbit"];
+			$nom .= " appartenant à ".$echoppe["prenom_braldun"];
+			$nom .= " ".$echoppe["nom_braldun"];
+			$nom .= " n°".$echoppe["id_braldun"];
 
 			$this->view->nomLieu = $nom;
 			$this->view->nomTypeLieu = "échoppe";
@@ -112,7 +112,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 	private function prepareChamp() {
 		Zend_Loader::loadClass("Champ");
 		$champsTable = new Champ();
-		$champRowset = $champsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$champRowset = $champsTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($champsTable);
 		if (count($champRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre champ invalide > 1 !");
@@ -121,9 +121,9 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			unset($champRowset);
 			$this->view->estLieuCourant = true;
 
-			$nom = " Champ appartenant à ".$champ["prenom_hobbit"];
-			$nom .= " ".$champ["nom_hobbit"];
-			$nom .= " n°".$champ["id_hobbit"];
+			$nom = " Champ appartenant à ".$champ["prenom_braldun"];
+			$nom .= " ".$champ["nom_braldun"];
+			$nom .= " n°".$champ["id_braldun"];
 
 			$this->view->nomLieu = $nom;
 			$this->view->nomTypeLieu = "champ";

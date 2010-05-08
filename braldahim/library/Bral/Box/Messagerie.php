@@ -42,7 +42,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 
 	private function prepareMessages() {
 		$paginator = null;
-		$tabMessages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $paginator, $this->view->filtre, $this->view->page, $this->view->config->messagerie->messages->nb_affiche);
+		$tabMessages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_braldun, $paginator, $this->view->filtre, $this->view->page, $this->view->config->messagerie->messages->nb_affiche);
 
 		$this->view->paginator = $paginator;
 		$this->view->messages = $tabMessages;

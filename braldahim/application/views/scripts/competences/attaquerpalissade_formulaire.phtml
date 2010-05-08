@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 <? if ($this->armeTirPortee == true) :?>
 	Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
-<? elseif ($this->user->est_intangible_hobbit == "oui") : ?>
+<? elseif ($this->user->est_intangible_braldun == "oui") : ?>
 	Vous ne pouvez pas attaquer une palissade en étant intangible. <br><br>
 <? else: ?>
 	<?php if ($this->tableau == null || count($this->tableau) == 0) : ?>
@@ -48,6 +48,6 @@
 </div>
 
 <br />
-<?php if ($this->assezDePa === true && $this->attaquerPalissadeOk === true && $this->user->est_intangible_hobbit == 'non') : ?>
+<?php if ($this->assezDePa === true && $this->attaquerPalissadeOk === true && $this->user->est_intangible_braldun == 'non') : ?>
 <input type='button' class='button1' value='Attaquer la palissade !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_attaquerpalissade");'>
 <? endif ?>

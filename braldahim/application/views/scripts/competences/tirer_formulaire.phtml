@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  
- 	<? if ($this->user->est_intangible_hobbit == 'oui') :?>
+ 	<? if ($this->user->est_intangible_braldun == 'oui') :?>
 			Vous êtes actuellement intangible, vous ne pouvez pas tirer.<br><br>
 	<? elseif ($this->armeTirPortee == true) :?>
 		<? if (!$this->munitionPortee == true) :?>
@@ -11,12 +11,12 @@
 		Vous ne portez pas d'arme de tir ! <br>
 	<? endif; ?>
 	
-	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_hobbit == 'non'):?>
+	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
 		<? if ($this->estRegionPvp == false) :?>
-			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
+			Vous ne pouvez pas attaquer de braldun dans cette r&eacute;gion.<br><br>
 		<? endif;?>
 		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br></br>
-	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+	 	<? if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
 	 	<? else: ?>
 	 		Pour <?=$this->nb_pa?> PA, vous pouvez tirer &agrave; <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
@@ -50,15 +50,15 @@
 				<input type="hidden" name='valeur_1' value="-1" id="valeur_1" >
 			<? endif; ?>
 			
-	 		<? if ($this->nHobbits > 0): ?>
-	 		 	Tirer sur un hobbit<br />
+	 		<? if ($this->nBralduns > 0): ?>
+	 		 	Tirer sur un braldun<br />
 	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
-				<option value='-1'>(Choisissez un hobbit)</option>
+				<option value='-1'>(Choisissez un braldun)</option>
 				<? $dist=-1; ?>
-	 			<? foreach ($this->tabHobbits as $h) : ?>
-		 			<? if ($dist != $h['dist_hobbit']) : ?>
+	 			<? foreach ($this->tabBralduns as $h) : ?>
+		 			<? if ($dist != $h['dist_braldun']) : ?>
 						<?
-						$dist = $h['dist_hobbit'];
+						$dist = $h['dist_braldun'];
 						switch ($dist) {
 							case 0:
 								$case = "Sur votre case : ";
@@ -72,7 +72,7 @@
 						?>
 						<optgroup label="<?=$case ?>" style="font-weight:bold"></optgroup>
 					<? endif; ?>
-					<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>) x:<?=$h["x_hobbit"]?> , y:<?=$h["y_hobbit"]?></option>
+					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>) x:<?=$h["x_braldun"]?> , y:<?=$h["y_braldun"]?></option>
 				<? endforeach; ?>
 				</select><br /><br />
 			<? else: ?>

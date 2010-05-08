@@ -38,7 +38,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			throw new Zend_Exception(get_class($this)." idTerrainEnCours null".$this->request->get("id_terrain"));
 		}
 
-		$this->niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);
+		$this->niveauTerrainBraldun = floor($this->view->user->niveau_braldun/10);
 
 		$souleTerrainTable = new SouleTerrain();
 		$terrainRowset = $souleTerrainTable->findByIdTerrain($this->idTerrainEnCours);
@@ -97,11 +97,11 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			foreach($joueurs as $j) {
 				if ($j["camp_soule_equipe"] == 'a') {
 					$equipes["equipea"]["joueurs"][] = $j;
-					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
 					$equipes["equipea"]["plaques"] = $equipes["equipea"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				} else {
 					$equipes["equipeb"]["joueurs"][] = $j;
-					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
 					$equipes["equipeb"]["plaques"] = $equipes["equipeb"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				}
 			}
@@ -120,21 +120,21 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 		// on regarde si le joueur n'est pas déjà inscrit
 		$souleEquipeTable = new SouleEquipe();
-		$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $souleEquipeTable->countNonDebuteByIdBraldun($this->view->user->id_braldun);
 			
 		if ($this->matchEnCours != null) { // s'il un match en cours
 			$this->view->inscriptionNonPossibleInfo = "Il y a un match en cours sur ce terrain";
-		} else if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"] && $nombre == 0) {
+		} else if ($this->niveauTerrainBraldun != $this->view->terrainCourant["niveau_soule_terrain"] && $nombre == 0) {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
-		} else if ($this->view->user->est_engage_hobbit == "oui") {
+		} else if ($this->view->user->est_engage_braldun == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
-		} else if ($this->view->user->est_soule_hobbit == "oui") {
+		} else if ($this->view->user->est_soule_braldun == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes déjà en plein match";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
 
 			if ($nombre == 0) { // si le joueur n'est pas déjà inscrit
 				// on regarde s'il n'y a pas plus de 80 joueurs
-				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
+				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainBraldun);
 				if ($nombreJoueurs < $this->view->config->game->soule->max->joueurs) {
 					$this->view->inscriptionPossible = true;
 				}
@@ -163,10 +163,10 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$porteur = null;
 		if ($this->matchEnCours != null && $this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null) {
 			$idPorteur = $this->matchEnCours["id_fk_joueur_ballon_soule_match"];
-			$hobbitTable = new Hobbit();
-			$hobbit = $hobbitTable->findById($idPorteur);
-			if ($hobbit != null) {
-				$porteur = $hobbit->toArray();
+			$braldunTable = new Braldun();
+			$braldun = $braldunTable->findById($idPorteur);
+			if ($braldun != null) {
+				$porteur = $braldun->toArray();
 			}
 		}
 
@@ -181,9 +181,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 		$tab = null;
 		foreach($rowset as $r) {
-			$hobbit = $r["prenom_hobbit"]." ".$r["nom_hobbit"]." (".$r["id_hobbit"].")";
+			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
 			$tab[] = array ("date_evenement" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]),
-							"hobbit_evenement" => $hobbit,
+							"braldun_evenement" => $braldun,
 							"details_evenement" => $r["details_evenement"]);
 		}
 		$this->view->evenements = $tab;

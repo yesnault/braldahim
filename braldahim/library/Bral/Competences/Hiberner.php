@@ -18,9 +18,9 @@ class Bral_Competences_Hiberner extends Bral_Competences_Competence {
 		
 		Zend_Loader::loadClass("SouleEquipe");
 		$souleEquipeTable = new SouleEquipe();
-		$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $souleEquipeTable->countNonDebuteByIdBraldun($this->view->user->id_braldun);
 		
-		if ($this->view->user->est_soule_hobbit == "non" && $nombre == 0) {
+		if ($this->view->user->est_soule_braldun == "non" && $nombre == 0) {
 			$this->view->hibernerPossible = true;
 		}
 	}
@@ -31,24 +31,24 @@ class Bral_Competences_Hiberner extends Bral_Competences_Competence {
 	function prepareResultat() {
 		
 		if ($this->view->hibernerPossible == false) {
-			throw new Zend_Exception(get_class($this)." Hiberner impossible : ".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." Hiberner impossible : ".$this->view->user->id_braldun);
 		}
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 		
 		$now = date("Y-m-d 0:0:0");
-		$this->view->user->date_fin_hibernation_hobbit = Bral_Util_ConvertDate::get_date_add_day_to_date($now, 5);
+		$this->view->user->date_fin_hibernation_braldun = Bral_Util_ConvertDate::get_date_add_day_to_date($now, 5);
 		
 		$data = array( 
-			'date_fin_hibernation_hobbit' => $this->view->user->date_fin_hibernation_hobbit,
+			'date_fin_hibernation_braldun' => $this->view->user->date_fin_hibernation_braldun,
 		); 
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 		
 		$id_type = $this->view->config->game->evenements->type->special;
-		$details = "[h".$this->view->user->id_hobbit."] rentre en hibernation demain";
+		$details = "[h".$this->view->user->id_braldun."] rentre en hibernation demain";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 	}

@@ -7,13 +7,13 @@
 	Vous avez r&eacute;ussi votre cuisine.<br /> <br />
 	
 	<? if ($this->estQuintuple === true) : ?>
-		Les hobbits suivants se sont régalés avec votre banquet : <br>
-		<? foreach($this->hobbits as $h) : ?>
-			<? if ($h['id_hobbit'] == $this->user->id_hobbit) : ?>
+		Les bralduns suivants se sont régalés avec votre banquet : <br>
+		<? foreach($this->bralduns as $h) : ?>
+			<? if ($h['id_braldun'] == $this->user->id_braldun) : ?>
 				Vous-même
 			<? else: ?>
-				<label class='alabel profil' onClick="ouvrirProfilH('<?=$h["id_hobbit"]?>');" title='Voir le profil' >
-			<?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (n&deg; <?=$h["id_hobbit"]?>)
+				<label class='alabel profil' onClick="ouvrirProfilH('<?=$h["id_braldun"]?>');" title='Voir le profil' >
+			<?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (n&deg; <?=$h["id_braldun"]?>)
 			</label>
 			<? endif;?>
 			<br>

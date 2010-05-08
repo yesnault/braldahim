@@ -22,7 +22,7 @@ class Bral_Competences_Factory {
 		$action = $matches[1]; // "do" ou "ask"
 		$nomSystemeCompetence = $matches[2];
 		$construct = null;
-		$hobbitCompetence = null;
+		$braldunCompetence = null;
 
 		// On regarde si c'est une competence basique
 		$competencesBasiques = Bral_Util_Registre::get('competencesBasiques');
@@ -52,17 +52,17 @@ class Bral_Competences_Factory {
 
 		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
-			Zend_Loader::loadClass("HobbitsCompetences");
-			$hobbitsCompetencesTables = new HobbitsCompetences();
-			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($view->user->id_hobbit);
+			Zend_Loader::loadClass("BraldunsCompetences");
+			$braldunsCompetencesTables = new BraldunsCompetences();
+			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($view->user->id_braldun);
 
 			$competences = Bral_Util_Registre::get('competences');
 
-			foreach($hobbitCompetences as $c) {
+			foreach($braldunCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {
 					$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
 					$competence = $competences[$c["id_competence"]];
-					$hobbitCompetence = $c;
+					$braldunCompetence = $c;
 					break;
 				}
 			}
@@ -77,7 +77,7 @@ class Bral_Competences_Factory {
 		 
 		if (($construct != null) && (class_exists($construct))) {
 			Zend_Loader::loadClass($construct);
-			return new $construct ($competence, $hobbitCompetence, $request, $view, $action);
+			return new $construct ($competence, $braldunCompetence, $request, $view, $action);
 		} else {
 			throw new Zend_Exception("Comp&eacute;tence invalide: ".$nomSystemeCompetence);
 		}

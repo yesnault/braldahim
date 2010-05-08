@@ -22,19 +22,19 @@ class InterfaceController extends Zend_Controller_Action {
 
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
-		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) && ($this->_request->action == 'index')) {
+		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_braldun)) && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
 		} else if (!Zend_Auth::getInstance()->hasIdentity()
 		|| ($this->_request->action != 'index' &&
 		$this->view->user->initialCall == false &&
 		$this->_request->get("dateAuth") != $this->view->user->dateAuth)
-		|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+		|| !isset($this->view->user) || !isset($this->view->user->email_braldun)) {
 			if (!Zend_Auth::getInstance()->hasIdentity() ) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
 			} else {
-				$texte = "hobbit:inconnu";
+				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
 				}
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B ".$texte." action=".$this->_request->action. " uri=".$this->_request->getRequestUri()." initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
 			}
@@ -43,9 +43,9 @@ class InterfaceController extends Zend_Controller_Action {
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
-				$texte = "hobbit:inconnu";
+				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
 				}
 				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 ".$texte);
@@ -62,7 +62,7 @@ class InterfaceController extends Zend_Controller_Action {
 		if ($controleOk === true) {
 
 			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-			if ($this->view->user->est_charte_validee_hobbit == "non") {
+			if ($this->view->user->est_charte_validee_braldun == "non") {
 				$this->_redirect('/charte');
 			}
 
@@ -123,14 +123,14 @@ class InterfaceController extends Zend_Controller_Action {
 			Bral_Controller_Action::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
 		}
 
-		Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
+		Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_braldun);
 		unset($xml_entry);
 
 		$this->xml_response->render();
 	}
 
 	function boxesAction() {
-		Zend_Loader::loadClass('HobbitsMetiers');
+		Zend_Loader::loadClass('BraldunsMetiers');
 		$tabTables = false;
 
 		try {
@@ -150,12 +150,12 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
 
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
-			$hobbitsMetiers = new HobbitsMetiers();
-			$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
+			$braldunsMetiers = new BraldunsMetiers();
+			$possibleEchoppe = $braldunsMetiers->peutPossederEchoppeIdBraldun($this->view->user->id_braldun);
 			if ($possibleEchoppe === true) {
 				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
 			}
-			unset($hobbitsMetiers);
+			unset($braldunsMetiers);
 
 			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");

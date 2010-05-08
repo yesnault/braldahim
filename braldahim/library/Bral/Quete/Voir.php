@@ -37,10 +37,10 @@ class Bral_Quete_Voir extends Bral_Quete_Quete {
 		Zend_Loader::loadClass("Quete");
 		$queteTable = new Quete();
 		
-		$quete = $queteTable->findByIdHobbitAndIdQuete($this->view->user->id_hobbit, $this->idQueteEnCours);
+		$quete = $queteTable->findByIdBraldunAndIdQuete($this->view->user->id_braldun, $this->idQueteEnCours);
 		
 		if ($quete == null || count($quete) != 1) {
-			throw new Zend_Exception(get_class($this)." quete invalide h:".$this->view->user->id_hobbit. " q:".$this->idQueteEnCours);
+			throw new Zend_Exception(get_class($this)." quete invalide h:".$this->view->user->id_braldun. " q:".$this->idQueteEnCours);
 		}
 		$this->view->quete = $quete[0];
 		$this->prepareEtapes($this->idQueteEnCours);

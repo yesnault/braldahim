@@ -33,7 +33,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 
 		if ($this->request->get("mode") == "editer") {
 			$data["id_carnet"] = $idCarnet;
-			$data["id_fk_hobbit_carnet"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_carnet"] = $this->view->user->id_braldun;
 			
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
@@ -46,7 +46,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$carnetTable->insertOrUpdate($data);
 		}
 
-		$carnet = $carnetTable->findByIdHobbitAndIdCarnet($this->view->user->id_hobbit, $idCarnet);
+		$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
 
 		$htmlCarnet = "vide";
 

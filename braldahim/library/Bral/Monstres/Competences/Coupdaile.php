@@ -24,35 +24,35 @@ class Bral_Monstres_Competences_Coupdaile extends Bral_Monstres_Competences_Atta
 		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
 		$jetMonstre = $jetMonstre + $this->monstre["agilite_bm_monstre"];
 
-		$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->cible["agilite_base_hobbit"]);
-		$jetHobbit = $jetHobbit + $this->cible["agilite_bm_hobbit"] + $this->cible["agilite_bbdf_hobbit"];
+		$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->cible["agilite_base_braldun"]);
+		$jetBraldun = $jetBraldun + $this->cible["agilite_bm_braldun"] + $this->cible["agilite_bbdf_braldun"];
 
-		if ($jetHobbit <= $jetMonstre) {
+		if ($jetBraldun <= $jetMonstre) {
 			Zend_Loader::loadClass("Bral_Util_Effets");
-			Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Coup d'aile sur le nez");
+			Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Coup d'aile sur le nez");
 		}
-		$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetHobbit);
+		$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetBraldun);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
 		return null;
 	}
 
-	private function majEvenement($hobbit, $malus, $nbTours, $jetMonstre, $jetHobbit) {
+	private function majEvenement($braldun, $malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a donné un Coup d'Aile sur le nez du hobbit [h".$hobbit["id_hobbit"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
+		$details = "[m".$this->monstre["id_monstre"]."] a donné un Coup d'Aile sur le nez du braldun [h".$braldun["id_braldun"]."]";
+		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit) {
+	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un Coup d'Aile sur le nez :";
 		$retour .= PHP_EOL."Jet du Monstre (jet d'agilité) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet d'agilité) : ".$jetHobbit;
-		if ($jetHobbit > $jetMonstre) {
+		$retour .= PHP_EOL."Jet de résistance (jet d'agilité) : ".$jetBraldun;
+		if ($jetBraldun > $jetMonstre) {
 			$retour .= PHP_EOL."Vous avez résisté au Coup d'aile, aucun malus n'est appliqué.";
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté au Coup d'aile, le malus est appliqué.";

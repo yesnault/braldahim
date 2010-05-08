@@ -32,13 +32,13 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		
 		// on verifie que c'est bien l'echoppe du joueur
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 		
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe && 
-				$e["x_echoppe"] == $this->view->user->x_hobbit && 
-				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+				$e["x_echoppe"] == $this->view->user->x_braldun && 
+				$e["y_echoppe"] == $this->view->user->y_braldun) {
 				$echoppeOk = true;
 				break;
 			}
@@ -78,7 +78,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
 		$this->view->nbPotionsArriereBoutique = count($tabPotionsArriereBoutique);
 		
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		
 		if ($poidsRestant < Bral_Util_Poids::POIDS_POTION) {
 			$this->view->placeDispo = false;
@@ -159,7 +159,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		$labanPotionTable = new LabanPotion();
 		$data = array(
 			'id_laban_potion' => $potion["id_echoppe_potion"],
-			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban_potion' => $this->view->user->id_braldun,
 		);
 		$labanPotionTable->insert($data);
 		

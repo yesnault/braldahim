@@ -49,8 +49,8 @@ class Bral_Box_Soule extends Bral_Box_Box {
 		$terrainsRowset = $souleTerrainTable->fetchAll();
 		
 		$terrains = null;
-		$terrainHobbit = null;
-		$niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);
+		$terrainBraldun = null;
+		$niveauTerrainBraldun = floor($this->view->user->niveau_braldun/10);
 		$idTerrainDefaut = null;
 		
 		if ($terrainsRowset != null && count($terrainsRowset) > 0) {
@@ -63,8 +63,8 @@ class Bral_Box_Soule extends Bral_Box_Box {
 					"selected" => false,
 				);
 				
-				if ($niveauTerrainHobbit == $t["niveau_soule_terrain"]) {
-					$terrainHobbit = $terrain;
+				if ($niveauTerrainBraldun == $t["niveau_soule_terrain"]) {
+					$terrainBraldun = $terrain;
 					$terrain["selected"] = true;
 					$idTerrainDefaut = $t["id_soule_terrain"];
 				}
@@ -73,7 +73,7 @@ class Bral_Box_Soule extends Bral_Box_Box {
 		}
 		
 		$this->view->terrains = $terrains;
-		$this->view->terrainHobbit = $terrainHobbit;
+		$this->view->terrainBraldun = $terrainBraldun;
 		
 		Zend_Loader::loadClass("Bral_Soule_Factory");
 		$voir = Bral_Soule_Factory::getVoir($this->_request, $this->view, $idTerrainDefaut);

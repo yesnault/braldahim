@@ -12,13 +12,13 @@
  */
 class Coffre extends Zend_Db_Table {
 	protected $_name = 'coffre';
-	protected $_primary = array('id_fk_hobbit_coffre');
+	protected $_primary = array('id_fk_braldun_coffre');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_fk_hobbit_coffre = '.intval($id_hobbit));
+		->where('id_fk_braldun_coffre = '.intval($id_braldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -34,7 +34,7 @@ class Coffre extends Zend_Db_Table {
 		quantite_planche_coffre as quantitePlanche,
 		quantite_rondin_coffre as quantiteRondin,
 		quantite_castar_coffre as quantiteCastar')
-		->where('id_fk_hobbit_coffre = ?',$data["id_fk_hobbit_coffre"])
+		->where('id_fk_braldun_coffre = ?',$data["id_fk_braldun_coffre"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -69,7 +69,7 @@ class Coffre extends Zend_Db_Table {
 				$dataUpdate['quantite_castar_coffre'] = $quantiteCastar + $data["quantite_castar_coffre"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_hobbit_coffre = '.$data["id_fk_hobbit_coffre"];
+				$where = 'id_fk_braldun_coffre = '.$data["id_fk_braldun_coffre"];
 				$this->update($dataUpdate, $where);
 			}
 		}

@@ -122,11 +122,11 @@ abstract class Bral_Monstres_VieGroupes {
 		}
 
 		if ($cible != null) {
-			$groupe["id_fk_hobbit_cible_groupe_monstre"] = $cible["id_hobbit"];
-			$groupe["x_direction_groupe_monstre"] = $cible["x_hobbit"];
-			$groupe["y_direction_groupe_monstre"] = $cible["y_hobbit"];
-			$monstre_role_a["id_fk_hobbit_cible_monstre"] = null;
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$groupe["x_direction_groupe_monstre"]. " y=".$groupe["y_direction_groupe_monstre"]);
+			$groupe["id_fk_braldun_cible_groupe_monstre"] = $cible["id_braldun"];
+			$groupe["x_direction_groupe_monstre"] = $cible["x_braldun"];
+			$groupe["y_direction_groupe_monstre"] = $cible["y_braldun"];
+			$monstre_role_a["id_fk_braldun_cible_monstre"] = null;
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_braldun"]. " x=".$groupe["x_direction_groupe_monstre"]. " y=".$groupe["y_direction_groupe_monstre"]);
 		} else {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible non trouvee: x=".$groupe["x_direction_groupe_monstre"]. " y=".$groupe["y_direction_groupe_monstre"]);
 		}
@@ -166,20 +166,20 @@ abstract class Bral_Monstres_VieGroupes {
 	 *
 	 * @param monstre $monstre_role_a
 	 * @param groupeMonstre $groupe
-	 * @return hobbit : nouvelle cible ou null si non trouvee
+	 * @return braldun : nouvelle cible ou null si non trouvee
 	 */
 	protected function rechercheNouvelleCible(&$monstre_role_a, &$groupe, &$monstres) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - exit");
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 
 		foreach($monstres as $monstre) {
-			$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["vue_monstre"], 1, $monstre["id_type_monstre"], false);
+			$cibles = $braldunTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["vue_monstre"], 1, $monstre["id_type_monstre"], false);
 			if ($cibles != null) {
 				$cible = $cibles[0];
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_hobbit"]);
-				$groupe["id_fk_hobbit_cible_groupe_monstre"] = $cible["id_hobbit"];
-				$groupe["x_direction_groupe_monstre"] = $cible["x_hobbit"];
-				$groupe["y_direction_groupe_monstre"] = $cible["y_hobbit"];
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_braldun"]);
+				$groupe["id_fk_braldun_cible_groupe_monstre"] = $cible["id_braldun"];
+				$groupe["x_direction_groupe_monstre"] = $cible["x_braldun"];
+				$groupe["y_direction_groupe_monstre"] = $cible["y_braldun"];
 				$monstre_role_a = $monstre;
 				$groupe["id_role_a_groupe_monstre"] = $monstre["id_monstre"];
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouveau role A defini:".$monstre["id_monstre"]);
@@ -216,7 +216,7 @@ abstract class Bral_Monstres_VieGroupes {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateGroupe - enter");
 		$groupeMonstreTable = new GroupeMonstre();
 		$data = array(
-            "id_fk_hobbit_cible_groupe_monstre" => $groupe["id_fk_hobbit_cible_groupe_monstre"],
+            "id_fk_braldun_cible_groupe_monstre" => $groupe["id_fk_braldun_cible_groupe_monstre"],
             "id_role_a_groupe_monstre" => $groupe["id_role_a_groupe_monstre"],
             "x_direction_groupe_monstre" => $groupe["x_direction_groupe_monstre"],
             "y_direction_groupe_monstre" => $groupe["y_direction_groupe_monstre"],

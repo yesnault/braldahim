@@ -12,14 +12,14 @@
  */
 class Session extends Zend_Db_Table {
 	protected $_name = 'session';
-	protected $_primary = array('id_fk_hobbit_session');
+	protected $_primary = array('id_fk_braldun_session');
 
 	function findAll() {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('session', '*')
-		->from('hobbit', '*')
-		->where('id_fk_hobbit_session = id_hobbit');
+		->from('braldun', '*')
+		->where('id_fk_braldun_session = id_braldun');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -33,11 +33,11 @@ class Session extends Zend_Db_Table {
 		return $resultat[0]["nombre"];
 	}
 	
-	function countByIdHobbitAndIdSession($idSession, $idSessionPhp) {
+	function countByIdBraldunAndIdSession($idSession, $idSessionPhp) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('session', 'count(*) as nombre')
-		->where('id_fk_hobbit_session = ?', $idSession)
+		->where('id_fk_braldun_session = ?', $idSession)
 		->where('id_php_session = ?', $idSessionPhp);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -48,14 +48,14 @@ class Session extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('session', 'count(*) as nombre')
-		->where("id_fk_hobbit_session = '".$data["id_fk_hobbit_session"]."' OR id_php_session='".$data["id_php_session"]."'");
+		->where("id_fk_braldun_session = '".$data["id_fk_braldun_session"]."' OR id_php_session='".$data["id_php_session"]."'");
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		
 		if ($resultat[0]["nombre"] == 0) { // insert
 			$this->insert($data);
 		} else { // update
-			$where = 'id_fk_hobbit_session = '.$data["id_fk_hobbit_session"];
+			$where = 'id_fk_braldun_session = '.$data["id_fk_braldun_session"];
 			$this->update($data, $where);
 		}
 	}

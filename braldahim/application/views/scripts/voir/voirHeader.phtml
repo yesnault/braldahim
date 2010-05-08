@@ -4,11 +4,11 @@
 <?php echo $this->render('headerErreurRacine.phtml'); ?>
 
  <div class="inner_top" style="height:16px; text-align:center">
-  <a href="/voir/hobbits">Hobbits</a> | 
+  <a href="/voir/bralduns">Bralduns</a> | 
   <a href="/voir/communautes">Communaut&eacute;s</a> |
   &nbsp;&nbsp;&nbsp;
 	<? if ($this->user) : ?>
-		<input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Hobbit - Entrez un nom" onFocus='this.value=""; activerRechercheVoirHobbit("valeur_2_voir");' />
+		<input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheVoirBraldun("valeur_2_voir");' />
 		<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="/public/images/loupe.gif" />
 		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>

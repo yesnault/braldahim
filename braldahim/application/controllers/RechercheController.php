@@ -33,56 +33,56 @@ class RechercheController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function hobbitAction() {
-		$this->rechercheHobbit();
+	function braldunAction() {
+		$this->rechercheBraldun();
 		$this->render();
 	}
 
 	function bourlingueurAction() {
 		$idTypeBourlingueur = Bral_Util_Controle::getValeurIntVerif($this->_request->get("type"));
-		$this->rechercheHobbit($idTypeBourlingueur);
+		$this->rechercheBraldun($idTypeBourlingueur);
 		$this->render();
 	}
 
-	private function rechercheHobbit($idTypeDistinction = null) {
+	private function rechercheBraldun($idTypeDistinction = null) {
 
 		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("valeur")))) {
-			$tabHobbits = null;
-			$hobbitTable = new Hobbit();
+			$tabBralduns = null;
+			$braldunTable = new Braldun();
 
 			if ($idTypeDistinction != null) {
 
-				$hobbitRowset = $hobbitTable->findHobbitsParPrenomAndIdTypeDistinction($this->_request->get("valeur").'%', $idTypeDistinction);
-				$hobbits = array();
-				foreach ($hobbitRowset as $h) {
-					$hobbits[] = $h["id_hobbit"];
+				$braldunRowset = $braldunTable->findBraldunsParPrenomAndIdTypeDistinction($this->_request->get("valeur").'%', $idTypeDistinction);
+				$bralduns = array();
+				foreach ($braldunRowset as $h) {
+					$bralduns[] = $h["id_braldun"];
 				}
 
 				Zend_Loader::loadClass('Bral_Util_Distinction');
 				$idTypeDistinctionDonjon = Bral_Util_Distinction::getIdDistinctionDonjonFromIdDistinctionBourlingueur($idTypeDistinction);
-				Zend_Loader::loadClass("HobbitsDistinction");
-				$hobbitsDistinctionTable = new HobbitsDistinction();
-				$distinctionsDonjon = $hobbitsDistinctionTable->countDistinctionByIdHobbitList($hobbits, $idTypeDistinctionDonjon);
+				Zend_Loader::loadClass("BraldunsDistinction");
+				$braldunsDistinctionTable = new BraldunsDistinction();
+				$distinctionsDonjon = $braldunsDistinctionTable->countDistinctionByIdBraldunList($bralduns, $idTypeDistinctionDonjon);
 
 				Zend_Loader::loadClass("SouleEquipe");
 				$souleEquipeTable = new SouleEquipe();
-				$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($hobbits);
+				$soule = $souleEquipeTable->countNonDebuteByIdBraldunList($bralduns);
 
 			} else {
-				$hobbitRowset = $hobbitTable->findHobbitsParPrenom($this->_request->get("valeur").'%');
+				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("valeur").'%');
 			}
 			$this->view->champ = $this->_request->get("champ");
 
-			foreach ($hobbitRowset as $h) {
-				$hobbit = array(
-						"id_hobbit" => $h["id_hobbit"],
-						"nom" => $h["nom_hobbit"],
-						"prenom" => $h["prenom_hobbit"],
+			foreach ($braldunRowset as $h) {
+				$braldun = array(
+						"id_braldun" => $h["id_braldun"],
+						"nom" => $h["nom_braldun"],
+						"prenom" => $h["prenom_braldun"],
 				);
 					
 				if ($idTypeDistinction == null) {
-					$tabHobbits[] = $hobbit;
-				} else if ($idTypeDistinction != null && $h["id_hobbit"] != $this->view->user->id_hobbit) {
+					$tabBralduns[] = $braldun;
+				} else if ($idTypeDistinction != null && $h["id_braldun"] != $this->view->user->id_braldun) {
 					$okD = false;
 					$okS = false;
 
@@ -90,7 +90,7 @@ class RechercheController extends Zend_Controller_Action {
 						$okD = true;
 					} else {
 						foreach($distinctionsDonjon as $d) {
-							if ($h["est_donjon_hobbit"] == "non" && $d["id_fk_hobbit_hdistinction"] == $h["id_hobbit"] && $d["nombre"] < 1) {
+							if ($h["est_donjon_braldun"] == "non" && $d["id_fk_braldun_hdistinction"] == $h["id_braldun"] && $d["nombre"] < 1) {
 								$okD = true;
 								break;
 							}
@@ -101,7 +101,7 @@ class RechercheController extends Zend_Controller_Action {
 						$okS = true;
 					} else {
 						foreach($soule as $s) {
-							if ($h["est_soule_hobbit"] == "non" && $s["id_fk_hobbit_soule_equipe"] == $h["id_hobbit"] && $s["nombre"] < 1) {
+							if ($h["est_soule_braldun"] == "non" && $s["id_fk_braldun_soule_equipe"] == $h["id_braldun"] && $s["nombre"] < 1) {
 								$okS = true;
 								break;
 							}
@@ -109,12 +109,12 @@ class RechercheController extends Zend_Controller_Action {
 					}
 
 					if ($okD == true && $okS == true) {
-						$tabHobbits[] = $hobbit;
+						$tabBralduns[] = $braldun;
 					}
 				}
 			}
 			$this->view->pattern = $this->_request->get("valeur");
-			$this->view->tabHobbits = $tabHobbits;
+			$this->view->tabBralduns = $tabBralduns;
 		}
 	}
 }

@@ -24,7 +24,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$tabCadavres = null;
 		foreach($monstres as $c) {
@@ -71,7 +71,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// calcul des jets
@@ -83,7 +83,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	/*
@@ -119,7 +119,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				$this->view->nbPeau = Bral_Util_De::get_1d2();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 					$coefA = 4;
-					$this->view->nbViande = Bral_Util_De::get_1d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+					$this->view->nbViande = Bral_Util_De::get_1d3() + floor(($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2);
 				} else {
 					$coefA = 8;
 				}
@@ -129,7 +129,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				$this->view->nbPeau = Bral_Util_De::get_1d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 					$coefA = 4;
-					$this->view->nbViande = Bral_Util_De::get_2d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+					$this->view->nbViande = Bral_Util_De::get_2d3() + floor(($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2);
 				} else {
 					$coefA = 8;
 				}
@@ -139,7 +139,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				$this->view->nbPeau = Bral_Util_De::get_2d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 					$coefA = 4;
-					$this->view->nbViande = Bral_Util_De::get_3d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+					$this->view->nbViande = Bral_Util_De::get_3d3() + floor(($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2);
 				} else {
 					$coefA = 8;
 				}
@@ -149,7 +149,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				$this->view->nbPeau = Bral_Util_De::get_3d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 					$coefA = 4;
-					$this->view->nbViande = Bral_Util_De::get_4d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+					$this->view->nbViande = Bral_Util_De::get_4d3() + floor(($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2);
 				} else {
 					$coefA = 8;
 				}
@@ -160,12 +160,12 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		$this->view->effetRune = false;
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "FO")) { // s'il possède une rune FO
 			$this->view->effetRune = true;
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}
 
-		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
+		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2 ;
 		if ($this->view->nbPeau < 0) {
 			$this->view->nbPeau = 0;
 		}
@@ -202,7 +202,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		$labanTable = new Laban();
 		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban' => $this->view->user->id_braldun,
 			'quantite_peau_laban' => $this->view->nbPeau,
 		);
 		$labanTable->insertOrUpdate($data);
@@ -212,15 +212,15 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$labanTable = new LabanIngredient();
 		$data = array(
 			'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
-			'id_fk_hobbit_laban_ingredient' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
 			'quantite_laban_ingredient' => $this->view->nbViande,
 		);
 		$labanTable->insertOrUpdate($data);
 
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
-		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
+		$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 		$dataRecolteurs["nb_peau_stats_recolteurs"] = $this->view->nbPeau;
 		$dataRecolteurs["nb_viande_stats_recolteurs"] = $this->view->nbViande;
@@ -236,7 +236,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$libelleMonstreGibier = "gibier";
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
+		$details = "[h".$this->view->user->id_braldun."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
 		$this->setDetailsEvenement($details, $idTypeEvenement);
 
 		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");
@@ -249,7 +249,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	}
 
 	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		if ($poidsRestant < 0) $poidsRestant = 0;
 
 		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PEAU);

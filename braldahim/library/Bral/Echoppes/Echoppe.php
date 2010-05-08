@@ -53,7 +53,7 @@ abstract class Bral_Echoppes_Echoppe {
 				return $this->view->render("echoppes/".$this->nom_systeme."_formulaire.phtml");
 				break;
 			case "do":
-				$this->majHobbit();
+				$this->majBraldun();
 				return $this->view->render("echoppes/".$this->nom_systeme."_resultat.phtml");
 				break;
 			default:
@@ -61,23 +61,23 @@ abstract class Bral_Echoppes_Echoppe {
 		}
 	}
 	
-	private function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	private function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 		
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
 		
-		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0; 
+		if ($this->view->user->balance_faim_braldun < 0) {
+			$this->view->user->balance_faim_braldun = 0; 
 		}
 		
 		$data = array(
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 	
 }

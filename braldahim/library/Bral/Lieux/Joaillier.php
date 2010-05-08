@@ -20,7 +20,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
+		$this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->_coutCastars >= 0);
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 
 		if ($this->view->utilisationPaPossible == false) {
@@ -36,7 +36,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
 		$tabEquipementsLaban = null;
 		$labanEquipementTable = new LabanEquipement();
-		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 
@@ -94,7 +94,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			Zend_Loader::loadClass("LabanRune");
 			$tabLabanRune = null;
 			$labanRuneTable = new LabanRune();
-			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, "oui");
+			$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
 
 			foreach($labanRunes as $l) {
 				if ($l["est_identifiee_rune"] == "oui") {
@@ -175,13 +175,13 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$this->view->suffixe = "";
 		$this->calculSertir($tabRunes);
 
-		$details = "[h".$this->view->user->id_hobbit."] a serti la pièce d'équipement n°".$idEquipementLaban;
+		$details = "[h".$this->view->user->id_braldun."] a serti la pièce d'équipement n°".$idEquipementLaban;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_SERTIR_ID, $idEquipementLaban, $details);
 
 		$this->view->nbRunes = $nb;
 		$this->view->tabRunes = $tabRunes;
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
+		$this->majBraldun();
 	}
 
 	private function calculSertir($tabRunes) {
@@ -224,7 +224,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
 
-			$details = "[h".$this->view->user->id_hobbit."] a serti la rune n°".$v["id_rune_laban_rune"];
+			$details = "[h".$this->view->user->id_braldun."] a serti la rune n°".$v["id_rune_laban_rune"];
 			Zend_Loader::loadClass("Bral_Util_Rune");
 			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
 		}
@@ -282,7 +282,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
 
 			$effetMotFTable = new EffetMotF();
-			$data = array("id_fk_hobbit_effet_mot_f" => $this->view->user->id_hobbit,
+			$data = array("id_fk_braldun_effet_mot_f" => $this->view->user->id_braldun,
 						  "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);
 			$effetMotDTable->insert($data);
 		}

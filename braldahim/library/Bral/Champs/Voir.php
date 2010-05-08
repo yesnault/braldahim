@@ -38,7 +38,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		}
 
 		$champTable = new Champ();
-		$champs = $champTable->findByIdHobbit($this->view->user->id_hobbit);
+		$champs = $champTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$this->view->estSurChamp == false;
 
@@ -60,9 +60,9 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					'quantite_champ' => $e["quantite_champ"],
 				);
 
-				if ($this->view->user->x_hobbit == $e["x_champ"] &&
-				$this->view->user->y_hobbit == $e["y_champ"] &&
-				$this->view->user->z_hobbit == $e["z_champ"]) {
+				if ($this->view->user->x_braldun == $e["x_champ"] &&
+				$this->view->user->y_braldun == $e["y_champ"] &&
+				$this->view->user->z_braldun == $e["z_champ"]) {
 					$this->view->estSurChamp = true;
 				}
 				$this->prepareChamp($e);
@@ -71,7 +71,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		}
 
 		if ($tabChamp == null) {
-			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_hobbit." ide:".$id_champ);
+			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_braldun." ide:".$id_champ);
 		}
 
 		$this->prepareCompetences();
@@ -79,14 +79,14 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 	}
 
 	private function prepareCompetences() {
-		Zend_Loader::loadClass("HobbitsCompetences");
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 
 		$competence = null;
 		$tabCompetences = null;
 		$possedeEntretenir = false;
-		foreach($hobbitCompetences as $c) {
+		foreach($braldunCompetences as $c) {
 			if ($c["nom_systeme_competence"] == "semer" ||
 			$c["nom_systeme_competence"] == "entretenir" ||
 			$c["nom_systeme_competence"] == "recolter") {

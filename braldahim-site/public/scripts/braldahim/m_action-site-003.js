@@ -236,14 +236,14 @@ function switch2div(div1, div2) {
 	}
 }
 
-function ouvrirProfilH(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=profil', 'Profil Hobbit n°' + idHobbit);
+function ouvrirProfilH(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=profil', 'Profil Braldun n°' + idBraldun);
 }
-function ouvrirEvenementsH(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=evenements', 'Evenements Hobbit n°' + idHobbit);
+function ouvrirEvenementsH(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=evenements', 'Evenements Braldun n°' + idBraldun);
 }
-function ouvrirFamille(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=famille', 'Famille Hobbit n°' + idHobbit);
+function ouvrirFamille(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=famille', 'Famille Braldun n°' + idBraldun);
 }
 function ouvrirCommunaute(idCommunaute) {
 	ouvrirWin('/voir/communaute/?communaute=' + idCommunaute, 'Communauté n°' + idCommunaute);

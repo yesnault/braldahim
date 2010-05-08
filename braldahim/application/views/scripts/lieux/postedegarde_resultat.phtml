@@ -16,8 +16,8 @@
 	de votre équipe soit annulée.<br><br>
 	
 	Votre équipe : <br>
-	<? foreach($this->tabHobbitsEquipe as $h):?>
-		<?=$h["prenom_hobbit"]. " ".$h["nom_hobbit"]." (".$h["id_hobbit"].")";?><br>	
+	<? foreach($this->tabBraldunsEquipe as $h):?>
+		<?=$h["prenom_braldun"]. " ".$h["nom_braldun"]." (".$h["id_braldun"].")";?><br>	
 	<? endforeach;?>
 <? elseif ($this->estMeneur && $this->descentePossible) : ?>
 	Vous avez ouvert la porte du Donjon... Tous vos coéquipiers vous ont suivi. <br><br>

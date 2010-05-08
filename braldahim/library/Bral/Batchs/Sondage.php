@@ -40,11 +40,11 @@ class Bral_Batchs_Sondage extends Bral_Batchs_Batch {
 			$where = 'id_sondage = '.$sondageEnCours["id_sondage"];
 			$sondageTable->update($data, $where);
 
-			// mise à jour des hobbits
-			$hobbitTable = new Hobbit();
-			$data = array('est_sondage_valide_hobbit' => 'oui');
-			$where = "niveau_hobbit > 3";
-			$hobbitTable->update($data, $where);
+			// mise à jour des bralduns
+			$braldunTable = new Braldun();
+			$data = array('est_sondage_valide_braldun' => 'oui');
+			$where = "niveau_braldun > 3";
+			$braldunTable->update($data, $where);
 		} else {
 			// pas de sondage, rien à faire
 		}
@@ -68,11 +68,11 @@ class Bral_Batchs_Sondage extends Bral_Batchs_Batch {
 			$where = 'id_sondage = '.$sondageEnCours["id_sondage"];
 			$sondageTable->update($data, $where);
 
-			// mise à jour des hobbits
-			$hobbitTable = new Hobbit();
-			$data = array('est_sondage_valide_hobbit' => 'non');
-			$where = "niveau_hobbit > 3";
-			$hobbitTable->update($data, $where);
+			// mise à jour des bralduns
+			$braldunTable = new Braldun();
+			$data = array('est_sondage_valide_braldun' => 'non');
+			$where = "niveau_braldun > 3";
+			$braldunTable->update($data, $where);
 		} else {
 			// pas de sondage, rien à faire
 		}

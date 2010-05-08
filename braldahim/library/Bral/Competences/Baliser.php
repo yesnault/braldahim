@@ -39,18 +39,18 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->view->construireRouteContinueOk = false;
 
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$palissades = $palissadeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, "toutes");
+		$routes = $routeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, "toutes");
 		$eauTable = new Eau();
-		$eaux = $eauTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$eaux = $eauTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$zoneTable = new Zone();
-		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$zone = $zoneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($zoneTable);
 
 		if (count($zone) == 1) {
@@ -68,7 +68,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			$this->view->route = $routes[0];
 		}
 
-		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && count($eaux) <= 0 && $this->estEnvironnementValid($this->environnement)) {
+		if (count($monstres) <= 0 && count($bralduns) == 1 && count($palissades) <= 0 && count($eaux) <= 0 && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->construireOk = true;
 
 			if ($this->view->route != null && $this->view->route["est_visible_route"] == "oui") { //|| $this->view->config->general->production == 1) {
@@ -77,7 +77,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 				$this->view->construireOk = true;
 			}
 
-			$routesAutour = $routeTable->selectVue($this->view->user->x_hobbit - 1, $this->view->user->y_hobbit - 1, $this->view->user->x_hobbit + 1, $this->view->user->y_hobbit + 1, $this->view->user->z_hobbit);
+			$routesAutour = $routeTable->selectVue($this->view->user->x_braldun - 1, $this->view->user->y_braldun - 1, $this->view->user->x_braldun + 1, $this->view->user->y_braldun + 1, $this->view->user->z_braldun);
 			if ($routesAutour != null && count($routesAutour) > 0 && $this->view->tableau != null) {
 				$this->view->construireRouteContinueOk = true;
 			}
@@ -93,7 +93,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->construireOk == false) {
@@ -135,7 +135,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculDecouverteRoute() {
@@ -148,7 +148,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 	private function calculBaliser() {
 
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
 		$chance_a = -0.375 * $maitrise + 53.75 ;
 		$chance_b = 0.25 * $maitrise + 42.5 ;
@@ -175,10 +175,10 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nbJours);
 
 		$data = array(
-			"x_route"  => $this->view->user->x_hobbit,
-			"y_route" => $this->view->user->y_hobbit,
-			"z_route" => $this->view->user->z_hobbit,
-			"id_fk_hobbit_route" => $this->view->user->id_hobbit,
+			"x_route"  => $this->view->user->x_braldun,
+			"y_route" => $this->view->user->y_braldun,
+			"z_route" => $this->view->user->z_braldun,
+			"id_fk_braldun_route" => $this->view->user->id_braldun,
 			"date_creation_route" => $date_creation,
 			"date_fin_route" => $date_fin,
 			"id_fk_type_qualite_route" => $qualite,
@@ -192,8 +192,8 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("StatsRoutes");
 		$statsRoutes = new StatsRoutes();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataRoutes["niveau_hobbit_stats_routes"] = $this->view->user->niveau_hobbit;
-		$dataRoutes["id_fk_hobbit_stats_routes"] = $this->view->user->id_hobbit;
+		$dataRoutes["niveau_braldun_stats_routes"] = $this->view->user->niveau_braldun;
+		$dataRoutes["id_fk_braldun_stats_routes"] = $this->view->user->id_braldun;
 		$dataRoutes["mois_stats_routes"] = date("Y-m-d", $moisEnCours);
 		$dataRoutes["nb_stats_routes"] = 1;
 		$dataRoutes["id_fk_metier_stats_routes"] = $this->view->config->game->metier->bucheron->id;
@@ -208,14 +208,14 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 				$this->view->deplacement = true;
 			}
 
-			$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
-			$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
+			$this->view->user->x_braldun = $this->view->user->x_braldun + $offset_x;
+			$this->view->user->y_braldun = $this->view->user->y_braldun + $offset_y;
 		}
 	}
 
 	private function calculJetForce() {
-		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $this->view->user->force_base_hobbit);
-		$jet = $jet + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
+		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $this->view->user->force_base_braldun);
+		$jet = $jet + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
 		if ($jet < 0) {
 			$jet = 0;
 		}
@@ -223,8 +223,8 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	}
 
 	private function calculJetVigueur() {
-		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
-		$jet = $jet + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
+		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_braldun);
+		$jet = $jet + $this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun;
 		if ($jet < 0) {
 			$jet = 0;
 		}
@@ -232,8 +232,8 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	}
 
 	private function calculJetSagesse() {
-		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
-		$jet = $jet + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$jet = $jet + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 		if ($jet < 0) {
 			$jet = 0;
 		}

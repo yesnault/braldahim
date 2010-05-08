@@ -17,13 +17,13 @@ class Bral_Batchs_Hibernation extends Bral_Batchs_Batch {
 		
 		$aujourdhui = date("Y-m-d 0:0:0");
 		
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		
-		$where = 'date_fin_hibernation_hobbit >= \''.$aujourdhui.'\'';
+		$where = 'date_fin_hibernation_braldun >= \''.$aujourdhui.'\'';
 		$data = array(
-			'est_en_hibernation_hobbit' => 'oui',
+			'est_en_hibernation_braldun' => 'oui',
 		);
-		$nbEntres = $hobbitTable->update($data, $where);
+		$nbEntres = $braldunTable->update($data, $where);
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hibernation - nbHibernationEntres:".$nbEntres." - nbHibernationSortis:".$nbSortis);
 		

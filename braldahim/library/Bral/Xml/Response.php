@@ -49,7 +49,7 @@ class Bral_Xml_Response {
 	}
 	
 	public function xmlAdmin($id, $texte) {
-		if (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == "admin") {
+		if (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == "admin") {
 			echo "<entrie>\n";
 			echo "<type>display</type>\n";
 			echo "<valeur>".$id."</valeur>\n";
@@ -80,7 +80,7 @@ class Bral_Xml_Response {
 		echo "<type>display</type>\n";
 		echo "<valeur>nb_connectes</valeur>\n";
 		echo "<data>";
-		echo "Il y a actuellement ".$nb." hobbit".$s." connecté".$s;
+		echo "Il y a actuellement ".$nb." braldun".$s." connecté".$s;
 		echo "</data>\n";
 		echo "</entrie>\n";
 	}

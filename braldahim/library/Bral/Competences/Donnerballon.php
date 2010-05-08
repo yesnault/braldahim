@@ -18,7 +18,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("SouleMatch");
 		$souleMatch = new SouleMatch();
-		$matchsRowset = $souleMatch->findByIdHobbitBallon($this->view->user->id_hobbit);
+		$matchsRowset = $souleMatch->findByIdBraldunBallon($this->view->user->id_braldun);
 
 		if ($matchsRowset != null && count($matchsRowset) == 1) {
 			$this->match = $matchsRowset[0];
@@ -28,23 +28,23 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 			return;
 		}
 
-		// recuperation des hobbits qui sont presents sur la vue
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
-		$tabHobbits = null;
-		foreach($hobbits as $h) {
-			if ($h["soule_camp_hobbit"] == $this->view->user->soule_camp_hobbit) {
+		// recuperation des bralduns qui sont presents sur la vue
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
+		$tabBralduns = null;
+		foreach($bralduns as $h) {
+			if ($h["soule_camp_braldun"] == $this->view->user->soule_camp_braldun) {
 				$tab = array(
-				'id_hobbit' => $h["id_hobbit"],
-				'nom_hobbit' => $h["nom_hobbit"],
-				'prenom_hobbit' => $h["prenom_hobbit"],
+				'id_braldun' => $h["id_braldun"],
+				'nom_braldun' => $h["nom_braldun"],
+				'prenom_braldun' => $h["prenom_braldun"],
 				);
-				$tabHobbits[] = $tab;
+				$tabBralduns[] = $tab;
 				$this->view->donnerballonOk = true;
 			}
 		}
-		$this->view->tabHobbits = $tabHobbits;
-		$this->view->nHobbits = count($tabHobbits);
+		$this->view->tabBralduns = $tabBralduns;
+		$this->view->nBralduns = count($tabBralduns);
 	}
 
 	function prepareFormulaire() {
@@ -56,7 +56,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification donner
@@ -70,55 +70,55 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		}
 
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_1"));
 		} else {
-			$idHobbit = (int)$this->request->get("valeur_1");
+			$idBraldun = (int)$this->request->get("valeur_1");
 		}
 
-		$donnerBallonHobbit = false;
-		if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
-			foreach ($this->view->tabHobbits as $h) {
-				if ($h["id_hobbit"] == $idHobbit) {
-					$donnerBallonHobbit = true;
+		$donnerBallonBraldun = false;
+		if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
+			foreach ($this->view->tabBralduns as $h) {
+				if ($h["id_braldun"] == $idBraldun) {
+					$donnerBallonBraldun = true;
 					break;
 				}
 			}
 		}
-		if ($donnerBallonHobbit === false) {
-			throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
+		if ($donnerBallonBraldun === false) {
+			throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
 		}
 			
 		$this->detailEvenement = "";
 
-		$this->calculDonnerballon($idHobbit);
+		$this->calculDonnerballon($idBraldun);
 
-		$hobbitTable = new Hobbit();
-		$hobbitDestinataire = $hobbitTable->findById($idHobbit);
+		$braldunTable = new Braldun();
+		$braldunDestinataire = $braldunTable->findById($idBraldun);
 
-		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a donné le ballon";
-		$this->detailEvenement .= " à [h".$hobbitDestinataire->id_hobbit."]";
-		$this->view->destinataire = $hobbitDestinataire->prenom_hobbit." ".$hobbitDestinataire->nom_hobbit." (".$hobbitDestinataire->id_hobbit.")";
+		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a donné le ballon";
+		$this->detailEvenement .= " à [h".$braldunDestinataire->id_braldun."]";
+		$this->view->destinataire = $braldunDestinataire->prenom_braldun." ".$braldunDestinataire->nom_braldun." (".$braldunDestinataire->id_braldun.")";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
 		$this->idMatchSoule = $this->match["id_soule_match"];
 
 		// evenements du destinataire
 		$detailsBotDestinataire = "Vous avez reçu le ballon de soule !";
-		$detailEvenementDestinataire = "[h".$hobbitDestinataire->id_hobbit."] a reçu le ballon de la part de [h".$this->view->user->id_hobbit."]";
-		Bral_Util_Evenement::majEvenements($hobbitDestinataire->id_hobbit, $this->view->config->game->evenements->type->soule, $detailEvenementDestinataire, $detailsBotDestinataire, $hobbitDestinataire->niveau_hobbit, "hobbit", true, $this->view);
+		$detailEvenementDestinataire = "[h".$braldunDestinataire->id_braldun."] a reçu le ballon de la part de [h".$this->view->user->id_braldun."]";
+		Bral_Util_Evenement::majEvenements($braldunDestinataire->id_braldun, $this->view->config->game->evenements->type->soule, $detailEvenementDestinataire, $detailsBotDestinataire, $braldunDestinataire->niveau_braldun, "braldun", true, $this->view);
 
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
-	private function calculDonnerballon($idHobbit) {
+	private function calculDonnerballon($idBraldun) {
 		$souleMatch = new SouleMatch();
 		$data = array(
 			"x_ballon_soule_match" => null,
 			"y_ballon_soule_match" => null,
-			"id_fk_joueur_ballon_soule_match" => $idHobbit,
+			"id_fk_joueur_ballon_soule_match" => $idBraldun,
 		);
 		$where = "id_soule_match = ".$this->match["id_soule_match"];
 		$souleMatch->update($data, $where);

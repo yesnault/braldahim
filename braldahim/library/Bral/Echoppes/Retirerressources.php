@@ -26,16 +26,16 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Echoppe invalide=".$id_echoppe);
 		}
 
-		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$this->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$tabEchoppe = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun) {
 				$tabEchoppe = array(
 					'id_echoppe' => $e["id_echoppe"],
 					'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
@@ -48,7 +48,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			}
 		}
 		if ($tabEchoppe == null) {
-			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_hobbit." ide:".$id_echoppe);
+			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_braldun." ide:".$id_echoppe);
 		}
 
 		$this->view->echoppe = $tabEchoppe;
@@ -65,7 +65,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 		$this->view->charretteOk = false;
 		$charretteTable = new Charrette();
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 		if ($nombre > 0) {
 			$this->view->charretteOk = true;
 		}
@@ -184,7 +184,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 		if ($nb_rondins > 0 && $this->view->charretteOk === true) {
 
-			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
 			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
 
 			if ($nb_rondins > $nbPossibleDansCharretteMaximum) {
@@ -196,11 +196,11 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				$charretteTable = new Charrette();
 				$data = array(
 					'quantite_rondin_charrette' => $nb_rondins,
-					'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+					'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 				);
 				$charretteTable->updateCharrette($data);
 
-				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 				
 				$this->view->elementsRetires .= $nb_rondins. " rondin";
 				if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
@@ -222,7 +222,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		// on ajoute dans le laban
 		$labanTable = new Laban();
 		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_braldun_laban' => $this->view->user->id_braldun,
 			'quantite_peau_laban' => $nb_peau,
 			'quantite_cuir_laban' => $nb_cuir,
 			'quantite_fourrure_laban' => $nb_fourrure,
@@ -285,7 +285,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				$data = array(
 						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
 						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
-						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
 						'quantite_laban_partieplante' => $nbBrutes,
 						'quantite_preparee_laban_partieplante' => $nbPreparees,
 				);
@@ -347,7 +347,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 				$data = array(
 					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
-					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+					'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 					'quantite_brut_laban_minerai' => $nbBrut,
 					'quantite_lingots_laban_minerai' => $nbLingot,
 				);

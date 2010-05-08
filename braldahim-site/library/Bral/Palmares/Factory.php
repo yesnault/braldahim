@@ -127,13 +127,13 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 	
-	public static function getBoxesSuperhobbits($request, $view) {
+	public static function getBoxesSuperbralduns($request, $view) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
-		Zend_Loader::loadClass("Bral_Palmares_Superhobbits");
+		Zend_Loader::loadClass("Bral_Palmares_Superbralduns");
 		
 		$retour = null;
-		$retour[] = new Bral_Palmares_Superhobbits($request, $view, false, -1);
-		$view->titre = "Super Hobbits";
+		$retour[] = new Bral_Palmares_Superbralduns($request, $view, false, -1);
+		$view->titre = "Super Bralduns";
 		return $retour;
 	}
 	

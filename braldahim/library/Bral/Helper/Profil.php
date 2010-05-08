@@ -12,17 +12,17 @@
  */
 class Bral_Helper_Profil {
 	
-    public static function afficheBarreNiveau($niveau_hobbit, $px_perso_hobbit) {
-		$niveauCourantPx = ($niveau_hobbit) * 5;
-		$niveauSuivantPx = ($niveau_hobbit + 1) * 5;
-		$largeur = (($px_perso_hobbit * 100) / $niveauSuivantPx) * 2;
+    public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun) {
+		$niveauCourantPx = ($niveau_braldun) * 5;
+		$niveauSuivantPx = ($niveau_braldun + 1) * 5;
+		$largeur = (($px_perso_braldun * 100) / $niveauSuivantPx) * 2;
 		$titre = "Exp&eacute;rience atteinte dans ce niveau";
-		$texte = "Vous avez ".$px_perso_hobbit. " PX Perso.<br>";
-		$texte .= "Pour passer au niveau ".($niveau_hobbit + 1).", il vous faut ";
+		$texte = "Vous avez ".$px_perso_braldun. " PX Perso.<br>";
+		$texte .= "Pour passer au niveau ".($niveau_braldun + 1).", il vous faut ";
 		
-		if (($niveauSuivantPx - $px_perso_hobbit) > 0) {
+		if (($niveauSuivantPx - $px_perso_braldun) > 0) {
 			$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
-			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_hobbit)." PX Perso.<br>";
+			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_braldun)." PX Perso.<br>";
 		} else {
 			$texte .= " 0 PX Perso.<br>";
 			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br>";
@@ -43,7 +43,7 @@ class Bral_Helper_Profil {
 		return $retour;
     }
     
-	public static function afficheBarreFaim($balance_faim_hobbit, $force_bbdf_hobbit) {
+	public static function afficheBarreFaim($balance_faim_braldun, $force_bbdf_braldun) {
 		
 		/*
 		[0] -N/2 -> Vous mourez de faim !!!
@@ -55,59 +55,59 @@ class Bral_Helper_Profil {
 		*/
 		
 		$info = "&quot;";
-		if ($balance_faim_hobbit >= 95) {
+		if ($balance_faim_braldun >= 95) {
 			$coef = 1;
 			$info .= "J\\'ai une p&ecirc;che extraordinaire !";
-		} elseif ($balance_faim_hobbit >= 80) {
+		} elseif ($balance_faim_braldun >= 80) {
 			$coef = 1;
 			$info .= "Je suis en pleine forme !";
-		} elseif ($balance_faim_hobbit >= 31) {
+		} elseif ($balance_faim_braldun >= 31) {
 			$div = 1;
 			$coef = 0;
 			$info .= "Tout va pour le mieux";
-		} elseif ($balance_faim_hobbit >= 11) {
+		} elseif ($balance_faim_braldun >= 11) {
 			$coef = -1;
 			$info .= "Mon ventre gargouille ...";
-		} elseif ($balance_faim_hobbit >= 1) {
+		} elseif ($balance_faim_braldun >= 1) {
 			$coef = -1;
 			$info .= "Mon estomac crie famine";
-		} elseif ($balance_faim_hobbit < 1) {
+		} elseif ($balance_faim_braldun < 1) {
 			$coef = -1;
 			$info .= "Je meurs de faim !!!";
 		}
 		$info .= "&quot;<br>";
 		
 		if ($coef > 0) {
-			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_hobbit." sur toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_braldun." sur toutes vos caract&eacute;ristiques.<br><br>";
 		} else if ($coef < 0) {
-			$info1 = "Vous avez un malus de ".$force_bbdf_hobbit." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous avez un malus de ".$force_bbdf_braldun." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
 		} else {
 			$info1 = "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
 		}
 		
 		$titre = "Information sur la balance de faim";
-		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_hobbit."%.<br>";
+		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_braldun."%.<br>";
 		$texte .= $info1.$info;
 		
 		$retour = "<div class='barre_faim'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
-		$retour .= "<img src='/public/images/barre_faim.gif' height='10px' width='".(2*$balance_faim_hobbit)."px'></div>";
+		$retour .= "<img src='/public/images/barre_faim.gif' height='10px' width='".(2*$balance_faim_braldun)."px'></div>";
 		
 		return $retour;
     }
     
-    public static function afficheBarreVie($pv_restant_hobbit, $pv_base, $vigueur_base_hobbit, $pv_max_coef, $pv_max_bm_hobbit, $duree_prochain_tour_hobbit) {
+    public static function afficheBarreVie($pv_restant_braldun, $pv_base, $vigueur_base_braldun, $pv_max_coef, $pv_max_bm_braldun, $duree_prochain_tour_braldun) {
 		
-    	$totalPvSansBm = $pv_base + $vigueur_base_hobbit * $pv_max_coef;
-    	$totalPv = $totalPvSansBm + $pv_max_bm_hobbit;
+    	$totalPvSansBm = $pv_base + $vigueur_base_braldun * $pv_max_coef;
+    	$totalPv = $totalPvSansBm + $pv_max_bm_braldun;
     	
     	$titre = "Information sur les points de vie";
     	$plus = "";
-    	if ($pv_max_bm_hobbit >= 0) { 
+    	if ($pv_max_bm_braldun >= 0) { 
     		$plus = "+"; 
     	}
-		$texte = "Vous avez ".$pv_restant_hobbit." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_hobbit.") PV.<br><br>";
+		$texte = "Vous avez ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br><br>";
 		
-		$pourcentage = $pv_restant_hobbit * 100 / $totalPv;
+		$pourcentage = $pv_restant_braldun * 100 / $totalPv;
 		
 		/*
 		81-100% -> "J'ai une de ces patates moi !"
@@ -130,8 +130,8 @@ class Bral_Helper_Profil {
 		}
 		
 		if ($pourcentage < 100) {
-			$minutesCourant = Bral_Util_ConvertDate::getMinuteFromHeure($duree_prochain_tour_hobbit);// - 10 * $this->hobbit->sagesse_base_hobbit;
-			$minutesAAjouter = floor($minutesCourant / (4 * $totalPvSansBm)) * ($totalPvSansBm - $pv_restant_hobbit);
+			$minutesCourant = Bral_Util_ConvertDate::getMinuteFromHeure($duree_prochain_tour_braldun);// - 10 * $this->braldun->sagesse_base_braldun;
+			$minutesAAjouter = floor($minutesCourant / (4 * $totalPvSansBm)) * ($totalPvSansBm - $pv_restant_braldun);
 			$s = '';
 			if ($minutesAAjouter > 1) $s = 's';
 			$info .= "<br><br>Votre prochaine DLA sera allong&eacute;e de ".$minutesAAjouter." minute".$s.".";
@@ -140,27 +140,27 @@ class Bral_Helper_Profil {
 		$texte .= $info;
 		
 		$retour = "<div class='barre_vie'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
-		$retour .= "<img src='/public/images/barre_vie.gif' height='10px' width='".(2*floor($pv_restant_hobbit*100)/($pv_base + ($vigueur_base_hobbit * $pv_max_coef) + $pv_max_bm_hobbit))."px'></div>";
+		$retour .= "<img src='/public/images/barre_vie.gif' height='10px' width='".(2*floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun))."px'></div>";
 		
 		return $retour;
     }
     
     
-     public static function afficheBarreTour($hobbit) {
+     public static function afficheBarreTour($braldun) {
      	$retour = "";
      	
      	$texte = "";
      	$titre = "Avancement et informations";
      	
-     	$texte .= " Position tour courant : ".$hobbit->nom_tour."<br><br>";
+     	$texte .= " Position tour courant : ".$braldun->nom_tour."<br><br>";
      	
-     	$texte .= " Dur&eacute;e du tour : ".$hobbit->duree_courant_tour_hobbit."<br>";
-     	$texte .= " Position dans le tour : ".$hobbit->nom_tour."<br><br>";
+     	$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br>";
+     	$texte .= " Position dans le tour : ".$braldun->nom_tour."<br><br>";
 
-     	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_tour_hobbit)."<br>";
-     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_latence_hobbit)."<br>";
-     	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_cumul_hobbit)."<br>";
-     	$texte .= " Date limite d\\'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_tour_hobbit)."<br><br>";
+     	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_tour_braldun)."<br>";
+     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_latence_braldun)."<br>";
+     	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_cumul_braldun)."<br>";
+     	$texte .= " Date limite d\\'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br><br>";
      	
      	$date_courante = date("Y-m-d H:i:s");
      	$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
@@ -173,20 +173,20 @@ class Bral_Helper_Profil {
      	$pourcent_milieu = 0;
      	$pourcent_cumul = 0;
      	
-     	if ($date_courante <= $hobbit->date_fin_latence_hobbit) {
-     		$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_tour_hobbit);
-     		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
+     	if ($date_courante <= $braldun->date_fin_latence_braldun) {
+     		$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_tour_braldun);
+     		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_latence_braldun);
      		$ecartTotal = $time_fin_latence - $time_debut_tour;
      		$ecart = $time_fin_latence - $time_date_courante; 
      		
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
      		$width_latence = ($pourcent * 25 / 100 ) * 2; // latence : 25% du total , x2 pour la taille css
      		$pourcent_latence = substr($pourcent, 0, 5);
-     	} else if ($date_courante <= $hobbit->date_debut_cumul_hobbit) {
+     	} else if ($date_courante <= $braldun->date_debut_cumul_braldun) {
      		$width_latence = "50";
      		
-     		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
-     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
+     		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_latence_braldun);
+     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_cumul_braldun);
      		$ecartTotal = $time_debut_cumul - $time_fin_latence;
      		$ecart = $time_debut_cumul - $time_date_courante; 
      		
@@ -200,8 +200,8 @@ class Bral_Helper_Profil {
      		$width_latence = "50";
      		$width_milieu = "50";
      		
-     		$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_tour_hobbit);
-     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
+     		$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_tour_braldun);
+     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_cumul_braldun);
      		$ecartTotal = $time_fin_tour - $time_debut_cumul;
      		$ecart = $time_fin_tour - $time_date_courante; 
      		

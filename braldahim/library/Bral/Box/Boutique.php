@@ -24,7 +24,7 @@ abstract class Bral_Box_Boutique extends Bral_Box_Box {
 		Zend_Loader::loadClass("Lieu");
 		
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($lieuxTable);
 		
 		if (count($lieuRowset) <= 0) {

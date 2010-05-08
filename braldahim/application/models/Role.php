@@ -13,5 +13,5 @@
 class Role extends Zend_Db_Table {
 	protected $_name = 'role';
 	protected $_primary = 'id_role';
-	protected $_dependentTables = array('hobbits_roles');
+	protected $_dependentTables = array('bralduns_roles');
 }

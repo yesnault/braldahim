@@ -71,7 +71,7 @@ foreach($this->tableau as $k => $case) :
 	<div class="cases <?=$case["css_actuelle"]?>" <? if ($textPalissade != "") : echo Bral_Helper_Tooltip::jsTip($textPalissade, $titre); endif; ?>>
 		<table class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickEau?>>
 		<tr>
-		<td class="cases <?=$case["css_actuelle"]?>"><? include('hobbits_monstres.phtml');ob_flush();?></td>
+		<td class="cases <?=$case["css_actuelle"]?>"><? include('bralduns_monstres.phtml');ob_flush();?></td>
 		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickLieu?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>

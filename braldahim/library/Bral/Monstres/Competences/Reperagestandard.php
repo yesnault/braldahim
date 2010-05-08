@@ -17,15 +17,15 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		$cible = null;
 			
 		// on regarde s'il y a une cible en cours
-		if ($this->monstre["id_fk_hobbit_cible_monstre"] != null) {
+		if ($this->monstre["id_fk_braldun_cible_monstre"] != null) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - cible en cours A");
-			$hobbitTable = new Hobbit();
+			$braldunTable = new Braldun();
 			$vue = $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
 			if ($vue < 0) {
 				$vue = 0;
 			}
 
-			$cibles = $hobbitTable->findHobbitAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_hobbit_cible_monstre"], false);
+			$cibles = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false);
 			if (count($cibles) > 0) {
 				foreach($cibles as $c) {
 					if (Bral_Monstres_Competences_Reperage::peutAttaquer($c, $this->monstre)) {
@@ -34,9 +34,9 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 					}
 				}
 
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - cible trouvee:".$cible["id_hobbit"]. " x=".$this->monstre["x_direction_monstre"]. " y=".$this->monstre["y_direction_monstre"]);
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - cible trouvee:".$cible["id_braldun"]. " x=".$this->monstre["x_direction_monstre"]. " y=".$this->monstre["y_direction_monstre"]);
 			} else {
-				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
+				$this->monstre["id_fk_braldun_cible_monstre"] = null;
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - cible non trouvee x=".$this->monstre["x_direction_monstre"]. " y=".$this->monstre["y_direction_monstre"]);
 			}
 		} else { // pas de cible en cours
@@ -46,11 +46,11 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		// si la cible n'est pas dans la vue, on en recherche une autre ou l'on se deplace
 		if ($cible == null) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - pas de cible en cours B");
-			$this->monstre["id_fk_hobbit_cible_monstre"] = null;
+			$this->monstre["id_fk_braldun_cible_monstre"] = null;
 			$cible = self::rechercheNouvelleCible($this->monstre);
 		} else {
-			$this->monstre["x_direction_monstre"] = $cible["x_hobbit"];
-			$this->monstre["y_direction_monstre"] = $cible["y_hobbit"];
+			$this->monstre["x_direction_monstre"] = $cible["x_braldun"];
+			$this->monstre["y_direction_monstre"] = $cible["y_braldun"];
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - reperageCible - exit - (idm:".$this->monstre["id_monstre"].")");
@@ -59,7 +59,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 
 	public static function rechercheNouvelleCible(&$monstre, $vueForcee = null, $order = null) {
 		Bral_Util_Log::viemonstres()->trace("rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 
 		if ($vueForcee == null) {
 			$vue = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
@@ -94,29 +94,29 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		$tabValide[$monstre["x_monstre"]][$monstre["y_monstre"]] = false;
 
 		$cible = null;
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 10, $monstre["id_fk_type_monstre"], false, $order);
+		$cibles = $braldunTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 10, $monstre["id_fk_type_monstre"], false, $order);
 
 		if ($cibles != null) {
 			shuffle($cibles);
 			foreach($cibles as $c) {
 				// on ne charge pas sur la case
-				if (array_key_exists($c["x_hobbit"], $tabValide) &&
-				array_key_exists($c["y_hobbit"], $tabValide[$c["x_hobbit"]]) &&
-				$tabValide[$c["x_hobbit"]][$c["y_hobbit"]] === true
+				if (array_key_exists($c["x_braldun"], $tabValide) &&
+				array_key_exists($c["y_braldun"], $tabValide[$c["x_braldun"]]) &&
+				$tabValide[$c["x_braldun"]][$c["y_braldun"]] === true
 				&& Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
 					$cible = $c; // controle cible OK
 					break;
 				} else {
-					Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_hobbit"]);
+					Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_braldun"]);
 				}
 			}
 		}
 
 		if ($cible != null) {
-			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_hobbit"]);
-			$monstre["id_fk_hobbit_cible_monstre"] = $cible["id_hobbit"];
-			$monstre["x_direction_monstre"] = $cible["x_hobbit"];
-			$monstre["y_direction_monstre"] = $cible["y_hobbit"];
+			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_braldun"]);
+			$monstre["id_fk_braldun_cible_monstre"] = $cible["id_braldun"];
+			$monstre["x_direction_monstre"] = $cible["x_braldun"];
+			$monstre["y_direction_monstre"] = $cible["y_braldun"];
 		} else {
 			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - aucune cible trouvee x=".$monstre["x_monstre"]." y=".$monstre["y_monstre"]." vue=".$monstre["vue_monstre"]);
 			$cible = null;

@@ -25,14 +25,14 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$regionCourante = null;
 		foreach ($regions as $r) {
-			if ($r["x_min_region"] <= $this->view->user->x_hobbit && $r["x_max_region"] >= $this->view->user->x_hobbit && $r["y_min_region"] <= $this->view->user->y_hobbit && $r["y_max_region"] >= $this->view->user->y_hobbit) {
+			if ($r["x_min_region"] <= $this->view->user->x_braldun && $r["x_max_region"] >= $this->view->user->x_braldun && $r["y_min_region"] <= $this->view->user->y_braldun && $r["y_max_region"] >= $this->view->user->y_braldun) {
 				$this->view->regionCourante = $r;
 				break;
 			}
 		}
 
 		if ($this->view->regionCourante == null) {
-			throw new Zend_Exception(get_class($this) . " Region inconnue x:" . $this->view->user->x_hobbit . " y:" . $this->view->user->y_hobbit);
+			throw new Zend_Exception(get_class($this) . " Region inconnue x:" . $this->view->user->x_braldun . " y:" . $this->view->user->y_braldun);
 		}
 		$this->view->tabRegionCourante = $this->view->regionCourante;
 
@@ -49,7 +49,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			$selectedEchoppe = "selected";
 		}
 
-		if ($this->view->user->niveau_hobbit >= 5) {
+		if ($this->view->user->niveau_braldun >= 5) {
 			$tabTypeAchat[] = array("id_type_action" => "acheterchamp_0", "texte" => "Acheter un champ", "selected" => $selectedChamp);
 		}
 		$tabTypeAchat[] = array("id_type_action" => "acheterechoppe_0", "texte" => "Acheter une échoppe", "selected" => $selectedEchoppe);
@@ -67,12 +67,12 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			$this->prepareSupprimerEchoppe();
 		}
 		$this->view->coutCastars = $this->calculCoutCastars();
-		$this->view->achatPossible = (($this->view->user->castars_hobbit - $this->view->coutCastars) >= 0);
+		$this->view->achatPossible = (($this->view->user->castars_braldun - $this->view->coutCastars) >= 0);
 	}
 
 	private function prepareEchoppes(&$tabTypeAchat) {
 		$echoppesTable = new Echoppe();
-		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppesRowset = $echoppesTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$idRecu = $this->view->idTypeCourant."_".$this->idSelection;
 
@@ -117,7 +117,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 	private function prepareAcheterChamp() {
 		Zend_Loader :: loadClass("Champ");
 		$champsTable = new Champ();
-		$champsRowset = $champsTable->findByIdHobbit($this->view->user->id_hobbit);
+		$champsRowset = $champsTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$tabChamps = null;
 		foreach ($champsRowset as $e) {
@@ -131,20 +131,20 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		}
 
 		$this->view->nChamps = count($tabChamps);
-		$this->view->nChampsPossibleMax = floor($this->view->user->niveau_hobbit / 10) + 1;
+		$this->view->nChampsPossibleMax = floor($this->view->user->niveau_braldun / 10) + 1;
 		$this->view->nChampsPossible = $this->view->nChampsPossibleMax - $this->view->nChamps;
 	}
 
 	private function prepareAcheterEchoppe() {
-		Zend_Loader :: loadClass("HobbitsMetiers");
+		Zend_Loader :: loadClass("BraldunsMetiers");
 
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersEchoppeByHobbitId($this->view->user->id_hobbit);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersEchoppeByBraldunId($this->view->user->id_braldun);
 
 		$this->view->aucuneEchoppe = true;
 		$this->view->construireMetierPossible = false;
 
-		foreach ($hobbitsMetierRowset as $m) {
+		foreach ($braldunsMetierRowset as $m) {
 			if ($m["est_actif_hmetier"] != "oui") {
 				continue;
 			} else {
@@ -152,7 +152,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				$this->id_metier_courant = $m["id_metier"];
 			}
 
-			if ($this->view->user->sexe_hobbit == 'feminin') {
+			if ($this->view->user->sexe_braldun == 'feminin') {
 				$this->view->nom_metier_courant = $m["nom_feminin_metier"];
 			} else {
 				$this->view->nom_metier_courant = $m["nom_masculin_metier"];
@@ -221,7 +221,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$champTable = new Champ();
 		$data = array (
-				'id_fk_hobbit_champ' => $this->view->user->id_hobbit,
+				'id_fk_braldun_champ' => $this->view->user->id_braldun,
 				'x_champ' => $this->view->x_construction,
 				'y_champ' => $this->view->y_construction,
 				'z_champ' => 0,
@@ -230,8 +230,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$champTable->insert($data);
 		$this->view->constructionChampOk = true;
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
+		$this->majBraldun();
 	}
 
 	private function prepareResultatAchatEchoppe() {
@@ -245,7 +245,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$echoppesTable = new Echoppe();
 		$data = array (
-				'id_fk_hobbit_echoppe' => $this->view->user->id_hobbit,
+				'id_fk_braldun_echoppe' => $this->view->user->id_braldun,
 				'x_echoppe' => $this->view->x_construction,
 				'y_echoppe' => $this->view->y_construction,
 				'z_echoppe' => 0,
@@ -258,8 +258,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$this->idSelection = $idEchoppe;
 		$this->constructionRoute();
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
+		$this->majBraldun();
 	}
 
 	private function constructionRoute() {
@@ -273,7 +273,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			"x_route" => $this->view->x_construction,
 			"y_route" => $this->view->y_construction,
 			"z_route" => 0,
-			"id_fk_hobbit_route" => null,
+			"id_fk_braldun_route" => null,
 			"id_fk_echoppe_route" => $this->idSelection,
 			"date_creation_route" => date("Y-m-d H:i:s"),
 			"id_fk_type_qualite_route"  => null,
@@ -308,8 +308,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$this->constructionRoute();
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
+		$this->majBraldun();
 	}
 
 	private function prepareResultatSupprimerEchoppe() {
@@ -322,8 +322,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		//Suppression route automatique (cascade)
 		$this->view->supprimerEchoppeOk = true;
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
+		$this->majBraldun();
 	}
 
 	private function verificationPositions() {

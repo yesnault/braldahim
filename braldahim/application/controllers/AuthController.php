@@ -14,7 +14,7 @@ class AuthController extends Zend_Controller_Action {
 
 	function init() {
 		$this->initView();
-		Zend_Loader::loadClass('Hobbit');
+		Zend_Loader::loadClass('Braldun');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 
@@ -40,8 +40,8 @@ class AuthController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$f = new Zend_Filter_StripTags();
-		$email = $f->filter($this->_request->getPost('post_email_hobbit'));
-		$password = $f->filter($this->_request->getPost('post_password_hobbit'));
+		$email = $f->filter($this->_request->getPost('post_email_braldun'));
+		$password = $f->filter($this->_request->getPost('post_password_braldun'));
 			
 		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
 			// setup Zend_Auth adapter for a database table
@@ -50,10 +50,10 @@ class AuthController extends Zend_Controller_Action {
 			// Suppression de la sessions courante
 			Zend_Auth::getInstance()->clearIdentity();
 			$authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-			$authAdapter->setTableName('hobbit');
+			$authAdapter->setTableName('braldun');
 
-			$authAdapter->setIdentityColumn('email_hobbit');
-			$authAdapter->setCredentialColumn('password_hobbit');
+			$authAdapter->setIdentityColumn('email_braldun');
+			$authAdapter->setCredentialColumn('password_braldun');
 
 			// Set the input credential values to authenticate against
 			$authAdapter->setIdentity($email);
@@ -64,22 +64,22 @@ class AuthController extends Zend_Controller_Action {
 			$result = $auth->authenticate($authAdapter);
 			if ($result->isValid()) {
 
-				$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
+				$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
 
 				Zend_Loader::loadClass("Bral_Util_Admin");
-				Bral_Util_Admin::init($hobbit);
+				Bral_Util_Admin::init($braldun);
 
-				$this->calculSortieHibernation($hobbit);
+				$this->calculSortieHibernation($braldun);
 
-				if ($hobbit->est_en_hibernation_hobbit == "oui") {
+				if ($braldun->est_en_hibernation_braldun == "oui") {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
-					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$hobbit->date_fin_hibernation_hobbit). " minimum inclus.";
+					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$braldun->date_fin_hibernation_braldun). " minimum inclus.";
 					Zend_Auth::getInstance()->clearIdentity();
-				} else if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_compte_desactive_hobbit == "non") {
+				} else if ($braldun->est_compte_actif_braldun == "oui" && $braldun->est_compte_desactive_braldun == "non") {
 					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
 					// success : store database row to auth's storage system
 					// (not the password though!)
-					$auth->getStorage()->write($hobbit);
+					$auth->getStorage()->write($braldun);
 					// activation du tour
 					Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
 					Zend_Auth::getInstance()->getIdentity()->initialCall = true;
@@ -89,31 +89,31 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->gardiennage = ($f->filter($this->_request->getPost('auth_gardiennage')) == 'oui');
 					Zend_Auth::getInstance()->getIdentity()->gardeEnCours = false;
 					// Admin
-					Zend_Auth::getInstance()->getIdentity()->administrateur = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'admin');
+					Zend_Auth::getInstance()->getIdentity()->administrateur = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == 'admin');
 					Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = false;
 					Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
 					Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
-					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'gestion');
+					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == 'gestion');
 
 					$sessionTable = new Session();
-					$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s"));
+					$data = array("id_fk_braldun_session" => $braldun->id_braldun, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s"));
 					$sessionTable->insertOrUpdate($data);
 
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/Gardiennage/');
-					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_hobbit == 'non') {
+					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_braldun == 'non') {
 						$this->_redirect('/charte/');
-					} else if (Zend_Auth::getInstance()->getIdentity()->est_sondage_valide_hobbit == 'non' && Zend_Auth::getInstance()->getIdentity()->est_pnj_hobbit == 'non') {
+					} else if (Zend_Auth::getInstance()->getIdentity()->est_sondage_valide_braldun == 'non' && Zend_Auth::getInstance()->getIdentity()->est_pnj_braldun == 'non') {
 						$this->_redirect('/sondage/');
 					} else {
 						$this->_redirect('/interface/');
 					}
-				} else if ($hobbit->est_compte_actif_hobbit == 'non') {
+				} else if ($braldun->est_compte_actif_braldun == 'non') {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
 					$this->view->message = "Ce compte n'est pas actif";
 					Zend_Auth::getInstance()->clearIdentity();
-				} else { //if ($hobbit->est_compte_desactive_hobbit == "oui") {
+				} else { //if ($braldun->est_compte_desactive_braldun == "oui") {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte desactive : ".$email);
 					$this->view->message = "Ce compte est actuellement désactivé. ";
 					$this->view->message .= "Contactez les enquêteurs à l'adresse ".$this->view->config->general->mail->enqueteurs->from." si vous n'êtes pas déjà en contact avec un enquêteur.";
@@ -144,39 +144,39 @@ class AuthController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function calculSortieHibernation(&$hobbit) {
-		if ($hobbit->est_en_hibernation_hobbit == "oui") {
+	private function calculSortieHibernation(&$braldun) {
+		if ($braldun->est_en_hibernation_braldun == "oui") {
 			$aujourdhui = date("Y-m-d 0:0:0");
 			echo $aujourdhui;
-			if ($aujourdhui > Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y-m-d 0:0:0", $hobbit->date_fin_hibernation_hobbit)) {
+			if ($aujourdhui > Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y-m-d 0:0:0", $braldun->date_fin_hibernation_braldun)) {
 
-				// si le hobbit est dans un donjon, on le remet à l'hopital le plus proche
-				if ($hobbit->est_donjon_hobbit = "oui") {
+				// si le braldun est dans un donjon, on le remet à l'hopital le plus proche
+				if ($braldun->est_donjon_braldun = "oui") {
 					Zend_Loader::loadClass("Lieu");
 					Zend_Loader::loadClass("TypeLieu");
 					$lieuTable = new Lieu();
-					$hopitalRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $hobbit->x_hobbit, $hobbit->y_hobbit, "non");
-					$hobbit->x_hobbit = $hopitalRowset[0]["x_lieu"];
-					$hobbit->y_hobbit = $hopitalRowset[0]["y_lieu"];
-					$hobbit->z_hobbit = $hopitalRowset[0]["z_lieu"];
-					$hobbit->est_donjon_hobbit = "non";
+					$hopitalRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $braldun->x_braldun, $braldun->y_braldun, "non");
+					$braldun->x_braldun = $hopitalRowset[0]["x_lieu"];
+					$braldun->y_braldun = $hopitalRowset[0]["y_lieu"];
+					$braldun->z_braldun = $hopitalRowset[0]["z_lieu"];
+					$braldun->est_donjon_braldun = "non";
 				}
 
-				$hobbit->date_fin_hibernation_hobbit = null;
-				$hobbit->est_en_hibernation_hobbit = "non";
-				$hobbit->date_fin_tour_hobbit = $aujourdhui;
+				$braldun->date_fin_hibernation_braldun = null;
+				$braldun->est_en_hibernation_braldun = "non";
+				$braldun->date_fin_tour_braldun = $aujourdhui;
 				$data = array(
-					'date_fin_hibernation_hobbit' => $hobbit->date_fin_hibernation_hobbit,
-					'est_en_hibernation_hobbit' => $hobbit->est_en_hibernation_hobbit,
-					'date_fin_tour_hobbit' => $hobbit->date_fin_tour_hobbit,
-					'est_donjon_hobbit' => $hobbit->est_donjon_hobbit,
-					'x_hobbit' => $hobbit->x_hobbit,
-					'y_hobbit' => $hobbit->y_hobbit,
-					'z_hobbit' => $hobbit->z_hobbit,
+					'date_fin_hibernation_braldun' => $braldun->date_fin_hibernation_braldun,
+					'est_en_hibernation_braldun' => $braldun->est_en_hibernation_braldun,
+					'date_fin_tour_braldun' => $braldun->date_fin_tour_braldun,
+					'est_donjon_braldun' => $braldun->est_donjon_braldun,
+					'x_braldun' => $braldun->x_braldun,
+					'y_braldun' => $braldun->y_braldun,
+					'z_braldun' => $braldun->z_braldun,
 				);
 
-				$where = "id_hobbit = ".intval($hobbit->id_hobbit);
-				$table = new Hobbit();
+				$where = "id_braldun = ".intval($braldun->id_braldun);
+				$table = new Braldun();
 				$table->update($data, $where);
 			}
 		}
@@ -185,10 +185,10 @@ class AuthController extends Zend_Controller_Action {
 	private function deleteSessionInTable() {
 		$c = "stdClass";
 		if (Zend_Auth::getInstance()->hasIdentity() && Zend_Auth::getInstance()->getIdentity() instanceof $c) {
-			$idHobbit = Zend_Auth::getInstance()->getIdentity()->id_hobbit;
-			if ($idHobbit > 0) {
+			$idBraldun = Zend_Auth::getInstance()->getIdentity()->id_braldun;
+			if ($idBraldun > 0) {
 				$sessionTable = new Session();
-				$where = "id_fk_hobbit_session = ".$idHobbit;
+				$where = "id_fk_braldun_session = ".$idBraldun;
 				$sessionTable->delete($where);
 			}
 		}

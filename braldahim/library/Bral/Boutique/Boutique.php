@@ -26,13 +26,13 @@ abstract class Bral_Boutique_Boutique {
 		Zend_Loader::loadClass("Lieu");
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($lieuxTable);
 
 		Zend_Loader::loadClass("Region");
 
 		$regionTable = new Region();
-		$this->idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->idRegion = $regionTable->findIdRegionByCase($this->view->user->x_braldun, $this->view->user->y_braldun);
 		unset($regionTable);
 
 		if (count($lieuRowset) <= 0) {
@@ -72,7 +72,7 @@ abstract class Bral_Boutique_Boutique {
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
-		if ($this->view->user->pa_hobbit < 1) {
+		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
@@ -88,7 +88,7 @@ abstract class Bral_Boutique_Boutique {
 	}
 
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - $this->paUtilisationBoutique < 0) {
+		if ($this->view->user->pa_braldun - $this->paUtilisationBoutique < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -97,12 +97,12 @@ abstract class Bral_Boutique_Boutique {
 	}
 
 	/*
-	 * Mise à jour des événements du hobbit : type : compétence.
+	 * Mise à jour des événements du braldun : type : compétence.
 	 */
 	private function majEvenementsBoutique($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->boutique;
-		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services d'une boutique";
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
+		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services d'une boutique";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 
 	function render() {
@@ -118,7 +118,7 @@ abstract class Bral_Boutique_Boutique {
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsBoutique(Bral_Helper_Affiche::copie($this->view->texte));
-				$this->majHobbit();
+				$this->majBraldun();
 				return $this->view->render("commun/commun_resultat.phtml");
 				break;
 			default:
@@ -126,21 +126,21 @@ abstract class Bral_Boutique_Boutique {
 		}
 	}
 
-	private function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	private function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->nb_pa ;
 
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 
 }

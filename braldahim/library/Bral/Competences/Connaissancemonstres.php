@@ -16,25 +16,25 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		Zend_Loader::loadClass("Monstre");
 
 		/*
-		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
+		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa == false) {
 			return;
 		}
 
-		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun;
 		$this->view->distance = $vue_nb_cases;
 
-		$x_min = $this->view->user->x_hobbit - $this->view->distance;
-		$x_max = $this->view->user->x_hobbit + $this->view->distance;
-		$y_min = $this->view->user->y_hobbit - $this->view->distance;
-		$y_max = $this->view->user->y_hobbit + $this->view->distance;
+		$x_min = $this->view->user->x_braldun - $this->view->distance;
+		$x_max = $this->view->user->x_braldun + $this->view->distance;
+		$y_min = $this->view->user->y_braldun - $this->view->distance;
+		$y_max = $this->view->user->y_braldun + $this->view->distance;
 
 		// recuperation des monstres qui sont presents sur la vue
 		$tabMonstres = null;
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];
@@ -47,7 +47,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 				'taille_monstre' => $m_taille,
 				'x_monstre' => $m["x_monstre"],
 				'y_monstre' => $m["y_monstre"],
-				'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
+				'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_braldun), abs($m["y_monstre"]-$this->view->user->y_braldun))
 			);
 		}
 
@@ -71,7 +71,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
@@ -101,13 +101,13 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		}
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculCDM($idMonstre, $dist_monstre) {
 		Zend_Loader::loadClass("Bral_Util_Connaissance");
-		Zend_Loader::loadClass("HobbitsCdm");
-		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("BraldunsCdm");
+		Zend_Loader::loadClass("BraldunsCompetences");
 
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($idMonstre);
@@ -126,7 +126,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 
 		/* Calculs suivant la distance :
 		 *
-		 * Pour les carac : FOR, AGI, SAG, VIG, REG, ARM (ARM nat + portée dans le cas des hobbit) on applique le schéma suivant :
+		 * Pour les carac : FOR, AGI, SAG, VIG, REG, ARM (ARM nat + portée dans le cas des braldun) on applique le schéma suivant :
 		 * Si distance = 0 : +/- nD3-1
 		 * Si distance = 1 : +/- nD3
 		 * Si distance = 2 : +/- nD3+1
@@ -217,31 +217,31 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$this->view->tabCDM = $tabCDM;
 
 		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence sur ".$article." [m".$monstre["id_monstre"]."]";
+		$details = "[h".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence sur ".$article." [m".$monstre["id_monstre"]."]";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setDetailsEvenementCible($monstre["id_monstre"], "monstre", $monstre["niveau_monstre"]);
 
 		$data = array(
-			'id_fk_hobbit_hcdm' => $this->view->user->id_hobbit,
+			'id_fk_braldun_hcdm' => $this->view->user->id_braldun,
 			'id_fk_monstre_hcdm'  => $idMonstre,
 			'id_fk_type_monstre_hcdm'  => $monstre["id_type_monstre"],
 			'id_fk_taille_monstre_hcdm'  => $monstre["id_taille_monstre"],
 		);
 
-		$hobbitCdmTable = new HobbitsCdm();
-		$hobbitCdmTable->insertOrUpdate($data);
+		$braldunCdmTable = new BraldunsCdm();
+		$braldunCdmTable->insertOrUpdate($data);
 
 		Zend_Loader::loadClass("TailleMonstre");
 
 		$pister = null;
 		if ($tabCDM["id_taille_monstre"] != TailleMonstre::ID_TAILLE_BOSS) {
-			$pister = $hobbitCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$monstre["id_type_monstre"]);
+			$pister = $braldunCdmTable->findByIdBraldunAndIdTypeMonstre($this->view->user->id_braldun,$monstre["id_type_monstre"]);
 		}
-		$hobbitCompetence = new HobbitsCompetences();
-		$hobbitPister = $hobbitCompetence->findByIdHobbitAndNomSysteme($this->view->user->id_hobbit,'pister');
+		$braldunCompetence = new BraldunsCompetences();
+		$braldunPister = $braldunCompetence->findByIdBraldunAndNomSysteme($this->view->user->id_braldun,'pister');
 
 		$this->view->pister = $pister;
-		$this->view->possedePister = (count($hobbitPister) == 1);
+		$this->view->possedePister = (count($braldunPister) == 1);
 	}
 
 	function getListBoxRefresh() {

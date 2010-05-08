@@ -38,8 +38,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		Zend_Loader::loadClass("SouleEquipe");
 		$souleEquipeTable = new SouleEquipe();
-		$idHobbitsTab[] = $this->view->user->id_hobbit;
-		$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($idHobbitsTab);
+		$idBraldunsTab[] = $this->view->user->id_braldun;
+		$soule = $souleEquipeTable->countNonDebuteByIdBraldunList($idBraldunsTab);
 		foreach($soule as $s) {
 			if ($s["nombre"] != 0) {
 				$retour = false;
@@ -47,7 +47,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			}
 		}
 		
-		if ($this->view->user->est_soule_hobbit == 'oui') {
+		if ($this->view->user->est_soule_braldun == 'oui') {
 			$retour = false;
 		}
 
@@ -88,7 +88,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		if (count($donjonEquipe) == 1) {
 			$this->equipeCourante = $donjonEquipe[0];
-			if ($this->view->user->id_hobbit == $this->equipeCourante["id_fk_hobbit_meneur_equipe"]) {
+			if ($this->view->user->id_braldun == $this->equipeCourante["id_fk_braldun_meneur_equipe"]) {
 				$this->view->estMeneur = true;
 			}
 		} else {
@@ -100,13 +100,13 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		if ($this->equipeCourante == null) {
 
-			$this->view->inscriptionParHobbitNouvelleEquipePossible = false;
+			$this->view->inscriptionParBraldunNouvelleEquipePossible = false;
 
-			Zend_Loader::loadClass("HobbitsDistinction");
-			$hobbitsDistinctionTable = new HobbitsDistinction();
-			$distinction = $hobbitsDistinctionTable->findDistinctionsByHobbitIdAndIdTypeDistinction($this->view->user->id_hobbit, $this->donjonCourant["id_fk_distinction_quete_region"]);
+			Zend_Loader::loadClass("BraldunsDistinction");
+			$braldunsDistinctionTable = new BraldunsDistinction();
+			$distinction = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndIdTypeDistinction($this->view->user->id_braldun, $this->donjonCourant["id_fk_distinction_quete_region"]);
 			if (count($distinction) == 1) {
-				$this->view->inscriptionParHobbitNouvelleEquipePossible = true;
+				$this->view->inscriptionParBraldunNouvelleEquipePossible = true;
 			} else if (count($distinction) > 1) {
 				throw new Zend_Exception("Nb. Distinctions invalides nb=".count($distinction));
 			}
@@ -115,15 +115,15 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		// on regarde si le joueur est demandé dans l'équipe courante
 
-		Zend_Loader::loadClass('DonjonHobbit');
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdHobbitAndIdEquipe($this->view->user->id_hobbit, $this->equipeCourante["id_donjon_equipe"]);
+		Zend_Loader::loadClass('DonjonBraldun');
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdBraldunAndIdEquipe($this->view->user->id_braldun, $this->equipeCourante["id_donjon_equipe"]);
 
 		$this->view->inscriptionDemandee = false;
 		$this->view->inscriptionRealisee = false;
-		if ($donjonHobbit != null) {
-			$donjonHobbit = $donjonHobbit[0];
-			if ($donjonHobbit["date_inscription_donjon_hobbit"] == null) {
+		if ($donjonBraldun != null) {
+			$donjonBraldun = $donjonBraldun[0];
+			if ($donjonBraldun["date_inscription_donjon_braldun"] == null) {
 				$this->view->inscriptionDemandee = true;
 				$this->view->dateLimiteInscription = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s', $this->equipeCourante["date_limite_inscription_donjon_equipe"]);
 			} else {
@@ -138,37 +138,37 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 	function prepareResultat() {
 		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_hobbit." cout:".$this->$this->view->paUtilisationLieu);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_braldun." cout:".$this->$this->view->paUtilisationLieu);
 		}
 
 		if ($this->view->estMeneur && $this->view->descentePossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible 1 idh:".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 1 idh:".$this->view->user->id_braldun);
 		} elseif ($this->view->estMeneur == false && $this->view->nouvelleEquipePossible == false && $this->view->inscriptionDemandee == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible 2 idh:".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 2 idh:".$this->view->user->id_braldun);
 		}
 
-		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible 3 idh:".$this->view->user->id_hobbit);
+		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParBraldunNouvelleEquipePossible == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 3 idh:".$this->view->user->id_braldun);
 		}
 
-		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == true) {
+		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParBraldunNouvelleEquipePossible == true) {
 			$this->inscriptionNouvelleEquipe();
 			$this->view->inscriptionEquipe = true;
-			$this->majHobbit();
+			$this->majBraldun();
 		} elseif ($this->view->inscriptionDemandee == true) {
-			$this->inscriptionHobbit();
-			$this->envoieMessageInscriptionHobbit();
-			$this->majHobbit();
+			$this->inscriptionBraldun();
+			$this->envoieMessageInscriptionBraldun();
+			$this->majBraldun();
 		} elseif ($this->view->estMeneur && $this->view->inscriptionRealisee) {
 			$this->calculDescente();
 			$this->creationDonjon();
-			$this->majHobbit();
+			$this->majBraldun();
 		}
 
 	}
 
 	private function inscriptionNouvelleEquipe() {
-		$hobbits = $this->recupereHobbitFromValeur1();
+		$bralduns = $this->recupereBraldunFromValeur1();
 
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
@@ -177,108 +177,108 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$mdate = date("Y-m-d H:i:s");
 		$mdateLimite = Bral_Util_ConvertDate::get_date_add_day_to_date($mdate, 5);
 
-		$niveauMoyenHobbits = null;
+		$niveauMoyenBralduns = null;
 		$totalNiveau = 0;
-		foreach($hobbits as $h) {
-			$totalNiveau = $totalNiveau + $h["niveau_hobbit"];
+		foreach($bralduns as $h) {
+			$totalNiveau = $totalNiveau + $h["niveau_braldun"];
 		}
 
-		$niveauMoyenHobbits = $totalNiveau / count($hobbits);
+		$niveauMoyenBralduns = $totalNiveau / count($bralduns);
 
 		$dataEquipe = array(
 			"id_fk_donjon_equipe" => $this->donjonCourant["id_donjon"],
-			"id_fk_hobbit_meneur_equipe" => $this->view->user->id_hobbit,
+			"id_fk_braldun_meneur_equipe" => $this->view->user->id_braldun,
 			"date_creation_donjon_equipe" => $mdate,
 			"date_limite_inscription_donjon_equipe" => $mdateLimite,
 			"etat_donjon_equipe" => "inscription",
 			"date_fin_donjon_equipe" => null,
-			"niveau_moyen_donjon_equipe" => $niveauMoyenHobbits,
+			"niveau_moyen_donjon_equipe" => $niveauMoyenBralduns,
 		);
 		$idEquipe = $donjonEquipeTable->insert($dataEquipe);
 		$dataEquipe["id_donjon_equipe"] = $idEquipe;
 
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$tabHobbits = null;
-		foreach($hobbits as $h) {
-			$dataHobbit = array("id_fk_hobbit_donjon_hobbit" => $h["id_hobbit"], "id_fk_equipe_donjon_hobbit" => $idEquipe);
-			$donjonHobbitTable->insert($dataHobbit);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$tabBralduns = null;
+		foreach($bralduns as $h) {
+			$dataBraldun = array("id_fk_braldun_donjon_braldun" => $h["id_braldun"], "id_fk_equipe_donjon_braldun" => $idEquipe);
+			$donjonBraldunTable->insert($dataBraldun);
 			$this->envoieMessageInscriptionEquipe($h, $mdateLimite);
-			$tabHobbits[] = array(
-				"nom_hobbit" => $h["nom_hobbit"],
-				"prenom_hobbit" => $h["prenom_hobbit"],
-				"id_hobbit" => $h["id_hobbit"],
+			$tabBralduns[] = array(
+				"nom_braldun" => $h["nom_braldun"],
+				"prenom_braldun" => $h["prenom_braldun"],
+				"id_braldun" => $h["id_braldun"],
 			);
 		}
-		$this->view->tabHobbitsEquipe = $tabHobbits;
+		$this->view->tabBraldunsEquipe = $tabBralduns;
 
 		$this->equipeCourante = $dataEquipe;
-		$this->inscriptionHobbit();
+		$this->inscriptionBraldun();
 	}
 
-	private function recupereHobbitFromValeur1() {
+	private function recupereBraldunFromValeur1() {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$filter = new Zend_Filter_StripTags();
-		$hobbitsList = $filter->filter(trim($this->request->get('valeur_1')));
+		$braldunsList = $filter->filter(trim($this->request->get('valeur_1')));
 
-		$hobbitsList = $hobbitsList.",".$this->view->user->id_hobbit;
-		$idHobbitsTab = split(',', $hobbitsList);
+		$braldunsList = $braldunsList.",".$this->view->user->id_braldun;
+		$idBraldunsTab = split(',', $braldunsList);
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByIdListAndIdTypeDistinction($idHobbitsTab, $this->view->idTypeDistinctionCourante);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByIdListAndIdTypeDistinction($idBraldunsTab, $this->view->idTypeDistinctionCourante);
 
-		if ($hobbits == null) {
-			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList." distinction".$this->view->idTypeDistinctionCourante);
-		} else if (count($hobbits) != 9) {
-			throw new Zend_Exception(get_class($this)." Liste invalide B:".$hobbitsList. " count=".count($hobbits));
+		if ($bralduns == null) {
+			throw new Zend_Exception(get_class($this)." Liste invalide:".$braldunsList." distinction".$this->view->idTypeDistinctionCourante);
+		} else if (count($bralduns) != 9) {
+			throw new Zend_Exception(get_class($this)." Liste invalide B:".$braldunsList. " count=".count($bralduns));
 		}
 
 		Zend_Loader::loadClass('Bral_Util_Distinction');
 		$idTypeDistinctionDonjon = Bral_Util_Distinction::getIdDistinctionDonjonFromIdDistinctionBourlingueur($this->view->idTypeDistinctionCourante);
-		Zend_Loader::loadClass("HobbitsDistinction");
-		$hobbitsDistinctionTable = new HobbitsDistinction();
-		$distinctionsDonjon = $hobbitsDistinctionTable->countDistinctionByIdHobbitList($idHobbitsTab, $idTypeDistinctionDonjon);
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$distinctionsDonjon = $braldunsDistinctionTable->countDistinctionByIdBraldunList($idBraldunsTab, $idTypeDistinctionDonjon);
 		foreach($distinctionsDonjon as $d) {
 			if ($d["nombre"] != 0) {
-				throw new Zend_Exception(get_class($this)." Liste invalide C:".$d["nombre"]. " h:".$d["id_fk_hobbit_hdistinction"]);
+				throw new Zend_Exception(get_class($this)." Liste invalide C:".$d["nombre"]. " h:".$d["id_fk_braldun_hdistinction"]);
 			}
 		}
 
 		Zend_Loader::loadClass("SouleEquipe");
 		$souleEquipeTable = new SouleEquipe();
-		$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($idHobbitsTab);
+		$soule = $souleEquipeTable->countNonDebuteByIdBraldunList($idBraldunsTab);
 		foreach($soule as $s) {
 			if ($s["nombre"] != 0) {
-				throw new Zend_Exception(get_class($this)." Liste invalide D:".$s["nombre"]. " h:".$s["id_fk_hobbit_soule_equipe"]);
+				throw new Zend_Exception(get_class($this)." Liste invalide D:".$s["nombre"]. " h:".$s["id_fk_braldun_soule_equipe"]);
 			}
 		}
 
-		return $hobbits;
+		return $bralduns;
 	}
 
-	public function envoieMessageInscriptionEquipe($hobbit, $dateLimite) {
+	public function envoieMessageInscriptionEquipe($braldun, $dateLimite) {
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
-		if ($hobbit["id_hobbit"] != $this->view->user->id_hobbit) {
+		if ($braldun["id_braldun"] != $this->view->user->id_braldun) {
 			$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
-			$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
-			$message .= " (".$this->view->user->id_hobbit.") vous a demandé en tant que coéquipier";
+			$message .=  $this->view->user->prenom_braldun. " ".$this->view->user->nom_braldun;
+			$message .= " (".$this->view->user->id_braldun.") vous a demandé en tant que coéquipier";
 			$message .= " pour rentrer dans le donjon de la ".$this->donjonCourant["nom_region"].".".PHP_EOL;
-			$message .= " Vous pouvez accepter en validant votre inscription au Poste de Garde en ".$this->view->user->x_hobbit. "/".$this->view->user->y_hobbit.'.'.PHP_EOL.PHP_EOL;
+			$message .= " Vous pouvez accepter en validant votre inscription au Poste de Garde en ".$this->view->user->x_braldun. "/".$this->view->user->y_braldun.'.'.PHP_EOL.PHP_EOL;
 			$message .= " Si vous ne validez pas votre inscription avant le ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s', $dateLimite);
 			$message .= ", le meneur ne pourra pas ouvrir la porte et l'inscription de toute l'équipe sera annulée.".PHP_EOL.PHP_EOL;
 		} else {
 			$message .= " Vous avez inscrit une équipe pour le donjon de la ".$this->donjonCourant["nom_region"].".".PHP_EOL;
 			$message .= " En tant que meneur, votre inscription est automatiquement validée.".PHP_EOL;
-			$message .= " Par contre, tous vos coéquipiers doivent valider leur inscription au Poste de Garde en ".$this->view->user->x_hobbit. "/".$this->view->user->y_hobbit.'.'.PHP_EOL;
+			$message .= " Par contre, tous vos coéquipiers doivent valider leur inscription au Poste de Garde en ".$this->view->user->x_braldun. "/".$this->view->user->y_braldun.'.'.PHP_EOL;
 			$message .= " Et quand ils auront tous validé leur inscription, vous pourrez ouvrir la porte du Donjon pour les faire tous descendre avec vous, automatiquement.".PHP_EOL.PHP_EOL;
 		}
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $hobbit["id_hobbit"], $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $braldun["id_braldun"], $message, $this->view);
 	}
 
-	public function envoieMessageInscriptionHobbit() {
+	public function envoieMessageInscriptionBraldun() {
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Félicitations ! ".PHP_EOL;
@@ -287,36 +287,36 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$message .= " inscription et que le meneur puisse ouvrir la porte";
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_braldun, $message, $this->view);
 	}
 
-	private function inscriptionHobbit() {
-		Zend_Loader::loadClass('DonjonHobbit');
-		$donjonHobbitTable = new DonjonHobbit();
+	private function inscriptionBraldun() {
+		Zend_Loader::loadClass('DonjonBraldun');
+		$donjonBraldunTable = new DonjonBraldun();
 
-		$where = "id_fk_hobbit_donjon_hobbit = ".$this->view->user->id_hobbit;
-		$where .= " AND id_fk_equipe_donjon_hobbit = ".$this->equipeCourante["id_donjon_equipe"];
+		$where = "id_fk_braldun_donjon_braldun = ".$this->view->user->id_braldun;
+		$where .= " AND id_fk_equipe_donjon_braldun = ".$this->equipeCourante["id_donjon_equipe"];
 			
-		$data["date_inscription_donjon_hobbit"] = date("Y-m-d H:i:s");
-		$donjonHobbitTable->update($data, $where);
+		$data["date_inscription_donjon_braldun"] = date("Y-m-d H:i:s");
+		$donjonBraldunTable->update($data, $where);
 	}
 
 	private function prepareDescente() {
-		// verification que tous les hobbits de l'équipe sont sur la case.
-		Zend_Loader::loadClass('DonjonHobbit');
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($this->equipeCourante["id_donjon_equipe"]);
+		// verification que tous les bralduns de l'équipe sont sur la case.
+		Zend_Loader::loadClass('DonjonBraldun');
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($this->equipeCourante["id_donjon_equipe"]);
 
 		$inscriptionEquipeOk = true;
 
-		foreach($donjonHobbit as $h) {
+		foreach($donjonBraldun as $h) {
 
-			if ($h["date_inscription_donjon_hobbit"] == null) {
+			if ($h["date_inscription_donjon_braldun"] == null) {
 				$inscriptionEquipeOk = false;
 				break;
-			} elseif (($h["x_hobbit"] != $this->view->user->x_hobbit ||
-			$h["y_hobbit"] != $this->view->user->y_hobbit &&
-			$h["z_hobbit"] != $this->view->user->z_hobbit)) {
+			} elseif (($h["x_braldun"] != $this->view->user->x_braldun ||
+			$h["y_braldun"] != $this->view->user->y_braldun &&
+			$h["z_braldun"] != $this->view->user->z_braldun)) {
 				$inscriptionEquipeOk = false;
 				break;
 			}
@@ -326,23 +326,23 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		if ($inscriptionEquipeOk) {
 			$this->view->descentePossible = true;
-			$this->hobbitsADescendre = $donjonHobbit;
+			$this->braldunsADescendre = $donjonBraldun;
 		}
 
 	}
 
 	private function calculDescente() {
 
-		$hobbitTable = new Hobbit();
-		foreach($this->hobbitsADescendre as $h) {
-			$where = "id_hobbit = ".$h["id_hobbit"];
+		$braldunTable = new Braldun();
+		foreach($this->braldunsADescendre as $h) {
+			$where = "id_braldun = ".$h["id_braldun"];
 			$data = array(
-				'z_hobbit' => -1,
-				'est_donjon_hobbit' => 'oui',
+				'z_braldun' => -1,
+				'est_donjon_braldun' => 'oui',
 			);
-			$hobbitTable->update($data, $where);
+			$braldunTable->update($data, $where);
 		}
-		$this->view->user->z_hobbit = -1;
+		$this->view->user->z_braldun = -1;
 
 		$donjonEquipeTable = new DonjonEquipe();
 
@@ -354,29 +354,29 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$donjonEquipeTable->update($data, $where);
 	}
 
-	public function envoieMessageDescente($idHobbit) {
+	public function envoieMessageDescente($idBraldun) {
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
-		if ($idHobbit == $this->view->user->id_hobbit) {
+		if ($idBraldun == $this->view->user->id_braldun) {
 			$message .= "Vous avez ouvert la porte du Donjon".PHP_EOL;
 		} else {
-			$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
-			$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
+			$message .=  $this->view->user->prenom_braldun. " ".$this->view->user->nom_braldun;
+			$message .= " (".$this->view->user->id_braldun.") a ouvert la porte du Donjon.";
 			$message .= "Vous êtes entrés avec lui...".PHP_EOL;
 		}
 		$message .= "Vous avez maintenant une lune pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $idHobbit, $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $idBraldun, $message, $this->view);
 	}
 
-	private function envoieMessageDescenteHobbits() {
-		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - enter -");
+	private function envoieMessageDescenteBralduns() {
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteBralduns - enter -");
 
-		$listeHobbits = "";
-		foreach($this->hobbitsADescendre as $h) {
-			$this->envoieMessageDescente($h["id_hobbit"]);
-			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. " (".$h["id_hobbit"]."), ";
+		$listeBralduns = "";
+		foreach($this->braldunsADescendre as $h) {
+			$this->envoieMessageDescente($h["id_braldun"]);
+			$listeBralduns .= $h["prenom_braldun"]. " ".$h["nom_braldun"]. " (".$h["id_braldun"]."), ";
 		}
 
 		Zend_Loader::loadClass("Region");
@@ -393,20 +393,20 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$message .= "Bonjour à vous habitants de Braldahim.".PHP_EOL.PHP_EOL;
 		$message .= "En ce jour, une bien belle équipe ";
 		$message .= " est entrée dans le Donjon de la $nomComte afin d'en découdre avec [m".$equipeCourante["id_fk_monstre_donjon_equipe"]."].".PHP_EOL.PHP_EOL;
-		$message .= "Souhaitons leur bonne chance : ".$listeHobbits;
+		$message .= "Souhaitons leur bonne chance : ".$listeBralduns;
 		$message .= " espérons qu'ils lui mettent une bonne rouste à [m".$equipeCourante["id_fk_monstre_donjon_equipe"]."], sinon les conséquences seraient terribles.".PHP_EOL.PHP_EOL;
 
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$message = Bral_Util_Lien::remplaceBaliseParNomEtJs($message, false);
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueurs();
-		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - nbJoueurs:".count($hobbits));
-		foreach($hobbits as $h) {
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $h["id_hobbit"], $message, $this->view);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findAllJoueurs();
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteBralduns - nbJoueurs:".count($bralduns));
+		foreach($bralduns as $h) {
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $h["id_braldun"], $message, $this->view);
 		}
-		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteBralduns - exit -");
 	}
 
 	function getListBoxRefresh() {
@@ -425,7 +425,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->creationCrevasses();
 		$this->creationNids();
 		$this->creationMonstres();
-		$this->envoieMessageDescenteHobbits();
+		$this->envoieMessageDescenteBralduns();
 	}
 
 	private function suppressionElementsCreationPalissadesAlentour() {

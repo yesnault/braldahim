@@ -11,7 +11,7 @@
    			<?=$this->message?>
    		<? endif; ?>
 		<? if ($this->user->gardeEnCours) : ?>
-			Hobbit en cours : <?=htmlspecialchars($this->user->prenom_hobbit) ?> <?=htmlspecialchars($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>)<br /><br />
+			Braldun en cours : <?=htmlspecialchars($this->user->prenom_braldun) ?> <?=htmlspecialchars($this->user->nom_braldun) ?> (<?=$this->user->id_braldun?>)<br /><br />
 			<div id="formbutton">
 				<input type="button" name="retour" class='button1' value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
 			</div>
@@ -23,7 +23,7 @@
 			</div>
 		<? else: ?>
 		<br />
-			Vous devez s&eacute;lectionner un hobbit en garde
+			Vous devez s&eacute;lectionner un braldun en garde
 			<div id="formbutton">
 				<input type="button" name="retour" class='button1' value="Retour Gardiennage" onClick="javascript:document.location.href='/Gardiennage'"/>
 			</div>

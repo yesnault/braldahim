@@ -1,8 +1,8 @@
 <?
 // On trie suivant X puis Y puis equipe
 foreach ($joueurs as $key => $row) {
-	$x[$key] = $row['x_hobbit'];
-	$y[$key] = $row['y_hobbit'];
+	$x[$key] = $row['x_braldun'];
+	$y[$key] = $row['y_braldun'];
 	$eq[$key] = $row['camp_soule_equipe'];
 }
 array_multisort($x, SORT_ASC, $y, SORT_ASC, $eq, SORT_ASC, $joueurs);
@@ -12,7 +12,7 @@ $yini = null;
 $colini = null;
 $eqini = null;
 foreach($joueurs as $j):
-  if ($j["est_ko_hobbit"] == "non") :
+  if ($j["est_ko_braldun"] == "non") :
   	  if ($j["camp_soule_equipe"] == "a") { 
   	  	$backgroundColor = "red";
   	  	$nomEquipe = "&Eacute;quipe A";
@@ -21,32 +21,32 @@ foreach($joueurs as $j):
   	  	$backgroundColor = "blue";
   	  	$nomEquipe = "&Eacute;quipe B";
   	  }
-  	  if ($j["x_hobbit"] == $xini && $j["y_hobbit"] == $yini){
+  	  if ($j["x_braldun"] == $xini && $j["y_braldun"] == $yini){
   	  	if ($colini != $backgroundColor){
   	  		$backgroundColor = "purple";
   	  	}
   	  	if ($nomEquipe != $eqini) {
-  	  		$textHobbit .= "<br><center>".$nomEquipe."</center>";
+  	  		$textBraldun .= "<br><center>".$nomEquipe."</center>";
   	  	}
   	  }
   	  else {
-  	  	$textHobbit = "<br><center>".$nomEquipe."</center>";
+  	  	$textBraldun = "<br><center>".$nomEquipe."</center>";
   	  }
 	  
   	  $eqini = $nomEquipe;
-  	  $textHobbit .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$j["id_hobbit"].'); title=\\\'Voir le profil\\\' >'.addslashes($j["prenom_hobbit"]).' '.addslashes($j["nom_hobbit"]).' ('.$j["id_hobbit"].')</label>, niv.'.$j["niveau_hobbit"];
-  	  $textHobbit .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-	  $textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/><br> ';
-	  $title = "Position : x=".$j['x_hobbit'].", y=".$j['y_hobbit'];
-  	  $xini = $j["x_hobbit"];
-  	  $yini = $j["y_hobbit"];
+  	  $textBraldun .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$j["id_braldun"].'); title=\\\'Voir le profil\\\' >'.addslashes($j["prenom_braldun"]).' '.addslashes($j["nom_braldun"]).' ('.$j["id_braldun"].')</label>, niv.'.$j["niveau_braldun"];
+  	  $textBraldun .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$j["id_braldun"].'); style=\\\'cursor:pointer\\\'/> ';
+	  $textBraldun .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$j["id_braldun"].'); style=\\\'cursor:pointer\\\'/><br> ';
+	  $title = "Position : x=".$j['x_braldun'].", y=".$j['y_braldun'];
+  	  $xini = $j["x_braldun"];
+  	  $yini = $j["y_braldun"];
   	  $colini = $backgroundColor;
   	  
   	  echo '<span class="joueur" style=\'';
-	  echo "left:".(-3 + ($j["x_hobbit"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef)."px;"; 
-	  echo "top:".(-3 + ($this->terrainCourant["y_max_soule_terrain"] - $j["y_hobbit"]) * $coef)."px;";
+	  echo "left:".(-3 + ($j["x_braldun"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef)."px;"; 
+	  echo "top:".(-3 + ($this->terrainCourant["y_max_soule_terrain"] - $j["y_braldun"]) * $coef)."px;";
 	  echo "background-color:".$backgroundColor.";";
-	  echo " onmouseover='".Bral_Helper_Tooltip::jsTip($textHobbit, $title).";'";
+	  echo " onmouseover='".Bral_Helper_Tooltip::jsTip($textBraldun, $title).";'";
 	  echo ";\"></span>";
   endif;
 endforeach; ?>

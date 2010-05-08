@@ -23,7 +23,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 			return;
 		}
 		
-		if ($this->view->user->est_intangible_hobbit == "oui") {
+		if ($this->view->user->est_intangible_braldun == "oui") {
 			return;
 		}
 		
@@ -31,7 +31,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 
 		// recuperation des monstres qui sont presents sur la case
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];
@@ -93,12 +93,12 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		}
 		
 		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence sur ".$article." [m".$monstre["id_monstre"]."]";
+		$details = "[h".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence sur ".$article." [m".$monstre["id_monstre"]."]";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setDetailsEvenementCible($idMonstre, "monstre", $monstre["niveau_monstre"]);
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
@@ -106,15 +106,15 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 	}
 
 	private function calculProvoquer($monstre) {
-		// jet VIG hobbit > jet de SAG
+		// jet VIG braldun > jet de SAG
 		
-		$jetHobbit = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
-		$this->view->jetHobbit = $jetHobbit + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
+		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_braldun);
+		$this->view->jetBraldun = $jetBraldun + $this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun;
 		
 		$jetMonstre = Bral_Util_De::getLanceDe6($monstre["sagesse_base_monstre"]);
 		$this->view->jetMonstre = $jetMonstre + $monstre["sagesse_bm_monstre"];
 		
-		if ($this->view->jetHobbit > $this->view->jetMonstre) {
+		if ($this->view->jetBraldun > $this->view->jetMonstre) {
 			$this->view->provoquerOk = true;
 			$this->changeCible($monstre);
 		} else {
@@ -125,7 +125,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 	}
 	
 	private function changeCible($monstre) {
-		$data = array("id_fk_hobbit_cible_monstre" => $this->view->user->id_hobbit);
+		$data = array("id_fk_braldun_cible_monstre" => $this->view->user->id_braldun);
 		$where = "id_monstre=".$monstre["id_monstre"];
 		$monstreTable = new Monstre();
 		$monstreTable->update($data, $where);

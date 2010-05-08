@@ -24,7 +24,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		$tabConteneurs["laban"] = $conteneurLaban;
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -42,7 +42,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		$this->view->semerChampOk = false;
 
 		$champTable = new Champ();
-		$champs = $champTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit);
+		$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
 
 		$retour = false;
 		if (count($champs) == 1) {
@@ -62,11 +62,11 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		if ($type == "laban") {
 			Zend_Loader::loadClass("LabanGraine");
 			$labanGraineTable = new LabanGraine();
-			$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+			$graines = $labanGraineTable->findByIdBraldun($this->view->user->id_braldun);
 		} else if ($idCharrette != null) {
 			Zend_Loader::loadClass("CharretteGraine");
 			$charretteGraineTable = new CharretteGraine();
-			$graines = $charretteGraineTable->findByIdCharrette($this->view->user->id_hobbit);
+			$graines = $charretteGraineTable->findByIdCharrette($this->view->user->id_braldun);
 		} else {
 			throw new Zend_Exception("prepareTabGraines invalide");
 		}
@@ -108,7 +108,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification semer
@@ -140,13 +140,13 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		$this->calculSemerChamp($type, $idTypeGraine);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a semé un champ";
+		$details = "[h".$this->view->user->id_braldun."] a semé un champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculSemerChamp($type, $idTypeGraine, $idCharrette = null) {
@@ -155,7 +155,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		if ($type == "laban") {
 			$labanGraineTable = new LabanGraine();
 			$data = array(
-				'id_fk_hobbit_laban_graine' => $this->view->user->id_hobbit,
+				'id_fk_braldun_laban_graine' => $this->view->user->id_braldun,
 				'id_fk_type_laban_graine' => $idTypeGraine,
 				'quantite_laban_graine' => -2,
 			);

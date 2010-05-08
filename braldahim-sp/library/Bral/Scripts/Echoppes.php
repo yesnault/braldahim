@@ -37,16 +37,16 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 	private function calculEchoppes() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Echoppes - calculEchoppes - enter -");
 		$retour = "";
-		$this->calculEchoppesHobbit($retour);
+		$this->calculEchoppesBraldun($retour);
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Echoppes - calculEchoppes - exit -");
 		return $retour;
 	}
 
-	private function calculEchoppesHobbit(&$retour) {
+	private function calculEchoppesBraldun(&$retour) {
 		Zend_Loader::loadClass("Echoppe");
 
 		$echoppesTable = new Echoppe();
-		$echoppesRowset = $echoppesTable->findByIdHobbit($this->hobbit->id_hobbit);
+		$echoppesRowset = $echoppesTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($echoppesRowset != null) {
 			foreach($echoppesRowset as $e) {

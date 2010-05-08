@@ -36,10 +36,10 @@ class Bral_Palmares_Naissancefamille extends Bral_Palmares_Box {
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("Hobbit");
+		Zend_Loader::loadClass("Braldun");
 		$mdate = $this->getTabDateFiltre();
-		$hobbitTable = new Hobbit();
-		$rowset = $hobbitTable->findAllByDateCreationAndFamille($mdate["dateDebut"], $mdate["dateFin"]);
+		$braldunTable = new Braldun();
+		$rowset = $braldunTable->findAllByDateCreationAndFamille($mdate["dateDebut"], $mdate["dateFin"]);
 		$familles = null;
 		$total = 0;
 		foreach($rowset as $r) {

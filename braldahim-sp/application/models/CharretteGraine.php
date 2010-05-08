@@ -12,7 +12,7 @@
  */
 class CharretteGraine extends Zend_Db_Table {
 	protected $_name = 'charrette_graine';
-	protected $_primary = array('id_fk_hobbit_charrette_graine', 'id_fk_type_charrette_graine');
+	protected $_primary = array('id_fk_braldun_charrette_graine', 'id_fk_type_charrette_graine');
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();

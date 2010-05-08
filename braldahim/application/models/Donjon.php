@@ -19,8 +19,8 @@ class Donjon extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('donjon', '*')
 		->from('region', '*')
-		->from('hobbit', '*')
-		->where('id_fk_pnj_donjon = id_hobbit')
+		->from('braldun', '*')
+		->where('id_fk_pnj_donjon = id_braldun')
 		->where('id_fk_region_donjon = id_region')
 		->where('id_fk_lieu_donjon = ?', intval($idLieu));
 		$sql = $select->__toString();
@@ -32,8 +32,8 @@ class Donjon extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('donjon', '*')
 		->from('region', '*')
-		->from('hobbit', '*')
-		->where('id_fk_pnj_donjon = id_hobbit')
+		->from('braldun', '*')
+		->where('id_fk_pnj_donjon = id_braldun')
 		->where('id_fk_region_donjon = id_region')
 		->where('id_donjon = ?', intval($idDonjon));
 		$sql = $select->__toString();
@@ -45,8 +45,8 @@ class Donjon extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('donjon', '*')
 		->from('region', '*')
-		->from('hobbit', '*')
-		->where('id_fk_pnj_donjon = id_hobbit')
+		->from('braldun', '*')
+		->where('id_fk_pnj_donjon = id_braldun')
 		->where('id_fk_region_donjon = id_region');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

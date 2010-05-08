@@ -48,14 +48,14 @@ class Bral_Util_Securite {
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_BETA_TESTEUR));
 			
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'AdministrationlieuController');
-			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationhobbitController');
+			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationbraldunController');
 			
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'GestionController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'GestionController');
 
-			Zend_Loader::loadClass("HobbitsRoles");
-			$hobbitsRoles = new HobbitsRoles();
-			$roles = $hobbitsRoles->findByIdHobbit(Zend_Auth::getInstance()->getIdentity()->id_hobbit);
+			Zend_Loader::loadClass("BraldunsRoles");
+			$braldunsRoles = new BraldunsRoles();
+			$roles = $braldunsRoles->findByIdBraldun(Zend_Auth::getInstance()->getIdentity()->id_braldun);
 
 			if ($roles == null || count($roles) == 0) {
 				throw new Zend_Exception("Securite : role invalide A");

@@ -20,9 +20,9 @@ class SouleEquipe extends Zend_Db_Table {
 		$select = $db->select();
 
 		$select->from('soule_equipe', '*')
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
-		->where('id_fk_hobbit_soule_equipe = id_hobbit');
+		->where('id_fk_braldun_soule_equipe = id_braldun');
 
 		if ($ordre != null) {
 			$select->order($ordre);

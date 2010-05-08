@@ -33,11 +33,11 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$this->idVente = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -88,7 +88,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$vente = array(
 			"id_vente" => $vente["id_vente"],
-			"id_fk_hobbit_vente" => $vente["id_fk_hobbit_vente"],
+			"id_fk_braldun_vente" => $vente["id_fk_braldun_vente"],
 			"prix_1_vente" => $vente["prix_1_vente"],
 			"prix_2_vente" => $vente["prix_2_vente"],
 			"prix_3_vente" => $vente["prix_3_vente"],
@@ -155,7 +155,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$estCharrette = true;
 
 			Zend_Loader::loadClass("Bral_Util_Metier");
-			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_braldun, $this->view->user->sexe_braldun);
 			$estMenuisierOuBucheron = false;
 			if ($tab["tabMetierCourant"]["nom_systeme"] == "bucheron" || $tab["tabMetierCourant"]["nom_systeme"] == "menuisier") {
 				$estMenuisierOuBucheron = true;
@@ -164,7 +164,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$tab = Bral_Util_Charrette::calculAttraperPossible($materiel, $this->view->user, $estMenuisierOuBucheron);
 
 			$charretteTable = new Charrette();
-			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+			$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 
 			if ($nombre > 0) {
 				$tabCharrette["possible"] = false;
@@ -738,7 +738,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		if ($destination["id_destination"] == "laban") {
 			$table = new LabanMinerai();
-			$minerais = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$minerais = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			$table = new CharretteMinerai();
 			$minerais = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
@@ -775,7 +775,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		if ($destination["id_destination"] == "laban") {
 			$labanPartiePlanteTable = new LabanPartieplante();
-			$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+			$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			$table = new CharrettePartieplante();
 			$partiePlantes = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
@@ -890,7 +890,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		if ($destination["id_destination"] == "laban") {
 			$table = new Laban();
-			$conteneur = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$conteneur = $table->findByIdBraldun($this->view->user->id_braldun);
 			$suffixe = "laban";
 			$possedeConteneur = true;
 			if ($conteneur == null || count($conteneur) < 1) {
@@ -915,7 +915,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			}
 		} elseif ($nomSysteme == "castar") {
 			if ($destination["id_destination"] == "laban") {
-				if ($this->view->user->castars_hobbit >= $prix) {
+				if ($this->view->user->castars_braldun >= $prix) {
 					$retour = true;
 				}
 			} else {
@@ -943,7 +943,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)."::prix invalide. non connu");
 		}
 
-		// on verifie que le hobbit a assez de ressources.
+		// on verifie que le braldun a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}
@@ -1025,12 +1025,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = "[Hôtel des Ventes]".PHP_EOL.PHP_EOL;
-		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
-		$message .= " (".$this->view->user->id_hobbit.") a achet&eacute; ".PHP_EOL;
+		$message .=  $this->view->user->prenom_braldun. " ".$this->view->user->nom_braldun;
+		$message .= " (".$this->view->user->id_braldun.") a achet&eacute; ".PHP_EOL;
 		$message .= $this->view->objetAchat. PHP_EOL. "pour ".$this->view->detailPrix." (gain placé dans votre coffre).".PHP_EOL.PHP_EOL;
 		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
 		$message .= "Inutile de répondre à ce message.";
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_braldun, $this->view->vente["vente"]["id_fk_braldun_vente"], $message, $this->view);
 
 		$this->insertHistorique();
 	}
@@ -1042,7 +1042,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$data = array(
 			'id_vente_historique' =>  $this->view->vente["vente"]["id_vente"], 
-			'id_fk_hobbit_vente_historique'  => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+			'id_fk_braldun_vente_historique'  => $this->view->vente["vente"]["id_fk_braldun_vente"],
 			'date_debut_vente_historique'  => $this->view->vente["vente"]["date_debut_vente"],
 			'date_vente_historique'  => date("Y-m-d H:i:s"),
 			'date_fin_vente_historique'  => $this->view->vente["vente"]["date_fin_vente"],
@@ -1077,14 +1077,14 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$nomSysteme = Bral_Util_Registre::getNomUnite($prix["unite"], true);
 		if ($nomSysteme  == "peau" ||$nomSysteme == "rondin") {
 			$data = array(
-				"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+				"id_fk_braldun_".$suffixe => $this->view->user->id_braldun,
 				"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
 			);
 			$table->insertOrUpdate($data);
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_fk_hobbit_coffre' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+					'id_fk_braldun_coffre' => $this->view->vente["vente"]["id_fk_braldun_vente"],
 					"quantite_".$nomSysteme."_coffre" => $prix["prix"],
 				);
 				$coffreTable->insertOrUpdate($data);
@@ -1095,17 +1095,17 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} elseif ($nomSysteme  == "castar") {
 			if ($prix["id_destination"] == "charrette") {
 				$data = array(
-					"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+					"id_fk_braldun_".$suffixe => $this->view->user->id_braldun,
 					"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
 				);
 				$table->insertOrUpdate($data);
 			} else {
-				$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
+				$this->view->user->castars_braldun = $this->view->user->castars_braldun - $prix["prix"];
 			}
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_fk_hobbit_coffre' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+					'id_fk_braldun_coffre' => $this->view->vente["vente"]["id_fk_braldun_vente"],
 					'quantite_castar_coffre' => $prix["prix"],
 				);
 				$coffreTable->insertOrUpdate($data);
@@ -1133,7 +1133,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_minerai"] = $this->view->user->id_braldun;
 		}
 
 		$table->insertOrUpdate($data);
@@ -1142,7 +1142,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$coffreMineraiTable = new CoffreMinerai();
 		if ($prix["prix"] > 0) {
 			$data = array(
-				'id_fk_hobbit_coffre_minerai' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+				'id_fk_braldun_coffre_minerai' => $this->view->vente["vente"]["id_fk_braldun_vente"],
 				'id_fk_type_coffre_minerai' => $prix["minerais"]["id_fk_type_minerai"],
 				'quantite_brut_coffre_minerai' => $prix["prix"],
 			);
@@ -1170,7 +1170,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_partieplante"] = $this->view->user->id_braldun;
 		}
 
 		$table->insertOrUpdate($data);
@@ -1182,7 +1182,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data = array('quantite_coffre_partieplante' => $prix["prix"],
 						  'id_fk_type_coffre_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
 						  'id_fk_type_plante_coffre_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-						  'id_fk_hobbit_coffre_partieplante' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+						  'id_fk_braldun_coffre_partieplante' => $this->view->vente["vente"]["id_fk_braldun_vente"],
 			);
 			$coffrePartiePlanteTable->insertOrUpdate($data);
 		}
@@ -1194,7 +1194,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		if ($this->view->vente["objet"]["est_charrette"] == true) {
 			$dataUpdate = array(
-				"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
+				"id_fk_braldun_charrette" => $this->view->user->id_braldun,
 				"x_charrette" => null,
 				"y_charrette" => null,
 				"id_charrette" => $this->view->vente["objet"]["id_materiel"],
@@ -1224,14 +1224,14 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			if ($idDestination == "charrette") {
 				$data["id_fk_charrette_materiel"] = $this->view->charrette["id_charrette"];
 			} else {
-				$data["id_fk_hobbit_laban_materiel"] = $this->view->user->id_hobbit;
+				$data["id_fk_braldun_laban_materiel"] = $this->view->user->id_braldun;
 			}
 
 			$table->insert($data);
 		}
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_materiel"];
@@ -1240,7 +1240,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_hobbit."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_materiel"], $details);
 	}
@@ -1264,12 +1264,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_equipement"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_equipement"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_equipement"] = $this->view->user->id_braldun;
 		}
 		$table->insert($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_equipement"];
@@ -1278,7 +1278,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_hobbit."] a acheté la pièce d'équipement n°".$this->view->vente["objet"]["id_equipement"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->vente["objet"]["id_equipement"]. " à l'Hôtel des Ventes";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_equipement"], $details);
 	}
 
@@ -1301,18 +1301,18 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_potion"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_potion"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_potion"] = $this->view->user->id_braldun;
 		}
 		$table->insert($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
 
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		$details = "[h".$this->view->user->id_hobbit."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_potion"], $details);
 
 		$venteTable = new Vente();
@@ -1338,12 +1338,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_rune"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_rune"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_rune"] = $this->view->user->id_braldun;
 		}
 		$table->insert($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1352,7 +1352,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_hobbit."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_rune"], $details);
 	}
@@ -1376,12 +1376,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_munition"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_munition"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_munition"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1410,13 +1410,13 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			if ($idDestination == "charrette") {
 				$data["id_fk_charrette_aliment"] = $this->view->charrette["id_charrette"];
 			} else {
-				$data["id_fk_hobbit_laban_aliment"] = $this->view->user->id_hobbit;
+				$data["id_fk_braldun_laban_aliment"] = $this->view->user->id_braldun;
 			}
 			$table->insert($data);
 		}
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1445,12 +1445,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_charrette"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1484,12 +1484,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_minerai"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1518,12 +1518,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_graine"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_graine"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_graine"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1552,12 +1552,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_ingredient"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
@@ -1592,12 +1592,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_partieplante"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];

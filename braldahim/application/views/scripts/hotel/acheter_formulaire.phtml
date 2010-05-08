@@ -15,7 +15,7 @@
 		<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	<? elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
 		
-		<? if (floor($this->user->niveau_hobbit / 10) < $this->vente["objet"]["niveau"]) : ?>
+		<? if (floor($this->user->niveau_braldun / 10) < $this->vente["objet"]["niveau"]) : ?>
 			Attention ! Vous n'avez pas le niveau requis pour équiper cette pièce.
 		<? endif;?>
 		<?  

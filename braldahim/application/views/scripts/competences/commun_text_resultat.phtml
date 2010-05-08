@@ -60,22 +60,22 @@
 		
 	<? if ($this->changeNiveau === true):?>
 		Vous avez chang&eacute; de niveau ! <br />
-		Vous &ecirc;tes maintenant Niveau <?=$this->user->niveau_hobbit ?><br />
-		Vous avez  <?=$this->user->pi_hobbit ?> PI<br /><br />
-		<? if (($this->user->niveau_hobbit % 10) == 0) : ?>
-			<? if ($this->user->niveau_hobbit > 10) :?>
+		Vous &ecirc;tes maintenant Niveau <?=$this->user->niveau_braldun ?><br />
+		Vous avez  <?=$this->user->pi_braldun ?> PI<br /><br />
+		<? if (($this->user->niveau_braldun % 10) == 0) : ?>
+			<? if ($this->user->niveau_braldun > 10) :?>
 				Vous avez un nouveau titre !
 			<? else : ?>
 				Vous avez gagn&eacute; un titre !
 			<? endif;?>
 			<br />
 			Vous &ecirc;tes maintenant 
-			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?><br><br>
+			<?=$this->escape($this->user->prenom_braldun);?>  <?=$this->escape($this->user->nom_braldun);?>, <?=$this->user->titre_courant_braldun?><br><br>
 			Si toutefois vous étiez inscrit à un match de Soule, vous êtes désinscrit automatiquement (sauf si le match s'apprête à être lancé).<br><br>
 		<? endif;?>
 		
-		<? if ($this->user->niveau_hobbit < 11) : ?>
-			Pour ce passage de niveau, vous avez gagné <?=($this->user->niveau_hobbit*50)?> castars, 
+		<? if ($this->user->niveau_braldun < 11) : ?>
+			Pour ce passage de niveau, vous avez gagné <?=($this->user->niveau_braldun*50)?> castars, 
 			directement placés dans votre coffre à la banque.<br><br>
 		<? endif;?>
 	<? endif; ?>

@@ -43,12 +43,12 @@ class Bral_Util_Poids {
 	 * nb_rondins_presents
 	 * nb_rondins_transportables
 	 */
-	public static function calculPoidsCharretteTransportable($idHobbit, $niveauVigueur) {
+	public static function calculPoidsCharretteTransportable($idBraldun, $niveauVigueur) {
 		Zend_Loader::loadClass('Charrette');
 
 		$tabCharrette = null;
 		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($idHobbit);
+		$charrette = $charretteTable->findByIdBraldun($idBraldun);
 		$tabRondins = null;
 
 		foreach ($charrette as $c) {
@@ -69,33 +69,33 @@ class Bral_Util_Poids {
 		return (2 * $niveauForce) + 3;
 	}
 
-	public static function calculPoidsCharrette($idHobbit, $updateBase = false) {
+	public static function calculPoidsCharrette($idBraldun, $updateBase = false) {
 		$tab["transporte"] = 0;
 		$tab["transportable"] = 0;
 
 		$charretteTable = new Charrette();
-		$charretteRowset = $charretteTable->findByIdHobbit($idHobbit);
+		$charretteRowset = $charretteTable->findByIdBraldun($idBraldun);
 
 		if ($charretteRowset == null || count($charretteRowset) == 0) {
 			return $retour;
 		} else if (count($charretteRowset) > 1) {
-			throw new Zend_Exception("calculPoidsCharretteTransporte Nb Charrette invalide idh:".$idHobbit. " n:".count($charretteRowset));
+			throw new Zend_Exception("calculPoidsCharretteTransporte Nb Charrette invalide idh:".$idBraldun. " n:".count($charretteRowset));
 		} else {
 			$charrette = $charretteRowset[0];
 		}
 
 		if ($updateBase == true) {
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElement($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMinerais($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPartiesPlantes($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementEquipement($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPotion($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementAliment($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementGraine($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementIngredient($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementRune($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idHobbit, $charrette);
-			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMateriel($idHobbit, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElement($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMinerais($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPartiesPlantes($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementEquipement($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPotion($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementAliment($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementGraine($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementIngredient($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementRune($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idBraldun, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMateriel($idBraldun, $charrette);
 
 			$tab["transportable"] = $charrette["poids_transportable_charrette"];
 
@@ -117,24 +117,24 @@ class Bral_Util_Poids {
 		return $tab;
 	}
 
-	// $idHobbit => -1 pour un nouvel hobbit
-	public static function calculPoidsTransporte($idHobbit, $castars) {
+	// $idBraldun => -1 pour un nouvel braldun
+	public static function calculPoidsTransporte($idBraldun, $castars) {
 		$retour = 0;
 		$retour = self::ajoute($retour, $castars, self::POIDS_CASTARS);
 
-		if ($idHobbit > 0) {
-			$retour = $retour + self::calculPoidsTransporteElement($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementMinerais($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementEquipement($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementPotion($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementAliment($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementRune($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteEquipement($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementMunitions($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementMateriel($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementGraine($idHobbit);
-			$retour = $retour + self::calculPoidsTransporteElementIngredient($idHobbit);
+		if ($idBraldun > 0) {
+			$retour = $retour + self::calculPoidsTransporteElement($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementMinerais($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementEquipement($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementPotion($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementAliment($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementRune($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteEquipement($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementMunitions($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementMateriel($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementGraine($idBraldun);
+			$retour = $retour + self::calculPoidsTransporteElementIngredient($idBraldun);
 		}
 		return $retour;
 	}
@@ -154,7 +154,7 @@ class Bral_Util_Poids {
 		return floatval($poids + $ajout);
 	}
 
-	private static function calculPoidsTransporteElement($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElement($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -163,7 +163,7 @@ class Bral_Util_Poids {
 		} else {
 			Zend_Loader::loadClass("Laban");
 			$table = new Laban();
-			$elements = $table->findByIdHobbit($idHobbit);
+			$elements = $table->findByIdBraldun($idBraldun);
 			$suffixe = "laban";
 		}
 
@@ -183,7 +183,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementMinerais($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementMinerais($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -195,7 +195,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanMinerai");
 			$table = new LabanMinerai();
-			$minerais = $table->findByIdHobbit($idHobbit);
+			$minerais = $table->findByIdBraldun($idBraldun);
 		}
 
 		foreach ($minerais as $m) {
@@ -209,7 +209,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementMunitions($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementMunitions($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -221,7 +221,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanMunition");
 			$table = new LabanMunition();
-			$munitions = $table->findByIdHobbit($idHobbit);
+			$munitions = $table->findByIdBraldun($idBraldun);
 		}
 
 		foreach ($munitions as $m) {
@@ -234,7 +234,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementMateriel($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementMateriel($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -246,7 +246,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanMateriel");
 			$table = new LabanMateriel();
-			$materiels = $table->findByIdHobbit($idHobbit);
+			$materiels = $table->findByIdBraldun($idBraldun);
 		}
 
 		foreach ($materiels as $m) {
@@ -259,7 +259,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementIngredient($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementIngredient($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -271,7 +271,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
-			$ingredients = $table->findByIdHobbit($idHobbit);
+			$ingredients = $table->findByIdBraldun($idBraldun);
 		}
 
 		foreach ($ingredients as $m) {
@@ -284,7 +284,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementPartiesPlantes($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementPartiesPlantes($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -296,7 +296,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanPartieplante");
 			$table = new LabanPartieplante();
-			$partiePlantes = $table->findByIdHobbit($idHobbit);
+			$partiePlantes = $table->findByIdBraldun($idBraldun);
 		}
 
 		foreach ($partiePlantes as $p) {
@@ -310,7 +310,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementEquipement($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementEquipement($idBraldun, $charrette = null) {
 		$poids = 0;
 
 		if ($charrette != null) {
@@ -322,7 +322,7 @@ class Bral_Util_Poids {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanEquipement");
 			$table = new LabanEquipement();
-			$equipements = $table->findByIdHobbit($idHobbit);
+			$equipements = $table->findByIdBraldun($idBraldun);
 		}
 
 		$tabWhere = null;
@@ -338,7 +338,7 @@ class Bral_Util_Poids {
 		return $poids;
 	}
 
-	private static function calculPoidsTransporteElementPotion($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementPotion($idBraldun, $charrette = null) {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharrettePotion");
 			$table = new CharrettePotion();
@@ -346,14 +346,14 @@ class Bral_Util_Poids {
 		} else {
 			Zend_Loader::loadClass("LabanPotion");
 			$table = new LabanPotion();
-			$nbPotions = $table->countByIdHobbit($idHobbit);
+			$nbPotions = $table->countByIdBraldun($idBraldun);
 		}
 
 		unset($table);
 		return self::ajoute(0, $nbPotions, self::POIDS_POTION);
 	}
 
-	private static function calculPoidsTransporteElementAliment($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementAliment($idBraldun, $charrette = null) {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharretteAliment");
 			$table = new CharretteAliment();
@@ -361,14 +361,14 @@ class Bral_Util_Poids {
 		} else {
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
-			$nbAliments = $table->countByIdHobbit($idHobbit);
+			$nbAliments = $table->countByIdBraldun($idBraldun);
 		}
 
 		unset($table);
 		return self::ajoute(0, $nbAliments, self::POIDS_ALIMENT);
 	}
 
-	private static function calculPoidsTransporteElementGraine($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementGraine($idBraldun, $charrette = null) {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharretteGraine");
 			$table = new CharretteGraine();
@@ -376,14 +376,14 @@ class Bral_Util_Poids {
 		} else {
 			Zend_Loader::loadClass("LabanGraine");
 			$table = new LabanGraine();
-			$nbPoigneesGraines = $table->countByIdHobbit($idHobbit);
+			$nbPoigneesGraines = $table->countByIdBraldun($idBraldun);
 		}
 
 		unset($table);
 		return self::ajoute(0, $nbPoigneesGraines, self::POIDS_POIGNEE_GRAINES);
 	}
 
-	private static function calculPoidsTransporteElementRune($idHobbit, $charrette = null) {
+	private static function calculPoidsTransporteElementRune($idBraldun, $charrette = null) {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharretteRune");
 			$table = new CharretteRune();
@@ -391,18 +391,18 @@ class Bral_Util_Poids {
 		} else {
 			Zend_Loader::loadClass("LabanRune");
 			$table = new LabanRune();
-			$nbRunes = $table->countByIdHobbit($idHobbit);
+			$nbRunes = $table->countByIdBraldun($idBraldun);
 		}
 
 		unset($table);
 		return self::ajoute(0, $nbRunes, self::POIDS_RUNE);
 	}
 
-	private static function calculPoidsTransporteEquipement($idHobbit) {
+	private static function calculPoidsTransporteEquipement($idBraldun) {
 		$poids = 0;
-		Zend_Loader::loadClass("HobbitEquipement");
-		$hobbitEquipementTable = new HobbitEquipement();
-		$equipements = $hobbitEquipementTable->findByIdHobbit($idHobbit);
+		Zend_Loader::loadClass("BraldunEquipement");
+		$braldunEquipementTable = new BraldunEquipement();
+		$equipements = $braldunEquipementTable->findByIdBraldun($idBraldun);
 
 		$tabWhere = null;
 		foreach ($equipements as $e) {
@@ -410,7 +410,7 @@ class Bral_Util_Poids {
 			$tabWhere[] = $e["id_equipement_hequipement"];
 		}
 
-		unset($hobbitEquipementTable);
+		unset($braldunEquipementTable);
 		unset($equipements);
 		unset($tabWhere);
 

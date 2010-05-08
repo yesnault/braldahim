@@ -16,7 +16,7 @@
 	<ul class="titre textalic textsizec">Nom de la liste / du Contact</ul> <br>
 	Ne seront conserv&eacute;s que les chiffres et les 26 lettres de l'alphabet (minuscules et majuscules). 
 	<br>
-	S'il n'y a qu'un seul Hobbit dans les destinataires de la liste, le nom de la liste sera automatiquement créé tel que : "Prénom Nom" du Hobbit.
+	S'il n'y a qu'un seul Braldun dans les destinataires de la liste, le nom de la liste sera automatiquement créé tel que : "Prénom Nom" du Braldun.
 	<br>
 	<?php if(!empty($this->nomErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -50,11 +50,11 @@
 	<ul class="titre textalic textsizec">Destinataires (entrez le pr&eacute;nom)</ul><br />
 	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
-	Vous pouvez faire une liste avec environ 20 hobbits destinataires maximum.<br>
+	Vous pouvez faire une liste avec environ 20 bralduns destinataires maximum.<br>
 	
 	<div id='aff_valeur_3_dest' name='aff_valeur_3_dest'><?=$this->contactsListe["aff_js_destinataires"]?></div>
 	<input type="hidden" name="valeur_3_dest" id="valeur_3_dest" value="<?=$this->contactsListe["destinataires"]?>" />
-	<input type="text" name="recherche_valeur_3_dest" size='40' id="recherche_valeur_3_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheHobbit("valeur_3_dest");' />
+	<input type="text" name="recherche_valeur_3_dest" size='40' id="recherche_valeur_3_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheBraldun("valeur_3_dest");' />
 	<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />
 	<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
     <span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>

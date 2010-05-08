@@ -32,7 +32,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		
 		// on verifie que c'est bien l'echoppe du joueur
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 		
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {
@@ -198,7 +198,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		$this->calculPrixMinerai($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 	
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente ".$this->view->potion ["nom_type"]." ".$this->view->potion ["nom"]. " n°".$this->view->potion ["id_echoppe_potion"]. " dans son échoppe";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente ".$this->view->potion ["nom_type"]." ".$this->view->potion ["nom"]. " n°".$this->view->potion ["id_echoppe_potion"]. " dans son échoppe";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_VENDRE_ID, $this->view->potion ["id_echoppe_potion"], $details);
 	
 	}

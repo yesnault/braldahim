@@ -29,7 +29,7 @@ Filtrer par rang :
 	</div>
  <? endif; ?>
  <br />
- Pour modifier le rang d'un hobbit, vous devez cliquer dessus.<br />
+ Pour modifier le rang d'un braldun, vous devez cliquer dessus.<br />
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
@@ -45,7 +45,7 @@ Filtrer par rang :
 <tfoot class="table_liste">
   <tr class="table_liste">
     <th colspan='7'>
-    	Affichage de <?=count($this->tabMembres) ?> hobbit<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
+    	Affichage de <?=count($this->tabMembres) ?> braldun<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
 	   <input type="button" class='button1' onClick="Javascript:get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <? endif; ?>
@@ -60,10 +60,10 @@ Filtrer par rang :
 <? $i = 0;
    foreach($this->tabMembres as $m) :?>
 	<tr class="table_liste<?=($i % 2);$i++; ?>">
-	  <td class="table_liste"><?=htmlspecialchars($m["prenom_hobbit"]) ?></td>	
-	  <td class="table_liste"><?=htmlspecialchars($m["nom_hobbit"]) ?></td>
-	  <td class="table_liste"><?=$m["id_hobbit"] ?></td>
-	  <td class="table_liste"><?=htmlspecialchars($m["niveau_hobbit"]) ?></td>
+	  <td class="table_liste"><?=htmlspecialchars($m["prenom_braldun"]) ?></td>	
+	  <td class="table_liste"><?=htmlspecialchars($m["nom_braldun"]) ?></td>
+	  <td class="table_liste"><?=$m["id_braldun"] ?></td>
+	  <td class="table_liste"><?=htmlspecialchars($m["niveau_braldun"]) ?></td>
 	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
 	  <td class="table_liste">
 	  	
@@ -71,26 +71,26 @@ Filtrer par rang :
 	  	  	Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlspecialchars($m["nom_rang_communaute"]) ?><br />
 		  	<i>Non modifiable</i>
   	   <? else : ?>
-		<label id="label_rang<?=$m["id_hobbit"] ?>" onClick="javascript:this.style.display='none' ; $('valeur_rang<?=$m["id_hobbit"] ?>').style.display='block'" style="display:block">
+		<label id="label_rang<?=$m["id_braldun"] ?>" onClick="javascript:this.style.display='none' ; $('valeur_rang<?=$m["id_braldun"] ?>').style.display='block'" style="display:block">
 	  		Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlspecialchars($m["nom_rang_communaute"]) ?>
 	  	</label>
 	  
-	  	<select name='valeur_rang<?=$m["id_hobbit"] ?>' id='valeur_rang<?=$m["id_hobbit"] ?>' onChange="$('button_valider<?=$m["id_hobbit"] ?>').style.display='block'"  style="display:none">
+	  	<select name='valeur_rang<?=$m["id_braldun"] ?>' id='valeur_rang<?=$m["id_braldun"] ?>' onChange="$('button_valider<?=$m["id_braldun"] ?>').style.display='block'"  style="display:none">
 			<? foreach ($this->tabRangs as $r) : ?>
 		  	<option value='<?=$r["id_rang"]?>' <?if ($m["id_rang_communaute"] == $r["id_rang"]){echo "selected";}?>><?=htmlspecialchars($r["nom"])?></option>
 		  	<? endforeach; ?>
 		</select>
 		
-		<input type="button" id="button_valider<?=$m["id_hobbit"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='r'; $('valeur_7').value=<?=$m["id_hobbit"]?> ; $('valeur_8').value=$('valeur_rang<?=$m["id_hobbit"] ?>').value; $('valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
+		<input type="button" id="button_valider<?=$m["id_braldun"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='r'; $('valeur_7').value=<?=$m["id_braldun"]?> ; $('valeur_8').value=$('valeur_rang<?=$m["id_braldun"] ?>').value; $('valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
 	  <? endif; ?>
 	  </td>
 	  <td class="table_liste">
 	  	<? if ($m["ordre_rang_communaute"] != 1) : ?>
-	  	<input type="button" class='button1' onClick="javascript:this.style.display='none' ; $('div_exclure<?=$m["id_hobbit"] ?>').style.display='block'"" value="Exclure">
+	  	<input type="button" class='button1' onClick="javascript:this.style.display='none' ; $('div_exclure<?=$m["id_braldun"] ?>').style.display='block'"" value="Exclure">
 	  	
-	  	<div id="div_exclure<?=$m["id_hobbit"] ?>"  style="display:none">
+	  	<div id="div_exclure<?=$m["id_braldun"] ?>"  style="display:none">
 	  		Veuillez-confirmer cette exclusion.<br />
-	  		<input type="button" id="button_confirmer<?=$m["id_hobbit"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='e'; $('valeur_7').value=-1; $('valeur_8').value=-1; $('valeur_9').value=<?=$m["id_hobbit"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
+	  		<input type="button" id="button_confirmer<?=$m["id_braldun"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='e'; $('valeur_7').value=-1; $('valeur_8').value=-1; $('valeur_9').value=<?=$m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
 	  	</div>
 	  	
 	  	<? endif; ?>

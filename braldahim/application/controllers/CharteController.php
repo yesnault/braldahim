@@ -32,10 +32,10 @@ class CharteController extends Zend_Controller_Action {
 	
 	function accepterAction() {
 		if ($this->_request->isPost()) {
-			$hobbitTable = new Hobbit();
-			$data = array("est_charte_validee_hobbit" => "oui");
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable->update($data, $where);
+			$braldunTable = new Braldun();
+			$data = array("est_charte_validee_braldun" => "oui");
+			$where = "id_braldun=".$this->view->user->id_braldun;
+			$braldunTable->update($data, $where);
 			$this->_redirect('/interface');
 		} else {
 			$this->_redirect('/auth/logout');

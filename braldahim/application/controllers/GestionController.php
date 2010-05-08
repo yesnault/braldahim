@@ -27,9 +27,9 @@ class GestionController extends Zend_Controller_Action {
 
 	function indexAction() {
 
-		Zend_Loader::loadClass("HobbitsRoles");
-		$hobbitsRoles = new HobbitsRoles();
-		$roles = $hobbitsRoles->findByIdHobbit(Zend_Auth::getInstance()->getIdentity()->id_hobbit);
+		Zend_Loader::loadClass("BraldunsRoles");
+		$braldunsRoles = new BraldunsRoles();
+		$roles = $braldunsRoles->findByIdBraldun(Zend_Auth::getInstance()->getIdentity()->id_braldun);
 		
 		$tabRoles = null;
 		foreach($roles as $r) {

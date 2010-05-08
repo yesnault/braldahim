@@ -15,22 +15,22 @@ class Bral_Util_Vie {
 	function __construct() {
 	}
 	
-	public static function calculRegenerationHobbit(&$hobbit, &$jetRegeneration) {
+	public static function calculRegenerationBraldun(&$braldun, &$jetRegeneration) {
 		$jetRegeneration = 0;
 		
-		if ($hobbit->pv_restant_hobbit < $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
-			$jetRegeneration = Bral_Util_De::getLanceDe10($hobbit->regeneration_hobbit);
-			$jetRegeneration = $jetRegeneration - $hobbit->regeneration_malus_hobbit;
+		if ($braldun->pv_restant_braldun < $braldun->pv_max_braldun + $braldun->pv_max_bm_braldun) {
+			$jetRegeneration = Bral_Util_De::getLanceDe10($braldun->regeneration_braldun);
+			$jetRegeneration = $jetRegeneration - $braldun->regeneration_malus_braldun;
 
 			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$jetRegeneration = 0;
 			}
 			
-			if ($hobbit->pv_restant_hobbit + $jetRegeneration > $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
-				$jetRegeneration = $hobbit->pv_max_hobbit  + $hobbit->pv_max_bm_hobbit - $hobbit->pv_restant_hobbit;
+			if ($braldun->pv_restant_braldun + $jetRegeneration > $braldun->pv_max_braldun + $braldun->pv_max_bm_braldun) {
+				$jetRegeneration = $braldun->pv_max_braldun  + $braldun->pv_max_bm_braldun - $braldun->pv_restant_braldun;
 			}
 			
-			$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit + $jetRegeneration;
+			$braldun->pv_restant_braldun = $braldun->pv_restant_braldun + $jetRegeneration;
 		}
 	}
 	

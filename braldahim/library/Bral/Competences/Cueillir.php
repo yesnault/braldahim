@@ -37,7 +37,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$planteTable = new Plante();
-		$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$plantes = $planteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($plantes) > 0) {
 			$this->view->planteOk = true;
 		}
@@ -82,7 +82,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		} elseif ( $this->view->poidsPlaceDisponible == false) {
 			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
@@ -181,7 +181,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 					$data = array(
 						'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
 						'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
-						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
 						'quantite_laban_partieplante' => $cueillette[$i]["quantite"],
 					);
 					$labanPartiePlanteTable->insertOrUpdate($data);
@@ -190,8 +190,8 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-			$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
-			$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
+			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueillette;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
@@ -226,7 +226,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
@@ -236,7 +236,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	/*
 	 * La quantité extraite est fonction de la quantité disponible à cet endroit.
 	 * (Directement dans le sac à dos)
-	 *  Quantità maximum ramassée est fonction du niveau d'agilite du Hobbit :
+	 *  Quantità maximum ramassée est fonction du niveau d'agilite du Braldun :
 	 *  AGI : QUANTITE
 	 *  0-4 : 1D3 + BM /2
 	 *  5-9 : 1D3+1 + BM /2
@@ -249,14 +249,14 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->view->effetRune = false;
 
 		$n = Bral_Util_De::get_1d3();
-		$n = $n + floor($this->view->user->agilite_base_hobbit / 5);
+		$n = $n + floor($this->view->user->agilite_base_braldun / 5);
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "RI")) { // s'il possède une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}
 
-		$n  = $n  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
+		$n  = $n  + ($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ;
 		$n  = intval($n);
 		if ($n <= 0) {
 			$n  = 1;
@@ -269,7 +269,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		if ($poidsRestant < 0) $poidsRestant = 0;
 
 		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);

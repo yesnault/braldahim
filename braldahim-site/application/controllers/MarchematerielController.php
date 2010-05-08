@@ -97,7 +97,7 @@ class MarchematerielController extends Zend_Controller_Action {
 				$ordre = "date_echoppe_materiel ".$direct;
 				break;
 			case 2:
-				$ordre = "id_hobbit ".$direct;
+				$ordre = "id_braldun ".$direct;
 				break;
 			case 3:
 				$ordre = "nom_systeme_metier ".$direct;
@@ -181,10 +181,10 @@ class MarchematerielController extends Zend_Controller_Action {
 				$tab = null;
 				$tab[] = $materiel["nom_region"];
 				$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_echoppe_materiel"]);
-				$hobbit = $e["prenom_hobbit"]." ".$e["nom_hobbit"]." (".$e["id_hobbit"].")";
-				$hobbit .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/hobbit/?hobbit=".$e["id_hobbit"]."\");^_self";
-				$tab[] = $hobbit;
-				if ($e["sexe_hobbit"] == "masculin") {
+				$braldun = $e["prenom_braldun"]." ".$e["nom_braldun"]." (".$e["id_braldun"].")";
+				$braldun .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/braldun/?braldun=".$e["id_braldun"]."\");^_self";
+				$tab[] = $braldun;
+				if ($e["sexe_braldun"] == "masculin") {
 					$tab[] = $e["nom_masculin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				} else {
 					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";

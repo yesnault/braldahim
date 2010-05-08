@@ -77,7 +77,7 @@ class Bral_Monstres_VieSolitaire {
 		if ($cible != null) {
 			$koCible = false;
 			// on regarde si la cible demandée est bien la cible du monstre
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
 			$koCible = $vieMonstre->attaqueCible($cible, $this->view);
 
 			if ($koCible == null) { // null => cible hors vue
@@ -85,11 +85,11 @@ class Bral_Monstres_VieSolitaire {
 				$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
 			} else if ($koCible === true) {
 				$monstre = $vieMonstre->getMonstre();
-				$monstre["id_fk_hobbit_cible_monstre"] = null;
+				$monstre["id_fk_braldun_cible_monstre"] = null;
 				$vieMonstre->setMonstre($monstre);
 				Zend_loader::loadClass("Bral_Monstres_Competences_Reperagestandard");
 				$cible = Bral_Monstres_Competences_Reperagestandard::rechercheNouvelleCible($monstre);
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
 				$vieMonstre->attaqueCible($cible, $this->view); // seconde attaque, utilise pour souffle de feu par exemple, si la cible principale est tuée par le souffle et qu'il reste 4 PA pour l'attaque
 			}
 		} else {

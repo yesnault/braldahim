@@ -3,9 +3,9 @@
 	<ul class="titre textalic textsized"><?=Bral_Helper_Calendrier::affiche();?></ul>
 	<br>
 	
-	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
-	  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
-	  	<?=$this->user->titre_courant_hobbit?> 
+	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
+	  <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
+	  	<?=$this->user->titre_courant_braldun?> 
 	  <? endif;?>
 	</ul>
   
@@ -18,10 +18,10 @@
 			Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien.
 			Vous devez être dans un Hôpital. Vous observez alors autour de vous : quelques chaises, une petite table,
 			sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement.
-			Elle émet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmière,
+			Elle émet un son cristallin. Au bout de quelques instants une jolie braldune souriante, probablement une infirmière,
 			fait son apparition :";
 			echo "<br /><br />";
-			echo " \"Bonjour ".$this->user->prenom_hobbit. " ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux !
+			echo " \"Bonjour ".$this->user->prenom_braldun. " ".$this->user->nom_braldun. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux !
 			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans cet hôpital, alors ne prenez pas de risques inutiles... \"";
 			echo "<br /><br />";
 
@@ -39,9 +39,9 @@
 		<? endif; ?>
 	<? endif; ?>		
 	Points de vie : 
-	<?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit) ?> 
-	(<?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> 
-	<? if ($this->user->pv_max_bm_hobbit >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_hobbit ?>)
+	<?=$this->user->pv_restant_braldun ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?> 
+	(<?=($this->config->game->pv_base + $this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) ?> 
+	<? if ($this->user->pv_max_bm_braldun >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_braldun ?>)
 	<br>
 	
 	<br />
@@ -50,9 +50,9 @@
 	<? Zend_Loader::loadClass("Bral_Helper_Profil")?>
 	<?=Bral_Helper_Profil::afficheBarreTour($this->user)?>
 	
-	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?>, Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?> <br />
+	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_braldun ?>, Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?> <br />
 	<br />
-	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br /><br />
+	Nombre de Points d'Action : <?=$this->user->pa_braldun ?><br /><br />
 	
 	<? if ($this->charretteDetruite) : ?>
 		<br>
@@ -75,7 +75,7 @@
 	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
-	<? include("tour/effet_hobbit_text.phtml"); ?>
+	<? include("tour/effet_braldun_text.phtml"); ?>
 	<? include("tour/derniers_messages.phtml"); ?>
 	
 	<br />

@@ -50,7 +50,7 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		$tabEvenements = null;
 		$tabTypeEvenements = null;
 		$evenementTable = new Evenement();
-		$evenements = $evenementTable->findByIdHobbit($this->view->user->id_hobbit, $this->_page, $this->_nbMax, $this->_filtre);
+		$evenements = $evenementTable->findByIdBraldun($this->view->user->id_braldun, $this->_page, $this->_nbMax, $this->_filtre);
 		unset($evenementTable);
 		
 		foreach ($evenements as $p) {

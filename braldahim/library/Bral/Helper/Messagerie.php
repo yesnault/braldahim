@@ -12,19 +12,19 @@
  */
 class Bral_Helper_Messagerie {
 
-	public static function destinatairesZoneJs($xMin, $yMin, $xMax, $yMax, $z, $idHobbit, $texte) {
+	public static function destinatairesZoneJs($xMin, $yMin, $xMax, $yMax, $z, $idBraldun, $texte) {
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($xMin, $yMin, $xMax, $yMax, $z, $idHobbit);
-		unset($hobbitTable);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($xMin, $yMin, $xMax, $yMax, $z, $idBraldun);
+		unset($braldunTable);
 		
 		$js = "";
-		foreach($hobbits as $h) {
-			$nom = $h['prenom_hobbit']. " ". $h['nom_hobbit'];
+		foreach($bralduns as $h) {
+			$nom = $h['prenom_braldun']. " ". $h['nom_braldun'];
 			$js .= "makeJsListeAvecSupprimer('valeur_2_dest', ";
 			$js .= "'".addslashes($nom)."', ";
-			$js .= "'".$h["id_hobbit"]."', ";
-			$js .= "'".$h["id_hobbit"]."');";
+			$js .= "'".$h["id_braldun"]."', ";
+			$js .= "'".$h["id_braldun"]."');";
 		}
 		
 		$retour = "";

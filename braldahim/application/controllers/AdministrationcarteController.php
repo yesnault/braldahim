@@ -51,8 +51,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$sessions = null;
 		foreach($sessionsRowset as $s) {
 			$sessions[] = array(
-				"nom" => $s["prenom_hobbit"]. " ".$s["nom_hobbit"],
-				"id_fk_hobbit_session" => $s["id_fk_hobbit_session"],
+				"nom" => $s["prenom_braldun"]. " ".$s["nom_braldun"],
+				"id_fk_braldun_session" => $s["id_fk_braldun_session"],
 				"id_php_session" => $s["id_php_session"],
 				"ip_session" => $s["ip_session"],
 				"date_derniere_action_session" => $s["date_derniere_action_session"],
@@ -70,8 +70,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres	.= "&nids=1";
 		}
 
-		if (intval($this->_request->get("hobbits")) == 1) {
-			$parametres .= "&hobbits=1";
+		if (intval($this->_request->get("bralduns")) == 1) {
+			$parametres .= "&bralduns=1";
 		}
 
 		if (intval($this->_request->get("routes")) == 1) {
@@ -84,6 +84,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("filons")) == 1) {
 			$parametres .= "&filons=1";
+		}
+
+		if (intval($this->_request->get("plantes")) == 1) {
+			$parametres .= "&plantes=1";
 		}
 
 		if (intval($this->_request->get("bosquets")) == 1) {
@@ -127,12 +131,9 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		if (intval($this->_request->get("zonesnids")) == 1) {
 			$this->dessineZonesNids(&$image);
 		}
-		//$this->dessineFilons(&$image);
-		//$this->dessineBosquets(&$image);
 
-
-		if (intval($this->_request->get("hobbits")) == 1) {
-			$this->dessineHobbits(&$image);
+		if (intval($this->_request->get("bralduns")) == 1) {
+			$this->dessineBralduns(&$image);
 		}
 
 		if (intval($this->_request->get("monstres")) == 1) {
@@ -153,6 +154,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("filons")) == 1) {
 			$this->dessineFilons(&$image);
+		}
+
+		if (intval($this->_request->get("plantes")) == 1) {
+			$this->dessinePlantes(&$image);
 		}
 
 		if (intval($this->_request->get("bosquets")) == 1) {
@@ -390,6 +395,21 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
 	}
 
+	private function dessinePlantes(&$image) {
+		Zend_Loader::loadClass('Plante');
+		$plantesTable = new Plante();
+		$plantes = $plantesTable->fetchall();
+
+		$nbFilons = 0;
+		foreach ($plantes as $f) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_plante"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_plante"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+			$nbFilons++;
+		}
+		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 30, $nbFilons." Plantes", $this->vert2);
+	}
+
 	private function dessineBosquets(&$image) {
 		Zend_Loader::loadClass('Bosquet');
 		$bosquetsTable = new Bosquet();
@@ -405,19 +425,19 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbBosquets." Bosquets", $this->gris2);
 	}
 
-	private function dessineHobbits(&$image) {
-		Zend_Loader::loadClass('Hobbit');
-		$hobbitsTable = new Hobbit();
-		$hobbits = $hobbitsTable->fetchall();
+	private function dessineBralduns(&$image) {
+		Zend_Loader::loadClass('Braldun');
+		$braldunsTable = new Braldun();
+		$bralduns = $braldunsTable->fetchall();
 
-		$nbHobbits = 0;
-		foreach ($hobbits as $h) {
-			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_hobbit"]) / $this->coefTaille;
-			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_hobbit"]) / $this->coefTaille;
+		$nbBralduns = 0;
+		foreach ($bralduns as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_braldun"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_braldun"]) / $this->coefTaille;
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
-			$nbHobbits++;
+			$nbBralduns++;
 		}
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbBralduns." Bralduns", $this->vert2);
 	}
 
 	private function dessineLieuxmythiques(&$image) {

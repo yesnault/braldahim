@@ -55,13 +55,13 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
-	function hobbitAction() {
-		$voir = Bral_Voir_Factory::getHobbit($this->_request, $this->view);
+	function braldunAction() {
+		$voir = Bral_Voir_Factory::getBraldun($this->_request, $this->view);
 		echo $voir->render();
 	}
 	
-	function hobbitsAction() {
-		$voir = Bral_Voir_Factory::getHobbits($this->_request, $this->view);
+	function braldunsAction() {
+		$voir = Bral_Voir_Factory::getBralduns($this->_request, $this->view);
 		echo $voir->render();
 	}
 	

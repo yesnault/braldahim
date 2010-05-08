@@ -16,12 +16,12 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun ) * 2;
 
 		$this->view->avecChoix = false;
 		$tabChoix = array();
 
-		if ($this->hobbit_competence["pourcentage_hcomp"] >= 80) {
+		if ($this->braldun_competence["pourcentage_hcomp"] >= 80) {
 			$this->view->avecChoix = true;
 
 			Zend_Loader::loadClass("TypeMinerai");
@@ -58,13 +58,13 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function sonder($choix) {
 		// La distance max de repérage d'un filon est : jet VIG+BM
-		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
-		$this->view->rayon_max = $tirageRayonMax + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
+		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_braldun);
+		$this->view->rayon_max = $tirageRayonMax + $this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun;
 
 		$idTypeMinerai = null;
 		$this->view->libelleRecherche = "le filon le plus proche";
@@ -77,7 +77,7 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass('Filon');
 		$filonTable = new Filon();
-		$filonRow = $filonTable->findLePlusProche($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->rayon_max, $idTypeMinerai);
+		$filonRow = $filonTable->findLePlusProche($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->rayon_max, $idTypeMinerai);
 		unset($filonTable);
 
 		if (!empty($filonRow)) {

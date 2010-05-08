@@ -14,8 +14,8 @@ class Bral_Util_Famille {
 
 	private function __construct() {}
 
-	static function getTabPossedeParentsActif($hobbit) {
-		$hobbitTable = new Hobbit();
+	static function getTabPossedeParentsActif($braldun) {
+		$braldunTable = new Braldun();
 
 		$pere = null;
 		$mere = null;
@@ -26,13 +26,13 @@ class Bral_Util_Famille {
 			"est_mere_actif" => false,
 		);
 
-		if ($hobbit->id_fk_mere_hobbit != null && $hobbit->id_fk_pere_hobbit != null &&
-		$hobbit->id_fk_mere_hobbit != 0 && $hobbit->id_fk_pere_hobbit != 0 ) {
+		if ($braldun->id_fk_mere_braldun != null && $braldun->id_fk_pere_braldun != null &&
+		$braldun->id_fk_mere_braldun != 0 && $braldun->id_fk_pere_braldun != 0 ) {
 				
 			$retour["est_orphelin"] = false;
 
-			$pere = $hobbitTable->findById($hobbit->id_fk_pere_hobbit);
-			$mere = $hobbitTable->findById($hobbit->id_fk_mere_hobbit);
+			$pere = $braldunTable->findById($braldun->id_fk_pere_braldun);
+			$mere = $braldunTable->findById($braldun->id_fk_mere_braldun);
 
 			if ($pere != null) {
 				$retour["est_pere_actif"] = true;

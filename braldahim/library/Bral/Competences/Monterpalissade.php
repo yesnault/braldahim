@@ -29,7 +29,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		 * On verifie qu'il y a au moins 2 rondins
 		 */
 		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrette = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		if (!isset($charrette)) {
 			return;
@@ -42,8 +42,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			break;
 		}
 
-		//(niveau du Hobbit/10 + 1)*2
-		$niveau = $this->view->user->niveau_hobbit;
+		//(niveau du Braldun/10 + 1)*2
+		$niveau = $this->view->user->niveau_braldun;
 		$this->view->nRondinsNecessaires = ((floor($niveau / 10) + 1)) * 2;
 		$this->view->nRondinsSuffisants = false;
 
@@ -52,36 +52,36 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		}
 
 		$this->distance = 1;
-		$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
-		$this->view->x_max = $this->view->user->x_hobbit + $this->distance;
-		$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
-		$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
+		$this->view->x_min = $this->view->user->x_braldun - $this->distance;
+		$this->view->x_max = $this->view->user->x_braldun + $this->distance;
+		$this->view->y_min = $this->view->user->y_braldun - $this->distance;
+		$this->view->y_max = $this->view->user->y_braldun + $this->distance;
 
 		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$routeTable = new Route();
-		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$nidTable = new Nid();
-		$nids = $nidTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+		$nids = $nidTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$defautChecked = false;
 
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
 			$change_level = true;
 			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
-				$x = $this->view->user->x_hobbit + $i;
-				$y = $this->view->user->y_hobbit + $j;
-				$z = $this->view->user->z_hobbit;
+				$x = $this->view->user->x_braldun + $i;
+				$y = $this->view->user->y_braldun + $j;
+				$z = $this->view->user->z_braldun;
 					
 				$display = $x;
 				$display .= " ; ";
@@ -112,8 +112,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 					}
 				}
 					
-				foreach($hobbits as $h) {
-					if ($x == $h["x_hobbit"] && $y == $h["y_hobbit"] && $z == $h["z_hobbit"]) {
+				foreach($bralduns as $h) {
+					if ($x == $h["x_braldun"] && $y == $h["y_braldun"] && $z == $h["z_braldun"]) {
 						$valid = false;
 						break;
 					}
@@ -183,7 +183,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->monterPalissadeOk == false) {
@@ -217,15 +217,15 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculMonterPalissade($this->view->user->x_hobbit + $offset_x, $this->view->user->y_hobbit + $offset_y);
+			$this->calculMonterPalissade($this->view->user->x_braldun + $offset_x, $this->view->user->y_braldun + $offset_y);
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 
 		$this->calculPx();
 		$this->calculPoids();
-		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculMonterPalissade($x, $y) {
@@ -233,13 +233,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => -$this->view->nRondinsNecessaires,
-			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+			'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 
 		$date_creation = date("Y-m-d H:00:00");
-		$nb_jours = Bral_Util_De::getLanceDe6($this->view->config->base_sagesse + $this->view->user->sagesse_base_hobbit) + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$nb_jours = Bral_Util_De::getLanceDe6($this->view->config->base_sagesse + $this->view->user->sagesse_base_braldun) + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 		if ($nb_jours < 2) {
 			$nb_jours = 2;
 		}
@@ -248,11 +248,11 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$data = array(
 			"x_palissade"  => $x,
 			"y_palissade" => $y,
-			"z_palissade" => $this->view->user->z_hobbit,
+			"z_palissade" => $this->view->user->z_braldun,
 			"agilite_palissade" => 0,
-			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
-			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit,
-			"pv_max_palissade" => $this->view->user->pv_restant_hobbit,
+			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_braldun * 4,
+			"pv_restant_palissade" => $this->view->user->pv_restant_braldun,
+			"pv_max_palissade" => $this->view->user->pv_restant_braldun,
 			"date_creation_palissade" => $date_creation,
 			"date_fin_palissade" => $date_fin,
 		);
@@ -264,8 +264,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
-		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
+		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = 1;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->bucheron->id;

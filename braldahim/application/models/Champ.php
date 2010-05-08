@@ -43,13 +43,13 @@ class Champ extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'sexe_braldun', 'id_braldun'))
 		->where('x_champ <= ?',$x_max)
 		->where('x_champ >= ?',$x_min)
 		->where('y_champ >= ?',$y_min)
 		->where('y_champ <= ?',$y_max)
 		->where('z_champ = ?',$z)
-		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ');
+		->where('braldun.id_braldun = champ.id_fk_braldun_champ');
 
 		if ($phaseChamp != null) {
 			$select->where("phase_champ = ?", $phaseChamp);
@@ -59,23 +59,23 @@ class Champ extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z, $idHobbit = null, $phaseChamp = null) {
+	function findByCase($x, $y, $z, $idBraldun = null, $phaseChamp = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->from('region', '*')
 		->where('x_champ = ?',$x)
 		->where('y_champ = ?',$y)
 		->where('z_champ = ?',$z)
-		->where('id_fk_hobbit_champ = id_hobbit')
+		->where('id_fk_braldun_champ = id_braldun')
 		->where('region.x_min_region <= champ.x_champ')
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
 		->where('region.y_max_region >= champ.y_champ');
 
-		if ($idHobbit != null) {
-			$select->where('id_hobbit = ?', $idHobbit);
+		if ($idBraldun != null) {
+			$select->where('id_braldun = ?', $idBraldun);
 		}
 
 		if ($phaseChamp != null) {
@@ -86,12 +86,12 @@ class Champ extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
 		->from('region', '*')
-		->where('id_fk_hobbit_champ = ?', $idHobbit)
+		->where('id_fk_braldun_champ = ?', $idBraldun)
 		->where('region.x_min_region <= champ.x_champ')
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
@@ -114,8 +114,8 @@ class Champ extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
-		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'sexe_braldun', 'id_braldun'))
+		->where('braldun.id_braldun = champ.id_fk_braldun_champ')
 		->where('phase_champ like ?', 'seme')
 		->where('date_fin_seme_champ <= ?', date('Y-m-d H:i:s'));
 		$sql = $select->__toString();
@@ -126,8 +126,8 @@ class Champ extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
-		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'sexe_braldun', 'id_braldun'))
+		->where('braldun.id_braldun = champ.id_fk_braldun_champ')
 		->where('phase_champ like ?', 'a_recolter')
 		->where('date_fin_recolte_champ <= ?', date('Y-m-d H:i:s'));
 		$sql = $select->__toString();

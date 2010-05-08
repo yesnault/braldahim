@@ -18,8 +18,8 @@ class Communaute extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('communaute', '*')
-		->from('hobbit', '*')
-		->where('id_fk_hobbit_gestionnaire_communaute = id_hobbit')
+		->from('braldun', '*')
+		->where('id_fk_braldun_gestionnaire_communaute = id_braldun')
 		->where('id_communaute = ?', intval($id));
 
 		$sql = $select->__toString();
@@ -39,9 +39,9 @@ class Communaute extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('communaute')
-		->from('hobbit', 'count(*) as nb_membres')
-		->where("id_communaute = id_fk_communaute_hobbit")
-		->group("id_communaute", "nom_communaute", "date_creation_communaute", "id_fk_hobbit_gestionnaire_communaute", "description_communaute", "site_web_communaute" );
+		->from('braldun', 'count(*) as nb_membres')
+		->where("id_communaute = id_fk_communaute_braldun")
+		->group("id_communaute", "nom_communaute", "date_creation_communaute", "id_fk_braldun_gestionnaire_communaute", "description_communaute", "site_web_communaute" );
 
 		if ($ordre != null && $sens != null) {
 			$select->order($ordre.$sens);

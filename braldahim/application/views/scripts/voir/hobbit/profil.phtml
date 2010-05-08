@@ -7,10 +7,10 @@
 	
   <tr class="table_liste">
   	<? if ($this->ancien === false) : ?>
-	<th rowspan="17"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="17"><?=Bral_Helper_Image::afficherAvatar($this->braldun["url_avatar_braldun"]); ?></th>
 	<? endif;?>
 	<th>Date de cr&eacute;ation</th>
-	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
+	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->braldun["date_creation_braldun"]); ?></th>
   </tr>
   
   <tr class="table_liste">
@@ -20,8 +20,8 @@
 		echo "s";
 	   endif; ?></th>
 	<td class="table_liste">
-		<? if ($this->hobbit["distinctions_ancien_hobbit"] != "") : ?>
-			<?=$this->hobbit["distinctions_ancien_hobbit"]?>
+		<? if ($this->braldun["distinctions_ancien_braldun"] != "") : ?>
+			<?=$this->braldun["distinctions_ancien_braldun"]?>
 		<? else: ?>
 			Aucune distinction
 		<? endif;?>
@@ -31,7 +31,7 @@
 	
   <tr class="table_liste">
 	<th>Sexe</th>
-	<td class="table_liste"><? if ($this->hobbit["sexe_hobbit"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
+	<td class="table_liste"><? if ($this->braldun["sexe_braldun"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
   </tr>
   <? if ($this->ancien === false) : ?>
 	  <tr class="table_liste">
@@ -49,27 +49,27 @@
   <? endif; ?>
   <tr class="table_liste">
 	<th>Niveau</th>
-	<td class="table_liste"><?=$this->hobbit["niveau_hobbit"] ?></td>
+	<td class="table_liste"><?=$this->braldun["niveau_braldun"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de KO</th>
-	<td class="table_liste"><?=$this->hobbit["nb_ko_hobbit"] ?></td>
+	<td class="table_liste"><?=$this->braldun["nb_ko_braldun"] ?></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de KO (de hobbit) effectués</th>
-	<td class="table_liste"><?=$this->hobbit["nb_hobbit_ko_hobbit"] ?></td>
+	<th>Nombre de KO (de braldun) effectués</th>
+	<td class="table_liste"><?=$this->braldun["nb_braldun_ko_braldun"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de meurtres Monstre</th>
-	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></td>
+	<td class="table_liste"><?=$this->braldun["nb_monstre_kill_braldun"] ?></td>
   </tr>
     <tr class="table_liste">
 	<th>Plaquages Soule Subis</th>
-	<td class="table_liste"><?=$this->hobbit["nb_plaque_hobbit"] ?></td>
+	<td class="table_liste"><?=$this->braldun["nb_plaque_braldun"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Plaquages Soule Effectués</th>
-	<td class="table_liste"><?=$this->hobbit["nb_hobbit_plaquage_hobbit"] ?></td>
+	<td class="table_liste"><?=$this->braldun["nb_braldun_plaquage_braldun"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Titre<? if (count($this->tabTitres) > 0) :
@@ -78,8 +78,8 @@
 	<td class="table_liste">
 	
 	<? if ($this->ancien === true) : ?>
-		<? if ($this->hobbit["titres_ancien_hobbit"] != "") : ?>
-			<?=$this->hobbit["titres_ancien_hobbit"]?>
+		<? if ($this->braldun["titres_ancien_braldun"] != "") : ?>
+			<?=$this->braldun["titres_ancien_braldun"]?>
 		<? else: ?>
 			Aucun Titre
 		<? endif;?>
@@ -110,8 +110,8 @@
 	</th>
 	<td class="table_liste">
 	<? if ($this->ancien === true) : ?>
-		<? if ($this->hobbit["metiers_ancien_hobbit"] != "") : ?>
-			<?=$this->hobbit["metiers_ancien_hobbit"]?>
+		<? if ($this->braldun["metiers_ancien_braldun"] != "") : ?>
+			<?=$this->braldun["metiers_ancien_braldun"]?>
 		<? else: ?>
 			Aucun m&eacute;tier
 		<? endif;?>
@@ -123,7 +123,7 @@
 		  	 	<?=$this->tabMetierCourant["nom"] ?>
 			<br /><br />
 		   	<? if (count($this->tabMetiers) >= 1): ?>
-		   		<? if ($this->hobbit["sexe_hobbit"] == "feminin") : ?>
+		   		<? if ($this->braldun["sexe_braldun"] == "feminin") : ?>
 		   		Elle
 		   		<? else: ?>
 		   		Il
@@ -166,7 +166,7 @@
 	  </tr>
 	  <tr class="table_liste">
 	  	<td class="table_liste" colspan="2" align="center">
-	  	<? if ($this->hobbit["est_en_hibernation_hobbit"] == "non") : ?>
+	  	<? if ($this->braldun["est_en_hibernation_braldun"] == "non") : ?>
 	  		N'est pas en hibernation
 	  	<? else: ?>
 	  		Est en hibernation
@@ -175,7 +175,7 @@
 	  </tr>
 	  <tr class="table_liste">
 		<td class="table_liste" colspan="2" align="center">
-	  	<? if ($this->hobbit["est_intangible_hobbit"] == "non") : ?>
+	  	<? if ($this->braldun["est_intangible_braldun"] == "non") : ?>
 	  		N'est pas intangible
 	  	<? else: ?>
 	  		Est intangible
@@ -184,7 +184,7 @@
 	  </tr>
 	  <tr class="table_liste">
 	  	<td class="table_liste" colspan="2" align="center">
-	  	<? if ($this->hobbit["est_pnj_hobbit"] == "non") : ?>
+	  	<? if ($this->braldun["est_pnj_braldun"] == "non") : ?>
 	  		N'est pas PNJ
 	  	<? else: ?>
 	  		Est PNJ
@@ -202,10 +202,10 @@
 	<table class="table_liste" style="width:90%;">
 	<tr class="table_liste">
 		<td class="table_liste" style="text-align:left; width:10%;'">
-			<?=Bral_Helper_Image::afficherBlason($this->hobbit["url_blason_hobbit"]); ?>
+			<?=Bral_Helper_Image::afficherBlason($this->braldun["url_blason_braldun"]); ?>
 		</td>
 		<td class="table_liste">
-			<?=Bral_Util_BBParser::bbcodeReplace($this->hobbit["description_hobbit"]); ?>
+			<?=Bral_Util_BBParser::bbcodeReplace($this->braldun["description_braldun"]); ?>
 		</td>
 	</tr>
 	</table>

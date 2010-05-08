@@ -33,9 +33,9 @@ class Bral_Administrationajax_Positionnervue extends Bral_Administrationajax_Adm
 		$idLieu = $this->request->get("id_lieu");
 		$xyzPosition = $this->request->get("xyz_position");
 		
-		$x = $this->view->user->x_hobbit;
-		$y = $this->view->user->y_hobbit;
-		$z = $this->view->user->z_hobbit;
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
+		$z = $this->view->user->z_braldun;
 		
 		if ($idVille != null) {
 			Bral_Util_Controle::getValeurIntVerif($idVille);

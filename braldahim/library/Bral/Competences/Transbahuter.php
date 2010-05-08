@@ -24,28 +24,28 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//liste des endroits
 		//On peut essayer de transbahuter pour le sol et le laban
 		$tabEndroit[1] = array("id_type_endroit" => 1,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-		$poidsRestantLaban = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabEndroit[2] = array("id_type_endroit" => 2,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban", "est_depart" => true, "poids_restant" => $poidsRestantLaban, "panneau" => true);
 
 		//Si on est sur une banque :
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun,$this->view->user->y_braldun);
 		if (count($banque) > 0) {
 			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 		}
 
 		//Si on est sur une echoppe
 		$echoppe = new Echoppe();
-		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($echoppeCase) > 0) {
-			if ($echoppeCase[0]["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe", "id_hobbit_echoppe" => $echoppeCase[0]["id_hobbit"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+			if ($echoppeCase[0]["id_braldun"] == $this->view->user->id_braldun) {
+				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				//$tabEndroit[6] = array("id_type_endroit" => 6,"nom_systeme" => "Echoppe", "nom_type_endroit" => "La caisse de votre échoppe", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$this->view->id_echoppe_depart = $echoppeCase[0]["id_echoppe"];
 			}
 			else {
-				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_hobbit"]." ".$echoppeCase[0]["nom_hobbit"], "id_hobbit_echoppe" => $echoppeCase[0]["id_hobbit"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_braldun"]." ".$echoppeCase[0]["nom_braldun"], "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 			}
 			$this->view->id_echoppe_arrivee = $echoppeCase[0]["id_echoppe"];
 		}
@@ -53,18 +53,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//Cas des charrettes
 		$nbendroit=7;
 		$charrette = new Charrette();
-		$tabCharrette = $charrette->findByPositionAvecHobbit($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$tabCharrette = $charrette->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		if ( count($tabCharrette) > 0) {
 			foreach ($tabCharrette as $c) {
 				Zend_Loader::loadClass("Bral_Util_Charrette");
-				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c["id_hobbit"]);
-				if ( $c["id_hobbit"] == $this->view->user->id_hobbit) {
+				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c["id_braldun"]);
+				if ( $c["id_braldun"] == $this->view->user->id_braldun) {
 					$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
-					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
+					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
 					$this->view->id_charrette_depart = $c["id_charrette"];
 				}
 				else {
-					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_hobbit"]." ".$c["nom_hobbit"]." (n°".$c["id_hobbit"].")", "est_depart" => false, "poids_restant" => $tabPoidsCharrette["place_restante"]);
+					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_braldun"]." ".$c["nom_braldun"]." (n°".$c["id_braldun"].")", "est_depart" => false, "poids_restant" => $tabPoidsCharrette["place_restante"]);
 				}
 				$nbendroit++;
 			}
@@ -177,9 +177,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$idCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
 		if ($idCoffre == -1) {
-			$this->view->id_hobbit_coffre = $this->view->user->id_hobbit;
+			$this->view->id_braldun_coffre = $this->view->user->id_braldun;
 		} else{
-			$this->view->id_hobbit_coffre = $idCoffre;
+			$this->view->id_braldun_coffre = $idCoffre;
 		}
 
 		$this->view->poidsOk = true;
@@ -194,10 +194,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($this->view->nbelement > 0) {
 		
 			if ($idArrivee == 4) {
-				Zend_Loader::loadClass("Hobbit");
-				$hobbit = new Hobbit();
-				$nomHobbit = $hobbit->findNomById($this->view->id_hobbit_coffre);
-				$this->view->arrivee = "le coffre de ".$nomHobbit;
+				Zend_Loader::loadClass("Braldun");
+				$braldun = new Braldun();
+				$nomBraldun = $braldun->findNomById($this->view->id_braldun_coffre);
+				$this->view->arrivee = "le coffre de ".$nomBraldun;
 			}
 			else {
 				$this->view->arrivee = $this->view->tabEndroit[$idArrivee]["nom_type_endroit"];
@@ -210,19 +210,19 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	
 			// Historique
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
-				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 	
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				$details = "[h".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
 			}
 	
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
-				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], true);
+				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], true);
 	
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				$details = "[h".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 			}
@@ -231,66 +231,66 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->detailEvenement = "";
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
 				$idEvenement = $this->view->config->game->evenements->type->ramasser;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé des éléments à terre ";
+				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a ramassé des éléments à terre ";
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element") {
 				$idEvenement = $this->view->config->game->evenements->type->deposer;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a déposé des éléments à terre ";
+				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a déposé des éléments à terre ";
 			}
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
 				$idEvenement = $this->view->config->game->evenements->type->service;
-				if ($this->view->id_hobbit_coffre != $this->view->user->id_hobbit && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre") {
+				if ($this->view->id_braldun_coffre != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre") {
 					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
+					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_coffre, $message, $this->view);
 					
-					$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans le coffre de [h".$this->view->id_hobbit_coffre."]";
-					$this->setDetailsEvenementCible($this->view->id_hobbit_coffre, "hobbit", 0, $messageCible);
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [h".$this->view->id_braldun_coffre."]";
+					$this->setDetailsEvenementCible($this->view->id_braldun_coffre, "braldun", 0, $messageCible);
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de la banque ";
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services de la banque ";
 				}
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" ) {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				if ($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"] != $this->view->user->id_hobbit) {
+				if ($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"] != $this->view->user->id_braldun) {
 					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
+					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], $message, $this->view);
 					
-					$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], "hobbit", 0, $messageCible);	
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
+					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);	
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans sa charrette ";
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
 				}
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" ) {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				if ($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit) {
+				if ($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"] != $this->view->user->id_braldun) {
 					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
+					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], $message, $this->view);
 					
-					$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], "hobbit", 0, $messageCible);	
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
+					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);	
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans son échoppe ";
+					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
 				}
 			}
 			if ($this->detailEvenement == "") {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
+				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments ";
 			}
 			
 			$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
@@ -301,15 +301,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	
 			$this->calculBalanceFaim();
 			$this->calculPoids();
-			$this->majHobbit();
+			$this->majBraldun();
 		}
 	}
 
 	function getListBoxRefresh() {
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun,$this->view->user->y_braldun);
 		$echoppe = new Echoppe();
-		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($banque) > 0) {
 			$tab = array("box_vue", "box_laban", "box_coffre", "box_charrette", "box_banque");
 		}
@@ -368,17 +368,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanEquipementTable = new LabanEquipement();
-				$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+				$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanEquipementTable);
 				break;
 			case "Element" :
 				$elementEquipementTable = new ElementEquipement();
-				$equipements = $elementEquipementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$equipements = $elementEquipementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementEquipementTable);
 				break;
 			case "Coffre" :
 				$coffreEquipementTable = new CoffreEquipement();
-				$equipements = $coffreEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+				$equipements = $coffreEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreEquipementTable);
 				break;
 			case "Charrette" :
@@ -481,7 +481,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										Zend_Loader::loadClass("LabanMunition");
 										$arriveeEquipementTable = new LabanMunition();
 										$data = array(
-										"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+										"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 										"id_fk_type_laban_munition" => $equipement["id_fk_type_munition_type_equipement"],
 										"quantite_laban_munition" => $equipement["nb_munition_type_equipement"],
 										);
@@ -491,7 +491,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										$arriveeEquipementTable = new LabanEquipement();
 										$data = array (
 											"id_laban_equipement" => $equipement["id_equipement"],
-											"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
+											"id_fk_braldun_laban_equipement" => $this->view->user->id_braldun,
 										);
 										$arriveeEquipementTable->insert($data);
 									}
@@ -506,9 +506,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										Zend_Loader::loadClass("ElementMunition");
 										$arriveeEquipementTable = new ElementMunition();
 										$data = array(
-										"x_element_munition" => $this->view->user->x_hobbit,
-										"y_element_munition" => $this->view->user->y_hobbit,
-										"z_element_munition" => $this->view->user->z_hobbit,
+										"x_element_munition" => $this->view->user->x_braldun,
+										"y_element_munition" => $this->view->user->y_braldun,
+										"z_element_munition" => $this->view->user->z_braldun,
 										"date_fin_element_munition" => $dateFin,
 										"id_fk_type_element_munition" => $equipement["id_fk_type_munition_type_equipement"],
 										"quantite_element_munition" => $equipement["nb_munition_type_equipement"],
@@ -519,9 +519,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										$arriveeEquipementTable = new ElementEquipement();
 										$data = array (
 											"id_element_equipement" => $equipement["id_equipement"],
-											"x_element_equipement" => $this->view->user->x_hobbit,
-											"y_element_equipement" => $this->view->user->y_hobbit,
-											"z_element_equipement" => $this->view->user->z_hobbit,
+											"x_element_equipement" => $this->view->user->x_braldun,
+											"y_element_equipement" => $this->view->user->y_braldun,
+											"z_element_equipement" => $this->view->user->z_braldun,
 											"date_fin_element_equipement" => $dateFin,
 										);
 										$arriveeEquipementTable->insert($data);
@@ -531,7 +531,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeEquipementTable = new CoffreEquipement();
 									$data = array (
 										"id_coffre_equipement" => $equipement["id_equipement"],
-										"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
+										"id_fk_braldun_coffre_equipement" => $this->view->id_braldun_coffre,
 									);
 									$arriveeEquipementTable->insert($data);
 									break;
@@ -567,7 +567,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_hobbit."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[h".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_TRANSBAHUTER_ID, $equipement["id_equipement"], $details);
 						}
 					}
@@ -584,17 +584,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($depart) {
 				case "Laban" :
 					$labanRuneTable = new LabanRune();
-					$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+					$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanRuneTable);
 					break;
 				case "Element" :
 					$elementRuneTable = new ElementRune();
-					$runes = $elementRuneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+					$runes = $elementRuneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementruneTable);
 					break;
 				case "Coffre" :
 					$coffreRuneTable = new CoffreRune();
-					$runes = $coffreRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+					$runes = $coffreRuneTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($coffreRuneTable);
 					break;
 				case "Charrette" :
@@ -694,7 +694,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeRuneTable = new LabanRune();
 									$data = array (
 										"id_rune_laban_rune" => $rune["id_rune"],
-										"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
+										"id_fk_braldun_laban_rune" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
 									break;
@@ -706,9 +706,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeRuneTable = new ElementRune();
 									$data = array (
 										"id_rune_element_rune" => $rune["id_rune"],
-										"x_element_rune" => $this->view->user->x_hobbit,
-										"y_element_rune" => $this->view->user->y_hobbit,
-										"z_element_rune" => $this->view->user->z_hobbit,
+										"x_element_rune" => $this->view->user->x_braldun,
+										"y_element_rune" => $this->view->user->y_braldun,
+										"z_element_rune" => $this->view->user->z_braldun,
 										"date_fin_element_rune" => $dateFin,
 									);
 									break;
@@ -716,7 +716,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeRuneTable = new CoffreRune();
 									$data = array (
 									"id_rune_coffre_rune" => $rune["id_rune"],
-									"id_fk_hobbit_coffre_rune" => $this->view->id_hobbit_coffre,
+									"id_fk_braldun_coffre_rune" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -736,7 +736,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_hobbit."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[h".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
 						}
 					}
@@ -753,17 +753,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanPotionTable = new LabanPotion();
-				$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+				$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanPotionTable);
 				break;
 			case "Element" :
 				$elementPotionTable = new ElementPotion();
-				$potions = $elementPotionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$potions = $elementPotionTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementPotionTable);
 				break;
 			case "Coffre" :
 				$coffrePotionTable = new CoffrePotion();
-				$potions = $coffrePotionTable->findByIdHobbit($this->view->user->id_hobbit);
+				$potions = $coffrePotionTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffrePotionTable);
 				break;
 			case "Charrette" :
@@ -862,7 +862,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveePotionTable = new LabanPotion();
 									$data = array (
 										"id_laban_potion" => $potion["id_potion"],
-										"id_fk_hobbit_laban_potion" => $this->view->user->id_hobbit,
+										"id_fk_braldun_laban_potion" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
 									break;
@@ -874,9 +874,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveePotionTable = new ElementPotion();
 									$data = array (
 										"id_element_potion" => $potion["id_potion"],
-										"x_element_potion" => $this->view->user->x_hobbit,
-										"y_element_potion" => $this->view->user->y_hobbit,
-										"z_element_potion" => $this->view->user->z_hobbit,
+										"x_element_potion" => $this->view->user->x_braldun,
+										"y_element_potion" => $this->view->user->y_braldun,
+										"z_element_potion" => $this->view->user->z_braldun,
 										"date_fin_element_potion" => $dateFin,
 									);
 									break;
@@ -884,7 +884,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveePotionTable = new CoffrePotion();
 									$data = array (
 										"id_coffre_potion" => $potion["id_potion"],
-										"id_fk_hobbit_coffre_potion" => $this->view->id_hobbit_coffre,
+										"id_fk_braldun_coffre_potion" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -910,7 +910,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_hobbit."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[h".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_TRANSBAHUTER_ID, $potion["id_potion"], $details);
 						}
 					}
@@ -927,17 +927,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($depart) {
 				case "Laban" :
 					$labanAlimentTable = new LabanAliment();
-					$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+					$aliments = $labanAlimentTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanAlimentTable);
 					break;
 				case "Element" :
 					$elementAlimentTable = new ElementAliment();
-					$aliments = $elementAlimentTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+					$aliments = $elementAlimentTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementAlimentTable);
 					break;
 				case "Coffre" :
 					$coffreAlimentTable = new CoffreAliment();
-					$aliments = $coffreAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+					$aliments = $coffreAlimentTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($coffreAlimentTable);
 					break;
 				case "Charrette" :
@@ -1026,7 +1026,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeAlimentTable = new LabanAliment();
 									$data = array (
 										"id_laban_aliment" => $aliment["id_aliment"],
-										"id_fk_hobbit_laban_aliment" => $this->view->user->id_hobbit,
+										"id_fk_braldun_laban_aliment" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
 									break;
@@ -1038,9 +1038,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeAlimentTable = new ElementAliment();
 									$data = array (
 												"id_element_aliment" => $aliment["id_aliment"],
-												"x_element_aliment" => $this->view->user->x_hobbit,
-												"y_element_aliment" => $this->view->user->y_hobbit,
-												"z_element_aliment" => $this->view->user->z_hobbit,
+												"x_element_aliment" => $this->view->user->x_braldun,
+												"y_element_aliment" => $this->view->user->y_braldun,
+												"z_element_aliment" => $this->view->user->z_braldun,
 												"date_fin_element_aliment" => $dateFin,
 									);
 									break;
@@ -1048,7 +1048,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeAlimentTable = new CoffreAliment();
 									$data = array (
 										"id_coffre_aliment" => $aliment["id_aliment"],
-										"id_fk_hobbit_coffre_aliment" => $this->view->id_hobbit_coffre,
+										"id_fk_braldun_coffre_aliment" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -1078,17 +1078,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($depart) {
 				case "Laban" :
 					$labanMunitionTable = new LabanMunition();
-					$munitions = $labanMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+					$munitions = $labanMunitionTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanMunitionTable);
 					break;
 				case "Element" :
 					$elementMunitionTable = new ElementMunition();
-					$munitions = $elementMunitionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+					$munitions = $elementMunitionTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementMunitionTable);
 					break;
 				case "Coffre" :
 					$coffreMunitionTable = new CoffreMunition();
-					$munitions = $coffreMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+					$munitions = $coffreMunitionTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($coffreMunitionTable);
 					break;
 				case "Charrette" :
@@ -1167,15 +1167,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_laban_munition" => -$nbMunition,
 											"id_fk_type_laban_munition" => $munition["id_type_munition"],
-											"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+											"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 									);
 									break;
 								case "Element" :
 									$departMunitionTable = new ElementMunition();
 									$data = array (
-											"x_element_munition" => $this->view->user->x_hobbit,
-											"y_element_munition" => $this->view->user->y_hobbit,
-											"z_element_munition" => $this->view->user->z_hobbit,
+											"x_element_munition" => $this->view->user->x_braldun,
+											"y_element_munition" => $this->view->user->y_braldun,
+											"z_element_munition" => $this->view->user->z_braldun,
 											"id_fk_type_element_munition" => $munition["id_type_munition"],
 											"quantite_element_munition" => -$nbMunition,
 									);
@@ -1185,7 +1185,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_coffre_munition" => -$nbMunition,
 											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_hobbit_coffre_munition" => $this->view->user->id_hobbit,
+											"id_fk_braldun_coffre_munition" => $this->view->user->id_braldun,
 									);
 									break;
 								case "Charrette" :
@@ -1207,7 +1207,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_laban_munition" => $nbMunition,
 											"id_fk_type_laban_munition" => $munition["id_type_munition"],
-											"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+											"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
 									break;
@@ -1218,9 +1218,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	
 									$arriveeMunitionTable = new ElementMunition();
 									$data = array (
-										"x_element_munition" => $this->view->user->x_hobbit,
-										"y_element_munition" => $this->view->user->y_hobbit,
-										"z_element_munition" => $this->view->user->z_hobbit,
+										"x_element_munition" => $this->view->user->x_braldun,
+										"y_element_munition" => $this->view->user->y_braldun,
+										"z_element_munition" => $this->view->user->z_braldun,
 										"id_fk_type_element_munition" => $munition["id_type_munition"],
 										"quantite_element_munition" => $nbMunition,
 										'date_fin_element_munition' => $dateFin,
@@ -1231,7 +1231,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_coffre_munition" => $nbMunition,
 											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_hobbit_coffre_munition" => $this->view->id_hobbit_coffre,
+											"id_fk_braldun_coffre_munition" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -1266,17 +1266,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanMineraiTable = new labanMinerai();
-				$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+				$minerais = $labanMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanMineraiTable);
 				break;
 			case "Element" :
 				$elementMineraiTable = new ElementMinerai();
-				$minerais = $elementMineraiTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$minerais = $elementMineraiTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementMineraiTable);
 				break;
 			case "Coffre" :
 				$coffreMineraiTable = new CoffreMinerai();
-				$minerais = $coffreMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+				$minerais = $coffreMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreMineraiTable);
 				break;
 			case "Charrette" :
@@ -1384,7 +1384,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$departMineraiTable = new LabanMinerai();
 							$data = array(
 								'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_minerai"],
-								'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+								'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
 								'quantite_brut_laban_minerai' => -$nbBrut,
 								'quantite_lingots_laban_minerai' => -$nbLingot,
 							);
@@ -1392,9 +1392,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Element" :
 							$departMineraiTable = new ElementMinerai();
 							$data = array (
-								"x_element_minerai" => $this->view->user->x_hobbit,
-								"y_element_minerai" => $this->view->user->y_hobbit,
-								"z_element_minerai" => $this->view->user->z_hobbit,
+								"x_element_minerai" => $this->view->user->x_braldun,
+								"y_element_minerai" => $this->view->user->y_braldun,
+								"z_element_minerai" => $this->view->user->z_braldun,
 								"id_fk_type_element_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 								"quantite_brut_element_minerai" => -$nbBrut,
 								"quantite_lingots_element_minerai" => -$nbLingot,
@@ -1403,7 +1403,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departMineraiTable = new CoffreMinerai();
 							$data = array (
-								"id_fk_hobbit_coffre_minerai" => $this->view->user->id_hobbit,
+								"id_fk_braldun_coffre_minerai" => $this->view->user->id_braldun,
 								"id_fk_type_coffre_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 								"quantite_brut_coffre_minerai" => -$nbBrut,
 								"quantite_lingots_coffre_minerai" => -$nbLingot,
@@ -1438,7 +1438,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_brut_laban_minerai" => $nbBrut,
 								"quantite_lingots_laban_minerai" => $nbLingot,
 								"id_fk_type_laban_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
-								"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
+								"id_fk_braldun_laban_minerai" => $this->view->user->id_braldun,
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MINERAI * $nbBrut - Bral_Util_Poids::POIDS_LINGOT * $nbLingot;
 							break;
@@ -1448,9 +1448,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 	
 							$arriveeMineraiTable = new ElementMinerai();
-							$data = array("x_element_minerai" => $this->view->user->x_hobbit,
-								  "y_element_minerai" => $this->view->user->y_hobbit,
-								  "z_element_minerai" => $this->view->user->z_hobbit,
+							$data = array("x_element_minerai" => $this->view->user->x_braldun,
+								  "y_element_minerai" => $this->view->user->y_braldun,
+								  "z_element_minerai" => $this->view->user->z_braldun,
 								  'quantite_brut_element_minerai' => $nbBrut,
 								  'quantite_lingots_element_minerai' => $nbLingot,
 								  'id_fk_type_element_minerai' => $this->view->minerais[$indice]["id_fk_type_minerai"],
@@ -1460,7 +1460,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeMineraiTable = new CoffreMinerai();
 							$data = array (
-								"id_fk_hobbit_coffre_minerai" => $this->view->id_hobbit_coffre,
+								"id_fk_braldun_coffre_minerai" => $this->view->id_braldun_coffre,
 								"id_fk_type_coffre_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 								"quantite_brut_coffre_minerai" => $nbBrut,
 								"quantite_lingots_coffre_minerai" => $nbLingot,
@@ -1502,17 +1502,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanPartiePlanteTable = new LabanPartieplante();
-				$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+				$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanPartiePlanteTable);
 				break;
 			case "Element" :
 				$elementPartiePlanteTable = new ElementPartieplante();
-				$partiePlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$partiePlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementPartiePlanteTable);
 				break;
 			case "Coffre" :
 				$coffrePartiePlanteTable = new CoffrePartieplante();
-				$partiePlantes = $coffrePartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+				$partiePlantes = $coffrePartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffrePartiePlanteTable);
 				break;
 			case "Charrette" :
@@ -1628,7 +1628,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 								'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
-								'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+								'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
 								'quantite_laban_partieplante' => -$nbBrutes,
 								'quantite_preparee_laban_partieplante' => -$nbPreparees
 							);
@@ -1636,9 +1636,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Element" :
 							$departPartiePlanteTable = new ElementPartieplante();
 							$data = array (
-									"x_element_partieplante" => $this->view->user->x_hobbit,
-									"y_element_partieplante" => $this->view->user->y_hobbit,
-									"z_element_partieplante" => $this->view->user->z_hobbit,
+									"x_element_partieplante" => $this->view->user->x_braldun,
+									"y_element_partieplante" => $this->view->user->y_braldun,
+									"z_element_partieplante" => $this->view->user->z_braldun,
 									"id_fk_type_element_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 									"id_fk_type_plante_element_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 									"quantite_element_partieplante" => -$nbBrutes,
@@ -1650,7 +1650,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 								'id_fk_type_coffre_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								'id_fk_type_plante_coffre_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
-								'id_fk_hobbit_coffre_partieplante' => $this->view->user->id_hobbit,
+								'id_fk_braldun_coffre_partieplante' => $this->view->user->id_braldun,
 								'quantite_coffre_partieplante' => -$nbBrutes,
 								'quantite_preparee_coffre_partieplante' => -$nbPreparees
 							);
@@ -1684,7 +1684,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Laban" :
 							$arriveePartiePlanteTable = new LabanPartieplante();
 							$data = array (
-								"id_fk_hobbit_laban_partieplante" => $this->view->id_hobbit_coffre,
+								"id_fk_braldun_laban_partieplante" => $this->view->id_braldun_coffre,
 								"id_fk_type_laban_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								"id_fk_type_plante_laban_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 								"quantite_laban_partieplante" => $nbBrutes,
@@ -1698,9 +1698,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 	
 							$arriveePartiePlanteTable = new ElementPartieplante();
-							$data = array("x_element_partieplante" => $this->view->user->x_hobbit,
-								  "y_element_partieplante" => $this->view->user->y_hobbit,
-								  "z_element_partieplante" => $this->view->user->z_hobbit,
+							$data = array("x_element_partieplante" => $this->view->user->x_braldun,
+								  "y_element_partieplante" => $this->view->user->y_braldun,
+								  "z_element_partieplante" => $this->view->user->z_braldun,
 								  'quantite_element_partieplante' => $nbBrutes,
 								  'quantite_preparee_element_partieplante' => $nbPreparees,
 								  'id_fk_type_element_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -1711,7 +1711,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveePartiePlanteTable = new CoffrePartieplante();
 							$data = array (
-								"id_fk_hobbit_coffre_partieplante" => $this->view->id_hobbit_coffre,
+								"id_fk_braldun_coffre_partieplante" => $this->view->id_braldun_coffre,
 								"id_fk_type_coffre_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								"id_fk_type_plante_coffre_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 								"quantite_coffre_partieplante" => $nbBrutes,
@@ -1758,17 +1758,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($depart) {
 				case "Laban" :
 					$labanTabacTable = new LabanTabac();
-					$tabacs = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+					$tabacs = $labanTabacTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanTabacTable);
 					break;
 				case "Element" :
 					$elementTabacTable = new ElementTabac();
-					$tabacs = $elementTabacTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+					$tabacs = $elementTabacTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementTabacTable);
 					break;
 				case "Coffre" :
 					$coffreTabacTable = new CoffreTabac();
-					$tabacs = $coffreTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+					$tabacs = $coffreTabacTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($coffreTabacTable);
 					break;
 				case "Charrette" :
@@ -1843,15 +1843,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_laban_tabac" => -$nbTabac,
 											"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
-											"id_fk_hobbit_laban_tabac" => $this->view->user->id_hobbit,
+											"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
 									);
 									break;
 								case "Element" :
 									$departTabacTable = new ElementTabac();
 									$data = array (
-											"x_element_tabac" => $this->view->user->x_hobbit,
-											"y_element_tabac" => $this->view->user->y_hobbit,
-											"z_element_tabac" => $this->view->user->z_hobbit,
+											"x_element_tabac" => $this->view->user->x_braldun,
+											"y_element_tabac" => $this->view->user->y_braldun,
+											"z_element_tabac" => $this->view->user->z_braldun,
 											"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
 											"quantite_feuille_element_tabac" => -$nbTabac,
 									);
@@ -1861,7 +1861,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_coffre_tabac" => -$nbTabac,
 											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_hobbit_coffre_tabac" => $this->view->user->id_hobbit,
+											"id_fk_braldun_coffre_tabac" => $this->view->user->id_braldun,
 									);
 									break;
 								case "Charrette" :
@@ -1883,16 +1883,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_laban_tabac" => $nbTabac,
 											"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
-											"id_fk_hobbit_laban_tabac" => $this->view->user->id_hobbit,
+											"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbTabac;
 									break;
 								case "Element" :
 									$arriveeTabacTable = new ElementTabac();
 									$data = array (
-										"x_element_tabac" => $this->view->user->x_hobbit,
-										"y_element_tabac" => $this->view->user->y_hobbit,
-										"z_element_tabac" => $this->view->user->z_hobbit,
+										"x_element_tabac" => $this->view->user->x_braldun,
+										"y_element_tabac" => $this->view->user->y_braldun,
+										"z_element_tabac" => $this->view->user->z_braldun,
 										"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
 										"quantite_feuille_element_tabac" => $nbTabac,
 									);
@@ -1902,7 +1902,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_coffre_tabac" => $nbTabac,
 											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_hobbit_coffre_tabac" => $this->view->id_hobbit_coffre,
+											"id_fk_braldun_coffre_tabac" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -1933,17 +1933,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanMaterielTable = new LabanMateriel();
-				$materiels = $labanMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+				$materiels = $labanMaterielTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanMaterielTable);
 				break;
 			case "Element" :
 				$elementMaterielTable = new ElementMateriel();
-				$materiels = $elementMaterielTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$materiels = $elementMaterielTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementMaterielTable);
 				break;
 			case "Coffre" :
 				$coffreMaterielTable = new CoffreMateriel();
-				$materiels = $coffreMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+				$materiels = $coffreMaterielTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreMaterielTable);
 				break;
 			case "Charrette" :
@@ -2039,7 +2039,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeMaterielTable = new LabanMateriel();
 									$data = array (
 										"id_laban_materiel" => $materiel["id_materiel"],
-										"id_fk_hobbit_laban_materiel" => $this->view->user->id_hobbit,
+										"id_fk_braldun_laban_materiel" => $this->view->user->id_braldun,
 									);
 									$this->view->poidsRestant = $this->view->poidsRestant - $materiel["poids"];
 									break;
@@ -2051,9 +2051,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeMaterielTable = new ElementMateriel();
 									$data = array (
 										"id_element_materiel" => $materiel["id_materiel"],
-										"x_element_materiel" => $this->view->user->x_hobbit,
-										"y_element_materiel" => $this->view->user->y_hobbit,
-										"z_element_materiel" => $this->view->user->z_hobbit,
+										"x_element_materiel" => $this->view->user->x_braldun,
+										"y_element_materiel" => $this->view->user->y_braldun,
+										"z_element_materiel" => $this->view->user->z_braldun,
 										"date_fin_element_materiel" => $dateFin,
 									);
 									break;
@@ -2061,7 +2061,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeMaterielTable = new CoffreMateriel();
 									$data = array (
 										"id_coffre_materiel" => $materiel["id_materiel"],
-										"id_fk_hobbit_coffre_materiel" => $this->view->id_hobbit_coffre,
+										"id_fk_braldun_coffre_materiel" => $this->view->id_braldun_coffre,
 									);
 									break;
 								case "Charrette" :
@@ -2084,7 +2084,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_hobbit."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[h".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
 						}
 					}
@@ -2101,17 +2101,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanGraineTable = new LabanGraine();
-				$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+				$graines = $labanGraineTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanGraineTable);
 				break;
 			case "Element" :
 				$elementGraineTable = new ElementGraine();
-				$graines = $elementGraineTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$graines = $elementGraineTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementGraineTable);
 				break;
 			case "Coffre" :
 				$coffreGraineTable = new CoffreGraine();
-				$graines = $coffreGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+				$graines = $coffreGraineTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreGraineTable);
 				break;
 			case "Charrette" :
@@ -2193,16 +2193,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$departGraineTable = new LabanGraine();
 							$data = array(
 								'id_fk_type_laban_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
-								'id_fk_hobbit_laban_graine' => $this->view->user->id_hobbit,
+								'id_fk_braldun_laban_graine' => $this->view->user->id_braldun,
 								'quantite_laban_graine' => -$nb,
 							);
 							break;
 						case "Element" :
 							$departGraineTable = new ElementGraine();
 							$data = array (
-								"x_element_graine" => $this->view->user->x_hobbit,
-								"y_element_graine" => $this->view->user->y_hobbit,
-								"z_element_graine" => $this->view->user->z_hobbit,
+								"x_element_graine" => $this->view->user->x_braldun,
+								"y_element_graine" => $this->view->user->y_braldun,
+								"z_element_graine" => $this->view->user->z_braldun,
 								"id_fk_type_element_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_element_graine" => -$nb,
 							);
@@ -2210,7 +2210,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departGraineTable = new CoffreGraine();
 							$data = array (
-								"id_fk_hobbit_coffre_graine" => $this->view->user->id_hobbit,
+								"id_fk_braldun_coffre_graine" => $this->view->user->id_braldun,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => -$nb,
 							);
@@ -2241,7 +2241,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 								"quantite_laban_graine" => $nb,
 								"id_fk_type_laban_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
-								"id_fk_hobbit_laban_graine" => $this->view->user->id_hobbit,
+								"id_fk_braldun_laban_graine" => $this->view->user->id_braldun,
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 							break;
@@ -2251,9 +2251,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 	
 							$arriveeGraineTable = new ElementGraine();
-							$data = array("x_element_graine" => $this->view->user->x_hobbit,
-								  "y_element_graine" => $this->view->user->y_hobbit,
-								  "z_element_graine" => $this->view->user->z_hobbit,
+							$data = array("x_element_graine" => $this->view->user->x_braldun,
+								  "y_element_graine" => $this->view->user->y_braldun,
+								  "z_element_graine" => $this->view->user->z_braldun,
 								  'quantite_element_graine' => $nb,
 								  'id_fk_type_element_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
 								  'date_fin_element_graine' => $dateFin,
@@ -2262,7 +2262,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeGraineTable = new CoffreGraine();
 							$data = array (
-								"id_fk_hobbit_coffre_graine" => $this->view->id_hobbit_coffre,
+								"id_fk_braldun_coffre_graine" => $this->view->id_braldun_coffre,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => $nb,
 							);
@@ -2303,17 +2303,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanIngredientTable = new LabanIngredient();
-				$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanIngredientTable);
 				break;
 			case "Element" :
 				$elementIngredientTable = new ElementIngredient();
-				$ingredients = $elementIngredientTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$ingredients = $elementIngredientTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementIngredientTable);
 				break;
 			case "Coffre" :
 				$coffreIngredientTable = new CoffreIngredient();
-				$ingredients = $coffreIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				$ingredients = $coffreIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreIngredientTable);
 				break;
 			case "Charrette" :
@@ -2395,16 +2395,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$departIngredientTable = new LabanIngredient();
 							$data = array(
 								'id_fk_type_laban_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
-								'id_fk_hobbit_laban_ingredient' => $this->view->user->id_hobbit,
+								'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
 								'quantite_laban_ingredient' => -$nb,
 							);
 							break;
 						case "Element" :
 							$departIngredientTable = new ElementIngredient();
 							$data = array (
-								"x_element_ingredient" => $this->view->user->x_hobbit,
-								"y_element_ingredient" => $this->view->user->y_hobbit,
-								"z_element_ingredient" => $this->view->user->z_hobbit,
+								"x_element_ingredient" => $this->view->user->x_braldun,
+								"y_element_ingredient" => $this->view->user->y_braldun,
+								"z_element_ingredient" => $this->view->user->z_braldun,
 								"id_fk_type_element_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_element_ingredient" => -$nb,
 							);
@@ -2412,7 +2412,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departIngredientTable = new CoffreIngredient();
 							$data = array (
-								"id_fk_hobbit_coffre_ingredient" => $this->view->user->id_hobbit,
+								"id_fk_braldun_coffre_ingredient" => $this->view->user->id_braldun,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => -$nb,
 							);
@@ -2443,7 +2443,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 								"quantite_laban_ingredient" => $nb,
 								"id_fk_type_laban_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
-								"id_fk_hobbit_laban_ingredient" => $this->view->user->id_hobbit,
+								"id_fk_braldun_laban_ingredient" => $this->view->user->id_braldun,
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 							break;
@@ -2453,9 +2453,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 	
 							$arriveeIngredientTable = new ElementIngredient();
-							$data = array("x_element_ingredient" => $this->view->user->x_hobbit,
-								  "y_element_ingredient" => $this->view->user->y_hobbit,
-								  "z_element_ingredient" => $this->view->user->z_hobbit,
+							$data = array("x_element_ingredient" => $this->view->user->x_braldun,
+								  "y_element_ingredient" => $this->view->user->y_braldun,
+								  "z_element_ingredient" => $this->view->user->z_braldun,
 								  'quantite_element_ingredient' => $nb,
 								  'id_fk_type_element_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								  'date_fin_element_ingredient' => $dateFin,
@@ -2464,7 +2464,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeIngredientTable = new CoffreIngredient();
 							$data = array (
-								"id_fk_hobbit_coffre_ingredient" => $this->view->id_hobbit_coffre,
+								"id_fk_braldun_coffre_ingredient" => $this->view->id_braldun_coffre,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => $nb,
 							);
@@ -2509,7 +2509,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($depart) {
 			case "Laban" :
 				$labanTable = new Laban();
-				$autres = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+				$autres = $labanTable->findByIdBraldun($this->view->user->id_braldun);
 				if ($autres == null) { // si l'on a pas de laban
 					$autres [0] = array(
 						"quantite_castar_".strtolower($depart) => 0,
@@ -2520,19 +2520,19 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"quantite_rondin_".strtolower($depart) => 0,
 					);
 				}
-				if ($this->view->user->castars_hobbit > 0) {
-					$autres[0]["quantite_castar_laban"] = $this->view->user->castars_hobbit;
+				if ($this->view->user->castars_braldun > 0) {
+					$autres[0]["quantite_castar_laban"] = $this->view->user->castars_braldun;
 				}
 				unset($labanTable);
 				break;
 			case "Element" :
 				$elementTable = new Element();
-				$autres = $elementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				$autres = $elementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementTable);
 				break;
 			case "Coffre" :
 				$coffreTable = new Coffre();
-				$autres = $coffreTable->findByIdHobbit($this->view->user->id_hobbit);
+				$autres = $coffreTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($coffreTable);
 				break;
 			case "Charrette" :
@@ -2634,16 +2634,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->nbelement = $this->view->nbelement + 1;
 					$data = array(
 						"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
-						"id_fk_hobbit_".strtolower($depart) => $this->view->user->id_hobbit,
+						"id_fk_braldun_".strtolower($depart) => $this->view->user->id_braldun,
 					);
 					$departTable = null;
 					switch ($depart) {
 						case "Laban" :
 							if ($nom_systeme == "castar") {
-								if ($nb > $this->view->user->castars_hobbit) {
-									$nb = $this->view->user->castars_hobbit;
+								if ($nb > $this->view->user->castars_braldun) {
+									$nb = $this->view->user->castars_braldun;
 								}
-								$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $nb;
+								$this->view->user->castars_braldun = $this->view->user->castars_braldun - $nb;
 							} else {
 								$departTable = new Laban();
 							}
@@ -2652,9 +2652,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$departTable = new Element();
 							$data = array(
 								"quantite_".$nom_systeme."_element" => -$nb,
-								"x_element" => $this->view->user->x_hobbit,
-								"y_element" => $this->view->user->y_hobbit,
-								"z_element" => $this->view->user->z_hobbit,
+								"x_element" => $this->view->user->x_braldun,
+								"y_element" => $this->view->user->y_braldun,
+								"z_element" => $this->view->user->z_braldun,
 							);
 							break;
 						case "Coffre" :
@@ -2680,14 +2680,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					switch ($arrivee) {
 						case "Laban" :
 							if ($nom_systeme == "castar") {
-								$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nb;
+								$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
 								$this->view->elementsRetires .= $nb. " castar";
 								if ($nb > 1) $this->view->elementsRetires .= "s";
 								$this->view->elementsRetires .= ", ";
 							} else {
 								$data = array(
 									"quantite_".$nom_systeme."_laban" => $nb,
-									"id_fk_hobbit_laban" => $this->view->user->id_hobbit,
+									"id_fk_braldun_laban" => $this->view->user->id_braldun,
 								);
 								$arriveeTable = new Laban();
 							}
@@ -2696,16 +2696,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Element" :
 							$data = array(
 									"quantite_".$nom_systeme."_element" => $nb,
-									"x_element" => $this->view->user->x_hobbit,
-									"y_element" => $this->view->user->y_hobbit,
-									"z_element" => $this->view->user->z_hobbit,
+									"x_element" => $this->view->user->x_braldun,
+									"y_element" => $this->view->user->y_braldun,
+									"z_element" => $this->view->user->z_braldun,
 							);
 							$arriveeTable = new Element();
 							break;
 						case "Coffre" :
 							$data = array(
 									"quantite_".$nom_systeme."_coffre" => $nb,
-									"id_fk_hobbit_coffre" => $this->view->id_hobbit_coffre,
+									"id_fk_braldun_coffre" => $this->view->id_braldun_coffre,
 							);
 							$arriveeTable = new Coffre();
 							break;

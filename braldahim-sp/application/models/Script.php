@@ -31,11 +31,11 @@ class Script extends Zend_Db_Table {
 		return $resultat[0]["nombre"];
 	}
 
-	public function countByIdHobbitAndType($idHobbit, $type) {
+	public function countByIdBraldunAndType($idBraldun, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('script', 'count(*) as nombre')
-		->where('id_fk_hobbit_script = ?', intval($idHobbit))
+		->where('id_fk_braldun_script = ?', intval($idBraldun))
 		->where('type_script = ?', $type);
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);

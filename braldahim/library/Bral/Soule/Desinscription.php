@@ -31,8 +31,8 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 		$this->calculNbPa();
 		$this->calculNbCastars();
 
-		if ($this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
-			$match = Bral_Util_Soule::desincriptionPrepareTerrain($this->view->user->id_hobbit);
+		if ($this->view->assezDePa && $this->view->user->est_engage_braldun == "non") {
+			$match = Bral_Util_Soule::desincriptionPrepareTerrain($this->view->user->id_braldun);
 			$this->view->match = $match;
 			if ($this->view->match != null) {
 				$this->view->desinscriptionPossible = true;
@@ -53,23 +53,23 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 			throw new Zend_Exception(get_class($this)."match invalide");
 		}
 
-		Bral_Util_Soule::calculDesinscriptionBd($this->view->match["id_soule_match"], $this->view->user->id_hobbit);
+		Bral_Util_Soule::calculDesinscriptionBd($this->view->match["id_soule_match"], $this->view->user->id_braldun);
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
-		if ($this->view->user->castars_hobbit < 0) {
-			$this->view->user->castars_hobbit = 0;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->nb_castars;
+		if ($this->view->user->castars_braldun < 0) {
+			$this->view->user->castars_braldun = 0;
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
+		$details = "[h".$this->view->user->id_braldun."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;
 		$this->setDetailsEvenement($details, $idType);
 
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	public function calculNbPa() {
 		$this->view->nb_pa = 2;
-		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
+		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -78,7 +78,7 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 
 	public function calculNbCastars() {
 		$this->view->nb_castars = 10;
-		if ($this->view->user->castars_hobbit - $this->view->nb_castars < 0) {
+		if ($this->view->user->castars_braldun - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {
 			$this->view->assezDeCastars = true;

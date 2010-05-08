@@ -63,7 +63,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 	}
 
 	private function prepareListe() {
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit, true);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun, true);
 	}
 
 	private function prepareNouveau() {
@@ -105,7 +105,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 			
 		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
 		$validDestinataires = $validateurDestinataires->isValid($destinataires);
-		$destinataires = Bral_Util_Messagerie::constructTabHobbit($destinataires, "valeur_3");
+		$destinataires = Bral_Util_Messagerie::constructTabBraldun($destinataires, "valeur_3");
 
 		if ($validDestinataires) {
 			$nom = $filter->filter(trim($this->request->get('valeur_4')));
@@ -113,9 +113,9 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 			$description = stripslashes($filter->filter(trim($this->request->get('valeur_5'))));
 			$validateurNom = new Bral_Validate_StringLength(1, 40);
 			$validateurDescription = new Bral_Validate_StringLength(1, 200);
-			if (count($destinataires["hobbits"]) == 1) {
-				$hobbit = current($destinataires["hobbits"]);
-				$nom = $hobbit["prenom_hobbit"]. " ". $hobbit["nom_hobbit"];
+			if (count($destinataires["bralduns"]) == 1) {
+				$braldun = current($destinataires["bralduns"]);
+				$nom = $braldun["prenom_braldun"]. " ". $braldun["nom_braldun"];
 				if ($description == null || $description == "") {
 					$description = "Contact unique : ".$nom;
 				}
@@ -130,7 +130,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 
 		if ($validDestinataires && $validNom && $validDescription) {
 			$data = array(
-				"userid" => $this->view->user->id_hobbit,
+				"userid" => $this->view->user->id_braldun,
 				"name" => $nom,
 				"description" => $description,
 				"userids" => $destinataires["destinataires"],
@@ -140,7 +140,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 				$id = $messagerieContactsTable->insert($data);
 				$this->view->information = "La liste ". $nom ." est créée";
 			} else { // update
-				$where = " userid = ". $this->view->user->id_hobbit; // secu
+				$where = " userid = ". $this->view->user->id_braldun; // secu
 				$where .= " AND id=".intval($id);
 				$messagerieContactsTable->update($data, $where);
 				$this->view->information = "La liste ". $nom ." est modifiée";
@@ -187,14 +187,14 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 
 	private function prepareContactsListe($id) {
 		$messagerieContactsTable = new MessagerieContacts();
-		$rowset = $messagerieContactsTable->findByIdList($id, $this->view->user->id_hobbit);
+		$rowset = $messagerieContactsTable->findByIdList($id, $this->view->user->id_braldun);
 		if ($rowset == null) {
-			throw new Zend_Exception("Bral_Messagerie_Contacts::prepareEditer Valeur invalide : id=".$id. " id2=".$this->view->user->id_hobbit);
+			throw new Zend_Exception("Bral_Messagerie_Contacts::prepareEditer Valeur invalide : id=".$id. " id2=".$this->view->user->id_braldun);
 		}
 
 		$rowset = $rowset->toArray();
 
-		$destinataires = Bral_Util_Messagerie::constructTabHobbit($rowset["userids"], "valeur_3");
+		$destinataires = Bral_Util_Messagerie::constructTabBraldun($rowset["userids"], "valeur_3");
 
 		$contactsListe = array(
 			"id" => $rowset["id"],
@@ -215,7 +215,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 		Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 		$id = $filter->filter(trim($this->request->get('valeur_2')));
 
-		$where = " userid = ". $this->view->user->id_hobbit; // secu
+		$where = " userid = ". $this->view->user->id_braldun; // secu
 		$where .= " AND id=".intval($id);
 		$messagerieContactsTable->delete($where);
 		$this->view->information = "La liste est supprimée";

@@ -18,7 +18,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Route");
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, "toutes");
+		$routes = $routeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, "toutes");
 
 		$this->route = null;
 		if (count($routes) > 0) {
@@ -39,7 +39,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		$this->calculDefricher();
@@ -47,7 +47,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculDefricher() {
@@ -60,7 +60,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 			$this->view->routeTrouvee = true;
 
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a défriché une route";
+			$details = "[h".$this->view->user->id_braldun."] a défriché une route";
 			$this->setDetailsEvenement($details, $idType);
 			$this->setEvenementQueSurOkJet1(false);
 			

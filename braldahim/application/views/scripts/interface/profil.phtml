@@ -1,18 +1,18 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
   <ul class="titre textalia textsizec">
-  	<a class="titre textalia textsizec" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->user->id_hobbit ?>');" title="Cliquez pour voir votre profil">
+  	<a class="titre textalia textsizec" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
   		Mon Profil
-  	</a>, n&deg;<?=$this->user->id_hobbit;?></ul>
-  <ul class="titre textalib textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
-  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
-  	<?=$this->user->titre_courant_hobbit?>
+  	</a>, n&deg;<?=$this->user->id_braldun;?></ul>
+  <ul class="titre textalib textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
+  <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
+  	<?=$this->user->titre_courant_braldun?>
   <? endif;?>
   </ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
 	  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
-			PA <?=$this->user->pa_hobbit ?>&nbsp;&nbsp;
+			PA <?=$this->user->pa_braldun ?>&nbsp;&nbsp;
 			</p>
 			
  		<ul class="titre textalia textsized" >
@@ -26,13 +26,13 @@
 				  Dur&eacute;e de ce tour
 				</td>
 				<td align="left" >
-				<?php echo $this->escape($this->user->duree_courant_tour_hobbit) ?>
+				<?php echo $this->escape($this->user->duree_courant_tour_braldun) ?>
 				</td>
 				<td>&nbsp;&nbsp;</td>
 				<td style="font-weight: bolder;" align="right" >
 				DLA &nbsp;&nbsp;
 				
-				<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?>
+				<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
 				</td>
 			</tr>
 			<tr>
@@ -48,7 +48,7 @@
 					Durée du prochain tour
 				</td>
 				<td colspan="3">
-				<?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?>  
+				<?php echo $this->escape($this->user->duree_prochain_tour_braldun) ?>  
 				<label style="cursor:pointer" title="Minutes rajoutées pour prendre en compte les blessures">
 					<? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> 
 					<? if ($tab["minutesBlessures"] >= 0) : echo "+"; else: echo "-"; endif;?>
@@ -66,7 +66,7 @@
 	  </table>
 <hr style="margin:0px">
 		<ul class="titre textalia textsized">
-			&nbsp;Sant&eacute; du hobbit
+			&nbsp;Sant&eacute; du braldun
 		</ul>
 		
 		<table class="table_liste" style="width:98%; border:0" >
@@ -77,16 +77,16 @@
 					Balance faim  
 	    		</td>
 	    		<td width="80%">
-				<?=Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_hobbit, $this->config->game->pv_base, $this->user->vigueur_base_hobbit, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_hobbit, $this->user->duree_prochain_tour_hobbit)?>
-				<?=Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_hobbit, $this->user->force_bbdf_hobbit)?>
+				<?=Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun)?>
+				<?=Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun)?>
 				</td>
 				<td width="10%" nowrap>
-					<?=$this->user->pv_restant_hobbit ?> / 
-					<span style="cursor:pointer" title="(<?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?><? if ($this->user->pv_max_bm_hobbit >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_hobbit ?>)">
-					<?=($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit) ?> 
+					<?=$this->user->pv_restant_braldun ?> / 
+					<span style="cursor:pointer" title="(<?=($this->config->game->pv_base + $this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) ?><? if ($this->user->pv_max_bm_braldun >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_braldun ?>)">
+					<?=($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?> 
 		    		</span>
 		    		<br />
-					<?=$this->user->balance_faim_hobbit ?> %
+					<?=$this->user->balance_faim_braldun ?> %
 				</td>
 			</tr>
 		</tbody>
@@ -101,47 +101,47 @@
 			
 			<tr class="table_liste" align="left" valign="middle">
 				<td>
-					AGI <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->agilite_base_hobbit; ?>)</span><br />
-					SAG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->sagesse_base_hobbit; ?>)</span>
+					AGI <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->agilite_base_braldun; ?>)</span><br />
+					SAG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->sagesse_base_braldun; ?>)</span>
 	    		</td>
 	    		<td>
-	    			<?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> 
+	    			<?=$this->config->game->base_agilite + $this->user->agilite_base_braldun ?> 
 				    D<?=$this->config->game->de_agilite ?> 
-				    <span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?></span>
-				    <span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?></span> <br />
+				    <span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->agilite_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_braldun ?></span>
+				    <span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->agilite_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_braldun ?></span> <br />
 				    
-				    <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> 
+				    <?=$this->config->game->base_sagesse + $this->user->sagesse_base_braldun ?> 
 			    	D<?=$this->config->game->de_sagesse ?> 
-			    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?></span>
-			    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?></span>
+			    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->sagesse_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_braldun ?></span>
+			    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->sagesse_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_braldun ?></span>
 		    	</td>
 				<td>
-					FOR <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->force_base_hobbit; ?>)</span><br />
-	    			VIG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->vigueur_base_hobbit;  ?>)</span>
+					FOR <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->force_base_braldun; ?>)</span><br />
+	    			VIG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->vigueur_base_braldun;  ?>)</span>
 				</td>
 				<td>
-				<?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
+				<?=$this->config->game->base_force + $this->user->force_base_braldun ?> 
 		    	D<?=$this->config->game->de_force ?> 
-		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?></span>
-		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?></span> <br/>
+		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->force_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->force_bm_braldun ?></span>
+		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->force_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_braldun ?></span> <br/>
 	    		
-	    		<?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> 
+	    		<?=$this->config->game->base_vigueur + $this->user->vigueur_base_braldun ?> 
 		    	D<?=$this->config->game->de_vigueur ?> 
-		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?></span>
-		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?></span>
+		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->vigueur_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_braldun ?></span>
+		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->vigueur_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_braldun ?></span>
 	    		</td>
 	    		
 	    		<td>
 	    			Vue
 	    		</td>
 	    		<td>
-	    		<?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_hobbit ?>
+	    		<?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_braldun >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_braldun ?>
 	    		</td>
 	    		
 	    		<tr align="center" >
 				<td colspan="6">
-					R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?>
-				 (malus prochain tour : <?=$this->user->regeneration_malus_hobbit ?>)
+					R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_braldun ?> D<?=$this->config->game->de_regeneration ?>
+				 (malus prochain tour : <?=$this->user->regeneration_malus_braldun ?>)
 				</td>
 			</tr>
 		</tbody>
@@ -157,7 +157,7 @@
 				<td width="10%" nowrap>
 					Exp / Niveau
 	    		</td>
-	    		<?=Bral_Helper_Profil::afficheBarreNiveau($this->user->niveau_hobbit, $this->user->px_perso_hobbit);?>
+	    		<?=Bral_Helper_Profil::afficheBarreNiveau($this->user->niveau_braldun, $this->user->px_perso_braldun);?>
 			</tr>
 		</tbody>
 		</table>
@@ -170,16 +170,16 @@
 					PI
 	    		</td>
 	    		<td>
-	    			<?=$this->user->px_perso_hobbit ?> <br/>
-	    			<?=$this->user->pi_hobbit ?>
+	    			<?=$this->user->px_perso_braldun ?> <br/>
+	    			<?=$this->user->pi_braldun ?>
 		    	</td>
 				<td>
 					PX Commun<br />
 	    			Niveau
 				</td>
 				<td>
-					<?=$this->user->px_commun_hobbit ?> <br/> 
-					<?=$this->user->niveau_hobbit ?>
+					<?=$this->user->px_commun_braldun ?> <br/> 
+					<?=$this->user->niveau_braldun ?>
 	    		</td>
 			</tr>
 		</tbody>
@@ -188,7 +188,7 @@
 		<ul class="titre textalia textsized">
 			&nbsp;Poids
 		</ul>
-		<? if ($this->poidsTransporteHobbitCorrige != '?') : ?>
+		<? if ($this->poidsTransporteBraldunCorrige != '?') : ?>
 			<table class="table_liste" style="width:98%; border:0">
 			<tbody>
 				<tr class="table_liste"  valign="middle">
@@ -196,11 +196,11 @@
 						Port&eacute; / Total
 		    		</td>
 					<td width='70%' >
-						<?=Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_hobbit, $this->poidsTransporteHobbitCorrige);?>
+						<?=Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_braldun, $this->poidsTransporteBraldunCorrige);?>
 					</td>
 					<td  width='12%' nowrap>
-						<span title="Poids Transport&eacute; en Kg" style="cursor:pointer"><?=round($this->poidsTransporteHobbitCorrige, 3) ?></span> / 
-						<span title="Poids Transportable en Kg" style="cursor:pointer"><?=$this->user->poids_transportable_hobbit ?></span> 
+						<span title="Poids Transport&eacute; en Kg" style="cursor:pointer"><?=round($this->poidsTransporteBraldunCorrige, 3) ?></span> / 
+						<span title="Poids Transportable en Kg" style="cursor:pointer"><?=$this->user->poids_transportable_braldun ?></span> 
 		    		</td>
 				</tr>
 			</tbody>
@@ -218,13 +218,13 @@
 		<tbody>
 			<tr class="table_liste"  valign="middle">
 				<td>
-					Naturelle : <?=$this->user->armure_naturelle_hobbit ?><br />
+					Naturelle : <?=$this->user->armure_naturelle_braldun ?><br />
 	    		</td>
 	    		<td>
-	    			&Eacute;quipement : <?=$this->user->armure_equipement_hobbit ?>
+	    			&Eacute;quipement : <?=$this->user->armure_equipement_braldun ?>
 	    		</td>
 	    		<td>
-	    			Bonus / Malus : <?=$this->user->armure_bm_hobbit ?>
+	    			Bonus / Malus : <?=$this->user->armure_bm_braldun ?>
 	    		</td>
 	    		<td>
 	    			Total : <?=($this->armure_totale)  ?>
@@ -241,35 +241,35 @@
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
 				<td colspan="2">
-				Attaque BM : <?=$this->user->bm_attaque_hobbit ?>
+				Attaque BM : <?=$this->user->bm_attaque_braldun ?>
 				</td>
 				<td colspan="2">
-				D&eacute;fense BM : <?=$this->user->bm_defense_hobbit ?>
+				D&eacute;fense BM : <?=$this->user->bm_defense_braldun ?>
 				</td>
 				<td colspan="2">
-				D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_hobbit ?>
-				</td>
-			</tr>
-			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">
-				Nb. KO : <?=$this->user->nb_ko_hobbit ?>
-				</td>
-				<td colspan="2">
-				Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_hobbit ?>
-				</td>
-				<td colspan="2">
-				Nb. KO Hobbit : <?=$this->user->nb_hobbit_ko_hobbit ?>
+				D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_braldun ?>
 				</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
 				<td colspan="2">
-				Engag&eacute; : <?=$this->user->est_engage_hobbit ?>
+				Nb. KO : <?=$this->user->nb_ko_braldun ?>
 				</td>
 				<td colspan="2">
-				Engag&eacute; au prochain tour : <?=$this->user->est_engage_next_dla_hobbit ?>
+				Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_braldun ?>
 				</td>
 				<td colspan="2">
-				Intangible : <?=$this->user->est_intangible_hobbit ?>
+				Nb. KO Braldun : <?=$this->user->nb_braldun_ko_braldun ?>
+				</td>
+			</tr>
+			<tr class="table_liste" align="left" valign="middle">
+				<td colspan="2">
+				Engag&eacute; : <?=$this->user->est_engage_braldun ?>
+				</td>
+				<td colspan="2">
+				Engag&eacute; au prochain tour : <?=$this->user->est_engage_next_dla_braldun ?>
+				</td>
+				<td colspan="2">
+				Intangible : <?=$this->user->est_intangible_braldun ?>
 				</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
@@ -277,10 +277,10 @@
 				Plaquages Soule :
 				</td>
 				<td colspan="2">
-				Subis : <?=$this->user->nb_plaque_hobbit ?>
+				Subis : <?=$this->user->nb_plaque_braldun ?>
 				</td>
 				<td colspan="2">
-				Effectués: <?=$this->user->nb_hobbit_plaquage_hobbit ?>
+				Effectués: <?=$this->user->nb_braldun_plaquage_braldun ?>
 				</td>
 			</tr>
 		</tbody>

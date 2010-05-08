@@ -29,7 +29,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 
 		$charretteTable = new Charrette();
 
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 		if ($nombre > 0) {
 			$this->view->possedeCharrette = true;
 			return;
@@ -40,15 +40,15 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$charrettes = null;
 		if ($provenance == "echoppe") {
 			Zend_Loader::loadClass("Echoppe");
-			// On regarde si le hobbit est dans une de ses echopppes
+			// On regarde si le braldun est dans une de ses echopppes
 			$echoppeTable = new Echoppe();
 
-			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+			$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 			if (count($echoppes) == 1) {
 				$echoppe = $echoppes[0];
-				if ($echoppe["x_echoppe"] != $this->view->user->x_hobbit || $echoppe["y_echoppe"] != $this->view->user->y_hobbit) {
-					throw new Zend_Exception(get_class($this)." Echoppe invalide. idh:".$this->view->user->id_hobbit);
+				if ($echoppe["x_echoppe"] != $this->view->user->x_braldun || $echoppe["y_echoppe"] != $this->view->user->y_braldun) {
+					throw new Zend_Exception(get_class($this)." Echoppe invalide. idh:".$this->view->user->id_braldun);
 				}
 
 				Zend_Loader::loadClass("EchoppeMateriel");
@@ -64,14 +64,14 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 				$nomIdCharrette = "id_echoppe_materiel";
 			}
 		} else {
-			$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+			$charrettes = $charretteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			$typeProvenance = "sol";
 			$nomIdCharrette = "id_charrette";
 		}
 
 		if (count($charrettes) > 0) {
 			Zend_Loader::loadClass("Bral_Util_Metier");
-			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_braldun, $this->view->user->sexe_braldun);
 			$estMenuisierOuBucheron = false;
 			if ($tab["tabMetierCourant"]["nom_systeme"] == "bucheron" || $tab["tabMetierCourant"]["nom_systeme"] == "menuisier") {
 				$estMenuisierOuBucheron = true;
@@ -108,7 +108,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification abattre arbre
@@ -131,17 +131,17 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			}
 		}
 		if ($charrette == null) {
-			throw new Zend_Exception(get_class($this)." Charrette invalide idh:".$this->view->user->pa_hobbit. " ihc:".$this->view->idCharrette);
+			throw new Zend_Exception(get_class($this)." Charrette invalide idh:".$this->view->user->pa_braldun. " ihc:".$this->view->idCharrette);
 		}
 
 		$this->calculAttrapperCharrette($charrette);
 		$this->calculBalanceFaim();
 
 		$id_type = $this->view->config->game->evenements->type->ramasser;
-		$details = "[h".$this->view->user->id_hobbit."] a attrapé une charrette";
+		$details = "[h".$this->view->user->id_braldun."] a attrapé une charrette";
 		$this->setDetailsEvenement($details, $id_type);
 
-		$details = "[h".$this->view->user->id_hobbit."] a attrapé la charrette n°".$charrette["id_charrette"];
+		$details = "[h".$this->view->user->id_braldun."] a attrapé la charrette n°".$charrette["id_charrette"];
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
 	}
@@ -151,7 +151,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$charretteTable = new Charrette();
 
 		$dataUpdate = array(
-			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
+			"id_fk_braldun_charrette" => $this->view->user->id_braldun,
 			"x_charrette" => null,
 			"y_charrette" => null,
 			"z_charrette" => null,
@@ -177,7 +177,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Charrette");
-		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
 	}
 
 	function getListBoxRefresh() {

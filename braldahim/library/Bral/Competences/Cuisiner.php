@@ -130,13 +130,13 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 			Zend_Loader::loadClass("LabanIngredient");
 			$labanIngredientTable = new LabanIngredient();
-			$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+			$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 			$tabSources["laban"]["ingredients"] = $ingredients;
 
 			if ($this->view->recetteAvecPotion) {
 				Zend_Loader::loadClass("LabanPotion");
 				$labanPotionTable = new LabanPotion();
-				$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit, $potionDemandee["id_type_potion"]);
+				$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun, $potionDemandee["id_type_potion"]);
 				$tabSources["laban"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 			}
 		}
@@ -221,7 +221,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
 			$tabDestinations["case"]["possible"] = true;
-			$tabDestinations["case"]["nom"] = "Tous les hobbits sur votre case";
+			$tabDestinations["case"]["nom"] = "Tous les bralduns sur votre case";
 			$tabDestinations["case"]["poids_apres_ingredient"] = 10000;
 			$tabDestinations["case"]["poids_restant"] = 10000;
 		} else {
@@ -241,8 +241,8 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 				$tabDestinations["laban"]["possible"] = true;
 				$tabDestinations["laban"]["nom"] = "Votre laban";
-				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $this->view->typeAlimentCourant["poids_ingredients"];
-				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun + $this->view->typeAlimentCourant["poids_ingredients"];
+				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 
 				$tabDestinations["sol"]["possible"] = true;
 				$tabDestinations["sol"]["nom"] = "Au Sol";
@@ -279,7 +279,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
@@ -349,7 +349,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim($this->coef_balance_faim);
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculRateCuisiner($idSource) {
@@ -367,7 +367,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->effetRune = false;
 
 		$this->view->nbAliment = Bral_Util_De::get_1d2() + 1;
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "RU")) { // s'il possède une rune RU
 			$this->view->nbAliment = $this->view->nbAliment + 1;
 			$this->view->effetRune = true;
 		} else {
@@ -401,20 +401,20 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
 			$this->appliqueQuintuple();
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] cuisine un banquet pour tous ses confrères.";
+			$details = "[h".$this->view->user->id_braldun."] cuisine un banquet pour tous ses confrères.";
 			$this->setDetailsEvenement($details, $idType);
 		} else {
 			$this->creationAliment($idDestination, $idSource, $idPotion);
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a cuisiné";
+			$details = "[h".$this->view->user->id_braldun."] a cuisiné";
 			$this->setDetailsEvenement($details, $idType);
 		}
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
-		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
+		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbAliment;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->cuisinier->id;
@@ -440,7 +440,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
-			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 			$prefix2 = $prefix;
 		} else {
 			throw new Zend_Exception("retireIngredients::Source invalide:".$idSource);
@@ -458,7 +458,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	private function calculQualite() {
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
 		$chance_a = -0.375 * $maitrise + 53.75 ;
 		$chance_b = 0.25 * $maitrise + 42.5 ;
@@ -467,7 +467,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
 		 */
-		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
+		$n = (($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun) / 2 ) + 1;
 
 		if ($n < 1) $n = 1;
 
@@ -540,14 +540,14 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
-			$tabBase["id_fk_hobbit_laban_aliment"] = $this->view->user->id_hobbit;
+			$tabBase["id_fk_braldun_laban_aliment"] = $this->view->user->id_braldun;
 		} else if ($idDestination == "sol") {
 			$prefix = "element";
 			Zend_Loader::loadClass("ElementAliment");
 			$table = new ElementAliment();
-			$tabBase["x_element_aliment"] = $this->view->user->x_hobbit;
-			$tabBase["y_element_aliment"] = $this->view->user->y_hobbit;
-			$tabBase["z_element_aliment"] = $this->view->user->z_hobbit;
+			$tabBase["x_element_aliment"] = $this->view->user->x_braldun;
+			$tabBase["y_element_aliment"] = $this->view->user->y_braldun;
+			$tabBase["z_element_aliment"] = $this->view->user->z_braldun;
 		} else {
 			throw new Zend_Exception("creationAliment::Source invalide:".$idDestination);
 		}
@@ -578,13 +578,13 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$idAliment = $idsAliment->prepareNext();
 
-			$idEffetHobbit = null;
+			$idEffetBraldun = null;
 			if ($potion != null) {
-				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
+				$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
 			}
 
 			if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quadruple') {
-				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_2d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4);
+				$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_2d3(), (floor($this->view->user->niveau_braldun / 10) + 1) * 4);
 			}
 
 			$data = array(
@@ -592,15 +592,15 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				"id_fk_type_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
 				"id_fk_type_qualite_aliment" => $this->view->qualiteAliment,
 				"bbdf_aliment" => $this->view->bbdfAliment,
-				"id_fk_effet_hobbit_aliment" => $idEffetHobbit,
+				"id_fk_effet_braldun_aliment" => $idEffetBraldun,
 			);
 			$alimentTable->insert($data);
 
 			$data = array(
 				"id_element_aliment" => $idAliment,
-				"x_element_aliment" => $this->view->user->x_hobbit,
-				"y_element_aliment" => $this->view->user->y_hobbit,
-				"z_element_aliment" => $this->view->user->z_hobbit,
+				"x_element_aliment" => $this->view->user->x_braldun,
+				"y_element_aliment" => $this->view->user->y_braldun,
+				"z_element_aliment" => $this->view->user->z_braldun,
 			);
 			$elementAlimentTable->insert($data);
 
@@ -614,7 +614,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			}
 		}
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 	}
 
@@ -643,32 +643,32 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->idPotion = $potion["id_potion"];
 	}
 
-	// nourrit tous les hobbits sur la cases
+	// nourrit tous les bralduns sur la cases
 	private function appliqueQuintuple() {
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, -1, false);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, false);
 
-		$hobbitTable = new Hobbit();
-		$tabHobbit = null;
-		foreach($hobbits as $h) {
+		$braldunTable = new Braldun();
+		$tabBraldun = null;
+		foreach($bralduns as $h) {
 			$idTypeEvenement = $this->view->config->game->evenements->type->effet;
-			if ($this->view->user->id_hobbit != $h["id_hobbit"]) {
-				$details = "[h".$h["id_hobbit"]."] s'empresse de manger une bonne assiette de pot au feu offert par [h".$this->view->user->id_hobbit."]";
+			if ($this->view->user->id_braldun != $h["id_braldun"]) {
+				$details = "[h".$h["id_braldun"]."] s'empresse de manger une bonne assiette de pot au feu offert par [h".$this->view->user->id_braldun."]";
 				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
-				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $idTypeEvenement, $details, $detailsBot, $h["niveau_hobbit"]);
+				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
 			}
-			$tabHobbit[] = $h;
+			$tabBraldun[] = $h;
 
-			$data["balance_faim_hobbit"] = $h["balance_faim_hobbit"] + $this->view->bbdfAliment;
-			if ($data["balance_faim_hobbit"] > 100) {
-				$data["balance_faim_hobbit"] = 100;
+			$data["balance_faim_braldun"] = $h["balance_faim_braldun"] + $this->view->bbdfAliment;
+			if ($data["balance_faim_braldun"] > 100) {
+				$data["balance_faim_braldun"] = 100;
 			}
-			$where = "id_hobbit = ".$h["id_hobbit"];
-			$hobbitTable->update($data, $where);
+			$where = "id_braldun = ".$h["id_braldun"];
+			$braldunTable->update($data, $where);
 		}
 
 		$this->view->estQuintuple = true;
-		$this->view->hobbits = $tabHobbit;
+		$this->view->bralduns = $tabBraldun;
 	}
 
 	private function texteTypeBbdf($typeBbdf) {
@@ -716,7 +716,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$this->coef_balance_faim = 1;
 		}
 
-		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
+		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;

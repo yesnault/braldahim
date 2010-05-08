@@ -37,18 +37,18 @@ class Bral_Scripts_Appels extends Bral_Scripts_Script {
 	private function calculAppels() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Appelss - calculAppelss - enter -");
 		$retour = "";
-		$this->calculAppelsHobbit($retour);
+		$this->calculAppelsBraldun($retour);
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Appelss - calculAppelss - exit -");
 		return $retour;
 	}
 
-	private function calculAppelsHobbit(&$retour) {
+	private function calculAppelsBraldun(&$retour) {
 		$scriptTable = new Script();
 
-		$nb = $scriptTable->countByIdHobbitAndType($this->hobbit->id_hobbit, self::NB_TYPE_DYNAMIQUE_MAX);
+		$nb = $scriptTable->countByIdBraldunAndType($this->braldun->id_braldun, self::NB_TYPE_DYNAMIQUE_MAX);
 		$retour .= "TYPE:".self::TYPE_DYNAMIQUE.";NB_DYNAMIQUE:".$nb.";MAX_AUTORISE:".self::NB_TYPE_DYNAMIQUE_MAX.PHP_EOL;
 
-		$nb = $scriptTable->countByIdHobbitAndType($this->hobbit->id_hobbit, self::NB_TYPE_STATIQUE_MAX);
+		$nb = $scriptTable->countByIdBraldunAndType($this->braldun->id_braldun, self::NB_TYPE_STATIQUE_MAX);
 		$retour .= "TYPE:".self::TYPE_STATIQUE.";NB_STATIQUE:".$nb.";MAX_AUTORISE:".self::NB_TYPE_STATIQUE_MAX.PHP_EOL;
 
 	}

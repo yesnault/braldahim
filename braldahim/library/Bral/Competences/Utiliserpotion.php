@@ -19,11 +19,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		Zend_Loader::loadClass("Potion");
 
-		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
-		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$potionCourante = null;
 		$idPotionCourante = $this->request->get("potion");
@@ -76,35 +76,35 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	private function preparePotion() {
-		$tabHobbits = null;
+		$tabBralduns = null;
 		$tabMonstres = null;
-		// recuperation des hobbits qui sont presents sur la case
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, -1, false);
-		foreach($hobbits as $h) {
+		// recuperation des bralduns qui sont presents sur la case
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, false);
+		foreach($bralduns as $h) {
 			$tab = array(
-				'id_hobbit' => $h["id_hobbit"],
-				'nom_hobbit' => $h["nom_hobbit"],
-				'prenom_hobbit' => $h["prenom_hobbit"],
-				'niveau_hobbit' => $h["niveau_hobbit"],
+				'id_braldun' => $h["id_braldun"],
+				'nom_braldun' => $h["nom_braldun"],
+				'prenom_braldun' => $h["prenom_braldun"],
+				'niveau_braldun' => $h["niveau_braldun"],
 			);
-			$tabHobbits[] = $tab;
+			$tabBralduns[] = $tab;
 		}
 
 		// si le joueur courant est intangible, on le rajoute à la liste
-		if ($this->view->user->est_intangible_hobbit == "oui") {
+		if ($this->view->user->est_intangible_braldun == "oui") {
 			$tab = array(
-				'id_hobbit' => $this->view->user->id_hobbit,
-				'nom_hobbit' => $this->view->user->nom_hobbit,
-				'prenom_hobbit' => $this->view->user->prenom_hobbit,
-				'niveau_hobbit' => $this->view->user->niveau_hobbit,
+				'id_braldun' => $this->view->user->id_braldun,
+				'nom_braldun' => $this->view->user->nom_braldun,
+				'prenom_braldun' => $this->view->user->prenom_braldun,
+				'niveau_braldun' => $this->view->user->niveau_braldun,
 			);
-			$tabHobbits[] = $tab;
+			$tabBralduns[] = $tab;
 		}
 
 		// recuperation des monstres qui sont presents sur la case
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];
@@ -114,8 +114,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 		}
 
-		$this->view->tabHobbits = $tabHobbits;
-		$this->view->nHobbits = count($tabHobbits);
+		$this->view->tabBralduns = $tabBralduns;
+		$this->view->nBralduns = count($tabBralduns);
 		$this->view->tabMonstres = $tabMonstres;
 		$this->view->nMonstres = count($tabMonstres);
 	}
@@ -129,7 +129,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		// recuperation des équipement qui sont presents dans le laban
 		Zend_Loader::loadClass("LabanEquipement");
 		$labanEquipementTable = new LabanEquipement();
-		$equipementsLaban = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipementsLaban = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 		$tabEquipementsLaban = null;
 		foreach ($equipementsLaban as $e) {
 			if (
@@ -152,7 +152,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		// recuperation des équipement qui sont presents dans la charrette
 		Zend_Loader::loadClass("CharretteEquipement");
 		$charretteEquipementTable = new CharretteEquipement();
-		$equipementsCharrette = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipementsCharrette = $charretteEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 		$tabEquipementsCharrette = null;
 		foreach ($equipementsCharrette as $e) {
 			if (
@@ -208,11 +208,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function controlePotion($idPotion) {
-		$idHobbit = null;
+		$idBraldun = null;
 		$idMonstre = null;
 
 		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
@@ -222,13 +222,13 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_3"));
+			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_3"));
 		} else {
-			$idHobbit = (int)$this->request->get("valeur_3");
+			$idBraldun = (int)$this->request->get("valeur_3");
 		}
 
-		if ($idMonstre == -1 && $idHobbit == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (==-1)");
+		if ($idMonstre == -1 && $idBraldun == -1) {
+			throw new Zend_Exception(get_class($this)." Monstre ou Braldun invalide (==-1)");
 		}
 
 		$potion = null;
@@ -244,14 +244,14 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		// pas de potion de malus en zone pve
-		if ($idHobbit != -1 && $this->view->estRegionPvp == false && $potion["bm_type"] == "malus") {
-			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.") region pve, idh:".$this->view->user->id_hobbit." x:".$this->view->user->x_hobbit. " y=".$this->view->user->y_hobbit);
+		if ($idBraldun != -1 && $this->view->estRegionPvp == false && $potion["bm_type"] == "malus") {
+			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.") region pve, idh:".$this->view->user->id_braldun." x:".$this->view->user->x_braldun. " y=".$this->view->user->y_braldun);
 		}
 
 		$trouveH = false;
-		if ($this->view->tabHobbits != null) {
-			foreach($this->view->tabHobbits as $h) {
-				if ($h["id_hobbit"] == $idHobbit) {
+		if ($this->view->tabBralduns != null) {
+			foreach($this->view->tabBralduns as $h) {
+				if ($h["id_braldun"] == $idBraldun) {
 					$trouveH = true;
 					break;
 				}
@@ -269,10 +269,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($trouveH == false && $trouveM == false) {
-			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Hobbit (".$idHobbit.") invalide");
+			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Braldun (".$idBraldun.") invalide");
 		}
 
-		$this->idHobbitCible = $idHobbit;
+		$this->idBraldunCible = $idBraldun;
 		$this->idMonstreCible = $idMonstre;
 
 		return $potion;
@@ -344,22 +344,22 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->retourPotion = null;
 
 		$utiliserPotionMonstre = false;
-		$utiliserPotionHobbit = false;
-		if ($this->idHobbitCible != -1) {
-			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
-				foreach ($this->view->tabHobbits as $h) {
-					if ($h["id_hobbit"] == $this->idHobbitCible) {
-						$utiliserPotionHobbit = true;
-						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_hobbit"]. " ". $h["nom_hobbit"],
-													   'id_cible' => $h["id_hobbit"],
-													   'niveau_cible' => $h["niveau_hobbit"]
+		$utiliserPotionBraldun = false;
+		if ($this->idBraldunCible != -1) {
+			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
+				foreach ($this->view->tabBralduns as $h) {
+					if ($h["id_braldun"] == $this->idBraldunCible) {
+						$utiliserPotionBraldun = true;
+						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_braldun"]. " ". $h["nom_braldun"],
+													   'id_cible' => $h["id_braldun"],
+													   'niveau_cible' => $h["niveau_braldun"]
 						);
 						break;
 					}
 				}
 			}
-			if ($utiliserPotionHobbit === false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$this->idHobbitCible.")");
+			if ($utiliserPotionBraldun === false) {
+				throw new Zend_Exception(get_class($this)." Braldun invalide (".$this->idBraldunCible.")");
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
@@ -381,12 +381,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 
-		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ";
-		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_hobbit && $utiliserPotionHobbit === true) {
+		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a ";
+		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_braldun && $utiliserPotionBraldun === true) {
 			$this->detailEvenement .= "bu une potion";
 		} else {
-			if ($this->idHobbitCible != -1) {
-				$this->detailEvenement .= "utilisé une potion sur le hobbit [h".$this->retourPotion['cible']["id_cible"]."]";
+			if ($this->idBraldunCible != -1) {
+				$this->detailEvenement .= "utilisé une potion sur le braldun [h".$this->retourPotion['cible']["id_cible"]."]";
 			} else {
 				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
 			}
@@ -396,11 +396,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $this->detailEvenement);
 			
-		if ($utiliserPotionHobbit === true) {
-			$this->utiliserPotionHobbit($potion, $this->idHobbitCible);
-			if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
+		if ($utiliserPotionBraldun === true) {
+			$this->utiliserPotionBraldun($potion, $this->idBraldunCible);
+			if ($this->view->user->id_braldun != $this->retourPotion['cible']["id_cible"]) {
 				$detailsBot = $this->getDetailEvenementCible($potion);
-				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, $this->retourPotion['cible']["niveau_cible"], "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, $this->retourPotion['cible']["niveau_cible"], "braldun", true, $this->view);
 			}
 		} elseif ($utiliserPotionMonstre === true) {
 			$this->utiliserPotionMonstre($potion, $this->idMonstreCible);
@@ -437,15 +437,15 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EquipementBonus");
 		if ($potion["type_potion"] == "vernis_enchanteur") {
 			$this->appliqueVernisEnchanteur($equipement, $potion);
-			$details = "[h".$this->view->user->id_hobbit."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[h".$this->view->user->id_braldun."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VERNIR_ID, $equipement["id_equipement"], $details);
-			$details = "[h".$this->view->user->id_hobbit."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[h".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		} else { // reparateur
 			$this->appliqueVernisReparateur($potion, $equipement);
-			$details = "[h".$this->view->user->id_hobbit."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[h".$this->view->user->id_braldun."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_REPARER_ID, $equipement["id_equipement"], $details);
-			$details = "[h".$this->view->user->id_hobbit."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[h".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		}
 
@@ -642,18 +642,18 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban", "box_effets"));
 	}
 
-	private function utiliserPotionHobbit($potion, $idHobbit) {
-		Zend_Loader::loadClass("EffetPotionHobbit");
+	private function utiliserPotionBraldun($potion, $idBraldun) {
+		Zend_Loader::loadClass("EffetPotionBraldun");
 
-		if ($this->view->user->id_hobbit == $idHobbit) {
-			$hobbit = $this->view->user;
+		if ($this->view->user->id_braldun == $idBraldun) {
+			$braldun = $this->view->user;
 		} else {
-			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($idHobbit);
-			$hobbit = $hobbitRowset->current();
+			$braldunTable = new Braldun();
+			$braldunRowset = $braldunTable->find($idBraldun);
+			$braldun = $braldunRowset->current();
 		}
 
-		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false, true, true);
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurBraldun($potion, $this->view->user->id_braldun, $braldun, false, true, true);
 		$this->supprimeDuLaban($potion);
 	}
 
@@ -665,7 +665,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$monstre = $monstreRowset->current();
 		$monstre = $monstre->toArray();
 
-		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_hobbit, $monstre, false, true, true);
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_braldun, $monstre, false, true, true);
 		$this->supprimeDuLaban($potion);
 	}
 
@@ -683,8 +683,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	private function getDetailEvenementCible($potion) {
 		$retour = "";
 
-		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
-			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") ";
+		if ($this->view->user->id_braldun != $this->retourPotion['cible']["id_cible"]) {
+			$retour .= $this->view->user->prenom_braldun ." ". $this->view->user->nom_braldun ." (".$this->view->user->id_braldun.") ";
 		}
 
 		if ($potion["bm_type"] == "bonus") {

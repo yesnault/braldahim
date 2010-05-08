@@ -21,7 +21,7 @@ class Bral_Monstres_Competences_Fuir extends Bral_Monstres_Competences_Fuite {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." (idm:".$this->monstre["id_monstre"].") - Fuite du monstre - enter");
 
 			$retour = true;
-			$this->monstre["id_fk_hobbit_cible_monstre"] = null;
+			$this->monstre["id_fk_braldun_cible_monstre"] = null;
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - (idm:".$this->monstre["id_monstre"].") - exit");

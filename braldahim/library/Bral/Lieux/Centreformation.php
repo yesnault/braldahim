@@ -22,18 +22,18 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Metier");
-		Zend_Loader::loadClass("HobbitsMetiers");
-		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("BraldunsMetiers");
+		Zend_Loader::loadClass("BraldunsCompetences");
 
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
 		$this->_tabMetiers = null;
 		$this->_possedeMetier = false;
 
-		foreach($hobbitsMetierRowset as $m) {
+		foreach($braldunsMetierRowset as $m) {
 			$this->_possedeMetier = true;
 
-			if ($this->view->user->sexe_hobbit == 'feminin') {
+			if ($this->view->user->sexe_braldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
@@ -55,11 +55,11 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
-		$this->_coutCastars = $this->calculCoutCastars(count($hobbitsMetierRowset));
+		$this->_coutCastars = $this->calculCoutCastars(count($braldunsMetierRowset));
 
 		$this->_tabNouveauMetiers = null;
 		$this->_achatPossible = false;
-		if ($this->_coutCastars <= $this->view->user->castars_hobbit) {
+		if ($this->_coutCastars <= $this->view->user->castars_braldun) {
 			$this->_achatPossible = true;
 			foreach ($metiersRowset as $m) {
 				$nouveau = true;
@@ -72,7 +72,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 				}
 
 				if ($nouveau === true) {
-					if ($this->view->user->sexe_hobbit == 'feminin') {
+					if ($this->view->user->sexe_braldun == 'feminin') {
 						$nom_metier = $m->nom_feminin_metier;
 					} else {
 						$nom_metier = $m->nom_masculin_metier;
@@ -128,7 +128,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		}
 
 		if ($changementMetier && !$apprentissageMetier) {
-			// verification que le metier est bien possede par le hobbit
+			// verification que le metier est bien possede par le braldun
 			$changementOk = false;
 			if ($this->_possedeMetier == true) {
 				foreach ($this->_tabMetiers as $t) {
@@ -145,15 +145,15 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		}
 
 		if ($apprentissageMetier) { // apprentissage
-			// verification que le hobbit peut acheter le metier
+			// verification que le braldun peut acheter le metier
 			if ($this->_achatPossible === false) {
-				throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+				throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 			}
-			// verification que le metier n'est pas encore possede par le hobbit
+			// verification que le metier n'est pas encore possede par le braldun
 			$nouveau = false;
 			if (count($this->_tabNouveauMetiers) > 0) {
 				foreach ($this->_tabNouveauMetiers as $t) {
-					if ($idNouveauMetier == $t["id_metier"] && $this->view->user->niveau_hobbit >= $t["niveau_min_metier"]) {
+					if ($idNouveauMetier == $t["id_metier"] && $this->view->user->niveau_braldun >= $t["niveau_min_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
 						$idNouveauMetier = $t["id_metier"];
@@ -169,67 +169,67 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		}
 
 		if ($changementMetier) {
-			$hobbitsMetiersTable = new HobbitsMetiers();
+			$braldunsMetiersTable = new BraldunsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
-			$hobbitsMetiersTable->update($data, $where);
+			$where = "id_fk_braldun_hmetier =".intval($this->view->user->id_braldun);
+			$braldunsMetiersTable->update($data, $where);
 
-			$hobbitsCompetencesTable = new HobbitsCompetences();
+			$braldunsCompetencesTable = new BraldunsCompetences();
 
 			if ($this->_idAncienMetier != null) {
-				$hobbitCompetences = $hobbitsCompetencesTable->findByIdHobbit($this->view->user->id_hobbit);
-				foreach($hobbitCompetences as $e) {
+				$braldunCompetences = $braldunsCompetencesTable->findByIdBraldun($this->view->user->id_braldun);
+				foreach($braldunCompetences as $e) {
 					if ($e["id_fk_metier_competence"] == $this->_idAncienMetier) {
 						$p = $e["pourcentage_hcomp"] - 10;
 						if ($p < 10) {
 							$p = 10;
 						}
 						$data = array("pourcentage_hcomp" => $p);
-						$where = array("id_fk_hobbit_hcomp = ".intval($this->view->user->id_hobbit). " AND id_fk_competence_hcomp=".$e["id_competence"]);
-						$hobbitsCompetencesTable->update($data, $where);
+						$where = array("id_fk_braldun_hcomp = ".intval($this->view->user->id_braldun). " AND id_fk_competence_hcomp=".$e["id_competence"]);
+						$braldunsCompetencesTable->update($data, $where);
 					}
 				}
 			}
 
 			$data = array('est_actif_hmetier' => 'oui');
-			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
-			$hobbitsMetiersTable->update($data, $where);
+			$where = array("id_fk_braldun_hmetier = ".intval($this->view->user->id_braldun)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
+			$braldunsMetiersTable->update($data, $where);
 
 		}
 		if ($apprentissageMetier) { // apprentissage
-			$hobbitsMetiersTable = new HobbitsMetiers();
+			$braldunsMetiersTable = new BraldunsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
-			$hobbitsMetiersTable->update($data, $where);
+			$where = "id_fk_braldun_hmetier =".intval($this->view->user->id_braldun);
+			$braldunsMetiersTable->update($data, $where);
 
 			Zend_Loader::loadClass("Competence");
 			$competenceTable = new Competence();
 			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
 			if (count($competencesMetier) <= 0) {
-				throw new Zend_Exception(get_class($this)." Competences pour le nouveau metier invalide:".$idNouveauMetier. " idH=".$this->view->user->id_hobbit);
+				throw new Zend_Exception(get_class($this)." Competences pour le nouveau metier invalide:".$idNouveauMetier. " idH=".$this->view->user->id_braldun);
 			}
 
 			$dataNouveauMetier = array(
-				'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
+				'id_fk_braldun_hmetier' => $this->view->user->id_braldun,
 				'id_fk_metier_hmetier'  => $idNouveauMetier,
 				'date_apprentissage_hmetier'  => date("Y-m-d"),
 				'est_actif_hmetier'  => "oui",
 			);
-			$hobbitsMetiersTable->insert($dataNouveauMetier);
+			$braldunsMetiersTable->insert($dataNouveauMetier);
 
-			$hobbitsCompetencesTable = new HobbitsCompetences();
+			$braldunsCompetencesTable = new BraldunsCompetences();
 			foreach($competencesMetier as $e) {
 				$data = array(
-					'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+					'id_fk_braldun_hcomp' => $this->view->user->id_braldun,
 					'id_fk_competence_hcomp'  => $e->id_competence,
 					'pourcentage_hcomp'  => 10,
 					'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
 					'nb_action_tour_hcomp' => 0,
 				);
-				$hobbitsCompetencesTable->insert($data);
+				$braldunsCompetencesTable->insert($data);
 			}
 
-			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+			$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 
 			$this->view->constructionEchoppe = $constructionEchoppe;
 
@@ -252,7 +252,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 				$charretteTable = new Charrette();
 				$data = array(
 					"id_charrette" => $idMateriel,
-					"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
+					"id_fk_braldun_charrette" => $this->view->user->id_braldun,
 					"quantite_rondin_charrette" => 0,
 				);
 				$charretteTable->insert($data);
@@ -266,7 +266,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		$this->view->nomMetier = $nomMetier;
 		$this->view->apprentissageMetier = $apprentissageMetier;
 		$this->view->changementMetier = $changementMetier;
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 

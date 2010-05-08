@@ -33,13 +33,13 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 
 		// on verifie que c'est bien l'echoppe du joueur
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun) {
 				$echoppeOk = true;
 				break;
 			}
@@ -61,7 +61,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "selected" => $selectedLaban);
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -77,7 +77,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 			if ($idDestinationCourante == "charrette" && $charrette != null) {
 				$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];
 			} else {
-				$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+				$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 			}
 
 			if (count($materiels) > 0) {
@@ -195,7 +195,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_materiel"] = $this->view->charrette["id_charrette"];
 		} else {
-			$data["id_fk_hobbit_laban_materiel"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_materiel"] = $this->view->user->id_braldun;
 		}
 		$table->insert($data);
 
@@ -204,7 +204,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 		$echoppeMaterielTable->delete($where);
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 	}
 

@@ -12,7 +12,7 @@
  */
 class Couple extends Zend_Db_Table {
 	protected $_name = 'couple';
-	protected $_primary = array('id_fk_m_hobbit_couple', 'id_fk_f_hobbit_couple');
+	protected $_primary = array('id_fk_m_braldun_couple', 'id_fk_f_braldun_couple');
 	
 	function findAllEnfantPossible() {
 		$db = $this->getAdapter();
@@ -24,7 +24,7 @@ class Couple extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findConjoint($sexe, $idHobbit, $estAncien = false) {
+	function findConjoint($sexe, $idBraldun, $estAncien = false) {
 		
 		$ancien = "";
 		if ($estAncien === true) {
@@ -35,14 +35,14 @@ class Couple extends Zend_Db_Table {
 		$select = $db->select();
 		if ($sexe == 'masculin') {
 			$select->from('couple', '*')
-			->from($ancien.'hobbit', '*')
-			->where('id_fk_f_hobbit_couple = id_'.$ancien.'hobbit')
-			->where('id_fk_m_hobbit_couple = ?', (int)$idHobbit);
+			->from($ancien.'braldun', '*')
+			->where('id_fk_f_braldun_couple = id_'.$ancien.'braldun')
+			->where('id_fk_m_braldun_couple = ?', (int)$idBraldun);
 		} else {
 			$select->from('couple', '*')
-			->from($ancien.'hobbit', '*')
-			->where('id_fk_m_hobbit_couple = id_'.$ancien.'hobbit')
-			->where('id_fk_f_hobbit_couple = ?', (int)$idHobbit);
+			->from($ancien.'braldun', '*')
+			->where('id_fk_m_braldun_couple = id_'.$ancien.'braldun')
+			->where('id_fk_f_braldun_couple = ?', (int)$idBraldun);
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

@@ -22,15 +22,15 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("TypeRangCommunaute");
 
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
 
-		$this->view->hobbitAvecCommunaute = false;
+		$this->view->braldunAvecCommunaute = false;
 		$this->view->gestionnaireCommunaute = false;
 		$this->idCommunauteCourante = -1;
 
-		if ($this->view->user->id_fk_communaute_hobbit != null) {
-			$this->idCommunauteCourante = $this->view->user->id_fk_communaute_hobbit;
-			$this->view->hobbitAvecCommunaute = true;
+		if ($this->view->user->id_fk_communaute_braldun != null) {
+			$this->idCommunauteCourante = $this->view->user->id_fk_communaute_braldun;
+			$this->view->braldunAvecCommunaute = true;
 		}
 
 		$communauteTable = new Communaute();
@@ -42,9 +42,9 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 			$tabCommunaute[$c["id_communaute"]] = array(
 							'id_communaute' => $c["id_communaute"], 
 							'nom_communaute' => $c["nom_communaute"],
-						    'id_fk_hobbit_gestionnaire_communaute' => $c["id_fk_hobbit_gestionnaire_communaute"]
+						    'id_fk_braldun_gestionnaire_communaute' => $c["id_fk_braldun_gestionnaire_communaute"]
 			);
-			if ($c["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+			if ($c["id_fk_braldun_gestionnaire_communaute"] == $this->view->user->id_braldun) {
 				$this->view->gestionnaireCommunaute = true;
 			}
 		}
@@ -66,10 +66,10 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communaute = null;
 
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_hobbit." cout:".$this->$this->view->paUtilisationLieu);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_braldun." cout:".$this->$this->view->paUtilisationLieu);
 		}
 
 		$idCommunaute = null;
@@ -139,8 +139,8 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 		$this->view->communaute = $communaute;
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		$this->majHobbit();
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
@@ -155,7 +155,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communauteTable = new Communaute();
 		$data = array('nom_communaute' => $nomCommunaute,
 			'date_creation_communaute' => date("Y-m-d H:i:s"),
-			'id_fk_hobbit_gestionnaire_communaute' => $this->view->user->id_hobbit,
+			'id_fk_braldun_gestionnaire_communaute' => $this->view->user->id_braldun,
 			'description_communaute' => '',
 		);
 		$communaute = $data;
@@ -163,16 +163,16 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 		$idRangCreateur = $this->creerRangsDefaut($communaute["id_communaute"]);
 
-		$hobbitTable = new Hobbit();
-		$this->view->user->id_fk_communaute_hobbit = $communaute["id_communaute"];
-		$this->view->user->date_entree_communaute_hobbit = date("Y-m-d H:i:s");
-		$this->view->user->id_fk_rang_communaute_hobbit = $idRangCreateur;
-		$data = array('id_fk_communaute_hobbit' => $this->view->user->id_fk_communaute_hobbit,
-			'date_entree_communaute_hobbit' => $this->view->user->date_entree_communaute_hobbit,
-			'id_fk_rang_communaute_hobbit' => $this->view->user->id_fk_rang_communaute_hobbit,
+		$braldunTable = new Braldun();
+		$this->view->user->id_fk_communaute_braldun = $communaute["id_communaute"];
+		$this->view->user->date_entree_communaute_braldun = date("Y-m-d H:i:s");
+		$this->view->user->id_fk_rang_communaute_braldun = $idRangCreateur;
+		$data = array('id_fk_communaute_braldun' => $this->view->user->id_fk_communaute_braldun,
+			'date_entree_communaute_braldun' => $this->view->user->date_entree_communaute_braldun,
+			'id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 
 		return $communaute;
 	}
@@ -180,31 +180,31 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	private function entrerCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
 
-		$hobbitTable = new Hobbit();
-		$this->view->user->id_fk_communaute_hobbit = $communaute["id_communaute"];
-		$this->view->user->date_entree_communaute_hobbit = date("Y-m-d H:i:s");
+		$braldunTable = new Braldun();
+		$this->view->user->id_fk_communaute_braldun = $communaute["id_communaute"];
+		$this->view->user->date_entree_communaute_braldun = date("Y-m-d H:i:s");
 
 		$rangCommunauteTable = new RangCommunaute();
 		$rowSet = $rangCommunauteTable->findRangNouveau($communaute["id_communaute"]);
 
-		$this->view->user->id_fk_rang_communaute_hobbit = $rowSet["id_rang_communaute"];
+		$this->view->user->id_fk_rang_communaute_braldun = $rowSet["id_rang_communaute"];
 
-		$data = array('id_fk_communaute_hobbit' => $this->view->user->id_fk_communaute_hobbit,
-			'date_entree_communaute_hobbit' => $this->view->user->date_entree_communaute_hobbit,
-			'id_fk_rang_communaute_hobbit' => $this->view->user->id_fk_rang_communaute_hobbit,
+		$data = array('id_fk_communaute_braldun' => $this->view->user->id_fk_communaute_braldun,
+			'date_entree_communaute_braldun' => $this->view->user->date_entree_communaute_braldun,
+			'id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 
 		$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
-		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
+		$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
 		$e = "";
-		if ($this->view->user->sexe_hobbit == "feminin") {
+		if ($this->view->user->sexe_braldun == "feminin") {
 			$e = "e";
 		}
-		$message .= " (".$this->view->user->id_hobbit.") est entré".$e." dans votre communauté.".PHP_EOL;
+		$message .= " (".$this->view->user->id_braldun.") est entré".$e." dans votre communauté.".PHP_EOL;
 
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $communaute["id_fk_braldun_gestionnaire_communaute"], $message, $this->view);
 
 		return $communaute;
 	}
@@ -212,31 +212,31 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	private function sortirCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
 
-		$hobbitTable = new Hobbit();
-		$this->view->user->id_fk_communaute_hobbit = null;
-		$this->view->user->date_entree_communaute_hobbit = null;
-		$this->view->user->id_fk_rang_communaute_hobbit = null;
+		$braldunTable = new Braldun();
+		$this->view->user->id_fk_communaute_braldun = null;
+		$this->view->user->date_entree_communaute_braldun = null;
+		$this->view->user->id_fk_rang_communaute_braldun = null;
 
-		$data = array('id_fk_communaute_hobbit' => null,
-			'date_entree_communaute_hobbit' => null,
-			'id_fk_rang_communaute_hobbit' => null,
+		$data = array('id_fk_communaute_braldun' => null,
+			'date_entree_communaute_braldun' => null,
+			'id_fk_rang_communaute_braldun' => null,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 
 		if ($this->view->gestionnaireCommunaute === true) {
 			$this->supprimerCommunaute($idCommunaute);
 		} else {
 
 			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
-			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
+			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
 			$e = "";
-			if ($this->view->user->sexe_hobbit == "feminin") {
+			if ($this->view->user->sexe_braldun == "feminin") {
 				$e = "e";
 			}
-			$message .= " (".$this->view->user->id_hobbit.") est sorti".$e." de votre communauté.".PHP_EOL;
+			$message .= " (".$this->view->user->id_braldun.") est sorti".$e." de votre communauté.".PHP_EOL;
 
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message, $this->view);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $communaute["id_fk_braldun_gestionnaire_communaute"], $message, $this->view);
 		}
 
 		return $communaute;

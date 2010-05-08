@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true):?>
-	Votre Jet d'identification : <?=$this->jetHobbit ?> <br />
+	Votre Jet d'identification : <?=$this->jetBraldun ?> <br />
 	<? if ($this->identificationReussieOk === true): ?>
 		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
 		<? if ($this->rune["image"] != ""): ?>
@@ -9,7 +9,7 @@
 	   	<? endif; ?>
 	<? else: ?>
 		Vous avez manqu&eacute; votre identification
-		<?if ($this->jetHobbitLoin === true) :?>
+		<?if ($this->jetBraldunLoin === true) :?>
 			<br>et vous &ecirc;tes loin d'identifier cette rune...
 		<? endif; ?>
 		<br /><br />

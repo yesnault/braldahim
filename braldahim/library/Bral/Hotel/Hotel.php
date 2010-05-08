@@ -26,7 +26,7 @@ abstract class Bral_Hotel_Hotel {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_braldun, $this->view->user->y_braldun);
 		unset($lieuxTable);
 		
 		$this->idEchoppe = null;
@@ -38,11 +38,11 @@ abstract class Bral_Hotel_Hotel {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppesTable = new Echoppe();
 			$echoppeTable = new Echoppe();
-			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+			$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 			$tabEchoppe = null;
 			foreach ($echoppes as $e) {
-				if ($e["x_echoppe"] == $this->view->user->x_hobbit &&
-				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+				if ($e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun) {
 					$tabEchoppe = array('id_echoppe' => $e["id_echoppe"]);
 					$this->view->idHotel = null;
 					$this->idEchoppe = $e["id_echoppe"];
@@ -53,7 +53,7 @@ abstract class Bral_Hotel_Hotel {
 				}
 			}
 			if ($tabEchoppe == null) {
-				throw new Zend_Exception(get_class($this)." Echoppe ou hotel invalide idh:".$this->view->user->id_hobbit);
+				throw new Zend_Exception(get_class($this)." Echoppe ou hotel invalide idh:".$this->view->user->id_braldun);
 			}
 		} elseif (count($lieuRowset) > 1) {
 			throw new Zend_Exception("Bral_Box_Hotel::nombre de lieux invalide > 1 !");
@@ -96,7 +96,7 @@ abstract class Bral_Hotel_Hotel {
 	}
 
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - $this->view->paUtilisationHotel < 0) {
+		if ($this->view->user->pa_braldun - $this->view->paUtilisationHotel < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -105,12 +105,12 @@ abstract class Bral_Hotel_Hotel {
 	}
 
 	/*
-	 * Mise à jour des événements du hobbit : type : service.
+	 * Mise à jour des événements du braldun : type : service.
 	 */
 	private function majEvenementsHotel($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
-		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de l'Hôtel des Ventes";
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
+		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services de l'Hôtel des Ventes";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 
 	function render() {
@@ -126,7 +126,7 @@ abstract class Bral_Hotel_Hotel {
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsHotel(Bral_Helper_Affiche::copie($this->view->texte));
-				$this->majHobbit();
+				$this->majBraldun();
 				return $this->view->render("commun/commun_resultat.phtml");
 				break;
 			default:
@@ -137,28 +137,28 @@ abstract class Bral_Hotel_Hotel {
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
-		if ($this->view->user->pa_hobbit < 1) {
+		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
 		return $tab;
 	}
 
-	private function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
+	private function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
 
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->nb_pa ;
 
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'castars_hobbit' => $this->view->user->castars_hobbit,
-			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+			'poids_transporte_braldun' => $this->view->user->poids_transporte_braldun,
 		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 
 }

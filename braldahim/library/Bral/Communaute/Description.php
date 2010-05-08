@@ -44,10 +44,10 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 		$estGestionnaire = false;
 		
 		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
-			if ($communaute["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+			if ($communaute["id_fk_braldun_gestionnaire_communaute"] == $this->view->user->id_braldun) {
 				$estGestionnaire = true;
 			}
 		}

@@ -22,7 +22,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 	function prepareCommun() {
 		$this->view->assezDeCastars = false;
-		if ($this->view->user->castars_hobbit >= 1) {
+		if ($this->view->user->castars_braldun >= 1) {
 			$this->view->assezDeCastars = true;
 		}
 
@@ -39,11 +39,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		if ($this->view->assezDeCastars == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de castars : ".$this->view->user->castars_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de castars : ".$this->view->user->castars_braldun);
 		}
 
 		if ($this->view->vendreOk == false) {
@@ -60,9 +60,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		if ($this->view->typeDepart[$this->view->idTypeCourantDepart]["nom_systeme"] == "Charrette") {
 			Zend_Loader::loadClass("Bral_Util_Poids");
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - 1;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - 1;
 	}
 
 	private function prepareDepart() {
@@ -89,7 +89,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Laban", "nom_type_depart" => "Votre laban", "selected" => $selected, "suffixe" => "laban", "box" => "box_laban");
 
 			$charretteTable = new Charrette();
-			$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+			$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 			$charrette = null;
 			if (count($charrettes) == 1) {
@@ -325,7 +325,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	private function prepareTypeAutres($endroit) {
 		$tabAutres = null;
 		$table = new $endroit["nom_systeme"]();
-		$autresRowset = $table->findByIdHobbit($this->view->user->id_hobbit);
+		$autresRowset = $table->findByIdBraldun($this->view->user->id_braldun);
 		unset($table);
 
 		if (count($autresRowset) == 1) {
@@ -369,7 +369,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$table = new $endroit["nom_systeme"]();
 		$data = array(
 		$autre["nom_systeme"]."_".$endroit["suffixe"]  => -$nb,
-			"id_fk_hobbit_".$endroit["suffixe"] => $this->view->user->id_hobbit,
+			"id_fk_braldun_".$endroit["suffixe"] => $this->view->user->id_braldun,
 		);
 		$table->insertOrUpdate($data);
 
@@ -394,7 +394,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanEquipement");
 			$table = new LabanEquipement();
-			$equipements = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$equipements = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($endroit["nom_systeme"] == "Echoppe") {
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$table = new EchoppeEquipement();
@@ -479,7 +479,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];
 
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VENDRE_ID, $equipement["id_equipement"], $details);
 
 	}
@@ -491,7 +491,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPotion");
 			$table = new LabanPotion();
-			$potions = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$potions = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($endroit["nom_systeme"] == "Echoppe") {
 			Zend_Loader::loadClass("EchoppePotion");
 			$table = new EchoppePotion();
@@ -561,7 +561,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$this->view->objetVente = $potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " de qualité ".$potion["qualite"];
 
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente ".$potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente ".$potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " à l'Hôtel des Ventes";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_VENDRE_ID, $potion["id_potion"], $details);
 
 	}
@@ -573,7 +573,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanRune");
 			$table = new LabanRune();
-			$runes = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$runes = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharretteRune");
 			$table = new CharretteRune();
@@ -631,7 +631,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = " la rune n°".$rune["id_rune"];
 
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_VENDRE_ID, $rune["id_rune"], $details);
 	}
@@ -642,7 +642,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMunition");
 			$table = new LabanMunition();
-			$munitions = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$munitions = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharretteMunition");
 			$table = new CharretteMunition();
@@ -688,8 +688,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMunition");
 			$table = new LabanMunition();
-			$nomFk = "id_fk_hobbit_laban_munition";
-			$valeurFk = $this->view->user->id_hobbit;
+			$nomFk = "id_fk_braldun_laban_munition";
+			$valeurFk = $this->view->user->id_braldun;
 		} else {
 			Zend_Loader::loadClass("CharretteMunition");
 			$table = new CharretteMunition();
@@ -726,7 +726,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMinerai");
 			$table = new LabanMinerai();
-			$minerais = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$minerais = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharretteMinerai");
 			$table = new CharretteMinerai();
@@ -787,8 +787,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMinerai");
 			$table = new LabanMinerai();
-			$nomFk = "id_fk_hobbit_laban_minerai";
-			$valeurFk = $this->view->user->id_hobbit;
+			$nomFk = "id_fk_braldun_laban_minerai";
+			$valeurFk = $this->view->user->id_braldun;
 		} else {
 			Zend_Loader::loadClass("CharretteMinerai");
 			$table = new CharretteMinerai();
@@ -834,7 +834,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPartieplante");
 			$table = new LabanPartieplante();
-			$partiesPlantes = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$partiesPlantes = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharrettePartieplante");
 			$table = new CharrettePartieplante();
@@ -897,8 +897,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPartieplante");
 			$table = new LabanPartieplante();
-			$nomFk = "id_fk_hobbit_laban_partieplante";
-			$valeurFk = $this->view->user->id_hobbit;
+			$nomFk = "id_fk_braldun_laban_partieplante";
+			$valeurFk = $this->view->user->id_braldun;
 		} else {
 			Zend_Loader::loadClass("CharrettePartieplante");
 			$table = new CharrettePartieplante();
@@ -942,7 +942,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMateriel");
 			$table = new LabanMateriel();
-			$materiels = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$materiels = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($endroit["nom_systeme"] == "Echoppe") {
 			Zend_Loader::loadClass("EchoppeMateriel");
 			$table = new EchoppeMateriel();
@@ -1004,7 +1004,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = " le matériel n°".$materiel["id_materiel"]. " ".$materiel["nom"];
 
-		$details = "[h".$this->view->user->id_hobbit."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
+		$details = "[h".$this->view->user->id_braldun."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $materiel["id_materiel"], $details);
 	}
@@ -1015,7 +1015,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
-			$aliments = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$aliments = $table->findByIdBraldun($this->view->user->id_braldun);
 		} elseif ($endroit["nom_systeme"] == "Echoppe") {
 			Zend_Loader::loadClass("EchoppeAliment");
 			$table = new EchoppeAliment();
@@ -1097,7 +1097,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanGraine");
 			$table = new LabanGraine();
-			$graines = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$graines = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharretteGraine");
 			$table = new CharretteGraine();
@@ -1143,8 +1143,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanGraine");
 			$table = new LabanGraine();
-			$nomFk = "id_fk_hobbit_laban_graine";
-			$valeurFk = $this->view->user->id_hobbit;
+			$nomFk = "id_fk_braldun_laban_graine";
+			$valeurFk = $this->view->user->id_braldun;
 		} else {
 			Zend_Loader::loadClass("CharretteGraine");
 			$table = new CharretteGraine();
@@ -1182,7 +1182,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
-			$ingredients = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$ingredients = $table->findByIdBraldun($this->view->user->id_braldun);
 		} else {
 			Zend_Loader::loadClass("CharretteIngredient");
 			$table = new CharretteIngredient();
@@ -1228,8 +1228,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
-			$nomFk = "id_fk_hobbit_laban_ingredient";
-			$valeurFk = $this->view->user->id_hobbit;
+			$nomFk = "id_fk_braldun_laban_ingredient";
+			$valeurFk = $this->view->user->id_braldun;
 		} else {
 			Zend_Loader::loadClass("CharretteIngredient");
 			$table = new CharretteIngredient();
@@ -1352,7 +1352,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		}
 
 		$data = array(
-			"id_fk_hobbit_vente" => $this->view->user->id_hobbit,
+			"id_fk_braldun_vente" => $this->view->user->id_braldun,
 			"date_debut_vente" => $dateDebut,
 			"date_fin_vente" => $dateFin, 
 			"commentaire_vente" => $commentaire,

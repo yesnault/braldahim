@@ -23,9 +23,9 @@ class EchoppeMateriel extends Zend_Db_Table {
 		$select->from('region');
 		$select->from('materiel');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
-		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
+		$select->from('braldun', array('id_braldun', 'prenom_braldun', 'nom_braldun', 'sexe_braldun'));
 		$select->where("type_vente_echoppe_materiel like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_fk_echoppe_echoppe_materiel = id_echoppe');
 		$select->where('id_fk_metier_echoppe = id_metier');
 		$select->where('id_echoppe_materiel = id_materiel');
@@ -58,11 +58,11 @@ class EchoppeMateriel extends Zend_Db_Table {
 		$select->from('echoppe_materiel', 'count(id_echoppe_materiel) as nombre');
 		$select->from('type_materiel', null);
 		$select->from('echoppe', null);
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('region', null);
 		$select->from('materiel', null);
 		$select->where("type_vente_echoppe_materiel like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_echoppe_materiel = id_materiel');
 		$select->where('id_fk_type_materiel = id_type_materiel');
 		$select->where('id_fk_echoppe_echoppe_materiel = id_echoppe');

@@ -15,7 +15,7 @@ class Bral_Util_Marcher {
 	function __construct() {
 	}
 
-	function calcul($hobbit, $selection = null, $construireRoute = false) {
+	function calcul($braldun, $selection = null, $construireRoute = false) {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass("Bosquet");
@@ -39,7 +39,7 @@ class Bral_Util_Marcher {
 		$retour["y_max"] = null;
 
 		$zoneTable = new Zone();
-		$zone = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
+		$zone = $zoneTable->findByCase($braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
 		unset($zoneTable);
 
 		// La requete ne doit renvoyer qu'une seule case
@@ -51,7 +51,7 @@ class Bral_Util_Marcher {
 		unset($zone);
 
 		$bosquetTable = new Bosquet();
-		$bosquets = $bosquetTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
+		$bosquets = $bosquetTable->findByCase($braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
 
 		if (count($bosquets) == 1) {
 			$environnement = $bosquets[0]["description_type_bosquet"];
@@ -61,24 +61,24 @@ class Bral_Util_Marcher {
 		}
 
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
+		$routes = $routeTable->findByCase($braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
 
 		if (count($routes) == 1 && $routes[0]["est_visible_route"] == "oui") {
 			$retour["estSurRoute"] = true;
 		}
 
-		if ($hobbit->est_engage_hobbit == "oui") {
+		if ($braldun->est_engage_braldun == "oui") {
 			$retour["estEngage"] = true;
 		}
 
 		/*
-		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
+		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
 		 */
-		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute);
+		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute);
 		$retour["nb_cases"] = $this->nb_cases;
 		$retour["effetMot"] = $this->effetMot;
 		$retour["nb_pa"] = $this->nb_pa;
-		if ($assezDePa == false || $hobbit->activation == false) {
+		if ($assezDePa == false || $braldun->activation == false) {
 			$retour["assezDePa"] = false;
 			return $retour;
 		} else {
@@ -88,14 +88,14 @@ class Bral_Util_Marcher {
 		$marcherPossible = false;
 
 		$this->distance = $this->nb_cases;
-		$x_min = $hobbit->x_hobbit - $this->distance;
-		$x_max = $hobbit->x_hobbit + $this->distance;
-		$y_min = $hobbit->y_hobbit - $this->distance;
-		$y_max = $hobbit->y_hobbit + $this->distance;
+		$x_min = $braldun->x_braldun - $this->distance;
+		$x_max = $braldun->x_braldun + $this->distance;
+		$y_min = $braldun->y_braldun - $this->distance;
+		$y_max = $braldun->y_braldun + $this->distance;
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
-		$dijkstra->calcul($this->nb_cases, $hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
+		$dijkstra->calcul($this->nb_cases, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
 
 		$defautChecked = false;
 		$config = Zend_Registry::get('config');
@@ -103,8 +103,8 @@ class Bral_Util_Marcher {
 		for ($j = $this->nb_cases; $j >= -$this->nb_cases; $j --) {
 			$change_level = true;
 			for ($i = -$this->nb_cases; $i <= $this->nb_cases; $i ++) {
-				$x = $hobbit->x_hobbit + $i;
-				$y = $hobbit->y_hobbit + $j;
+				$x = $braldun->x_braldun + $i;
+				$y = $braldun->y_braldun + $j;
 
 				$display = $x;
 				$display .= " ; ";
@@ -181,14 +181,14 @@ class Bral_Util_Marcher {
 	}
 
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement
-	 * sur lequel le hobbit marche :
+	 * sur lequel le braldun marche :
 	 * Plaine : 1 PA jusqu'a 2 cases
 	 * Bosquet : 1 PA pour 1 case
 	 * Marais : 2 PA pour 1 case
 	 * Montagneux : 2 PA pour 1 case
 	 * Caverneux : 1 PA pour 1 case
 	 */
-	public function calculNbPa($hobbit, $nom_systeme_environnement, $estSurRoute, $construireRoute) {
+	public function calculNbPa($braldun, $nom_systeme_environnement, $estSurRoute, $construireRoute) {
 		$this->effetMot = false;
 
 		switch($nom_systeme_environnement) {
@@ -199,7 +199,7 @@ class Bral_Util_Marcher {
 			case "marais" :
 				$this->nb_cases = 1;
 				$this->nb_pa = 2;
-				if (Bral_Util_Commun::getEquipementByNomSystemeMot($hobbit->id_hobbit, "mot_p") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($braldun->id_braldun, "mot_p") != null) {
 					$this->effetMot = true;
 					$this->nb_pa = 1;
 				}
@@ -207,7 +207,7 @@ class Bral_Util_Marcher {
 			case "montagne" :
 				$this->nb_cases = 1;
 				$this->nb_pa = 2;
-				if (Bral_Util_Commun::getEquipementByNomSystemeMot($hobbit->id_hobbit, "mot_c") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($braldun->id_braldun, "mot_c") != null) {
 					$this->effetMot = true;
 					$this->nb_pa = 1;
 				}
@@ -215,7 +215,7 @@ class Bral_Util_Marcher {
 			case "bosquet" :
 				$this->nb_cases = 1;
 				$this->nb_pa = 1;
-				if (Bral_Util_Commun::getEquipementByNomSystemeMot($hobbit->id_hobbit, "mot_t") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($braldun->id_braldun, "mot_t") != null) {
 					$this->effetMot = true;
 					$this->nb_cases = 2;
 				}
@@ -237,7 +237,7 @@ class Bral_Util_Marcher {
 			$this->nb_pa = 1;
 		}
 
-		if ($hobbit->est_engage_hobbit == "oui") {
+		if ($braldun->est_engage_braldun == "oui") {
 			$this->nb_cases = 1;
 			$this->nb_pa = 2;
 		}
@@ -247,11 +247,11 @@ class Bral_Util_Marcher {
 			$this->nb_pa = 0;
 		}
 			
-		if ($hobbit->bm_marcher_hobbit != 0) {
-			$this->nb_pa = $this->nb_pa - $hobbit->bm_marcher_hobbit;
+		if ($braldun->bm_marcher_braldun != 0) {
+			$this->nb_pa = $this->nb_pa - $braldun->bm_marcher_braldun;
 		}
 		
-		if ($hobbit->pa_hobbit - $this->nb_pa < 0) {
+		if ($braldun->pa_braldun - $this->nb_pa < 0) {
 			return false;
 		} else {
 			return true;

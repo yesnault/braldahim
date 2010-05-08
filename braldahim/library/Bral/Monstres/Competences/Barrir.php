@@ -20,7 +20,7 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		
 		$delta = 4;
 		if ($this->monstre["vue_monstre"] + $this->monstre["vue_bm_monstre"] < 4) {
@@ -35,16 +35,16 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 		$yMin = $this->monstre["y_monstre"] + $delta;
 		$yMax = $this->monstre["y_monstre"] + $delta;
 		
-		$hobbits = $hobbitTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->monstre["z_monstre"], -1, false);
+		$bralduns = $braldunTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->monstre["z_monstre"], -1, false);
 
-		if ($hobbits != null) {
-			foreach($hobbits as $h) {
+		if ($bralduns != null) {
+			foreach($bralduns as $h) {
 				$malus = floor($this->monstre["niveau_monstre"]) - 3 + Bral_Util_De::get_1d6();
 				if ($malus < 0) {
 					$malus = 1;
 				}
 				$nbTours = Bral_Util_De::get_1d3();
-				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_hobbit"], Bral_Util_Effets::CARACT_SAGESSE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_braldun"], Bral_Util_Effets::CARACT_SAGESSE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 				$this->majEvenement($h, $malus, $nbTours);
 			}
 		}
@@ -53,12 +53,12 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 		return null;
 	}
 
-	private function majEvenement($hobbit, $malus, $nbTours) {
+	private function majEvenement($braldun, $malus, $nbTours) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a barri sur le hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a barri sur le braldun [h".$braldun["id_braldun"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $nbTours);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 

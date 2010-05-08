@@ -21,8 +21,8 @@ class StatsFabricants extends Zend_Db_Table {
 			'count(*) as nombre, 
 			nb_piece_stats_fabricants as quantitePiece, 
 			somme_niveau_piece_stats_fabricants as sommeNiveau')
-		->where('niveau_hobbit_stats_fabricants = '.$data["niveau_hobbit_stats_fabricants"]
-				.' AND id_fk_hobbit_stats_fabricants = '.$data["id_fk_hobbit_stats_fabricants"]
+		->where('niveau_braldun_stats_fabricants = '.$data["niveau_braldun_stats_fabricants"]
+				.' AND id_fk_braldun_stats_fabricants = '.$data["id_fk_braldun_stats_fabricants"]
 				.' AND id_fk_metier_stats_fabricants = '.$data["id_fk_metier_stats_fabricants"]
 				.' AND mois_stats_fabricants = \''.$data["mois_stats_fabricants"].'\'')
 		->group(array('quantitePiece', 'sommeNiveau'));
@@ -61,8 +61,8 @@ class StatsFabricants extends Zend_Db_Table {
 				}
 			}
 			
-			$where = 'niveau_hobbit_stats_fabricants = '.$data["niveau_hobbit_stats_fabricants"]
-				.' AND id_fk_hobbit_stats_fabricants = '.$data["id_fk_hobbit_stats_fabricants"]
+			$where = 'niveau_braldun_stats_fabricants = '.$data["niveau_braldun_stats_fabricants"]
+				.' AND id_fk_braldun_stats_fabricants = '.$data["id_fk_braldun_stats_fabricants"]
 				.' AND id_fk_metier_stats_fabricants = '.$data["id_fk_metier_stats_fabricants"]
 				.' AND mois_stats_fabricants = \''.$data["mois_stats_fabricants"].'\'';
 			$this->update($dataUpdate, $where);

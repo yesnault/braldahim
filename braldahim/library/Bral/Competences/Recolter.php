@@ -21,7 +21,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		$this->verificationChamp();
 
-		if ($this->view->user->balance_faim_hobbit >= 2) {
+		if ($this->view->user->balance_faim_braldun >= 2) {
 			$this->prepareDestination();
 		}
 	}
@@ -30,7 +30,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->view->recolterChampOk = false;
 
 		$champTable = new Champ();
-		$champs = $champTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit);
+		$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
 
 		$retour = false;
 		if (count($champs) == 1) {
@@ -49,7 +49,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$charrette = null;
 		if (count($charrettes) == 1) {
@@ -77,7 +77,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification semer
@@ -93,14 +93,14 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		$this->recolter($idDestination);
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a récolté un champ";
+		$details = "[h".$this->view->user->id_braldun."] a récolté un champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function recolter($idDestination) {
@@ -133,7 +133,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			if ($idDestination == "charrette") {
 				$poidsRestant = $this->view->charrette["poids_transportable_charrette"] - $this->view->charrette["poids_transporte_charrette"];
 			} elseif ($idDestination == "laban") {
-				$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+				$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 			} else {
 				$poidsRestant = 10000000; // sol
 			}
@@ -154,7 +154,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->majChamp();
 
 		if ($idDestination == "charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
 		$this->idDestination = $idDestination;
 	}
@@ -193,8 +193,8 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			$this->view->taupesVivantes = $taupesVivantes;
 		}
 
-		if ($quantite > $this->view->user->balance_faim_hobbit) {
-			$quantite = $this->view->user->balance_faim_hobbit;
+		if ($quantite > $this->view->user->balance_faim_braldun) {
+			$quantite = $this->view->user->balance_faim_braldun;
 		}
 
 		if ($quantite > $this->view->champ["quantite_champ"]) {
@@ -237,7 +237,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		} elseif ($idDestination == "sol") {
 			// rien
 		} else {
-			$data["id_fk_hobbit_laban_tabac"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_tabac"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 	}
@@ -266,10 +266,10 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_ingredient"] = $this->view->charrette["id_charrette"];
 		} elseif ($idDestination == "sol") {
-			$data["x_element_ingredient"] = $this->view->user->x_hobbit; 
-			$data["y_element_ingredient"] = $this->view->user->y_hobbit;
+			$data["x_element_ingredient"] = $this->view->user->x_braldun; 
+			$data["y_element_ingredient"] = $this->view->user->y_braldun;
 		} else {
-			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 		}
 		$table->insertOrUpdate($data);
 
@@ -281,8 +281,8 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 				"id_fk_type_".$suffixe."_ingredient" => $idTypeIngredient,
 				"quantite_".$suffixe."_ingredient" => $quantiteSol,
 			);
-			$data["x_element_ingredient"] = $this->view->user->x_hobbit; 
-			$data["y_element_ingredient"] = $this->view->user->y_hobbit;
+			$data["x_element_ingredient"] = $this->view->user->x_braldun; 
+			$data["y_element_ingredient"] = $this->view->user->y_braldun;
 			$table->insertOrUpdate($data);
 		}
 

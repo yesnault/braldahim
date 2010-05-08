@@ -23,7 +23,7 @@ class SondageController extends Zend_Controller_Action {
 			$this->_redirect('/');
 		}
 
-		if ($this->view->user->est_sondage_valide_hobbit == 'oui') {
+		if ($this->view->user->est_sondage_valide_braldun == 'oui') {
 			$this->_redirect('/');
 		}
 
@@ -36,7 +36,7 @@ class SondageController extends Zend_Controller_Action {
 		$sondageEnCours = $sondageTable->findEnCours();
 
 		if ($sondageEnCours == null || count($sondageEnCours) != 1) {
-			$this->updateHobbitValide();
+			$this->updateBraldunValide();
 			$this->_redirect('/');
 		} else {
 			$this->view->sondage = $sondageEnCours[0];
@@ -81,8 +81,8 @@ class SondageController extends Zend_Controller_Action {
 				
 				$data = array(
 					'id_fk_sondage_reponse' => $this->view->sondage["id_sondage"],
-					'id_fk_hobbit_sondage_reponse' => $this->view->user->id_hobbit,
-					'commentaire_hobbit_sondage_reponse' => $commentaire,
+					'id_fk_braldun_sondage_reponse' => $this->view->user->id_braldun,
+					'commentaire_braldun_sondage_reponse' => $commentaire,
 					'date_sondage_reponse' => date("Y-m-d H:i:s"),
 				);
 				
@@ -92,7 +92,7 @@ class SondageController extends Zend_Controller_Action {
 				
 				$sondageReponseTable->insert($data);
 				
-				$this->updateHobbitValide();
+				$this->updateBraldunValide();
 				$this->_redirect('/sondage/fin');
 			}
 		} else {
@@ -100,10 +100,10 @@ class SondageController extends Zend_Controller_Action {
 		}
 	}
 
-	private function updateHobbitValide() {
-		$hobbitTable = new Hobbit();
-		$data = array("est_sondage_valide_hobbit" => "oui");
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+	private function updateBraldunValide() {
+		$braldunTable = new Braldun();
+		$data = array("est_sondage_valide_braldun" => "oui");
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 }

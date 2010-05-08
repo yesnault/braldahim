@@ -48,12 +48,12 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function countNonDebuteByIdHobbit($idHobbit) {
+	public function countNonDebuteByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('soule_equipe', 'count(id_fk_hobbit_soule_equipe) as nombre')
+		$select->from('soule_equipe', 'count(id_fk_braldun_soule_equipe) as nombre')
 		->from('soule_match', null)
-		->where('id_fk_hobbit_soule_equipe = ?', (int)$idHobbit)
+		->where('id_fk_braldun_soule_equipe = ?', (int)$idBraldun)
 		->where('id_fk_match_soule_equipe = id_soule_match')
 		->where('date_debut_soule_match is null');
 		$sql = $select->__toString();
@@ -61,11 +61,11 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result[0]["nombre"];
 	}
 
-	public function countNonDebuteByIdHobbitList($listId) {
+	public function countNonDebuteByIdBraldunList($listId) {
 		if ($listId == null) {
 			return null;
 		}
-		$nomChamp = "id_fk_hobbit_soule_equipe";
+		$nomChamp = "id_fk_braldun_soule_equipe";
 		$liste = "";
 		foreach($listId as $id) {
 			if ((int) $id."" == $id."") {
@@ -79,12 +79,12 @@ class SouleEquipe extends Zend_Db_Table {
 		
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('soule_equipe', array('count(id_fk_hobbit_soule_equipe) as nombre', 'id_fk_hobbit_soule_equipe'))
+		$select->from('soule_equipe', array('count(id_fk_braldun_soule_equipe) as nombre', 'id_fk_braldun_soule_equipe'))
 		->from('soule_match', null)
 		->where($nomChamp ."=".$liste)
 		->where('id_fk_match_soule_equipe = id_soule_match')
 		->where('date_debut_soule_match is null')
-		->group('id_fk_hobbit_soule_equipe');
+		->group('id_fk_braldun_soule_equipe');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -113,12 +113,12 @@ class SouleEquipe extends Zend_Db_Table {
 		$select->from('soule_equipe', '*')
 		->from('soule_match', null)
 		->from('soule_terrain', null)
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->where('id_soule_terrain = id_fk_terrain_soule_match')
 		->where('id_fk_match_soule_equipe = id_soule_match')
 		->where('date_debut_soule_match is null')
-		->where('id_hobbit = id_fk_hobbit_soule_equipe')
-		->where('id_fk_hobbit_soule_equipe = id_hobbit')
+		->where('id_braldun = id_fk_braldun_soule_equipe')
+		->where('id_fk_braldun_soule_equipe = id_braldun')
 		->where('niveau_soule_terrain = ?', $niveauTerrain);
 
 		$sql = $select->__toString();
@@ -131,9 +131,9 @@ class SouleEquipe extends Zend_Db_Table {
 		$select = $db->select();
 
 		$select->from('soule_equipe', '*')
-		->from('hobbit', '*')
+		->from('braldun', '*')
 		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
-		->where('id_fk_hobbit_soule_equipe = id_hobbit');
+		->where('id_fk_braldun_soule_equipe = id_braldun');
 
 		if ($ordre != null) {
 			$select->order($ordre);
@@ -144,18 +144,18 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findByIdHobbitAndIdMatch($idHobbit, $idMatch) {
+	public function findByIdBraldunAndIdMatch($idBraldun, $idMatch) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('soule_equipe', '*')
 		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
-		->where('id_fk_hobbit_soule_equipe = ?', (int)$idHobbit);
+		->where('id_fk_braldun_soule_equipe = ?', (int)$idBraldun);
 
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		if (count($result) != 1) {
-			throw new Zend_Exception("SouleEquipe::findByIdHobbitAndIdMatch invalide:".$idMatch."-".$idHobbit);
+			throw new Zend_Exception("SouleEquipe::findByIdBraldunAndIdMatch invalide:".$idMatch."-".$idBraldun);
 		}
 		return $result[0];
 	}

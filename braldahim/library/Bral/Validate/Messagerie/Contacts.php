@@ -15,9 +15,9 @@ require_once 'Zend/Validate/Interface.php';
 class Bral_Validate_Messagerie_Contacts implements Zend_Validate_Interface {
 	protected $_messages = array();
 	
-	public function __construct($estObligatoire, $idFkJosUsersHobbit) {
+	public function __construct($estObligatoire, $idFkJosUsersBraldun) {
 		$this->estObligatoire = $estObligatoire;
-		$this->idFkJosUsersHobbit = $idFkJosUsersHobbit;
+		$this->idFkJosUsersBraldun = $idFkJosUsersBraldun;
 	}
 	
 	public function isValid($valeur) {
@@ -49,7 +49,7 @@ class Bral_Validate_Messagerie_Contacts implements Zend_Validate_Interface {
 		Zend_Loader::loadClass('MessagerieContacts');
 		$messagerieContactsTable = new MessagerieContacts();
 		$idContactsTab = split(',', $valeur);
-		$messagerieContacts = $messagerieContactsTable->findByIdsList($idContactsTab, $this->idFkJosUsersHobbit);
+		$messagerieContacts = $messagerieContactsTable->findByIdsList($idContactsTab, $this->idFkJosUsersBraldun);
 		
 		if ($valid) {
 			foreach ($idContactsTab as $id) {

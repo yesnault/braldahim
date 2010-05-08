@@ -28,9 +28,9 @@ body {
 	margin-top: -10px;
 }
 
-#hobbitsite {
+#braldunsite {
 	z-index:1000;
-	background:transparent url(/public/images/hobbit-site.png) no-repeat scroll 0 0;
+	background:transparent url(/public/images/braldun-site.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:340px;
@@ -129,7 +129,7 @@ a:hover,.alabel:hover {
 	color: #eeeeee;
 }
 
-span.id_hobbit {
+span.id_braldun {
 	color: red;
 }
 

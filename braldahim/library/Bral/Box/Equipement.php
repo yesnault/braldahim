@@ -38,7 +38,7 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 	
 	private function data() {
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_hobbit, $this->view->user->niveau_hobbit);
+		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_braldun, $this->view->user->niveau_braldun);
 		$this->view->typesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
 		$this->view->nom_interne = $this->getNomInterne();
 	}

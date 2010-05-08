@@ -37,16 +37,16 @@ class Bral_Scripts_Champs extends Bral_Scripts_Script {
 	private function calculChamps() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Champs - calculChamps - enter -");
 		$retour = "";
-		$this->calculChampsHobbit($retour);
+		$this->calculChampsBraldun($retour);
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Champs - calculChamps - exit -");
 		return $retour;
 	}
 
-	private function calculChampsHobbit(&$retour) {
+	private function calculChampsBraldun(&$retour) {
 		Zend_Loader::loadClass("Champ");
 
 		$champsTable = new Champ();
-		$champsRowset = $champsTable->findByIdHobbit($this->hobbit->id_hobbit);
+		$champsRowset = $champsTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($champsRowset != null) {
 			foreach($champsRowset as $e) {

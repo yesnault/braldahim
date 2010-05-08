@@ -18,7 +18,7 @@ elseif ($this->affichageInterne == true) : ?>
 				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:none">
 				<? foreach($m["competences"] as $c) : ?>
 					<li>
-					<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+					<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
 				      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 				    else:
 				      $attr = " disabled ";

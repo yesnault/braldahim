@@ -41,19 +41,19 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Testeur");
 		$testeurTable = new Testeur();
 
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueurs();
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findAllJoueurs();
 
-		foreach($hobbits as $h) {
-			$data['email_testeur'] = $h["email_hobbit"];
-			$data['id_fk_nom_testeur'] = $h["id_fk_nom_initial_hobbit"];
+		foreach($bralduns as $h) {
+			$data['email_testeur'] = $h["email_braldun"];
+			$data['id_fk_nom_testeur'] = $h["id_fk_nom_initial_braldun"];
 
-			if ($h["beta_conserver_nom_hobbit"] == "oui") {
-				$data['nom_testeur'] = $h["nom_hobbit"];
-				echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " conserve ".$h["nom_hobbit"].PHP_EOL;
+			if ($h["beta_conserver_nom_braldun"] == "oui") {
+				$data['nom_testeur'] = $h["nom_braldun"];
+				echo $h["email_braldun"]. " n°".$h["id_braldun"]. " conserve ".$h["nom_braldun"].PHP_EOL;
 			} else {
 				$data['nom_testeur'] = null;
-				echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " ne conserve pas ".$h["nom_hobbit"].PHP_EOL;
+				echo $h["email_braldun"]. " n°".$h["id_braldun"]. " ne conserve pas ".$h["nom_braldun"].PHP_EOL;
 			}
 
 			$testeurTable->insert($data);

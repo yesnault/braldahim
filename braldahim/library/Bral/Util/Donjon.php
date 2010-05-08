@@ -13,8 +13,8 @@
 class Bral_Util_Donjon {
 
 	public static function messageSignature(&$message, $donjonCourant, $avecMessageInutile = true) {
-		$message .= $donjonCourant["prenom_hobbit"]. " ".$donjonCourant["nom_hobbit"]. ", ";
-		if ($donjonCourant["sexe_hobbit"] == "masculin") {
+		$message .= $donjonCourant["prenom_braldun"]. " ".$donjonCourant["nom_braldun"]. ", ";
+		if ($donjonCourant["sexe_braldun"] == "masculin") {
 			$message .= "garde";
 		} else {
 			$message .= "gardienne";
@@ -54,16 +54,16 @@ class Bral_Util_Donjon {
 		$where = 'id_donjon_equipe='.$equipe['id_donjon_equipe'];
 		$donjonEquipeTable->update($data, $where);
 
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($equipe["id_donjon_equipe"]);
 
-		foreach($donjonHobbit as $h) {
-			self::envoieMessageAnnulationHobbit($donjon, $h["id_hobbit"], $view);
+		foreach($donjonBraldun as $h) {
+			self::envoieMessageAnnulationBraldun($donjon, $h["id_braldun"], $view);
 		}
 	}
 
-	private static function envoieMessageAnnulationHobbit($donjon, $idHobbit, $view) {
+	private static function envoieMessageAnnulationBraldun($donjon, $idBraldun, $view) {
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Ahhhh ! ".PHP_EOL;
@@ -71,7 +71,7 @@ class Bral_Util_Donjon {
 		$message .= " Votre inscription au Donjon est annulée.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $donjon);
-		Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $idHobbit, $message, $view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $idBraldun, $message, $view);
 	}
 
 	public static function controleFin($donjon, $view) {
@@ -112,18 +112,18 @@ class Bral_Util_Donjon {
 		$region = $regionTable->findById($donjon["id_fk_region_donjon"]);
 		$nomComte = $region["nom_region"];
 
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($equipe["id_donjon_equipe"]);
 
-		$listeHobbits = "";
-		foreach($donjonHobbit as $h) {
-			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. " (".$h["id_hobbit"]."), ";
-			self::envoieMessageEchecHobbit($donjon, $equipe, $h, $view);
-			self::finaliseHobbitEchec($h);
+		$listeBralduns = "";
+		foreach($donjonBraldun as $h) {
+			$listeBralduns .= $h["prenom_braldun"]. " ".$h["nom_braldun"]. " (".$h["id_braldun"]."), ";
+			self::envoieMessageEchecBraldun($donjon, $equipe, $h, $view);
+			self::finaliseBraldunEchec($h);
 		}
 
-		self::envoieMessageEchecHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
+		self::envoieMessageEchecBralduns($donjon, $equipe, $nomComte, $listeBralduns, $view);
 		self::creationEmissaires($donjon, $view);
 
 		// et l'on termine le donjon
@@ -137,25 +137,25 @@ class Bral_Util_Donjon {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonEchec - exit -");
 	}
 
-	private static function finaliseHobbitEchec($hobbit) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitEchec - enter h:".$hobbit["id_hobbit"]);
-		$hobbit["nb_ko_hobbit"] = $hobbit["nb_ko_hobbit"] + 1;
+	private static function finaliseBraldunEchec($braldun) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseBraldunEchec - enter h:".$braldun["id_braldun"]);
+		$braldun["nb_ko_braldun"] = $braldun["nb_ko_braldun"] + 1;
 
 		$data = array(
-				'pv_restant_hobbit' => 0,
-				'est_ko_hobbit' => 'oui',
-				'nb_ko_hobbit' => $hobbit["nb_ko_hobbit"],
-				'date_fin_tour_hobbit' =>  date("Y-m-d H:i:s"),
-				'est_donjon_hobbit' => 'non',
+				'pv_restant_braldun' => 0,
+				'est_ko_braldun' => 'oui',
+				'nb_ko_braldun' => $braldun["nb_ko_braldun"],
+				'date_fin_tour_braldun' =>  date("Y-m-d H:i:s"),
+				'est_donjon_braldun' => 'non',
 		);
-		$where = "id_hobbit = ".$hobbit["id_hobbit"];
-		$hobbitTable = new Hobbit();
-		$hobbitTable->update($data, $where);
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitEchec - exit -");
+		$where = "id_braldun = ".$braldun["id_braldun"];
+		$braldunTable = new Braldun();
+		$braldunTable->update($data, $where);
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseBraldunEchec - exit -");
 	}
 
-	private static function envoieMessageEchecHobbit($donjon, $equipe, $hobbit, $view) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecHobbit - enter h:".$hobbit["id_hobbit"]);
+	private static function envoieMessageEchecBraldun($donjon, $equipe, $braldun, $view) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecBraldun - enter h:".$braldun["id_braldun"]);
 		$detailsBot = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$detailsBot .= "Ahhhh ! ".PHP_EOL;
@@ -165,22 +165,22 @@ class Bral_Util_Donjon {
 		Bral_Util_Donjon::messageSignature($detailsBot, $donjon);
 		$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs($detailsBot, false);
 
-		$details = "[h".$hobbit["id_hobbit"]."] a échoué au Donjon, face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
+		$details = "[h".$braldun["id_braldun"]."] a échoué au Donjon, face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
 
 		$config = Zend_Registry::get('config');
 		$idTypeEvenementCible = $config->game->evenements->type->ko;
-		Bral_Util_Evenement::majEvenements($hobbit["id_hobbit"], $idTypeEvenementCible, $details, $detailsBot, $hobbit["niveau_hobbit"], "hobbit", true, $view);
+		Bral_Util_Evenement::majEvenements($braldun["id_braldun"], $idTypeEvenementCible, $details, $detailsBot, $braldun["niveau_braldun"], "braldun", true, $view);
 
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecHobbit - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecBraldun - exit -");
 	}
 
-	private static function envoieMessageEchecHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecHobbits - enter -");
+	private static function envoieMessageEchecBralduns($donjon, $equipe, $nomComte, $listeBralduns, $view) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecBralduns - enter -");
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Bonjour. ".PHP_EOL;
 		$message .= "Tristre nouvelle aujourd'hui : ils ont échoué ! Oui, ".PHP_EOL;
-		$message .= $listeHobbits.PHP_EOL;
+		$message .= $listeBralduns.PHP_EOL;
 
 		$message .= " n'ont pas réussi à vaincre [m".$equipe["id_fk_monstre_donjon_equipe"]."].".PHP_EOL.PHP_EOL;
 		$message .= "Il est très en colère et a envoyé un émissaire dans ";
@@ -190,13 +190,13 @@ class Bral_Util_Donjon {
 		$message = Bral_Util_Lien::remplaceBaliseParNomEtJs($message, false);
 
 		Bral_Util_Donjon::messageSignature($message, $donjon);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueurs();
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecHobbits - nbJoueurs:".count($hobbits));
-		foreach($hobbits as $h) {
-			Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $h["id_hobbit"], $message, $view);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findAllJoueurs();
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecBralduns - nbJoueurs:".count($bralduns));
+		foreach($bralduns as $h) {
+			Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $h["id_braldun"], $message, $view);
 		}
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecHobbits - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageEchecBralduns - exit -");
 	}
 
 	private static function creationEmissaires($donjon, $view) {
@@ -241,7 +241,7 @@ class Bral_Util_Donjon {
 		}
 	}
 
-	public static function dropGainsEtUpdateDonjon($idDonjon, $monstre, $niveauHobbit, $effetMotD, $view) {
+	public static function dropGainsEtUpdateDonjon($idDonjon, $monstre, $niveauBraldun, $effetMotD, $view) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - enter -");
 
 		Zend_Loader::loadClass("DonjonEquipe");
@@ -254,30 +254,30 @@ class Bral_Util_Donjon {
 			$donjonEquipe = $donjonEquipe[0];
 		}
 
-		self::dropGains($idDonjon, $donjonEquipe, $monstre, $niveauHobbit, $effetMotD);
+		self::dropGains($idDonjon, $donjonEquipe, $monstre, $niveauBraldun, $effetMotD);
 
 		$data["date_mort_monstre_donjon_equipe"] = date("Y-m-d H:i:s");
 		$where = "id_donjon_equipe = ".$donjonEquipe["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
 
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($donjonEquipe["id_donjon_equipe"]);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($donjonEquipe["id_donjon_equipe"]);
 
 		Zend_Loader::loadClass('Donjon');
 		$donjonTable = new Donjon();
 		$donjon = $donjonTable->findByIdDonjon($idDonjon);
 		$donjon = $donjon[0];
 
-		foreach($donjonHobbit as $h) {
-			self::envoieMessageDelaiSortie($donjon, $h["id_hobbit"], $view);
+		foreach($donjonBraldun as $h) {
+			self::envoieMessageDelaiSortie($donjon, $h["id_braldun"], $view);
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - exit -");
 		return true;
 	}
 
-	private static function envoieMessageDelaiSortie($donjon, $idHobbit, $view) {
+	private static function envoieMessageDelaiSortie($donjon, $idBraldun, $view) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageDelaiSortie - enter -");
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
@@ -287,11 +287,11 @@ class Bral_Util_Donjon {
 		$message .= " terre et vous serez ensuite automatiquement renvoyé à la capitale de la Comté.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $donjon);
-		Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $idHobbit, $message, $view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $idBraldun, $message, $view);
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageDelaiSortie - exit -");
 	}
 
-	public static function dropGains($idDonjon, $donjonEquipe, $monstre, $niveauHobbit, $effetMotD) {
+	public static function dropGains($idDonjon, $donjonEquipe, $monstre, $niveauBraldun, $effetMotD) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGains - enter -");
 
 		Zend_Loader::loadClass("IdsEquipement");
@@ -299,10 +299,10 @@ class Bral_Util_Donjon {
 		Zend_Loader::loadClass("ElementEquipement");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 
-		$nbHobbit = 9;
-		for($i = 1; $i< $nbHobbit; $i++) {
-			// 1 rune par hobbit, 1 rune a déjà été droppé dans mortMonstreDb
-			Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $monstre["id_monstre"]);
+		$nbBraldun = 9;
+		for($i = 1; $i< $nbBraldun; $i++) {
+			// 1 rune par braldun, 1 rune a déjà été droppé dans mortMonstreDb
+			Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $niveauBraldun, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $monstre["id_monstre"]);
 		}
 
 		Zend_Loader::loadClass("RecetteEquipement");
@@ -315,7 +315,7 @@ class Bral_Util_Donjon {
 			$equipement = $equipementsRowset[0];
 		}
 
-		for($i = 1; $i<= $nbHobbit; $i++) {
+		for($i = 1; $i<= $nbBraldun; $i++) {
 			self::dropSet($equipement, $donjonEquipe, $monstre);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGains - exit -");
@@ -380,18 +380,18 @@ class Bral_Util_Donjon {
 		$region = $regionTable->findById($donjon["id_fk_region_donjon"]);
 		$nomComte = $region["nom_region"];
 
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($equipe["id_donjon_equipe"]);
 
-		$listeHobbits = "";
-		foreach($donjonHobbit as $h) {
-			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. "(".$h["id_hobbit"]."), ";
-			self::envoieMessageReussiHobbit($donjon, $equipe, $nomComte, $h, $view);
-			self::finaliseHobbitReussi($donjon, $h, $nomComte);
+		$listeBralduns = "";
+		foreach($donjonBraldun as $h) {
+			$listeBralduns .= $h["prenom_braldun"]. " ".$h["nom_braldun"]. "(".$h["id_braldun"]."), ";
+			self::envoieMessageReussiBraldun($donjon, $equipe, $nomComte, $h, $view);
+			self::finaliseBraldunReussi($donjon, $h, $nomComte);
 		}
 
-		self::envoieMessageReussiHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
+		self::envoieMessageReussiBralduns($donjon, $equipe, $nomComte, $listeBralduns, $view);
 
 		$donjonEquipeTable = new DonjonEquipe();
 		$data = array(
@@ -403,8 +403,8 @@ class Bral_Util_Donjon {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonReussi - exit -");
 	}
 
-	private static function finaliseHobbitReussi($donjon, $hobbit, $nomComte) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitReussi - enter h:".$hobbit["id_hobbit"]);
+	private static function finaliseBraldunReussi($donjon, $braldun, $nomComte) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseBraldunReussi - enter h:".$braldun["id_braldun"]);
 
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
@@ -412,25 +412,25 @@ class Bral_Util_Donjon {
 		$lieu = $lieuxRowset[0];
 
 		$data = array(
-				'est_donjon_hobbit' => 'non',
-				'x_hobbit' => $lieu["x_lieu"],
-				'y_hobbit' => $lieu["y_lieu"],
-				'z_hobbit' => $lieu["z_lieu"],
+				'est_donjon_braldun' => 'non',
+				'x_braldun' => $lieu["x_lieu"],
+				'y_braldun' => $lieu["y_lieu"],
+				'z_braldun' => $lieu["z_lieu"],
 		);
-		$where = "id_hobbit = ".$hobbit["id_hobbit"];
-		$hobbitTable = new Hobbit();
-		$hobbitTable->update($data, $where);
+		$where = "id_braldun = ".$braldun["id_braldun"];
+		$braldunTable = new Braldun();
+		$braldunTable->update($data, $where);
 
 		Zend_Loader::loadClass("Bral_Util_Distinction");
 		$texte = "Écumeur du donjon de la ".$nomComte;
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit["id_hobbit"]." - Bral_Util_Donjon::finaliseHobbitReussi - Ajout d'une distinction : ".$texte);
-		Bral_Util_Distinction::ajouterDistinction($hobbit["id_hobbit"], $donjon["id_fk_distinction_donjon"], $texte);
+		Bral_Util_Log::quete()->trace("Braldun ".$braldun["id_braldun"]." - Bral_Util_Donjon::finaliseBraldunReussi - Ajout d'une distinction : ".$texte);
+		Bral_Util_Distinction::ajouterDistinction($braldun["id_braldun"], $donjon["id_fk_distinction_donjon"], $texte);
 
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitReussi - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseBraldunReussi - exit -");
 	}
 
-	private static function envoieMessageReussiHobbit($donjon, $equipe, $nomComte, $hobbit, $view) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiHobbit - enter h:".$hobbit["id_hobbit"]);
+	private static function envoieMessageReussiBraldun($donjon, $equipe, $nomComte, $braldun, $view) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiBraldun - enter h:".$braldun["id_braldun"]);
 		$detailsBot = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$detailsBot .= "Féliciations ! ".PHP_EOL;
@@ -440,23 +440,23 @@ class Bral_Util_Donjon {
 		Bral_Util_Donjon::messageSignature($detailsBot, $donjon);
 		$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs($detailsBot, false);
 
-		$details = "[h".$hobbit["id_hobbit"]."] sort victorieux du Donjon face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
+		$details = "[h".$braldun["id_braldun"]."] sort victorieux du Donjon face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
 
 		$config = Zend_Registry::get('config');
 		$idTypeEvenementCible = $config->game->evenements->type->special;
-		Bral_Util_Evenement::majEvenements($hobbit["id_hobbit"], $idTypeEvenementCible, $details, $detailsBot, $hobbit["niveau_hobbit"], "hobbit", true, $view);
+		Bral_Util_Evenement::majEvenements($braldun["id_braldun"], $idTypeEvenementCible, $details, $detailsBot, $braldun["niveau_braldun"], "braldun", true, $view);
 
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiHobbit - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiBraldun - exit -");
 	}
 
-	private static function envoieMessageReussiHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view) {
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiHobbits - enter -");
+	private static function envoieMessageReussiBralduns($donjon, $equipe, $nomComte, $listeBralduns, $view) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiBralduns - enter -");
 
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Bonjour. ".PHP_EOL;
 		$message .= "Ils l'ont fait ! Qui sont ces héros qui sont allés mettre une bonne rouste à [m".$equipe["id_fk_monstre_donjon_equipe"]."] ?".PHP_EOL;
-		$message .= "Les voilà : ".$listeHobbits.PHP_EOL;
+		$message .= "Les voilà : ".$listeBralduns.PHP_EOL;
 
 		$message .= " revenant chargés de trésors et de gloire ! ".PHP_EOL.PHP_EOL;
 		$message .= "Sortez les tonneaux, la bière va couler à flot ce soir dans notre belle ".$nomComte.".".PHP_EOL.PHP_EOL;
@@ -464,12 +464,12 @@ class Bral_Util_Donjon {
 		$message = Bral_Util_Lien::remplaceBaliseParNomEtJs($message, false);
 
 		Bral_Util_Donjon::messageSignature($message, $donjon);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueurs();
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiHobbits - nbJoueurs:".count($hobbits));
-		foreach($hobbits as $h) {
-			Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $h["id_hobbit"], $message, $view);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->findAllJoueurs();
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiBralduns - nbJoueurs:".count($bralduns));
+		foreach($bralduns as $h) {
+			Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $h["id_braldun"], $message, $view);
 		}
-		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiHobbits - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageReussiBralduns - exit -");
 	}
 }

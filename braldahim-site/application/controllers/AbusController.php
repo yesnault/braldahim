@@ -37,10 +37,10 @@ class AbusController extends Zend_Controller_Action {
 			// Suppression de la sessions courante
 			Zend_Auth::getInstance()->clearIdentity();
 			$authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-			$authAdapter->setTableName('hobbit');
+			$authAdapter->setTableName('braldun');
 
-			$authAdapter->setIdentityColumn('email_hobbit');
-			$authAdapter->setCredentialColumn('password_hobbit');
+			$authAdapter->setIdentityColumn('email_braldun');
+			$authAdapter->setCredentialColumn('password_braldun');
 
 			// Set the input credential values to authenticate against
 			$authAdapter->setIdentity($email);
@@ -53,13 +53,13 @@ class AbusController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Abus');
 				Zend_Loader::loadClass('Zend_Filter');
 				
-				$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
+				$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
 
 				$abusTable = new Abus();
 				
 				$data = array(
 					'date_abus' => date("Y-m-d H:i:s"),
-				 	'id_fk_hobbit_abus' => $hobbit->id_hobbit,
+				 	'id_fk_braldun_abus' => $braldun->id_braldun,
 					'texte_abus' => $texte,
 				);
 				$idAbus = $abusTable->insert($data);
@@ -68,7 +68,7 @@ class AbusController extends Zend_Controller_Action {
 				
 				$mail->setFrom($this->view->config->general->mail->abus->from, $this->view->config->general->mail->abus->nom);
 				$mail->addTo($this->view->config->general->mail->abus->from, $this->view->config->general->mail->abus->nom);
-				$mail->setSubject("[Braldahim-Abus] Abus n°".$idAbus ." signalé par Hobbit n°".$hobbit->id_hobbit." (".$email.")");
+				$mail->setSubject("[Braldahim-Abus] Abus n°".$idAbus ." signalé par Braldun n°".$braldun->id_braldun." (".$email.")");
 				$mail->setBodyText($texte);
 				$mail->send();
 				

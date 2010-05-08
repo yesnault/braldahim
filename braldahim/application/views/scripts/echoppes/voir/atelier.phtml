@@ -15,7 +15,7 @@ $disabled = "disabled" ;
 <? endif; ?>
 <? endif; ?>
 <? foreach($this->competences as $c) : ?>
-	<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+	<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
       $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
     else:
       $attr = " disabled ";
@@ -29,7 +29,7 @@ $disabled = "disabled" ;
   		$disabled = "disabled" ;
   	   endif;
   	?>
-<? if ($this->user->pa_hobbit >= 1) : 
+<? if ($this->user->pa_braldun >= 1) : 
   $attr = "onClick='_get_(\"/hotel/doaction?caction=ask_hotel_vendre&valeur_1=1\");'";
 else:
   $attr = " disabled ";

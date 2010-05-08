@@ -33,11 +33,11 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		if ($this->view->affichageInterne) {
 			Zend_Loader::loadClass('Charrette');
 			$charretteTable = new Charrette();
-			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+			$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 			if ($nombre > 0) {
 				$this->view->possedeCharrette = true;
 
-				$this->view->tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+				$this->view->tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
 
 				$this->data();
 
@@ -66,33 +66,33 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("CharretteRune");
 		Zend_Loader::loadClass("CharretteTabac");
-		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("BraldunsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
 
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		unset($hobbitsMetiersTable);
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+		unset($braldunsMetiersTable);
 
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
 		unset($metiersTable);
 		$metiersRowset = $metiersRowset->toArray();
-		$tabHobbitMetiers = null;
+		$tabBraldunMetiers = null;
 		$tabMetiers = null;
 
 		foreach($metiersRowset as $m) {
-			if ($this->view->user->sexe_hobbit == 'feminin') {
+			if ($this->view->user->sexe_braldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
 
 			$possedeMetier = false;
-			foreach($hobbitsMetierRowset as $h) {
+			foreach($braldunsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
 					$possedeMetier = true;
 					break;
@@ -100,7 +100,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			}
 
 			if ($possedeMetier == true) {
-				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
+				$tabBraldunMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
 						"nom" => $nom_metier,
 						"nom_systeme" => $m["nom_systeme_metier"],
@@ -119,7 +119,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$charrette = null;
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($charretteTable);
 
 		if ($charrettes != null && count($charrettes) == 1) {
@@ -247,7 +247,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderAmeliorations($charrette);
 
 		$this->view->tabMetiers = $tabMetiers;
-		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
+		$this->view->tabBraldunMetiers = $tabBraldunMetiers;
 		$this->view->charrette = $charrette;
 		$this->view->laban = $charrette; // pour les poches
 
@@ -257,7 +257,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$this->view->nom_interne = $this->getNomInterne();
 
-		unset($tabHobbitMetiers);
+		unset($tabBraldunMetiers);
 		unset($tabMetiers);
 		unset($tabMineraisBruts);
 		unset($tabLingots);

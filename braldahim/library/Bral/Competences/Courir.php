@@ -18,10 +18,10 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Charrette");
 
 		$charretteTable = new Charrette();
-		$nombreCharrette = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$nombreCharrette = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 
 		/*
-		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
+		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa = false) {
@@ -33,16 +33,16 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 			$this->view->possedeCharrette = true;
 				
 			Zend_Loader::loadClass("Bral_Util_Charrette");
-			$this->view->courirPossible = Bral_Util_Charrette::calculCourrirChargerPossible($this->view->user->id_hobbit);
+			$this->view->courirPossible = Bral_Util_Charrette::calculCourrirChargerPossible($this->view->user->id_braldun);
 			if ($this->view->courirPossible == false) {
 				return;
 			}
 		} else if ($nombreCharrette > 1) {
-			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_hobbit);
+			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_braldun);
 		}
 			
 		$this->view->estEngage = false;
-		if ($this->view->user->est_engage_hobbit == "oui") {
+		if ($this->view->user->est_engage_braldun == "oui") {
 			$this->view->courirPossible = false;
 			$this->view->estEngage = true;
 			return;
@@ -50,7 +50,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		$this->view->courirPossible = false;
 
-		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->nb_cases = 1;
 		if ($environnement == "plaine") {
@@ -59,19 +59,19 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 			$this->distance = 6;
 		}
 
-		$this->x_min = $this->view->user->x_hobbit - $this->distance;
-		$this->x_max = $this->view->user->x_hobbit + $this->distance;
-		$this->y_min = $this->view->user->y_hobbit - $this->distance;
-		$this->y_max = $this->view->user->y_hobbit + $this->distance;
+		$this->x_min = $this->view->user->x_braldun - $this->distance;
+		$this->x_max = $this->view->user->x_braldun + $this->distance;
+		$this->y_min = $this->view->user->y_braldun - $this->distance;
+		$this->y_max = $this->view->user->y_braldun + $this->distance;
 
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_hobbit);
+		$palissades = $palissadeTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_braldun);
 
 		$this->tabValidationPalissade = null;
 		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			for ($i = -$this->distance; $i <= $this->distance; $i++) {
-				$x = $this->view->user->x_hobbit + $i;
-				$y = $this->view->user->y_hobbit + $j;
+				$x = $this->view->user->x_braldun + $i;
+				$y = $this->view->user->y_braldun + $j;
 				$this->tabValidationPalissade[$x][$y] = true;
 			}
 		}
@@ -84,8 +84,8 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
 			$change_level = true;
 			for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
-				$x = $this->view->user->x_hobbit + $i;
-				$y = $this->view->user->y_hobbit + $j;
+				$x = $this->view->user->x_braldun + $i;
+				$y = $this->view->user->y_braldun + $j;
 
 				if ($j == 1 && $i == 0) {
 					$display = " Vers le Nord";
@@ -174,26 +174,26 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		$this->calculPalissade($offset_x, $offset_y);
 
-		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $this->offset_x_calcul;
-		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $this->offset_y_calcul;
+		$this->view->user->x_braldun = $this->view->user->x_braldun + $this->offset_x_calcul;
+		$this->view->user->y_braldun = $this->view->user->y_braldun + $this->offset_y_calcul;
 
 		Zend_Loader::loadClass("Bral_Util_Crevasse");
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
 		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = "[h".$this->view->user->id_hobbit."] a couru";
+		$details = "[h".$this->view->user->id_braldun."] a couru";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
 		$tab = array("box_vue", "box_lieu");
-		if ($this->view->user->est_soule_hobbit == "oui") {
+		if ($this->view->user->est_soule_braldun == "oui") {
 			$tab[] = "box_soule";
 		}
 		return $this->constructListBoxRefresh($tab);
@@ -201,8 +201,8 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 	private function calculPalissade($offset_x, $offset_y) {
 
-		$x = $this->view->user->x_hobbit;
-		$y = $this->view->user->y_hobbit;
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
 
 		$k = 0;
 		$this->view->palissadeRencontree = false;

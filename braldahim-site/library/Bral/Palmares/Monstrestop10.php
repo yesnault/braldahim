@@ -39,7 +39,7 @@ class Bral_Palmares_Monstrestop10 extends Bral_Palmares_Box {
 		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->kohobbit;
+		$type = $this->view->config->game->evenements->type->kobraldun;
 		$rowset = $evenementTable->findTop10Monstres($mdate["dateDebut"], $mdate["dateFin"], $type);
 		$this->view->top10 = $rowset;
 	}

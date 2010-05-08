@@ -20,8 +20,8 @@ class Bral_Lieux_Escaliers extends Bral_Lieux_Lieu {
 	}
 
 	function prepareResultat() {
-		$this->view->user->z_hobbit = $this->view->user->z_hobbit + 1;
-		$this->majHobbit();
+		$this->view->user->z_braldun = $this->view->user->z_braldun + 1;
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {

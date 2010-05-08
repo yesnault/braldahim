@@ -194,7 +194,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$data = array(
 			"id_fk_type_groupe_monstre" => $id_type,
 			"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-			"id_fk_hobbit_cible_groupe_monstre"  => null,
+			"id_fk_braldun_cible_groupe_monstre"  => null,
 			"nb_membres_max_groupe_monstre"  => $nb_membres,
 			"nb_membres_restant_groupe_monstre" => $nb_membres,
 			"phase_tactique_groupe_monstre" => 0,
@@ -274,7 +274,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"x_max_monstre" => $x_max_position,
 			"y_min_monstre" => $y_min_position,
 			"y_max_monstre" => $y_max_position,
-			"id_fk_hobbit_cible_monstre" => null,
+			"id_fk_braldun_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
 			"niveau_monstre" => $niveau_monstre,
@@ -738,7 +738,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->setSubject("[Braldahim-Admin Jeu] Administration Monstre ".$this->_request->getPost("id_monstre"));
-				$texte = "--------> Utilisateur ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
+				$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
 				$texte .= PHP_EOL.$modification;
 
 				$mail->setBodyText($texte);

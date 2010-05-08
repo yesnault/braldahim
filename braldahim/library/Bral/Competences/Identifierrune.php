@@ -14,11 +14,11 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('LabanRune');
-		// on verifie que le hobbit possede au moins une rune
+		// on verifie que le braldun possede au moins une rune
 		
 		$tabRunes = null;
 		$labanRuneTable = new LabanRune();
-		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, 'non');
+		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, 'non');
 		
 		if (count($runes) == 0) {
 			$this->view->identifierRuneOk = false;
@@ -46,7 +46,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 		
 		// Verification abattre arbre
@@ -79,7 +79,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 	
 	/*
@@ -88,17 +88,17 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	 * s'il peut l'identifier ou si le niveau de sagesse est vraiment trop important pour lui. 
 	 */
 	private function calculIdentifierRune($rune) {
-		$jetHobbit = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
-		$this->view->jetHobbit = $jetHobbit + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$this->view->jetBraldun = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 		
-		if ($this->view->jetHobbit >= $rune["sagesse_type_rune"]) {
+		if ($this->view->jetBraldun >= $rune["sagesse_type_rune"]) {
 			$this->view->identificationReussieOk = true;
 		} else {
 			$this->view->identificationReussieOk  = false;
-			if ($this->view->jetHobbit < $rune["sagesse_type_rune"] / 2) {
-				$this->view->jetHobbitLoin = true;
+			if ($this->view->jetBraldun < $rune["sagesse_type_rune"] / 2) {
+				$this->view->jetBraldunLoin = true;
 			} else {
-				$this->view->jetHobbitLoin = false;
+				$this->view->jetBraldunLoin = false;
 			}
 			return;
 		}
@@ -110,7 +110,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$where = 'id_rune = '.$rune["id_rune"];
 		$runeTable->update($data, $where);
 		
-		$details = "[h".$this->view->user->id_hobbit."] a identifié la rune n°".$rune["id_rune"];
+		$details = "[h".$this->view->user->id_braldun."] a identifié la rune n°".$rune["id_rune"];
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
 	}

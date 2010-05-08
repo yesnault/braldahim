@@ -37,9 +37,9 @@ class VenteMunition extends Zend_Db_Table {
 		$select->from('vente_munition', '*')
 		->from('type_munition', '*')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->where('id_fk_vente_munition = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->where('id_fk_vente_munition = '.$liste)
 		->where('id_fk_type_vente_munition = id_type_munition');
 		$sql = $select->__toString();
@@ -53,11 +53,11 @@ class VenteMunition extends Zend_Db_Table {
 		$select->from('vente_munition', '*')
 		->from('type_munition')
 		->from('vente')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'))
 		->where('id_type_munition = ?', $idTypeMunition)
 		->where('id_fk_type_vente_munition = id_type_munition')
 		->where('id_fk_vente_munition = id_vente')
-		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_braldun_vente = id_braldun')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

@@ -36,13 +36,13 @@ class SouleMatch extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findNonDebuteByIdHobbit($idHobbit) {
+	public function findNonDebuteByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_equipe', null)
 		->from('soule_match', '*')
 		->from('soule_terrain', '*')
-		->where('id_fk_hobbit_soule_equipe = ?', (int)$idHobbit)
+		->where('id_fk_braldun_soule_equipe = ?', (int)$idBraldun)
 		->where('id_fk_match_soule_equipe = id_soule_match')
 		->where('date_debut_soule_match is null')
 		->where('id_fk_terrain_soule_match = id_soule_terrain');
@@ -88,14 +88,14 @@ class SouleMatch extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdHobbitBallon($idHobbit) {
+	public function findByIdBraldunBallon($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('soule_match', '*');
 		$select->from('soule_terrain', '*');
 		$select->where('id_fk_terrain_soule_match = id_soule_terrain');
-		$select->where('id_fk_joueur_ballon_soule_match = ?', (int)$idHobbit);
+		$select->where('id_fk_joueur_ballon_soule_match = ?', (int)$idBraldun);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

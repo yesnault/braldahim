@@ -40,7 +40,7 @@ class Bral_Monstres_Competences_Eclairlucidite extends Bral_Monstres_Competences
 		$tab[] = " se secoue la tête et semble retrouver ses idées.";
 		$tab[] = " est traversé par un éclair de lucidité.";
 		$tab[] = " se replace correctement et analyse la situation.";
-		$tab[] = " cherche un hobbit à charger.";
+		$tab[] = " cherche un braldun à charger.";
 		
 		$details .= $tab[Bral_Util_De::get_de_specifique(0, count($tab) - 1)];
 		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $idTypeEvenement, $details, "", $this->monstre["niveau_monstre"], $this->view);

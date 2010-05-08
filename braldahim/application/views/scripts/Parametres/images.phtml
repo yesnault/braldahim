@@ -27,7 +27,7 @@
 		<? if ($this->urlAvatarValide == false) : ?>
 			<?=Bral_Helper_Image::afficherErreur();?>
 		<? endif; ?>
-		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_hobbit ?>' size="50" maxlength="200">
+		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_braldun ?>' size="50" maxlength="200">
 		
 		<ul class="titre textalic textsizec">Le Blason</ul><br />
 		Le blason doit &ecirc;tre au format 300px (largeur) x 400px (hauteur). <br/>
@@ -36,7 +36,7 @@
 			<?=Bral_Helper_Image::afficherErreur();?>
 		<? endif; ?>
 		
-		<input type='text' id='valeur_2' name='valeur_2' value='<?=$this->user->url_blason_hobbit ?>' size="50" maxlength="200">
+		<input type='text' id='valeur_2' name='valeur_2' value='<?=$this->user->url_blason_braldun ?>' size="50" maxlength="200">
 		<br />
 		
 		<input type="submit" class='button1' id="bouton_valider" value="Valider" />
@@ -52,8 +52,8 @@
 			</thead>
 			<tbody>
 				<tr class="table_liste">
-				  <td class="table_liste"><?=Bral_Helper_Image::afficherAvatar($this->user->url_avatar_hobbit); ?></td>	
-				  <td class="table_liste"><?=Bral_Helper_Image::afficherBlason($this->user->url_blason_hobbit); ?></td>	
+				  <td class="table_liste"><?=Bral_Helper_Image::afficherAvatar($this->user->url_avatar_braldun); ?></td>	
+				  <td class="table_liste"><?=Bral_Helper_Image::afficherBlason($this->user->url_blason_braldun); ?></td>	
 				</tr>
 			</tbody>
 		</table>

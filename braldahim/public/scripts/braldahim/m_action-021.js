@@ -376,14 +376,14 @@ function limiteTailleTextarea(textarea, max, iddesc) {
 	$(iddesc).innerHTML = affichage_reste;
 }
 
-function ouvrirProfilH(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=profil', 'Profil Hobbit n°' + idHobbit);
+function ouvrirProfilH(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=profil', 'Profil Braldun n°' + idBraldun);
 }
-function ouvrirEvenementsH(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=evenements', 'Evenements Hobbit n°' + idHobbit);
+function ouvrirEvenementsH(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=evenements', 'Evenements Braldun n°' + idBraldun);
 }
-function ouvrirFamille(idHobbit) {
-	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=famille', 'Famille Hobbit n°' + idHobbit);
+function ouvrirFamille(idBraldun) {
+	ouvrirWin('/voir/braldun/?braldun=' + idBraldun + '&direct=famille', 'Famille Braldun n°' + idBraldun);
 }
 function ouvrirCommunaute(idCommunaute) {
 	ouvrirWin('/voir/communaute/?communaute=' + idCommunaute, 'Communauté n°' + idCommunaute);
@@ -473,14 +473,14 @@ function hideModal(divID) {
     $(divID).style.display = "none";
 }
 
-function ecrireMessage(idHobbit) {
+function ecrireMessage(idBraldun) {
 	fermeturePopup();
 	if ($("loaded_box_messagerie").value != "1") {
 		// pour eviter de recharger box_messagerie lors du my_switch en dessous
 		// si l'onglet n'a jamais été vu.
 		$("loaded_box_messagerie").value = "1"; 
 	}
-	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idHobbit);
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idBraldun);
 	my_switch("box_messagerie","boite_c");
 }
 
@@ -730,27 +730,27 @@ function controleEchoppe(i) {
 
 function afficheAutreCoffre(){
 	if($('valeur_2').value==4){
-		document.getElementById('div_hobbit').style.visibility='visible';
-		document.getElementById('div_hobbit').style.display='block';
+		document.getElementById('div_braldun').style.visibility='visible';
+		document.getElementById('div_braldun').style.display='block';
 	}
 	else{
-		document.getElementById('div_hobbit').style.visibility='hidden';
-		document.getElementById('div_hobbit').style.display='none';
+		document.getElementById('div_braldun').style.visibility='hidden';
+		document.getElementById('div_braldun').style.display='none';
 		$('valeur_3').value=-1;
 	}
 }
 
-function activerRechercheCoffreHobbit(id) {
+function activerRechercheCoffreBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getCoffreHobbitId, parameters : { champ :'value' } });
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getCoffreBraldunId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
 }
 
-function getCoffreHobbitId(text, li) {
+function getCoffreBraldunId(text, li) {
 	if (controleSession(li) == true) {
-		$('valeur_3').value = li.getAttribute('id_hobbit');
+		$('valeur_3').value = li.getAttribute('id_braldun');
 		controleQte("");
 	}
 }
@@ -758,9 +758,9 @@ function getCoffreHobbitId(text, li) {
 /************************* RECHERCHE ********************/
 /********************************************************************/
 
-function activerRechercheHobbit(id) {
+function activerRechercheBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
 		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
@@ -774,17 +774,17 @@ function activerRechercheBourlingueur(id, idTypeDistinction) {
 	}
 }
 
-function activerRechercheAdminHobbit(id) {
+function activerRechercheAdminBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getAdminHobbitId, parameters : { champ :'value' } });
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getAdminBraldunId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
 }
 
-function activerRechercheVoirHobbit(id) {
+function activerRechercheVoirBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
 		afterUpdateElement :getVoirId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
@@ -804,25 +804,25 @@ function controleSession(li) {
 
 function getVoirId(text, li) {
 	if (controleSession(li) == true) {
-		document.location.href = "/voir/hobbit/?hobbit=" + li.getAttribute('id_hobbit');
+		document.location.href = "/voir/braldun/?braldun=" + li.getAttribute('id_braldun');
 		$('recherche_' + li.getAttribute('champ')).value = 'Chargement en cours...';
 	}
 }
 
-function getAdminHobbitId(text, li) {
+function getAdminBraldunId(text, li) {
 	if (controleSession(li) == true) {
-		$('id_hobbit').value = li.getAttribute('id_hobbit');
+		$('id_braldun').value = li.getAttribute('id_braldun');
 	}
 }
 
 function getSelectionId(text, li) {
 	if (controleSession(li) == true) {
-		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_hobbit'), li.getAttribute('id_hobbit'));
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_braldun'), li.getAttribute('id_braldun'));
 		$('recherche_' + li.getAttribute('champ')).value = '';
 	}
 }
 
-function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
+function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 	if ($(champ).value == '') {
 		$(champ).value = idJos;
 	} else {
@@ -844,8 +844,8 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
 	contenu.name = 'm_' + champ + '_' + idJos;
 	
 	var texte = valeur;
-	if (idHobbit != null) {
-		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/hobbit/?hobbit='+idHobbit+'\');">' + texte + '(' + idHobbit + ')</label> ';
+	if (idBraldun != null) {
+		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/braldun/?braldun='+idBraldun+'\');">' + texte + '(' + idBraldun + ')</label> ';
 	}
 	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';

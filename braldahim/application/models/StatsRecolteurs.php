@@ -24,7 +24,7 @@ class StatsRecolteurs extends Zend_Db_Table {
 			nb_peau_stats_recolteurs as quantitePeau,
 			nb_viande_stats_recolteurs as quantiteViande,
 			nb_bois_stats_recolteurs as quantiteBois')
-		->where('niveau_hobbit_stats_recolteurs = '.$data["niveau_hobbit_stats_recolteurs"].' AND id_fk_hobbit_stats_recolteurs = '.$data["id_fk_hobbit_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'')
+		->where('niveau_braldun_stats_recolteurs = '.$data["niveau_braldun_stats_recolteurs"].' AND id_fk_braldun_stats_recolteurs = '.$data["id_fk_braldun_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'')
 		->group(array('quantiteMinerai', 'quantitePartiePlante', 'quantitePeau', 'quantiteViande', 'quantiteBois'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -100,20 +100,20 @@ class StatsRecolteurs extends Zend_Db_Table {
 				}
 			}
 				
-			$where = 'niveau_hobbit_stats_recolteurs = '.$data["niveau_hobbit_stats_recolteurs"].' AND id_fk_hobbit_stats_recolteurs = '.$data["id_fk_hobbit_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'';
+			$where = 'niveau_braldun_stats_recolteurs = '.$data["niveau_braldun_stats_recolteurs"].' AND id_fk_braldun_stats_recolteurs = '.$data["id_fk_braldun_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'';
 			$this->update($dataUpdate, $where);
 		}
 	}
 
-	function findByHobbitAndDateAndIdTypeMetier($idHobbit, $dateDebut, $dateFin, $idTypeMetier) {
+	function findByBraldunAndDateAndIdTypeMetier($idBraldun, $dateDebut, $dateFin, $idTypeMetier) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_recolteurs', $this->getSelectType($idTypeMetier));
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
 		$select->where('mois_stats_recolteurs < ?', $dateFin);
-		$select->where('id_fk_hobbit_stats_recolteurs = ?', (int)$idHobbit);
+		$select->where('id_fk_braldun_stats_recolteurs = ?', (int)$idBraldun);
 		$select->order("nombre DESC");
-		$select->group(array('id_fk_hobbit_stats_recolteurs'));
+		$select->group(array('id_fk_braldun_stats_recolteurs'));
 		$select->limit(10, 0);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

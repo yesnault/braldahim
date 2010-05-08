@@ -15,29 +15,29 @@ class Bral_Util_Charrette {
 	function __construct() {
 	}
 
-	public static function calculAttraperPossible($charrette, $hobbit, $estMenuisierOuBucheron) {
+	public static function calculAttraperPossible($charrette, $braldun, $estMenuisierOuBucheron) {
 
 		$tabRetour["possible"] = false;
 		$tabRetour["detail"] = "";
 
-		if (($hobbit->force_base_hobbit >= $charrette["force_base_min_type_materiel"] &&
-		$hobbit->agilite_base_hobbit >= $charrette["agilite_base_min_type_materiel"] &&
-		$hobbit->vigueur_base_hobbit >= $charrette["vigueur_base_min_type_materiel"] &&
-		$hobbit->sagesse_base_hobbit >= $charrette["sagesse_base_min_type_materiel"]) ||
+		if (($braldun->force_base_braldun >= $charrette["force_base_min_type_materiel"] &&
+		$braldun->agilite_base_braldun >= $charrette["agilite_base_min_type_materiel"] &&
+		$braldun->vigueur_base_braldun >= $charrette["vigueur_base_min_type_materiel"] &&
+		$braldun->sagesse_base_braldun >= $charrette["sagesse_base_min_type_materiel"]) ||
 		($charrette["nom_systeme_type_materiel"] == "charrette_legere" && $estMenuisierOuBucheron)
 		) {
 			$tabRetour["possible"] = true;
 		} else {
-			if ($hobbit->force_base_hobbit < $charrette["force_base_min_type_materiel"]) {
+			if ($braldun->force_base_braldun < $charrette["force_base_min_type_materiel"]) {
 				$tabRetour["detail"] .= " Niv. requis FOR:".$charrette["force_base_min_type_materiel"];
 			}
-			if ($hobbit->agilite_base_hobbit < $charrette["agilite_base_min_type_materiel"]) {
+			if ($braldun->agilite_base_braldun < $charrette["agilite_base_min_type_materiel"]) {
 				$tabRetour["detail"] .= " Niv. requis AGI:".$charrette["agilite_base_min_type_materiel"];
 			}
-			if ($hobbit->sagesse_base_hobbit < $charrette["sagesse_base_min_type_materiel"]) {
+			if ($braldun->sagesse_base_braldun < $charrette["sagesse_base_min_type_materiel"]) {
 				$tabRetour["detail"] .= " Niv. requis SAG:".$charrette["sagesse_base_min_type_materiel"];
 			}
-			if ($hobbit->vigueur_base_hobbit < $charrette["vigueur_base_min_type_materiel"]) {
+			if ($braldun->vigueur_base_braldun < $charrette["vigueur_base_min_type_materiel"]) {
 				$tabRetour["detail"] .= " Niv. requis VIG:".$charrette["vigueur_base_min_type_materiel"];
 			}
 		}
@@ -45,14 +45,14 @@ class Bral_Util_Charrette {
 		return $tabRetour;
 	}
 
-	public static function calculCourrirChargerPossible($idHobbit) {
+	public static function calculCourrirChargerPossible($idBraldun) {
 		$retour = false;
 
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($idHobbit);
+		$charrettes = $charretteTable->findByIdBraldun($idBraldun);
 		$nb = count($charrettes);
 
 		if ($nb == 1) {
@@ -86,7 +86,7 @@ class Bral_Util_Charrette {
 				$retour = true;
 			}
 		} else if ($nb > 1) {
-			throw new Zend_Exception("Bral_Util_Charrette::calculCourrirChargerPossible idh:".$idHobbit);
+			throw new Zend_Exception("Bral_Util_Charrette::calculCourrirChargerPossible idh:".$idBraldun);
 		} else {
 			$retour = true;
 		}
@@ -120,12 +120,12 @@ class Bral_Util_Charrette {
 		return $retour;
 	}
 
-	public static function calculAmeliorationsCharrette($idHobbit) {
+	public static function calculAmeliorationsCharrette($idBraldun) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($idHobbit);
+		$charrettes = $charretteTable->findByIdBraldun($idBraldun);
 		$nb = count($charrettes);
 
 		if ($nb == 1) {
@@ -153,21 +153,21 @@ class Bral_Util_Charrette {
 
 			// mise à jour du poids en base
 			Zend_Loader::loadClass("Bral_Util_Poids");
-			Bral_Util_Poids::calculPoidsCharrette($idHobbit, true);
+			Bral_Util_Poids::calculPoidsCharrette($idBraldun, true);
 		} else if ($nb > 1) {
-			throw new Zend_Exception("Bral_Util_Charrette::calculAmeliorationsCharrette idh:".$idHobbit);
+			throw new Zend_Exception("Bral_Util_Charrette::calculAmeliorationsCharrette idh:".$idBraldun);
 		}
 	}
 
-	public static function calculNouvelleDlaCharrette($idHobbit, $x, $y) {
+	public static function calculNouvelleDlaCharrette($idBraldun, $x, $y) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 		Zend_Loader::loadClass("Bral_Util_Poids");
 
-		self::calculAmeliorationsCharrette($idHobbit);
+		self::calculAmeliorationsCharrette($idBraldun);
 
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($idHobbit);
+		$charrettes = $charretteTable->findByIdBraldun($idBraldun);
 		$nb = count($charrettes);
 
 		$estDetruite = false;
@@ -200,7 +200,7 @@ class Bral_Util_Charrette {
 				$estDetruite = true;
 			}
 		} else if ($nb > 1) {
-			throw new Zend_Exception("Bral_Util_Charrette::calculNouvelleDlaCharrette idh:".$idHobbit);
+			throw new Zend_Exception("Bral_Util_Charrette::calculNouvelleDlaCharrette idh:".$idBraldun);
 		}
 
 		return $estDetruite;

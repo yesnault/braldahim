@@ -19,19 +19,16 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
 
-		if ($this->view->config->general->production == 1) {
-			$this->prepareDestinationsBeta(); //TODO a supprimer en VF.
-		} else {
-			$this->prepareDestinations();
-		}
+		//	$this->prepareDestinationsBeta(); //Beta
+		$this->prepareDestinations();
 
 	}
 
 	function prepareDestinations() {
 		$lieuTable = new Lieu();
-		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$gareCourant = $lieuTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$gareCourant = $gareCourant[0];
 
 		Zend_Loader::loadClass("RouteNumero");
@@ -48,13 +45,13 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 	function prepareDestinationsBeta() {
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$gareCourant = $lieuTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$gareCourant = $gareCourant[0];
 		$gareRowset = $lieuTable->findByType(TypeLieu::ID_TYPE_GARE);
 
 		foreach($gareRowset as $e) {
-			if ($e["x_lieu"] == $this->view->user->x_hobbit && $e["y_lieu"] == $this->view->user->y_hobbit) {
-				// on ne propose pas le lieu ou le hobbit est present
+			if ($e["x_lieu"] == $this->view->user->x_braldun && $e["y_lieu"] == $this->view->user->y_braldun) {
+				// on ne propose pas le lieu ou le braldun est present
 			} else {
 				$est_capitale = ($e["est_capitale_ville"] == "oui");
 				if ($gareCourant["est_capitale_ville"] == "oui") {
@@ -87,7 +84,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 
 		// verification que la destination etait bien dans la liste des destinations proposees
@@ -105,12 +102,12 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)."::Destination invalide:".$idDestination);
 		}
 
-		$hobbitTable = new Hobbit();
-		$this->view->user->x_hobbit = $xDestination;
-		$this->view->user->y_hobbit = $yDestination;
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$braldunTable = new Braldun();
+		$this->view->user->x_braldun = $xDestination;
+		$this->view->user->y_braldun = $yDestination;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 

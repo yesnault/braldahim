@@ -236,7 +236,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$data = array(
 			"id_fk_type_groupe_monstre" => $idType,
 			"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-			"id_fk_hobbit_cible_groupe_monstre"  => null,
+			"id_fk_braldun_cible_groupe_monstre"  => null,
 			"nb_membres_max_groupe_monstre"  => $nbMembres,
 			"nb_membres_restant_groupe_monstre" => $nbMembres,
 			"phase_tactique_groupe_monstre" => 0,
@@ -360,7 +360,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			"y_max_monstre" => $y_max,
 			"x_direction_monstre" => $x,
 			"y_direction_monstre" => $y,
-			"id_fk_hobbit_cible_monstre" => null,
+			"id_fk_braldun_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
 			"niveau_monstre" => $niveau_monstre,

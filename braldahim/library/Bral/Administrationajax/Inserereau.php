@@ -110,7 +110,7 @@ class Bral_Administrationajax_Inserereau extends Bral_Administrationajax_Adminis
 		"x_eau" => $xEau,
 		"y_eau" => $yEau,
 		"z_eau" => 0,
-		"id_fk_hobbit_eau" => null,
+		"id_fk_braldun_eau" => null,
 		"date_creation_eau" => date("Y-m-d H:i:s"),
 		"id_fk_type_qualite_eau"  => null,
 		"type_eau" => $typeEau,

@@ -14,7 +14,7 @@ class LabanPotion extends Zend_Db_Table {
 	protected $_name = 'laban_potion';
 	protected $_primary = array('id_laban_potion');
 
-	function findByIdHobbit($idHobbit, $idTypePotion = null) {
+	function findByIdBraldun($idBraldun, $idTypePotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_potion', '*')
@@ -24,7 +24,7 @@ class LabanPotion extends Zend_Db_Table {
 		->where('id_laban_potion = id_potion')
 		->where('id_fk_type_potion = id_type_potion')
 		->where('id_fk_type_qualite_potion = id_type_qualite')
-		->where('id_fk_hobbit_laban_potion = ?', intval($idHobbit))
+		->where('id_fk_braldun_laban_potion = ?', intval($idBraldun))
 		->order(array("type_potion", "nom_type_potion"));
 		if ($idTypePotion != null) {
 			$select->where('id_type_potion = ?', intval($idTypePotion));
@@ -33,11 +33,11 @@ class LabanPotion extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function countByIdHobbit($idHobbit) {
+	function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_potion', 'count(*) as nombre')
-		->where('id_fk_hobbit_laban_potion = '.intval($idHobbit));
+		->where('id_fk_braldun_laban_potion = '.intval($idBraldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

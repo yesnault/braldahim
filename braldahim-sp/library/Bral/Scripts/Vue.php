@@ -37,12 +37,12 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 	private function calculVue() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculVue - enter -");
 		$retour = "";
-		$this->calculVueHobbit($retour);
+		$this->calculVueBraldun($retour);
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculVue - exit -");
 		return $retour;
 	}
 
-	private function calculVueHobbit(&$retour) {
+	private function calculVueBraldun(&$retour) {
 
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Echoppe");
@@ -61,7 +61,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("ElementTabac");
 		Zend_Loader::loadClass("Lieu");
-		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("BraldunsMetiers");
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Nid");
 		Zend_Loader::loadClass("Palissade");
@@ -74,10 +74,10 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("Bral_Util_Potion");
 			
-		$x = $this->hobbit->x_hobbit;
-		$y = $this->hobbit->y_hobbit;
-		$z_position = $this->hobbit->z_hobbit;
-		$bm = $this->hobbit->vue_bm_hobbit;
+		$x = $this->braldun->x_braldun;
+		$y = $this->braldun->y_braldun;
+		$z_position = $this->braldun->z_braldun;
+		$bm = $this->braldun->vue_bm_braldun;
 			
 		Zend_Loader::loadClass("Bral_Util_Commun");
 		$vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z_position) + $bm;
@@ -137,9 +137,9 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		$elementTabacTable = new ElementTabac();
 		$elementsTabac = $elementTabacTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
 		unset($elementTabacTable);
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
-		unset($hobbitTable);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
+		unset($braldunTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
 		unset($lieuxTable);
@@ -198,7 +198,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				$tabElementsIngredients = null;
 				$tabElementsRunes = null;
 				$tabElementsTabac = null;
-				$tabHobbits = null;
+				$tabBralduns = null;
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabNids = null;
@@ -257,12 +257,12 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($echoppes != null) {
 						foreach($echoppes as $e) {
 							if ($display_x == $e["x_echoppe"] && $display_y == $e["y_echoppe"]) {
-								if ($e["sexe_hobbit"] == 'feminin') {
+								if ($e["sexe_braldun"] == 'feminin') {
 									$nom_metier = $e["nom_feminin_metier"];
 								} else {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
-								$retour .= 'ECHOPPE;'.$pos.';'.$e["id_echoppe"].';'.$e["nom_echoppe"].';'.$e["nom_systeme_metier"].';'.$nom_metier.';'.$e["id_hobbit"].$fin;
+								$retour .= 'ECHOPPE;'.$pos.';'.$e["id_echoppe"].';'.$e["nom_echoppe"].';'.$e["nom_systeme_metier"].';'.$nom_metier.';'.$e["id_braldun"].$fin;
 							}
 						}
 					}
@@ -270,7 +270,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($champs != null) {
 						foreach($champs as $e) {
 							if ($display_x == $e["x_champ"] && $display_y == $e["y_champ"]) {
-								$retour .= 'CHAMP;'.$pos.';'.$e["id_champ"].';'.$e["id_hobbit"].$fin;
+								$retour .= 'CHAMP;'.$pos.';'.$e["id_champ"].';'.$e["id_braldun"].$fin;
 							}
 						}
 					}
@@ -405,10 +405,10 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						}
 					}
 
-					if ($hobbits != null) {
-						foreach($hobbits as $h) {
-							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-								$retour .= 'HOBBIT;'.$pos.';'.$h["id_hobbit"].$fin;
+					if ($bralduns != null) {
+						foreach($bralduns as $h) {
+							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
+								$retour .= 'HOBBIT;'.$pos.';'.$h["id_braldun"].$fin;
 							}
 						}
 					}

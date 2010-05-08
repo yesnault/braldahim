@@ -19,10 +19,10 @@ class Bral_Lieux_Hopital extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Lieu");
 		
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
 		$this->view->recupPossible = false;
 		
-		if ($this->view->user->pv_restant_hobbit < $this->view->user->pv_max_hobbit + $this->view->user->pv_max_bm_hobbit) {
+		if ($this->view->user->pv_restant_braldun < $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun) {
 			$this->view->recupPossible = true;
 		}
 		
@@ -37,7 +37,7 @@ class Bral_Lieux_Hopital extends Bral_Lieux_Lieu {
 		
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 		}
 		
 		if ($this->view->recupPossible == false) {
@@ -46,11 +46,11 @@ class Bral_Lieux_Hopital extends Bral_Lieux_Lieu {
 		
 		$this->view->jetRegeneration = 0;
 		Zend_Loader::loadClass("Bral_Util_Vie");
-		Bral_Util_Vie::calculRegenerationHobbit(&$this->view->user, &$this->view->jetRegeneration);
+		Bral_Util_Vie::calculRegenerationBraldun(&$this->view->user, &$this->view->jetRegeneration);
 		
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 		
-		$this->majHobbit();
+		$this->majBraldun();
 		$this->view->coutCastars = $this->_coutCastars;
 	}
 

@@ -14,11 +14,11 @@ class Etape extends Zend_Db_Table {
 	protected $_name = 'etape';
 	protected $_primary = array('id_etape');
 
-	function findEnCoursByIdHobbitAndIdTypeEtape($idHobbit, $idTypeEtape) {
+	function findEnCoursByIdBraldunAndIdTypeEtape($idBraldun, $idTypeEtape) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('etape', '*')
-		->where('id_fk_hobbit_etape = ?', intval($idHobbit))
+		->where('id_fk_braldun_etape = ?', intval($idBraldun))
 		->where('id_fk_type_etape = ?', intval($idTypeEtape))
 		->where('date_debut_etape is not null')
 		->where('date_fin_etape is null')
@@ -28,7 +28,7 @@ class Etape extends Zend_Db_Table {
 
 		$result = $db->fetchAll($sql);
 		if (count($result) > 1) {
-			throw new Zend_Exception("Etape::findEnCoursByIdHobbitAndIdTypeEtape nbInvalide:".count($result). " h:".$idHobbit. " e:".$idTypeEtape);
+			throw new Zend_Exception("Etape::findEnCoursByIdBraldunAndIdTypeEtape nbInvalide:".count($result). " h:".$idBraldun. " e:".$idTypeEtape);
 		} elseif (count($result) == 1) {
 			return $result[0];
 		} else {
@@ -36,11 +36,11 @@ class Etape extends Zend_Db_Table {
 		}
 	}
 
-	function findProchaineEtape($idHobbit) {
+	function findProchaineEtape($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('etape', '*')
-		->where('id_fk_hobbit_etape = ?', intval($idHobbit))
+		->where('id_fk_braldun_etape = ?', intval($idBraldun))
 		->where('date_debut_etape is null')
 		->where('date_fin_etape is null')
 		->where('est_terminee_etape like ?', 'non')

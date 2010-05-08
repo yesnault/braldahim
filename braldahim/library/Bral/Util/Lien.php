@@ -21,9 +21,9 @@ class Bral_Util_Lien {
 		$texte = preg_replace_callback("/\[m(.*?)]/si", 
 		create_function('$matches', self::getFunctionMonstre($avecJs)) , $texteOriginal);
 		
-		// Hobbit
+		// Braldun
 		$texte = preg_replace_callback("/\[h(.*?)]/si", 
-		create_function('$matches', self::getFunctionHobbit($avecJs)), $texte);
+		create_function('$matches', self::getFunctionBraldun($avecJs)), $texte);
 		
 		// Materiel
 		$texte = preg_replace_callback("/\[t(.*?)]/si", 
@@ -52,10 +52,10 @@ class Bral_Util_Lien {
 		return $retour;
 	}
 	
-	private static function getFunctionHobbit($avecJs = true) {
-		$retour = '$h = new Hobbit();';
+	private static function getFunctionBraldun($avecJs = true) {
+		$retour = '$h = new Braldun();';
 		$retour .= '$nom = "";';
-		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/hobbit/?hobbit=".$matches[1]."\');\">";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
 		$retour .= '$nom .= $h->findNomById($matches[1]);';
 		if ($avecJs) $retour .= '$nom .= "</label>";';
 		$retour .= 'return $nom;';
@@ -72,10 +72,10 @@ class Bral_Util_Lien {
 		return $retour;
 	}
 	
-	public static function getJsHobbit($id, $texte, $afficheMessage = false) {
+	public static function getJsBraldun($id, $texte, $afficheMessage = false) {
 		$msg = "";
 		if ($afficheMessage) $msg = " <img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick=ecrireMessage('$id'); style='cursor:pointer'/> ";
-		$lien = "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/hobbit/?hobbit=".$id."');\">".$texte."</label>".$msg;
+		$lien = "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/braldun/?braldun=".$id."');\">".$texte."</label>".$msg;
 		return $lien;
 	}
 }

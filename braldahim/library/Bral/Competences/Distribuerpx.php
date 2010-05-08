@@ -15,30 +15,30 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 
-		// récupération des hobbits qui sont présents dans la vue
-		$hobbitTable = new Hobbit();
-		// s'il y a trop de hobbits, on prend que les plus proches
-		$this->view->estMaxHobbits = false;
+		// récupération des bralduns qui sont présents dans la vue
+		$braldunTable = new Braldun();
+		// s'il y a trop de bralduns, on prend que les plus proches
+		$this->view->estMaxBralduns = false;
 
-		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
-		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
+		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun;
+		$bralduns = $braldunTable->findLesPlusProches($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $vue, $this->view->config->game->competence->distribuerpx->nb_max_braldun);
 
-		foreach($hobbits as $h) {
-			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {
-				$nom = " Vous-Même : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
+		foreach($bralduns as $h) {
+			if ($h["id_braldun"] == $this->view->user->id_braldun) {
+				$nom = " Vous-Même : ".$h["prenom_braldun"]. " ". $h["nom_braldun"];
 			}
-			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"],
-				 "nom_hobbit" => $h["nom_hobbit"], 
-				 "prenom_hobbit" => $h["prenom_hobbit"],
-				 "niveau_hobbit" => $h["niveau_hobbit"]);
+			$tabBralduns[] = array("id_braldun" => $h["id_braldun"],
+				 "nom_braldun" => $h["nom_braldun"], 
+				 "prenom_braldun" => $h["prenom_braldun"],
+				 "niveau_braldun" => $h["niveau_braldun"]);
 		}
 
-		if (count($tabHobbits) >= $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
-			$this->view->estMaxHobbits = true;
+		if (count($tabBralduns) >= $this->view->config->game->competence->distribuerpx->nb_max_braldun) {
+			$this->view->estMaxBralduns = true;
 		}
 
-		$this->view->tabHobbits = $tabHobbits;
-		$this->view->n_hobbits = count($tabHobbits);
+		$this->view->tabBralduns = $tabBralduns;
+		$this->view->n_bralduns = count($tabBralduns);
 	}
 
 	function prepareFormulaire() {
@@ -48,9 +48,9 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 	function prepareResultat() {
 		$tabDistribution = null;
 		$total_distribution = 0;
-		for ($i=2 ;$i<=$this->view->n_hobbits*2; $i=$i+2) {
+		for ($i=2 ;$i<=$this->view->n_bralduns*2; $i=$i+2) {
 			$tab["px_recu"] = 0;
-			$tab["id_hobbit"] = (int)$this->request->get("valeur_".($i-1));
+			$tab["id_braldun"] = (int)$this->request->get("valeur_".($i-1));
 			if ((int)$this->request->get("valeur_".$i).""!=$this->request->get("valeur_".$i)."") {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : i=$i val=".$this->request->get("valeur_".$i));
 			} else {
@@ -58,14 +58,14 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 
 			$trouve = false;
-			foreach($this->view->tabHobbits  as $h) {
-				if ($tab["id_hobbit"] == $h["id_hobbit"]) {
-					$tab["niveau_hobbit"] = $h["niveau_hobbit"];
+			foreach($this->view->tabBralduns  as $h) {
+				if ($tab["id_braldun"] == $h["id_braldun"]) {
+					$tab["niveau_braldun"] = $h["niveau_braldun"];
 					$trouve = true;
 				}
 			}
 			if ($trouve == false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide : o:".$this->view->user->id_hobbit." d:".$tab["id_hobbit"]);
+				throw new Zend_Exception(get_class($this)." Braldun invalide : o:".$this->view->user->id_braldun." d:".$tab["id_braldun"]);
 			}
 			if ($tab["px_recu"] > 0) {
 				$tabDistribution[] = $tab;
@@ -74,8 +74,8 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$total_distribution = $total_distribution + $tab["px_recu"];
 		}
 
-		if ($total_distribution > $this->view->user->px_commun_hobbit) {
-			throw new Zend_Exception(get_class($this)." Total trop eleve:".$total_distribution. " c=".$this->view->user->px_commun_hobbit);
+		if ($total_distribution > $this->view->user->px_commun_braldun) {
+			throw new Zend_Exception(get_class($this)." Total trop eleve:".$total_distribution. " c=".$this->view->user->px_commun_braldun);
 		}
 		
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
@@ -84,57 +84,57 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			
 		// distribution
 		$tabAffiche = null;
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 		$this->setEstEvenementAuto(false);
 		foreach ($tabDistribution as $t) {
-			$hobbitRowset = $hobbitTable->find($t["id_hobbit"]);
-			$hobbit = $hobbitRowset->current();
-			$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit + $t["px_recu"];
+			$braldunRowset = $braldunTable->find($t["id_braldun"]);
+			$braldun = $braldunRowset->current();
+			$braldun->px_perso_braldun = $braldun->px_perso_braldun + $t["px_recu"];
 			$data = array(
-				'px_perso_hobbit' => $hobbit->px_perso_hobbit,
+				'px_perso_braldun' => $braldun->px_perso_braldun,
 			);
-			$where = "id_hobbit=".$t["id_hobbit"];
-			$hobbitTable->update($data, $where);
+			$where = "id_braldun=".$t["id_braldun"];
+			$braldunTable->update($data, $where);
 			
 			$dataStats["nb_px_perso_gagnes_stats_experience"] = $t["px_recu"];
-			$dataStats["id_fk_hobbit_stats_experience"] = $t["id_hobbit"];
-			$dataStats["niveau_hobbit_stats_experience"] = $t["niveau_hobbit"];
+			$dataStats["id_fk_braldun_stats_experience"] = $t["id_braldun"];
+			$dataStats["niveau_braldun_stats_experience"] = $t["niveau_braldun"];
 			$statsExperience->insertOrUpdate($dataStats);
 		
-			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$this->view->user->px_perso_hobbit = $hobbit->px_perso_hobbit;
+			if ($t["id_braldun"] == $this->view->user->id_braldun) {
+				$this->view->user->px_perso_braldun = $braldun->px_perso_braldun;
 			}
-			$tab["id_hobbit"] = $t["id_hobbit"];
-			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
-			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
+			$tab["id_braldun"] = $t["id_braldun"];
+			$tab["niveau_braldun"] = $t["niveau_braldun"];
+			if ($t["id_braldun"] == $this->view->user->id_braldun) {
+				$tab["nom_braldun"] = "Vous-Même : ".$braldun->prenom_braldun. " " .$braldun->nom_braldun;
 			} else {
-				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
+				$tab["nom_braldun"] = $braldun->prenom_braldun. " " .$braldun->nom_braldun;
 			}
 			
-			$tab["nom_hobbit_details"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
+			$tab["nom_braldun_details"] = $braldun->prenom_braldun. " " .$braldun->nom_braldun;
 			
 			$tab["px_recu"] = $t["px_recu"];
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
-			$detailsD = "[h".$this->view->user->id_hobbit."] a donné des PX à [h".$tab["id_hobbit"]."]";
-			$detailsR = "[h".$tab["id_hobbit"]."] a reçu des PX de la part de [h".$this->view->user->id_hobbit."]";
+			$detailsD = "[h".$this->view->user->id_braldun."] a donné des PX à [h".$tab["id_braldun"]."]";
+			$detailsR = "[h".$tab["id_braldun"]."] a reçu des PX de la part de [h".$this->view->user->id_braldun."]";
 			
-			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
-			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
-			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur, $this->view->user->niveau_hobbit);
-			if ($tab["id_hobbit"] != $this->view->user->id_hobbit) {
-				Bral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur, $tab["niveau_hobbit"]);
+			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_braldun"]." (".$tab["id_braldun"].")";
+			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_braldun ." ". $this->view->user->nom_braldun ." (".$this->view->user->id_braldun.")";
+			Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $detailsD, $detailDonneur, $this->view->user->niveau_braldun);
+			if ($tab["id_braldun"] != $this->view->user->id_braldun) {
+				Bral_Util_Evenement::majEvenements($tab["id_braldun"], $id_type, $detailsR, $detailReceveur, $tab["niveau_braldun"]);
 			}
 		}
 
-		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit - $total_distribution;
+		$this->view->user->px_commun_braldun = $this->view->user->px_commun_braldun - $total_distribution;
 
 		$this->view->tabAffiche = $tabAffiche;
 		$this->view->totalDistribution = $total_distribution;
 		
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {

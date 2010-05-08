@@ -82,21 +82,21 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		} else if ($this->type == 'soule') {
 			$tabCompetences = Bral_Util_Registre::get('competencesSoule');
 		} else if ($this->type == 'metier') {
-			Zend_Loader::loadClass("HobbitsCompetences");
-			Zend_Loader::loadClass("HobbitsMetiers");
-			$hobbitsMetiersTable = new HobbitsMetiers();
-			$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-			$hobbitsCompetencesTables = new HobbitsCompetences();
-			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+			Zend_Loader::loadClass("BraldunsCompetences");
+			Zend_Loader::loadClass("BraldunsMetiers");
+			$braldunsMetiersTable = new BraldunsMetiers();
+			$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+			$braldunsCompetencesTables = new BraldunsCompetences();
+			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 				
-			foreach($hobbitsMetierRowset as $m) {
-				if ($this->view->user->sexe_hobbit == 'feminin') {
+			foreach($braldunsMetierRowset as $m) {
+				if ($this->view->user->sexe_braldun == 'feminin') {
 					$nom_metier = $m["nom_feminin_metier"];
 				} else {
 					$nom_metier = $m["nom_masculin_metier"];
 				}
 				$competence = null;
-				foreach($hobbitCompetences as $c) {
+				foreach($braldunCompetences as $c) {
 					if ($c["type_competence"] == $this->type && $m["id_metier"] == $c["id_fk_metier_competence"]) {
 
 						$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
@@ -127,11 +127,11 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			}
 				
 		} else {
-			Zend_Loader::loadClass("HobbitsCompetences");
-			$hobbitsCompetencesTables = new HobbitsCompetences();
-			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+			Zend_Loader::loadClass("BraldunsCompetences");
+			$braldunsCompetencesTables = new BraldunsCompetences();
+			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 
-			foreach($hobbitCompetences as $c) {
+			foreach($braldunCompetences as $c) {
 				if ($c["type_competence"] == $this->type) {
 					$pa_texte = $c["pa_utilisation_competence"];
 					if ($c["nom_systeme_competence"] == "marcher") {

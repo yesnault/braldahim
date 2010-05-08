@@ -28,7 +28,7 @@ class Bral_Echoppes_Retirermateriel extends Bral_Echoppes_Echoppe {
 
 		// on verifie que c'est bien l'echoppe du joueur
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {

@@ -12,13 +12,13 @@
  */
 class Laban extends Zend_Db_Table {
 	protected $_name = 'laban';
-	protected $_primary = array('id_fk_hobbit_laban');
+	protected $_primary = array('id_fk_braldun_laban');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban', '*')
-		->where('id_fk_hobbit_laban = '.intval($id_hobbit));
+		->where('id_fk_braldun_laban = '.intval($id_braldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -33,7 +33,7 @@ class Laban extends Zend_Db_Table {
 		quantite_fourrure_laban as quantiteFourrure,
 		quantite_planche_laban as quantitePlanche,
 		quantite_rondin_laban as quantiteRondin')
-		->where('id_fk_hobbit_laban = ?',$data["id_fk_hobbit_laban"])
+		->where('id_fk_braldun_laban = ?',$data["id_fk_braldun_laban"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -64,7 +64,7 @@ class Laban extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_laban'] = $quantiteRondin + $data["quantite_rondin_laban"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_hobbit_laban = '.$data["id_fk_hobbit_laban"];
+				$where = 'id_fk_braldun_laban = '.$data["id_fk_braldun_laban"];
 				$this->update($dataUpdate, $where);
 			}
 		}

@@ -14,7 +14,7 @@ class LabanAliment extends Zend_Db_Table {
 	protected $_name = 'laban_aliment';
 	protected $_primary = array('id_laban_aliment');
 
-	function findByIdHobbit($idHobbit, $typeAliment = null) {
+	function findByIdBraldun($idBraldun, $typeAliment = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_aliment', '*')
@@ -24,7 +24,7 @@ class LabanAliment extends Zend_Db_Table {
 		->where('id_aliment = id_laban_aliment')
 		->where('id_fk_type_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_aliment = id_type_qualite')
-		->where('id_fk_hobbit_laban_aliment = ?', intval($idHobbit));
+		->where('id_fk_braldun_laban_aliment = ?', intval($idBraldun));
 		if ($typeAliment != null) {
 			$select->where('type_type_aliment = ?', $typeAliment);
 		}
@@ -32,11 +32,11 @@ class LabanAliment extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-    function countByIdHobbit($idHobbit) {
+    function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_aliment', 'count(*) as nombre')
-		->where('id_fk_hobbit_laban_aliment = '.intval($idHobbit));
+		->where('id_fk_braldun_laban_aliment = '.intval($idBraldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

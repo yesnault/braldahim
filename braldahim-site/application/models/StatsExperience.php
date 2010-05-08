@@ -17,13 +17,13 @@ class StatsExperience extends Zend_Db_Table {
 	function findTop10($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->from('stats_experience', 'SUM(nb_px_perso_gagnes_stats_experience) as nombre');
-		$select->where('id_fk_hobbit_stats_experience = id_hobbit');
+		$select->where('id_fk_braldun_stats_experience = id_braldun');
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
 		$select->order("nombre DESC");
-		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		$select->limit(10, 0);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -32,11 +32,11 @@ class StatsExperience extends Zend_Db_Table {
 	function findByFamille($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('stats_experience', 'SUM(nb_px_perso_gagnes_stats_experience) as nombre');
 		$select->from('nom', 'nom');
-		$select->where('id_fk_hobbit_stats_experience = id_hobbit');
-		$select->where('id_nom = id_fk_nom_initial_hobbit');
+		$select->where('id_fk_braldun_stats_experience = id_braldun');
+		$select->where('id_nom = id_fk_nom_initial_braldun');
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
 		$select->order("nombre DESC");
@@ -48,7 +48,7 @@ class StatsExperience extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stats_experience', array('SUM(nb_px_perso_gagnes_stats_experience) as nombre', 'floor(niveau_hobbit_stats_experience/10) as niveau'));
+		$select->from('stats_experience', array('SUM(nb_px_perso_gagnes_stats_experience) as nombre', 'floor(niveau_braldun_stats_experience/10) as niveau'));
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
 		$select->order("niveau ASC");
@@ -60,13 +60,13 @@ class StatsExperience extends Zend_Db_Table {
 	function findBySexe($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', 'sexe_hobbit');
+		$select->from('braldun', 'sexe_braldun');
 		$select->from('stats_experience', 'SUM(nb_px_perso_gagnes_stats_experience) as nombre');
-		$select->where('id_fk_hobbit_stats_experience = id_hobbit');
+		$select->where('id_fk_braldun_stats_experience = id_braldun');
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
 		$select->order("nombre DESC");
-		$select->group(array('sexe_hobbit'));
+		$select->group(array('sexe_braldun'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -16,9 +16,9 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("PetitEquipement");
 
-		// On regarde si le hobbit est dans une de ses echopppes
+		// On regarde si le braldun est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$this->view->boutiquerEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -29,11 +29,11 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 9, strlen($this->nom_systeme) - 9);
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit &&
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+			$e["x_echoppe"] == $this->view->user->x_braldun &&
+			$e["y_echoppe"] == $this->view->user->y_braldun &&
+			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->boutiquerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;
@@ -57,7 +57,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification chasse
@@ -65,7 +65,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Boutiquer interdit ");
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] a boutiqué";
+		$details = "[h".$this->view->user->id_braldun."] a boutiqué";
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
@@ -74,7 +74,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculBoutiquer() {
@@ -84,10 +84,10 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 
 		$this->view->boutiquerMetierCourant = false;
 
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		foreach($hobbitsMetierRowset as $m) {
+		Zend_Loader::loadClass("BraldunsMetiers");
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+		foreach($braldunsMetierRowset as $m) {
 			if ($this->competence["id_fk_metier_competence"] == $m["id_metier"]) {
 				if ($m["est_actif_hmetier"] == "oui") {
 					$this->view->boutiquerMetierCourant  = true;
@@ -166,16 +166,16 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 	}
 
 	private function updateCompetenceDb($deCompetence, $nomSystemeCompetence, $nbPa = -1) {
-		$hobbitsCompetencesTable = new HobbitsCompetences();
+		$braldunsCompetencesTable = new BraldunsCompetences();
 
 		if ($nbPa == -1) {
-			$competences = $hobbitsCompetencesTable->findByIdHobbitAndNomSysteme($this->view->user->id_hobbit, $nomSystemeCompetence);
+			$competences = $braldunsCompetencesTable->findByIdBraldunAndNomSysteme($this->view->user->id_braldun, $nomSystemeCompetence);
 		} else {
-			$competences = $hobbitsCompetencesTable->findByIdHobbitAndNbPaAndNomSystemeMetier($this->view->user->id_hobbit, $nbPa, $this->boutiquerMetier);
+			$competences = $braldunsCompetencesTable->findByIdBraldunAndNbPaAndNomSystemeMetier($this->view->user->id_braldun, $nbPa, $this->boutiquerMetier);
 		}
 
 		if ($competences == null || count($competences) == 0) {
-			throw new Zend_Exception(get_class($this)." Competences invalides :".$this->view->user->id_hobbit.",".$nbPa.",".$nomSystemeCompetence);
+			throw new Zend_Exception(get_class($this)." Competences invalides :".$this->view->user->id_braldun.",".$nbPa.",".$nomSystemeCompetence);
 		}
 
 		$tabCompetencesAmeliorees = null;
@@ -187,8 +187,8 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 					$pourcentage = $c["pourcentage_max_competence"];
 				}
 				$data = array('pourcentage_hcomp' => $pourcentage);
-				$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
-				$hobbitsCompetencesTable->update($data, $where);
+				$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+				$braldunsCompetencesTable->update($data, $where);
 				$tabCompetencesAmeliorees[] = $c;
 				$this->view->ameliorationCompetence = true;
 			}

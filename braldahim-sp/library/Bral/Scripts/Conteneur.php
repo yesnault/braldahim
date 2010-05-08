@@ -45,7 +45,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurMinerai = $type."Minerai";
 		$mineraiTable = new $conteneurMinerai();
 		if ($idCharrette == null) {
-			$minerais = $mineraiTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$minerais = $mineraiTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$minerais = $mineraiTable->findByIdCharrette($idCharrette);
 		}
@@ -65,7 +65,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneur = $type;
 		$table = new $conteneur();
 		if ($idCharrette == null) {
-			$elements = $table->findByIdHobbit($this->hobbit->id_hobbit);
+			$elements = $table->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$elements = $table->findByIdCharrette($idCharrette);
 		}
@@ -84,9 +84,9 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurRune = $type."Rune";
 		$runeTable = new $conteneurRune();
 		if ($idCharrette == null) {
-			$runes = $runeTable->findByIdHobbit($this->hobbit->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+			$runes = $runeTable->findByIdBraldun($this->braldun->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
 		} else {
-			$runes = $runeTable->findByIdCharrette($this->hobbit->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+			$runes = $runeTable->findByIdCharrette($this->braldun->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
 		}
 		unset($runeTable);
 
@@ -115,7 +115,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurTabac = $type."Tabac";
 		$tabacTable = new $conteneurTabac();
 		if ($idCharrette == null) {
-			$tabacs = $tabacTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$tabacs = $tabacTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$tabacs = $tabacTable->findByIdCharrette($idCharrette);
 		}
@@ -134,7 +134,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurPlante = $type."Partieplante";
 		$partiePlanteTable = new $conteneurPlante();
 		if ($idCharrette == null) {
-			$partiePlantes = $partiePlanteTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$partiePlantes = $partiePlanteTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$partiePlantes = $partiePlanteTable->findByIdCharrette($idCharrette);
 		}
@@ -157,7 +157,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurEquipement = $type."Equipement";
 		$equipementTable = new $conteneurEquipement();
 		if ($idCharrette == null) {
-			$equipements = $equipementTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$equipements = $equipementTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$equipements = $equipementTable->findByIdCharrette($idCharrette);
 		}
@@ -179,7 +179,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurMateriel = $type."Materiel";
 		$materielTable = new $conteneurMateriel();
 		if ($idCharrette == null) {
-			$materiels = $materielTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$materiels = $materielTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$materiels = $materielTable->findByIdCharrette($idCharrette);
 		}
@@ -193,7 +193,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurMunition = $type."Munition";
 		$munitionTable = new $conteneurMunition();
 		if ($idCharrette == null) {
-			$munitions = $munitionTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$munitions = $munitionTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$munitions = $munitionTable->findByIdCharrette($idCharrette);
 		}
@@ -208,7 +208,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurPotion = $type."Potion";
 		$potionTable = new $conteneurPotion();
 		if ($idCharrette == null) {
-			$potions = $potionTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$potions = $potionTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$potions = $potionTable->findByIdCharrette($idCharrette);
 		}
@@ -222,7 +222,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurAliment = $type."Aliment";
 		$alimentTable = new $conteneurAliment();
 		if ($idCharrette == null) {
-			$aliments = $alimentTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$aliments = $alimentTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$aliments = $alimentTable->findByIdCharrette($idCharrette);
 		}
@@ -236,7 +236,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurGraine = $type."Graine";
 		$graineTable = new $conteneurGraine();
 		if ($idCharrette == null) {
-			$graines = $graineTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$graines = $graineTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$graines = $graineTable->findByIdCharrette($idCharrette);
 		}
@@ -252,7 +252,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$conteneurIngredient = $type."Ingredient";
 		$ingredientTable = new $conteneurIngredient();
 		if ($idCharrette == null) {
-			$ingredients = $ingredientTable->findByIdHobbit($this->hobbit->id_hobbit);
+			$ingredients = $ingredientTable->findByIdBraldun($this->braldun->id_braldun);
 		} else {
 			$ingredients = $ingredientTable->findByIdCharrette($idCharrette);
 		}

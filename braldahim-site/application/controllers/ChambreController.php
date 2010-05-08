@@ -25,10 +25,10 @@ class ChambreController extends Zend_Controller_Action {
 	}
 
 	private function prepareMetiers() {
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiers = new HobbitsMetiers();
+		Zend_Loader::loadClass("BraldunsMetiers");
+		$braldunsMetiers = new BraldunsMetiers();
 
-		$metiersRowset = $hobbitsMetiers->countAllByMetier();
+		$metiersRowset = $braldunsMetiers->countAllByMetier();
 
 		$tabMetiers = null;
 		foreach($metiersRowset as $m) {

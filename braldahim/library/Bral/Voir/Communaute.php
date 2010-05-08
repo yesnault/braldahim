@@ -38,8 +38,8 @@ class Bral_Voir_Communaute {
 			$this->view->communaute = $communauteRowset[0];
 			$this->view->connue = true;
 			
-			$hobbitTable = new Hobbit();
-			$nbMembresTotal = $hobbitTable->countByIdCommunaute($this->view->communaute["id_communaute"]);
+			$braldunTable = new Braldun();
+			$nbMembresTotal = $braldunTable->countByIdCommunaute($this->view->communaute["id_communaute"]);
 			
 			$this->view->nbMembresTotal = $nbMembresTotal;
 		} else {
@@ -63,17 +63,17 @@ class Bral_Voir_Communaute {
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
 		
-		$hobbitTable = new Hobbit();
-		$communauteRowset = $hobbitTable->findByIdCommunaute($this->view->communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$braldunTable = new Braldun();
+		$communauteRowset = $braldunTable->findByIdCommunaute($this->view->communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
 		foreach($communauteRowset as $m) {
 			$tabMembres[] = array(
-				"id_hobbit" => $m["id_hobbit"],
-				"nom_hobbit" => $m["nom_hobbit"],
-				"prenom_hobbit" => $m["prenom_hobbit"],
-				"niveau_hobbit" => $m["niveau_hobbit"],
-				"date_entree" => $m["date_entree_communaute_hobbit"],
+				"id_braldun" => $m["id_braldun"],
+				"nom_braldun" => $m["nom_braldun"],
+				"prenom_braldun" => $m["prenom_braldun"],
+				"niveau_braldun" => $m["niveau_braldun"],
+				"date_entree" => $m["date_entree_communaute_braldun"],
 				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
@@ -157,19 +157,19 @@ class Bral_Voir_Communaute {
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		} elseif ($ordre == 2) {
-			$retour = "nom_hobbit";
+			$retour = "nom_braldun";
 		} elseif ($ordre == 3) {
-			$retour = "id_hobbit";
+			$retour = "id_braldun";
 		} elseif ($ordre == 4) {
-			$retour = "niveau_hobbit";
+			$retour = "niveau_braldun";
 		} elseif ($ordre == 5) {
-			$retour = "date_entree_communaute_hobbit";
+			$retour = "date_entree_communaute_braldun";
 		} elseif ($ordre == 6) {
 			$retour = "ordre_rang_communaute";
 		} else {
-			$retour = "prenom_hobbit";
+			$retour = "prenom_braldun";
 		}
 		return $retour;
 	}

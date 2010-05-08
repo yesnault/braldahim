@@ -53,7 +53,7 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 			$idVerbe = (int)$this->request->get("valeur_1");
 
 			if (array_key_exists($idVerbe, $verbes)) {
-				$this->view->texte_transforme = "[h".$this->view->user->id_hobbit."] ".$verbes[$idVerbe]." : \"".$this->texte_original."\"";
+				$this->view->texte_transforme = "[h".$this->view->user->id_braldun."] ".$verbes[$idVerbe]." : \"".$this->texte_original."\"";
 			}
 		}
 		$this->view->idVerbe = $idVerbe;
@@ -78,12 +78,12 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 
-		if ($this->view->user->est_soule_hobbit == "oui") {
-			$this->idMatchSoule = $this->view->user->id_fk_soule_match_hobbit;
+		if ($this->view->user->est_soule_braldun == "oui") {
+			$this->idMatchSoule = $this->view->user->id_fk_soule_match_braldun;
 		}
 
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {

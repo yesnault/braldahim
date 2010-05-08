@@ -30,14 +30,14 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement');
 		$select->where('id_equipement = id_echoppe_equipement');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
-		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
+		$select->from('braldun', array('id_braldun', 'prenom_braldun', 'nom_braldun', 'sexe_braldun'));
 		$select->where('id_fk_recette_equipement = id_recette_equipement');
 		$select->where('id_fk_type_recette_equipement = id_type_equipement');
 		$select->where('id_fk_type_piece_type_equipement = id_type_piece');
 		$select->where('id_fk_type_qualite_recette_equipement = id_type_qualite');
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		$select->where("type_vente_echoppe_equipement like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_fk_echoppe_echoppe_equipement = id_echoppe');
 		$select->where('id_fk_metier_echoppe = id_metier');
 		$select->where('region.x_min_region <= echoppe.x_echoppe');
@@ -75,7 +75,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->from('type_qualite', null);
 		$select->from('type_emplacement', null);
 		$select->from('echoppe', null);
-		$select->from('hobbit', null);
+		$select->from('braldun', null);
 		$select->from('region', null);
 		$select->from('equipement', null);
 		$select->where('id_equipement = id_echoppe_equipement');
@@ -84,7 +84,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->where('id_fk_type_qualite_recette_equipement = id_type_qualite');
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		$select->where("type_vente_echoppe_equipement like ?", "publique");
-		$select->where('id_fk_hobbit_echoppe = id_hobbit');
+		$select->where('id_fk_braldun_echoppe = id_braldun');
 		$select->where('id_fk_echoppe_echoppe_equipement = id_echoppe');
 		$select->where('region.x_min_region <= echoppe.x_echoppe');
 		$select->where('region.x_max_region >= echoppe.x_echoppe');

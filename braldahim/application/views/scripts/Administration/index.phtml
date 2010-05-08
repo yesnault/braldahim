@@ -12,7 +12,7 @@
 	    <span class="titre textalia textsizec">Administration Carte</span>
 	    <br />
 	    <a href='/Administrationcarte/carte?zones=1'>Carte des zones</a> -  
-	    <a href='/Administrationcarte/carte?hobbits=1'>Carte des hobbits</a> -
+	    <a href='/Administrationcarte/carte?bralduns=1'>Carte des bralduns</a> -
 	    <a href='/Administrationcarte/carte?eaux=1'>Carte des eaux</a> - 
 	    <a href='/Administrationcarte/carte?routes=1'>Carte des routes</a> - 
 	    <a href='/Administrationcarte/carte?lieuxmythiques=1'>Carte des lieux mythiques</a> -  
@@ -70,16 +70,16 @@
 	   
 	    <br /> <br /> 
 	    
-	    <span class="titre textalia textsizec">Administration Hobbit</span>
+	    <span class="titre textalia textsizec">Administration Braldun</span>
 	    <br />
-	    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Hobbit - Entrez un nom" onFocus='this.value=""; activerRechercheAdminHobbit("valeur_2_voir");' />
+	    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_2_voir");' />
 		<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="/public/images/loupe.gif" />
 		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 		<br>
-	    Hobbit Id <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationhobbit/hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
-	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/hobbit/?hobbit="+$("id_hobbit").value);'> 
+	    Braldun Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
+	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
+	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").value);'> 
 	    
 	    <br /> <br /> <br />
 	    

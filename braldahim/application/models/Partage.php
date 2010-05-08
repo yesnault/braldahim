@@ -14,8 +14,8 @@ class Partage extends Zend_Db_Table {
 	protected $_name = 'partage';
 	protected $_primary = 'id_partage';
 
-	function findByIdHobbit($idHobbit) {
-		$where = "id_fk_hobbit_declarant_partage = ".intval($idHobbit). " OR id_fk_hobbit_declare_partage=".intval($idHobbit);
+	function findByIdBraldun($idBraldun) {
+		$where = "id_fk_braldun_declarant_partage = ".intval($idBraldun). " OR id_fk_braldun_declare_partage=".intval($idBraldun);
 		
 		$db = $this->getAdapter();
 		$select = $db->select();

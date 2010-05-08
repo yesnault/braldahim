@@ -35,12 +35,12 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 		$aujourdhui = date("Y-m-d 0:0:0");
 
-		if ($this->view->user->date_fin_hibernation_hobbit == null || $this->view->user->date_fin_hibernation_hobbit < $aujourdhui) {
+		if ($this->view->user->date_fin_hibernation_braldun == null || $this->view->user->date_fin_hibernation_braldun < $aujourdhui) {
 			$this->view->hibernationPrevue = false;
 		}
 
 		
-		if ($this->verificationDonjon() == true || $this->view->user->est_donjon_hobbit == 'oui') {
+		if ($this->verificationDonjon() == true || $this->view->user->est_donjon_braldun == 'oui') {
 			$this->view->donjonEnCours = true;
 		}
 
@@ -48,7 +48,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			return;
 		}
 
-		if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
+		if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_braldun == "non") {
 			$this->prepareTerrain();
 			$this->prepareEquipes();
 		}
@@ -56,11 +56,11 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 	private function verificationDonjon() {
 		$retour = false;
-		Zend_Loader::loadClass("DonjonHobbit");
-		$donjonHobbitTable = new DonjonHobbit();
-		$hobbit = $donjonHobbitTable->findByIdHobbitNonTerminee($this->view->user->id_hobbit);
+		Zend_Loader::loadClass("DonjonBraldun");
+		$donjonBraldunTable = new DonjonBraldun();
+		$braldun = $donjonBraldunTable->findByIdBraldunNonTerminee($this->view->user->id_braldun);
 
-		if ($hobbit != null) {
+		if ($braldun != null) {
 			$retour = true;
 		}
 		return $retour;
@@ -68,14 +68,14 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 	private function prepareTerrain() {
 
-		$this->niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);
+		$this->niveauTerrainBraldun = floor($this->view->user->niveau_braldun/10);
 
 		$souleTerrainTable = new SouleTerrain();
-		$terrainRowset = $souleTerrainTable->findByNiveau($this->niveauTerrainHobbit);
+		$terrainRowset = $souleTerrainTable->findByNiveau($this->niveauTerrainBraldun);
 		$this->view->terrainCourant = $terrainRowset;
 
 		if ($this->view->terrainCourant == null) {
-			throw new Zend_Exception(get_class($this)." terrain invalide niveau=".$this->niveauTerrainHobbit);
+			throw new Zend_Exception(get_class($this)." terrain invalide niveau=".$this->niveauTerrainBraldun);
 		}
 
 		$souleMatchTable = new SouleMatch();
@@ -84,10 +84,10 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
 			// on regarde si le joueur n'est pas déjà inscrit
 			$souleEquipeTable = new SouleEquipe();
-			$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+			$nombre = $souleEquipeTable->countNonDebuteByIdBraldun($this->view->user->id_braldun);
 			if ($nombre == 0) { // si le joueur n'est pas déjà inscrit
 				// on regarde s'il n'y a pas plus de 80 joueurs
-				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
+				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainBraldun);
 				if ($nombreJoueurs < $this->view->config->game->soule->max->joueurs) {
 					$this->view->inscriptionPossible = true;
 				} else {
@@ -102,7 +102,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	private function prepareEquipes() {
 
 		$souleEquipeTable = new SouleEquipe();
-		$equipesRowset = $souleEquipeTable->countInscritsNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
+		$equipesRowset = $souleEquipeTable->countInscritsNonDebuteByNiveauTerrain($this->niveauTerrainBraldun);
 
 		$nbInscritsEquipeA = 0;
 		$nbInscritsEquipeB = 0;
@@ -175,12 +175,12 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		$idChoix = 1;
 
 		$this->calculInscription($idEquipeChoisie, $idChoix);
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	public function calculNbPa() {
 		$this->view->nb_pa = 1;
-		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
+		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -189,7 +189,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 	public function calculNbCastars() {
 		$this->view->nb_castars = 5;
-		if ($this->view->user->castars_hobbit - $this->view->nb_castars < 0) {
+		if ($this->view->user->castars_braldun - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {
 			$this->view->assezDeCastars = true;
@@ -237,18 +237,18 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		$data = array(
 			"id_fk_match_soule_equipe" => $idMatch,
 			"date_entree_soule_equipe" => date("Y-m-d H:i:s"),
-			"id_fk_hobbit_soule_equipe" => $this->view->user->id_hobbit,
+			"id_fk_braldun_soule_equipe" => $this->view->user->id_braldun,
 			"camp_soule_equipe" => $camp,
 			"retour_xy_soule_equipe" => $retourXY,
 		);
 		$souleEquipeTable->insert($data);
 
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
-		if ($this->view->user->castars_hobbit < 0) {
-			$this->view->user->castars_hobbit = 0;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->nb_castars;
+		if ($this->view->user->castars_braldun < 0) {
+			$this->view->user->castars_braldun = 0;
 		}
 
-		$details = "[h".$this->view->user->id_hobbit."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
+		$details = "[h".$this->view->user->id_braldun."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;
 		$this->setDetailsEvenement($details, $idType);
 	}

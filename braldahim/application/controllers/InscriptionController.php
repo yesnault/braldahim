@@ -15,15 +15,15 @@ class InscriptionController extends Zend_Controller_Action {
 	function init() {
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->initView();
-		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
-		Zend_Loader::loadClass("Bral_Validate_Inscription_PrenomHobbit");
+		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailBraldun");
+		Zend_Loader::loadClass("Bral_Validate_Inscription_PrenomBraldun");
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Lieu");
-		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("BraldunsCompetences");
 		Zend_Loader::loadClass("Couple");
 		Zend_Loader::loadClass("Nom");
 		Zend_Loader::loadClass("Region");
@@ -45,45 +45,45 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
 		$this->view->compteActif = false;
 
-		$email_hobbit = $this->_request->get("e");
-		$md5_prenom_hobbit = $this->_request->get("h");
-		$md5_password_hobbit = $this->_request->get("p");
+		$email_braldun = $this->_request->get("e");
+		$md5_prenom_braldun = $this->_request->get("h");
+		$md5_password_braldun = $this->_request->get("p");
 
-		$hobbitTable = new Hobbit();
-		$hobbit = null;
-		if ($email_hobbit != null && $email_hobbit != "") {
-			$hobbit = $hobbitTable->findByEmail($email_hobbit);
+		$braldunTable = new Braldun();
+		$braldun = null;
+		if ($email_braldun != null && $email_braldun != "") {
+			$braldun = $braldunTable->findByEmail($email_braldun);
 		}
 
-		if ($hobbit != null && $md5_prenom_hobbit != null && $md5_prenom_hobbit != "" && $md5_password_hobbit != null && $md5_password_hobbit != "") {
-			if ($hobbit->est_compte_actif_hobbit == 'non' && count($hobbit) > 0) {
-				if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+		if ($braldun != null && $md5_prenom_braldun != null && $md5_prenom_braldun != "" && $md5_password_braldun != null && $md5_password_braldun != "") {
+			if ($braldun->est_compte_actif_braldun == 'non' && count($braldun) > 0) {
+				if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($md5_password_braldun == $braldun->password_braldun)) {
 					$this->view->validationOk = true;
 
-					$dataParents = $this->calculParent($hobbit->id_hobbit);
+					$dataParents = $this->calculParent($braldun->id_braldun);
 
 					$data = array(
-						'est_compte_actif_hobbit' => "oui",
-						'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
-						'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
+						'est_compte_actif_braldun' => "oui",
+						'id_fk_pere_braldun' => $dataParents["id_fk_pere_braldun"],
+						'id_fk_mere_braldun' => $dataParents["id_fk_mere_braldun"],
 					);
 
-					$where = "id_hobbit=".$hobbit->id_hobbit;
-					$hobbitTable->update($data, $where);
+					$where = "id_braldun=".$braldun->id_braldun;
+					$braldunTable->update($data, $where);
 
-					$hobbit->id_fk_pere_hobbit =  $dataParents["id_fk_pere_hobbit"];
-					$hobbit->id_fk_mere_hobbit =  $dataParents["id_fk_mere_hobbit"];
+					$braldun->id_fk_pere_braldun =  $dataParents["id_fk_pere_braldun"];
+					$braldun->id_fk_mere_braldun =  $dataParents["id_fk_mere_braldun"];
 
 					$e = "";
-					if ($hobbit->sexe_hobbit == "feminin") {
+					if ($braldun->sexe_braldun == "feminin") {
 						$e = "e";
 					}
 
-					$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu".$e." sur Braldahim";
+					$details = $braldun->prenom_braldun ." ".$braldun->nom_braldun." (".$braldun->id_braldun.") est apparu".$e." sur Braldahim";
 					Zend_Loader::loadClass('Evenement');
 					$evenementTable = new Evenement();
 					$data = array(
-						'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
+						'id_fk_braldun_evenement' => $braldun->id_braldun,
 						'date_evenement' => date("Y-m-d H:i:s"),
 						'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
 						'details_evenement' => $details,
@@ -91,14 +91,14 @@ class InscriptionController extends Zend_Controller_Action {
 					$evenementTable->insert($data);
 
 					Zend_Loader::loadClass("Bral_Util_Quete");
-					Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
+					Bral_Util_Quete::creationQueteInitiatique($braldun, $this->view->config);
 
 					Zend_Loader::loadClass("Bral_Util_Messagerie");
 					$message = $this->view->render("inscription/messagepnj.phtml");
-					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message, $this->view);
+					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_braldun, $braldun->id_braldun, $message, $this->view);
 
-					$this->ajouterDistinctionTesteur($hobbit->id_hobbit, $email_hobbit);
-					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
+					$this->ajouterDistinctionTesteur($braldun->id_braldun, $email_braldun);
+					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_braldun);
 				}
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - validationAction - compte deja active");
@@ -114,29 +114,29 @@ class InscriptionController extends Zend_Controller_Action {
 
 	/**
 	 * Ajoute la distinction Beta Testeur aux anciens
-	 * @param unknown_type $idHobbit identifiant du Hobbit
-	 * @param unknown_type $emailHobbit email du hobbit, doit être le même qu'en version Beta (table Testeur)
+	 * @param unknown_type $idBraldun identifiant du Braldun
+	 * @param unknown_type $emailBraldun email du braldun, doit être le même qu'en version Beta (table Testeur)
 	 * @return void
 	 */
-	private function ajouterDistinctionTesteur($idHobbit, $emailHobbit) {
+	private function ajouterDistinctionTesteur($idBraldun, $emailBraldun) {
 		Zend_Loader::loadClass("Testeur");
 		$testeurTable = new Testeur();
-		$r = $testeurTable->findByEmail($emailHobbit);
+		$r = $testeurTable->findByEmail($emailBraldun);
 
 		if (count($r) != 0) {
 			Zend_Loader::loadClass("Bral_Util_Distinction");
 			$texte = "Testeur sur la version Beta de Braldahim";
-			Bral_Util_Distinction::ajouterDistinction($idHobbit, Bral_Util_Distinction::ID_TYPE_BETA_TESTEUR, $texte);
+			Bral_Util_Distinction::ajouterDistinction($idBraldun, Bral_Util_Distinction::ID_TYPE_BETA_TESTEUR, $texte);
 		}
 	}
 
 	function ajouterAction() {
 		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - enter");
-		$this->view->title = "Nouvel Hobbit";
-		$this->prenom_hobbit = "";
-		$this->email_hobbit = "";
-		$this->email_confirm_hobbit = "";
-		$this->sexe_hobbit = "";
+		$this->view->title = "Nouvel Braldun";
+		$this->prenom_braldun = "";
+		$this->email_braldun = "";
+		$this->email_confirm_braldun = "";
+		$this->sexe_braldun = "";
 		$this->id_region = -1;
 
 		$regionTable =  new Region();
@@ -156,34 +156,34 @@ class InscriptionController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
-			$validateurEmail = new Bral_Validate_Inscription_EmailHobbit();
-			$validateurPrenom = new Bral_Validate_Inscription_PrenomHobbit();
+			$validateurEmail = new Bral_Validate_Inscription_EmailBraldun();
+			$validateurPrenom = new Bral_Validate_Inscription_PrenomBraldun();
 			$validateurPassword = new Bral_Validate_StringLength(5, 20);
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())
 			->addFilter(new Zend_Filter_StripTags());
 
-			$this->prenom_hobbit = stripslashes($filter->filter($this->_request->getPost('prenom_hobbit')));
-			$this->prenom_hobbit = Bral_Util_String::firstToUpper($this->prenom_hobbit);
+			$this->prenom_braldun = stripslashes($filter->filter($this->_request->getPost('prenom_braldun')));
+			$this->prenom_braldun = Bral_Util_String::firstToUpper($this->prenom_braldun);
 
-			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
-			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
-			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
-			$this->password_confirm_hobbit = $filter->filter($this->_request->getPost('password_confirm_hobbit'));
-			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
+			$this->email_braldun = $filter->filter($this->_request->getPost('email_braldun'));
+			$this->email_confirm_braldun = $filter->filter($this->_request->getPost('email_confirm_braldun'));
+			$this->password_braldun = $filter->filter($this->_request->getPost('password_braldun'));
+			$this->password_confirm_braldun = $filter->filter($this->_request->getPost('password_confirm_braldun'));
+			$this->sexe_braldun = $filter->filter($this->_request->getPost('sexe_braldun'));
 			$this->id_region = $filter->filter($this->_request->getPost('id_region'));
 
 			$captcha_vue =  $this->_request->getPost('captcha');
-			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
-			$validEmail = $validateurEmail->isValid($this->email_hobbit, ($this->view->config->general->production == 1));
-			$validPassword = $validateurPassword->isValid($this->password_hobbit);
+			$validPrenom = $validateurPrenom->isValid($this->prenom_braldun);
+			$validEmail = $validateurEmail->isValid($this->email_braldun, ($this->view->config->general->production == 1));
+			$validPassword = $validateurPassword->isValid($this->password_braldun);
 
-			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_hobbit);
-			$validPasswordConfirm = ($this->password_confirm_hobbit == $this->password_hobbit);
+			$validEmailConfirm = ($this->email_confirm_braldun == $this->email_braldun);
+			$validPasswordConfirm = ($this->password_confirm_braldun == $this->password_braldun);
 			$validCaptcha = $this->validateCaptcha($captcha_vue);
 
-			if ($this->sexe_hobbit == "feminin" || $this->sexe_hobbit == "masculin") {
+			if ($this->sexe_braldun == "feminin" || $this->sexe_braldun == "masculin") {
 				$validSexe = true;
 			} else {
 				$validSexe = false;
@@ -202,15 +202,15 @@ class InscriptionController extends Zend_Controller_Action {
 			&& ($validPasswordConfirm)
 			&& ($validCaptcha)) {
 					
-				$data = $this->initialiseDataHobbit();
+				$data = $this->initialiseDataBraldun();
 
-				$hobbitTable = new Hobbit();
-				$this->view->id_hobbit = $hobbitTable->insert($data);
-				$this->view->prenom_hobbit = $this->prenom_hobbit;
-				$this->view->email_hobbit = $this->email_hobbit;
+				$braldunTable = new Braldun();
+				$this->view->id_braldun = $braldunTable->insert($data);
+				$this->view->prenom_braldun = $this->prenom_braldun;
+				$this->view->email_braldun = $this->email_braldun;
 
 				$this->envoiEmail();
-				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_hobbit);
+				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_braldun);
 				echo $this->view->render("inscription/fin.phtml");
 				return;
 			} else {
@@ -257,20 +257,20 @@ class InscriptionController extends Zend_Controller_Action {
 		$id = $captcha->generate();
 		$this->view->captcha = $captcha;
 
-		// hobbit par defaut
-		$this->view->hobbit= new stdClass();
-		$this->view->hobbit->id_hobbit = null;
-		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
-		$this->view->hobbit->email_hobbit = $this->email_hobbit;
-		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;
-		$this->view->hobbit->sexe_hobbit = $this->sexe_hobbit;
+		// braldun par defaut
+		$this->view->braldun= new stdClass();
+		$this->view->braldun->id_braldun = null;
+		$this->view->braldun->prenom_braldun = $this->prenom_braldun;
+		$this->view->braldun->email_braldun = $this->email_braldun;
+		$this->view->braldun->email_confirm_braldun = $this->email_confirm_braldun;
+		$this->view->braldun->sexe_braldun = $this->sexe_braldun;
 		$this->view->regions = $regions;
 		$this->view->id_region = $this->id_region;
 		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - exit");
 		$this->render();
 	}
 
-	private function initialiseDataHobbit() {
+	private function initialiseDataBraldun() {
 		// region aleatoire
 		if ($this->id_region == -1) {
 			$regionTable = new Region();
@@ -296,50 +296,50 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Util_Nom');
 		$nom = new Bral_Util_Nom();
 			
-		$dataNom = $nom->calculNom($this->prenom_hobbit, $this->email_hobbit);
-		$nom_hobbit = $dataNom["nom"];
-		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
+		$dataNom = $nom->calculNom($this->prenom_braldun, $this->email_braldun);
+		$nom_braldun = $dataNom["nom"];
+		$id_fk_nom_initial_braldun = $dataNom["id_nom"];
 
 		$mdate = date("Y-m-d H:i:s");
 		$pv = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->view->config->game->inscription->vigueur_base);
 
 		$data = array(
-			'nom_hobbit' => $nom_hobbit,
-			'prenom_hobbit' => $this->prenom_hobbit,
-			'id_fk_nom_initial_hobbit' => $id_fk_nom_initial_hobbit,
-			'email_hobbit'  => $this->email_hobbit,
-			'password_hobbit'  => md5($this->password_hobbit),
-			'est_compte_actif_hobbit'  => "non",
-			'castars_hobbit' => $this->view->config->game->inscription->castars,
-			'sexe_hobbit' => $this->sexe_hobbit,
-			'x_hobbit' => $lieu["x_lieu"],
-			'y_hobbit' => $lieu["y_lieu"],
-			'z_hobbit' => 0,
-			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
-			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
-			'date_debut_tour_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
-			'date_fin_latence_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu),
-			'date_debut_cumul_hobbit' => $mdate,
-			'duree_prochain_tour_hobbit' => $this->view->config->game->tour->duree_base,
-			'duree_courant_tour_hobbit' => $this->view->config->game->tour->duree_base,
-			'date_creation_hobbit' => $mdate,
-			'tour_position_hobbit' => $this->view->config->game->tour->position_latence, // sera recalcule lors de la connexion avec cumul
-			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
-			'pv_restant_hobbit' => $pv,
-			'force_base_hobbit' => $this->view->config->game->inscription->force_base,
-			'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
-			'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
-			'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
-		//'pa_hobbit' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
-			'poids_transportable_hobbit' => $poids,
-			'armure_naturelle_hobbit' => $armure_nat,
-			'regeneration_hobbit' => $reg,
-			'poids_transporte_hobbit' => Bral_Util_Poids::calculPoidsTransporte(-1, $this->view->config->game->inscription->castars),
-			'pv_max_hobbit' => $pv,
-			'pv_restant_hobbit' => $pv,
-			'est_charte_validee_hobbit' => "oui",
-			'id_fk_region_creation_hobbit' => $this->id_region,
-			'est_quete_hobbit' => "oui",
+			'nom_braldun' => $nom_braldun,
+			'prenom_braldun' => $this->prenom_braldun,
+			'id_fk_nom_initial_braldun' => $id_fk_nom_initial_braldun,
+			'email_braldun'  => $this->email_braldun,
+			'password_braldun'  => md5($this->password_braldun),
+			'est_compte_actif_braldun'  => "non",
+			'castars_braldun' => $this->view->config->game->inscription->castars,
+			'sexe_braldun' => $this->sexe_braldun,
+			'x_braldun' => $lieu["x_lieu"],
+			'y_braldun' => $lieu["y_lieu"],
+			'z_braldun' => 0,
+			'vue_bm_braldun' => $this->view->config->game->inscription->vue_bm,
+			'date_fin_tour_braldun' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_debut_tour_braldun' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_fin_latence_braldun' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu),
+			'date_debut_cumul_braldun' => $mdate,
+			'duree_prochain_tour_braldun' => $this->view->config->game->tour->duree_base,
+			'duree_courant_tour_braldun' => $this->view->config->game->tour->duree_base,
+			'date_creation_braldun' => $mdate,
+			'tour_position_braldun' => $this->view->config->game->tour->position_latence, // sera recalcule lors de la connexion avec cumul
+			'balance_faim_braldun' => $this->view->config->game->inscription->balance_faim,
+			'pv_restant_braldun' => $pv,
+			'force_base_braldun' => $this->view->config->game->inscription->force_base,
+			'agilite_base_braldun' => $this->view->config->game->inscription->agilite_base,
+			'vigueur_base_braldun' => $this->view->config->game->inscription->vigueur_base,
+			'sagesse_base_braldun' => $this->view->config->game->inscription->sagesse_base,
+		//'pa_braldun' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
+			'poids_transportable_braldun' => $poids,
+			'armure_naturelle_braldun' => $armure_nat,
+			'regeneration_braldun' => $reg,
+			'poids_transporte_braldun' => Bral_Util_Poids::calculPoidsTransporte(-1, $this->view->config->game->inscription->castars),
+			'pv_max_braldun' => $pv,
+			'pv_restant_braldun' => $pv,
+			'est_charte_validee_braldun' => "oui",
+			'id_fk_region_creation_braldun' => $this->id_region,
+			'est_quete_braldun' => "oui",
 		);
 
 		return $data;
@@ -349,16 +349,16 @@ class InscriptionController extends Zend_Controller_Action {
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
-		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
-		$this->view->urlValidation .= "&h=".md5($this->prenom_hobbit);
-		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
+		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_braldun;
+		$this->view->urlValidation .= "&h=".md5($this->prenom_braldun);
+		$this->view->urlValidation .= "&p=".md5($this->password_braldun);
 
 		$contenuText = $this->view->render("inscription/mailText.phtml");
 		$contenuHtml = $this->view->render("inscription/mailHtml.phtml");
 
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
-		$mail->addTo($this->email_hobbit, $this->prenom_hobbit);
+		$mail->addTo($this->email_braldun, $this->prenom_braldun);
 		$mail->setSubject($this->view->config->game->inscription->titre_mail);
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
@@ -366,33 +366,33 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 		$mail->send();
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
-		Bral_Util_Log::mail()->trace("InscriptionController - envoiEmail - ".$this->email_hobbit. " ". $this->prenom_hobbit);
+		Bral_Util_Log::mail()->trace("InscriptionController - envoiEmail - ".$this->email_braldun. " ". $this->prenom_braldun);
 	}
 
-	private function calculParent($idHobbit) {
+	private function calculParent($idBraldun) {
 		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - enter");
 		// on tente de creer de nouveaux couples si besoin
 		$de = Bral_Util_De::get_de_specifique(0, 3);
 
 		for ($i = 0; $i < $de; $i++) {
-			$this->creationCouple($idHobbit);
+			$this->creationCouple($idBraldun);
 		}
 
 		// on va regarder s'il y a des couples dispo
 		$coupleTable = new Couple();
 		$couplesRowset = $coupleTable->findAllEnfantPossible();
 
-		$dataParents["id_fk_pere_hobbit"] = null;
-		$dataParents["id_fk_mere_hobbit"] = null;
+		$dataParents["id_fk_pere_braldun"] = null;
+		$dataParents["id_fk_mere_braldun"] = null;
 
 		if (count($couplesRowset) >= 1) {
 			$de = Bral_Util_De::get_de_specifique(0, count($couplesRowset)-1);
 			$couple = $couplesRowset[$de];
 
-			$dataParents["id_fk_pere_hobbit"] = $couple["id_fk_m_hobbit_couple"];
-			$dataParents["id_fk_mere_hobbit"] = $couple["id_fk_f_hobbit_couple"];
+			$dataParents["id_fk_pere_braldun"] = $couple["id_fk_m_braldun_couple"];
+			$dataParents["id_fk_mere_braldun"] = $couple["id_fk_f_braldun_couple"];
 
-			$where = "id_fk_m_hobbit_couple=".$couple["id_fk_m_hobbit_couple"]." AND id_fk_f_hobbit_couple=".$couple["id_fk_f_hobbit_couple"];
+			$where = "id_fk_m_braldun_couple=".$couple["id_fk_m_braldun_couple"]." AND id_fk_f_braldun_couple=".$couple["id_fk_f_braldun_couple"];
 			$nombreEnfants = $couple["nb_enfants_couple"] + 1;
 			$data = array('nb_enfants_couple' => $nombreEnfants);
 
@@ -402,66 +402,66 @@ class InscriptionController extends Zend_Controller_Action {
 			$detailsBot = " Vous venez d'avoir un nouvel enfant à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
 			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 
-			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
-			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
+			Bral_Util_Evenement::majEvenements($couple["id_fk_m_braldun_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "braldun", true, $this->view);
+			Bral_Util_Evenement::majEvenements($couple["id_fk_f_braldun_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "braldun", true, $this->view);
 
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
 			$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_m_hobbit_couple"], $message, $this->view);
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_f_hobbit_couple"], $message, $this->view);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $couple["id_fk_m_braldun_couple"], $message, $this->view);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $couple["id_fk_f_braldun_couple"], $message, $this->view);
 
-			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_hobbit_couple"]." f:".$couple["id_fk_f_hobbit_couple"]." enfants:".$nombreEnfants.")");
+			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_braldun_couple"]." f:".$couple["id_fk_f_braldun_couple"]." enfants:".$nombreEnfants.")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
-			$dataParents = $this->creationCouple($idHobbit);
+			$dataParents = $this->creationCouple($idBraldun);
 		}
 		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - exit");
 		return $dataParents;
 	}
 
-	private function creationCouple($idHobbit) {
+	private function creationCouple($idBraldun) {
 		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - enter");
-		$dataParents["id_fk_pere_hobbit"] = null;
-		$dataParents["id_fk_mere_hobbit"] = null;
-		$hobbitTable = new Hobbit();
-		$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
-		if (count($hobbitsMasculinRowset) > 0) {
-			$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
-			if (count($hobbitsFemininRowset) > 0) { // creation d'un nouveau couple
-				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
-				$pere = $hobbitsMasculinRowset[$de];
+		$dataParents["id_fk_pere_braldun"] = null;
+		$dataParents["id_fk_mere_braldun"] = null;
+		$braldunTable = new Braldun();
+		$braldunsMasculinRowset = $braldunTable->findBraldunsMasculinSansConjoint($idBraldun);
+		if (count($braldunsMasculinRowset) > 0) {
+			$braldunsFemininRowset = $braldunTable->findBraldunsFemininSansConjoint($idBraldun);
+			if (count($braldunsFemininRowset) > 0) { // creation d'un nouveau couple
+				$de = Bral_Util_De::get_de_specifique(0, count($braldunsMasculinRowset)-1);
+				$pere = $braldunsMasculinRowset[$de];
 
-				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsFemininRowset)-1);
-				$mere = $hobbitsFemininRowset[$de];
+				$de = Bral_Util_De::get_de_specifique(0, count($braldunsFemininRowset)-1);
+				$mere = $braldunsFemininRowset[$de];
 
-				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
-							  'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
+				$data = array('id_fk_m_braldun_couple' => $pere["id_braldun"],
+							  'id_fk_f_braldun_couple' => $mere["id_braldun"],
 							  'date_creation_couple' => date("Y-m-d H:i:s"),
 							  'nb_enfants_couple' => 0,
 				);
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
 
-				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
-				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
+				$dataParents["id_fk_pere_braldun"] = $pere["id_braldun"];
+				$dataParents["id_fk_mere_braldun"] = $mere["id_braldun"];
 
-				$detailEvenement =  "[h".$mere["id_hobbit"]."] s'est mariée avec [h".$pere["id_hobbit"]."]" ;
+				$detailEvenement =  "[h".$mere["id_braldun"]."] s'est mariée avec [h".$pere["id_braldun"]."]" ;
 				$detailsBot = "Mariage effectué à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
 				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 
-				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
-				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($pere["id_braldun"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $pere["niveau_braldun"], "braldun", true, $this->view);
+				Bral_Util_Evenement::majEvenements($mere["id_braldun"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $mere["niveau_braldun"], "braldun", true, $this->view);
 
 				Zend_Loader::loadClass("Bral_Util_Messagerie");
 				$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $mere["id_hobbit"], $message, $this->view);
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $pere["id_hobbit"], $message, $this->view);
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $mere["id_braldun"], $message, $this->view);
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $pere["id_braldun"], $message, $this->view);
 
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {
-				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit f disponible");
+				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de braldun f disponible");
 			}
 		} else {
-			Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit m disponible");
+			Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de braldun m disponible");
 		}
 		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - exit");
 		return $dataParents;

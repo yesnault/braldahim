@@ -20,7 +20,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 
 		$this->controleBatchs($titre, $texte);
 		$this->controleMonstres($titre, $texte);
-		$this->controleHobbits($titre, $texte);
+		$this->controleBralduns($titre, $texte);
 		$this->envoiMail($titre, $texte);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - calculBatchImpl - exit -");
@@ -74,7 +74,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .=  "Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
-				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -89,7 +89,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
-				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -104,7 +104,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .=  "Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
-				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -119,7 +119,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
-				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -127,57 +127,57 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - exit -");
 	}
 
-	private function controleHobbits(&$titre, &$texte) {
+	private function controleBralduns(&$titre, &$texte) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleInscriptions - enter -");
 
 		$texte .=  PHP_EOL." ------- ".PHP_EOL;
-		$texte .=  "Hobbits : ".PHP_EOL;
+		$texte .=  "Bralduns : ".PHP_EOL;
 
 		$batchTable = new Batch();
 		$dateMaintenant = date("Y-m-d H:i:s");
 		$dateFin = date("Y-m-d H:i:s");
-		$hobbitTable = new Hobbit();
+		$braldunTable = new Braldun();
 
 		// Inscription remonter le nombre d'inscrits et actif dans la semaine
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
-		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, true);
-		$texte .= " Nouvelles inscriptions actives depuis 7j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllCompteActifInactif($dateFin, true);
+		$texte .= " Nouvelles inscriptions actives depuis 7j : ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
-		// hobbits non actifs, avec date inscription, depuis 2 j
+		// bralduns non actifs, avec date inscription, depuis 2 j
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
-		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, false);
-		$texte .= " Nouvelles inscriptions non validées depuis 2j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllCompteActifInactif($dateFin, false);
+		$texte .= " Nouvelles inscriptions non validées depuis 2j : ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
-		// hobbits ayant joué depuis 24 et 48h
+		// bralduns ayant joué depuis 24 et 48h
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -1);
-		$nbHobbits = $hobbitTable->countAllBatchByDateFin($dateFin, true);
-		$texte .= " Hobbits ayant joué depuis 24h : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllBatchByDateFin($dateFin, true);
+		$texte .= " Bralduns ayant joué depuis 24h : ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -2);
-		$nbHobbits = $hobbitTable->countAllBatchByDateFin($dateFin, true);
-		$texte .= " Hobbits ayant joué depuis 48h : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllBatchByDateFin($dateFin, true);
+		$texte .= " Bralduns ayant joué depuis 48h : ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
-		// nb Hobbits en hibernation
-		$nbHobbits = $hobbitTable->countAllHibernation();
-		$texte .= " Hobbits en hibernation : ".$nbHobbits.PHP_EOL;
+		// nb Bralduns en hibernation
+		$nbBralduns = $braldunTable->countAllHibernation();
+		$texte .= " Bralduns en hibernation : ".$nbBralduns.PHP_EOL;
 
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
-		$nbHobbits = $hobbitTable->countAllHibernation($dateFin);
-		$texte .= " Hobbits en hibernation depuis 7j: ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllHibernation($dateFin);
+		$texte .= " Bralduns en hibernation depuis 7j: ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
-		// nb Hobbits actifs, hors pnj, hibernation, non actifs, desactive
+		// nb Bralduns actifs, hors pnj, hibernation, non actifs, desactive
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -5);
-		$nbHobbits = $hobbitTable->countAllCompteActif($dateFin);
-		$texte .= " Hobbits actifs, hors hibernation depuis 5j: ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$nbBralduns = $braldunTable->countAllCompteActif($dateFin);
+		$texte .= " Bralduns actifs, hors hibernation depuis 5j: ".$nbBralduns." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
-		// Hobbits desactives
-		$hobbits = $hobbitTable->findAllCompteDesactives();
-		$nbHobbit = count($hobbits);
-		$texte .= " Hobbits désactivés : ".$nbHobbit.PHP_EOL;
+		// Bralduns desactives
+		$bralduns = $braldunTable->findAllCompteDesactives();
+		$nbBraldun = count($bralduns);
+		$texte .= " Bralduns désactivés : ".$nbBraldun.PHP_EOL;
 
-		if ($nbHobbits > 0) {
-			foreach($hobbits as $h) {
-				$texte .= "    Hobbit n°".$h["id_hobbit"]. " ".$h["prenom_hobbit"]." ".$h["nom_hobbit"]." ".$h["email_hobbit"];
+		if ($nbBralduns > 0) {
+			foreach($bralduns as $h) {
+				$texte .= "    Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"];
 			}
 		}
 

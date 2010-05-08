@@ -24,7 +24,7 @@ abstract class Bral_Scripts_Script {
 	const NB_TYPE_STATIQUE_MAX = 10;
 	const NB_TYPE_APPELS_MAX = 6;
 
-	const PARM_ID_HOBBIT = 'idHobbit';
+	const PARM_ID_HOBBIT = 'idBraldun';
 	const PARM_MDP_RESTREINT = 'mdpRestreint';
 	const PARM_VERSION = 'version';
 
@@ -35,16 +35,16 @@ abstract class Bral_Scripts_Script {
 
 	const ERREUR_01_EXCEPTION = "ERREUR-01. Erreur Technique, l'équipe est informée";
 	const ERREUR_02_PARAMETRES = "ERREUR-02. Paramètres incorrects";
-	const ERREUR_03_HOBBIT_INCONNU = "ERREUR-03. Hobbit inconnu";
+	const ERREUR_03_HOBBIT_INCONNU = "ERREUR-03. Braldun inconnu";
 	const ERREUR_04_MDP_INVALIDE = "ERREUR-04. Mot de passe invalide";
-	const ERREUR_05_HOBBIT_DESACTIVE = "ERREUR-05. Hobbit désactivé ou pnj";
+	const ERREUR_05_HOBBIT_DESACTIVE = "ERREUR-05. Braldun désactivé ou pnj";
 	const ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE = "ERREUR-06. Service temporairement désactivé";
 	//mis en place dans la factory : const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
 	const ERREUR_08_VERSION_INCORRECTE = "ERREUR-08. Version incorrecte";
 	const ERREUR_09_DEPASSEMENT_APPELS = "ERREUR-09. Depassement Appels";
 
 	protected $view = null;
-	protected $hobbit = null;
+	protected $braldun = null;
 	protected $request = null;
 
 	public function __construct($nomSysteme, $view, $request) {
@@ -120,7 +120,7 @@ abstract class Bral_Scripts_Script {
 			'date_debut_script' => date("Y-m-d H:i:s"),
 			'etat_script' => self::ETAT_EN_COURS,
 			'type_script' => $this->getType(),
-			'id_fk_hobbit_script' => $this->hobbit->id_hobbit,
+			'id_fk_braldun_script' => $this->braldun->id_braldun,
 			'ip_script' => $_SERVER['REMOTE_ADDR'],
 			'hostname_script' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
 			'url_script' => $_SERVER["REQUEST_URI"],
@@ -175,36 +175,36 @@ abstract class Bral_Scripts_Script {
 	private function initParametres() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - initParametres - enter -");
 
-		$idHobbitRecu = $this->request->get(self::PARM_ID_HOBBIT);
+		$idBraldunRecu = $this->request->get(self::PARM_ID_HOBBIT);
 		$mdpRestreintRecu = $this->request->get(self::PARM_MDP_RESTREINT);
 
-		if (((int)$idHobbitRecu.""!=$idHobbitRecu."")) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES n (".$idHobbitRecu.") - exit -");
+		if (((int)$idBraldunRecu.""!=$idBraldunRecu."")) {
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES n (".$idBraldunRecu.") - exit -");
 			return self::ERREUR_02_PARAMETRES;
 		} else {
-			$idHobbit = (int)$idHobbitRecu;
+			$idBraldun = (int)$idBraldunRecu;
 		}
 
-		Zend_Loader::loadClass("Hobbit");
-		$hobbitTable = new Hobbit();
-		$hobbitRow = $hobbitTable->findById($idHobbit);
+		Zend_Loader::loadClass("Braldun");
+		$braldunTable = new Braldun();
+		$braldunRow = $braldunTable->findById($idBraldun);
 
-		if ($hobbitRow == null || count($hobbitRow) < 1) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_HOBBIT_INCONNU (".$idHobbit.") - exit -");
+		if ($braldunRow == null || count($braldunRow) < 1) {
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_HOBBIT_INCONNU (".$idBraldun.") - exit -");
 			return self::ERREUR_03_HOBBIT_INCONNU;
 		}
 
-		if ($hobbitRow->password_hobbit != $mdpRestreintRecu) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (".$idHobbit.", ".$mdpRestreintRecu.") - exit -");
+		if ($braldunRow->password_braldun != $mdpRestreintRecu) {
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (".$idBraldun.", ".$mdpRestreintRecu.") - exit -");
 			return self::ERREUR_04_MDP_INVALIDE;
 		}
 
-		if ($hobbitRow->est_pnj_hobbit == 'oui' || $hobbitRow->est_compte_desactive_hobbit == 'oui' || $hobbitRow->est_compte_actif_hobbit == 'non') {
+		if ($braldunRow->est_pnj_braldun == 'oui' || $braldunRow->est_compte_desactive_braldun == 'oui' || $braldunRow->est_compte_actif_braldun == 'non') {
 			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_05_HOBBIT_DESACTIVE - exit -");
 			return self::ERREUR_05_HOBBIT_DESACTIVE;
 		}
 
-		$this->hobbit = $hobbitRow;
+		$this->braldun = $braldunRow;
 
 		$retour = self::VERIFICATION_OK;
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - initParametres - exit -");
@@ -239,7 +239,7 @@ abstract class Bral_Scripts_Script {
 		$nb = $scriptTable->delete($where. " AND type_script like '".$this->getType()."'");
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - del.".$nb." du type .".$this->getType()." -");
 
-		$nb = $scriptTable->countByIdHobbitAndType($this->hobbit->id_hobbit, $this->getType());
+		$nb = $scriptTable->countByIdBraldunAndType($this->braldun->id_braldun, $this->getType());
 		$nbMax = $this->getNbAppelsMax();
 		$this->nbAppelsMsg = "TYPE:".$this->getType().";NB_APPELS:".$nb.";MAX_AUTORISE:".$nbMax.PHP_EOL;
 		

@@ -18,7 +18,7 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		
 		$labanTabacTable = new LabanTabac();
-		$labanTabac = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		$labanTabac = $labanTabacTable->findByIdBraldun($this->view->user->id_braldun);
 		
 		$this->view->fumerNbFeuilleOk = false;
 		
@@ -42,7 +42,7 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
@@ -68,7 +68,7 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		$this->calculFumer($tabac);
 		
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_hobbit."] a fumé";
+		$details = "[h".$this->view->user->id_braldun."] a fumé";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 		
@@ -77,7 +77,7 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
-		$this->majHobbit();
+		$this->majBraldun();
 		
 		$this->view->tabac = $tabac;
 	}
@@ -86,31 +86,31 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanTabac");
 		
 		$labanTabacTable = new LabanTabac();
-		$data["id_fk_hobbit_laban_tabac"] = $this->view->user->id_hobbit;
+		$data["id_fk_braldun_laban_tabac"] = $this->view->user->id_braldun;
 		$data["id_fk_type_laban_tabac"] = $tabac["id_fk_type_laban_tabac"];
 		$data["quantite_feuille_laban_tabac"] = -1;
 		
 		$labanTabacTable->insertOrUpdate($data);
 		
-		Zend_Loader::loadClass("HobbitsCompetences");
-		$hobbitsCompetencesTables = new HobbitsCompetences();
-		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 
 		$this->view->nbToursBonus = Bral_Util_De::get_1d2();
 		$this->view->nbToursMalus = Bral_Util_De::get_1d2();
 		$tabCompetences = null;
-		foreach($hobbitCompetences as $c) {
+		foreach($braldunCompetences as $c) {
 			if ($c["id_fk_type_tabac_competence"] == $tabac["id_fk_type_laban_tabac"]) {
 				$data = array('nb_tour_restant_bonus_tabac_hcomp' => $this->view->nbToursBonus,
 							  'nb_tour_restant_malus_tabac_hcomp' => $this->view->nbToursMalus);
-				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
-				$hobbitsCompetencesTables->update($data, $where);
+				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_braldun_hcomp=".$this->view->user->id_braldun;
+				$braldunsCompetencesTables->update($data, $where);
 				$tabCompetences[] = $c;
 			} else {
 				$data = array('nb_tour_restant_bonus_tabac_hcomp' => 0,
 							  'nb_tour_restant_malus_tabac_hcomp' => 0);
-				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
-				$hobbitsCompetencesTables->update($data, $where);
+				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_braldun_hcomp=".$this->view->user->id_braldun;
+				$braldunsCompetencesTables->update($data, $where);
 			}
 		}
 		$this->view->competences = $tabCompetences;

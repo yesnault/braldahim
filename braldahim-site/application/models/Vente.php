@@ -23,11 +23,11 @@ class Vente extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByIdHobbit($idHobbit) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente', '*')
-		->where('id_fk_hobbit_vente = '.intval($idHobbit));
+		->where('id_fk_braldun_vente = '.intval($idBraldun));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -16,7 +16,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		$this->view->sourceOk = false;
-		$this->view->nbBieres = $this->view->user->force_base_hobbit;
+		$this->view->nbBieres = $this->view->user->force_base_braldun;
 
 		$this->idDestination = null;
 		$this->idSource = null;
@@ -59,8 +59,8 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 				$tabDestinations["laban"]["possible"] = true;
 				$tabDestinations["laban"]["nom"] = "Votre laban";
-				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + self::POIDS_INGREDIENT;
-				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun + self::POIDS_INGREDIENT;
+				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 
 				$tabDestinations["sol"]["possible"] = true;
 				$tabDestinations["sol"]["nom"] = "Au Sol";
@@ -111,7 +111,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 				Zend_Loader::loadClass("LabanIngredient");
 				$labanIngredientTable = new LabanIngredient();
-				$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 				$tabSources["laban"]["ingredients"] = $ingredients;
 				*/
 		}
@@ -178,7 +178,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
@@ -226,7 +226,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 
 	private function calculBrasser($idSource, $idDestination) {
@@ -257,10 +257,10 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	}
 
 	private function calculQualite() {
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
-		$chance_a = -0.375 * $maitrise + 40 + $this->view->user->force_base_hobbit;
-		$chance_b = 0.25 * $maitrise + 50 - ($this->view->user->force_base_hobbit / 2);
-		$chance_c = 0.125 * $maitrise + 10 - ($this->view->user->force_base_hobbit / 2);
+		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
+		$chance_a = -0.375 * $maitrise + 40 + $this->view->user->force_base_braldun;
+		$chance_b = 0.25 * $maitrise + 50 - ($this->view->user->force_base_braldun / 2);
+		$chance_c = 0.125 * $maitrise + 10 - ($this->view->user->force_base_braldun / 2);
 
 		Zend_Loader::loadClass("Aliment");
 		$tirage = Bral_Util_De::get_1d100();
@@ -292,14 +292,14 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
-			$tabBase["id_fk_hobbit_laban_aliment"] = $this->view->user->id_hobbit;
+			$tabBase["id_fk_braldun_laban_aliment"] = $this->view->user->id_braldun;
 		} else if ($idDestination == "sol") {
 			$prefix = "element";
 			Zend_Loader::loadClass("ElementAliment");
 			$table = new ElementAliment();
-			$tabBase["x_element_aliment"] = $this->view->user->x_hobbit;
-			$tabBase["y_element_aliment"] = $this->view->user->y_hobbit;
-			$tabBase["z_element_aliment"] = $this->view->user->z_hobbit;
+			$tabBase["x_element_aliment"] = $this->view->user->x_braldun;
+			$tabBase["y_element_aliment"] = $this->view->user->y_braldun;
+			$tabBase["z_element_aliment"] = $this->view->user->z_braldun;
 		} else {
 			throw new Zend_Exception("creationAliment::Source invalide:".$idDestination);
 		}
@@ -318,11 +318,11 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		for ($i = 1; $i <= $this->view->nbBieres; $i++) {
 			$idAliment = $idsAliment->prepareNext();
 
-			$idEffetHobbit = null;
+			$idEffetBraldun = null;
 
 			if ($idTypeAliment == TypeAliment::ID_TYPE_STOUT) {
 				// la valeur est calculée sur l'application de l'effet
-				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_STOUT, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), 0, 'Lovely day for a stout !');
+				$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, Bral_Util_Effets::CARACT_STOUT, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), 0, 'Lovely day for a stout !');
 			}
 
 			$data = array(
@@ -330,15 +330,15 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 				"id_fk_type_aliment" => $idTypeAliment,
 				"id_fk_type_qualite_aliment" => 2,
 				"bbdf_aliment" => 0,
-				"id_fk_effet_hobbit_aliment" => $idEffetHobbit,
+				"id_fk_effet_braldun_aliment" => $idEffetBraldun,
 			);
 			$alimentTable->insert($data);
 
 			$data = array(
 				"id_element_aliment" => $idAliment,
-				"x_element_aliment" => $this->view->user->x_hobbit,
-				"y_element_aliment" => $this->view->user->y_hobbit,
-				"z_element_aliment" => $this->view->user->z_hobbit,
+				"x_element_aliment" => $this->view->user->x_braldun,
+				"y_element_aliment" => $this->view->user->y_braldun,
+				"z_element_aliment" => $this->view->user->z_braldun,
 			);
 			$elementAlimentTable->insert($data);
 
@@ -370,7 +370,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
-			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
+			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 		} else {
 			throw new Zend_Exception("retireIngredients::Source invalide:".$idSource);
 		}

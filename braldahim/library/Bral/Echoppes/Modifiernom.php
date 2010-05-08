@@ -26,13 +26,13 @@ class Bral_Echoppes_Modifiernom extends Bral_Echoppes_Echoppe {
 		}
 		
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 		
 		$tabEchoppe = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe && 
-				$e["x_echoppe"] == $this->view->user->x_hobbit && 
-				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+				$e["x_echoppe"] == $this->view->user->x_braldun && 
+				$e["y_echoppe"] == $this->view->user->y_braldun) {
 				$tabEchoppe = array(
 					'id_echoppe' => $e["id_echoppe"],
 					'nom_echoppe' => $e["nom_echoppe"],
@@ -41,7 +41,7 @@ class Bral_Echoppes_Modifiernom extends Bral_Echoppes_Echoppe {
 			}
 		}
 		if ($tabEchoppe == null) {
-			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_hobbit." ide:".$id_echoppe);
+			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_braldun." ide:".$id_echoppe);
 		}
 		
 		$this->view->echoppe = $tabEchoppe;

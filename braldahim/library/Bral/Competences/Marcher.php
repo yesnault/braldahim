@@ -70,14 +70,14 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
 		}
 
-		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
-		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
+		$this->view->user->x_braldun = $this->view->user->x_braldun + $offset_x;
+		$this->view->user->y_braldun = $this->view->user->y_braldun + $offset_y;
 		
 		Zend_Loader::loadClass("Bral_Util_Crevasse");
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
 
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = "[h".$this->view->user->id_hobbit."] a marché";
+		$details = "[h".$this->view->user->id_braldun."] a marché";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -85,13 +85,13 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
-		$this->majHobbit();
+		$this->majBraldun();
 	}
 	
 
 	function getListBoxRefresh() {
 		$tab = array("box_vue", "box_lieu", "box_echoppes", "box_champs");
-		if ($this->view->user->est_soule_hobbit == "oui") {
+		if ($this->view->user->est_soule_braldun == "oui") {
 			$tab[] = "box_soule";
 		}
 		return $this->constructListBoxRefresh($tab);
