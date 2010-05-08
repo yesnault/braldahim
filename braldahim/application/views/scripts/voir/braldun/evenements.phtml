@@ -1,0 +1,52 @@
+  	Type : 
+  	<select name='valeur_2'  onChange="Javascript:_get_('/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"]?>&menu=evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<? foreach ($this->typeEvenements as $t) : ?>
+  	<option value='<?=$t["id_type_evenement"]?>' <?if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?=$t["nom"]?></option>
+  	<? endforeach; ?>
+  	</select>
+  	<br /><br />
+  	
+  	<table class="table_liste" style="width:90%">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th>Date</th>
+			<th>Type</th>
+			<th>Description</th>
+		  </tr>
+		</thead>
+		<tfoot class="table_liste">
+		  <tr class="table_liste">
+		    <th colspan='5'>
+			   <? if ($this->precedentOk === true) : ?>
+			   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"]?>&menu=evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <? endif; ?>
+			   <? if ($this->suivantOk === true) : ?>
+			   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"]?>&menu=evenements&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
+			   <? endif; ?>
+		    </th>
+		  </tr>
+		</tfoot>
+  	<? if ($this->nbEvenements > 0): ?>
+	  	
+		<tbody>
+	  	<? $i = 0; 
+	  	foreach($this->evenements as $e): ?>
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste"><?=$e["date"]?></td>
+		  		<td class="table_liste"><?=$e["type"]?></td>
+		  		<td class="table_liste"><?=$e["details"]?>&nbsp;</td>
+	  		</tr>
+	  	<? endforeach; ?>
+	  	</tbody>
+	  	
+   <? else: ?>
+   	<tr class="table_liste">
+   	 <td colspan='5'>
+   		Aucun &eacute;v&eacute;nement
+   	 </td>
+   	 </tr>
+   <? endif; ?>
+   </table>
+   <br /><br />
+   Les événements de type déplacement sont supprimés au bout de 30 jours.<br>
+   Les événements de type service, compétence, transbahuter sont supprimés au bout de 90 jours.<br>
