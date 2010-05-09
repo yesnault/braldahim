@@ -374,32 +374,4 @@ class ParametresController extends Zend_Controller_Action {
 		}
 		$this->render();
 	}
-
-	function betanomAction() {
-		$this->view->modification = false;
-
-		$beta_conserver_nom_braldun = $this->_request->getPost("valeur_1");
-
-		$braldunTable = new Braldun();
-		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
-		$braldun = $braldunRowset->current();
-			
-		if ($this->_request->isPost()) {
-
-			$this->view->user->beta_conserver_nom_braldun = $beta_conserver_nom_braldun;
-
-			$data = array(
-				'beta_conserver_nom_braldun' => $this->view->user->beta_conserver_nom_braldun,
-			);
-			$where = "id_braldun=".$this->view->user->id_braldun;
-			$braldunTable = new Braldun();
-			$braldunTable->update($data, $where);
-
-			$this->view->message = "Modifications effectu&eacute;es";
-			echo $this->view->render("Parametres/index.phtml");
-		} else {
-			$this->render();
-		}
-	}
-
 }
