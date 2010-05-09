@@ -272,13 +272,23 @@ class InscriptionController extends Zend_Controller_Action {
 
 	private function initialiseDataBraldun() {
 		// region aleatoire
+
 		if ($this->id_region == -1) {
-			$regionTable = new Region();
-			$regionsRowset = $regionTable->fetchAll();
-			$de = Bral_Util_De::get_de_specifique(0, count($regionsRowset)-1);
-			$regionsRowset = $regionsRowset->toArray();
-			$region = $regionsRowset[$de];
-			$this->id_region = $region["id_region"];
+			$de = Bral_Util_De::get_de_1D2();
+
+			if ($de == 1) {
+				$this->id_region = 1;
+			} else {
+				$this->id_region = 3;
+			}
+				
+			/*	$regionTable = new Region();
+			 $regionsRowset = $regionTable->fetchAll();
+			 $de = Bral_Util_De::get_de_specifique(0, count($regionsRowset)-1);
+			 $regionsRowset = $regionsRowset->toArray();
+			 $region = $regionsRowset[$de];
+			 $this->id_region = $region["id_region"];
+			 */
 		}
 
 		// Mairie aleatoire dans la region
