@@ -50,7 +50,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 			$braldun = $braldunRowset->toArray();
 
 			foreach ($tabPost as $key => $value) {
-				if ($key != 'id_braldun' && mb_substr($key, -7) == "_braldun") {
+				if ($key != 'id_braldun' && mb_substr($key, -8) == "_braldun") {
 
 					if ($braldun[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";

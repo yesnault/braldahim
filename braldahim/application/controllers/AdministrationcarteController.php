@@ -98,6 +98,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&buissons=1";
 		}
 
+		if (intval($this->_request->get("ruines")) == 1) {
+			$parametres .= "&ruines=1";
+		}
+
 		if (intval($this->_request->get("palissades")) == 1) {
 			$parametres .= "&palissades=1";
 		}
@@ -174,6 +178,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("buissons")) == 1) {
 			$this->dessineBuissons(&$image);
+		}
+
+		if (intval($this->_request->get("ruines")) == 1) {
+			$this->dessineRuines(&$image);
 		}
 
 		if (intval($this->_request->get("palissades")) == 1) {
@@ -302,7 +310,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->rouge_0);
 					break;
 			}
-				
+
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->noir);
 		}
 	}
@@ -476,6 +484,22 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbBuissons." Buissons", $this->gris2);
 	}
 
+	private function dessineRuines(&$image) {
+		Zend_Loader::loadClass('TypeLieu');
+		Zend_Loader::loadClass('Lieu');
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->fetchAll('id_fk_type_lieu='.TypeLieu::ID_TYPE_RUINE);
+
+		$nbRuines = 0;
+		foreach ($lieux as $f) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_lieu"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_lieu"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
+			$nbRuines++;
+		}
+		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 20, $nbRuines." Ruines", $this->gris2);
+	}
+
 	private function dessinePalissades(&$image) {
 		Zend_Loader::loadClass('Palissade');
 		$palissadesTable = new Palissade();
@@ -538,7 +562,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_route"]) / $this->coefTaille;
 			if ($h["type_route"] == "route") {
 				if ($h["est_visible_route"] == "oui") {
-					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_4);
+					ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert_3);
 					$nbRoutesVisible++;
 				} else {
 					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_3);
@@ -558,7 +582,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbRoutesVille." Paves Ville", $this->rouge_0);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbBalises." Balises", $this->vert2);
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->rouge_4);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->vert_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 40, $nbRoutesNonVisible." Routes non visible", $this->rouge_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 50, $nbRoutesEchoppe." Routes Echoppe", $this->rouge_1);
 	}

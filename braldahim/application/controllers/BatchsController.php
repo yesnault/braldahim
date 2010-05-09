@@ -30,17 +30,17 @@ class BatchsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Controle");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function champsAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Champs", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function creationbosquetsAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationBosquets");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function creationbuissonsAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationBuissons");
 		echo $this->view->render("batchs/resultat.phtml");
@@ -81,6 +81,11 @@ class BatchsController extends Zend_Controller_Action {
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 
+	function creationruinesAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationRuines", $this->view);
+		echo $this->view->render("batchs/resultat.phtml");
+	}
+
 	function hotelAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Hotel", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
@@ -110,12 +115,12 @@ class BatchsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("ScriptsPublics", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function souleAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Soule", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function sondageAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Sondage", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");

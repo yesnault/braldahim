@@ -46,7 +46,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 				$or = " OR ";
 			}
 
-			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"].") ";
+			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"]." AND z_bosquet = ".$r["z_route"].") ";
 		}
 
 		if ($where != "") {
@@ -76,7 +76,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 				$or = " OR ";
 			}
 
-			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"].") ";
+			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"]." AND z_bosquet = ".$r["z_eau"].") ";
 
 			$nb++;
 			if ($nb == 1000) {

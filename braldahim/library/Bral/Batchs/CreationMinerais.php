@@ -48,7 +48,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 				$or = " OR ";
 			}
 
-			$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"].") ";
+			$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"]." AND z_filon = ".$r["z_eau"].") ";
 			$nb++;
 			if ($nb == 1000) {
 				$filonTable->delete($where);

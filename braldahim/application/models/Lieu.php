@@ -63,7 +63,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -74,9 +74,35 @@ class Lieu extends Zend_Db_Table {
 		->where('y_lieu <= ?',$y_max)
 		->where('z_lieu = ?',$z)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
+
+		if ($id_type != null) {
+			$select->where('id_fk_type_lieu = ?',$id_type);
+		}
+
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
+	}
+
+	function countVue($x_min, $y_min, $x_max, $y_max, $z, $id_type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', 'count(*) as nombre')
+		->where('x_lieu <= ?',$x_max)
+		->where('x_lieu >= ?',$x_min)
+		->where('y_lieu >= ?',$y_min)
+		->where('y_lieu <= ?',$y_max)
+		->where('z_lieu = ?',$z);
+
+		if ($id_type != null) {
+			$select->where('id_fk_type_lieu = ?',$id_type);
+		}
+
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 
 	function findNomById($id) {
@@ -110,6 +136,20 @@ class Lieu extends Zend_Db_Table {
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
+	}
+
+	function countByCase($x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', 'count(*) as nombre')
+		->where('x_lieu = ?',$x)
+		->where('y_lieu = ?',$y)
+		->where('z_lieu = ?',$z);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 
 	function findByTypeAndCase($type,$x, $y) {

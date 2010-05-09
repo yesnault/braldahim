@@ -47,7 +47,7 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 				$or = " OR ";
 			}
 
-			$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"].") ";
+			$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"]." AND z_buisson = ".$r["z_eau"].") ";
 				
 			$nb++;
 			if ($nb == 1000) {
