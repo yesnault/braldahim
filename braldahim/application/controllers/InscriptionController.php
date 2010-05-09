@@ -274,7 +274,7 @@ class InscriptionController extends Zend_Controller_Action {
 		// region aleatoire
 
 		if ($this->id_region == -1) {
-			$de = Bral_Util_De::get_de_1D2();
+			$de = Bral_Util_De::get_1D2();
 
 			if ($de == 1) {
 				$this->id_region = 1;
