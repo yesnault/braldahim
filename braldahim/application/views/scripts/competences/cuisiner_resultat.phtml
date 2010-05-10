@@ -7,7 +7,7 @@
 	Vous avez r&eacute;ussi votre cuisine.<br /> <br />
 	
 	<? if ($this->estQuintuple === true) : ?>
-		Les bralduns suivants se sont régalés avec votre banquet : <br>
+		Les Braldûns suivants se sont régalés avec votre banquet : <br>
 		<? foreach($this->bralduns as $h) : ?>
 			<? if ($h['id_braldun'] == $this->user->id_braldun) : ?>
 				Vous-même
