@@ -1671,8 +1671,7 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::etapeContacterParents - etape contacter en cours");
-				self::calculEtapeContacterParents($etape, $braldun, $idDestinatairesTab);
-				return true;
+				return self::calculEtapeContacterParents($etape, $braldun, $idDestinatairesTab);
 			}
 		} else {
 			return null;
