@@ -225,7 +225,7 @@ span.id_braldun {
 /* ************************************************ */
 .boite_a {
 	margin-top: 10px;
-	width: 365px;
+	width: auto;
 }
 
 .onglet {
