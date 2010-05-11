@@ -590,6 +590,7 @@ td.table_liste {
     height: 1500px;
     top: 0px; left: 0px;
 }
+
 .modalBackground
 {
     filter: alpha (opacity=40); 
@@ -600,6 +601,7 @@ td.table_liste {
     z-index: 500;
     top: 0px; left: 0px;
 }
+
 .modalContainer
 {
     position: absolute;
