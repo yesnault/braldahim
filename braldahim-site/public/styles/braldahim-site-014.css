@@ -137,7 +137,6 @@ span.id_braldun {
 	position: absolute;
 	width: 200px;
 	height: 60px;
-	valign: center;
 	margin-left: -110px;
 	margin-top: -100px;
 	text-align: center;
@@ -224,12 +223,7 @@ span.id_braldun {
 /* ************************************************ */
 /* ********************** Onglets ***************** */
 /* ************************************************ */
-.boite_a, {
-	margin-top: 10px;
-	width: auto;
-}
-
-.boite_a, {
+.boite_a {
 	margin-top: 10px;
 	width: 365px;
 }
@@ -261,7 +255,7 @@ span.id_braldun {
 	height: auto;
 	text-align: center;
 	z-index: 10;
-	background: #transparent none repeat scroll 0% 0%;
+	background: none repeat scroll 0% 0%;
 }
 
 /* ************************************************ */
