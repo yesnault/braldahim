@@ -64,7 +64,6 @@ class Bral_Util_Quete {
 
 	const ETAPE_MARCHER_PARAM3_TERRAIN = 1;
 	const ETAPE_MARCHER_PARAM3_LIEU = 2;
-	const ETAPE_MARCHER_PARAM3_POSITION = 3;
 
 	const ETAPE_POSSEDER_PARAM2_COFFRE = 1;
 	const ETAPE_POSSEDER_PARAM2_LABAN = 2;
@@ -1127,13 +1126,6 @@ class Bral_Util_Quete {
 				$retour = true;
 			} else {
 				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - non sur le lieu");
-			}
-		} else if ($etape["param_3_etape"] == self::ETAPE_MARCHER_PARAM3_POSITION) {
-			if ($braldun->x_braldun == $etape["param_4_etape"] && $braldun->y_braldun == $etape["param_5_etape"]) {
-				$retour = true;
-				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - C - sur x y");
-			} else {
-				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - C - non sur x y");
 			}
 		} else {
 			$retour = false;

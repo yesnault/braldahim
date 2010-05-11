@@ -294,7 +294,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_AUBERGE == $dataTypeEtape["param2"]) {
 			Zend_Loader::loadClass("TypeLieu");
 			$lieuTable = new Lieu();
-			$auberges = $lieuTable->findByType(TypeLieu::ID_TYPE_AUBERGE, "non");
+			$auberges = $lieuTable->findByType(TypeLieu::ID_TYPE_AUBERGE, "non", "oui");
 			$deAuberge = Bral_Util_De::get_de_specifique(0, count($auberges) -1);
 			$auberge = $auberges[$deAuberge];
 			$dataTypeEtape["param3"] = $auberge["id_lieu"];
@@ -373,7 +373,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_FUMER_PARAM4_VILLE == $dataTypeEtape["param4"]) {
 			Zend_Loader::loadClass("Ville");
 			$villeTable = new Ville();
-			$villes = $villeTable->fetchAll();
+			$villes = $villeTable->fetchAll("est_reliee_ville like 'oui'");
 			$deVille = Bral_Util_De::get_de_specifique(0, count($villes) -1);
 			$ville = $villes[$deVille];
 			$dataTypeEtape["param5"] = $ville["id_ville"];
@@ -413,7 +413,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapeMarcherParam3et4et5(&$dataTypeEtape) {
-		$dataTypeEtape["param3"] = Bral_Util_De::get_1d3();
+		$dataTypeEtape["param3"] = Bral_Util_De::get_1d2();
 
 		if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_TERRAIN == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Environnement");
@@ -426,36 +426,11 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_LIEU == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Lieu");
 			$lieuTable = new Lieu();
-			$lieux = $lieuTable->fetchAll("est_soule_lieu = 'non' AND est_donjon_lieu = 'non'");
+			$lieux = $lieuTable->findByCritere("non", "non", "oui", "non", "non");
 			$deLieu = Bral_Util_De::get_de_specifique(0, count($lieux) -1);
 			$lieu = $lieux[$deLieu];
 			$dataTypeEtape["param4"] = $lieu["id_lieu"];
 			$dataTypeEtape["libelle_etape"] .= "sur le lieu suivant : ".$lieu["nom_lieu"]. ", en x:".$lieu["x_lieu"]." et y:".$lieu["y_lieu"];
-		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_POSITION == $dataTypeEtape["param3"]) {
-			$x = Bral_Util_De::get_de_specifique(0, $this->view->config->game->x_max * 2) - $this->view->config->game->x_max;
-			$y = Bral_Util_De::get_de_specifique(0, $this->view->config->game->y_max * 2) - $this->view->config->game->y_max;
-			$z = 0;
-			Zend_Loader::loadClass("Palissade");
-			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->findByCase($x, $y, $z);
-			if ($palissades != null && count($palissades) == 1 && $palissades[0]["est_destructible_palissade"] == "non") {
-				$x = 0;
-				$y = 0;
-			} else if (count($palissades) > 1) {
-				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMarcherParam3et4et5 nb Palissade invalides ! x:".$x. " y:".$y);
-			}
-				
-			Zend_Loader::loadClass("Eau");
-			$eauTable = new Eau();
-			$eaux = $eauTable->findByCase($x, $y, $z);
-			if ($eaux != null && count($eaux) >= 1) {
-				$x = 0;
-				$y = 0;
-			}
-
-			$dataTypeEtape["param4"] = $x;
-			$dataTypeEtape["param5"] = $y;
-			$dataTypeEtape["libelle_etape"] .= " en x:".$x." et y:".$y;
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMarcherParam3et4et5 param3 invalide:".$dataTypeEtape["param3"]);
 		}
@@ -562,7 +537,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_EQUIPER_PARAM2_VILLE == $dataTypeEtape["param2"]) {
 			Zend_Loader::loadClass("Ville");
 			$villeTable = new Ville();
-			$villes = $villeTable->fetchAll();
+			$villes = $villeTable->fetchAll("est_reliee_ville like 'oui'");
 			$deVille = Bral_Util_De::get_de_specifique(0, count($villes) -1);
 			$ville = $villes[$deVille];
 			$dataTypeEtape["param3"] = $ville["id_ville"];
@@ -614,7 +589,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_CONSTRUIRE_PARAM3_VILLE == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Ville");
 			$villeTable = new Ville();
-			$villes = $villeTable->fetchAll();
+			$villes = $villeTable->fetchAll("est_reliee_ville like 'oui'");
 			$deVille = Bral_Util_De::get_de_specifique(0, count($villes) -1);
 			$ville = $villes[$deVille];
 			$dataTypeEtape["param4"] = $ville["id_ville"];

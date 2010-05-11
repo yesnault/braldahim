@@ -19,7 +19,7 @@ class Lieu extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
-	public function findByType($type, $estSoule = null) {
+	public function findByType($type, $estSoule = null, $estReliee = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -27,9 +27,50 @@ class Lieu extends Zend_Db_Table {
 		->where('lieu.id_fk_type_lieu = ?',$type)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+
 		if ($estSoule != null) {
 			$select->where('lieu.est_soule_lieu = ?',$estSoule);
 		}
+
+		if ($estReliee != null) {
+			$select->where("ville.est_reliee_ville like ? ", $estReliee);
+		}
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+
+	public function findByCritere($estDonjon = null, $estSoule = null, $estReliee = null, $estMythique, $estRuine) {
+		Zend_Loader::loadClass("TypeLieu");
+		
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+
+		if ($estDonjon != null) {
+			$select->where('lieu.est_donjon_lieu = ?',$estDonjon);
+		}
+
+		if ($estSoule != null) {
+			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+		}
+
+		if ($estReliee != null) {
+			$select->where("ville.est_reliee_ville like ? ", $estReliee);
+		}
+
+		if ($estMythique == "non") {
+			$select->where("id_fk_type_lieu not like ? ", TypeLieu::ID_TYPE_LIEUMYTHIQUE);
+		}
+
+		if ($estRuine == "non") {
+			$select->where("id_fk_type_lieu not like ? ", TypeLieu::ID_TYPE_RUINE);
+		}
+
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
