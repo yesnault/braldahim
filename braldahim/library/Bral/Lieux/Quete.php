@@ -444,6 +444,14 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			} else if (count($palissades) > 1) {
 				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMarcherParam3et4et5 nb Palissade invalides ! x:".$x. " y:".$y);
 			}
+				
+			Zend_Loader::loadClass("Eau");
+			$eauTable = new Eau();
+			$eaux = $eauTable->findByCase($x, $y, $z);
+			if ($eaux != null && count($eaux) >= 1) {
+				$x = 0;
+				$y = 0;
+			}
 
 			$dataTypeEtape["param4"] = $x;
 			$dataTypeEtape["param5"] = $y;
