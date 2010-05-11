@@ -64,6 +64,7 @@ class Bral_Util_Quete {
 
 	const ETAPE_MARCHER_PARAM3_TERRAIN = 1;
 	const ETAPE_MARCHER_PARAM3_LIEU = 2;
+	const ETAPE_MARCHER_PARAM3_POSITION = 3; // A supprimer quand tout les étapes de ce type sont terminées
 
 	const ETAPE_POSSEDER_PARAM2_COFFRE = 1;
 	const ETAPE_POSSEDER_PARAM2_LABAN = 2;
@@ -376,7 +377,7 @@ class Bral_Util_Quete {
 				"gain_quete" => $quete["gain_quete"],
 			);
 			$where = "id_quete=".$quete["id_quete"];
-			
+				
 			$queteTable->update($data, $where);
 
 			self::termineQueteDistinction($quete, $braldun);
@@ -485,7 +486,7 @@ class Bral_Util_Quete {
 
 		Zend_Loader::loadClass('Aliment');
 		$alimentTable = new Aliment();
-		
+
 		for ($i = 1; $i <= $nbRagouts; $i++) {
 			$id_aliment = $idsAliment->prepareNext();
 
@@ -496,7 +497,7 @@ class Bral_Util_Quete {
 				"bbdf_aliment" => $bbdfAliment,
 			);
 			$alimentTable->insert($data);
-			
+				
 			$data = array(
 				'id_coffre_aliment' => $id_aliment,
 				'id_fk_braldun_coffre_aliment' => $braldun->id_braldun,
@@ -1007,7 +1008,7 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
-				
+
 			if ($etape["param_5_etape"] == 2) { // anciennement foret
 				Zend_Loader::loadClass("Bosquet");
 				$bosquetTable = new Bosquet();
@@ -1126,6 +1127,13 @@ class Bral_Util_Quete {
 				$retour = true;
 			} else {
 				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - non sur le lieu");
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_MARCHER_PARAM3_POSITION) {
+			if ($braldun->x_braldun == $etape["param_4_etape"] && $braldun->y_braldun == $etape["param_5_etape"]) {
+				$retour = true;
+				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - C - sur x y");
+			} else {
+				Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - C - non sur x y");
 			}
 		} else {
 			$retour = false;
