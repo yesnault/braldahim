@@ -280,7 +280,7 @@ span.id_braldun {
 #menu ul {
 	list-style-type:none;
 	margin:0 auto;
-	padding:1 50px;
+	padding:1px 50px;
 	text-align:center;
 	width:640px;
 }
@@ -482,7 +482,6 @@ span.id_braldun {
 	border-width: 0pt 1px;
 	display: block;
 	background: #003b00 repeat-x scroll 0pt 0%;
-	text-align: top;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
@@ -821,7 +820,7 @@ div.gridbox table.obj td.group_row {
 	width: 100%;
 	border: 0px;
 	padding: 0px;
-	padding-right: 1px ! ie;
+	padding-right: 1px;
 	margin: 0px;
 	font: 12px arial;
 	overflow: hidden;
@@ -886,7 +885,7 @@ DIV.pagingBlock a {
 /*block selection style*/
 .dhtmlxGrid_selection {
 	-moz-opacity: 0.5;
-	filter: alpha(opacity =   50);
+	/*filter: alpha(opacity =   50);*/
 	background-color: yellow;
 	opacity: 0.5;
 	border: 1px dotted black;
@@ -934,7 +933,7 @@ div.gridbox table.hdr td.columnTargetL div.hdrcell {
 	margin: 0px;
 	padding: 5px 20px 5px 20px;
 	font-weight: normal;
-	filter: alpha(opacity : 75);
+	/*filter: alpha(opacity : 75);*/
 	-moz-opacity: 0.75;
 	opacity: 0.75;
 }
