@@ -21,7 +21,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('TypePlante');
 		Zend_Loader::loadClass('Zone');
 
-//		$retour .= $this->calculCreation();
+		$retour .= $this->calculCreation();
 		$retour .= $this->suppressionSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculBatchImpl - exit -");
