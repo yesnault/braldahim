@@ -21,7 +21,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('TypePlante');
 		Zend_Loader::loadClass('Zone');
 
-		$retour .= $this->calculCreation();
+//		$retour .= $this->calculCreation();
 		$retour .= $this->suppressionSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculBatchImpl - exit -");
@@ -35,23 +35,34 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		// Suppression des filons partout où il y a une eau
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
-		$eaux = $eauTable->fetchall();
-
 		$planteTable = new Plante();
-		$nb = 0;
+
+		$nbEaux = $eauTable->countAll();
+		$limit = 1000;
+
 		$where = "";
-		foreach($eaux as $r) {
-			$or = "";
-			if ($where != "") {
-				$or = " OR ";
+
+		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
+			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($eaux as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_plante = ".$r["x_eau"]. " AND y_plante = ".$r["y_eau"]." AND z_plante = ".$r["z_eau"].") ";
+				$nb++;
+				if ($nb == $limit) {
+					$planteTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
 			}
 
-			$where .= $or." (x_plante = ".$r["x_eau"]. " AND y_plante = ".$r["y_eau"]." AND z_plante = ".$r["z_eau"].") ";
-			$nb++;
-			if ($nb == 1000) {
+			if ($where != "") {
 				$planteTable->delete($where);
-				$nb = 0;
-				$where = "";
 			}
 		}
 

@@ -36,24 +36,34 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		// Suppression des filons partout où il y a une eau
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
-		$eaux = $eauTable->fetchall();
-
 		$filonTable = new Filon();
 
-		$nb = 0;
+		$nbEaux = $eauTable->countAll();
+		$limit = 1000;
+
 		$where = "";
-		foreach($eaux as $r) {
-			$or = "";
-			if ($where != "") {
-				$or = " OR ";
+		
+		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
+			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($eaux as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"]." AND z_filon = ".$r["z_eau"].") ";
+				$nb++;
+				if ($nb == $limit) {
+					$filonTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
 			}
 
-			$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"]." AND z_filon = ".$r["z_eau"].") ";
-			$nb++;
-			if ($nb == 1000) {
+			if ($where != "") {
 				$filonTable->delete($where);
-				$nb = 0;
-				$where = "";
 			}
 		}
 
@@ -114,11 +124,11 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].") environnement(".$c["id_fk_environnement_creation_minerais"].") suptotal(". $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]].")");
 				foreach($zones as $z) {
-						
+
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_minerais"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_minerai"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]]));
@@ -178,7 +188,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			}
 
 			$filon = array_pop($filons);
-				
+
 			$where .= $or."id_filon=".$filon["id_filon"];
 			$nb++;
 			if ($nb == 1000) {

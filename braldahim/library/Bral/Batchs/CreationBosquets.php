@@ -68,21 +68,33 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 
 		$bosquetTable = new Bosquet();
 
+		$nbEaux = $eauTable->countAll();
+		$limit = 1000;
+
 		$where = "";
-		$nb = 0;
-		foreach($eaux as $r) {
-			$or = "";
-			if ($where != "") {
-				$or = " OR ";
+
+		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
+			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($eaux as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"]." AND z_bosquet = ".$r["z_eau"].") ";
+
+				$nb++;
+				if ($nb == $limit) {
+					$bosquetTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
 			}
 
-			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"]." AND z_bosquet = ".$r["z_eau"].") ";
-
-			$nb++;
-			if ($nb == 1000) {
+			if ($where != "") {
 				$bosquetTable->delete($where);
-				$nb = 0;
-				$where = "";
 			}
 		}
 

@@ -36,30 +36,42 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 		// Suppression des buissons partout où il y a une eau
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
-		$eaux = $eauTable->fetchall();
-
 		$buissonTable = new Buisson();
-		$nb = 0;
+		
+		$nbEaux = $eauTable->countAll();
+		$limit = 1000;
+
 		$where = "";
-		foreach($eaux as $r) {
-			$or = "";
-			if ($where != "") {
-				$or = " OR ";
+
+		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
+			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($eaux as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"]." AND z_buisson = ".$r["z_eau"].") ";
+
+				$nb++;
+				if ($nb == $limit) {
+					$buissonTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
 			}
 
-			$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"]." AND z_buisson = ".$r["z_eau"].") ";
-				
-			$nb++;
-			if ($nb == 1000) {
+			if ($where != "") {
 				$buissonTable->delete($where);
-				$nb = 0;
-				$where = "";
 			}
 		}
 
 		if ($where != "") {
 			$buissonTable->delete($where);
 		}
+		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - exit -");
 		return $retour;
 	}
