@@ -30,6 +30,16 @@ class Eau extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function countAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('eau', 'count(*) as nombre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+	
 	function countVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
