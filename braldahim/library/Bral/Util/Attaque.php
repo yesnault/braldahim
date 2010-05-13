@@ -39,6 +39,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotQ"] = false;
 		$retourAttaque["effetMotS"] = false;
 		$retourAttaque["idMatchSoule"] = null;
+		$retourAttaque["idTypeGroupeMonstre"] = null;
 		$retourAttaque["etape"] = false;
 		$retourAttaque["gains"] = null;
 
@@ -135,8 +136,8 @@ class Bral_Util_Attaque {
 		$effetMotI = Bral_Util_Commun::getEffetMotI($braldunAttaquant->id_braldun);
 		if ($effetMotI != null && $effetMotSPossible == true) {
 			$retourAttaque["effetMotI"] = true;
-			$braldunCible->regeneration_malus_braldun = $braldunCible->regeneration_malus_braldun + $effetMotI;
-			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotI True (regeneration ajoutee=".$effetMotI."), braldunCible->regeneration_malus_braldun=".$braldunCible->regeneration_malus_braldun);
+			$braldunCible->regeneration_bm_braldun = $braldunCible->regeneration_bm_braldun + $effetMotI;
+			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotI True (regeneration ajoutee=".$effetMotI."), braldunCible->regeneration_bm_braldun=".$braldunCible->regeneration_bm_braldun);
 		}
 
 		$effetMotJ = Bral_Util_Commun::getEffetMotJ($braldunAttaquant->id_braldun);
@@ -265,7 +266,7 @@ class Bral_Util_Attaque {
 				'est_ko_braldun' => $braldunCible->est_ko_braldun,
 				'nb_ko_braldun' => $braldunCible->nb_ko_braldun,
 				'date_fin_tour_braldun' => $braldunCible->date_fin_tour_braldun,
-				'regeneration_malus_braldun' => $braldunCible->regeneration_malus_braldun,
+				'regeneration_bm_braldun' => $braldunCible->regeneration_bm_braldun,
 				'vue_bm_braldun' => $braldunCible->vue_bm_braldun,
 				'vue_malus_braldun' => $braldunCible->vue_malus_braldun,
 				'agilite_bm_braldun' => $braldunCible->agilite_bm_braldun,
@@ -468,6 +469,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotQ"] = false;
 		$retourAttaque["effetMotS"] = false;
 		$retourAttaque["ballonLache"] = false;
+		$retourAttaque["idTypeGroupeMonstre"] = $monstre["id_fk_type_groupe_monstre"];
 		$retourAttaque["etape"] = false;
 		$retourAttaque["gains"] = null;
 

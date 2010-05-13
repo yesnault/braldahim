@@ -247,7 +247,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 
-		if ($this->view->retourAttaque["mort"] === true) {
+		if ($this->view->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
 			$this->view->nb_px_commun = 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
 			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {

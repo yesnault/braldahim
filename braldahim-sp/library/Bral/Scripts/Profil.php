@@ -49,7 +49,7 @@ class Bral_Scripts_Profil extends Bral_Scripts_Script {
 		$retour1 .= 'bmBddfAgilite;bmBddfForce;bmBddfVigueur;bmBddfSagesse;';
 		$retour2 .= $this->braldun->agilite_bbdf_braldun.';'.$this->braldun->force_bbdf_braldun.';'.$this->braldun->vigueur_bbdf_braldun.';'.$this->braldun->sagesse_bbdf_braldun.';';
 		$retour1 .= 'bmVue;regeneration;bmRegeneration;';
-		$retour2 .= $this->braldun->vue_bm_braldun.';'.$this->braldun->regeneration_braldun.';'.$this->braldun->regeneration_malus_braldun.';';
+		$retour2 .= $this->braldun->vue_bm_braldun.';'.$this->braldun->regeneration_braldun.';'.$this->braldun->regeneration_bm_braldun.';';
 		$retour1 .= 'pxPerso;pxCommun;pi;niveau;';
 		$retour2 .= $this->braldun->px_perso_braldun.';'.$this->braldun->px_commun_braldun.';'.$this->braldun->pi_braldun.';'.$this->braldun->niveau_braldun.';';
 		$retour1 .= 'poidsTransportable;poidsTransporte;';

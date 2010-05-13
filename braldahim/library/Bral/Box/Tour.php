@@ -195,10 +195,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->braldun->bm_defense_braldun = 0;
 			$this->braldun->duree_bm_tour_braldun = 0;
 			$this->braldun->bm_marcher_braldun = 0;
-			
+				
 			// Nouvelle DLA
 			$this->braldun->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun + 1;
-			 
+
 			// Recalcul de l'armure naturelle
 			$this->braldun->armure_naturelle_braldun = Bral_Util_Commun::calculArmureNaturelle($this->braldun->force_base_braldun, $this->braldun->vigueur_base_braldun);
 
@@ -220,6 +220,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
 			$this->calculBMEffet();
+			$this->calculBMSpecialisation();
 
 			// Mise a  jour de la regeneration // c'est aussi mis a  jour dans l'eujimnasiumne
 			$this->braldun->regeneration_braldun = floor($this->braldun->vigueur_base_braldun / 4) + 1;
@@ -351,7 +352,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	// recalcule de la position suite à un KO
 	private function calculKoPosition() {
 		Zend_Loader::loadClass("TypeLieu");
-		
+
 		// recalcul de la position
 		$lieuTable = new Lieu();
 		if ($this->braldun->est_soule_braldun == "oui" && $this->braldun->id_fk_soule_match_braldun != null) { // match de Soule
@@ -472,7 +473,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->braldun->pv_restant_braldun=".$this->braldun->pv_restant_braldun);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
 						$this->view->effetMotUNbPv = Bral_Util_De::getLanceDe6($ciblesEffetU["n_cible"] * $e["niveau"]);
-						
+
 						$this->braldun->pv_restant_braldun = $this->braldun->pv_restant_braldun + $this->view->effetMotUNbPv;
 						if ($this->braldun->pv_restant_braldun > $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun) {
 							$this->braldun->pv_restant_braldun = $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun;
@@ -586,6 +587,13 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - exit -");
 	}
 
+	private function calculBMSpecialisation() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMSpecialisation - enter -");
+		Zend_Loader::loadClass("Bral_Util_Specialisation");
+		Bral_Util_Specialisation::calculSpecialisationBraldun($this->braldun, false);
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMSpecialisation - exit -");
+	}
+
 	private function calculInfoTour() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
 		$info = "";
@@ -642,7 +650,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 	private function calculPv() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
-		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->braldun->regeneration_malus_braldun=".$this->braldun->regeneration_malus_braldun);
+		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->braldun->regeneration_bm_braldun=".$this->braldun->regeneration_bm_braldun);
 
 		$this->view->jetRegeneration = 0;
 
@@ -650,7 +658,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Vie::calculRegenerationBraldun(&$this->braldun, $this->view->jetRegeneration);
 
 		/* Remise a  zero du malus de regeneration. */
-		$this->braldun->regeneration_malus_braldun = 0;
+		$this->braldun->regeneration_bm_braldun = 0;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - exit -");
 	}
 
@@ -696,14 +704,14 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->bm_degat_braldun = $this->braldun->bm_degat_braldun;
 		$this->view->user->bm_defense_braldun = $this->braldun->bm_defense_braldun;
 
-		$this->view->user->regeneration_malus_braldun = $this->braldun->regeneration_malus_braldun;
+		$this->view->user->regeneration_bm_braldun = $this->braldun->regeneration_bm_braldun;
 
 		$this->view->user->est_engage_braldun = $this->braldun->est_engage_braldun;
 		$this->view->user->est_engage_next_dla_braldun = $this->braldun->est_engage_next_dla_braldun;
 
 		$this->view->user->est_intangible_braldun = $this->braldun->est_intangible_braldun;
 		$this->view->user->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun;
-		
+
 		$data = array(
 			'x_braldun' => $this->braldun->x_braldun,
 			'y_braldun'  => $this->braldun->y_braldun,
@@ -739,7 +747,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'poids_transportable_braldun' => $this->braldun->poids_transportable_braldun,
 			'poids_transporte_braldun' => $this->braldun->poids_transporte_braldun,
 			'regeneration_braldun' => $this->braldun->regeneration_braldun,
-			'regeneration_malus_braldun' => $this->braldun->regeneration_malus_braldun,
+			'regeneration_bm_braldun' => $this->braldun->regeneration_bm_braldun,
 			'bm_attaque_braldun' => $this->braldun->bm_attaque_braldun,
 			'bm_degat_braldun' => $this->braldun->bm_degat_braldun,
 			'bm_defense_braldun' => $this->braldun->bm_defense_braldun,

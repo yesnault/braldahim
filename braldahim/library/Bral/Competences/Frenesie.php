@@ -184,7 +184,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			}
 		}
 
-		if ($this->retourAttaque["mort"] === true) {
+		if ($this->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
 			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
 			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {

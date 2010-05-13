@@ -1429,7 +1429,7 @@ CREATE TABLE `braldun` (
   `vigueur_bm_braldun` int(11) NOT NULL,
   `vigueur_bbdf_braldun` int(11) NOT NULL default '0',
   `regeneration_braldun` int(11) NOT NULL,
-  `regeneration_malus_braldun` int(11) NOT NULL,
+  `regeneration_bm_braldun` int(11) NOT NULL,
   `px_perso_braldun` int(11) NOT NULL default '0',
   `px_commun_braldun` int(11) NOT NULL,
   `pi_cumul_braldun` int(11) NOT NULL default '0',

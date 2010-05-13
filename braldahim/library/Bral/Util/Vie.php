@@ -20,7 +20,7 @@ class Bral_Util_Vie {
 		
 		if ($braldun->pv_restant_braldun < $braldun->pv_max_braldun + $braldun->pv_max_bm_braldun) {
 			$jetRegeneration = Bral_Util_De::getLanceDe10($braldun->regeneration_braldun);
-			$jetRegeneration = $jetRegeneration - $braldun->regeneration_malus_braldun;
+			$jetRegeneration = $jetRegeneration + $braldun->regeneration_bm_braldun;
 
 			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$jetRegeneration = 0;
