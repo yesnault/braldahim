@@ -12,7 +12,7 @@
  */
 class Bral_Util_Attaque {
 
-	public static function attaqueBraldun(&$braldunAttaquant, &$braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true, $tir=false) {
+	public static function attaqueBraldun(&$braldunAttaquant, &$braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true, $tir = false, $enregistreEvenementDansAttaque = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - jetCible=".$jetCible);
@@ -28,7 +28,6 @@ class Bral_Util_Attaque {
 		$retourAttaque["fragilisee"] = false;
 		$retourAttaque["critique"]  = false;
 		$retourAttaque["ballonLache"]  = false;
-
 		$retourAttaque["effetMotD"] = false;
 		$retourAttaque["effetMotE"] = false;
 		$retourAttaque["effetMotG"] = false;
@@ -62,11 +61,11 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - attaqueBraldun - jetAttaquant".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
 
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) { // attaque reussie
-			self::calculAttaqueBraldunReussie($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir);
+			self::calculAttaqueBraldunReussie($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) { // esquive normale
-			self::calculAttaqueBraldunEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible);
+			self::calculAttaqueBraldunEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
 		} else { // esquive parfaite
-			self::calculAttaqueBraldunParfaitementEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible);
+			self::calculAttaqueBraldunParfaitementEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
 		}
 
 		self::calculAttaqueBraldunRiposte($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $degatCase);
@@ -80,7 +79,7 @@ class Bral_Util_Attaque {
 		return $retourAttaque;
 	}
 
-	private static function calculAttaqueBraldunReussie(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir) {
+	private static function calculAttaqueBraldunReussie(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunReussie - enter -");
 
 		$retourAttaque["attaqueReussie"] = true;
@@ -332,7 +331,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunReussie - exit -");
 	}
 
-	private static function calculAttaqueBraldunEsquivee(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $view, $config, $effetMotSPossible) {
+	private static function calculAttaqueBraldunEsquivee(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunEsquivee - enter -");
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_braldun=".$braldunCible->niveau_braldun);
 
@@ -365,14 +364,17 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "braldun", true, $view);
-		//			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+
+		if ($enregistreEvenementDansAttaque) {
+			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
+		}
 
 		$retourAttaque["details"] = $details;
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunEsquivee - exit -");
 	}
 
-	private static function calculAttaqueBraldunParfaitementEsquivee(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $view, $config, $effetMotSPossible) {
+	private static function calculAttaqueBraldunParfaitementEsquivee(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunParfaitementEsquivee - enter -");
 
 		if ($braldunAttaquant->est_soule_braldun == "non") {
@@ -390,8 +392,10 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null,  Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "braldun", true, $view);
-		//			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 
+		if ($enregistreEvenementDansAttaque) {
+			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
+		}
 		$retourAttaque["details"] = $details;
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunParfaitementEsquivee - exit -");
@@ -429,7 +433,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueBraldunRiposte - exit -");
 	}
 
-	public static function attaqueMonstre(&$braldunAttaquant, &$monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false) {
+	public static function attaqueMonstre(&$braldunAttaquant, &$monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false, $enregistreEvenementDansAttaque = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
@@ -548,7 +552,7 @@ class Bral_Util_Attaque {
 					$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
 				}
 			}
-	
+
 			$armureNaturelle = $monstre["armure_naturelle_monstre"];
 			if ($tir == true) {
 				$penetrationArmure = floor(($braldunAttaquant->agilite_bm_braldun + $braldunAttaquant->agilite_bbdf_braldun + $braldunAttaquant->sagesse_bm_braldun + $braldunAttaquant->sagesse_bbdf_braldun)/2);
@@ -663,7 +667,9 @@ class Bral_Util_Attaque {
 		if ($retourAttaque["mort"] === true) {
 			$idTypeEvenement = $config->game->evenements->type->killmonstre;
 			$details = "[b".$braldunAttaquant->id_braldun."] a tué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
-			//			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+			if ($enregistreEvenementDansAttaque) {
+				Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
+			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
 			$idTypeEvenement = $config->game->evenements->type->attaquer;
@@ -682,7 +688,9 @@ class Bral_Util_Attaque {
 				$details .= "";
 			}
 
-			//			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot);
+			if ($enregistreEvenementDansAttaque) {
+				Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun);
+			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenement, $details, "", $cible["niveau_cible"], "monstre");
 		}
 
@@ -932,7 +940,7 @@ class Bral_Util_Attaque {
 					
 				$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
 			}
-				
+
 			if ($pieceCibleAbimee != null) {
 				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
 			}

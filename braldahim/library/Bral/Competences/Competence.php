@@ -442,7 +442,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	protected function attaqueBraldun(&$braldunAttaquant, $idBraldunCible, $effetMotSPossible = true, $tir = false) {
+	protected function attaqueBraldun(&$braldunAttaquant, $idBraldunCible, $effetMotSPossible = true, $tir = false, $enregistreEvenementDansAttaque = false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($braldunAttaquant);
 		$jetsDegat = $this->calculDegat($braldunAttaquant);
@@ -450,14 +450,18 @@ abstract class Bral_Competences_Competence {
 		$braldunRowset = $braldunTable->find($idBraldunCible);
 		$braldunCible = $braldunRowset->current();
 		$jetCible = Bral_Util_Attaque::calculJetCibleBraldun($braldunCible);
-		$retourAttaque = Bral_Util_Attaque::attaqueBraldun(&$braldunAttaquant, $braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible, $tir);
-		$this->detailEvenement = $retourAttaque["details"];
-		$this->idTypeEvenement = $retourAttaque["typeEvenement"];
+		$retourAttaque = Bral_Util_Attaque::attaqueBraldun(&$braldunAttaquant, $braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
+		if ($enregistreEvenementDansAttaque == true) {
+			$this->estEvenementAuto = false;
+		} else {
+			$this->detailEvenement = $retourAttaque["details"];
+			$this->idTypeEvenement = $retourAttaque["typeEvenement"];
+		}
 		$this->idMatchSoule = $retourAttaque["idMatchSoule"];
 		return $retourAttaque;
 	}
 
-	protected function attaqueMonstre(&$braldunAttaquant, $idMonstre, $tir = false) {
+	protected function attaqueMonstre(&$braldunAttaquant, $idMonstre, $tir = false, $enregistreEvenementDansAttaque = false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($braldunAttaquant);
 		$jetsDegat = $this->calculDegat($braldunAttaquant);
@@ -465,9 +469,14 @@ abstract class Bral_Competences_Competence {
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
-		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$braldunAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $tir);
-		$this->detailEvenement = $retourAttaque["details"];
-		$this->idTypeEvenement = $retourAttaque["typeEvenement"];
+		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$braldunAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $tir, false, $enregistreEvenementDansAttaque);
+		if ($enregistreEvenementDansAttaque == true) {
+			$this->estEvenementAuto = false;
+		} else {
+			$this->detailEvenement = $retourAttaque["details"];
+			$this->idTypeEvenement = $retourAttaque["typeEvenement"];
+		}
+
 		$this->view->estQueteEvenement = $retourAttaque["etape"];
 		return $retourAttaque;
 	}

@@ -105,7 +105,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
 				foreach ($this->view->tabBralduns as $h) {
-					$this->retourAttaque = $this->attaqueBraldun($this->view->user, $h["id_braldun"]);
+					$this->retourAttaque = $this->attaqueBraldun($this->view->user, $h["id_braldun"], true, false, true);
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
 					$this->_coef = $this->_coef * 0.8;
@@ -114,7 +114,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
 				foreach ($this->view->tabMonstres as $m) {
-					$this->retourAttaque = $this->attaqueMonstre($this->view->user, $m["id_monstre"]);
+					$this->retourAttaque = $this->attaqueMonstre($this->view->user, $m["id_monstre"], false, true);
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
 					$this->_coef = $this->_coef * 0.8;
