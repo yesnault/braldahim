@@ -114,10 +114,6 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$this->view->nbRondins  = 1;
 		}
 
-		if ($this->view->nbRondins > $nbPossibleDansCharretteMaximum) {
-			$this->view->nbRondins = $nbPossibleDansCharretteMaximum;
-		}
-
 		$bosquetTable = new Bosquet();
 		$where = "id_bosquet=".$this->view->bosquetCourant["id_bosquet"];
 		// Destruction du bosquet s'il ne reste plus rien
@@ -133,15 +129,36 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$bosquetDetruit = false;
 		}
 
+		$dansCharrette = $this->view->nbRondins;
+		$aTerre = 0;
+		if ($dansCharrette > $nbPossibleDansCharretteMaximum) {
+			$dansCharrette = $nbPossibleDansCharretteMaximum;
+			$aTerre = $this->view->nbRondins - $dansCharrette;
+		}
+
 		$charretteTable = new Charrette();
 		$data = array(
-			'quantite_rondin_charrette' => $this->view->nbRondins,
+			'quantite_rondin_charrette' => $dansCharrette,
 			'id_fk_braldun_charrette' => $this->view->user->id_braldun,
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 
 		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
+
+		if ($aTerre > 0) {
+			Zend_Loader::loadClass("Element");
+			$elementTable = new Element();
+			$data = array(
+				"quantite_rondin_element" => $aTerre,
+				"x_element" => $this->view->user->x_braldun,
+				"y_element" => $this->view->user->y_braldun,
+				"z_element" => $this->view->user->z_braldun,
+			);
+			$elementTable->insertOrUpdate($data);
+		}
+
+		$this->view->nbRondinsATerre = $aTerre;
 
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));

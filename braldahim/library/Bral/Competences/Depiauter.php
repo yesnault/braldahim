@@ -182,6 +182,12 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$this->view->nbViande = $this->view->nbViande + 1;
 		}
 
+		$nbViandeDansLaban = 0;
+		$nbViandeATerre = 0;
+
+		$nbPeauDansLaban = 0;
+		$nbPeauATerre = 0;
+
 		if ($this->view->nbViande > $nbMax) {
 			$this->view->nbViande = $nbMax;
 		}
@@ -191,31 +197,62 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->nbPeau > $this->view->nbElementPossible) {
-			$this->view->nbPeau = $this->view->nbElementPossible;
+			$nbPeauDansLaban = $this->view->nbElementPossible;
+			$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
 			$this->view->limitationLaban = true;
 		}
 
 		if ($this->view->nbViande > $this->view->nbElementPossible - $this->view->nbPeau) {
-			$this->view->nbViande = $this->view->nbElementPossible - $this->view->nbPeau;
+			$nbViandeDansLaban = $this->view->nbElementPossible - $this->view->nbPeau;
+			$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
 			$this->view->limitationLaban = true;
 		}
 
-		$labanTable = new Laban();
-		$data = array(
-			'id_fk_braldun_laban' => $this->view->user->id_braldun,
-			'quantite_peau_laban' => $this->view->nbPeau,
-		);
-		$labanTable->insertOrUpdate($data);
+		if ($nbPeauDansLaban > 0) {
+			$labanTable = new Laban();
+			$data = array(
+				'id_fk_braldun_laban' => $this->view->user->id_braldun,
+				'quantite_peau_laban' => $nbPeauDansLaban,
+			);
+			$labanTable->insertOrUpdate($data);
+		}
 
-		Zend_Loader::loadClass("LabanIngredient");
 		Zend_Loader::loadClass("TypeIngredient");
-		$labanTable = new LabanIngredient();
-		$data = array(
-			'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
-			'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
-			'quantite_laban_ingredient' => $this->view->nbViande,
-		);
-		$labanTable->insertOrUpdate($data);
+		if ($nbViandeDansLaban > 0) {
+			Zend_Loader::loadClass("LabanIngredient");
+			$labanTable = new LabanIngredient();
+			$data = array(
+				'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
+				'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
+				'quantite_laban_ingredient' => $nbViandeDansLaban,
+			);
+			$labanTable->insertOrUpdate($data);
+		}
+
+		if ($nbViandeATerre > 0) {
+			Zend_Loader::loadClass("ElementIngredient");
+			$elementTable = new ElementIngredient();
+			$data = array(
+				'id_fk_type_element_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
+				'quantite_element_ingredient' => $nbViandeATerre,
+				'x_element_ingredient' => $this->view->user->x_braldun,
+				'y_element_ingredient' => $this->view->user->y_braldun,
+				'z_element_ingredient' => $this->view->user->z_braldun,
+			);
+			$elementTable->insertOrUpdate($data);
+		}
+
+		if ($nbPeauATerre > 0) {
+			Zend_Loader::loadClass("Element");
+			$elementTable = new Element();
+			$data = array(
+				"quantite_peau_element" => $nbPeauATerre,
+				"x_element" => $this->view->user->x_braldun,
+				"y_element" => $this->view->user->y_braldun,
+				"z_element" => $this->view->user->z_braldun,
+			);
+			$elementTable->insertOrUpdate($data);
+		}
 
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));

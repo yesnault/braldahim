@@ -8,24 +8,24 @@
 	<? else: ?>
 	Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br />
 	<? endif; ?>
+	
+	<? if ($this->nbCueilletteTerre > 0) : ?> 
+		Fause de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).<br>
+	<? endif;?>
 	<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 	<br /><br />
 
 	<? if ($this->cueillette[1]["quantite"] != 0) {
-		echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]. "<br/>
-";
+		echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]." <br/>";
 	}
 	if ($this->cueillette[2]["quantite"] != 0) {
-		echo $this->cueillette[2]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[2]["quantite"]. "<br/>
-";
+		echo $this->cueillette[2]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[2]["quantite"]. "<br/>";
 	}
 	if ($this->cueillette[3]["quantite"] != 0) {
-		echo $this->cueillette[3]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[3]["quantite"]. "<br/>
-";
+		echo $this->cueillette[3]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[3]["quantite"]. "<br/>";
 	}
 	if ($this->cueillette[4]["quantite"] != 0) {
-		echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br/>
-";
+		echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br/>";
 	}
 	?>
 	<? if ($this->planteDetruite === true) : ?>

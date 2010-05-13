@@ -13,6 +13,10 @@
 		rondin<?=$s ?>.
 	<? endif; ?>
 	
+	<? if ($this->nbRondinsATerre > 0) : ?>
+		Faute de place dans votre charrette, certains rondins sont tombés au sol.<br>
+	<? endif;?>
+	
 	<? if ($this->bosquetDetruit) : ?>
 		<br>Vous avez récupéré les derniers rondins sur ce bosquet.
 	<? endif;?>

@@ -14,6 +14,12 @@
 			Pfiou, il n'y a plus rien dans le filon...
 		<? endif; ?>
 		<br /><br />
+		
+		<? if ($this->nbATerre > 0): ?>
+			Faut de place, certains éléments sont tombés à terre.
+			<br /><br />
+		<? endif;?>
+		
 		<? if ($this->effetRune) :?>
 			Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
 		<? endif; ?>

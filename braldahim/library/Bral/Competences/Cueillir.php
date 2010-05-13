@@ -170,32 +170,64 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			}
 		}
 
-		$nbCueillette = 0;
+		$nbCueilletteLaban = 0;
+		$nbCueilletteATerre = 0;
+
 		// reussite, on met dans le laban
 		if ($this->view->okJet1 === true) {
 			$labanPartiePlanteTable = new LabanPartieplante();
+			Zend_Loader::loadClass("ElementPartieplante");
+			$elementPartiePlanteTable = new ElementPartieplante();
 
 			for ($i=1; $i<=4; $i++) {
 				if ($cueillette[$i]["quantite"] > 0) {
-					$nbCueillette = $nbCueillette + $cueillette[$i]["quantite"];
-					$data = array(
-						'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
-						'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
-						'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
-						'quantite_laban_partieplante' => $cueillette[$i]["quantite"],
-					);
-					$labanPartiePlanteTable->insertOrUpdate($data);
+					$dansLaban = 0;
+					$aTerre = 0;
+
+					if ($nbCueilletteLaban + $cueillette[$i]["quantite"] > $this->view->nbElementPossible) {
+						$dansLaban = $this->view->nbElementPossible - $nbCueilletteLaban;
+						if ($dansLaban > $cueillette[$i]["quantite"]) $dansLaban = $cueillette[$i]["quantite"];
+						if ($dansLaban < 0) $dansLaban = 0;
+						$aTerre = $cueillette[$i]["quantite"] - $dansLaban;
+						if ($aTerre < 0) $aTerre = 0;
+					} else { // tout passe dans le laban
+						$dansLaban = $cueillette[$i]["quantite"];
+					}
+
+					if ($dansLaban > 0) {
+						$nbCueilletteLaban = $nbCueilletteLaban + $dansLaban;
+						$data = array(
+							'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
+							'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
+							'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
+							'quantite_laban_partieplante' => $dansLaban, //$cueillette[$i]["quantite"],
+						);
+						$labanPartiePlanteTable->insertOrUpdate($data);
+					}
+
+					if ($aTerre > 0) {
+						$nbCueilletteATerre = $nbCueilletteATerre + $aTerre;
+						$data = array(
+							'id_fk_type_element_partieplante' => $cueillette[$i]["id_fk"],
+							'id_fk_type_plante_element_partieplante' => $cueillette[$i]["id_type_plante"],
+							'x_element_partieplante' => $this->view->user->x_braldun,
+							'y_element_partieplante' => $this->view->user->y_braldun,
+							'z_element_partieplante' => $this->view->user->z_braldun,
+							'quantite_element_partieplante' => $aTerre,
+						);
+						$elementPartiePlanteTable->insertOrUpdate($data);
+					}
 				}
 			}
-				
+
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
-			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueillette;
+			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueilletteLaban;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
-			
+
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 		}
 
@@ -217,7 +249,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$this->view->cueillette = $cueillette;
-		$this->view->nbCueillette = $nbCueillette;
+		$this->view->nbCueillette = $nbCueilletteLaban + $nbCueilletteATerre;
+		$this->view->nbCueilletteLaban = $nbCueilletteLaban;
+		$this->view->nbCueilletteTerre = $nbCueilletteATerre;
 		$this->view->planteDetruite = $planteADetruire;
 		$this->view->plante = $plante;
 			
@@ -230,7 +264,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue"));
 	}
 
 	/*
@@ -262,9 +296,6 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$n  = 1;
 		}
 
-		if ($n > $this->view->nbElementPossible) {
-			$n = $this->view->nbElementPossible;
-		}
 		return $n;
 	}
 
