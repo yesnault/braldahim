@@ -24,6 +24,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["jetAttaquant"] = $jetAttaquant;
 		$retourAttaque["jetCible"] = $jetCible;
 		$retourAttaque["attaqueReussie"] = false;
+		$retourAttaque["penetrationArmure"] = 0;
 		$retourAttaque["mort"] = false;
 		$retourAttaque["fragilisee"] = false;
 		$retourAttaque["critique"]  = false;
@@ -162,6 +163,7 @@ class Bral_Util_Attaque {
 			if ($penetrationArmure < 0) {
 				$penetrationArmure = 0;
 			}
+			$retourAttaque["penetrationArmure"] = $penetrationArmure;
 			$braldunCible->armure_equipement_braldun = $braldunCible->armure_equipement_braldun - $penetrationArmure;
 			if ($braldunCible->armure_equipement_braldun < 0) {
 				$braldunCible->armure_equipement_braldun = 0;
@@ -449,6 +451,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["jetCible"] = $jetCible;
 		$retourAttaque["jetDegat"] = 0;
 		$retourAttaque["jetDegatReel"] = 0;
+		$retourAttaque["penetrationArmure"] = 0;
 		$retourAttaque["attaqueReussie"] = false;
 
 		$retourAttaque["mort"] = false;
@@ -559,6 +562,7 @@ class Bral_Util_Attaque {
 				if ($penetrationArmure < 0) {
 					$penetrationArmure = 0;
 				}
+				$retourAttaque["penetrationArmure"] = $penetrationArmure;
 				$armureNaturelle = $armureNaturelle - $penetrationArmure;
 				if ($armureNaturelle < 0) {
 					$armureNaturelle = 0;
