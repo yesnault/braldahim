@@ -39,7 +39,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			$this->view->hibernationPrevue = false;
 		}
 
-		
+
 		if ($this->verificationDonjon() == true || $this->view->user->est_donjon_braldun == 'oui') {
 			$this->view->donjonEnCours = true;
 		}
@@ -188,7 +188,12 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	public function calculNbCastars() {
-		$this->view->nb_castars = 5;
+		if ($this->view->user->niveau_braldun < 10) {
+			$this->view->nb_castars = 0;
+		} else {
+			$this->view->nb_castars = 10;
+		}
+		
 		if ($this->view->user->castars_braldun - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {

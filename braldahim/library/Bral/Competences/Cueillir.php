@@ -225,7 +225,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
-			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueilletteLaban;
+			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueilletteLaban + $nbCueilletteATerre;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);

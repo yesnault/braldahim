@@ -9,7 +9,7 @@
  	Vous ne pouvez pas vous inscrire &agrave; un match de soule en étant dans un Donjon ou inscrit à un Donjon.<br>
  	
  	<? else: ?>
-		Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castars, vous pouvez vous inscrire pour le prochain match de soule
+		Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castar<?if ($this->nb_castars > 1): echo 's'; endif?>, vous pouvez vous inscrire pour le prochain match de soule
 		sur le <?=$this->terrainCourant["nom_soule_terrain"]?>.
 	 </div>
 	 <br>
