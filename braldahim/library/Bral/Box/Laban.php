@@ -182,6 +182,18 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		}
 		unset($laban);
 
+		if ($tabLaban == null) {
+			$tabLaban = array(
+				"nb_peau" => 0,
+				"nb_cuir" => 0,
+				"nb_fourrure" => 0,
+				"nb_planche" => 0,
+				"nb_rondin" => 0,
+				"nb_viande" => 0, // remplit dans renderIngredient
+				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
+			);
+		}
+		
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
