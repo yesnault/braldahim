@@ -743,7 +743,7 @@ class Bral_Util_Attaque {
 	public static function calculJetCibleMonstre($monstre) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - enter -");
 		$config = Zend_Registry::get('config');
-		$jetCible = Bral_Util_De::getLanceDe6($monstre["agilite_base_monstre"]);
+		$jetCible = Bral_Util_De::getLanceDe6($config->game->base_agilite + $monstre["agilite_base_monstre"]);
 		$jetCible = $jetCible + $monstre["agilite_bm_monstre"] + $monstre["bm_defense_monstre"];
 		if ($jetCible < 0) {
 			$jetCible = 0;
