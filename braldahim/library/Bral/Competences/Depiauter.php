@@ -200,12 +200,16 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$nbPeauDansLaban = $this->view->nbElementPossible;
 			$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
 			$this->view->limitationLaban = true;
+		} else {
+			$nbPeauDansLaban = $this->view->nbPeau;
 		}
 
 		if ($this->view->nbViande > $this->view->nbElementPossible - $this->view->nbPeau) {
 			$nbViandeDansLaban = $this->view->nbElementPossible - $this->view->nbPeau;
 			$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
 			$this->view->limitationLaban = true;
+		} else {
+			$nbViandeDansLaban = $this->view->nbViande;
 		}
 
 		if ($nbPeauDansLaban > 0) {
