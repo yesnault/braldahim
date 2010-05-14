@@ -92,6 +92,9 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 
 		$quantiteExtraite = $this->calculQuantiteAExtraire();
+		$nbATerre = 0;
+		$nbDansLaban = 0;
+		
 
 		if ($this->view->okJet1 === true) {
 
