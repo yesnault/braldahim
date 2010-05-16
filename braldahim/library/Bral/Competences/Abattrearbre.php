@@ -26,7 +26,13 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$bosquet = $bosquets[0];
 			$this->view->abattreArbreEnvironnementOk = true;
 		}
-
+		$this->view->labanPlein = true;
+		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
+		$nbPossibleDansLabanMaximum = floor($poidsRestantLaban / Bral_Util_Poids::POIDS_RONDIN);
+		if ($nbPossibleDansLabanMaximum > 0) {
+			$this->view->labanPlein = false;
+		}
+		$this->view->nbPossibleDansLabanMax = $nbPossibleDansLabanMaximum;
 		$charretteTable = new Charrette();
 		$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 		$this->view->charettePleine = true;
@@ -39,6 +45,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			if ($nbPossibleDansCharretteMaximum > 0) {
 				$this->view->charettePleine = false;
 			}
+			$this->view->nbPossibleDansCharretteMax = $nbPossibleDansCharretteMaximum;
 		} else {
 			$this->view->possedeCharrette = false;
 		}
@@ -57,25 +64,40 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
-
+		
 		// Verification abattre arbre
-		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->possedeCharrette == false) {
+		if ($this->view->abattreArbreEnvironnementOk == false ) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
-
-		if ($this->view->charettePleine == true) {
+		
+		// Verification arrivee
+		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
+		if ($arrivee < 1 || $arrivee > 3) {
+			throw new Zend_Exception(get_class($this)." Destination impossible ");
+		}
+		
+		if ($this->view->charettePleine == true && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
-
+		
+		if ($this->view->possedeCharrette == false && $arrivee != 1) {
+			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+		}
+		
+		if ($this->view->labanPlein == true && $arrivee == 2) {
+			throw new Zend_Exception(get_class($this)." Laban plein !");
+		}
+		
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculAbattreArbre();
+			$this->calculAbattreArbre($arrivee);
 		}
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
+		$this->calculPoids();
 		$this->majBraldun();
 	}
 
@@ -89,8 +111,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	 * de 15 à 19 : 4D3 + BM VIG/2
 	 * etc ...
 	 */
-	private function calculAbattreArbre() {
-		Zend_Loader::loadClass("Charrette");
+	private function calculAbattreArbre($arrivee) {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass('StatsRecolteurs');
 
@@ -106,10 +127,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
-
-		$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
-		$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
-
+		
 		if ($this->view->nbRondins <= 0) {
 			$this->view->nbRondins  = 1;
 		}
@@ -128,24 +146,56 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$bosquetTable->update($data, $where);
 			$bosquetDetruit = false;
 		}
-
-		$dansCharrette = $this->view->nbRondins;
+		
 		$aTerre = 0;
-		if ($dansCharrette > $nbPossibleDansCharretteMaximum) {
-			$dansCharrette = $nbPossibleDansCharretteMaximum;
-			$aTerre = $this->view->nbRondins - $dansCharrette;
+		
+		//Charrette
+		if ($arrivee == 1) {
+			Zend_Loader::loadClass("Charrette");
+			//$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
+			//$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
+			
+			$dansCharrette = $this->view->nbRondins;
+	
+			if ($dansCharrette > $this->view->nbPossibleDansCharretteMax) {
+				$dansCharrette = $this->view->nbPossibleDansCharretteMax;
+				$aTerre = $this->view->nbRondins - $dansCharrette;
+			}
+	
+			$charretteTable = new Charrette();
+			$data = array(
+				'quantite_rondin_charrette' => $dansCharrette,
+				'id_fk_braldun_charrette' => $this->view->user->id_braldun,
+			);
+			$charretteTable->updateCharrette($data);
+			unset($charretteTable);
+	
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
-
-		$charretteTable = new Charrette();
-		$data = array(
-			'quantite_rondin_charrette' => $dansCharrette,
-			'id_fk_braldun_charrette' => $this->view->user->id_braldun,
-		);
-		$charretteTable->updateCharrette($data);
-		unset($charretteTable);
-
-		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
-
+		
+		//Laban
+		if ($arrivee == 2 ) {
+			Zend_Loader::loadClass("Laban");
+			$dansLaban = $this->view->nbRondins;
+			if ($dansLaban > $this->view->nbPossibleDansLabanMax) {
+				$dansLaban = $this->view->nbPossibleDansLabanMax;
+				$aTerre = $this->view->nbRondins - $dansLaban;
+			}
+			
+			$labanTable = new Laban();
+			$data = array(
+				'quantite_rondin_laban' => $dansLaban,
+				'id_fk_braldun_laban' => $this->view->user->id_braldun,
+			);
+			$labanTable->insertOrUpdate($data);
+			unset($labanTable);
+		}
+		
+		//sol
+		if ($arrivee == 3 ) {
+			$aTerre = $this->view->nbRondins;
+		}
+		
 		if ($aTerre > 0) {
 			Zend_Loader::loadClass("Element");
 			$elementTable = new Element();
@@ -159,6 +209,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		}
 
 		$this->view->nbRondinsATerre = $aTerre;
+		$this->view->arrivee = $arrivee;
 
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));

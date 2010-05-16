@@ -1,18 +1,36 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 	 <? if ($this->abattreArbreEnvironnementOk !== true) : ?>
 	 	Vous ne pouvez abattre un arbre que dans un bosquet
-	 <? elseif ($this->possedeCharrette !== true) :?>
-		Vous ne pouvez pas abattre un arbre sans charrette
-	 <? elseif ($this->charettePleine == true) : ?>
-	 	Votre charette est pleine.
 	 <? else: ?>
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre dans ce bosquet.
+		 <br /><br />
+		 <? if ($this->charettePleine == true) : ?>
+	 		Votre charette ne peut plus contenir de rondin.<br />
+	 	 <? endif;?>
+	 	 <? if ($this->labanPlein == true) : ?>
+	 		Votre laban ne peut plus contenir de rondin.<br />
+	 	 <? endif;?>
+	 	 <br />
+	 	 Choisissez la destination :
+		 <br />
+		 <?$select="";?>
+		 <select name="valeur_1" id="valeur_1">
+			<? if ($this->possedeCharrette == true && $this->charettePleine == false ) : ?>
+				<? $select = "selected";?>
+				<option value="1" <?=$select;?>>Votre charrette (<?=$this->nbPossibleDansCharretteMax?> rondin(s) maximum)</option>
+			<? endif; ?>
+			<? if ( $this->labanPlein == false ) : ?>
+				<? if ($select == "") $select = "selected"; else $select="";  ?>
+					<option value="2" <?=$select;?>>Votre laban (<?=$this->nbPossibleDansLabanMax?> rondin(s) maximum)</option>
+			<? endif; ?>
+			<option value="3">Le sol</option>
+		 </select>
 	 <? endif; ?>
 	 <br />
 </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true && $this->possedeCharrette === true && $this->charettePleine === false) : ?>
+<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true ) : ?>
 <input type='button' class='button1' id='bouton_abattrearbre' value='Abattre un arbre !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_abattrearbre");'>
 <? endif ?>

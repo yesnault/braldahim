@@ -10,15 +10,34 @@
 	<? else: ?>
 		Vous avez abattu un arbre.<br /> 
 		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
-		rondin<?=$s ?>.
+		rondin<?=$s ?>
 	<? endif; ?>
-	
-	<? if ($this->nbRondinsATerre > 0) : ?>
-		Faute de place dans votre charrette, certains rondins sont tombés au sol.<br>
+	<? if ($this->arrivee == 1 && $this->nbRondinsATerre == 0) : ?>
+		dans votre charrette.<br />
+	<? endif; ?>
+	<? if ($this->arrivee == 2 && $this->nbRondinsATerre == 0) : ?>
+		dans votre laban.<br />
+	<? endif; ?>
+	<? if ($this->nbRondinsATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
+		: <?=$this->nbRondins - $this->nbRondinsATerre?>
+		<? if ($this->arrivee == 1 ) : ?>
+			dans votre charrette 
+		<? endif; ?>
+		<? if ($this->arrivee == 2) : ?>
+			dans votre laban 
+		<? endif; ?>
+		et, faute de place, <?=$this->nbRondinsATerre?> 
+		<? if ($this->nbRondinsATerre > 1) : ?>
+			rondins sont tombés au sol.<br />
+		<? else :?>
+			rondin est tombé au sol.<br />
+		<? endif;?>
 	<? endif;?>
-	
+	<? if ($this->arrivee == 3) : ?>
+		au sol.<br />
+	<? endif; ?>
 	<? if ($this->bosquetDetruit) : ?>
-		<br>Vous avez récupéré les derniers rondins sur ce bosquet.
+		<br />Vous avez récupéré les derniers rondins sur ce bosquet.
 	<? endif;?>
 	<br /><br />
 	<? if ($this->effetRune) :?>
