@@ -80,7 +80,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
 		
-		if ($this->view->possedeCharrette == false && $arrivee != 1) {
+		if ($this->view->possedeCharrette == false && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Pas de charrette !");
 		}
 		
@@ -152,9 +152,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		//Charrette
 		if ($arrivee == 1) {
 			Zend_Loader::loadClass("Charrette");
-			//$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
-			//$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
-			
+		
 			$dansCharrette = $this->view->nbRondins;
 	
 			if ($dansCharrette > $this->view->nbPossibleDansCharretteMax) {

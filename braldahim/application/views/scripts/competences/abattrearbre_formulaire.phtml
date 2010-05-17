@@ -5,7 +5,7 @@
 	 <? else: ?>
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre dans ce bosquet.
 		 <br /><br />
-		 <? if ($this->charettePleine == true) : ?>
+		 <? if ($this->charettePleine == true && $this->possedeCharrette == true) : ?>
 	 		Votre charette ne peut plus contenir de rondin.<br />
 	 	 <? endif;?>
 	 	 <? if ($this->labanPlein == true) : ?>

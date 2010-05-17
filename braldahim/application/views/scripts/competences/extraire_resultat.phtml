@@ -7,19 +7,38 @@
 		Vous n'avez rien extrait  
 		&agrave; cause de vos malus importants en Force.<br> <br />
 	<? else: ?>
-		Vous avez extrait avec succ&egrave;s 
+		<br />Vous avez extrait avec succ&egrave;s 
 		<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
-		de <?=$this->minerai["nom_type"]?><br />
+		de <?=$this->minerai["nom_type"]?>
+		<? if ($this->arrivee == 1 && $this->nbATerre == 0) : ?>
+			dans votre charrette.<br />
+		<? endif; ?>
+		<? if ($this->arrivee == 2 && $this->nbATerre == 0) : ?>
+			dans votre laban.<br />
+		<? endif; ?>
+		<? if ($this->nbATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
+			: <?=$this->minerai["quantite_extraite"] - $this->nbATerre?>
+			<? if ($this->arrivee == 1 ) : ?>
+				dans votre charrette 
+			<? endif; ?>
+			<? if ($this->arrivee == 2) : ?>
+				dans votre laban 
+			<? endif; ?>
+			et, faute de place, <?=$this->nbATerre?> 
+			<? if ($this->nbATerre > 1) : ?>
+				minerais sont tombés au sol.<br />
+			<? else :?>
+				minerai est tombé au sol.<br />
+			<? endif;?>
+		<? endif;?>
+		<? if ($this->arrivee == 3) : ?>
+			au sol.<br />
+		<? endif; ?>
+		<br />
 		<? if ($this->filonDetruit === true): ?>
 			Pfiou, il n'y a plus rien dans le filon...
 		<? endif; ?>
-		<br /><br />
-		
-		<? if ($this->nbATerre > 0): ?>
-			Faut de place, certains éléments sont tombés à terre.
-			<br /><br />
-		<? endif;?>
-		
+		<br /><br />		
 		<? if ($this->effetRune) :?>
 			Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
 		<? endif; ?>

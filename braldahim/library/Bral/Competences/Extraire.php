@@ -14,14 +14,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Filon');
+		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass("Bral_Util_Quete");
-
-		$this->view->poidsPlaceDisponible = false;
-
-		$this->preCalculPoids();
-		if ($this->view->poidsPlaceDisponible == false) {
-			return;
-		}
 
 		$this->view->filonOk = false;
 
@@ -40,6 +34,29 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 					'quantite_restante_filon' => $f["quantite_restante_filon"],
 				);
 			}
+			$this->view->labanPlein = true;
+			$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
+			$nbPossibleDansLabanMaximum = floor($poidsRestantLaban / Bral_Util_Poids::POIDS_MINERAI);
+			if ($nbPossibleDansLabanMaximum > 0) {
+				$this->view->labanPlein = false;
+			}
+			$this->view->nbPossibleDansLabanMax = $nbPossibleDansLabanMaximum;
+			$charretteTable = new Charrette();
+			$charetteBraldun = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
+			$this->view->charettePleine = true;
+			if (count($charetteBraldun) == 1) {
+				$this->view->possedeCharrette = true;
+				$this->view->idCharrette = $charetteBraldun[0]["id_charrette"];
+				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
+				$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_MINERAI);
+	
+				if ($nbPossibleDansCharretteMaximum > 0) {
+					$this->view->charettePleine = false;
+				}
+				$this->view->nbPossibleDansCharretteMax = $nbPossibleDansCharretteMaximum;
+			} else {
+				$this->view->possedeCharrette = false;
+			}
 		}
 
 		$this->view->filons = $tabFilons;
@@ -52,29 +69,18 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('Braldun');
 		Zend_Loader::loadClass('StatsRecolteurs');
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
-		} elseif ($this->view->poidsPlaceDisponible == false) {
-			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 
 		$idFilonRecu = intval($this->request->get("valeur_1"));
-
-		// calcul des jets
-		if ($this->view->filonOk == true) {
-			$this->calculJets();
-		} else { // ($this->view->filonOk == false) {
-			$this->calculPx();
-			$this->calculBalanceFaim();
-			$this->majBraldun();
-			return;
-		}
-
+		$arrivee = intval($this->request->get("valeur_2"));
+		
+		//verification de la présence du filon
 		$valid = false;
 		foreach($this->view->filons as $f) {
 			if ($idFilonRecu == $f["id_filon"]) {
@@ -90,32 +96,87 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		if ($valid===false) {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid id=".$idFilonRecu);
 		}
+		
+		// Verification arrivee
+		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		if ($arrivee < 1 || $arrivee > 3) {
+			throw new Zend_Exception(get_class($this)." Destination impossible ");
+		}
+		
+		if ($this->view->charettePleine == true && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Charette pleine !");
+		}
+		
+		if ($this->view->possedeCharrette == false && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+		}
+		
+		if ($this->view->labanPlein == true && $arrivee == 2) {
+			throw new Zend_Exception(get_class($this)." Laban plein !");
+		}
+		
+		// calcul des jets
+		if ($this->view->filonOk == true) {
+			$this->calculJets();
+		} else { // ($this->view->filonOk == false) {
+			$this->calculPx();
+			$this->calculBalanceFaim();
+			$this->majBraldun();
+			return;
+		}
 
 		$quantiteExtraite = $this->calculQuantiteAExtraire();
 		$nbATerre = 0;
 		$nbDansLaban = 0;
-		
 
 		if ($this->view->okJet1 === true) {
-
-			$nbATerre = 0;
-			$nbDansLaban = $quantiteExtraite;
-
-			if ($nbDansLaban > $this->view->nbElementPossible) {
-				$nbDansLaban = $this->view->nbElementPossible;
-				$nbATerre = $quantiteExtraite - $nbDansLaban;
+			//Charrette
+			if ($arrivee == 1) {
+				Zend_Loader::loadClass('CharretteMinerai');
+				$nbDansCharrette = $quantiteExtraite;
+				if ($nbDansCharrette > $this->view->nbPossibleDansCharretteMax) {
+					$nbDansCharrette = $this->view->nbPossibleDansCharretteMax;
+					$nbATerre = $quantiteExtraite - $nbDansCharrette;
+				}
+	
+				if ($nbDansCharrette > 0) {
+					$charretteMineraiTable = new CharretteMinerai();
+					$data = array(
+						'id_fk_type_charrette_minerai' => $id_fk_type_minerai_filon,
+						'id_fk_charrette_minerai' => $this->view->idCharrette,
+						'quantite_brut_charrette_minerai' => $nbDansCharrette,
+					);
+					$charretteMineraiTable->insertOrUpdate($data);
+					unset($charretteTable);
+					Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
+				}
 			}
-
-			if ($nbDansLaban > 0) {
-				$labanMineraiTable = new LabanMinerai();
-				$data = array(
-					'id_fk_type_laban_minerai' => $id_fk_type_minerai_filon,
-					'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
-					'quantite_brut_laban_minerai' => $nbDansLaban,
-				);
-				$labanMineraiTable->insertOrUpdate($data);
+			
+			//Laban
+			if ($arrivee == 2) {
+				Zend_Loader::loadClass('LabanMinerai');
+				$nbDansLaban = $quantiteExtraite;
+				if ($nbDansLaban > $this->view->nbPossibleDansLabanMax) {
+					$nbDansLaban = $this->view->nbPossibleDansLabanMax;
+					$nbATerre = $quantiteExtraite - $nbDansLaban;
+				}
+	
+				if ($nbDansLaban > 0) {
+					$labanMineraiTable = new LabanMinerai();
+					$data = array(
+						'id_fk_type_laban_minerai' => $id_fk_type_minerai_filon,
+						'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
+						'quantite_brut_laban_minerai' => $nbDansLaban,
+					);
+					$labanMineraiTable->insertOrUpdate($data);
+				}
 			}
-				
+			
+			//sol
+			if ($arrivee == 3) {
+				$nbATerre = $quantiteExtraite;
+			}
+			
 			if ($nbATerre > 0) {
 				Zend_Loader::loadClass("ElementMinerai");
 				$elementMineraiTable = new ElementMinerai();
@@ -162,6 +223,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->nbATerre = $nbATerre;
 		$this->view->minerai = $minerai;
 		$this->view->filonDetruit = $filonDetruit;
+		$this->view->arrivee = $arrivee;
 
 		$this->calculPx();
 		$this->calculPoids();
@@ -170,7 +232,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue"));
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue", "box_charrette"));
 	}
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
@@ -214,18 +276,5 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$this->view->nb_px_perso = 0;
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
-	}
-
-	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
-		if ($poidsRestant < 0) $poidsRestant = 0;
-
-		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-
-		if ($this->view->nbElementPossible < 1) {
-			$this->view->poidsPlaceDisponible = false;
-		} else {
-			$this->view->poidsPlaceDisponible = true;
-		}
 	}
 }
