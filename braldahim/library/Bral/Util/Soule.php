@@ -380,6 +380,7 @@ class Bral_Util_Soule {
 				"est_engage_next_dla_braldun" => "non",
 				"x_braldun" => $x_braldun,
 				"y_braldun" => $y_braldun,
+				"z_braldun" => 0,
 				"id_fk_soule_match_braldun" => null,
 			);
 
@@ -394,7 +395,7 @@ class Bral_Util_Soule {
 				$braldun->est_engage_next_dla_braldun = "non";
 				$braldun->x_braldun = $x_braldun;
 				$braldun->y_braldun = $y_braldun;
-				$braldun->id_fk_soule_match_braldun = null;
+				$braldun->z_braldun = 0;
 				$braldun->id_fk_soule_match_braldun = null;
 				$braldun->px_perso_braldun = $j["px_perso_braldun"]; // rafraichissement des px perso
 			}

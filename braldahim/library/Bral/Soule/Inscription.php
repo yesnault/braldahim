@@ -179,7 +179,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	public function calculNbPa() {
-		$this->view->nb_pa = 1;
+		$this->view->nb_pa = 0;
 		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
