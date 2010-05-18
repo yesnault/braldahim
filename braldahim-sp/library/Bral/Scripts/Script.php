@@ -24,7 +24,7 @@ abstract class Bral_Scripts_Script {
 	const NB_TYPE_STATIQUE_MAX = 10;
 	const NB_TYPE_APPELS_MAX = 6;
 
-	const PARM_ID_HOBBIT = 'idBraldun';
+	const PARM_ID_BRALDUN = 'idBraldun';
 	const PARM_MDP_RESTREINT = 'mdpRestreint';
 	const PARM_VERSION = 'version';
 
@@ -35,9 +35,9 @@ abstract class Bral_Scripts_Script {
 
 	const ERREUR_01_EXCEPTION = "ERREUR-01. Erreur Technique, l'équipe est informée";
 	const ERREUR_02_PARAMETRES = "ERREUR-02. Paramètres incorrects";
-	const ERREUR_03_HOBBIT_INCONNU = "ERREUR-03. Braldun inconnu";
+	const ERREUR_03_BRALDUN_INCONNU = "ERREUR-03. Braldun inconnu";
 	const ERREUR_04_MDP_INVALIDE = "ERREUR-04. Mot de passe invalide";
-	const ERREUR_05_HOBBIT_DESACTIVE = "ERREUR-05. Braldun désactivé ou pnj";
+	const ERREUR_05_BRALDUN_DESACTIVE = "ERREUR-05. Braldun désactivé ou pnj";
 	const ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE = "ERREUR-06. Service temporairement désactivé";
 	//mis en place dans la factory : const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
 	const ERREUR_08_VERSION_INCORRECTE = "ERREUR-08. Version incorrecte";
@@ -175,7 +175,7 @@ abstract class Bral_Scripts_Script {
 	private function initParametres() {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - initParametres - enter -");
 
-		$idBraldunRecu = $this->request->get(self::PARM_ID_HOBBIT);
+		$idBraldunRecu = $this->request->get(self::PARM_ID_BRALDUN);
 		$mdpRestreintRecu = $this->request->get(self::PARM_MDP_RESTREINT);
 
 		if (((int)$idBraldunRecu.""!=$idBraldunRecu."")) {
@@ -190,8 +190,8 @@ abstract class Bral_Scripts_Script {
 		$braldunRow = $braldunTable->findById($idBraldun);
 
 		if ($braldunRow == null || count($braldunRow) < 1) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_HOBBIT_INCONNU (".$idBraldun.") - exit -");
-			return self::ERREUR_03_HOBBIT_INCONNU;
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_BRALDUN_INCONNU (".$idBraldun.") - exit -");
+			return self::ERREUR_03_BRALDUN_INCONNU;
 		}
 
 		if ($braldunRow->password_braldun != $mdpRestreintRecu) {
@@ -200,8 +200,8 @@ abstract class Bral_Scripts_Script {
 		}
 
 		if ($braldunRow->est_pnj_braldun == 'oui' || $braldunRow->est_compte_desactive_braldun == 'oui' || $braldunRow->est_compte_actif_braldun == 'non') {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_05_HOBBIT_DESACTIVE - exit -");
-			return self::ERREUR_05_HOBBIT_DESACTIVE;
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_05_BRALDUN_DESACTIVE - exit -");
+			return self::ERREUR_05_BRALDUN_DESACTIVE;
 		}
 
 		$this->braldun = $braldunRow;
