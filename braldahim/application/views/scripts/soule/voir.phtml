@@ -31,7 +31,7 @@
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>
 		Vous pouvez vous inscrire.
-		<? if ($this->user->pa_braldun >= 1) : 
+		<? if ($this->user->pa_braldun >= 0) : 
 	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
 	    else:
 	      $attr = "disabled";
