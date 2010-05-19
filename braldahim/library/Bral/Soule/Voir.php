@@ -126,8 +126,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$this->view->inscriptionNonPossibleInfo = "Il y a un match en cours sur ce terrain";
 		} else if ($this->niveauTerrainBraldun != $this->view->terrainCourant["niveau_soule_terrain"] && $nombre == 0) {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
-		} else if ($this->view->user->est_engage_braldun == "oui") {
+		/*} else if ($this->view->user->est_engage_braldun == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
+		*/
 		} else if ($this->view->user->est_soule_braldun == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes déjà en plein match";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours

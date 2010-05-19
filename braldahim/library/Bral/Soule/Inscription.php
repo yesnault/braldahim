@@ -48,7 +48,8 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			return;
 		}
 
-		if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_braldun == "non") {
+		//if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_braldun == "non") {
+		if ($this->view->hibernationPrevue == false && $this->view->assezDePa) {
 			$this->prepareTerrain();
 			$this->prepareEquipes();
 		}
