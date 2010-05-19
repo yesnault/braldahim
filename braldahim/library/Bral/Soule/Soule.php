@@ -12,12 +12,15 @@
  */
 abstract class Bral_Soule_Soule {
 
+	private $majEvenement = true;
+
 	function __construct($nomSystemeAction, $request, $view, $action, $idTerrainDefaut = null) {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
 		$this->idTerrainDefaut = $idTerrainDefaut;
+		$this->estEvenementAuto = true;
 
 		$this->prepareCommun();
 
@@ -41,6 +44,10 @@ abstract class Bral_Soule_Soule {
 	abstract function getTitreAction();
 	abstract function calculNbPa();
 
+	protected function setEstEvenementAuto($flag) {
+		$this->estEvenementAuto = $flag;
+	}
+
 	protected function constructListBoxRefresh($tab = null) {
 		if ($this->view->user->niveau_braldun > 0 && ($this->view->user->niveau_braldun % 10) == 0) {
 			$tab[] = "box_titres";
@@ -63,14 +70,16 @@ abstract class Bral_Soule_Soule {
 	 * Mise à jour des événements du braldun : type : compétence.
 	 */
 	private function majEvenementsSoule($detailsBot) {
-		Zend_Loader::loadClass("Bral_Util_Evenement");
-		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
+		if ($this->estEvenementAuto == true) {
+			Zend_Loader::loadClass("Bral_Util_Evenement");
+			Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
+		}
 	}
 
 	public function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function getIdChampCourant() {
 		return false;
 	}

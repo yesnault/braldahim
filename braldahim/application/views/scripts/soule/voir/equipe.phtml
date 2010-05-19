@@ -8,6 +8,22 @@
 		Cagnotte : <?=$equipe["px"]?> PX</th>
 	  </tr>
 	</thead>
+</table>
+	
+	
+<ul id="navigation" style="width:99%;text-align:left">
+
+<li id="pocheSoule<?=$equipe["id_equipe"] ?>">
+	<h3 id="pocheSoule<?=$equipe["id_equipe"] ?>-head" class="head" onClick="maccordion(this);" />Les Joueurs</h3>
+	<? if ($this->matchEnCours != null) : ?>
+	<ul id="pocheSoule<?=$equipe["id_equipe"] ?>-body" style="display:none">
+	<? else: ?>
+	<ul id="pocheSoule<?=$equipe["id_equipe"] ?>-body" style="display:block">
+	<? endif;?>
+	<li>
+	
+
+<table class="table_liste" style="width:100%">
 	<tbody>
 		<? if ($equipe["joueurs"] != null && count($equipe["joueurs"]) > 0): ?>
 		  	<? 
@@ -36,3 +52,8 @@
 		<? endif; ?>
   	</tbody>
 </table>
+</li>
+		</ul>
+	</li>
+	
+</ul>

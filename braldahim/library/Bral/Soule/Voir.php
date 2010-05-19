@@ -59,6 +59,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 		if ($this->matchEnCours != null) {
 			$this->prepareEvenements();
+			$this->prepareMessages();
 		}
 	}
 
@@ -72,15 +73,15 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	}
 
 	private function prepareEquipes() {
-		$equipes["equipea"] = array('nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
-		$equipes["equipeb"] = array('nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
+		$equipes["equipea"] = array('id_equipe' => 'equipeA', 'nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
+		$equipes["equipeb"] = array('id_equipe' => 'equipeB', 'nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
 
 		$souleEquipeTable = new SouleEquipe();
 		if ($this->matchEnCours != null) {
 			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
 			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
-			
+				
 			$equipes["equipea"]["px"] = $this->matchEnCours["px_equipea_soule_match"];
 			$equipes["equipeb"]["px"] = $this->matchEnCours["px_equipeb_soule_match"];
 
@@ -126,9 +127,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$this->view->inscriptionNonPossibleInfo = "Il y a un match en cours sur ce terrain";
 		} else if ($this->niveauTerrainBraldun != $this->view->terrainCourant["niveau_soule_terrain"] && $nombre == 0) {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
-		/*} else if ($this->view->user->est_engage_braldun == "oui") {
-			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
-		*/
+			/*} else if ($this->view->user->est_engage_braldun == "oui") {
+			 $this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
+			 */
 		} else if ($this->view->user->est_soule_braldun == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes déjà en plein match";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
@@ -147,7 +148,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 				if (count($matchs) == 1) {
 					$this->view->inscriptionNonPossibleInfo .= " sur ce terrain";
-						
+
 					if ($matchs[0]["nb_jours_quota_soule_match"] == 0) {
 						$this->view->desinscriptionPossible = true;
 					} else {
@@ -188,5 +189,20 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 							"details_evenement" => $r["details_evenement"]);
 		}
 		$this->view->evenements = $tab;
+	}
+
+	private function prepareMessages() {
+		Zend_Loader::loadClass("SouleMessage");
+		$souleMessageTable = new SouleMessage();
+		$rowset = $souleMessageTable->findByIdMatchAndCamp($this->matchEnCours["id_soule_match"], $this->view->user->soule_camp_braldun);
+
+		$tab = null;
+		foreach($rowset as $r) {
+			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
+			$tab[] = array ("date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_soule_message"]),
+							"braldun" => $braldun,
+							"message" => $r["message_soule_message"]);
+		}
+		$this->view->souleMessages = $tab;
 	}
 }
