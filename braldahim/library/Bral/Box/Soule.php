@@ -63,7 +63,7 @@ class Bral_Box_Soule extends Bral_Box_Box {
 					"selected" => false,
 				);
 				
-				if ($niveauTerrainBraldun == $t["niveau_soule_terrain"]) {
+				if ($niveauTerrainBraldun == $t["niveau_soule_terrain"] || ($niveauTerrainBraldun >= 3 && $t["niveau_soule_terrain"] = 3)) {
 					$terrainBraldun = $terrain;
 					$terrain["selected"] = true;
 					$idTerrainDefaut = $t["id_soule_terrain"];
