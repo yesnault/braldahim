@@ -81,7 +81,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
 			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
-				
+
 			$equipes["equipea"]["px"] = $this->matchEnCours["px_equipea_soule_match"];
 			$equipes["equipeb"]["px"] = $this->matchEnCours["px_equipeb_soule_match"];
 
@@ -194,14 +194,17 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	private function prepareMessages() {
 		Zend_Loader::loadClass("SouleMessage");
 		$souleMessageTable = new SouleMessage();
-		$rowset = $souleMessageTable->findByIdMatchAndCamp($this->matchEnCours["id_soule_match"], $this->view->user->soule_camp_braldun);
-
 		$tab = null;
-		foreach($rowset as $r) {
-			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
-			$tab[] = array ("date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_soule_message"]),
+		
+		if ($this->view->user->id_fk_soule_match_braldun == $this->matchEnCours["id_soule_match"]) {
+			$rowset = $souleMessageTable->findByIdMatchAndCamp($this->matchEnCours["id_soule_match"], $this->view->user->soule_camp_braldun);
+
+			foreach($rowset as $r) {
+				$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
+				$tab[] = array ("date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_soule_message"]),
 							"braldun" => $braldun,
 							"message" => $r["message_soule_message"]);
+			}
 		}
 		$this->view->souleMessages = $tab;
 	}
