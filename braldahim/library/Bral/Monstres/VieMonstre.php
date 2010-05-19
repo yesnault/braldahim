@@ -135,6 +135,7 @@ class Bral_Monstres_VieMonstre {
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
+					$modif = null;
 				}
 			}
 
@@ -145,9 +146,14 @@ class Bral_Monstres_VieMonstre {
 		if ($modif === true) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
 			$retour = true;
-		} else {
+		} else if($modif == false) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false");
 			$retour = false;
+		} else {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif null");
+			$this->monstre["x_direction_monstre"] = $this->monstre["x_monstre"];
+			$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
+			$retour = null;
 		}
 		// mise à jour du monstre, quoi qu'il arrive
 		$this->updateMonstre();
