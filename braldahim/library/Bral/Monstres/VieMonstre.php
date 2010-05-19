@@ -146,7 +146,7 @@ class Bral_Monstres_VieMonstre {
 		if ($modif === true) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
 			$retour = true;
-		} else if($modif == false) {
+		} else if($modif === false) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false");
 			$retour = false;
 		} else {
