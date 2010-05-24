@@ -386,7 +386,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$this->detailEvenement .= "bu une potion";
 		} else {
 			if ($this->idBraldunCible != -1) {
-				$this->detailEvenement .= "utilisé une potion sur le Braldûn [b".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur [b".$this->retourPotion['cible']["id_cible"]."]";
 			} else {
 				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
 			}

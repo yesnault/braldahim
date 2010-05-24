@@ -309,7 +309,7 @@ class Bral_Util_Attaque {
 			}
 		}
 
-		$details .= " le Braldûn [b".$retourAttaque["cible"]["id_cible"]."]";
+		$details .= " [b".$retourAttaque["cible"]["id_cible"]."]";
 
 		if ($retourAttaque["ballonLache"] == true) {
 			$details .= ". Le ballon est tombé à terre !";
@@ -360,7 +360,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["typeEvenement"] = $config->game->evenements->type->soule;
 			$retourAttaque["idMatchSoule"]  = $braldunAttaquant->id_fk_soule_match_braldun;
 		}
-		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué le Braldûn [b".$retourAttaque["cible"]["id_cible"]."]";
+		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
 		$details .= " qui a esquivé l'attaque";
 		$detailsBot .= self::getDetailsBot($braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 		if ($effetMotSPossible == false) {
@@ -387,7 +387,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["typeEvenement"] = $config->game->evenements->type->soule;
 			$retourAttaque["idMatchSoule"]  = $braldunAttaquant->id_fk_soule_match_braldun;
 		}
-		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué le Braldûn [b".$retourAttaque["cible"]["id_cible"]."]";
+		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
 		$detailsBot .= self::getDetailsBot($braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 		$details .= " qui a esquivé parfaitement l'attaque";
 		if ($effetMotSPossible == false) {
@@ -881,7 +881,7 @@ class Bral_Util_Attaque {
 				$braldunTable->update($data, $where);
 					
 				$idTypeEvenement = $config->game->evenements->type->effet;
-				$details = " [b".$braldun->id_braldun."] a soigné le Braldûn [b".$h["id_braldun"]."]";
+				$details = " [b".$braldun->id_braldun."] a soigné [b".$h["id_braldun"]."]";
 				$detailsBot = $soins." PV soigné";
 				if ($soins > 1) {
 					$detailsBot = $detailsBot . "s";
