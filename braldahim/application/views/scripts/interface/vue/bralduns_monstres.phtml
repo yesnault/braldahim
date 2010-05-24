@@ -38,6 +38,8 @@ if ($case["n_bralduns"] > 0) :
 			$sexe_braldun = "masculin";
 		} elseif ($sexe_braldun != "masculin_feminin" && $h["sexe_braldun"] == "feminin") {
 			$sexe_braldun = "feminin";
+		} elseif ($sexe_braldun == "masculin_feminin") {
+			$sexe_braldun = "masculin_feminin";
 		} else {
 			$sexe_braldun = "feminin";
 		}
