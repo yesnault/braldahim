@@ -34,8 +34,10 @@ if ($case["n_bralduns"] > 0) :
 		    ($sexe_braldun == "masculin" && $h["sexe_braldun"] == "feminin") ||
 		    ($sexe_braldun == "feminin" && $h["sexe_braldun"] == "masculin")) {
 			$sexe_braldun = "masculin_feminin";
-		} elseif ($h["sexe_braldun"] == "masculin") {
+		} elseif ($sexe_braldun != "masculin_feminin" && $h["sexe_braldun"] == "masculin") {
 			$sexe_braldun = "masculin";
+		} elseif ($sexe_braldun != "masculin_feminin" && $h["sexe_braldun"] == "feminin") {
+			$sexe_braldun = "feminin";
 		} else {
 			$sexe_braldun = "feminin";
 		}
