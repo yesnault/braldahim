@@ -92,7 +92,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	function prepareResultat() {
 
 		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false && 
-		($this->view->nBralduns > 0 || $this->view->nMonstres > 0) && $this->view->user->est_soule_braldun == 'non' && $this->view->user->est_intangible_braldun == 'non') {
+		($this->view->nBralduns > 0 || $this->view->nMonstres > 0)  && $this->view->user->est_intangible_braldun == 'non') {
 			// OK
 		} else {
 			throw new Zend_Exception("Erreur Frenesie");
