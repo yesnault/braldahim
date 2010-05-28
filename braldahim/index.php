@@ -30,6 +30,7 @@ Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");
 Zend_Loader::loadClass("Zend_Exception");
+Zend_Loader::loadClass("Zend_Session");
 
 Zend_Loader::loadClass("Bral_Box_Factory");
 Zend_Loader::loadClass("Bral_Box_Box");
@@ -61,6 +62,8 @@ Zend_Loader::loadClass("Bral_Xml_Entry");
 Zend_Loader::loadClass("Braldun");
 Zend_Loader::loadClass("Message");
 Zend_Loader::loadClass("Session");
+
+Zend_Session::start();
 
 $debut2 = microtime(true);
 
