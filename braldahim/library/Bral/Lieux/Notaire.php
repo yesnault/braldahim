@@ -399,10 +399,10 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		// on verifie que l'on est pas sur une eau
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
-		$eaux = $eauTable->countByCase($x, $y, $z);
+		$nbEaux = $eauTable->countByCase($x, $y, $z);
 
 		$this->view->construireLieuEauOk = true;
-		if (count($eaux) > 0) {
+		if ($nbEaux > 0) {
 			$this->view->construireLieuEauOk = false;
 			return false;
 		}
