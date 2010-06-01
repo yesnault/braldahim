@@ -505,7 +505,7 @@ class Bral_Monstres_VieMonstre {
 		if ($zone["est_ville_zone_nid"] == "oui") {
 
 			if ($niveau <= 18) { // niveau <= 18, on limite le min à 54 cases, le max à 74 cases
-				$rayonMin = $niveau * 3;
+				$rayonMin = 5 + $niveau * 3;
 				$rayonMax = $niveau * 3 + 20;
 			} else { // au delà, tous les types de monstres peuvent circuler
 				$rayonMin = 50;
