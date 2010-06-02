@@ -1,0 +1,48 @@
+<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <div class='comp_contenu'>
+ 	<? if ($this->possedeCharrette === false) : ?>
+	 	Vous n'avez pas de charrette...
+	 <? else: ?>
+		Pour 0 PA, vous pouvez partager votre charrette avec d'autres Braldûns. <br>
+		Pour information, tous les Braldûns peuvent transbahuter vers votre charrette.<br>
+		
+		Par contre, si vous décidez de partager votre charrette avec d'autres Braldûns, cela 
+		signifie qu'ils pourront transbahuter des éléments <u>à partir</u> de votre charrette.
+		Choississez donc bien des Braldûns de confiance...<br /><br />
+		
+		Partage avec les Braldûns de votre communauté : 
+		<select name='valeur_1' id="valeur_1">
+			<option value="oui" <? if ($this->charrette["est_partage_communaute_charrette"] == "oui") : echo "selected"; endif;?>>Oui</option>
+			<option value="non" <? if ($this->charrette["est_partage_communaute_charrette"] == "non") : echo "selected"; endif;?>>Non</option>
+		</select><br /><br />
+		
+		Partage avec les tous les Braldûns :
+		<select name='valeur_2' id="valeur_2">
+			<option value="oui" <? if ($this->charrette["est_partage_bralduns_charrette"] == "oui") : echo "selected"; endif;?>>Oui</option>
+			<option value="non" <? if ($this->charrette["est_partage_bralduns_charrette"] == "non") : echo "selected"; endif;?>>Non</option>
+		</select><br /><br />
+		
+		Partage avec les Braldûns suivants : 
+		
+		<input type="hidden" name="valeur_3" id="valeur_3" value="" />
+		
+		<div id='aff_valeur_3_partage_dest' name='aff_valeur_3_partage_dest'><?=$this->tabBralduns["aff_js_destinataires"]?></div>
+		<input type="hidden" name="valeur_3_partage_dest" id="valeur_3_partage_dest" value="<?=$this->tabBralduns["destinataires"]?>"/>
+		<input type="hidden" name="cpt_valeur_3_partage_dest" id="cpt_valeur_3_partage_dest" value=""/>
+		<input type="hidden" name="onChange_valeur_3_partage_dest" id="onChange_valeur_3_partage_dest"/>
+		
+		<input type="text" name="recherche_valeur_3_partage_dest" size='40' id="recherche_valeur_3_partage_dest" value="Entrez un nom" onFocus='this.value=""; activerRechercheBraldun("valeur_3_partage_dest");' />
+		<input type="hidden" name="recherche_valeur_3_partage_dest_actif" id="recherche_valeur_3_partage_dest_actif" value="0" />
+		<div class="recherche" id="recherche_valeur_3_partage_dest_update" ></div> <img src="/public/images/loupe.gif" />
+	    <span id="indicateur_recherche_valeur_3_partage_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		    
+	 <? endif; ?>
+	 <br />
+</div>
+
+<br />
+<?php if ($this->possedeCharrette === true) : ?>
+<input type='button' class='button1' id='bouton_partagecharrette' value='Valider les partages' onClick='this.disabled=true;$("valeur_3").value=$("valeur_3_partage_dest").value;_get_("/charrette/doaction?caction=do_charrette_partage");'>
+<? endif ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

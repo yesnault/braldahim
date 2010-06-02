@@ -19,7 +19,7 @@ class CharretteMinerai extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette_minerai', '*')
 		->from('type_minerai', '*')
-		->where('id_fk_charrette_minerai = '.intval($idCharrette))
+		->where('id_fk_charrette_minerai = ?', intval($idCharrette))
 		->where('charrette_minerai.id_fk_type_charrette_minerai = type_minerai.id_type_minerai');
 		$sql = $select->__toString();
 

@@ -77,7 +77,7 @@ class Bral_Util_Poids {
 		$charretteRowset = $charretteTable->findByIdBraldun($idBraldun);
 
 		if ($charretteRowset == null || count($charretteRowset) == 0) {
-			return $retour;
+			return null;
 		} else if (count($charretteRowset) > 1) {
 			throw new Zend_Exception("calculPoidsCharretteTransporte Nb Charrette invalide idh:".$idBraldun. " n:".count($charretteRowset));
 		} else {

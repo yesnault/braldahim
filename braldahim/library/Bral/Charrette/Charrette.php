@@ -14,6 +14,8 @@ abstract class Bral_Charrette_Charrette {
 
 	protected $reloadInterface = false;
 	protected $idCharrette = null;
+	private $estEvenementAuto = true;
+	private $estAvecPa = true;
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
@@ -61,6 +63,10 @@ abstract class Bral_Charrette_Charrette {
 	abstract function getNomInterne();
 	abstract function getTitreAction();
 
+	protected function setEstEvenementAuto($flag) {
+		$this->estEvenementAuto = $flag;
+	}
+
 	public function getIdEchoppeCourante() {
 		return false;
 	}
@@ -68,14 +74,23 @@ abstract class Bral_Charrette_Charrette {
 	public function getIdChampCourant() {
 		return false;
 	}
-	
-	public function calculNbPa() {
-		if ($this->view->user->pa_braldun - $this->view->config->game->charrette->nb_pa_action < 0) {
-			$this->view->assezDePa = false;
-		} else {
-			$this->view->assezDePa = true;
+
+	protected function setEstAvecPa($flag) {
+		$this->estAvecPa = $flag;
+		if ($flag == false) {
+			$this->view->nb_pa = 0;
 		}
-		$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;
+	}
+
+	public function calculNbPa() {
+		if ($this->estAvecPa == true) {
+			if ($this->view->user->pa_braldun - $this->view->config->game->charrette->nb_pa_action < 0) {
+				$this->view->assezDePa = false;
+			} else {
+				$this->view->assezDePa = true;
+			}
+			$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;
+		}
 	}
 
 	protected function setDetailsEvenement($details, $idType) {
@@ -87,7 +102,9 @@ abstract class Bral_Charrette_Charrette {
 	 * Mise à jour des événements du braldun : type : compétence.
 	 */
 	private function majEvenementsCharrette($detailsBot) {
-		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
+		if ($this->estEvenementAuto === true) {
+			Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
+		}
 	}
 
 	function render() {

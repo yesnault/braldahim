@@ -34,6 +34,20 @@
 				   <?=Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
 				   Durabilit&eacute; : <?=$this->charrette["durabilite_actuelle"]?> / <?=$this->charrette["durabilite_max"]?>.
 		   		</td>
+		   		<td align="center" valign="top">
+		   			<? $js=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous")), "Gestion du partage de la Charrette", true) ?>
+		   		
+		   			<ul class="titre textalic textsized" <?=$js?>>Partage</ul>
+		   			Partage avec les Hobbits de la communautés : <?=$this->charrette["est_partage_communaute"]?><br>
+		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br>
+		   			<? if ($this->partageBralduns == null) : ?>
+		   				Partage avec aucun autre Braldûn<br><br>
+		   			<? else: ?>
+		   				Partage avec : <?=$this->partageBralduns?><br><br>
+		   			<? endif;?>
+		   			
+		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
+		   		</td>
 		   		<td align="left" valign="top">
 		   			<ul class="titre textalic textsized">Am&eacute;liorations</ul>
 		   			

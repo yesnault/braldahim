@@ -22,7 +22,7 @@ class Charrette extends Zend_Db_Table {
 		->from('materiel', '*')
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_braldun_charrette = '.intval($idBraldun));
+		->where('id_fk_braldun_charrette = ? ', intval($idBraldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -36,7 +36,7 @@ class Charrette extends Zend_Db_Table {
 		->from('materiel', '*')
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_charrette = '.intval($idCharrette));
+		->where('id_charrette = ? ', intval($idCharrette));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

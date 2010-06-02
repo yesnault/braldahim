@@ -139,6 +139,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"durabilite_actuelle" => $p["durabilite_actuelle_charrette"],
 				"poids_transportable" => $p["poids_transportable_charrette"],
 				"poids_transporte" => $p["poids_transporte_charrette"],
+				"est_partage_communaute" => $p["est_partage_communaute_charrette"],
+				"est_partage_bralduns" => $p["est_partage_bralduns_charrette"],
 			);
 
 			if ($p["quantite_peau_charrette"] > 0) {
@@ -245,6 +247,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderIngredient($tabMetiers, $charrette);
 		$this->renderTabac($charrette);
 		$this->renderAmeliorations($charrette);
+
+		$this->renderPartage($charrette);
 
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->tabBraldunMetiers = $tabBraldunMetiers;
@@ -557,5 +561,26 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$this->view->nb_ingredients = count($tabIngredients);
 		$this->view->ingredients = $tabIngredients;
+	}
+
+	private function renderPartage($charrette) {
+		Zend_Loader::loadClass("CharrettePartage");
+
+		$charrettePartageTable = new CharrettePartage();
+		$partages = $charrettePartageTable->findByIdCharrette($charrette["id_charrette"]);
+		$liste = null;
+		if (count($partages) > 0) {
+			foreach($partages as $b) {
+				$liste .= "<label class='alabel profil' onClick='ouvrirProfilH(".$b["id_braldun"].");'  title='Voir le profil'>";
+				$liste .= addslashes(htmlspecialchars($b["prenom_braldun"]))." ".addslashes(htmlspecialchars($b["nom_braldun"]));
+				$liste .= " (n&deg;".$b["id_braldun"].")</label>, ";
+			}
+		}
+
+		if ($liste != null) {
+			$liste = substr($liste, 0, count($liste) - 3);
+		}
+
+		$this->view->partageBralduns = $liste;
 	}
 }

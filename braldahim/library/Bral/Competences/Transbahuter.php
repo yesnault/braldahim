@@ -18,6 +18,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("CharrettePartage");
 		Zend_Loader::loadClass("Echoppe");
 
 		$choixDepart = false;
@@ -53,18 +54,44 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//Cas des charrettes
 		$nbendroit=7;
 		$charrette = new Charrette();
+		$charrettePartage = new CharrettePartage();
+
 		$tabCharrette = $charrette->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-		if ( count($tabCharrette) > 0) {
+		if (count($tabCharrette) > 0) {
 			foreach ($tabCharrette as $c) {
 				Zend_Loader::loadClass("Bral_Util_Charrette");
 				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c["id_braldun"]);
 				if ( $c["id_braldun"] == $this->view->user->id_braldun) {
 					$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
 					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
-					$this->view->id_charrette_depart = $c["id_charrette"];
+					//$this->view->id_charrette_depart = $c["id_charrette"];
 				}
 				else {
-					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_braldun"]." ".$c["nom_braldun"]." (n°".$c["id_braldun"].")", "est_depart" => false, "poids_restant" => $tabPoidsCharrette["place_restante"]);
+					$estDepart = false;
+
+					if ($c["est_partage_bralduns_charrette"] == "oui") { // tous les bralduns
+						$estDepart = true;
+					} else {
+						if ($c["est_partage_communaute_charrette"] == "oui" &&
+						$c["id_fk_communaute_braldun"]  == $this->view->user->id_fk_communaute_braldun) { // bralduns de la comunaute
+							$estDepart = true;
+						}
+
+						if ($estDepart == false) { // on regarde dans les partages bralduns
+							$partage = $charrettePartage->findByIdCharretteAndIdBraldun($c["id_charrette"], $this->view->user->id_braldun);
+							if ($partage != null && count($partage) > 0) {
+								$estDepart = true;
+							}
+						}
+					}
+
+					if ($estDepart == true) {
+						$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
+					} else {
+						$panneau = false;
+					}
+
+					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_braldun"]." ".$c["nom_braldun"]." (n°".$c["id_braldun"].")", "est_depart" => $estDepart, "panneau" => $panneau, "poids_restant" => $tabPoidsCharrette["place_restante"]);
 				}
 				$nbendroit++;
 			}
@@ -88,6 +115,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			//On ne prend que ce qui peut être dans les départs
 			if ($e["est_depart"] == true) {
 				$this->view->deposerOk = false;
+				if ($e["nom_systeme"] == "Charrette") {
+					$this->view->id_charrette_depart = $e["id_charrette"];
+				}
 				$this->prepareType($e["nom_systeme"]);
 				if ($this->view->deposerOk == true) {
 					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"], "panneau" => $e["panneau"]);
@@ -95,7 +125,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 			}
 		}
-		if ( count($tabTypeDepart) == 1) {
+
+		if (count($tabTypeDepart) == 1) {
 			$id_type_courant_depart = $tabTypeDepart[1]["id_type_depart"];
 			$choixDepart = true;
 		}
@@ -104,6 +135,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Si on a choisi le départ, on peut choisir l'arrivée
 		if ($choixDepart === true) {
+			
+			if ($tabEndroit[$id_type_courant_depart]["nom_systeme"] == "Charrette") { // positionnement de la charrette choisie
+				$this->view->id_charrette_depart = $tabEndroit[$id_type_courant_depart]["id_charrette"];
+			}
+				
 			$tabTypeArrivee = null;
 			//Si l'arrivée est déjà choisie on récupère la valeur
 			if ($this->request->get("valeur_2") != "") {
@@ -190,9 +226,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->elementsNonRetiresPanneau = "";
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 		$this->view->depart = $this->view->tabEndroit[$idDepart]["nom_type_endroit"];
-		
+
 		if ($this->view->nbelement > 0) {
-		
+
 			if ($idArrivee == 4) {
 				Zend_Loader::loadClass("Braldun");
 				$braldun = new Braldun();
@@ -202,31 +238,31 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			else {
 				$this->view->arrivee = $this->view->tabEndroit[$idArrivee]["nom_type_endroit"];
 			}
-	
+
 			if ($this->view->elementsRetires != "") {
 				// on enlève la dernière virgule de la chaîne
 				$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
 			}
-	
+
 			// Historique
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
-				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
-	
+				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idDepart]["id_braldun_charrette"], true);
+
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
 			}
-	
+
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
 				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], true);
-	
+
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 			}
-	
+
 			// événements
 			$this->detailEvenement = "";
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
@@ -244,7 +280,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
 					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_coffre, $message, $this->view);
-					
+
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [b".$this->view->id_braldun_coffre."]";
@@ -261,11 +297,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
 					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], $message, $this->view);
-					
+
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);	
+					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);
 				}
 				else {
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
@@ -278,11 +314,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 					$message .= $this->view->elementsRetires;
 					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], $message, $this->view);
-					
+
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);	
+					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);
 				}
 				else {
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
@@ -292,13 +328,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments ";
 			}
-			
+
 			$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
 			$this->setEvenementQueSurOkJet1(false);
-	
+
 			Zend_Loader::loadClass("Bral_Util_Quete");
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
-	
+
 			$this->calculBalanceFaim();
 			$this->calculPoids();
 			$this->majBraldun();
@@ -452,7 +488,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						if ($poidsOk == true) {
 							$this->view->nbelement = $this->view->nbelement + 1;
-	
+
 							$where = "id_".strtolower($depart)."_equipement=".$idEquipement;
 							switch ($depart) {
 								case "Laban" :
@@ -471,10 +507,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$departEquipementTable = new EchoppeEquipement();
 									break;
 							}
-	
+
 							$departEquipementTable->delete($where);
 							unset($departEquipementTable);
-	
+
 							switch ($arrivee) {
 								case "Laban" :
 									if ($equipement["nom_systeme_type_piece"] == "munition") {
@@ -501,7 +537,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									if ($equipement["nom_systeme_type_piece"] == "munition") {
 										Zend_Loader::loadClass("ElementMunition");
 										$arriveeEquipementTable = new ElementMunition();
@@ -565,7 +601,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							}
 							unset($arriveeEquipementTable);
 							$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
-	
+
 							$texte = $this->calculTexte($depart, $arrivee);
 							$details = "[b".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_TRANSBAHUTER_ID, $equipement["id_equipement"], $details);
@@ -668,9 +704,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						if ($poidsOk == true) {
 							$this->view->nbelement = $this->view->nbelement + 1;
-							
+
 							$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
-	
+
 							switch ($depart) {
 								case "Laban" :
 									$departRuneTable = new LabanRune();
@@ -685,10 +721,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$departRuneTable = new CharretteRune();
 									break;
 							}
-	
+
 							$departRuneTable->delete($where);
 							unset($departRuneTable);
-	
+
 							switch ($arrivee) {
 								case "Laban" :
 									$arriveeRuneTable = new LabanRune();
@@ -702,7 +738,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									$arriveeRuneTable = new ElementRune();
 									$data = array (
 										"id_rune_element_rune" => $rune["id_rune"],
@@ -734,7 +770,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$nomRune = $rune["type"];
 							}
 							$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
-	
+
 							$texte = $this->calculTexte($depart, $arrivee);
 							$details = "[b".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
@@ -853,10 +889,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$departPotionTable = new EchoppePotion();
 									break;
 							}
-	
+
 							$departPotionTable->delete($where);
 							unset($departPotionTable);
-	
+
 							switch($arrivee) {
 								case "Laban" :
 									$arriveePotionTable = new LabanPotion();
@@ -870,7 +906,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									$arriveePotionTable = new ElementPotion();
 									$data = array (
 										"id_element_potion" => $potion["id_potion"],
@@ -908,7 +944,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$arriveePotionTable->insert($data);
 							unset($arriveePotionTable);
 							$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
-	
+
 							$texte = $this->calculTexte($depart, $arrivee);
 							$details = "[b".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_TRANSBAHUTER_ID, $potion["id_potion"], $details);
@@ -1020,7 +1056,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							}
 							$departAlimentTable->delete($where);
 							unset($departAlimentTable);
-	
+
 							switch ($arrivee) {
 								case "Laban" :
 									$arriveeAlimentTable = new LabanAliment();
@@ -1034,7 +1070,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									$arriveeAlimentTable = new ElementAliment();
 									$data = array (
 												"id_element_aliment" => $aliment["id_aliment"],
@@ -1142,12 +1178,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 						}
 
-						
+
 						if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
 							$this->view->panneau = false;
 							$this->view->elementsNonRetiresPanneau .= $nbMunition." ".$munition["type_pluriel"].", ";
 						}
-						
+
 						$poidsOk = true;
 						if ($arrivee == "Laban" || $arrivee == "Charrette") {
 							$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbMunition, Bral_Util_Poids::POIDS_MUNITION);
@@ -1156,11 +1192,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$this->view->elementsNonRetiresPoids .= $nbMunition." ".$munition["type_pluriel"].", ";
 							}
 						}
-						
+
 						if ($poidsOk == true && $this->view->panneau != false) {
-							
+
 							$this->view->nbelement = $this->view->nbelement + 1;
-							
+
 							switch ($depart) {
 								case "Laban" :
 									$departMunitionTable = new LabanMunition();
@@ -1197,10 +1233,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									);
 									break;
 							}
-								
+
 							$departMunitionTable->insertOrUpdate($data);
 							unset ($departMunitionTable);
-								
+
 							switch ($arrivee) {
 								case "Laban" :
 									$arriveeMunitionTable = new LabanMunition();
@@ -1215,7 +1251,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									$arriveeMunitionTable = new ElementMunition();
 									$data = array (
 										"x_element_munition" => $this->view->user->x_braldun,
@@ -1354,16 +1390,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$slingot = "";
 			if ($nbBrut > 1) $sbrut = "s";
 			if ($nbLingot > 1) $slingot = "s";
-			
+
 			if ($nbBrut < 0) $nbBrut = 0;
 			if ($nbLingot < 0) $nbLingot = 0;
-			
+
 			if ($nbBrut > 0 || $nbLingot > 0) {
 				if ($depart == "Charrette" && $this->view->a_panneau === false && ( $this->view->nbelement > 0 || ($nbBrut > 0 && $nbLingot > 0))) {
 					$this->view->panneau = false;
 					$this->view->elementsNonRetiresPanneau .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai".$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot.",";
 				}
-				
+
 				$poidsOk = true;
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrut, Bral_Util_Poids::POIDS_MINERAI);
@@ -1374,11 +1410,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->elementsNonRetiresPoids .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai".$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot.",";
 					}
 				}
-				
+
 				if ($poidsOk == true && $this->view->panneau != false) {
-					
+
 					$this->view->nbelement = $this->view->nbelement + 1;
-					
+
 					switch ($depart) {
 						case "Laban" :
 							$departMineraiTable = new LabanMinerai();
@@ -1430,7 +1466,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					}
 					$departMineraiTable->insertOrUpdate($data);
 					unset ($departMineraiTable);
-	
+
 					switch ($arrivee) {
 						case "Laban" :
 							$arriveeMineraiTable = new LabanMinerai();
@@ -1446,7 +1482,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 							$arriveeMineraiTable = new ElementMinerai();
 							$data = array("x_element_minerai" => $this->view->user->x_braldun,
 								  "y_element_minerai" => $this->view->user->y_braldun,
@@ -1487,7 +1523,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					}
 					$arriveeMineraiTable->insertOrUpdate($data);
 					unset ($arriveeMineraiTable);
-	
+
 					$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai".$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot.", ";
 				}
 			}
@@ -1588,12 +1624,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($nbPreparees > $this->view->partieplantes[$indice]["quantite_preparee_partieplante"]) {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Preparee interdit=".$nbPreparees);
 			}
-			
+
 			$sbrute = "";
 			$spreparee = "";
 			if ($nbBrutes > 1) $sbrute = "s";
 			if ($nbPreparees > 1) $spreparee = "s";
-			
+
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 
 				if ($depart == "Charrette" && $this->view->a_panneau === false && ( $this->view->nbelement > 0 || ($nbBrutes > 0 && $nbPreparees > 0))) {
@@ -1603,7 +1639,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->elementsNonRetiresPanneau .=  " et ".$nbPreparees. " ".$this->view->partieplantes[$indice]["nom_type"]. " préparée".$spreparee;
 					$this->view->elementsNonRetiresPanneau .= ", ";
 				}
-				
+
 				$poidsOk = true;
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrutes, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
@@ -1617,11 +1653,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->elementsNonRetiresPoids .= ", ";
 					}
 				}
-				
+
 				if ($poidsOk == true && $this->view->panneau != false) {
-					
+
 					$this->view->nbelement = $this->view->nbelement + 1;
-					
+
 					switch ($depart) {
 						case "Laban" :
 							$departPartiePlanteTable = new LabanPartieplante();
@@ -1676,10 +1712,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							break;
 					}
-	
+
 					$departPartiePlanteTable->insertOrUpdate($data);
 					unset ($departPartiePlanteTable);
-	
+
 					switch ($arrivee) {
 						case "Laban" :
 							$arriveePartiePlanteTable = new LabanPartieplante();
@@ -1696,7 +1732,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 							$arriveePartiePlanteTable = new ElementPartieplante();
 							$data = array("x_element_partieplante" => $this->view->user->x_braldun,
 								  "y_element_partieplante" => $this->view->user->y_braldun,
@@ -1824,7 +1860,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->panneau = false;
 							$this->view->elementsNonRetiresPanneau .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
 						}
-						
+
 						$poidsOk=true;
 						if ($arrivee == "Laban" || $arrivee == "Charrette") {
 							$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbTabac, Bral_Util_Poids::POIDS_TABAC);
@@ -1833,9 +1869,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$this->view->elementsNonRetiresPoids .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
 							}
 						}
-						
+
 						if ($poidsOk == true && $this->view->panneau != false) {
-							
+
 							$this->view->nbelement = $this->view->nbelement + 1;
 							switch ($depart) {
 								case "Laban" :
@@ -1873,10 +1909,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									);
 									break;
 							}
-								
+
 							$departTabacTable->insertOrUpdate($data);
 							unset ($departTabacTable);
-								
+
 							switch ($arrivee) {
 								case "Laban" :
 									$arriveeTabacTable = new LabanTabac();
@@ -1999,7 +2035,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 
 						$materiel = $this->view->materiels[$idMateriel];
-						
+
 						$poidsOk = true;
 						if ($arrivee == "Laban" || $arrivee == "Charrette") {
 							$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$materiel["poids"]);
@@ -2008,9 +2044,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$this->view->elementsNonRetiresPoids .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
 							}
 						}
-						
+
 						if ($poidsOk == true) {
-							
+
 							$this->view->nbelement = $this->view->nbelement + 1;
 							$where = "id_".strtolower($depart)."_materiel=".$idMateriel;
 							switch ($depart) {
@@ -2030,10 +2066,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$departMaterielTable = new EchoppeMateriel();
 									break;
 							}
-	
+
 							$departMaterielTable->delete($where);
 							unset($departMaterielTable);
-	
+
 							switch ($arrivee) {
 								case "Laban" :
 									$arriveeMaterielTable = new LabanMateriel();
@@ -2047,7 +2083,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$dateCreation = date("Y-m-d H:i:s");
 									$nbJours = Bral_Util_De::get_2d10();
 									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 									$arriveeMaterielTable = new ElementMateriel();
 									$data = array (
 										"id_element_materiel" => $materiel["id_materiel"],
@@ -2082,7 +2118,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$arriveeMaterielTable->insert($data);
 							unset($arriveeMaterielTable);
 							$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
-	
+
 							$texte = $this->calculTexte($depart, $arrivee);
 							$details = "[b".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
@@ -2175,7 +2211,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->panneau = false;
 					$this->view->elementsNonRetiresPanneau .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
 				}
-				
+
 				$poidsOk = true;
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
@@ -2184,7 +2220,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->elementsNonRetiresPoids .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
 					}
 				}
-				
+
 				if ($poidsOk == true && $this->view->panneau != false) {
 
 					$this->view->nbelement = $this->view->nbelement + 1;
@@ -2234,7 +2270,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					}
 					$departGraineTable->insertOrUpdate($data);
 					unset ($departGraineTable);
-	
+
 					switch ($arrivee) {
 						case "Laban" :
 							$arriveeGraineTable = new LabanGraine();
@@ -2249,7 +2285,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 							$arriveeGraineTable = new ElementGraine();
 							$data = array("x_element_graine" => $this->view->user->x_braldun,
 								  "y_element_graine" => $this->view->user->y_braldun,
@@ -2294,7 +2330,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 	}
-	
+
 	private function prepareTypeIngredients($depart) {
 		Zend_Loader::loadClass($depart."Ingredient");
 
@@ -2354,7 +2390,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->valeur_fin_ingredients = $this->view->nb_valeurs;
 		$this->view->ingredients = $tabIngredients;
 	}
-	
+
 	private function deposeTypeIngredients($depart,$arrivee) {
 		Zend_Loader::loadClass($depart."Ingredient");
 		Zend_Loader::loadClass($arrivee."Ingredient");
@@ -2378,7 +2414,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->panneau = false;
 					$this->view->elementsNonRetiresPanneau .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
 				}
-				
+
 				$poidsOk = true;
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
@@ -2387,7 +2423,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->elementsNonRetiresPoids .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
 					}
 				}
-				
+
 				if ($poidsOk == true && $this->view->panneau != false) {
 					$this->view->nbelement = $this->view->nbelement + 1;
 					switch ($depart) {
@@ -2436,7 +2472,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					}
 					$departIngredientTable->insertOrUpdate($data);
 					unset ($departIngredientTable);
-	
+
 					switch ($arrivee) {
 						case "Laban" :
 							$arriveeIngredientTable = new LabanIngredient();
@@ -2451,7 +2487,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-	
+
 							$arriveeIngredientTable = new ElementIngredient();
 							$data = array("x_element_ingredient" => $this->view->user->x_braldun,
 								  "y_element_ingredient" => $this->view->user->y_braldun,
@@ -2620,7 +2656,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->panneau = false;
 					$this->view->elementsNonRetiresPanneau .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
 				}
-				
+
 				$poidsOk = true;
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, $poids );
@@ -2629,7 +2665,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->elementsNonRetiresPoids .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
 					}
 				}
-				
+
 				if ($poidsOk == true && $this->view->panneau != false) {
 					$this->view->nbelement = $this->view->nbelement + 1;
 					$data = array(
@@ -2675,7 +2711,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departTable->insertOrUpdate($data);
 						unset($departTable);
 					}
-	
+
 					$arriveeTable = null;
 					switch ($arrivee) {
 						case "Laban" :

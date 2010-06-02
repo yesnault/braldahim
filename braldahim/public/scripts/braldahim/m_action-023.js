@@ -615,7 +615,7 @@ function controlePanneau (i) {
 	else {
 		$('valeur_'+i).value = 0;
 	}		
-	alert ("Votre charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
+	alert ("Cette charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
 }
 
 function controleQte(){
