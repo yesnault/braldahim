@@ -134,7 +134,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	protected function calculJetAttaque($braldun) {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
-		$jetAttaquant = floor((0.5 * $jetAttaquant) + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun);
+		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
 
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
