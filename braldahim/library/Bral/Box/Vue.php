@@ -247,7 +247,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementsTabac = $elementTabacTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementTabacTable);
 		$braldunTable = new Braldun();
-		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position, -1, true, true);
 		unset($braldunTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
@@ -335,6 +335,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabElementsRunes = null;
 				$tabElementsTabac = null;
 				$tabBralduns = null;
+				$tabBraldunsKo = null;
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabNids = null;
@@ -586,7 +587,11 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($bralduns != null) {
 						foreach($bralduns as $h) {
 							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
-								$tabBralduns[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"]);
+								if ($h["est_ko_braldun"] == "oui") {
+									$tabBraldunsKo[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
+								} else {
+									$tabBralduns[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
+								}
 							}
 						}
 					}
@@ -727,7 +732,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($css == null) {
 						$css = "inconnu";
 					}
-					
+						
 					if (count($tabEaux) >= 1) {
 						$css = $nom_environnement;
 					} elseif (count($tabRoutes) >= 1) {
@@ -807,6 +812,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements_tabc" => $tabElementsTabac,
 					"n_bralduns" => count($tabBralduns),
 					"bralduns" => $tabBralduns,
+					"n_braldunsKo" => count($tabBraldunsKo),
+					"braldunsKo" => $tabBraldunsKo,
 					"n_lieux" => count($tabLieux),
 					"lieux" => $tabLieux,
 					"n_monstres" => count($tabMonstres),

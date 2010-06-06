@@ -16,8 +16,16 @@ if ($case["n_bralduns"] > 0) :
 	}
 	$textBraldun .= ":<br>";
 	foreach($case["bralduns"] as $h) {
+		
+		$intangible = "";
+		$textIntangible = "";
+		if ($h["est_intangible_braldun"] == 'oui') {
+			$intangible = "Intangible";
+			$textIntangible = "(Braldûn intangible) -";
+		}
+		
 		$textTmp = "";
-		$textTmp .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$h["id_braldun"].'); title=\\\'Voir le profil\\\' >';
+		$textTmp .= '<label class=\\\'alabel profil'.$intangible.'\\\' onClick=ouvrirProfilH('.$h["id_braldun"].'); title=\\\''.$textIntangible.' Voir le profil\\\' >';
 		$textTmp .= addslashes(htmlspecialchars($h["prenom_braldun"]))." ".addslashes(htmlspecialchars($h["nom_braldun"]));
 		$textTmp .= " (n&deg;".$h["id_braldun"].")</label>, niv.".$h["niveau_braldun"];
 		

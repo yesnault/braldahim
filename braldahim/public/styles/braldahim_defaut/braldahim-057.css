@@ -139,6 +139,10 @@ a,.alabel {
 	color: #791E1E;
 }
 
+#contenuTooltip .profilIntangible {
+	color: green;
+}
+
 .alabeldark {
 	color: #000000;
 	text-align: center;

@@ -70,17 +70,16 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $sansBraldunCourant = -1, $avecIntangibles = true) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $sansBraldunCourant = -1, $avecIntangibles = true, $avecKo = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('braldun', '*');
-		$select->where('x_braldun <= ?',$x_max);
-		$select->where('x_braldun >= ?',$x_min);
-		$select->where('y_braldun >= ?',$y_min);
-		$select->where('y_braldun <= ?',$y_max);
-		$select->where('z_braldun = ?',$z);
-		$select->where('est_ko_braldun = ?', "non");
+		$select->where('x_braldun <= ?', $x_max);
+		$select->where('x_braldun >= ?', $x_min);
+		$select->where('y_braldun >= ?', $y_min);
+		$select->where('y_braldun <= ?', $y_max);
+		$select->where('z_braldun = ?', $z);
 		$select->where('est_compte_actif_braldun = ?', "oui");
 		$select->where('est_en_hibernation_braldun = ?', "non");
 		$select->where('est_pnj_braldun = ?', "non");
@@ -90,8 +89,17 @@ class Braldun extends Zend_Db_Table {
 		}
 			
 		if ($sansBraldunCourant != -1) {
-			$select->where('id_braldun != ?',$sansBraldunCourant);
+			$select->where('id_braldun != ?', $sansBraldunCourant);
 		}
+		
+		if ($avecKo == false) {
+			$select->where('est_ko_braldun = ?', "non");
+		} else {
+			$date = date("Y-m-d H:i:s");
+			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, -5);
+			$select->where("est_ko_braldun like 'non' or (est_ko_braldun like 'oui' and date_fin_tour_braldun >= ?)", $dateFin);
+		}
+		
 		$select->joinLeft('communaute','id_fk_communaute_braldun = id_communaute');
 
 		$sql = $select->__toString();
