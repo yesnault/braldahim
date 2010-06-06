@@ -35,16 +35,38 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 		}
 
 
-		Zend_Loader::loadClass("LabanAliment");
 		Zend_Loader::loadClass("Bral_Util_Aliment");
+		$tabAliments = null;
+		$tabAlimentsType = null;
 
+		Zend_Loader::loadClass("LabanAliment");
 		$labanAlimentTable = new LabanAliment();
 		$aliments = $labanAlimentTable->findByIdBraldun($this->view->user->id_braldun);
+		$this->prepareAliment($tabAliments, $aliments, "laban");
 
-		$tabAliments = null;
-		$tabBoissons = null;
+		Zend_Loader::loadClass("Charrette");
+		$charretteTable = new Charrette();
+		$charrette = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
+
+		if ($charrette != null && count($charrette) == 1) {
+			Zend_Loader::loadClass("CharretteAliment");
+			$charretteAlimentTable = new CharretteAliment();
+			$aliments = $charretteAlimentTable->findByIdCharrette($charrette[0]["id_charrette"]);
+			$this->prepareAliment($tabAliments, $aliments, "charrette");
+		}
+
+		$this->view->tabBralduns = $tabBralduns;
+		$this->view->nBralduns = count($tabBralduns);
+
+		$this->view->tabAliments = $tabAliments;
+		$this->view->nAliments = count($tabAliments);
+
+	}
+
+	private function prepareAliment(&$tabAliments, $aliments, $type) {
 		foreach ($aliments as $p) {
-			$tab = array(
+			if ($p["type_type_aliment"] == "manger") {
+				$tab = array(
 					"id_aliment" => $p["id_aliment"],
 					"id_fk_type_aliment" => $p["id_fk_type_aliment"],
 					"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_aliment"],
@@ -53,22 +75,11 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 					"qualite" => $p["nom_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
 					"id_fk_effet_braldun_aliment" => $p["id_fk_effet_braldun_aliment"],
-			);
-
-			if ($p["type_type_aliment"] == "manger") {
+					"type" => $type,
+				);
 				$tabAliments[$p["id_aliment"]] = $tab;
-			} else {
-				$tabBoissons[$p["id_aliment"]] = $tab;
 			}
 		}
-
-
-		$this->view->tabBralduns = $tabBralduns;
-		$this->view->nBralduns = count($tabBralduns);
-
-		$this->view->tabAliments = count($tabAliments);
-		$this->view->nAliments = count($tabAliments);
-
 	}
 
 	function prepareFormulaire() {
@@ -87,7 +98,13 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
 
-		if ($idBraldun == -1) {
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception(get_class($this)." Aliment invalide : ".$this->request->get("valeur_2"));
+		} else {
+			$idAliment = (int)$this->request->get("valeur_2");
+		}
+
+		if ($idBraldun == -1 || $idAliment == -1) {
 			throw new Zend_Exception(get_class($this)." Caract ou Braldun invalide");
 		}
 
@@ -106,6 +123,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
 		}
 
+		//TODO Verif aliment
 
 		$this->reanimer($braldun);
 		$this->setEvenementQueSurOkJet1(false);

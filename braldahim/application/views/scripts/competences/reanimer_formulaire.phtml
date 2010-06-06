@@ -20,6 +20,16 @@
 			<? endforeach; ?>
 			</select><br /><br />
 		<? endif;?>
+		
+		<? if ($this->nAliments > 0): ?>
+ 		 Choississez un aliment: <br />
+ 			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1)) { $('bouton_reanimer').disabled=true } else { $('bouton_reanimer').disabled=false }">
+			<option value='-1'>(Choisissez un aliment)</option>
+			<? foreach ($this->tabAliments as $k => $p) : ?>
+				<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["nom"]) ?> : + <?=$p["bbdf"]?> % (recette <?=$p["recette"]?>) dans votre <?$p["type"]?></option>
+			<? endforeach; ?>
+			</select><br /><br />
+		<? endif;?>
 	<? endif; ?>
 	
  </div>
