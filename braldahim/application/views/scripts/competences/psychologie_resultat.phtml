@@ -1,0 +1,14 @@
+<? include("commun_text_resultat.phtml") ?>
+
+ Votre jet de sagesse : <?=$this->jetBraldun?><br> 
+ 
+ Jet de <?=$this->caract?> de <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>): <?=$this->jetCible?><br><br>
+
+ <? if ($this->psychologieOk === true) : ?>
+ Vous avez réussi votre psychologie, 
+<?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>)
+ n'a maintenant plus de malus de <?=$this->caract?> pour le restant de son tour.
+ <? else: ?>
+ Vous avez raté votre psychologie.
+ <? endif;?>
+ <br><br>

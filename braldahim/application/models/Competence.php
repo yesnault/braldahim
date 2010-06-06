@@ -20,7 +20,7 @@ class Competence extends Zend_Db_Table {
 		return $this->fetchAll($where);
 	}
 
-	public function findCommunesInscription($niveau){
+	public function findCommunesInscription($niveau) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('competence', '*')
@@ -30,17 +30,18 @@ class Competence extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function findCommunesByNiveau($niveau){
+	public function findCommunesByNiveauAndNiveauSagesse($niveau, $niveauSagesse) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('competence', '*')
 		->where('type_competence = ?', "commun")
-		->where('niveau_requis_competence <= ?', $niveau);
+		->where('niveau_requis_competence <= ?', $niveau)
+		->where('niveau_sagesse_requis_competence <= ?', $niveauSagesse);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdMetier($idMetier){
+	public function findByIdMetier($idMetier) {
 		$where = $this->getAdapter()->quoteInto("id_fk_metier_competence = ?", $idMetier);
 		return $this->fetchAll($where);
 	}

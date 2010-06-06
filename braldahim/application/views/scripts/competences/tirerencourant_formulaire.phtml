@@ -35,9 +35,9 @@
 			<? endif; ?>
 			
 	 		<? if ($this->nBralduns > 0): ?>
-	 		 	Tirer sur un braldun<br />
+	 		 	Tirer sur un Braldûn<br />
 	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
-				<option value='-1'>(Choisissez un braldun)</option>
+				<option value='-1'>(Choisissez un Braldûn)</option>
 	 			<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
 				<? endforeach; ?>

@@ -1,0 +1,17 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <div class='comp_contenu'>
+	
+	<? if ($this->user->est_soule_braldun == "oui") : ?>
+		Vous ne pouvez pas utiliser cette compétence pendant un match de soule.
+ 	<? elseif ($this->dissuaderPossible == false): ?>
+ 		Vous ne pouvez pas utiliser cette compétence, il n'y a personne à dissuader autour de vous...<br />
+ 	<? else: ?>
+ 		Pour <?=$this->nb_pa?> PA, vous pouvez tenter de passer intangible jusqu'à la fin de votre tour.<br /><br />
+ 		
+	<? endif; ?>
+ </div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->dissuaderPossible == true) : ?>
+<input type='button' class='button1' value='Dissuader !' id='bouton_dissuader' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_dissuader");'>
+<? endif ?>

@@ -9,9 +9,9 @@
 	 		Pour <?=$this->nb_pa?> PA, vous pouvez donner le ballon.<br /><br />
 			
 	 		<? if ($this->nBralduns > 0): ?>
-	 		 Braldun destinataire : <br />
+	 		 Braldûn destinataire : <br />
 	 			<select name='valeur_1' id="valeur_1" onChange="javascript:if (this.value==-1){$('bouton_donnerballon').disabled=true } else {$('bouton_donnerballon').disabled=false }">
-					<option value='-1'>(Choisissez un braldun)</option>
+					<option value='-1'>(Choisissez un Braldûn)</option>
 	 				<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
 					<? endforeach; ?>

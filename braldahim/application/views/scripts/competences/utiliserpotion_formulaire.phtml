@@ -31,10 +31,10 @@
 		<? if (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "potion") : ?>
 			
 				<? if ($this->estRegionPvp == true) : ?>
-		 			Vous êtes dans une r&eacute;gion PvP, vous pouvez utiliser une potion de malus sur un braldun.
+		 			Vous êtes dans une r&eacute;gion PvP, vous pouvez utiliser une potion de malus sur un Braldûn.
 		 			<? $tabPotions = " new Array();"; ?>
 		 		<? else: ?>
-		 			Vous êtes dans une r&eacute;gion non PvP, vous ne pouvez pas utiliser une potion de malus sur un braldun.
+		 			Vous êtes dans une r&eacute;gion non PvP, vous ne pouvez pas utiliser une potion de malus sur un Braldûn.
 		 		<? endif;?>
 		 		<br><br>
 				
@@ -44,7 +44,7 @@
 					    retour = false;
 						for (x in marray) {
 							if ($('valeur_1').value == marray[x]) {
-								alert('Vous ne pouvez pas utiliser de potion de malus en zone PvE sur un braldun');
+								alert('Vous ne pouvez pas utiliser de potion de malus en zone PvE sur un Braldun');
 								retour = true;
 								break;
 							}
@@ -73,9 +73,9 @@
 				<? endif; ?>
 				
 		 		<? if ($this->nBralduns > 0): ?>
-		 		 Un braldun<br />
+		 		 Un Braldûn<br />
 		 			<select name='valeur_3' id="valeur_3" onChange="javascript:<?=$js?>;if (controleTypePotion() || $('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
-					<option value='-1'>(Choisissez un braldun)</option>
+					<option value='-1'>(Choisissez un Braldûn)</option>
 					<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=htmlspecialchars($h["prenom_braldun"])?> <?=htmlspecialchars($h["nom_braldun"])?> (<?=$h["id_braldun"]?>)</option>
 					<? endforeach; ?>

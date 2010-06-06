@@ -4,7 +4,7 @@
 		Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
 	<? else: ?>
 	 	<? if ($this->estRegionPvp == false) :?>
-			Vous ne pouvez pas attaquer de braldun dans cette r&eacute;gion.<br><br>
+			Vous ne pouvez pas attaquer de Braldûn dans cette r&eacute;gion.<br><br>
 		<? endif;?>
 		
 		<? if ($this->user->est_soule_braldun == 'oui') :?>
@@ -34,9 +34,9 @@
 			
 			
 	 		<? if ($this->nBralduns > 0): ?>
-	 		 Un braldun<br />
+	 		 Un Braldûn<br />
 	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_1').value=-1; $('bouton_attaquer').disabled=false }">
-				<option value='-1'>(Choisissez un braldun)</option>
+				<option value='-1'>(Choisissez un Braldûn)</option>
 				<? foreach ($this->tabBralduns as $h) : ?>
 				<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
 				<? endforeach; ?>

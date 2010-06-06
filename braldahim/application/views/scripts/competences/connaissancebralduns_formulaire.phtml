@@ -6,9 +6,9 @@
 <?php else: ?>
 	Pour <?=$this->nb_pa ?> PA, vous pouvez conna&icirc;tre les caract&eacute;ristiques de base d'un Braldûn &agrave; <?=$this->distance ?> cases.<br />
 
-	Reconna&icirc;tre un braldun<br />
+	Reconna&icirc;tre un Braldûn<br />
 	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cdm').disabled=true } else {$('bouton_cdm').disabled=false }">
-		<option value='-1'>(Choisissez un braldun)</option>
+		<option value='-1'>(Choisissez un Braldûn)</option>
 		<? $dist=-1; ?>
 		<? foreach ($this->tabBralduns as $m) : ?>
 			<? if ($dist != $m['dist_braldun']) : ?>

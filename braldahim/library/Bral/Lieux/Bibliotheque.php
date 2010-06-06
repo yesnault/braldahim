@@ -22,7 +22,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Bral_Util_Niveau");
 
 		$competenceTable = new Competence();
-		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_braldun);
+		$competenceRowset = $competenceTable->findCommunesByNiveauAndNiveauSagesse($this->view->user->niveau_braldun, $this->view->user->sagesse_base_braldun);
 		$braldunsCompetencesTables = new BraldunsCompetences();
 		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 		$achatPiPossible = false;

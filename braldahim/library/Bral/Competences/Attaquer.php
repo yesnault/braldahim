@@ -79,6 +79,11 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
+		// Verification des Pa
+		if ($this->view->assezDePa == false) {
+			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+		}
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {

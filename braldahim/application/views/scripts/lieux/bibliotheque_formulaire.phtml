@@ -31,7 +31,7 @@
  <table>
  <? foreach ($this->tabCompetences as $c):?>
    <tr>
-     <td><?=$c["nom"]?></td>
+     <td><a href='http://regles.braldahim.com/wiki/<?=$c["nom"]?>'><?=$c["nom"]?></a></td>
      <td nowrap> co&ucirc;t : <?=$c["pi_cout"]?> <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?> </td>
      <td align='left'>
      <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
