@@ -102,6 +102,7 @@ if ($case["n_monstres"] > 0) :
 		} elseif ($idTypeMonstre != $m["id_type_monstre"]) {
 			$idTypeMonstre = -1;
 		}
+		
 	} 
 	$s = "";
 	if ($case["n_monstres"] > 1) {
@@ -134,6 +135,9 @@ endif;
 	if ($idTypeMonstre == 1 || $idTypeMonstre == 5 || 
         $idTypeMonstre == 6 || $idTypeMonstre == 7 || 
         $idTypeMonstre == 8 || $idTypeMonstre == 11 ||
+        $idTypeMonstre == 13 || $idTypeMonstre == 14 ||
+        $idTypeMonstre == 15 || $idTypeMonstre == 16 ||
+        $idTypeMonstre == 17 || 
         $idTypeMonstre == 9 || $idTypeMonstre == 10 ||
         $idTypeMonstre == 23 || $idTypeMonstre == 24) {
     	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px"/> <?
