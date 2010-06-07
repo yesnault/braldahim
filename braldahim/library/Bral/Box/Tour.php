@@ -247,6 +247,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if ($this->est_ko == false) {
 				$this->braldun->est_intangible_braldun = "non";
 			}
+			
+			if ($this->braldun->est_intangible_prochaine_braldun == "oui") {
+				$this->braldun->est_intangible_braldun = "oui";
+				$this->braldun->est_intangible_prochaine_braldun == "non";
+			}
 
 			Zend_Loader::loadClass("Bral_Util_Faim");
 			Bral_Util_Faim::calculBalanceFaim($this->braldun);
@@ -311,7 +316,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			// remise en vu
 			$this->braldun->est_ko_braldun = "non";
-
 			$this->braldun->est_intangible_braldun = "oui";
 
 			// perte des PX
@@ -710,6 +714,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_engage_next_dla_braldun = $this->braldun->est_engage_next_dla_braldun;
 
 		$this->view->user->est_intangible_braldun = $this->braldun->est_intangible_braldun;
+		$this->view->user->est_intangible_prochaine_braldun = $this->braldun->est_intangible_prochaine_braldun;
 		$this->view->user->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun;
 
 		$data = array(
@@ -755,6 +760,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'est_engage_braldun' => $this->braldun->est_engage_braldun,
 			'est_engage_next_dla_braldun' => $this->braldun->est_engage_next_dla_braldun,
 			'est_intangible_braldun' => $this->braldun->est_intangible_braldun,
+			'est_intangible_prochaine_braldun' => $this->braldun->est_intangible_prochaine_braldun,
 			'nb_dla_jouees_braldun' => $this->braldun->nb_dla_jouees_braldun,
 		);
 		$where = "id_braldun=".$this->braldun->id_braldun;

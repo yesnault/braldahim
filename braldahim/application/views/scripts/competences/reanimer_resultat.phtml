@@ -1,13 +1,30 @@
 <? include("commun_text_resultat.phtml") ?>
 
- Votre jet de sagesse : <?=$this->jetBraldun?><br> 
- 
- Jet de <?=$this->caract?> de <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>): <?=$this->jetCible?><br><br>
+ Cible de la réanimation : <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>).<br><br>
 
- <? if ($this->reanimationOk === true) : ?>
- Vous avez réussi la réanimation, 
-<?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>).
+ Votre premier jet de sagesse : <?=$this->jetBraldunPourForce?><br> 
+ Jet de Force de la cible : <?=$this->jetCibleForce?><br><br>
+ 
+ Votre second jet de sagesse : <?=$this->jetBraldunPourSagesse?><br> 
+ Jet de Force de la cible : <?=$this->jetCibleSagesse?><br><br>
+ 
+ Votre troisième jet de sagesse : <?=$this->jetBraldunPourAgilite?><br> 
+ Jet de Force de la cible : <?=$this->jetCibleAgilite?><br><br>
+ 
+ Votre quatrième jet de sagesse : <?=$this->jetBraldunPourVigueur?><br> 
+ Jet de Force de la cible : <?=$this->jetCibleVigueur?><br><br>
+
+ <? if ($this->nbReussi > 3) : ?>
+ 
+   Vous avez réussi la réanimation, 
+   <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>) est de nouveau debout.
+	
+	Il possède maintenant <?=$this->pvRestants?> Pv.<br>
+	 <? if ($this->nbReussi > 3) : ?>
+	 	Sa balance de faim est remontée à <?=$this->balanceFaim?>.<br>
+	 <? endif; ?>
+
  <? else: ?>
- Vous avez raté la réanimation.
+ Vous avez raté la réanimation de <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>).
  <? endif;?>
  <br><br>

@@ -98,7 +98,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."") || !array_key_exists($this->request->get("valeur_2"), $this->view->tabAliments)) {
 			throw new Zend_Exception(get_class($this)." Aliment invalide : ".$this->request->get("valeur_2"));
 		} else {
 			$idAliment = (int)$this->request->get("valeur_2");
@@ -123,58 +123,99 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
 		}
 
-		//TODO Verif aliment
-
-		$this->reanimer($braldun);
+		$this->reanimer($braldun, $idAliment);
 		$this->setEvenementQueSurOkJet1(false);
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majBraldun();
 
-		$this->view->caract = $caract;
 		$this->view->braldun = $braldun;
 	}
 
-	function reanimer($braldun) {
+	function reanimer($braldun, $idAliment) {
 
-		//TODO
-
+		$nbReussi = 0;
 
 		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
-		$this->view->jetBraldun = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
+		$this->view->jetBraldunPourForce = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
+		$jetForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $braldun["force_base_braldun"]);
+		$this->view->jetCibleForce = $jetForce + $braldun["sagesse_bm_braldun"] + $braldun["sagesse_bbdf_braldun"];
 
-		$jetCible = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun[$caracteristique."_base_braldun"]);
-		$this->view->jetCible = $jetCible + $braldun[$caracteristique."_bm_braldun"] + $braldun[$caracteristique."_bbdf_braldun"];
-
-		$psychologieOk = false;
-
-		if ($this->view->jetBraldun > $this->view->jetCible) {
-			$psychologieOk = true;
-			$maj = false;
-
-			if ($braldun[$caracteristique."_bbdf_braldun"] < 0) {
-				$maj = true;
-				$data[$caracteristique."_bbdf_braldun"] = 0;
-			}
-
-			if ($braldun[$caracteristique."_bm_braldun"] < 0) {
-				$maj = true;
-				$data[$caracteristique."_bm_braldun"] = 0;
-			}
-
-			if ($maj) {
-				$braldunTable = new Braldun();
-				$where = "id_braldun = ".$braldun["id_braldun"];
-				$braldunTable->update($data, $where);
-			}
+		if ($this->view->jetBraldunPourForce > $this->view->jetCibleForce) {
+			$nbReussi++;
 		}
 
-		$this->view->psychologieOk = $psychologieOk;
+		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$this->view->jetBraldunPourSagesse = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
+
+		$jetSagesse = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun["sagesse_base_braldun"]);
+		$this->view->jetCibleSagesse = $jetSagesse + $braldun["sagesse_bm_braldun"] + $braldun["sagesse_bbdf_braldun"];
+
+		if ($this->view->jetBraldunPourSagesse > $this->view->jetCibleSagesse) {
+			$nbReussi++;
+		}
+
+		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$this->view->jetBraldunPourAgilite = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
+
+		$jetAgilite= Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun["agilite_base_braldun"]);
+		$this->view->jetCibleAgilite = $jetAgilite + $braldun["agilite_bm_braldun"] + $braldun["agilite_bbdf_braldun"];
+
+		if ($this->view->jetBraldunPourAgilite > $this->view->jetCibleAgilite) {
+			$nbReussi++;
+		}
+
+		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
+		$this->view->jetBraldunPourVigueur = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
+
+		$jetVigueur = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $braldun["vigueur_base_braldun"]);
+		$this->view->jetCibleVigueur = $jetVigueur + $braldun["vigueur_bm_braldun"] + $braldun["vigueur_bbdf_braldun"];
+
+		if ($this->view->jetBraldunPourVigueur > $this->view->jetCibleVigueur) {
+			$nbReussi++;
+		}
+
+		if ($nbReussi >= 3) {
+
+			$data["est_ko_braldun"] = "non";
+			if ($nbReussi == 3) {  // -> Le Hobbit est réanimé, sa BdF est à 0 (le repas est quand même consommé : il disparait), ses PV = BM de SAG du lanceur
+				$data["pv_restant_braldun"] = $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
+			} else { // -> Le Hobbit est réanimé, sa BdF remonte de la valeur du repas, ses PV = 2x BM de SAG du lanceur
+				$data["balance_faim_braldun"] = $braldun["balance_faim_braldun"] + $this->view->tabAliments[$idAliment]["bbdf"];
+				if ($braldun["balance_faim_braldun"] > 100) {
+					$braldun["balance_faim_braldun"] = 100;
+				}
+				$this->view->balanceFaim = $data["balance_faim_braldun"];
+				$data["pv_restant_braldun"] = 2*($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun);
+			}
+
+			if ($data["pv_restant_braldun"] < 1) {
+				$data["pv_restant_braldun"] = 1;
+			}
+			if ($data["pv_restant_braldun"] > $braldun["pv_max_braldun"]) {
+				$data["pv_restant_braldun"] = $braldun["pv_max_braldun"];
+			}
+
+			$this->view->pvRestants = $data["pv_restant_braldun"];
+			$data["est_intangible_braldun"] = "oui";
+			$data["est_intangible_prochain_braldun"] = "oui"; // intangible au prochain tour
+			
+			$braldunTable = new Braldun();
+			$where = "id_braldun = ".$braldun["id_braldun"];
+			$braldunTable->update($data, $where);
+
+		} else { // Si 2 jets ou moins sont supérieurs : échec, le Braldûn ne se réveille pas.
+			// rien à faire
+		}
+		
+		// TODO supprimer l'aliment
+		$this->view->nbReussi = $nbReussi;
+
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh();
+		return $this->constructListBoxRefresh(array("box_vue"));
 	}
 
 }
