@@ -199,23 +199,27 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 
 			$this->view->pvRestants = $data["pv_restant_braldun"];
 			$data["est_intangible_braldun"] = "oui";
-			$data["est_intangible_prochain_braldun"] = "oui"; // intangible au prochain tour
-			
+			$data["est_intangible_prochaine_braldun"] = "oui"; // intangible au prochain tour
+
 			$braldunTable = new Braldun();
 			$where = "id_braldun = ".$braldun["id_braldun"];
 			$braldunTable->update($data, $where);
 
+			Zend_Loader::loadClass("Aliment");
+			$alimentTable = new Aliment();
+			$where = 'id_aliment = '.(int)$idAliment;
+			$alimentTable->delete($where);
+
 		} else { // Si 2 jets ou moins sont supérieurs : échec, le Braldûn ne se réveille pas.
 			// rien à faire
 		}
-		
-		// TODO supprimer l'aliment
+
 		$this->view->nbReussi = $nbReussi;
 
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_charrette"));
 	}
 
 }
