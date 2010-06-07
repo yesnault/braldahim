@@ -5,7 +5,9 @@
 	<br /><b><?=$nb ?> effet<?=$s ?> <?=$verb?> eu de l'influence sur vous.</b><br />
 	
 	<? foreach($this->effetBraldunEffets as $e) : ?>
-		<? if ($e["effet"]["caracteristique"] == "STOUT") : ?>
+		<? if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
+		       $e["effet"]["caracteristique"] == "STOUT" || 
+		       $e["effet"]["caracteristique"] == "TOUR") : ?>
 			<?=$e["effet"]["texte_calcule_effet_braldun"]?>
 		<? else: ?>
 			<?=$e["retourEffet"]["nEffet"] ?> point<? if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
@@ -15,10 +17,14 @@
 				<?=$e["effet"]["caracteristique"]?>
 			<? endif;?>
 		<? endif;?>
-		et <?=$e["retourEffet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourEffet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> 
-		restant<?=$s ?>.
+		<? if ($e["effet"]["caracteristique"] != "TOUR") : ?>
+			et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+		<? endif;?>
+		<? if ($e["effet"]["texte_effet_braldun"]) : ?>
+			: </i><?=$e["effet"]["texte_effet_braldun"]?></i>
+		<? endif;?>
 		<? if ($e["effet"]["actif"] == false):?>
-			-> Effet non cumulable donc non actif.
+			   Effet non cumulable donc non actif.
 		<? endif;?>
 		<br />
 	<? endforeach; ?>
