@@ -369,6 +369,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "braldun", true, $view);
 
 		if ($enregistreEvenementDansAttaque) {
+			$idTypeEvenement = $config->game->evenements->type->attaquer;
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
 		}
 
@@ -397,6 +398,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "braldun", true, $view);
 
 		if ($enregistreEvenementDansAttaque) {
+			$idTypeEvenement = $config->game->evenements->type->attaquer;
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
 		}
 		$retourAttaque["details"] = $details;
