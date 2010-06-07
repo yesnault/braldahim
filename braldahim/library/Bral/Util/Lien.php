@@ -53,12 +53,20 @@ class Bral_Util_Lien {
 	}
 	
 	private static function getFunctionBraldun($avecJs = true) {
-		$retour = '$b = new Braldun();';
-		$retour .= '$nom = "";';
-		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
-		$retour .= '$nom .= $b->findNomById($matches[1]);';
-		if ($avecJs) $retour .= '$nom .= "</label>";';
-		$retour .= 'return $nom;';
+		$retour = '$h = new Braldun();';
+		$retour .= '$retour = "";';
+		$retour .= '$equipe = "";';
+		//$retour .= '$nom = $h->findNomById($matches[1]);';
+		$retour .= '$braldun = $h->findById($matches[1]);';
+		$retour .= '$nom = $braldun["prenom_braldun"]. " ".$braldun["nom_braldun"]. " (".$braldun["id_braldun"].")";';
+		$retour .= ' if ($braldun["est_soule_braldun"] == "oui") {';
+		$retour .= '$equipe = " equipe".$braldun["soule_camp_braldun"];';
+		$retour .= ' }';
+		
+		if ($avecJs) $retour .= '$retour = "<label class=\'alabel$equipe\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
+		
+		if ($avecJs) $retour .= '$retour .= "$nom</label>";';
+		$retour .= 'return $retour;';
 		return $retour;
 	}
 	

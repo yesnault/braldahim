@@ -143,6 +143,14 @@ a,.alabel {
 	color: green;
 }
 
+.equipea {
+	color: red;
+}
+
+.equipeb {
+	color: blue;
+}
+
 .alabeldark {
 	color: #000000;
 	text-align: center;
