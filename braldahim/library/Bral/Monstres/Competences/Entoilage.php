@@ -33,7 +33,9 @@ class Bral_Monstres_Competences_Entoilage extends Bral_Monstres_Competences_Atta
 			$malus = 0;
 		}
 
-		Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_PA_MARCHER, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Entoilage");
+		if ($malus > 0) {
+			Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_PA_MARCHER, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Entoilage");
+		}
 		$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetBraldun);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
@@ -61,7 +63,7 @@ class Bral_Monstres_Competences_Entoilage extends Bral_Monstres_Competences_Atta
 			$retour .= PHP_EOL."Vous n'avez pas résisté au jet.";
 			$retour .= PHP_EOL."Vos déplacements vous demandent ".$malus." PA supplémentaire.";
 		}
-		
+
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
