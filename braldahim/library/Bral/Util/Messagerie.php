@@ -205,6 +205,32 @@ class Bral_Util_Messagerie {
 		}
 	}
 
+	public static function preparesListAllMessages($idBraldun, $filtre) {
+
+		$messageTable = new Message();
+		$config = Zend_Registry::get('config');
+
+		if ($filtre == $config->messagerie->message->type->envoye) {
+			$select = $messageTable->getSelectByFromId($idBraldun);
+		} else if ($filtre == $config->messagerie->message->type->supprime) {
+			$select = $messageTable->getSelectByToOrFromIdSupprime($idBraldun);
+		} else if ($filtre == $config->messagerie->message->type->archive) {
+			$select = $messageTable->getSelectByToIdArchive($idBraldun);
+		} else { // reception
+			$select = $messageTable->getSelectByToId($idBraldun, null);
+		}
+
+		$messages = $messageTable->getAllWithSelect($select);
+		$tabRetour = null;
+		if (count($messages) > 0) {
+			foreach($messages as $m) {
+				$tabRetour[] = $m["id"];
+			}
+		}
+
+		return $tabRetour;
+	}
+
 	public static function prepareMessages($idBraldun, &$paginator, $filtre, $page, $nbMax, $toread = null) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 

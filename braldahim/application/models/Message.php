@@ -46,7 +46,7 @@ class Message extends Zend_Db_Table {
 		if ($liste != "") {
 			$db = $this->getAdapter();
 			$select = $db->select();
-				
+
 			$select->from('message', '*')
 			->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser))
 			->where($nomChamp ."=". $liste);
@@ -55,6 +55,12 @@ class Message extends Zend_Db_Table {
 		} else {
 			return null;
 		}
+	}
+
+	public function getAllWithSelect($select) {
+		$db = $this->getAdapter();
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 
 	public function getSelectByToId($toId, $toread = null) {

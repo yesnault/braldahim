@@ -20,6 +20,7 @@ abstract class Bral_Messagerie_Messagerie {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
+		$this->nomInterne = "messagerie_contenu";
 	}
 
 	abstract function render();
@@ -41,6 +42,10 @@ abstract class Bral_Messagerie_Messagerie {
 	}
 
 	public function getNomInterne() {
-		return "messagerie_contenu";
+		return $this->nomInterne;
+	}
+	
+	protected function setNomInterne($nomInterne) {
+		$this->nomInterne = $nomInterne;
 	}
 }

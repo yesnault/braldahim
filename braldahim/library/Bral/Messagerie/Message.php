@@ -47,6 +47,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			case "archiverselection" :
 			case "marquerlueselection" :
 			case "message" :
+				$this->setNomInterne("messagerie_message");
 				return $this->view->render("messagerie/message.phtml");
 				break;
 			default :
@@ -89,7 +90,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->prepareArchiver();
 				break;
 			case "supprimer" :
-				$this->prepareSupprimer();
+				$this->prepareSupprimer($this->view->filtre);
 				break;
 			case "supprimerselection" :
 				$this->prepareSupprimerSelection();
@@ -369,8 +370,13 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$this->view->message = $tabMessage;
 	}
 
-	private function prepareSupprimer() {
-		$listMessages[] = intval($this->request->get("valeur_2"));
+	private function prepareSupprimer($filtre = null) {
+		if ($this->request->get("valeur_2") == "all" && $filtre != null) {
+			$listMessages = Bral_Util_Messagerie::preparesListAllMessages($this->view->user->id_braldun, $filtre);
+		} else {
+			$listMessages[] = intval($this->request->get("valeur_2"));
+		}
+		
 		$this->prepareSupprimerSelection($listMessages);
 	}
 
@@ -379,6 +385,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		if ($listMessages == null) {
 			$listMessages = split(',', $this->request->get("valeur_2"));
 		}
+		
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
@@ -401,7 +408,10 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 				$this->refreshMessages = true;
 			}
-			if (count($messages) > 1) {
+			
+			if ($this->request->get("valeur_2") == "all") {
+				$this->view->information = "Tous les messages sont supprimés.";
+			} elseif (count($messages) > 1) {
 				$this->view->information = "Les messages sélectionnés sont supprimés.";
 			} else {
 				$this->view->information = "Le message sélectionné est supprimé.";

@@ -1,22 +1,32 @@
-
 <br>
-<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
-	<ul class="titre textalic textsized" >Messages envoyés</ul>
+<? if ($this->filtre == $this->config->messagerie->message->type->envoye): 
+	$titre = "Messages envoyés";
+?>
+	<ul class="titre textalic textsized" ><?=$titre?></ul>
 	Les messages envoyés sont supprimés au bout de 30 jours.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
-	<ul class="titre textalic textsized" >Messages supprimés</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): 
+	$titre = "Messages supprimés";
+?>
+	<ul class="titre textalic textsized" ><?=$titre?></ul>
 	Les messages supprimés sont définitivement supprimés dans la nuit.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->reception): ?>
-	<ul class="titre textalic textsized" >Boite de réception</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->reception): 
+	$titre = "Boite de réception";
+?>
+	<ul class="titre textalic textsized" ><?=$titre?></ul>
 	Les messages présents dans la boite de réception sont supprimés au bout de 30 jours.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->archive): ?>
-	<ul class="titre textalic textsized" >Messages archivés</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->archive): 
+	$titre = "Messages archivés";
+?>
+	<ul class="titre textalic textsized" ><?=$titre?></ul>
 	Vous ne pouvez pas avoir plus de 200 messages archivés
 <? endif; ?>
 		
 <br><br>
 
-<table class="table_liste">
+<table  width="100%">
+<tr>
+<td  width="60%" valign="top">
+<table class="table_liste" style="width:98%">
 	<tbody>
 	<? if (!empty($this->messages)): ?>
 		<? $i = 0;
@@ -115,9 +125,20 @@
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="Marquer les messages sélectionnés comme lus" />
 			       <? endif; ?>
+			       <br>
+			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+			       	<input type="button" class='button1'  onClick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="<?=$titre?> : Supprimer TOUS les messages" />
+			       <? endif; ?>
 			   <? endif;?>
 		    </th>
 		  </tr>
 	</tfoot>
+</table>
+
+</td>
+<td width="40%"  valign="top">
+<div id="messagerie_message"></div>
+</td>
+</tr>
 </table>
 <br>
