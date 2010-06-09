@@ -107,11 +107,28 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		}
 
 		$this->updateMatchDb($match);
+		
+		$this->deleteRouteSurTerrain($match);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - exit -");
 		return $retour;
 	}
 
+	private function deleteRouteSurTerrain($match) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - deleteRouteSurTerrain - enter -");
+		
+		Zend_Loader::loadClass("Route");
+		$routeTable = new Route();
+		$where = "x_route >= ".$match["x_min_soule_terrain"];
+		$where = " AND x_route <= ".$match["x_max_soule_terrain"];
+		$where = " AND y_route >= ".$match["y_min_soule_terrain"];
+		$where = " AND y_route <= ".$match["y_max_soule_terrain"];
+		
+		$routeTable->delete($where);
+			
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - deleteRouteSurTerrain - exit -");
+	}
+	
 	private function updateMatchDb($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateMatchDb - enter -");
 		$souleMatchTable = new SouleMatch();
