@@ -120,9 +120,9 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Route");
 		$routeTable = new Route();
 		$where = "x_route >= ".$match["x_min_soule_terrain"];
-		$where = " AND x_route <= ".$match["x_max_soule_terrain"];
-		$where = " AND y_route >= ".$match["y_min_soule_terrain"];
-		$where = " AND y_route <= ".$match["y_max_soule_terrain"];
+		$where .= " AND x_route <= ".$match["x_max_soule_terrain"];
+		$where .= " AND y_route >= ".$match["y_min_soule_terrain"];
+		$where .= " AND y_route <= ".$match["y_max_soule_terrain"];
 		
 		$routeTable->delete($where);
 			
