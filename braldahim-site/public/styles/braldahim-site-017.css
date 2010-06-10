@@ -416,6 +416,14 @@ span.id_braldun {
 	letter-spacing: 2pt;
 }
 
+.equipea {
+	color: red;
+}
+
+.equipeb {
+	color: blue;
+}
+
 .textsizea {
 	font-size: 2em;
 }
