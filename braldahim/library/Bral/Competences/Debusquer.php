@@ -154,17 +154,18 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 				$xMax = $terrainRowset[0]["x_max_soule_terrain"] - 1;
 				$yMin = $terrainRowset[0]["y_min_soule_terrain"] + 1;
 				$yMax = $terrainRowset[0]["y_max_soule_terrain"] - 1;
+				$idZone = 1;
 			} else {
 				throw new Zend_Exception(" Debusquer terrain invalide:x".$this->view->user->x_braldun." y:".$this->view->user->y_braldun." z:".$this->view->user->z_braldun);
 			}
 		} else {
+			$zoneNid = $zoneNid[0];
 			$xMin = $zoneNid["x_min_zone_nid"];
 			$xMax = $zoneNid["x_max_zone_nid"];
 			$yMin = $zoneNid["y_min_zone_nid"];
 			$yMax = $zoneNid["y_max_zone_nid"];
+			$idZone = $zoneNid["id_zone_nid"];
 		}
-
-		$zoneNid = $zoneNid[0];
 
 		$data = array(
 			"id_fk_type_monstre" => $id_fk_type_monstre,
@@ -179,7 +180,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"x_max_monstre" => $xMax,
 			"y_min_monstre" => $yMin,
 			"y_max_monstre" => $yMax,
-			"id_fk_zone_nid_monstre" => $zoneNid["id_zone_nid"],
+			"id_fk_zone_nid_monstre" => $idZone,
 			"id_fk_braldun_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
