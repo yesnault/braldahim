@@ -137,17 +137,35 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 
 		//Vue
 		$vue_monstre = 1;
-		
+
 		Zend_Loader::loadClass("ZoneNid");
 		$zoneNidTable = new ZoneNid();
 
-		$zoneNid = $zoneNidTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun); 
-		
-		if (count($zoneNid) != 1) {
-			throw new Zend_Exception(" Debusquer Zone Nid Invalide idZoneNid:x".$x." y:".$y." z:".$z);
+		$zoneNid = $zoneNidTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+		if (count($zoneNid) != 1 && $this->view->user->est_soule_braldun == 'non') {
+			throw new Zend_Exception(" Debusquer Zone Nid Invalide idZoneNid:x".$this->view->user->x_braldun." y:".$this->view->user->y_braldun." z:".$this->view->user->z_braldun);
+		} elseif($this->view->user->est_soule_braldun == 'oui') {
+			Zend_Loader::loadClass("SouleTerrain");
+			$souleTerrainTable = new SouleTerrain();
+			$terrainRowset = $souleTerrainTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			if (count($terrainRowset) == 1) {
+				$xMin = $terrainRowset[0]["x_min_soule_terrain"] + 1;
+				$xMax = $terrainRowset[0]["x_max_soule_terrain"] - 1;
+				$yMin = $terrainRowset[0]["y_min_soule_terrain"] + 1;
+				$yMax = $terrainRowset[0]["y_max_soule_terrain"] - 1;
+			} else {
+				throw new Zend_Exception(" Debusquer terrain invalide:x".$this->view->user->x_braldun." y:".$this->view->user->y_braldun." z:".$this->view->user->z_braldun);
+			}
+		} else {
+			$xMin = $zoneNid["x_min_zone_nid"];
+			$xMax = $zoneNid["x_max_zone_nid"];
+			$yMin = $zoneNid["y_min_zone_nid"];
+			$yMax = $zoneNid["y_max_zone_nid"];
 		}
+
 		$zoneNid = $zoneNid[0];
-		
+
 		$data = array(
 			"id_fk_type_monstre" => $id_fk_type_monstre,
 			"id_fk_taille_monstre" => $id_fk_taille_monstre,
@@ -157,10 +175,10 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"z_monstre" => $this->view->user->z_braldun,
 			"x_direction_monstre" => $x_monstre,
 			"y_direction_monstre" => $y_monstre,
-			"x_min_monstre" => $zoneNid["x_min_zone_nid"],
-			"x_max_monstre" => $zoneNid["x_max_zone_nid"],
-			"y_min_monstre" => $zoneNid["y_min_zone_nid"],
-			"y_max_monstre" => $zoneNid["y_max_zone_nid"],
+			"x_min_monstre" => $xMin,
+			"x_max_monstre" => $xMax,
+			"y_min_monstre" => $yMin,
+			"y_max_monstre" => $yMax,
 			"id_fk_zone_nid_monstre" => $zoneNid["id_zone_nid"],
 			"id_fk_braldun_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
