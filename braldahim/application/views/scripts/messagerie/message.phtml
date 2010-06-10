@@ -22,7 +22,7 @@
 		<hr>
 			<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 				<img src="/public/images/uddeim/answer.gif" alt="Répondre" title="Répondre" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondre&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
-				<img src="/public/images/uddeim/answerall.gif" alt="Répondre à tous" title="Répondre à tours" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondretous&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
+				<img src="/public/images/uddeim/answerall.gif" alt="Répondre à tous" title="Répondre à tous" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondretous&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
 				<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
 				<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
 			<? endif;?>
