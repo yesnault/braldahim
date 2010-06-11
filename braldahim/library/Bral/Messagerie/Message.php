@@ -46,6 +46,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			case "supprimerselection" :
 			case "archiverselection" :
 			case "marquerlueselection" :
+			case "marquerlu" :
 			case "message" :
 				$this->setNomInterne("messagerie_message");
 				return $this->view->render("messagerie/message.phtml");
@@ -100,6 +101,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				break;
 			case "marquerlueselection" :
 				$this->prepareMarquerLueSelection();
+				break;
+			case "marquerlu" :
+				$this->prepareMarquelu($this->view->filtre);
 				break;
 			case "message" :
 				$this->prepareMessage();
@@ -376,8 +380,18 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		} else {
 			$listMessages[] = intval($this->request->get("valeur_2"));
 		}
-		
+
 		$this->prepareSupprimerSelection($listMessages);
+	}
+
+	private function prepareMarquelu($filtre = null) {
+		if ($this->request->get("valeur_2") == "all" && $filtre != null) {
+			$listMessages = Bral_Util_Messagerie::preparesListAllMessages($this->view->user->id_braldun, $filtre);
+		} else {
+			$listMessages[] = intval($this->request->get("valeur_2"));
+		}
+
+		$this->prepareMarquerLueSelection($listMessages);
 	}
 
 	private function prepareSupprimerSelection($listMessages = null) {
@@ -385,7 +399,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		if ($listMessages == null) {
 			$listMessages = split(',', $this->request->get("valeur_2"));
 		}
-		
+
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
@@ -408,7 +422,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 				$this->refreshMessages = true;
 			}
-			
+
 			if ($this->request->get("valeur_2") == "all") {
 				$this->view->information = "Tous les messages sont supprimés.";
 			} elseif (count($messages) > 1) {
@@ -458,7 +472,10 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			if ($nbDejaArchives >= 1) {
 				$s = 's';
 			}
-			if (count($messages) > 1) {
+				
+			if ($this->request->get("valeur_2") == "all") {
+				$this->view->information = "Tous les messages sont marqués comme lus.";
+			} elseif (count($messages) > 1) {
 				$this->view->information = "Les messages sélectionnés sont archivés. Vous avez ".$nbDejaArchives. " message$s archivé$s.";
 			} else {
 				$this->view->information = "Le message sélectionné est archivé. Vous avez ".$nbDejaArchives." message$s archivé$s.";
@@ -470,9 +487,13 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		unset($message);
 	}
 
-	private function prepareMarquerLueSelection() {
+	private function prepareMarquerLueSelection($listMessages = null) {
 		$messageTable = new Message();
-		$listMessages = split(',', $this->request->get("valeur_2"));
+
+		if ($listMessages == null) {
+			$listMessages = split(',', $this->request->get("valeur_2"));
+		}
+
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
