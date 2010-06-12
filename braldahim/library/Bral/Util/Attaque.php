@@ -673,12 +673,18 @@ class Bral_Util_Attaque {
 		}
 			
 		if ($retourAttaque["mort"] === true) {
-			$idTypeEvenement = $config->game->evenements->type->killmonstre;
+
+			if ($monstre["id_fk_type_groupe_monstre"] == $config->game->groupe_monstre->type->gibier) {
+				$idTypeEvenement = $config->game->evenements->type->killgibier;
+			} else {
+				$idTypeEvenement = $config->game->evenements->type->killmonstre;
+			}
+
 			$details = "[b".$braldunAttaquant->id_braldun."] a tué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 			if ($enregistreEvenementDansAttaque) {
 				Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
 			}
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenement, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
 			$idTypeEvenement = $config->game->evenements->type->attaquer;
 			if ($tir) {

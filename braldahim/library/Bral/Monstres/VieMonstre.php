@@ -79,19 +79,23 @@ class Bral_Monstres_VieMonstre {
 		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"], false);
 
 		$this->tabValidation = null;
+		$this->tabEaux = null;
 		for ($j = 12; $j >= -12; $j--) {
 			for ($i = -12; $i <= 12; $i++) {
 				$x = $this->monstre["x_monstre"] + $i;
 				$y = $this->monstre["y_monstre"] + $j;
 				$this->tabValidation[$x][$y] = true;
+				$this->tabEaux[$x][$y] = false;
 			}
 		}
 		foreach($palissades as $p) {
 			$this->tabValidation[$p["x_palissade"]][$p["y_palissade"]] = false;
 		}
+
 		foreach($eaux as $e) {
-			$this->tabValidation[$e["x_eau"]][$e["y_eau"]] = false;
+			$this->tabEaux[$e["x_eau"]][$e["y_eau"]] = true;
 		}
+
 		foreach($crevasses as $c) {
 			$this->tabValidation[$c["x_crevasse"]][$c["y_crevasse"]] = false;
 		}
@@ -139,7 +143,13 @@ class Bral_Monstres_VieMonstre {
 				}
 			}
 
-			$nb_pa_joues = $nb_pa_joues + 1;
+			if ($this->tabEaux[$x_monstre][$y_monstre] == true) {
+				$nb_pa_joues = $nb_pa_joues + 6;
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") 6 PA utilises pour deplacement sur eau");
+			} else {
+				$nb_pa_joues = $nb_pa_joues + 1;
+			}
+
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
