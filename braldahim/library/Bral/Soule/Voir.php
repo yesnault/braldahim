@@ -118,6 +118,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 		$this->view->desinscriptionPossible = false;
 		$this->view->deinscriptionNonPossibleInfo = "";
+		
+		$this->view->souleInfo = "";
 
 		// on regarde si le joueur n'est pas déjà inscrit
 		$souleEquipeTable = new SouleEquipe();
@@ -153,6 +155,13 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 						$this->view->desinscriptionPossible = true;
 					} else {
 						$this->view->deinscriptionNonPossibleInfo = "Le match va bientôt débuter, vous ne pouvez plus vous désinscrire";
+						
+						if ($matchs[0]["nb_jours_quota_soule_match"] == 1) {
+							$this->view->souleInfo = "Le match va bientôt débuter après demain";	
+						} else if ($matchs[0]["nb_jours_quota_soule_match"] == 2) {
+							$this->view->souleInfo = "Le match va bientôt débuter demain";
+						}
+						
 					}
 				} else {
 					$this->view->inscriptionNonPossibleInfo .= " sur un autre terrain";

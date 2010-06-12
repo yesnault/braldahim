@@ -57,6 +57,10 @@
 	<? endif;?>
 <? endif; ?>
 
+<? if ($this->souleInfo != "") : ?>
+<br><?=$this->souleInfo ?><br>
+<? endif; ?>
+
 <?php include("voir/equipes.phtml")?>
 
 <? if ($this->matchEnCours != null && $this->user->id_fk_soule_match_braldun == $this->matchEnCours["id_soule_match"]) : ?>
