@@ -142,7 +142,7 @@ class Bral_Util_Charrette {
 					$poidsTransportable = $poidsTransportable + $m["capacite_type_materiel"];
 				}
 			}
-			
+				
 			$data = array(
 					"durabilite_max_charrette" => $durabiliteMaxCharrette,
 					"poids_transportable_charrette" => $poidsTransportable,
@@ -159,7 +159,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	public static function calculNouvelleDlaCharrette($idBraldun, $x, $y) {
+	public static function calculNouvelleDlaCharrette($idBraldun, $niveauBraldun, $x, $y) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 		Zend_Loader::loadClass("Bral_Util_Poids");
@@ -196,7 +196,7 @@ class Bral_Util_Charrette {
 			$charretteTable->update($data, $where);
 
 			if ($durabiliteActuelle <= 0) {
-				self::destructionCharrette($charrette, $x, $y);
+				self::destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y);
 				$estDetruite = true;
 			}
 		} else if ($nb > 1) {
@@ -206,11 +206,10 @@ class Bral_Util_Charrette {
 		return $estDetruite;
 	}
 
-	private static function destructionCharrette($charrette, $x, $y) {
+	private static function destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y) {
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-
 
 		self::destructionCharretteElement($charrette, $x, $y, $dateFin);
 		self::destructionCharretteAliment($charrette, $x, $y, $dateFin);
@@ -226,6 +225,15 @@ class Bral_Util_Charrette {
 		$where = "id_charrette = ".$charrette["id_charrette"];
 		$charretteTable = new Charrette();
 		$charretteTable->delete($where);
+		
+		$config = Zend_Registry::get('config');
+		
+		$detailEvenement = "[b".$idBraldun."] a détruit la charrette n°".$charrette["id_charrette"];
+		$detailBotCible = "Vous avez détruit la charrette n°".$charrette["id_charrette"].PHP_EOL;
+		$detailBotCible .= "Tout ce qu'elle pouvait contenir est tombé au sol".
+
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Bral_Util_Evenement::majEvenements($idBraldun, $config->game->evenements->type->special, $detailEvenement, $detailBotCible, $niveauBraldun);
 	}
 
 	private static function destructionCharretteElement($charrette, $x, $y, $dateFin) {
@@ -255,10 +263,10 @@ class Bral_Util_Charrette {
 
 		foreach($charretteAliments as $a) {
 			$data = array(
-			"x_element_aliment" => $x,
-			"y_element_aliment" => $y,
-			"id_element_aliment" => $a["id_charrette_aliment"],
-			"date_fin_element_aliment" => $dateFin,
+				"x_element_aliment" => $x,
+				"y_element_aliment" => $y,
+				"id_element_aliment" => $a["id_charrette_aliment"],
+				"date_fin_element_aliment" => $dateFin,
 			);
 			$elementAlimentTable->insert($data);
 		}
@@ -275,10 +283,10 @@ class Bral_Util_Charrette {
 
 		foreach($charretteEquipements as $a) {
 			$data = array(
-			"x_element_equipement" => $x,
-			"y_element_equipement" => $y,
-			"id_element_equipement" => $a["id_charrette_equipement"],
-			"date_fin_element_equipement" => $dateFin,
+				"x_element_equipement" => $x,
+				"y_element_equipement" => $y,
+				"id_element_equipement" => $a["id_charrette_equipement"],
+				"date_fin_element_equipement" => $dateFin,
 			);
 			$elementEquipementTable->insert($data);
 		}
@@ -295,10 +303,10 @@ class Bral_Util_Charrette {
 
 		foreach($charretteMateriels as $a) {
 			$data = array(
-			"x_element_materiel" => $x,
-			"y_element_materiel" => $y,
-			"id_element_materiel" => $a["id_charrette_materiel"],
-			"date_fin_element_materiel" => $dateFin,
+				"x_element_materiel" => $x,
+				"y_element_materiel" => $y,
+				"id_element_materiel" => $a["id_charrette_materiel"],
+				"date_fin_element_materiel" => $dateFin,
 			);
 			$elementMaterielTable->insert($data);
 		}
@@ -315,12 +323,12 @@ class Bral_Util_Charrette {
 
 		foreach($charretteMinerais as $a) {
 			$data = array(
-			"x_element_minerai" => $x,
-			"y_element_minerai" => $y,
-			"id_fk_type_element_minerai" => $a["id_fk_type_charrette_minerai"],
-			"quantite_brut_element_minerai" => $a["quantite_brut_charrette_minerai"],
-			"quantite_lingots_element_minerai" => $a["quantite_lingots_charrette_minerai"],
-			"date_fin_element_minerai" => $dateFin,
+				"x_element_minerai" => $x,
+				"y_element_minerai" => $y,
+				"id_fk_type_element_minerai" => $a["id_fk_type_charrette_minerai"],
+				"quantite_brut_element_minerai" => $a["quantite_brut_charrette_minerai"],
+				"quantite_lingots_element_minerai" => $a["quantite_lingots_charrette_minerai"],
+				"date_fin_element_minerai" => $dateFin,
 			);
 			$elementMineraiTable->insert($data);
 		}
@@ -337,11 +345,11 @@ class Bral_Util_Charrette {
 
 		foreach($charretteMunitions as $a) {
 			$data = array(
-			"x_element_munition" => $x,
-			"y_element_munition" => $y,
-			"id_fk_type_element_munition" => $a["id_fk_type_charrette_munition"],
-			"quantite_feuille_element_munition" => $a["quantite_feuille_charrette_munition"],
-			"date_fin_element_munition" => $dateFin,
+				"x_element_munition" => $x,
+				"y_element_munition" => $y,
+				"id_fk_type_element_munition" => $a["id_fk_type_charrette_munition"],
+				"quantite_feuille_element_munition" => $a["quantite_feuille_charrette_munition"],
+				"date_fin_element_munition" => $dateFin,
 			);
 			$elementMunitionTable->insert($data);
 		}
@@ -358,13 +366,13 @@ class Bral_Util_Charrette {
 
 		foreach($charrettePartieplantes as $a) {
 			$data = array(
-			"x_element_partieplante" => $x,
-			"y_element_partieplante" => $y,
-			"id_fk_type_element_partieplante" => $a["id_fk_type_charrette_partieplante"],
-			"id_fk_type_plante_element_partieplante" => $a["id_fk_type_plante_charrette_partieplante"],
-			"quantite_element_partieplante" => $a["quantite_charrette_partieplante"],
-			"quantite_preparee_element_partieplante" => $a["quantite_preparee_charrette_partieplante"],
-			"date_fin_element_partieplante" => $dateFin,
+				"x_element_partieplante" => $x,
+				"y_element_partieplante" => $y,
+				"id_fk_type_element_partieplante" => $a["id_fk_type_charrette_partieplante"],
+				"id_fk_type_plante_element_partieplante" => $a["id_fk_type_plante_charrette_partieplante"],
+				"quantite_element_partieplante" => $a["quantite_charrette_partieplante"],
+				"quantite_preparee_element_partieplante" => $a["quantite_preparee_charrette_partieplante"],
+				"date_fin_element_partieplante" => $dateFin,
 			);
 			$elementPartieplanteTable->insert($data);
 		}
@@ -381,10 +389,10 @@ class Bral_Util_Charrette {
 
 		foreach($charrettePotions as $a) {
 			$data = array(
-			"x_element_potion" => $x,
-			"y_element_potion" => $y,
-			"id_element_potion" => $a["id_charrette_potion"],
-			"date_fin_element_potion" => $dateFin,
+				"x_element_potion" => $x,
+				"y_element_potion" => $y,
+				"id_element_potion" => $a["id_charrette_potion"],
+				"date_fin_element_potion" => $dateFin,
 			);
 			$elementPotionTable->insert($data);
 		}
@@ -401,10 +409,10 @@ class Bral_Util_Charrette {
 
 		foreach($charretteRunes as $a) {
 			$data = array(
-			"x_element_rune" => $x,
-			"y_element_rune" => $y,
-			"id_rune_element_rune" => $a["id_rune_charrette_rune"],
-			"date_fin_element_rune" => $dateFin,
+				"x_element_rune" => $x,
+				"y_element_rune" => $y,
+				"id_rune_element_rune" => $a["id_rune_charrette_rune"],
+				"date_fin_element_rune" => $dateFin,
 			);
 			$elementRuneTable->insert($data);
 		}
@@ -421,11 +429,11 @@ class Bral_Util_Charrette {
 
 		foreach($charretteTabacs as $a) {
 			$data = array(
-			"x_element_tabac" => $x,
-			"y_element_tabac" => $y,
-			"id_fk_type_element_tabac" => $a["id_fk_type_charrette_tabac"],
-			"quantite_feuille_element_tabac" => $a["quantite_feuille_charrette_tabac"],
-			"date_fin_element_tabac" => $dateFin,
+				"x_element_tabac" => $x,
+				"y_element_tabac" => $y,
+				"id_fk_type_element_tabac" => $a["id_fk_type_charrette_tabac"],
+				"quantite_feuille_element_tabac" => $a["quantite_feuille_charrette_tabac"],
+				"date_fin_element_tabac" => $dateFin,
 			);
 			$elementTabacTable->insert($data);
 		}
