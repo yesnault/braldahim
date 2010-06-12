@@ -18,6 +18,7 @@ class Bral_Util_Materiel {
 	const HISTORIQUE_VENDRE_ID = 4;
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
 	const HISTORIQUE_ATTAQUER_ID = 6;
+	const HISTORIQUE_DETRUIRE_ID = 7;
 
 	public static function insertHistorique($idTypeHistoriqueMateriel, $idMateriel, $details) {
 		Zend_Loader::loadClass("Bral_Util_Lien");

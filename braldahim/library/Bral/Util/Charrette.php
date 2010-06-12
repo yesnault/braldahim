@@ -228,12 +228,15 @@ class Bral_Util_Charrette {
 		
 		$config = Zend_Registry::get('config');
 		
-		$detailEvenement = "[b".$idBraldun."] a détruit la charrette n°".$charrette["id_charrette"];
+		$detailEvenement = "[b".$idBraldun."] a détruit la [t".$charrette["id_charrette"]."]";
 		$detailBotCible = "Vous avez détruit la charrette n°".$charrette["id_charrette"].PHP_EOL;
 		$detailBotCible .= "Tout ce qu'elle pouvait contenir est tombé au sol".
 
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Bral_Util_Evenement::majEvenements($idBraldun, $config->game->evenements->type->special, $detailEvenement, $detailBotCible, $niveauBraldun);
+		
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_DETRUIRE_ID, $charrette["id_charrette"], $detailEvenement);
 	}
 
 	private static function destructionCharretteElement($charrette, $x, $y, $dateFin) {
