@@ -52,7 +52,7 @@ if ($case["n_bralduns"] > 0) :
 			$sexe_braldun = "feminin";
 		}
 		
-		if ($h["soule_camp_braldun"] != "") {
+		if ($h["est_soule_braldun"] == 'oui' && $h["soule_camp_braldun"] != "") {
 			$textEquipe[$h["soule_camp_braldun"]] .= $textTmp;
 			if ($soule_braldun == "") {
 				$soule_braldun = $h["soule_camp_braldun"];

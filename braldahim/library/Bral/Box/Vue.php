@@ -588,9 +588,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($bralduns as $h) {
 							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
 								if ($h["est_ko_braldun"] == "oui") {
-									$tabBraldunsKo[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
+									$tabBraldunsKo[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "est_soule_braldun" => $h["est_soule_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
 								} else {
-									$tabBralduns[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
+									$tabBralduns[] = array("id_braldun" => $h["id_braldun"], "nom_braldun" => $h["nom_braldun"], "prenom_braldun" => $h["prenom_braldun"], "niveau_braldun" => $h["niveau_braldun"], "id_communaute" => $h["id_fk_communaute_braldun"], "nom_communaute" => $h["nom_communaute"], "sexe_braldun" => $h["sexe_braldun"], "est_soule_braldun" => $h["est_soule_braldun"], "soule_camp_braldun" => $h["soule_camp_braldun"], "est_intangible_braldun" => $h["est_intangible_braldun"]);
 								}
 							}
 						}

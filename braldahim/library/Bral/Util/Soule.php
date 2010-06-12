@@ -198,7 +198,6 @@ class Bral_Util_Soule {
 		$texte .= self::updateDbData($braldun["id_braldun"], $nbUnitaireGain, $tirage2, $nbMinerai, $nbPlante, $minerais, $plantes);
 		$texte .= self::updateDbData($braldun["id_braldun"], $nbUnitaireGain, $tirage3, $nbMinerai, $nbPlante, $minerais, $plantes);
 
-
 		$config = Zend_Registry::get('config');
 		$idType = $config->game->evenements->type->soule;
 
@@ -372,16 +371,20 @@ class Bral_Util_Soule {
 				$y_braldun = -125 + $yalea;
 			}
 
+			$mdate = date("Y-m-d H:i:s");
+			$config = Zend_Registry::get('config');
+			$date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $config->game->tour->inscription->duree_base_cumul);
+			
 			$data = array(
-				"est_soule_braldun" => "non",
-				"soule_camp_braldun" => null,
-				"est_intangible_braldun" => "oui",
-				"est_engage_braldun" => "non",
-				"est_engage_next_dla_braldun" => "non",
 				"x_braldun" => $x_braldun,
 				"y_braldun" => $y_braldun,
 				"z_braldun" => 0,
-				"id_fk_soule_match_braldun" => null,
+				"est_en_sortie_soule_braldun" => 'oui',
+				"est_soule_braldun" => 'non',
+				"est_intangible_braldun" => "oui",
+				"est_engage_braldun" => "non",
+				"est_engage_next_dla_braldun" => "non",
+				"date_fin_tour_braldun" => $date_fin_tour_braldun,
 			);
 
 			$where = "id_braldun = ".$j["id_braldun"];
@@ -389,14 +392,13 @@ class Bral_Util_Soule {
 
 			if ($braldun->id_braldun == $j["id_braldun"]) {
 				$braldun->est_soule_braldun = "non";
-				$braldun->soule_camp_braldun = null;
-				$braldun->est_intangible_braldun = "oui";
-				$braldun->est_engage_braldun = "non";
-				$braldun->est_engage_next_dla_braldun = "non";
 				$braldun->x_braldun = $x_braldun;
 				$braldun->y_braldun = $y_braldun;
 				$braldun->z_braldun = 0;
-				$braldun->id_fk_soule_match_braldun = null;
+				$braldun->est_en_sortie_soule_braldun = "oui";
+				$braldun->est_intangible_braldun = "oui";
+				$braldun->est_engage_braldun = "non";
+				$braldun->est_engage_next_dla_braldun = "non";
 				$braldun->px_perso_braldun = $j["px_perso_braldun"]; // rafraichissement des px perso
 			}
 		}
@@ -441,7 +443,7 @@ class Bral_Util_Soule {
 		}
 		return $match;
 	}
-	
+
 	public static function desincriptionPrepareTerrain($idBraldun) {
 		Zend_Loader::loadClass('SouleMatch');
 		$souleMatchTable = new SouleMatch();
@@ -454,8 +456,8 @@ class Bral_Util_Soule {
 			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: == 0)
 			if ($match["nb_jours_quota_soule_match"] == 0) {
 				$matchRetour = $match;
-			//} else {
-			//	throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
+				//} else {
+				//	throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
 			}
 		}
 		return $matchRetour;
@@ -468,5 +470,44 @@ class Bral_Util_Soule {
 		Zend_Loader::loadClass('SouleEquipe');
 		$souleEquipeTable = new SouleEquipe();
 		$souleEquipeTable->delete($where);
+	}
+
+	// Appelé par Tour.php
+	public static function calculSortieSoule(&$braldun) {
+		$retour = null;
+		if ($braldun->est_en_sortie_soule_braldun == 'oui') {
+			$idMatch = $braldun->id_fk_soule_match_braldun;
+			$camp = $braldun->soule_camp_braldun;
+
+			$braldun->est_en_sortie_soule_braldun = 'non';
+			$braldun->soule_camp_braldun = null;
+				
+			$braldun->id_fk_soule_match_braldun = null;
+
+			Zend_Loader::loadClass("SouleMatch");
+			$souleMatchTable = new SouleMatch();
+			$matchs = $souleMatchTable->findByIdMatch($idMatch);
+
+			if (count($matchs) != 1) {
+				throw new Zend_Exception("calculSortieSoule::Erreur Match:".$idMatch);
+			}
+
+			$match = $matchs[0];
+
+			if ($match["camp_gagnant_soule_match"] == $camp) {
+				$retour["resultat"] = "victoire";
+			} else {
+				$retour["resultat"]  = "defaite";
+			}
+			if ($camp = 'a') {
+				$retour["equipeBraldun"] = $match["nom_equipea_soule_match"];
+				$retour["equipeAdverse"] = $match["nom_equipeb_soule_match"];
+			} else {
+				$retour["equipeBraldun"] = $match["nom_equipeb_soule_match"];
+				$retour["equipeAdverse"] = $match["nom_equipea_soule_match"];
+			}
+		}
+
+		return $retour;
 	}
 }

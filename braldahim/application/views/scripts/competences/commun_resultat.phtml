@@ -12,7 +12,7 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('<?=$this->competence["nom_systeme"]?>_text','<?=$this->competence["nom_systeme"]?>_copie');">
-<? if ($this->reloadInterface == true): ?>
+<? if ($this->reloadInterface == true || $this->finMatchSoule === true): ?>
 	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
 <? else: ?>
 	<? echo Bral_Helper_Fermer::affiche(); ?>

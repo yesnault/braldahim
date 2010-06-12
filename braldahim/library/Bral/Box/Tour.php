@@ -279,6 +279,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
+			
+			Zend_Loader::loadClass("Bral_Util_Soule");
+			$this->view->sortieSoule = Bral_Util_Soule::calculSortieSoule($this->braldun);
 		}
 
 		if ($this->is_update_tour) {
@@ -775,6 +778,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'est_intangible_braldun' => $this->braldun->est_intangible_braldun,
 			'est_intangible_prochaine_braldun' => $this->braldun->est_intangible_prochaine_braldun,
 			'nb_dla_jouees_braldun' => $this->braldun->nb_dla_jouees_braldun,
+			'est_en_sortie_soule_braldun' => $this->braldun->est_en_sortie_soule_braldun,
+			'soule_camp_braldun' => $this->braldun->soule_camp_braldun,
+			'id_fk_soule_match_braldun' => $this->braldun->id_fk_soule_match_braldun,
 		);
 		$where = "id_braldun=".$this->braldun->id_braldun;
 		$braldunTable->update($data, $where);

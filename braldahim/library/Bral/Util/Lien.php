@@ -59,13 +59,13 @@ class Bral_Util_Lien {
 		//$retour .= '$nom = $h->findNomById($matches[1]);';
 		$retour .= '$braldun = $h->findById($matches[1]);';
 		$retour .= '$nom = $braldun["prenom_braldun"]. " ".$braldun["nom_braldun"]. " (".$braldun["id_braldun"].")";';
-		$retour .= ' if ($braldun["est_soule_braldun"] == "oui") {';
-		$retour .= '$equipe = " equipe".$braldun["soule_camp_braldun"];';
-		$retour .= ' }';
+		if ($avecJs) $retour .= ' if ($braldun["est_soule_braldun"] == "oui") {';
+		if ($avecJs) $retour .= '$equipe = " equipe".$braldun["soule_camp_braldun"];';
+		if ($avecJs) $retour .= ' }';
 		
 		if ($avecJs) $retour .= '$retour = "<label class=\'alabel$equipe\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
-		
-		if ($avecJs) $retour .= '$retour .= "$nom</label>";';
+		$retour .= '$retour .= "$nom";';
+		if ($avecJs) $retour .= '$retour .= "</label>";';
 		$retour .= 'return $retour;';
 		return $retour;
 	}
