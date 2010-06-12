@@ -419,6 +419,16 @@ span.id_braldun {
 	padding: 5pt 5px;
 }
 
+.box_warning {
+	width: auto;
+	height: 22px;
+	text-align: center;
+	border-width: 0px;
+	background-color: #FFCC99;
+	color: black;
+	padding: 5pt 0px;
+}
+
 .box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration
 	{
 	width: 70%;

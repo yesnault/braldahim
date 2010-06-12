@@ -155,7 +155,7 @@ function showResponse(originalRequest) {
 					if (i == 2) {
 						if (m_type_valeur == "box_action")
 							display_action = true;
-						else if (m_type_valeur == "informations" && m_data != "")
+						else if (m_type_valeur == "box_informations" && m_data != "")
 							display_informations = true; // affichage de la boite d'informations
 						else if (m_type_valeur == "erreur" && m_data != "") display_erreur = true; // affichage de la boite d'erreur
 						
@@ -173,6 +173,8 @@ function showResponse(originalRequest) {
 								new HTMLTableTools(m_data);
 							} else if (m_type_valeur == "messagerie" && m_data != "") {
 								messagerie(m_data);
+							} else if (m_type_valeur == "warning") {
+								box_warning(m_data);
 							}
 						} else if (m_type == "load_box") {
 							loadBox(m_type_valeur);
@@ -188,7 +190,7 @@ function showResponse(originalRequest) {
 							//alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur);
 							if (m_type_valeur == "box_action") {
 								display_action = true;
-							} else if (m_type_valeur == "informations" && m_data != "") {
+							} else if (m_type_valeur == "box_informations" && m_data != "") {
 								display_informations = true; // affichage de la boite d'informations
 							} else if (m_type_valeur == "erreur" && m_data != "") {
 								display_erreur = true; // affichage de la boite d'erreur
@@ -207,6 +209,8 @@ function showResponse(originalRequest) {
 									new HTMLTableTools(m_data);
 								} else if (m_type_valeur == "messagerie" && m_data != "") {
 									messagerie(m_data);
+								} else if (m_type_valeur == "warning") {
+									box_warning(m_data);
 								}
 							} else if (m_type == "load_box") {
 								loadBox(m_type_valeur);
@@ -224,7 +228,7 @@ function showResponse(originalRequest) {
 
 	// Box informations
 	if (display_informations) {
-		Modalbox.show($("informations"), { title :'Informations', width :600, overlayClose :false });
+		Modalbox.show($("box_informations"), { title :'Informations', width :600, overlayClose :false });
 	}
 
 	// Box erreur
@@ -436,6 +440,11 @@ function ouvHistoR(id) {
 
 function ouvrirWin(url, titre) {
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=815,height=600");
+}
+
+function box_warning(data) {
+	$('box_warning').style.display = "block";
+	$('box_warning').innerHTML = data;
 }
 
 function messagerie(nbMessageNonLu) {

@@ -21,10 +21,10 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
 
 <? if ($this->user && ($this->controleur == "interface")) : ?>
 <div id="box_action" class="box_action" style="display: none"></div>
-	<div id="informations" class="box_informations" style="display: none"></div>
-	<div id="box_chargement" class="box_chargement" style="display: block">
-		<div class="inner" style='background-color: #CC6666'>Chargement en Cours<br />
-	<img src="/public/images/wait.gif" /></div>
+<div id="box_informations" class="box_informations" style="display: none"></div>
+<div id="box_chargement" class="box_chargement" style="display: block">
+	<div class="inner" style='background-color: #CC6666'>Chargement en Cours<br /><img src="/public/images/wait.gif" /></div>
 </div>
+<div id="box_warning" class="box_warning" style="display: none"></div>
 <? endif; ?>
 <? include('headerErreurRacine.phtml'); ?>

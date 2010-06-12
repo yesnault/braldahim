@@ -73,10 +73,11 @@ class InterfaceController extends Zend_Controller_Action {
 			if ($this->_request->action != 'index') {
 				$this->xml_response = new Bral_Xml_Response();
 				$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
+				$warning = $t->getWarningFinTour();
 				if ($t->activer()) {
 					$xml_entry = new Bral_Xml_Entry();
 					$xml_entry->set_type("display");
-					$xml_entry->set_valeur("informations");
+					$xml_entry->set_valeur("box_informations");
 					$xml_entry->set_data($t->render());
 					$this->xml_response->add_entry($xml_entry);
 					unset($xml_entry);
@@ -85,6 +86,13 @@ class InterfaceController extends Zend_Controller_Action {
 					if ($this->_request->action != 'boxes') {
 						$this->refreshAll();
 					}
+				} elseif ($warning != null) {
+					$xml_entry = new Bral_Xml_Entry();
+					$xml_entry->set_type("action");
+					$xml_entry->set_valeur("warning");
+					$xml_entry->set_data($warning);
+					$this->xml_response->add_entry($xml_entry);
+					unset($xml_entry);
 				}
 				unset($t);
 			}

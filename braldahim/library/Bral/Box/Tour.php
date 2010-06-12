@@ -142,6 +142,19 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			return false;
 		}
 	}
+	
+	public function getWarningFinTour() {
+		$retour = null;
+		$date_courante = date("Y-m-d H:i:s");
+		
+		$dateFin = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, '00:30:00');
+		
+		if ($this->braldun->date_fin_tour_braldun < $dateFin && $this->braldun->pa_braldun > 0) {
+			$retour = "Votre tour se termine bientôt et il vous reste ".$this->braldun->pa_braldun." PA à jouer ! ";
+		}
+		
+		return $retour;
+	}
 
 	public function activer() {
 		Bral_Util_Log::tour()->trace(get_class($this)." activer - enter -");
