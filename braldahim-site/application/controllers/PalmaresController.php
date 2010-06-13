@@ -33,6 +33,13 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->prepareCommun();
 		$this->render("index");
 	}
+
+	function chasseursgibierAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesChasseursgibier($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
 	
 	function combattantspveAction() {
 		$this->prepareFiltre();
@@ -176,6 +183,7 @@ class PalmaresController extends Bral_Controller_Box {
 		$selection[] = array("nom" => "Naissances", "url" => "naissance");
 		$selection[] = array("nom" => "Grands Combattants PvE", "url" => "combattantspve");
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
+		$selection[] = array("nom" => "Grands Chasseurs de gibiers", "url" => "chasseursgibier");
 		$selection[] = array("nom" => "KO", "url" => "ko");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
