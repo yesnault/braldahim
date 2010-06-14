@@ -28,7 +28,20 @@
 
 <table width="100%">
 	<tr>
-		<td valign="top"><? include("voir/carte.phtml");?></td>
+		<td valign="top" align="center">
+		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] != null) : ?>
+			<? if ($this->matchEnCours["html_fin_soule_match"] != null) : ?>
+				Photo de fin de match<br><br>
+				<?=$this->matchEnCours["html_fin_soule_match"];?>
+			
+			<? else: ?>
+				Photo de fin de match indisponible.
+			<? endif;?>
+			
+		<? else: ?>
+			<? include("voir/carte.phtml");?>
+		<? endif;?>	
+		</td>
 		<td valign="top"><? include("voir/evenements.phtml");?></td>
 	</tr>
 </table>

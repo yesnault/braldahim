@@ -86,7 +86,7 @@ class Bral_Util_Soule {
 				} else {
 					if ($faireCalculFin === true) {
 						self::calculFinMatchGains($braldun->id_braldun, $view, $joueurs, $match, $braldun->soule_camp_braldun);
-						self::calculFinMatchDb($match, $braldun->soule_camp_braldun);
+						self::calculFinMatchDb($match, $braldun->soule_camp_braldun, $view);
 						self::calculFinMatchJoueursDb($braldun, $joueurs, $match);
 						$braldun->est_soule_braldun = "non";
 						$braldun->soule_camp_braldun = null;
@@ -101,7 +101,49 @@ class Bral_Util_Soule {
 		}
 			
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - exit (".$retourFinMatch.") -");
+
 		return $retourFinMatch;
+	}
+
+	public static function prepareEquipes($matchEnCours, &$view, $niveauSouleTerrain) {
+		$equipes["equipea"] = array('id_equipe' => 'equipeA', 'nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
+		$equipes["equipeb"] = array('id_equipe' => 'equipeB', 'nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
+
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipeTable = new SouleEquipe();
+		if ($matchEnCours != null) {
+			$joueurs = $souleEquipeTable->findByIdMatch($matchEnCours["id_soule_match"]);
+			$equipes["equipea"]["nom_equipe"] = $matchEnCours["nom_equipea_soule_match"];
+			$equipes["equipeb"]["nom_equipe"] = $matchEnCours["nom_equipeb_soule_match"];
+
+			$equipes["equipea"]["px"] = $matchEnCours["px_equipea_soule_match"];
+			$equipes["equipeb"]["px"] = $matchEnCours["px_equipeb_soule_match"];
+
+			$equipes["equipea"]["plaquages"] = 0;
+			$equipes["equipea"]["plaques"] = 0;
+			$equipes["equipeb"]["plaquages"] = 0;
+			$equipes["equipeb"]["plaques"] = 0;
+
+		} else {
+			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($niveauSouleTerrain);
+		}
+
+		if ($joueurs != null && count($joueurs) > 0) {
+			foreach($joueurs as $j) {
+				if ($j["camp_soule_equipe"] == 'a') {
+					$equipes["equipea"]["joueurs"][] = $j;
+					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
+					$equipes["equipea"]["plaques"] = $equipes["equipea"]["plaques"] + $j["nb_plaque_soule_equipe"];
+				} else {
+					$equipes["equipeb"]["joueurs"][] = $j;
+					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
+					$equipes["equipeb"]["plaques"] = $equipes["equipeb"]["plaques"] + $j["nb_plaque_soule_equipe"];
+				}
+			}
+		}
+
+		$view->equipes = $equipes;
+		$view->joueurs = $joueurs;
 	}
 
 	private static function calculFinMatchGains($idBraldunFin, $view, $joueurs, $match, $campGagnant) {
@@ -327,8 +369,11 @@ class Bral_Util_Soule {
 		return $coef;
 	}
 
-	private static function calculFinMatchDb($match, $campGagnant) {
+	private static function calculFinMatchDb($match, $campGagnant, $view) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchDb - enter - matchId(".$match["id_soule_match"].")");
+
+		$htmlFin = self::prepareCarte($match, $view);
+		
 		$souleMatchTable = new SouleMatch();
 		$data = array(
 			"date_fin_soule_match" => date("Y-m-d H:i:s"),
@@ -336,6 +381,7 @@ class Bral_Util_Soule {
 			"x_ballon_soule_match" => null,
 			"y_ballon_soule_match" => null,
 			"camp_gagnant_soule_match" => $campGagnant,
+			"html_fin_soule_match" => $htmlFin,
 		);
 		$where = "id_soule_match = ".(int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
@@ -343,6 +389,23 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchDb - exit -");
 	}
 
+	private static function prepareCarte($match, $view) {
+		self::prepareEquipes($match, $view, $match["niveau_soule_terrain"]);
+		Zend_Loader::loadClass("SouleTerrain");
+		$souleTerrainTable = new SouleTerrain();
+		$terrainRowset = $souleTerrainTable->findByIdTerrain($match["id_fk_terrain_soule_match"]);
+		$view->terrainCourant = $terrainRowset;
+		$view->matchEnCours = $match;
+
+		$idPorteur = $match["id_fk_joueur_ballon_soule_match"];
+		$braldunTable = new Braldun();
+		$braldun = $braldunTable->findById($idPorteur);
+		$porteur = $braldun->toArray();
+		$view->porteur = $porteur;
+
+		return $view->render("soule/voir/carte.phtml");
+	}
+	
 	private static function calculFinMatchJoueursDb($braldun, $joueurs, $match) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchJoueursDb - enter - matchId(".$match["id_soule_match"].")");
 
@@ -374,7 +437,7 @@ class Bral_Util_Soule {
 			$mdate = date("Y-m-d H:i:s");
 			$config = Zend_Registry::get('config');
 			$date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $config->game->tour->inscription->duree_base_cumul);
-			
+				
 			$data = array(
 				"x_braldun" => $x_braldun,
 				"y_braldun" => $y_braldun,
@@ -481,7 +544,7 @@ class Bral_Util_Soule {
 
 			$braldun->est_en_sortie_soule_braldun = 'non';
 			$braldun->soule_camp_braldun = null;
-				
+
 			$braldun->id_fk_soule_match_braldun = null;
 
 			Zend_Loader::loadClass("SouleMatch");

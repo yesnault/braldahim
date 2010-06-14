@@ -24,7 +24,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	public function calculNbPa() {}
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("Bral_Util_Lien");
+		Zend_Loader::loadClass('Bral_Util_Lien');
+		Zend_Loader::loadClass('Bral_Util_Soule');
 		Zend_Loader::loadClass('SouleEquipe');
 		Zend_Loader::loadClass('SouleMatch');
 		Zend_Loader::loadClass('SouleTerrain');
@@ -47,16 +48,17 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$souleMatchTable = new SouleMatch();
 		$matchs = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
 		$this->matchEnCours = null;
-
+		
 		if ($matchs != null) {
 			$this->matchEnCours = $matchs[0];
 		} else if (count($matchs) > 1) {
 			throw new Zend_Exception(" Bral_Soule_Voir - Erreur calcul match en cours. idTerrain:".$this->idTerrainEnCours);
 		}
 		$this->calculInscription();
-		$this->prepareEquipes();
+		Bral_Util_Soule::prepareEquipes($this->matchEnCours, $this->view, $this->view->terrainCourant["niveau_soule_terrain"]);
+		
 		$this->prepareMatch();
-
+		
 		if ($this->matchEnCours != null) {
 			$this->prepareEvenements();
 			$this->prepareMessages();
@@ -72,45 +74,6 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	function getListBoxRefresh() {
 	}
 
-	private function prepareEquipes() {
-		$equipes["equipea"] = array('id_equipe' => 'equipeA', 'nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
-		$equipes["equipeb"] = array('id_equipe' => 'equipeB', 'nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
-
-		$souleEquipeTable = new SouleEquipe();
-		if ($this->matchEnCours != null) {
-			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
-			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
-			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
-
-			$equipes["equipea"]["px"] = $this->matchEnCours["px_equipea_soule_match"];
-			$equipes["equipeb"]["px"] = $this->matchEnCours["px_equipeb_soule_match"];
-
-			$equipes["equipea"]["plaquages"] = 0;
-			$equipes["equipea"]["plaques"] = 0;
-			$equipes["equipeb"]["plaquages"] = 0;
-			$equipes["equipeb"]["plaques"] = 0;
-
-		} else {
-			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($this->view->terrainCourant["niveau_soule_terrain"]);
-		}
-
-		if ($joueurs != null && count($joueurs) > 0) {
-			foreach($joueurs as $j) {
-				if ($j["camp_soule_equipe"] == 'a') {
-					$equipes["equipea"]["joueurs"][] = $j;
-					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
-					$equipes["equipea"]["plaques"] = $equipes["equipea"]["plaques"] + $j["nb_plaque_soule_equipe"];
-				} else {
-					$equipes["equipeb"]["joueurs"][] = $j;
-					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
-					$equipes["equipeb"]["plaques"] = $equipes["equipeb"]["plaques"] + $j["nb_plaque_soule_equipe"];
-				}
-			}
-		}
-
-		$this->view->equipes = $equipes;
-		$this->view->joueurs = $joueurs;
-	}
 
 	private function calculInscription() {
 		$this->view->inscriptionPossible = false;
