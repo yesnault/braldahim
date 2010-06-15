@@ -34,15 +34,14 @@ class SouleTerrain extends Zend_Db_Table {
 		return $result[0];
 	}
 
-	function findByCase($x, $y, $z) {
+	function findByCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_terrain', '*')
 		->where('x_min_soule_terrain <= ?',$x)
 		->where('x_max_soule_terrain >= ?',$x)
 		->where('y_min_soule_terrain <= ?',$y)
-		->where('y_max_soule_terrain >= ?',$y)
-		->where('z_soule_terrain = ?',$z);
+		->where('y_max_soule_terrain >= ?',$y);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

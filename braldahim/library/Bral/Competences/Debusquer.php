@@ -148,7 +148,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		} elseif($this->view->user->est_soule_braldun == 'oui') {
 			Zend_Loader::loadClass("SouleTerrain");
 			$souleTerrainTable = new SouleTerrain();
-			$terrainRowset = $souleTerrainTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			$terrainRowset = $souleTerrainTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun);
 			if (count($terrainRowset) == 1) {
 				$xMin = $terrainRowset[0]["x_min_soule_terrain"] + 1;
 				$xMax = $terrainRowset[0]["x_max_soule_terrain"] - 1;
