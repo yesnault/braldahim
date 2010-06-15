@@ -17,19 +17,17 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
-
+		
+		$hasIdentity = Zend_Auth::getInstance()->hasIdentity();
 		$controleOk = false;
 
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
-		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_braldun)) && ($this->_request->action == 'index')) {
+		} else if ($this->_request->action == 'index' && (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun))) {
 			$this->_redirect('/auth/logout');
-		} else if (!Zend_Auth::getInstance()->hasIdentity()
-		|| ($this->_request->action != 'index' &&
-		$this->view->user->initialCall == false &&
-		$this->_request->get("dateAuth") != $this->view->user->dateAuth)
-		|| !isset($this->view->user) || !isset($this->view->user->email_braldun)) {
-			if (!Zend_Auth::getInstance()->hasIdentity() ) {
+		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
+			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
+			if (!$hasIdentity) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
 			} else {
 				$texte = "braldun:inconnu";
