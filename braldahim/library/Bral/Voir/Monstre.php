@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -32,19 +32,26 @@ class Bral_Voir_Monstre {
 	function render() {
 		$this->view->connu = false;
 		$this->view->monstre = null;
-		
+
 		$monstreTable = new Monstre();
-		$monstreRowset = $monstreTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("monstre")));
+
+		$idMonstre = Bral_Util_Controle::getValeurIntVerifSansException($this->_request->get("monstre"));
+		$monstreRowset = null;
+		
+		if ($idMonstre != null) {
+			$monstreRowset = $monstreTable->findById($idMonstre);
+		}
+		
 		if ($monstreRowset != null) {
 			$this->view->monstre = $monstreRowset;
 			$this->view->connu = true;
 		} else {
 			$monstre = null;
 		}
-		
+
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null) {
 			return $this->renderEvenements();
-		} else { 
+		} else {
 			if ($this->_request->get("direct") == "evenements") {
 				$flux = $this->renderEvenements();
 			} else {
@@ -54,10 +61,10 @@ class Bral_Voir_Monstre {
 			return $this->view->render("voir/monstre.phtml");
 		}
 	}
-	
+
 	function renderEvenements() {
 		$this->preparePage();
-		
+
 		$suivantOk = false;
 		$precedentOk = false;
 		$tabEvenements = null;
@@ -79,38 +86,38 @@ class Bral_Voir_Monstre {
 		$tabTypeEvenements[] = array(
 			"id_type_evenement" => -1,
 			"nom" => "(Tous)"
-		);
-		foreach ($typeEvenements as $t) {
-			$tabTypeEvenements[] = array(
+			);
+			foreach ($typeEvenements as $t) {
+				$tabTypeEvenements[] = array(
 			"id_type_evenement" => $t->id_type_evenement,
 			"nom" => $t->nom_type_evenement
-			);
-		}
+				);
+			}
 
-		if ($this->_page == 1) {
-			$precedentOk = false;
-		} else {
-			$precedentOk = true;
-		}
+			if ($this->_page == 1) {
+				$precedentOk = false;
+			} else {
+				$precedentOk = true;
+			}
 
-		if (count($tabEvenements) == 0 || count($tabEvenements) < $this->_nbMax) {
-			$suivantOk = false;
-		} else {
-			$suivantOk = true;
-		}
+			if (count($tabEvenements) == 0 || count($tabEvenements) < $this->_nbMax) {
+				$suivantOk = false;
+			} else {
+				$suivantOk = true;
+			}
 
-		$this->view->precedentOk = $precedentOk;
-		$this->view->suivantOk = $suivantOk;
-		$this->view->evenements = $tabEvenements;
-		$this->view->typeEvenements = $tabTypeEvenements;
-		$this->view->nbEvenements = count($this->view->evenements);
-		
-		$this->view->nom_interne = $this->getNomInterne();
-		$this->view->page = $this->_page;
-		$this->view->filtre = $this->_filtre;
-		return $this->view->render("voir/monstre/evenements.phtml");
+			$this->view->precedentOk = $precedentOk;
+			$this->view->suivantOk = $suivantOk;
+			$this->view->evenements = $tabEvenements;
+			$this->view->typeEvenements = $tabTypeEvenements;
+			$this->view->nbEvenements = count($this->view->evenements);
+
+			$this->view->nom_interne = $this->getNomInterne();
+			$this->view->page = $this->_page;
+			$this->view->filtre = $this->_filtre;
+			return $this->view->render("voir/monstre/evenements.phtml");
 	}
-	
+
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "ask_voir_monstre") && ($this->_request->get("valeur_1") == "f")) {
