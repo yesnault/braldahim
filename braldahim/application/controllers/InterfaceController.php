@@ -17,14 +17,16 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
-		
+	}
+	
+	function preDispatch() {
 		$hasIdentity = Zend_Auth::getInstance()->hasIdentity();
 		$controleOk = false;
 
 		if ($this->view->config->general->actif != 1) {
-			$this->_redirect('/auth/logoutajax');
+			$this->_forward('logoutajax', 'auth');
 		} else if ($this->_request->action == 'index' && (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun))) {
-			$this->_redirect('/auth/logout');
+			$this->_forward('logout', 'auth');
 		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
 			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
 			if (!$hasIdentity) {
@@ -37,7 +39,7 @@ class InterfaceController extends Zend_Controller_Action {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B ".$texte." action=".$this->_request->action. " uri=".$this->_request->getRequestUri()." initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
 			}
 
-			$this->_redirect('/auth/logoutajax');
+			$this->_forward('logoutajax', 'auth');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
@@ -48,9 +50,9 @@ class InterfaceController extends Zend_Controller_Action {
 				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 ".$texte);
 				if ($this->_request->action == 'index') {
-					$this->_redirect('/auth/logout');
+					$this->_forward('logout', 'auth');
 				} else {
-					$this->_redirect('/auth/logoutajax');
+					$this->_forward('logoutajax', 'auth');
 				}
 			} else {
 				$controleOk = true;

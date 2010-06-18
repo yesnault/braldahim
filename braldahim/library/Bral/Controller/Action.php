@@ -16,11 +16,14 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+	}
+	
+	function preDispatch() {
 
 		if ($this->view->config->general->actif != 1) {
-			$this->_redirect('/auth/logoutajax');
+			$this->_forward('logoutajax', 'auth');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
-			$this->_redirect('/auth/logoutajax');
+			$this->_forward('logoutajax', 'auth');
 		} else if (!Zend_Auth::getInstance()->hasIdentity()
 		|| ($this->_request->action != 'index' &&
 		$this->view->user->initialCall == false &&
@@ -36,7 +39,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B ".$texte." action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
 			}
 
-			$this->_redirect('/auth/logoutajax');
+			$this->_forward('logoutajax', 'auth');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
@@ -46,7 +49,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				}
 				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
-				$this->_redirect('/auth/logoutajax');
+				$this->_forward('logoutajax', 'auth');
 			}
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
