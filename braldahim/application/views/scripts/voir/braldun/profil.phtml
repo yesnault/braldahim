@@ -83,6 +83,8 @@
 		<? else: ?>
 			Aucun Titre
 		<? endif;?>
+	<? elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
+		-
 	<? else : ?>
 		<? $liste = "Aucun Titre";?>
 	  	<? if ($this->tabTitres != null && count($this->tabTitres) >= 1): ?>
@@ -115,6 +117,8 @@
 		<? else: ?>
 			Aucun m&eacute;tier
 		<? endif;?>
+	<? elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
+		-
 	<? elseif (!$this->possedeMetier): ?>
 	   	Aucun m&eacute;tier
 	<? else : ?>

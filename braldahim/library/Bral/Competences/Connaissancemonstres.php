@@ -91,17 +91,22 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 				}
 			}
 		}
+		
+		$this->view->monstreVisible = true;
+		
 		if ($cdmMonstre === false) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
-		}
+			$this->view->monstreVisible = false;
+		} else {
 
-		$this->calculJets();
-		if ($this->view->okJet1 === true) {
-			$this->calculCDM($idMonstre, $dist);
+			$this->calculJets();
+			if ($this->view->okJet1 === true) {
+				$this->calculCDM($idMonstre, $dist);
+			}
+			$this->calculPx();
+			$this->calculBalanceFaim();
+			$this->majBraldun();
 		}
-		$this->calculPx();
-		$this->calculBalanceFaim();
-		$this->majBraldun();
 	}
 
 	private function calculCDM($idMonstre, $dist_monstre) {
