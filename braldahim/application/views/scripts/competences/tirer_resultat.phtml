@@ -46,8 +46,12 @@
 	 				ainsi que <?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?><? endif;?>.
 	 				<br /><br />
 	 			<? elseif ($this->retourAttaque["gains"]["gainCastars"] > 0) : ?>
-	 				<?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1) : echo "s"; endif;?>
-	 				sont tomb&eacute;s &agrave; terre.<br /><br />
+	 				<?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1) : 
+ 								echo "s sont tomb&eacute;s"; 
+		 					else:	
+		 						echo " est tomb&eacute;";
+		 				endif;?>
+		 				 &agrave; terre.<br /><br />
  				<? endif;?>
  			<? endif;?>
 	 	<? endif; ?>

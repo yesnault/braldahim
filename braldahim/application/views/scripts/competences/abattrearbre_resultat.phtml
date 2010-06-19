@@ -9,7 +9,13 @@
 			&agrave; cause de vos malus importants en Vigueur.<br>
 	<? else: ?>
 		Vous avez abattu un arbre.<br /> 
-		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
+		Vous avez 
+		<? if ($this->arrivee == 3) : ?>
+			déposé
+		<? else: ?>
+			r&eacute;cup&eacute;r&eacute;
+		<? endif;?>
+		<?=$this->nbRondins ?> 
 		rondin<?=$s ?>
 	<? endif; ?>
 	<? if ($this->arrivee == 1 && $this->nbRondinsATerre == 0) : ?>
