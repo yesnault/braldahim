@@ -47,6 +47,9 @@
 		   			<? endif;?>
 		   			
 		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
+		   			<? if ($this->possedeSabot) : ?>
+		   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
+		   			<? endif;?>
 		   		</td>
 		   		<td align="left" valign="top">
 		   			<ul class="titre textalic textsized">Am&eacute;liorations</ul>

@@ -97,6 +97,10 @@ class Bral_Util_Charrette {
 	public static function possedeCaleFrein($idCharrette) {
 		return self::possedeElement($idCharrette, "cale_frein");
 	}
+	
+	public static function possedeSabot($idCharrette) {
+		return self::possedeElement($idCharrette, "sabot");
+	}
 
 	public static function possedePanneauAmovible($idCharrette) {
 		return self::possedeElement($idCharrette, "panneau_amovible");

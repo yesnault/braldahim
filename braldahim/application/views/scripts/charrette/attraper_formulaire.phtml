@@ -1,5 +1,5 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='6'>
  <div class='comp_contenu'>
  	<? if ($this->possedeCharrette === true) : ?>
 	 	Vous avez d&eacute;j&agrave; une charrette, vous ne pouvez pas en attraper une autre...
@@ -12,7 +12,13 @@
 		 <select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_attrapercharrette').disabled=true } else {$('bouton_attrapercharrette').disabled=false }">
 			<option value='-1'>(Choisissez une charrette)</option>
 			<? foreach ($this->charrettes as $c) : ?>
-			<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false):?> disabled<? endif;?>><?=$c["nom"]?> n&deg; <?=$c["id_charrette"]?>
+			<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false):?> disabled<? endif;?>><?=$c["nom"]?> n&deg; <?=$c["id_charrette"]?> 
+			<? if ($c["possede_sabot"] == true):?>
+				avec Sabot	
+			<? else:?>
+				sans Sabot
+			<? endif;?>
+		
 			<? if ($c["possible"] == false):?>
 			Impossible: <?=$c["detail"] ?>
 			<? endif;?>
@@ -20,6 +26,34 @@
 			<? endforeach; ?>
 			</select><br /><br />
 			<input type="hidden" name="valeur_2" id="valeur_2" value="<?=$this->provenance?>">
+			
+			Si la charrette possède un sabot, entrez le code du sabot pour pouvoir l'attraper.
+			<br />
+			Sabot : 
+			<select id='valeur_3' name='valeur_3'>
+			<? foreach ($this->chiffres as $c): ?>
+			<option value='<?=$c?>'><?=$c?></option>
+			<? endforeach; ?>
+			</select>
+			
+			<select id='valeur_4' name='valeur_4'>
+			<? foreach ($this->chiffres as $c): ?>
+			<option value='<?=$c?>'><?=$c?></option>
+			<? endforeach; ?>
+			</select>
+			
+			<select id='valeur_5' name='valeur_5'>
+			<? foreach ($this->chiffres as $c): ?>
+			<option value='<?=$c?>'><?=$c?></option>
+			<? endforeach; ?>
+			</select>
+			
+			<select id='valeur_6' name='valeur_6'>
+			<? foreach ($this->chiffres as $c): ?>
+			<option value='<?=$c?>'><?=$c?></option>
+			<? endforeach; ?>
+			</select>
+			
 	 <? endif; ?>
 	 <br />
 </div>

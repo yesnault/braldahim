@@ -85,20 +85,32 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 				$possible = $tab["possible"];
 				$detail = $tab["detail"];
 
+				$possedeSabot = false;
+				if (Bral_Util_Charrette::possedeSabot($c[$nomIdCharrette])) {
+					$possedeSabot = true;
+				}
+
 				$tabCharrettes[] = array (
 					"id_charrette" => $c[$nomIdCharrette],
 					"nom" => $c["nom_type_materiel"], 
 					"possible" => $possible, 
 					"detail" => $detail, 
 					"provenance" => $typeProvenance,
+					"possede_sabot" => $possedeSabot,
 					"id_type_materiel" => $c["id_type_materiel"],
 					"durabilite_type_materiel" => $c["durabilite_type_materiel"],
 					"capacite_type_materiel" => $c["capacite_type_materiel"],
+					"sabot_1_charrette" => $c["sabot_1_charrette"],
+					"sabot_2_charrette" => $c["sabot_2_charrette"],
+					"sabot_3_charrette" => $c["sabot_3_charrette"],
+					"sabot_4_charrette" => $c["sabot_4_charrette"],
 				);
 			}
 		}
 		$this->view->charrettes = $tabCharrettes;
 		$this->view->provenance = $provenance;
+		$tabChiffres = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		$this->view->chiffres = $tabChiffres;
 	}
 
 	function prepareFormulaire() {
@@ -134,16 +146,40 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			throw new Zend_Exception(get_class($this)." Charrette invalide idh:".$this->view->user->pa_braldun. " ihc:".$this->view->idCharrette);
 		}
 
-		$this->calculAttrapperCharrette($charrette);
-		$this->calculBalanceFaim();
+		$sabotOk = false;
 
-		$id_type = $this->view->config->game->evenements->type->ramasser;
-		$details = "[b".$this->view->user->id_braldun."] a attrapé une charrette";
-		$this->setDetailsEvenement($details, $id_type);
+		if ($charrette["possede_sabot"] == true) {
+			$chiffre_1 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+			$chiffre_2 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+			$chiffre_3 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
+			$chiffre_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
+				
+			if ($charrette["sabot_1_charrette"] == $chiffre_1 &&
+			$charrette["sabot_2_charrette"] == $chiffre_2 &&
+			$charrette["sabot_3_charrette"] == $chiffre_3 &&
+			$charrette["sabot_4_charrette"] == $chiffre_4) {
+				$sabotOk = true;
+			}
+		} else {
+			$sabotOk = true;
+		}
 
-		$details = "[b".$this->view->user->id_braldun."] a attrapé la charrette n°".$charrette["id_charrette"];
-		Zend_Loader::loadClass("Bral_Util_Materiel");
-		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
+		if ($sabotOk == true) {
+			$this->calculAttrapperCharrette($charrette);
+			$this->calculBalanceFaim();
+
+			$id_type = $this->view->config->game->evenements->type->ramasser;
+			$details = "[b".$this->view->user->id_braldun."] a attrapé une charrette";
+			$this->setDetailsEvenement($details, $id_type);
+
+			$details = "[b".$this->view->user->id_braldun."] a attrapé la charrette n°".$charrette["id_charrette"];
+			Zend_Loader::loadClass("Bral_Util_Materiel");
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
+		} else {
+			$this->setEstEvenementAuto(false);
+		}
+		
+		$this->view->sabotOk = $sabotOk;
 	}
 
 	private function calculAttrapperCharrette($charrette) {
@@ -162,12 +198,12 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$charretteTable->update($dataUpdate, $where);
 		} else if ($this->view->provenance == "echoppe") {
 			$dataUpdate["id_charrette"] = $charrette["id_charrette"];
-				
+
 			$dataUpdate["durabilite_max_charrette"] = $charrette["durabilite_type_materiel"];
 			$dataUpdate["durabilite_actuelle_charrette"] = $charrette["durabilite_type_materiel"];
 			$dataUpdate["poids_transportable_charrette"] = $charrette["capacite_type_materiel"];
 			$dataUpdate["poids_transporte_charrette"] = 0;
-				
+
 			$where = "id_charrette = ".$charrette["id_charrette"];
 			$charretteTable->insert($dataUpdate);
 

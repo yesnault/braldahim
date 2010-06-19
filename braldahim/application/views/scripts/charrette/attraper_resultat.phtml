@@ -1,2 +1,8 @@
 <? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->sabotOk) : ?>
 Vous avez attrap&eacute; la charrette n&deg; <?=$this->idCharrette ?>.
+
+<? else: ?>
+Vous n'avez pas attrapé la charrette, le code sabot n'est pas correct.
+<? endif;?>

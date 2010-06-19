@@ -44,6 +44,12 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				$this->view->pocheNom = "Case";
 				$this->view->pocheNomSysteme = "Charrette";
 				$this->view->nb_castars = $this->view->charrette["nb_castar"];
+				
+				Zend_Loader::loadClass("Bral_Util_Charrette");
+				$this->view->possedeSabot = false;
+				if (Bral_Util_Charrette::possedeSabot($this->view->charrette["id_charrette"])) {
+					$this->view->possedeSabot = true;
+				}
 			} else {
 				$this->view->possedeCharrette = false;
 			}
