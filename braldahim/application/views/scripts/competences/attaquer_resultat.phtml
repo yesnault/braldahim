@@ -1,4 +1,8 @@
-<? include("commun_text_resultat.phtml") ?>
+<? if ($this->cibleVisible == false) : ?>
+	La cible a disparu, elle ne fait pas partie de votre vue.<br>
+	
+<? else: ?>
+ <? include("commun_text_resultat.phtml") ?>
  Vous avez attaqu&eacute; <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br /><br />
  Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
  Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
@@ -64,4 +68,5 @@
  	parfaitement.
  	<? endif; ?>
  <? endif; ?>
+<? endif; ?>
 <? include("commun_text_effets.phtml") ?>

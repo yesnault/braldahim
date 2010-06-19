@@ -1,4 +1,10 @@
- <? include("commun_text_resultat.phtml") ?>
+ <? if ($this->cibleVisible == false) : ?>
+	Aucune cible sur votre case.<br>
+	
+<? else: ?>
+
+	<? include("commun_text_resultat.phtml") ?>
+
  	<? if ($this->okJet1 === true): ?>
  	
 		Vous avez attaqu&eacute; avec fr&eacute;n&eacute;sie :<br /> 
@@ -76,4 +82,5 @@
 	<? else: ?>
 		Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br />
 	<? endif; ?>
+<? endif;?>
 <? include("commun_text_effets.phtml") ?>

@@ -1,4 +1,8 @@
-<? include("commun_text_resultat.phtml") ?>
+<? if ($this->cibleVisible == false) : ?>
+	La cible a disparu, elle ne fait pas partie de votre vue.<br>
+	
+<? else: ?>
+	<? include("commun_text_resultat.phtml") ?>
 	<? if ($this->okJet1 === true): ?>
 		 Vous avez charg&eacute; <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) 
 		 <br /> et vous &ecirc;tes arriv&eacute; en x:<?=$this->retourAttaque["cible"]["x_cible"]?> y:<?=$this->retourAttaque["cible"]["y_cible"]?><br /><br />
@@ -70,4 +74,5 @@
 	<? else: ?>
 		Vous avez manqu&eacute; votre charge.<br />
 	<? endif; ?>
+<? endif;?>
 <? include("commun_text_effets.phtml") ?>

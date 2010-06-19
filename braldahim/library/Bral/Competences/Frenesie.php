@@ -91,6 +91,12 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
+		$this->view->cibleVisible = true;
+		if ($this->view->nBralduns == 0 && $this->view->nMonstres == 0) {
+			$this->view->cibleVisible = false;
+			return;
+		}
+		
 		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false && 
 		($this->view->nBralduns > 0 || $this->view->nMonstres > 0)  && $this->view->user->est_intangible_braldun == 'non') {
 			// OK

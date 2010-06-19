@@ -159,6 +159,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 		$attaqueMonstre = false;
 		$attaqueBraldun = false;
+		$this->view->cibleVisible == false;
+
 		if ($idBraldun != -1) {
 			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
 				foreach ($this->view->tabBralduns as $h) {
@@ -172,7 +174,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				}
 			}
 			if ($attaqueBraldun === false) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
+				$this->view->cibleVisible = false;
+			} else {
+				$this->view->cibleVisible = true;
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
@@ -187,23 +191,27 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				}
 			}
 			if ($attaqueMonstre === false) {
-				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
+				$this->view->cibleVisible = false;
+			} else {
+				$this->view->cibleVisible = true;
 			}
 		}
 
-		if ($attaqueBraldun === true) {
-			$this->calculTirer($idBraldun,"braldun");
-		} elseif ($attaqueMonstre === true) {
-			$this->calculTirer($idMonstre,"monstre");
-		} else {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue");
-		}
+		if ($this->view->cibleVisible == true) {
+			if ($attaqueBraldun === true) {
+				$this->calculTirer($idBraldun,"braldun");
+			} elseif ($attaqueMonstre === true) {
+				$this->calculTirer($idMonstre,"monstre");
+			} else {
+				throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			}
 
-		$this->setEvenementQueSurOkJet1(false);
-		$this->calculPx();
-		$this->calculBalanceFaim();
-		$this->calculPoids();
-		$this->majBraldun();
+			$this->setEvenementQueSurOkJet1(false);
+			$this->calculPx();
+			$this->calculBalanceFaim();
+			$this->calculPoids();
+			$this->majBraldun();
+		}
 	}
 
 	/*

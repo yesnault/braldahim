@@ -1,4 +1,8 @@
-<? include("commun_text_resultat.phtml") ?>
+<? if ($this->cibleVisible == false) : ?>
+	La cible a disparu, elle ne fait pas partie de votre vue.<br>
+	
+<? else: ?>
+	<? include("commun_text_resultat.phtml") ?>
 	<? if ($this->okJet1 === true): ?>
 		Vous avez tir&eacute; sur <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
 		
@@ -56,4 +60,5 @@
 	<? else: ?>
 		Vous avez manqu&eacute; votre tir !<br />
 	<? endif; ?>
+<? endif;?>
 <? include("commun_text_effets.phtml") ?>
