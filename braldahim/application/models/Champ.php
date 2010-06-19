@@ -134,4 +134,19 @@ class Champ extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function selectPourPurgeOuPrevention($date, $strict = false) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ', '*')
+		->from('braldun', array('nom_braldun', 'prenom_braldun', 'sexe_braldun', 'id_braldun'))
+		->where('braldun.id_braldun = champ.id_fk_braldun_champ');
+		if ($strict) {
+			$select->where('date_utilisation_champ = ?', $date);
+		} else {
+			$select->where('date_utilisation_champ <= ?', $date);
+		}
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }

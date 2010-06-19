@@ -194,6 +194,8 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			$quantite = $quantite - ($quantite * 5 / 100); // -5%
 		}
 
+		$dateUtilisation = date("Y-m-d 00:00:00");
+		
 		$champTable = new Champ();
 		$data = array(
 			'phase_champ' => 'seme',
@@ -203,6 +205,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			'date_fin_seme_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 21),
 			'date_fin_recolte_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 26),
 			'quantite_champ' => $quantite,
+			'date_utilisation_champ' => $dateUtilisation,
 		);
 
 		$where = 'id_champ='.$this->champ["id_champ"];
