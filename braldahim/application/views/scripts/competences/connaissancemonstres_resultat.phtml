@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
 <? if ($this->monstreVisible == false) : ?>
-	Le monstre a disparu, il ne fait pas partie de votre vue.
-<? if ($this->okJet1 === true): ?>
+	Le monstre a disparu, il ne fait pas partie de votre vue.<br>
+<? elseif ($this->okJet1 === true): ?>
 	Le monstre <?=$this->tabCDM['nom_monstre'] ?> <?=$this->tabCDM["taille_monstre"]?> (<?=$this->tabCDM['id_monstre'] ?>) a les caract&eacute;ristiques suivantes :<br /><br />
 	
 	Niveau : entre <?=$this->tabCDM['min_niveau_monstre'] ?> et <?=$this->tabCDM['max_niveau_monstre'] ?><br />

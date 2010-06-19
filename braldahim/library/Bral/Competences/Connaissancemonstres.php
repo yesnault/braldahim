@@ -95,7 +95,6 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$this->view->monstreVisible = true;
 		
 		if ($cdmMonstre === false) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			$this->view->monstreVisible = false;
 		} else {
 
