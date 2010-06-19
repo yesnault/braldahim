@@ -17,7 +17,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 	}
-	
+
 	function preDispatch() {
 
 		if ($this->view->config->general->actif != 1) {
@@ -50,20 +50,28 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
 				$this->_forward('logoutajax', 'auth');
+			} else {
+				$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
 			}
 		}
-		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-		$this->xml_response = new Bral_Xml_Response();
+		
+		if ($this->view->user == null) {
+			$texte = " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
+			Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
+			$this->_forward('logoutajax', 'auth');
+		} else {
+			$this->xml_response = new Bral_Xml_Response();
 
-		$this->modification_tour = false;
-		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
-		if ($t->modificationTour()) {
-			$xml_entry = new Bral_Xml_Entry();
-			$xml_entry->set_type("action");
-			$xml_entry->set_valeur("goto");
-			$xml_entry->set_data("/interface/");
-			$this->xml_response->add_entry($xml_entry);
-			$this->modification_tour = true;
+			$this->modification_tour = false;
+			$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
+			if ($t->modificationTour()) {
+				$xml_entry = new Bral_Xml_Entry();
+				$xml_entry->set_type("action");
+				$xml_entry->set_valeur("goto");
+				$xml_entry->set_data("/interface/");
+				$this->xml_response->add_entry($xml_entry);
+				$this->modification_tour = true;
+			}
 		}
 	}
 

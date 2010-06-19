@@ -18,7 +18,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 	}
-	
+
 	function preDispatch() {
 		$hasIdentity = Zend_Auth::getInstance()->hasIdentity();
 		$controleOk = false;
@@ -28,7 +28,7 @@ class InterfaceController extends Zend_Controller_Action {
 		} else if ($this->_request->action == 'index' && (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun))) {
 			$this->_forward('logout', 'auth');
 		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
-			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
+		|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
 			if (!$hasIdentity) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
 			} else {
@@ -62,6 +62,13 @@ class InterfaceController extends Zend_Controller_Action {
 		if ($controleOk === true) {
 
 			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
+			if ($this->view->user == null) { // dernier contrôle
+				$texte = " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
+				$this->_forward('logoutajax', 'auth');
+				return;
+			}
+			
 			if ($this->view->user->est_charte_validee_braldun == "non") {
 				$this->_redirect('/charte');
 			}
