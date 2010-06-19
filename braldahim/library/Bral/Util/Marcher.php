@@ -18,7 +18,8 @@ class Bral_Util_Marcher {
 	function calcul($braldun, $selection = null, $construireRoute = false) {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Route');
-		Zend_Loader::loadClass("Bosquet");
+		Zend_Loader::loadClass('Bosquet');
+		Zend_Loader::loadClass('Eau');
 
 		$retour["environnement"] = null;
 		$retour["nb_cases"] = null;
@@ -32,6 +33,7 @@ class Bral_Util_Marcher {
 		$retour["tableauValidationXY"] = null;
 		$retour["estEngage"] = false;
 		$retour["estSurRoute"] = false;
+		$retour["estSurEau"] = false;
 
 		$retour["x_min"] = null;
 		$retour["x_max"] = null;
@@ -71,10 +73,17 @@ class Bral_Util_Marcher {
 			$retour["estEngage"] = true;
 		}
 
+		$eauTable = new Eau();
+		$eaux = $eauTable->findByCase($braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
+
+		if (count($eaux) == 1) {
+			$retour["estSurEau"] = true;
+		}
+
 		/*
 		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
-		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute);
+		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute, $retour["estSurEau"]);
 		$retour["nb_cases"] = $this->nb_cases;
 		$retour["effetMot"] = $this->effetMot;
 		$retour["nb_pa"] = $this->nb_pa;
@@ -188,7 +197,7 @@ class Bral_Util_Marcher {
 	 * Montagneux : 2 PA pour 1 case
 	 * Caverneux : 1 PA pour 1 case
 	 */
-	public function calculNbPa($braldun, $nom_systeme_environnement, $estSurRoute, $construireRoute) {
+	private function calculNbPa($braldun, $nom_systeme_environnement, $estSurRoute, $construireRoute, $estSurEau) {
 		$this->effetMot = false;
 
 		switch($nom_systeme_environnement) {
@@ -236,6 +245,23 @@ class Bral_Util_Marcher {
 			$this->nb_cases = 3;
 			$this->nb_pa = 1;
 		}
+		
+		if ($estSurEau) {
+			// 2 PA + 1 Pa si charrette + 1 PA/tranche de 10Kg porté (équipé +laban)
+			Zend_Loader::loadClass("Charrette");
+			$charretteTable = new Charrette();
+			$this->nb_cases = 1;
+			$this->nb_pa = 2;
+			$nombre = $charretteTable->countByIdBraldun($braldun->id_braldun);
+			if ($nombre > 0) {
+				$this->nb_pa = $this->nb_pa + 1;
+			}
+			
+			$n = intval($braldun->poids_transporte_braldun / 10);
+			if ($n > 0) {
+				$this->nb_pa = $this->nb_pa + $n;
+			}
+		}
 
 		if ($braldun->est_engage_braldun == "oui") {
 			$this->nb_cases = 1;
@@ -250,7 +276,7 @@ class Bral_Util_Marcher {
 		if ($braldun->bm_marcher_braldun != 0) {
 			$this->nb_pa = $this->nb_pa - $braldun->bm_marcher_braldun;
 		}
-		
+
 		if ($braldun->pa_braldun - $this->nb_pa < 0) {
 			return false;
 		} else {
