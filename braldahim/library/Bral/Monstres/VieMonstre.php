@@ -301,6 +301,9 @@ class Bral_Monstres_VieMonstre {
 		$date_courante = date("Y-m-d H:i:s");
 		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) { // nouveau tour
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") nouveau tour");
+				
+			$this->calculDureeProchainTour();
+				
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") date_fin_tour_monstre avant calcul:".$this->monstre["date_fin_tour_monstre"]. " duree prochain:".$this->monstre["duree_prochain_tour_monstre"]);
@@ -345,6 +348,17 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour (idm:".$this->monstre["id_monstre"].") - exit");
+	}
+
+	private function calculDureeProchainTour() {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDureeProchainTour (idm:".$this->monstre["id_monstre"].") - enter");
+		if ($this->monstre["pv_restant_monstre"] < $this->monstre["pv_max_monstre"]) {
+			$nbMin = floor(Bral_Util_ConvertDate::getMinuteFromHeure($this->monstre["duree_prochain_tour_monstre"]) / (4 * $this->monstre["pv_max_monstre"])) * ($this->monstre["pv_max_monstre"] - $this->monstre["pv_restant_monstre"]);
+			$total = $nbMin + Bral_Util_ConvertDate::getMinuteFromHeure($this->monstre["duree_prochain_tour_monstre"]);
+			$this->monstre["duree_prochain_tour_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($total);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDureeProchainTour (idm:".$this->monstre["id_monstre"].") minutesadd:$nbMin total:$total -> ".$this->monstre["duree_prochain_tour_monstre"]." exit");
+		}
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDureeProchainTour (idm:".$this->monstre["id_monstre"].") - exit");
 	}
 
 	private function calulRegeneration() {

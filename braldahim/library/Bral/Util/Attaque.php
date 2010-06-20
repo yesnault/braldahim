@@ -646,6 +646,8 @@ class Bral_Util_Attaque {
 				$where = "id_monstre=".$cible["id_cible"];
 				$monstreTable = new Monstre();
 				$monstreTable->update($data, $where);
+				
+				// malus sur la durée du tour
 			}
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) { // esquive normale
 			// En cas d'esquive : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
