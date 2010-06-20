@@ -47,6 +47,11 @@ class Bral_Util_BBParser {
 		// color
 		$string = preg_replace("%\[color=(.*?)\](.*?)\[/color\]%si","<span style=\"color: \\1\">\\2</span>",$string);
 		
+		$string = preg_replace("/(\[center\])(.*?)(\[\/center\])/si","<center>\\2</center>",$string);
+		$string = preg_replace("/(\[justify\])(.*?)(\[\/justify\])/si","<p style=\"text-align: justify\">\\2</p>",$string);
+		$string = preg_replace("/(\[left\])(.*?)(\[\/left\])/si","<p style=\"text-align: left\">\\2</p>",$string);
+		$string = preg_replace("/(\[right\])(.*?)(\[\/right\])/si","<p style=\"text-align: right\">\\2</p>",$string);
+				
 		while (substr_count($string,"<span") > substr_count($string,"</span>")) {
 			$string.="</span>";
 		}

@@ -40,8 +40,11 @@
 		$('bouton_description').style.display='block'; 
 		 this.style.display='none' ;
 		"/>
+	</center>
 		
-  <div id="label_description">
+  <div id="label_description" style="text-align:left; padding-left:30px">
+<br><br>  
+  
   <?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><? if (mb_strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
   </div>
   
@@ -58,5 +61,5 @@
 		  $('valeur_3').value = encodePlus($('valeur_description').value);
 		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
 	</div>
-</center>
+
 <? endif; ?>

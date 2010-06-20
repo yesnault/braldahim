@@ -42,11 +42,16 @@ class Bral_Util_BBParser {
 		$string = preg_replace("/(\[i\])(.*?)(\[\/i\])/si","<span style=\"font-style: italic\">\\2</span>",$string);
 		
 		// size Max size is 7
-		$string = preg_replace("/\[size=([1-7])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
+		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
 		
 		// color
 		$string = preg_replace("%\[color=(.*?)\](.*?)\[/color\]%si","<span style=\"color: \\1\">\\2</span>",$string);
 		
+		$string = preg_replace("/(\[center\])(.*?)(\[\/center\])/si","<center>\\2</center>",$string);
+		$string = preg_replace("/(\[justify\])(.*?)(\[\/justify\])/si","<p style=\"text-align: justify\">\\2</p>",$string);
+		$string = preg_replace("/(\[left\])(.*?)(\[\/left\])/si","<p style=\"text-align: left\">\\2</p>",$string);
+		$string = preg_replace("/(\[right\])(.*?)(\[\/right\])/si","<p style=\"text-align: right\">\\2</p>",$string);
+				
 		while (substr_count($string,"<span") > substr_count($string,"</span>")) {
 			$string.="</span>";
 		}
@@ -114,6 +119,10 @@ class Bral_Util_BBParser {
         $string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);	
 		
        	$string = nl2br($string);
+       	
+       	// Rajout Yvo
+		$string = self::bbcodeStripPlus($string);
+		
         return stripslashes(self::smileReplace($string));
 	}
 	
