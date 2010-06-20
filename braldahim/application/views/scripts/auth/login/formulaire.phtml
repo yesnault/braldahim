@@ -1,8 +1,10 @@
 <div class="box_authentification">
 <div class="inner">
 	<ul class="titre textalic textsizee" style="font-style: italic ;"><?=Bral_Helper_Calendrier::affiche(true);?></ul>
-    <ul class="titre textalia textsizea">Braldahim</ul>
+    <ul class="titre textalia textsizea">Braldahim<? if ($this->estMobile) : ?> Mobile<? endif;?></ul>
+    <? if (!$this->estMobile) : ?>
     <ul class="titre textalib textsizeb">Connexion</ul>
+    <? endif;?>
 	<?php if(!empty($this->message)) :?> 
 	<div class="message_erreur" id="message_erreur"> 
 	<?php echo $this->escape($this->message);?> 
@@ -20,12 +22,15 @@
 				Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
 			<? endif;?>
 		</ul>
-	<div id="braldunjeu"></div>
+		<? if (!$this->estMobile) : ?>
+			<div id="braldunjeu"></div>
+			<br />
+		<? endif;?>
 	
-		    <br />
-		    Adresse email du Joueur : <input type="text" name="post_email_braldun" id='post_email_braldun' size='23' maxlength='100'/> <br />
+		    
+		    Adresse email du Joueur : <br><input type="text" name="post_email_braldun" id='post_email_braldun' size='30' maxlength='100'/> <br />
 		
-		    Mot de passe : <input type="password" name="post_password_braldun"  size='23'  maxlength='50' /> <br />
+		    Mot de passe : <br><input type="password" name="post_password_braldun"  size='30'  maxlength='50' /> <br />
 		
 		    Activation :
 		    oui <input type="radio" id="auth_activation" name="auth_activation" value="oui" checked>
@@ -38,9 +43,10 @@
 		    </ul>
 		    <input type="submit" class='button1' value="Connexion" />
 		    <p><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
+		    <? if (!$this->estMobile) : ?>
 		    <p><a href="http://regles.braldahim.com/wiki/Braldahim_sous_Internet_Explorer">Vous utilisez Internet Explorer ?</a></p>
-		    
-		   <br> 
+		    <br> 
+		    <? endif;?>
 	    </form> 
 	    
 	    <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>

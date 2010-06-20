@@ -7,12 +7,18 @@
 	<title>Braldahim</title>
 	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-059.css" />
-	<link rel="apple-touch-icon" href="/public/images/mobile/icone-iphone.png"/>
+	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
 	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
 	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
 	
-	<link media="only screen and (max-device-width: 480px)"  href="/public/styles/braldahim_defaut/iphone-001.css" type="text/css" rel="stylesheet">
-	
 	<script type="text/javascript" src="/public/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/m_action-025.js"></script>
+	
+	<? if (Zend_Registry::get("estMobile")) : ?>
+		<link  href="/public/styles/braldahim_defaut/iphone-002.css" type="text/css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<? endif;?>
+	
 </head>

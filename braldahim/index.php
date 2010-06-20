@@ -79,6 +79,11 @@ $dbAdapterGame->query('SET NAMES UTF8');
 Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
 Zend_Registry::set('dbAdapter', $dbAdapterGame);
 
+if ($_SERVER['SERVER_NAME'] == "sable.braldahim.com") {
+	Zend_Registry::set('estMobile', true);
+} else {
+	Zend_Registry::set('estMobile', false);
+}
 
 Bral_Util_Registre::chargement();
 

@@ -18,6 +18,7 @@ class ParametresController extends Zend_Controller_Action {
 		}
 
 		$this->initView();
+		$this->view->estMobile = Zend_Registry::get("estMobile");
 
 		$this->view->config = Zend_Registry::get('config');
 		if ($this->view->config->general->actif != 1) {

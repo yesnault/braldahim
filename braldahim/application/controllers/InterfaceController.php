@@ -17,6 +17,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		$this->view->estMobile = Zend_Registry::get("estMobile");
 	}
 
 	function preDispatch() {
@@ -68,7 +69,7 @@ class InterfaceController extends Zend_Controller_Action {
 				$this->_forward('logoutajax', 'auth');
 				return;
 			}
-			
+
 			if ($this->view->user->est_charte_validee_braldun == "non") {
 				$this->_redirect('/charte');
 			}
@@ -148,39 +149,50 @@ class InterfaceController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('BraldunsMetiers');
 		$tabTables = false;
 
+		if ($this->view->estMobile) {
+			$boite_a = "boite_m";
+			$boite_b = "boite_m";
+			$boite_c = "boite_m";
+		} else {
+			$boite_a = "boite_a";
+			$boite_b = "boite_b";
+			$boite_c = "boite_c";
+		}
+
+
 		try {
-			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
-			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
-			$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
-			$this->addBox(Bral_Box_Factory::getTitres($this->_request, $this->view, false), "boite_a");
-			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), "boite_a");
-			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), "boite_a");
+			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getTitres($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), $boite_a);
 
-			$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");
-			$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
-			$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), "boite_b");
-			$this->addBox(Bral_Box_Factory::getCompetencesSoule($this->_request, $this->view, false), "boite_b");
+			$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), $boite_b);
+			$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), $boite_b);
+			$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), $boite_b);
+			$this->addBox(Bral_Box_Factory::getCompetencesSoule($this->_request, $this->view, false), $boite_b);
 
-			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
+			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
 
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
 			$possibleEchoppe = $braldunsMetiers->peutPossederEchoppeIdBraldun($this->view->user->id_braldun);
 			if ($possibleEchoppe === true) {
-				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
+				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), $boite_c);
 			}
 			unset($braldunsMetiers);
 
-			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getChamps($this->_request, $this->view, false), "boite_c");
-			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), "boite_c");
+			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getChamps($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), $boite_c);
 
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
@@ -205,12 +217,16 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function getBoxesData() {
-		$r = "<table width='100%'><tr valign='top'><td width='365px'>";
-		$r .= $this->getDataList("boite_a");
-		$r .= $this->getDataList("boite_b");
-		$r .= "</td><td width='auto'>";
-		$r .= $this->getDataList("boite_c");
-		$r .= "</td></tr></table>";
+		if ($this->view->estMobile) {
+			$r = $this->getDataList("boite_m");
+		} else {
+			$r = "<table width='100%'><tr valign='top'><td width='365px'>";
+			$r .= $this->getDataList("boite_a");
+			$r .= $this->getDataList("boite_b");
+			$r .= "</td><td width='auto'>";
+			$r .= $this->getDataList("boite_c");
+			$r .= "</td></tr></table>";
+		}
 		return $r;
 	}
 

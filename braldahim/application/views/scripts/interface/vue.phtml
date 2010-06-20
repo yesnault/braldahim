@@ -22,7 +22,9 @@
 		<? endif;?>  		
 		<? include('vue/damier.phtml'); ?>
 		</td>
+		<? if (!$this->estMobile) : ?>
   		<td valign="top" style="padding-top:18px"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>
+  		<? endif;?>
   	</tr>
   </table>
 </div>

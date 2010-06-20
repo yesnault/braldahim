@@ -17,6 +17,7 @@ class AuthController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Braldun');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		$this->view->estMobile = Zend_Registry::get("estMobile");
 
 		if ($this->view->config->general->actif != 1 && $this->_request->action == 'login') {
 			$this->_redirect('/');
@@ -27,7 +28,21 @@ class AuthController extends Zend_Controller_Action {
 		$this->_redirect('/');
 	}
 
+	function loginmobileAction() {
+		$this->loginWork();
+		$this->render();
+	}
+
 	function loginAction() {
+		if ($this->view->estMobile) {
+			$this->_forward("loginmobile");
+		} else {
+			$this->loginWork();
+			$this->render();
+		}
+	}
+
+	function loginWork() {
 		// si le joueur est connecte, on le deconnecte !
 		if (Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/auth/logout');
@@ -129,7 +144,6 @@ class AuthController extends Zend_Controller_Action {
 		$this->view->title = "Authentification";
 
 		$this->prepareInfosJeu();
-		$this->render();
 	}
 
 	function logoutAction() {

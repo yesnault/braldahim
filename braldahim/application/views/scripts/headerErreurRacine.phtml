@@ -4,7 +4,12 @@
 </div>
 
 <? if (isset($this->user) ): ?>
+
+<? if ($this->estMobile):?>
+<div id="wrappermobile">
+<? else:?>
 <div id="wrapper">
+<? endif;?>
 <? endif; ?>
 	<div id="racine" class="box_racine">
 
