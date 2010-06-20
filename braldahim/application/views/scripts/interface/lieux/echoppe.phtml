@@ -4,6 +4,9 @@
 
 [Toutes les informations présentées en dessous sont renseignées par le joueur et ne sont donc pas officielles]
 <br /><br />
-<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
+
+<ul style="text-align:left;padding:30px">
+	<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
+</ul>
 
 <input type="button" class='button1' value="Rentrer dans l'&eacute;choppe" onClick='_get_("/interface/load/?box=box_echoppe");'>
