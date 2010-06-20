@@ -6,7 +6,7 @@
 }
 
 body {
-	font: 18px arial, verdana, sans-serif;
+	font: 15px arial, verdana, sans-serif;
 	background: #003b00;
 	letter-spacing: 0pt;
 	background-position: center top;
@@ -19,7 +19,7 @@ input {
 	margin: 2px 2pt;
 	background: #C3E691 none repeat-x scroll center top;
 	color: #791E1E;
-	font: 14px arial, verdana, sans-serif;
+	font: 13px arial, verdana, sans-serif;
 	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	margin: 6px 0 0 0;
     padding: 14px 14px 14px 44px;
@@ -28,7 +28,7 @@ input {
 }
 
 .box_authentification {
-	width: 400px;
+	width: auto;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
@@ -40,7 +40,7 @@ input {
 	height:auto;
 	min-height:480px;
 	margin-top: 0px;
-	width:400px;
+	width:auto;
 }
 
 #frisetopvidemobile {
@@ -48,12 +48,12 @@ input {
 }
 
 .onglet {
-	font: 23px arial, verdana, sans-serif;
+	font: 22px arial, verdana, sans-serif;
 	margin:0px;
 }
 
 
 .boite_m {
 	margin-top: 5px;
-	width: 400px;
+	width: auto;
 }

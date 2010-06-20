@@ -100,11 +100,11 @@
 		<tbody>
 			
 			<tr class="table_liste" align="left" valign="middle">
-				<td>
+				<td nowrap>
 					AGI <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->agilite_base_braldun; ?>)</span><br />
 					SAG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->sagesse_base_braldun; ?>)</span>
 	    		</td>
-	    		<td>
+	    		<td nowrap>
 	    			<?=$this->config->game->base_agilite + $this->user->agilite_base_braldun ?> 
 				    D<?=$this->config->game->de_agilite ?> 
 				    <span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->agilite_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_braldun ?></span>
@@ -115,11 +115,11 @@
 			    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->sagesse_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_braldun ?></span>
 			    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->sagesse_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_braldun ?></span>
 		    	</td>
-				<td>
+				<td nowrap>
 					FOR <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->force_base_braldun; ?>)</span><br />
 	    			VIG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->vigueur_base_braldun;  ?>)</span>
 				</td>
-				<td>
+				<td nowrap>
 				<?=$this->config->game->base_force + $this->user->force_base_braldun ?> 
 		    	D<?=$this->config->game->de_force ?> 
 		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->force_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->force_bm_braldun ?></span>
@@ -131,7 +131,7 @@
 		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->vigueur_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_braldun ?></span>
 	    		</td>
 	    		
-	    		<td>
+	    		<td nowrap>
 	    			Vue
 	    		</td>
 	    		<td>
