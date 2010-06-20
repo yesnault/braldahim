@@ -82,7 +82,7 @@ Zend_Registry::set('dbAdapter', $dbAdapterGame);
 if ($_SERVER['SERVER_NAME'] == "sable.braldahim.com") {
 	Zend_Registry::set('estMobile', true);
 } else {
-	Zend_Registry::set('estMobile', true);
+	Zend_Registry::set('estMobile', false);
 }
 
 Bral_Util_Registre::chargement();
