@@ -20,6 +20,7 @@ abstract class Bral_Competences_Competence {
 	private $idTypeEvenement = null;
 	private $idCible = null;
 	private $typeCible = null;
+	private $nbPaSurcharge = null;
 
 	function __construct($competence, $braldunCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
@@ -116,6 +117,10 @@ abstract class Bral_Competences_Competence {
 
 	public function getIdChampCourant() {
 		return false;
+	}
+
+	protected function setNbPaSurcharge($pa) {
+		$this->view->nb_pa = $pa;
 	}
 
 	protected function calculNbPa() {

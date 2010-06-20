@@ -93,9 +93,10 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		}
 		
 		$this->view->monstreVisible = true;
-		
+
 		if ($cdmMonstre === false) {
 			$this->view->monstreVisible = false;
+			$this->setNbPaSurcharge(0);
 		} else {
 
 			$this->calculJets();

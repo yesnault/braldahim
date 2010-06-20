@@ -197,21 +197,24 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			}
 		}
 
-		if ($this->view->cibleVisible == true) {
-			if ($attaqueBraldun === true) {
-				$this->calculTirer($idBraldun,"braldun");
-			} elseif ($attaqueMonstre === true) {
-				$this->calculTirer($idMonstre,"monstre");
-			} else {
-				throw new Zend_Exception(get_class($this)." Erreur inconnue");
-			}
-
-			$this->setEvenementQueSurOkJet1(false);
-			$this->calculPx();
-			$this->calculBalanceFaim();
-			$this->calculPoids();
-			$this->majBraldun();
+		if ($this->view->cibleVisible == false) {
+			$this->setNbPaSurcharge(0);
+			return;
 		}
+		
+		if ($attaqueBraldun === true) {
+			$this->calculTirer($idBraldun,"braldun");
+		} elseif ($attaqueMonstre === true) {
+			$this->calculTirer($idMonstre,"monstre");
+		} else {
+			throw new Zend_Exception(get_class($this)." Erreur inconnue");
+		}
+
+		$this->setEvenementQueSurOkJet1(false);
+		$this->calculPx();
+		$this->calculBalanceFaim();
+		$this->calculPoids();
+		$this->majBraldun();
 	}
 
 	/*

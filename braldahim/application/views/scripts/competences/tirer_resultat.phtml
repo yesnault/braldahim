@@ -1,10 +1,10 @@
+<? include("commun_text_resultat.phtml") ?>
+
 <? if ($this->cibleVisible == false) : ?>
 	La cible a disparu, elle ne fait pas partie de votre vue.<br>
 	
 <? else: ?>
 
-	<? include("commun_text_resultat.phtml") ?>
-	
 	Vous avez tir&eacute; sur <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
 	Jet d'attaque : <?=$this->jetAttaquantNonReduit?><br />
 	Vous étiez &agrave; une distance de <?=$this->distCible ?> case<? if ($this->distCible > 1) : ?>s<?endif;?><br />

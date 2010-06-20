@@ -93,6 +93,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 		$this->view->cibleVisible = true;
 		if ($this->view->nBralduns == 0 && $this->view->nMonstres == 0) {
+			$this->setNbPaSurcharge(0);
 			$this->view->cibleVisible = false;
 			return;
 		}

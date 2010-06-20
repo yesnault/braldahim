@@ -133,6 +133,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->cibleVisible == false) {
+			$this->setNbPaSurcharge(0);
 			return;
 		}
 
