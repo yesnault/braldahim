@@ -79,7 +79,7 @@ $dbAdapterGame->query('SET NAMES UTF8');
 Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
 Zend_Registry::set('dbAdapter', $dbAdapterGame);
 
-if ($_SERVER['SERVER_NAME'] == "sable.braldahim.com") {
+if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
 	Zend_Registry::set('estMobile', true);
 } else {
 	Zend_Registry::set('estMobile', false);
