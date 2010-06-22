@@ -4,14 +4,26 @@
 	<? if ($this->nbCueillette < 1):?>
 		Vous n'avez rien cueilli &agrave; cause de vos malus importants en Agilit&eacute;.<br> <br />
 	<? elseif ($this->nbCueillette > 1):?>
-	Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante <br />
+	Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante 
 	<? else: ?>
-	Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br />
+	Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante 
 	<? endif; ?>
-	
-	<? if ($this->nbCueilletteTerre > 0) : ?> 
-		Fause de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).<br>
+	<? if ($this->arrivee == 1) : ?>
+		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre charrette.
+		<? if ($this->nbCueilletteTerre > 0) : ?> 
+			Mais, faute de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).
+		<? endif;?>
 	<? endif;?>
+	<? if ($this->arrivee == 2) : ?>
+		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre laban.
+		<? if ($this->nbCueilletteTerre > 0) : ?> 
+			Mais, faute de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).
+		<? endif;?>
+	<? endif;?>
+	<? if ($this->arrivee == 3) : ?>
+		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> au sol.
+	<? endif;?>
+	<br /><br />
 	<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 	<br /><br />
 

@@ -16,13 +16,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Plante');
+		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('TypePartieplante');
 		Zend_Loader::loadClass("Bral_Util_Quete");
-
-		$this->preCalculPoids();
-		if ($this->view->poidsPlaceDisponible !== true) {
-			return;
-		}
 
 		$tabPlantes = null;
 		$this->view->planteOk = false;
@@ -65,7 +61,33 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				"nom_partie_4" => $nom_partie_4
 			);
 		}
+		
 		$this->view->plantes = $this->_tabPlantes;
+		
+		$this->view->labanPlein = true;
+		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
+		$nbPossibleDansLabanMaximum = floor($poidsRestantLaban / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		if ($nbPossibleDansLabanMaximum > 0) {
+			$this->view->labanPlein = false;
+		}
+		$this->view->nbPossibleDansLabanMax = $nbPossibleDansLabanMaximum;
+		
+		$charretteTable = new Charrette();
+		$charetteBraldun = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
+		$this->view->charettePleine = true;
+		if (count($charetteBraldun) == 1) {
+			$this->view->possedeCharrette = true;
+			$this->view->idCharrette = $charetteBraldun[0]["id_charrette"];
+			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
+			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+
+			if ($nbPossibleDansCharretteMaximum > 0) {
+				$this->view->charettePleine = false;
+			}
+			$this->view->nbPossibleDansCharretteMax = $nbPossibleDansCharretteMaximum;
+		} else {
+			$this->view->possedeCharrette = false;
+		}
 	}
 
 	function prepareFormulaire() {
@@ -75,7 +97,6 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass('LabanPartieplante');
 		Zend_Loader::loadClass('StatsRecolteurs');
 
 		$idPlante = intval($this->request->get("valeur_1"));
@@ -83,10 +104,26 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
-		} elseif ( $this->view->poidsPlaceDisponible == false) {
-			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
-
+		
+		// Verification arrivee
+		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		if ($arrivee < 1 || $arrivee > 3) {
+			throw new Zend_Exception(get_class($this)." Destination impossible ");
+		}
+		
+		if ($this->view->charettePleine == true && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Charette pleine !");
+		}
+		
+		if ($this->view->possedeCharrette == false && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+		}
+		
+		if ($this->view->labanPlein == true && $arrivee == 2) {
+			throw new Zend_Exception(get_class($this)." Laban plein !");
+		}
+		
 		// Verification de la plante
 		$planteOk = false;
 		if ($this->_tabPlantes != null) {
@@ -171,41 +208,43 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$nbCueilletteLaban = 0;
+		$nbCueilletteCharrette = 0;
 		$nbCueilletteATerre = 0;
 
-		// reussite, on met dans le laban
 		if ($this->view->okJet1 === true) {
-			$labanPartiePlanteTable = new LabanPartieplante();
-			Zend_Loader::loadClass("ElementPartieplante");
-			$elementPartiePlanteTable = new ElementPartieplante();
-
-			for ($i=1; $i<=4; $i++) {
-				if ($cueillette[$i]["quantite"] > 0) {
-					$dansLaban = 0;
-					$aTerre = 0;
-
-					if ($nbCueilletteLaban + $cueillette[$i]["quantite"] > $this->view->nbElementPossible) {
-						$dansLaban = $this->view->nbElementPossible - $nbCueilletteLaban;
-						if ($dansLaban > $cueillette[$i]["quantite"]) $dansLaban = $cueillette[$i]["quantite"];
-						if ($dansLaban < 0) $dansLaban = 0;
-						$aTerre = $cueillette[$i]["quantite"] - $dansLaban;
-						if ($aTerre < 0) $aTerre = 0;
-					} else { // tout passe dans le laban
-						$dansLaban = $cueillette[$i]["quantite"];
+			// reussite, on met dans le laban
+			if ($arrivee == 2) {
+				Zend_Loader::loadClass('LabanPartieplante');
+				$labanPartiePlanteTable = new LabanPartieplante();	
+				for ($i=1; $i<=4; $i++) {
+					if ($cueillette[$i]["quantite"] > 0) {
+						$dansLaban = 0;
+						$aTerre = 0;
+	
+						if ($nbCueilletteLaban + $cueillette[$i]["quantite"] > $this->view->nbPossibleDansLabanMax) {
+							$dansLaban = $this->view->nbPossibleDansLabanMax - $nbCueilletteLaban;
+							if ($dansLaban > $cueillette[$i]["quantite"]) $dansLaban = $cueillette[$i]["quantite"];
+							if ($dansLaban < 0) $dansLaban = 0;
+							$aTerre = $cueillette[$i]["quantite"] - $dansLaban;
+							if ($aTerre < 0) $aTerre = 0;
+						} else { // tout passe dans le laban
+							$dansLaban = $cueillette[$i]["quantite"];
+						}
+	
+						if ($dansLaban > 0) {
+							$nbCueilletteLaban = $nbCueilletteLaban + $dansLaban;
+							$data = array(
+								'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
+								'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
+								'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
+								'quantite_laban_partieplante' => $dansLaban, //$cueillette[$i]["quantite"],
+							);
+							$labanPartiePlanteTable->insertOrUpdate($data);
+						}
 					}
-
-					if ($dansLaban > 0) {
-						$nbCueilletteLaban = $nbCueilletteLaban + $dansLaban;
-						$data = array(
-							'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
-							'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
-							'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
-							'quantite_laban_partieplante' => $dansLaban, //$cueillette[$i]["quantite"],
-						);
-						$labanPartiePlanteTable->insertOrUpdate($data);
-					}
-
 					if ($aTerre > 0) {
+						Zend_Loader::loadClass("ElementPartieplante");
+						$elementPartiePlanteTable = new ElementPartieplante();
 						$nbCueilletteATerre = $nbCueilletteATerre + $aTerre;
 						$data = array(
 							'id_fk_type_element_partieplante' => $cueillette[$i]["id_fk"],
@@ -219,13 +258,77 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 					}
 				}
 			}
-
+			// reussite, on met dans la charrette
+			if ($arrivee == 1) {
+				Zend_Loader::loadClass('CharrettePartieplante');
+				$charrettePartiePlanteTable = new CharrettePartieplante();	
+				for ($i=1; $i<=4; $i++) {
+					if ($cueillette[$i]["quantite"] > 0) {
+						$dansCharrette = 0;
+						$aTerre = 0;
+	
+						if ($nbCueilletteCharrette + $cueillette[$i]["quantite"] > $this->view->nbPossibleDansCharretteMax) {
+							$dansCharrette = $this->view->nbPossibleDansCharretteMax - $nbCueilletteCharrette;
+							if ($dansCharrette > $cueillette[$i]["quantite"]) $dansCharrette = $cueillette[$i]["quantite"];
+							if ($dansCharrette < 0) $dansCharrette = 0;
+							$aTerre = $cueillette[$i]["quantite"] - $dansCharrette;
+							if ($aTerre < 0) $aTerre = 0;
+						} else { // tout passe dans le charrette
+							$dansCharrette = $cueillette[$i]["quantite"];
+						}
+	
+						if ($dansCharrette > 0) {
+							$nbCueilletteCharrette = $nbCueilletteCharrette + $dansCharrette;
+							$data = array(
+								'id_fk_type_charrette_partieplante' => $cueillette[$i]["id_fk"],
+								'id_fk_type_plante_charrette_partieplante' => $cueillette[$i]["id_type_plante"],
+								'id_fk_charrette_partieplante' => $this->view->idCharrette,
+								'quantite_charrette_partieplante' => $dansCharrette, //$cueillette[$i]["quantite"],
+							);
+							$charrettePartiePlanteTable->insertOrUpdate($data);
+						}
+					}
+					if ($aTerre > 0) {
+						Zend_Loader::loadClass("ElementPartieplante");
+						$elementPartiePlanteTable = new ElementPartieplante();
+						$nbCueilletteATerre = $nbCueilletteATerre + $aTerre;
+						$data = array(
+							'id_fk_type_element_partieplante' => $cueillette[$i]["id_fk"],
+							'id_fk_type_plante_element_partieplante' => $cueillette[$i]["id_type_plante"],
+							'x_element_partieplante' => $this->view->user->x_braldun,
+							'y_element_partieplante' => $this->view->user->y_braldun,
+							'z_element_partieplante' => $this->view->user->z_braldun,
+							'quantite_element_partieplante' => $aTerre,
+						);
+						$elementPartiePlanteTable->insertOrUpdate($data);
+					}
+				}
+			}
+			if ($arrivee == 3) {
+				for ($i=1; $i<=4; $i++) {
+					if ($cueillette[$i]["quantite"] > 0) {
+						Zend_Loader::loadClass("ElementPartieplante");
+						$elementPartiePlanteTable = new ElementPartieplante();
+						$aTerre = $cueillette[$i]["quantite"];
+						$nbCueilletteATerre = $nbCueilletteATerre + $aTerre;
+						$data = array(
+							'id_fk_type_element_partieplante' => $cueillette[$i]["id_fk"],
+							'id_fk_type_plante_element_partieplante' => $cueillette[$i]["id_type_plante"],
+							'x_element_partieplante' => $this->view->user->x_braldun,
+							'y_element_partieplante' => $this->view->user->y_braldun,
+							'z_element_partieplante' => $this->view->user->z_braldun,
+							'quantite_element_partieplante' => $aTerre,
+						);
+						$elementPartiePlanteTable->insertOrUpdate($data);
+					}
+				}
+			}
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
-			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueilletteLaban + $nbCueilletteATerre;
+			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueilletteLaban + $nbCueilletteCharrette + $nbCueilletteATerre;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
@@ -249,11 +352,13 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$this->view->cueillette = $cueillette;
-		$this->view->nbCueillette = $nbCueilletteLaban + $nbCueilletteATerre;
+		$this->view->nbCueillette = $nbCueilletteLaban + $nbCueilletteCharrette + $nbCueilletteATerre;
+		$this->view->nbCueilletteCharrette = $nbCueilletteCharrette;
 		$this->view->nbCueilletteLaban = $nbCueilletteLaban;
 		$this->view->nbCueilletteTerre = $nbCueilletteATerre;
 		$this->view->planteDetruite = $planteADetruire;
 		$this->view->plante = $plante;
+		$this->view->arrivee = $arrivee;
 			
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -264,7 +369,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue"));
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue", "box_charrette"));
 	}
 
 	/*
@@ -299,16 +404,4 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		return $n;
 	}
 
-	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
-		if ($poidsRestant < 0) $poidsRestant = 0;
-
-		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
-
-		if ($this->view->nbElementPossible < 1) {
-			$this->view->poidsPlaceDisponible = false;
-		} else {
-			$this->view->poidsPlaceDisponible = true;
-		}
-	}
 }
