@@ -130,7 +130,7 @@
 			       	<input type="button" class='button1'  onClick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="<?=$titre?> : Supprimer TOUS les messages" />
 			       <? endif; ?>
 			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
-			       	<input type="button" class='button1'  onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'  value="<?=$titre?> : Marquer TOUS les messages comme lus" />
+			       	<input type="button" class='button1'  onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'  value="<?=$titre?> : Marquer TOUS les messages comme lus" />
 			       <? endif; ?>
 			   <? endif;?>
 		    </th>
