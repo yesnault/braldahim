@@ -28,10 +28,14 @@ class BraldunsMetiers extends Zend_Db_Table {
 	public function countAllByMetier() {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('bralduns_metiers', 'count(id_metier) as nombre')
+		$select->from('bralduns_metiers', 'id_fk_metier_hmetier')
 		->from('metier', 'nom_masculin_metier')
+		->from('braldun', 'count(id_braldun) as nombre')
 		->where('id_metier = id_fk_metier_hmetier')
-		->group('metier.nom_masculin_metier');
+		->where('id_braldun = id_fk_braldun_hmetier')
+		->group(array('metier.nom_masculin_metier', 'id_metier'));
+		$select->where('est_pnj_braldun = ?', "non");
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

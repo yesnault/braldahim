@@ -22,6 +22,7 @@ class Braldun extends Zend_Db_Table {
 		$select->where('date_creation_braldun >= ?', $dateDebut);
 		$select->where('date_creation_braldun <= ?', $dateFin);
 		$select->where('est_compte_actif_braldun = ?', 'oui');
+		$select->where('est_pnj_braldun = ?', "non");
 		$select->where('id_region = id_fk_region_creation_braldun');
 		$select->order("nom_region ASC");
 		$select->group("nom_region");
@@ -34,6 +35,7 @@ class Braldun extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('braldun', 'count(id_braldun) as nombre');
 		$select->where('niveau_braldun = ?', $niveau);
+		$select->where('est_pnj_braldun = ?', "non");
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -54,6 +56,7 @@ class Braldun extends Zend_Db_Table {
 		$select->where('date_creation_braldun >= ?', $dateDebut);
 		$select->where('date_creation_braldun <= ?', $dateFin);
 		$select->where('est_compte_actif_braldun = ?', 'oui');
+		$select->where('est_pnj_braldun = ?', "non");
 		$select->where('id_nom = id_fk_nom_initial_braldun');
 		$select->order("nom ASC");
 		$select->group("nom");
@@ -68,6 +71,7 @@ class Braldun extends Zend_Db_Table {
 		$select->where('date_creation_braldun >= ?', $dateDebut);
 		$select->where('date_creation_braldun <= ?', $dateFin);
 		$select->where('est_compte_actif_braldun = ?', 'oui');
+		$select->where('est_pnj_braldun = ?', "non");
 		$select->order("sexe_braldun ASC");
 		$select->group("sexe_braldun");
 		$sql = $select->__toString();
@@ -79,6 +83,7 @@ class Braldun extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('braldun', 'distinct(niveau_braldun) as niveau');
 		$select->where('est_compte_actif_braldun = ?', "oui");
+		$select->where('est_pnj_braldun = ?', "non");
 		$select->order("niveau ASC");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -90,6 +95,7 @@ class Braldun extends Zend_Db_Table {
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', $this->getSelectCaracteristique($caracteristique)));
 		$select->where('niveau_braldun = ?', $niveau);
 		$select->where('est_compte_actif_braldun = ?', "oui");
+		$select->where('est_pnj_braldun = ?', "non");
 		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun'));
 		if ($caracteristique == "duree_prochain_tour") {
 			$select->order("nombre ASC");
