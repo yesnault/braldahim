@@ -43,7 +43,7 @@ class Lieu extends Zend_Db_Table {
 
 	public function findByCritere($estDonjon = null, $estSoule = null, $estReliee = null, $estMythique, $estRuine) {
 		Zend_Loader::loadClass("TypeLieu");
-		
+
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -235,6 +235,20 @@ class Lieu extends Zend_Db_Table {
 		->where('SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) <= ?', $max)
 		->joinLeft('ville','id_fk_ville_lieu = id_ville')
 		->order(array('distance ASC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	public function findAllLieuAvecVille() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->from('ville', '*')
+		->from('region', '*')
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('lieu.id_fk_ville_lieu = id_ville')
+		->where('ville.id_fk_region_ville = region.id_region');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
