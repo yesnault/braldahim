@@ -22,6 +22,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierCompetences();
 		$retour .= $this->genereFichierMetiers();
 		$retour .= $this->genereFichierVilles();
+		$retour .= $this->genereFichierLieuxVille();
 		$retour .= $this->genereFichierRegions();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
@@ -219,6 +220,41 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_villes, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierVilles - exit -");
+		return $retour;
+	}
+
+	private function genereFichierLieuxVille() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierLieuxVille - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findAllLieuAvecVille();
+
+		$contenu = "id_lieu;nom_lieu;nom_systeme_type_lieu;id_type_lieu;";
+		$contenu .= "x_min_ville;y_min_ville;x_max_ville;y_max_ville;id_ville;id_region";
+		$contenu .= PHP_EOL;
+
+		if (count($lieux) > 0) {
+			foreach ($lieux as $v) {
+				$contenu .= $v["id_lieu"].';';
+				$contenu .= $v["nom_lieu"].';';
+				$contenu .= $v["nom_systeme_type_lieu"].';';
+				$contenu .= $v["id_type_lieu"].';';
+				$contenu .= $v["x_min_ville"].';';
+				$contenu .= $v["y_min_ville"].';';
+				$contenu .= $v["x_max_ville"].';';
+				$contenu .= $v["y_max_ville"].';';
+				$contenu .= $v["id_ville"].';';
+				$contenu .= $v["id_region"].';';
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_lieux_villes, $contenu);
+
+		Bral_Util_Log::batchs()->trace("genereFichierBatiments - genereFichierLieuxVille - exit -");
 		return $retour;
 	}
 
