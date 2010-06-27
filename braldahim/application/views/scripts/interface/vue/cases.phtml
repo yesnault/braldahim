@@ -1,5 +1,6 @@
 <div class="vue2d_case_num">
-<? if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true): 
+<? if (!Zend_Registry::get("estMobile")) :
+   if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true): 
 	$texte = "Cliquez sur <img src=\'/public/styles/braldahim_defaut/images/vue/pas2.png\'> pour Marcher<br><br>";
 	$texte .= "Environnement : ".addslashes($case["marcher"]["general"]["environnement"])."<br>";
 	$texte .= "Nombre PA nécessaire : ".$case["marcher"]["general"]["nb_pa"]."<br>";
@@ -10,4 +11,5 @@
 <img src='/public/styles/braldahim_defaut/images/vue/pas.png' <?=Bral_Helper_Tooltip::jsTip($texte, null, false, false) ?> alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
 		onClick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;" />
 	<? endif; ?>
+<? endif;?>
 </div>
