@@ -69,9 +69,9 @@ foreach($this->tableau as $k => $case) :
 	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
 	
 	<div class="cases <?=$case["css_actuelle"]?>" <? if ($textPalissade != "") : echo Bral_Helper_Tooltip::jsTip($textPalissade, $titre); endif; ?>>
-		<table class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickEau?>>
+		<table class="cases <?=$case["css_actuelle"]?>">
 		<tr>
-		<td class="cases <?=$case["css_actuelle"]?>"><? include('bralduns_monstres.phtml');ob_flush();?></td>
+		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickEau?>><? include('bralduns_monstres.phtml');ob_flush();?></td>
 		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickLieu?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>
