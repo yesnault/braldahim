@@ -232,8 +232,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$lieuTable = new Lieu();
 		$lieux = $lieuTable->findAllLieuAvecVille();
 
-		$contenu = "id_lieu;nom_lieu;nom_systeme_type_lieu;id_type_lieu;";
-		$contenu .= "x_min_ville;y_min_ville;x_max_ville;y_max_ville;id_ville;id_region";
+		$contenu = "id_lieu;nom_lieu;nom_systeme_type_lieu;nom_type_lieu;id_type_lieu;";
+		$contenu .= "x_lieu;y_lieu;id_ville;id_region";
 		$contenu .= PHP_EOL;
 
 		if (count($lieux) > 0) {
@@ -241,11 +241,10 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $v["id_lieu"].';';
 				$contenu .= $v["nom_lieu"].';';
 				$contenu .= $v["nom_systeme_type_lieu"].';';
+				$contenu .= $v["nom_type_lieu"].';';
 				$contenu .= $v["id_type_lieu"].';';
-				$contenu .= $v["x_min_ville"].';';
-				$contenu .= $v["y_min_ville"].';';
-				$contenu .= $v["x_max_ville"].';';
-				$contenu .= $v["y_max_ville"].';';
+				$contenu .= $v["x_lieu"].';';
+				$contenu .= $v["y_lieu"].';';
 				$contenu .= $v["id_ville"].';';
 				$contenu .= $v["id_region"].';';
 				$contenu .= PHP_EOL;
