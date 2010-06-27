@@ -15,14 +15,15 @@ class Bral_Util_Tracker {
 	private function __construct(){}
 
 	public static function getKey() {
+		$config = Zend_Registry::get('config');
 		if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com")  {
-			$key = $this->config->tracker->id->mobile;
+			$key = $config->tracker->id->mobile;
 		} elseif ($_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
-			$key = $this->config->tracker->id->iphone;
+			$key = $config->tracker->id->iphone;
 		} elseif ($_SERVER['SERVER_NAME'] == "work.braldahim.com") {
-			$key = $this->config->tracker->id->work;
+			$key = $config->tracker->id->work;
 		} else {
-			$key = $this->config->tracker->id->jeu;
+			$key = $config->tracker->id->jeu;
 		}
 		return $key;
 	}
