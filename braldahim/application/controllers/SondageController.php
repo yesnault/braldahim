@@ -65,12 +65,14 @@ class SondageController extends Zend_Controller_Action {
 
 			$commentaire = $filter->filter($this->_request->getPost('commentaire'));
 			
-			$nbReponse = 7;
+			$nbReponse = 3;
 			for($i = 1; $i<=$nbReponse; $i++) {
-				if (((int)$this->_request->getPost("reponse_$i").""!=$this->_request->getPost("reponse_$i")."") || (int)$this->_request->getPost("reponse_$i") < 0) {
+				//if (((int)$this->_request->getPost("reponse_$i").""!=$this->_request->getPost("reponse_$i")."") || (int)$this->_request->getPost("reponse_$i") < 0) {
+				if (($this->_request->getPost("reponse_$i").""!="oui") && 
+					($this->_request->getPost("reponse_$i").""!="non")) {
 					$this->view->erreur .= "Reponse $i invalide<br>";
 				} else {
-					$reponse[$i] = (int)$this->_request->getPost("reponse_$i");
+					$reponse[$i] = $this->_request->getPost("reponse_$i");
 				}
 			}
 
