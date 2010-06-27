@@ -1,15 +1,19 @@
 <div class="vue2d_case_num">
-<? if (!Zend_Registry::get("estMobile")) :
-   if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true): 
-	$texte = "Cliquez sur <img src=\'/public/styles/braldahim_defaut/images/vue/pas2.png\'> pour Marcher<br><br>";
+<? if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true):
+	if (Zend_Registry::get("estMobile")) :
+		$texte = "Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br><br>";
+	else :
+		$texte = "Cliquez sur <img src=\'/public/styles/braldahim_defaut/images/vue/pas2.png\'> pour Marcher<br><br>";
+	endif;
 	$texte .= "Environnement : ".addslashes($case["marcher"]["general"]["environnement"])."<br>";
 	$texte .= "Nombre PA nécessaire : ".$case["marcher"]["general"]["nb_pa"]."<br>";
 	if ($case["n_crevasses"] > 0) :
 		$texte .= "<br>Attention ! Il y a une crevasse découverte, quelqu\'un est tombé ici.<br>";
-	endif;
-?>
-<img src='/public/styles/braldahim_defaut/images/vue/pas.png' <?=Bral_Helper_Tooltip::jsTip($texte, null, false, false) ?> alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
+	endif;?>
+<img src='/public/styles/braldahim_defaut/images/vue/pas.png' <?=Bral_Helper_Tooltip::jsTip($texte, null, false, false) ?> 
+	<? if (!Zend_Registry::get("estMobile")) : ?>
+	alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
 		onClick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;" />
 	<? endif; ?>
-<? endif;?>
+<? endif; ?>
 </div>
