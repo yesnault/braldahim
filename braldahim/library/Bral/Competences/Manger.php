@@ -143,6 +143,8 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 				$coef = 2;
 			} elseif ($boisson["id_fk_type_aliment"] == TypeAliment::ID_TYPE_STOUT) {
 				$coef = 2;
+			} elseif ($boisson["id_fk_type_aliment"] == TypeAliment::ID_TYPE_JOUR_MILIEU) {
+				$coef = 2;
 			}
 		}
 
