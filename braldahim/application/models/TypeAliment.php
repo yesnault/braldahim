@@ -18,6 +18,7 @@ class TypeAliment extends Zend_Db_Table {
 	const ID_TYPE_LAGER = 24;
 	const ID_TYPE_ALE = 25;
 	const ID_TYPE_STOUT = 26;
+	const ID_TYPE_JOUR_MILIEU = 27;
 
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_type_aliment = ?',(int)$id);
