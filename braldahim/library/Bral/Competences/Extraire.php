@@ -78,7 +78,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 
 		$idFilonRecu = intval($this->request->get("valeur_1"));
-		$arrivee = intval($this->request->get("valeur_2"));
 		
 		//verification de la présence du filon
 		$valid = false;

@@ -15,18 +15,17 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("StatsRecolteurs");
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
-		$this->preCalculPoids();
-		if ($this->view->poidsPlaceDisponible !== true) {
-			return;
-		}
+		$id_monstre_courant = $this->request->get("monstre");
 
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$tabCadavres = null;
+		$this->view->gibier = false;
 		foreach($monstres as $c) {
 			if ($c["genre_type_monstre"] == 'feminin') {
 				$c_taille = $c["nom_taille_f_monstre"];
@@ -35,12 +34,38 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			}
 			if ($c["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 				$estGibier = true;
+				if ($c["id_monstre"] == $id_monstre_courant || count ($monstres) == 1) {
+					$this->view->gibier = true;
+				}
 			} else {
 				$estGibier = false;
 			}
 			$tabCadavres[] = array("id_monstre" => $c["id_monstre"], "nom_monstre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille, 'id_fk_taille_monstre' => $c["id_fk_taille_monstre"], 'est_gibier' => $estGibier);
 		}
+		$this->view->labanPlein = true;
+		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
+		$nbPossibleDansLabanMaximum = floor($poidsRestantLaban / Bral_Util_Poids::POIDS_PEAU);
+		if ($nbPossibleDansLabanMaximum > 0) {
+			$this->view->labanPlein = false;
+		}
+		$this->view->nbPossibleDansLabanMax = $nbPossibleDansLabanMaximum;
+		$charretteTable = new Charrette();
+		$charetteBraldun = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
+		$this->view->charettePleine = true;
+		if (count($charetteBraldun) == 1) {
+			$this->view->possedeCharrette = true;
+			$this->view->idCharrette = $charetteBraldun[0]["id_charrette"];
+			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
+			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_PEAU);
 
+			if ($nbPossibleDansCharretteMaximum > 0) {
+				$this->view->charettePleine = false;
+			}
+			$this->view->nbPossibleDansCharretteMax = $nbPossibleDansCharretteMaximum;
+		} else {
+			$this->view->possedeCharrette = false;
+		}
+		$this->view->id_monstre_courant = $id_monstre_courant;
 		$this->view->tabCadavres = $tabCadavres;
 		$this->view->nCadavres = count($tabCadavres);
 	}
@@ -68,7 +93,31 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		if ($attaqueCadavre === false) {
 			throw new Zend_Exception(get_class($this)." Cadavre invalide (".$idCadavre.")");
 		}
-			
+
+		// Verification arrivee
+		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		if ($arrivee < 1 || $arrivee > 3) {
+			throw new Zend_Exception(get_class($this)." Destination impossible ");
+		}
+		
+		if ($this->view->charettePleine == true && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Charette pleine !");
+		}
+		
+		if ($this->view->possedeCharrette == false && $arrivee == 1) {
+			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+		}
+		
+		if ($this->view->labanPlein == true && $arrivee == 2) {
+			throw new Zend_Exception(get_class($this)." Laban plein !");
+		}
+		
+		// Verification preference
+		$choix = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		if ($choix < 1 || $choix > 2) {
+			throw new Zend_Exception(get_class($this)." Préférence impossible ");
+		}
+		
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
@@ -78,7 +127,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculDepiauter($idCadavre);
+			$this->calculDepiauter($idCadavre, $arrivee, $choix);
 		}
 		$this->calculPx();
 		$this->calculPoids();
@@ -98,7 +147,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	 * Grand : 3D3 + arrondi inf (BM FOR/2) + 1
 	 * Gigantesque : 4D3 + arrondi inf (BM FOR/2) + 1
 	 */
-	private function calculDepiauter($id_monstre) {
+	private function calculDepiauter($id_monstre, $arrivee, $pref) {
 
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($id_monstre);
@@ -106,8 +155,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		if ($monstre == null || $monstre["id_monstre"] == null || $monstre["id_monstre"] == "") {
 			throw new Zend_Exception(get_class($this)."::calculDepiauter monstre inconnu");
-		} elseif ($this->view->poidsPlaceDisponible == false) {
-			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 
 		$this->view->nbPeau = 0;
@@ -171,8 +218,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 		$this->view->nbPeau = intval($this->view->nbPeau) + 1;
 
-		$this->view->limitationLaban = false;
-
 		if ($this->view->nbViande < 0) {
 			$this->view->nbViande = 0;
 		}
@@ -183,9 +228,11 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		$nbViandeDansLaban = 0;
+		$nbViandeDansCharrette = 0;
 		$nbViandeATerre = 0;
 
 		$nbPeauDansLaban = 0;
+		$nbPeauDansCharrette = 0;
 		$nbPeauATerre = 0;
 
 		if ($this->view->nbViande > $nbMax) {
@@ -195,46 +242,139 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		if ($this->view->nbPeau > $nbMax) {
 			$this->view->nbPeau = $nbMax;
 		}
-
-		if ($this->view->nbPeau > $this->view->nbElementPossible) {
-			$nbPeauDansLaban = $this->view->nbElementPossible;
-			$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
-			$this->view->limitationLaban = true;
-		} else {
-			$nbPeauDansLaban = $this->view->nbPeau;
-		}
-
-		if ($this->view->nbViande > $this->view->nbElementPossible - $this->view->nbPeau) {
-			$nbViandeDansLaban = $this->view->nbElementPossible - $this->view->nbPeau;
-			$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
-			$this->view->limitationLaban = true;
-		} else {
-			$nbViandeDansLaban = $this->view->nbViande;
-		}
-
-		if ($nbPeauDansLaban > 0) {
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_braldun_laban' => $this->view->user->id_braldun,
-				'quantite_peau_laban' => $nbPeauDansLaban,
-			);
-			$labanTable->insertOrUpdate($data);
-		}
-
-		Zend_Loader::loadClass("TypeIngredient");
-		if ($nbViandeDansLaban > 0) {
-			Zend_Loader::loadClass("LabanIngredient");
-			$labanTable = new LabanIngredient();
-			$data = array(
-				'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
-				'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
-				'quantite_laban_ingredient' => $nbViandeDansLaban,
-			);
-			$labanTable->insertOrUpdate($data);
+		
+		$this->view->limitationLaban = false;
+		$this->view->limitationCharrette = false;
+		
+		switch ($arrivee) {
+			case 1 : //charrette
+				if ($this->view->nbPeau + $this->view->nbViande > $this->view->nbPossibleDansCharretteMax) {
+					if ( $pref == 1) {
+						if ( $this->view->nbPeau > $this->view->nbPossibleDansCharretteMax ) {
+							$nbPeauDansCharrette = $this->view->nbPossibleDansCharretteMax;
+							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansCharrette;
+						} else {
+							$nbPeauDansCharrette = $this->view->nbPeau;
+						}
+						if ($this->view->nbViande > $this->view->nbPossibleDansCharretteMax - $nbPeauDansCharrette) {
+							$nbViandeDansCharrette = $this->view->nbPossibleDansCharretteMax - $nbPeauDansCharrette;
+							$nbViandeATerre = $this->view->nbViande - $nbViandeDansCharrette;
+						} else {
+							$nbViandeDansCharrette = $this->view->nbViande;
+						}
+					}
+					else {
+						if ( $this->view->nbViande > $this->view->nbPossibleDansCharretteMax ) {
+							$nbViandeDansCharrette = $this->view->nbPossibleDansCharretteMax;
+							$nbViandeATerre = $this->view->nbViande - $nbViandeDansCharrette;
+							
+						} else {
+							$nbViandeDansCharrette = $this->view->nbViande;
+						}
+						if ($this->view->nbPeau > $this->view->nbPossibleDansCharretteMax - $nbViandeDansCharrette) {
+							$nbPeauDansCharrette = $this->view->nbPossibleDansCharretteMax - $nbViandeDansCharrette;
+							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansCharrette;
+						} else {
+							$nbPeauDansCharrette = $this->view->nbPeau;
+						}						
+					}
+					$this->view->limitationCharrette = true;
+				}
+				else {
+					$nbPeauDansCharrette = $this->view->nbPeau;
+					$nbViandeDansCharrette = $this->view->nbViande;
+				}	
+				
+				if ($nbPeauDansCharrette > 0) {
+					$charretteTable = new Charrette();
+					$data = array(
+						'id_fk_braldun_charrette' => $this->view->user->id_braldun,
+						'quantite_peau_charrette' => $nbPeauDansCharrette,
+					);
+					$charretteTable->insertOrUpdate($data);
+				}
+		
+				Zend_Loader::loadClass("TypeIngredient");
+				if ($nbViandeDansCharrette > 0) {
+					Zend_Loader::loadClass("CharretteIngredient");
+					$charretteTable = new CharretteIngredient();
+					$data = array(
+						'id_fk_type_charrette_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
+						'id_fk_charrette_ingredient' => $this->view->idCharrette,
+						'quantite_charrette_ingredient' => $nbViandeDansCharrette,
+					);
+					$charretteTable->insertOrUpdate($data);
+				}
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
+				break;
+			case 2 : //laban
+				if ($this->view->nbPeau + $this->view->nbViande > $this->view->nbPossibleDansLabanMax) {
+					if ( $pref == 1) {
+						if ( $this->view->nbPeau > $this->view->nbPossibleDansLabanMax ) {
+							$nbPeauDansLaban = $this->view->nbPossibleDansLabanMax;
+							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
+						} else {
+							$nbPeauDansLaban = $this->view->nbPeau;
+						}
+						if ($this->view->nbViande > $this->view->nbPossibleDansLabanMax - $nbPeauDansLaban ) {
+							$nbViandeDansLaban = $this->view->nbPossibleDansLabanMax - $nbPeauDansLaban;
+							$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
+						} else {
+							$nbViandeDansLaban = $this->view->nbViande;
+						}
+					}
+					else {
+						if ( $this->view->nbViande > $this->view->nbPossibleDansLabanMax ) {
+							$nbViandeDansLaban = $this->view->nbPossibleDansLabanMax;
+							$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;						
+						} else {
+							$nbViandeDansLaban = $this->view->nbViande;
+						}
+						if ($this->view->nbPeau > $this->view->nbPossibleDansLabanMax - $nbViandeDansLaban) {
+							$nbPeauDansLaban = $this->view->nbPossibleDansLabanMax - $nbViandeDansLaban;
+							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
+						} else {
+							$nbPeauDansLaban = $this->view->nbPeau;
+						}						
+					}
+					$this->view->limitationLaban = true;
+				}
+				else {
+					$nbPeauDansLaban = $this->view->nbPeau;
+					$nbViandeDansLaban = $this->view->nbViande;
+				}
+				
+				if ($nbPeauDansLaban > 0) {
+					$labanTable = new Laban();
+					$data = array(
+						'id_fk_braldun_laban' => $this->view->user->id_braldun,
+						'quantite_peau_laban' => $nbPeauDansLaban,
+					);
+					$labanTable->insertOrUpdate($data);
+				}
+		
+				Zend_Loader::loadClass("TypeIngredient");
+				if ($nbViandeDansLaban > 0) {
+					Zend_Loader::loadClass("LabanIngredient");
+					$labanTable = new LabanIngredient();
+					$data = array(
+						'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
+						'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
+						'quantite_laban_ingredient' => $nbViandeDansLaban,
+					);
+					$labanTable->insertOrUpdate($data);
+				}
+				
+				break;
+			case 3 : //sol
+				$nbPeauATerre = $this->view->nbPeau;
+				$nbViandeATerre = $this->view->nbViande;
+				break;
 		}
 
 		if ($nbViandeATerre > 0) {
 			Zend_Loader::loadClass("ElementIngredient");
+			Zend_Loader::loadClass("TypeIngredient");
 			$elementTable = new ElementIngredient();
 			$data = array(
 				'id_fk_type_element_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
@@ -283,22 +423,17 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");
 			
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
+		$this->view->nbPeauCharrette = $nbPeauDansCharrette;
+		$this->view->nbViandeCharrette = $nbViandeDansCharrette;
+		$this->view->nbPeauLaban = $nbPeauDansLaban;
+		$this->view->nbViandeLaban = $nbViandeDansLaban;
+		$this->view->nbPeauSol = $nbPeauATerre;
+		$this->view->nbViandeSol = $nbViandeATerre;
+		$this->view->arrivee = $arrivee;
+		
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban"));
-	}
-
-	private function preCalculPoids() {
-		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
-		if ($poidsRestant < 0) $poidsRestant = 0;
-
-		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PEAU);
-
-		if ($this->view->nbElementPossible < 1) {
-			$this->view->poidsPlaceDisponible = false;
-		} else {
-			$this->view->poidsPlaceDisponible = true;
-		}
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban", "box_charrette"));
 	}
 }

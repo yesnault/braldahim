@@ -303,6 +303,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 						$elementPartiePlanteTable->insertOrUpdate($data);
 					}
 				}
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 			}
 			if ($arrivee == 3) {
 				for ($i=1; $i<=4; $i++) {
