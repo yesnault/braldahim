@@ -85,6 +85,10 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		$x_max = $x + $vue_nb_cases;
 		$y_min = $y - $vue_nb_cases;
 		$y_max = $y + $vue_nb_cases;
+		
+		$pos = $x.';'.$y.';'.$z_position.';'.$x_min.';'.$x_max.';'.$y_min.';'.$y_max.';';
+		$fin = PHP_EOL;
+		$retour .= 'POSITION;'.$pos.';'. $this->braldun->id_braldun.';'.$vue_nb_cases.';'.$bm.$fin;
 
 		$monstreTable = new Monstre();
 		$cadavres = $monstreTable->selectVueCadavre($x_min, $y_min, $x_max, $y_max, $z_position);
