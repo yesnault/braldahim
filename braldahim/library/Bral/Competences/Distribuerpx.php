@@ -21,6 +21,9 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		$this->view->estMaxBralduns = false;
 
 		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun;
+		if ($vue <= 0) {
+			$vue = 0;
+		}
 		$bralduns = $braldunTable->findLesPlusProches($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $vue, $this->view->config->game->competence->distribuerpx->nb_max_braldun);
 
 		$tabBralduns = null;
