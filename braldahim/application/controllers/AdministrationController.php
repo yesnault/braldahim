@@ -36,6 +36,7 @@ class AdministrationController extends Zend_Controller_Action {
 	}
 
 	function biereDuMilieuAction() {
+		
 		return;
 		
 		$braldunTable = new Braldun();
@@ -74,14 +75,6 @@ class AdministrationController extends Zend_Controller_Action {
 			);
 			$alimentTable->insert($data);
 
-			$data = array(
-				"id_element_aliment" => $idAliment,
-				"x_element_aliment" => $h["x_braldun"],
-				"y_element_aliment" => $h["y_braldun"],
-				"z_element_aliment" => $h["z_braldun"],
-			);
-			$elementAlimentTable->insert($data);
-
 			$data = null;
 			$data["id_fk_braldun_laban_aliment"] = $h["id_braldun"];
 			$data['id_laban_aliment'] = $idAliment;
@@ -94,7 +87,7 @@ class AdministrationController extends Zend_Controller_Action {
 
 		}
 		
-		$this->message();
+		//$this->message();
 	}
 
 	private function message() {
@@ -104,9 +97,9 @@ class AdministrationController extends Zend_Controller_Action {
 
 		foreach ($bralduns as $h) {
 			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui la fête du jour du milieu !";
-			$detailsBot = "Je vous invite à boire un coup pour fêter la moitié de l'année.".PHP_EOL.PHP_EOL;
-			$detailsBot = "Jetez un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
-			$detailsBot = "A la votre,".PHP_EOL;
+			$detailsBot .= PHP_EOL."Je vous invite à boire un coup pour fêter la moitié de l'année.".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Jetez un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			$detailsBot .= "A la votre,";
 
 			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
 
