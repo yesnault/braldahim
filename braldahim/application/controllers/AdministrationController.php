@@ -35,131 +35,82 @@ class AdministrationController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-
 	function sqlAction() {
-		$nom_image="image.png";
-		$image=imagecreatefrompng($nom_image);
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 
-		Zend_Loader::loadClass("Eau");
-		$eauTable = new Eau();
-		$eauTable->delete(false);
+		Zend_Loader::loadClass("ElementAliment");
+		$elementAlimentTable = new ElementAliment();
 
-		Zend_Loader::loadClass("Route");
-		$routeTable = new Route();
+		Zend_Loader::loadClass("IdsAliment");
+		$idsAliment = new IdsAliment();
 
-		Zend_Loader::loadClass("Bosquet");
-		$bosquetTable = new Bosquet();
+		Zend_Loader::loadClass('Aliment');
+		$alimentTable = new Aliment();
 
-		Zend_Loader::loadClass("Buisson");
-		$buissonTable = new Buisson();
+		Zend_Loader::loadClass("LabanAliment");
+		$labanTable = new LabanAliment();
 
-		Zend_Loader::loadClass("Monstre");
-		$monstreTable = new Monstre();
+		Zend_Loader::loadClass("TypeAliment");
+		Zend_Loader::loadClass("Bral_Util_Effets");
+			
+		foreach ($bralduns as $h) {
 
-		Zend_Loader::loadClass("Plante");
-		$planteTable = new Plante();
+			$idAliment = $idsAliment->prepareNext();
 
-		Zend_Loader::loadClass("Filon");
-		$filonTable = new Filon();
+			$idEffetBraldun = null;
 
-		for ($x = 0; $x < 1600; $x++) {
-			for ($y = 0; $y <1000; $y++) {
-				$couleur=imagecolorat($image,$x,$y);
-				$couleursRVB=imagecolorsforindex($image,$couleur);
-				$typeEau = null;
+			$idTypeAliment = TypeAliment::ID_TYPE_JOUR_MILIEU;
+			$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_BONUS, 100, 5, 'Je bois, je mincis et ça se voit. Ah non ... tant pis !');
 
-				$xEau = $x - 800;
-				$yEau = 500 - $y;
+			$data = array(
+				"id_aliment" => $idAliment,
+				"id_fk_type_aliment" => $idTypeAliment,
+				"id_fk_type_qualite_aliment" => 2,
+				"bbdf_aliment" => 0,
+				"id_fk_effet_braldun_aliment" => $idEffetBraldun,
+			);
+			$alimentTable->insert($data);
 
-				if ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 0) { // rouge, fleuve
-					printf("fleuve : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-					$typeEau = "profonde";
-				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 255) { // bleu, lac
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-					$typeEau = "lac";
-				} elseif ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 0) { // jaune, mer
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-					$typeEau = "mer";
-				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 255) { // peuprofonde
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-					$typeEau = "peuprofonde";
-				} else {
-					//printf("x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $x, $y, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-				}
+			$data = array(
+				"id_element_aliment" => $idAliment,
+				"x_element_aliment" => $h["x_braldun"],
+				"y_element_aliment" => $h["y_braldun"],
+				"z_element_aliment" => $h["z_braldun"],
+			);
+			$elementAlimentTable->insert($data);
 
-				if ($typeEau != null) {
-					$route = $routeTable->findByCaseHorsBalise($xEau, $yEau, 0);
-					if ($route != null) {
-						$where = "x_route=".$xEau." and y_route=".$yEau;
-						$routeTable->delete($where);
-					}
-					$data = array(
-						"x_eau" => $xEau, 	 	 	
-						"y_eau" => $yEau,
-						"z_eau" => 0,		 	 	 	 	 	 	
-						"type_eau" => $typeEau,	
-					);
-					$eauTable->insert($data);
+			$data = null;
+			$data["id_fk_braldun_laban_aliment"] = $h["id_braldun"];
+			$data['id_laban_aliment'] = $idAliment;
+			$labanTable->insert($data);
 
-					$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
-				}
-			}
+			$data = null;
+			$data["balance_faim_braldun"] = 100;
+			$where = "id_braldun=".$h["id_braldun"];
+			$braldunTable->update($data, $where);
+
 		}
-
-		$where = "type_eau not like 'peuprofonde'";
-		$eaux = $eauTable->fetchAll($where);
-
-		foreach($eaux as $e) {
-
-			for ($x = -1; $x <= 1; $x++) {
-				for ($y = -1; $y <=1; $y++) {
-					$xEau = $e["x_eau"] + $x;
-					$yEau = $e["y_eau"] + $y;
-					$eau = $eauTable->findByCase($xEau, $yEau, 0);
-					$route = $routeTable->findByCaseHorsBalise($xEau, $yEau, 0);
-
-					if ($route != null) {
-						$where = "x_route=".$xEau." and y_route=".$yEau;
-						$routeTable->delete($where);
-					}
-
-					if ($eau == null &&
-					$xEau > -800 && $xEau < 800 &&
-					$yEau > -500 && $yEau < 500
-					) {
-						$data = array(
-							"x_eau" => $xEau,
-							"y_eau" => $yEau,
-							"z_eau" => 0,		 	 	 	 	 	 	
-							"type_eau" => "peuprofonde",	
-						);
-						$eauTable->insert($data);
-
-						//	$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
-					}
-				}
-			}
-		}
+		
+		$this->message();
 	}
 
-	private function deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable) {
-		$where = "x_route=".$xEau." and y_route=".$yEau. " and z_route=0 and type_route like 'type_route'"; // suppression des balises
-		$routeTable->delete($where);
+	private function message() {
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
-		$where = "x_bosquet=".$xEau." and y_bosquet=".$yEau. " and z_bosquet=0 "; // suppression des bosquets
-		$bosquetTable->delete($where);
+		foreach ($bralduns as $h) {
+			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui la fête du jour du milieu !";
+			$detailsBot = "Je vous invite à boire un coup pour fêter la moitié de l'année.".PHP_EOL.PHP_EOL;
+			$detailsBot = "Jetez un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			$detailsBot = "A la votre,".PHP_EOL;
 
-		$where = "x_buisson=".$xEau." and y_buisson=".$yEau. " and z_buisson=0 "; // suppression des buissons
-		$buissonTable->delete($where);
+			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
 
-		$where = "x_monstre=".$xEau." and y_monstre=".$yEau. " and z_monstre=0 "; // suppression des monstres
-		$monstreTable->delete($where);
-
-		$where = "x_plante=".$xEau." and y_plante=".$yEau. " and z_plante=0 "; // suppression des plantes
-		$planteTable->delete($where);
-
-		$where = "x_filon=".$xEau." and y_filon=".$yEau. " and z_filon=0 "; // suppression des filons
-		$filonTable->delete($where);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
+		}
+			
 	}
 
 	function md5Action() {
