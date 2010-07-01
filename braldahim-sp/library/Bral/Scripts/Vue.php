@@ -214,7 +214,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				
-				$pos = $display_x.';'.$display_y.';'.$z_position.';';
+				$pos = $display_x.';'.$display_y.';'.$z_position;
 				$fin = PHP_EOL;
 					
 				if (($j > $y_max) || ($j < $y_min) ||
