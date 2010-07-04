@@ -75,11 +75,11 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$this->view->nBralduns = count($tabBralduns);
 			if ($this->view->nBralduns > 0) shuffle($tabBralduns);
 			$this->view->tabBralduns = $tabBralduns;
-			
+
 			$this->view->nMonstres = count($tabMonstres);
 			if ($this->view->nMonstres > 0) shuffle($tabMonstres);
 			$this->view->tabMonstres = $tabMonstres;
-			
+
 			$this->view->estRegionPvp = $estRegionPvp;
 		}
 		$this->view->armeTirPortee = $armeTirPortee;
@@ -97,17 +97,24 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$this->view->cibleVisible = false;
 			return;
 		}
-		
-		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false && 
+
+		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false &&
 		($this->view->nBralduns > 0 || $this->view->nMonstres > 0)  && $this->view->user->est_intangible_braldun == 'non') {
 			// OK
 		} else {
 			throw new Zend_Exception("Erreur Frenesie");
 		}
-		
+
 		// calcul des jets
 		$this->calculJets();
 		$retours = null;
+
+		if (Bral_Util_Commun::isRunePortee($braldun->id_braldun, "EM")) {
+			$this->view->effetRune = true;
+			$coefFrenesie = 0.9;
+		} else {
+			$coefFrenesie = 0.8;
+		}
 
 		if ($this->view->okJet1 === true) {
 			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
@@ -115,7 +122,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 					$this->retourAttaque = $this->attaqueBraldun($this->view->user, $h["id_braldun"], true, false, true);
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
-					$this->_coef = $this->_coef * 0.8;
+					$this->_coef = $this->_coef * $coefFrenesie;
 				}
 			}
 
@@ -124,7 +131,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 					$this->retourAttaque = $this->attaqueMonstre($this->view->user, $m["id_monstre"], false, true);
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
-					$this->_coef = $this->_coef * 0.8;
+					$this->_coef = $this->_coef * $coefFrenesie;
 				}
 			}
 		}
@@ -159,19 +166,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			
 		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $braldun->force_base_braldun);
 
-		if (Bral_Util_Commun::isRunePortee($braldun->id_braldun, "EM")) {
-			$this->view->effetRune = true;
-			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
-			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
-			$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
-			$jetsDegat["noncritique"] = $jetDegatForce;
-		} else {
-			// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
-			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
-			$jetsDegat["critique"] = $coefCritique * (0.5 * $jetDegatForce);
-			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
-		}
-
+		$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
+		$jetsDegat["noncritique"] = $jetDegatForce;
 		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 
