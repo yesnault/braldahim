@@ -194,7 +194,7 @@ class Bral_Util_Equipement {
 	 * 33% chance d'avoir une usure prématurée quand on prend un coup sur l'une de ses pièce équipée.
 	 * - On tire au hasard une des pièce que le Braldun a déquipée.
 	 * - Elle s'use de 1D10+5 immédiatement.
-	 * 
+	 *
 	 * return le nom de la pièce d'équipement abimée ou null sinon
 	 */
 	public static function usureAttaquePiece($idBraldun) {
@@ -214,10 +214,10 @@ class Bral_Util_Equipement {
 			shuffle($equipements);
 
 			$e = $equipements[0];
-			
+
 			$usure = Bral_Util_De::get_1D10() + 5;
 			$etat = $e["etat_courant_equipement"] - $usure;
-			
+
 			if ($etat < 1) {
 				$etat = 1;
 			}
@@ -225,7 +225,7 @@ class Bral_Util_Equipement {
 			$where = "id_equipement = ".$e["id_equipement_hequipement"];
 			$equipementTable = new Equipement();
 			$equipementTable->update($data, $where);
-			
+
 			$nom = Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
 			$nom .= " n&deg;".$e["id_equipement_hequipement"];
 			$nom .= " usure choc:-".$usure. " etat:".$etat."/".$e["etat_initial_equipement"];
@@ -384,4 +384,36 @@ class Bral_Util_Equipement {
 		}
 	}
 
+	public static function possedeEquipement($idBraldun, $idEquipement) {
+		Zend_Loader::loadClass("BraldunEquipement");
+		Zend_Loader::loadClass("CharretteEquipement");
+		Zend_Loader::loadClass("EchoppeEquipement");
+		Zend_Loader::loadClass("LabanEquipement");
+
+		$table = new BraldunEquipement();
+		$equipement = $table->findByIdBraldun($idBraldun, $idEquipement);
+		if ($equipement != null) {
+			return true;
+		}
+
+		$table = new LabanEquipement();
+		$equipement = $table->findByIdBraldun($idBraldun, $idEquipement);
+		if ($equipement != null) {
+			return true;
+		}
+
+		$table = new CharretteEquipement();
+		$equipement = $table->findByIdBraldun($idBraldun, $idEquipement);
+		if ($equipement != null) {
+			return true;
+		}
+
+		$table = new EchoppeEquipement();
+		$equipement = $table->findByIdEchoppe($idBraldun, null, $idEquipement);
+		if ($equipement != null) {
+			return true;
+		}
+
+		return false;
+	}
 }

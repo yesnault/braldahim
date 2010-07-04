@@ -38,7 +38,7 @@ class CharretteEquipement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_equipement', '*')
@@ -60,9 +60,13 @@ class CharretteEquipement extends Zend_Db_Table {
 		->where('id_fk_charrette_equipement = id_charrette')
 		->where('id_fk_braldun_charrette = ?', intval($idBraldun))
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
+		if ($idEquipement != null) {
+			$select->where('id_equipement = ?', intval($idEquipement));
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	
+
 }

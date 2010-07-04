@@ -141,6 +141,14 @@ class Bral_Voir_Equipement {
 	}
 
 	function renderHistorique() {
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+
+		if ($this->view->user != null && $this->view->user->id_braldun != null) {
+			$this->view->possede = Bral_Util_Equipement::possedeEquipement($this->view->user->id_braldun, $this->view->equipement["id_equipement"]);
+		} else {
+			$this->view->possede = false;
+		}
+
 		$this->preparePage();
 
 		$suivantOk = false;

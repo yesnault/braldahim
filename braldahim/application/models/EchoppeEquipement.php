@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 	protected $_name = 'echoppe_equipement';
 	protected $_primary = "id_echoppe_equipement";
 
-	public function findByIdEchoppe($idEchoppe, $typeVente = null) {
+	public function findByIdEchoppe($idEchoppe, $typeVente = null, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_equipement', '*')
@@ -39,8 +39,11 @@ class EchoppeEquipement extends Zend_Db_Table {
 			$select->where('type_vente_echoppe_equipement like ?', $typeVente);
 		}
 
-		$sql = $select->__toString();
+		if ($idEquipement != null) {
+			$select->where('id_equipement = ?', intval($idEquipement));
+		}
 
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }

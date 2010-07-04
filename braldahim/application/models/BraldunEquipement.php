@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class BraldunEquipement extends Zend_Db_Table {
 	protected $_name = 'bralduns_equipement';
 	protected $_primary = array('id_equipement_hequipement');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bralduns_equipement', '*')
@@ -34,12 +34,16 @@ class BraldunEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_braldun_hequipement = ?', intval($idBraldun))
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
-		
+
+		if ($idEquipement != null) {
+			$select->where('id_equipement = ?', intval($idEquipement));
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-    function findRunesOnly($idBraldun) {
+
+	function findRunesOnly($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('equipement_rune', 'id_equipement_rune')
@@ -51,11 +55,11 @@ class BraldunEquipement extends Zend_Db_Table {
 		->where('bralduns_equipement.id_equipement_hequipement = equipement_rune.id_equipement_rune')
 		->where('bralduns_equipement.id_fk_braldun_hequipement = ?', intval($idBraldun));
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
-    }
-    
-    function findByNomSystemeMot($idBraldun, $nomSystemeMot) {
+	}
+
+	function findByNomSystemeMot($idBraldun, $nomSystemeMot) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bralduns_equipement', '*')
@@ -75,11 +79,11 @@ class BraldunEquipement extends Zend_Db_Table {
 		->where('id_fk_braldun_hequipement = ?', intval($idBraldun))
 		->where('id_fk_mot_runique_equipement = id_mot_runique')
 		->where('nom_systeme_mot_runique = ?', $nomSystemeMot);
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
-    }
-    
+	}
+
 	function findByTypePiece($idBraldun, $nomTypePiece) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -94,9 +98,9 @@ class BraldunEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_braldun_hequipement = ?', intval($idBraldun))
 		->where('nom_systeme_type_piece = ?', $nomTypePiece);
-		
+
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
-    }
+	}
 }

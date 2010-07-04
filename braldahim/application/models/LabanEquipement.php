@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class LabanEquipement extends Zend_Db_Table {
 	protected $_name = 'laban_equipement';
 	protected $_primary = array('id_laban_equipement');
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdBraldun($idBraldun, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_equipement', '*')
@@ -32,8 +32,13 @@ class LabanEquipement extends Zend_Db_Table {
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
-		->where('id_fk_braldun_laban_equipement = ?', intval($id_braldun))
+		->where('id_fk_braldun_laban_equipement = ?', intval($idBraldun))
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
+
+		if ($idEquipement != null) {
+			$select->where('id_equipement = ?', intval($idEquipement));
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
