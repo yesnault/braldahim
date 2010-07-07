@@ -52,10 +52,12 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$retour = $this->transfertVersCoffrePotion($vente);
 		} else if ($vente["type_vente"] == "rune") {
 			$retour = $this->transfertVersCoffreRune($vente);
+		} else if ($vente["type_vente"] == "ingredient") {
+			$retour = $this->transfertVersCoffreIngredient($vente);
 		}
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - Message -".$retour);
-		
+
 		//TODO Message vers Braldun
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - exit -");
@@ -85,7 +87,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 				$retour .= $a["nom_type_aliment"]." n°".$a["id_vente_aliment"] ." +".$a["bbdf_vente_aliment"]."%, ";
 			}
-			
+				
 			$this->deleteVente($vente);
 		}
 
@@ -95,6 +97,43 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreAliment - exit -");
+		return $retour;
+	}
+
+
+	private function transfertVersCoffreIngredient($vente) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreIngredient - enter -");
+
+		Zend_Loader::loadClass("VenteIngredient");
+		$venteIngredientTable = new VenteIngredient();
+		$ingredients = $venteIngredientTable->findByIdVente($vente["id_vente"]);
+
+		$retour = "";
+
+		if ($ingredients != null && count($ingredients) > 0) {
+			Zend_Loader::loadClass("CoffreIngredient");
+			$coffreIngredientTable = new CoffreIngredient();
+			foreach($ingredients as $a) {
+				$data = array(
+					"id_fk_type_coffre_ingredient" => $a["id_fk_type_vente_ingredient"],
+					"id_fk_braldun_coffre_ingredient" => $vente["id_fk_braldun_vente"],
+					"quantite_coffre_ingredient" => $a["quantite_vente_ingredient"],
+				);
+
+				$coffreIngredientTable->insert($data);
+
+				$retour .= $a["nom_type_ingredient"]." n°".$a["id_vente_ingredient"]. ' quantité:'.$a["quantite_vente_ingredient"];
+			}
+				
+			$this->deleteVente($vente);
+		}
+
+		if ($retour != "") {
+			$retour = substr($retour, 0, strlen($retour) - 2);
+		}
+
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreIngredient - exit -");
 		return $retour;
 	}
 
@@ -119,7 +158,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"quantite".$prefix."_coffre" => $element["quantite_vente_element"],
 			);
 			$coffreTable->insertOrUpdate($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$nom = $element["quantite_vente_element"];
@@ -182,7 +221,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"id_fk_braldun_coffre_equipement" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreEquipementTable->insert($data);
-			
+				
 			$this->deleteVente($vente);
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -197,7 +236,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 	}
 
 	private function transfertVersCoffreMateriel($vente) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreAliment - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreMateriel - enter -");
 		$retour = "";
 
 		Zend_Loader::loadClass("VenteMateriel");
@@ -215,7 +254,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"id_fk_braldun_coffre_materiel" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreMaterielTable->insert($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$retour = $materiel["nom_type_materiel"]. " n°".$materiel["id_vente_materiel"];
@@ -223,7 +262,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			throw new Zend_Exception("Bral_Batchs_Hotel transfertVersCoffreMateriel vente invalide:".$vente["id_vente"]);
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreAliment - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreMateriel - exit -");
 		return $retour;
 	}
 
@@ -247,7 +286,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"quantite_coffre_munition" => $munition["quantite_vente_munition"],
 			);
 			$coffreMunitionTable->insertOrUpdate($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$retour = $munition["quantite_vente_munition"];
@@ -280,27 +319,27 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$coffreMineraiTable = new CoffreMinerai();
 
 			$prefix = "brut";
-				
+
 			if ($minerai["type_vente_minerai"] == "lingot") {
 				$prefix = "lingots";
 			}
-				
+
 			$data = array(
 				"id_fk_type_coffre_minerai" => $minerai["id_fk_type_vente_minerai"],
 				"id_fk_braldun_coffre_minerai" => $vente["id_fk_braldun_vente"],
 				"quantite_".$prefix."_coffre_minerai" => $minerai["quantite_vente_minerai"],
 			);
 			$coffreMineraiTable->insertOrUpdate($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$retour = $minerai["nom_type_minerai"]. " : ".$minerai["quantite_vente_minerai"];
-				
+
 			$s = "";
 			if ($minerai["quantite_vente_minerai"] > 1) {
 				$s = "s";
 			}
-				
+
 			if ($minerai["type_vente_minerai"] == "lingot") {
 				$retour .= " lingot".$s;
 			} else {
@@ -329,11 +368,11 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$coffrePartieplanteTable = new CoffrePartieplante();
 
 			$prefix = "";
-				
+
 			if ($partieplante["type_vente_partieplante"] == "preparee") {
 				$prefix = "_preparee";
 			}
-				
+
 			$data = array(
 				"id_fk_type_coffre_partieplante" => $partieplante["id_fk_type_vente_partieplante"],
 				"id_fk_type_plante_coffre_partieplante" => $partieplante["id_fk_type_plante_vente_partieplante"],
@@ -341,18 +380,18 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"quantite".$prefix."_coffre_partieplante" => $partieplante["quantite_vente_partieplante"],
 			);
 			$coffrePartieplanteTable->insertOrUpdate($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$retour = $partieplante["quantite_vente_partieplante"];
-				
+
 			$s = "";
 			if ($partieplante["quantite_vente_partieplante"] > 1) {
 				$s = "s";
 			}
 			$retour = $partieplante["quantite_vente_partieplante"]. " ".$partieplante["nom_type_partieplante"].$s. " ";
 			$retour .= $partieplante["prefix_type_plante"].$partieplante["nom_type_plante"];
-			
+				
 		} else {
 			throw new Zend_Exception("Bral_Batchs_Hotel transfertVersCoffrePartieplante vente invalide:".$vente["id_vente"]);
 		}
@@ -380,7 +419,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"id_fk_braldun_coffre_potion" => $vente["id_fk_braldun_vente"],
 			);
 			$coffrePotionTable->insert($data);
-			
+				
 			$this->deleteVente($vente);
 
 			$retour = "la potion n°".$potion["id_vente_potion"]." ".$potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_potion"];
@@ -411,7 +450,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				"id_fk_braldun_coffre_rune" => $vente["id_fk_braldun_vente"],
 			);
 			$coffreRuneTable->insert($data);
-			
+				
 			$this->deleteVente($vente);
 
 			if ($rune["est_identifiee_rune"] == "oui") {
@@ -426,7 +465,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffreRune - exit -");
 		return $retour;
 	}
-	
+
 	private function deleteVente($vente) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - deleteVente - enter - idVente:".$vente["id_vente"]);
 		$venteTable = new Vente();
