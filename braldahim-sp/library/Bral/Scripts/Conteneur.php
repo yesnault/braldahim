@@ -77,9 +77,18 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 			if ($e["quantite_fourrure_".$typem] > 0) $retour .= 'ELEMENT;Fourrure;'.$e["quantite_fourrure_".$typem].PHP_EOL;
 			if ($e["quantite_planche_".$typem] > 0) $retour .= 'ELEMENT;Planche;'.$e["quantite_planche_".$typem].PHP_EOL;
 			if ($e["quantite_rondin_".$typem] > 0) $retour .= 'ELEMENT;Rondin;'.$e["quantite_rondin_".$typem].PHP_EOL;
-			if ($e["quantite_castar_".$typem] > 0) $retour .= 'ELEMENT;Castar;'.$e["quantite_castar_".$typem].PHP_EOL;
+			// TODO. Si c'est laban, prendre sur le braldun
+			if ($typem != "laban") {
+				if ($e["quantite_castar_".$typem] > 0) $retour .= 'ELEMENT;Castar;'.$e["quantite_castar_".$typem].PHP_EOL;
+			}
+
 		}
 		unset($elements);
+		
+		if ($typem == "laban") {
+			if ($this->braldun->castar_braldun > 0) $retour .= 'ELEMENT;Castar;'.$this->braldun->castar_braldun.PHP_EOL;
+		}
+		
 
 		$conteneurRune = $type."Rune";
 		$runeTable = new $conteneurRune();
@@ -227,7 +236,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 			$aliments = $alimentTable->findByIdCharrette($idCharrette);
 		}
 		foreach ($aliments as $p) {
-			$retour .= 'ALIMENT;'.$p["id_".$typem."_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].PHP_EOL;
+			$retour .= 'ALIMENT;'.$p["id_".$typem."_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].';'.$p["bbdf_aliment"].PHP_EOL;
 		}
 	}
 
