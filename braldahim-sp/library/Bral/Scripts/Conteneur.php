@@ -86,7 +86,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		unset($elements);
 		
 		if ($typem == "laban") {
-			if ($this->braldun->castar_braldun > 0) $retour .= 'ELEMENT;Castar;'.$this->braldun->castar_braldun.PHP_EOL;
+			if ($this->braldun->castars_braldun > 0) $retour .= 'ELEMENT;Castar;'.$this->braldun->castars_braldun.PHP_EOL;
 		}
 		
 
