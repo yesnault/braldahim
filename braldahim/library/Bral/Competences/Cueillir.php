@@ -210,6 +210,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$nbCueilletteLaban = 0;
 		$nbCueilletteCharrette = 0;
 		$nbCueilletteATerre = 0;
+		$aTerre = 0;
 
 		if ($this->view->okJet1 === true) {
 			// reussite, on met dans le laban
