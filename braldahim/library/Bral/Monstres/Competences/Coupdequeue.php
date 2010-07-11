@@ -40,8 +40,8 @@ class Bral_Monstres_Competences_Coupdequeue extends Bral_Monstres_Competences_At
 			$armureTotale = 0;
 		}
 		$pvEnMoins = $malus -  $armureTotale;
-		if ($pvEnMoins < 1) {
-			$pvEnMoins = 1;
+		if ($pvEnMoins < 0) {
+			$pvEnMoins = 0;
 		}
 		$this->cible["pv_restant_braldun"] = $this->cible["pv_restant_braldun"] - $pvEnMoins;
 
