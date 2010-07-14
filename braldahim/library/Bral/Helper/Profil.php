@@ -54,6 +54,10 @@ class Bral_Helper_Profil {
 		[95;100] +N/2 -> Vous avez une pÃªche extraordinaire !
 		*/
 		
+		if ($balance_faim_braldun > 100) {
+			$balance_faim_braldun = 100;
+		}
+		
 		$info = "&quot;";
 		if ($balance_faim_braldun >= 95) {
 			$coef = 1;
@@ -75,6 +79,7 @@ class Bral_Helper_Profil {
 			$coef = -1;
 			$info .= "Je meurs de faim !!!";
 		}
+		
 		$info .= "&quot;<br>";
 		
 		if ($coef > 0) {
