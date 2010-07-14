@@ -408,7 +408,7 @@ class Bral_Util_Donjon {
 
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_MARIE, $donjon["id_fk_region_donjon"], "non", "oui");
+		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_MAIRIE, $donjon["id_fk_region_donjon"], "non", "oui");
 		$lieu = $lieuxRowset[0];
 
 		$data = array(

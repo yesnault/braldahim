@@ -35,4 +35,30 @@ class Bral_Util_Materiel {
 		);
 		$historiqueMaterielTable->insert($data);
 	}
+
+	public static function possedeMateriel($idBraldun, $idMateriel) {
+		Zend_Loader::loadClass("CharretteMateriel");
+		Zend_Loader::loadClass("EchoppeMateriel");
+		Zend_Loader::loadClass("LabanMateriel");
+
+		$table = new LabanMateriel();
+		$materiel = $table->findByIdBraldun($idBraldun, $idMateriel);
+		if ($materiel != null) {
+			return true;
+		}
+
+		$table = new CharretteMateriel();
+		$materiel = $table->findByIdBraldun($idBraldun, $idMateriel);
+		if ($materiel != null) {
+			return true;
+		}
+
+		$table = new EchoppeMateriel();
+		$materiel = $table->findByIdEchoppe($idBraldun, null, $idMateriel);
+		if ($materiel != null) {
+			return true;
+		}
+
+		return false;
+	}
 }

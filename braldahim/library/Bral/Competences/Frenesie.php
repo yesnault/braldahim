@@ -38,7 +38,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		} else if ($this->view->user->est_intangible_braldun == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
-			if ($estRegionPvp) {
+			if ($estRegionPvp ||
+			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
 				// recuperation des bralduns qui sont presents sur la vue
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
@@ -48,7 +49,11 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 						'nom_braldun' => $h["nom_braldun"],
 						'prenom_braldun' => $h["prenom_braldun"],
 					);
-					if ($this->view->user->est_soule_braldun == 'non' ||
+					if (!$estRegionPvp) { // pve
+						if ($h["points_gredin_braldun"] > 0 || $h["points_redresseur_braldun"] > 0) {
+							$tabBralduns[] = $tab;
+						}
+					} elseif ($this->view->user->est_soule_braldun == 'non' ||
 					($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
 						$tabBralduns[] = $tab;
 					}
@@ -109,13 +114,13 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$this->calculJets();
 		$retours = null;
 
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "EM")) {
+		if (Bral_Util_Commun::isRunePortee($braldun->id_braldun, "EM")) {
 			$this->view->effetRune = true;
 			$coefFrenesie = 0.9;
 		} else {
 			$coefFrenesie = 0.8;
 		}
-
+		
 		if ($this->view->okJet1 === true) {
 			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
 				foreach ($this->view->tabBralduns as $h) {
@@ -146,7 +151,6 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	protected function calculJetAttaque($braldun) {
-		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
 		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
 
@@ -168,6 +172,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 		$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
 		$jetsDegat["noncritique"] = $jetDegatForce;
+
 		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 

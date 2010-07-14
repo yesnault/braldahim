@@ -29,6 +29,64 @@ class Bral_Util_Distinction {
 	const ID_TYPE_SOULE = 12;
 	const ID_TYPE_BETA_TESTEUR = 14;
 
+	const ID_TYPE_GRANDSCOMBATTANTSPVE_MOIS = 48;
+	const ID_TYPE_GRANDSCOMBATTANTSPVP_MOIS = 49;
+	const ID_TYPE_GRANDSCHASSEURSDEGIBIERS_MOIS = 50;
+	const ID_TYPE_KO_MOIS = 51;
+	const ID_TYPE_EXPERIENCE_MOIS = 52;
+	const ID_TYPE_RECOLTEUR_MOIS_MINEUR = 53;
+	const ID_TYPE_RECOLTEUR_MOIS_HERBORISTE = 54;
+	const ID_TYPE_RECOLTEUR_MOIS_BUCHERON = 55;
+	const ID_TYPE_RECOLTEUR_MOIS_CHASSEUR = 56;
+	const ID_TYPE_FABRIQUANT_MOIS_APOTHICAIRE = 57;
+	const ID_TYPE_FABRIQUANT_MOIS_MENUISIER = 58;
+	const ID_TYPE_FABRIQUANT_MOIS_FORGERON = 59;
+	const ID_TYPE_FABRIQUANT_MOIS_TANNEUR = 60;
+	const ID_TYPE_FABRIQUANT_MOIS_PALISSADE = 61;
+	const ID_TYPE_FABRIQUANT_MOIS_SENTIER = 62;
+	const ID_TYPE_FABRIQUANT_MOIS_CUISINIER = 63;
+
+	const ID_TYPE_IRL = 64;
+
+	const ID_TYPE_KO_1_NEUTRE = 65;
+	const ID_TYPE_KO_10_NEUTRE = 66;
+	const ID_TYPE_KO_20_NEUTRE = 67;
+	const ID_TYPE_KO_50_NEUTRE = 68;
+	const ID_TYPE_KO_100_NEUTRE = 69;
+	const ID_TYPE_KO_500_NEUTRE = 70;
+	const ID_TYPE_KO_1000_NEUTRE = 71;
+
+	const ID_TYPE_KO_5_REDRESSEURS_SUITE = 72;
+	const ID_TYPE_KO_5_GREDINS_SUITE = 73;
+
+	const ID_TYPE_KO_1_GREDIN_TOP = 74;
+	const ID_TYPE_KO_1_REDRESSEUR_TOP = 75;
+
+	const ID_TYPE_KO_1_WANTED = 76;
+	const ID_TYPE_MEILLEUR_GREDIN_MOIS = 77;
+	const ID_TYPE_MEILLEUR_REDRESSEUR_MOIS = 78;
+
+	const ID_TYPE_KO_1_REDRESSEUR = 79;
+	const ID_TYPE_KO_10_REDRESSEUR = 80;
+	const ID_TYPE_KO_20_REDRESSEUR = 81;
+	const ID_TYPE_KO_50_REDRESSEUR = 82;
+	const ID_TYPE_KO_100_REDRESSEUR = 83;
+	const ID_TYPE_KO_500_REDRESSEUR = 84;
+	const ID_TYPE_KO_1000_REDRESSEUR = 85;
+
+	const ID_TYPE_KO_1_GREDIN = 86;
+	const ID_TYPE_KO_10_GREDIN = 87;
+	const ID_TYPE_KO_20_GREDIN = 88;
+	const ID_TYPE_KO_50_GREDIN = 89;
+	const ID_TYPE_KO_100_GREDIN = 90;
+	const ID_TYPE_KO_500_GREDIN = 91;
+	const ID_TYPE_KO_1000_GREDIN = 92;
+
+	const ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL = 93;
+	
+	const ID_TYPE_GREDIN_MOIS = 94;
+	const ID_TYPE_REDRESSEUR_MOIS = 95;
+
 	function __construct() {
 	}
 
@@ -55,6 +113,29 @@ class Bral_Util_Distinction {
 			);
 			$where = "id_quete=".$quete["id_quete"];
 			$queteTable->update($data, $where);
+		}
+	}
+
+	public static function ajouterDistinctionEtEvenement($idBraldun, $niveauBraldun, $idTypeDistinction, $moisDebut = null, $moisFin = null, $complementDistinction = "") {
+
+		$possede = self::possedeDistinction($idBraldun, $idTypeDistinction, $moisDebut, $moisFin);
+
+		if ($possede == false) {
+			Zend_Loader::loadClass("TypeDistinction");
+			$typeDistinctionnTable = new TypeDistinction();
+			$distinction = $typeDistinctionnTable->findDistinctionsByIdTypeDistinction($idTypeDistinction);
+			$distinction = $distinction[0];
+
+			$config = Zend_Registry::get('config');
+			$idEvenement = $config->game->evenements->type->special;
+			$details = "[b".$idBraldun."] a reçu une distinction : ".$distinction["nom_type_distinction"].$complementDistinction;
+			$detailBot = "Vous avez reçu une nouvelle distinction : ".$distinction["nom_type_distinction"].$complementDistinction. " ".$distinction["points_type_distinction"]. " pt(s).";
+			Bral_Util_Evenement::majEvenements($idBraldun, $idEvenement, $details, $detailBot, $niveauBraldun, "braldun");
+
+			Bral_Util_Distinction::ajouterDistinction($idBraldun, $idTypeDistinction, $distinction["nom_type_distinction"].$complementDistinction);
+			return $detailBot;
+		} else {
+			return null;
 		}
 	}
 
@@ -107,5 +188,19 @@ class Bral_Util_Distinction {
 			default :
 				throw new Zend_Exception("getIdDistinctionDonjonFromIdDistinctionBourlingueur invalide:".$idType);
 		}
+	}
+
+	public static function possedeDistinction($idBraldun, $idTypeDistinction, $moisDebut, $moisFin) {
+		$retour = false;
+
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndIdTypeDistinction($idBraldun, $idTypeDistinction, $moisDebut, $moisFin);
+		$possedeDistinction = false;
+
+		if ($braldunsDistinctionRowset != null && count($braldunsDistinctionRowset) > 0) {
+			$retour = true;
+		}
+		return $retour;
 	}
 }

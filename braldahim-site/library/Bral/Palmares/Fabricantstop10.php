@@ -41,14 +41,14 @@ class Bral_Palmares_Fabricantstop10 extends Bral_Palmares_Box {
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);
 			$mdate = $this->getTabDateFiltre();
 			$statsRoutesTable = new StatsRoutes();
-			$rowset = $statsRoutesTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $this->view->type, $this->view->config);
+			$rowset = $statsRoutesTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $this->view->type);
 			$this->view->top10 = $rowset;
 		} else {
 			Zend_Loader::loadClass("StatsFabricants");
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);
 			$mdate = $this->getTabDateFiltre();
 			$statsFabricantsTable = new StatsFabricants();
-			$rowset = $statsFabricantsTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $this->view->type, $this->view->config);
+			$rowset = $statsFabricantsTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $this->view->type);
 			$this->view->top10 = $rowset;
 		}
 

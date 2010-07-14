@@ -18,4 +18,16 @@ class TypeDistinction extends Zend_Db_Table {
 		$where = $this->getAdapter()->quoteInto('id_fk_lieu_type_distinction = ?',(int)$idLieu);
 		return $this->fetchRow($where);
 	}
+
+	function findDistinctionsByIdTypeDistinction($idTypeDistinction) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_distinction', '*')
+		->from('type_categorie', '*')
+		->where('id_fk_type_categorie_distinction = id_type_categorie')
+		->where('id_type_distinction = ?', intval($idTypeDistinction))
+		->order(array('ordre_type_categorie'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

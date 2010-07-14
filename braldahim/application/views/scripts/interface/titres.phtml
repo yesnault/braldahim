@@ -1,10 +1,10 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizeb">Mes Titres et Distinctions</ul>
+  <ul class="titre textalia textsizeb">Ma Réputation</ul>
   <div class="contenu">
 	  <ul class="box_contenu1 textalic">
-	  <br>
 
+<ul class="titre textalic textsized">Mes Titres</ul>
  <? if ($this->affichageInterne == true) : ?>
 	   <? if (!$this->possedeTitre): ?>
 	   	Vous n'avez aucun titre <br /><br />
@@ -34,6 +34,12 @@
 		    <? endif; ?>
 	   <? endif; ?>
 	   <br>
+	   
+	<ul class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Tors</ul>
+		Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
+		Vos points de Redresseur de Tors : <?=$this->user->points_redresseur_braldun?><br><br>
+		
+	<ul class="titre textalic textsized">Mes Distinctions</ul>
 	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
 	   	<? $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
 	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_braldun ?> point<?=$s?> de distinction. (?)</span>
@@ -45,7 +51,7 @@
 		  	<? $i = 0; 
 		  	foreach($d["distinctions"] as $t): ?>
 			  	<?=$t["date_hdistinction"]?> : 
-			  	<?=$t["nom"]?> (<?=$t["points"]?> pts) <br>
+			  	<?=$t["nom"]?> (<?=$t["points"]?> pt<? if ($t["points"] > 1): echo "s"; endif;?>) <br>
 		  	<? endforeach; ?>
 	  	<? endforeach; ?>
 	  <? else: ?>

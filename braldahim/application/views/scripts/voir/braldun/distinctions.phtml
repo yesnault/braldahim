@@ -1,5 +1,11 @@
 	<br />
   	<center>
+  	
+  	<ul class="titre textalic textsizec">Réputation</ul>
+  	Points de gredin : <?=$this->braldun["points_gredin_braldun"];?><br>
+  	Points de redresseur de tors : <?=$this->braldun["points_redresseur_braldun"];?><br><br>
+  	
+  	<ul class="titre textalic textsizec">Distinctions</ul>
   	<? $s=""; if ($this->braldun["points_distinctions_braldun"] > 1): $s='s'; endif; ?>
    	<?=$this->braldun["points_distinctions_braldun"] ?> point<?=$s?> de distinction (total actualisé une fois par jour)
    	<br>

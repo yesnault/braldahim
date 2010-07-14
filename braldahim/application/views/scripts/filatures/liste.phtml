@@ -1,0 +1,56 @@
+  <br>
+  <ul class="titre textalic textsized">Filatures</ul>
+  <br><br>
+  
+  <ul class="titre textalic textsized">Vous pouvez filer un Braldûn avec la compétence Filer</ul>
+  <br> 
+  
+  <? if ($this->filatures == null) : ?>
+  	Vous n'avez aucune filature.
+  <? else: ?>
+  
+  <? if ($this->idFilatureEnCours != null) : ?>
+	  <input type='button' class='button1' value='Annuler la filature en cours - 0 PA' onClick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?=$this->idFilatureEnCours?>');">
+	  <br><br>
+  <? endif;?>
+    
+    
+ 	<table width="100%">
+ 		<tr>
+ 			<td width="40%" valign="top">
+ 				<table class="table_liste" style="width:90%">
+					<thead class="table_liste">
+					  <tr class="table_liste">
+						<th colspan="2"> Filatures r&eacute;alis&eacute;es ou en cours<br></th>
+					  </tr>
+					</thead>
+					
+					<tbody>
+					 <? foreach($this->filatures as $f) :
+					 	$i = 0; 
+					 	?>
+				  		<tr class="table_liste<?=($i % 2);$i++; ?>" title="Cliquer pour voir le détail" style="cursor:pointer" onClick="Javascript:_get_('/filature/doaction?caction=ask_filature_voir&id_filature=<?=$f["id_filature"]?>');">
+				  		<td class="table_liste">
+				  			<?=$f["cible"]?>
+				  		</td>
+						<td class="table_liste" nowrap>
+						  	<? if ($f["date_fin_filature"] != null): ?> 
+						  		Terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_fin_filature"]);?>
+						  	<? else: ?>
+						  		En Cours, depuis le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_creation_filature"]);?>
+						  	<? endif;?>
+						 </td>
+					  	 </tr>
+					  <? endforeach;?>
+					</tbody>
+				</table>
+ 			</td>
+ 			<td width="60%" valign="top">
+ 				<div id="box_filature_voir">
+				<?=$this->htmlFilature?>
+				</div>
+ 			</td>
+ 		</tr>
+ 	</table>
+ <? endif; ?>
+ 	

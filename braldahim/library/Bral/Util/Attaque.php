@@ -43,6 +43,12 @@ class Bral_Util_Attaque {
 		$retourAttaque["etape"] = false;
 		$retourAttaque["gains"] = null;
 
+		$retourAttaque["attaquantDeltaPointsGredin"] = null;
+		$retourAttaque["attaquantDeltaPointsRedresseur"] = null;
+		$retourAttaque["cibleDeltaPointsGredin"] = null;
+		$retourAttaque["cibleDeltaPointsRedresseur"] = null;
+		$retourAttaque["nouvelleDistinction"] = null;
+
 		$cible = array('nom_cible' => $braldunCible->prenom_braldun ." ". $braldunCible->nom_braldun,
 			'id_cible' => $braldunCible->id_braldun, 
 			'x_cible' => $braldunCible->x_braldun, 
@@ -79,6 +85,94 @@ class Bral_Util_Attaque {
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - exit -");
 		return $retourAttaque;
+	}
+
+	private static function calculPointsAttaque(&$braldunAttaquant, &$braldunCible, &$retourAttaque) {
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculPointsAttaque - enter -");
+
+		if ($braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
+			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 1;
+			$retourAttaque["attaquantDeltaPointsGredin"] = 1;
+			if ($braldunAttaquant->points_redresseur_braldun > 0) { // s'il est redresseur
+				$braldunAttaquant->points_redresseur_braldun = $braldunAttaquant->points_redresseur_braldun - 3;
+				$retourAttaque["attaquantDeltaPointsRedresseur"] = -3;
+			}
+		} elseif ($braldunAttaquant->points_gredin_braldun <= 0 && $braldunCible->points_gredin_braldun > 0) { // redresseur et cible gredin
+			$braldunAttaquant->points_redresseur_braldun = $braldunAttaquant->points_redresseur_braldun + 1;
+			$retourAttaque["attaquantDeltaPointsRedresseur"] = 1;
+		}
+
+		if ($braldunAttaquant->points_redresseur_braldun < 0) {
+			$braldunAttaquant->points_redresseur_braldun = 0;
+		}
+
+		if ($braldunAttaquant->points_gredin_braldun < 0) {
+			$braldunAttaquant->points_gredin_braldun = 0;
+		}
+
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculPointsAttaque - exit -");
+	}
+
+	private static function calculPointsKo(&$braldunAttaquant, &$braldunCible, &$retourAttaque) {
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculPointsKo - enter -");
+
+		if ($braldunAttaquant->est_soule_braldun == "oui") {
+			return;
+		}
+
+		if ($braldunAttaquant->niveau_braldun <= $braldunCible->niveau_braldun) {
+			Zend_Loader::loadClass("Bral_Util_Distinction");
+			$retourAttaque["nouvelleDistinction"] = Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldunAttaquant->id_braldun, $braldunAttaquant->niveau_braldun, Bral_Util_Distinction::ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL);	
+		}
+		
+		if ($braldunCible->points_redresseur_braldun > 0) {
+			$braldunAttaquant->nb_ko_redresseurs_suite_braldun = $braldunAttaquant->nb_ko_redresseurs_suite_braldun + 1;
+			$braldunAttaquant->nb_ko_redresseur_braldun = $braldunAttaquant->nb_ko_redresseur_braldun + 1;
+		}
+
+		if ($braldunCible->points_gredin_braldun > 0) {
+			$braldunAttaquant->nb_ko_gredins_suite_braldun = $braldunAttaquant->nb_ko_gredins_suite_braldun + 1;
+			$braldunAttaquant->nb_ko_redresseur_braldun = $braldunAttaquant->nb_ko_redresseur_braldun + 1;
+		}
+
+		if ($braldunCible->points_gredin_braldun == 0 && $braldunCible->points_redresseur_braldun == 0) {
+			$braldunAttaquant->nb_ko_neutre_braldun = $braldunAttaquant->nb_ko_neutre_braldun;
+		}
+
+		if ($braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
+			$braldunCible->points_redresseur_braldun = $braldunCible->points_redresseur_braldun - 3;
+			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 3;
+			$retourAttaque["cibleDeltaPointsRedresseur"] = -3;
+			$retourAttaque["attaquantDeltaPointsGredin"] = -3;
+			if ($braldunAttaquant->points_redresseur_braldun > 0) { // s'il est redresseur
+				$braldunAttaquant->points_redresseur_braldun = $braldunAttaquant->points_redresseur_braldun - 3;
+				$retourAttaque["attaquantDeltaPointsRedresseur"] = -3;
+			}
+		} elseif ($braldunAttaquant->points_gredin_braldun <= 0 && $braldunCible->points_gredin_braldun > 0) { // redresseur et cible gredin
+			$delta = $braldunAttaquant->points_redresseur_braldun + 1 + floor($braldunCible->points_gredin_braldun / 10);
+			$braldunAttaquant->points_redresseur_braldun = $delta;
+			$braldunCible->points_gredin_braldun = $braldunCible->points_gredin_braldun - 3;
+			$retourAttaque["attaquantDeltaPointsRedresseur"] = $delta;
+			$retourAttaque["cibleDeltaPointsGredin"] = -3;
+		}
+
+		if ($braldunAttaquant->points_redresseur_braldun < 0) {
+			$braldunAttaquant->points_redresseur_braldun = 0;
+		}
+
+		if ($braldunAttaquant->points_gredin_braldun < 0) {
+			$braldunAttaquant->points_gredin_braldun = 0;
+		}
+
+		if ($braldunCible->points_redresseur_braldun < 0) {
+			$braldunCible->points_redresseur_braldun = 0;
+		}
+
+		if ($braldunCible->points_gredin_braldun < 0) {
+			$braldunCible->points_gredin_braldun = 0;
+		}
+
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculPointsKo - exit -");
 	}
 
 	private static function calculAttaqueBraldunReussie(&$detailsBot, &$retourAttaque, &$braldunAttaquant, &$braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque) {
@@ -239,6 +333,7 @@ class Bral_Util_Attaque {
 					$braldunCible->castars_braldun = 0;
 				}
 			}
+			self::calculPointsKo($braldunAttaquant, $braldunCible, $retourAttaque);
 		} else {
 
 			if ($retourAttaque["critique"] == true) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
@@ -249,8 +344,6 @@ class Bral_Util_Attaque {
 				$braldunCible->bm_defense_braldun = $braldunCible->bm_defense_braldun - Bral_Util_De::get_2d6();
 			}
 
-			//En cas d'esquive : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
-
 			$braldunCible->est_ko_braldun = "non";
 			$retourAttaque["mort"] = false;
 			$retourAttaque["fragilisee"] = true;
@@ -259,6 +352,8 @@ class Bral_Util_Attaque {
 				Zend_Loader::loadClass("Bral_Util_Soule");
 				$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($braldunCible, false);
 			}
+
+			self::calculPointsAttaque($braldunAttaquant, $braldunCible, $retourAttaque);
 		}
 		$data = array(
 				'castars_braldun' => $braldunCible->castars_braldun,
@@ -274,6 +369,8 @@ class Bral_Util_Attaque {
 				'nb_plaque_braldun' => $braldunCible->nb_plaque_braldun,
 				'bm_attaque_braldun' => $braldunCible->bm_attaque_braldun,
 				'bm_defense_braldun' => $braldunCible->bm_defense_braldun,
+				'points_gredin_braldun' => $braldunCible->points_gredin_braldun,
+				'points_redresseur_braldun' => $braldunCible->points_redresseur_braldun,
 		);
 		$where = "id_braldun=".$braldunCible->id_braldun;
 		$braldunTable = new Braldun();
@@ -315,7 +412,7 @@ class Bral_Util_Attaque {
 			$details .= ". Le ballon est tombé à terre !";
 		}
 
-		$detailsBot .= self::getDetailsBot($braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $pieceCibleAbimee);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $pieceCibleAbimee);
 		if ($effetMotSPossible == false) {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
@@ -362,7 +459,7 @@ class Bral_Util_Attaque {
 		}
 		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
 		$details .= " qui a esquivé l'attaque";
-		$detailsBot .= self::getDetailsBot($braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 		if ($effetMotSPossible == false) {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
@@ -389,7 +486,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["idMatchSoule"]  = $braldunAttaquant->id_fk_soule_match_braldun;
 		}
 		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
-		$detailsBot .= self::getDetailsBot($braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 		$details .= " qui a esquivé parfaitement l'attaque";
 		if ($effetMotSPossible == false) {
 			$detailsBot .= " Riposte de ".$braldunAttaquant->prenom_braldun ." ". $braldunAttaquant->nom_braldun ." (".$braldunAttaquant->id_braldun.")".PHP_EOL;
@@ -476,6 +573,12 @@ class Bral_Util_Attaque {
 		$retourAttaque["gains"] = null;
 
 		$retourAttaque["attaqueReussie"] = false;
+
+		$retourAttaque["attaquantDeltaPointsGredin"] = null;
+		$retourAttaque["attaquantDeltaPointsRedresseur"] = null;
+		$retourAttaque["cibleDeltaPointsGredin"] = null;
+		$retourAttaque["cibleDeltaPointsRedresseur"] = null;
+		$retourAttaque["nouvelleDistinction"] = null;
 
 		if ($monstre["genre_type_monstre"] == 'feminin') {
 			$m_taille = $monstre["nom_taille_f_monstre"];
@@ -646,7 +749,7 @@ class Bral_Util_Attaque {
 				$where = "id_monstre=".$cible["id_cible"];
 				$monstreTable = new Monstre();
 				$monstreTable->update($data, $where);
-				
+
 				// malus sur la durée du tour
 			}
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) { // esquive normale
@@ -667,7 +770,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["fragilisee"] = true;
 		}
 
-		$detailsBot = self::getDetailsBot($braldunAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
+		$detailsBot = self::getDetailsBot($retourAttaque, $braldunAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
 
 		$libelleMonstreGibier = "monstre";
 		if ($monstre["id_fk_type_groupe_monstre"] == $config->game->groupe_monstre->type->gibier) {
@@ -904,7 +1007,7 @@ class Bral_Util_Attaque {
 		return $retour;
 	}
 
-	private static function getDetailsBot($braldunAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $ballonLache = false, $critique = false, $mortCible = false, $pieceCibleAbimee = null) {
+	private static function getDetailsBot($retourAttaque, $braldunAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $ballonLache = false, $critique = false, $mortCible = false, $pieceCibleAbimee = null) {
 		$retour = "";
 		$retour .= $braldunAttaquant->prenom_braldun ." ". $braldunAttaquant->nom_braldun ." (".$braldunAttaquant->id_braldun.")";
 
@@ -980,6 +1083,23 @@ class Bral_Util_Attaque {
 		if ($ballonLache) {
 			$retour .= PHP_EOL."Le ballon de soule est tombé à terre !".PHP_EOL;
 		}
+
+		if ($retourAttaque["attaquantDeltaPointsGredin"] != null) {
+			$retour .=  PHP_EOL."Influence les points de Gredin de l'attaquant: ".$retourAttaque["attaquantDeltaPointsGredin"];
+		}
+
+		if ($retourAttaque["attaquantDeltaPointsRedresseur"] != null) {
+			$retour .= PHP_EOL."Influence sur les points de Redreseur de Tors de l'attaquant: ".$retourAttaque["attaquantDeltaPointsRedresseur"];
+		}
+
+		if ($retourAttaque["cibleDeltaPointsGredin"] != null) {
+			$retour .= PHP_EOL."Influence sur vos points de Gredin : ".$retourAttaque["cibleDeltaPointsGredin"];
+		}
+
+		if ($retourAttaque["cibleDeltaPointsRedresseur"] != null) {
+			$retour .= PHP_EOL."Influence sur vos points de Redresseur de Tors : ".$retourAttaque["cibleDeltaPointsRedresseur"];
+		}
+
 		return $retour;
 	}
 

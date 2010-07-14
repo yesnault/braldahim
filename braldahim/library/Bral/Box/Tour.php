@@ -349,6 +349,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			// statut engage
 			$this->braldun->est_engage_braldun = "non";
 			$this->braldun->est_engage_next_dla_braldun = "non";
+			
+			// reputation
+			$this->braldun->nb_ko_redresseurs_suite_braldun = 0;
+			$this->braldun->nb_ko_gredins_suite_braldun = 0;
 
 			$this->calculKoPosition();
 
@@ -733,6 +737,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_intangible_prochaine_braldun = $this->braldun->est_intangible_prochaine_braldun;
 		$this->view->user->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun;
 
+		$this->view->user->nb_ko_redresseurs_suite_braldun = $this->braldun->nb_ko_redresseurs_suite_braldun;
+		$this->view->user->nb_ko_gredins_suite_braldun = $this->braldun->nb_ko_gredins_suite_braldun;
+		
 		$data = array(
 			'x_braldun' => $this->braldun->x_braldun,
 			'y_braldun'  => $this->braldun->y_braldun,
@@ -781,6 +788,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'est_en_sortie_soule_braldun' => $this->braldun->est_en_sortie_soule_braldun,
 			'soule_camp_braldun' => $this->braldun->soule_camp_braldun,
 			'id_fk_soule_match_braldun' => $this->braldun->id_fk_soule_match_braldun,
+			'nb_ko_redresseurs_suite_braldun' => $this->braldun->nb_ko_redresseurs_suite_braldun,
+			'nb_ko_gredins_suite_braldun' => $this->braldun->nb_ko_gredins_suite_braldun,
 		);
 		$where = "id_braldun=".$this->braldun->id_braldun;
 		$braldunTable->update($data, $where);

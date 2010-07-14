@@ -16,6 +16,16 @@ class Bral_Util_De {
 		return 1;
 	}
 
+	public static function get_1ouMoins1() {
+		srand(self::make_seed());
+		$tmp =  rand(1, 2);
+		if ($tmp == 1) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+
 	public static function get_1d2() {
 		srand(self::make_seed());
 		return rand(1, 2);
@@ -45,7 +55,7 @@ class Bral_Util_De {
 		srand(self::make_seed());
 		return rand(1, 10);
 	}
-	
+
 	public static function get_1d12() {
 		srand(self::make_seed());
 		return rand(1, 12);
@@ -69,7 +79,7 @@ class Bral_Util_De {
 	public static function get_2d3() {
 		return self::getLanceDe3(2);
 	}
-	
+
 	public static function get_2d6() {
 		return self::getLanceDe6(2);
 	}
@@ -122,15 +132,15 @@ class Bral_Util_De {
 	public static function getLanceDe6($n) {
 		return self::getLanceDeSpecifique($n, 1, 6);
 	}
-	
+
 	/*
 	 * $n : nombre dés 10 lancés
 	 */
 	public static function getLanceDe10($n) {
 		return self::getLanceDeSpecifique($n, 1, 10);
 	}
-	
-	
+
+
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);

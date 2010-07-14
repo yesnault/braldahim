@@ -263,11 +263,24 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findBraldunsParPrenom($prenom) {
+	function findBraldunsParPrenom($prenom, $sansIdBraldun = null, $avecPnj = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', '*')
 		->where('lcase(prenom_braldun) like ?', (string)mb_strtolower(trim($prenom)));
+
+		if ($sansIdBraldun != null) {
+			$select->where('id_braldun != ?', intval($sansIdBraldun));
+		}
+
+		if ($avecPnj != null) {
+			if ($avecPnj === true) {
+				$select->where("est_pnj_braldun='oui'");
+			} else {
+				$select->where("est_pnj_braldun='non'");
+			}
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -319,13 +332,13 @@ class Braldun extends Zend_Db_Table {
 
 	function findBraldunsMasculinSansConjoint($idBraldun) {
 		$db = $this->getAdapter();
-		$sql = "SELECT id_braldun, nom_braldun, prenom_braldun, niveau_braldun FROM braldun WHERE sexe_braldun='masculin' AND est_compte_actif_braldun='oui' AND est_pnj_braldun='non' AND id_braldun <> ".(int)$idBraldun." AND id_braldun NOT IN (SELECT id_fk_m_braldun_couple FROM couple)";
+		$sql = "SELECT id_braldun, nom_braldun, prenom_braldun, niveau_braldun FROM braldun WHERE sexe_braldun='masculin' AND est_compte_actif_braldun='oui' AND niveau_braldun > 5 AND est_pnj_braldun='non' AND id_braldun <> ".(int)$idBraldun." AND id_braldun NOT IN (SELECT id_fk_m_braldun_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
 
 	function findBraldunsFemininSansConjoint($idBraldun) {
 		$db = $this->getAdapter();
-		$sql = "SELECT id_braldun, nom_braldun, prenom_braldun, niveau_braldun FROM braldun WHERE sexe_braldun='feminin' AND est_compte_actif_braldun='oui' AND est_pnj_braldun='non' AND id_braldun <> ".(int)$idBraldun." AND id_braldun NOT IN (SELECT id_fk_f_braldun_couple FROM couple)";
+		$sql = "SELECT id_braldun, nom_braldun, prenom_braldun, niveau_braldun FROM braldun WHERE sexe_braldun='feminin' AND est_compte_actif_braldun='oui' AND niveau_braldun > 5 AND est_pnj_braldun='non' AND id_braldun <> ".(int)$idBraldun." AND id_braldun NOT IN (SELECT id_fk_f_braldun_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
 
@@ -429,6 +442,34 @@ class Braldun extends Zend_Db_Table {
 		->where('est_compte_actif_braldun = ?', "oui")
 		->where('est_pnj_braldun = ?', "non")
 		->where('est_compte_desactive_braldun = ?', "non");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function findAllGredins($niveauMin, $niveauMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', '*')
+		->where('est_compte_actif_braldun = ?', "oui")
+		->where('est_pnj_braldun = ?', "non")
+		->where('est_compte_desactive_braldun = ?', "non")
+		->where('points_gredin_braldun > 0')
+		->where('niveau_braldun >= ?', $niveauMin)
+		->where('niveau_braldun <= ?', $niveauMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function findAllRedresseurs($niveauMin, $niveauMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', '*')
+		->where('est_compte_actif_braldun = ?', "oui")
+		->where('est_pnj_braldun = ?', "non")
+		->where('est_compte_desactive_braldun = ?', "non")
+		->where('points_redresseur_braldun > 0')
+		->where('niveau_braldun >= ?', $niveauMin)
+		->where('niveau_braldun <= ?', $niveauMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -127,7 +127,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
-			if ($estRegionPvp) {
+			if ($estRegionPvp ||
+			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
 				// recuperation des bralduns qui sont presents sur la vue
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
@@ -141,7 +142,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 							'x_braldun' => $h["x_braldun"],
 							'y_braldun' => $h["y_braldun"],
 						);
-						if ($this->view->user->est_soule_braldun == 'non' ||
+						if (!$estRegionPvp) { // pve
+							if ($h["points_gredin_braldun"] > 0 || $h["points_redresseur_braldun"] > 0) {
+								$tabBralduns[] = $tab;
+							}
+						} elseif ($this->view->user->est_soule_braldun == 'non' ||
 						($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
 							$tabBralduns[] = $tab;
 						}
@@ -262,6 +267,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
 		$this->majBraldun();
+		
+		Zend_Loader::loadClass("Bral_Util_Filature");
+		Bral_Util_Filature::action($this->view->user, $this->view);
 	}
 
 	function getListBoxRefresh() {

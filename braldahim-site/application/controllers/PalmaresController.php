@@ -62,9 +62,30 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->render("index");
 	}
 	
+	function distinctionAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesDistinction($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	function experienceAction() {
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function gredinsAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesGredins($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function redresseursAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRedresseurs($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -189,6 +210,11 @@ class PalmaresController extends Bral_Controller_Box {
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
 		$selection[] = array("nom" => "Super Braldûns", "url" => "superbralduns");
 		$this->view->selection = $selection;
+		
+		$reputation[] = array("nom" => "Distinctions", "url" => "distinction");
+		$reputation[] = array("nom" => "Gredins", "url" => "gredins");
+		$reputation[] = array("nom" => "Redresseurs de tors", "url" => "redresseurs");
+		$this->view->selectionReputation = $reputation;
 		
 		$selectionRecolteurs = null;
 		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");

@@ -49,7 +49,12 @@
   <? endif; ?>
   <tr class="table_liste">
 	<th>Niveau</th>
-	<td class="table_liste"><?=$this->braldun["niveau_braldun"] ?></td>
+	<td class="table_liste">
+	<? if ($this->braldun["est_pnj_braldun"] == "oui") : ?>
+		-
+	<? else: ?>
+	  <?=$this->braldun["niveau_braldun"] ?></td>
+	<? endif;?>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de KO</th>

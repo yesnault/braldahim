@@ -241,8 +241,8 @@ span.id_braldun {
 	border-style: solid;
 	border-color: #000000;
 	border-width: 1px;
-	margin: 2px;
-	margin-left: 10px;
+	margin: 1px;
+	margin-left: 7px;
 	color:#000000;
 }
 
@@ -1266,7 +1266,7 @@ td.cases.actuelle {
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/public/styles/braldahim_defaut/images/layout/braldahim1.png) no-repeat scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/braldahim2.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:57px;

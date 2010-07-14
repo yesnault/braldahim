@@ -80,7 +80,7 @@ class Bral_Xml_Response {
 		echo "<type>display</type>\n";
 		echo "<valeur>nb_connectes</valeur>\n";
 		echo "<data>";
-		echo "Il y a actuellement ".$nb." braldun".$s." connecté".$s;
+		echo "Il y a actuellement ".$nb." Braldûn".$s." connecté".$s;
 		echo "</data>\n";
 		echo "</entrie>\n";
 	}

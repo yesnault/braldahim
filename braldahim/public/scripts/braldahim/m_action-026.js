@@ -749,6 +749,20 @@ function afficheAutreCoffre(){
 	}
 }
 
+function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
+	if ($('recherche_' + id + '_actif').value == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getUniqueBraldunId, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').value = 1;
+	}
+}
+
+function getUniqueBraldunId(text, li) {
+	if (controleSession(li) == true) {
+		$(li.getAttribute('champ')).value = li.getAttribute('id_braldun');
+	}
+}
+
 function activerRechercheCoffreBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,

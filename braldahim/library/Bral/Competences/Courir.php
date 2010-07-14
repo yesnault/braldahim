@@ -189,6 +189,9 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
 		$this->majBraldun();
+		
+		Zend_Loader::loadClass("Bral_Util_Filature");
+		Bral_Util_Filature::action($this->view->user, $this->view);
 	}
 
 	function getListBoxRefresh() {

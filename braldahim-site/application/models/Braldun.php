@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -13,6 +13,18 @@
 class Braldun extends Zend_Db_Table {
 	protected $_name = 'braldun';
 	protected $_primary = 'id_braldun';
+
+	function findNomById($id) {
+		$where = $this->getAdapter()->quoteInto('id_braldun = ?',(int)$id);
+		$braldun = $this->fetchRow($where);
+
+		if ($braldun == null) {
+			$retour = "braldun inconnu";
+		} else {
+			$retour = $braldun["prenom_braldun"]. " ".$braldun["nom_braldun"]. " (".$braldun["id_braldun"].")";
+		}
+		return $retour;
+	}
 
 	function findAllByDateCreationAndRegion($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
@@ -29,7 +41,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function countByNiveau($niveau) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -42,12 +54,12 @@ class Braldun extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
-	
+
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_braldun = ?',(int)$id);
 		return $this->fetchRow($where);
 	}
-	
+
 	function findAllByDateCreationAndFamille($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -63,7 +75,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findAllByDateCreationAndSexe($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -77,7 +89,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findDistinctNiveaux() {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -88,7 +100,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByNiveauAndCaracteristique($niveau, $caracteristique) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -105,7 +117,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	private function getSelectCaracteristique($caracteristique) {
 		$retour = "";
 		switch($caracteristique) {

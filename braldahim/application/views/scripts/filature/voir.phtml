@@ -1,0 +1,42 @@
+
+	<table class="table_liste" style="width:100%">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th colspan="4">
+			Filature de <?=Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->filature["id_fk_cible_braldun_filature"]."]");?>
+		  	<? if ($this->filature["date_fin_filature"] != null): ?> 
+		  		terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->filature["date_fin_filature"]) ?>
+		  	<? else: ?>
+		  		en cours
+		  	<? endif;?>
+			</th>
+		  </tr>
+		  <tr class="table_liste">
+		  	<th>Date</th>
+			<th>D&eacute;tails</th>
+		  </tr>
+		</thead>
+		<tbody>
+		<? if ($this->historique != null): ?>
+		  <? $i = 0; 
+		  foreach($this->historique as $e): ?>
+		  	<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste">
+			  		<?=$e["date_historique_filature"]?>
+		  		</td>
+		  		<td class="table_liste">
+			  		<?=$e["details_historique_filature"]?>
+		  		</td>
+		  	</tr>
+		  <? endforeach; ?>
+		  
+		<? else: ?>
+		   <tr class="table_liste">
+		   	<td colspan="5">
+		   		Aucun historique
+		   	</td>
+		   </tr>
+		<? endif; ?>
+	   </tbody>
+	</table>
+					

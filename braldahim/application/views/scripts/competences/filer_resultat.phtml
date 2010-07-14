@@ -1,0 +1,21 @@
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<? else: ?>
+	<? include("commun_text_resultat.phtml") ?>
+	<? if ($this->okJet1 === true):?>
+		<? if ($this->filerEnCours == null) : ?>
+			Vous filer maintenant <?=$this->braldunCible["prenom_braldun"]?> <?=$this->braldunCible["nom_braldun"]?> (<?=$this->braldunCible["id_braldun"]?>).
+		<? else: ?>
+			<?=$this->details?>
+			<br><br>
+			
+			<? if ($this->filerEnCours["etape_filature"] < 3) :?>
+				<? if ($this->enPayant) : ?>
+					Vous avez payé 50 castars pour être prévenu du passage de la cible...
+				<? else: ?>
+					Vous n'avez pas payé pour être prévenu du passage de la cible...
+				<? endif?>
+			<? endif?>
+		<? endif;?>
+	<? endif;?>
+<? endif; ?>

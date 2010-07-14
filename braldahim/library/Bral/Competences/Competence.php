@@ -405,6 +405,13 @@ abstract class Bral_Competences_Competence {
 			'soule_camp_braldun' => $this->view->user->soule_camp_braldun,
 			'id_fk_soule_match_braldun' => $this->view->user->id_fk_soule_match_braldun,
 			'est_quete_braldun' => $this->view->user->est_quete_braldun,
+			'points_gredin_braldun' => $this->view->user->points_gredin_braldun,
+			'points_redresseur_braldun' => $this->view->user->points_redresseur_braldun,
+			'nb_ko_redresseurs_suite_braldun' => $this->view->user->nb_ko_redresseurs_suite_braldun,
+			'nb_ko_gredins_suite_braldun' => $this->view->user->nb_ko_gredins_suite_braldun,
+			'nb_ko_redresseur_braldun' => $this->view->user->nb_ko_redresseur_braldun,
+			'nb_ko_gredin_braldun' => $this->view->user->nb_ko_gredin_braldun,
+			'nb_ko_neutre_braldun' => $this->view->user->nb_ko_neutre_braldun,
 		);
 		$where = "id_braldun=".$this->view->user->id_braldun;
 

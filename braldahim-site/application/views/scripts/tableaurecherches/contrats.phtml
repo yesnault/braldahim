@@ -1,0 +1,33 @@
+
+<ul class="titre textalic textsizec"><?=$titre?></ul>
+<ul class="titre textalic textsizee"><?=$sousTitre?></ul>
+
+<table class="table_liste">
+	<thead class="table_liste">
+	   <tr class="table_liste">
+	  	<th>
+	  		Braldûn
+	  	</th>
+	  	<th>
+	  		Nombre de contrats
+	  	</th>
+	  </tr>
+	</thead>
+	<tbody>
+	<? if ($contrats != null): ?>
+	  <? $i = 0; 
+	   foreach($contrats as $k => $v) :?>
+	  	<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<td class="table_liste" width="50%"><?=Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$k."]")?></td>
+	  		<td class="table_liste" width="50%"><?=$v["nombre"]?></td>
+	  	</tr>
+	  <? endforeach; ?>
+	<? else: ?>
+	   <tr class="table_liste0">
+	   	<td colspan="2" align="center">
+	   		Aucun contrat en cours.
+	   	</td>
+	   </tr>
+	<? endif; ?>
+   </tbody>
+</table>

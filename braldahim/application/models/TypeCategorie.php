@@ -19,4 +19,6 @@ class TypeCategorie extends Zend_Db_Table {
 	const ID_TYPE_VOYAGEUR = 3;
 	const ID_TYPE_SPECIAL = 4;
 	const ID_TYPE_SOULE = 5;
+	const ID_TYPE_PALMARES = 6;
+	const ID_TYPE_REPUTATION = 7;
 }

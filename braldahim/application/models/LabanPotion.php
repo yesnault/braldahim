@@ -14,7 +14,7 @@ class LabanPotion extends Zend_Db_Table {
 	protected $_name = 'laban_potion';
 	protected $_primary = array('id_laban_potion');
 
-	function findByIdBraldun($idBraldun, $idTypePotion = null) {
+	function findByIdBraldun($idBraldun, $idTypePotion = null, $idPotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_potion', '*')
@@ -28,6 +28,10 @@ class LabanPotion extends Zend_Db_Table {
 		->order(array("type_potion", "nom_type_potion"));
 		if ($idTypePotion != null) {
 			$select->where('id_type_potion = ?', intval($idTypePotion));
+		}
+
+		if ($idPotion != null) {
+			$select->where('id_potion = ?', intval($idPotion));
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

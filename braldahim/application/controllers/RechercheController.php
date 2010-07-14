@@ -34,7 +34,9 @@ class RechercheController extends Zend_Controller_Action {
 	}
 
 	function braldunAction() {
-		$this->rechercheBraldun();
+		$avecBraldunEnCours = Bral_Util_Controle::getValeurTrueFalseVerifSansException($this->_request->get("avecBraldunEnCours"));
+		$avecPnj = Bral_Util_Controle::getValeurTrueFalseVerifSansException($this->_request->get("avecPnj"));
+		$this->rechercheBraldun(null, $avecBraldunEnCours, $avecPnj);
 		$this->render();
 	}
 
@@ -44,7 +46,7 @@ class RechercheController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function rechercheBraldun($idTypeDistinction = null) {
+	private function rechercheBraldun($idTypeDistinction = null, $avecBraldunEnCours = null, $avecPnj = null) {
 
 		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("valeur")))) {
 			$tabBralduns = null;
@@ -69,7 +71,11 @@ class RechercheController extends Zend_Controller_Action {
 				$soule = $souleEquipeTable->countNonDebuteByIdBraldunList($bralduns);
 
 			} else {
-				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("valeur").'%');
+				$idBraldun = null;
+				if ($avecBraldunEnCours === false) {
+					$idBraldun = $this->view->user->id_braldun;
+				}
+				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("valeur").'%', $idBraldun, $avecPnj);
 			}
 			$this->view->champ = $this->_request->get("champ");
 

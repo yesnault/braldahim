@@ -654,6 +654,15 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurBraldun($potion, $this->view->user->id_braldun, $braldun, false, true, true);
+		if ($this->view->user->id_braldun != $idBraldun && $potion["bm_type"] == 'malus' && $braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
+			$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun + 1;
+			if ($this->view->user->points_redresseur_braldun > 0) { // s'il est redresseur
+				$this->view->user->points_redresseur_braldun = $this->view->user->points_redresseur_braldun - 3;
+				if ($this->view->user->points_redresseur_braldun < 0) {
+					$this->view->user->points_redresseur_braldun = 0;
+				}
+			}
+		}
 		$this->supprimeDuLaban($potion);
 	}
 

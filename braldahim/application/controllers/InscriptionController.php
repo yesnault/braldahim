@@ -53,6 +53,9 @@ class InscriptionController extends Zend_Controller_Action {
 		$braldun = null;
 		if ($email_braldun != null && $email_braldun != "") {
 			$braldun = $braldunTable->findByEmail($email_braldun);
+			Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - A : " . $braldun->est_compte_actif_braldun);
+		} else {
+			Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - B");
 		}
 
 		if ($braldun != null && $md5_prenom_braldun != null && $md5_prenom_braldun != "" && $md5_password_braldun != null && $md5_password_braldun != "") {
@@ -99,6 +102,8 @@ class InscriptionController extends Zend_Controller_Action {
 
 					$this->ajouterDistinctionTesteur($braldun->id_braldun, $email_braldun);
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_braldun);
+				} else {
+					Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - C MD5 invalides : ".$md5_prenom_braldun.":".md5($braldun->prenom_braldun)." PASS:".$md5_password_braldun.":".$braldun->password_braldun);
 				}
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - validationAction - compte deja active");

@@ -72,8 +72,11 @@
 	 	<? endif; ?>
 	 	<br /><br />
 	 	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
+	 	
+	 	<? include('commun_attaque_resultat.phtml');?>
 	<? else: ?>
 		Vous avez manqu&eacute; votre charge.<br />
 	<? endif; ?>
+	
 <? endif;?>
 <? include("commun_text_effets.phtml") ?>

@@ -14,6 +14,16 @@
 			<br>
 			
 			<ul class="titre textalic textsizec">
+			Réputation
+			</ul>
+			<? if (count($this->selectionReputation) > 0): ?>
+				<? foreach($this->selectionReputation as $s) : ?>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+				<? endforeach;?>
+			<? endif; ?>
+			<br>
+			
+			<ul class="titre textalic textsizec">
 			Récolteurs
 			</ul>
 			<? if (count($this->selectionRecolteurs) > 0): ?>

@@ -14,6 +14,39 @@ class StatsRecolteurs extends Zend_Db_Table {
 	protected $_name = 'stats_recolteurs';
 	protected $_primary = array('id_stats_recolteurs');
 
+	function findTopPalmaresBraldun($dateDebut, $dateFin, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$select->from('stats_recolteurs', $this->getSelectType($type));
+		$select->where('id_fk_braldun_stats_recolteurs = id_braldun');
+		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
+		$select->where('mois_stats_recolteurs < ?', $dateFin);
+		$select->order("nombre DESC");
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$select->limit(1, 0);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		if ($resultat == null || count($resultat) < 1) {
+			return null;
+		}
+		$nombre = $resultat[0]["nombre"];
+
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$select->from('stats_recolteurs', $this->getSelectType($type));
+		$select->where('id_fk_braldun_stats_recolteurs = id_braldun');
+		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
+		$select->where('mois_stats_recolteurs < ?', $dateFin);
+		$select->order("nombre DESC");
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$select->having('nombre = ?', $nombre);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+
+	}
+
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -58,48 +91,48 @@ class StatsRecolteurs extends Zend_Db_Table {
 			$quantitePeau = $resultat[0]["quantitePeau"];
 			$quantiteViande = $resultat[0]["quantiteViande"];
 			$quantiteBois = $resultat[0]["quantiteBois"];
-				
+
 			$dataUpdate['nb_minerai_stats_recolteurs'] = $quantiteMinerai;
 			$dataUpdate['nb_partieplante_stats_recolteurs'] = $quantitePartiePlante;
 			$dataUpdate['nb_peau_stats_recolteurs'] = $quantitePeau;
 			$dataUpdate['nb_viande_stats_recolteurs'] = $quantiteViande;
 			$dataUpdate['nb_bois_stats_recolteurs'] = $quantiteBois;
-				
+
 			if (isset($data["nb_minerai_stats_recolteurs"])) {
 				$dataUpdate['nb_minerai_stats_recolteurs'] = $quantiteMinerai + $data["nb_minerai_stats_recolteurs"];
 				if ($dataUpdate['nb_minerai_stats_recolteurs'] < 0) {
 					$dataUpdate['nb_minerai_stats_recolteurs'] = 0;
 				}
 			}
-				
+
 			if (isset($data["nb_partieplante_stats_recolteurs"])) {
 				$dataUpdate['nb_partieplante_stats_recolteurs'] = $quantitePartiePlante + $data["nb_partieplante_stats_recolteurs"];
 				if ($dataUpdate['nb_partieplante_stats_recolteurs'] < 0) {
 					$dataUpdate['nb_partieplante_stats_recolteurs'] = 0;
 				}
 			}
-				
+
 			if (isset($data["nb_peau_stats_recolteurs"])) {
 				$dataUpdate['nb_peau_stats_recolteurs'] = $quantitePeau + $data["nb_peau_stats_recolteurs"];
 				if ($dataUpdate['nb_peau_stats_recolteurs'] < 0) {
 					$dataUpdate['nb_peau_stats_recolteurs'] = 0;
 				}
 			}
-				
+
 			if (isset($data["nb_viande_stats_recolteurs"])) {
 				$dataUpdate['nb_viande_stats_recolteurs'] = $quantiteViande + $data["nb_viande_stats_recolteurs"];
 				if ($dataUpdate['nb_viande_stats_recolteurs'] < 0) {
 					$dataUpdate['nb_viande_stats_recolteurs'] = 0;
 				}
 			}
-				
+
 			if (isset($data["nb_bois_stats_recolteurs"])) {
 				$dataUpdate['nb_bois_stats_recolteurs'] = $quantiteBois + $data["nb_bois_stats_recolteurs"];
 				if ($dataUpdate['nb_bois_stats_recolteurs'] < 0) {
 					$dataUpdate['nb_bois_stats_recolteurs'] = 0;
 				}
 			}
-				
+
 			$where = 'niveau_braldun_stats_recolteurs = '.$data["niveau_braldun_stats_recolteurs"].' AND id_fk_braldun_stats_recolteurs = '.$data["id_fk_braldun_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'';
 			$this->update($dataUpdate, $where);
 		}
@@ -118,10 +151,10 @@ class StatsRecolteurs extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	private function getSelectType($idTypeMetier, $where=false) {
 		Zend_Loader::loadClass("Bral_Util_Metier");
-		
+
 		$retour = "";
 		switch($idTypeMetier) {
 			case Bral_Util_Metier::METIER_MINEUR_ID :

@@ -13,7 +13,7 @@
 class Bral_Quete_Voir extends Bral_Quete_Quete {
 
 	function getNomInterne() {
-		return "box_quete_interne";
+		return "box_quete_voir";
 	}
 
 	function render() {

@@ -1,0 +1,69 @@
+
+	<table class="table_liste" style="width:100%">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th colspan="4">
+		  	
+		  	Contrat n°<?=$this->contrat["id_contrat"]?>			
+			</th>
+		  </tr>
+		</thead>
+		<tbody>
+		<? $i = 0;?>
+		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		    <td class="table_liste">
+		   	Type du contrat
+		   </td>
+		   <td class="table_liste">
+		   <? if ($this->contrat["etat_contrat"] == "gredin") : ?>
+		  		Gredin.<br>
+		  		Vous devez mettre KO un Redresseur de Tors.
+		  	<? else :  ?>
+		  		Redresseur de Tors.<br>
+		  		Vous devez mettre KO un Gredin.
+		  	<? endif; ?>
+		   </td>
+		   </tr>
+		   
+		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		    <td class="table_liste">
+		   	Objectif
+		   </td>
+		   <td class="table_liste">
+		   	Vous devez mettre KO <?=Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->contrat["id_fk_cible_braldun_contrat"]."]");?>
+		   </td>
+		   </tr>
+		   
+		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		    <td class="table_liste">
+		   	État
+		    </td>
+		   <td class="table_liste">
+		   	<br>
+			<? if ($this->contrat["etat_contrat"] == "terminé"): ?>
+		  		Terminé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
+		  	<? elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
+		  		Annulé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
+		  	<? else: ?>
+		  		En cours, depuis le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_creation_contrat"]);?>
+		  	<? endif;?>
+		   </td>
+		   </tr>
+		   
+		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		    <td class="table_liste">
+		   Gains
+		   </td>
+		   	<td class="table_liste">
+		   	<? if ($this->contrat["etat_contrat"] == "terminé"): ?>
+		  		<?=$this->contrat["gain_contrat"]?>
+		  	<? elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
+		  		Aucun.
+		  	<? else: ?>
+		  		En attente.
+		  	<? endif;?>
+		   	</td>
+		   	</tr>
+	   </tbody>
+	</table>
+					

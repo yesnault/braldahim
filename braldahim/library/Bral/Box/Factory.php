@@ -56,8 +56,14 @@ class Bral_Box_Factory {
 			case "box_competences_soule":
 				return self::getCompetencesSoule($request, $view, $interne);
 				break;
+			case "box_contrats" :
+				return self::getContrats($request, $view, $interne);
+				break;
 			case "box_echoppe" :
 				return self::getEchoppe($request, $view, $interne);
+				break;
+			case "box_filatures" :
+				return self::getFilatures($request, $view, $interne);
 				break;
 			case "box_echoppes" :
 				return self::getEchoppes($request, $view, $interne);
@@ -201,6 +207,18 @@ class Bral_Box_Factory {
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
 		return new Bral_Box_Echoppes($request, $view, $interne);
+	}
+
+	public static function getContrats($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Contrats_Contrats");
+		Zend_Loader::loadClass("Bral_Contrats_Liste");
+		return new Bral_Contrats_Liste("liste", $request, $view, "ask");
+	}
+
+	public static function getFilatures($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Filatures_Filatures");
+		Zend_Loader::loadClass("Bral_Filatures_Liste");
+		return new Bral_Filatures_Liste("liste", $request, $view, "ask");
 	}
 
 	public static function getEffets($request, $view, $interne) {

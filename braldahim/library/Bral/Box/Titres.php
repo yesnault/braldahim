@@ -13,7 +13,7 @@
 class Bral_Box_Titres extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "Titres";
+		return "Réputation";
 	}
 
 	function getNomInterne() {

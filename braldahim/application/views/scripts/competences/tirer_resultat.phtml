@@ -70,6 +70,9 @@
 			<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/><br>
 			Le ballon de soule est tomb&eacute; &agrave; terre !<br>
 		<? endif;?>
+		
+		<? include('commun_attaque_resultat.phtml');?>
+		
  	<? else: ?>
 	 	Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 	 	<? if ($this->retourAttaque["fragilisee"] === true) : ?>

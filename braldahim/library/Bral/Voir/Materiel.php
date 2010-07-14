@@ -80,6 +80,14 @@ class Bral_Voir_Materiel {
 	}
 
 	function renderHistorique() {
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+
+		if ($this->view->user != null && $this->view->user->id_braldun != null) {
+			$this->view->possede = Bral_Util_Materiel::possedeMateriel($this->view->user->id_braldun, $this->view->materiel["id_materiel"]);
+		} else {
+			$this->view->possede = false;
+		}
+
 		$this->preparePage();
 
 		$suivantOk = false;

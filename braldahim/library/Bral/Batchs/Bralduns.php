@@ -15,7 +15,9 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculBatchImpl - enter -");
 		$retour = null;
-
+		
+		$retour .= $this->distinctionsReputation();
+		$retour .= $this->distinctionsPalmares();
 		$retour .= $this->calculPointsDistinctions();
 		$retour .= $this->suppression();
 		$retour .= $this->preventionSuppression();
@@ -24,15 +26,236 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
+	private function distinctionsReputation() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - enter -");
+
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("TypeDistinction");
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+
+		$retour = "";
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+
+		if (count($bralduns) > 0) {
+			foreach ($bralduns as $b) {
+				self::calculDistinctionsReputation($b);
+			}
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - exit -".$retour);
+		return $retour;
+	}
+
+	private function distinctionsPalmares() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - distinctionsPalmares - enter -");
+
+		$retour = "";
+
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionsTable = new BraldunsDistinction();
+
+		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1,   date("Y"));
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
+		$moisSuivant  = mktime(0, 0, 0, date("m") + 1, 1, date("Y"));
+
+		$mois = date("m/Y", $moisPrecedent);
+		$moisDebut = date("Y-m-d H:i:s", $moisPrecedent);
+		$moisFin = date("Y-m-d H:i:s", $moisEnCours);
+		$moisFin2 = date("Y-m-d H:i:s", $moisSuivant);
+
+		$retour .= " moisDebut:".$moisDebut." moisFin:".$moisFin;
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - distinctionsPalmares ". $retour);
+
+		$nbDistinctions = $braldunsDistinctionsTable->countIdTypeDistinctionByDate(Bral_Util_Distinction::ID_TYPE_EXPERIENCE_MOIS, $moisDebut, $moisFin);
+
+		if ($nbDistinctions > 0) {
+			$retour .= " distinctions palmares pour ".$moisDebut."/".$moisFin." deja calculees nb:".$nbDistinctions;
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - distinctionsPalmares - exit A -".$retour);
+			return $retour;
+		}
+
+		Zend_Loader::loadClass("TypeEvenement");
+		Zend_Loader::loadClass("Evenement");
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("StatsRecolteurs");
+		Zend_Loader::loadClass("StatsFabricants");
+		Zend_Loader::loadClass("StatsReputation");
+		Zend_Loader::loadClass("StatsRoutes");
+		Zend_Loader::loadClass("Bral_Util_Metier");
+
+		// Général
+		self::calculDistinctionPalmaresEvenement(TypeEvenement::ID_TYPE_KILLMONSTRE, Bral_Util_Distinction::ID_TYPE_GRANDSCOMBATTANTSPVE_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresEvenement(TypeEvenement::ID_TYPE_KOBRALDUN, Bral_Util_Distinction::ID_TYPE_GRANDSCOMBATTANTSPVP_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresEvenement(TypeEvenement::ID_TYPE_KILLGIBIER, Bral_Util_Distinction::ID_TYPE_GRANDSCHASSEURSDEGIBIERS_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresEvenement(TypeEvenement::ID_TYPE_KO, Bral_Util_Distinction::ID_TYPE_KO_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresExperience(Bral_Util_Distinction::ID_TYPE_EXPERIENCE_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+
+		// Récolteurs
+		self::calculDistinctionPalmaresRecolteurs(Bral_Util_Metier::METIER_MINEUR_ID, Bral_Util_Distinction::ID_TYPE_RECOLTEUR_MOIS_MINEUR, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresRecolteurs(Bral_Util_Metier::METIER_HERBORISTE_ID, Bral_Util_Distinction::ID_TYPE_RECOLTEUR_MOIS_HERBORISTE, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresRecolteurs(Bral_Util_Metier::METIER_CHASSEUR_ID, Bral_Util_Distinction::ID_TYPE_RECOLTEUR_MOIS_CHASSEUR, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresRecolteurs(Bral_Util_Metier::METIER_BUCHERON_ID, Bral_Util_Distinction::ID_TYPE_RECOLTEUR_MOIS_BUCHERON, $moisDebut, $moisFin, $moisFin2, $mois);
+
+		// Fabricants
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_APOTHICAIRE_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_APOTHICAIRE, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_MENUISIER_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_MENUISIER, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_FORGERON_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_FORGERON, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_TANNEUR_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_TANNEUR, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_BUCHERON_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_PALISSADE, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresFabricants(Bral_Util_Metier::METIER_CUISINIER_ID, Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_CUISINIER, $moisDebut, $moisFin, $moisFin2, $mois);
+
+		// Route
+		self::calculDistinctionPalmaresRoutes(Bral_Util_Distinction::ID_TYPE_FABRIQUANT_MOIS_SENTIER, $moisDebut, $moisFin, $moisFin2, $mois);
+
+		// Réputation
+		self::calculDistinctionPalmaresReputation("gredin", Bral_Util_Distinction::ID_TYPE_GREDIN_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+		self::calculDistinctionPalmaresReputation("redresseur", Bral_Util_Distinction::ID_TYPE_REDRESSEUR_MOIS, $moisDebut, $moisFin, $moisFin2, $mois);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - distinctionsPalmares - exit -".$retour);
+		return $retour;
+	}
+
+	private function calculDistinctionPalmaresEvenement($idTypeEvenement, $idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		$evenementTable = new Evenement();
+		$bralduns = $evenementTable->findTopPalmaresBraldun($moisDebut, $moisFin, $idTypeEvenement);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionPalmaresExperience($idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		Zend_Loader::loadClass("StatsExperience");
+		$statsExperienceTable = new StatsExperience();
+		$bralduns = $statsExperienceTable->findTopPalmaresBraldun($moisDebut, $moisFin);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionPalmaresRecolteurs($type, $idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		$statsRecolteurs = new StatsRecolteurs();
+		$bralduns = $statsRecolteurs->findTopPalmaresBraldun($moisDebut, $moisFin, $type);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionPalmaresFabricants($type, $idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		$statsFabricants = new StatsFabricants();
+		$bralduns = $statsFabricants->findTopPalmaresBraldun($moisDebut, $moisFin, $type);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionPalmaresRoutes($idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		$statsRoutes = new StatsRoutes();
+		$bralduns = $statsRoutes->findTopPalmaresBraldun($moisDebut, $moisFin);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionPalmaresReputation($type, $idTypeDistinction, $moisDebut, $moisFin, $moisFin2, $mois) {
+		$statsReputation = new StatsReputation();
+		$bralduns = $statsReputation->findTopPalmaresBraldun($moisDebut, $moisFin, $type);
+		if ($bralduns == null) {
+			return;
+		}
+		foreach($bralduns as $b) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($b["id_braldun"], $b["niveau_braldun"], $idTypeDistinction, $moisFin, $moisFin2, " $mois (score:".$b["nombre"].")");
+		}
+	}
+
+	private function calculDistinctionsReputation($braldun) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculDistinctionsReputation - enter");
+
+		self::calculDistinctionUnique($braldun, 1, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_1_NEUTRE);
+		self::calculDistinctionUnique($braldun, 10, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_10_NEUTRE);
+		self::calculDistinctionUnique($braldun, 20, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_20_NEUTRE);
+		self::calculDistinctionUnique($braldun, 50, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_50_NEUTRE);
+		self::calculDistinctionUnique($braldun, 100, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_100_NEUTRE);
+		self::calculDistinctionUnique($braldun, 500, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_500_NEUTRE);
+		self::calculDistinctionUnique($braldun, 1000, 'neutre', Bral_Util_Distinction::ID_TYPE_KO_1000_NEUTRE);
+
+		self::calculDistinctionUnique($braldun, 1, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_1_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 10, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_10_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 20, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_20_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 50, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_50_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 100, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_100_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 500, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_500_REDRESSEUR);
+		self::calculDistinctionUnique($braldun, 1000, 'redresseur', Bral_Util_Distinction::ID_TYPE_KO_1000_REDRESSEUR);
+
+		self::calculDistinctionUnique($braldun, 1, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_1_GREDIN);
+		self::calculDistinctionUnique($braldun, 10, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_10_GREDIN);
+		self::calculDistinctionUnique($braldun, 20, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_20_GREDIN);
+		self::calculDistinctionUnique($braldun, 50, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_50_GREDIN);
+		self::calculDistinctionUnique($braldun, 100, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_100_GREDIN);
+		self::calculDistinctionUnique($braldun, 500, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_500_GREDIN);
+		self::calculDistinctionUnique($braldun, 1000, 'gredin', Bral_Util_Distinction::ID_TYPE_KO_1000_GREDIN);
+
+		self::calculDistinctionUnique($braldun, 5, 'redresseurs_suite', Bral_Util_Distinction::ID_TYPE_KO_5_REDRESSEURS_SUITE);
+		self::calculDistinctionUnique($braldun, 5, 'gredins_suite', Bral_Util_Distinction::ID_TYPE_KO_5_GREDINS_SUITE);
+
+		/*TODO
+		 *
+		 *
+		 Bral_Util_Distinction::ID_TYPE_KO_1_GREDIN_TOP;
+		 Bral_Util_Distinction::ID_TYPE_KO_1_REDRESSEUR_TOP;
+
+		 Bral_Util_Distinction::ID_TYPE_KO_1_WANTED;
+		 Bral_Util_Distinction::ID_TYPE_MEILLEUR_GREDIN;
+		 Bral_Util_Distinction::ID_TYPE_MEILLEUR_REDRESSEUR;
+		 */
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculDistinctionsReputation - exit");
+	}
+
+	private function calculDistinctionUnique($braldun, $nb, $type, $idTypeDistinction) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculDistinctionUnique - enter - b:".$braldun["id_braldun"]);
+		if ($braldun["nb_ko_".$type."_braldun"] >= $nb) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], $idTypeDistinction);
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculDistinctionUnique - exit");
+	}
+
 	private function calculPointsDistinctions() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - enter -");
 
 		$retour = "";
 		$braldunTable = new Braldun();
-		$bralduns = $braldunTable->fetchall();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 
 		Zend_Loader::loadClass("BraldunsDistinction");
 		$braldunsDistinctionTable = new BraldunsDistinction();
+
+		Zend_Loader::loadClass("StatsDistinction");
+		$statsDistinction = new StatsDistinction();
+
+		Zend_Loader::loadClass("StatsReputation");
+		$statsReputation = new StatsReputation();
 
 		if (count($bralduns) > 0) {
 			foreach ($bralduns as $h) {
@@ -48,6 +271,23 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$data = array('points_distinctions_braldun' => $points);
 				$where = "id_braldun=".intval($h["id_braldun"]);
 				$braldunTable->update($data, $where);
+
+				$data = null;
+				$data["points_stats_distinction"] = $points;
+				$data["id_fk_braldun_stats_distinction"] = $h["id_braldun"];
+				$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
+				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+				$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
+				$statsDistinction->insertOrUpdate($data);
+
+				$data = null;
+				$data["points_gredin_stats_reputation"] = $h["points_gredin_braldun"];
+				$data["points_redresseur_stats_reputation"] = $h["points_redresseur_braldun"];
+				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
+				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
+				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
+				$statsReputation->insertOrUpdate($data);
 			}
 		}
 

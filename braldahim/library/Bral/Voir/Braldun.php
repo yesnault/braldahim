@@ -274,13 +274,13 @@ class Bral_Voir_Braldun {
 		$typeEvenements = $typeEvenementTable->fetchall();
 
 		$tabTypeEvenements[] = array(
-			"id_type_evenement" => -1,
-			"nom" => "(Tous)"
+				"id_type_evenement" => -1,
+				"nom" => "(Tous)"
 			);
 			foreach ($typeEvenements as $t) {
 				$tabTypeEvenements[] = array(
-			"id_type_evenement" => $t->id_type_evenement,
-			"nom" => $t->nom_type_evenement
+					"id_type_evenement" => $t->id_type_evenement,
+					"nom" => $t->nom_type_evenement
 				);
 			}
 

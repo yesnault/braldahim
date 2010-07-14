@@ -14,7 +14,7 @@ class TypeLieu extends Zend_Db_Table {
 	protected $_name = 'type_lieu';
 	protected $_primary = 'id_type_lieu';
 
-	const ID_TYPE_MARIE = 1;
+	const ID_TYPE_MAIRIE = 1;
 	const ID_TYPE_CENTREFORMATION = 2;
 	const ID_TYPE_GARE = 3;
 	const ID_TYPE_HOPITAL = 4;

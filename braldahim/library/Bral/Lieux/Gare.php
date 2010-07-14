@@ -108,6 +108,8 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 
 		$this->majBraldun();
+		Zend_Loader::loadClass("Bral_Util_Filature");
+		Bral_Util_Filature::action($this->view->user, $this->view);
 	}
 
 

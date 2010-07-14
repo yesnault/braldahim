@@ -1,0 +1,52 @@
+<div class='comp_titre'>Maison de Contrat</div>
+ <form name='myForm' id='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <div class='comp_contenu'>
+ 
+ <br>
+ Coût : <?=$this->paUtilisationLieu?> PA.<br><br>
+ 
+ <? if ($this->utilisationPaPossible == false) : ?>
+ 	Vous n'avez pas assez de PA.
+ <? elseif ($this->contratEnCours != null) : ?>
+ 	Vous avez déjà un contrat en cours, vous ne pouvez pas en prendre un autre.
+ <? else: ?>
+ 	Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
+	Vos points de Redresseur de Tors : <?=$this->user->points_redresseur_braldun?><br>
+	
+	<? if ($this->type == "gredin") : ?>
+		Vous êtes dans une maison pour obtenir un contrat de Gredin.
+	<? else: ?>
+		Vous êtes dans une maison pour obtenir un contrat de Redresseur de tors.
+	<? endif; ?>
+	
+	<br><br>
+	
+	<? if ($this->utilisationPossible == false) : ?>
+		<? if ($this->type == "gredin") : ?>
+			Vous n'avez pas assez de point de Gredin pour obtenir ce type de contrat.
+		<? else: ?>
+			Vous n'avez pas assez de point de Redresseur de tors pour obtenir ce type de contrat.
+		<? endif;?>
+		
+	<? elseif ($this->contratDisponible == false) : ?>
+		La maison n'a actuellement aucun contrat à vous proposer.
+	<? else: ?>
+		Souhaitez-vous prendre un contrat 
+		<? if ($this->type == "gredin") : ?>
+			de Gredin
+		<? else: ?>
+			de Redresseur de tors
+		<? endif;?>
+		?
+	<? endif;?>
+ <? endif; ?>
+  
+ </div> 
+</form>
+<br /> 
+<br />
+<? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true && $this->contratDisponible == true) : ?>
+	<input type='button' class='button1' id="bouton_contrat" value='Obtenir le contrat' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_contrat', true);">
+<? endif; ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

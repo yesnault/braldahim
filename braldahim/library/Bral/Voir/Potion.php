@@ -83,6 +83,14 @@ class Bral_Voir_Potion {
 	}
 
 	function renderHistorique() {
+		Zend_Loader::loadClass("Bral_Util_Potion");
+
+		if ($this->view->user != null && $this->view->user->id_braldun != null) {
+			$this->view->possede = Bral_Util_Potion::possedePotion($this->view->user->id_braldun, $this->view->potion["id_potion"]);
+		} else {
+			$this->view->possede = false;
+		}
+
 		$this->preparePage();
 
 		$suivantOk = false;

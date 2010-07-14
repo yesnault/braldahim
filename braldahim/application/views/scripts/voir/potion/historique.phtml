@@ -1,3 +1,6 @@
+<? if (!$this->possede) : ?>
+	Vous ne possédez pas cette potion, vous ne pouvez pas voir son historique.
+<? else: ?>
   	Type : 
   	<select name='valeur_2'  onChange="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->potion["id_potion"]?>&menu=historique&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<? foreach ($this->typeHistorique as $t) : ?>
@@ -48,3 +51,4 @@
    <? endif; ?>
    </table>
    <br /><br />
+<? endif; ?>

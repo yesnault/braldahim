@@ -1,4 +1,8 @@
-<div class='comp_titre'><?=$this->competence["nom"] ?></div>
+<div class='comp_titre'>
+<? if ($this->titreAction != null) : ?>
+	<?=$this->titreAction ?>
+<? endif;?>
+<?=$this->competence["nom"] ?></div>
 
  <div class='comp_contenu'>
 	 <div id='<?=$this->competence["nom_systeme"]?>_text' style="display:block">

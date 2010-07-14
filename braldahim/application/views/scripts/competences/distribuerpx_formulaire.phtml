@@ -1,6 +1,10 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=($this->n_bralduns*2)?>'>
  <div class='comp_contenu'>
  	
+ 	<? if ($this->user->points_gredin_braldun > 0) : ?>
+ 		Vous êtes gredin (<?=$this->user->points_gredin_braldun?> point<? if ($this->user->points_gredin_braldun > 1): echo 's'; endif;?>).
+ 		Vous ne pouvez distribuer des PX qu'à d'autres gredins.<br><br>
+ 	<? endif;?>
  	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='<?=$this->user->px_commun_braldun?>' size='4' disabled> PX<br /><br />
  	<input type='hidden' id='cagnotte_origine' name='cagnotte_origine' value='<?=$this->user->px_commun_braldun?>'>
  	

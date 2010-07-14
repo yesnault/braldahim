@@ -13,7 +13,7 @@
 class Bral_Box_Quetes extends Bral_Box_Box {
 
 	public function getTitreOnglet() {
-		return "Qu&ecirc;tes";
+		return "Qu&ecirc;tes / Contrats";
 	}
 
 	function getNomInterne() {
@@ -38,51 +38,9 @@ class Bral_Box_Quetes extends Bral_Box_Box {
 	}
 
 	protected function data() {
-
-		Zend_Loader::loadClass("Lieu");
-		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findAllLieuQueteAvecRegion();
-
-		Zend_Loader::loadClass("Quete");
-		$queteTable = new Quete();
-		$quetes = $queteTable->findByIdBraldun($this->view->user->id_braldun);
-
-		$idQueteEnCours = -1;
-
-		$lieuxQuetes = null;
-		foreach($lieux as $l) {
-			$lieu = array(
-				'nom_lieu' => $l["nom_lieu"],
-				'nom_ville' => $l["nom_ville"],
-				'date_fin_quete' => null,
-				'id_quete' => null,
-				'en_cours' => false,
-			);
-
-			foreach($quetes as $q) {
-				if ($q["date_fin_quete"] == null) {
-					$idQueteEnCours = $q["id_quete"];
-					if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
-						$lieu["en_cours"] = true;
-					}
-				}
-				if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
-					$lieu["date_fin_quete"] = $q["date_fin_quete"];
-					$lieu["id_quete"] = $q["id_quete"];
-				}
-			}
-
-			$lieuxQuetes[$l["nom_systeme_region"]]["lieux"][] = $lieu;
-			$lieuxQuetes[$l["nom_systeme_region"]]["nom"] = $l["nom_region"];
-		}
-
-		$this->view->lieuxQuetes = $lieuxQuetes;
-
-		if ($idQueteEnCours != -1) {
-			Zend_Loader::loadClass("Bral_Quete_Factory");
-			$voir = Bral_Quete_Factory::getVoir($this->_request, $this->view, $idQueteEnCours);
-			$this->view->htmlQuete = $voir->render();
-		}
+		Zend_Loader :: loadClass("Bral_Quetes_Factory");
+		$box = Bral_Quetes_Factory::getListe($this->_request, $this->view);
+		$this->view->htmlContenu = $box->render();
 	}
 
 }

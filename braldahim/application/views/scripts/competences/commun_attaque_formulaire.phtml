@@ -1,0 +1,20 @@
+		
+Points de Gredin : <?=$this->user->points_gredin_braldun?>.<br>
+Points de Redresseur de Tors : <?=$this->user->points_redresseur_braldun?>.<br><br>
+
+ <? if ($this->estRegionPvp == false) :?>
+ 	<? if ($this->user->points_gredin_braldun > 0 || $this->user->points_redresseur_braldun > 0) : ?>
+ 		Dans cette région, vous ne pouvez attaquer que des gredins ou des redresseurs de tors.
+ 	<? else : ?>
+		Vous ne pouvez pas attaquer de Braldûn dans cette r&eacute;gion.
+	<? endif;?>
+	<br><br>
+<? endif;?>
+
+<? if ($this->user->est_soule_braldun == 'oui') :?>
+	Vous ne pouvez attaquer que des adversaires pendant un match de soule.<br><br>
+<? endif;?>
+
+<? if ($this->user->est_intangible_braldun == 'oui') :?>
+	Vous êtes actuellement intangible, vous ne pouvez pas attaquer.<br><br>
+<? endif;?>

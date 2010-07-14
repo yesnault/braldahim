@@ -1,9 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  
- 	<? if ($this->user->est_intangible_braldun == 'oui') :?>
-			Vous êtes actuellement intangible, vous ne pouvez pas tirer.<br><br>
-	<? elseif ($this->armeTirPortee == true) :?>
+ 	<? include('commun_attaque_formulaire.phtml');?>
+ 
+	<? if ($this->armeTirPortee == true) :?>
 		<? if (!$this->munitionPortee == true) :?>
 			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br>
 		<? endif; ?>
@@ -12,9 +12,6 @@
 	<? endif; ?>
 	
 	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
-		<? if ($this->estRegionPvp == false) :?>
-			Vous ne pouvez pas attaquer de braldun dans cette r&eacute;gion.<br><br>
-		<? endif;?>
 		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br></br>
 	 	<? if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />

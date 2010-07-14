@@ -33,4 +33,16 @@ class Bral_Util_Controle {
 			return (int)$val;
 		}
 	}
+
+	public static function getValeurTrueFalseVerifSansException($val) {
+		if ($val != "false" && $val != "true") {
+			return null;
+		} else {
+			if ($val == "true") {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }

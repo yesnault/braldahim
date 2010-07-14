@@ -115,6 +115,55 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
+	public static function getBoxesDistinction($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Distinctiontop10");
+		Zend_Loader::loadClass("Bral_Palmares_Distinctionfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Distinctionniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Distinctionsexe");
+
+		$retour = null;
+		$retour[] = new Bral_Palmares_Distinctiontop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Distinctionfamille($request, $view, false);
+		$retour[] = new Bral_Palmares_Distinctionniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Distinctionsexe($request, $view, false);
+		$view->titre = "Distinctions";
+		return $retour;
+	}
+
+	
+	public static function getBoxesGredins($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Gredinstop10");
+		Zend_Loader::loadClass("Bral_Palmares_Gredinsfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Gredinsniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Gredinssexe");
+
+		$retour = null;
+		$retour[] = new Bral_Palmares_Gredinstop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Gredinsfamille($request, $view, false);
+		$retour[] = new Bral_Palmares_Gredinsniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Gredinssexe($request, $view, false);
+		$view->titre = "Gredins";
+		return $retour;
+	}
+	
+	public static function getBoxesRedresseurs($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Redresseurstop10");
+		Zend_Loader::loadClass("Bral_Palmares_Redresseursfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Redresseursniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Redresseurssexe");
+
+		$retour = null;
+		$retour[] = new Bral_Palmares_Redresseurstop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Redresseursfamille($request, $view, false);
+		$retour[] = new Bral_Palmares_Redresseursniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Redresseurssexe($request, $view, false);
+		$view->titre = "Redresseurs";
+		return $retour;
+	}
+	
 	public static function getBoxesExperience($request, $view) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Experiencetop10");

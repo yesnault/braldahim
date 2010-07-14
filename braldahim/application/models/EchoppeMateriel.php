@@ -14,7 +14,7 @@ class EchoppeMateriel extends Zend_Db_Table {
 	protected $_name = 'echoppe_materiel';
 	protected $_primary = "id_echoppe_materiel";
 
-	public function findByIdEchoppe($idEchoppe, $typeVente = null) {
+	public function findByIdEchoppe($idEchoppe, $typeVente = null, $idMateriel = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_materiel', '*')
@@ -26,6 +26,9 @@ class EchoppeMateriel extends Zend_Db_Table {
 		->order(array('nom_type_materiel ASC'));
 		if ($typeVente != null) {
 			$select->where('type_vente_echoppe_materiel like ?', $typeVente);
+		}
+		if ($idMateriel != null) {
+			$select->where('id_materiel = ?', intval($idMateriel));
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

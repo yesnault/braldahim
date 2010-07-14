@@ -15,6 +15,7 @@ class Bral_Util_Lien {
 	public static function remplaceBaliseParNomEtJs($texteOriginal, $avecJs = true) {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Braldun");
 		
 		// Monstre
 		$texte = preg_replace_callback("/\[m(.*?)]/si", 

@@ -28,7 +28,7 @@ class BraldunsDistinction extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findDistinctionsByBraldunIdAndIdTypeDistinction($idBraldun, $idTypeDistinction) {
+	function findDistinctionsByBraldunIdAndIdTypeDistinction($idBraldun, $idTypeDistinction, $moisDebut = null, $moisFin = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bralduns_distinction', '*')
@@ -37,10 +37,14 @@ class BraldunsDistinction extends Zend_Db_Table {
 		->where('id_fk_type_distinction_hdistinction = id_type_distinction')
 		->where('id_type_distinction = ?', intval($idTypeDistinction))
 		->order('date_hdistinction');
+		if ($moisDebut != null && $moisFin != null) {
+			$select->where('date_hdistinction >= ?', $moisDebut);
+			$select->where('date_hdistinction < ?', $moisFin);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findDistinctionsByBraldunIdAndIdFkLieuDistinction($idBraldun, $idLieu) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -54,11 +58,24 @@ class BraldunsDistinction extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function countIdTypeDistinctionByDate($idTypeDistinction, $moisDebut, $moisFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('bralduns_distinction', array('count(*) as nombre'))
+		->where('id_fk_type_distinction_hdistinction = ?', intval($idTypeDistinction))
+		->where('date_hdistinction >= ?', $moisDebut)
+		->where('date_hdistinction < ?', $moisFin);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
 	function countDistinctionByIdBraldunList($listId, $idTypeDistinction) {
 		if ($listId == null) {
 			return null;
 		}
-		
+
 		$nomChamp = "id_fk_braldun_hdistinction";
 		$liste = "";
 		foreach($listId as $id) {

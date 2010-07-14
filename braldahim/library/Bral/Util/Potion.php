@@ -79,4 +79,30 @@ class Bral_Util_Potion {
 
 		return $tabPotions;
 	}
+
+	public static function possedePotion($idBraldun, $idPotion) {
+		Zend_Loader::loadClass("CharrettePotion");
+		Zend_Loader::loadClass("EchoppePotion");
+		Zend_Loader::loadClass("LabanPotion");
+
+		$table = new LabanPotion();
+		$potion = $table->findByIdBraldun($idBraldun, null, $idPotion);
+		if ($potion != null) {
+			return true;
+		}
+
+		$table = new CharrettePotion();
+		$potion = $table->findByIdBraldun($idBraldun, null, $idPotion);
+		if ($potion != null) {
+			return true;
+		}
+
+		$table = new EchoppePotion();
+		$potion = $table->findByIdEchoppe($idBraldun, null, null, $idPotion);
+		if ($potion != null) {
+			return true;
+		}
+
+		return false;
+	}
 }

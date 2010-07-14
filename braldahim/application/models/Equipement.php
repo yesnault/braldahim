@@ -14,17 +14,17 @@ class Equipement extends Zend_Db_Table {
 	protected $_name = 'equipement';
 	protected $_primary = array('id_equipement');
 
-	function findByIdEquipement($id_equipement) {
+	function findByIdEquipement($idEquipement) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('equipement', '*')
-		->where('id_equipement = ?', (int)$id_equipement);
+		->where('id_equipement = ?', (int)$idEquipement);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdEquipementWithDetails($id_equipement) {
+	function findByIdEquipementWithDetails($idEquipement) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('recette_equipements')
@@ -35,13 +35,16 @@ class Equipement extends Zend_Db_Table {
 		->from('equipement', '*')
 		->from('type_ingredient')
 		->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement')
-		->where('id_equipement = ?', intval($id_equipement))
 		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
+		
+		if ($idEquipement != "all") {
+			$select->where('id_equipement = ?', intval($idEquipement));
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

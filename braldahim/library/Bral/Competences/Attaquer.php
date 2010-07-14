@@ -31,7 +31,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		} else if ($this->view->user->est_intangible_braldun == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
-			if ($estRegionPvp) {
+			if ($estRegionPvp ||
+			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
 				// recuperation des bralduns qui sont presents sur la case
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
@@ -41,7 +42,12 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 						'nom_braldun' => $h["nom_braldun"],
 						'prenom_braldun' => $h["prenom_braldun"],
 					);
-					if ($this->view->user->est_soule_braldun == 'non' ||
+					
+					if (!$estRegionPvp) { // pve 
+						if ($h["points_gredin_braldun"] > 0 || $h["points_redresseur_braldun"] > 0) {
+							$tabBralduns[] = $tab;
+						}
+					} elseif ($this->view->user->est_soule_braldun == 'non' ||
 					($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
 						$tabBralduns[] = $tab;
 					}

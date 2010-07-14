@@ -14,7 +14,7 @@
    height="297mm"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47pre4 r22446"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="braldahim-web.svg">
   <defs
      id="defs4">
@@ -310,6 +310,124 @@
            in="SourceGraphic" />
       </feMerge>
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3592"
+       id="linearGradient2898"
+       gradientUnits="userSpaceOnUse"
+       x1="142.72739"
+       y1="634.21075"
+       x2="143.94673"
+       y2="583.29077"
+       gradientTransform="matrix(1.1463802,0,0,1.1463802,214.13224,0)" />
+    <filter
+       id="filter2904"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur2906"
+         in="SourceAlpha"
+         stdDeviation="3,000000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix2908"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,800000 0 " />
+      <feOffset
+         id="feOffset2910"
+         in="bluralpha"
+         dx="5,000000"
+         dy="5,000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge2912">
+        <feMergeNode
+           id="feMergeNode2914"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode2916"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter2918"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur2920"
+         in="SourceAlpha"
+         stdDeviation="3,000000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix2922"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,800000 0 " />
+      <feOffset
+         id="feOffset2924"
+         in="bluralpha"
+         dx="5,000000"
+         dy="5,000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge2926">
+        <feMergeNode
+           id="feMergeNode2928"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode2930"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter2932"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur2934"
+         in="SourceAlpha"
+         stdDeviation="3,000000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix2936"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0,800000 0 " />
+      <feOffset
+         id="feOffset2938"
+         in="bluralpha"
+         dx="5,000000"
+         dy="5,000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge2940">
+        <feMergeNode
+           id="feMergeNode2942"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode2944"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3592"
+       id="linearGradient2946"
+       gradientUnits="userSpaceOnUse"
+       x1="142.72739"
+       y1="634.21075"
+       x2="143.94673"
+       y2="583.29077" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -318,15 +436,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="331.21887"
-     inkscape:cy="331.53367"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="201.48275"
+     inkscape:cy="267.69826"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1255"
      inkscape:window-height="751"
-     inkscape:window-x="0"
+     inkscape:window-x="25"
      inkscape:window-y="1"
      inkscape:window-maximized="1" />
   <metadata
@@ -337,7 +455,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -347,15 +465,18 @@
      id="layer1">
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#linearGradient3598);fill-opacity:1;stroke:#642707;font-family:Bitstream Vera Sans;stroke-opacity:1;stroke-width:1.1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#linearGradient2946);fill-opacity:1;stroke:#642707;stroke-width:1.10000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter2932);font-family:Bitstream Vera Sans"
        x="77.14286"
        y="623.79077"
-       id="text2816"><tspan
+       id="text2816"
+       inkscape:export-filename="/home/quentin/Bureau/braldahim.png"
+       inkscape:export-xdpi="90.054848"
+       inkscape:export-ydpi="90.054848"><tspan
          sodipodi:role="line"
-         id="tspan2818"
          x="77.14286"
          y="623.79077"
-         style="-inkscape-font-specification:PerryGothic Bold;font-family:PerryGothic;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;stroke:#642707;stroke-opacity:1;fill-opacity:1;fill:url(#linearGradient3598);stroke-width:1.1;stroke-miterlimit:4;stroke-dasharray:none">Braldahim</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#linearGradient2946);fill-opacity:1;stroke:#642707;stroke-width:1.10000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:PerryGothic;-inkscape-font-specification:PerryGothic Bold"
+         id="tspan2894">Braldahim</tspan></text>
     <g
        id="g4081"
        transform="translate(-31.428571,108.57143)">
@@ -378,7 +499,38 @@
            y="763.71686"
            x="28.419142"
            id="tspan2831"
-           sodipodi:role="line">Braldahim en chacun de nous sommeille un braldun</tspan></text>
+           sodipodi:role="line">Braldahim en chacun de nous sommeille un hobbit</tspan></text>
     </g>
+    <text
+       id="text2888"
+       y="715.10138"
+       x="302.56726"
+       style="font-size:45.85520554000000004px;font-style:normal;font-weight:normal;fill:url(#linearGradient2898);fill-opacity:1;stroke:#642707;stroke-width:1.10000001999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Bitstream Vera Sans;filter:url(#filter2918)"
+       xml:space="preserve"
+       transform="scale(1.1463802,0.87231095)"
+       inkscape:export-filename="/home/quentin/Bureau/braldahim.png"
+       inkscape:export-xdpi="90.054848"
+       inkscape:export-ydpi="90.054848"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#linearGradient2898);fill-opacity:1;stroke:#642707;stroke-width:1.10000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:PerryGothic;-inkscape-font-specification:PerryGothic Bold"
+         y="715.10138"
+         x="302.56726"
+         id="tspan2890"
+         sodipodi:role="line"><tspan
+           id="tspan2892"
+           style="font-size:55.02624893px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#linearGradient2898);stroke-width:1.10000002;font-family:Symbol;-inkscape-font-specification:Symbol Bold">I</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.7748642px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#d0c2c2;fill-opacity:1;stroke:#bebebe;stroke-opacity:1;filter:url(#filter2904);font-family:Elvish Ring NFI;-inkscape-font-specification:Harrington Italic"
+       x="180.29333"
+       y="652.74408"
+       id="text2900"
+       inkscape:export-filename="/home/quentin/Bureau/braldahim.png"
+       inkscape:export-xdpi="90.054848"
+       inkscape:export-ydpi="90.054848"><tspan
+         sodipodi:role="line"
+         id="tspan2902"
+         x="180.29333"
+         y="652.74408"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#d0c2c2;fill-opacity:1;stroke:#bebebe;stroke-opacity:1;font-family:Harrington;-inkscape-font-specification:Harrington Italic">La reconquête</tspan></text>
   </g>
 </svg>

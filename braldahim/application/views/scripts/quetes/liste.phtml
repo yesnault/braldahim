@@ -1,0 +1,59 @@
+  <br>
+  <ul class="titre textalic textsized">Terminez toutes les quêtes d'une comté pour accéder à un Donjon</ul>
+  <br> 
+  
+ 	<table width="100%">
+ 		<tr>
+ 			<td width="40%" valign="top">
+ 				<table class="table_liste" style="width:90%">
+					<thead class="table_liste">
+					  <tr class="table_liste">
+						<th colspan='2'> Qu&ecirc;tes r&eacute;alis&eacute;es ou en cours<br></th>
+					  </tr>
+					</thead>
+					
+					<tbody>
+					 <? foreach($this->lieuxQuetes as $region) :
+					 	$i = 0; 
+					 	?>
+					 	<tr class="table_liste">
+							<td class="table_liste_th" colspan='2'><?=$region["nom"]?></td>
+					 	</tr>
+					 	<? foreach($region["lieux"] as $l) : ?>
+				  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+				  		<td class="table_liste">
+				  			<? if ($l["id_quete"] != null) : ?>
+						  	<label class="alabel" onClick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$l["id_quete"]?>');">
+						  	<? else: ?>
+						  	<label>
+						  	<? endif;?>
+						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?> 
+						  	<? if ($l["id_quete"] != null) : ?>
+						  	</label>
+						  	<? endif;?>
+						  	
+						  	(<a title="Cliquez pour voir <?=$l["nom_ville"]?> dans les règles" style="text-decoration: none" onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$l["nom_ville"]?>')";><?=$l["nom_ville"]?></a>)
+						  
+						</td>
+						<td class="table_liste" nowrap>
+						  	<? if ($l["date_fin_quete"] != null): ?> 
+						  		Terminée
+						  	<? elseif ($l["en_cours"] === true): ?>
+						  		En Cours
+						  	<? else: ?>
+						  		Non Débutée
+						  	<? endif;?>
+						 </td>
+					  	 </tr>
+					  	<? endforeach;?>
+					  <? endforeach;?>
+					</tbody>
+				</table>
+ 			</td>
+ 			<td width="60%" valign="top">
+ 				<div id="box_quete_voir">
+				<?=$this->htmlQuete?>
+				</div>
+ 			</td>
+ 		</tr>
+ 	</table>

@@ -32,6 +32,29 @@ class CharrettePotion extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findByIdBraldun($idBraldun, $idTypePotion = null, $idPotion = null) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette_potion', '*')
+		->from('type_potion')
+		->from('type_qualite')
+		->from('potion')
+		->from('charrette')
+		->where('id_charrette_potion = id_potion')
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
+		->where('id_fk_charrette_potion = id_charrette')
+		->where('id_fk_braldun_charrette = ?', intval($idBraldun));
+		if ($idTypePotion != null) {
+			$select->where('id_type_potion = ?', intval($idTypePotion));
+		}
+		if ($idPotion != null) {
+			$select->where('id_potion = ?', intval($idPotion));
+		}
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function countByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();

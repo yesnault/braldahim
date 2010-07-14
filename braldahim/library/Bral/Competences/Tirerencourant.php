@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,7 +11,7 @@
  */
 
 class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
-	
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("Bral_Util_Commun");
@@ -20,14 +20,14 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("LabanMunition");
 		Zend_Loader::loadClass("Palissade");
-		
+
 		//on verifie que le braldun porte une arme de tir
 		$armeTirPortee = false;
 		$munitionPortee = false;
 		$idMunitionPortee = null;
 		$braldunEquipement = new BraldunEquipement();
 		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
-		
+
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
 			//on verifie qu'il a des munitions et que ce sont les bonnes
@@ -45,16 +45,16 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				}
 			}
 		}
-		
+
 		if ($armeTirPortee == true && $munitionPortee == true && $this->view->user->est_intangible_braldun == "non") {
-			
+
 			//on vérifie que le braldun peut courrir (palissade et coins du jeu)
 			$x_min = $this->view->user->x_braldun - 1;
 			$x_max = $this->view->user->x_braldun + 1;
 			$y_min = $this->view->user->y_braldun - 1;
 			$y_max = $this->view->user->y_braldun + 1;
 			$z = $this->view->user->z_braldun;
-			
+
 			$tabCoord = null;
 			$course = false;
 			$palissadeTable = new Palissade();
@@ -79,8 +79,9 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				$tabBralduns = null;
 				$tabMonstres = null;
 				$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
-				
-				if ($estRegionPvp) {
+
+				if ($estRegionPvp ||
+				$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
 					// recuperation des bralduns qui sont presents sur la case
 					$braldunTable = new Braldun();
 					$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->id_braldun, false);
@@ -90,10 +91,17 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 							'nom_braldun' => $h["nom_braldun"],
 							'prenom_braldun' => $h["prenom_braldun"],
 						);
-						$tabBralduns[] = $tab;
+						if (!$estRegionPvp) { // pve
+							if ($h["points_gredin_braldun"] > 0 || $h["points_redresseur_braldun"] > 0) {
+								$tabBralduns[] = $tab;
+							}
+						} elseif ($this->view->user->est_soule_braldun == 'non' ||
+						($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
+							$tabBralduns[] = $tab;
+						}
 					}
 				}
-				
+
 				// recuperation des monstres qui sont presents sur la case
 				$monstreTable = new Monstre();
 				$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
@@ -118,11 +126,11 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$this->view->munitionPortee = $munitionPortee;
 		$this->view->idMunitionPortee = $idMunitionPortee;
 	}
-	
+
 	function prepareFormulaire() {
-		
+
 	}
-	
+
 	function prepareResultat() {
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
@@ -171,23 +179,23 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				$this->view->cibleVisible = true;
 			}
 		}
-		
+
 		if ($this->view->cibleVisible == false) {
 			$this->setNbPaSurcharge(0);
 			return;
 		}
-		
+
 		if ($this->view->course === false) {
 			throw new Zend_Exception(get_class($this)." impossible de courrir");
 		}
-		
+
 		if ($this->view->armeTirPortee === false){
 			throw new Zend_Exception(get_class($this)." pas d'arme de tir");
 		}
 		if ($this->view->munitionPortee === false){
 			throw new Zend_Exception(get_class($this)." pas de munitions !");
 		}
-		
+
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			if ($attaqueBraldun === true) {
@@ -205,50 +213,50 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 			);
 			$labanMunition->insertOrUpdate($data);
-			
+
 			/* on va à une case aléatoire autour du braldun parmi celles disponibles*/
 			$nbCasePossible = count ($this->view->tabCourse);
 
 			$n=Bral_Util_De::getLanceDeSpecifique(1,1,$nbCasePossible);
-			
+
 			$this->view->user->x_braldun = $this->view->tabCourse[$n-1]["x"];
 			$this->view->user->y_braldun = $this->view->tabCourse[$n-1]["y"];
 		}
-		
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majBraldun();
 	}
-	
+
 	protected function calculJetAttaque($braldun) {
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
 		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
-		
+
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
 		return $jetAttaquant;
 	}
-	
+
 	protected function calculDegat($braldun) {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
-		
+
 		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
-		
+
 		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun);
-		
+
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
 
 		return $jetDegat;
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_profil", "box_competences_communes", "box_lieu", "box_echoppes"));
 	}
-	
+
 	public function calculPx() {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
@@ -265,6 +273,6 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			}
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
-	}	
-	
+	}
+
 }

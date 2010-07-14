@@ -41,14 +41,14 @@ class Bral_Palmares_Fabricantsniveau extends Bral_Palmares_Box {
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);
 			$mdate = $this->getTabDateFiltre();
 			$statsTable = new StatsRoutes();
-			$rowset = $statsTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $this->view->type, $this->view->config);
+			$rowset = $statsTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $this->view->type);
 			$this->view->niveaux = $rowset;
 		} else {
 			Zend_Loader::loadClass("StatsFabricants");
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);
 			$mdate = $this->getTabDateFiltre();
 			$statsFabricantsTable = new StatsFabricants();
-			$rowset = $statsFabricantsTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $this->view->type, $this->view->config);
+			$rowset = $statsFabricantsTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $this->view->type);
 			$this->view->niveaux = $rowset;
 		}
 
