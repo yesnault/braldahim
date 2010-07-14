@@ -1093,7 +1093,7 @@ class Bral_Util_Attaque {
 		}
 
 		if ($retourAttaque["attaquantDeltaPointsRedresseur"] != null) {
-			$retour .= PHP_EOL."Influence sur les points de Redreseur de Tors de l'attaquant: ".$retourAttaque["attaquantDeltaPointsRedresseur"];
+			$retour .= PHP_EOL."Influence sur les points de Redreseur de Torts de l'attaquant: ".$retourAttaque["attaquantDeltaPointsRedresseur"];
 		}
 
 		if ($retourAttaque["cibleDeltaPointsGredin"] != null) {
@@ -1101,7 +1101,7 @@ class Bral_Util_Attaque {
 		}
 
 		if ($retourAttaque["cibleDeltaPointsRedresseur"] != null) {
-			$retour .= PHP_EOL."Influence sur vos points de Redresseur de Tors : ".$retourAttaque["cibleDeltaPointsRedresseur"];
+			$retour .= PHP_EOL."Influence sur vos points de Redresseur de Torts : ".$retourAttaque["cibleDeltaPointsRedresseur"];
 		}
 
 		return $retour;

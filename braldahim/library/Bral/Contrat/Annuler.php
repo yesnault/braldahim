@@ -66,7 +66,7 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 			if ($this->view->user->points_redresseur_braldun < 0) {
 				$this->view->user->points_redresseur_braldun = 0;
 			}
-			$perte = " 5 points de Redresseur de Tors"; 
+			$perte = " 5 points de Redresseur de Torts"; 
 		}
 		$this->majBraldun();
 		$this->view->perte = $perte;

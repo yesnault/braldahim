@@ -213,7 +213,7 @@ class PalmaresController extends Bral_Controller_Box {
 		
 		$reputation[] = array("nom" => "Distinctions", "url" => "distinction");
 		$reputation[] = array("nom" => "Gredins", "url" => "gredins");
-		$reputation[] = array("nom" => "Redresseurs de tors", "url" => "redresseurs");
+		$reputation[] = array("nom" => "Redresseurs de Torts", "url" => "redresseurs");
 		$this->view->selectionReputation = $reputation;
 		
 		$selectionRecolteurs = null;

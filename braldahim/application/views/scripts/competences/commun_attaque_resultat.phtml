@@ -4,7 +4,7 @@
 <? endif;?>
 
 <? if ($this->retourAttaque["attaquantDeltaPointsRedresseur"] != null) : $modif = true; ?>
-	<br>Influence sur vos points de Redreseur de Tors : <?=$this->retourAttaque["attaquantDeltaPointsRedresseur"] ?>
+	<br>Influence sur vos points de Redreseur de Torts : <?=$this->retourAttaque["attaquantDeltaPointsRedresseur"] ?>
 <? endif;?>
 
 <? if ($this->retourAttaque["cibleDeltaPointsGredin"] != null) : $modif = true; ?>
@@ -12,13 +12,13 @@
 <? endif;?>
 
 <? if ($this->retourAttaque["cibleDeltaPointsRedresseur"] != null) : $modif = true; ?>
-	<br>Influence sur les points de Redresseur de Tors de la cible  : <?=$this->retourAttaque["cibleDeltaPointsRedresseur"] ?>
+	<br>Influence sur les points de Redresseur de Torts de la cible  : <?=$this->retourAttaque["cibleDeltaPointsRedresseur"] ?>
 <? endif;?>
 
 <? if ($modif === true) : ?>
 <br><br>
 Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
-Vos points de Redresseur de Tors : <?=$this->user->points_redresseur_braldun?><br>
+Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br>
 <? endif;?>
 
 <? if ($this->retourAttaque["nouvelleDistinction"] != null) : ?>
