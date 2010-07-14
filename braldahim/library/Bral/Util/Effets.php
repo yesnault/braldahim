@@ -221,6 +221,10 @@ class Bral_Util_Effets {
 			if ($braldunCible->balance_faim_braldun <= 0) {
 				$braldunCible->balance_faim_braldun = 0;
 			}
+				
+			if ($braldunCible->balance_faim_braldun > 100) {
+				$braldunCible->balance_faim_braldun = 100;
+			}
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurBraldun - effet sur BBDF apres = ".$braldunCible->sagesse_bm_braldun);
 		} else if ($effet["caracteristique"] == self::CARACT_ATTAQUE) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurBraldun - effet sur ATT avant = ".$braldunCible->bm_attaque_braldun);
