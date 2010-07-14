@@ -26,7 +26,10 @@ class Bral_Util_Contrat {
 				
 			Zend_Loader::loadClass("Coffre");
 			$tableCoffre = new Coffre();
-			$data = array("quantite_castar_coffre" => 500);
+			$data = array(
+				"quantite_castar_coffre" => 500,
+				"id_fk_braldun_coffre" => $idBraldunSource,
+			);
 			$tableCoffre->insertOrUpdate($data);
 				
 			$data = array(
