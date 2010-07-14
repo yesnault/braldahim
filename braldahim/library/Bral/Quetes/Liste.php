@@ -66,7 +66,7 @@ class Bral_Quetes_Liste extends Bral_Quetes_Quetes {
 
 		if ($idQueteEnCours != -1) {
 			Zend_Loader::loadClass("Bral_Quete_Factory");
-			$voir = Bral_Quete_Factory::getVoir($this->_request, $this->view, $idQueteEnCours);
+			$voir = Bral_Quete_Factory::getVoir($this->request, $this->view, $idQueteEnCours);
 			$this->view->htmlQuete = $voir->render();
 		}
 	}
