@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Chasseursgibierniveau.php 1366 2009-03-22 12:42:04Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-03-22 13:42:04 +0100 (Dim, 22 mar 2009) $
- * $LastChangedRevision: 1366 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Palmares_Chasseursgibierniveau extends Bral_Palmares_Box {
 

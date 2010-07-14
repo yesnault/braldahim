@@ -25,4 +25,10 @@ Vos points de Redresseur de Tors : <?=$this->user->points_redresseur_braldun?><b
 	<br>
 	<?=$this->retourAttaque["nouvelleDistinction"]?><br>
 <? endif;?>
+
+<? if ($this->retourAttaque["contratModifie"] === true) : ?>
+	<br>
+	<b>Il y a du nouveau sur votre contrat. Consultez l'onglet Quêtes / Contrats.</b>
+	<br>
+<? endif;?>
 <br>

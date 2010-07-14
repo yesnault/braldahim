@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Message.php 2687 2010-05-19 11:20:16Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-05-19 13:20:16 +0200 (mer., 19 mai 2010) $
- * $LastChangedRevision: 2687 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Soule_Message extends Bral_Soule_Soule {
 

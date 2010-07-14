@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: ConvertDate.php 1359 2009-03-21 21:54:01Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-03-21 22:54:01 +0100 (sam., 21 mars 2009) $
- * $LastChangedRevision: 1359 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_ConvertDate {
 

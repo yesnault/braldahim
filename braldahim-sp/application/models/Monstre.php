@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Monstre.php 2071 2009-10-07 20:39:46Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-10-07 22:39:46 +0200 (mer., 07 oct. 2009) $
- * $LastChangedRevision: 2071 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Monstre extends Zend_Db_Table {
 	protected $_name = 'monstre';

@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: CoffreEquipement.php 1906 2009-08-18 22:01:32Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-08-19 00:01:32 +0200 (mer., 19 août 2009) $
- * $LastChangedRevision: 1906 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class CoffreEquipement extends Zend_Db_Table {
 	protected $_name = 'coffre_equipement';

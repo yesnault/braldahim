@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Lieu.php 2763 2010-06-26 22:08:12Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-06-27 00:08:12 +0200 (dim., 27 juin 2010) $
- * $LastChangedRevision: 2763 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Lieu extends Zend_Db_Table {
 	protected $_name = 'lieu';

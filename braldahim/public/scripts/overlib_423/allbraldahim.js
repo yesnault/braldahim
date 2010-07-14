@@ -1246,7 +1246,7 @@ else {
 //\  Copyright Erik Bosrup 1998-2004. All rights reserved.
 //\  Contributors are listed on the homepage.
 //\  See http://www.bosrup.com/web/overlib/ for details.
-// $Revision: 1118 $                      $Date: 2009-02-02 08:24:00 +0100 (lun., 02 févr. 2009) $
+// $Revision$                      $Date$
 //\/////
 //\mini
 ////////
@@ -1552,7 +1552,7 @@ if (olInfo.meets(4.14)) registerNoParameterCommands('fadein,fadeout');
 //\  Copyright Erik Bosrup 1998-2004. All rights reserved.
 //\  Contributors are listed on the homepage.
 //\  See http://www.bosrup.com/web/overlib/ for details.
-// $Revision: 1118 $                      $Date: 2009-02-02 08:24:00 +0100 (lun., 02 févr. 2009) $
+// $Revision$                      $Date$
 //\/////
 //\mini
 

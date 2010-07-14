@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Charrette.php 2212 2009-12-06 14:14:07Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-12-06 15:14:07 +0100 (dim., 06 déc. 2009) $
- * $LastChangedRevision: 2212 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Charrette extends Zend_Db_Table {
 	protected $_name = 'charrette';

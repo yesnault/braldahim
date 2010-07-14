@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Element.php 2211 2009-12-06 14:12:07Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-12-06 15:12:07 +0100 (dim., 06 déc. 2009) $
- * $LastChangedRevision: 2211 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Element extends Zend_Db_Table {
 	protected $_name = 'element';

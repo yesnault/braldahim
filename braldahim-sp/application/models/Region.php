@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Region.php 2275 2009-12-21 07:40:54Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-12-21 08:40:54 +0100 (lun., 21 déc. 2009) $
- * $LastChangedRevision: 2275 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Region extends Zend_Db_Table {
 	protected $_name = 'region';

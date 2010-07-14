@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Contrat.php 2164 2009-11-08 21:32:20Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-11-08 22:32:20 +0100 (Dim, 08 nov 2009) $
- * $LastChangedRevision: 2164 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 abstract class Bral_Filatures_Filatures {
 	

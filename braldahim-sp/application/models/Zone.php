@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Zone.php 2040 2009-09-25 22:00:02Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-09-26 00:00:02 +0200 (sam., 26 sept. 2009) $
- * $LastChangedRevision: 2040 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Zone extends Zend_Db_Table {
 	protected $_name = 'zone';

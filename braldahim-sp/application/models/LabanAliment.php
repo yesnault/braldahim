@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: LabanAliment.php 2234 2009-12-08 22:51:07Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-12-08 23:51:07 +0100 (mar., 08 déc. 2009) $
- * $LastChangedRevision: 2234 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class LabanAliment extends Zend_Db_Table {
 	protected $_name = 'laban_aliment';

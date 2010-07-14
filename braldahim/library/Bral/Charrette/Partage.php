@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Attraper.php 2631 2010-05-08 23:00:06Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-05-09 01:00:06 +0200 (dim., 09 mai 2010) $
- * $LastChangedRevision: 2631 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Charrette_Partage extends Bral_Charrette_Charrette {
 

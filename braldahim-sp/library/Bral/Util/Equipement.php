@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Equipement.php 2203 2009-11-24 09:52:37Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-11-24 10:52:37 +0100 (mar., 24 nov. 2009) $
- * $LastChangedRevision: 2203 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_Equipement {
 

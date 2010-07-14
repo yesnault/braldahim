@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Evenement.php 1315 2009-03-12 07:29:50Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-03-12 08:29:50 +0100 (jeu., 12 mars 2009) $
- * $LastChangedRevision: 1315 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Evenement extends Zend_Db_Table {
 	protected $_name = 'evenement';

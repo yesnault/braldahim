@@ -48,6 +48,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["cibleDeltaPointsGredin"] = null;
 		$retourAttaque["cibleDeltaPointsRedresseur"] = null;
 		$retourAttaque["nouvelleDistinction"] = null;
+		$retourAttaque["contratModifie"] = false;
 
 		$cible = array('nom_cible' => $braldunCible->prenom_braldun ." ". $braldunCible->nom_braldun,
 			'id_cible' => $braldunCible->id_braldun, 
@@ -334,6 +335,8 @@ class Bral_Util_Attaque {
 				}
 			}
 			self::calculPointsKo($braldunAttaquant, $braldunCible, $retourAttaque);
+			Zend_Loader::loadClass("Bral_Util_Contrat");
+			$retourAttaque["contratModifie"] = Bral_Util_Contrat::action($braldunAttaquant->id_braldun, $braldunCible->id_braldun);
 		} else {
 
 			if ($retourAttaque["critique"] == true) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
@@ -579,6 +582,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["cibleDeltaPointsGredin"] = null;
 		$retourAttaque["cibleDeltaPointsRedresseur"] = null;
 		$retourAttaque["nouvelleDistinction"] = null;
+		$retourAttaque["contratModifie"] = false;
 
 		if ($monstre["genre_type_monstre"] == 'feminin') {
 			$m_taille = $monstre["nom_taille_f_monstre"];

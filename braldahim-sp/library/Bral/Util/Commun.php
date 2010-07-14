@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Commun.php 2150 2009-11-02 20:41:08Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-11-02 21:41:08 +0100 (lun., 02 nov. 2009) $
- * $LastChangedRevision: 2150 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_Commun {
 
