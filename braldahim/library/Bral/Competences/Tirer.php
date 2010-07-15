@@ -368,7 +368,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_profil"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_titres"));
 	}
 
 	public function calculPx() {

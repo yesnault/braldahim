@@ -29,9 +29,15 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 		$contratEnCours = $tableContrat->findEnCoursByIdBraldun($this->view->user->id_braldun);
 		if ($contratEnCours != null) {
 			$this->view->contratEnCours = $contratEnCours;
+			if ($this->view->contratEnCours["type_contrat"] == "gredin") {
+				$this->view->perte = " 5 points de Gredin";
+			} else {
+				$this->view->perte = " 5 points de Redresseur de Torts";
+			}
 		} else {
 			$this->view->contratEnCours = null;
 		}
+
 
 	}
 
@@ -54,23 +60,23 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 		);
 		$where = "id_contrat = ".$this->view->contratEnCours["id_contrat"];
 		$tableContrat->update($data, $where);
-		
+
 		if ($this->view->contratEnCours["type_contrat"] == "gredin") {
 			$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - 5;
 			if ($this->view->user->points_gredin_braldun < 0) {
 				$this->view->user->points_gredin_braldun = 0;
-			} 
+			}
 			$perte = " 5 points de Gredin";
 		} else {
 			$this->view->user->points_redresseur_braldun = $this->view->user->points_redresseur_braldun - 5;
 			if ($this->view->user->points_redresseur_braldun < 0) {
 				$this->view->user->points_redresseur_braldun = 0;
 			}
-			$perte = " 5 points de Redresseur de Torts"; 
+			$perte = " 5 points de Redresseur de Torts";
 		}
 		$this->majBraldun();
 		$this->view->perte = $perte;
-	}	
+	}
 
 	function getListBoxRefresh() {
 		return array("box_contrats");

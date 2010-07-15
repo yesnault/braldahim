@@ -43,13 +43,13 @@ class Bral_Util_Rune {
 		Bral_Util_Log::tech()->debug(" - dropRune - tirage=".$tirage. " niveauTue=".$niveauTue. " effetMotD=".$effetMotD);
 
 		if ($tirage >= 1 && $tirage <= 1 + ($niveauTue/4) + $effetMotD) {
-			$niveauRune = 'a';
+			$niveauRune = 'a'; // très rare
 		} else if ($tirage >= 2 && $tirage <= 10 + ($niveauTue/4) + $effetMotD) {
-			$niveauRune = 'b';
+			$niveauRune = 'b'; // rare
 		} else if ($tirage >= 11 && $tirage <= 30 - ($niveauTue/4) + $effetMotD) {
-			$niveauRune = 'c';
+			$niveauRune = 'c'; // peu commune
 		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
-			$niveauRune = 'd';
+			$niveauRune = 'd'; // commune
 		}
 
 		Bral_Util_Log::tech()->debug(" - dropRune - niveau retenu=".$niveauRune);

@@ -639,7 +639,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban", "box_effets"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban", "box_effets", "box_titres"));
 	}
 
 	private function utiliserPotionBraldun($potion, $idBraldun) {

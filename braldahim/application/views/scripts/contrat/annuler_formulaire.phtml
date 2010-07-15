@@ -3,7 +3,9 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	<? if ($this->contratEnCours != null) : ?>
-		Voulez-vous vraiement annuler le contrat en cours ?
+		Voulez-vous vraiment annuler le contrat en cours ?<br><br>
+		
+		Attention, si vous acceptez, vous allez perdre <?=$this->perte?>.
 	<? else: ?>
 		Vous n'avez aucun contrat à annuler.
 	<? endif;?>

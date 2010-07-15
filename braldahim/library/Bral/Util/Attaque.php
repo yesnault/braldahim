@@ -94,7 +94,7 @@ class Bral_Util_Attaque {
 		if ($braldunAttaquant->est_soule_braldun == "oui") {
 			return;
 		}
-		
+
 		if ($braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
 			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 1;
 			$retourAttaque["attaquantDeltaPointsGredin"] = 1;
@@ -127,9 +127,9 @@ class Bral_Util_Attaque {
 
 		if ($braldunAttaquant->niveau_braldun <= $braldunCible->niveau_braldun) {
 			Zend_Loader::loadClass("Bral_Util_Distinction");
-			$retourAttaque["nouvelleDistinction"] = Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldunAttaquant->id_braldun, $braldunAttaquant->niveau_braldun, Bral_Util_Distinction::ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL);	
+			$retourAttaque["nouvelleDistinction"] = Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldunAttaquant->id_braldun, $braldunAttaquant->niveau_braldun, Bral_Util_Distinction::ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL);
 		}
-		
+
 		if ($braldunCible->points_redresseur_braldun > 0) {
 			$braldunAttaquant->nb_ko_redresseurs_suite_braldun = $braldunAttaquant->nb_ko_redresseurs_suite_braldun + 1;
 			$braldunAttaquant->nb_ko_redresseur_braldun = $braldunAttaquant->nb_ko_redresseur_braldun + 1;
@@ -340,7 +340,12 @@ class Bral_Util_Attaque {
 			}
 			self::calculPointsKo($braldunAttaquant, $braldunCible, $retourAttaque);
 			Zend_Loader::loadClass("Bral_Util_Contrat");
-			$retourAttaque["contratModifie"] = Bral_Util_Contrat::action($braldunAttaquant->id_braldun, $braldunCible->id_braldun);
+			$retourAttaque["contratModifie"] = Bral_Util_Contrat::action($braldunAttaquant, $braldunCible);
+
+			if ($retourAttaque["contratModifie"] != null) {
+				Zend_Loader::loadClass("Bral_Util_Distinction");
+				$retourAttaque["nouvelleDistinction"] = Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldunAttaquant->id_braldun, $braldunAttaquant->niveau_braldun, Bral_Util_Distinction::ID_TYPE_KO_1_WANTED);
+			}
 		} else {
 
 			if ($retourAttaque["critique"] == true) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
