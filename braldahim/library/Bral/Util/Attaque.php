@@ -91,6 +91,10 @@ class Bral_Util_Attaque {
 	private static function calculPointsAttaque(&$braldunAttaquant, &$braldunCible, &$retourAttaque) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculPointsAttaque - enter -");
 
+		if ($braldunAttaquant->est_soule_braldun == "oui") {
+			return;
+		}
+		
 		if ($braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
 			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 1;
 			$retourAttaque["attaquantDeltaPointsGredin"] = 1;
