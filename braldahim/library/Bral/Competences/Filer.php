@@ -332,6 +332,6 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes", "box_quetes"));
+		return $this->constructListBoxRefresh(array("box_competences_communes", "box_filatures"));
 	}
 }
