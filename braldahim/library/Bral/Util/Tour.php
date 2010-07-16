@@ -25,9 +25,12 @@ class Bral_Util_Tour {
 		$retour["minutesBase"] = Bral_Util_ConvertDate::getMinuteFromHeure($braldun->duree_prochain_tour_braldun);
 		$retour["minutesBlessures"] = 0;
 		$retour["minutesBM"] = $braldun->duree_bm_tour_braldun;
+		$config = Zend_Registry::get('config');
+		
+		$totalPvSansBm = intval($config->game->pv_base + $braldun->vigueur_base_braldun * $config->game->pv_max_coef);
 		
 		if (($braldun->pv_max_braldun + $braldun->pv_max_bm_braldun) >= $braldun->pv_restant_braldun) {
-			$retour["minutesBlessures"]  = floor($retour["minutesBase"] / (4 * $braldun->pv_max_braldun)) * ($braldun->pv_max_braldun - $braldun->pv_restant_braldun);
+			$retour["minutesBlessures"] = floor($retour["minutesBase"] / (4 * $totalPvSansBm)) * ($totalPvSansBm - $braldun->pv_restant_braldun);
 			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBlessures"] + $retour["minutesBM"]);
 		} else {
 			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBM"]);

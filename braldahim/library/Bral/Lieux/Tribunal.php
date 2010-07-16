@@ -16,33 +16,49 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 		$utilisationPointPossible = false;
 		$travauxOk = false;
 		$cautionOk = false;
+		$soudoyerOk = false;
 
 		if ($this->view->user->pa_braldun >= 4) {
 			$travauxOk = true;
 		}
-		
+
 		Zend_Loader::loadClass("Contrat");
 		$tableContrat = new Contrat();
 		$contrat = $tableContrat->findEnCoursByIdBraldunCible($this->view->user->id_braldun);
-		
+
 		$contratEnCours = false;
 		if ($contrat != null && count($contrat) > 0) {
 			$contratEnCours = true;
 		}
 
-		if ($this->view->user->pa_braldun >= 1 && $this->view->user->castars_braldun >= 100) {
-			$cautionOk = true;
-		}
-
+		$type = null;
+		$coutCastarsSoudoyer = 0;
+		$soudoyerOk = false;
 		if ($this->view->user->points_gredin_braldun > 0) {
+			$type = "gredin";
 			$utilisationPointPossible = true;
-		}
+			if ($this->view->user->pa_braldun >= 1 && $this->view->user->castars_braldun >= 100) {
+				$cautionOk = true;
+			}
+			$this->view->utilisationPossible = $utilisationPointPossible && ($travauxOk || $cautionOk);
 
-		$this->view->utilisationPossible = $utilisationPointPossible && ($travauxOk || $cautionOk);
+		} elseif ($this->view->user->points_redresseur_braldun > 0) {
+			$type = "redresseur";
+			$utilisationPointPossible = true;
+			$coutCastarsSoudoyer = 50 * $this->view->user->points_redresseur_braldun;
+			if ($this->view->user->pa_braldun >= 1 && $this->view->user->castars_braldun > 50 * $this->view->user->points_redresseur_braldun) {
+				$soudoyerOk = true;
+			}
+			$this->view->utilisationPossible = true;
+		}
 
 		$this->view->utilisationPointPossible = $utilisationPointPossible;
 		$this->view->travauxOk = $travauxOk;
 		$this->view->cautionOk = $cautionOk;
+		$this->view->soudoyerOk = $soudoyerOk;
+		$this->view->coutCastarsSoudoyer = $coutCastarsSoudoyer;
+		$this->view->type = $type;
+
 		$this->view->contratEnCours = $contratEnCours;
 	}
 
@@ -58,31 +74,39 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 		if ($this->view->contratEnCours == true) {
 			throw new Zend_Exception(get_class($this)." Tribunal contrat impossible");
 		}
-		
+
 		if ($this->view->utilisationPointPossible == false) {
 			throw new Zend_Exception(get_class($this)." Tribunal impossible 2");
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
+		if ($this->view->type == "gredin") {
+			if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
+			} else {
+				$choix = (int)$this->request->get("valeur_1");
+			}
+
+			if ($choix == 1 && $this->view->travauxOk != true) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide b : val=".$this->request->get("valeur_1"));
+			} elseif ($choix == 2 && $this->view->cautionOk != true) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide c : val=".$this->request->get("valeur_1"));
+			}
 		} else {
-			$choix = (int)$this->request->get("valeur_1");
+			//TODO
 		}
 
-		if ($choix == 1 && $this->view->travauxOk != true) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide b : val=".$this->request->get("valeur_1"));
-		} elseif ($choix == 2 && $this->view->cautionOk != true) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide c : val=".$this->request->get("valeur_1"));
-		}
 
-		
-		if ($choix == 1) {
-			$this->view->paUtilisationLieu = 4;
-			$this->view->choix = 1;
-		} else { //if ($choix == 2) {
-			$this->view->paUtilisationLieu = 1;
-			$this->view->user->castars_braldun = $this->view->user->castars_braldun - 100;
-			$this->view->choix = 2;
+		if ($this->view->type == "gredin") {
+			if ($choix == 1) {
+				$this->view->paUtilisationLieu = 4;
+				$this->view->choix = 1;
+			} else { //if ($choix == 2) {
+				$this->view->paUtilisationLieu = 1;
+				$this->view->user->castars_braldun = $this->view->user->castars_braldun - 100;
+				$this->view->choix = 2;
+			}
+		} else {
+			//TODO
 		}
 		$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - 1;
 		$this->majBraldun();

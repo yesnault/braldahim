@@ -1,37 +1,61 @@
 <div class='comp_titre'>Tribunal</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <? if ($this->view->type == "gredin"): ?>
+ 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <? else: ?>
+ 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <? endif;?>
  <div class='comp_contenu'>
  
  <br>
  
- Vous avez actuellement <?=$this->user->points_gredin_braldun;?>
- point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de gredin.<br><br>
+
+  <? if ($this->view->type == "gredin"): ?>
+  Vous avez actuellement <?=$this->user->points_gredin_braldun;?>
+ point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de Gredin.<br><br>
  
-  <? if ($this->contratEnCours == true) : ?>
- 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
-  <? elseif ($this->utilisationPointPossible === true) : ?>
- 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br> 
- 	
-	  <? if ($this->travauxOk === true) : ?>
-	  Réalisation de travaux d'intérêts généraux : 4 PA pour 1 point de gredin en moins: 
-	  <input type="radio" name="valeur_1" id="valeur_1" value="1" onChange="$('bouton_tribunal').disabled=false;"> 
-	  <? endif;?>
+	  <? if ($this->contratEnCours == true) : ?>
+	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
+	  <? elseif ($this->utilisationPointPossible === true) : ?>
+	 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br> 
+	 	
+		  <? if ($this->travauxOk === true) : ?>
+		  Réalisation de travaux d'intérêts généraux : 4 PA pour 1 point de gredin en moins: 
+		  <input type="radio" name="valeur_1" id="valeur_1" value="1" onChange="$('bouton_tribunal').disabled=false;"> 
+		  <? endif;?>
+		  
+		  <? if ($this->cautionOk === true) : ?>
+		  Achat d'une caution : 100 castars et 1 PA pour 1 point de gredin en moins : 
+		  <input type="radio" name="valeur_1" id="valeur_1" value="2" onChange="$('bouton_tribunal').disabled=false;">
+		  <? endif;?>
 	  
-	  <? if ($this->cautionOk === true) : ?>
-	  Achat d'une caution : 100 castars et 1 PA pour 1 point de gredin en moins : 
-	  <input type="radio" name="valeur_1" id="valeur_1" value="2" onChange="$('bouton_tribunal').disabled=false;">
+	  <? else: ?>
+	  	Vous n'avez donc rien à faire au tribunal...
 	  <? endif;?>
-  
   <? else: ?>
-  	Vous n'avez donc rien à faire au tribunal...
+  Vous avez actuellement <?=$this->user->points_redresseur_braldun;?>
+ point<? if ($this->user->points_redresseur_braldun > 1) : echo "s"; endif;?> de Redresseur de Torts.<br><br>
+ 
+	  <? if ($this->contratEnCours == true) : ?>
+	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
+	  <? elseif ($this->utilisationPointPossible === true) : ?>
+		 Souhaitez-vous soudoyer un employé du tribunal pour effacer l'historique de vos actes de redresseur (perdre tous les points de Redresseur) ? <br>
+		  Coût: <?=$this->coutCastarsSoudoyer?> castars.<br><br>
+		  
+		  <? if (!$this->soudoyerOk) : ?>
+		  	Vous n'avez pas assez de castars dans votre laban.
+		  <? endif;?>
+		  <? else: ?>
+	  	Vous n'avez donc rien à faire au tribunal...
+	  <? endif;?>
+ 
   <? endif;?>
   
  </div> 
 </form>
 <br /> 
 <br />
-<? if ($this->utilisationPointPossible === true && ($this->travauxOk === true || $this->cautionOk === true) && $this->utilisationPossible === true) : ?>
+<? if ($this->utilisationPointPossible === true && $this->utilisationPossible === true) : ?>
 	<input type='button' class='button1' id="bouton_tribunal" value='Valider' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_tribunal', true);"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
