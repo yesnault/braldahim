@@ -171,6 +171,7 @@ abstract class Bral_Lieux_Lieu {
 			'est_quete_braldun' => $this->view->user->est_quete_braldun,
 			'pi_academie_braldun' => $this->view->user->pi_academie_braldun,
 			'points_gredin_braldun' => $this->view->user->points_gredin_braldun,
+			'points_redresseur_braldun' => $this->view->user->points_redresseur_braldun,
 		);
 		$where = "id_braldun=".$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);

@@ -92,7 +92,9 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 				throw new Zend_Exception(get_class($this)." Valeur invalide c : val=".$this->request->get("valeur_1"));
 			}
 		} else {
-			//TODO
+			if (!$this->view->soudoyerOk) {
+				throw new Zend_Exception(get_class($this)." Tribunal Soudoyer KO");
+			}
 		}
 
 
@@ -105,10 +107,13 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 				$this->view->user->castars_braldun = $this->view->user->castars_braldun - 100;
 				$this->view->choix = 2;
 			}
+			$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - 1;
 		} else {
-			//TODO
+			$this->view->paUtilisationLieu = 4;
+			$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastarsSoudoyer;
+			$this->view->user->points_redresseur_braldun = 0;
 		}
-		$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - 1;
+		
 		$this->majBraldun();
 	}
 

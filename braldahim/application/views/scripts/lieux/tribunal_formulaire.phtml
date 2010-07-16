@@ -1,6 +1,6 @@
 <div class='comp_titre'>Tribunal</div>
  <form name='myForm' id='myForm'>
- <? if ($this->view->type == "gredin"): ?>
+ <? if ($this->type == "gredin"): ?>
  	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <? else: ?>
  	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
@@ -8,9 +8,8 @@
  <div class='comp_contenu'>
  
  <br>
- 
 
-  <? if ($this->view->type == "gredin"): ?>
+  <? if ($this->type == "gredin"): ?>
   Vous avez actuellement <?=$this->user->points_gredin_braldun;?>
  point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de Gredin.<br><br>
  
@@ -40,7 +39,7 @@
 	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
 	  <? elseif ($this->utilisationPointPossible === true) : ?>
 		 Souhaitez-vous soudoyer un employé du tribunal pour effacer l'historique de vos actes de redresseur (perdre tous les points de Redresseur) ? <br>
-		  Coût: <?=$this->coutCastarsSoudoyer?> castars.<br><br>
+		  Coût: <?=$this->coutCastarsSoudoyer?> castars et 4 PA.<br><br>
 		  
 		  <? if (!$this->soudoyerOk) : ?>
 		  	Vous n'avez pas assez de castars dans votre laban.
@@ -56,6 +55,6 @@
 <br /> 
 <br />
 <? if ($this->utilisationPointPossible === true && $this->utilisationPossible === true) : ?>
-	<input type='button' class='button1' id="bouton_tribunal" value='Valider' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_tribunal', true);"  disabled>
+	<input type='button' class='button1' id="bouton_tribunal" value='Valider' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_tribunal', true);"    <? if ($this->type == "gredin"): ?>disabled<? endif;?>>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
