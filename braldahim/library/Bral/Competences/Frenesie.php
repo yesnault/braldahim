@@ -114,7 +114,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$this->calculJets();
 		$retours = null;
 
-		if (Bral_Util_Commun::isRunePortee($braldun->id_braldun, "EM")) {
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_braldun, "EM")) {
 			$this->view->effetRune = true;
 			$coefFrenesie = 0.9;
 		} else {
