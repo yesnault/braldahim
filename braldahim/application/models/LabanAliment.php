@@ -36,7 +36,7 @@ class LabanAliment extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_aliment', 'count(*) as nombre')
-		->where('id_fk_braldun_laban_aliment = '.intval($idBraldun));
+		->where('id_fk_braldun_laban_aliment = ?', intval($idBraldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
