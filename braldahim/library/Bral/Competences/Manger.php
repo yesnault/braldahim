@@ -166,7 +166,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Effets");
 		Zend_Loader::loadClass("EffetBraldun");
 		$effetBraldunTable = new EffetBraldun();
-		
+
 		if ($aliment["id_fk_effet_braldun_aliment"] != null) {
 			$data = array("id_fk_braldun_cible_effet_braldun" => $this->view->user->id_braldun);
 			$where = "id_effet_braldun = ".intval($aliment["id_fk_effet_braldun_aliment"]);
@@ -189,6 +189,8 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$alimentTable->delete($where);
 
 		if ($boisson != null) {
+			$where = 'id_laban_aliment = '.(int)$boisson["id_aliment"];
+			$labanAlimentTable->delete($where);
 			$where = 'id_aliment = '.(int)$boisson["id_aliment"];
 			$alimentTable->delete($where);
 		}
