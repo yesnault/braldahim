@@ -55,15 +55,32 @@ class Route extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findAllVisibleHorsBalise() {
+	function findAllVisibleHorsBalise($limit = null, $offset = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*');
 		$select->where('est_visible_route = ?', 'oui')
 		->where('type_route not like ?', "balise");
+
+		if ($limit != null && $offset != null) {
+			$select->limit($limit, $offset);
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function countAllVisibleHorsBalise() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('route', 'count(id_route) as nombre');
+		$select->where('est_visible_route = ?', 'oui')
+		->where('type_route not like ?', "balise");
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
 
 	function findByCase($x, $y, $z, $estVisible = 'oui') {
 		$db = $this->getAdapter();
