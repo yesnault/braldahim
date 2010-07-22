@@ -37,25 +37,33 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		// Suppression des bosquets partout où il y a une route visible
 		Zend_Loader::loadClass("Route");
 		$routeTable = new Route();
-		$routes = $routeTable->findAllVisibleHorsBalise();
+		$nbRoutes = $routeTable->countAllVisibleHorsBalise();
 
 		$limit = 1000;
 		$where = "";
 		$bosquetTable = new Bosquet();
-		
-		foreach($routes as $r) {
-			$or = "";
-			if ($where != "") {
-				$or = " OR ";
+
+		for ($offset = 0; $offset <= $nbRoutes + $limit; $offset =  $offset + $limit) {
+			$routes = $routeTable->findAllVisibleHorsBalise($limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($routes as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+				$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"]." AND z_bosquet = ".$r["z_route"].") ";
+
+				$nb++;
+				if ($nb == $limit) {
+					$bosquetTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
 			}
 
-			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"]." AND z_bosquet = ".$r["z_route"].") ";
-				
-			$nb++;
-			if ($nb == $limit) {
+			if ($where != "") {
 				$bosquetTable->delete($where);
-				$nb = 0;
-				$where = "";
 			}
 		}
 
