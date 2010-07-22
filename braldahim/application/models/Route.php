@@ -76,6 +76,7 @@ class Route extends Zend_Db_Table {
 		$select->from('route', 'count(id_route) as nombre');
 		$select->where('est_visible_route = ?', 'oui')
 		->where('type_route not like ?', "balise");
+		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
