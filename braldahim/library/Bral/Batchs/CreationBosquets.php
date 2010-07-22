@@ -81,7 +81,6 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		// Suppression des bosquets partout où il y a une eau
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
-		$eaux = $eauTable->fetchall();
 
 		$bosquetTable = new Bosquet();
 
