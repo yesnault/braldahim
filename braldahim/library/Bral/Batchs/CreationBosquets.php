@@ -41,6 +41,8 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 
 		$limit = 1000;
 		$where = "";
+		$bosquetTable = new Bosquet();
+		
 		foreach($routes as $r) {
 			$or = "";
 			if ($where != "") {
@@ -58,7 +60,6 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		}
 
 		if ($where != "") {
-			$bosquetTable = new Bosquet();
 			$bosquetTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurRouteVisible - exit -");
