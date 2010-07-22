@@ -39,6 +39,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		$routeTable = new Route();
 		$routes = $routeTable->findAllVisibleHorsBalise();
 
+		$limit = 1000;
 		$where = "";
 		foreach($routes as $r) {
 			$or = "";
@@ -47,6 +48,13 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			}
 
 			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"]." AND z_bosquet = ".$r["z_route"].") ";
+				
+			$nb++;
+			if ($nb == $limit) {
+				$bosquetTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
 		}
 
 		if ($where != "") {
