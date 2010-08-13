@@ -24,6 +24,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->display = $display;
 	}
 
+	function getChargementInBoxes() {
+		return true;
+	}
+
 	function render() {
 		if ($this->view->affichageInterne === true) {
 			Zend_Loader::loadClass("Charrette");
@@ -732,7 +736,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($css == null) {
 						$css = "inconnu";
 					}
-						
+
 					if (count($tabEaux) >= 1) {
 						$css = $nom_environnement;
 					} elseif (count($tabRoutes) >= 1) {

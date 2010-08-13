@@ -21,7 +21,11 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		// chargement des competences
 		switch($this->type) {
 			case "basic":
-				$this->chargementInBoxes = true;
+				if (!$this->view->estMobile) {
+					$this->chargementInBoxes = true;
+				} else {
+					$this->chargementInBoxes = false;
+				}
 				$this->titreOnglet = "Basiques";
 				$this->nomInterne = "box_competences_basiques";
 				$this->render = "interface/competences_basiques.phtml";
@@ -41,11 +45,18 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			case "soule":
 				$this->chargementInBoxes = false;
 				$this->titreOnglet = "Soule";
+				if ($this->view->estMobile) {
+					$this->titreOnglet = "de ".$this->titreOnglet;
+				}
 				$this->nomInterne = "box_competences_soule";
 				$this->render = "interface/competences_soule.phtml";
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)." type inconnu=" + $this->type);
+		}
+		
+		if ($this->view->estMobile) {
+			$this->titreOnglet = "Compétences ".$this->titreOnglet;
 		}
 	}
 
@@ -88,7 +99,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
 			$braldunsCompetencesTables = new BraldunsCompetences();
 			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
-				
+
 			foreach($braldunsMetierRowset as $m) {
 				if ($this->view->user->sexe_braldun == 'feminin') {
 					$nom_metier = $m["nom_feminin_metier"];
@@ -105,7 +116,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 						if ($c["nom_systeme_competence"] == "cuisiner") {
 							$pa_texte = "2 ou 4";
 						}
-						 
+							
 						$pa = $c["pa_utilisation_competence"];
 
 						$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],
@@ -125,7 +136,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 					"competences" => $competence
 				);
 			}
-				
+
 		} else {
 			Zend_Loader::loadClass("BraldunsCompetences");
 			$braldunsCompetencesTables = new BraldunsCompetences();
@@ -138,9 +149,9 @@ class Bral_Box_Competences extends Bral_Box_Box {
 						$pa_texte = "1 ou 2";
 					}
 					$pa =  $c["pa_utilisation_competence"];
-						
+
 					$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
-						
+
 					$tabCompetences[] = array(
 						"id_competence" => $c["id_fk_competence_hcomp"],
 						"nom" => $c["nom_competence"],

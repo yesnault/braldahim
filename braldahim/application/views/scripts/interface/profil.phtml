@@ -11,6 +11,8 @@
   </ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
+	  
+	  <? if ($this->affichageInterne == true) : ?>
 	  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
 			PA <?=$this->user->pa_braldun ?>&nbsp;&nbsp;
 			</p>
@@ -285,6 +287,10 @@
 			</tr>
 		</tbody>
 		</table>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
 	  </ul>
  </div>
 </div>

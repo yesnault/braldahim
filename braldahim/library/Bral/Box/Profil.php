@@ -25,6 +25,14 @@ class Bral_Box_Profil extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/profil.phtml");
+	}
+
+	function data() {
 		Zend_Loader :: loadClass("Bral_Helper_Profil");
 		Zend_Loader :: loadClass("Bral_Util_Tour");
 		$this->view->nom_interne = $this->getNomInterne();
@@ -40,7 +48,7 @@ class Bral_Box_Profil extends Bral_Box_Box {
 		// Correction Bug sur Float, sur l'action semer
 		//if (strlen($this->view->user->poids_transporte_braldun) > 10 && strpos($tmp, ".") !== false) {
 		if (strlen($this->view->user->poids_transporte_braldun) > 10) {
-				
+
 			/*
 			 * tmpInit=10.720000000000000639tmp=10.720tmp2a=10tmp2b=10.72poidsTransporteBraldunCorrige=10.72
 			 * affiche => 10.720000000000000639  / 17 !!
@@ -66,6 +74,5 @@ class Bral_Box_Profil extends Bral_Box_Box {
 			//echo "AA=".strlen($this->view->user->poids_transporte_braldun);
 			$this->view->poidsTransporteBraldunCorrige = $this->view->user->poids_transporte_braldun;
 		}
-		return $this->view->render("interface/profil.phtml");
 	}
 }

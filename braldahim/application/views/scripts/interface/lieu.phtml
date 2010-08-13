@@ -4,6 +4,9 @@
   <ul class="titre textalib textsizeb"><?=$this->nomTypeLieu; ?></ul>
   <div class="contenuC">
     <ul class="box_contenu1 textalic">
+    
+<? if ($this->affichageInterne == true) : ?>
+    
  	<? if ($this->estLieuCourant === true) : ?>
  		Vous vous trouvez sur un lieu particulier !
  		
@@ -36,6 +39,10 @@
  	<? endif; ?>
  
  	<br /><br />
+ 	<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
  	</ul>
    </div>
  </div>

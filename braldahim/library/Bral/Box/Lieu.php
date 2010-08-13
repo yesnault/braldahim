@@ -25,6 +25,14 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/lieu.phtml");
+	}
+	
+	function data() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Lieu");
 
@@ -60,7 +68,6 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		}
 
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/lieu.phtml");
 	}
 
 	private function prepareEchoppe() {

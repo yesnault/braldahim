@@ -1,3 +1,12 @@
 <?php if ($this->affichageInterne == false) : ?>
 <div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
+<? else:?>
+<?php if ($this->estMobile) : ?>
+<li id='onglet_menu' class='onglet actif' onClick='Javascript:switch2div("boite_m","<?=$this->nom_interne ?>"); '>
+Menu
+</li>
+<li id='onglet_menu' class='onglet actif' onClick="Javascript:_get_('/interface/load/?box=<?=$this->nom_interne ?>'); ">
+Rafraîchir
+</li>
+<?php endif; ?>
 <?php endif; ?>

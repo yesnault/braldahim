@@ -19,6 +19,7 @@ abstract class Bral_Box_Box {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
+		$this->loadWithBoxes = $interne;
 		$this->tablesHtmlTri = false;
 	}
 
@@ -26,7 +27,7 @@ abstract class Bral_Box_Box {
 	abstract function getNomInterne();
 
 	function getChargementInBoxes() {
-		return $this->loadWithBoxes;
+		return false;
 	}
 
 	public function getTablesHtmlTri() {

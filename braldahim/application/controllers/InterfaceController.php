@@ -159,7 +159,6 @@ class InterfaceController extends Zend_Controller_Action {
 			$boite_c = "boite_c";
 		}
 
-
 		try {
 			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), $boite_a);
 			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), $boite_a);
@@ -196,7 +195,11 @@ class InterfaceController extends Zend_Controller_Action {
 
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
-			$xml_entry->set_valeur("racine");
+			if ($this->view->estMobile) {
+				$xml_entry->set_valeur("racinemobile");
+			} else {
+				$xml_entry->set_valeur("racine");
+			}
 			$xml_entry->set_data($this->getBoxesData());
 
 		} catch (Zend_Exception $e) {
@@ -252,7 +255,7 @@ class InterfaceController extends Zend_Controller_Action {
 			}
 
 			for ($i = 0; $i < count($l); $i ++) {
-				if ($i == 0) {
+				if ($i == 0 && !$this->view->estMobile) {
 					$display = "block";
 				} else {
 					$display = "none";
@@ -270,7 +273,11 @@ class InterfaceController extends Zend_Controller_Action {
 			unset($liste);
 			unset($data);
 			unset($nom);
-			return $this->view->render("interface/box_onglets.phtml");
+			if ($this->view->estMobile) {
+				return $this->view->render("interface/box_onglets_mobile.phtml");
+			} else {
+				return $this->view->render("interface/box_onglets.phtml");
+			}
 		}
 	}
 
