@@ -475,7 +475,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($routes != null) {
 						foreach($routes as $r) {
 							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
-								$retour .= 'BALISE;'.$pos.';'.$r["id_route"].$fin;
+								$retour .= 'ROUTE;'.$pos.';'.$r["id_route"].';'.$r["type_route"].$fin;
 							}
 						}
 					}
