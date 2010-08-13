@@ -278,7 +278,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
 				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 				$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
-				$statsDistinction->insertOrUpdate($data);
+				$statsDistinction->deleteAndInsert($data);
 
 				$data = null;
 				$data["points_gredin_stats_reputation"] = $h["points_gredin_braldun"];
@@ -287,7 +287,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
 				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
-				$statsReputation->insertOrUpdate($data);
+				$statsReputation->deleteAndInsert($data);
 			}
 		}
 

@@ -52,7 +52,7 @@ class StatsReputation extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function deleteAndInsert($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_reputation', 'count(*) as nombre, points_redresseur_stats_reputation as quantitePxPerso, points_gredin_stats_reputation as quantitePxCommun')
@@ -69,31 +69,8 @@ class StatsReputation extends Zend_Db_Table {
 			$data["points_redresseur_stats_reputation"] = 0;
 		}
 
-		if (count($resultat) == 0) { // insert
-			$this->insert($data);
-		} else { // update
-			$nombre = $resultat[0]["nombre"];
-			$quantitePxPerso = $resultat[0]["quantitePxPerso"];
-			$quantitePxCommun = $resultat[0]["quantitePxCommun"];
-			$dataUpdate['points_redresseur_stats_reputation'] = $quantitePxPerso;
-			$dataUpdate['points_gredin_stats_reputation'] = $quantitePxCommun;
-
-			if (isset($data["points_redresseur_stats_reputation"])) {
-				$dataUpdate['points_redresseur_stats_reputation'] = $data["points_redresseur_stats_reputation"];
-				if ($dataUpdate['points_redresseur_stats_reputation'] < 0) {
-					$dataUpdate['points_redresseur_stats_reputation'] = 0;
-				}
-			}
-
-			if (isset($data["points_gredin_stats_reputation"])) {
-				$dataUpdate['points_gredin_stats_reputation'] = $data["points_gredin_stats_reputation"];
-				if ($dataUpdate['points_gredin_stats_reputation'] < 0) {
-					$dataUpdate['points_gredin_stats_reputation'] = 0;
-				}
-			}
-
-			$where = 'niveau_braldun_stats_reputation = '.$data["niveau_braldun_stats_reputation"].' AND id_fk_braldun_stats_reputation = '.$data["id_fk_braldun_stats_reputation"]. ' AND mois_stats_reputation = \''.$data["mois_stats_reputation"].'\'';
-			$this->update($dataUpdate, $where);
-		}
+		$where = 'id_fk_braldun_stats_reputation = '.$data["id_fk_braldun_stats_reputation"]. ' AND mois_stats_reputation = \''.$data["mois_stats_reputation"].'\'';
+		$this->delete($where);
+		$this->insert($data);
 	}
 }

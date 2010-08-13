@@ -14,7 +14,7 @@ class StatsDistinction extends Zend_Db_Table {
 	protected $_name = 'stats_distinction';
 	protected $_primary = array('id_stats_distinction');
 
-	function insertOrUpdate($data) {
+	function deleteAndInsert($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_distinction', 'count(*) as nombre, points_stats_distinction as points')
@@ -27,20 +27,8 @@ class StatsDistinction extends Zend_Db_Table {
 			$data["points_stats_distinction"] = 0;
 		}
 
-		if (count($resultat) == 0) { // insert
-			$this->insert($data);
-		} else { // update
-			$nombre = $resultat[0]["nombre"];
-			$points = $resultat[0]["points"];
-			$dataUpdate['points_stats_distinction'] = $points;
-				
-			$dataUpdate['points_stats_distinction'] =  $data["points_stats_distinction"];
-			if ($dataUpdate['points_stats_distinction'] < 0) {
-				$dataUpdate['points_stats_distinction'] = 0;
-			}
-				
-			$where = 'niveau_braldun_stats_distinction = '.$data["niveau_braldun_stats_distinction"].' AND id_fk_braldun_stats_distinction = '.$data["id_fk_braldun_stats_distinction"]. ' AND mois_stats_distinction = \''.$data["mois_stats_distinction"].'\'';
-			$this->update($dataUpdate, $where);
-		}
+		$where = 'id_fk_braldun_stats_distinction = '.$data["id_fk_braldun_stats_distinction"]. ' AND mois_stats_distinction = \''.$data["mois_stats_distinction"].'\'';
+		$this->delete($where);
+		$this->insert($data);
 	}
 }
