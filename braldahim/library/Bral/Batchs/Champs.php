@@ -150,7 +150,7 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 			'date_fin_seme_champ' => null,
 		//'id_fk_type_graine_champ' => null, ==> on ne vide pas, c'est utile pour le % quantité à la prochaine action semer
 			'quantite_champ' => 0,
-			'date_utilisation_champ' => $dateJachere,
+			'date_utilisation_champ' => $dateUtilisation,
 		);
 
 		$where = 'id_champ = '.$champ["id_champ"];
