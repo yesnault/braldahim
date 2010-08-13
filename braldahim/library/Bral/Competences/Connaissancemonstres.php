@@ -25,12 +25,16 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 
 		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun;
 		$this->view->distance = $vue_nb_cases;
+		
+		if ($this->view->distance < 0) {
+			$this->view->distance = 0;
+		}
 
 		$x_min = $this->view->user->x_braldun - $this->view->distance;
 		$x_max = $this->view->user->x_braldun + $this->view->distance;
 		$y_min = $this->view->user->y_braldun - $this->view->distance;
 		$y_max = $this->view->user->y_braldun + $this->view->distance;
-
+		
 		// recuperation des monstres qui sont presents sur la vue
 		$tabMonstres = null;
 		$monstreTable = new Monstre();
