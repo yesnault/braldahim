@@ -137,7 +137,7 @@ class Bral_Util_Attaque {
 
 		if ($braldunCible->points_gredin_braldun > 0) {
 			$braldunAttaquant->nb_ko_gredins_suite_braldun = $braldunAttaquant->nb_ko_gredins_suite_braldun + 1;
-			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 1;
+			$braldunAttaquant->nb_ko_gredin_braldun = $braldunAttaquant->nb_ko_gredin_braldun + 1;
 		}
 
 		if ($braldunCible->points_gredin_braldun == 0 && $braldunCible->points_redresseur_braldun == 0) {
