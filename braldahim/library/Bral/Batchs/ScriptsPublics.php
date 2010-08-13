@@ -51,6 +51,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $h["prenom_braldun"].';';
 				$contenu .= $h["nom_braldun"].';';
 				$contenu .= $h["niveau_braldun"].';';
+				$contenu .= $h["sexe_braldun"].';';
 				$contenu .= $h["nb_ko_braldun"].';';
 				$contenu .= $h["nb_braldun_ko_braldun"].';';
 				$contenu .= $h["nb_plaque_braldun"].';';
