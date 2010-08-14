@@ -20,6 +20,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("Bral_Util_Quete");
+		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$id_type_courant = $this->request->get("type_equipement");
 
@@ -386,7 +387,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 			$dataFabricants["nb_piece_stats_fabricants"] = 1;
 			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $this->recetteEquipementACreer["niveau_recette_equipement"];
-			$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->tanneur->id;
+			$dataFabricants["id_fk_metier_stats_fabricants"] = Bral_Util_Metier::METIER_TANNEUR_ID;
 			$statsFabricants->insertOrUpdate($dataFabricants);
 
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {

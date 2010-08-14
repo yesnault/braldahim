@@ -11,6 +11,9 @@
  * $LastChangedBy$
  */
 class Carnet extends Zend_Db_Table {
+	
+	const MAX_NOTE = 10;
+	
 	protected $_name = 'carnet';
 	protected $_primary = array('id_carnet');
 
@@ -20,6 +23,16 @@ class Carnet extends Zend_Db_Table {
 		$select->from('carnet', '*')
 		->where('id_fk_braldun_carnet = ?', intval($idBraldun))
 		->where('id_carnet = ?', intval($idCarnet));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
+	function findByIdBraldun($idBraldun) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('carnet', '*')
+		->where('id_fk_braldun_carnet = ?', intval($idBraldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

@@ -1,0 +1,47 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <ul class="titre textalia textsizec">Mon Carnet</ul>
+  <div class="contenuA">
+	  <ul class="box_contenu1 textalic">
+	  
+	<? if ($this->affichageInterne == true) : ?>
+			<br>
+			
+			<div id='carnet_html'>
+			<? if ($this->carnets != null && count($this->carnets) > 0): ?>
+			Vous n'avez pas de tête ? Bon, ce carnet est fait pour vous alors...
+			<br><br>
+			Cliquez sur une note pour l'éditer.<br>
+			
+				<table class="table_liste" style="width:80%;" >
+				<? 	$i = 0;
+					foreach($this->carnets as $c) : ?>
+					<tr class="table_liste<?=($i % 2);$i++; ?> hhover"  onClick='_get_("/carnet/doaction?caction=do_carnet_voir&carnet=<?=$c["id_carnet"]?>");'>
+					<td class="table_liste" style="padding:0px;">
+					Note <?=$c["id_carnet"]?>
+					</td>
+	  				<td class="table_liste" style="padding:0px;">
+	  				<? if (mb_strlen($c["texte_carnet"]) > 25) :
+	  					echo mb_substr($c["texte_carnet"], 0, 25)."...";
+	  					else : 
+	  					echo $c["texte_carnet"];
+	  					endif;
+					?>
+	  				</td>
+	  				</tr>
+				<? endforeach;?>
+				</table>
+			<? else:?>
+				Vos n'avez pas encore saisi de note.
+			<? endif;?>
+			
+			</div>
+<br /><br />
+	<? else: ?>
+		Chargement en cours
+		<br /><img src="/public/images/wait.gif" />
+	<? endif; ?>
+	  </ul>
+ </div>
+</div>
+<? include("box_bottom.phtml") ?>

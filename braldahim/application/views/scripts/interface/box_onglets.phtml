@@ -1,11 +1,14 @@
 <div class="<?=$this->conteneur; ?>" id="<?=$this->conteneur; ?>">
   <input type='hidden' id='switch_<?=$this->conteneur; ?>' value='<?=$this->liste ?>'>
 
-  <?php foreach($this->onglets as $onglet) : ?>
+  <?php 
+  $premier = " premier";
+  foreach($this->onglets as $onglet) : ?>
   	<input type='hidden' id='loaded_<?=$onglet["nom"] ?>' value='<?=$onglet["chargementInBoxes"] ?>'>
-    <span id='onglet_<?=$onglet["nom"] ?>' class='onglet <?=$onglet["css"] ?>' onClick='Javascript:my_switch("<?=$onglet["nom"] ?>","<?=$this->conteneur ?>"); '>
+    <span id='onglet_<?=$onglet["nom"] ?>' class='onglet <?=$onglet["css"] ?><?=$premier?>' onClick='Javascript:my_switch("<?=$onglet["nom"] ?>","<?=$this->conteneur ?>"); '>
       &nbsp;<?=$onglet["titre"] ?>&nbsp;
     </span>
-  <?php endforeach; ?>
+  <?php $premier = ""; 
+  	endforeach; ?>
   <?php echo $this->data ?>
 </div>

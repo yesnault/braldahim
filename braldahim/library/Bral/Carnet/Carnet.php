@@ -39,7 +39,7 @@ abstract class Bral_Carnet_Carnet {
 	abstract function prepareResultat();
 
 	function getNomInterne() {
-		return "box_carnet";
+		return "carnet_html";
 	}
 
 	function getIdEchoppeCourante() {

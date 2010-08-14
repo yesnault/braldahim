@@ -238,10 +238,13 @@ span.id_braldun {
 	border-color: #000000;
 	border-width: 1px;
 	margin: 1px;
-	margin-left: 7px;
+	margin-left: 3px;
 	color:#000000;
 }
 
+.onglet.premier {
+	margin-left: 7px;
+}
 .onglet.actif {
 	background-color: #628b28;
 	border-bottom-color: transparent;
@@ -483,16 +486,6 @@ span.id_braldun {
 	width: auto;
 	height: auto;
 	font: 11px arial, verdana, sans-serif;
-}
-
-.box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	       , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie,.box_famille,.box_effets
-	       , .box_communaute, .box_soule,.box_coffre, .box_quetes {
-	color: black;
-	height: auto;
-	text-align: center;
-	z-index: 10;
-	background: #transparent none repeat scroll 0% 0%;
 }
 
 .inner { /* exterieur de boite */

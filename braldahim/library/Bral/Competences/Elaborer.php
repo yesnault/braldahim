@@ -16,6 +16,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
+		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$id_type_courant = $this->request->get("type_potion");
 		$niveau_courant = $this->request->get("niveau_courant");
@@ -538,7 +539,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbPotions;
 		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
-		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->apothicaire->id;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = Bral_Util_Metier::METIER_APOTHICAIRE_ID;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
 		Zend_Loader::loadClass("Bral_Util_Competence");

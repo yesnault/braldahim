@@ -18,6 +18,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Bral_Util_Marcher');
+		Zend_Loader::loadClass('Bral_Util_Metier');
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
 		$this->view->routeTrouvee = false;
@@ -196,7 +197,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$dataRoutes["id_fk_braldun_stats_routes"] = $this->view->user->id_braldun;
 		$dataRoutes["mois_stats_routes"] = date("Y-m-d", $moisEnCours);
 		$dataRoutes["nb_stats_routes"] = 1;
-		$dataRoutes["id_fk_metier_stats_routes"] = $this->view->config->game->metier->bucheron->id;
+		$dataRoutes["id_fk_metier_stats_routes"] = Bral_Util_Metier::METIER_BUCHERON_ID;
 		$statsRoutes->insertOrUpdate($dataRoutes);
 
 		$this->view->deplacement = false;

@@ -15,6 +15,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass('Bral_Util_Quete');
+		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$this->view->typeAlimentCourant = null;
 		$this->view->sourceEtDestinationOk = false;
@@ -417,7 +418,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbAliment;
-		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->cuisinier->id;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = Bral_Util_Metier::METIER_CUISINIER_ID;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
 	}

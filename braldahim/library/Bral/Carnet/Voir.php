@@ -14,6 +14,8 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Carnet");
+
 		$idCarnet = 1;
 		if ($this->request->get("carnet") != "" && ((int)$this->request->get("carnet")."" == $this->request->get("carnet")."")) {
 			$idCarnet = (int)$this->request->get("carnet");
@@ -21,28 +23,27 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$idCarnet = 1;
 		}
 
-		$this->view->nbMaxNote = $this->view->config->game->carnet->max->note;
+		$this->view->nbMaxNote = Carnet::MAX_NOTE;
 		$this->view->idCarnet = $idCarnet;
 
 		if ($idCarnet > $this->view->nbMaxNote) {
 			throw new Zend_Exception("Carnet invalide : ".$idCarnet);
 		}
 
-		Zend_Loader::loadClass("Carnet");
 		$carnetTable = new Carnet();
 
 		if ($this->request->get("mode") == "editer") {
 			$data["id_carnet"] = $idCarnet;
 			$data["id_fk_braldun_carnet"] = $this->view->user->id_braldun;
-			
+				
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
-		
+
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim());
-			
+				
 			$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
-		
+
 			$carnetTable->insertOrUpdate($data);
 		}
 

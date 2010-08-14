@@ -21,6 +21,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Nid');
 		Zend_Loader::loadClass('Bral_Util_Quete');
+		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
@@ -268,7 +269,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = 1;
-		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->bucheron->id;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = Bral_Util_Metier::METIER_BUCHERON_ID;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
 		$this->view->palissade = $data;
