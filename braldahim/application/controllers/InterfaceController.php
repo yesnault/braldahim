@@ -241,7 +241,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 		if ($nom != "aucune") {
 			for ($i = 0; $i < count($l); $i ++) {
-				if ($i == 0) {
+				if ($i == 0 && !$this->view->estMobile) {
 					$css = "actif";
 				} else {
 					$css = "inactif";
