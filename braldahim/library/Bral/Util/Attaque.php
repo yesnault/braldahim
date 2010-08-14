@@ -130,12 +130,12 @@ class Bral_Util_Attaque {
 			$retourAttaque["nouvelleDistinction"] = Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldunAttaquant->id_braldun, $braldunAttaquant->niveau_braldun, Bral_Util_Distinction::ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL);
 		}
 
-		if ($braldunCible->points_redresseur_braldun > 0) {
-			$braldunAttaquant->nb_ko_redresseurs_suite_braldun = $braldunAttaquant->nb_ko_redresseurs_suite_braldun + 1;
-			$braldunAttaquant->nb_ko_redresseur_braldun = $braldunAttaquant->nb_ko_redresseur_braldun + 1;
-		} elseif ($braldunCible->points_gredin_braldun > 0) {
+		if ($braldunCible->points_gredin_braldun > 0) {
 			$braldunAttaquant->nb_ko_gredins_suite_braldun = $braldunAttaquant->nb_ko_gredins_suite_braldun + 1;
 			$braldunAttaquant->nb_ko_gredin_braldun = $braldunAttaquant->nb_ko_gredin_braldun + 1;
+		} elseif ($braldunCible->points_redresseur_braldun > 0) {
+			$braldunAttaquant->nb_ko_redresseurs_suite_braldun = $braldunAttaquant->nb_ko_redresseurs_suite_braldun + 1;
+			$braldunAttaquant->nb_ko_redresseur_braldun = $braldunAttaquant->nb_ko_redresseur_braldun + 1;
 		} elseif ($braldunCible->points_gredin_braldun == 0 && $braldunCible->points_redresseur_braldun == 0) {
 			$braldunAttaquant->nb_ko_neutre_braldun = $braldunAttaquant->nb_ko_neutre_braldun;
 		}
