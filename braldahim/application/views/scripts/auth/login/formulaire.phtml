@@ -47,10 +47,11 @@
 		    <p><a href="http://regles.braldahim.com/wiki/Braldahim_sous_Internet_Explorer">Vous utilisez Internet Explorer ?</a></p>
 		    <br> 
 		    <? endif;?>
+		    <?=new Zend_Date(); ?>
 	    </form> 
 	    
 	    <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
-	    Il y a actuellement <?=$this->nbConnecte?> Braldûn<?=$s ?> connect&eacute;<?=$s?>
+	    | Actuellement <?=$this->nbConnecte?> Braldûn<?=$s ?> connect&eacute;<?=$s?>
 	</div>
 </div>
 </div>
