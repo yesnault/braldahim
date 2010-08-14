@@ -32,6 +32,8 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 
 		$carnetTable = new Carnet();
 
+		$noteInfo = "";
+		
 		if ($this->request->get("mode") == "editer") {
 			$data["id_carnet"] = $idCarnet;
 			$data["id_fk_braldun_carnet"] = $this->view->user->id_braldun;
@@ -45,6 +47,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
 
 			$carnetTable->insertOrUpdate($data);
+			$noteInfo = "Enregistrement effectué à ".date("H:i:s");
 		}
 
 		$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
@@ -56,6 +59,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$htmlCarnet = $carnet["texte_carnet"];
 		}
 		$this->view->htmlCarnet = $htmlCarnet;
+		$this->view->noteInfo = $noteInfo;
 	}
 
 	function prepareFormulaire() {
