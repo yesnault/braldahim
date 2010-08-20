@@ -8,13 +8,15 @@
  <div class='comp_contenu'>
  
  <br>
-
+   	
   <? if ($this->type == "gredin"): ?>
   Vous avez actuellement <?=$this->user->points_gredin_braldun;?>
  point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de Gredin.<br><br>
  
 	  <? if ($this->contratEnCours == true) : ?>
 	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
+	 <? elseif ($this->user->pa_braldun <1) : ?>
+	 	Vous n'avez pas assez de PA (1 minimum).
 	  <? elseif ($this->utilisationPointPossible === true) : ?>
 	 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br> 
 	 	

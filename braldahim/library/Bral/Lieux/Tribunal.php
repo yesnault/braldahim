@@ -22,6 +22,8 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$travauxOk = true;
 		}
 
+		$this->view->utilisationPaPossible = false;
+
 		Zend_Loader::loadClass("Contrat");
 		$tableContrat = new Contrat();
 		$contrat = $tableContrat->findEnCoursByIdBraldunCible($this->view->user->id_braldun);
@@ -39,6 +41,7 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$utilisationPointPossible = true;
 			if ($this->view->user->pa_braldun >= 1 && $this->view->user->castars_braldun >= 100) {
 				$cautionOk = true;
+				$this->view->utilisationPaPossible = true;
 			}
 			$this->view->utilisationPossible = $utilisationPointPossible && ($travauxOk || $cautionOk);
 
@@ -46,8 +49,9 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$type = "redresseur";
 			$utilisationPointPossible = true;
 			$coutCastarsSoudoyer = 50 * $this->view->user->points_redresseur_braldun;
-			if ($this->view->user->pa_braldun >= 1 && $this->view->user->castars_braldun > 50 * $this->view->user->points_redresseur_braldun) {
+			if ($this->view->user->pa_braldun >= 4 && $this->view->user->castars_braldun > 50 * $this->view->user->points_redresseur_braldun) {
 				$soudoyerOk = true;
+				$this->view->utilisationPaPossible = true;
 			}
 			$this->view->utilisationPossible = true;
 		}
@@ -114,6 +118,11 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$this->view->user->points_redresseur_braldun = 0;
 		}
 		
+		if ($this->view->user->pa_braldun < $this->view->paUtilisationLieu) {
+			// dernier contrôle
+			throw new Zend_Exception(get_class($this)." Tribunal Pas assez de PA");
+		}
+
 		$this->majBraldun();
 	}
 

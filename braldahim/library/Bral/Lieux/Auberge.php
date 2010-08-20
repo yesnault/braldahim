@@ -173,6 +173,6 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars() {
-		return 9;
+		return 12;
 	}
 }
