@@ -514,7 +514,7 @@ Modalbox.Methods = {
 		
 		/* Replacing prefixes 'MB_' in IDs for the original content */
 		if(typeof this.content == 'object') {
-			if(this.content.id && this.content.id.match(/MB_/)) {
+			if(this.content != null && this.content.id && this.content.id.match(/MB_/)) {
 				this.content.id = this.content.id.replace(/MB_/, "");
 			}
 			this.content.select('*[id]').each(function(el){ el.id = el.id.replace(/MB_/, ""); });
