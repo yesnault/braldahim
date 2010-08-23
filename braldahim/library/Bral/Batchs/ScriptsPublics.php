@@ -277,8 +277,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $v["id_region"].';';
 				$contenu .= $v["nom_region"].';';
 				$contenu .= $v["x_min_region"].';';
-				$contenu .= $v["y_min_region"].';';
 				$contenu .= $v["x_max_region"].';';
+				$contenu .= $v["y_min_region"].';';
 				$contenu .= $v["y_max_region"].';';
 				$contenu .= $v["est_pvp_region"];
 				$contenu .= PHP_EOL;
