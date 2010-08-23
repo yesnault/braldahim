@@ -27,7 +27,7 @@ Modalbox.Methods = {
 		slideUpDuration: .35, // Default Modalbox hiding slide up effect in seconds
 		resizeDuration: .25, // Default resize duration seconds
 		inactiveFade: true, // Fades MB window on inactive state
-		transitions: false, // Toggles transition effects. Transitions are enabled by default
+		transitions: true, // Toggles transition effects. Transitions are enabled by default
 		loadingString: "Veuillez patienter. Chargement en cours...", // Default loading string message
 		closeString: "Fermer", // Default title attribute for close window link
 		closeValue: "&times;", // Default string for close link in the header
@@ -49,7 +49,8 @@ Modalbox.Methods = {
 		this.setOptions(options);
 		
 		//Creating the overlay
-		this.MBoverlay = new Element("div", { id: "MB_overlay", style: "opacity: 0" });
+		// Modif YVONNICK : display:none
+		this.MBoverlay = new Element("div", { id: "MB_overlay", style: "opacity: 0", style: "display: none"  });
 		this.MBoverlay.addClassName('MBoverlay');
 		
 		//Creating the modal window
@@ -110,6 +111,10 @@ Modalbox.Methods = {
 			this._update();
 			this.event("onUpdate"); // Passing onUpdate callback
 		} 
+		
+		// Ajout YVONNICK
+		this.MBoverlay.style.display='block';
+		// FIN Ajout
 	},
 	
 	hide: function(options) { // External hide method to use from external HTML and JS
@@ -294,6 +299,7 @@ Modalbox.Methods = {
 	},
 	
 	_update: function() { // Updating MB in case of wizards
+		$(this.MBcontent).update("");
 		$(this.MBcontent).update($(this.MBloading).update(this.options.loadingString));
 		this.loadContent();
 	},
@@ -335,12 +341,14 @@ Modalbox.Methods = {
 	
 	_insertContent: function(content, callback){
 		$(this.MBcontent).hide().update("");
-		if(typeof content == 'string') { // Plain HTML is given
+		if(content != null &&  typeof content == 'string') { // Plain HTML is given
 			this.MBcontent.update(new Element("div", { style: "display: none" }).update(content)).down().show();
-		} else if (typeof content == 'object') { // HTML Object is given
+		} else if (content != null && typeof content == 'object') { // HTML Object is given
 			var _htmlObj = content.cloneNode(true); // If node already a part of DOM we'll clone it
 			// If clonable element has ID attribute defined, modifying it to prevent duplicates
-			if(content.id) content.id = "MB_" + content.id;
+			// MODIF YVONNICK : Mise en commentaire... (depuis la 1.6 de Modalbox)
+			// if(content.id) content.id = "MB_" + content.id;
+			// FIN MODIF YVONNICK
 			/* Add prefix for IDs on all elements inside the DOM node */
 			$(content).select('*[id]').each(function(el){ el.id = "MB_" + el.id; });
 			this.MBcontent.update(_htmlObj).down('div').show();

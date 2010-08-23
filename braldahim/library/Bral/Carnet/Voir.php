@@ -33,24 +33,37 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 		$carnetTable = new Carnet();
 
 		$noteInfo = "";
+		$carnet = null;
 		
-		if ($this->request->get("mode") == "editer") {
+		if ($this->request->get("mode") == "editer" || $this->request->get("mode") == "ajout") {
 			$data["id_carnet"] = $idCarnet;
 			$data["id_fk_braldun_carnet"] = $this->view->user->id_braldun;
-				
+
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim());
-				
-			$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
+
+			if ($this->request->get("mode") == "editer") {
+				$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
+			} else {
+				$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
+				if ($carnet != null && count($carnet) == 1) {
+					$debut = $carnet[0]["texte_carnet"].PHP_EOL."_________".PHP_EOL;
+				} else {
+					$debut = "";
+				}
+				$data["texte_carnet"] = $debut.stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
+			}
 
 			$carnetTable->insertOrUpdate($data);
 			$noteInfo = "Enregistrement effectué à ".date("H:i:s");
 		}
 
-		$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
+		if ($carnet == null) {
+			$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
+		}
 
 		$htmlCarnet = "vide";
 

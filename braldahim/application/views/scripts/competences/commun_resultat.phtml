@@ -11,11 +11,22 @@
 	 </div>
 	 
 	 <div id='<?=$this->competence["nom_systeme"]?>_copie' style="display:none">
-		<textarea rows=15 cols=60><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
-	</div>
+		<textarea rows='10' cols='40' id='competence_copie'><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
+	  <br>
+	  Enregistrer dans :
+		<select name="numNoteCompetence" id="numNoteCompetence">
+		<? Zend_Loader::loadClass("Carnet");
+			for($i = 1; $i <= Carnet::MAX_NOTE; $i++) :?>
+			<option value="<?=$i?>">note n&deg;<?=$i?></option>
+		<? endfor;?>
+		</select>
+		<input type="button" class="button1" value="Enregistrer" onClick="this.disabled=true;_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$('numNoteCompetence').value+'&texte_carnet='+encodeURIComponent($('competence_copie').value))">				
+		<span id='competence_resultat'></span>
+		</div>
  </div>
+ 
+<input type='button' class='button1' value='Copier dans le carnet' onClick="javascript:switch2div('<?=$this->competence["nom_systeme"]?>_text','<?=$this->competence["nom_systeme"]?>_copie');">
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('<?=$this->competence["nom_systeme"]?>_text','<?=$this->competence["nom_systeme"]?>_copie');">
 <? if ($this->reloadInterface == true || $this->finMatchSoule === true): ?>
 	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
 <? else: ?>

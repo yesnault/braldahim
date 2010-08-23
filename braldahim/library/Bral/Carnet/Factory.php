@@ -13,6 +13,7 @@
 class Bral_Carnet_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Carnet_Carnet");
+		Zend_Loader::loadClass("Bral_Carnet_Voir");
 		
 		$matches = null;
 		preg_match('/(.*)_carnet_(.*)/', $request->get("caction"), $matches);
