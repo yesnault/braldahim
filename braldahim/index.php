@@ -84,7 +84,6 @@ if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME']
 } else {
 	Zend_Registry::set('estMobile', false);
 }
-Zend_Registry::set('estMobile', true);
 Bral_Util_Registre::chargement();
 
 // setup controller
