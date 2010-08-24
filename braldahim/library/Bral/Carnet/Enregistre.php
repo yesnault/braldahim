@@ -20,5 +20,9 @@ class Bral_Carnet_Enregistre extends Bral_Carnet_Voir {
 	function getNomInterne() {
 		return "competence_resultat";
 	}
-	
+
+	public function getListBoxRefresh() {
+		return array('box_carnet');
+	}
+
 }

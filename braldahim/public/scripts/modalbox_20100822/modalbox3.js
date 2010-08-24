@@ -52,6 +52,7 @@ Modalbox.Methods = {
 		//Creating the overlay
 		// Modif YVONNICK : display:none
 		this.MBoverlay = new Element("div", { id: "MB_overlay", style: "opacity: 0", style: "display: none"  });
+		// Modif YVONNICK : Ajout de cette ligne. cf. http://code.google.com/p/modalbox/issues/detail?id=241
 		this.MBoverlay.addClassName('MBoverlay');
 		
 		//Creating the modal window
