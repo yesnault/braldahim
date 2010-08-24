@@ -10,7 +10,9 @@
 				<?=$this->message; ?><br /><br />
 			<? endif; ?>
 			
-			<br /><br /><br /><br />
+			<br /><br />
+			<input type="button" class='button1' value="Retour à l'interface" onClick="javascript:document.location.href='/interface/'"/>
+			<br /><br />
 			
 			<ul class="titre textalic textsizeb">Braldûn</ul>
 			<input type="button" class='button1' value="Voir le profil public" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');"/>
