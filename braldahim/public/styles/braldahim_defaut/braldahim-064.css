@@ -186,8 +186,10 @@ span.id_braldun {
 	color: #003b00;
 }
 
-#navigation h3.selected {
-	background-image: url(/public/images/expanded.gif);
+
+#navigation h3.head.selected {
+	background: #497621 url(/public/images/expanded.gif) no-repeat scroll
+		3px 4px;
 }
 
 #navigation h3.current {

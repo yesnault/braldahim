@@ -14,8 +14,10 @@ elseif ($this->affichageInterne == true) : ?>
 		<ul id="navigation" style="width:100%;">
 		<? foreach($this->competences as $m) : ?>
 			<li id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>">
-				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="head" onClick="maccordion(this);" /><?=$m["nom_metier"]?></h3>
-				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:none">
+				<? if (count($this->competences) > 2): $display = "none"; $css = "head"; else: $display = "block"; $css = "head selected"; endif;?>
+				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="<?=$css?>" onClick="maccordion(this);" /><?=$m["nom_metier"]?></h3>
+				<? if (count($this->competences) > 2): $display = "none"; else: $display = "block"; endif;?>
+				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:<?=$display?>">
 				<? foreach($m["competences"] as $c) : ?>
 					<li>
 					<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
