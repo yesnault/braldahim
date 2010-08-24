@@ -412,7 +412,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($bralduns != null) {
 						foreach($bralduns as $h) {
 							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
-								$retour .= 'BRALDUN;'.$pos.';'.$h["id_braldun"].$fin;
+								$retour .= 'BRALDUN;'.$pos.';'.$h["id_braldun"].';'.$h['est_ko_braldun'].';'.$h['est_soule_braldun'].';'.$h["soule_camp_braldun"].';'.$h["id_fk_soule_match_braldun"].$fin;
 							}
 						}
 					}
