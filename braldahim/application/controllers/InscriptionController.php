@@ -362,11 +362,10 @@ class InscriptionController extends Zend_Controller_Action {
 
 	private function envoiEmail() {
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
-		$this->view->urlValidation = $this->view->config->general->url;
+		
+		Zend_Loader::loadClass("Bral_Util_Inscription");
+		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->id_braldun, $this->email_braldun, md5($this->prenom_braldun), md5($this->password_braldun));
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
-		$this->view->urlValidation .= "/inscription/validation?e=".urlencode($this->email_braldun);
-		$this->view->urlValidation .= "&h=".md5($this->prenom_braldun);
-		$this->view->urlValidation .= "&p=".md5($this->password_braldun);
 
 		$contenuText = $this->view->render("inscription/mailText.phtml");
 		$contenuHtml = $this->view->render("inscription/mailHtml.phtml");
@@ -374,6 +373,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
 		$mail->addTo($this->email_braldun, $this->prenom_braldun);
+		$mail->addBcc($this->view->config->general->adresseInscriptions);
 		$mail->setSubject($this->view->config->game->inscription->titre_mail);
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {

@@ -13,6 +13,8 @@
 	    Compte en hibernation : <?=$this->braldun["est_en_hibernation_braldun"]?><br>
 	    PNJ : <?=$this->braldun["est_pnj_braldun"]?><br>
 	    
+	    Lien de validation = <?=$this->urlValidation;?>
+	    
 	    <form action="/Administrationbraldun/braldun/mode/<?=$this->mode?>/idbraldun/<?=$this->id_braldun?>" method="post">
 		<? if ($this->braldun == null): ?>
 			Braldun inconnu 

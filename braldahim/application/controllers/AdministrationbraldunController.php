@@ -128,6 +128,10 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 			Bral_Util_Securite::controlAdmin(); // uniquement pour les admin
 			$this->view->mode = "complexe";
 		}
+		
+		Zend_Loader::loadClass("Bral_Util_Inscription");
+		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->braldun["id_braldun"], $this->view->braldun["email_braldun"], md5($this->view->braldun["prenom_braldun"]), $this->view->braldun["password_braldun"]);
+		
 	}
 
 	public function usurpationAction() {
