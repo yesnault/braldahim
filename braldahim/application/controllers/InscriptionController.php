@@ -364,7 +364,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
-		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_braldun;
+		$this->view->urlValidation .= "/inscription/validation?e=".urlencode($this->email_braldun);
 		$this->view->urlValidation .= "&h=".md5($this->prenom_braldun);
 		$this->view->urlValidation .= "&p=".md5($this->password_braldun);
 
