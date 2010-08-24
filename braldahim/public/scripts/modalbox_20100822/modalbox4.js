@@ -93,7 +93,22 @@ Modalbox.Methods = {
 	},
 	
 	show: function(content, options) {
-		if(!this.initialized) this._init(options); // Check for is already initialized
+		
+		// Modif YVONNICK
+		//if(!this.initialized) 
+		//	this._init(options); // Check for is already initialized
+		// NOUVEAU CODE
+		if(Prototype.Browser.IE) {
+			if(this.initialized) {
+				$(this.MBwindow).hide();
+				this._deinit();
+			}
+			this._init(options); // Check for is already initialized
+		} else {
+			if(!this.initialized) 
+					this._init(options); // Check for is already initialized	
+		}
+		//FIN MODIF YVONNICK
 		
 		this.content = content;
 		this.setOptions(options);
@@ -434,7 +449,7 @@ Modalbox.Methods = {
 				return el.tabIndex == 1;
 			}) || this.focusableElements.first();
 			this.currFocused = this.focusableElements.toArray().indexOf(firstEl);
-			firstEl.focus(); // Focus on first focusable element except close button
+	//MODIF YVONNICK Commentaire		firstEl.focus(); // Focus on first focusable element except close button
 		} else if($(this.MBclose).visible())
 			$(this.MBclose).focus(); // If no focusable elements exist focus on close button
 	},
