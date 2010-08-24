@@ -84,7 +84,7 @@ if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME']
 } else {
 	Zend_Registry::set('estMobile', false);
 }
-
+Zend_Registry::set('estMobile', true);
 Bral_Util_Registre::chargement();
 
 // setup controller
@@ -98,7 +98,6 @@ $debut3 = microtime(true);
 
 // run!
 try {
-
 	$frontController->dispatch();
 	if ($config->db->game->config->profiler == true) {
 		Zend_Loader::loadClass("Bral_Util_Profiler");
