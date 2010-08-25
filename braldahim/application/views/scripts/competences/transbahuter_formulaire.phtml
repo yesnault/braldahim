@@ -11,7 +11,7 @@
 		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
 			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
 			<? foreach($this->typeDepart as $t) : ?>
-			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"] || count($this->typeDepart)==1): echo "selected"; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
+			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"] || count($this->typeDepart)==1): echo " selected='selected' "; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
 			<? endforeach; ?>
 		 </select>
 		 <input type="hidden" name="valeur_panneau" id="valeur_panneau" value="<?=$panneau ?>">
@@ -57,7 +57,7 @@
 						foreach($this->typeArrivee as $t){ 
 							$option .="<option value='".$t["id_type_arrivee"]."'";
 					 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
-					 			$option .=" selected ";
+					 			$option .=" selected='selected' ";
 					 		}
 					 		$option .= ">".$t["nom_type_arrivee"]."</option>";
 					 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";

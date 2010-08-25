@@ -23,11 +23,11 @@
 	 <?$select="";?>
 	 <select name="valeur_2" id="valeur_2">
 		<? if ($this->labanPlein == false ) : ?>
-			<? $select = "selected";?>
+			<? $select = " selected='selected' ";?>
 			<option value="2" <?=$select;?>>Votre laban (<?=$this->nbPossibleDansLabanMax?> &eacute;l&eacute;ment(s) maximum)</option>
 		<? endif; ?>
 		<? if ( $this->possedeCharrette == true && $this->charettePleine == false ) : ?>
-			<? if ($select == "") $select = "selected"; else $select="";  ?>
+			<? if ($select == "") $select = " selected='selected' "; else $select="";  ?>
 			<option value="1" <?=$select;?>>Votre charrette (<?=$this->nbPossibleDansCharretteMax?> &eacute;l&eacute;ment(s) maximum)</option>		
 		<? endif; ?>
 		<option value="3">Le sol</option>

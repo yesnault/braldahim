@@ -17,11 +17,11 @@
 		 <?$select="";?>
 		 <select name="valeur_1" id="valeur_1">
 			<? if ($this->possedeCharrette == true && $this->charettePleine == false ) : ?>
-				<? $select = "selected";?>
+				<? $select = " selected='selected' ";?>
 				<option value="1" <?=$select;?>>Votre charrette (<?=$this->nbPossibleDansCharretteMax?> rondin(s) maximum)</option>
 			<? endif; ?>
 			<? if ( $this->labanPlein == false ) : ?>
-				<? if ($select == "") $select = "selected"; else $select="";  ?>
+				<? if ($select == "") $select = " selected='selected' "; else $select="";  ?>
 					<option value="2" <?=$select;?>>Votre laban (<?=$this->nbPossibleDansLabanMax?> rondin(s) maximum)</option>
 			<? endif; ?>
 			<option value="3">Le sol</option>
