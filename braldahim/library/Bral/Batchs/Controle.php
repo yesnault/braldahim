@@ -189,7 +189,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Inscription");
 		if ($braldunsNonActifs != null && count($braldunsNonActifs) > 0) {
 			foreach($braldunsNonActifs as $h) {
-				$texte .= "Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"].PHP_EOL;
+				$texte .= "Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"]." creation:".$h["date_creation_braldun"].PHP_EOL;
 				$texte .= " --- > Mail:".PHP_EOL;
 				$this->view->prenom_braldun = $h["prenom_braldun"];
 				$this->view->id_braldun = $h["id_braldun"];
