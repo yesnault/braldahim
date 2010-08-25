@@ -378,15 +378,15 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EchoppePartieplante");
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 
-		list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient1);
+		list($idTypePartiePlante, $idTypePlante) = preg_split("/-/", $ingredient1);
 
 		$data['id_fk_echoppe_echoppe_partieplante'] = $this->idEchoppe;
 
 		$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
 		if ($ingredient3 != -2) { // enchanteur
-			list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient2);
+			list($idTypePartiePlante, $idTypePlante) = preg_split("/-/", $ingredient2);
 			$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
-			list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient3);
+			list($idTypePartiePlante, $idTypePlante) = preg_split("/-/", $ingredient3);
 			$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef, true);
 		} else if ($ingredient2 != -2) { // protecteur
 			throw new Zend_Exception(get_class($this)." Elaborer invalide calculCoutElaborerVernis");

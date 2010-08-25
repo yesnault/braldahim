@@ -55,7 +55,7 @@ class Bral_Administrationajax_Positionnervue extends Bral_Administrationajax_Adm
 			$y = $lieu->y_lieu;
 			$z = $lieu->z_lieu;
 		} elseif ($xyzPosition != null) {
-			list ($x, $y, $z) = split("h", $xyzPosition);
+			list ($x, $y, $z) = preg_split("/h/", $xyzPosition);
 			Bral_Util_Controle::getValeurIntVerif($x);
 			Bral_Util_Controle::getValeurIntVerif($y);
 			Bral_Util_Controle::getValeurIntVerif($z);

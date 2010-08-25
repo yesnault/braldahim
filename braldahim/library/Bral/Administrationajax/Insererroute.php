@@ -25,7 +25,7 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 
 		$xyzRoute = $this->request->get("xyz_route");
 		if ($xyzRoute != null) {
-			list ($xRoute, $yRoute, $zRoute) = split("h", $xyzRoute);
+			list ($xRoute, $yRoute, $zRoute) = preg_split("/h/", $xyzRoute);
 			Bral_Util_Controle::getValeurIntVerif($xRoute);
 			Bral_Util_Controle::getValeurIntVerif($yRoute);
 			Bral_Util_Controle::getValeurIntVerif($zRoute);
@@ -54,7 +54,7 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 
 	function prepareResultat() {
 		//$xyRoute = $this->request->get("xy_route");
-		//list ($xRoute, $yRoute) = split("h", $xyRoute);
+		//list ($xRoute, $yRoute) = preg_split("/h/", $xyRoute);
 		$this->calculRoute();
 	}
 

@@ -105,7 +105,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 		if ($this->view->construireRouteContinueOk == true) {
 			$x_y = $this->request->get("valeur_1");
-			list ($offset_x, $offset_y) = split("h", $x_y);
+			list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 			if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
 				throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
@@ -203,7 +203,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->view->deplacement = false;
 		if ($this->view->construireRouteContinueOk == true) {
 			$x_y = $this->request->get("valeur_1");
-			list ($offset_x, $offset_y) = split("h", $x_y);
+			list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 			if ($offset_x != 0 && $offset_y != 0) {
 				$this->view->deplacement = true;

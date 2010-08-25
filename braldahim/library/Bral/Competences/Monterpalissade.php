@@ -201,7 +201,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		// on verifie que l'on peut monter une palissade sur la case
 		$x_y = $this->request->get("valeur_1");
-		list ($offset_x, $offset_y) = split("h", $x_y);
+		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 		if ($offset_x < -$this->distance || $offset_x > $this->distance) {
 			throw new Zend_Exception(get_class($this)." MonterPalissade X impossible : ".$offset_x);
 		}

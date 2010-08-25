@@ -80,7 +80,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 						
 					if ($this->request->get("valeur_1") != null) { // attaque palissade en cours
 						$x_y = $this->request->get("valeur_1");
-						list ($offset_x, $offset_y) = split("h", $x_y);
+						list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 						if ($offset_x == $i && $offset_y == $j && $valid == true) {
 							$this->view->palissade = $palissade;
 						}
@@ -117,7 +117,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 
 		// on verifie que l'on peut attaquer une palissade sur la case
 		$x_y = $this->request->get("valeur_1");
-		list ($offset_x, $offset_y) = split("h", $x_y);
+		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 		if ($offset_x < -$this->distance || $offset_x > $this->distance) {
 			throw new Zend_Exception(get_class($this)." AttaquerPalissade X impossible : ".$offset_x);
 		}

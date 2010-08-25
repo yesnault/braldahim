@@ -297,7 +297,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->recetteAvecPotion === true) {
-			list ($idSource, $idPotion) = split("-", $idSource);
+			list ($idSource, $idPotion) = preg_split("/-/", $idSource);
 		} else {
 			$idPotion = null;
 		}

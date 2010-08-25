@@ -25,7 +25,7 @@ class Bral_Administrationajax_Inserereau extends Bral_Administrationajax_Adminis
 
 		$xyzEau = $this->request->get("xyz_eau");
 		if ($xyzEau != null) {
-			list ($xEau, $yEau, $zEau) = split("h", $xyzEau);
+			list ($xEau, $yEau, $zEau) = preg_split("/h/", $xyzEau);
 			Bral_Util_Controle::getValeurIntVerif($xEau);
 			Bral_Util_Controle::getValeurIntVerif($yEau);
 			Bral_Util_Controle::getValeurIntVerif($zEau);
@@ -56,7 +56,7 @@ class Bral_Administrationajax_Inserereau extends Bral_Administrationajax_Adminis
 
 	function prepareResultat() {
 		//$xyEau = $this->request->get("xy_eau");
-		//list ($xEau, $yEau) = split("h", $xyEau);
+		//list ($xEau, $yEau) = preg_split("/h/", $xyEau);
 		$this->calculEau();
 	}
 

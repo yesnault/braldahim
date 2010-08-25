@@ -27,7 +27,7 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 
 		$xyzLieu = $this->request->get("xyz_lieu");
 		if ($xyzLieu != null) {
-			list ($xLieu, $yLieu, $zLieu) = split("h", $xyzLieu);
+			list ($xLieu, $yLieu, $zLieu) = preg_split("/h/", $xyzLieu);
 			Bral_Util_Controle::getValeurIntVerif($xLieu);
 			Bral_Util_Controle::getValeurIntVerif($yLieu);
 			Bral_Util_Controle::getValeurIntVerif($zLieu);

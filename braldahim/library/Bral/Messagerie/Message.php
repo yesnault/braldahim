@@ -235,13 +235,13 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$idDestinatairesListe = null;
 
 			if ($this->view->message["destinataires"] != "") {
-				$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
+				$idDestinatairesTab = preg_split("/,/", $this->view->message["destinataires"]);
 				$idDestinatairesListe = $this->view->message["destinataires"];
 				$tabBralduns = $tabBraldun["bralduns"];
 			}
 
 			if ($this->view->message["userids"] != "") {
-				$idDestinatairesTab = array_merge($idDestinatairesTab, split(',', $this->view->message["userids"]));
+				$idDestinatairesTab = array_merge($idDestinatairesTab, preg_split("/,/", $this->view->message["userids"]));
 				if ($idDestinatairesListe != null) {
 					$idDestinatairesListe .= ",";
 				}
@@ -293,7 +293,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 			$idsBraldun[] = $message["toid"];
 			$idsBraldun[] = $message["fromid"];
-			$idsBraldun = array_merge($idsBraldun, split(',', $message["toids"]));
+			$idsBraldun = array_merge($idsBraldun, preg_split("/,/", $message["toids"]));
 			if ($idsBraldun != null) {
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->findByIdList($idsBraldun);
@@ -320,7 +320,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 					$destinataire = " Erreur Braldun n°".$message["toid"];
 				}
 
-				$tabDestinataires = split(',', $message["toids"]);
+				$tabDestinataires = preg_split("/,/", $message["toids"]);
 				foreach ($tabDestinataires as $k=>$d) {
 					if (array_key_exists($d, $tabBralduns)) {
 						$destinataires .= Bral_Util_Lien::getJsBraldun($tabBralduns[$d]["id_braldun"], $tabBralduns[$d]["prenom_braldun"] . " ". $tabBralduns[$d]["nom_braldun"]. " (".$tabBralduns[$d]["id_braldun"].")");
@@ -397,7 +397,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 	private function prepareSupprimerSelection($listMessages = null) {
 		$messageTable = new Message();
 		if ($listMessages == null) {
-			$listMessages = split(',', $this->request->get("valeur_2"));
+			$listMessages = preg_split("/,/", $this->request->get("valeur_2"));
 		}
 
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
@@ -447,7 +447,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$nbDejaArchives = $messageTable->countByToIdArchived($this->view->user->id_braldun);
 
 		if ($listMessages == null) {
-			$listMessages = split(',', $this->request->get("valeur_2"));
+			$listMessages = preg_split("/,/", $this->request->get("valeur_2"));
 		}
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);
 
@@ -491,7 +491,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$messageTable = new Message();
 
 		if ($listMessages == null) {
-			$listMessages = split(',', $this->request->get("valeur_2"));
+			$listMessages = preg_split("/,/", $this->request->get("valeur_2"));
 		}
 
 		$messages = $messageTable->findByIdList($this->view->user->id_braldun, $listMessages);

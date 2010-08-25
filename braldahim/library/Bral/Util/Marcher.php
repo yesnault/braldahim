@@ -166,7 +166,7 @@ class Bral_Util_Marcher {
 		}
 
 		if ($selection != null) {
-			list ($selection_x, $selection_y) = split("h", $selection);
+			list ($selection_x, $selection_y) = preg_split("/h/", $selection);
 			if ($tab[$selection]["valid"] == true) {
 				$tab[$selectionChecked]["default"] = "";
 				$tab[$selection]["default"] = "checked";

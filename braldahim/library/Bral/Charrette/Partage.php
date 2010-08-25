@@ -116,7 +116,7 @@ class Bral_Charrette_Partage extends Bral_Charrette_Charrette {
 		$filter = new Zend_Filter_StripTags();
 		$braldunsList = $filter->filter(trim($this->request->get('valeur_3')));
 
-		$idBraldunsTab = split(',', $braldunsList);
+		$idBraldunsTab = preg_split("/,/", $braldunsList);
 
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->findByIdList($idBraldunsTab);

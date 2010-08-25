@@ -25,7 +25,7 @@ class Bral_Administrationajax_Insererpalissade extends Bral_Administrationajax_A
 
 		$xyzPalissade = $this->request->get("xyz_palissade");
 		if ($xyzPalissade != null) {
-			list ($xPalissade, $yPalissade, $zPalissade) = split("h", $xyzPalissade);
+			list ($xPalissade, $yPalissade, $zPalissade) = preg_split("/h/", $xyzPalissade);
 			Bral_Util_Controle::getValeurIntVerif($xPalissade);
 			Bral_Util_Controle::getValeurIntVerif($yPalissade);
 			Bral_Util_Controle::getValeurIntVerif($zPalissade);

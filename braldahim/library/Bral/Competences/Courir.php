@@ -158,7 +158,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		$x_y = $this->request->get("valeur_1");
-		list ($offset_x, $offset_y) = split("h", $x_y);
+		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
 			throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);

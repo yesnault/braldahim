@@ -98,7 +98,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		}
 
 		$x_y = $this->request->get("valeur_1");
-		list ($x, $y) = split("t", $x_y);
+		list ($x, $y) = preg_split("/t/", $x_y);
 
 		if ($x < 0 || $x > 10 || $y < 0 || $y > 10) {
 			throw new Zend_Exception(get_class($this)." XY invalides : ".$x_y);

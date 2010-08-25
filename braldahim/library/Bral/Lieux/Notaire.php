@@ -38,7 +38,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$this->idSelection = 0;
 		if ($this->request->get("valeur_1") != null) {
-			list ($this->view->idTypeCourant, $this->idSelection) = split("_", $this->request->get("valeur_1"));
+			list ($this->view->idTypeCourant, $this->idSelection) = preg_split("/_/", $this->request->get("valeur_1"));
 		}
 
 		$selectedChamp = "";

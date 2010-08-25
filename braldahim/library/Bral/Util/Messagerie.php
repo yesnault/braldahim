@@ -27,7 +27,7 @@ class Bral_Util_Messagerie {
 	public static function constructTabBraldun($tabDestinataires, $valeur = "valeur_2", $sansIdBraldun = -1, $afficheSupprimer = true) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$braldunTable = new Braldun();
-		$idDestinatairesTab = split(',', $tabDestinataires);
+		$idDestinatairesTab = preg_split("/,/", $tabDestinataires);
 
 		$bralduns = $braldunTable->findByIdList($idDestinatairesTab);
 
@@ -84,7 +84,7 @@ class Bral_Util_Messagerie {
 		}
 
 		$messagerieContactsTable = new MessagerieContacts();
-		$idContactsTab = split(',', $tabContacts);
+		$idContactsTab = preg_split("/,/", $tabContacts);
 
 		$contactsTab = $messagerieContactsTable->findByIdsList($idContactsTab, $idBraldun);
 		if ($contactsTab == null) {
@@ -114,7 +114,7 @@ class Bral_Util_Messagerie {
 				$userIds .= ",";
 			}
 			$userIds .= $c["userids"];
-			$tab = split(',', $c["userids"]);
+			$tab = preg_split("/,/", $c["userids"]);
 			foreach($tab as $t) {
 				$tabBralduns[] = $t;
 			}

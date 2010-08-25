@@ -222,7 +222,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$braldunsList = $filter->filter(trim($this->request->get('valeur_1')));
 
 		$braldunsList = $braldunsList.",".$this->view->user->id_braldun;
-		$idBraldunsTab = split(',', $braldunsList);
+		$idBraldunsTab = preg_split("/,/", $braldunsList);
 
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->findByIdListAndIdTypeDistinction($idBraldunsTab, $this->view->idTypeDistinctionCourante);

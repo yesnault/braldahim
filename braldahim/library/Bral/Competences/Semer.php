@@ -117,7 +117,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		}
 
 		$idChoisit = $this->request->get("valeur_1");
-		list ($type, $idTypeGraine) = split("-", $idChoisit);
+		list ($type, $idTypeGraine) = preg_split("/-/", $idChoisit);
 
 		if ($type != "laban" && $type != "charrette") {
 			throw new Zend_Exception(get_class($this)." Type invalide A : ".$idChoisit);

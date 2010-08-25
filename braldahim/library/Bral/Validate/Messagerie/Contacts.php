@@ -48,7 +48,7 @@ class Bral_Validate_Messagerie_Contacts implements Zend_Validate_Interface {
 		
 		Zend_Loader::loadClass('MessagerieContacts');
 		$messagerieContactsTable = new MessagerieContacts();
-		$idContactsTab = split(',', $valeur);
+		$idContactsTab = preg_split("/,/", $valeur);
 		$messagerieContacts = $messagerieContactsTable->findByIdsList($idContactsTab, $this->idFkJosUsersBraldun);
 		
 		if ($valid) {
