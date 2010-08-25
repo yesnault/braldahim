@@ -189,8 +189,17 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Inscription");
 		if ($braldunsNonActifs != null && count($braldunsNonActifs) > 0) {
 			foreach($braldunsNonActifs as $h) {
-				$texte .= "    Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"].PHP_EOL;
-				$texte .= " URL validation= ".Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_braldun"]);
+				$texte .= "Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"].PHP_EOL;
+				$texte .= " --- > Mail:".PHP_EOL;
+				$this->view->prenom_braldun = $h["prenom_braldun"];
+				$this->view->id_braldun = $h["id_braldun"];
+				$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_braldun"]);
+				$this->view->adresseSupport = $this->config->general->adresseSupport;
+				
+				$contenuText = $this->view->render("inscription/mailText.phtml");
+				
+				$texte .= $contenuText;
+				$texte .= " --------".PHP_EOL.PHP_EOL;
 			}
 		}
 
