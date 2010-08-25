@@ -485,14 +485,16 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findAllCompteInactif($dateFin) {
+	function findAllCompteInactif($dateFin = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', '*')
 		->where('est_compte_actif_braldun = ?', "non")
 		->where('est_pnj_braldun = ?', "non")
-		->where('est_compte_desactive_braldun = ?', "non")
-		->where('date_creation_braldun <= ?',$dateFin); // tous les plus vieux
+		->where('est_compte_desactive_braldun = ?', "non");
+		if ($dateFin != null) {
+			$select->where('date_creation_braldun <= ?',$dateFin); // tous les plus vieux
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

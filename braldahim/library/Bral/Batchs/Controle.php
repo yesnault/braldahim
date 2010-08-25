@@ -182,6 +182,17 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		}
 
 		$texte .=  PHP_EOL." ------- ".PHP_EOL;
+		
+		
+		$braldunsNonActifs = $braldunTable->findAllCompteInactif();
+		$texte .= " Bralduns Compte non actif : ".count($braldunsNonActifs). " Details:".PHP_EOL;
+		Zend_Loader::loadClass("Bral_Util_Inscription");
+		if ($braldunsNonActifs != null && count($braldunsNonActifs) > 0) {
+			foreach($braldunsNonActifs as $h) {
+				$texte .= "    Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"].PHP_EOL;
+				$texte .= " URL validation= ".Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_braldun"]);
+			}
+		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleInscriptions - exit -");
 	}
