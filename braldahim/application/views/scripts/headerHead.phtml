@@ -17,8 +17,10 @@
 	<? if (Zend_Registry::get("estMobile")) : ?>
 		<link  href="/public/styles/braldahim_defaut/iphone-004.css" type="text/css" rel="stylesheet">
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
+		<? if (Zend_Registry::get("estIphone")) : ?>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<? endif;?>
 	<? endif;?>
 	
 	<? if ($this->config->tracker->enabled == "1") : ?>
