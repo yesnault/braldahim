@@ -232,7 +232,7 @@ span.id_braldun {
 
 .boite_a,.boite_b {
 	margin-top: 10px;
-	width: 365px;
+	width: 100%;
 }
 
 .onglet {
@@ -504,7 +504,6 @@ span.id_braldun {
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
-	height: 50px;
 	padding:4px 10px 1pt;
 	display: block;
 	text-align: right;
@@ -1233,11 +1232,11 @@ td.cases.actuelle {
 	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
-	margin-top: -10px;
+	margin-top: 0px;
 }
 
 #header {
-	height:50px;
+	height:1%;
 	position:relative;
 }
 #header h1 {
