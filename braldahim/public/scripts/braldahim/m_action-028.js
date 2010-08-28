@@ -97,7 +97,7 @@ function _get_(url, encode) {
 		$("box_action").innerHTML = "Chargement...";
 	} else if ($('nb_valeurs') && (action == "ask")) {
 		alert("Code A Supprimer ? m_action.js ligne 72");
-		Modalbox.hide();
+		fermeBralBox();
 	}
 	
 	if ($('dateAuth')) {
@@ -223,17 +223,29 @@ function showResponse(originalRequest) {
 	}
 	// Box action
 	if (display_action) {
-		Modalbox.show($("box_action"), { title :'Action', width :450, overlayClose :false });
+		//Modalbox.show($("box_action"), { title :'Action', width :450, overlayClose :false });
+		$('BB_overlay').style.display = "block";
+		$('BB_titre').value = "Action";
+		$('BB_windowwrapper').style.display = "block";
+		$("box_action").style.display = "block";
 	}
 
 	// Box informations
 	if (display_informations) {
-		Modalbox.show($("box_informations"), { title :'Informations', width :600, overlayClose :false });
+		$('BB_overlay').style.display = "block";
+		$('BB_titre').value = "Informations";
+		$('BB_windowwrapper').style.display = "block";
+		$("box_informations").style.display = "block";
+		//Modalbox.show($("box_informations"), { title :'Informations', width :600, overlayClose :false });
 	}
 
 	// Box erreur
 	if (display_erreur) {
-		Modalbox.show($("erreur"), { title :'Une erreur est survenue', width :400, overlayClose :false });
+		//Modalbox.show($("erreur"), { title :'Une erreur est survenue', width :400, overlayClose :false });
+		$('BB_overlay').style.display = "block";
+		$('BB_titre').value = "Une erreur est survenue";
+		$('BB_windowwrapper').style.display = "block";
+		$("erreur").style.display = "block";
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";
@@ -242,7 +254,11 @@ function showResponse(originalRequest) {
 	
 	// Box erreur catch
 	if (display_erreur_catch) {
-		Modalbox.show($("erreur_catch"), { title :'Une erreur est survenue', width :400, overlayClose :false });
+		//Modalbox.show($("erreur_catch"), { title :'Une erreur est survenue', width :400, overlayClose :false });
+		$('BB_overlay').style.display = "block";
+		$('BB_titre').value = "Une erreur est survenue (catch)";
+		$('BB_windowwrapper').style.display = "block";
+		$("erreur_catch").style.display = "block";
 	} else {
 		if ($("erreur_catch")) {
 			$("erreur_catch").style.display = "none";
@@ -257,6 +273,15 @@ function showResponse(originalRequest) {
 	}
 
 	return;
+}
+
+function fermeBralBox() {
+	$('BB_overlay').style.display = "none";
+	$('BB_windowwrapper').style.display = "none";
+	$("erreur").style.display = "none";
+	$("erreur_catch").style.display = "none";
+	$("erreur_catch").style.display = "none";
+	$("box_action").style.display = "none";
 }
 
 function textCount(field,counterfield,max) {

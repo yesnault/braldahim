@@ -20,8 +20,21 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
 <? include('headerMenu.phtml'); ?>
 
 <? if ($this->user && ($this->controleur == "interface")) : ?>
-<div id="box_action" class="box_action" style="display: none"></div>
-<div id="box_informations" class="box_informations" style="display: none"></div>
-<div id="box_warning" class="box_warning" style="display: none"></div>
-<? endif; ?>
-<? include('headerErreurRacine.phtml'); ?>
+<div id="BB_overlay" style="display: none; opacity: 0.5;" class="BBoverlay"></div>
+<div id="BB_windowwrapper" style="display: none">
+<div id="BB_window" style="width: 450px;">
+<div id="BB_frame">
+	<div id="BB_header">
+		<div id="BB_titre">Action</div>
+		<a id="BB_close" title="Fermer" href="#" onClick="fermeBralBox()"><span>×</span></a>
+	</div>
+
+	<div id="box_action" class="box_action" style="display: none"></div>
+	<div id="box_informations" class="box_informations" style="display: none"></div>
+	<div id="box_warning" class="box_warning" style="display: none"></div>
+</div>
+</div>
+</div>
+
+
+<? endif; ?> <? include('headerErreurRacine.phtml'); ?>

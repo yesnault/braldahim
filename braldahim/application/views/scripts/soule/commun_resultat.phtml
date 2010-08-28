@@ -13,7 +13,7 @@
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('<?=$this->nomSysteme?>_text','<?=$this->nomSysteme?>_copie');">
 <? if ($this->reloadInterface == true): ?>
-	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");fermeBralBox();'>
 <? else: ?>
 	<? echo Bral_Helper_Fermer::affiche(); ?>
 <? endif; ?>

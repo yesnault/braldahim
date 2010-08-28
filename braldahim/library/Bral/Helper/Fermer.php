@@ -13,7 +13,7 @@
 class Bral_Helper_Fermer {
 
 	public static function affiche() {
-		return "<input type='button' class='button1' value='Fermer' onClick='this.disabled=true;_get_(\"/interface/clear\");Modalbox.hide();'>";
+		return "<input type='button' class='button1' value='Fermer' onClick='this.disabled=true;_get_(\"/interface/clear\");fermeBralBox();'>";
 	}
 }
 
