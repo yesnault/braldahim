@@ -55,7 +55,7 @@ class Bral_Helper_Calendrier {
     	$anneeTexte = "";
     	
     	if ($avecSautLigneAnnee) {
-    		 $anneeTexte .= "<br>";
+    		 $anneeTexte .= "<br/>";
     	}
     	
     	$anneeTexte .= "Année ".$annee." du Second Âge";

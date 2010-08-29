@@ -4,14 +4,14 @@
 		<table class="table_liste" style="width:90%">
     	<thead class="table_liste">
     
-		<tr class="table_liste<?=($i % 2);$i++; ?>"">
+		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			<td class="table_liste" style="height:250px;text-align: justify; vertical-align:top">
 			
 			Parution le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
-			<br>
+			<br/>
 			<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
-				<br>
-				<ul class="titre textalic textsized"><?=stripslashes($info["titre_info_jeu"])?></ul>
+				<br/>
+				<p class="titre textalic textsized center"><?=stripslashes($info["titre_info_jeu"])?></p>
 			<? endif;?>
 			
 			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
@@ -28,7 +28,7 @@
 			</div>
 			
 			<? if ($info["lien_info_jeu"] != null && substr($info["lien_info_jeu"], 0, 26) == "http://forum.braldahim.com") :?>
-				<br>Les Braldûns en discutent
+				<br/>Les Braldûns en discutent
 				<a href="<?=$info["lien_info_jeu"]?>">sur le forum.</a>
 			<? endif;?>
 			</td>

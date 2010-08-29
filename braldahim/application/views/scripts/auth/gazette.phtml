@@ -2,11 +2,11 @@
 <div class="inner">
 	<div class="contenu">
 	    <ul class="box_contenu3 textalib">
-	    	<ul class="titre textalic textsizeb" ><a href="/gazette" title="Voir les Archives" style="text-decoration:none">La Gazette</a></ul>
+	    	<p class="titre textalic textsizeb center" ><a href="/gazette" title="Voir les Archives" style="text-decoration:none">La Gazette</a></p>
 	    		<? if (count($this->histoires) > 0) : ?>
 				<?php echo $this->render('gazette/histoires.phtml'); ?> 
 				<? endif; ?>
-				<br><a href="/gazette">Archives</a>&nbsp;
+				<br/><a href="/gazette">Archives</a>&nbsp;
 	    </ul>
 	</div>
 </div>
