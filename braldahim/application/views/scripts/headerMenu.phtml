@@ -52,9 +52,11 @@
 					 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
 						<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
 					</span>
+					<? if (!$this->estMobile):?>
 					<span id="message_nb" style="float:right; display:none;margin-top:2px;">
 						<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
 					</span>
+					<? endif; ?>
 				<? endif; ?>
 			 </div>
 		 </div>

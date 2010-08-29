@@ -134,11 +134,10 @@ function showResponse(originalRequest) {
 			$("box_action").innerHTML = "";
 		}
 	} else {
-		estInternetExplorer = false;
-		if (navigator.appName == "Microsoft Internet Explorer") {
-			estInternetExplorer = false;
-		} else {
+		if (Prototype.Browser.IE) {
 			estInternetExplorer = true;
+		} else {
+			estInternetExplorer = false;
 		}
 
 		var root = xmldoc.getElementsByTagName('root').item(0);
@@ -147,7 +146,7 @@ function showResponse(originalRequest) {
 
 			for (i = 0; i < node.childNodes.length; i++) {
 				var sibl = node.childNodes.item(i);
-				if (estInternetExplorer == false) {
+				if (estInternetExplorer) {
 					if (i == 0) m_type = sibl.text
 					if (i == 1) m_type_valeur = sibl.text
 					if (i == 2) m_data = sibl.text
@@ -223,29 +222,17 @@ function showResponse(originalRequest) {
 	}
 	// Box action
 	if (display_action) {
-		//Modalbox.show($("box_action"), { title :'Action', width :450, overlayClose :false });
-		$('BB_overlay').style.display = "block";
-		$('BB_titre').value = "Action";
-		$('BB_windowwrapper').style.display = "block";
-		$("box_action").style.display = "block";
+		ouvreBralBox("box_action");
 	}
 
 	// Box informations
 	if (display_informations) {
-		$('BB_overlay').style.display = "block";
-		$('BB_titre').value = "Informations";
-		$('BB_windowwrapper').style.display = "block";
-		$("box_informations").style.display = "block";
-		//Modalbox.show($("box_informations"), { title :'Informations', width :600, overlayClose :false });
+		ouvreBralBox("box_informations");
 	}
 
 	// Box erreur
 	if (display_erreur) {
-		//Modalbox.show($("erreur"), { title :'Une erreur est survenue', width :400, overlayClose :false });
-		$('BB_overlay').style.display = "block";
-		$('BB_titre').value = "Une erreur est survenue";
-		$('BB_windowwrapper').style.display = "block";
-		$("erreur").style.display = "block";
+		ouvreBralBox("erreur");
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";
@@ -254,18 +241,13 @@ function showResponse(originalRequest) {
 	
 	// Box erreur catch
 	if (display_erreur_catch) {
-		//Modalbox.show($("erreur_catch"), { title :'Une erreur est survenue', width :400, overlayClose :false });
-		$('BB_overlay').style.display = "block";
-		$('BB_titre').value = "Une erreur est survenue (catch)";
-		$('BB_windowwrapper').style.display = "block";
-		$("erreur_catch").style.display = "block";
+		ouvreBralBox("erreur_catch");
 	} else {
 		if ($("erreur_catch")) {
 			$("erreur_catch").style.display = "none";
 		}
 	}
 
-	//$("box_chargement").style.display = "none";
 	hideModal('modalPage');
 	
 	if (redirection) {
@@ -273,6 +255,29 @@ function showResponse(originalRequest) {
 	}
 
 	return;
+}
+
+function ouvreBralBox(element) {
+	
+	if (element == "box_action") {
+		titre = "Action";
+	} else if (element == "box_informations") {
+		titre = "Informations";
+	} else if (element == "erreur") {
+		titre = "Une erreur est survenue";
+	} else if (element == "erreur_catch") {
+		titre = "Une erreur est survenue (catch)";
+	} else {
+		titre = "Une erreur est survenue (js)";
+	}
+	
+	if(Prototype.Browser.IE) {
+		$('BB_overlay').style.backgroundColor="#999999";
+	}
+	$('BB_overlay').style.display = "block";
+	$('BB_titre').innerHTML = titre;
+	$('BB_windowwrapper').style.display = "block";
+	$(element).style.display = "block";
 }
 
 function fermeBralBox() {

@@ -58,4 +58,14 @@ input {
 	padding: 0pt 0.5px;
 }
 
+#BB_window {
+		width: 100%;
+	min-width:50px;
+}
+
+.box_action {
+	width: 100%;
+	min-width:50px;
+}
+
     

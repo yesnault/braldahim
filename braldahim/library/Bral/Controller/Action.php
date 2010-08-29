@@ -73,6 +73,8 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$this->modification_tour = true;
 			}
 		}
+		
+		$this->view->estMobile = Zend_Registry::get("estMobile");
 	}
 
 	protected function doBralAction($factory) {
@@ -125,7 +127,10 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$xml_entry->set_data($action->render());
 				$xml_entry->set_valeur($action->getNomInterne());
 				$this->xml_response->add_entry($xml_entry);
-				$boxToRefresh = $action->getListBoxRefresh();
+				$boxToRefresh = null;
+				if (!$this->view->estMobile) { // pas de refresh des boites en version mobile
+					$boxToRefresh = $action->getListBoxRefresh();
+				}
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
 					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule" || $boxToRefresh[$i] == "box_quete") {

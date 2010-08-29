@@ -418,6 +418,7 @@ span.id_braldun {
 	background-color: #d9ffd6;
 	color: black;
 	padding: 5pt 5px;
+	min-width:500px;
 }
 
 .box_warning {
@@ -482,7 +483,7 @@ span.id_braldun {
 	padding: 5pt 5px;
 	
 	position:absolute;
-	min-width:440px;
+	min-width:500px;
 	z-index: 9999;
 	
 	margin-left:auto !important;
@@ -694,6 +695,7 @@ td.table_liste {
 .comp_marcher_position {
 	border: 1px solid #000000;
 	width: 200px;
+	background-color:#FFFFFF;
 }
 
 .comp_marcher_position_td {
@@ -722,6 +724,9 @@ width: 100%; height: 100%;
 z-index: 9999;
 border: 0;
 background-color: #000!important;
+opacity: 0.5;
+filter: Alpha(Opacity=40);
+-moz-opacity:0.0;
 }
 #BB_overlay[id] { position: fixed; }
 
@@ -740,6 +745,7 @@ left:0 !important;
 border: 0 solid;
 text-align: left;
 z-index: 10000;
+width: 512px;
 }
 #BB_window[id] { position: relative!important; }
 
@@ -1070,7 +1076,9 @@ td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/cha
 /* ************************************************ */
 /* ************************* Vue ****************** */
 /* ************************************************ */
+	
 table.vue2d {
+	background-color: #C3E691;
 	text-align: center;
 	border-spacing: 0px;
 	border-width: 1px;
