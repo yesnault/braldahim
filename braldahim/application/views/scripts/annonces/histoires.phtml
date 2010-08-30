@@ -1,5 +1,4 @@
 <table class="table_liste" style="width:90%">
-    	<thead class="table_liste">
 <? 
 	$i = 0; 
 	foreach ($this->annonces as $info) : ?>
@@ -26,10 +25,9 @@
 			<a href="<?=htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
 		<? endif;?>
 		<? if ($info["lien_info_jeu"] != null) :?>
-			<br><a href="<?=htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
+			<br/><a href="<?=htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
 		<? endif;?>
 		</td>
 	</tr>
 <? endforeach; ?>
-</thead>
 </table>

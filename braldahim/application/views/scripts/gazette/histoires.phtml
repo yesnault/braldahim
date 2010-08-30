@@ -2,7 +2,6 @@
 	$i = 0; 
 	foreach ($this->histoires as $info) : ?>
 		<table class="table_liste" style="width:90%">
-    	<thead class="table_liste">
     
 		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			<td class="table_liste" style="height:250px;text-align: justify; vertical-align:top">
@@ -33,6 +32,5 @@
 			<? endif;?>
 			</td>
 		</tr>
-		</thead>
 	</table>
 <? endforeach; ?>
