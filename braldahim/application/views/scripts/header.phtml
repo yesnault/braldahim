@@ -1,6 +1,6 @@
 <? include('headerHead.phtml'); ?>
 <? if($this->user && $this->controleur == "interface") : ?>
-<body onLoad="_get_('/interface/boxes');">
+<body onload="_get_('/interface/boxes');">
 <? else: ?>
 <body>
 <? endif; ?>
@@ -26,7 +26,7 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
 <div id="BB_frame">
 	<div id="BB_header">
 		<div id="BB_titre"></div>
-		<a id="BB_close" title="Fermer" href="#" onClick="fermeBralBox()" style="display:none"><span>×</span></a>
+		<a id="BB_close" title="Fermer" href="#" onclick="fermeBralBox()" style="display:none"><span>×</span></a>
 	</div>
 
 	<div id="box_action" class="box_action" style="display: none"></div>
