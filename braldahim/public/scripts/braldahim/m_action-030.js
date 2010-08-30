@@ -285,7 +285,7 @@ function fermeBralBox() {
 	$('BB_windowwrapper').style.display = "none";
 	$("erreur").style.display = "none";
 	$("erreur_catch").style.display = "none";
-	$("erreur_catch").style.display = "none";
+	$("box_informations").style.display = "none";
 	$("box_action").style.display = "none";
 }
 
