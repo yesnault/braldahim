@@ -261,19 +261,25 @@ function ouvreBralBox(element) {
 	
 	if (element == "box_action") {
 		titre = "Action";
+		boutonClose = "block";
 	} else if (element == "box_informations") {
 		titre = "Informations";
+		boutonClose = "none";
 	} else if (element == "erreur") {
 		titre = "Une erreur est survenue";
+		boutonClose = "none";
 	} else if (element == "erreur_catch") {
 		titre = "Une erreur est survenue (catch)";
+		boutonClose = "none";
 	} else {
 		titre = "Une erreur est survenue (js)";
+		boutonClose = "none";
 	}
 	
 	if(Prototype.Browser.IE) {
 		$('BB_overlay').style.backgroundColor="#999999";
 	}
+	$('BB_close').style.display = boutonClose;
 	$('BB_overlay').style.display = "block";
 	$('BB_titre').innerHTML = titre;
 	$('BB_windowwrapper').style.display = "block";

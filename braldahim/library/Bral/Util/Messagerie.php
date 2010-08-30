@@ -278,13 +278,15 @@ class Bral_Util_Messagerie {
 				$destinataire = "";
 				if ($tabBralduns != null) {
 					if (array_key_exists($m["toid"], $tabBralduns)) {
-						$destinataire = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["toid"]]["id_braldun"], $tabBralduns[$m["toid"]]["prenom_braldun"] . " ". $tabBralduns[$m["toid"]]["nom_braldun"]. " (".$tabBralduns[$m["toid"]]["id_braldun"].")");
+						//$destinataire = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["toid"]]["id_braldun"], $tabBralduns[$m["toid"]]["prenom_braldun"] . " ". $tabBralduns[$m["toid"]]["nom_braldun"]. " (".$tabBralduns[$m["toid"]]["id_braldun"].")");
+						$destinataire = $tabBralduns[$m["toid"]]["prenom_braldun"] . " ". $tabBralduns[$m["toid"]]["nom_braldun"]. " (".$tabBralduns[$m["toid"]]["id_braldun"].")";
 					} else {
 						$destinataire = " Erreur ".$m["toid"];
 					}
 
 					if (array_key_exists($m["fromid"], $tabBralduns)) {
-						$expediteur = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["fromid"]]["id_braldun"], $tabBralduns[$m["fromid"]]["prenom_braldun"] . " ". $tabBralduns[$m["fromid"]]["nom_braldun"]. " (".$tabBralduns[$m["fromid"]]["id_braldun"].")");
+						//$expediteur = Bral_Util_Lien::getJsBraldun($tabBralduns[$m["fromid"]]["id_braldun"], $tabBralduns[$m["fromid"]]["prenom_braldun"] . " ". $tabBralduns[$m["fromid"]]["nom_braldun"]. " (".$tabBralduns[$m["fromid"]]["id_braldun"].")");
+						$expediteur = $tabBralduns[$m["fromid"]]["prenom_braldun"] . " ". $tabBralduns[$m["fromid"]]["nom_braldun"]. " (".$tabBralduns[$m["fromid"]]["id_braldun"].")";
 					} else {
 						$expediteur = " Erreur ".$m["fromid"];
 					}

@@ -56,7 +56,6 @@ class Bral_Util_Lien {
 		$retour = '$h = new Braldun();';
 		$retour .= '$retour = "";';
 		$retour .= '$equipe = "";';
-		//$retour .= '$nom = $h->findNomById($matches[1]);';
 		$retour .= '$braldun = $h->findById($matches[1]);';
 		$retour .= '$nom = $braldun["prenom_braldun"]. " ".$braldun["nom_braldun"]. " (".$braldun["id_braldun"].")";';
 		if ($avecJs) $retour .= ' if ($braldun["est_soule_braldun"] == "oui") {';

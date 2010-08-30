@@ -53,7 +53,7 @@
 						<img id='imgMsgALire<?=$message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="/public/images/uddeim/new_im.gif" border="0" style='<?=$displayAlire?>'/>
 						<img id='imgMsgLu<?=$message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="/public/images/uddeim/nonew_im.gif" border="0" style='<?=$displayLu?>' />
 					</td>
-	  				<td class="table_liste" style="padding:2px;" nowrap>
+	  				<td class="table_liste" style="padding:2px;" <?=$js ?> nowrap>
 	  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 		  					De <?=$message["expediteur"];?>&nbsp;
 		  					&agrave;<br/>
