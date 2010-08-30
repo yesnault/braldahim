@@ -69,6 +69,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		Zend_Loader::loadClass("Bosquet");
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Route");
+		Zend_Loader::loadClass("Eau");
 		Zend_Loader::loadClass("SouleMatch");
 		Zend_Loader::loadClass("Zone");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -85,7 +86,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		$x_max = $x + $vue_nb_cases;
 		$y_min = $y - $vue_nb_cases;
 		$y_max = $y + $vue_nb_cases;
-		
+
 		$pos = $x.';'.$y.';'.$z_position.';'.$x_min.';'.$x_max.';'.$y_min.';'.$y_max;
 		$fin = PHP_EOL;
 		$retour .= 'POSITION;'.$pos.';'. $this->braldun->id_braldun.';'.$vue_nb_cases.';'.$bm.$fin;
@@ -102,6 +103,9 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		$crevasseTable = new Crevasse();
 		$crevasses = $crevasseTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position, 'oui');
 		unset($crevasseTable);
+		$eauTable = new Eau();
+		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
+		unset($eauTable);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
 		unset($echoppeTable);
@@ -213,7 +217,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				$tabBallons = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
-				
+
 				$pos = $display_x.';'.$display_y.';'.$z_position;
 				$fin = PHP_EOL;
 					
@@ -224,13 +228,27 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				) {
 					$nom_systeme_environnement = "inconnu";
 				} else {
+					$nom_environnement = "";
+					$nom_systeme_environnement = "";
+						
+					if ($eaux != null) {
+						foreach($eaux as $e) {
+							if ($display_x == $e["x_eau"] && $display_y == $e["y_eau"]) {
+								$nom_systeme_environnement = $e["type_eau"];
+								$nom_environnement = "Eau";
+							}
+						}
+					}
+						
 					foreach($zones as $z) {
 						if ($display_x >= $z["x_min_zone"] &&
 						$display_x <= $z["x_max_zone"] &&
 						$display_y >= $z["y_min_zone"] &&
 						$display_y <= $z["y_max_zone"]) {
-							$nom_systeme_environnement = $z["nom_systeme_environnement"];
-							$nom_environnement = htmlspecialchars($z["nom_environnement"]);
+							if ($nom_environnement == "") {
+								$nom_systeme_environnement = $z["nom_systeme_environnement"];
+								$nom_environnement = htmlspecialchars($z["nom_environnement"]);
+							}
 							$retour .= 'ENVIRONNEMENT;'.$pos.';'.$nom_systeme_environnement.';'.$nom_environnement.$fin;
 							break;
 						}
@@ -292,7 +310,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($elements as $e) {
 							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
 								if ($e["quantite_peau_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Peau;'.$e["quantite_peau_element"].$fin;
-								if ($e["quantite_cuir_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Cuir;'.$e["quantite_cuir_element"].$fin; 
+								if ($e["quantite_cuir_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Cuir;'.$e["quantite_cuir_element"].$fin;
 								if ($e["quantite_fourrure_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Fourrure;'.$e["quantite_fourrure_element"].$fin;
 								if ($e["quantite_planche_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Planche;'.$e["quantite_planche_element"].$fin;
 								if ($e["quantite_rondin_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Rondin;'.$e["quantite_rondin_element"].$fin;
