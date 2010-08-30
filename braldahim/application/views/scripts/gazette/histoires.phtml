@@ -23,13 +23,13 @@
 			<div class="gazette_histoire">
 				<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 				<? if ($info["lien_wiki_info_jeu"] != null) :?>
-					<a href="<?=$info["lien_wiki_info_jeu"]?>">...Lire la suite.</a>
+					<a href="<?=htmlspecialchars($info["lien_wiki_info_jeu"])?>">...Lire la suite.</a>
 				<? endif;?>
 			</div>
 			
 			<? if ($info["lien_info_jeu"] != null && substr($info["lien_info_jeu"], 0, 26) == "http://forum.braldahim.com") :?>
 				<br/>Les Braldûns en discutent
-				<a href="<?=$info["lien_info_jeu"]?>">sur le forum.</a>
+				<a href="<?=htmlspecialchars($info["lien_info_jeu"])?>">sur le forum.</a>
 			<? endif;?>
 			</td>
 		</tr>

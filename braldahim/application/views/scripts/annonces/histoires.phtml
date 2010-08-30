@@ -23,10 +23,10 @@
 		
 		<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 		<? if ($info["lien_wiki_info_jeu"] != null) :?>
-			<a href="<?=$info["lien_wiki_info_jeu"]?>">Voir les règles.</a> 
+			<a href="<?=htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
 		<? endif;?>
 		<? if ($info["lien_info_jeu"] != null) :?>
-			<br><a href="<?=$info["lien_info_jeu"]?>">Discussions.</a>
+			<br><a href="<?=htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
 		<? endif;?>
 		</td>
 	</tr>
