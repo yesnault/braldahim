@@ -1,0 +1,141 @@
+body {
+	background: #FFFFFF;
+	color: #666666;
+}
+
+#frisebot,#frisetop {
+	background: none;
+}
+
+#frisetop {
+	background: none;
+}
+
+#frisetopvide {
+	background: none;
+}
+
+#frisebot {
+	background: none;
+}
+
+#braldunjeu {
+	background: none;
+}
+
+#menu {
+	background: none;
+	display: none;
+}
+
+#header h1 {
+	background: none;
+}
+
+#wrapper {
+	background: none;
+}
+
+.inner {
+	background: none;
+}
+
+.box_contenu1 {
+	background: none;
+}
+
+.onglet.inactif {
+	background: none;
+}
+
+.onglet.actif {
+	background: none;
+}
+
+tr.table_liste0.hhover:hover,tr.table_liste1.hhover:hover {
+	background: none;
+}
+
+tr.table_liste0 {
+	background: none;
+}
+
+tr.table_liste1 {
+	background: none;
+}
+
+td.table_liste_th {
+	background: none;
+	color: #666666;
+}
+
+input {
+	background: none;
+	border: 1px solid #666666;
+}
+
+.textsizea {
+	color: #666666;
+}
+
+.textsizeb {
+	color: #666666;
+}
+
+.textsizec {
+	color: #666666;
+}
+
+.textsized {
+	color: #666666;
+}
+
+a,.alabel {
+	color: #666666;
+}
+
+.inner_top a,.inner_bot a,.inner_top .alabel {
+	color: #666666;
+}
+
+#BB_header {
+	background: none;
+	background-color: #666666;
+}
+
+thead.table_liste,tfoot.table_liste {
+	background: none;
+}
+
+#navigation h3.head {
+	background: url("/public/images/collapsed.gif") no-repeat scroll 3px 4px
+		#FFFFFF;
+}
+
+#navigation h3.head:hover {
+	color: #003b00;
+}
+
+#navigation h3.head.selected {
+	background: #FFFFFF url(/public/images/expanded.gif) no-repeat scroll
+		3px 4px;
+}
+
+#navigation h3.current {
+	background-color: #FFFF99;
+}
+
+.vueTableWrapper {
+	display: none;
+}
+
+.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite,.barre_faim,.barre_vie,.barre_niveau,.barre_poids
+	{
+	opacity: 0.3;
+	filter: Alpha(Opacity = 30);
+	-moz-opacity: 0.0;
+}
+
+input.button1 {
+	background-image: none;
+}
