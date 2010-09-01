@@ -1,9 +1,9 @@
 <div id="mygrid_recherche_container" style="width:380px;height:500px;align:center"></div> 
-<script>
-	gridQStringRecherche = '/bourg/relatexml?typeselect=recherche&uid='+(new Date()).valueOf();
+<script type="text/javascript">
+	gridQStringRecherche = '/bourg/relatexml?typeselect=recherche&amp;uid='+(new Date()).valueOf();
 	function sortGridOnServerRecherche(ind,gridObj,direct){
 	    mygridRecherche.clearAll();
-	    murl = gridQString+(gridQStringRecherche.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    murl = gridQString+(gridQStringRecherche.indexOf("?")>=0?"&amp;":"?")+"orderby="+ind+"&amp;direct="+direct;
 	    mygridRecherche.loadXML(murl);
 	    mygridRecherche.setSortImgState(true,ind,direct);
 	    return false;

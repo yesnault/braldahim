@@ -1,61 +1,61 @@
-<br>
-<ul class="titre textalic textsizeb">L'Office des Palmarès</ul><br>
+<br/>
+<div class="titre textalic textsizeb">L'Office des Palmarès</div><br/>
 
 <table style="width:100%">
 <tr>
-	<td style="width:30px" valign="top" nowrap>
-		<ul class="box_contenu textalic">
-			<ul class="titre textalic textsizec">
+	<td style="width:30px" valign="top" nowrap="nowrap">
+		<div class="box_contenu textalic">
+			<div class="titre textalic textsizec">
 			Général
-			</ul>
+			</div>
 			<? foreach($this->selection as $s) : ?>
-				<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+				<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
 			<? endforeach;?>
-			<br>
+			<br/>
 			
-			<ul class="titre textalic textsizec">
+			<div class="titre textalic textsizec">
 			Réputation
-			</ul>
+			</div>
 			<? if (count($this->selectionReputation) > 0): ?>
 				<? foreach($this->selectionReputation as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
 				<? endforeach;?>
 			<? endif; ?>
-			<br>
+			<br/>
 			
-			<ul class="titre textalic textsizec">
+			<div class="titre textalic textsizec">
 			Récolteurs
-			</ul>
+			</div>
 			<? if (count($this->selectionRecolteurs) > 0): ?>
 				<? foreach($this->selectionRecolteurs as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
 				<? endforeach;?>
 			<? endif; ?>
-			<br>
-			<ul class="titre textalic textsizec">
+			<br/>
+			<div class="titre textalic textsizec">
 			Fabricants
-			</ul>
+			</div>
 			<? if (count($this->selectionFabricants) > 0): ?>
 				<? foreach($this->selectionFabricants as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
 				<? endforeach;?>
 			<? endif; ?>
-			<br>
-			<ul class="titre textalic textsizec">
+			<br/>
+			<div class="titre textalic textsizec">
 			Runes
-			</ul>
+			</div>
 			<? if (count($this->selectionRunes) > 0): ?>
 				<? foreach($this->selectionRunes as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
 				<? endforeach;?>
 			<? endif; ?>
-			<br>
-		</ul>
+			<br/>
+		</div>
 	</td>
 	<td style="width:400px; border: 0px solid #791E1E;" valign="top">
-		<ul class="titre textalic textsizec">
-			<?=$this->titre?><br><br>
-		</ul>
+		<div class="titre textalic textsizec">
+			<?=$this->titre?><br/><br/>
+		</div>
 		<?=$this->render("commun/box_onglets.phtml"); ?>
 	</td>
 </tr>
