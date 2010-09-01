@@ -14,6 +14,10 @@
 	<script type="text/javascript" src="/public/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/m_action-030.js"></script>
 	
+	<? if (Zend_Registry::get("estWork")) : ?>
+	<link  href="/public/styles/braldahim_defaut/work-001.css" type="text/css" rel="stylesheet">
+	<? endif;?>
+	
 	<? if (Zend_Registry::get("estMobile")) : ?>
 		<link  href="/public/styles/braldahim_defaut/iphone-007.css" type="text/css" rel="stylesheet">
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>

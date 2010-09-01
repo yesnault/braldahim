@@ -12,7 +12,9 @@
 			<td width="33%" valign="top" align="center">
 				<? include("login/formulaire.phtml")?>
 				<br/>
+				<? if (!Zend_Registry::get("estWork")) : ?>
 				<? include("login/pub.phtml")?>
+				<? endif;?>
 			</td>
 			<td width="33%" valign="top" align="center">
 				<? include("annonces.phtml") ?>	

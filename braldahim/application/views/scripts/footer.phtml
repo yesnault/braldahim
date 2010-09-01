@@ -1,4 +1,4 @@
-<? if (!$this->estMobile):?>
+<? if (!$this->estMobile && !Zend_Registry::get("estWork")) :?>
 <? if (isset($this->user) ): ?>
 
 <br/>

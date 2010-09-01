@@ -91,6 +91,12 @@ if ($_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
 	Zend_Registry::set('estIphone', false);
 }
 
+if ($_SERVER['SERVER_NAME'] == "work.braldahim.com") {
+	Zend_Registry::set('estWork', true);
+} else {
+	Zend_Registry::set('estWork', false);
+}
+
 Bral_Util_Registre::chargement();
 
 // setup controller
