@@ -179,9 +179,9 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 		if ($nbReussi >= 3) {
 
 			$data["est_ko_braldun"] = "non";
-			if ($nbReussi == 3) {  // -> Le Hobbit est réanimé, sa BdF est à 0 (le repas est quand même consommé : il disparait), ses PV = BM de SAG du lanceur
+			if ($nbReussi == 3) {  // -> Le Braldûn est réanimé, sa BdF est à 0 (le repas est quand même consommé : il disparait), ses PV = BM de SAG du lanceur
 				$data["pv_restant_braldun"] = $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
-			} else { // -> Le Hobbit est réanimé, sa BdF remonte de la valeur du repas, ses PV = 2x BM de SAG du lanceur
+			} else { // -> Le Braldûn est réanimé, sa BdF remonte de la valeur du repas, ses PV = 2x BM de SAG du lanceur
 				$data["balance_faim_braldun"] = $braldun["balance_faim_braldun"] + $this->view->tabAliments[$idAliment]["bbdf"];
 				if ($braldun["balance_faim_braldun"] > 100) {
 					$braldun["balance_faim_braldun"] = 100;

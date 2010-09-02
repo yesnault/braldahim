@@ -38,7 +38,7 @@
 		   			<? $js=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous")), "Gestion du partage de la Charrette", true) ?>
 		   		
 		   			<ul class="titre textalic textsized" <?=$js?>>Partage</ul>
-		   			Partage avec les Hobbits de la communautés : <?=$this->charrette["est_partage_communaute"]?><br>
+		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br>
 		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br>
 		   			<? if ($this->partageBralduns == null) : ?>
 		   				Partage avec aucun autre Braldûn<br><br>
