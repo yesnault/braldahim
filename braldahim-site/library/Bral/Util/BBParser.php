@@ -109,7 +109,7 @@ class Bral_Util_BBParser {
         $string = preg_replace('/\[url=(.*?)javascript(.*?)\](.*?)\[\/url\]/si','<span style=\'text-decoration: line-through\'>javascript link</span>',$string);
 
 		// now the rest of the links to blank
-        $string = preg_replace("/\[url\](.*?)\[\/url\]/si","<a href=\\1 target=\"_blank\">\\1</a>",$string);
+        $string = preg_replace("/\[url\](.*?)\[\/url\]/si","<a href=\"\\1\" target=\"_blank\">\\1</a>",$string);
         $string = preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/si","<a href=\"\\1\" target=\"_blank\">\\2</a>",$string);	
 
 		// img replacement
