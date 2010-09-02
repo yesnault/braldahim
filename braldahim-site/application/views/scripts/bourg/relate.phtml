@@ -1,9 +1,9 @@
 <div id="mygrid_relate_container" style="width:380px;height:500px;align:center"></div> 
 <script type="text/javascript">
-	gridQString = '/bourg/relatexml?anneeselect=<?=$this->anneeSelect?>&typeselect=<?=$this->typeSelect?>&amp;uid='+(new Date()).valueOf();
+	gridQString = '/bourg/relatexml?anneeselect=<?=$this->anneeSelect?>\&typeselect=<?=$this->typeSelect?>&amp;uid='+(new Date()).valueOf();
 	function sortGridOnServer(ind,gridObj,direct){
 	    mygrid.clearAll();
-	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&amp;direct="+direct;
+	    murl = gridQString+(gridQString.indexOf("?")>=0?"\&":"?")+"orderby="+ind+"&amp;direct="+direct;
 	    mygrid.loadXML(murl);
 	    mygrid.setSortImgState(true,ind,direct);
 	    return false;
