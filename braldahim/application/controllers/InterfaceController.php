@@ -146,6 +146,13 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function boxesAction() {
+		// Si nouveau tour ou nouvelle phase, on ne charge pas toutes les boites.
+		// elles seront chargées au clic sur Fermer sur la fenêtre d'information
+		if ($this->infoTour) {
+			$this->xml_response->render(); 
+			return;
+		}
+
 		Zend_Loader::loadClass('BraldunsMetiers');
 		$tabTables = false;
 
