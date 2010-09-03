@@ -304,7 +304,7 @@ function ouvrirWin(url, titre) {
 }
 
 function sortGridOnServerRelate(ind, gridObj, direct) {
-    return sortGridOnServer(ind, gridObj, direct, url, mygrid);
+    return sortGridOnServer(ind, gridObj, direct, getGridQStringRelate(), mygrid);
 }
 
 function getGridQStringRelate() {
@@ -316,7 +316,7 @@ function goToRelate() {
 }
 
 function sortGridOnServerRecherche(ind, gridObj, direct) {
-	return sortGridOnServer(ind, gridObj, direct, url, mygridRecherche);
+	return sortGridOnServer(ind, gridObj, direct, getGridQStringRecherche(), mygridRecherche);
 }
 
 function getGridQStringRecherche() {
