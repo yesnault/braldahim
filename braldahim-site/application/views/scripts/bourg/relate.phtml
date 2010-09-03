@@ -1,14 +1,5 @@
 <div id="mygrid_relate_container" style="width:380px;height:500px;align:center"></div> 
 <script type="text/javascript">
-	gridQString = '/bourg/relatexml?anneeselect=<?=$this->anneeSelect?>\&typeselect=<?=$this->typeSelect?>&amp;uid='+(new Date()).valueOf();
-	function sortGridOnServer(ind,gridObj,direct){
-	    mygrid.clearAll();
-	    murl = gridQString+(gridQString.indexOf("?")>=0?"\&":"?")+"orderby="+ind+"&amp;direct="+direct;
-	    mygrid.loadXML(murl);
-	    mygrid.setSortImgState(true,ind,direct);
-	    return false;
-	}
-	
 	mygrid = new dhtmlXGridObject('mygrid_relate_container');
 	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygrid.setHeader("Date,Histoire...");
@@ -17,9 +8,9 @@
 	mygrid.setColTypes("ro,txt");
 	mygrid.setSkin("braldahim");
 	mygrid.setColSorting("server");
-	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
+	mygrid.attachEvent("onBeforeSorting", sortGridOnServerRelate);
 	mygrid.enableSmartRendering(true,100);
 	mygrid.init();
-	mygrid.loadXML(gridQString);
+	mygrid.loadXML(getGridQStringRelate());
 	mygrid.setSortImgState(true,0,"des");
 </script>

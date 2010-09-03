@@ -1,14 +1,5 @@
 <div id="mygrid_recherche_container" style="width:380px;height:500px;align:center"></div> 
 <script type="text/javascript">
-	gridQStringRecherche = '/bourg/relatexml?typeselect=recherche&amp;uid='+(new Date()).valueOf();
-	function sortGridOnServerRecherche(ind,gridObj,direct){
-	    mygridRecherche.clearAll();
-	    murl = gridQString+(gridQStringRecherche.indexOf("?")>=0?"&amp;":"?")+"orderby="+ind+"&amp;direct="+direct;
-	    mygridRecherche.loadXML(murl);
-	    mygridRecherche.setSortImgState(true,ind,direct);
-	    return false;
-	}
-	
 	mygridRecherche = new dhtmlXGridObject('mygrid_recherche_container');
 	mygridRecherche.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygridRecherche.setHeader("Date,À la recherche de...");
@@ -20,6 +11,6 @@
 	mygridRecherche.attachEvent("onBeforeSorting",sortGridOnServerRecherche);
 	mygridRecherche.enableSmartRendering(true,100);
 	mygridRecherche.init();
-	mygridRecherche.loadXML(gridQStringRecherche);
+	mygridRecherche.loadXML(getGridQStringRecherche());
 	mygridRecherche.setSortImgState(true,0,"des");
 </script>

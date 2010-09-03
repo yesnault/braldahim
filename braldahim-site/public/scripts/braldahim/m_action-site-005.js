@@ -216,7 +216,8 @@ function my_switch(box, conteneur) {
 	try {
 		cClick(); // fermeture popup
 	} catch (e) {
-		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur l'interface
+		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur
+		// l'interface
 	}
 	
 	if ($("loaded_" + box).value != "1") {
@@ -300,6 +301,34 @@ function ouvrirWin(url, titre) {
 		url = "http://jeu.braldahim.com" + url;
 	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
+}
+
+function sortGridOnServerRelate(ind, gridObj, direct) {
+    return sortGridOnServer(ind, gridObj, direct, url, mygrid);
+}
+
+function getGridQStringRelate() {
+	return '/bourg/relatexml?anneeselect='+$('anneeRelate').value+'&typeselect='+$('typeRelate').value;
+}
+
+function goToRelate() {
+	document.location.href = '/bourg/?anneeselect='+$('anneeRelate').value+'&typeselect='+$('typeRelate').value + "&uid="+(new Date()).valueOf();;
+}
+
+function sortGridOnServerRecherche(ind, gridObj, direct) {
+	return sortGridOnServer(ind, gridObj, direct, url, mygridRecherche);
+}
+
+function getGridQStringRecherche() {
+	return "/bourg/relatexml?typeselect=recherche";
+}
+
+function sortGridOnServer(ind, gridObj, direct, url, grid) {
+	grid.clearAll();
+    murl = url + (url.indexOf("?") >=0 ? "&" : "?") + "orderby=" + ind + "&direct=" + direct + "&uid="+(new Date()).valueOf();
+    grid.loadXML(murl);
+    grid.setSortImgState(true, ind, direct);
+    return false;
 }
 
 function jsMenuHotel(id, valeur) {
