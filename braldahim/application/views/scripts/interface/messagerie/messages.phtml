@@ -25,7 +25,11 @@
 
 <table  width="100%" style="padding:0px;border-spacing:0px;">
 <tr>
+<? if ($this->user->position_messagerie_braldun == 'd') : ?>
 <td  width="40%" valign="top">
+<? else:?>
+<td  width="100%" valign="top">
+<? endif;?>
 <table class="table_liste" style="width:100%;" >
 	<tbody>
 	<? if (!empty($this->messages)): ?>
@@ -139,9 +143,16 @@
 </table>
 
 </td>
+<? if ($this->user->position_messagerie_braldun == 'd') : ?>
 <td width="50%"  valign="top">
 <div id="messagerie_message"></div>
 </td>
+<? endif;?>
 </tr>
 </table>
+
+<? if ($this->user->position_messagerie_braldun == 'b') : ?>
+<br /><br />
+<div id="messagerie_message"></div>
+<? endif;?>
 <br>

@@ -7,33 +7,55 @@
 	    <ul class="box_contenu1 textalic">
 	    <br />
 			<? if (!empty($this->message)): ?>
-				<?=$this->message; ?><br /><br />
+				<b><?=$this->message; ?></b><br /><br />
 			<? endif; ?>
 			
 			<br /><br />
 			<input type="button" class='button1' value="Retour à l'interface" onClick="javascript:document.location.href='/interface/'"/>
 			<br /><br />
 			
-			<ul class="titre textalic textsizeb">Braldûn</ul>
+			<span class="titre textalic textsizeb">Braldûn</span>
+			<br />
 			<input type="button" class='button1' value="Voir le profil public" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');"/>
 			<input type="button" class='button1' value="Modifier la description" onClick="javascript:document.location.href='/Parametres/description'"/>
 			<input type="button" class='button1' value="Modifier l'avatar / le blason" onClick="javascript:document.location.href='/Parametres/images'"/>
 			
 			<br /><br /><br /><br />
 			
-			<ul class="titre textalic textsizeb">Hors Jeux</ul>
+			<span class="titre textalic textsizeb">Hors Jeux</span><br />
 			<input type="button" class='button1' value="R&eacute;glage des mails" onClick="javascript:document.location.href='/Parametres/reglagesmail'"/> 
 			<input type="button" class='button1' value="Changer de mot de passe" onClick="javascript:document.location.href='/Parametres/motdepasse'"/> 
 			<input type="button" class='button1' value="Changer d'adresse mail" onClick="javascript:document.location.href='/Parametres/email'"/>
 			<br /><br /><br /><br />
 			
-			<ul class="titre textalic textsizeb">Contacter les enquêteurs</ul>
+			<span class="titre textalic textsizeb">Contacter les enquêteurs</span><br />
 			<input type="button" class='button1' value="Partage de connexion" onClick="javascript:document.location.href='/Parametres/partage'"/>
 			<input type="button" class='button1' value="Contacter un enqu&ecirc;teur" onClick="javascript:document.location.href='/Parametres/contacter'"/> 
 			 
-			<br /><br />
+			<br /><br /><br /><br />
 			
-		</ul>
+			<table width="100%" style="text-align:left" valign="top">
+				<tr>
+				<td width="50%" valign="top">
+				<center><span class="titre textsizeb">Suppression de votre Braldûn</span><br /></center>
+				Votre Braldûn sera automatiquement supprimé au bout de 30 jours d'inactivité.<br />
+				Vous recevrez un mail vous prévenant de cette suppression 4 jours.<br>
+				
+				Rappel : 
+				<ul>
+				<li>Si vous ne pouvez pas jouer pendant 5 jours au moins, vous pouvez mettre en garde votre Braldûn : <a href="http://regles.braldahim.com/wiki/Gardiennage">Gardiennage</a></li>
+				<li>Si vous ne pouvez pas jouer pendant plus de 5 jours (ex : pendant vos vacances), vous 
+				pouvez mettre votre Braldûn en <a href="http://regles.braldahim.com/wiki/Hiberner">Hibernation</a>.
+				Votre Braldûn ne pourra pas être supprimé en Hibernation.</li>
+				</td>
+				<td width="50%" valign="top">
+					<center><span class="titre textsizeb">Sécurité</span><br /></center>
+					Un joueur qui met en garde son personnage ne doit pas donner son mot de passe. Le gardien pourra choisir lors de sa connexion, quel Braldûn il souhaite jouer.
+					Plus généralement, votre mot de passe ne doit jamais être transmis, ni même à quelqu'un de l'équipe Braldahim (Thains), nous n'en n'avons pas et jamais besoin. 
+				</td>
+				</tr>
+			</table>
+			</ul>
 	</div>
 	&nbsp;
 </div>

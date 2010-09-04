@@ -19,6 +19,11 @@
 		<input type="radio" id="valeur_2" name="valeur_2" value="oui" <? if ($this->user->envoi_mail_evenement_braldun == "oui"):echo "checked"; endif; ?>>Oui
 		<input type="radio" id="valeur_2" name="valeur_2" value="non" <? if ($this->user->envoi_mail_evenement_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
 		<br />
+		
+		<label for="title">Position de lecture d'un message dans la messagerie du jeu</label><br />
+		<input type="radio" id="valeur_3"" name="valeur_3" value="d" <? if ($this->user->position_messagerie_braldun == "d"):echo "checked"; endif; ?>>À droite des messages
+		<input type="radio" id="valeur_3" name="valeur_3" value="b" <? if ($this->user->position_messagerie_braldun == "b"):echo "checked"; endif; ?>>Sous les messages <br /><br />
+		<br />
 
 		<div id="formbutton">
 		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 

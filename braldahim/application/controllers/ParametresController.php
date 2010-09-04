@@ -105,11 +105,11 @@ class ParametresController extends Zend_Controller_Action {
 				$urlBlason = "http://";
 				$urlBlasonValide = true;
 			}
-				
+
 			if (!$urlAvatarValide) {
 				$urlAvatar = "http://";
 			}
-				
+
 			if (!$urlBlasonValide) {
 				$urlBlason = "http://";
 			}
@@ -255,25 +255,40 @@ class ParametresController extends Zend_Controller_Action {
 
 		$envoi_mail_message = $this->_request->getPost("valeur_1");
 		$envoi_mail_evenement = $this->_request->getPost("valeur_2");
+		$position_messagerie_braldun = $this->_request->getPost("valeur_3");
 
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
 			
 		if ($this->_request->isPost()) {
+				
+			if ($envoi_mail_message != "oui" && $envoi_mail_message != "non") {
+				throw new Zend_Exception("Erreur envoi_mail_message:".$envoi_mail_message);
+			}
+
+			if ($envoi_mail_evenement != "oui" && $envoi_mail_evenement != "non") {
+				throw new Zend_Exception("Erreur envoi_mail_evenement:".$envoi_mail_evenement);
+			}
+
+			if ($position_messagerie_braldun != "d" && $position_messagerie_braldun != "b") {
+				throw new Zend_Exception("Erreur position_messagerie_braldun:".$position_messagerie_braldun);
+			}
 
 			$this->view->user->envoi_mail_message_braldun = $envoi_mail_message;
 			$this->view->user->envoi_mail_evenement_braldun = $envoi_mail_evenement;
+			$this->view->user->position_messagerie_braldun = $position_messagerie_braldun;
 
 			$data = array(
 				'envoi_mail_message_braldun' => $this->view->user->envoi_mail_message_braldun,
 				'envoi_mail_evenement_braldun' => $this->view->user->envoi_mail_evenement_braldun,
+				'position_messagerie_braldun' => $this->view->user->position_messagerie_braldun,
 			);
 			$where = "id_braldun=".$this->view->user->id_braldun;
 			$braldunTable = new Braldun();
 			$braldunTable->update($data, $where);
 
-			$this->view->message = "Modifications effectu&eacute;es";
+			$this->view->message = "Réglages des mails pris en compte";
 			echo $this->view->render("Parametres/index.phtml");
 		} else {
 			$this->render();
