@@ -133,7 +133,7 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
-
+		
 		$tabTables = $box->getTablesHtmlTri();
 		if ($tabTables != false) {
 			Bral_Controller_Action::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
@@ -160,10 +160,12 @@ class InterfaceController extends Zend_Controller_Action {
 			$boite_a = "boite_m";
 			$boite_b = "boite_m";
 			$boite_c = "boite_m";
+			$boite_d = "boite_m";
 		} else {
 			$boite_a = "boite_a";
 			$boite_b = "boite_b";
 			$boite_c = "boite_c";
+			$boite_d = "boite_d";
 		}
 
 		try {
@@ -181,6 +183,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_d);
 
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
@@ -236,6 +239,8 @@ class InterfaceController extends Zend_Controller_Action {
 			$r .= $this->getDataList("boite_b");
 			$r .= "</td><td width='auto'>";
 			$r .= $this->getDataList("boite_c");
+			$r .= "<br />";
+			$r .= $this->getDataList("boite_d");
 			$r .= "</td></tr></table>";
 		}
 		return $r;

@@ -17,6 +17,9 @@ class Bral_Box_Factory {
 			case "box_banque" :
 				return self::getBanque($request, $view, $interne);
 				break;
+			case "box_blabla" :
+				return self::getBlabla($request, $view, $interne);
+				break;
 			case "box_bbois" :
 				return self::getBbois($request, $view, $interne);
 				break;
@@ -215,6 +218,11 @@ class Bral_Box_Factory {
 	static function getCarnet($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Carnet");
 		return new Bral_Box_Carnet($request, $view, $interne);
+	}
+	
+	public static function getBlabla($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Blabla");
+		return new Bral_Box_Blabla($request, $view, $interne);
 	}
 	
 	public static function getContrats($request, $view, $interne) {

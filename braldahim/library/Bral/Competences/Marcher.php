@@ -93,7 +93,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	
 
 	function getListBoxRefresh() {
-		$tab = array("box_vue", "box_lieu", "box_echoppes", "box_champs");
+		$tab = array("box_vue", "box_lieu", "box_echoppes", "box_champs", "box_blabla");
 		if ($this->view->user->est_soule_braldun == "oui") {
 			$tab[] = "box_soule";
 		}

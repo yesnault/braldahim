@@ -17,9 +17,9 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = null;
 
 		/*
-		$retour .= $this->prepareVF();
-		return $retour;
-		*/
+		 $retour .= $this->prepareVF();
+		 return $retour;
+		 */
 
 		$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
@@ -31,6 +31,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= $this->purgeElementEquipement();
 		$retour .= $this->purgeElementEvenement();
 		$retour .= $this->purgeMessages();
+		$retour .= $this->purgeBlabla();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
 		return $retour;
@@ -275,6 +276,28 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= " Msg delete date:".$nb;
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - exit -");
+		return $retour;
+	}
+
+	private function purgeBlabla() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBlabla - enter -");
+
+		Zend_Loader::loadClass('Blabla');
+
+		$retour = "";
+		$blablaTable = new Blabla();
+
+		// Suppression des blablas présents dans la corbeille
+		$date = date("Y-m-d H:i:s");
+		$add_day = -3;
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
+		$where = $blablaTable->getAdapter()->quoteInto('date_blabla <= ?',  $dateFin);
+		$nb = $blablaTable->delete($where);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBlabla - nb:".$nb." - where:".$where);
+		$retour .= " Blabla delete date:".$nb;
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBlabla - exit -");
 		return $retour;
 	}
 }

@@ -1,0 +1,62 @@
+<div class="titre textalic textsizec">Messages publics autour de vous</div>
+
+Les messages affichés ci-dessous sont des messages envoyés jusqu'à <?=$this->nb_cases_max?> cases aux alentours de votre position.<br />
+Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?=$this->nb_messages_max?> messages par tour de jeu.<br />
+<br />
+Le blabla est destiné à l'échange de messages "Role Play" ou tactiques, merci de <a href="/Parametres/contacter">contacter un enquêteur</a> pour tout abus constaté.<br />
+<input type="button" class='button1' name="rafraichir_blabla" id="rafraichir_blabla" value="Rafraîchir" onClick="Javascript:_get_('/interface/load/?box=box_blabla');"/>
+
+<table class="table_liste" style="width:100%;text-align:center">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>Date</th>
+	  	<th>Braldûn</th>
+	  	<th>Position X/Y</th>
+		<th width='70%'>Message</th>
+	  </tr>
+	</thead>
+	<tr class="table_liste">
+		
+   		<td colspan="4">
+   		<? if ($this->nouveauPossible) : ?>
+		<ul id="navigation" style="width:100%;text-align:center" >
+			<li id="pocheBlablaMessage">
+			<h3 id="pocheBlablaMessage-head" class="head" onClick="maccordion(this);" />
+			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau Message"/> 
+			</h3>
+			<ul id="pocheBlablaMessage-body" style="display:none">
+				<li>
+					<?php include("nouveau.phtml")?>
+				</li>
+			</ul>
+			</li>
+		</ul>
+		<? else: ?>
+	   	Vous avez déjà envoyé <?=$this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
+	   	Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.
+	   	<? endif;?>
+		</td>
+		
+   	</tr>
+   
+
+  <? if (count($this->blablaMessages) > 0): ?>
+	<tbody>
+  	<? $i = 0; 
+  	foreach($this->blablaMessages as $e): ?>
+  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+  			<td class="table_liste"><?=$e["date"]?>&nbsp;</td>
+  			<td class="table_liste"><?=$e["braldun"]?>&nbsp;</td>
+  			<td class="table_liste"><?=$e["x"]?> / <?=$e["y"]?></td>
+	  		<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
+  		</tr>
+  	<? endforeach; ?>
+  	</tbody>
+   <? else: ?>
+   	<tr class="table_liste">
+   		<td colspan="4">
+   			Aucun message
+   		</td>
+   	</tr>
+<? endif; ?>
+</table>

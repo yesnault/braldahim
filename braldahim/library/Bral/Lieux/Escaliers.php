@@ -25,6 +25,6 @@ class Bral_Lieux_Escaliers extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_lieu"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
 	}
 }

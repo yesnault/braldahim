@@ -1,0 +1,17 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <span class="titre textalia textsizec">Le Bla bla...</span>
+  <div class="contenuA">
+	  <div class="box_contenu1 textalic">
+	<? if ($this->affichageInterne == true) : ?>
+			<? include("blabla/messages.phtml") ?>
+			</div>
+<br /><br />
+	<? else: ?>
+		Chargement en cours
+		<br /><img src="/public/images/wait.gif" />
+	<? endif; ?>
+	  </div>
+ </div>
+</div>
+<? include("box_bottom.phtml") ?>

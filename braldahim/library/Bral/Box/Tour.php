@@ -208,6 +208,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->braldun->bm_defense_braldun = 0;
 			$this->braldun->duree_bm_tour_braldun = 0;
 			$this->braldun->bm_marcher_braldun = 0;
+			$this->braldun->nb_tour_blabla_braldun = 0;
 				
 			// Nouvelle DLA
 			$this->braldun->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun + 1;
@@ -790,6 +791,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'id_fk_soule_match_braldun' => $this->braldun->id_fk_soule_match_braldun,
 			'nb_ko_redresseurs_suite_braldun' => $this->braldun->nb_ko_redresseurs_suite_braldun,
 			'nb_ko_gredins_suite_braldun' => $this->braldun->nb_ko_gredins_suite_braldun,
+			'nb_tour_blabla_braldun' => $this->braldun->nb_tour_blabla_braldun,
 		);
 		$where = "id_braldun=".$this->braldun->id_braldun;
 		$braldunTable->update($data, $where);
