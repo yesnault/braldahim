@@ -11,10 +11,10 @@
  * $LastChangedBy$
  */
 class Bral_Util_Securite {
-	
+
 	const ROLE_AUTEUR_LIEU = "auteurlieu";
 	const ROLE_BETA_TESTEUR = "testeur";
-	
+
 	private function __construct() {}
 
 	public static function controlAdmin() {
@@ -39,17 +39,17 @@ class Bral_Util_Securite {
 			if (Zend_Auth::getInstance()->getIdentity()->gestion == false) {
 				throw new Zend_Exception("Securite : gestionnaire invalide");
 			}
-			
+				
 			Zend_Loader::loadClass("Zend_Acl");
 			Zend_Loader::loadClass("Zend_Acl_Role");
 			$acl = new Zend_Acl();
 
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_AUTEUR_LIEU));
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_BETA_TESTEUR));
-			
+				
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'AdministrationlieuController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationbraldunController');
-			
+				
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'GestionController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'GestionController');
 
@@ -60,7 +60,7 @@ class Bral_Util_Securite {
 			if ($roles == null || count($roles) == 0) {
 				throw new Zend_Exception("Securite : role invalide A");
 			}
-			
+				
 			$roleOk = false;
 			foreach($roles as $r) {
 				if ($acl->isAllowed($r["nom_systeme_role"], null, $nomController)) {
@@ -79,6 +79,16 @@ class Bral_Util_Securite {
 		$passe = $request->get("batchspassword");
 		$config = Zend_Registry::get('config');
 		if ($passe == md5($config->batchs->password)) { // mot de passe Ok
+			return true;
+		} else {
+			self::controlAdmin();
+		}
+	}
+
+	public static function controlFeedAdmin($request) {
+		$passe = $request->get("feedspassword");
+		$config = Zend_Registry::get('config');
+		if ($passe == md5($config->feeds->password)) { // mot de passe Ok
 			return true;
 		} else {
 			self::controlAdmin();

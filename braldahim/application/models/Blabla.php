@@ -34,6 +34,18 @@ class Blabla extends Zend_Db_Table {
 		return $result;
 	}
 
+	function selectAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('blabla', '*');
+		$select->from('braldun', '*');
+		$select->where('id_fk_braldun_blabla = id_braldun');
+		$select->order('id_blabla desc');
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
+
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_blabla = ?',(int)$id);
 		return $this->fetchRow($where);
