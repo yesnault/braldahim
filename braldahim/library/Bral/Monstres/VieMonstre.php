@@ -21,6 +21,7 @@ class Bral_Monstres_VieMonstre {
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Crevasse");
 			Zend_Loader::loadClass("Eau");
+			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass("Palissade");
 
 			self::$config = Zend_Registry::get('config');
@@ -78,14 +79,16 @@ class Bral_Monstres_VieMonstre {
 		$eauTable = new Eau();
 		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"], false);
 
+		$zoneTable = new Zone();
+
 		$this->tabValidation = null;
-		$this->tabEaux = null;
+		$tabEaux = null;
 		for ($j = 12; $j >= -12; $j--) {
 			for ($i = -12; $i <= 12; $i++) {
 				$x = $this->monstre["x_monstre"] + $i;
 				$y = $this->monstre["y_monstre"] + $j;
 				$this->tabValidation[$x][$y] = true;
-				$this->tabEaux[$x][$y] = false;
+				$tabEaux[$x][$y] = false;
 			}
 		}
 		foreach($palissades as $p) {
@@ -93,7 +96,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		foreach($eaux as $e) {
-			$this->tabEaux[$e["x_eau"]][$e["y_eau"]] = true;
+			$tabEaux[$e["x_eau"]][$e["y_eau"]] = true;
 		}
 
 		foreach($crevasses as $c) {
@@ -105,6 +108,14 @@ class Bral_Monstres_VieMonstre {
 		$nb_pa_joues = 0;
 
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
+
+			$coutPA = $this->calculCoutPADeplacement($zoneTable, $tabEaux); // on calcule le coût en PA du déplacement
+			if ($coutPA > $this->monstre["pa_monstre"]) {
+				// si le monstre n'a plus assez de PA, on sort
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas assez de PA pour se deplacer paRestant:".$this->monstre["pa_monstre"].". cout:".$coutPA);
+				break;
+			}
+
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;
@@ -143,16 +154,12 @@ class Bral_Monstres_VieMonstre {
 				}
 			}
 
-			if ($this->tabEaux[$x_monstre][$y_monstre] == true) {
-				$nb_pa_joues = $nb_pa_joues + 6;
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") 6 PA utilises pour deplacement sur eau");
-			} else {
-				$nb_pa_joues = $nb_pa_joues + 1;
-			}
+			$nb_pa_joues = $nb_pa_joues + $coutPA;
 
-			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
+			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
+
 		if ($modif === true) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
 			$retour = true;
@@ -168,6 +175,42 @@ class Bral_Monstres_VieMonstre {
 		// mise à jour du monstre, quoi qu'il arrive
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
+	}
+
+	/**
+	 * Calcul le coût de déplacement en PA du monstre.
+	 * @param unknown_type $tabEaux
+	 * @return coût en PA
+	 */
+	private function calculCoutPADeplacement($zoneTable, $tabEaux) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculCoutPADeplacement (idm:".$this->monstre["id_monstre"].") - enter");
+
+		if ($tabEaux[$this->monstre["x_monstre"]][$this->monstre["y_monstre"]] == true) {
+			$nbPa = 6;
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") 6 PA utilises pour deplacement sur eau");
+		} else {
+
+			$zone = $zoneTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"]);
+			$case = $zone[0];
+
+			switch($case["nom_systeme_environnement"]) {
+				case "bosquet" :
+				case "caverne" :
+				case "gazon" :
+				case "plaine" :
+					$nbPa = 1;
+					break;
+				case "marais" :
+				case "montagne" :
+					$nbPa = 2;
+					break;
+				default:
+					throw new Zend_Exception(get_class($this)."::environnement invalide :".$case["nom_systeme_environnement"]);
+			}
+		}
+
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculCoutPADeplacement - (idm:".$this->monstre["id_monstre"].") nbPa:".$nbPa." - exit");
+		return $nbPa;
 	}
 
 	public function calculFuite($view) {
@@ -301,9 +344,9 @@ class Bral_Monstres_VieMonstre {
 		$date_courante = date("Y-m-d H:i:s");
 		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) { // nouveau tour
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") nouveau tour");
-				
+
 			$this->calculDureeProchainTour();
-				
+
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") date_fin_tour_monstre avant calcul:".$this->monstre["date_fin_tour_monstre"]. " duree prochain:".$this->monstre["duree_prochain_tour_monstre"]);
