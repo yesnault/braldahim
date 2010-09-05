@@ -70,7 +70,7 @@ class AdministrationblablaController extends Zend_Controller_Action {
 			if ($censure == null) {
 				$modification = "";
 			} else {
-				$modification = "Passage en censure : ".$censure. " de ce Blabla";
+				$modification = "Passage en censure : ".$censure. " de ce Blabla".PHP_EOL.PHP_EOL;
 			}
 
 			$blablaTable = new Blabla();
