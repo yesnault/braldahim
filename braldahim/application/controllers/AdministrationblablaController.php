@@ -86,7 +86,6 @@ class AdministrationblablaController extends Zend_Controller_Action {
 				if ($key != 'id_blabla' && mb_substr($key, -7) == "_blabla") {
 					$value = $this->_request->get($key);
 
-
 					if ($censure == null && $blabla[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
@@ -94,7 +93,12 @@ class AdministrationblablaController extends Zend_Controller_Action {
 					if ($censure == null) {
 						$modification .= "$key avant: ".$blabla[$key]. " apres:".$value;
 					} else {
-						$modification .= "$key : ".$blabla[$key];
+						if ($key == "est_censure_blabla") {
+							$modification .= "$key : ".$censure;
+						} else {
+							$modification .= "$key : ".$blabla[$key];
+						}
+
 					}
 					$modification .= PHP_EOL;
 
