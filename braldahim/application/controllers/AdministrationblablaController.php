@@ -53,8 +53,8 @@ class AdministrationblablaController extends Zend_Controller_Action {
 
 	private function updateCensure($estCensure) {
 		if ($this->_request->get('id_blabla')) {
-				
-			$this->envoiMailAdmin();
+
+			$this->envoiMailAdmin($estCensure);
 
 			$blablaTable = new Blabla();
 			$data = array('est_censure_blabla' => $estCensure);
@@ -64,10 +64,14 @@ class AdministrationblablaController extends Zend_Controller_Action {
 
 	}
 
-	private function envoiMailAdmin() {
+	private function envoiMailAdmin($censure = null) {
 		if ($this->view->config->general->mail->exception->use == '1') {
 
-			$modification = "";
+			if ($censure == null) {
+				$modification = "";
+			} else {
+				$modification = "Passage en censure : ".$censure. " de ce Blabla";
+			}
 
 			$blablaTable = new Blabla();
 
@@ -77,16 +81,21 @@ class AdministrationblablaController extends Zend_Controller_Action {
 			$blabla = $blablaRowset->toArray();
 
 			$tabPost = $this->_request->getPost();
-				
+
 			foreach ($blabla as $key => $value) {
 				if ($key != 'id_blabla' && mb_substr($key, -7) == "_blabla") {
 					$value = $this->_request->get($key);
 
-					if ($blabla[$key] != $value) {
+
+					if ($censure == null && $blabla[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
-						
-					$modification .= "$key avant: ".$blabla[$key]. " apres:".$value;
+
+					if ($censure == null) {
+						$modification .= "$key avant: ".$blabla[$key]. " apres:".$value;
+					} else {
+						$modification .= "$key : ".$blabla[$key];
+					}
 					$modification .= PHP_EOL;
 
 					if ($value == '') {
@@ -97,7 +106,7 @@ class AdministrationblablaController extends Zend_Controller_Action {
 					}
 				}
 			}
-				
+
 			Zend_Loader::loadClass("Bral_Util_Mail");
 			$mail = Bral_Util_Mail::getNewZendMail();
 
