@@ -27,9 +27,15 @@ class Blabla extends Zend_Db_Table {
 		$select->where('y_blabla >= ?', intval($y) - $nbCases);
 		$select->where('y_blabla <= ?', intval($y) + $nbCases);
 		$select->where('z_blabla = ?', intval($z));
+		$select->where('est_censure_blabla = ?', 'non');
 		$select->order('id_blabla desc');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;
+	}
+
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_blabla = ?',(int)$id);
+		return $this->fetchRow($where);
 	}
 }

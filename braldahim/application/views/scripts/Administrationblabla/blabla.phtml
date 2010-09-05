@@ -1,0 +1,70 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Bla Bla</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+			<form action="/Administrationblabla/blabla" method="post">
+			<input type='hidden' name='id_blabla' id='id_blabla' value='<?=$this->blabla["id_blabla"]?>'/>
+			<? if ($this->blabla["id_blabla"] != -1) : ?>
+				<br />
+				<ul class="titre textalic textsizeb">Edition du Bla Bla n&deg; <?=$this->blabla["id_blabla"]?>, du <?=$this->blabla["date_blabla"]?></ul>
+				<br />
+			<? endif; ?>
+			
+			<?=Bral_Helper_BBBoutons::affiche('message_blabla', 200)?>
+	
+			<span>Message</span><br />
+			<textarea name="message_blabla" id="message_blabla" class="inputbox" rows="10" cols="60" onkeydown="textCount($('message_blabla'),$('characterstyped'),200);" onkeyup="textCount($('message_blabla'),$('characterstyped'),200);"><?=stripslashes($this->blabla["message_blabla"])?></textarea>
+			
+			<br />
+			<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="200" type="text"> Caract&egrave;res restants<br /><br />
+			
+			Infos non modifiables : <br />
+			X : <input type="text" name="x_blabla" id="x_blabla" size="5" maxlength="5" class="inputbox" value="<?=$this->blabla["x_blabla"]?>" disabled/><br />
+			Y : <input type="text" name="y_blabla" id="y_blabla" size="5" maxlength="5" class="inputbox" value="<?=$this->blabla["y_blabla"]?>" disabled/><br />
+			Z : <input type="text" name="z_blabla" id="z_blabla" size="5" maxlength="5" class="inputbox" value="<?=$this->blabla["z_blabla"]?>" disabled/><br />
+			idBraldun : <input type="text" name="id_fk_braldun_blabla" id="id_fk_braldun_blabla" size="5" maxlength="5" class="inputbox" value="<?=$this->blabla["id_fk_braldun_blabla"]?>" disabled/><br />
+			date : <input type="text" name="date_blabla" id="date_blabla" size="16" maxlength="16" class="inputbox" value="<?=$this->blabla["date_blabla"]?>" disabled/><br />
+			
+			<br />
+			
+			<? if ($this->blabla["id_blabla"] != -1) : ?>
+				<input type="submit"  class='button1' name="Editer" value="Editer le Bla Bla" />
+			<? endif;?>
+			</form>
+			
+			<br /><br /><br />
+			
+			<table  align='center'>
+			<th class='comp_titre'>Id</th>
+			<th class='comp_titre'>Est Censuré</th>
+			<th class='comp_titre'>Date</th>
+			<th class='comp_titre'>X/Y/Z</th>
+			<th class='comp_titre'>Id Braldûn</th>
+			<th class='comp_titre'>Texte</th>
+			<? if (count($this->blasblas) > 0) : ?>
+				<? $i = 0; 
+					foreach ($this->blasblas as $blabla) : ?>
+					<tr class="table_liste<?=($i % 2);$i++; ?>" <? if ($blabla["est_censure_blabla"] == "oui") : echo "style='background-color:#E9967A'"; endif;?>>
+						<td class="table_liste"><?=$blabla["id_blabla"] ?></td>
+						<td class="table_liste"><?=$blabla["est_censure_blabla"] ?></td>
+						<td class="table_liste"><?=$blabla["date_blabla"] ?></td>
+						<td class="table_liste" nowrap><?=$blabla["x_blabla"] ?> / <?=$blabla["y_blabla"] ?> / <?=$blabla["z_blabla"] ?></td>
+						<td class="table_liste"><?=$blabla["id_fk_braldun_blabla"] ?></td>
+						<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($blabla["message_blabla"]);?></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer le blabla" onClick='document.location.href="/Administrationblabla/blabla/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Censurer" onClick='document.location.href="/Administrationblabla/estcensure/id_blabla/<?=$blabla["id_blabla"] ?>/"'></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Dé-Censurer" onClick='document.location.href="/Administrationblabla/estnoncensure/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
+					</tr>
+				<? endforeach; ?>
+			<? endif; ?>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+</div>
+<?php echo $this->render('footer.phtml'); ?>
