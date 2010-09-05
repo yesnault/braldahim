@@ -469,7 +469,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$nbDejaArchives++;
 			}
 			$s = "";
-			if ($nbDejaArchives >= 1) {
+			if ($nbDejaArchives > 1) {
 				$s = 's';
 			}
 				
@@ -481,7 +481,8 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->view->information = "Le message sélectionné est archivé. Vous avez ".$nbDejaArchives." message$s archivé$s.";
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
+			//throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idbraldun=".$this->view->user->id_braldun." val=".$this->request->get("valeur_2"));
+			$this->view->information = "Rafraîchissez la liste.";
 		}
 		unset($messageTable);
 		unset($message);

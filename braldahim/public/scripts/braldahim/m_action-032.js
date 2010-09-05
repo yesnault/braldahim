@@ -1308,4 +1308,11 @@ function jsMenuHotel(id, valeur) {
 	}
 }
 
+function disabledAllBtnMessagerie() {
+	$('msgBtnSupSelect').disabled = true;
+	$('msgBtnArcSelect').disabled = true;
+	$('msgBtnMarSelect').disabled = true;
+	$('msgBtnSupAll').disabled = true;
+	$('msgBtnMarAll').disabled = true;
+}
 
