@@ -53,7 +53,7 @@ class Bral_Util_Evenement {
 		$evenementTable->insert($data);
 		
 		if ($type == "braldun" && $estAEnvoyer == true && $view != null) {
-			self::envoiMail($idConcerne, $detailsBot, $view);
+			self::envoiMail($idConcerne, Bral_Util_Lien::remplaceBaliseParNomEtJs($details, false), $detailsBot, $view);
 		}
 	}
 	
@@ -79,11 +79,11 @@ class Bral_Util_Evenement {
 		$evenementTable->insert($data);
 		
 		if ($idBraldunConcerne != null) {
-			self::envoiMail($idBraldunConcerne, $detailsBot, $view);
+			self::envoiMail($idBraldunConcerne, Bral_Util_Lien::remplaceBaliseParNomEtJs($details, false), $detailsBot, $view);
 		}
 	}
 	
-	private static function envoiMail($idBraldunConcerne, $detailsBot, $view) {
+	private static function envoiMail($idBraldunConcerne, $titre, $detailsBot, $view) {
 		Zend_Loader::loadClass('Bral_Util_Mail');
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->findById($idBraldunConcerne);
@@ -92,7 +92,7 @@ class Bral_Util_Evenement {
 			$braldun = $braldunRowset->toArray();
 			$c = Zend_Registry::get('config');
 			if ($braldun["envoi_mail_evenement_braldun"] == "oui") {
-				Bral_Util_Mail::envoiMailAutomatique($braldun, $c->mail->evenement->titre, $detailsBot, $view);
+				Bral_Util_Mail::envoiMailAutomatique($braldun, $c->mail->evenement->titre." : ".$titre, $detailsBot, $view);
 			}
 		} else {
 			throw new Zend_Exception('Bral_Util_Evenement::envoiMail id Braldun inconnu:'.$idBraldunConcerne);
