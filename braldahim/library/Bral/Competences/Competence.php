@@ -464,7 +464,7 @@ abstract class Bral_Competences_Competence {
 		$jetCible = Bral_Util_Attaque::calculJetCibleBraldun($braldunCible);
 		$retourAttaque = Bral_Util_Attaque::attaqueBraldun(&$braldunAttaquant, $braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
 		if ($enregistreEvenementDansAttaque == true) {
-			$this->estEvenementAuto = false;
+			$this->idTypeEvenement = $this->idTypeEvenement = $this->view->config->game->evenements->type->attaquer;
 		} else {
 			$this->detailEvenement = $retourAttaque["details"];
 			$this->idTypeEvenement = $retourAttaque["typeEvenement"];
@@ -483,7 +483,7 @@ abstract class Bral_Competences_Competence {
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$braldunAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $tir, false, $enregistreEvenementDansAttaque);
 		if ($enregistreEvenementDansAttaque == true) {
-			$this->estEvenementAuto = false;
+			$this->idTypeEvenement = $this->view->config->game->evenements->type->attaquer;
 		} else {
 			$this->detailEvenement = $retourAttaque["details"];
 			$this->idTypeEvenement = $retourAttaque["typeEvenement"];

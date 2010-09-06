@@ -120,20 +120,29 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		} else {
 			$coefFrenesie = 0.8;
 		}
-		
+
 		if ($this->view->okJet1 === true) {
+			$cibles = null;
 			if (isset($this->view->tabBralduns) && count($this->view->tabBralduns) > 0) {
-				foreach ($this->view->tabBralduns as $h) {
-					$this->retourAttaque = $this->attaqueBraldun($this->view->user, $h["id_braldun"], true, false, true);
-					$this->calculPx();
-					$retours[] = $this->retourAttaque;
-					$this->_coef = $this->_coef * $coefFrenesie;
+				foreach ($this->view->tabBralduns as $b) {
+					$cibles[] = $b;
 				}
 			}
 
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
 				foreach ($this->view->tabMonstres as $m) {
-					$this->retourAttaque = $this->attaqueMonstre($this->view->user, $m["id_monstre"], false, true);
+					$cibles[] = $m;
+				}
+			}
+
+			if ($cibles != null && count($cibles) > 0) {
+				shuffle($cibles);
+				foreach($cibles as $k => $c) {
+					if (array_key_exists("id_braldun", $c)) { // Bradûns
+						$this->retourAttaque = $this->attaqueBraldun($this->view->user, $c["id_braldun"], true, false, true);
+					} else { // monstres
+						$this->retourAttaque = $this->attaqueMonstre($this->view->user, $c["id_monstre"], false, true);
+					}
 					$this->calculPx();
 					$retours[] = $this->retourAttaque;
 					$this->_coef = $this->_coef * $coefFrenesie;
@@ -182,23 +191,31 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	public function calculPx() {
 
 		if ($this->_coef == 1) { // pour la première cible
-			parent::calculPx();
-
+			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - 1er attaque -");
 			$this->view->nb_px_commun = 0;
+			parent::calculPx();
+				
 			$this->view->calcul_px_generique = false;
 
-			if ($this->view->retourAttaque["attaqueReussie"] === true) {
-				$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
-			}
+			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - 1er attaque - nb_px_perso:".$this->view->nb_px_perso);
 		}
 
-		if ($this->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
+		if ($this->retourAttaque["attaqueReussie"] === true) {
+			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - Touche nb_px_perso:".$this->view->nb_px_perso);
+		} else {
+			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - Esquive de la cible");
+		}
+			
+		if ($this->retourAttaque["mort"] === true && $this->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
-				$this->view->nb_px_commun = $this->view->nb_px_perso;
+			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->retourAttaque["cible"]["niveau_cible"];
+			if ($this->view->nb_px_commun < 0) {
+				$this->view->nb_px_commun = 0;
 			}
+			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - Mort Cible nivCible:".$this->retourAttaque["cible"]["niveau_cible"]." coef:".$this->_coef." nb_px_commun:".$this->view->nb_px_commun);
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+		Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - nb_px_perso:".$this->view->nb_px_perso. " sortie calculPX");
 	}
 }

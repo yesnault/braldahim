@@ -425,6 +425,10 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 
+		if ($enregistreEvenementDansAttaque) {
+			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun); // fait dans competence.php avec le détail du résulat sinon
+		}
+
 		if ($retourAttaque["mort"] == false) {
 			Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $idTypeEvenementCible, $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "braldun", true, $view);
 			//				Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
