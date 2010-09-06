@@ -3,6 +3,8 @@
 	<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
 	<br/>
 	<input type='button' class='button1' value="Terminer l'action et rafraîchir la liste" onClick='javascript:_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
+<? elseif ($this->estMobile):?>
+	<input type='button' class='button1' value='Retour à la liste' onClick='javascript:_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
 <? endif; ?>
 
 <? if ($this->message != null) : ?>

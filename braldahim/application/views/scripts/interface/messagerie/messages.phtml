@@ -23,9 +23,16 @@
 		
 <br><br>
 
-<table  width="100%" style="padding:0px;border-spacing:0px;">
+<? if ($this->estMobile) :
+	$jsMobile = "$('messagerieMessages').style.display='none';";
+	$cssMobile = "display:none;";
+ else:
+    $jsMobile = "";
+    $cssMobile = "";
+ endif;?>
+<table id="messagerieMessages" width="100%" style="padding:0px;border-spacing:0px;">
 <tr>
-<? if ($this->user->position_messagerie_braldun == 'd') : ?>
+<? if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : ?>
 <td  width="40%" valign="top">
 <? else:?>
 <td  width="100%" valign="top">
@@ -42,7 +49,7 @@
 			   			$jsLu = "$('imgMsgLu".$message["id_message"]."').style.display='block';$('imgMsgALire".$message["id_message"]."').style.display='none';";
 			   		endif;
 		   		endif;
-		   		$js="onClick=\"".$jsLu."_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."&valeur_3=".$this->page."&valeur_4=".$this->filtre."');\"  title='Lire le message'"; ?>
+		   		$js="onClick=\"".$jsMobile.$jsLu."_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."&valeur_3=".$this->page."&valeur_4=".$this->filtre."');\"  title='Lire le message'"; ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?> hhover">
 	  				<td class="table_liste" style="padding:0px;" <?=$js ?>>
 	  					<? if ($message["toread"] == "0") :
@@ -57,7 +64,8 @@
 						<img id='imgMsgALire<?=$message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="/public/images/uddeim/new_im.gif" border="0" style='<?=$displayAlire?>'/>
 						<img id='imgMsgLu<?=$message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="/public/images/uddeim/nonew_im.gif" border="0" style='<?=$displayLu?>' />
 					</td>
-	  				<td class="table_liste" style="padding:2px;" <?=$js ?> nowrap>
+					<? if (mb_strlen($message["titre"]) > 25) $texte= Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else $texte= Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
+	  				<td class="table_liste" style="padding:2px;" <?=$js ?>>
 	  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 		  					De <?=$message["expediteur"];?>&nbsp;
 		  					&agrave;<br/>
@@ -67,9 +75,14 @@
 	  					<? else: ?>
 	  						<?=$message["expediteur"];?>&nbsp;
 	  					<? endif; ?>
+	  					<? if ($this->estMobile) : ?>
+							 <br /><?=$texte?>
+						<? endif;?>
 	  				</td>
-	  				<td class="table_liste" style="padding:2px;" <?=$js ?> nowrap> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
-	  				<td class="table_liste" style="padding:2px;" <?=$js ?>>
+	  				<? if (!$this->estMobile) : ?>
+	  				<td class="table_liste" style="padding:2px;" <?=$js ?>> <?=$texte?></td>
+	  				<? endif;?>
+	  				<td class="table_liste" style="padding:2px;<?=$cssMobile?>" <?=$js ?>>
 	  					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\> H:i', $message["date"]);?></td>
 					<td class="table_liste" style="padding:0px;">
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
@@ -99,9 +112,13 @@
 		<? else: ?>
 			De
 		<? endif; ?>
+		
+		<? if ($this->estMobile) : ?>
+		 / Message
+		<? endif;?>
 		</th>
-		<th>Message</th>
-		<th>Date</th>
+		<th style="<?=$cssMobile?>">Message</th>
+		<th style="<?=$cssMobile?>">Date</th>
 		<th>
 			<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 				<span id="messages_tous" style="cursor:pointer" onClick='javascript:checkboxCocher($("listeIdMessage").value, true, this, $("messages_aucun"))'>Tous</span>
@@ -131,10 +148,10 @@
 			       <? endif; ?>
 			       <br><br>
 			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-			       	<input type="button" class='button1'  onClick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?=$titre?> : Supprimer TOUS les messages" />
+			       	<input type="button" class='button1'  onClick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?=$titre?> : <?=PHP_EOL?>Supprimer TOUS les messages" />
 			       <? endif; ?>
 			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
-			       	<input type="button" class='button1'  onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();' id="msgBtnMarAll" value="<?=$titre?> : Marquer TOUS les messages comme lus" />
+			       	<input type="button" class='button1'  onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();' id="msgBtnMarAll" value="<?=$titre?> : <?=PHP_EOL?>Marquer TOUS les messages comme lus" />
 			       <? endif; ?>
 			   <? endif;?>
 		    </th>
@@ -143,7 +160,7 @@
 </table>
 
 </td>
-<? if ($this->user->position_messagerie_braldun == 'd') : ?>
+<? if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : ?>
 <td width="50%"  valign="top">
 <div id="messagerie_message"></div>
 </td>
@@ -151,8 +168,8 @@
 </tr>
 </table>
 
-<? if ($this->user->position_messagerie_braldun == 'b') : ?>
-<br /><br />
+<? if ($this->user->position_messagerie_braldun == 'b' || $this->estMobile) : ?>
+<? if (!$this->estMobile) :?><br /><br /><? endif;?>
 <div id="messagerie_message"></div>
 <? endif;?>
 <br>
