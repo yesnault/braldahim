@@ -44,13 +44,15 @@ class Bral_Box_Blabla extends Bral_Box_Box {
 
 	private function prepareMessages() {
 		Zend_Loader::loadClass("Blabla");
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		
 		$blablaTable = new Blabla();
 		$tab = null;
 
 		$rowset = $blablaTable->findByPosition($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		foreach($rowset as $r) {
-			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
+			$braldun = Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$r["id_braldun"]."]");
 			$tab[] = array ("date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_blabla"]),
 							"braldun" => $braldun,
 							"message" => $r["message_blabla"],
