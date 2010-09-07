@@ -296,7 +296,7 @@
 			Version : 1<br>
 			URL : http://sp.braldahim.com/scripts/echoppes/?idBraldun=XXX&mdpRestreint=YYYY&version=1<br>
 			
-			Détails d'une ligne : ECHOPPE;idEchoppe;x;y;z;idMetier;idRegion<br>
+			Détails d'une ligne si une échoppe est possédée: voir ci-dessous.<br>
 			ou :<br>
 			AUCUNE_ECHOPPE
 			<br><br>
@@ -309,6 +309,7 @@
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_echoppe_a', 'details_echoppe_b');">
 			
 			<pre style="background-color:#2a5911; text-align:left" >
+			ECHOPPE;idEchoppe;x;y;z;idMetier;idRegion
 			ELEMENT;CAISSE;Castar;quantite_castar
 			ELEMENT;CAISSE;Rondin;quantite_rondin
 			ELEMENT;CAISSE;Peau;quantite_peau
@@ -317,23 +318,18 @@
 			ELEMENT;ARRIERE;Cuir;quantite_cuir
 			ELEMENT;ARRIERE;Fourrure;quantite_fourrure
 			ELEMENT;ARRIERE;Planche;quantite_planche
-			
 			ALIMENT;id_element_aliment;nom_type_aliment;nom_type_qualite;bbdf_aliment;recette;type_vente;prix_1;prix_2;prix_3;unite_1;unite_2;unite_3;commentaire
 			ALIMENT_PRIX_MINERAI;id_element_aliment;prix;nom_type_minerai
 			ALIMENT_PRIX_PLANTE;id_element_aliment;prix;nom_type_plante;nom_type_partieplante;prefix_type_plante
-			
 			EQUIPEMENT;id_equipement;type_vente;prix_1;prix_2;prix_3;unite_1;unite_2;unite_3;commentaire
 			EQUIPEMENT_PRIX_MINERAI;id_equipement;prix;nom_type_minerai
 			EQUIPEMENT_PRIX_PLANTE;id_equipement;prix;nom_type_plante;nom_type_partieplante;prefix_type_plante
-			
 			MATERIEL;id_materiel;id_type_materiel;nom;capacite;durabilite;usure;poids;type_vente;prix_1;prix_2;prix_3;unite_1;unite_2;unite_3;commentaire
 			MATERIEL_PRIX_MINERAI;id_materiel;prix;nom_type_minerai
 			MATERIEL_PRIX_PLANTE;id_materiel;prix;nom_type_plante;nom_type_partieplante;prefix_type_plante
-			
 			POTION;id_potion;type;nom_type_potion;nom_type_qualite;niveau_potion;type_vente;prix_1;prix_2;prix_3;unite_1;unite_2;unite_3;commentaire
 			POTION_PRIX_MINERAI;id_potion;prix;nom_type_minerai
 			POTION_PRIX_PLANTE;id_potion;prix;nom_type_plante;nom_type_partieplante;prefix_type_plante
-			
 			PLANTE;id_type_partieplante;id_type_plante;quantite_caisse;quantite_arriere;quantite_preparee
 			MINERAI;nom_type_minerai;id_type_minerai;quantite_brut_arriere;quantite_lingots;quantite_brut_caisse
 			INGREDIENT;nom_type_ingredient;id_type_ingredient;quantite_arriere;quantite_caisse

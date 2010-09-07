@@ -58,7 +58,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 				$this->renderPotions($retour, $e["id_echoppe"]);
 				$this->renderRessources($retour, $e["id_echoppe"]);
 
-
 				$retour .= "ELEMENT;CAISSE;Castar;".$e["quantite_castar_caisse_echoppe"].PHP_EOL;
 				$retour .= "ELEMENT;CAISSE;Rondin;". $e["quantite_rondin_caisse_echoppe"].PHP_EOL;
 				$retour .= "ELEMENT;CAISSE;Peau;".$e["quantite_peau_caisse_echoppe"].PHP_EOL;
