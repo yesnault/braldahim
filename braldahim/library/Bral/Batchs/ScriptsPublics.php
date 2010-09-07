@@ -25,6 +25,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierLieuxVille();
 		$retour .= $this->genereFichierRegions();
 		$retour .= $this->genereFichierEquipement();
+		$retour .= $this->genereFichierTitres();
+		$retour .= $this->genereFichierDistinctions();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -342,6 +344,76 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_equipements, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEquipement - exit -");
+		return $retour;
+	}
+
+	private function genereFichierTitres() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierTitres - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("BraldunsTitres");
+		$titreTable = new BraldunsTitres();
+		$titres = $titreTable->selectAll();
+
+		$contenu = "id_braldun;date_acquis_htitre;id_type_titre;texte_titre;";
+		$contenu .= PHP_EOL;
+
+		if (count($titres) > 0) {
+			foreach ($titres as $e) {
+				$contenu .= $e["id_fk_braldun_htitre"].';';
+				$contenu .= $e["date_acquis_htitre"].';';
+				$contenu .= $e["id_type_titre"].';';
+				if ($e["sexe_braldun"] == "masculin") {
+					$contenu .= $e["nom_masculin_type_titre"].';';
+				} else {
+					$contenu .= $e["nom_feminin_type_titre"].';';
+				}
+
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_titres, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierTitres - exit -");
+		return $retour;
+	}
+
+	private function genereFichierDistinctions() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierDistinctions - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$distinctionTable = new BraldunsDistinction();
+		$distinctions = $distinctionTable->selectAll();
+
+		$contenu = "id_braldun;date_hdistinction;id_type_categorie;nom_type_categorie;";
+		$contenu = "ordre_type_categorie;ordre_type_categorie;id_type_distinction;";
+		$contenu = "date_hdistinction;texte_hdistinction;url_hdistinction;points_type_distinction;";
+		$contenu .= PHP_EOL;
+
+		if (count($distinctions) > 0) {
+			foreach ($distinctions as $e) {
+				$contenu .= $e["id_braldun"].';';
+				$contenu .= $e["date_hdistinction"].';';
+				$contenu .= $e["id_type_categorie"].';';
+				$contenu .= $e["nom_type_categorie"].';';
+				$contenu .= $e["ordre_type_categorie"].';';
+				$contenu .= $e["id_type_distinction"].';';
+				$contenu .= $e["date_hdistinction"].';';
+				$contenu .= $e["texte_hdistinction"].';';
+				$contenu .= $e["url_hdistinction"].';';
+				$contenu .= $e["points_type_distinction"].';';
+				
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_distinctions, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierDistinctions - exit -");
 		return $retour;
 	}
 

@@ -14,6 +14,22 @@ class BraldunsDistinction extends Zend_Db_Table {
 	protected $_name = 'bralduns_distinction';
 	protected $_primary = array('id_hdistinction');
 
+	function selectAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('bralduns_distinction', '*')
+		->from('type_distinction', '*')
+		->from('type_categorie', '*')
+		->from('braldun', '*')
+		->where('id_fk_braldun_hdistinction = id_braldun')
+		->where('est_pnj_braldun = ?', 'non')
+		->where('id_fk_type_distinction_hdistinction = id_type_distinction')
+		->where('id_fk_type_categorie_distinction = id_type_categorie')
+		->order(array('id_braldun', 'date_hdistinction'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findDistinctionsByBraldunId($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
