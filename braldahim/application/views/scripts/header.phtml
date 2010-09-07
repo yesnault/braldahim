@@ -1,9 +1,22 @@
-<? include('headerHead.phtml'); ?>
-<? if($this->user && $this->controleur == "interface") : ?>
-<body onload="_get_('/interface/boxes');">
+<? include('headerHead.phtml');
+if ($this->estIphone): 
+	$jsBody = "setTimeout(function() { window.scrollTo(0, 1) }, 100);";
+	echo "AA";
+ else:
+	$jsBody = "";
+	echo "BB";
+endif;
+
+if($this->user && $this->controleur == "interface") : ?>
+<body onload="<?=$jsBody?>;_get_('/interface/boxes');">
 <? else: ?>
-<body>
+	<? if ($jsBody != ""): ?>
+	<body onload="<?=$jsBody?>">
+	<? else:?>
+	<body>
+	<? endif; ?>
 <? endif; ?>
+
 
 <? if (Zend_Registry::get("estWork")) : ?>
 <span style=" border : 2px solid;float:left;position:absolute; z-index:-10">

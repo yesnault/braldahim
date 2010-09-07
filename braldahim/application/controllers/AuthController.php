@@ -18,6 +18,7 @@ class AuthController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->estMobile = Zend_Registry::get("estMobile");
+		$this->view->estIphone = Zend_Registry::get("estIphone");
 
 		if ($this->view->config->general->actif != 1 && $this->_request->action == 'login') {
 			$this->_redirect('/');
