@@ -1,32 +1,30 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="Cache-Control" content="no-cache" />
-	
-	<title>Braldahim</title>
-	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-068.css" />
-	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
-	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
-	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
-	
-	<script type="text/javascript" src="/public/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_action-032.js"></script>
-	
-	<? if (Zend_Registry::get("estWork")) : ?>
-	<link  href="/public/styles/braldahim_defaut/work-002.css" type="text/css" rel="stylesheet">
-	<? endif;?>
-	
 	<? if (Zend_Registry::get("estMobile")) : ?>
-		<link  href="/public/styles/braldahim_defaut/iphone-007.css" type="text/css" rel="stylesheet">
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
 		<? if (Zend_Registry::get("estIphone")) : ?>
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<? endif;?>
 	<? endif;?>
+	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
+	
+	<title>Braldahim</title>
+	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-068.css" />
+	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
+	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
+	<? if (Zend_Registry::get("estWork")) : ?>
+	<link  href="/public/styles/braldahim_defaut/work-002.css" type="text/css" rel="stylesheet">
+	<? elseif (Zend_Registry::get("estMobile")) : ?>
+	<link  href="/public/styles/braldahim_defaut/iphone-007.css" type="text/css" rel="stylesheet">
+	<? endif;?>
+	
+	<script type="text/javascript" src="/public/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim/m_action-032.js"></script>
 	
 	<? if ($this->config->tracker->enabled == "1") : ?>
 		<script type="text/javascript">
