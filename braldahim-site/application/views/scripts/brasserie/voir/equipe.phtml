@@ -18,8 +18,10 @@
 			  		<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
 			  		<?=$j["prenom_braldun"]?> <?=$j["nom_braldun"]?> (<?=$j["id_braldun"]?>)
 			  		</a>
-			  		<? if ($this->matchEnCours != null) : ?>
+			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
 			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_braldun"]?>, <?=$j["y_braldun"]?></span>.
+			  		<? endif;?>
+			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null) : ?>
 			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_braldun_plaquage_soule_equipe"]?> fois.
 			  		<? endif;?>
 			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
