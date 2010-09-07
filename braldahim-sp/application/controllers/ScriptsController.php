@@ -70,6 +70,12 @@ class ScriptsController extends Zend_Controller_Action {
 		echo $this->view->render("scripts/resultat.phtml");
 	}
 
+	function equipementsAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Equipements", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
 	function champsAction() {
 		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Champs", $this->view, $this->_request);
@@ -79,6 +85,12 @@ class ScriptsController extends Zend_Controller_Action {
 	function appelsAction() {
 		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Appels", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
+	function quetesAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Quetes", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
 }

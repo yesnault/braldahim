@@ -55,5 +55,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		} else {
 			$retour .= "AUCUNE_ECHOPPE";
 		}
+
 	}
 }

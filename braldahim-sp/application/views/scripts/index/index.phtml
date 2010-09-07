@@ -274,6 +274,22 @@
 		</tr>
 		<tr valign="top">
 			<td  width="20%">
+				<br>Liste des équipement équipés par le Braldûn
+			</td>
+			<td width="80%" style="text-align:left">
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/equipements/?idBraldun=XXX&mdpRestreint=YYYY&version=1<br>
+			
+			Détails d'une ligne : EQUIPEMENT;idEquipement<br>
+			ou :<br>
+			AUCUN_EQUIPEMENT
+			<br>
+			Le détail des équipements est disponible dans les Données Publiques, fichier equipements.csv.
+			<br><br>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td  width="20%">
 				<br>Liste des échoppes
 			</td>
 			<td width="80%" style="text-align:left">
@@ -298,6 +314,33 @@
 			ou :<br>
 			AUCUN_CHAMP
 			<br><br><br>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td  width="20%">
+				<br>Liste des quêtes et étapes
+			</td>
+			<td width="80%" style="text-align:left">
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/quetes/?idBraldun=XXX&mdpRestreint=YYYY&version=1<br>
+			
+			<div id='details_quete_a' style="display:block" >
+			  	<input type='button' class='button1' value='Afficher détails' onClick="javascript:switch2div('details_quete_a','details_quete_b');">
+			</div>
+				
+			<div id='details_quete_b' style="display:none" >
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_quete_a', 'details_quete_b');">
+			
+			<pre style="background-color:#2a5911; text-align:left" >
+			QUETE;id_quete;date_creation_quete;;date_fin_quete;gain_quete;est_initiatique_quete
+			ETAPE;id_quete;libelle_etape;date_debut_etape;date_fin_etape;est_terminee_etape;objectif_etape;ordre_etape
+			ou : 
+			AUCUNE_CHARRETTE
+			AUCUNE_ETAPE
+			</pre>
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_quete_a', 'details_quete_b');">
+			</div>
+			<br>
 			</td>
 		</tr>
 		
