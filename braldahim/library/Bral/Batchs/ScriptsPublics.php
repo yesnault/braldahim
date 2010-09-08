@@ -27,6 +27,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierEquipement();
 		$retour .= $this->genereFichierTitres();
 		$retour .= $this->genereFichierDistinctions();
+		$retour .= $this->genereFichierPlantes();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -406,7 +407,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $e["texte_hdistinction"].';';
 				$contenu .= $e["url_hdistinction"].';';
 				$contenu .= $e["points_type_distinction"].';';
-				
+
 				$contenu .= PHP_EOL;
 			}
 		}
@@ -414,6 +415,59 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_distinctions, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierDistinctions - exit -");
+		return $retour;
+	}
+
+	private function genereFichierPlantes() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierPlantes - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartieplante");
+
+		$typePlantesTable = new TypePlante();
+		$typePlantesRowset = $typePlantesTable->findAll();
+
+		$typePartiePlantesTable = new TypePartieplante();
+		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
+		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
+
+		$tabPartiePlantesCaisse = null;
+		$tabPartiePlantesPreparees = null;
+		$tabPartiePlantesBruts = null;
+
+		$contenu = "id_type_plante;nom_type_plante;categorie_type_plante;";
+		$contenu .= "prefix_type_plante;id_type_partieplante1;nom_type_partieplante1;";
+		$contenu .= "id_type_partieplante2;nom_type_partieplante2;";
+		$contenu .= "id_type_partieplante3;nom_type_partieplante3;";
+		$contenu .= "id_type_partieplante4;nom_type_partieplante4";
+		$contenu .= PHP_EOL;
+
+		foreach($typePlantesRowset as $t) {
+			$contenu .= $t["id_type_plante"].";";
+			$contenu .= $t["nom_type_plante"].";";
+			$contenu .= $t["categorie_type_plante"].";";
+			$contenu .= $t["prefix_type_plante"];
+			$n = 1;
+			foreach($typePartiePlantesRowset as $p) {
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t["id_fk_partieplante".$i."_type_plante"] == $p["id_type_partieplante"]) {
+						$n++;
+						$contenu .= ';'.$p["id_type_partieplante"].';';
+						$contenu .= $p["nom_type_partieplante"];
+					}
+				}
+			}
+			for ($i = $n; $i <= 4; $i++) {
+				$contenu .= ";;";
+			}
+			$contenu .= PHP_EOL;
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_plantes, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierPlantes - exit -");
 		return $retour;
 	}
 
