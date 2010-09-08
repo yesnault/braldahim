@@ -18,10 +18,10 @@
 				<table class="table_liste">
 				<thead class="table_liste">
 					<tr class="table_liste">
-					<th>S&eacute;lectionner</th>
-					<th>Braldun</th>
+					<th>Choisir</th>
+					<th>Braldûn</th>
 					<th>Date de d&eacute;but</th>
-					<th>Nombre de jour(s)</th>
+					<th>Nb. jours</th>
 					<th>Commentaire</th>
 				</thead>
 				<? foreach($this->tabBraldunGarde as $g): ?>
@@ -33,12 +33,12 @@
 							-
 							<? endif; ?>
 						</td>
-						<td nowrap>
+						<td>
 							<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
 						  		<?=htmlspecialchars(stripslashes($g["prenom_braldun"])). " ". htmlspecialchars(stripslashes($g["nom_braldun"])). ' ('.$g["id_braldun"].')';?>
 						  	</a>
 						</td>
-						<td nowrap>Le <?=Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$g["date_debut"]); ?></td>
+						<td><?=Bral_Util_ConvertDate::get_date_mysql_datetime('d/m \<\b\r \/\> Y',$g["date_debut"]); ?></td>
 						<td nowrap><?=$g["nb_jours"] ?></td>
 						<td nowrap><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 					</tr>

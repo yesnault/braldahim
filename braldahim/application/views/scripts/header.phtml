@@ -1,5 +1,5 @@
 <? include('headerHead.phtml');
-if ($this->estIphone): 
+if (Zend_Registry::get("estIphone")): 
 	$jsBody = "setTimeout(function() { window.scrollTo(0, 1) }, 100);";
  else:
 	$jsBody = "";

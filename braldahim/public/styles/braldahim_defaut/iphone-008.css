@@ -74,4 +74,6 @@ input {
 	min-width:50px;
 }
 
-    
+.box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration {
+		width: auto;
+}
