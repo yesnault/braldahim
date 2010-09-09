@@ -151,33 +151,12 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$cueillette[$i]["quantite"] = 0;
 			$cueillette[$i]["id_fk"] = -1;
 			$cueillette[$i]["id_type_plante"] = $plante["id_fk_type_plante"];
-			if ($i == 1 && $plante["partie_1_plante"] > 0) {
-				$tab[$i]["id_fk"] = $plante["id_fk_partie_1"];
-				$tab[$i]["quantite"] = $plante["partie_1_plante"];
+			if ($plante["partie_".$i."_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_".$i];
+				$tab[$i]["quantite"] = $plante["partie_".$i."_plante"];
 				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
-				$cueillette[$i]["nom_partie"] = $plante["nom_partie_1"];
-			}
-			if ($i == 2 && $plante["partie_2_plante"] > 0) {
-				$tab[$i]["id_fk"] = $plante["id_fk_partie_2"];
-				$tab[$i]["quantite"] = $plante["partie_2_plante"];
-				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_2"];
-				$cueillette[$i]["nom_partie"] = $plante["nom_partie_2"];
-			}
-			if ($i == 3 && $plante["partie_3_plante"] > 0) {
-				$tab[$i]["id_fk"] = $plante["id_fk_partie_3"];
-				$tab[$i]["quantite"] = $plante["partie_3_plante"];
-				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_3"];
-				$cueillette[$i]["nom_partie"] = $plante["nom_partie_3"];
-			}
-			if ($i == 4 && $plante["partie_4_plante"] > 0) {
-				$tab[$i]["id_fk"] = $plante["id_fk_partie_4"];
-				$tab[$i]["quantite"] = $plante["partie_4_plante"];
-				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_4"];
-				$cueillette[$i]["nom_partie"] = $plante["nom_partie_4"];
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_".$i];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_".$i];
 			}
 		}
 
