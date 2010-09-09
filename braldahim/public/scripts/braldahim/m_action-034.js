@@ -24,7 +24,7 @@ function _get_(url, encode) {
 	var nb_valeurs = 0;
 	var action = "";
 	
-	revealModal('modalPage');
+	revealModal();
 	
 	if (url.length > 34) {
 		if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
@@ -248,7 +248,7 @@ function showResponse(originalRequest) {
 		}
 	}
 
-	hideModal('modalPage');
+	hideModal();
 	
 	if (redirection) {
 		document.location.href = redirection_url;
@@ -510,15 +510,15 @@ function loadBox(nomSysteme) {
 	_get_('/interface/load/?box=' + nomSysteme);
 }
 
-function revealModal(divID) {
-    window.onscroll = function () { $(divID).style.top = document.body.scrollTop; };
-    $(divID).style.display = "block";
-    $(divID).style.top = document.body.scrollTop;
+function revealModal() {
+    window.onscroll = function () { $('modalPage').style.top = document.body.scrollTop; };
+    $('modalPage').style.display = "block";
+    $('modalPage').style.top = document.body.scrollTop;
     document.documentElement.scrollTop = 0;
 }
 
-function hideModal(divID) {
-    $(divID).style.display = "none";
+function hideModal() {
+    $('modalPage').style.display = "none";
 }
 
 function ecrireMessage(idBraldun) {
