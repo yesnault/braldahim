@@ -19,6 +19,7 @@
 class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	private $_coef = 1;
+	private $_1ereAttaqueReussie = false;
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
@@ -200,7 +201,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - 1er attaque - nb_px_perso:".$this->view->nb_px_perso);
 		}
 
-		if ($this->retourAttaque["attaqueReussie"] === true) {
+		if ($this->_1ereAttaqueReussie == false && $this->retourAttaque["attaqueReussie"] === true) {
+			$this->_1ereAttaqueReussie = true;
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - Touche nb_px_perso:".$this->view->nb_px_perso);
 		} else {
