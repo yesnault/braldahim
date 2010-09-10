@@ -318,9 +318,13 @@ class Bral_Util_Messagerie {
 	public static function preparePage($request, &$view) {
 		$view->page = 1;
 
+		$view->filtre = null;
+		
 		if ($request->get("valeur_4") != "") {
-			$view->filtre =  Bral_Util_Controle::getValeurIntVerif($request->get("valeur_4"));
-		} else {
+			$view->filtre =  Bral_Util_Controle::getValeurIntVerifSansException($request->get("valeur_4"));
+		} 
+		
+		if ($view->filtre == null) {
 			$view->filtre = $view->config->messagerie->message->type->reception;
 		}
 
