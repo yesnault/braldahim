@@ -30,7 +30,7 @@ class Bral_Xml_Response {
 		echo "<valeur>date_heure</valeur>\n";
 		echo "<data>";
 		echo new Zend_Date();
-		echo " | </data>\n";
+		echo "</data>\n";
 		echo "</entrie>\n";
 		$this->XmlNbConnecte();
 		

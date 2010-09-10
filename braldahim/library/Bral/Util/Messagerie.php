@@ -15,6 +15,10 @@ class Bral_Util_Messagerie {
 	private function __construct() {}
 
 	public static function setXmlResponseMessagerie(&$xml_response, $id_braldun) {
+		if (Zend_Registry::get("estMobile")) { 
+			// n'est pas utilisé sur la version mobile
+			return;
+		}
 		$messageTable = new Message();
 		$nbNotRead = $messageTable->countByToIdNotRead($id_braldun);
 		$xml_entry = new Bral_Xml_Entry();

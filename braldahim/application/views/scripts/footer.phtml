@@ -1,4 +1,6 @@
-<? if (!Zend_Registry::get("estMobile") && !Zend_Registry::get("estWork")) :?>
+<? if (Zend_Registry::get("estMobile")) :?>
+Heure serveur : <span id='date_heure' class=''>&nbsp;</span>
+<? elseif (!Zend_Registry::get("estMobile") && !Zend_Registry::get("estWork")) :?>
 <? if (isset($this->user) ): ?>
 
 <br/>
@@ -8,7 +10,7 @@
  <div class="inner_bot">
   <div class="inner_footer">
  	<span id='date_heure' class=''>&nbsp;</span>
- 	<a href="http://www.braldahim.com">www.braldahim.com</a>
+ 	| <a href="http://www.braldahim.com">www.braldahim.com</a>
  	<? if (isset($this->user) && isset($this->user->email_braldun)) : ?> 
  		| <span id='nb_connectes' class=''>&nbsp;</span><br/>
  	<? endif;?>
