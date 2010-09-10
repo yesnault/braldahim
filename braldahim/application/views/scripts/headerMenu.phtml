@@ -7,59 +7,59 @@
 		<div id="frisetopvidemobile">
 	<? endif;?>
 		<? if (!Zend_Registry::get("estMobile")):?><h1><a href="/">Braldahim - Site</a></h1><? endif;?>
-		 <div class="inner_top">
-			 <? if (!Zend_Registry::get("estMobile")):?>
-			  <?=$this->escape($this->user->prenom_braldun);?> <?=$this->escape($this->user->nom_braldun);?> |
-			 
-				 <? if ($this->user->administrateur === true) : ?>
-				  	<a href="/Administration/" class="menu_lien">Administration</a> |
-				 <? endif; ?>
-				 <? if ($this->user->administrateur === true || $this->user->gestion === true) : ?>
-					 <a href="/Gestion/" class="menu_lien">Gestion</a> |
-				 <? endif; ?>
-				 <a href="/interface/" class="menu_lien">Interface</a> |
-			 <? endif;?>
-			 <? if ($this->user->gardeEnCours === false) : ?>
-			  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
+		<div class="inner_top">
+		 <? if (!Zend_Registry::get("estMobile")):?>
+		  <?=$this->escape($this->user->prenom_braldun);?> <?=$this->escape($this->user->nom_braldun);?> |
+		 
+			 <? if ($this->user->administrateur === true) : ?>
+			  	<a href="/Administration/" class="menu_lien">Administration</a> |
 			 <? endif; ?>
-			 <? if (!Zend_Registry::get("estMobile")):?>
-				 <a href="http://www.braldahim.com">Site</a> | 
-				 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
-				 <a href="http://forum.braldahim.com">Forums</a> | 
-				 <a href="http://regles.braldahim.com">R&egrave;gles</a> | 
-				 <a href="http://regles.braldahim.com/wiki/Charte">Charte</a> | 
-				 <label class="alabel" style="text-decoration:underline" onclick="javascript:ouvrirWin('/voir/');">Voir</label> |
-			 <? endif;?> 
-			 <a href="/auth/logout"> D&eacute;connexion </a>
-			 
-			 <? if ($this->user->gardeEnCours === true) : ?>
-			 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_braldun) ?> <?=htmlspecialchars($this->user->nom_braldun) ?> (<?=$this->user->id_braldun?>) en cours</a>
+			 <? if ($this->user->administrateur === true || $this->user->gestion === true) : ?>
+				 <a href="/Gestion/" class="menu_lien">Gestion</a> |
 			 <? endif; ?>
-			 
-			 <? if (!Zend_Registry::get("estMobile")):?>
-				 <div style='line-height : 20px;'>
-				  <? if ($this->user->administrateur === true) : ?>
-				  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
-					Admin info <span id='admin_info_1' class=''>&nbsp;</span>
-					 <span id='admin_info_2' class=''>&nbsp;</span>
-				  <? endif; ?>
-				  <?=Bral_Helper_Calendrier::affiche();?>
-			  <? endif;?>
-			  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
-			  
-			  <? if ($this->controleur == "interface") : ?>
-					<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
-					 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-						<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
-					</span>
-					<? if (!Zend_Registry::get("estMobile")):?>
-					<span id="message_nb" style="float:right; display:none;margin-top:2px;">
-						<label id="message_nb_label" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
-					</span>
-					<? endif; ?>
+			 <a href="/interface/" class="menu_lien">Interface</a> |
+		 <? endif;?>
+		 <? if ($this->user->gardeEnCours === false) : ?>
+		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
+		 <? endif; ?>
+		 <? if (!Zend_Registry::get("estMobile")):?>
+			 <a href="http://www.braldahim.com">Site</a> | 
+			 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
+			 <a href="http://forum.braldahim.com">Forums</a> | 
+			 <a href="http://regles.braldahim.com">R&egrave;gles</a> | 
+			 <a href="http://regles.braldahim.com/wiki/Charte">Charte</a> | 
+			 <label class="alabel" style="text-decoration:underline" onclick="javascript:ouvrirWin('/voir/');">Voir</label> |
+		 <? endif;?> 
+		 <a href="/auth/logout"> D&eacute;connexion </a>
+		 
+		 <? if ($this->user->gardeEnCours === true) : ?>
+		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_braldun) ?> <?=htmlspecialchars($this->user->nom_braldun) ?> (<?=$this->user->id_braldun?>) en cours</a>
+		 <? endif; ?>
+		 
+		 <? if (!Zend_Registry::get("estMobile")):?>
+			 <div style='line-height : 20px;'>
+			  <? if ($this->user->administrateur === true) : ?>
+			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
+				Admin info <span id='admin_info_1' class=''>&nbsp;</span>
+				 <span id='admin_info_2' class=''>&nbsp;</span>
+			  <? endif; ?>
+			  <?=Bral_Helper_Calendrier::affiche();?>
+			  </div>
+		  <? endif;?>
+		  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
+		  
+		  <? if ($this->controleur == "interface") : ?>
+				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
+				 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+					<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+				</span>
+				<? if (!Zend_Registry::get("estMobile")):?>
+				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
+					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+				</span>
 				<? endif; ?>
-			 </div>
-		 </div>
+			<? endif; ?>
+	 	</div>
 	</div>
 </div>
 <? endif; ?>
