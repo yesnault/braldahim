@@ -24,7 +24,7 @@ class Bral_Xml_Response {
 	private function echo_xml() {
 		echo  '<?xml version="1.0" encoding="utf-8" ?>';
 		echo "<root>\n";
-		$memoire1 = memory_get_usage();
+		//$memoire1 = memory_get_usage();
 		echo "<entrie>\n";
 		echo "<type>display</type>\n";
 		echo "<valeur>date_heure</valeur>\n";
@@ -32,7 +32,9 @@ class Bral_Xml_Response {
 		echo new Zend_Date();
 		echo "</data>\n";
 		echo "</entrie>\n";
-		$this->XmlNbConnecte();
+		if (!Zend_Registry::get("estMobile")) { 
+			$this->XmlNbConnecte();
+		}
 		
 		ob_flush();
 		foreach ($this->list as $k => $e) {
@@ -43,8 +45,8 @@ class Bral_Xml_Response {
 			unset($this->list[$k]);
 		}
 		unset($this->list);
-		$memoire2 = memory_get_usage();
-		$this->xmlAdmin("admin_info_1","mem1:".$memoire1. " mem2:".$memoire2. " allouée:".memory_get_peak_usage(false));
+		//$memoire2 = memory_get_usage();
+		//$this->xmlAdmin("admin_info_1","mem1:".$memoire1. " mem2:".$memoire2. " allouée:".memory_get_peak_usage(false));
 		echo "</root>\n";
 	}
 	
