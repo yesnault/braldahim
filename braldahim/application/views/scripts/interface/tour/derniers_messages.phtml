@@ -24,7 +24,7 @@
   						<?=$message["expediteur"];?>&nbsp;
   					<? endif; ?>
   				</td>
-  				<td class="table_liste"  
+  				<td class="table_liste" > 
   					<div id='cmsga<?=$message["id_message"]?>' onClick="switch2div('cmsga<?=$message["id_message"]?>','cmsgb<?=$message["id_message"]?>')" style='cursor:pointer' title='Cliquez pour voir le message'>
   					<?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
   					</div>
