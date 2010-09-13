@@ -1,54 +1,44 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">
+  <div class="titre textalia textsizec">
   	<a class="titre textalia textsizec" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
   		Mon Profil
-  	</a>, n&deg;<?=$this->user->id_braldun;?></ul>
-  <ul class="titre textalib textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
+  	</a>, n&deg;<?=$this->user->id_braldun;?></div>
+  <div class="titre textalib textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
   <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
   	<?=$this->user->titre_courant_braldun?>
   <? endif;?>
-  </ul>
+  </div>
   <div class="contenuA">
-	  <ul class="box_contenu1 textalic">
+	  <div class="box_contenu1 textalic">
 	  
 	  <? if ($this->affichageInterne == true) : ?>
-	  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
-			PA <?=$this->user->pa_braldun ?>&nbsp;&nbsp;
-			</p>
+  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
+		PA <?=$this->user->pa_braldun ?>&nbsp;&nbsp;
+		</p>
 			
- 		<ul class="titre textalia textsized" >
-				&nbsp;Informations tour
-		</ul>
+ 		<div class="titre textalia textsized" >
+				Informations tour
+		</div>
 
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
 			<tr class="table_liste" valign="top">
-				<td align="left" >
-				  Dur&eacute;e de ce tour
-				</td>
-				<td align="left" >
-				<?php echo $this->escape($this->user->duree_courant_tour_braldun) ?>
-				</td>
+				<td align="left" >Dur&eacute;e de ce tour</td>
+				<td align="left" ><?php echo $this->escape($this->user->duree_courant_tour_braldun) ?></td>
 				<td>&nbsp;&nbsp;</td>
-				<td style="font-weight: bolder;" align="right" >
-				DLA &nbsp;&nbsp;
-				
-				<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
+				<td style="font-weight: bolder;" align="right" >DLA &nbsp;&nbsp;
+					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
 				</td>
 			</tr>
 			<tr>
-				<td align="left" >
-					 Avancement de ce tour
-				</td>
+				<td align="left" >Avancement de ce tour</td>
 				<td colspan="3">
 				<?=Bral_Helper_Profil::afficheBarreTour($this->user)?>
 				</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="top">
-				<td>
-					Durée du prochain tour
-				</td>
+				<td>Durée du prochain tour</td>
 				<td colspan="3">
 				<?php echo $this->escape($this->user->duree_prochain_tour_braldun) ?>  
 				<label style="cursor:pointer" title="Minutes rajoutées pour prendre en compte les blessures">
@@ -66,10 +56,10 @@
 			</tr>
 		</tbody>
 	  </table>
-<hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Sant&eacute;
-		</ul>
+		<hr style="margin:0px">
+		<div class="titre textalia textsized">
+			Sant&eacute;
+		</div>
 		
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
@@ -94,9 +84,9 @@
 		</tbody>
 		</table>
 		<hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Caract&eacute;ristiques
-		</ul>
+		<div class="titre textalia textsized">
+			Caract&eacute;ristiques
+		</div>
 		
 		 <table class="table_liste" style="width:98%; border:0">
 		<tbody>
@@ -139,8 +129,8 @@
 	    		<td>
 	    		<?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_braldun >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_braldun ?>
 	    		</td>
-	    		
-	    		<tr align="center" >
+	    		</tr>
+	    		<tr align="center">
 				<td colspan="6">
 					R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_braldun ?> D<?=$this->config->game->de_regeneration ?>
 				 (BM prochain tour : <?=$this->user->regeneration_bm_braldun ?>)
@@ -149,16 +139,14 @@
 		</tbody>
 		</table>
 	  <hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Exp&eacute;rience
-		</ul>
+		<div class="titre textalia textsized">
+			Exp&eacute;rience
+		</div>
 		
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
-				<td width="10%" nowrap>
-					Exp / Niveau
-	    		</td>
+				<td width="10%" nowrap>Exp / Niveau</td>
 	    		<?=Bral_Helper_Profil::afficheBarreNiveau($this->user->niveau_braldun, $this->user->px_perso_braldun);?>
 			</tr>
 		</tbody>
@@ -167,29 +155,17 @@
 		<table class="table_liste" style="width:98%; border:0">
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
-				<td>
-					PX Perso<br />
-					PI
-	    		</td>
-	    		<td>
-	    			<?=$this->user->px_perso_braldun ?> <br/>
-	    			<?=$this->user->pi_braldun ?>
-		    	</td>
-				<td>
-					PX Commun<br />
-	    			Niveau
-				</td>
-				<td>
-					<?=$this->user->px_commun_braldun ?> <br/> 
-					<?=$this->user->niveau_braldun ?>
-	    		</td>
+				<td>PX Perso<br />PI</td>
+	    		<td><?=$this->user->px_perso_braldun ?> <br/> <?=$this->user->pi_braldun ?></td>
+				<td>PX Commun<br />Niveau</td>
+				<td><?=$this->user->px_commun_braldun ?> <br/><?=$this->user->niveau_braldun ?></td>
 			</tr>
 		</tbody>
 		</table>
 		<hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Poids
-		</ul>
+		<div class="titre textalia textsized">
+			Poids
+		</div>
 		<? if ($this->poidsTransporteBraldunCorrige != '?') : ?>
 			<table class="table_liste" style="width:98%; border:0">
 			<tbody>
@@ -213,77 +189,45 @@
 			</span>
 		<? endif;?>
 		<hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Armure
-		</ul>
+		<div class="titre textalia textsized">
+			Armure
+		</div>
 		<table class="table_liste" style="width:98%; border:0">
 		<tbody>
 			<tr class="table_liste"  valign="middle">
-				<td>
-					Naturelle : <?=$this->user->armure_naturelle_braldun ?><br />
-	    		</td>
-	    		<td>
-	    			&Eacute;quipement : <?=$this->user->armure_equipement_braldun ?>
-	    		</td>
-	    		<td>
-	    			Bonus / Malus : <?=$this->user->armure_bm_braldun ?>
-	    		</td>
-	    		<td>
-	    			Total : <?=($this->armure_totale)  ?>
-	    		</td>
+				<td>Naturelle : <?=$this->user->armure_naturelle_braldun ?></td>
+	    		<td>&Eacute;quipement : <?=$this->user->armure_equipement_braldun ?></td>
+	    		<td>Bonus / Malus : <?=$this->user->armure_bm_braldun ?></td>
+	    		<td>Total : <?=($this->armure_totale)  ?></td>
 			</tr>
 		</tbody>
 		</table>
 		
 		<hr style="margin:0px">
-		<ul class="titre textalia textsized">
-			&nbsp;Combat
-		</ul>
+		<div class="titre textalia textsized">
+			Combat
+		</div>
 		<table class="table_liste" style="width:98%; border:0">
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">
-				Attaque BM : <?=$this->user->bm_attaque_braldun ?>
-				</td>
-				<td colspan="2">
-				D&eacute;fense BM : <?=$this->user->bm_defense_braldun ?>
-				</td>
-				<td colspan="2">
-				D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_braldun ?>
-				</td>
+				<td colspan="2">Attaque BM : <?=$this->user->bm_attaque_braldun ?></td>
+				<td colspan="2">D&eacute;fense BM : <?=$this->user->bm_defense_braldun ?></td>
+				<td colspan="2">D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_braldun ?></td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">
-				Nb. KO : <?=$this->user->nb_ko_braldun ?>
-				</td>
-				<td colspan="2">
-				Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_braldun ?>
-				</td>
-				<td colspan="2">
-				Nb. KO Braldûn : <?=$this->user->nb_braldun_ko_braldun ?>
-				</td>
+				<td colspan="2">Nb. KO : <?=$this->user->nb_ko_braldun ?></td>
+				<td colspan="2">Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_braldun ?></td>
+				<td colspan="2">Nb. KO Braldûn : <?=$this->user->nb_braldun_ko_braldun ?></td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">
-				Engag&eacute; : <?=$this->user->est_engage_braldun ?>
-				</td>
-				<td colspan="2">
-				Engag&eacute; au prochain tour : <?=$this->user->est_engage_next_dla_braldun ?>
-				</td>
-				<td colspan="2">
-				Intangible : <?=$this->user->est_intangible_braldun ?>
-				</td>
+				<td colspan="2">Engag&eacute; : <?=$this->user->est_engage_braldun ?></td>
+				<td colspan="2">Engag&eacute; au prochain tour : <?=$this->user->est_engage_next_dla_braldun ?></td>
+				<td colspan="2">Intangible : <?=$this->user->est_intangible_braldun ?></td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">
-				Plaquages Soule 
-				</td>
-				<td colspan="2">
-				&nbsp;&nbsp;Subis : <?=$this->user->nb_plaque_braldun ?>
-				</td>
-				<td colspan="2">
-				Effectués: <?=$this->user->nb_braldun_plaquage_braldun ?>
-				</td>
+				<td colspan="2">Plaquages Soule</td>
+				<td colspan="2">&nbsp;&nbsp;Subis : <?=$this->user->nb_plaque_braldun ?></td>
+				<td colspan="2">Effectués: <?=$this->user->nb_braldun_plaquage_braldun ?></td>
 			</tr>
 		</tbody>
 		</table>
@@ -291,7 +235,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
-	  </ul>
+	  </div>
  </div>
 </div>
 <? include("box_bottom.phtml") ?>

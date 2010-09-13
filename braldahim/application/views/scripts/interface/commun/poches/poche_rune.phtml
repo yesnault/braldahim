@@ -1,20 +1,22 @@
 <? if ($this->nb_runes == 0) : ?>
    <center><i>Vide</i></center>
 <? else : ?>
-	<ul class="textalic textsizee">Poids d'une rune : <?=Bral_Util_Poids:: POIDS_RUNE?> Kg, 
-	Poids total de la poche : <?=($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?> Kg</ul><br />
+	<div class="textalic textsizee">Poids d'une rune : <?=Bral_Util_Poids:: POIDS_RUNE?> Kg, 
+	Poids total de la poche : <?=($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?> Kg</div><br />
 	
 	<? if (count($this->runesNonIdentifiees) > 0) : ?>
-		<ul class="titre textalic textsized">Runes non identifi&eacute;es</ul><br />
+		<div class="titre textalic textsized">Runes non identifi&eacute;es</div><br />
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
 			  <? $i = 0;
 		      foreach ($this->runesNonIdentifiees as $r) : 
 		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
 		    	?>
-		    	<td class="table_liste table_liste_border" align="center" <?=Bral_Helper_Tooltip::jsTip("Rune non identifi&eacute;e n&deg;".$r["id_rune"]) ?>>
+		    	<td class="table_liste table_liste_border">
+		    		<div class="braltip">
+		    		<span class="tip">Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?></span>
 		    		<img src="/public/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
-		    		
+		    		</div>
 		    	</td>
 		    	<? 
 		    	if ($i == 9) :
@@ -37,7 +39,7 @@
 	<? endif ?>
 
 	<? if (count($this->runesIdentifiees) > 0) : ?>
-		<ul class="titre textalic textsized">Runes identifi&eacute;es</ul><br />
+		<div class="titre textalic textsized">Runes identifi&eacute;es</div><br />
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
 			  <? $i = 0;
@@ -46,7 +48,10 @@
 		    	?>
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
-		    		<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_DetailRune::afficherJs($r);?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    		<div class="braltip">
+		    		<span class="tip"><?=Bral_Helper_DetailRune::afficherTexte($r, true);?></span>
+		    		<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    		</div>
 	    			<? else: ?>
 		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
 		    		<? endif; ?>
