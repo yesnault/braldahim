@@ -40,8 +40,6 @@
 			 <div style='line-height : 20px;'>
 			  <? if ($this->user->administrateur === true) : ?>
 			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
-				Admin info <span id='admin_info_1' class=''>&nbsp;</span>
-				 <span id='admin_info_2' class=''>&nbsp;</span>
 			  <? endif; ?>
 			  <?=Bral_Helper_Calendrier::affiche();?>
 			  </div>
