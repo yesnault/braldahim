@@ -1,8 +1,8 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizec">Mon coffre</ul>
+<div class="titre textalia textsizec">Mon coffre</div>
  <div class="contenuC">
-  <ul class="box_contenu1 textalic">
+  <div class="box_contenu1 textalic">
   <? if ($this->affichageInterne == true) : ?>
 	Vous ne pouvez déposer ou retirer des éléments de votre coffre qu'en étant dans une banque.	
 	<br /><br />
@@ -13,7 +13,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
   <? endif; ?>
-</ul>
+</div>
 </div>
 </div>
 <? include("box_bottom.phtml") ?>

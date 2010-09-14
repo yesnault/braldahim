@@ -22,7 +22,7 @@
  	
  	<? if ($this->idTypeCourant == "acheterchamp") : ?>
  	
- 		<ul class="titre textalic textsizec">Construction de champs</ul>
+ 		<div class="titre textalic textsizec">Construction de champs</div>
  		<br />
  		
  		Vous possédez actuellement <?=$this->nChamps?> champ<? if ($this->nChamps > 1): echo "s"; endif;?> 
@@ -43,15 +43,15 @@
 			 vous pouvez acheter un champ.<br /><br />
 
 			Indiquez la position du champ : <br />
-			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
+			X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
 			<br />
-			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
+			Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
 			<br />
 	   	<? endif; ?>
 	   	
  	<? elseif ($this->idTypeCourant == "acheterechoppe") : ?>
  	
- 	 	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
+ 	 	<div class="titre textalic textsizec">Construction d'&eacute;choppes</div>
  		<br />
  	
 	 	<? if ($this->construireMetierPossible !== true) :?>
@@ -79,9 +79,9 @@
 				<?=$this->nom_metier_courant ?>.<br /><br />
 	
 				Indiquez la position de l'&eacute;choppe : <br />
-				X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 				<br />
-				Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 				<br />
 			<? else: ?>
 				<? if ($this->aucuneEchoppe == false) : ?>
@@ -95,9 +95,9 @@
 	
 	<? elseif ($this->idTypeCourant == "deplacerechoppe") : ?>
 		Indiquez la nouvelle position de l'&eacute;choppe : <br />
-		X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 		<br />
-		Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 		<br />
 	<? elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
 		Confirmer la suppression de cette échoppe ?<br><br>

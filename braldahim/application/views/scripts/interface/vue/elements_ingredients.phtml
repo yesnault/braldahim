@@ -6,6 +6,6 @@
 		if ($m["quantite"] > 1) {
 			$s = 's';
 		} 
-		$textElementsGraines .= addslashes(htmlspecialchars($m["type"]))." : ".$m["quantite"]."<br />";
+		$textElementsGraines .= htmlspecialchars($m["type"])." : ".$m["quantite"]."<br />";
 	} 
 endif; ?>

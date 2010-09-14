@@ -1,10 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Filons</ul>
+    <div class="titre textalic textsizea">Administration Filons</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    
 			<? if ($this->creation === true) : ?>
 			<b>Cr&eacute;ation de <?=$this->nb_creation ?> filons</b> <br />
@@ -12,9 +12,11 @@
 			<? endif; ?>
 			<form action="/Administrationfilon/filons" method="post">
 			<table align='center'>
+			<thead>
 			<th class='comp_titre'>Zone</th>
 			<th class='comp_titre'>Filon</th>
 			<th class='comp_titre'>Couverture</th>
+			</thead>
 			<tr valign='top'>
 				<td>
 					<select name="id_zone">
@@ -74,7 +76,7 @@
 				</tr>
 			<? endforeach; ?>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

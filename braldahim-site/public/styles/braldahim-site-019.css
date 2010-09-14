@@ -84,6 +84,36 @@ input:hover {
 	color: #cc0000;
 }
 
+.braltip {
+position:relative;
+z-index:24;
+cursor:pointer;
+}
+.braltip:hover {
+color:#000000;
+z-index:25;
+}
+.braltip span.tip {
+display:none;
+text-align:left;
+}
+div.braltip:hover span.tip {
+background-color:#FFFFFF;
+border:1px solid #555555;
+color:#505050;
+display:block;
+font-size:1em;
+font:1em arial,verdana,sans-serif;
+letter-spacing: 0pt;
+left:2px;
+padding:4px;
+position:absolute;
+top:3px;
+width:300px;
+min-height:100px;
+z-index:300;
+}
+
 * html input.button1 {
 	margin-bottom: 1px;
 	padding-bottom: 0pt;
@@ -745,7 +775,6 @@ div.gridbox table.hdr td {
 	padding: 5px 0px 5px 0px;
 	font-weight: normal;
 	-moz-user-select: none;
-	overflow: hidden;
 	empty-cells: show;
 }
 
@@ -759,7 +788,6 @@ div.gridbox table.obj td {
 	font-family: Arial;
 	font-size: 12px;
 	-moz-user-select: none;
-	overflow: hidden;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	empty-cells: show;
@@ -782,17 +810,6 @@ div.gridbox .objbox {
 
 div.gridbox table.obj td span.space,div.gridbox table.obj td img.space {
 	width: 18px;
-}
-
-div.gridbox table.obj tr.rowselected td.cellselected,div.gridbox table.obj td.cellselected
-	{
-	background-color: #d8d8d8;
-	color: black;
-}
-
-div.gridbox table.obj tr.rowselected td {
-	background-color: #e1e0d7;
-	color: black;
 }
 
 div.gridbox table.obj td.editable {
@@ -1027,14 +1044,6 @@ div.gridbox_braldahim .dhx_combo_edit {
 	font-size: 11px;
 }
 
-div.gridbox_braldahim table.obj tr.rowselected td {
-	color: black;
-}
-
-div.gridbox_braldahim table.obj tr.rowselected td.cellselected,div.gridbox table.obj td.cellselected
-	{
-	background-color: #E7C57B;
-}
 
 div.gridbox_braldahim .odd_braldahim {
 	background-color: #628b28;

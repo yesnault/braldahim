@@ -1,16 +1,16 @@
-<?php if ($case["n_elements_tabac"] > 0) : 
-	$textElementsTabac = "<br>Tabac:<br>";
+<?php if ($case['n_elements_tabac'] > 0) : 
+	$textElementsTabac = '<br>Tabac:<br>';
 	$nbFeuilles = 0;
-	foreach($case["elements_tabc"] as $m) {
-		$s = "";
-		if ($m["quantite"] > 1) {
-			$s = "s";
+	foreach($case['elements_tabc'] as $m) {
+		$s = '';
+		if ($m['quantite'] > 1) {
+			$s = 's';
 		}
-		$textElementsTabac .= $m["quantite"] . " feuille".$s." ".addslashes($m["type"])."<br />";
-		$nbFeuilles = $nbFeuilles + $m["quantite"] ;
+		$textElementsTabac .= $m['quantite'] . ' feuille'.$s.' '.addslashes($m['type']).'<br />';
+		$nbFeuilles = $nbFeuilles + $m['quantite'] ;
 	} 
-	$s = "";
+	$s = '';
 	if ($nbFeuilles > 1) {
-		$s = "s";
+		$s = 's';
 	}
 endif; ?>

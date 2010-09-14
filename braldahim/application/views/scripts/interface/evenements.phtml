@@ -1,6 +1,6 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizeb">Mes &Eacute;v&eacute;nements</ul>
+<div class="titre textalia textsizeb">Mes &Eacute;v&eacute;nements</div>
  <div class="contenuC">
  
  <? if ($this->affichageInterne == true) : ?>
@@ -8,10 +8,10 @@
 	<br />
 	 <? include("evenements/bot.phtml") ?>
 <? else: ?>
-	<ul class="box_contenu1 textalic">
+	<div class="box_contenu1 textalic">
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
-	</ul>
+	</div>
 <? endif; ?>
 
  </div>

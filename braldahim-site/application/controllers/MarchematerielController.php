@@ -189,7 +189,7 @@ class MarchematerielController extends Zend_Controller_Action {
 				} else {
 					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
-				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_".$materiel["id_type_materiel"].".png' alt=\"".htmlspecialchars($materiel["nom"]) ."\" ".Bral_Helper_DetailMateriel::afficherJs($materiel)."/>";
+				$tab[] = "<div class='braltip'>".Bral_Helper_DetailMateriel::afficherTooltip($materiel)."<img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_".$materiel["id_type_materiel"].".png' alt=\"".htmlspecialchars($materiel["nom"]) ."\"/></div>";
 				$tab[] = $e["nom_type_materiel"];
 				$tab[] = Bral_Helper_DetailMateriel::afficherPrix($materiel);
 				$tab[] = Bral_Util_BBParser::bbcodeReplace($materiel["commentaire_vente_echoppe_materiel"]);

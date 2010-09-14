@@ -75,7 +75,7 @@
   Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_academie').disabled=true;" checked>
   <? endif ?>
   
-   <ul class="ligne_espace">
+   <div class="ligne_espace">
    Agilit&eacute; (AGI) : Actuellement niveau <?=$this->user->agilite_base_braldun?>. <br>
    Achat d'un niveau : <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
@@ -85,8 +85,8 @@
        Trop cher !
      <? endif;?>
    <? endif; ?>
-    </ul>
-    <ul class="ligne_espace">
+    </div>
+    <div class="ligne_espace">
     Force (FOR) : Actuellement niveau <?=$this->user->force_base_braldun?>. <br>
    Achat d'un niveau : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
@@ -96,8 +96,8 @@
        Trop cher !
      <? endif;?>
    <? endif;?>
-    </ul>
-    <ul class="ligne_espace">
+    </div>
+    <div class="ligne_espace">
 	Vigueur (VIG) : Actuellement niveau <?=$this->user->vigueur_base_braldun?>. <br>
    Achat d'un niveau : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
@@ -107,8 +107,8 @@
        Trop cher !
      <? endif;?>
    <? endif;?>
-       </ul>
-    <ul class="ligne_espace">
+       </div>
+    <div class="ligne_espace">
     Sagesse (SAG) : Actuellement niveau <?=$this->user->sagesse_base_braldun?>. <br>
     Achat d'un niveau : <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
@@ -123,6 +123,7 @@
    <a href='http://regles.braldahim.com/wiki/Dissuader'>Compétence Dissuader</a>.<br>
    <a href='http://regles.braldahim.com/wiki/Psychologie'>Compétence Psychologie</a>.<br>
    <a href='http://regles.braldahim.com/wiki/R%C3%A9animer'>Compétence Réanimer</a>.<br>
+ </div>
  </div> 
 </form>
 

@@ -17,16 +17,8 @@ class Bral_Helper_DetailEquipement {
 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
 	}
 
-	public static function afficher($e) {
-		//return "<span ".self::afficherJs($e).">".htmlspecialchars($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
-		$retour = "<span ".self::afficherJs($e).">";
-		$retour .= "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
-		$retour .= "</span>";
-		return $retour;
-	}
-
-	public static function afficherJs($e) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($e, true));
+	public static function afficherTooltip($e) {
+		return Bral_Helper_Tooltip::render(self::prepareDetail($e, true));
 	}
 
 	public static function afficherTexte($e) {
@@ -34,10 +26,10 @@ class Bral_Helper_DetailEquipement {
 	}
 
 	private static function prepareDetail($e, $afficheLienHistorique) {
-		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
+		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars($e["suffixe"]);
 		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
 		if ($afficheLienHistorique) {
-			$text .= "<label class=\'alabel\' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l\'historique</label><br>";
+			$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br>";
 		}
 		$text .= "<br>";
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
@@ -48,8 +40,8 @@ class Bral_Helper_DetailEquipement {
 		} else {
 			$text .= $e["niveau"]."<br />";
 		}
-		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";
-		$text .= "Emplacement : ".$e["emplacement"]."<br />";
+		$text .= "Nom d'origine : ".$e["nom_standard"]."<br />";
+		$text .= "Emplacement : ".$e["emplacement"]."<br />".PHP_EOL;
 		$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
 		$text .= "Ingr&eacute;dient de base : ".$e["ingredient"]."<br /><br />";
 			
@@ -64,7 +56,7 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("Defense", $e, "defense");
 		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "degat");
 
-		$text .= "<span style=\'cursor:pointer\' title=\'Le poids prend en compte les bonus / malus sur Poids et le poids des runes\'>Poids : ".$e["poids"];
+		$text .= "<span style='cursor:pointer' title='Le poids prend en compte les bonus / malus sur Poids et le poids des runes'>Poids : ".$e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
 			$text .= " " . self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
 		}
@@ -81,19 +73,19 @@ class Bral_Helper_DetailEquipement {
 		}
 
 		if (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition") {
-			$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
+			$text .= "<br />Nombre d'emplacement runique : ".$e["nb_runes"]."<br />";
 			if (count($e["runes"]) > 1) $s='s'; else $s="";
 
 
 			$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
 			if (count($e["runes"]) > 0) {
 				foreach($e["runes"] as $r) {
-					$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+					$text .= "<img src='/public/images/runes/".$r["image_type_rune"]."'  class='rune' title='".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars($r["effet_type_rune"]))."' n&deg;".$r["id_rune_equipement_rune"]." alt='".$r["nom_type_rune"]."' n&deg;".$r["id_rune_equipement_rune"]."  />";
 				}
 				if ($e["suffixe"] != null && $e["suffixe"] != "") {
-					$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
+					$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars($e["suffixe"]);
 				} else {
-					$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
+					$text .= "<br />Aucun mot runique n'est associ&eacute; &agrave; ces runes";
 				}
 			}
 		}
@@ -122,7 +114,6 @@ class Bral_Helper_DetailEquipement {
 		}
 		return $text;
 	}
-
 
 	private static function display($display, $valeur, $unite = "", $br = "<br />", $bmVernis = false, $deuxPoints = " : ") {
 		if ($valeur != null && (($bmVernis == false && $valeur != 0) || ($bmVernis == true)) ) {

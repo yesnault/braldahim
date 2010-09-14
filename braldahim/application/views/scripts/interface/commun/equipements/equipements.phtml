@@ -22,7 +22,7 @@
 		
 			<? foreach($this->equipements as $em) : ?>
 			   	 <tr class="table_liste">
-				  	<td colspan="8" class="table_liste_th">Position : <?=$em["nom_type_emplacement"] ?></th>
+				  	<th colspan="8" class="table_liste_th">Position : <?=$em["nom_type_emplacement"] ?></th>
 			  	</tr>
 			   	<? 
 			   	  $i = 0;
@@ -33,7 +33,10 @@
 				  		<td class="table_liste"><?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
 				  		<td class="table_liste"><?=$e["niveau"] ?></td>
 				  		<td class="table_liste">
-				  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailEquipement::afficherJs($e);?> />
+				  			<div class='braltip'>
+				  			<?=Bral_Helper_DetailEquipement::afficherTooltip($e);?>
+				  			<img src="/public/images/info_icon.gif"/>
+				  			</div>
 				  		</td>
 				  		<? if ($this->estElementsEtal === true) : ?>
 							<td class="table_liste" nowrap><?=Bral_Helper_DetailEquipement::afficherPrix($e);?></td>

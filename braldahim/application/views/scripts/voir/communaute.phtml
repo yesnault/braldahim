@@ -4,12 +4,12 @@
 <div class="inner">
 
 <? if ($this->connue == false) : ?>
-	<ul class="titre textalic textsizea">Communaut&eacute; inconnue</ul>
+	<div class="titre textalic textsizea">Communaut&eacute; inconnue</div>
 <? else : ?>
-    <ul class="titre textalic textsizea">Communaut&eacute; : <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?></ul>
+    <div class="titre textalic textsizea">Communaut&eacute; : <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?></div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1">
+	    <div class="box_contenu1">
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -21,7 +21,7 @@
 			<div id="box_voir_communaute_inner">
 				<? include('communaute/profil.phtml'); ?>
 			</div>
-	</ul>
+	</div>
 	</div>
 	&nbsp;
 <? endif; ?>

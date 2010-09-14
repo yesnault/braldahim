@@ -1,12 +1,12 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizec">Effets</ul>
+<div class="titre textalia textsizec">Effets</div>
  <div class="contenuC">
-  <ul class="box_contenu1 textalic">
+  <div class="box_contenu1 textalic">
   
  <? if ($this->affichageInterne == true) : ?>
  
- 	<ul class="titre textalic textsized">Potions</ul>
+ 	<div class="titre textalic textsized">Potions</div>
  
 		<? $nb = count($this->potions);
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
@@ -45,7 +45,7 @@
 		<? endif;?>
    <br>
    
-   <ul class="titre textalic textsized">Autres Effets</ul>
+   <div class="titre textalic textsized">Autres Effets</div>
    
 	  	<? $nb = count($this->effets);?>
 		<? if ($nb > 0) :?>
@@ -75,7 +75,7 @@
 							et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
 						<? endif;?>
 						<? if ($e["effet"]["texte_effet_braldun"]) : ?>
-							<br></i><?=$e["effet"]["texte_effet_braldun"]?></i>
+							<br><i><?=$e["effet"]["texte_effet_braldun"]?></i>
 						<? endif;?>
 						<? if ($e["effet"]["actif"] == false):?>
 							   Effet non cumulable donc non actif.
@@ -95,7 +95,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
-   </ul>
+   </div>
 </div>
 </div>
 <? include("box_bottom.phtml") ?>

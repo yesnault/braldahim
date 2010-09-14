@@ -33,7 +33,7 @@ class Bral_Helper_Profil {
 		}
 		
 		$retour = "<td width='80%' >";
-    	$retour .= "	<div class='barre_niveau' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+    	$retour .= "<div class='barre_niveau braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
     	$retour .= "<img src='/public/images/barre_niveau.gif' height='10px' width=".$largeur."></div>";
 		$retour .= "</td>";
 		$retour .= "<td width='10%' nowrap>";
@@ -61,7 +61,7 @@ class Bral_Helper_Profil {
 		$info = "&quot;";
 		if ($balance_faim_braldun >= 95) {
 			$coef = 1;
-			$info .= "J\\'ai une p&ecirc;che extraordinaire !";
+			$info .= "J'ai une p&ecirc;che extraordinaire !";
 		} elseif ($balance_faim_braldun >= 80) {
 			$coef = 1;
 			$info .= "Je suis en pleine forme !";
@@ -83,18 +83,18 @@ class Bral_Helper_Profil {
 		$info .= "&quot;<br>";
 		
 		if ($coef > 0) {
-			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_braldun." sur toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous b&eacute;n&eacute;ficiez d'un bonus de ".$force_bbdf_braldun." sur toutes vos caract&eacute;ristiques.<br><br>";
 		} else if ($coef < 0) {
 			$info1 = "Vous avez un malus de ".$force_bbdf_braldun." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
 		} else {
-			$info1 = "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Aucun bonus ou malus de faim n'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
 		}
 		
 		$titre = "Information sur la balance de faim";
 		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_braldun."%.<br>";
 		$texte .= $info1.$info;
 		
-		$retour = "<div class='barre_faim'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+		$retour = "<div class='barre_faim braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "<img src='/public/images/barre_faim.gif' height='10px' width='".(2*$balance_faim_braldun)."px'></div>";
 		
 		return $retour;
@@ -123,15 +123,15 @@ class Bral_Helper_Profil {
     	*/
 		
 		if ($pourcentage >= 81) {
-			$info = "J\\'ai une de ces patates moi !";
+			$info = "J'ai une de ces patates moi !";
 		} else if ($pourcentage >= 61) {
-			$info = "J\\'ai les jambes lourdes moi aujourd\\'hui ...";
+			$info = "J'ai les jambes lourdes moi aujourd'hui ...";
 		} else if ($pourcentage >= 41) {
 			$info = "Mon bras droit ne r&eacute;pond plus ! Aaaarg il est par terre !!!";
 		} else if ($pourcentage >= 21) {
-			$info = "Je crois qu\\'il est temps que nous parlementions, qu\\'en pensez vous ?";
+			$info = "Je crois qu'il est temps que nous parlementions, qu'en pensez vous ?";
 		} else {
-			$info = "Mais pourquoi vous prenez ma taille ? et c\\'est quoi toutes ces planches ?";
+			$info = "Mais pourquoi vous prenez ma taille ? et c'est quoi toutes ces planches ?";
 		}
 		
 		if ($pourcentage < 100) {
@@ -144,7 +144,7 @@ class Bral_Helper_Profil {
 		
 		$texte .= $info;
 		
-		$retour = "<div class='barre_vie'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+		$retour = "<div class='barre_vie braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "<img src='/public/images/barre_vie.gif' height='10px' width='".(2*floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun))."px'></div>";
 		
 		return $retour;
@@ -158,14 +158,13 @@ class Bral_Helper_Profil {
      	$titre = "Avancement et informations";
      	
      	$texte .= " Position tour courant : ".$braldun->nom_tour."<br><br>";
-     	
      	$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br>";
      	$texte .= " Position dans le tour : ".$braldun->nom_tour."<br><br>";
 
      	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_tour_braldun)."<br>";
      	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_latence_braldun)."<br>";
      	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_cumul_braldun)."<br>";
-     	$texte .= " Date limite d\\'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br><br>";
+     	$texte .= " Date limite d'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br><br>";
      	
      	$date_courante = date("Y-m-d H:i:s");
      	$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
@@ -224,15 +223,15 @@ class Bral_Helper_Profil {
      	
      	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center'><tr>";
      	$retour .= "<td>";
-     	$retour .= "<div class='barre_tour_sommeil'  ".Bral_Helper_Tooltip::jsTip($section_latence.$texte, $titre, true).">";
+     	$retour .= "<div class='barre_tour_sommeil braltip'>".Bral_Helper_Tooltip::render($section_latence.$texte, $titre);
 		$retour .= "<img src='/public/images/barre_tour_sommeil.gif' height='10px' width='".$width_latence."px'></div>";
 		$retour .= "</td>";
 		$retour .= "<td>";
-     	$retour .= "<div class='barre_tour_eveil'  ".Bral_Helper_Tooltip::jsTip($section_milieu.$texte, $titre, true).">";
+     	$retour .= "<div class='barre_tour_eveil braltip'>".Bral_Helper_Tooltip::render($section_milieu.$texte, $titre);
 		$retour .= "<img src='/public/images/barre_tour_eveil.gif' height='10px' width='".$width_milieu."px'></div>";
 		$retour .= "</td>";
 		$retour .= "<td>";
-     	$retour .= "<div class='barre_tour_activite'  ".Bral_Helper_Tooltip::jsTip($section_cumul.$texte, $titre, true).">";
+     	$retour .= "<div class='barre_tour_activite braltip'>".Bral_Helper_Tooltip::render($section_cumul.$texte, $titre);
 		$retour .= "<img src='/public/images/barre_tour_activite.gif' height='10px' width='".$width_cumul."px'></div>";
 		$retour .= "</td>";
 		$retour .= "</tr></table>";
@@ -245,12 +244,12 @@ class Bral_Helper_Profil {
 		$largeur = (($transporte * 100) / $transportable) * 2;
 		$titre = "Poids transportable";
 		$texte = "Vous portez actuellement ".round($transporte, 3)." Kg.<br>";
-		$texte .= "Vous pouvez porter jusqu\'&agrave; ".round($transportable, 3)." Kg.<br>";
+		$texte .= "Vous pouvez porter jusqu'&agrave; ".round($transportable, 3)." Kg.<br>";
 		
 		if ($largeur > 200) {
 			$largeur = 200;
 		}
-    	$retour = "<div class='barre_poids' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+    	$retour = "<div class='barre_poids braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
     	$retour .= "<img src='/public/images/barre_poids.gif' height='10px' width=".$largeur."></div>";
 		
 		return $retour;

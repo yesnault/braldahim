@@ -1,101 +1,125 @@
 <?
-$textLieu = "";
-$textEchoppe = "";
-$textChamp = "";
-$type_lieu = "";
-$textBallon = "";
+$textLieu = '';
+$textEchoppe = '';
+$textChamp = '';
+$type_lieu = '';
+$textBallon = '';
 
-if ($case["n_lieux"] > 0) :
-	$textLieu = "Lieu : <br>";
-    foreach($case["lieux"] as $l) {
-      	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"]));
-      	$type_lieu = $l["nom_systeme_type_lieu"];
+$textPalissade = "";
+	if ($case["n_palissades"] > 0) :
+      	$textPalissade = "<br>Palissade : <br>";
+      	foreach($case["palissades"] as $p) {
+      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+      		if ($p["est_destructible_palissade"] == "oui") {
+      			$textPalissade .= " destructible";
+      		} else {
+      			$textPalissade .= " indestructible";
+      		}
+      		$textPalissade .= "<br />";
+		} 
+		$s = "";
+		if ($case["n_palissades"] > 1) {
+			$s = "s";
+		}
+	endif;
+	
+if ($case['n_lieux'] > 0) :
+	$textLieu = 'Lieu : <br>';
+    foreach($case['lieux'] as $l) {
+      	$textLieu .= htmlspecialchars($l['nom_lieu']);
+      	$type_lieu = $l['nom_systeme_type_lieu'];
       	if ($this->user->administrationvue == true) {
-       		$textLieu .= ' <label class=\\\'alabel\\\' onClick=_get_(\\\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l["id_lieu"].'\\\')>[Admin:deplacer]</label>';
+       		$textLieu .= ' <label class=\'alabel\' onClick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
       	}
 	}
 	 
-	$doubleClick = "";
-	if ($this->user->x_braldun == $case["x"] && $this->user->y_braldun == $case["y"] && $this->estVueEtendue == false) {
-		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
-		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
+	$doubleClick = '';
+	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement au lieu"';
+		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
 	}
 endif;
 
-if ($case["n_ballons"] > 0) :
-	$textBallon = "Ballon &agrave terre !<br>";
+if ($case['n_ballons'] > 0) :
+	$textBallon = 'Ballon &agrave terre !<br>';
 endif; 
 
-if ($case["n_echoppes"] > 0) :
-	$textEchoppe = "<br>&Eacute;choppe : <br>";
-	$nomSystemeEchoppe = "";
-	foreach($case["echoppes"] as $c) {
-		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
-		if ($c["nom_echoppe"] != null && $c["nom_echoppe"] != "") :
-			$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", ";
+if ($case['n_echoppes'] > 0) :
+	$textEchoppe = '<br>&Eacute;choppe : <br>';
+	$nomSystemeEchoppe = '';
+	foreach($case['echoppes'] as $c) {
+		if ($c['nom_metier']{0} == 'A') : $d='d\''; else: $d='de '; endif;
+		if ($c['nom_echoppe'] != null && $c['nom_echoppe'] != '') :
+			$textEchoppe .= htmlspecialchars($c['nom_echoppe']). ', ';
 		endif; 
-		$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
-		$textEchoppe .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/braldun\/?braldun='.$c["id_braldun"].'\\\'); title=\\\'Voir le profil\\\' >';
-		$textEchoppe .= addslashes(htmlspecialchars($c["prenom_braldun"]))." ".addslashes(htmlspecialchars($c["nom_braldun"])).", n&deg; ".$c["id_braldun"];
-		$textEchoppe .= "</label>";
+		$textEchoppe .= '&Eacute;choppe '.$d.htmlspecialchars($c['nom_metier']).' appartenant &agrave; <br>';
+		$textEchoppe .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
+		$textEchoppe .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
+		$textEchoppe .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_braldun"].'); style=\\\'cursor:pointer\\\'/> ';
+			$textEchoppe .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
-      	$textEchoppe .= "<br />";
-      	$nomSystemeEchoppe = $c["nom_systeme_metier"];
+      	$textEchoppe .= '<br />';
+      	$nomSystemeEchoppe = $c['nom_systeme_metier'];
 	}
-	$s = "";
-	if ($case["n_echoppes"] > 1) {
-		$s = "s";
+	$s = '';
+	if ($case['n_echoppes'] > 1) {
+		$s = 's';
 	}
 	
-	$doubleClick = "";
-	if ($this->user->x_braldun == $case["x"] && $this->user->y_braldun == $case["y"] && $this->estVueEtendue == false) {
-		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
-		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
+	$doubleClick = '';
+	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe"';
+		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
 	}
 endif; 
 
-if ($case["n_champs"] > 0) :
-	$textChamp = "<br>Champ : <br>";
-	$nomSystemeChamp = "";
-	foreach($case["champs"] as $c) {
-		if ($c["nom_champ"] != null && $c["nom_champ"] != "") :
-			$textChamp .= addslashes(htmlspecialchars($c["nom_champ"])). ", ";
+if ($case['n_champs'] > 0) :
+	$textChamp = '<br>Champ : <br>';
+	$nomSystemeChamp = '';
+	foreach($case['champs'] as $c) {
+		if ($c['nom_champ'] != null && $c['nom_champ'] != '') :
+			$textChamp .= htmlspecialchars($c['nom_champ']). ', ';
 		endif; 
-		$textChamp .= "Champ appartenant &agrave; <br>";
-		$textChamp .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/braldun\/?braldun='.$c["id_braldun"].'\\\'); title=\\\'Voir le profil\\\' >';
-		$textChamp .= addslashes(htmlspecialchars($c["prenom_braldun"]))." ".addslashes(htmlspecialchars($c["nom_braldun"])).", n&deg; ".$c["id_braldun"];
-		$textChamp .= "</label>";
+		$textChamp .= 'Champ appartenant &agrave; <br>';
+		$textChamp .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
+		$textChamp .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
+		$textChamp .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textChamp .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_braldun"].'); style=\\\'cursor:pointer\\\'/> ';
+			$textChamp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
-      	$textChamp .= "<br />";
+      	$textChamp .= '<br />';
 	}
 	
-	$doubleClick = "";
-	if ($this->user->x_braldun == $case["x"] && $this->user->y_braldun == $case["y"] && $this->estVueEtendue == false) {
-		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au champ\"";
-		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
+	$doubleClick = '';
+	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement au champ"';
+		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
 	}
 endif; ?>
- 
-<? if ($textLieu != "" ) :?>
-	<? if ($type_lieu != "") : ?>
-		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
+
+<div class='braltip'>
+
+<? if ($textPalissade != "") : 
+	echo Bral_Helper_Tooltip::render($textPalissade, $titre); endif; ?>
+<? if ($textLieu != '' ) :?>
+	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<? if ($type_lieu != '') : ?>
+		<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
 	<? else: ?>
 		<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 	<? endif; ?>
-<? elseif ($textChamp != "") : ?>
-	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
-<? elseif ($textEchoppe != "") : ?>
-	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
+<? elseif ($textChamp != '') : ?>
+	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
+<? elseif ($textEchoppe != '') : ?>
+	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? else: ?>
 	<br>
 <? endif;?>  
 
-<? if ($textBallon != "") : ?>
-<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textChamp, $titre) ?>>
-	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
-</span>
+<? if ($textBallon != '') : ?>
+<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
 <? endif;?>
+</div>

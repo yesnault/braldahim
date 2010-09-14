@@ -1,8 +1,8 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizec">Mes Quêtes / Contrats et Filatures</ul>
+<div class="titre textalia textsizec">Mes Quêtes / Contrats et Filatures</div>
  <div class="contenuC">
-  <ul class="box_contenu1 textalic">
+  <div class="box_contenu1 textalic">
   
 <? if ($this->affichageInterne == true) : ?>
     <input type='button' class='button1' value='Mes Quêtes' onClick="_get_('/quetes/doaction?caction=ask_quetes_liste');">
@@ -16,7 +16,7 @@
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
   
-  </ul>
+  </div>
  </div>
 </div>
 <? include("box_bottom.phtml") ?>
