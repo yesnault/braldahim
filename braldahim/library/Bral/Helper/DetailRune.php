@@ -12,8 +12,8 @@
  */
 class Bral_Helper_DetailRune {
 
-	public static function afficherJs($p) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p, true));
+	public static function afficherTooltip($p) {
+		return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
 	}
 
 	public static function afficherTexte($p, $afficheLienHistorique) {

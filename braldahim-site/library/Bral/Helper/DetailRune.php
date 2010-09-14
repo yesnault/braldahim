@@ -12,7 +12,7 @@
  */
 class Bral_Helper_DetailRune {
 
-	public static function afficherJs($p) {
+	public static function afficherTooltip($p) {
 		return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
 	}
 

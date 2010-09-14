@@ -4,25 +4,25 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">Braldûn Inconnu</ul>
+	<div class="titre textalic textsizea">Braldûn Inconnu</div>
 <? else : ?>
-    <ul class="titre textalic textsizea"><?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?><? 
+    <div class="titre textalic textsizea"><?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?><? 
     if ($this->ancien === false && $this->braldun["titre_courant_braldun"] != null) : ?>, 
     <?=$this->braldun["titre_courant_braldun"] ?>
     <? endif;?>
-     </ul>
-     <ul class="titre textalic textsized">
+     </div>
+     <div class="titre textalic textsized">
       Braldûn n&deg;<?=$this->braldun["id_braldun"] ?>
-     </ul>
+     </div>
      
     <? if ($this->ancien) : ?>
-	    <ul class="titre textalic textsized">
+	    <div class="titre textalic textsized">
 	    Ce Braldûn a disparu, il n'est plus joué.
-	    </ul>
+	    </div>
     <? endif;?>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1">
+	    <div class="box_contenu1">
 			<table class="table_liste" style="width:250px">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -38,7 +38,7 @@
 			<div id="box_voir_braldun_inner">
 				<?=$this->flux; ?>
 			</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 <? endif; ?>
