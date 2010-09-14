@@ -518,7 +518,7 @@ margin-right:auto !important;
 	text-align: right;
 	color:#f0ae21;
 	margin-top:5px;
-	height:36px;
+	/*height:36px;*/
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */

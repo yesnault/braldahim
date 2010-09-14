@@ -5,6 +5,9 @@
 		<? if (!Zend_Registry::get("estMobile")):?><h1><a href="/">Braldahim - Site</a></h1><? endif;?>
 		<div class="inner_top">
 		 <? if (!Zend_Registry::get("estMobile")):?>
+		 <? if ($this->user->administrateur === true) : ?>
+			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
+			  <? endif; ?>
 		  <?=$this->escape($this->user->prenom_braldun);?> <?=$this->escape($this->user->nom_braldun);?> |
 		 
 			 <? if ($this->user->administrateur === true) : ?>
@@ -31,8 +34,8 @@
 		 <? if ($this->user->gardeEnCours === true) : ?>
 		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_braldun) ?> <?=htmlspecialchars($this->user->nom_braldun) ?> (<?=$this->user->id_braldun?>) en cours</a>
 		 <? endif; ?>
-		 <br>		
-		 <div style="float:right;">
+		 <div style="line-height: 9px;">&nbsp;</div>
+		 <div>
 		 	<? if ($this->controleur == "interface") : ?>
 				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
 				 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
@@ -44,16 +47,13 @@
 				</span>
 				<? endif; ?>
 				<? if (!Zend_Registry::get("estMobile")):?>
-				<span>&nbsp;&nbsp;&nbsp;<?=Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;</span>
+				<span>&nbsp;&nbsp;&nbsp;<?=Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<? endif;?>
 			<? endif; ?>
 		 </div>
-		 <div class='braltip' style="float:right;">
+		 <div class='braltip' style="float:right;top:-10px">
 		  <? if (!Zend_Registry::get("estMobile")):?>
 		  	  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
-			  <? if ($this->user->administrateur === true) : ?>
-			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
-			  <? endif; ?>
 		  <? endif;?>
 		 </div>
 	 	</div>
