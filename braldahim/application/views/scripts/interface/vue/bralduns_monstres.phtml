@@ -26,7 +26,7 @@ if ($case["n_bralduns"] > 0) :
 		
 		$textTmp = "";
 		$textTmp .= '<label class=\'alabel profil'.$intangible.'\' onClick=ouvrirProfilH('.$h["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
-		$textTmp .= addslashes(htmlspecialchars($h["prenom_braldun"]))." ".addslashes(htmlspecialchars($h["nom_braldun"]));
+		$textTmp .= htmlspecialchars($h["prenom_braldun"])." ".htmlspecialchars($h["nom_braldun"]);
 		$textTmp .= " (n&deg;".$h["id_braldun"].")</label>, niv.".$h["niveau_braldun"];
 		
 		$textTmp .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
@@ -34,7 +34,7 @@ if ($case["n_bralduns"] > 0) :
 			$textTmp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		}
 		if ($h["id_communaute"] != null) {
-			$textTmp .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
+			$textTmp .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
 		}
 		$textTmp .= "<br>";
 		
@@ -120,8 +120,8 @@ endif;
 
 ?>
 
-<div style="position: absolute;" class="braltip">
-<span class="tip"><?=$titre?> <br /><br /><?=$textBraldun.$textMonstre.$textNid?></span>
+<div class="braltip">
+<?=Bral_Helper_Tooltip::render($textBraldun.$textMonstre.$textNid, $titre);?>
 
 <? if ($case["n_nids"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/nid.png' style="position: absolute;top:-8px"/>

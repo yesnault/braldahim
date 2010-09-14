@@ -3,9 +3,7 @@
   <tr>
   	<td width="20%">
 	  	<div class="box_contenu1 textalia textsized braltip">
-	  	<? if ($this->centre_nom_region != null) : ?>
-	  	<span class="tip"><?=$this->centre_description_region?></span>
-	  	<? endif;?>
+	  	<? if ($this->centre_nom_region != null) : ?><?=Bral_Helper_Tooltip::render($this->centre_description_region)?><? endif;?>
 	  	
 	    <?=$this->centre_nom_region ?>&nbsp;
 	    <? if ($this->est_pvp_region == true) :?>

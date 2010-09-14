@@ -36,7 +36,7 @@
 		   		</td>
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized braltip">Partage
-			    		<span class="tip">Gestion du partage de la Charrette <br /><br />Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous</span>
+		   				<?=Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
 		   			</div>
 		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br>
 		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br>

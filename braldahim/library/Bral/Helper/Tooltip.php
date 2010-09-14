@@ -19,7 +19,7 @@ class Bral_Helper_Tooltip {
 		if ($backslashes != true) {
 			$b = "";
 		}
-		
+
 		if ($justify) {
 			$width = '300';
 		}
@@ -75,11 +75,21 @@ class Bral_Helper_Tooltip {
 		$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
 		return $retour;
 	}
-	
+
 	public static function jsTipFromDiv($divId, $jsBeforeMouseOver) {
 		$retour = " onmouseover=\"".$jsBeforeMouseOver."\"";
 		$retour .= " onclick=\"return overlib($('".$divId."').innerHTML, STICKY, DRAGCAP, CAPICON,'/public/images/pixel.gif', CAPTION,  ' ', CLOSECLICK, EXCLUSIVE, POSITIONCAP,'bottom');\" ";
 		$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
+		return $retour;
+	}
+
+	public static function render($texte, $titre = null, $boutonCopier = null) {
+		$retour = "<span class='tip'>";
+		if ($titre != null) {
+			$retour .= "".$titre."<hr />";
+		}
+		$retour .= $texte;
+		$retour .= "</span>";
 		return $retour;
 	}
 }

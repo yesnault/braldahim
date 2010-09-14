@@ -3,8 +3,8 @@
 	if ($case["n_elements_equipements"] > 1) $s = 's';
 	$textElementsEquipements = "<br>&Eacute;quipement".$s.":<br>";
  	foreach($case["elements_equipements"] as $e) {
- 		$textElementsEquipements .= "<label class=\'alabel\' onclick=ouvEquipement(".$e["id_equipement"].")>";
-		$textElementsEquipements .= htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"]) .", n&deg;".$e["id_equipement"]."</label><br />";
+ 		$textElementsEquipements .= "<label class='alabel' onclick='ouvEquipement(".$e["id_equipement"].")'>";
+		$textElementsEquipements .= htmlspecialchars($e["nom"])." ".htmlspecialchars($e["suffixe"])." de qualit&eacute; ".htmlspecialchars($e["qualite"]) .", n&deg;".$e["id_equipement"]."</label><br />";
 	} 
 	$s = "";
 	if ($case["n_elements_equipements"] > 1) {

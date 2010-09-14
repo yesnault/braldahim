@@ -14,7 +14,7 @@
 		    	?>
 		    	<td class="table_liste table_liste_border">
 		    		<div class="braltip">
-		    		<span class="tip">Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?></span>
+		    		<?=Bral_Helper_Tooltip::render("Rune non identifi&eacute;e n&deg;".$r["id_rune"], "Rune non identifiée");?>
 		    		<img src="/public/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
 		    		</div>
 		    	</td>
@@ -49,7 +49,7 @@
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
 		    		<div class="braltip">
-		    		<span class="tip"><?=Bral_Helper_DetailRune::afficherTexte($r, true);?></span>
+		    		<?=Bral_Helper_Tooltip::render(Bral_Helper_DetailRune::afficherTexte($r, true));?>
 		    		<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
 		    		</div>
 	    			<? else: ?>

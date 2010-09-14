@@ -1,10 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration</ul>
+    <div class="titre textalic textsizea">Administration</div>
     	&nbsp;
 	<div class="contenu">
-	  <ul class="box_contenu1 textalic">
+	  <div class="box_contenu1 textalic">
 	    <span class="titre textalia textsizec">Administration 01</span>
 	    <br />
 	    <a href='/Administration01/'>Voir</a> 
@@ -31,13 +31,13 @@
 	    
 	    <br /> <br />
 	    
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <span class="titre textalia textsizec">Administration Infos Jeu</span>
 	    <br />
 	    <a href='/Administrationinfojeu/infosjeu'>Voir</a> 
 	    <br><br />
 	    
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <span class="titre textalia textsizec">Administration Sessions</span>
 	    <br />
 	    <a href='/Administrationsessions/sessions'>Voir</a> 
@@ -99,9 +99,11 @@
 		 
 	     <br /> <br /> 
 		
-		</ul>
+		</div>
 	</div>
 	&nbsp;
+</div>
+</div>
 </div>
 </div>
 <?php echo $this->render('footer.phtml'); ?>
