@@ -17,13 +17,6 @@ class Bral_Helper_DetailEquipement {
 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
 	}
 
-	public static function afficher($e) {
-		$retour = "<div class='braltip'>".self::afficherDetails($e);
-		$retour .= "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
-		$retour .= "</div>";
-		return $retour;
-	}
-
 	public static function afficherTooltip($e) {
 		return Bral_Helper_Tooltip::render(self::prepareDetail($e, true));
 	}
@@ -48,7 +41,7 @@ class Bral_Helper_DetailEquipement {
 			$text .= $e["niveau"]."<br />";
 		}
 		$text .= "Nom d'origine : ".$e["nom_standard"]."<br />";
-		$text .= "Emplacement : ".$e["emplacement"]."<br />";
+		$text .= "Emplacement : ".$e["emplacement"]."<br />".PHP_EOL;
 		$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
 		$text .= "Ingr&eacute;dient de base : ".$e["ingredient"]."<br /><br />";
 			

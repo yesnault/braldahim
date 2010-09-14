@@ -42,11 +42,13 @@ foreach($joueurs as $j):
   	  $yini = $j["y_braldun"];
   	  $colini = $backgroundColor;
   	  
+  	  echo "<div class='braltip'>";
+  	  echo Bral_Helper_Tooltip::render($textBraldun, $title);
   	  echo '<span class="joueur" style=\'';
-	  echo "left:".(-3 + ($j["x_braldun"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef)."px;"; 
-	  echo "top:".(-3 + ($this->terrainCourant["y_max_soule_terrain"] - $j["y_braldun"]) * $coef)."px;";
+	  echo "left:".(-3 + ($j["x_braldun"] - $this->matchEnCours["x_min_soule_terrain"]) * $coef)."px;"; 
+	  echo "top:".(-3 + ($this->matchEnCours["y_max_soule_terrain"] - $j["y_braldun"]) * $coef)."px;";
 	  echo "background-color:".$backgroundColor.";";
-	  echo " onmouseover='".Bral_Helper_Tooltip::jsTip($textBraldun, $title).";'";
-	  echo ";\"></span>";
+	  echo ";'></span>";
+	  echo "</div>";
   endif;
 endforeach; ?>

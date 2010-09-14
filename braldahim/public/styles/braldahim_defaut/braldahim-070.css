@@ -518,7 +518,7 @@ margin-right:auto !important;
 	text-align: right;
 	color:#f0ae21;
 	margin-top:5px;
-	height:30px;
+	height:36px;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
@@ -823,74 +823,6 @@ background: transparent;
 .popup_close A:hover {
 	text-decoration: underline;
 	color: #cc0000;
-}
-
-/* (C) 2007 YOOtheme.com */
-div.yoo-tooltip-toggler {
-	cursor: pointer;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tl {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tl.png)
-		0 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tr {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tr.png)
-		100% 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-t {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_t.png)
-		0 7pt repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-l {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_l.png)
-		0 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-r {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_r.png)
-		100% 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-m {
-	background: #ffffff;
-	padding: 10px 0px 0px 0px;
-	overflow: hidden;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-bl {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_bl.png)
-		0 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-br {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_br.png)
-		100% 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-b {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_b.png)
-		0 0 repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-arrow {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
-		50% 0 no-repeat;
 }
 
 /* ************************************************ */

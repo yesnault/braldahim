@@ -1,6 +1,6 @@
 <br><br>
 
-<ul class="titre textalic textsizec">Messages de l'équipe</ul>
+<div class="titre textalic textsizec">Messages de l'équipe</div>
 
 <input type="button" class='button1' name="rafraichir_soule" id="rafraichir_soule" value="Rafraîchir" onClick="Javascript:_get_('/interface/load/?box=box_soule');"/>
 
@@ -16,14 +16,14 @@
    		<td colspan="3">
 		<ul id="navigation" style="width:100%;text-align:center" >
 			<li id="pocheSouleMessage">
-			<h3 id="pocheSouleMessage-head" class="head" onClick="maccordion(this);" />
+			<h3 id="pocheSouleMessage-head" class="head" onClick="maccordion(this);" >
 			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau Message"/> 
 			</h3>
 			<? if ($this->matchEnCours != null) : ?>
 			<ul id="pocheSouleMessage-body" style="display:none">
 			<? else: ?>
 			<ul id="pocheSouleMessage-body" style="display:block">
-				<? endif;?>
+			<? endif;?>
 				<li>
 					<?php include("nouveau.phtml")?>
 				</li>
