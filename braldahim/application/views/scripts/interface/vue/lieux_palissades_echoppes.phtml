@@ -5,6 +5,24 @@ $textChamp = '';
 $type_lieu = '';
 $textBallon = '';
 
+$textPalissade = "";
+	if ($case["n_palissades"] > 0) :
+      	$textPalissade = "<br>Palissade : <br>";
+      	foreach($case["palissades"] as $p) {
+      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+      		if ($p["est_destructible_palissade"] == "oui") {
+      			$textPalissade .= " destructible";
+      		} else {
+      			$textPalissade .= " indestructible";
+      		}
+      		$textPalissade .= "<br />";
+		} 
+		$s = "";
+		if ($case["n_palissades"] > 1) {
+			$s = "s";
+		}
+	endif;
+	
 if ($case['n_lieux'] > 0) :
 	$textLieu = 'Lieu : <br>';
     foreach($case['lieux'] as $l) {
@@ -81,6 +99,9 @@ if ($case['n_champs'] > 0) :
 endif; ?>
 
 <div class='braltip'>
+
+<? if ($textPalissade != "") : 
+	echo Bral_Helper_Tooltip::render($textPalissade, $titre); endif; ?>
 <? if ($textLieu != '' ) :?>
 	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
 	<? if ($type_lieu != '') : ?>

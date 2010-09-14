@@ -29,7 +29,7 @@ class Bral_Helper_DetailMateriel {
 			
 		$text .= "<br />";
 		Zend_Loader::loadClass("Bral_Helper_Tooltip");
-		return Bral_Helper_Tooltip::jsTip($text);
+		return Bral_Helper_Tooltip::render($text);
 	}
 
 	private static function display($display, $valeur, $unite = "") {

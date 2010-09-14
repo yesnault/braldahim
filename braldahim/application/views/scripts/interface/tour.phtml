@@ -3,11 +3,11 @@
 	<ul class="titre textalic textsized"><?=Bral_Helper_Calendrier::affiche();?></ul>
 	<br>
 	
-	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
+	<div class="titre textalic textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
 	  <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
 	  	<?=$this->user->titre_courant_braldun?> 
 	  <? endif;?>
-	</ul>
+	</div>
   
 	<?php if ($this->is_ko): ?>
 			<p style='text-align:justify'>

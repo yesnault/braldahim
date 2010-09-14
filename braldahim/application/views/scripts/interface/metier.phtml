@@ -1,8 +1,8 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">Mes M&eacute;tiers</ul>
+  <div class="titre textalia textsizec">Mes M&eacute;tiers</div>
   <div class="contenu">
-	  <ul class="box_contenu1 textalic">
+	  <div class="box_contenu1 textalic">
 
  <? if ($this->affichageInterne == true) : ?>
 	   <? if (!$this->possedeMetier): ?>
@@ -11,14 +11,15 @@
 	   	Vous pouvez aller vous renseigner dans un Centre de Formation
 	   <? else : ?>
 		   	Vous &ecirc;tes actuellement :
-		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($this->tabMetierCourant["description"])))); ?>
+		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($this->tabMetierCourant["description"]))); ?>
 		   	<? $titre = "Description du m&eacute;tier ";
 		   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 		   	 $titre .= $this->tabMetierCourant["nom"];
 		   	?>
-		   	<span <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>>
+		   	<div class="braltip">
+		   	<?=Bral_Helper_Tooltip::render($contenu, $titre) ?>
 		  	 	<?=$this->tabMetierCourant["nom"] ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
-		    </span>
+		    </div>
 			<br /><br />
 		   	<? if (count($this->tabMetiers) == 1): ?>
 		   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br />
@@ -35,12 +36,13 @@
 					</thead>
 					<tbody>
 						<? foreach ($this->tabMetiers as $m) : ?>
-							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($m["description"]))));?>
+							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($m["description"])));?>
 					   		<? $titre = "Description du m&eacute;tier ";
 			   	 			if ($m["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 			   	 			$titre .= $m["nom"]?>
 							<tr class="table_liste">
-								<td class="" <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>><?=$m["nom"];?></td>
+								
+								<td class=""><div class="braltip"><?=Bral_Helper_Tooltip::render($contenu, $titre) ?><?=$m["nom"];?></div></td>
 								<td class=""><?=$m["date_apprentissage"];?></td>
 							</tr>
 						<? endforeach; ?>
@@ -53,7 +55,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
-	</ul> 
+	</div> 
   </div>
 </div>
 <? include("box_bottom.phtml") ?>

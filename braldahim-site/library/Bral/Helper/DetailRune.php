@@ -13,7 +13,7 @@
 class Bral_Helper_DetailRune {
 
 	public static function afficherJs($p) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p, true));
+		return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
 	}
 
 	public static function afficherTexte($p) {
@@ -31,7 +31,7 @@ class Bral_Helper_DetailRune {
 			$text .= "<label class=\'alabel\' onclick=ouvHistoR(".$e["id_rune"].")>Voir l\'historique</label><br>";
 		}
 		if ($e["est_identifiee"] == "oui") {
-			$text .= "<br>".addslashes($e["effet_type_rune"]);
+			$text .= "<br>".$e["effet_type_rune"];
 		}
 
 		return $text;

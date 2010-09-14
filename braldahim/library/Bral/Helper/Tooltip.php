@@ -89,7 +89,8 @@ class Bral_Helper_Tooltip {
 			$retour .= "".$titre."<hr />";
 		}
 		$retour .= $texte;
-		$retour .= "</span>";
+		//$retour .= '<br /><span onClick="this.parent.style.display=\'none\'">Fermer</span>';
+		$retour .= '</span>';
 		return $retour;
 	}
 }
