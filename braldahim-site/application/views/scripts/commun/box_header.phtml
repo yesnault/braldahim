@@ -1,3 +1,3 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
-<?php endif; ?><?=Bral_Helper_Box::haut(); ?>
+<?php if ($this->affichageInterne == false) :
+echo '<div class="'.$this->nom_interne.'" id="'.$this->nom_interne.'" style="display:'.$this->display.'">';
+endif; ?><?=Bral_Helper_Box::haut(); ?>

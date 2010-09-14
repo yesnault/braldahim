@@ -17,9 +17,9 @@ class Bral_Helper_DetailMateriel {
 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_materiel");
 	}
 
-	public static function afficherJs($e) {
+	public static function afficherTooltip($e) {
 		$text = htmlspecialchars($e["nom"])." n° ".$e["id_materiel"]."<br />";
-		$text .= "<label class=\'alabel\' onclick=ouvHistoMa(".$e["id_materiel"].")>Voir l\'historique</label><br>";
+		$text .= "<label class='alabel' onclick='ouvHistoMa(".$e["id_materiel"].")'>Voir l'historique</label><br>";
 			
 		$text .= "<br />Caract&eacute;ristiques : <br />";
 		$text .= self::display("Capacit&eacute;", $e["capacite"]);

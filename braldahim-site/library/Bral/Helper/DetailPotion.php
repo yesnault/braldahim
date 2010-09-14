@@ -18,10 +18,10 @@ class Bral_Helper_DetailPotion {
 	}
 
 	public static function afficher($p) {
-		return "<span ".self::afficherJs($p).">".htmlspecialchars($p["nom"]).", n&deg;".$p["id_potion"]."</span>";
+		return "<div class='braltip'>".self::afficherTooltip($p)."<span>".htmlspecialchars($p["nom"]).", n&deg;".$p["id_potion"]."</span></div>";
 	}
 
-	public static function afficherJs($p) {
+	public static function afficherTooltip($p) {
 		$text = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br>";
 			
 		$text .= "<label class=\'alabel\' onclick=ouvHistoP(".$p["id_potion"].")>Voir l\'historique</label><br>";

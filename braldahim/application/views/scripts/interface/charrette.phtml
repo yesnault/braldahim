@@ -73,7 +73,10 @@
 					  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
 					  		<td class="table_liste"><?=$e["nom"] ?></td>
 					  		<td class="table_liste">
-					  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailMateriel::afficherJs($e);?> />
+					  			<div class='braltip'>
+					  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+					  			<img src="/public/images/info_icon.gif" />
+					  			</div>
 					  		</td>
 					  	</tr>
 						<? endforeach; ?>

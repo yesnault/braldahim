@@ -44,7 +44,10 @@
 			  		<? endif;?>
 			  		</td>
 			  		<td class="table_liste">
-						<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailPotion::afficherJs($p);?> />
+			  			<div class='braltip'>
+			  			<?=Bral_Helper_DetailPotion::afficherTooltip($p);?>
+						<img src="/public/images/info_icon.gif"/>
+						</div>
 					</td>
 			  		<? if ($this->estElementsEtal === true) : ?>
 						<td class="table_liste" nowrap><?=Bral_Helper_DetailPotion::afficherPrix($p);?></td>

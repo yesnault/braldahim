@@ -232,7 +232,10 @@ class MarchepotionController extends Zend_Controller_Action {
 					$tab[] = $type;
 				}
 				 
-				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_".$potion["id_type_potion"].".png' alt=\"".htmlspecialchars($potion["nom"]) ."\" ".Bral_Helper_DetailPotion::afficherJs($potion)."/>";
+				$tab[] = "<div class='braltip'>";
+				$tab[] = Bral_Helper_DetailPotion::afficherTooltip($potion);
+				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_".$potion["id_type_potion"].".png' alt=\"".htmlspecialchars($potion["nom"]) ."\"/>";
+				$tab[] = "</div>";
 				$tab[] = $p["nom_type_potion"]." de qualité ".$p["nom_type_qualite"];
 				$tab[] = $p["niveau_potion"];
 				$tab[] = Bral_Helper_DetailPotion::afficherPrix($potion);

@@ -18,13 +18,13 @@ class Bral_Helper_DetailEquipement {
 	}
 
 	public static function afficher($e) {
-		$retour = "<div class='braltip'>".self::afficherJs($e);
+		$retour = "<div class='braltip'>".self::afficherTooltip($e);
 		$retour .= "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
 		$retour .= "</div>";
 		return $retour;
 	}
 
-	public static function afficherJs($e) {
+	public static function afficherTooltip($e) {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
 		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
 		$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br>";

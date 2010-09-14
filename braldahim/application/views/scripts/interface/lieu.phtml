@@ -1,9 +1,9 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">Lieu actuel</ul>
-  <ul class="titre textalib textsizeb"><?=$this->nomTypeLieu; ?></ul>
+  <div class="titre textalia textsizec">Lieu actuel</div>
+  <div class="titre textalib textsizeb"><?=$this->nomTypeLieu; ?></div>
   <div class="contenuC">
-    <ul class="box_contenu1 textalic">
+    <div class="box_contenu1 textalic">
     
 <? if ($this->affichageInterne == true) : ?>
     
@@ -21,7 +21,7 @@
  		<? endif; ?>
  		
  		 <br /><br />
- 		<ul class="titre textalic textsizec"><?=$this->nomLieu ?></ul>
+ 		<div class="titre textalic textsizec"><?=$this->nomLieu ?></div>
  		<img src='/public/styles/braldahim_defaut/images/vue/<?=$this->nomImageLieu?>.png' />
  		<br><br>
  		<table width='80%' align='center'>
@@ -43,7 +43,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
- 	</ul>
+ 	</div>
    </div>
  </div>
 <? include("box_bottom.phtml") ?>

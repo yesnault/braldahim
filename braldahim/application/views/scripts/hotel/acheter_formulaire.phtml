@@ -70,7 +70,7 @@
 				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->vente["objet"]["charrette_detail"]?>
 		<? else: ?>	
 		<br>
-			<ul class="titre textalic textsizec">Prix</ul>
+			<div class="titre textalic textsizec">Prix</div>
 			<br>
 			<? foreach($this->prix as $k => $p) : ?>
 				<?=$p["id_destination"] ?> : <?=$p["prix"] ?> <?=$p["nom"] ?>

@@ -267,7 +267,10 @@ class MarcheequipementController extends Zend_Controller_Action {
 					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
 				$tab[] = $e["nom_type_emplacement"];
-				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$equipement["id_type_equipement"].".png' alt=\"".htmlspecialchars($equipement["nom"]) ."\" ".Bral_Helper_DetailEquipement::afficherJs($equipement)."/>";
+				$tab[] = "<div class='braltip'>";
+				$tab[] = Bral_Helper_DetailEquipement::afficherTooltip($equipement);
+				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$equipement["id_type_equipement"].".png' alt=\"".htmlspecialchars($equipement["nom"]) ."\"/>";
+				$tab[] = "</div>";
 				$tab[] = $e["nom_type_equipement"]." ".addslashes($e["suffixe_mot_runique"])." de qualité ".$e["nom_type_qualite"];
 				$tab[] = $equipement["niveau"];
 				$tab[] = Bral_Helper_DetailEquipement::afficherPrix($equipement);
