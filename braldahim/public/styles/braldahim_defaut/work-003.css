@@ -129,13 +129,12 @@ thead.table_liste,tfoot.table_liste {
 	display: none;
 }
 
-.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite,.barre_faim,.barre_vie,.barre_niveau,.barre_poids
-	{
-	opacity: 0.3;
-	filter: Alpha(Opacity = 30);
-	-moz-opacity: 0.0;
-}
-
 input.button1 {
 	background-image: none;
+}
+
+div.braltip:hover span.tip{
+	opacity: 1;
+	filter: Alpha(Opacity = 100);
+	-moz-opacity: 1.0;
 }

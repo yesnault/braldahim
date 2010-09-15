@@ -90,4 +90,14 @@ foreach($this->tableau as $k => $case) :
 <?php endforeach; ?>
 </tr>
 </table>
+
+
+<? if (Zend_Registry::get("estMobile")) : ?>
+	Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br><br>
+<? 	else : ?>
+	Compétence Marcher accessible depuis la vue : 
+	Cliquez sur <img src='/public/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher<br>
+	Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br>
+<? endif ?>
+
 &nbsp;
