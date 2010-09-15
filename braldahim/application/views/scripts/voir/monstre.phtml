@@ -4,22 +4,22 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">Monstre Inconnu</ul>
+	<div class="titre textalic textsizea">Monstre Inconnu</div>
 <? else : ?>
-    <ul class="titre textalic textsizea">
+    <div class="titre textalic textsizea">
     <?=$this->monstre["nom_type_monstre"] ?> 
     <? if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
     	<?=$this->monstre["nom_taille_f_monstre"] ?>
     <? else: ?>
     	<?=$this->monstre["nom_taille_m_monstre"] ?>
     <? endif; ?>
-     </ul>
-     <ul class="titre textalic textsizec">
+     </div>
+     <div class="titre textalic textsizec">
      Monstre n&deg; <?=$this->monstre["id_monstre"] ?>
-     </ul>
+     </div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -31,7 +31,7 @@
 			<div id="box_voir_monstre_inner">
 				<?=$this->flux; ?>
 			</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 <? endif; ?>

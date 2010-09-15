@@ -2,13 +2,12 @@
 <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_poche<?=$this->pocheNomSysteme ?>').click();">
 <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_poche<?=$this->pocheNomSysteme ?>').click();">
    
-   
 <?=$poches = null; ?>
 <ul id="navigation" style="width:99%;text-align:left">
 	
 	<li id="poche<?=$this->pocheNomSysteme ?>Castars">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Castars-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Castars-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Castars-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les castars
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Castars-body" style="display:none">
@@ -23,7 +22,7 @@
 			<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
 			<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
 				<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
-	      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+	      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);">
 					<?=$this->pocheNom ?> <?=$m["nom"]?>
 				</h3>
 				<ul id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-body" style="display:none">
@@ -41,7 +40,7 @@
 				<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
 				<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
 					<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
-		      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+		      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" >
 						<?=$this->pocheNom ?>  mat&eacute;riaux 
 						<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste" || $m["nom_systeme"] == "bucheron") : ?>
 						r&eacute;colt&eacute;s
@@ -62,7 +61,7 @@
 	
 	<li id="poche<?=$this->pocheNomSysteme ?>Rune">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Rune-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Rune-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Rune-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les runes
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Rune-body" style="display:none">
@@ -73,7 +72,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Materiel">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Materiel-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Materiel-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Materiel-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour le mat&eacute;riel
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Materiel-body" style="display:none">
@@ -84,7 +83,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Equipement">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Equipement-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Equipement-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Equipement-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les pi&egrave;ces d'&eacute;quipements
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Equipement-body" style="display:none">
@@ -95,7 +94,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Munition">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Munition-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Munition-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Munition-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les munitions
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Munition-body" style="display:none">
@@ -106,7 +105,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Potion">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Potion-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Potion-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Potion-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?>  pour les potions et vernis
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Potion-body" style="display:none">
@@ -117,7 +116,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Aliment">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Aliment-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Aliment-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Aliment-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les aliments / boissons
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Aliment-body" style="display:none">
@@ -128,7 +127,7 @@
 	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Graine">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Graine-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Graine-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Graine-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les graines
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Graine-body" style="display:none">
@@ -140,7 +139,7 @@
 	
 	<li id="poche<?=$this->pocheNomSysteme ?>Tabac">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Tabac-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Tabac-head" class="head" onClick="maccordion(this);" />
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Tabac-head" class="head" onClick="maccordion(this);">
 			<?=$this->pocheNom ?> pour les feuilles de tabac
 		</h3>
 		<ul id="poche<?=$this->pocheNomSysteme ?>Tabac-body" style="display:none">

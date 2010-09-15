@@ -4,18 +4,18 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">&Eacute;quipement Inconnu</ul>
+	<div class="titre textalic textsizea">&Eacute;quipement Inconnu</div>
 <? else : ?>
-    <ul class="titre textalic textsizea">
+    <div class="titre textalic textsizea">
     <?=$this->equipement["nom"]." ".addslashes($this->equipement["suffixe"])." de qualit&eacute; ".$this->equipement["qualite"] ?>
-     </ul>
-     <ul class="titre textalic textsized">
+     </div>
+     <div class="titre textalic textsized">
       &Eacute;quipement n&deg;<?=$this->equipement["id_equipement"]?><br>
-     </ul>
+     </div>
      
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -27,7 +27,7 @@
 			<div id="box_voir_equipement_inner">
 				<?=$this->flux; ?>
 			</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 <? endif; ?>

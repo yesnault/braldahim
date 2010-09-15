@@ -4,15 +4,15 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">Mat&eacute;riel inconnu</ul>
+	<div class="titre textalic textsizea">Mat&eacute;riel inconnu</div>
 <? else : ?>
-    <ul class="titre textalic textsizea">
+    <div class="titre textalic textsizea">
     <?= $this->materiel["nom"]." n°".$this->materiel["id_materiel"]?>
-     </ul>
+     </div>
      
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -24,7 +24,7 @@
 			<div id="box_voir_materiel_inner">
 				<?=$this->flux; ?>
 			</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 <? endif; ?>

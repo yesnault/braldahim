@@ -89,9 +89,9 @@ class Bral_Helper_Lune {
 		}
 
 		$texte = "<br>Son âge est de ".floor($moonAge)." jour".$s."<br>";
-		$texte .= "C\'est ".$libelle." (indice : ".floor($mpfrac * 100)." %)<br>";
+		$texte .= "C'est ".$libelle." (indice : ".floor($mpfrac * 100)." %)<br>";
 
-		$retour = "<span class='lune lune".floor($moonAge)."' ".Bral_Helper_Tooltip::jsTip($texte, $titre).">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+		$retour = "<span class='lune lune".floor($moonAge)."'>".Bral_Helper_Tooltip::render($texte, $titre)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 		return $retour;
 	}
 

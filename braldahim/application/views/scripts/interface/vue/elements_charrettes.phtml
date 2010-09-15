@@ -1,18 +1,18 @@
 <?
-$textCharrette = "";
-$textElementsMateriels = "";
-$textElementsEquipements = "";
-$textElementsMineraisBruts = "";
-$textElementsMunitions = "";
-$textElementsLingots = "";
-$textElementsPartiesPlantesBrutes = "";
-$textElementsPartiesPlantesPreparees = "";
-$textElementsGraines = "";
-$textElementsIngredients = "";
-$textElements = "";
-$textElementsPotions = "";
-$textElementsTabac = "";
-$textElementsAliments = "";
+$textCharrette = '';
+$textElementsMateriels = '';
+$textElementsEquipements = '';
+$textElementsMineraisBruts = '';
+$textElementsMunitions = '';
+$textElementsLingots = '';
+$textElementsPartiesPlantesBrutes = '';
+$textElementsPartiesPlantesPreparees = '';
+$textElementsGraines = '';
+$textElementsIngredients = '';
+$textElements = '';
+$textElementsPotions = '';
+$textElementsTabac = '';
+$textElementsAliments = '';
 
 include('charrettes.phtml');
 include('elements_materiels.phtml');
@@ -28,10 +28,13 @@ include('elements_tabac.phtml');
 include('elements.phtml'); 
 
 
-if ($textCharrette != "" || $textElementsMateriels != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
-	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" || $textElementsGraines != ""
-	|| $textElements != "" || $textElementsPotions != "" || $textElementsTabac != "" || $textElementsAliments != "") : ?>
-		<img <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsIngredients.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/laban.png' />
+if ($textCharrette != '' || $textElementsMateriels != '' || $textElementsEquipements != '' || $textElementsMunitions != '' || $textElementsMineraisBruts != '' 
+	|| $textElementsLingots != '' || $textElementsPartiesPlantesBrutes != '' || $textElementsPartiesPlantesPreparees != '' || $textElementsGraines != ''
+	|| $textElements != '' || $textElementsPotions != '' || $textElementsTabac != '' || $textElementsAliments != '') : ?>
+	<div class="braltip">
+		<?=Bral_Helper_Tooltip::render($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsIngredients.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?>
+		<img src='/public/styles/braldahim_defaut/images/vue/laban.png' />
+	</div>
 <? else: ?>
 	&nbsp;
 <? endif; ?>

@@ -518,6 +518,7 @@ margin-right:auto !important;
 	text-align: right;
 	color:#f0ae21;
 	margin-top:5px;
+	/*height:36px;*/
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
@@ -824,74 +825,6 @@ background: transparent;
 	color: #cc0000;
 }
 
-/* (C) 2007 YOOtheme.com */
-div.yoo-tooltip-toggler {
-	cursor: pointer;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tl {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tl.png)
-		0 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tr {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tr.png)
-		100% 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-t {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_t.png)
-		0 7pt repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-l {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_l.png)
-		0 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-r {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_r.png)
-		100% 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-m {
-	background: #ffffff;
-	padding: 10px 0px 0px 0px;
-	overflow: hidden;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-bl {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_bl.png)
-		0 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-br {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_br.png)
-		100% 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-b {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_b.png)
-		0 0 repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-arrow {
-	background:
-		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
-		50% 0 no-repeat;
-}
-
 /* ************************************************ */
 /* ******************* Recherche ****************** */
 /* ************************************************ */
@@ -979,7 +912,6 @@ table.vue2d {
 
 td.vue2d {
 	border-collapse: collapse; 
-	font-size: 7pt;
 	vertical-align: top;
 	horizontal-align: center;
 	width: 64px;
@@ -1038,7 +970,6 @@ td.vue2d.mer { background: url('/public/styles/braldahim_defaut/images/vue/eaux/
 
 .vue2d_case_num {
 	text-align: right;
-	font-size: 7pt;
 	color: #e0ffe0;
 	height:0.5px;
 	position:relative;
@@ -1291,3 +1222,32 @@ td.cases.actuelle {
 .lune.lune28 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon28.png) no-repeat scroll 0 0; }
 .lune.lune29 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon29.png) no-repeat scroll 0 0; }
 
+.braltip {
+position:relative;
+z-index:24;
+cursor:pointer;
+}
+.braltip:hover {
+color:#000000;
+z-index:25;
+}
+.braltip span.tip {
+display:none;
+text-align:left;
+}
+div.braltip:hover span.tip {
+background-color:#FFFFFF;
+border:1px solid #555555;
+color:#505050;
+display:block;
+font-size:1em;
+font:1em arial,verdana,sans-serif;
+letter-spacing: 0pt;
+left:2px;
+padding:4px;
+position:absolute;
+top:3px;
+width:300px;
+min-height:100px;
+z-index:300;
+}

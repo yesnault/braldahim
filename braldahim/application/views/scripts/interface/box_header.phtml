@@ -1,12 +1,12 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
-<?php endif; ?>
+<?php if ($this->affichageInterne == false) :
+	echo '<div class="'.$this->nom_interne.'" id="'.$this->nom_interne.'" style="display:'.$this->display.'">';
+endif; ?>
 
 <?php if ($this->estMobile) : ?>
-<li id='onglet_menu' class='onglet actif' onClick='Javascript:switch2div("boite_m","<?=$this->nom_interne ?>"); '>
+<div id='onglet_menu' class='onglet actif' onClick='Javascript:switch2div("boite_m","<?=$this->nom_interne ?>"); '>
 Menu
-</li>
-<li id='onglet_menu' class='onglet actif' onClick="Javascript:_get_('/interface/load/?box=<?=$this->nom_interne ?>'); ">
+</div>
+<div id='onglet_menu' class='onglet actif' onClick="Javascript:_get_('/interface/load/?box=<?=$this->nom_interne ?>'); ">
 Rafraîchir
-</li>
+</div>
 <?php endif; ?>

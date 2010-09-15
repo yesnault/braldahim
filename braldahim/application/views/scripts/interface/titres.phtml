@@ -1,10 +1,10 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">Ma Réputation</ul>
+  <div class="titre textalia textsizec">Ma Réputation</div>
   <div class="contenu">
-	  <ul class="box_contenu1 textalic">
+	  <div class="box_contenu1 textalic">
 
-<ul class="titre textalic textsized">Mes Titres</ul>
+<div class="titre textalic textsized">Mes Titres</div>
  <? if ($this->affichageInterne == true) : ?>
 	   <? if (!$this->possedeTitre): ?>
 	   	Vous n'avez aucun titre <br /><br />
@@ -35,11 +35,11 @@
 	   <? endif; ?>
 	   <br>
 	   
-	<ul class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Torts</ul>
+	<div class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Torts</div>
 		Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
 		Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br><br>
 		
-	<ul class="titre textalic textsized">Mes Distinctions</ul>
+	<div class="titre textalic textsized">Mes Distinctions</div>
 	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
 	   	<? $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
 	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_braldun ?> point<?=$s?> de distinction. (?)</span>
@@ -62,7 +62,7 @@
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />
 <? endif; ?>
-	</ul> 
+	</div> 
   </div>
 </div>
 <? include("box_bottom.phtml") ?>

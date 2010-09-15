@@ -16,12 +16,12 @@ class Bral_Helper_Charrette {
 		$largeur = (($charrette["poids_transporte"] * 100) / $charrette["poids_transportable"]) * 2;
 		$titre = "Poids transportable";
 		$texte = "La charrette porte actuellement ".$charrette["poids_transporte"]." Kg.<br>";
-		$texte .= "Elle peut porter jusqu\'&agrave; ".$charrette["poids_transportable"]." Kg.<br>";
+		$texte .= "Elle peut porter jusqu'&agrave; ".$charrette["poids_transportable"]." Kg.<br>";
 
 		if ($largeur > 200) {
 			$largeur = 200;
 		}
-		$retour = "<div class='barre_poids' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+		$retour = "<div class='barre_poids braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "<img src='/public/images/barre_poids.gif' height='10px' width=".$largeur."></div>";
 
 		return $retour;
@@ -38,7 +38,7 @@ class Bral_Helper_Charrette {
 		if ($largeur > 200) {
 			$largeur = 200;
 		}
-		$retour = "<div class='barre_poids' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+		$retour = "<div class='barre_poids braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "<img src='/public/images/barre_poids.gif' height='10px' width=".$largeur."></div>";
 
 		return $retour;

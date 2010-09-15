@@ -1,3 +1,6 @@
-<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["objet"]["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>" <?=Bral_Helper_DetailEquipement::afficherJs($e["objet"]);?> />
+<div class='braltip'>
+<?=Bral_Helper_DetailEquipement::afficherTooltip($e["objet"]);?>
+<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["objet"]["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"  />
+</div>
 <br>
 <?=$e["objet"]["nom"]." ".addslashes($e["objet"]["suffixe"])." de qualit&eacute; ".$e["objet"]["qualite"] ?>

@@ -4,15 +4,15 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">Rune inconnue</ul>
+	<div class="titre textalic textsizea">Rune inconnue</div>
 <? else : ?>
-    <ul class="titre textalic textsizea">
+    <div class="titre textalic textsizea">
     Rune n°<?=$this->rune["id_rune"]?>
-     </ul>
+     </div>
      
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -24,7 +24,7 @@
 			<div id="box_voir_rune_inner">
 				<?=$this->flux; ?>
 			</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 <? endif; ?>

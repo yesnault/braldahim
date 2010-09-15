@@ -1,8 +1,8 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizec">Ma Charrette</ul>
+<div class="titre textalia textsizec">Ma Charrette</div>
  <div class="contenuC">
-  <ul class="box_contenu1 textalic">
+  <div class="box_contenu1 textalic">
   
     <? if ($this->affichageInterne == true) : ?>
     
@@ -24,7 +24,7 @@
 		   <table align="center" width="80%">
 		   	<tr>
 		   		<td align="center" valign="top">
-		   			<ul class="titre textalic textsized">Caract&eacute;ristiques</ul>
+		   			<div class="titre textalic textsized">Caract&eacute;ristiques</div>
 		   			
 		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?=$this->charrette["id_charrette"]?>")'>l'historique</label><br><br>
 				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
@@ -35,9 +35,9 @@
 				   Durabilit&eacute; : <?=$this->charrette["durabilite_actuelle"]?> / <?=$this->charrette["durabilite_max"]?>.
 		   		</td>
 		   		<td align="center" valign="top">
-		   			<? $js=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous")), "Gestion du partage de la Charrette", true) ?>
-		   		
-		   			<ul class="titre textalic textsized" <?=$js?>>Partage</ul>
+		   			<div class="titre textalic textsized braltip">Partage
+		   				<?=Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
+		   			</div>
 		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br>
 		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br>
 		   			<? if ($this->partageBralduns == null) : ?>
@@ -52,7 +52,7 @@
 		   			<? endif;?>
 		   		</td>
 		   		<td align="left" valign="top">
-		   			<ul class="titre textalic textsized">Am&eacute;liorations</ul>
+		   			<div class="titre textalic textsized">Am&eacute;liorations</div>
 		   			
 		   			<table class="table_liste" style="width:90%">
 					<thead class="table_liste">
@@ -73,7 +73,10 @@
 					  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
 					  		<td class="table_liste"><?=$e["nom"] ?></td>
 					  		<td class="table_liste">
-					  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailMateriel::afficherJs($e);?> />
+					  			<div class='braltip'>
+					  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+					  			<img src="/public/images/info_icon.gif" />
+					  			</div>
 					  		</td>
 					  	</tr>
 						<? endforeach; ?>
@@ -89,7 +92,7 @@
 		   </table>
 		   
 		   <br />
-			<ul class="titre textalic textsized">Contenu de la charrette</ul>	   
+			<div class="titre textalic textsized">Contenu de la charrette</div>	   
 	   		<? include("commun/poches.phtml") ?>
 	
 	   <? else: ?>
@@ -101,7 +104,7 @@
   <? endif; ?>
   
    <br />
-   </ul>
+   </div>
 </div>
 </div>
 <? include("box_bottom.phtml") ?>

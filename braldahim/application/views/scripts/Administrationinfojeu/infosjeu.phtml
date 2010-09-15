@@ -1,16 +1,16 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Infos Jeu</ul>
+    <div class="titre textalic textsizea">Administration Infos Jeu</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    
 			<form action="/Administrationinfojeu/infosjeu" method="post">
 			<input type='hidden' name='idinfoEdit' id='idinfoEdit' value='<?=$this->infoJeu["id_info_jeu"]?>'/>
 			<? if ($this->infoJeu["id_info_jeu"] != -1) : ?>
 				<br>
-				<ul class="titre textalic textsizeb">Edition de l'Infos n&deg; <?=$this->infoJeu["id_info_jeu"]?>, du <?=$this->infoJeu["date_info_jeu"]?></ul>
+				<div class="titre textalic textsizeb">Edition de l'Infos n&deg; <?=$this->infoJeu["id_info_jeu"]?>, du <?=$this->infoJeu["date_info_jeu"]?></div>
 				<br>
 			<? endif; ?>
 			
@@ -46,7 +46,7 @@
 			
 			<br />
 			
-			Valider le flux : <a href='http://validator.w3.org/feed/check.cgi?url=http%3A//jeu.braldahim.com/Feed'>http://validator.w3.org/feed/check.cgi?url=http%3A//jeu.braldahim.com/Feed</a>
+			Valider le flux : <a href='http://validator.w3.org/feed/check.cgi?url=http%3A//feeds.braldahim.com/braldahim-chronique'>http://validator.w3.org/feed/check.cgi?url=http%3A//feeds.braldahim.com/braldahim-chronique</a>
 			
 			<br /><br /><br />
 			
@@ -74,7 +74,7 @@
 				<? endforeach; ?>
 			<? endif; ?>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>
