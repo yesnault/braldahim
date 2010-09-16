@@ -1227,6 +1227,9 @@ position:relative;
 z-index:24;
 cursor:pointer;
 }
+.braltipf {
+z-index:25;
+}
 .braltip:hover {
 color:#000000;
 z-index:25;
@@ -1235,11 +1238,11 @@ z-index:25;
 display:none;
 text-align:left;
 }
-div.braltip:hover span.tip {
+div.braltip:hover span.tip, span.tipf {
 background-color:#FFFFFF;
 border:1px solid #555555;
 color:#505050;
-display:block;
+display:block!important;
 font-size:1em;
 font:1em arial,verdana,sans-serif;
 letter-spacing: 0pt;
@@ -1250,4 +1253,5 @@ top:3px;
 width:300px;
 min-height:100px;
 z-index:300;
+cursor:pointer;
 }
