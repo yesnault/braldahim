@@ -44,6 +44,10 @@ class Bral_Monstres_Competences_Crachatacide extends Bral_Monstres_Competences_A
 					$malus = floor($malus / 2);
 				}
 
+				if ($malus < 1) {
+					$malus = 1;
+				}
+
 				Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($h["id_braldun"], Bral_Util_Effets::CARACT_ARMURE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Crachat Acide');
 				$this->majEvenement($h, $malus, $nbTours, $jetMonstre, $jetBraldun);
 			}
