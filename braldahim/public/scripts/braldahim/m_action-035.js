@@ -1319,8 +1319,8 @@ function disabledAllBtnMessagerie() {
 function braltipFixer(id) {
 	$(id).className='tipf';
 	(Position.offsetParent($(id))).style.zIndex=25;
-	$(id + 'clos').style.display='block';
-	$(id + 'dep').style.display='block';
+	$(id + 'clos').style.display='inline';
+	$(id + 'dep').style.display='inline';
 	$(id + 'fix').style.display='none';
 	
 	new Draggable(id, { handle: id + 'dep' });
@@ -1331,7 +1331,7 @@ function braltipDeFixer(id) {
 	(Position.offsetParent($(id))).style.zIndex='auto';
 	$(id + 'clos').style.display='none';
 	$(id + 'dep').style.display='none';
-	$(id + 'fix').style.display='block';
+	$(id + 'fix').style.display='inline';
 	
 	$(id).style.left='0px';
 	$(id).style.right='0px';

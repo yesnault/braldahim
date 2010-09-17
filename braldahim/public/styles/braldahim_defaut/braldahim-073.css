@@ -1234,11 +1234,11 @@ z-index:25;
 color:#000000;
 z-index:25;
 }
-.braltip span.tip {
+.braltip div.tip {
 display:none;
 text-align:left;
 }
-div.braltip:hover span.tip, span.tipf {
+div.braltip:hover div.tip, div.tipf {
 background-color:#FFFFFF;
 border:1px solid #555555;
 color:#505050;
