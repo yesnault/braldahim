@@ -70,7 +70,7 @@ class SondageController extends Zend_Controller_Action {
 				//if (((int)$this->_request->getPost("reponse_$i").""!=$this->_request->getPost("reponse_$i")."") || (int)$this->_request->getPost("reponse_$i") < 0) {
 				if (($this->_request->getPost("reponse_$i").""!="oui") && 
 					($this->_request->getPost("reponse_$i").""!="non")) {
-					$this->view->erreur .= "Reponse $i invalide<br>";
+					$this->view->erreur .= "Reponse $i invalide<br />";
 				} else {
 					$reponse[$i] = $this->_request->getPost("reponse_$i");
 				}

@@ -17,15 +17,15 @@ class Bral_Helper_Profil {
 		$niveauSuivantPx = ($niveau_braldun + 1) * 5;
 		$largeur = (($px_perso_braldun * 100) / $niveauSuivantPx) * 2;
 		$titre = "Exp&eacute;rience atteinte dans ce niveau";
-		$texte = "Vous avez ".$px_perso_braldun. " PX Perso.<br>";
+		$texte = "Vous avez ".$px_perso_braldun. " PX Perso.<br />";
 		$texte .= "Pour passer au niveau ".($niveau_braldun + 1).", il vous faut ";
 		
 		if (($niveauSuivantPx - $px_perso_braldun) > 0) {
-			$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
-			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_braldun)." PX Perso.<br>";
+			$texte .= " ".$niveauSuivantPx. " PX Perso.<br />";
+			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_braldun)." PX Perso.<br />";
 		} else {
-			$texte .= " 0 PX Perso.<br>";
-			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br>";
+			$texte .= " 0 PX Perso.<br />";
+			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br />";
 		}
 		
     	if ($largeur > 200) {
@@ -80,18 +80,18 @@ class Bral_Helper_Profil {
 			$info .= "Je meurs de faim !!!";
 		}
 		
-		$info .= "&quot;<br>";
+		$info .= "&quot;<br />";
 		
 		if ($coef > 0) {
-			$info1 = "Vous b&eacute;n&eacute;ficiez d'un bonus de ".$force_bbdf_braldun." sur toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous b&eacute;n&eacute;ficiez d'un bonus de ".$force_bbdf_braldun." sur toutes vos caract&eacute;ristiques.<br /><br />";
 		} else if ($coef < 0) {
-			$info1 = "Vous avez un malus de ".$force_bbdf_braldun." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous avez un malus de ".$force_bbdf_braldun." &agrave; toutes vos caract&eacute;ristiques.<br /><br />";
 		} else {
-			$info1 = "Aucun bonus ou malus de faim n'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Aucun bonus ou malus de faim n'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br /><br />";
 		}
 		
 		$titre = "Information sur la balance de faim";
-		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_braldun."%.<br>";
+		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_braldun."%.<br />";
 		$texte .= $info1.$info;
 		
 		$retour = "<div class='barre_faim braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
@@ -110,7 +110,7 @@ class Bral_Helper_Profil {
     	if ($pv_max_bm_braldun >= 0) { 
     		$plus = "+"; 
     	}
-		$texte = "Vous avez ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br><br>";
+		$texte = "Vous avez ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br /><br />";
 		
 		$pourcentage = $pv_restant_braldun * 100 / $totalPv;
 		
@@ -139,7 +139,7 @@ class Bral_Helper_Profil {
 			$minutesAAjouter = floor($minutesCourant / (4 * $totalPvSansBm)) * ($totalPvSansBm - $pv_restant_braldun);
 			$s = '';
 			if ($minutesAAjouter > 1) $s = 's';
-			$info .= "<br><br>Votre prochaine DLA sera allong&eacute;e de ".$minutesAAjouter." minute".$s.".";
+			$info .= "<br /><br />Votre prochaine DLA sera allong&eacute;e de ".$minutesAAjouter." minute".$s.".";
 		}
 		
 		$texte .= $info;
@@ -157,14 +157,14 @@ class Bral_Helper_Profil {
      	$texte = "";
      	$titre = "Avancement et informations";
      	
-     	$texte .= " Position tour courant : ".$braldun->nom_tour."<br><br>";
-     	$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br>";
-     	$texte .= " Position dans le tour : ".$braldun->nom_tour."<br><br>";
+     	$texte .= " Position tour courant : ".$braldun->nom_tour."<br /><br />";
+     	$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br />";
+     	$texte .= " Position dans le tour : ".$braldun->nom_tour."<br /><br />";
 
-     	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_tour_braldun)."<br>";
-     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_latence_braldun)."<br>";
-     	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_cumul_braldun)."<br>";
-     	$texte .= " Date limite d'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br><br>";
+     	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_tour_braldun)."<br />";
+     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_latence_braldun)."<br />";
+     	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_cumul_braldun)."<br />";
+     	$texte .= " Date limite d'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br /><br />";
      	
      	$date_courante = date("Y-m-d H:i:s");
      	$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
@@ -217,9 +217,9 @@ class Bral_Helper_Profil {
      		}
      	}
      	
-     	$section_cumul = "Section survol&eacute;e : Activit&eacute;, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
-     	$section_milieu = "Section survol&eacute;e : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
-     	$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
+     	$section_cumul = "Section survol&eacute;e : Activit&eacute;, termin&eacute;e &agrave; ".$pourcent_cumul." %<br /><br />";
+     	$section_milieu = "Section survol&eacute;e : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br /><br />";
+     	$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br /><br />";
      	
      	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center'><tr>";
      	$retour .= "<td>";
@@ -243,8 +243,8 @@ class Bral_Helper_Profil {
 	public static function afficheBarrePoids($transportable, $transporte) {
 		$largeur = (($transporte * 100) / $transportable) * 2;
 		$titre = "Poids transportable";
-		$texte = "Vous portez actuellement ".round($transporte, 3)." Kg.<br>";
-		$texte .= "Vous pouvez porter jusqu'&agrave; ".round($transportable, 3)." Kg.<br>";
+		$texte = "Vous portez actuellement ".round($transporte, 3)." Kg.<br />";
+		$texte .= "Vous pouvez porter jusqu'&agrave; ".round($transportable, 3)." Kg.<br />";
 		
 		if ($largeur > 200) {
 			$largeur = 200;

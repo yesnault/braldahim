@@ -23,7 +23,7 @@
 			
 			<? if ($this->nbGainCommunParDlaOk === false) :?>
 				Vous avez d&eacute;j&agrave; utilis&eacute; avec <span title="succès : Jet d'action réussi" style="cursor:pointer">succ&egrave;s</span>
-				 cette comp&eacute;tence 2 fois au cours de votre tour.<br><br>
+				 cette comp&eacute;tence 2 fois au cours de votre tour.<br /><br />
 			<? endif;?>
 		<? else: ?>
 			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> % 
@@ -70,20 +70,20 @@
 			<? endif;?>
 			<br />
 			Vous &ecirc;tes maintenant 
-			<?=$this->escape($this->user->prenom_braldun);?>  <?=$this->escape($this->user->nom_braldun);?>, <?=$this->user->titre_courant_braldun?><br><br>
-			Si toutefois vous étiez inscrit à un match de Soule, vous êtes désinscrit automatiquement (sauf si le match s'apprête à être lancé).<br><br>
+			<?=$this->escape($this->user->prenom_braldun);?>  <?=$this->escape($this->user->nom_braldun);?>, <?=$this->user->titre_courant_braldun?><br /><br />
+			Si toutefois vous étiez inscrit à un match de Soule, vous êtes désinscrit automatiquement (sauf si le match s'apprête à être lancé).<br /><br />
 		<? endif;?>
 		
 		<? if ($this->user->niveau_braldun < 11) : ?>
 			Pour ce passage de niveau, vous avez gagné <?=($this->user->niveau_braldun*50)?> castars, 
-			directement placés dans votre coffre à la banque.<br><br>
+			directement placés dans votre coffre à la banque.<br /><br />
 		<? endif;?>
 	<? endif; ?>
 	
 	<? if ($this->finMatchSoule === true): ?>
-		<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/><br>
-		<span style="font-weight: bold ;">F&eacute;licitations, vous avez apporté le ballon dans le camp adverse !</span><br>
-		<span style="font-weight: bold ;">Consultez vos &eacute;v&eacute;nements pour le d&eacute;tails des gains.</span><br><br>
+		<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/><br />
+		<span style="font-weight: bold ;">F&eacute;licitations, vous avez apporté le ballon dans le camp adverse !</span><br />
+		<span style="font-weight: bold ;">Consultez vos &eacute;v&eacute;nements pour le d&eacute;tails des gains.</span><br /><br />
 	<? endif;?>
 	
 	<?=$this->render("/commun/commun_quete_resultat.phtml") ?>

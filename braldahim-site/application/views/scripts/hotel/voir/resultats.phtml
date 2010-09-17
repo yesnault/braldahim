@@ -3,13 +3,13 @@
 	Affichage des 50 dernières ventes inscrites
 	</div>
 	Vous pouvez affiner votre recherche avec les listes à choix présentes ci-dessus.
-	<br><br>
+	<br /><br />
 <? endif;?>
- <br>
+ <br />
  <table class="table_liste" style="width:95%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-	  	<th>N&deg; Vente <br>Date fin</th>
+	  	<th>N&deg; Vente <br />Date fin</th>
 		<th>Nom</th>
 		<th>Vendeur</th>
 		<th>Prix</th>
@@ -22,7 +22,7 @@
   	foreach($this->resultats as $e): ?>
   		<tr class="table_liste<?=($i % 2);$i++; ?>">
   			<td class="table_liste">N&deg;<?=$e["vente"]["id_vente"]?>
-  			<br><?=$e["vente"]["date_fin_vente"]?>
+  			<br /><?=$e["vente"]["date_fin_vente"]?>
   			</td>
 	  		<td class="table_liste">
 	  		<?

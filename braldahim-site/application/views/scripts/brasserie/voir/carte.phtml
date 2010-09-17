@@ -84,11 +84,11 @@ endif;
 <p class="bande bas"></p>
 <p class="camp terrain" style="color:#eeeeee">
 	<?=$this->matchEnCours["nom_soule_terrain"]?>
-	<br><br>
+	<br /><br />
 	Dimensions Terrain : <?=$this->matchEnCours["x_max_soule_terrain"] - $this->matchEnCours["x_min_soule_terrain"]?> x <?=$this->matchEnCours["y_max_soule_terrain"] - $this->matchEnCours["y_min_soule_terrain"]?>
 </p>
-<p class="camp equipeA" style="color:red">Camp équipe A :<br> <?=$this->equipes["equipea"]["nom_equipe"]?></p>
-<p class="camp equipeB" style="color:blue">Camp équipe B :<br> <?=$this->equipes["equipeb"]["nom_equipe"]?></p>
+<p class="camp equipeA" style="color:red">Camp équipe A :<br /> <?=$this->equipes["equipea"]["nom_equipe"]?></p>
+<p class="camp equipeB" style="color:blue">Camp équipe B :<br /> <?=$this->equipes["equipeb"]["nom_equipe"]?></p>
 <p class="ballon" title="Ballon en X:<?=$xBallon?>, Y:<?=$yBallon?>"></p>
 <? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
 	<?php $joueurs = $this->joueurs; include("carteequipe.phtml");?>

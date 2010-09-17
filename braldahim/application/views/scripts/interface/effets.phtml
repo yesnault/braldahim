@@ -41,9 +41,9 @@
 				</tbody>
 			</table>
 		<? else: ?>
-		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.<br>
+		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.<br />
 		<? endif;?>
-   <br>
+   <br />
    
    <div class="titre textalic textsized">Autres Effets</div>
    
@@ -75,7 +75,7 @@
 							et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
 						<? endif;?>
 						<? if ($e["effet"]["texte_effet_braldun"]) : ?>
-							<br><i><?=$e["effet"]["texte_effet_braldun"]?></i>
+							<br /><i><?=$e["effet"]["texte_effet_braldun"]?></i>
 						<? endif;?>
 						<? if ($e["effet"]["actif"] == false):?>
 							   Effet non cumulable donc non actif.
@@ -89,7 +89,7 @@
 		<? else: ?>
 		Aucun autre effet n'est appliqu&eacute; sur vous actuellement.
 		<? endif;?>
-		<br><br>
+		<br /><br />
    
  <? else: ?>
 	Chargement en cours

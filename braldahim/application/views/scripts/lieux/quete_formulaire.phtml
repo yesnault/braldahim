@@ -4,8 +4,8 @@
  <div class='comp_contenu'>
  	<br />
  	
- 	Bonjour à vous <?=$this->user->prenom_braldun ?> <?=$this->user->nom_braldun ?>.<br>
- 	<br>
+ 	Bonjour à vous <?=$this->user->prenom_braldun ?> <?=$this->user->nom_braldun ?>.<br />
+ 	<br />
  	<? if ($this->queteEnCours === true):?>
  	Vous avez d&eacute;j&agrave; une quête en cours... Terminez-là et revenez me voir ensuite.
  	
@@ -14,15 +14,15 @@
  	<? elseif ($this->queteObtenue === false):?>
  	
  	Vous êtes à la recherche de quête à <?=$this->nomVille?> ? 
- 	<br><br>
- 	Bien, j'ai une mission pour vous qui me semble adapt&eacute;e.<br> 
+ 	<br /><br />
+ 	Bien, j'ai une mission pour vous qui me semble adapt&eacute;e.<br /> 
  	Vous devez payer <?=$this->coutCastars?> castars 
- 	(et <?=$this->paUtilisationLieu ?> PA).<br><br>
+ 	(et <?=$this->paUtilisationLieu ?> PA).<br /><br />
  	
  	Cette mission sera en quelque sorte liée à votre métier courant, 
- 	donc si vous souhaitez changer de métier avant, passez à l'académie et revenez ici ensuite...<br><br>
+ 	donc si vous souhaitez changer de métier avant, passez à l'académie et revenez ici ensuite...<br /><br />
  	
- 	Êtes-vous prêt &agrave; accepter ?<br><br>
+ 	Êtes-vous prêt &agrave; accepter ?<br /><br />
  	
  	<? else: ?>
  	Vous êtes déjà rentré dans ce lieu, vous n'avez plus rien à faire ici...
@@ -32,13 +32,13 @@
 <br /> 
 
 <? if ($this->utilisationPaPossible !== true): ?>
-	Vous n'avez pas assez de PA.<br>
+	Vous n'avez pas assez de PA.<br />
 <? endif;?>
 
 <? if ($this->utilisationPossible !== true): ?>
 	Vous n'avez pas assez de castars.
 <? endif;?>
-<br>
+<br />
 <? if ($this->queteEnCours === false && $this->niveauOk === true && $this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
 <input type='button' class='button1' id="bouton_quete" value="Oui, J'accepte !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
 <? endif; ?>

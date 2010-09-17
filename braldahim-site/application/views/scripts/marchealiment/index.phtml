@@ -1,14 +1,14 @@
-<br>
+<br />
 <div class="box_contenu textalic">
 	<div class="titre textalic textsizeb">
 	Marché aux aliments
-	</div><br>
+	</div><br />
 	
 <table width='100%'>
 <tr>
 <td>
 	Filtre par comté: 
-	<br>
+	<br />
 	<select id="region" name="region" onChange="document.location.href = '/marchealiment/?regionselect='+this.value+'&alimentselect=<?=$this->alimentSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
@@ -17,7 +17,7 @@
 </td>
 <td>
 	Filtre par aliment :
-	<br>
+	<br />
 	<select id="aliment" name="aliment" onChange="document.location.href = '/marchealiment/?regionselect<?=$this->regionSelect?>&alimentselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->aliments as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->alimentSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
@@ -27,7 +27,7 @@
 </tr>
 </table>
 
-<br><br>
+<br /><br />
 
 <div id="mygrid_container" style="width:770px;height:650px;align:center"></div> 
 <script>

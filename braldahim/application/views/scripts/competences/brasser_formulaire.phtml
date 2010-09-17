@@ -1,21 +1,21 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
- 	Vous ne pouvez brasser qu'à l'intérieur de votre échoppe de cuisinier.<br>
- 	Vous devez avoir au minimum 5Kg d'Orge et 26g de Houblon pour brasser.<br>
+ 	Vous ne pouvez brasser qu'à l'intérieur de votre échoppe de cuisinier.<br />
+ 	Vous devez avoir au minimum 5Kg d'Orge et 26g de Houblon pour brasser.<br />
 	 <? if ($this->sourceOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez brasser <?=$this->nbBieres ?> outre<? if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez brasser <?=$this->nbBieres ?> outre<? if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br />
 	 
-		<br><br>Ingrédients nécessaires : <br>
+		<br /><br />Ingrédients nécessaires : <br />
 		<? foreach($this->ingredients as $k => $t) : ?>
-	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br>
+	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br />
 	 	<? endforeach; ?>
 	 	<? if ($this->potions != null) : ?>
 		 	<? foreach($this->potions as $k => $t) : ?>
-		 		Potion <?=$t["nom_type_potion"]?> : 1<br>
+		 		Potion <?=$t["nom_type_potion"]?> : 1<br />
 		 	<? endforeach; ?>
 	 	<? endif;?>
 	 	
-		<br><br>
+		<br /><br />
 		Source des ingrédients :<br />
 	     <select name="valeur_1" id="valeur_1" onChange="if ($('valeur_1').value != -1 && $('valeur_2').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true; }">
 		 	<option value="-1">(Choisissez une source)</option>
@@ -24,7 +24,7 @@
 		 	<? endforeach; ?>
 		 </select>
 		 
-		 <br> <br>
+		 <br /> <br />
 		Destination :<br />
 	     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_1').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true;}">
 		 	<option value="-1">(Choisissez une destination)</option>
@@ -32,7 +32,7 @@
 		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
 		 	<? endforeach?>
 		 </select>
-		<br>
+		<br />
 		<? //Attention, si vous n'avez pas assez de place pour contenir les outres créés, les outres en trop seront laissées au sol.?>
 	
 	 <? else: ?>

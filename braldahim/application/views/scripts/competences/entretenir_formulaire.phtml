@@ -1,15 +1,15 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- 	Pour <?=$this->nb_pa ?> PA, vous pouvez entretenir un de vos champs.<br><br>
+ 	Pour <?=$this->nb_pa ?> PA, vous pouvez entretenir un de vos champs.<br /><br />
  	
 	 <? if ($this->entretenirChampOk !== true) : ?>
 	 	Vous ne pouvez entretenir un de vos champs quand étant dessus et il faut qu'il soit semé au préalable.
 	 
 	 <? else: ?>
 	 	
-	 	Vous pouvez directement cliquer sur la case de votre champ à entretenir.<br><br>
+	 	Vous pouvez directement cliquer sur la case de votre champ à entretenir.<br /><br />
 	 	
-	 	Choisissez la case à entretenir : <br>  
+	 	Choisissez la case à entretenir : <br />  
 	 	<select name="valeur_1" id="valeur_1" onChange="if (this.value == -1) {$('bouton_entretenir').disabled = true;}else {$('bouton_entretenir').disabled = false;}">
 	 		<option value="-1">(Choisissez une case)</option>
 		 <? foreach($this->positions as $k => $v) : ?>

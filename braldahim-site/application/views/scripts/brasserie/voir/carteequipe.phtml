@@ -25,15 +25,15 @@ foreach($joueurs as $j):
   	  		$backgroundColor = "purple";
   	  	}
   	  	if ($nomEquipe != $eqini) {
-  	  		$textBraldun .= "<br><center>".$nomEquipe."</center>";
+  	  		$textBraldun .= "<br /><center>".$nomEquipe."</center>";
   	  	}
   	  } else {
-  	  	$textBraldun = "<br><center>".$nomEquipe."</center>";
+  	  	$textBraldun = "<br /><center>".$nomEquipe."</center>";
   	  }
 	  
   	  $eqini = $nomEquipe;
   	  $textBraldun .= '<label class=\'alabel profil\' onClick=ouvrirProfilH('.$j["id_braldun"].'); title=\'Voir le profil\' >'.addslashes($j["prenom_braldun"]).' '.addslashes($j["nom_braldun"]).' ('.$j["id_braldun"].')</label>, niv.'.$j["niveau_braldun"];
-  	  $textBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$j["id_braldun"].'); style=\'cursor:pointer\'/><br> ';
+  	  $textBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$j["id_braldun"].'); style=\'cursor:pointer\'/><br /> ';
 	  $title = "Position : x=".$j['x_braldun'].", y=".$j['y_braldun'];
   	  $xini = $j["x_braldun"];
   	  $yini = $j["y_braldun"];

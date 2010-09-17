@@ -1240,6 +1240,7 @@ text-align:left;
 }
 div.braltip:hover div.tip, div.tipf {
 background-color:#FFFFFF;
+text-align:left;
 border:1px solid #555555;
 color:#505050;
 display:block!important;

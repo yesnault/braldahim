@@ -1,13 +1,13 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez semer des graines sur un de vos champs. <br><br>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez semer des graines sur un de vos champs. <br /><br />
 	
 	<? if ($this->semerChampOk == false) : ?>
 		Vous ne pouvez semer que sur l'un de vos champs en jachère.
 	<? else : ?>
-		Vous devez au minimum avoir 2 poignées d'une même type de graine pour pouvoir semer.<br><br>
-		Veuillez sélectionner le type de graines à semer : <br>
+		Vous devez au minimum avoir 2 poignées d'une même type de graine pour pouvoir semer.<br /><br />
+		Veuillez sélectionner le type de graines à semer : <br />
 		<select name="valeur_1" id="valeur_1" onChange="if (this.value == -1) {$('bouton_semer').disabled = true;}else {$('bouton_semer').disabled = false;}">
 	 		<option value="-1">(Choisissez un type)</option>
 			<? foreach($this->conteneurs as $c) :?>

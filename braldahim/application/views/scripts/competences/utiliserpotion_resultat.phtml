@@ -11,9 +11,9 @@
 	  <br />
 	  L'effet est imm&eacute;diat.<br />
   <? elseif (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "vernis_reparateur" || $this->potionCourante["type_potion"] == "vernis_enchanteur") : // vernis ?>
-	Le vernis <?=$this->potionCourante["nom_type_potion"]?> est appliqué sur l'équipement : <?=htmlspecialchars($this->equipement["nom"])?>, n&deg; <?=$this->equipement["id_equipement"]?>.<br> <br>
-	Détail des modifications apportées :<br> 
-	<?=$this->detail?><br> <br> 
+	Le vernis <?=$this->potionCourante["nom_type_potion"]?> est appliqué sur l'équipement : <?=htmlspecialchars($this->equipement["nom"])?>, n&deg; <?=$this->equipement["id_equipement"]?>.<br /> <br />
+	Détail des modifications apportées :<br /> 
+	<?=$this->detail?><br /> <br /> 
   <? else: ?>
   	Erreur, merci de la signaler sur le forum.
   <? endif; ?>	

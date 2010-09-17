@@ -6,19 +6,19 @@
   vous propose d'am&eacute;liorer une caract&eacute;ristique.<br /><br />
  
  <? if ($this->user->pi_academie_braldun > 0) : ?>
- Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_braldun?> PI à l'académie.<br><br>
+ Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_braldun?> PI à l'académie.<br /><br />
  <? endif;?>
  
  <? if ($this->user->niveau_braldun < Bral_Util_Niveau::NIVEAU_MAX) : ?>
  	Une fois que vous aurez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pourrez plus obtenir de nouveaux PI.
  	Vous aurez à ce moment là, en comptant les PI déjà dépensés, la possibilité de dépenser <?=Bral_Util_Niveau::NB_PI_NIVEAU_MAX?> en tout à l'académie.
- 	<br><br>
+ 	<br /><br />
  <? elseif ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
- 	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br>
- 	Il vous reste <?=$this->user->pi_braldun?> PI à dépenser à l'académie.<br><br>
+ 	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br />
+ 	Il vous reste <?=$this->user->pi_braldun?> PI à dépenser à l'académie.<br /><br />
  <? endif;?>
  
- Connaissez-vous la spécialisation ? <br><br>
+ Connaissez-vous la spécialisation ? <br /><br />
  
  L'idée est la suivante : un Braldûn qui privilégie les améliorations dans une caractéristique 
  en particulier s'oriente vers un profil. Plus il investit et plus il devient bon dans cette caractéristique.
@@ -43,10 +43,10 @@
  	</tr>
  	<tr class="table_liste<?=($i % 2);$i++; ?>">
 	 	<td class="table_liste">16</td>
-	 	<td class="table_liste">+3 FOR <br>+3 DEG</td>
-	 	<td class="table_liste">+3 AGI <br>+3 DEF</td>
-	 	<td class="table_liste">+3 VIG <br>+3 REG</td>
-	 	<td class="table_liste">+3 SAG <br>Tour : -20min</td>
+	 	<td class="table_liste">+3 FOR <br />+3 DEG</td>
+	 	<td class="table_liste">+3 AGI <br />+3 DEF</td>
+	 	<td class="table_liste">+3 VIG <br />+3 REG</td>
+	 	<td class="table_liste">+3 SAG <br />Tour : -20min</td>
  	</tr>
  	<tr class="table_liste<?=($i % 2);$i++; ?>">
 	 	<td class="table_liste">20</td>
@@ -57,11 +57,11 @@
  	</tr>
  </table>
  
- <br>
+ <br />
  Par exemple, si vous avez un niveau 16 en force, vous aurez un bonus de +5 en Force et de +3 en dégâts. 
  Les bonus sont cumulatifs.
- <br><br>
- Vous avez actuellement <?=$this->user->pi_braldun?> PI à dépenser.<br><br>
+ <br /><br />
+ Vous avez actuellement <?=$this->user->pi_braldun?> PI à dépenser.<br /><br />
  
  <? if ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br /><br />
@@ -76,7 +76,7 @@
   <? endif ?>
   
    <div class="ligne_espace">
-   Agilit&eacute; (AGI) : Actuellement niveau <?=$this->user->agilite_base_braldun?>. <br>
+   Agilit&eacute; (AGI) : Actuellement niveau <?=$this->user->agilite_base_braldun?>. <br />
    Achat d'un niveau : <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
      <? if ($this->coutAgilite <= $this->user->pi_braldun): ?>
@@ -87,7 +87,7 @@
    <? endif; ?>
     </div>
     <div class="ligne_espace">
-    Force (FOR) : Actuellement niveau <?=$this->user->force_base_braldun?>. <br>
+    Force (FOR) : Actuellement niveau <?=$this->user->force_base_braldun?>. <br />
    Achat d'un niveau : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
      <? if ($this->coutForce <= $this->user->pi_braldun): ?>
@@ -98,7 +98,7 @@
    <? endif;?>
     </div>
     <div class="ligne_espace">
-	Vigueur (VIG) : Actuellement niveau <?=$this->user->vigueur_base_braldun?>. <br>
+	Vigueur (VIG) : Actuellement niveau <?=$this->user->vigueur_base_braldun?>. <br />
    Achat d'un niveau : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
      <? if ($this->coutVigueur <= $this->user->pi_braldun): ?>
@@ -109,7 +109,7 @@
    <? endif;?>
        </div>
     <div class="ligne_espace">
-    Sagesse (SAG) : Actuellement niveau <?=$this->user->sagesse_base_braldun?>. <br>
+    Sagesse (SAG) : Actuellement niveau <?=$this->user->sagesse_base_braldun?>. <br />
     Achat d'un niveau : <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
      <? if ($this->coutSagesse <= $this->user->pi_braldun): ?>
@@ -117,12 +117,12 @@
      <? else :?>
        Trop cher !
      <? endif;?>
-   <? endif;?><br><br>
-   Informations : <br>
-   A partir du niveau 13 en sagesse, des compétences deviennent disponibles gratuitement à la bibliothèque.<br>
-   <a href='http://regles.braldahim.com/wiki/Dissuader'>Compétence Dissuader</a>.<br>
-   <a href='http://regles.braldahim.com/wiki/Psychologie'>Compétence Psychologie</a>.<br>
-   <a href='http://regles.braldahim.com/wiki/R%C3%A9animer'>Compétence Réanimer</a>.<br>
+   <? endif;?><br /><br />
+   Informations : <br />
+   A partir du niveau 13 en sagesse, des compétences deviennent disponibles gratuitement à la bibliothèque.<br />
+   <a href='http://regles.braldahim.com/wiki/Dissuader'>Compétence Dissuader</a>.<br />
+   <a href='http://regles.braldahim.com/wiki/Psychologie'>Compétence Psychologie</a>.<br />
+   <a href='http://regles.braldahim.com/wiki/R%C3%A9animer'>Compétence Réanimer</a>.<br />
  </div>
  </div> 
 </form>

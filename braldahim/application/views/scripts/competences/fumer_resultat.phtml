@@ -9,13 +9,13 @@ Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br />
 			Pour le tour courant, 
 		<? endif; ?>
 	
-		cela rajoute 15% dans les comp&eacute;tences suivantes : <br>
+		cela rajoute 15% dans les comp&eacute;tences suivantes : <br />
 		
 		<? foreach($this->competences as $c): ?>
-			<?=$c["nom_competence"]?><br>
+			<?=$c["nom_competence"]?><br />
 		<? endforeach;?>
 		
-		<br>
+		<br />
 		Vous aurez ensuite <?=$this->nbToursMalus?> tour<? if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
 		
 	<? else: ?>

@@ -217,9 +217,9 @@ class MarchepotionController extends Zend_Controller_Action {
 				$braldun .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/braldun/?braldun=".$p["id_braldun"]."\");^_self";
 				$tab[] = $braldun;
 				if ($p["sexe_braldun"] == "masculin") {
-					$tab[] = $p["nom_masculin_metier"]. "<br>(".$p["x_echoppe"].", ".$p["y_echoppe"].")";
+					$tab[] = $p["nom_masculin_metier"]. "<br />(".$p["x_echoppe"].", ".$p["y_echoppe"].")";
 				} else {
-					$tab[] = $p["nom_feminin_metier"]. "<br>(".$p["x_echoppe"].", ".$p["y_echoppe"].")";
+					$tab[] = $p["nom_feminin_metier"]. "<br />(".$p["x_echoppe"].", ".$p["y_echoppe"].")";
 				}
 
 				if ($potion["bm_type"] == null) {
@@ -227,7 +227,7 @@ class MarchepotionController extends Zend_Controller_Action {
 				} else {
 					$type = $potion["bm_type"]." ".$potion["caracteristique"];
 					if ($potion["bm2_type"] != null) {
-						$type .= "<br>".$potion["bm2_type"]." ".$potion["caracteristique2"];
+						$type .= "<br />".$potion["bm2_type"]." ".$potion["caracteristique2"];
 					}
 					$tab[] = $type;
 				}

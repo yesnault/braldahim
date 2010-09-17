@@ -6,12 +6,12 @@
 	<? else : ?>
 		Vous avez payé avec succès votre caution.
 	<? endif;?>
-	<br><br>
-	Vous avez 1 point de gredin en moins.<br>
+	<br /><br />
+	Vous avez 1 point de gredin en moins.<br />
 	Vous avez maintenant <?=$this->user->points_gredin_braldun;?>
 	 point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de gredin.
 
 <? else: ?>
 	Vous avez maintenant <?=$this->user->points_redresseur_braldun;?> point de Redresseur de Torts.
 <? endif;?>
-<br>
+<br />

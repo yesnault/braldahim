@@ -1,10 +1,10 @@
 <div class="inner">
-<div class="box_contenu1 textalic"><br>
+<div class="box_contenu1 textalic"><br />
 	
 	<div class="titre textalic textsizec">
 		Match n°<?=$this->matchEnCours["id_soule_match"]?>
 		- <?=$this->matchEnCours["nom_soule_terrain"]?> 
-		<br> 
+		<br /> 
 		<? if ($this->matchEnCours["date_debut_soule_match"] == null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
 		Non d&eacute;but&eacute;  - Inscriptions en cours
 		<? elseif ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
@@ -13,9 +13,9 @@
 		Terminé
 		<? endif;?>
 	</div>
-	<br>
+	<br />
 	Adresse directe pour vos marques-pages : <a href='http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?>'>http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?></a>
-	<br><br>
+	<br /><br />
 	<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
 		<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
 			Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
@@ -31,7 +31,7 @@
 		<td valign="top" align="center">
 		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] != null) : ?>
 			<? if ($this->matchEnCours["html_fin_soule_match"] != null) : ?>
-				Photo de fin de match<br><br>
+				Photo de fin de match<br /><br />
 				<?=$this->matchEnCours["html_fin_soule_match"];?>
 			
 			<? else: ?>

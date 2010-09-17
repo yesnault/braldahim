@@ -41,11 +41,11 @@
   </table>
   
   <? if ($this->user->administrationvue == true) :?>
-  <b>Administration par la vue activée.</b><br>
-  Double-Cliquez sur le coin supérieur gauche d'une case pour ajouter une eau.<br>
-  Double-Cliquez sur le coin supérieur droit d'une case pour ajouter un lieu.<br>
-  Double-Cliquez sur le coin inférieur gauche d'une case pour ajouter / supprimer une route.<br>
-  Double-Cliquez sur le coin inférieur gauche d'une case pour ajouter / supprimer une palissade.<br><br>
+  <b>Administration par la vue activée.</b><br />
+  Double-Cliquez sur le coin supérieur gauche d'une case pour ajouter une eau.<br />
+  Double-Cliquez sur le coin supérieur droit d'une case pour ajouter un lieu.<br />
+  Double-Cliquez sur le coin inférieur gauche d'une case pour ajouter / supprimer une route.<br />
+  Double-Cliquez sur le coin inférieur gauche d'une case pour ajouter / supprimer une palissade.<br /><br />
 
 	Ville : 
  	<select name='administrationvue_ville' id="administrationvue_ville" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
@@ -62,7 +62,7 @@
 		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
 	<? endforeach; ?>
 	</select>
-	<br>
+	<br />
 	
 	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?=$this->centre_x ?>">
 	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?=$this->centre_y ?>">

@@ -24,7 +24,7 @@
   			<? endif;?>
   			(n&deg;<?=$this->braldun["id_fk_pere_braldun"] ?>)</a>
   		<? endif;?>
-	    <br>
+	    <br />
 	    <?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?>  (n&deg;<?=$this->braldun["id_braldun"] ?>)
 	  	 est n&eacute;<? if ($this->braldun["sexe_braldun"] == 'feminin') echo "e"?>
 	  	 <span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->braldun["date_creation_braldun"] );?>">

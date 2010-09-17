@@ -15,13 +15,13 @@
 				<?=$this->messageCaptchaInvalide?><br />
 			</div>
 			<?php endif; ?>
-			<img src="/public/images/captcha/<?=$this->captcha->getId();?>.png"><br>
+			<img src="/public/images/captcha/<?=$this->captcha->getId();?>.png"><br />
 			&Eacute;crivez ici le texte que vous voyez ci-dessus : 
 			<input type="text" name="captcha[input]" value="" size="10" maxlength="10"/> 
 			<input type="hidden" name="captcha[id]" value="<?=$this->captcha->getId();?>" />
 			<ul class="titre textalic textsized">Si vous ne voyez pas clairement le texte, <a href="/inscription">recharger la page</a></ul>
-			<br>
-			<br>
+			<br />
+			<br />
 
 		<?php if(!empty($this->messages)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
@@ -48,22 +48,22 @@
 		    
 		    Entre 5 et 15 caract&egrave;res<br />
 		    La premi&egrave;re lettre de votre pr&eacute;nom sera automatiquement mise en majuscule<br />
-		    Les chiffres et les caract&egrave;res sp&eacute;ciaux ne sont pas autoris&eacute;s dans le pr&eacute;nom.<br>
-		    Certains pr&eacute;noms sont interdits, d'autres sont d&eacute;j&agrave; utilis&eacute;s.<br><br>
+		    Les chiffres et les caract&egrave;res sp&eacute;ciaux ne sont pas autoris&eacute;s dans le pr&eacute;nom.<br />
+		    Certains pr&eacute;noms sont interdits, d'autres sont d&eacute;j&agrave; utilis&eacute;s.<br /><br />
 		    
 		     Si le pr&eacute;nom que vous choisissez est d&eacute;j&agrave; utilis&eacute; avec le nom tir&eacute; au sort, il sera 
 		    suffix&eacute; de <u>Junior</u>. 
-		    <br>
+		    <br />
 		    Ceci arrive tr&egrave;s rarement, mais vous pouvez v&eacute;rifier l'utilisation ou non de 
 		    votre pr&eacute;nom en consultant 
 		    
 		    <a onClick="javascript:ouvrirWin('/voir/bralduns');" title="Cliquez pour voir la liste des bralduns inscrits">
   				la liste des bralduns inscrits.
   			</a>
-  	 		<br>
+  	 		<br />
 		    
-		    <br>
-		    <u>Choisissez bien votre pr&eacute;nom</u>, il ne sera pas possible de le changer par la suite.<br>
+		    <br />
+		    <u>Choisissez bien votre pr&eacute;nom</u>, il ne sera pas possible de le changer par la suite.<br />
 		    
 			<input type="text" name="prenom_braldun" value="<?=$this->braldun->prenom_braldun;?>" size="25" maxlength="15"/>
 		</div>
@@ -121,11 +121,11 @@
 	
 		<div><br />
 			Une Comt&eacute; est une r&eacute;gion g&eacute;ographique contenant un certain nombre de 
-			villes, de lieux... <br>Vous arriverez dans une des mairies de la Comt&eacute; que vous allez choisir.
-			<br><br>
+			villes, de lieux... <br />Vous arriverez dans une des mairies de la Comt&eacute; que vous allez choisir.
+			<br /><br />
 			 Attention, les Comt&eacute;s PVP (PVP : oui ) indiquent des Comt&eacute;s dans lesquelles
 			l'attaque des Braldûns entre eux est autoris&eacute;e.
-			<br><br>
+			<br /><br />
 			
 			Choisissez une Comt&eacute; : 
 			<select name='id_region' id='id_region'>
@@ -138,15 +138,15 @@
 				</option>
 				<? endforeach; ?>
 			</select><br /><br />
-			Vous pourrez bien s&ucirc;r changer de comté au cours du jeu.<br>
+			Vous pourrez bien s&ucirc;r changer de comté au cours du jeu.<br />
 			
-			<br>
+			<br />
 
 			<ul class="titre textalic textsizec">Charte</ul>
-			Vous devez accepter la charte d'utilisation pr&eacute;sent&eacute;e ici :<br>
+			Vous devez accepter la charte d'utilisation pr&eacute;sent&eacute;e ici :<br />
 			<a href="<?=$this->config->general->charte->url?>" target="_blank"><?=$this->config->general->charte->url?></a>.
-			<br><br>
-			D&egrave;s lors que vous serez inscrit, nous consid&eacute;rerons que vous aurez accept&eacute; la charte du jeu.<br>
+			<br /><br />
+			D&egrave;s lors que vous serez inscrit, nous consid&eacute;rerons que vous aurez accept&eacute; la charte du jeu.<br />
 		</div>
 		<div id="formbutton">
 			<input type="submit" class='button1' name="ajouter" value="J'ai lu et j'accepte la charte. Je veux m'inscrire !" /> 
@@ -159,6 +159,6 @@
 </div>
 </div>
 </form>
-<br><br>
+<br /><br />
 <?php echo $this->render('footer.phtml'); ?>
 

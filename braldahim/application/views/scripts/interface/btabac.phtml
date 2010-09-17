@@ -12,7 +12,7 @@
 			<br />
 			
 			<? if ($this->tabac == null) : ?>
-				Les prix du marché sont inconnus, la boutique est fermée.<br>
+				Les prix du marché sont inconnus, la boutique est fermée.<br />
 			<? else: ?>
 				<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_achetertabac");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
 				

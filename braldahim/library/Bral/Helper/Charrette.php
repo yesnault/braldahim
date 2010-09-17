@@ -15,8 +15,8 @@ class Bral_Helper_Charrette {
 	public static function afficheBarrePoids($charrette) {
 		$largeur = (($charrette["poids_transporte"] * 100) / $charrette["poids_transportable"]) * 2;
 		$titre = "Poids transportable";
-		$texte = "La charrette porte actuellement ".$charrette["poids_transporte"]." Kg.<br>";
-		$texte .= "Elle peut porter jusqu'&agrave; ".$charrette["poids_transportable"]." Kg.<br>";
+		$texte = "La charrette porte actuellement ".$charrette["poids_transporte"]." Kg.<br />";
+		$texte .= "Elle peut porter jusqu'&agrave; ".$charrette["poids_transportable"]." Kg.<br />";
 
 		if ($largeur > 200) {
 			$largeur = 200;
@@ -31,9 +31,9 @@ class Bral_Helper_Charrette {
 		
 		$largeur = (($charrette["durabilite_actuelle"] * 100) / $charrette["durabilite_max"]) * 2;
 		$titre = "Durabilité";
-		$texte = "La charrette a une durabilit&eacute; maximum de ".$charrette["durabilite_max"].".<br>";
-		$texte .= "Il lui reste ".$charrette["durabilite_actuelle"].".<br>";
-		$texte .= "Elle sera automatiquement d&eacute;truite &agrave; une durabilit&eacute; de 0 si vous ne la faite pas r&eacute;parer avant.<br>";
+		$texte = "La charrette a une durabilit&eacute; maximum de ".$charrette["durabilite_max"].".<br />";
+		$texte .= "Il lui reste ".$charrette["durabilite_actuelle"].".<br />";
+		$texte .= "Elle sera automatiquement d&eacute;truite &agrave; une durabilit&eacute; de 0 si vous ne la faite pas r&eacute;parer avant.<br />";
 
 		if ($largeur > 200) {
 			$largeur = 200;

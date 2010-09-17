@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
  
  	<? if ($this->user->est_intangible_braldun == 'oui') :?>
-		Vous êtes actuellement intangible, vous ne pouvez pas utiliser cette compétence.<br><br>
+		Vous êtes actuellement intangible, vous ne pouvez pas utiliser cette compétence.<br /><br />
 	<? elseif ($this->nBralduns == 0): ?>
  		Il n'y a rien aucun Braldûn Ko ici, vous ne pouvez pas utiliser cette compétence...<br />
  	<? elseif ($this->nAliments == 0): ?>
@@ -10,7 +10,7 @@
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez tenter de réanimer un Braldûn KO.<br /><br />
  		
- 		Seul les Braldûns de niveau inférieur à votre niveau de sagesse x 2 peuvent être réanimés.<br><br>
+ 		Seul les Braldûns de niveau inférieur à votre niveau de sagesse x 2 peuvent être réanimés.<br /><br />
  		<? if ($this->nBralduns > 0): ?>
  		 Choississez un Braldûn KO: <br />
  			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_reanimer').disabled=true } else { $('bouton_reanimer').disabled=false }">

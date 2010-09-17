@@ -2,13 +2,13 @@
 
 <? if ($this->okJet1 === true): ?>
 	<? if ($this->nbPartiesPlantesPreparees > 0) : ?>
-		Vous avez r&eacute;ussi &agrave; concocter des parties de plante de <?=$this->planteNomType ?>.<br>
+		Vous avez r&eacute;ussi &agrave; concocter des parties de plante de <?=$this->planteNomType ?>.<br />
 		Vous avez obtenu <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> 
 		pr&eacute;par&eacute;e<?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> en 
 		utilisant <?=$this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's';endif;?>.	
 	<? else: ?>
 		Vous avez rat&eacute; votre pr&eacute;paration.
-		<br>
+		<br />
 		Aucune plante pr&eacute;par&eacute;e n'est apparue et <?=$this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's sont perdues'; else: echo ' est perdue'; endif;?>.<br />
 	<? endif; ?>
 	

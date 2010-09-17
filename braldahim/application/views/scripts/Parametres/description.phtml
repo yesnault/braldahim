@@ -20,7 +20,7 @@
 				
 			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
 		 
-			 <br>
+			 <br />
 			 
 			  <div id="label_description">
 			  <?=Bral_Util_BBParser::bbcodeReplace($this->user->description_braldun) ?><? if (mb_strlen(trim($this->user->description_braldun)) == 0 || $this->user->description_braldun == null) :?> [vide]<? endif; ?>

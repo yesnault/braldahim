@@ -7,9 +7,9 @@
 	  
  <? if ($this->affichageInterne == true) : ?>
    <? if ($this->terrainBraldun != null) : ?>
-   Avec votre niveau, le terrain vous correspondant est le <?=$this->terrainBraldun["nom_soule_terrain"]?>.<br>
+   Avec votre niveau, le terrain vous correspondant est le <?=$this->terrainBraldun["nom_soule_terrain"]?>.<br />
    <? endif;?>
-   <br>
+   <br />
    
    Choissisez le terrain : 
 	<select name='id_terrain' onChange="Javascript:_get_('/soule/doaction?caction=ask_soule_voir&id_terrain='+this.value);">

@@ -3,7 +3,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
 	
-	Nombre de PA : <?=$this->paUtilisationLieu?>.<br><br>	
+	Nombre de PA : <?=$this->paUtilisationLieu?>.<br /><br />	
 	
 	Que voulez-vous faire ?
 	<br /> (les champs sont disponibles à partir du niveau 5) : 
@@ -17,7 +17,7 @@
 	
 	<br /><br />
 	<? if ($this->coutCastars != null) : ?>
-		Coût en castars : <?=$this->coutCastars?>.<br><br>
+		Coût en castars : <?=$this->coutCastars?>.<br /><br />
 	<? endif;?>
  	
  	<? if ($this->idTypeCourant == "acheterchamp") : ?>
@@ -26,7 +26,7 @@
  		<br />
  		
  		Vous possédez actuellement <?=$this->nChamps?> champ<? if ($this->nChamps > 1): echo "s"; endif;?> 
- 		et vous pouvez en avoir au maximum <?=$this->nChampsPossibleMax?>.<br>
+ 		et vous pouvez en avoir au maximum <?=$this->nChampsPossibleMax?>.<br />
 	 	Pour <?=$this->paUtilisationLieu?> PA et <?=$this->coutCastars?> castars, vous pouvez acheter un champ.<br /><br />
  	
  		<? if ($this->nChampsPossible < 1) : ?>
@@ -100,9 +100,9 @@
 		Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 		<br />
 	<? elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
-		Confirmer la suppression de cette échoppe ?<br><br>
+		Confirmer la suppression de cette échoppe ?<br /><br />
 		
-		Attention, tout le contenu de l'échoppe sera définitivement détruit.<br><br>
+		Attention, tout le contenu de l'échoppe sera définitivement détruit.<br /><br />
 	<? endif;?>
  </div>
 </form>

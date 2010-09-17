@@ -26,24 +26,24 @@
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized">Caract&eacute;ristiques</div>
 		   			
-		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?=$this->charrette["id_charrette"]?>")'>l'historique</label><br><br>
+		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?=$this->charrette["id_charrette"]?>")'>l'historique</label><br /><br />
 				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
 				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->charrette)?>
 				   <?=$this->tabPoidsCharrette["transporte"]?> Kg / <?=$this->tabPoidsCharrette["transportable"]?> Kg transportable.
-				   <br><br>
+				   <br /><br />
 				   <?=Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
 				   Durabilit&eacute; : <?=$this->charrette["durabilite_actuelle"]?> / <?=$this->charrette["durabilite_max"]?>.
 		   		</td>
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized braltip">Partage
-		   				<?=Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
+		   				<?=Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br /> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
 		   			</div>
-		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br>
-		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br>
+		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br />
+		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br />
 		   			<? if ($this->partageBralduns == null) : ?>
-		   				Partage avec aucun autre Braldûn<br><br>
+		   				Partage avec aucun autre Braldûn<br /><br />
 		   			<? else: ?>
-		   				Partage avec : <?=$this->partageBralduns?><br><br>
+		   				Partage avec : <?=$this->partageBralduns?><br /><br />
 		   			<? endif;?>
 		   			
 		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />

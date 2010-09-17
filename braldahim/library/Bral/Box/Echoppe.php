@@ -49,7 +49,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		} else {
 			$nom .= $echoppe["nom_feminin_metier"];
 		}
-		$nom = htmlspecialchars($nom). "<br>";
+		$nom = htmlspecialchars($nom). "<br />";
 		$nom .= " appartenant &agrave ".htmlspecialchars($echoppe["prenom_braldun"]);
 		$nom .= " ".htmlspecialchars($echoppe["nom_braldun"]);
 		$nom .= " n°".$echoppe["id_braldun"];

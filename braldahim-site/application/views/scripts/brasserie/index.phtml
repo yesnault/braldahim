@@ -1,10 +1,10 @@
-<br>
+<br />
 <div class="titre textalic textsizeb">La Brasserie des Sports
-<br>
+<br />
 <img src='/public/images/ballon.png'/>
 <? if (count($this->matchs) > 0):?>
 	<div style="padding-left:20px">
-		Liste des matchs : <br><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)};" style="text-decoration: underline;"">
+		Liste des matchs : <br /><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)};" style="text-decoration: underline;"">
 		<option value="-1">Choisissez un match</option>
 		<? foreach($this->matchs as $m) : ?>
 			<option value="<?=$m["id_soule_match"]?>" <? if ($this->idMatchDirect == $m["id_soule_match"]): echo 'selected'; endif;?>>
@@ -24,7 +24,7 @@
 <? else: ?>
 Aucun match
 <? endif;?>
-</div><br>
+</div><br />
 			
 <table style="width:100%">
 <tr>
@@ -33,16 +33,16 @@ Aucun match
 		<div class="box_brasserie_match" id="box_brasserie_match">
 		    <? if ($this->directFluxErreur == true) : ?>
 		    	<div class="inner">
-					<div class="box_contenu1 textalic"><br>
-					Match invalide. Choisissez un match<br><br>
+					<div class="box_contenu1 textalic"><br />
+					Match invalide. Choisissez un match<br /><br />
 					</div>
 				</div>
 		    <? elseif ($this->directFlux != null): ?>
 		    	<?=$this->directFlux?>
 		    <? else : ?>
 				<div class="inner">
-					<div class="box_contenu1 textalic"><br>
-					Choisissez un match<br><br>
+					<div class="box_contenu1 textalic"><br />
+					Choisissez un match<br /><br />
 					</div>
 				</div>
 			<? endif;?>

@@ -6,12 +6,12 @@
   vous propose d'apprendre une nouvelle comp&eacute;tence.<br /><br />
   
   <? if ($this->possedeCompetenceCommune === false): ?>
-	  C'est votre première visite, la première compétence est gratuite en castars!<br><br>
+	  C'est votre première visite, la première compétence est gratuite en castars!<br /><br />
   <? endif; ?>
   
   <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
  	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous devez
- 	acheter les nouvelles compétences à l'aide de PX et non de PI.<br><br>
+ 	acheter les nouvelles compétences à l'aide de PX et non de PI.<br /><br />
  <? endif;?>
  
  <? if ($this->nCompetences == 0): ?>

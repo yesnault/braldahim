@@ -7,7 +7,7 @@
 	<br />
 		<?=Bral_Helper_BBBoutons::affiche('valeur_descriptionchamp', 2500)?>
 		<input type='hidden' id='valeur_2' name='valeur_2' value='' />
-		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=(2500-mb_strlen($this->champ["commentaire_champ"]))?>" type="text"> Caract&egrave;res restants<br>
+		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=(2500-mb_strlen($this->champ["commentaire_champ"]))?>" type="text"> Caract&egrave;res restants<br />
 		<textarea name="valeur_descriptionchamp" id="valeur_descriptionchamp" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_descriptionchamp'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_descriptionchamp'),$('characterstyped'),2500);"><?=Bral_Util_BBParser::bbcodeStripPlus($this->champ["commentaire_champ"])?></textarea>
 		
  </div>

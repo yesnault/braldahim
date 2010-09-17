@@ -3,16 +3,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  
- <br>
- Coût : <?=$this->paUtilisationLieu?> PA.<br><br>
+ <br />
+ Coût : <?=$this->paUtilisationLieu?> PA.<br /><br />
  
  <? if ($this->utilisationPaPossible == false) : ?>
  	Vous n'avez pas assez de PA.
  <? elseif ($this->contratEnCours != null) : ?>
  	Vous avez déjà un contrat en cours, vous ne pouvez pas en prendre un autre.
  <? else: ?>
- 	Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
-	Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br>
+ 	Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br />
+	Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br />
 	
 	<? if ($this->type == "gredin") : ?>
 		Vous êtes dans une maison pour obtenir un contrat de Gredin.
@@ -20,7 +20,7 @@
 		Vous êtes dans une maison pour obtenir un contrat de Redresseur de Torts.
 	<? endif; ?>
 	
-	<br><br>
+	<br /><br />
 	
 	<? if ($this->utilisationPossible == false) : ?>
 		<? if ($this->type == "gredin") : ?>

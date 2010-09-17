@@ -1,5 +1,5 @@
 <?php if ($case['n_elements_minerais_bruts'] > 0) : 
-	$textElementsMineraisBruts = '<br>Minerais bruts:<br>';;
+	$textElementsMineraisBruts = '<br />Minerais bruts:<br />';;
 	$nbMinerais = 0;
 	foreach($case['elements_minerais_bruts'] as $m) {
 		$textElementsMineraisBruts .= $m['quantite'] . ' '.htmlspecialchars($m['type']).'<br />';
@@ -12,7 +12,7 @@
 endif; ?>
 <?php if ($case['n_elements_lingots'] > 0) : 
 	$nbLingots = 0;
-	$textElementsLingots = '<br>Lingots:<br>';;
+	$textElementsLingots = '<br />Lingots:<br />';;
 	foreach($case['elements_lingots'] as $m) {
 		$textElementsLingots .= $m['quantite'] . ' '.htmlspecialchars($m['type']).'<br />';
 		$nbLingots = $nbLingots + $m['quantite'] ;

@@ -1,7 +1,7 @@
 <?php Zend_Loader::loadClass("Bral_Util_Tour")?>
 	
 	<ul class="titre textalic textsized"><?=Bral_Helper_Calendrier::affiche();?></ul>
-	<br>
+	<br />
 	
 	<div class="titre textalic textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
 	  <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
@@ -42,11 +42,11 @@
 	<?=$this->user->pv_restant_braldun ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?> 
 	(<?=($this->config->game->pv_base + $this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) ?> 
 	<? if ($this->user->pv_max_bm_braldun >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_braldun ?>)
-	<br>
+	<br />
 	
 	<br />
 	
-	Votre tour de jeu : <br>
+	Votre tour de jeu : <br />
 	<? Zend_Loader::loadClass("Bral_Helper_Profil")?>
 	<?=Bral_Helper_Profil::afficheBarreTour($this->user)?>
 	
@@ -55,21 +55,21 @@
 	Nombre de Points d'Action : <?=$this->user->pa_braldun ?><br /><br />
 	
 	<? if ($this->charretteDetruite) : ?>
-		<br>
+		<br />
 		<b>Votre charrette a &eacute;t&eacute; d&eacute;truite, vous ne l'avez pas r&eacute;par&eacute;e &agrave; temps. Tout ce qu'elle portait est tomb&eacute; &agrave; terre.</b>
-		<br><br><br>
+		<br /><br /><br />
 	<? endif; ?>
 	
 	<? if ($this->equipementDetruit != null) : ?>
 		<? if (array_key_exists("detruit", $this->equipementDetruit)) : ?>
-			<br>Vous n'avez pas réparé votre équipement correctement :<br>
+			<br />Vous n'avez pas réparé votre équipement correctement :<br />
 			<b><?=$this->equipementDetruit["detruit"]?></b>
-			<br>
+			<br />
 		<? endif;?>
 		<? if (array_key_exists("abime", $this->equipementDetruit)) : ?>
-			<br>Réparation<? if ($this->equipementDetruit["abime"]["nb"] > 1): echo "s"; endif;?> à faire rapidement :<br>
+			<br />Réparation<? if ($this->equipementDetruit["abime"]["nb"] > 1): echo "s"; endif;?> à faire rapidement :<br />
 			<b><?=$this->equipementDetruit["abime"]["texte"]?></b>
-			<br>
+			<br />
 		<? endif;?>
 	<? endif; ?>
 	

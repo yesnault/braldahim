@@ -3,7 +3,7 @@
   <? if (count($this->motsRuniques) > 0) : ?>
 	 <? if ($this->rechercherMotOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez rechercher un mot runique ...<br /><br />
-	 Ne sont affich&eacute;s que les mots disponibles suivant votre niveau de sagesse.<br><br>
+	 Ne sont affich&eacute;s que les mots disponibles suivant votre niveau de sagesse.<br /><br />
 	 
 	 <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_recherchermot&id_mot='+this.value);">
 	 	<option value="-1">(Choisissez un mot)</option>
@@ -12,7 +12,7 @@
 	 	<? endforeach; ?>
 	 </select>
 	 <? if (isset($this->motCourant) ) : ?>
-	 <br><br>
+	 <br /><br />
 		Glissez une rune sur l'emplacement ci-dessous. L'ordre des runes a une importance,
 		vous pouvez les r&eacute;organiser avant de valider la recherche.<br /><br />
 		Tous les emplacements runiques doivent &ecirc;tre utilis&eacute;s.<br />

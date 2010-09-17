@@ -2,11 +2,11 @@
 
 <? if ($this->idChoix == 1 || $this->idChoix == 3) :?>
 	Vous vous &ecirc;tes restaur&eacute;<br /> <br />
-	Votre balance de faim est maintenant de <?=$this->user->balance_faim_braldun ?> %<br /><br>
+	Votre balance de faim est maintenant de <?=$this->user->balance_faim_braldun ?> %<br /><br />
 <? endif;?>
 
 <? if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
 	Vous avez achet&eacute; <?=$this->nbAcheter ?>  <?=$this->aliment->nom_type_aliment?><? if ($this->nbAcheter > 1): echo "s"; endif; ?>, 
-	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?=$this->bbdfAliment?> %.<br><br>
+	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?=$this->bbdfAliment?> %.<br /><br />
 <? endif;?>
 Vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castars.

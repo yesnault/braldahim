@@ -1,30 +1,30 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez récolté votre champ situé en x:<?=$this->champ["x_champ"]?>, y:<?=$this->champ["y_champ"]?>. <br><br>
+Vous avez récolté votre champ situé en x:<?=$this->champ["x_champ"]?>, y:<?=$this->champ["y_champ"]?>. <br /><br />
 
-Vous avez récupéré <?=$this->recolte?>.<br><br>
+Vous avez récupéré <?=$this->recolte?>.<br /><br />
 
 <? if ($this->placeDispo == false) : ?>
-	Faute de place, certains éléments sont tombés au sol.<br><br>
+	Faute de place, certains éléments sont tombés au sol.<br /><br />
 <? endif;?>
 
 <? if ($this->taupesVivantes != null) : ?>
-	La récolte a été affectée par : <br>
+	La récolte a été affectée par : <br />
 	
 	<? foreach($this->taupesVivantes as $taille => $numero) : ?>
 	
 		<? foreach($numero as $num => $foo) : ?>
-			1 taupe de taille <?=$taille?> (n°<?=$num?>)<br>
+			1 taupe de taille <?=$taille?> (n°<?=$num?>)<br />
 		<? endforeach;?>
 	<? endforeach;?>
 <? endif;?>
 
-<br>
+<br />
 <? if ($this->champDetruit) : ?>
 	Il n'y a plus rien à récolter dans le champ, il est passé en jachère.
-	<br>
+	<br />
 	Vous pouvez maitenant re-semer votre champ si vous le souhaitez.
 <? else: ?>
 	Il reste encore des éléments à récolter dans le champ.		
 <? endif;?>
-<br><br>
+<br /><br />

@@ -28,10 +28,10 @@ class Bral_Helper_DetailRune {
 		}
 
 		if ($afficheLienHistorique) {
-			$text .= "<label class='alabel' onclick=ouvHistoR(".$e["id_rune"].")>Voir l'historique</label><br>";
+			$text .= "<label class='alabel' onclick=ouvHistoR(".$e["id_rune"].")>Voir l'historique</label><br />";
 		}
 		if ($e["est_identifiee"] == "oui") {
-			$text .= "<br>".addslashes($e["effet_type_rune"]);
+			$text .= "<br />".addslashes($e["effet_type_rune"]);
 		}
 
 		return $text;

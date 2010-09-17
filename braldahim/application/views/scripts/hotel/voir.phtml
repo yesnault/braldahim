@@ -1,5 +1,5 @@
 
-Vous pouvez déposer un élément en vente à l'Hôtel des Ventes.<br>
+Vous pouvez déposer un élément en vente à l'Hôtel des Ventes.<br />
 
 <? if ($this->user->pa_braldun >= 1): 
 	$disabled = "";
@@ -9,20 +9,20 @@ endif;
 ?>
 <input type="button" class='button1' onClick='_get_("/hotel/doaction?caction=ask_hotel_vendre");' value="<?=$this->paUtilisationHotel ?> PA - Vendre" <?=$disabled?>>
 
-<br><br>
+<br /><br />
 
 Même si l'Hôtel des Ventes peut contenir des équipements, potions, vernis, matériels, il ne présente pas les éléments en vente dans les échoppes.
 
-<br>Vous pouvez consulter le marché aux équipements / potions et vernis / matériels dans le Bourg ou directement par le biais des actions suivantes : <br>
+<br />Vous pouvez consulter le marché aux équipements / potions et vernis / matériels dans le Bourg ou directement par le biais des actions suivantes : <br />
 
 <input type="button" class='button1' onClick="javascript:ouvrirWin('http://www.braldahim.com/marcheequipement');" value="0 PA - Voir le marché aux équipements">
 <input type="button" class='button1' onClick="javascript:ouvrirWin('http://www.braldahim.com/marchepotion');" value="0 PA - Voir le marché aux potions et vernis">
 <input type="button" class='button1' onClick="javascript:ouvrirWin('http://www.braldahim.com/marchemateriel');" value="0 PA - Voir le marché aux matériels">
 
-<br><br><br>
+<br /><br /><br />
 
 <? include("voir/menu.phtml");?>
-<br><br>
+<br /><br />
 
 
 <div id="box_hotel_resultats" style="height:530px;overflow: auto; min-height: 80px;"><? include("voir/resultats.phtml");?></div>

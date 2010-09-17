@@ -3,7 +3,7 @@
 <? if ($this->okJet1 === true): ?>
 	<? if ($this->nbLingots > 0) : ?>
 		Vous avez r&eacute;ussi &agrave; fondre <?=$this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's';endif;?>
-		 de <?=htmlspecialchars($this->mineraiNomType) ?>.<br>
+		 de <?=htmlspecialchars($this->mineraiNomType) ?>.<br />
 		Vous avez obtenu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br />
 	<? else: ?>
 		Vous avez rat&eacute; la fonte de 
@@ -12,7 +12,7 @@
 		<? else: ?>
 			votre minerai.
 		<? endif; ?>
-		<br>
+		<br />
 		Aucun lingot n'est apparu et <?=$this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
 	<? endif; ?>
 <? else: ?>

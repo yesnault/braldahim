@@ -9,7 +9,7 @@
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
 	
 	<? if (floor($this->user->niveau_braldun / 10) < $this->vente["objet"]["niveau"]) : ?>
-		<br><br>Attention ! Vous n'avez pas le niveau requis pour équiper cette pièce.
+		<br /><br />Attention ! Vous n'avez pas le niveau requis pour équiper cette pièce.
 	<? endif;?>
 	<br /><br />
 	
@@ -18,7 +18,7 @@
 	<br />
 	
 	<? if ($this->equipement["place_dispo"] === false) : ?>
-		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br>
+		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br />
 	<? endif; ?>
 	
 	<? if (count($this->prix) > 0) : ?>
@@ -45,7 +45,7 @@
 		}
 		?>
 		
-		Destination de la pi&egrave;ce : <br>
+		Destination de la pi&egrave;ce : <br />
 		<select name="valeur_3" id="valeur_3" onChange="<? if ($js!= ""): echo $js; endif;?>">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
@@ -53,9 +53,9 @@
 			<? endforeach; ?>
 		</select>
 		
-		<br><br>
+		<br /><br />
 		<ul class="titre textalic textsizec">Prix</ul>
-		<br>
+		<br />
 			
 		<? foreach($this->prix as $k => $p) : ?>
 			<?=$p["id_destination"] ?> : <?=$p["prix"] ?> <?=$p["nom"] ?>

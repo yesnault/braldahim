@@ -2,12 +2,12 @@
 	Le champ est semé depuis le 
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_seme_champ"]);?>, 
 	vous pouvez l'entretenir pour avoir une meilleure récolte.
-	<br><br>
+	<br /><br />
 	Vous pourrez le récolter à partir du 
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_fin_seme_champ"]);?> pendant 5 jours. 
-	<br>
+	<br />
 	Estimation de la récolte : <?=$this->champ["quantite_champ"]?>.
-	<br><br>
+	<br /><br />
 	
 	<? if ($this->possedeEntretenir === true) : ?>
 		Cliquez sur une case pour l'entretenir.
@@ -18,7 +18,7 @@
 	Le champ peut être récolté ! 
 	Dépêchez-vous, s'il n'est pas récolté avant le
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_fin_recolte_champ"]);?>,
-	il passera en jachère.<br>
+	il passera en jachère.<br />
 	Estimation de la récolte : <?=$this->champ["quantite_champ"]?>.
 <? else : ?>
 	Le champ est actuellement en jachère. Si vous avez assez de graines, vous pouvez en semer.
@@ -82,7 +82,7 @@ foreach($this->tableau as $k => $case) :
 Culture
 </ul>
 <?=$this->typeGraine?>
-<br><br>
+<br /><br />
 
 <ul class="titre textalic textsized">
 Taupes vivantes : 
@@ -91,22 +91,22 @@ Taupes vivantes :
 	<? foreach($this->taupesVivantes as $numero => $details) : ?>
 		Taupe n°<?=$numero?> de taille <?=$details["taille"]?>, 
 		parties vivantes : <?=count($this->taupesVivantes[$numero]["morceaux"])?> / <?=count($this->toutes[$numero])?>
-		<br>
+		<br />
 	<? endforeach;?>
 <? else: ?>
 	Il ne reste plus de taupe vivante.
 <? endif;?>
-<br><br>
+<br /><br />
 
 <ul class="titre textalic textsized">
-Taupes occises : <br> 
+Taupes occises : <br /> 
 </ul>
 
 <? if (count($this->taupesDetruites) > 0): ?>
 	<? foreach($this->taupesDetruites as $numero => $details) : ?>
 		Taupe n°<?=$numero?> de taille <?=$details["taille"]?>,  
 		parties détruites : <?=count($this->toutes[$numero])?> / <?=count($this->toutes[$numero])?>
-		<br>
+		<br />
 	<? endforeach;?>
 <? else: ?>
 	Aucune taupe n'est occise.
@@ -118,7 +118,7 @@ Taupes occises : <br>
 </tr>
 
 
-<br><br>
+<br /><br />
 Légende : 
 
 <table class='champ' align='center'>

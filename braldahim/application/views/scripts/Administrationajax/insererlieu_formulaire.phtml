@@ -19,16 +19,16 @@
 	 
 	 Nom : <input type='text' id='valeur_5' name='valeur_5' onKeyUp="$('valeur_9_fin').value=this.value" value="<?=$this->villeEnCours?>"><br />
 	 
-	 <br>
-	 Nom Distinction (pour lieu mythique uniquement). Ceci est suivi automatiquement du nom du lieu.<br>
-	 Par exemple, mettre "A visité" pour "A visité La flêche dans l'arbre".<br> 
-	 <br><input type='text' id='valeur_9' name='valeur_9' value="">
+	 <br />
+	 Nom Distinction (pour lieu mythique uniquement). Ceci est suivi automatiquement du nom du lieu.<br />
+	 Par exemple, mettre "A visité" pour "A visité La flêche dans l'arbre".<br /> 
+	 <br /><input type='text' id='valeur_9' name='valeur_9' value="">
 	 <input type='text' id='valeur_9_fin' name='valeur_9_fin' value="<?=$this->villeEnCours?>" readonly>
 	 <br />
-	<br> Description : 
+	<br /> Description : 
 	 <textarea name="valeur_6" id="valeur_6" class="inputbox" rows="10" cols="60">Description <?=$this->villeEnCours?></textarea>
-	 <br><br>
-	 Ville : <br>
+	 <br /><br />
+	 Ville : <br />
 	 	<select name='valeur_7' id="valeur_7">
 	 	<option value="-1">Aucune ville (pour lieu RP par exemple)</option>
 	 	<? foreach ($this->villes as $v) : ?>
@@ -36,7 +36,7 @@
 		<? endforeach; ?>
 		</select><br /><br />
 		
-		 Est Lieu Soule : <br>
+		 Est Lieu Soule : <br />
 	 	<select name='valeur_8' id="valeur_8">
 	 	<? foreach ($this->estSoule as $k => $v) : ?>
 			<option value="<?=$k?>"><?=$k?></option>

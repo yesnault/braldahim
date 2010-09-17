@@ -6,7 +6,7 @@
  	Pour <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu ?> PA, vous pouvez vous restaurer
  	et, si vous le souhaitez, acheter des ragoûts (&agrave; <?=$this->coutCastars?> castars l'unit&eacute;). <br /><br />
 
-   	Vous avez <?=$this->user->castars_braldun ?> castar<? if ($this->user->castars_braldun > 1): echo "s"; endif; ?> et <?=$this->poidsRestant?> Kg de poids transportable disponible.<br>
+   	Vous avez <?=$this->user->castars_braldun ?> castar<? if ($this->user->castars_braldun > 1): echo "s"; endif; ?> et <?=$this->poidsRestant?> Kg de poids transportable disponible.<br />
 
 	<? if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars !<br />
@@ -19,9 +19,9 @@
    			<? if ($this->nbDeduction > 0) :?>
    				(<?=$this->nbPossible - $this->nbDeduction?> si vous prenez un repas sur place).
    			<? endif; ?>
-   		<br><br>
+   		<br /><br />
  	 	<? else: ?>
-	    	Vous ne pouvez pas acheter de ragoût &agrave; emporter<br><br>
+	    	Vous ne pouvez pas acheter de ragoût &agrave; emporter<br /><br />
 	    	<input type='hidden' name='valeur_2' id='valeur_2' value='0'>
 	   	<? endif; ?>
 		
@@ -30,7 +30,7 @@
 			<input type='hidden' value='<?=$t["bouton"]?>' id='bouton_<?=$k?>'>
 		<? endforeach; ?>
 		
-	   	Choix : <br>
+	   	Choix : <br />
 	   	<select name='valeur_1' id="valeur_1" onChange="javascript:$('bouton_auberge').value=$('bouton_'+this.value).value;if ($('valeur_1').value==-1 && $('valeur_2').value==0){$('bouton_auberge').disabled=true } else {$('bouton_auberge').disabled=false };if ($('valeur_1').value==2 || $('valeur_1').value==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('valeur_1').value==3 && $('valeur_2').value==<?=$this->nbPossible  ?>){$('valeur_2').value=<?=$this->nbPossible - $this->nbDeduction ?>}">
 		<option value='-1'>(Choix &agrave; faire)</option>
 		<? foreach ($this->tabChoix as $k => $t) : ?>
@@ -41,7 +41,7 @@
 
 	   	<div id="nbAliment" style="display:none">
 	   	Nombre de ragoûts &agrave; acheter  :
-	 	 <br>
+	 	 <br />
 		 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if ((this.value >= 0 && this.value <=<?=$this->nbPossible  ?> && ($('valeur_1').value==2) || ($('valeur_1').value==3) && this.value >= 0 && this.value <=<?=$this->nbPossible - $this->nbDeduction ?> )) {$('bouton_auberge').disabled=false} else {$('bouton_auberge').disabled=true} ">   		
 	    </div>
 

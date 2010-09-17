@@ -208,7 +208,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			$idFilature = $filatureTable->update($data, $where);
 			return true;
 		} else {
-			$details .= " ne se trouve pas dans les environs de votre ville (".$villeCourante["nom_ville"].").<br>";
+			$details .= " ne se trouve pas dans les environs de votre ville (".$villeCourante["nom_ville"].").<br />";
 			$this->calculFilerEtape2($braldunCible, $details);
 			return false;
 		}
@@ -237,12 +237,12 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 
 				if ($this->view->user->x_braldun == $braldunCible["x_braldun"] &&
 				$this->view->user->y_braldun == $braldunCible["y_braldun"]) {
-					$details .= "<br>".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+					$details .= "<br />".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
 					$details .= " se trouve sur votre case !";
 				} else {
-					$details .= "<br>D'après les indices trouvés sur le sol, ";
+					$details .= "<br />D'après les indices trouvés sur le sol, ";
 					$details .= $braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
-					$details .= " peut être en (x / y) : <br>";
+					$details .= " peut être en (x / y) : <br />";
 
 					$tab[] = $braldunCible["x_braldun"]. " / ". $braldunCible["y_braldun"];
 					$tab[] = ($braldunCible["x_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3())). " / ". ($braldunCible["y_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3()));
@@ -255,7 +255,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inconnu->id_braldun, $braldunCible["id_braldun"] , $message, $this->view);
 				
 			} else {
-				$details .= "<br>".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+				$details .= "<br />".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
 				$details .= " se trouve ";
 
 				if ($this->view->user->x_braldun == $braldunCible["x_braldun"]) {

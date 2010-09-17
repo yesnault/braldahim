@@ -19,7 +19,7 @@ class Bral_Helper_Crevasse {
 
 		$retour = "";
 			
-		$retour .= '<b>Vous êtes tombé dans une crevasse.</b> <br><br>Vous vous retrouvez un niveau en dessus ';
+		$retour .= '<b>Vous êtes tombé dans une crevasse.</b> <br /><br />Vous vous retrouvez un niveau en dessus ';
 		$retour .= 'et perdez 50% de vos PV restants.<br />';
 
 		$retour .= '<table class="table_liste" style="border:0" >';

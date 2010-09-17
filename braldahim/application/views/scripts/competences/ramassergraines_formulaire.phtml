@@ -2,11 +2,11 @@
  <div class='comp_contenu'>
 
 	<? if ($this->ramasserGrainesEnvironnementOk !== true) : ?>
-		 Vous ne pouvez ramasser des graines que dans un buisson.<br>
+		 Vous ne pouvez ramasser des graines que dans un buisson.<br />
 	<? else : ?>
-		Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des graines dans ce buisson.<br><br>
+		Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des graines dans ce buisson.<br /><br />
 		
-		Choisissez la destination des graines : <br>
+		Choisissez la destination des graines : <br />
 		<select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_ramassergraines&valeur_1='+this.value);">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationRamasser as $d) :?>

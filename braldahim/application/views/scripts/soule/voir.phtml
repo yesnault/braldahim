@@ -1,12 +1,12 @@
 
-<br>
+<br />
 <ul class="titre textalic textsizec">
 	<?=$this->terrainCourant["nom_soule_terrain"]?>
 </ul>
-<br>
+<br />
 
 <? if ($this->matchEnCours != null) : ?>
-	Il y a actuellement un match en cours sur ce terrain. <br>
+	Il y a actuellement un match en cours sur ce terrain. <br />
 	<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
 		Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
 		y:<?=$this->matchEnCours["y_ballon_soule_match"]?>
@@ -26,7 +26,7 @@
 		<td valign="top"><? if ($this->matchEnCours != null) : include("voir/evenements.phtml"); endif;?></td>
 	</tr>
 </table>
-<br><br>
+<br /><br />
 
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>
@@ -42,7 +42,7 @@
 	<? endif;?>
 <? else:?>
 	<?=$this->inscriptionNonPossibleInfo?>
-	<br>
+	<br />
 	<? if ($this->desinscriptionPossible === true): ?>
 		Vous pouvez vous désinscrire.
 		<? if ($this->user->pa_braldun >=2) : 
@@ -53,12 +53,12 @@
 		<input type="button" class='button1' value="2 PA - Désinscription" <?=$attr?>/>
 	<? endif; ?>
 	<? if ($this->deinscriptionNonPossibleInfo != "") : ?>
-		<br><?=$this->deinscriptionNonPossibleInfo ?><br>
+		<br /><?=$this->deinscriptionNonPossibleInfo ?><br />
 	<? endif;?>
 <? endif; ?>
 
 <? if ($this->souleInfo != "") : ?>
-<br><?=$this->souleInfo ?><br>
+<br /><?=$this->souleInfo ?><br />
 <? endif; ?>
 
 <?php include("voir/equipes.phtml")?>

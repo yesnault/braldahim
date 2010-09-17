@@ -45,7 +45,7 @@ foreach($this->tableau as $k => $case) :
 	
 	$textPalissade = "";
 	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br>Palissade : <br>";
+      	$textPalissade = "<br />Palissade : <br />";
       	foreach($case["palissades"] as $p) {
       		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
       		if ($p["est_destructible_palissade"] == "oui") {
@@ -93,11 +93,11 @@ foreach($this->tableau as $k => $case) :
 
 
 <? if (Zend_Registry::get("estMobile")) : ?>
-	Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br><br>
+	Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br /><br />
 <? 	else : ?>
 	Compétence Marcher accessible depuis la vue : 
-	Cliquez sur <img src='/public/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher<br>
-	Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br>
+	Cliquez sur <img src='/public/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher<br />
+	Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br />
 <? endif ?>
 
 &nbsp;

@@ -1,8 +1,8 @@
 <? if (!empty($this->messages)): ?>
 	<? if ($this->nbMessagesNonLus > 1): $s = 's'; else : $s = ''; endif;?>
     Vous avez <b><?=$this->nbMessagesNonLus?> message<?=$s?> non lu<?=$s?></b>.
-    N'oubliez pas de consulter votre onglet Messagerie.<br>
-    <i>Pour marquer vos messages comme lus, passez par l'onglet messagerie.<br> 
+    N'oubliez pas de consulter votre onglet Messagerie.<br />
+    <i>Pour marquer vos messages comme lus, passez par l'onglet messagerie.<br /> 
     Vous pouvez tout de même consulter le message ici rapidement en cliquant dessus.</i>
 	<table class="table_liste" style="width:100%;border-collapse">
 	<tbody>
@@ -28,7 +28,7 @@
   					<?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
   					</div>
   					<div id='cmsgb<?=$message["id_message"]?>' onClick="switch2div('cmsga<?=$message["id_message"]?>','cmsgb<?=$message["id_message"]?>')" style="display:none; cursor:pointer; background-color:#eeeeee">
-  					Message en entier:<br><?=Bral_Util_BBParser::bbcodeReplace($message["titre"]);?>
+  					Message en entier:<br /><?=Bral_Util_BBParser::bbcodeReplace($message["titre"]);?>
   					</div>
   				</td>
   				<td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\>H:i', $message["date"]);?></td>

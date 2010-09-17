@@ -1,18 +1,18 @@
-  <br>
+  <br />
   <ul class="titre textalic textsized">Contrats</ul>
-  <br> 
-  <br> 
-  Pour obtenir un contrat de Gredin, allez à Fichetrousse dans la maison de contrat.<br>
-  Pour obtenir un contrat de Redresseur de Torts, allez à Sarlute dans la maison de contrat.<br>
-  <br>
-  <br>
+  <br /> 
+  <br /> 
+  Pour obtenir un contrat de Gredin, allez à Fichetrousse dans la maison de contrat.<br />
+  Pour obtenir un contrat de Redresseur de Torts, allez à Sarlute dans la maison de contrat.<br />
+  <br />
+  <br />
   <? if ($this->contrats == null) : ?>
-  	Vous n'avez aucun contrat.<br>
+  	Vous n'avez aucun contrat.<br />
   <? else: ?>
   
     <? if ($this->idContratEnCours != null) : ?>
 	  <input type='button' class='button1' value='Annuler le contrat en cours - 0 PA' onClick="_get_('/contrat/doaction?caction=ask_contrat_annuler&id_contrat=<?=$this->idContratEnCours?>');">
-	  <br><br>
+	  <br /><br />
   	<? endif;?>
   
  	<table width="100%">
@@ -21,7 +21,7 @@
  				<table class="table_liste" style="width:90%">
 					<thead class="table_liste">
 					  <tr class="table_liste">
-						<th colspan="2"> Contrats r&eacute;alis&eacute;s ou en cours<br></th>
+						<th colspan="2"> Contrats r&eacute;alis&eacute;s ou en cours<br /></th>
 					  </tr>
 					</thead>
 					

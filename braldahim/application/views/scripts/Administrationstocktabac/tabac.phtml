@@ -12,11 +12,11 @@
 				
 				Ajouter un nouveau stock, qui sera actif le : 
 				<?=$this->dateCreationStock ?>
-				<br><br>
-					<span class="titre textalia textsizeb">PV : Prix Vente en castars, par la boutique</span><br>
-					<span class="titre textalia textsizeb">PR : Prix Reprise en castars, par la boutique</span><br>
-					<span class="titre textalia textsizeb">NB : Quantité initiale</span><br>
-				<br><br>
+				<br /><br />
+					<span class="titre textalia textsizeb">PV : Prix Vente en castars, par la boutique</span><br />
+					<span class="titre textalia textsizeb">PR : Prix Reprise en castars, par la boutique</span><br />
+					<span class="titre textalia textsizeb">NB : Quantité initiale</span><br />
+				<br /><br />
 				
 				<table width="100%">
 				<? 
@@ -26,18 +26,18 @@
 					$i++;
 					if ($i % 4 == 0): echo "<tr>"; endif;?>
 						<td style="text-align:right">
-							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br>
+							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br />
 							<? foreach ($r["type_tabac"] as $t) : ?>
 							
-								<span class="titre textalia textsized"><?=$t["nom"]?></span><br>
+								<span class="titre textalia textsized"><?=$t["nom"]?></span><br />
 							
 								 <?=$t["nom"]?>
 								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$t["id_form"]."_vente"?>" size='3' value="<?=$t["prix_unitaire_vente"]?>" />
 								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$t["id_form"]."_reprise"?>" size='3' value="<?=$t["prix_unitaire_reprise"]?>"/>
-								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$t["id_form"]."_nbinitial"?>" size='3' value="<?=$t["nb_feuille"]?>"/> <br>
-								<br>
+								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$t["id_form"]."_nbinitial"?>" size='3' value="<?=$t["nb_feuille"]?>"/> <br />
+								<br />
 							<? endforeach; ?>
-							<br><br>
+							<br /><br />
 						
 						</td>
 					<? if ($i % 4 == 3): echo "</tr>"; endif;?>
@@ -47,7 +47,7 @@
 			<input type="submit" class="button1" name="add" value="Ajouter le nouveau stock" />
 			</form>
 			
-			<br><br>
+			<br /><br />
 			<form action="/Administrationstocktabac/tabac" method="post">
 				Date Stock (AAAA-MM-JJ 00:00:00) 
 				

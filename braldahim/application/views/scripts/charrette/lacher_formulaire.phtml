@@ -1,7 +1,7 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
- <br>
+ <br />
  	
 	 <? if ($this->possedeCharrette === false) : ?>
 	 	Vous n'avez pas de charrette...
@@ -11,9 +11,9 @@
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez l&acirc;cher votre charrette. <br /><br />
 		 
 		 <? if ($this->possedeCaleFrein === true) : ?>
-			 La charrette possède un Cale-Frein, vous pouvez la l&acirc;cher.<br>
+			 La charrette possède un Cale-Frein, vous pouvez la l&acirc;cher.<br />
 		<? else: ?>
-			La charrette ne possède pas de Cale-Frein, vous ne pouvez donc pas la l&acirc;cher.<br>
+			La charrette ne possède pas de Cale-Frein, vous ne pouvez donc pas la l&acirc;cher.<br />
 		 <? endif;?>
 	 <? endif; ?>
 	 <br />

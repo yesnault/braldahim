@@ -186,9 +186,9 @@ class MarchealimentController extends Zend_Controller_Action {
 				$braldun .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/braldun/?braldun=".$e["id_braldun"]."\");^_self";
 				$tab[] = $braldun;
 				if ($e["sexe_braldun"] == "masculin") {
-					$tab[] = $e["nom_masculin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
+					$tab[] = $e["nom_masculin_metier"]. "<br />(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				} else {
-					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
+					$tab[] = $e["nom_feminin_metier"]. "<br />(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
 				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_".$aliment["id_type_aliment"].".png' alt=\"".htmlspecialchars($aliment["nom"]) ."\"/>";
 				$tab[] = $e["nom_type_aliment"];

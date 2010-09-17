@@ -33,31 +33,31 @@
 				</table>
 		    <? endif; ?>
 	   <? endif; ?>
-	   <br>
+	   <br />
 	   
 	<div class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Torts</div>
-		Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
-		Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br><br>
+		Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br />
+		Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br /><br />
 		
 	<div class="titre textalic textsized">Mes Distinctions</div>
 	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
 	   	<? $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
 	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_braldun ?> point<?=$s?> de distinction. (?)</span>
-	   	<br>
+	   	<br />
 	   	<? foreach($this->tabDistinctions as $d): ?>
-	   		<br>
+	   		<br />
 			 Catégorie : <?=$d["nom"]?>
-			 <br>
+			 <br />
 		  	<? $i = 0; 
 		  	foreach($d["distinctions"] as $t): ?>
 			  	<?=$t["date_hdistinction"]?> : 
-			  	<?=$t["nom"]?> (<?=$t["points"]?> pt<? if ($t["points"] > 1): echo "s"; endif;?>) <br>
+			  	<?=$t["nom"]?> (<?=$t["points"]?> pt<? if ($t["points"] > 1): echo "s"; endif;?>) <br />
 		  	<? endforeach; ?>
 	  	<? endforeach; ?>
 	  <? else: ?>
 	  	Aucune distinction
 	  <? endif;?>
-	   <br>
+	   <br />
 <? else: ?>
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />

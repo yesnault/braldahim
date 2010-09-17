@@ -1,10 +1,10 @@
 
 <? if ($this->information != null): ?>
-	<br>
+	<br />
 	<?=$this->information ?>
-	<br>
+	<br />
 <? else: ?>
-<br>
+<br />
 <form name="myForm" id="myForm">
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
 	<input type='hidden' name='valeur_1' id='valeur_1' value='editer' />
@@ -13,11 +13,11 @@
 	<input type='hidden' name='valeur_4' id='valeur_4' value='' />
 	<input type='hidden' name='valeur_5' id='valeur_5' value='' />
 	
-	<ul class="titre textalic textsizec">Nom de la liste / du Contact</ul> <br>
+	<ul class="titre textalic textsizec">Nom de la liste / du Contact</ul> <br />
 	Ne seront conserv&eacute;s que les chiffres et les 26 lettres de l'alphabet (minuscules et majuscules). 
-	<br>
+	<br />
 	S'il n'y a qu'un seul Braldun dans les destinataires de la liste, le nom de la liste sera automatiquement créé tel que : "Prénom Nom" du Braldun.
-	<br>
+	<br />
 	<?php if(!empty($this->nomErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->nomErreur as $message) :?>
@@ -26,9 +26,9 @@
 		</div>
 	<? endif; ?>
 	<input type="text" name="nom_liste_contact" size='40' maxlength='40' id="nom_liste_contact" value="<?=$this->contactsListe["nom"] ?>">
-	<br><br>
+	<br /><br />
 	
-	<ul class="titre textalic textsizec">Description de la liste</ul> <br>
+	<ul class="titre textalic textsizec">Description de la liste</ul> <br />
 	
 	<?php if(!empty($this->descriptionErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -38,7 +38,7 @@
 		</div>
 	<? endif; ?>
 	<input type="text" name="description_liste_contact" size='60' maxlength='200' id="description_liste_contact" value="<?=$this->contactsListe["description"] ?>">
-	<br><br>
+	<br /><br />
 	
 	<?php if(!empty($this->destinatairesErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -48,9 +48,9 @@
 		</div>
 	<? endif; ?>
 	<ul class="titre textalic textsizec">Destinataires (entrez le pr&eacute;nom)</ul><br />
-	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
-	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
-	Vous pouvez faire une liste avec environ 20 bralduns destinataires maximum.<br>
+	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br />
+	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br />
+	Vous pouvez faire une liste avec environ 20 bralduns destinataires maximum.<br />
 	
 	<div id='aff_valeur_3_dest' name='aff_valeur_3_dest'><?=$this->contactsListe["aff_js_destinataires"]?></div>
 	<input type="hidden" name="valeur_3_dest" id="valeur_3_dest" value="<?=$this->contactsListe["destinataires"]?>" />
@@ -59,7 +59,7 @@
 	<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
     <span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 
-<br><br><br>
+<br /><br /><br />
 	
 	<? $libelle = "Modifier"; if ($this->contactsListe["id"] == "-1"): $libelle = "Cr&eacute;er"; endif; ?>
 	<input type="button" class='button1' name="<?=$libelle ?>" value="<?=$libelle ?>" onClick="

@@ -3,7 +3,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	
- 	<br>
+ 	<br />
  	Pour utiliser les services du poste, il vous faut <?=$this->paUtilisationLieu?> PA.<br /><br />
  	
  	<? if ($this->utilisationPaPossible !== true): ?>
@@ -13,17 +13,17 @@
  	<? elseif ($this->nouvelleEquipePossible === true) : ?>
  		
  		<? if ($this->inscriptionParBraldunNouvelleEquipePossible === true):?>
-	 		Vous êtes Bourlingueur de cette Comté. Félicitations !<br>
-	 		Vous pouvez inscrire une équipe pour entrer dans ce Donjon. <br><br>
-	 		Vous devez choisir 8 coéquipiers, également Bourlingueurs de cette Comté.<br><br>
+	 		Vous êtes Bourlingueur de cette Comté. Félicitations !<br />
+	 		Vous pouvez inscrire une équipe pour entrer dans ce Donjon. <br /><br />
+	 		Vous devez choisir 8 coéquipiers, également Bourlingueurs de cette Comté.<br /><br />
 	 		Saisissez un prénom de braldun ci-dessous. Attention, les Braldûns qui ne sont pas 
 	 		Bourlingueurs de cette Comté ne seront pas retournés par la recherche, ainsi que
-	 		les Braldûns inscrits à un match de soule.<br>
+	 		les Braldûns inscrits à un match de soule.<br />
 	 		De plus, vous êtes directement inclus dans l'équipe, ne prenez donc pas la peine
-	 		de vous rechercher, vous n'apparaitrez pas dans la recherche également.<br><br>
+	 		de vous rechercher, vous n'apparaitrez pas dans la recherche également.<br /><br />
  		<? else:?>
  			Pour rentrer dans ce Donjon, vous devez être Bourlingueur de cette Comté (avoir
- 			terminé toutes les quêtes de cette Comté, consultez votre onglet Quêtes).<br>
+ 			terminé toutes les quêtes de cette Comté, consultez votre onglet Quêtes).<br />
  		<? endif;?>
  		
  	<? else : ?>
@@ -35,23 +35,23 @@
 	 		
 	 		<? if ($this->estMeneur) : ?>
 		 		<? if ($this->descentePossible) : ?>
-		 			Vous êtes inscrit pour participer à ce Donjon dont vous êtes le meneur.<br>
+		 			Vous êtes inscrit pour participer à ce Donjon dont vous êtes le meneur.<br />
 		 			Tous vos coéquipiers ont validé leur inscription, 
 			 		vous pouvez maintenant ouvrir la porte du Donjon.
 			 	<? else: ?>
-			 		Vous êtes déjà inscrit pour participer à ce Donjon dont vous êtes le meneur.<br>
+			 		Vous êtes déjà inscrit pour participer à ce Donjon dont vous êtes le meneur.<br />
 			 		Dès que tous vos coéquipiers auront validé leur inscription, 
 			 		vous pourrez revenir ici-même ouvrir la porte du Donjon et faire
 			 		rentrer toute votre équipe à l'intérieur.
-			 		<br><br>
+			 		<br /><br />
 		 			Toute l'équipe doit être sur le Poste de Garde pour pouvoir descendre.
 			 	<? endif;?>
 	 		<? else : ?>
-		 		Vous êtes déjà inscrit pour participer à ce Donjon.<br>
+		 		Vous êtes déjà inscrit pour participer à ce Donjon.<br />
 	 		
 		 		Dès lors que tous vos coéquipiers auront validé leur inscription, 
 		 		le meneur pourra ouvrir la porte du Donjon et vous
-		 		rentrerez automatiquement à l'intérieur.<br><br>
+		 		rentrerez automatiquement à l'intérieur.<br /><br />
 		 		Toute l'équipe doit être sur le Poste de Garde pour pouvoir descendre.
 	 		<? endif;?>
 	 		
@@ -60,7 +60,7 @@
 	 		soyez demandé pour en faire partie. Attendez leur sortie pour inscrire une 
 	 		nouvelle équipe.
 	 	<? endif;?>
-	 	<br><br>
+	 	<br /><br />
 	 <? endif;?>
 	 
 	 
@@ -81,7 +81,7 @@
 			<div class="recherche" id="recherche_valeur_1_coequiper_update" ></div> <img src="/public/images/loupe.gif" />
 		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 		    
-		    <br><br>
+		    <br /><br />
 		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onClick="this.disabled=true;$('valeur_1').value=$('valeur_1_coequiper').value;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
 	
 		<? elseif ($this->inscriptionDemandee === true): ?>

@@ -36,9 +36,9 @@ class Bral_Helper_DetailEquipement {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars($e["suffixe"]);
 		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
 		if ($afficheLienHistorique) {
-			$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br>";
+			$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br />";
 		}
-		$text .= "<br>";
+		$text .= "<br />";
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ";
 		
@@ -68,7 +68,7 @@ class Bral_Helper_DetailEquipement {
 			$text .= " " . self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
 		}
 		$text .= " Kg </span>";
-		$text .= "<br>";
+		$text .= "<br />";
 			
 		if (count($e["bonus"]) > 0 && (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition")) {
 			$text .= " Bonus r&eacute;gional: ";
@@ -114,10 +114,10 @@ class Bral_Helper_DetailEquipement {
 		if ($valeur != null && $valeur != 0) {
 			$text = self::display($texte, $valeur, null, "");
 			$text .= self::display("", $vernisBM, " (vernis)", "", true, " ");
-			$text .= "<br>";
+			$text .= "<br />";
 		} else if ($vernisBM != null) {
 			$text = self::display($texte, $vernisBM, " (vernis)", "", true);
-			$text .= "<br>";
+			$text .= "<br />";
 		}
 		return $text;
 	}
@@ -139,7 +139,7 @@ class Bral_Helper_DetailEquipement {
 	 */
 	public static function afficheRecette($caracs, $niveaux) {
 		$retour = "";
-		$retour .= "<div id='blanc'><br><br><br><br><br><br><br><br><br></div>";
+		$retour .= "<div id='blanc'><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>";
 		if (isset($caracs)) {
 			foreach($niveaux as $k => $v) {
 				$retour .= "<div id='caracs_niveau_".$k."' style='display:none'>";

@@ -29,7 +29,7 @@ class Bral_Helper_DetailMateriel {
 		$text = htmlspecialchars($e["nom"])." n° ".$e["id_materiel"]."<br />";
 
 		if ($afficheLienHistorique) {
-			$text .= "<label class='alabel' onclick='ouvHistoMa(".$e["id_materiel"].")'>Voir l'historique</label><br>";
+			$text .= "<label class='alabel' onclick='ouvHistoMa(".$e["id_materiel"].")'>Voir l'historique</label><br />";
 		}
 
 		$text .= "<br />Caract&eacute;ristiques : <br />";

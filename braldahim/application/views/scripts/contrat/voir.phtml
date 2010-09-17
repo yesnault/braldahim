@@ -16,10 +16,10 @@
 		   </td>
 		   <td class="table_liste">
 		   <? if ($this->contrat["etat_contrat"] == "gredin") : ?>
-		  		Gredin.<br>
+		  		Gredin.<br />
 		  		Vous devez mettre KO un Redresseur de Torts.
 		  	<? else :  ?>
-		  		Redresseur de Torts.<br>
+		  		Redresseur de Torts.<br />
 		  		Vous devez mettre KO un Gredin.
 		  	<? endif; ?>
 		   </td>
@@ -39,7 +39,7 @@
 		   	État
 		    </td>
 		   <td class="table_liste">
-		   	<br>
+		   	<br />
 			<? if ($this->contrat["etat_contrat"] == "terminé"): ?>
 		  		Terminé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
 		  	<? elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 

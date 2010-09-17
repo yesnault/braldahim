@@ -22,7 +22,7 @@
 	    
 	   	<? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_BETA_TESTEUR, $this->roles)) : ?>
 	      <span class="titre textalia textsizec">Gestion de son Braldun (Role Testeur)</span>
-		<br>
+		<br />
 	    Braldun Id <?=$this->user->id_braldun?> <input type='hidden' name='id_braldun' id='id_braldun' value='<?=$this->user->id_braldun?>' size='5'> 
 	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
 	   

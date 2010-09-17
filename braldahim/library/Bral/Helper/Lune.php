@@ -22,22 +22,22 @@ class Bral_Helper_Lune {
 	 *
 	 Zend_Loader::loadClass("Bral_Util_Lune");
 	 list($MoonPhase, $MoonAge, $MoonDist, $MoonAng, $SunDist, $SunAng, $mpfrac) = Bral_Util_Lune::calculPhase(2009, 04, 17, 13, 38, 01);
-	 echo "La Lune est éclairée $MoonPhase à ".number_format($MoonPhase*100, 2, ',', '')."%"."<br>";
-	 echo "Son age est de ".number_format($MoonAge, 0, ',', '')." jours"."<br>";
-	 echo "Et elle se situe à une distance de ".number_format($MoonDist, 0, ',', '')." km par rapport à la Terre."."<br>";
+	 echo "La Lune est éclairée $MoonPhase à ".number_format($MoonPhase*100, 2, ',', '')."%"."<br />";
+	 echo "Son age est de ".number_format($MoonAge, 0, ',', '')." jours"."<br />";
+	 echo "Et elle se situe à une distance de ".number_format($MoonDist, 0, ',', '')." km par rapport à la Terre."."<br />";
 
 
 	 list($MoonPhase, $MoonAge, $MoonDist, $MoonAng, $SunDist, $SunAng, $mpfrac) = Bral_Util_Lune::calculPhase(2009, 04, 2, 14, 33, 01);
-	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => premier<br>";
+	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => premier<br />";
 
 	 list($MoonPhase, $MoonAge, $MoonDist, $MoonAng, $SunDist, $SunAng, $mpfrac) = Bral_Util_Lune::calculPhase(2009, 04, 9, 14, 55, 01);
-	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => pleine <br>";
+	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => pleine <br />";
 
 	 list($MoonPhase, $MoonAge, $MoonDist, $MoonAng, $SunDist, $SunAng, $mpfrac) = Bral_Util_Lune::calculPhase(2009, 04, 17, 13, 38, 01);
-	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => dernier <br>";
+	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." => dernier <br />";
 
 	 list($MoonPhase, $MoonAge, $MoonDist, $MoonAng, $SunDist, $SunAng, $mpfrac) = Bral_Util_Lune::calculPhase(2009, 04, 25, 13, 23, 01);
-	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." nouvelle <br>";
+	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." nouvelle <br />";
 
 	 */
 
@@ -88,8 +88,8 @@ class Bral_Helper_Lune {
 			$libelle = 'une Lune décroissante';
 		}
 
-		$texte = "<br>Son âge est de ".floor($moonAge)." jour".$s."<br>";
-		$texte .= "C'est ".$libelle." (indice : ".floor($mpfrac * 100)." %)<br>";
+		$texte = "<br />Son âge est de ".floor($moonAge)." jour".$s."<br />";
+		$texte .= "C'est ".$libelle." (indice : ".floor($mpfrac * 100)." %)<br />";
 
 		$retour = "<span class='lune lune".floor($moonAge)."'>".Bral_Helper_Tooltip::render($texte, $titre)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 		return $retour;

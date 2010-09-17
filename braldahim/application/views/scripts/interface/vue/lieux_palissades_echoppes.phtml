@@ -7,7 +7,7 @@ $textBallon = '';
 
 $textPalissade = "";
 	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br>Palissade : <br>";
+      	$textPalissade = "<br />Palissade : <br />";
       	foreach($case["palissades"] as $p) {
       		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
       		if ($p["est_destructible_palissade"] == "oui") {
@@ -24,7 +24,7 @@ $textPalissade = "";
 	endif;
 	
 if ($case['n_lieux'] > 0) :
-	$textLieu = 'Lieu : <br>';
+	$textLieu = 'Lieu : <br />';
     foreach($case['lieux'] as $l) {
       	$textLieu .= htmlspecialchars($l['nom_lieu']);
       	$type_lieu = $l['nom_systeme_type_lieu'];
@@ -41,18 +41,18 @@ if ($case['n_lieux'] > 0) :
 endif;
 
 if ($case['n_ballons'] > 0) :
-	$textBallon = 'Ballon &agrave terre !<br>';
+	$textBallon = 'Ballon &agrave terre !<br />';
 endif; 
 
 if ($case['n_echoppes'] > 0) :
-	$textEchoppe = '<br>&Eacute;choppe : <br>';
+	$textEchoppe = '<br />&Eacute;choppe : <br />';
 	$nomSystemeEchoppe = '';
 	foreach($case['echoppes'] as $c) {
 		if ($c['nom_metier']{0} == 'A') : $d='d\''; else: $d='de '; endif;
 		if ($c['nom_echoppe'] != null && $c['nom_echoppe'] != '') :
 			$textEchoppe .= htmlspecialchars($c['nom_echoppe']). ', ';
 		endif; 
-		$textEchoppe .= '&Eacute;choppe '.$d.htmlspecialchars($c['nom_metier']).' appartenant &agrave; <br>';
+		$textEchoppe .= '&Eacute;choppe '.$d.htmlspecialchars($c['nom_metier']).' appartenant &agrave; <br />';
 		$textEchoppe .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
 		$textEchoppe .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
 		$textEchoppe .= '</label>';
@@ -75,13 +75,13 @@ if ($case['n_echoppes'] > 0) :
 endif; 
 
 if ($case['n_champs'] > 0) :
-	$textChamp = '<br>Champ : <br>';
+	$textChamp = '<br />Champ : <br />';
 	$nomSystemeChamp = '';
 	foreach($case['champs'] as $c) {
 		if ($c['nom_champ'] != null && $c['nom_champ'] != '') :
 			$textChamp .= htmlspecialchars($c['nom_champ']). ', ';
 		endif; 
-		$textChamp .= 'Champ appartenant &agrave; <br>';
+		$textChamp .= 'Champ appartenant &agrave; <br />';
 		$textChamp .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
 		$textChamp .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
 		$textChamp .= '</label>';
@@ -116,7 +116,7 @@ endif; ?>
 	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
 	<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? else: ?>
-	<br>
+	<br />
 <? endif;?>  
 
 <? if ($textBallon != '') : ?>

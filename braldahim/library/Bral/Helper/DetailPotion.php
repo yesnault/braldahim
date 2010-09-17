@@ -30,13 +30,13 @@ class Bral_Helper_DetailPotion {
 	}
 
 	private static function prepareDetail($p, $afficheLienHistorique) {
-		$text = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br>";
+		$text = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br />";
 		 
 		if ($afficheLienHistorique) {
-			$text .= "<label class=\'alabel\' onclick=ouvHistoP(".$p["id_potion"].")>Voir l\'historique</label><br>";
+			$text .= "<label class=\'alabel\' onclick=ouvHistoP(".$p["id_potion"].")>Voir l\'historique</label><br />";
 		}
 		
-		$text .= "<br>";
+		$text .= "<br />";
 		$text .= $p["nom_type"]. " n&deg; ".$p["id_potion"]."<br />";
 		$text .= "Niveau : ".$p["niveau"]."<br />";
 		$text .= "Poids : ".Bral_Util_Poids::POIDS_POTION." Kg<br />";
@@ -44,13 +44,13 @@ class Bral_Helper_DetailPotion {
 			$text .= "<br /> Apporte un ".$p["bm_type"];
 			$text .= " sur la caract&eacute;ristique ".$p["caracteristique"];
 			if ($p["bm2_type"] != null) {
-				$text .= "<br> et un ".$p["bm2_type"];
+				$text .= "<br /> et un ".$p["bm2_type"];
 				$text .= " sur la caract&eacute;ristique ".$p["caracteristique2"];
 			}
-			$text .= ".<br>";
+			$text .= ".<br />";
 		}
 		if ($p["bm2_type"] != null || $p["bm_type"] == null) {
-			$text .= "<br>Ce vernis est à appliquer sur une pièce d\'équipement.";
+			$text .= "<br />Ce vernis est à appliquer sur une pièce d\'équipement.";
 		}
 		$text .= "<br />";
 		 

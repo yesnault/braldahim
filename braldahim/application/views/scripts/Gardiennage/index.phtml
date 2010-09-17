@@ -14,7 +14,7 @@
 			<? if (empty($this->tabBraldunGarde)) : ?>
 				Vous n'avez aucun Braldun en garde actuellement.
 			<? else: ?>
-				<ul class="titre textalic textsized">Gardes à effectuer</ul><br>
+				<ul class="titre textalic textsized">Gardes à effectuer</ul><br />
 				<table class="table_liste">
 				<thead class="table_liste">
 					<tr class="table_liste">
@@ -54,7 +54,7 @@
 <? if (!empty($this->tabBraldunGarde) && $this->uneGardePossible) : ?>
 <input type="submit" name="add" class='button1' value="Jouer !" />
 <? elseif (!empty($this->tabBraldunGarde)): ?>
-Aucune des gardes débute aujourd'hui.<br><br>
+Aucune des gardes débute aujourd'hui.<br /><br />
 <? endif; ?>
 <input type="button" name="retour" class='button1' value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
 <? if (!empty($this->message)) : ?>

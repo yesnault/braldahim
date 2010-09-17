@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
  	
  	<? if ($this->user->balance_faim_braldun >= 2): ?>
- 	Pour <?=$this->nb_pa ?> PA, vous pouvez récolter jusqu'à <?=$this->user->balance_faim_braldun ?> éléments dans votre champ.<br><br>
+ 	Pour <?=$this->nb_pa ?> PA, vous pouvez récolter jusqu'à <?=$this->user->balance_faim_braldun ?> éléments dans votre champ.<br /><br />
  	
 	 	<? if ($this->recolterChampOk !== true) : ?>
 			Vous ne pouvez récolter un de vos champs qu'en étant dessus et il faut qu'il soit à l'état récoltable au préalable.
@@ -15,7 +15,7 @@
 			</select>	
 		<? endif; ?>
  	<? else: ?>
- 		Votre balance de faim est trop basse pour pouvoir récolter quelque chose.<br><br>
+ 		Votre balance de faim est trop basse pour pouvoir récolter quelque chose.<br /><br />
  	<? endif;?>
 	
 	 <br />

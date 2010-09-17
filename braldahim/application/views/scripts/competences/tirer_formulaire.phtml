@@ -5,14 +5,14 @@
  
 	<? if ($this->armeTirPortee == true) :?>
 		<? if (!$this->munitionPortee == true) :?>
-			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br>
+			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br />
 		<? endif; ?>
 	<? else: ?>
-		Vous ne portez pas d'arme de tir ! <br>
+		Vous ne portez pas d'arme de tir ! <br />
 	<? endif; ?>
 	
 	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
-		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br></br>
+		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br /></br>
 	 	<? if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
 	 	<? else: ?>

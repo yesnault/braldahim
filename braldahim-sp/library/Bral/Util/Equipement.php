@@ -210,7 +210,7 @@ class Bral_Util_Equipement {
 				self::destructionEquipement($e["id_equipement_hequipement"]);
 
 				$texteDetruit .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
-				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
+				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br />";
 				$retour["detruit"] = $texteDetruit;
 
 				$details = "[b".$idBraldun."] n'a pas réparé la pièce d'équipement n°".$e["id_equipement_hequipement"]. ". Elle est détruite.";
@@ -224,7 +224,7 @@ class Bral_Util_Equipement {
 					$nbAbime = $nbAbime +1;
 					$retour["abime"]["nb"] =  $nbAbime;
 					$texte .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
-					$texte .= " n&deg;".$e["id_equipement_hequipement"]." est très abimé, état : ".$etat."/".$e["etat_initial_equipement"].".<br>";
+					$texte .= " n&deg;".$e["id_equipement_hequipement"]." est très abimé, état : ".$etat."/".$e["etat_initial_equipement"].".<br />";
 					$retour["abime"]["texte"] = $texte;
 				}
 			}

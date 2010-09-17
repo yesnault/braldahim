@@ -10,18 +10,18 @@
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
-				Type<br>
+				Type<br />
 				
 				<select name="id_type">
 				<? foreach ($this->typesMonstre as $t) : ?>
 				<option value="<?=$t["id_type_monstre"]?>" <? if ($t["nom_groupe_monstre"] == "Gibier"): echo 'disabled'; endif; ?>><?=$t["nom_groupe_monstre"]?> - <?=$t["nom_type"]?> (min:<?=$t["nb_membres_min"]?>, max:<?=$t["nb_membres_max"]?>) </option>
 				<? endforeach; ?>
 				</select>
-				<br><br>
+				<br /><br />
 				
-				<br>Création dans la zone : <br>
+				<br />Création dans la zone : <br />
 				(non utilisé si des coodonnées sont utilisées ci-dessous, mais à remplir tout de même)
-				<br>
+				<br />
 				<select name="id_zone" onChange="javascript:t=this.value.split(':'); $('x_min_zone').value=t[0]; $('x_max_zone').value=t[1]; $('y_min_zone').value=t[2]; $('y_max_zone').value=t[3]">
 				<option value=":::">
 					(Zones pr&eacute;d&eacute;finies)
@@ -32,7 +32,7 @@
 				</option>
 				<? endforeach; ?>
 				</select>
-				<br>				
+				<br />				
 				X min
 				<input type="textbox" name="x_min_zone" id="x_min_zone" size="4" maxlength="4" />
 				X max
@@ -42,8 +42,8 @@
 				Y max
 				<input type="textbox" name="y_max_zone" id="y_max_zone" size="4" maxlength="4" />
 				
-				<br><br>
-				Facultatif : le monstre restera à l'intérieur de ces coordonnées (laissez vide si pas de rayon défini): <br>
+				<br /><br />
+				Facultatif : le monstre restera à l'intérieur de ces coordonnées (laissez vide si pas de rayon défini): <br />
 				X Position départ
 				<input type="textbox" name="x_position" id="x_position" size="4" maxlength="4" />
 				Y Position départ
@@ -67,7 +67,7 @@
 			</td>
 			</tr>
 			</table>
-			<br><br>
+			<br /><br />
 			<? if ($this->creation === true): ?>
 			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
@@ -93,7 +93,7 @@
 				
 			<? endif; ?>
 				
-			<br><br><br><br>
+			<br /><br /><br /><br />
 			<ul class="titre textalic textsizea">Statistiques actuelles</ul><br />
 			
 			<table>

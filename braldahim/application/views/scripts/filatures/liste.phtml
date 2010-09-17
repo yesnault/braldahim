@@ -1,9 +1,9 @@
-  <br>
+  <br />
   <ul class="titre textalic textsized">Filatures</ul>
-  <br><br>
+  <br /><br />
   
   <ul class="titre textalic textsized">Vous pouvez filer un Braldûn avec la compétence Filer</ul>
-  <br> 
+  <br /> 
   
   <? if ($this->filatures == null) : ?>
   	Vous n'avez aucune filature.
@@ -11,7 +11,7 @@
   
   <? if ($this->idFilatureEnCours != null) : ?>
 	  <input type='button' class='button1' value='Annuler la filature en cours - 0 PA' onClick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?=$this->idFilatureEnCours?>');">
-	  <br><br>
+	  <br /><br />
   <? endif;?>
     
     
@@ -21,7 +21,7 @@
  				<table class="table_liste" style="width:90%">
 					<thead class="table_liste">
 					  <tr class="table_liste">
-						<th colspan="2"> Filatures r&eacute;alis&eacute;es ou en cours<br></th>
+						<th colspan="2"> Filatures r&eacute;alis&eacute;es ou en cours<br /></th>
 					  </tr>
 					</thead>
 					

@@ -1,12 +1,12 @@
 <? include("commun_text_resultat.phtml") ?>
  
- Votre jet de sagesse : <?=$this->jetBraldun?><br>
+ Votre jet de sagesse : <?=$this->jetBraldun?><br />
  
- Jet de sagesse des alentours : <?=$this->sommeJets?><br><br>
+ Jet de sagesse des alentours : <?=$this->sommeJets?><br /><br />
 
  <? if ($this->dissuaderOk === false) : ?>
  Vous avez réussi votre dissuasion, vous être maintenant intangible jusqu'à la fin de votre tour (prochaine activation).
  <? else: ?>
  Vous avez raté votre dissuasion (votre jet < jet des alentours).
  <? endif;?>
- <br><br>
+ <br /><br />

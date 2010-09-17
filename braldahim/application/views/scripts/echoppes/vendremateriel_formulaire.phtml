@@ -19,7 +19,7 @@
 			<input type='hidden' id='commentaire_<?=$e["id_echoppe_materiel"] ?>' name='commentaire_<?=$e["id_echoppe_materiel"] ?>' value='<?=htmlspecialchars($e["commentaire"], ENT_QUOTES);?>'>
 		<? endforeach;?>
 		
-		Vous pouvez vendre le mat&eacute;riel &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br>
+		Vous pouvez vendre le mat&eacute;riel &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br />
 		
 		<? $js = "
 			if ($('valeur_2').value !=-1 && $('valeur_3').value >= 0 && $('valeur_3').value != '' && $('valeur_4').value !=-1 ) {
@@ -83,7 +83,7 @@
 		<br />
 		<?=Bral_Helper_BBBoutons::affiche('valeur_commentaire', 300)?>
 		<input type='hidden' id='valeur_9' name='valeur_9' value='' />
-		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="300" type="text"> Caract&egrave;res restants<br>
+		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="300" type="text"> Caract&egrave;res restants<br />
 		<textarea name="valeur_commentaire" id="valeur_commentaire" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_commentaire'),$('characterstyped'),300);" onkeyup="textCount($('valeur_commentaire'),$('characterstyped'),300);"><?=$this->commentaire?></textarea>
 		
 	<? else: ?>

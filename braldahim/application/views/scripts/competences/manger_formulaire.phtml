@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
 	 <? if ($this->mangerNbAlimentOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez manger 1 aliment. <br><br>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez manger 1 aliment. <br /><br />
 	 	
 	 	Aliment &agrave; manger : <br />
  		<select name='valeur_1' id="valeur_1" onChange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
@@ -12,7 +12,7 @@
 			<? endforeach; ?>
 		</select>
 		
-		<br><br>
+		<br /><br />
 		Boisson pour accompagner : <br />
  		<select name='valeur_2' id="valeur_2" onChange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
 			<option value='-1'>(Choisissez une boisson - falcultatif)</option>

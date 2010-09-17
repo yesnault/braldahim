@@ -12,11 +12,11 @@
 		Position : <?=$this->user->x_braldun ?>, <?=$this->user->y_braldun ?><br />
 		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->route["date_fin_route"]); ?>
 		
-		<br><br>
+		<br /><br />
 		
 		<? if ($this->construireRouteContinueOk == true) : ?>
 			<? if ($this->deplacement == true) : ?>
-				Vous êtes arrivé en x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?>.<br><br>
+				Vous êtes arrivé en x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?>.<br /><br />
 			<? endif;?>
 		Vous avez balisé à côté d'un autre sentier balisé, vous avez donc bénéficié de -10% sur votre jet d'action.
 		<? endif;?>

@@ -64,7 +64,7 @@ class Bral_Util_Messagerie {
 					$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_braldun"].'\', \''.$valeur.'_dest\', \''.$h["id_braldun"].'\')" />';
 					$aff_js_destinataires .= '</span>';
 				} else {
-					$aff_js_destinataires .= "<br>";
+					$aff_js_destinataires .= "<br />";
 				}
 
 				$tabBralduns[$h["id_braldun"]] = $h;

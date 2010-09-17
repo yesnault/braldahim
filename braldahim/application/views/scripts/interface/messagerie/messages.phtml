@@ -1,4 +1,4 @@
-<br>
+<br />
 <? if ($this->filtre == $this->config->messagerie->message->type->envoye): 
 	$titre = "Messages envoyés";
 ?>
@@ -21,7 +21,7 @@
 	Vous ne pouvez pas avoir plus de 200 messages archivés
 <? endif; ?>
 		
-<br><br>
+<br /><br />
 
 <? if ($this->estMobile) :
 	$jsMobile = "$('messagerieMessages').style.display='none';";
@@ -131,10 +131,10 @@
 	 <tr class="table_liste">
 		    <th colspan='5'>
 		    
-		    	<br>
+		    	<br />
 		    	<input type="hidden" id="messagerie_filtre" name="messagerie_filtre" value="<?=$this->filtre?>" />
 		      	<?php echo $this->paginator; ?>
-             	<br>
+             	<br />
 			   
 			   <? if (!empty($this->messages)) : ?>
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
@@ -146,7 +146,7 @@
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnMarSelect" value="Marquer les messages sélectionnés comme lus" />
 			       <? endif; ?>
-			       <br><br>
+			       <br /><br />
 			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 			       	<input type="button" class='button1'  onClick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?=$titre?> : <?=PHP_EOL?>Supprimer TOUS les messages" />
 			       <? endif; ?>
@@ -172,4 +172,4 @@
 <? if (!$this->estMobile) :?><br /><br /><? endif;?>
 <div id="messagerie_message"></div>
 <? endif;?>
-<br>
+<br />

@@ -18,11 +18,11 @@ if ($this->user->administrationvue == true && $case["n_routes"] > 0) {
 
 if ($case["n_braldunsKo"] > 0) :
 	$sexe_braldun = "";
-	$textCorpBraldun = "<br>Braldûn";
+	$textCorpBraldun = "<br />Braldûn";
 	if ($case["n_bralduns"] > 1) {
 		$textCorpBraldun .= "s";
 	}
-	$textCorpBraldun .= " KO:<br>";
+	$textCorpBraldun .= " KO:<br />";
 	foreach($case["braldunsKo"] as $b) {
 		$intangible = "";
 		$textIntangible = "";
@@ -41,7 +41,7 @@ if ($case["n_braldunsKo"] > 0) :
 		if ($b["id_communaute"] != null) {
 			$textCorpBraldun .= ' - <label class=alabel onClick=ouvrirCommunaute('.$b["id_communaute"].');>'.htmlspecialchars($b["nom_communaute"]).'</label>';
 		}
-		$textCorpBraldun .= "<br>";
+		$textCorpBraldun .= "<br />";
 		
 		if ($sexe_braldun != "masculin_feminin"  &&
 		    ($sexe_braldun == "masculin" && $b["sexe_braldun"] == "feminin") ||
@@ -60,11 +60,11 @@ if ($case["n_braldunsKo"] > 0) :
 endif; 
 
 if ($case["n_cadavres"] > 0) :
-	$textCadavre = "<br>Cadavre";
+	$textCadavre = "<br />Cadavre";
 	if ($case["n_cadavres"] > 0) {
 		$textCadavre .= "s";
 	}
-	$textCadavre .= ": 	<br>";
+	$textCadavre .= ": 	<br />";
 	foreach($case["cadavres"] as $c) {
 		$textCadavre .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\'); title=\'Voir le profil\' >';
 		if ($c["est_gibier"]) {
@@ -81,7 +81,7 @@ if ($case["n_cadavres"] > 0) :
 endif;
 
 if ($case["n_castars"] > 0) :
-	$textCastar = "<br>";
+	$textCastar = "<br />";
 	foreach($case["castars"] as $c) {
 		$s = "";
 		if ($c["nb_castar"] > 1) {
@@ -94,7 +94,7 @@ endif;
 if ($case["n_elements_runes"] > 0) :
 	$s = '';
 	if ($case["n_elements_runes"] > 1) $s = 's';
-	$textRune = "<br>Rune".$s.":<br>";
+	$textRune = "<br />Rune".$s.":<br />";
 	foreach($case["elements_runes"] as $r) {
 		$textRune .= "<label class=\'alabel\' onclick=ouvRune(".$r["id_rune_element_rune"].")>";
 		$textRune .= "Rune n&deg;".$r["id_rune_element_rune"]."</label><br />";
@@ -108,7 +108,7 @@ endif;
 if ($case["n_buissons"] > 0) :
 	$s = '';
 	if ($case["n_buissons"] > 1) $s = 's';
-	$textBuisson = "<br>Buisson".$s.":<br>";
+	$textBuisson = "<br />Buisson".$s.":<br />";
 	foreach($case["buissons"] as $b) {
 		$textBuisson .= htmlspecialchars($b["nom_buisson"])."<br />";
 	}

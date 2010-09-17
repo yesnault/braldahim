@@ -14,15 +14,15 @@
 			Pour vous connecter, cliquez ici : 
 			<input type="button" class='button1' value="Accueil" onClick="javascript:document.location.href='/'"/>
 			
-			<br><br>
+			<br /><br />
 			Ah, un dernier mot avant de vous laisser filer, voici un message qui vous est attribué :
-			<br><br>
+			<br /><br />
 		
 		<? elseif ($this->compteActif == true) :?>
 			Vous avez d&eacute;j&agrave; valid&eacute; votre compte.
-			<br><br>
+			<br /><br />
 			Voici un message que vous avez peut-&ecirc;tre d&eacute;j&agrave; lu :
-			<br><br>
+			<br /><br />
 		<? else : ?>
 			<b>Une erreur est survenue lors de la validation de votre compte.</b><br /><br />
 			
@@ -37,25 +37,25 @@
 		<? if ($this->validationOk || $this->compteActif == true) : ?>
 		<table width='40%' align='center'>
  			<tr><td style='text-align:justify; background-color:#CCCC99'>
-			Message des Thains : <br>
-			Objet : Bienvenue en Braldahim !<br><br>
+			Message des Thains : <br />
+			Objet : Bienvenue en Braldahim !<br /><br />
 
 			Contenu : Ça y est ! Tu viens de nous rejoindre pour incarner un Semi-Homme ! Tu vas bientôt te rendre compte que la vie des Braldûns, habitants de Braldahim, n'est pas de tout repos.
-			<br><br>
+			<br /><br />
 			Pour débuter, une quête t'attend dans l'onglet prévu. C'est une quête initiatique qui pourra te permettre d'apprendre un métier et de découvrir le jeu.
-			<br><br>
+			<br /><br />
 			Si tu as des questions, tu pourras certainement trouver des réponses sur le wiki (<a onClick="javascript:ouvrirWin('http://regles.braldahim.com', 'Wiki');" title="Bien d&eacute;buter">http://regles.braldahim.com</a>) où toutes les règles sont détaillées.
-			<br><br>
+			<br /><br />
 			N'hésite pas à consulter le guide du débutant qui te guidera pour faire tes premiers pas dans le jeu. (<a onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/Bien_debuter', 'Bien debuter');" title="Bien d&eacute;buter">http://regles.braldahim.com/wiki/Bien_débuter</a>)
-			<br><br>
+			<br /><br />
 			De plus, si tu souhaites faire part de tes impressions ou échanger avec les autres joueurs, tu pourras te connecter au forum (n'oublie pas de créer ton compte !). (<a onClick="javascript:ouvrirWin('http://forum.braldahim.com/', 'Forum');" title="Forums Braldahim">http://forum.braldahim.com</a>)
-			<br><br>
+			<br /><br />
 			Pour consulter ce message à nouveau, reviens sur cette adresse de validation (que tu as eu par mail).
-			<br><br>
+			<br /><br />
 			Bon jeu et à bientôt.
-			<br><br>
+			<br /><br />
 			Les Thains.
-			<br><br>
+			<br /><br />
 			</td></tr>
  			</table>
 		<? endif;?>
@@ -64,5 +64,5 @@
 	&nbsp;
 </div>
 </div>
-<br><br>
+<br /><br />
 <?php echo $this->render('footer.phtml'); ?>

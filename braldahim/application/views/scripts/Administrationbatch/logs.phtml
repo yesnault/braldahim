@@ -12,10 +12,10 @@
 				<option value="<?=$f?>" <? if ($this->commandeChoisie == $f): echo "selected" ; endif;?>><?=$f?></option>
 				<? endforeach; ?>
 				</select>
-				<br>
-				Argument : Chiffres exclusivement: Recherche, chaine à recherche, Tail : nombre de ligne<br> 
+				<br />
+				Argument : Chiffres exclusivement: Recherche, chaine à recherche, Tail : nombre de ligne<br /> 
 				<input type="text" name="recherche" value="<?=$this->recherche?>" onkeypress="chiffres(event);" size="10" maxlength="10" />
-				<br>
+				<br />
 				
 				Fichier :
 				<select name="fichier">

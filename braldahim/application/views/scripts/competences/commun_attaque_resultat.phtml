@@ -1,34 +1,34 @@
 <? $modif = false;?>
 <? if ($this->retourAttaque["attaquantDeltaPointsGredin"] != null) : $modif = true; ?>
-	<br>Influence sur vos points de Gredin : <?=$this->retourAttaque["attaquantDeltaPointsGredin"] ?>
+	<br />Influence sur vos points de Gredin : <?=$this->retourAttaque["attaquantDeltaPointsGredin"] ?>
 <? endif;?>
 
 <? if ($this->retourAttaque["attaquantDeltaPointsRedresseur"] != null) : $modif = true; ?>
-	<br>Influence sur vos points de Redreseur de Torts : <?=$this->retourAttaque["attaquantDeltaPointsRedresseur"] ?>
+	<br />Influence sur vos points de Redreseur de Torts : <?=$this->retourAttaque["attaquantDeltaPointsRedresseur"] ?>
 <? endif;?>
 
 <? if ($this->retourAttaque["cibleDeltaPointsGredin"] != null) : $modif = true; ?>
-	<br>Influence sur les points de Gredin de la cible : <?=$this->retourAttaque["cibleDeltaPointsGredin"] ?>
+	<br />Influence sur les points de Gredin de la cible : <?=$this->retourAttaque["cibleDeltaPointsGredin"] ?>
 <? endif;?>
 
 <? if ($this->retourAttaque["cibleDeltaPointsRedresseur"] != null) : $modif = true; ?>
-	<br>Influence sur les points de Redresseur de Torts de la cible  : <?=$this->retourAttaque["cibleDeltaPointsRedresseur"] ?>
+	<br />Influence sur les points de Redresseur de Torts de la cible  : <?=$this->retourAttaque["cibleDeltaPointsRedresseur"] ?>
 <? endif;?>
 
 <? if ($modif === true) : ?>
-<br><br>
-Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br>
-Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br>
+<br /><br />
+Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br />
+Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br />
 <? endif;?>
 
 <? if ($this->retourAttaque["nouvelleDistinction"] != null) : ?>
-	<br>
-	<?=$this->retourAttaque["nouvelleDistinction"]?><br>
+	<br />
+	<?=$this->retourAttaque["nouvelleDistinction"]?><br />
 <? endif;?>
 
 <? if ($this->retourAttaque["contratModifie"] === true) : ?>
-	<br>
+	<br />
 	<b>Il y a du nouveau sur votre contrat. Consultez l'onglet Quêtes / Contrats.</b>
-	<br>
+	<br />
 <? endif;?>
-<br>
+<br />

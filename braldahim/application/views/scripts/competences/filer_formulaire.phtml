@@ -2,7 +2,7 @@
 <input type="hidden" name="valeur_1" id="valeur_1" value="-1"/>
  <div class='comp_contenu'>
  	
- 	La filature d'un Braldûn doit se faire en 4 étapes : <br>
+ 	La filature d'un Braldûn doit se faire en 4 étapes : <br />
  	 
  <table align="center" class="table_liste" style="width:90%">
  	<? $i = 1;?>
@@ -23,10 +23,10 @@
 	 	<td class="table_liste">Filer dans la ville (et au delà) la plus proche.</td>
  	</tr>
  </table>
- 	<br><br>
+ 	<br /><br />
  	<? if ($this->filerEnCours != null) : ?>
- 		Vous filer actuellement <?=$this->filerEnCours["prenom_braldun"]?> <?=$this->filerEnCours["nom_braldun"]?> (<?=$this->filerEnCours["id_braldun"]?>).<br>
- 		Vous avez accompli l'étape <?=($this->filerEnCours["etape_filature"] - 1)?> de la filature.<br><br>
+ 		Vous filer actuellement <?=$this->filerEnCours["prenom_braldun"]?> <?=$this->filerEnCours["nom_braldun"]?> (<?=$this->filerEnCours["id_braldun"]?>).<br />
+ 		Vous avez accompli l'étape <?=($this->filerEnCours["etape_filature"] - 1)?> de la filature.<br /><br />
  		
  		<? if ($this->filerEnCours["etape_filature"] == 2): ?>
  			Pour terminer l'étape 2, vous devez être sur une gare pour filer.
@@ -35,20 +35,20 @@
  		<? elseif ($this->filerEnCours["etape_filature"] == 4): ?>
  			Vous pouvez maintenant filer votre cible.
  		<? endif;?>
- 		<br>
+ 		<br />
  		<? if ($this->positionOk == false) : ?>
  			<u>Vous n'êtes pas en position</u>.
  		<? else : ?>
  			<u>Vous êtes en position</u>.
- 			<br><br>
+ 			<br /><br />
  			<? if ($this->filerEnCours["etape_filature"] == 2): ?>
  			<i>Un braldûn dissimulé sous une cape vous fait signe d'approcher, à l'abri d'un des piliers de la gare.
  			 Sous couvert d'un silence absolu et moyennant 
- 			finances , il vous préviendra si votre cible passe par cette gare</i>.<br><br>
+ 			finances , il vous préviendra si votre cible passe par cette gare</i>.<br /><br />
  			<? elseif ($this->filerEnCours["etape_filature"] == 3): ?>
  			<i>Alors que vous passez sous le porche pour entrer dans la mairie, un braldûn vous agrippe 
  			par le bras et vous entraîne dans un coin sombre. Sous couvert d'un silence absolu et moyennant 
- 			finances , il vous préviendra si votre cible passe en ville</i>.<br><br>
+ 			finances , il vous préviendra si votre cible passe en ville</i>.<br /><br />
  			<? endif;?>
  			
  			<? if ($this->filerEnCours["etape_filature"] == 2 || $this->filerEnCours["etape_filature"] == 3): ?>
@@ -57,15 +57,15 @@
  				<? else: ?>
  					Vous avez n'avez pas assez de castars.
  				<? endif;?>
- 			<br>
+ 			<br />
  			<? endif;?>
  			
  		<? endif;?>
  	<? else: ?>
- 		Vous n'avez aucune filature en cours.<br>
- 		Vous êtes à la 1ère étape d'une filature.<br><br>
+ 		Vous n'avez aucune filature en cours.<br />
+ 		Vous êtes à la 1ère étape d'une filature.<br /><br />
  		
-		Saisissez le Braldûn que vous souhaitez filer : <br>
+		Saisissez le Braldûn que vous souhaitez filer : <br />
 		<input type="text" name="recherche_valeur_1" size='30' id="recherche_valeur_1" value="Entrez un nom" onFocus="if(this.value=='Entrez un nom'){this.value='';};activerRechercheUniqueBraldun('valeur_1', false, false);" />
 		<input type="hidden" name="recherche_valeur_1_actif" id="recherche_valeur_1_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_1_update" ></div> <img src="/public/images/loupe.gif" />
@@ -73,8 +73,8 @@
 		<br /><br />
 	<? endif;?>
 	
-	<br><br>
-	Vous pouvez consuler vos filatures dans l'onglet Quêtes / Contrats.<br><br>
+	<br /><br />
+	Vous pouvez consuler vos filatures dans l'onglet Quêtes / Contrats.<br /><br />
    				
 </div>
 

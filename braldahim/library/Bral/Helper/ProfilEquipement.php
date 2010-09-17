@@ -29,7 +29,7 @@ class Bral_Helper_ProfilEquipement {
 			if ($e["position"] == "gauche" && $e["affiche"] == "oui") {
 				$retour .= "<tr>";
 				$retour .= "<td class='equipement'>";
-				$retour .= $e["nom_type_emplacement"]."<br>";
+				$retour .= $e["nom_type_emplacement"]."<br />";
 				if (count($e["equipementPorte"]) > 0) {
 					foreach($e["equipementPorte"] as $p) {
 						$retour .= Bral_Helper_DetailEquipement::afficher($p);

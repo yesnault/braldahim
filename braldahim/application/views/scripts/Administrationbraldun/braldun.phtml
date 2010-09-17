@@ -9,9 +9,9 @@
 	    <? if ($this->modificationBraldun === true) :?>
 	    	Modification du braldun prise en compte.
 	    <? endif; ?>
-	    Compte actif : <?=$this->braldun["est_compte_actif_braldun"]?><br>
-	    Compte en hibernation : <?=$this->braldun["est_en_hibernation_braldun"]?><br>
-	    PNJ : <?=$this->braldun["est_pnj_braldun"]?><br>
+	    Compte actif : <?=$this->braldun["est_compte_actif_braldun"]?><br />
+	    Compte en hibernation : <?=$this->braldun["est_en_hibernation_braldun"]?><br />
+	    PNJ : <?=$this->braldun["est_pnj_braldun"]?><br />
 	    
 	    Lien de validation = <?=$this->urlValidation;?>
 	    
@@ -22,7 +22,7 @@
 			$nbElement = 0; ?>
 			<? if ($this->user->administrateur) : ?>
 				<input type="button"  class='button1' name="mode" value="Usurpation sans activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/non'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/> 
-				<input type="button"  class='button1' name="mode" value="Usurpation avec activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/oui'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/><br>
+				<input type="button"  class='button1' name="mode" value="Usurpation avec activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/oui'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/><br />
 				
 				<? if ($this->mode == "simple") :?>
 		 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onClick="document.location.href='/Administrationbraldun/braldun/mode/complexe/idbraldun/<?=$this->id_braldun?>'"/>

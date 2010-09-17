@@ -1,14 +1,14 @@
-<br>
+<br />
 <div class="box_contenu textalic">
 	<div class="titre textalic textsizeb">
 	Marché aux potions et vernis
-	</div><br>
+	</div><br />
 	
 <table width='100%'>
 <tr>
 <td>
 	Filtre par comté: 
-	<br>
+	<br />
 	<select id="region" name="region" onChange="document.location.href = '/marchepotion/?regionselect='+this.value+'&typebmselect=<?=$this->typebmSelect?>&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
@@ -17,7 +17,7 @@
 </td>
 <td>
 	Filtre par type: 
-	<br>
+	<br />
 	<select id="type" name="type" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect='+this.value+'&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->types as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->typebmSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
@@ -26,7 +26,7 @@
 </td>
 <td>
 	Filtre par potion et vernis:
-	<br>
+	<br />
 	<select id="potion" name="potion" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->potions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->potionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
@@ -36,7 +36,7 @@
 </tr>
 </table>
 
-<br><br>
+<br /><br />
 
 <div id="mygrid_container" style="width:770px;height:650px;align:center"></div> 
 <script>

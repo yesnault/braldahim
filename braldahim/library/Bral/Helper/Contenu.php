@@ -101,7 +101,7 @@ class Bral_Helper_Contenu {
 			$s = "s";
 		}
 		$retour .= $tab["quantite"]. ' poignée'.$s;
-		$retour .= "<br><img src='/public/styles/braldahim_defaut/images/type_graine/type_graine_".$tab["id_type_graine"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
+		$retour .= "<br /><img src='/public/styles/braldahim_defaut/images/type_graine/type_graine_".$tab["id_type_graine"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
 		if (array_key_exists("poids", $tab)) {
 			$retour .= "</span>";
 		}

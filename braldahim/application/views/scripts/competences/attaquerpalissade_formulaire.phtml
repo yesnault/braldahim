@@ -1,9 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 <? if ($this->armeTirPortee == true) :?>
-	Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
+	Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br /><br />
 <? elseif ($this->user->est_intangible_braldun == "oui") : ?>
-	Vous ne pouvez pas attaquer une palissade en étant intangible. <br><br>
+	Vous ne pouvez pas attaquer une palissade en étant intangible. <br /><br />
 <? else: ?>
 	<?php if ($this->tableau == null || count($this->tableau) == 0) : ?>
 	 Vous ne pouvez attaquer une palissade qu'aux alentours de vous.
@@ -32,7 +32,7 @@
 	            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
 			<?php else: ?>
 				<? if ($case["est_destructible"] != null) : ?>
-					Palissade <br>indestructible
+					Palissade <br />indestructible
 				<? endif; ?>
 				&nbsp;
 			<?php endif; ?>

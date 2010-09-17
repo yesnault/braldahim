@@ -1,13 +1,13 @@
 <? if ($this->elementsVendus != "") :?>
 	Vous avez vendu les &eacute;l&eacute;ments suivants : <br />
-	<?=htmlspecialchars($this->elementsVendus) ?><br><br>
+	<?=htmlspecialchars($this->elementsVendus) ?><br /><br />
 	<? if ($this->gainCastars > 1): $s = "s"; else: $s = ""; endif;?>
 	Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->gainCastars?> castar<?=$s?> plac&eacute;<?=$s?> directement dans votre <?=$this->sourceTransfertCourante?>.
 <? else: ?>
 	Vous n'avez rien vendu.
 <? endif; ?>
-<br><br>
+<br /><br />
 <? if ($this->limitePoidsCastars === true) : ?>
-	Certains &eacute;l&eacute;ments n'ont pas pu &ecirc;tre achet&eacute;s.<br>
+	Certains &eacute;l&eacute;ments n'ont pas pu &ecirc;tre achet&eacute;s.<br />
 	Vous n'aviez pas assez de place dans votre <?=$this->sourceTransfertCourante?> pour recevoir les castars (m&ecirc;me en comptant la place r&eacute;cup&eacute;r&eacute;e par votre vente).
 <? endif;?>

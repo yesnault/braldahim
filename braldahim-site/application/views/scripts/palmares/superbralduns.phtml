@@ -7,14 +7,14 @@
 			<option value="<?=$f["niveau"]?>"<?if ($this->filtre == $f["niveau"]): echo "selected" ; endif;?>>Niveau <?=$f["niveau"]?></option>
 	<? endforeach;?>
 	</select>
-	<br><br>
-	Pour un niveau choisi, la valeur maximum de chaque caractéristique (possédée par un braldun) est indiquée.<br>
+	<br /><br />
+	Pour un niveau choisi, la valeur maximum de chaque caractéristique (possédée par un braldun) est indiquée.<br />
 	Les Bonus et les Malus ne sont pas pris en compte.
-	<br><br>
+	<br /><br />
 	
 	<? if ($this->bralduns == null) : ?>
 		Il n'y a pas assez de Braldûns de niveau <?=$this->filtre?> pour afficher les caractéristiques "Super Braldûns".
-		<br><br>
+		<br /><br />
 	<? else: ?>
 		<table class="table_liste" style="width:90%">
 		<thead class="table_liste">

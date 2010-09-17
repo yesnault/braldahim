@@ -7,18 +7,18 @@
  <? endif;?>
  <div class='comp_contenu'>
  
- <br>
+ <br />
    	
   <? if ($this->type == "gredin"): ?>
   Vous avez actuellement <?=$this->user->points_gredin_braldun;?>
- point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de Gredin.<br><br>
+ point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de Gredin.<br /><br />
  
 	  <? if ($this->contratEnCours == true) : ?>
 	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
 	 <? elseif ($this->user->pa_braldun <1) : ?>
 	 	Vous n'avez pas assez de PA (1 minimum).
 	  <? elseif ($this->utilisationPointPossible === true) : ?>
-	 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br> 
+	 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br /> 
 	 	
 		  <? if ($this->travauxOk === true) : ?>
 		  Réalisation de travaux d'intérêts généraux : 4 PA pour 1 point de gredin en moins: 
@@ -35,13 +35,13 @@
 	  <? endif;?>
   <? else: ?>
   Vous avez actuellement <?=$this->user->points_redresseur_braldun;?>
- point<? if ($this->user->points_redresseur_braldun > 1) : echo "s"; endif;?> de Redresseur de Torts.<br><br>
+ point<? if ($this->user->points_redresseur_braldun > 1) : echo "s"; endif;?> de Redresseur de Torts.<br /><br />
  
 	  <? if ($this->contratEnCours == true) : ?>
 	 	Vous ne pouvez pas vous racheter, il y a actuellement un contrat en cours sur votre tête...
 	  <? elseif ($this->utilisationPointPossible === true) : ?>
-		 Souhaitez-vous soudoyer un employé du tribunal pour effacer l'historique de vos actes de redresseur (perdre tous les points de Redresseur) ? <br>
-		  Coût: <?=$this->coutCastarsSoudoyer?> castars et 4 PA.<br><br>
+		 Souhaitez-vous soudoyer un employé du tribunal pour effacer l'historique de vos actes de redresseur (perdre tous les points de Redresseur) ? <br />
+		  Coût: <?=$this->coutCastarsSoudoyer?> castars et 4 PA.<br /><br />
 		  
 		  <? if (!$this->soudoyerOk) : ?>
 		  	Vous n'avez pas assez de castars dans votre laban.

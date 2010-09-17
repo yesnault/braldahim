@@ -28,11 +28,11 @@ class Bral_Helper_ChampBoutique {
 			$retour .= "    Stock restant : ".$tab["nbStockRestant"];
 			$retour .= "'> [?] </span>";
 		} else {
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_partieplante/type_partieplante_".$tab["id_type_partieplante"].".png' alt=\"image\"/><br>";
+			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_partieplante/type_partieplante_".$tab["id_type_partieplante"].".png' alt=\"image\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
-			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
-			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
-			$retour .= "<br><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br />Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
 		}
 		return $retour;
 	}
@@ -50,8 +50,8 @@ class Bral_Helper_ChampBoutique {
 			
 			$retour = "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar".$s."'>";
 			$retour .= "Prix ".$tab["prixUnitaireVente"]."c</span>";
-			$retour .= "<br><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
-			$retour .= "<br><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br /><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
 			
@@ -60,11 +60,11 @@ class Bral_Helper_ChampBoutique {
 			if ($tab["estLingot"] == true) {
 				$p = "_p"; 
 			}
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/><br>";
+			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
-			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
-			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
-			$retour .= "<br><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br />Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
 		}
 		return $retour;
 	}
@@ -82,16 +82,16 @@ class Bral_Helper_ChampBoutique {
 			
 			$retour = "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar".$s."'>";
 			$retour .= "Prix ".$tab["prixUnitaireVente"]."c</span>";
-			$retour .= "<br><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
-			$retour .= "<br><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br /><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
 			
 		} else {
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br>";
+			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
-			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
-			$retour .= "<br><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
+			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
 		}
 		return $retour;
 	}

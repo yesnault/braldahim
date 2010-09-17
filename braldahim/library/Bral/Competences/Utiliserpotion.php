@@ -605,7 +605,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			}
 		}
 
-		$detail .= $bmType. " de ".$valeur." sur la caractéristique ".$caracteristique. " de la pièce d'équipement.<br>";
+		$detail .= $bmType. " de ".$valeur." sur la caractéristique ".$caracteristique. " de la pièce d'équipement.<br />";
 		$data[$nom] = $valeur;
 	}
 
@@ -632,7 +632,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			'etat_courant_equipement' => $etat,
 		);
 		$where = "id_equipement = ".$equipement["id_equipement"];
-		$detail = "&Eacute;tat de l'équipement : +".$valeur."<br>";
+		$detail = "&Eacute;tat de l'équipement : +".$valeur."<br />";
 		$detail .= "Nouvel &eacute;tat : ".$etat ." / ".$equipement["etat_initial_equipement"];
 		$this->view->detail = $detail;
 		$table->update($data, $where);

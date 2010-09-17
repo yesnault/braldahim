@@ -7,7 +7,7 @@
 	<br />
 		<?=Bral_Helper_BBBoutons::affiche('valeur_descriptionechoppe', 2500)?>
 		<input type='hidden' id='valeur_2' name='valeur_2' value='' />
-		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=(2500-mb_strlen($this->echoppe["commentaire_echoppe"]))?>" type="text"> Caract&egrave;res restants<br>
+		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=(2500-mb_strlen($this->echoppe["commentaire_echoppe"]))?>" type="text"> Caract&egrave;res restants<br />
 		<textarea name="valeur_descriptionechoppe" id="valeur_descriptionechoppe" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_descriptionechoppe'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_descriptionechoppe'),$('characterstyped'),2500);"><?=Bral_Util_BBParser::bbcodeStripPlus($this->echoppe["commentaire_echoppe"])?></textarea>
 		
  </div>

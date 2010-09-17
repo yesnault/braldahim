@@ -1,22 +1,22 @@
 <? if ($this->ameliorationCompetence) : ?>
 	<b>Vous avez r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tences de fabrication :</b>
-	<br>
+	<br />
 	<? foreach($this->tabCompetencesAmeliorees as $c) : ?>
-		<b><?=$c["nom_competence"]?> : + <?=$this->deCompetence?> % </b><br>
+		<b><?=$c["nom_competence"]?> : + <?=$this->deCompetence?> % </b><br />
 	<? endforeach;?>
 <? else: ?>
 	Vous n'avez pas r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tence de fabrication.
 	<? if ($this->boutiquerMetierCourant == false) :?>
-		<br>Vous ne boutiquez pas dans l'échoppe de votre métier courant...
+		<br />Vous ne boutiquez pas dans l'échoppe de votre métier courant...
 	<? endif;?>
 <? endif;?>
-<br><br>
+<br /><br />
 
-Vous avez boutiqu&eacute; <?=$this->petitEquipement["nom_petit_equipement"]?>.<br><br>
+Vous avez boutiqu&eacute; <?=$this->petitEquipement["nom_petit_equipement"]?>.<br /><br />
 
-Un fonctionnaire de la ville regarde votre objet : <br>
-"<?=$this->message?>"<br><br>
+Un fonctionnaire de la ville regarde votre objet : <br />
+"<?=$this->message?>"<br /><br />
 
 Il vous &eacute;change votre objet contre <?=$this->nbCastarsGagnes?> 
 castar<?if ($this->nbCastarsGagnes > 1): echo "s"; endif;?> (plac&eacute;<?if ($this->nbCastarsGagnes > 1): echo "s"; endif;?> dans votre échoppe).
-<br><br> 
+<br /><br /> 

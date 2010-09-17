@@ -100,7 +100,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 			$this->transfertEnBase($quantite, $idTypeTabac, $prixUnitaire, $idStock);
 			
 			if ($quantite > 1) {$s = 's';} else {$s = '';};
-			$this->view->elementsAchetes .= "<br>".$quantite;
+			$this->view->elementsAchetes .= "<br />".$quantite;
 			$this->view->elementsAchetes .= " feuille".$s." de tabac ".$nomTypeTabac;
 			if ($prixTotal > 1) {$s = 's';} else {$s = '';};
 			$this->view->elementsAchetes .= " pour ".$prixTotal." castar".$s.", ";
