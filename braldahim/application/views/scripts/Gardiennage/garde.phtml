@@ -2,10 +2,10 @@
 <form action="/Gardiennage/" method="post">
 <div class="box_gardiennage">
 <div class="inner">
-	<ul class="titre textalia textsizea">Gardiennage</ul>
+	<div class="titre textalia textsizea">Gardiennage</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <br />
    		<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
@@ -28,7 +28,7 @@
 				<input type="button" name="retour" class='button1' value="Retour Gardiennage" onClick="javascript:document.location.href='/Gardiennage'"/>
 			</div>
 		<? endif; ?>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

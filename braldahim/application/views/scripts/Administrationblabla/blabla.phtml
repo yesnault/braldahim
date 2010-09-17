@@ -1,16 +1,16 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Bla Bla</ul>
+    <div class="titre textalic textsizea">Administration Bla Bla</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    
 			<form action="/Administrationblabla/blabla" method="post">
 			<input type='hidden' name='id_blabla' id='id_blabla' value='<?=$this->blabla["id_blabla"]?>'/>
 			<? if ($this->blabla["id_blabla"] != -1) : ?>
 				<br />
-				<ul class="titre textalic textsizeb">Edition du Bla Bla n&deg; <?=$this->blabla["id_blabla"]?>, du <?=$this->blabla["date_blabla"]?></ul>
+				<div class="titre textalic textsizeb">Edition du Bla Bla n&deg; <?=$this->blabla["id_blabla"]?>, du <?=$this->blabla["date_blabla"]?></div>
 				<br />
 			<? endif; ?>
 			
@@ -39,12 +39,14 @@
 			<br /><br /><br />
 			
 			<table  align='center'>
+			<tr>
 			<th class='comp_titre'>Id</th>
 			<th class='comp_titre'>Est Censuré</th>
 			<th class='comp_titre'>Date</th>
 			<th class='comp_titre'>X/Y/Z</th>
 			<th class='comp_titre'>Id Braldûn</th>
 			<th class='comp_titre'>Texte</th>
+			</tr>
 			<? if (count($this->blasblas) > 0) : ?>
 				<? $i = 0; 
 					foreach ($this->blasblas as $blabla) : ?>
@@ -62,7 +64,7 @@
 				<? endforeach; ?>
 			<? endif; ?>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

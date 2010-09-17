@@ -1,10 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Buissons</ul>
+    <div class="titre textalic textsizea">Administration Buissons</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    
 			<? if ($this->creation === true) : ?>
 			<b>Cr&eacute;ation de <?=$this->nb_creation ?> buissons</b> <br />
@@ -12,9 +12,11 @@
 			<? endif; ?>
 			<form action="/Administrationbuisson/buissons" method="post">
 			<table align='center'>
+			<tr>
 			<th class='comp_titre'>Zone</th>
 			<th class='comp_titre'>Buisson</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>
 			<tr valign='top'>
 				<td>
 					<select name="id_zone">
@@ -30,8 +32,8 @@
 					<? endforeach; ?>
 					</select>
 					<br />
-					Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
-					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; min <input type="text" name="quantite_min" onkeypress="chiffres(event);" />
+					 max : <input type="text" name="quantite_max" onkeypress="chiffres(event);" /> <br />
 				</td>
 				<td>
 					<select name="couverture">
@@ -48,6 +50,7 @@
 			</form>
 		<br /><br />
 			<table  align='center'>
+			<tr>
 			<th class='comp_titre'>N&deg;</th>
 			<th class='comp_titre'>Environnement</th>
 			<th class='comp_titre'>x_min</th>
@@ -57,6 +60,7 @@
 			<th class='comp_titre'>Nombre Cases</th>
 			<th class='comp_titre'>Nombre Buissons</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>
 			<? foreach ($this->zones as $zone) : ?>
 				<tr>
 					<td><?=$zone["id_zone"] ?></td>
@@ -74,7 +78,7 @@
 				</tr>
 			<? endforeach; ?>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

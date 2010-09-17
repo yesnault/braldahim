@@ -28,9 +28,11 @@
    			Les m&eacute;tiers que vous avez appris <br />
    		<? endif; ?>
    		<table width='300px' align='center'>
+   			<tr>
    			<th class='titre textalic textsized'>Nom</th>
 			<th class='titre textalic textsized'>Date d'apprentissage</th>
 			<th class='titre textalic textsized'>Changement</th>
+			</tr>
 	   		<? foreach ($this->tabMetiers as $m) : ?>
 	   		<tr>
 				<td><?=$m["nom"];?></td>

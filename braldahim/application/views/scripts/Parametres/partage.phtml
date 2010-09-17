@@ -3,11 +3,11 @@
 <form id="form_partage" action="/Parametres/partage" method="post">
 <div class="box_parametres">
 <div class="inner">
-	<ul class="titre textalic textsizea">Contacter les enquêteurs</ul>
-    <ul class="titre textalic textsizeb">Signaler un partage de connexion</ul>
+	<div class="titre textalic textsizea">Contacter les enquêteurs</div>
+    <div class="titre textalic textsizeb">Signaler un partage de connexion</div>
 	&nbsp;
 	<div class="contenu">
-	<ul class="box_contenu1 textalic">
+	<div class="box_contenu1 textalic">
 	
 	<? if ($this->erreurBraldun) : ?>
 		Une erreur est survenue. Veuillez bien renseigner le n° de Braldun avec lequel vous partagez la connexion.<br />
@@ -51,7 +51,7 @@
 	
 	 <? endif;?>
 		
-	 </ul>
+	 </div>
 	</div>
 	&nbsp;
 </div>

@@ -1,19 +1,21 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Plantes</ul>
+    <div class="titre textalic textsizea">Administration Plantes</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 			<? if ($this->creation === true) : ?>
 			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes</b> <br />
 			<b>Les plantes créées en villes ont été ensuite supprimées</b>.<br />
 			<? endif; ?>
 			<form action="/Administrationplante/plantes" method="post">
 			<table align='center'>
+			<tr>
 			<th class='comp_titre'>Zone</th>
 			<th class='comp_titre'>Plante</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>
 			<tr valign='top'>
 				<td>
 					<select name="id_zone">
@@ -29,10 +31,10 @@
 					<? endforeach; ?>
 					</select>
 					<br />
-					Quantit&eacute; partie A : min <input type="textbox" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_1b" onkeypress="chiffres(event);" /><br />
-					Quantit&eacute; partie B : min <input type="textbox" name="partie_2a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_2b" onkeypress="chiffres(event);" /> <br />
-					Quantit&eacute; partie C : min <input type="textbox" name="partie_3a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_3b" onkeypress="chiffres(event);" /> <br />
-					Quantit&eacute; partie D : min <input type="textbox" name="partie_4a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_4b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie A : min <input type="text" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="text" name="partie_1b" onkeypress="chiffres(event);" /><br />
+					Quantit&eacute; partie B : min <input type="text" name="partie_2a" onkeypress="chiffres(event);" /> max : <input type="text" name="partie_2b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie C : min <input type="text" name="partie_3a" onkeypress="chiffres(event);" /> max : <input type="text" name="partie_3b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie D : min <input type="text" name="partie_4a" onkeypress="chiffres(event);" /> max : <input type="text" name="partie_4b" onkeypress="chiffres(event);" /> <br />
 				</td>
 				<td>
 					<select name="couverture">
@@ -49,6 +51,7 @@
 			</form>
 		<br /><br />
 			<table align='center'>
+			<tr>
 			<th class='comp_titre'>N&deg;</th>
 			<th class='comp_titre'>Environnement</th>
 			<th class='comp_titre'>Ville</th>
@@ -59,6 +62,7 @@
 			<th class='comp_titre'>Nombre Cases</th>
 			<th class='comp_titre'>Nombre Plantes</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>			
 			<? foreach ($this->zones as $zone) : ?>
 				<tr>
 					<td><?=$zone["id_zone"] ?></td>
@@ -77,7 +81,7 @@
 				</tr>
 			<? endforeach; ?>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

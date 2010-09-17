@@ -3,10 +3,10 @@
 
 <div class="box_gardiennage">
 <div class="inner">
-	<ul class="titre textalia textsizea">Gardiennage</ul>
+	<div class="titre textalia textsizea">Gardiennage</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <br />
       	<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
@@ -14,7 +14,7 @@
 			<? if (empty($this->tabBraldunGarde)) : ?>
 				Vous n'avez aucun Braldun en garde actuellement.
 			<? else: ?>
-				<ul class="titre textalic textsized">Gardes à effectuer</ul><br />
+				<div class="titre textalic textsized">Gardes à effectuer</div><br />
 				<table class="table_liste">
 				<thead class="table_liste">
 					<tr class="table_liste">
@@ -60,9 +60,10 @@ Aucune des gardes débute aujourd'hui.<br /><br />
 <? if (!empty($this->message)) : ?>
 <input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
 <? endif; ?>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
+</div>
 </div>
 </div>
 </form>

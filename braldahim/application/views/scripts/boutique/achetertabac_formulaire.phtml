@@ -22,6 +22,6 @@
 <br />
 </form>
 <? if ($this->acheterPossible === true && $this->assezDePa === true) : ?>
-	<input type='button' class='button1' id='bouton_achetertabac' value='Acheter !' onClick='for (i=1; i<=$("nb_valeurs").value; i++) { if ($("valeur_" + i).value == "") { $("valeur_" + i).value="0" }}; this.disabled=true; _get_("/boutique/doaction?caction=do_boutique_achetertabac");' disabled="true">
+	<input type='button' class='button1' id='bouton_achetertabac' value='Acheter !' onClick='for (i=1; i<=$("nb_valeurs").value; i++) { if ($("valeur_" + i).value == "") { $("valeur_" + i).value="0" }}; this.disabled=true; _get_("/boutique/doaction?caction=do_boutique_achetertabac");' disabled>
 <? endif;?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

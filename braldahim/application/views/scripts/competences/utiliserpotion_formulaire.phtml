@@ -5,7 +5,7 @@
  	<? else: ?>
  		
  		Potion ou vernis &agrave; utiliser : <br />
- 		<select name='valeur_1' id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_utiliserpotion&potion='+this.value);">>
+ 		<select name='valeur_1' id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_utiliserpotion&potion='+this.value);">
 			<option value='-1'>(Choisissez une potion ou un vernis)</option>
 			<? $tabPotions = "";
 				foreach ($this->tabPotions as $p) : 

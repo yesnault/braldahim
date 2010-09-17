@@ -1,10 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Sessions</ul>
+    <div class="titre textalic textsizea">Administration Sessions</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    	
 	    	<? if (count($this->sessions > 0)) : ?>
 	    		<table class="table_liste" style="width:80%">
@@ -31,7 +31,7 @@
 	    		Aucune session
 	    	<? endif; ?>
 	  
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

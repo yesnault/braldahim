@@ -1,10 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_parametres">
 <div class="inner">
-    <ul class="titre textalic textsizea">Mes Param&egrave;tres</ul>
+    <div class="titre textalic textsizea">Mes Param&egrave;tres</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <br />
 			<? if (!empty($this->message)): ?>
 				<b><?=$this->message; ?></b><br /><br />
@@ -33,7 +33,7 @@
 			 
 			<br /><br /><br /><br />
 			
-			<table width="100%" style="text-align:left" valign="top">
+			<table width="100%" style="text-align:left">
 				<tr>
 				<td width="50%" valign="top">
 				<center><span class="titre textsizeb">Suppression de votre Braldûn</span><br /></center>
@@ -46,6 +46,7 @@
 				<li>Si vous ne pouvez pas jouer pendant plus de 5 jours (ex : pendant vos vacances), vous 
 				pouvez mettre votre Braldûn en <a href="http://regles.braldahim.com/wiki/Hiberner">Hibernation</a>.
 				Votre Braldûn ne pourra pas être supprimé en Hibernation.</li>
+				</ul>
 				</td>
 				<td width="50%" valign="top">
 					<center><span class="titre textsizeb">Sécurité</span><br /></center>
@@ -54,7 +55,7 @@
 				</td>
 				</tr>
 			</table>
-			</ul>
+			</div>
 	</div>
 	&nbsp;
 </div>

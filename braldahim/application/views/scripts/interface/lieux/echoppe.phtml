@@ -1,12 +1,12 @@
-<ul class="titre textalic textsizeb"><?=htmlspecialchars($this->nomEchoppe) ?></ul>
+<div class="titre textalic textsizeb"><?=htmlspecialchars($this->nomEchoppe) ?></div>
 
 <br />
 
 [Toutes les informations présentées en dessous sont renseignées par le joueur et ne sont donc pas officielles]
 <br /><br />
 
-<ul style="text-align:left;padding:30px">
+<div style="text-align:left;padding:30px">
 	<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
-</ul>
+</div>
 
 <input type="button" class='button1' value="Rentrer dans l'&eacute;choppe" onClick='_get_("/interface/load/?box=box_echoppe");'>

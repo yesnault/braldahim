@@ -1,15 +1,15 @@
 <?php echo $this->render('header.phtml'); ?>
-<ul class="titre textalia textsizea">Braldahim - Inscription</ul>
+<div class="titre textalia textsizea">Braldahim - Inscription</div>
 
 <form action="/inscription/ajouter" method="post">
 <div class="box_inscription">
 <div class="inner">
-    <ul class="titre textalic textsizea">Inscription</ul>
-    <ul class="titre textalic textsizeb">Cr&eacute;ation d'un Semi-Homme</ul>
+    <div class="titre textalic textsizea">Inscription</div>
+    <div class="titre textalic textsizeb">Cr&eacute;ation d'un Semi-Homme</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
-			<ul class="titre textalic textsizec">Contr&ocirc;le</ul>
+	    <div class="box_contenu1 textalic">
+			<div class="titre textalic textsizec">Contr&ocirc;le</div>
 			<?php if(!empty($this->messageCaptchaInvalide)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 				<?=$this->messageCaptchaInvalide?><br />
@@ -19,7 +19,7 @@
 			&Eacute;crivez ici le texte que vous voyez ci-dessus : 
 			<input type="text" name="captcha[input]" value="" size="10" maxlength="10"/> 
 			<input type="hidden" name="captcha[id]" value="<?=$this->captcha->getId();?>" />
-			<ul class="titre textalic textsized">Si vous ne voyez pas clairement le texte, <a href="/inscription">recharger la page</a></ul>
+			<div class="titre textalic textsized">Si vous ne voyez pas clairement le texte, <a href="/inscription">recharger la page</a></div>
 			<br />
 			<br />
 
@@ -33,11 +33,11 @@
 		
 		<div>
 
-			<ul class="titre textalic textsizec">Nom du Semi-Homme</ul>
+			<div class="titre textalic textsizec">Nom du Semi-Homme</div>
 			<label>Un nom de famille vous sera automatiquement attribu&eacute; lors de la validation d'inscription.<br /></label>
 			<br />
 		    
-		    <ul class="titre textalic textsizec">Pr&eacute;nom du Semi-Homme</ul>
+		    <div class="titre textalic textsizec">Pr&eacute;nom du Semi-Homme</div>
 		    <?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
@@ -68,7 +68,7 @@
 			<input type="text" name="prenom_braldun" value="<?=$this->braldun->prenom_braldun;?>" size="25" maxlength="15"/>
 		</div>
 		<div><br />
-		   <ul class="titre textalic textsizec">Email</ul>
+		   <div class="titre textalic textsizec">Email</div>
 		  	<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
@@ -88,7 +88,7 @@
 		</div>
 		<div><br />
 
-		    <ul class="titre textalic textsizec">Mot de passe</ul>
+		    <div class="titre textalic textsizec">Mot de passe</div>
 		    <?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPassword as $message) :?>
@@ -142,7 +142,7 @@
 			
 			<br />
 
-			<ul class="titre textalic textsizec">Charte</ul>
+			<div class="titre textalic textsizec">Charte</div>
 			Vous devez accepter la charte d'utilisation pr&eacute;sent&eacute;e ici :<br />
 			<a href="<?=$this->config->general->charte->url?>" target="_blank"><?=$this->config->general->charte->url?></a>.
 			<br /><br />
@@ -153,7 +153,7 @@
 			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/'"/>
 		</div>
 		
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

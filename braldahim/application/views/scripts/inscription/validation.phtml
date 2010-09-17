@@ -1,12 +1,12 @@
 <?php echo $this->render('header.phtml'); ?>
-<ul class="titre textalia textsizea">Braldahim - Inscription</ul>
+<div class="titre textalia textsizea">Braldahim - Inscription</div>
 
 <div class="box_inscription">
 <div class="inner">
-    <ul class="titre textalic textsizea">Validation de l'inscription</ul>
+    <div class="titre textalic textsizea">Validation de l'inscription</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <br />
 		<? if ($this->validationOk) : ?>
 			F&eacute;licitations ! Votre validation est prise en compte. <br /> <br />
@@ -29,9 +29,9 @@
 			Veuillez contacter les ma&icirc;tres du jeu &agrave; l'adresse suivante :
 			<?= $this->emailMaitreJeu ?>. <br /><br />
 			N'oubliez pas d'indiquer : <br />
-			=> votre nom et num&eacute;ro de braldun<br />
-			=> votre adresse de validation<br />
-			=> le probl&egrave;me rencontr&eacute; (avec copie d'&eacute;cran si possible).<br />
+			=&gt; votre nom et num&eacute;ro de braldun<br />
+			=&gt; votre adresse de validation<br />
+			=&gt; le probl&egrave;me rencontr&eacute; (avec copie d'&eacute;cran si possible).<br />
 		<? endif; ?>
 		
 		<? if ($this->validationOk || $this->compteActif == true) : ?>
@@ -59,7 +59,7 @@
 			</td></tr>
  			</table>
 		<? endif;?>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

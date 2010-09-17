@@ -13,9 +13,11 @@
 			<form action="/Administrationfilon/filons" method="post">
 			<table align='center'>
 			<thead>
+			<tr>
 			<th class='comp_titre'>Zone</th>
 			<th class='comp_titre'>Filon</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>
 			</thead>
 			<tr valign='top'>
 				<td>
@@ -32,8 +34,8 @@
 					<? endforeach; ?>
 					</select>
 					<br />
-					Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
-					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; min <input type="text" name="quantite_min" onkeypress="chiffres(event);" />
+					 max : <input type="text" name="quantite_max" onkeypress="chiffres(event);" /> <br />
 				</td>
 				<td>
 					<select name="couverture">
@@ -50,6 +52,7 @@
 			</form>
 		<br /><br />
 			<table  align='center'>
+			<tr>
 			<th class='comp_titre'>N&deg;</th>
 			<th class='comp_titre'>Environnement</th>
 			<th class='comp_titre'>x_min</th>
@@ -59,6 +62,7 @@
 			<th class='comp_titre'>Nombre Cases</th>
 			<th class='comp_titre'>Nombre Filons</th>
 			<th class='comp_titre'>Couverture</th>
+			</tr>
 			<? foreach ($this->zones as $zone) : ?>
 				<tr>
 					<td><?=$zone["id_zone"] ?></td>

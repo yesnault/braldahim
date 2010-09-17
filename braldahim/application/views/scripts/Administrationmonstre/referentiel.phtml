@@ -1,15 +1,15 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-<ul class="titre textalia textsizea">
+<div class="titre textalia textsizea">
 	Administration
-</ul>
-<ul class="titre textalic textsizeb">
+</div>
+<div class="titre textalic textsizeb">
 	Référentiel Monstres
-</ul>
+</div>
 &nbsp;
 <div class="contenu">
-<ul class="box_contenu1 textalic">
+<div class="box_contenu1 textalic">
 
 	<table>
 		<tr>
@@ -37,135 +37,136 @@
 						/ <?=$t["nom_masculin"]?></option>
 						<? endforeach; ?>
 					</select></td>
+				</tr>
 				<tr>
 					<td>Niveau Min</td>
-					<td><input type="textbox" name="niveau_min"
+					<td><input type="text" name="niveau_min"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["niveau_min"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Max</td>
-					<td><input type="textbox" name="niveau_max"
+					<td><input type="text" name="niveau_max"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["niveau_max"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Min Force</td>
-					<td><input type="textbox" name="min_niveau_force"
+					<td><input type="text" name="min_niveau_force"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["min_niveau_force"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Max Force</td>
-					<td><input type="textbox" name="max_niveau_force"
+					<td><input type="text" name="max_niveau_force"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["max_niveau_force"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Force</td>
-					<td><input type="textbox" name="bm_force"
+					<td><input type="text" name="bm_force"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_force"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Min Sagesse</td>
-					<td><input type="textbox" name="min_niveau_sagesse"
+					<td><input type="text" name="min_niveau_sagesse"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["min_niveau_sagesse"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Max Sagesse</td>
-					<td><input type="textbox" name="max_niveau_sagesse"
+					<td><input type="text" name="max_niveau_sagesse"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["max_niveau_sagesse"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Sagesse</td>
-					<td><input type="textbox" name="bm_sagesse"
+					<td><input type="text" name="bm_sagesse"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_sagesse"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Min Vigueur</td>
-					<td><input type="textbox" name="min_niveau_vigueur"
+					<td><input type="text" name="min_niveau_vigueur"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["min_niveau_vigueur"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Max Vigueur</td>
-					<td><input type="textbox" name="max_niveau_vigueur"
+					<td><input type="text" name="max_niveau_vigueur"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["max_niveau_vigueur"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Vigueur</td>
-					<td><input type="textbox" name="bm_vigueur"
+					<td><input type="text" name="bm_vigueur"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_vigueur"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Min Agilité</td>
-					<td><input type="textbox" name="min_niveau_agilite"
+					<td><input type="text" name="min_niveau_agilite"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["min_niveau_agilite"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Niveau Max Agilité</td>
-					<td><input type="textbox" name="max_niveau_agilite"
+					<td><input type="text" name="max_niveau_agilite"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["max_niveau_agilite"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Agilité</td>
-					<td><input type="textbox" name="bm_agilite"
+					<td><input type="text" name="bm_agilite"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_agilite"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Attaque</td>
-					<td><input type="textbox" name="bm_attaque"
+					<td><input type="text" name="bm_attaque"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_attaque"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Defense</td>
-					<td><input type="textbox" name="bm_defense"
+					<td><input type="text" name="bm_defense"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_defense"]?>" /></td>
 				</tr>
 				<tr>
 					<td>BM Degat</td>
-					<td><input type="textbox" name="bm_degat"
+					<td><input type="text" name="bm_degat"
 						size="3" maxlength="2"
 						value="<?=$this->referenceCourante["bm_degat"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Vue</td>
-					<td><input type="textbox" name="vue" onkeypress="chiffres(event);"
+					<td><input type="text" name="vue" onkeypress="chiffres(event);"
 						size="3" maxlength="4"
 						value="<?=$this->referenceCourante["vue"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Coef PV Min</td>
-					<td><input type="textbox" name="coef_pv_min_ref_monstre"
+					<td><input type="text" name="coef_pv_min_ref_monstre"
 						size="3" maxlength="4"
 						value="<?=$this->referenceCourante["coef_pv_min_ref_monstre"]?>" /></td>
 				</tr>
 				<tr>
 					<td>Coef PV Max</td>
-					<td><input type="textbox" name="coef_pv_max_ref_monstre"
+					<td><input type="text" name="coef_pv_max_ref_monstre"
 						size="3" maxlength="4"
 						value="<?=$this->referenceCourante["coef_pv_max_ref_monstre"]?>" /></td>
 				</tr>
 				<tr>
 					<td>ArmNat Min Alea</td>
-					<td><input type="textbox" name="alea_min_armnat"
+					<td><input type="text" name="alea_min_armnat"
 						size="3" maxlength="4"
 						value="<?=$this->referenceCourante["alea_min_armnat"]?>" /></td>
 				</tr>
 				<tr>
 					<td>ArmNat Max Alea</td>
-					<td><input type="textbox" name="alea_max_armnat"
+					<td><input type="text" name="alea_max_armnat"
 						size="3" maxlength="4"
 						value="<?=$this->referenceCourante["alea_max_armnat"]?>" /></td>
 				</tr>
@@ -271,7 +272,7 @@
 		</tr>
 		<? endforeach; ?>
 	</table>
-</ul>
+</div>
 </div>
 &nbsp;</div>
 </div>

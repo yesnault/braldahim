@@ -13,7 +13,7 @@
 	<input type='hidden' name='valeur_4' id='valeur_4' value='' />
 	<input type='hidden' name='valeur_5' id='valeur_5' value='' />
 	
-	<ul class="titre textalic textsizec">Nom de la liste / du Contact</ul> <br />
+	<div class="titre textalic textsizec">Nom de la liste / du Contact</div> <br />
 	Ne seront conserv&eacute;s que les chiffres et les 26 lettres de l'alphabet (minuscules et majuscules). 
 	<br />
 	S'il n'y a qu'un seul Braldun dans les destinataires de la liste, le nom de la liste sera automatiquement créé tel que : "Prénom Nom" du Braldun.
@@ -28,7 +28,7 @@
 	<input type="text" name="nom_liste_contact" size='40' maxlength='40' id="nom_liste_contact" value="<?=$this->contactsListe["nom"] ?>">
 	<br /><br />
 	
-	<ul class="titre textalic textsizec">Description de la liste</ul> <br />
+	<div class="titre textalic textsizec">Description de la liste</div> <br />
 	
 	<?php if(!empty($this->descriptionErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -47,12 +47,12 @@
 		<?php endforeach; ?>
 		</div>
 	<? endif; ?>
-	<ul class="titre textalic textsizec">Destinataires (entrez le pr&eacute;nom)</ul><br />
+	<div class="titre textalic textsizec">Destinataires (entrez le pr&eacute;nom)</div><br />
 	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br />
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br />
 	Vous pouvez faire une liste avec environ 20 bralduns destinataires maximum.<br />
 	
-	<div id='aff_valeur_3_dest' name='aff_valeur_3_dest'><?=$this->contactsListe["aff_js_destinataires"]?></div>
+	<div id='aff_valeur_3_dest'><?=$this->contactsListe["aff_js_destinataires"]?></div>
 	<input type="hidden" name="valeur_3_dest" id="valeur_3_dest" value="<?=$this->contactsListe["destinataires"]?>" />
 	<input type="text" name="recherche_valeur_3_dest" size='40' id="recherche_valeur_3_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheBraldun("valeur_3_dest");' />
 	<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />

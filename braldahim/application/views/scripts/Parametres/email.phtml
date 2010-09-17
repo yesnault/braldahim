@@ -2,11 +2,11 @@
 <form action="/Parametres/email" method="post">
 <div class="box_parametres">
 <div class="inner">
-	<ul class="titre textalia textsizea">Mes Param&egrave;tres</ul>
-    <ul class="titre textalib textsizeb">Changer d'adresse email</ul>
+	<div class="titre textalia textsizea">Mes Param&egrave;tres</div>
+    <div class="titre textalib textsizeb">Changer d'adresse email</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 	    <br />
 		<?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
@@ -49,7 +49,7 @@
 		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 
 		<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
 		</div>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
 </div>

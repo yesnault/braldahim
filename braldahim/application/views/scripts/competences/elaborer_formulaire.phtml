@@ -76,7 +76,7 @@
 	<? if (isset($this->cout)): ?>
 		<br /><br />Co&ucirc;t en plantes pr&eacute;par&eacute;es : 
 	 	<? foreach($this->cout as $key1 => $value1) :?>
-	 			<br />Niveau <?=$key1 ?> -> 
+	 			<br />Niveau <?=$key1 ?> -&gt; 
 		 		<? 
 		 			$i = 0;
 		 			foreach($value1 as $c) :
@@ -166,7 +166,7 @@
 	<? if (isset($this->coutIngredient)): ?>
 		<br /><br />Autre Co&ucirc;t :
 		<? foreach($this->coutIngredient as $key1 => $value1) :?>
-	 			<br />Niveau <?=$key1 ?> -> 
+	 			<br />Niveau <?=$key1 ?> -&gt; 
 		 		<? 
 		 			$i = 0;
 		 			foreach($value1 as $c) :

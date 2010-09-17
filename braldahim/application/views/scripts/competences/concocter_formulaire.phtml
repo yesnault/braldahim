@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 	 <? if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
 	 
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave; <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisissez une plante)</option>

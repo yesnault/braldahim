@@ -3,10 +3,10 @@
 <form action="/Perdu/" method="post">
 <div class="box_perdu">
 <div class="inner">
-    <ul class="titre textalic textsizea">Braldahim - Mot de passe perdu ?</ul>
+    <div class="titre textalic textsizea">Braldahim - Mot de passe perdu ?</div>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <div class="box_contenu1 textalic">
 		&nbsp;
 		<div>
 			<? if ($this->generationOk) : ?>
@@ -20,9 +20,9 @@
 				Veuillez contacter le maitre du jeu &agrave; l'adresse suivante :
 				<?= $this->emailMaitreJeu ?>. <br /><br />
 				N'oubliez pas d'indiquer : <br />
-				=> votre nom et num&eacute;ro de braldun<br />
-				=> votre adresse de validation<br />
-				=> le probl&egrave;me rencontr&eacute;.<br />
+				=&gt; votre nom et num&eacute;ro de braldun<br />
+				=&gt; votre adresse de validation<br />
+				=&gt; le probl&egrave;me rencontr&eacute;.<br />
 			<? endif ?>
 				<br /><br />
 				Courbettes distingu&eacute;es, <br /><br />
@@ -30,7 +30,7 @@
 			 <input type="button" class='button1' value="Accueil" onClick="javascript:document.location.href='/'"/>
 		</div>
 
-	</ul>
+	</div>
 	</div>
 	&nbsp;
 </div>

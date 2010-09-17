@@ -3,13 +3,13 @@
 <form id="form_description" action="/Parametres/images" method="post">
 <div class="box_parametres">
 <div class="inner">
-	<ul class="titre textalia textsizea">Mes Param&egrave;tres</ul>
-    <ul class="titre textalib textsizeb">Changer d'avatar / de blason</ul>
+	<div class="titre textalia textsizea">Mes Param&egrave;tres</div>
+    <div class="titre textalib textsizeb">Changer d'avatar / de blason</div>
 	&nbsp;
 	<div class="contenu">
-	<ul class="box_contenu1 textalic">
+	<div class="box_contenu1 textalic">
 		
-		<ul class="titre textalic textsizec">Mode d'emploi</ul><br />
+		<div class="titre textalic textsizec">Mode d'emploi</div><br />
 		Pour indiquer un avatar et un blason, vous devez enregistrer vos images sur un site web, puis
 		indiquer ici le lien de l'image.<br /> Exemple de site web pouvant stocker vos images : 
 		<a href="http://imageshack.us">http://imageshack.us</a><br />
@@ -21,7 +21,7 @@
 		Exemple : http://www.image.com/monavatar.gif
 		<br /><br />
 		
-		<ul class="titre textalic textsizec">L'Avatar</ul><br />
+		<div class="titre textalic textsizec">L'Avatar</div><br />
 		L'avatar doit &ecirc;tre au format 110px (largeur) x 110px (hauteur). <br/>
 		
 		<? if ($this->urlAvatarValide == false) : ?>
@@ -29,7 +29,7 @@
 		<? endif; ?>
 		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_braldun ?>' size="50" maxlength="200">
 		
-		<ul class="titre textalic textsizec">Le Blason</ul><br />
+		<div class="titre textalic textsizec">Le Blason</div><br />
 		Le blason doit &ecirc;tre au format 300px (largeur) x 400px (hauteur). <br/>
 		
 		<? if ($this->urlBlasonValide == false) : ?>
@@ -58,7 +58,7 @@
 			</tbody>
 		</table>
 	  <br />
-	   	</ul>
+	   	</div>
 	</div>
 	&nbsp;
 </div>

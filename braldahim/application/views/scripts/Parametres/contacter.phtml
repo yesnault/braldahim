@@ -3,11 +3,11 @@
 <form id="form_message" action="/Parametres/contacter" method="post">
 <div class="box_parametres">
 <div class="inner">
-	<ul class="titre textalic textsizea">Contacter les enquêteurs</ul>
-    <ul class="titre textalic textsizeb">Envoyer un message</ul>
+	<div class="titre textalic textsizea">Contacter les enquêteurs</div>
+    <div class="titre textalic textsizeb">Envoyer un message</div>
 	&nbsp;
 	<div class="contenu">
-	<ul class="box_contenu1 textalic">
+	<div class="box_contenu1 textalic">
 	
 	<? if ($this->idEnquete != null) : ?>
 		Votre message est bien envoyé. Un enquêteur vous contactera par mail si besoin.
@@ -44,7 +44,7 @@
 	
 	 <? endif;?>
 		
-	 </ul>
+	 </div>
 	</div>
 	&nbsp;
 </div>

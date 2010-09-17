@@ -23,6 +23,7 @@
 	      
 		<br /><br />
 			<table  align='center'>
+				<tr>
 				<? foreach ($this->batchs as $h) : ?>
 					<? foreach ($h as $key => $value) : ?>
 					<th class='comp_titre'><?=$key?></th>
@@ -38,6 +39,7 @@
 				   	$color = "#FF3333";
 				   endif;
 				?>
+				</tr>
 				<tr style="background-color:<?=$color?>">
 					<? foreach ($b as $key => $value) : ?>
 						<td>

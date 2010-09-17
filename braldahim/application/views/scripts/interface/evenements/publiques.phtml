@@ -1,5 +1,5 @@
-<ul class="titre textalic textsizec">&Eacute;v&eacute;nements Publics </ul>
-  <ul class="box_contenu1 textalic">
+<div class="titre textalic textsizec">&Eacute;v&eacute;nements Publics </div>
+  <div class="box_contenu1 textalic">
   	Type : 
   	<select name='valeur_2'  onChange="Javascript:_get_('/interface/load/?box=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<? foreach ($this->typeEvenements as $t) : ?>
@@ -51,4 +51,4 @@
  Les événements de type déplacement sont supprimés au bout de 30 jours.<br />
  Les événements de type service, compétence, transbahuter sont supprimés au bout de 90 jours.<br />
 
-  </ul>
+  </div>

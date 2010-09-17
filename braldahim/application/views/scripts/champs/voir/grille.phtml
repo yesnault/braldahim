@@ -52,7 +52,7 @@ foreach($this->tableau as $k => $case) :
 	?>
 	<?php if ($case["change_level"] == true) : 
 		$col="ok"; ?>
-		<tr nowrap><td><?=$case["y"]?></td>
+		<tr><td><?=$case["y"]?></td>
     <?php endif; ?>
 	<td class='champ2d <?=$case["css_champ"]?>' nowrap
 		<? if ($this->champ["phase_champ"] == "seme" && $case["taupe"] == null) : ?>
@@ -78,15 +78,15 @@ foreach($this->tableau as $k => $case) :
 
 <? if ($this->champ["phase_champ"] != "jachere") : ?>
 
-<ul class="titre textalic textsized">
+<div class="titre textalic textsized">
 Culture
-</ul>
+</div>
 <?=$this->typeGraine?>
 <br /><br />
 
-<ul class="titre textalic textsized">
+<div class="titre textalic textsized">
 Taupes vivantes : 
-</ul>
+</div>
 <? if (count($this->taupesVivantes) > 0): ?>
 	<? foreach($this->taupesVivantes as $numero => $details) : ?>
 		Taupe n°<?=$numero?> de taille <?=$details["taille"]?>, 
@@ -98,9 +98,9 @@ Taupes vivantes :
 <? endif;?>
 <br /><br />
 
-<ul class="titre textalic textsized">
+<div class="titre textalic textsized">
 Taupes occises : <br /> 
-</ul>
+</div>
 
 <? if (count($this->taupesDetruites) > 0): ?>
 	<? foreach($this->taupesDetruites as $numero => $details) : ?>
@@ -116,6 +116,7 @@ Taupes occises : <br />
 
 </td>
 </tr>
+</table>
 
 
 <br /><br />

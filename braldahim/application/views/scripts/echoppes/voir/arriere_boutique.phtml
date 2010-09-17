@@ -1,11 +1,11 @@
-<ul class="titre textalic textsizec">L'arri&egrave;re-boutique</ul><br />
+<div class="titre textalic textsizec">L'arri&egrave;re-boutique</div><br />
 C'est dans l'arri&egrave;re-boutique que l'artisan entrepose les mati&egrave;res premi&egrave;res
 n&eacute;cessaires &agrave; l'exercice de son art. <br />
 C'est aussi ici que sa caisse est en 
 s&eacute;curit&eacute;. Il y stocke les diff&eacute;rentes monnaies d'&eacute;change utilis&eacute;es.
 <br /><br />
 
-<ul class="titre textalid textsizec">Mati&egrave;res premi&egrave;res</ul><br />
+<div class="titre textalid textsizec">Mati&egrave;res premi&egrave;res</div><br />
 <? if ($this->afficheType == "aliments") :?>
 	<? include("arriere_boutique_ressources_ingredients.phtml") ?>
 <? else: ?>
@@ -33,5 +33,5 @@ else:
 	
 <br /><br /><br />
 
-<ul class="titre textalic textsizec">La caisse</ul>
+<div class="titre textalic textsizec">La caisse</div>
 <? include("caisse.phtml") ?>

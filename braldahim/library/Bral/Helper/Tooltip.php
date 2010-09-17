@@ -16,8 +16,8 @@ class Bral_Helper_Tooltip {
 		$id = 'n'.uniqid();
 		$retour = '<div class="tip" id="'.$id.'">';
 		$retour .= '<span id="'.$id.'fix" onclick="braltipFixer(\''.$id.'\')">[Fixer]</span>';
-		$retour .= '<span id="'.$id.'clos" style="display:none" onclick="braltipDeFixer(\''.$id.'\')">[Ne plus fixer]</span>&nbsp;';
 		$retour .= '<span id="'.$id.'dep" style="display:none">[Déplacer]</span>';
+		$retour .= '<span id="'.$id.'clos" style="display:none" onclick="braltipDeFixer(\''.$id.'\')">[Ne plus fixer]</span>&nbsp;';
 		$retour .= "<hr />";
 		if ($titre != null) {
 			$retour .= $titre;
@@ -26,8 +26,6 @@ class Bral_Helper_Tooltip {
 		
 		$retour .= $texte;
 		
-		/*$retour .= "<br /><br /><span onClick=\"
-		new Draggable('".$id."');Draggables.unregister('". $id."'); \">[Déplacer]</span>";*/
 		$retour .= '</div>';
 		return $retour;
 	}

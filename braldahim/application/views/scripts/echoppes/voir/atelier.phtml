@@ -1,4 +1,4 @@
- <ul class="titre textalic textsizec">L'atelier</ul>
+<div class="titre textalic textsizec">L'atelier</div>
 L'atelier est le c&oelig;ur de l'&eacute;choppe. C'est ici que l'artisan exerce son art.<br /><br />
 
 <? if ($this->estSurEchoppe === true && $this->user->activation == true): 
@@ -40,18 +40,18 @@ endif;?>
 <br /><br />
 
 <? if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
-  <ul class="titre textalic textsized">Mat&eacute;riels cr&eacute;&eacute;s</ul>
+  <div class="titre textalic textsized">Mat&eacute;riels cr&eacute;&eacute;s</div>
   <? include("atelier_materiels.phtml") ?>
   <br /><br />
 <? endif?>
   	
 <? if ($this->afficheType == "equipements") :?>
-	<ul class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</ul>
+	<div class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</div>
 	<? include("atelier_equipements.phtml") ?>
 <? elseif ($this->afficheType == "potions") :?>
-	<ul class="titre textalic textsizec">Potions et vernis cr&eacute;&eacute;s</ul>
+	<div class="titre textalic textsizec">Potions et vernis cr&eacute;&eacute;s</div>
 	<? include("atelier_potions.phtml") ?>
 <? elseif ($this->afficheType == "aliments") :?>
-	<ul class="titre textalic textsizec">Aliments cr&eacute;&eacute;s</ul>
+	<div class="titre textalic textsizec">Aliments cr&eacute;&eacute;s</div>
 	<? include("atelier_aliments.phtml") ?>
 <? endif; ?>

@@ -1,15 +1,16 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-	<ul class="titre textalia textsizea">Administration</ul>
-    <ul class="titre textalic textsizeb">Cr&eacute;ation Monstres</ul>
+	<div class="titre textalia textsizea">Administration</div>
+    <div class="titre textalic textsizeb">Cr&eacute;ation Monstres</div>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
-	    	<form action="/Administrationmonstre/creation" method="post">
+	    <div class="box_contenu1 textalic">
+	    	
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
+			<form action="/Administrationmonstre/creation" method="post">
 				Type<br />
 				
 				<select name="id_type">
@@ -34,33 +35,33 @@
 				</select>
 				<br />				
 				X min
-				<input type="textbox" name="x_min_zone" id="x_min_zone" size="4" maxlength="4" />
+				<input type="text" name="x_min_zone" id="x_min_zone" size="4" maxlength="4" />
 				X max
-				<input type="textbox" name="x_max_zone" id="x_max_zone" size="4" maxlength="4" />
+				<input type="text" name="x_max_zone" id="x_max_zone" size="4" maxlength="4" />
 				Y min
-				<input type="textbox" name="y_min_zone" id="y_min_zone" size="4" maxlength="4" />
+				<input type="text" name="y_min_zone" id="y_min_zone" size="4" maxlength="4" />
 				Y max
-				<input type="textbox" name="y_max_zone" id="y_max_zone" size="4" maxlength="4" />
+				<input type="text" name="y_max_zone" id="y_max_zone" size="4" maxlength="4" />
 				
 				<br /><br />
 				Facultatif : le monstre restera à l'intérieur de ces coordonnées (laissez vide si pas de rayon défini): <br />
 				X Position départ
-				<input type="textbox" name="x_position" id="x_position" size="4" maxlength="4" />
+				<input type="text" name="x_position" id="x_position" size="4" maxlength="4" />
 				Y Position départ
-				<input type="textbox" name="y_position" id="y_position" size="4" maxlength="4" />
+				<input type="text" name="y_position" id="y_position" size="4" maxlength="4" />
 				X min
-				<input type="textbox" name="x_min_position" id="x_min_position" size="4" maxlength="4" />
+				<input type="text" name="x_min_position" id="x_min_position" size="4" maxlength="4" />
 				X max
-				<input type="textbox" name="x_max_position" id="x_max_position" size="4" maxlength="4" />
+				<input type="text" name="x_max_position" id="x_max_position" size="4" maxlength="4" />
 				Y min
-				<input type="textbox" name="y_min_position" id="y_min_position" size="4" maxlength="4" />
+				<input type="text" name="y_min_position" id="y_min_position" size="4" maxlength="4" />
 				Y max
-				<input type="textbox" name="y_max_position" id="y_max_position" size="4" maxlength="4" />
+				<input type="text" name="y_max_position" id="y_max_position" size="4" maxlength="4" />
 				
 				<br /><br />
 					Nombre de monstre<br />
 					(Cr&eacute;ation automatique de groupe)
-				<input type="textbox" name="nombre" onkeypress="chiffres(event);" size="3" maxlength="3" />
+				<input type="text" name="nombre" onkeypress="chiffres(event);" size="3" maxlength="3" />
 				
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
@@ -69,7 +70,7 @@
 			</table>
 			<br /><br />
 			<? if ($this->creation === true): ?>
-			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
+			<div class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</div>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
 				
 				<? if ($this->tabCreation["groupesMonstres"] != null) : ?>
@@ -94,33 +95,33 @@
 			<? endif; ?>
 				
 			<br /><br /><br /><br />
-			<ul class="titre textalic textsizea">Statistiques actuelles</ul><br />
+			<div class="titre textalic textsizea">Statistiques actuelles</div><br />
 			
 			<table>
 			<tr>
 			<td valign="top">
 				
-				<ul class="titre textalic textsizec">Stats globales</ul>
+				<div class="titre textalic textsizec">Stats globales</div>
 	
 				Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
 				Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
 				Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
 	
 				<br />
-				<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
+				<br /><div class="titre textalic textsizec">Nombre de monstres par type</div>
 				<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
 					<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
 				<? endforeach; ?>
 				
 				<br />
-				<ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
+				<div class="titre textalic textsizec">Nombre de monstres par taille</div>
 				<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
 					<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br />
 				<? endforeach; ?>
 				
 			</td>
 			<td>
-				<ul class="titre textalic textsizec">Couverture par zone</ul>
+				<div class="titre textalic textsizec">Couverture par zone</div>
 			
 				<table class="table_liste">
 				<thead class="table_liste">
@@ -155,8 +156,9 @@
 			</td>
 			</tr>
 			</table>
-		</ul>
+		</div>
 	</div>
 	&nbsp;
+</div>
 </div>
 <?php echo $this->render('footer.phtml'); ?>

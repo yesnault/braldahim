@@ -5,7 +5,7 @@
 				<? foreach($this->arBoutiqueCaisse as $k => $v) : ?>
 					<? if ($v["a_afficher"] == true) :?>
 					<li id="arboutiqueCaisse<?=$k?>">
-				      	<h3 id="arboutiqueCaisse<?=$k?>-head" class="head" onClick="maccordion(this);" />
+				      	<h3 id="arboutiqueCaisse<?=$k?>-head" class="head" onClick="maccordion(this);">
 							<?=htmlspecialchars($v["nom"]) ?>
 						</h3>
 						<ul id="arboutiqueCaisse<?=$k?>-body" style="display:none">

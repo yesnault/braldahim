@@ -1,7 +1,7 @@
 
 <? Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
 <br />
-<ul class="titre textalic textsizec">Gestion des Membres</ul><br />
+<div class="titre textalic textsizec">Gestion des Membres</div><br />
 
 <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='-1'>
 <input type="hidden" name='valeur_1' id="valeur_1" value="-1" >
@@ -24,7 +24,7 @@ Filtrer par rang :
   	<br />
   	
  <? if ($this->message != null) : ?>
-	<div id="communaute_gerer_membre_update" name="communaute_gerer_membre_update">
+	<div id="communaute_gerer_membre_update">
 	 <img src="/public/images/info_icon.gif"/> <?=htmlspecialchars($this->message) ?>
 	</div>
  <? endif; ?>
