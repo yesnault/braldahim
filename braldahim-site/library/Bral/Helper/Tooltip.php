@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,15 +11,24 @@
  * $LastChangedBy$
  */
 class Bral_Helper_Tooltip {
-	
+
 	public static function render($texte, $titre = null, $boutonCopier = null) {
-		$retour = "<span class='tip'>";
+		$id = 'n'.uniqid();
+		$retour = '<div class="tip" id="'.$id.'">';
+		$retour .= '<span id="'.$id.'fix" onclick="braltipFixer(\''.$id.'\')">[Fixer]</span>';
+		$retour .= '<span id="'.$id.'clos" style="display:none" onclick="braltipDeFixer(\''.$id.'\')">[Ne plus fixer]</span>&nbsp;';
+		$retour .= '<span id="'.$id.'dep" style="display:none">[Déplacer]</span>';
+		$retour .= "<hr />";
 		if ($titre != null) {
-			$retour .= "".$titre."<hr />";
+			$retour .= $titre;
+			$retour .= "<hr />";
 		}
+		
 		$retour .= $texte;
-		//$retour .= '<br /><span onClick="this.parent.style.display=\'none\'">Fermer</span>';
-		$retour .= '</span>';
+		
+		/*$retour .= "<br /><br /><span onClick=\"
+		new Draggable('".$id."');Draggables.unregister('". $id."'); \">[Déplacer]</span>";*/
+		$retour .= '</div>';
 		return $retour;
 	}
 }

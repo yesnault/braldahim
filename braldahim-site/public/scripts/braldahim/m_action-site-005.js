@@ -347,3 +347,34 @@ function jsMenuHotel(id, valeur) {
 		_get_('/hotel/load?caction=do_hotel_voir&'+id+'='+valeur);
 	}
 }
+
+function braltipFixer(id) {
+	$(id).className='tipf';
+	(Position.offsetParent($(id))).style.zIndex=25;
+	$(id + 'clos').style.display='inline';
+	$(id + 'dep').style.display='inline';
+	$(id + 'fix').style.display='none';
+	
+	new Draggable(id, { handle: id + 'dep' });
+}
+
+function braltipDeFixer(id) {
+	$(id).className='tip';
+	(Position.offsetParent($(id))).style.zIndex='auto';
+	$(id + 'clos').style.display='none';
+	$(id + 'dep').style.display='none';
+	$(id + 'fix').style.display='inline';
+	
+	$(id).style.left='0px';
+	$(id).style.right='0px';
+	$(id).style.top='-3px'
+	destroyDraggable(id);
+}
+
+function destroyDraggable(id) {
+    for(var i=0, size=Draggables.drags.length; i<size; i++) {
+      if(Draggables.drags[i].element.id == id) {
+        Draggables.drags[i].destroy();
+      }
+    }
+}

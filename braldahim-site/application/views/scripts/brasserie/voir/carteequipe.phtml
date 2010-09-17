@@ -32,8 +32,8 @@ foreach($joueurs as $j):
   	  }
 	  
   	  $eqini = $nomEquipe;
-  	  $textBraldun .= '<label class=\'alabel profil\' onClick=ouvrirProfilH('.$j["id_braldun"].'); title=\'Voir le profil\' >'.addslashes($j["prenom_braldun"]).' '.addslashes($j["nom_braldun"]).' ('.$j["id_braldun"].')</label>, niv.'.$j["niveau_braldun"];
-  	  $textBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$j["id_braldun"].'); style=\'cursor:pointer\'/><br /> ';
+  	  $textBraldun .= "<label class='alabel profil' onClick=\"ouvrirProfilH(".$j["id_braldun"].");\" title='Voir le profil' >".addslashes($j["prenom_braldun"])." ".addslashes($j["nom_braldun"])." (".$j["id_braldun"].")</label>, niv.".$j["niveau_braldun"];
+  	  $textBraldun .= " <img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick=\"ouvrirEvenementsH(".$j["id_braldun"].");\" style='cursor:pointer'/><br />";
 	  $title = "Position : x=".$j['x_braldun'].", y=".$j['y_braldun'];
   	  $xini = $j["x_braldun"];
   	  $yini = $j["y_braldun"];
@@ -41,7 +41,7 @@ foreach($joueurs as $j):
 
   	  echo "<div class='braltip'>";
   	  echo Bral_Helper_Tooltip::render($textBraldun, $title);
-  	  echo '<span class="joueur" style=\'';
+  	  echo "<span class='joueur' style='";
 	  echo "left:".(-3 + ($j["x_braldun"] - $this->matchEnCours["x_min_soule_terrain"]) * $coef)."px;"; 
 	  echo "top:".(-3 + ($this->matchEnCours["y_max_soule_terrain"] - $j["y_braldun"]) * $coef)."px;";
 	  echo "background-color:".$backgroundColor.";";

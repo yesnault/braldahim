@@ -1335,7 +1335,7 @@ function braltipDeFixer(id) {
 	
 	$(id).style.left='0px';
 	$(id).style.right='0px';
-	$(id).style.top='0px'
+	$(id).style.top='-3px'
 	destroyDraggable(id);
 }
 

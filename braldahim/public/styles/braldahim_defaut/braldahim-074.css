@@ -1187,8 +1187,9 @@ td.cases.actuelle {
 
 .lune {
 	cursor : pointer;
-	line-height : 10px;
+	line-height : 12px;
 	padding : 4px;
+	float:right;top:-23px;
 }
 
 .lune.lune0 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon0.png) no-repeat scroll 0 0; }
@@ -1251,7 +1252,8 @@ left:2px;
 padding:4px;
 position:absolute;
 top:3px;
-width:300px;
+min-width:300px;
+width:auto;
 min-height:100px;
 z-index:300;
 cursor:pointer;

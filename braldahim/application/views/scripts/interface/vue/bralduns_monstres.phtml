@@ -34,7 +34,7 @@ if ($case["n_bralduns"] > 0) :
 			$textTmp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		}
 		if ($h["id_communaute"] != null) {
-			$textTmp .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
+			$textTmp .= '- <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
 		}
 		$textTmp .= "<br />";
 		

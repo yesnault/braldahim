@@ -47,11 +47,11 @@
 				</span>
 				<? endif; ?>
 				<? if (!Zend_Registry::get("estMobile")):?>
-				<span>&nbsp;&nbsp;&nbsp;<?=Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<div>&nbsp;&nbsp;&nbsp;<?=Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 				<? endif;?>
 			<? endif; ?>
 		 </div>
-		 <div class='braltip' style="float:right;top:-10px">
+		 <div class='braltip lune' >
 		  <? if (!Zend_Registry::get("estMobile")):?>
 		  	  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
 		  <? endif;?>
