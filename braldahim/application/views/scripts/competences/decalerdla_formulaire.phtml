@@ -20,8 +20,10 @@
  	Le d&eacute;calage s'exprime en heures et en minutes. <br />
  	Choississez le nombre d'heures et / ou minutes de votre décalage.<br /><br />
    <table width='300px' align='center'>
+    <tr>
     <th class='comp_titre'>Heures</th>
     <th class='comp_titre'>Minutes</th>
+    </tr>
    	<tr>
    		<td>
 	   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">

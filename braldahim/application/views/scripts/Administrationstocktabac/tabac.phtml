@@ -64,6 +64,7 @@
 			
 			<? if (count($this->stocks) > 0 ) : ?>
 				<table align='center'>
+				<tr>
 				<th class='comp_titre'>N&deg;</th>
 				<th class='comp_titre'>Date</th>
 				<th class='comp_titre'>Type Tabac</th>
@@ -72,7 +73,7 @@
 				<th class='comp_titre'>Prix Vente par Boutique</th>
 				<th class='comp_titre'>Prix Reprise</th>
 				<th class='comp_titre'>R&eacute;gion</th>
-				
+				</tr>
 				<? foreach($this->stocks as $r) :?>
 					<tr>
 						<td><?=$r["id_stock_tabac"]?></td>

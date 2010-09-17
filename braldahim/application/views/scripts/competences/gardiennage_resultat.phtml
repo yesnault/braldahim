@@ -6,10 +6,12 @@
 <? else: ?>
 	Gardiennage en cours
 	<table>
+	<tr>
 	<th class='comp_titre'>Gardien</th>
 	<th class='comp_titre'>Date de d&eacute;but</th>
 	<th class='comp_titre'>Nombre de jour(s)</th>
 	<th class='comp_titre'>Commentaire</th>
+	</tr>
 	<? foreach($this->tabGardiennage as $g): ?>
 		<tr>
 			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
