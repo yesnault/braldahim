@@ -573,6 +573,22 @@ margin-right:auto !important;
 	border-color: #6f5f6f;
 }
 
+.img_barre_faim {
+	background-image: url(/public/images/barre_faim.gif);
+}
+
+.img_barre_vie {
+	background-image: url(/public/images/barre_vie.gif);
+}
+
+.img_barre_niveau {
+	background-image: url(/public/images/barre_niveau.gif);
+}
+
+.img_barre_poids {
+	background-image: url(/public/images/barre_poids.gif);
+}
+
 .barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite {
 	background-color: #FFFFFF;
 	height: 10px;
@@ -583,12 +599,24 @@ margin-right:auto !important;
 	border-color: #6f5f6f;
 }
 
-.barre_tour_sommeil {
-	width:50px;
+.barre_img {
+	height: 10px;
 }
 
-.barre_tour_eveil {
-	width: 50px;
+.img_tour_sommeil {
+	background-image: url(/public/images/barre_tour_sommeil.gif);
+}
+
+.img_tour_eveil {
+	background-image: url(/public/images/barre_tour_eveil.gif);
+}
+
+.img_tour_activite {
+	background-image: url(/public/images/barre_tour_activite.gif);
+}
+
+.barre_tour_sommeil, .barre_tour_eveil  {
+	width:50px;
 }
 
 .barre_tour_activite {
@@ -1252,9 +1280,24 @@ left:2px;
 padding:4px;
 position:absolute;
 top:3px;
-min-width:300px;
+min-width:250px;
 width:auto;
 min-height:100px;
 z-index:300;
 cursor:pointer;
+border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	
+background: #FFFFFF
+		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
+}
+
+div.tip hr, div.tipf hr {
+border: none 0;
+border-top: 1px dotted #C0C0C0;
+width: 100%;
+height: 1px;
 }

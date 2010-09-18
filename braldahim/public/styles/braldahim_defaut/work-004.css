@@ -138,3 +138,9 @@ div.braltip:hover span.tip{
 	filter: Alpha(Opacity = 100);
 	-moz-opacity: 1.0;
 }
+
+.img_barre_faim, .img_barre_vie, .img_barre_niveau, .img_barre_poids, .img_tour_sommeil, .img_tour_eveil, .img_tour_activite {
+	background-color: #C0C0C0;
+	background-image:none;
+}
+

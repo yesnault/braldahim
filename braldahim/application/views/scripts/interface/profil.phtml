@@ -66,7 +66,7 @@
 					Points de Vie <br/>
 					Balance faim  
 	    		</td>
-	    		<td width="80%">
+	    		<td width="80%" align='center'>
 				<?=Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun)?>
 				<?=Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun)?>
 				</td>
@@ -120,11 +120,14 @@
 		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->vigueur_bm_braldun >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_braldun ?></span>
 		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->vigueur_bbdf_braldun >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_braldun ?></span>
 	    		</td>
-	    		
-	    		<td nowrap>
+	    		<? if (Zend_Registry::get("estMobile")) :?>
+	    		</tr>
+	    		<tr>
+	    		<? endif; ?>
+	    		<td nowrap align="left">
 	    			Vue
 	    		</td>
-	    		<td>
+	    		<td <? if (Zend_Registry::get("estMobile")) :?> colspan="3" align="left"<? endif;?>>
 	    		<?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_braldun >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_braldun ?>
 	    		</td>
 	    		</tr>
@@ -143,7 +146,7 @@
 		
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
-			<tr class="table_liste" align="left" valign="middle">
+			<tr class="table_liste" align="left" valign="middle" >
 				<td width="10%" nowrap>Exp / Niveau</td>
 	    		<?=Bral_Helper_Profil::afficheBarreNiveau($this->user->niveau_braldun, $this->user->px_perso_braldun);?>
 			</tr>
@@ -171,7 +174,7 @@
 					<td width="8%" nowrap>
 						Port&eacute; / Total
 		    		</td>
-					<td width='70%' >
+					<td width='70%' align='center'>
 						<?=Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_braldun, $this->poidsTransporteBraldunCorrige);?>
 					</td>
 					<td  width='12%' nowrap>
@@ -195,6 +198,10 @@
 			<tr class="table_liste"  valign="middle">
 				<td>Naturelle : <?=$this->user->armure_naturelle_braldun ?></td>
 	    		<td>&Eacute;quipement : <?=$this->user->armure_equipement_braldun ?></td>
+	    		<? if (Zend_Registry::get("estMobile")) :?>
+	    		</tr>
+	    		<tr>
+	    		<? endif;?>
 	    		<td>Bonus / Malus : <?=$this->user->armure_bm_braldun ?></td>
 	    		<td>Total : <?=($this->armure_totale)  ?></td>
 			</tr>
