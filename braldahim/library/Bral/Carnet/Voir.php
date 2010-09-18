@@ -41,11 +41,11 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
-			Zend_Loader::loadClass('Zend_Filter_striptags');
+			Zend_Loader::loadClass('Zend_Filter_StripTags');
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim());
-			$filter->addFilter(new Zend_Filter_striptags());
+			$filter->addFilter(new Zend_Filter_StripTags());
 
 			$texte = $this->request->get('texte_carnet');
 			$texte = str_replace("<br>", PHP_EOL, $texte);
