@@ -165,7 +165,7 @@ class Bral_Helper_Profil {
 			$largeur = self::COEF_TAILLE * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
 		}
 
-		$retour = "<div class='barre_vie braltip'><div class='barre_img img_barre_vie' style='".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour = "<div class='barre_vie braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "</div></div>";
 
 		return $retour;
