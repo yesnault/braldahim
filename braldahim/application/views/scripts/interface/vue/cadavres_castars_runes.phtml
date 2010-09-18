@@ -11,7 +11,7 @@ if ($this->user->administrationvue == true && $case["n_routes"] > 0) {
 		$textRoute .= htmlspecialchars($r["id_route"]);
 		$type_route = $r["type_route"];
 		if ($this->user->administrationvue == true) {
-			$textRoute .= ' <label class=\'alabel\' onClick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerroute&id_lieu='.$r["id_route"].'\')>[Admin:deplacer]</label>';
+			$textRoute .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerroute&id_lieu='.$r["id_route"].'\')>[Admin:deplacer]</label>';
 		}
 	}
 }
@@ -30,16 +30,16 @@ if ($case["n_braldunsKo"] > 0) :
 			$intangible = "Intangible";
 			$textIntangible = "(Braldûn intangible) -";
 		}
-		$textCorpBraldun .= '<label class=\'alabel profil'.$intangible.'\' onClick=ouvrirProfilH('.$b["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
+		$textCorpBraldun .= '<label class=\'alabel profil'.$intangible.'\' onclick=ouvrirProfilH('.$b["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
 		$textCorpBraldun .= htmlspecialchars($b["prenom_braldun"]).' '.htmlspecialchars($b["nom_braldun"]);
 		$textCorpBraldun .= " (n&deg;".$b["id_braldun"].")</label>, niv.".$b["niveau_braldun"];
 		
-		$textCorpBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
+		$textCorpBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		if ($this->estVueEtendue == false) {
-			$textCorpBraldun .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
+			$textCorpBraldun .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		}
 		if ($b["id_communaute"] != null) {
-			$textCorpBraldun .= ' - <label class=alabel onClick=ouvrirCommunaute('.$b["id_communaute"].');>'.htmlspecialchars($b["nom_communaute"]).'</label>';
+			$textCorpBraldun .= ' - <label class=alabel onclick=ouvrirCommunaute('.$b["id_communaute"].');>'.htmlspecialchars($b["nom_communaute"]).'</label>';
 		}
 		$textCorpBraldun .= "<br />";
 		
@@ -66,12 +66,12 @@ if ($case["n_cadavres"] > 0) :
 	}
 	$textCadavre .= ": 	<br />";
 	foreach($case["cadavres"] as $c) {
-		$textCadavre .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\'); title=\'Voir le profil\' >';
+		$textCadavre .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\'); title=\'Voir le profil\' >';
 		if ($c["est_gibier"]) {
 			$textCadavre .= "Gibier : ";
 		}
 		$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label>";
-		$textCadavre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsM('.$c["id_monstre"].'); style=\'cursor:pointer\'/> ';
+		$textCadavre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$c["id_monstre"].'); style=\'cursor:pointer\'/> ';
 		$textCadavre .= "<br />";
 	}
 	$s = "";

@@ -73,7 +73,7 @@ $js = "
 ";
 ?>
 <?php if ($this->vendreMineraisOk === true && $this->sourceTransfertCourante != null && $this->assezDePa === true) : ?>
-	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br />
-	<input type='button' class='button1' id='bouton_vendreminerais' value='Vendre !' onClick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendreminerais&id_source_courante=<?=$this->sourceTransfertCourante?>");' disabled>
+	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?=$js?>"> <br />
+	<input type='button' class='button1' id='bouton_vendreminerais' value='Vendre !' onclick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendreminerais&id_source_courante=<?=$this->sourceTransfertCourante?>");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

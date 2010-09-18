@@ -22,7 +22,7 @@
 	  		?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/braldun/?braldun=<?=$e["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		  			<a href="#" onclick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/braldun/?braldun=<?=$e["id_braldun"]?>');" title="Cliquez pour voir le profil">
 		  				<?=$e["prenom_braldun"]?> <?=$e["nom_braldun"]?> (<?=$e["id_braldun"]?>)
 		  			</a>
 		  		</td>

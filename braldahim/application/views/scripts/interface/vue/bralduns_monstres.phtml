@@ -25,16 +25,16 @@ if ($case["n_bralduns"] > 0) :
 		}
 		
 		$textTmp = "";
-		$textTmp .= '<label class=\'alabel profil'.$intangible.'\' onClick=ouvrirProfilH('.$h["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
+		$textTmp .= '<label class=\'alabel profil'.$intangible.'\' onclick=ouvrirProfilH('.$h["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
 		$textTmp .= htmlspecialchars($h["prenom_braldun"])." ".htmlspecialchars($h["nom_braldun"]);
 		$textTmp .= " (n&deg;".$h["id_braldun"].")</label>, niv.".$h["niveau_braldun"];
 		
-		$textTmp .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsH('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
+		$textTmp .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		if ($this->estVueEtendue == false) {
-			$textTmp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
+			$textTmp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		}
 		if ($h["id_communaute"] != null) {
-			$textTmp .= '- <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
+			$textTmp .= '- <label class=alabel onclick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
 		}
 		$textTmp .= "<br />";
 		
@@ -89,12 +89,12 @@ if ($case["n_monstres"] > 0) :
 	}
 	$textMonstre .= ":<br />";
 	foreach($case["monstres"] as $m) {
-		$textMonstre .= '<label class=\'alabel\' onClick=ouvrirMonstre('.$m["id_monstre"].'); title=\'Voir le profil\' >';
+		$textMonstre .= '<label class=\'alabel\' onclick=ouvrirMonstre('.$m["id_monstre"].'); title=\'Voir le profil\' >';
 		if ($m["est_gibier"]) {
 			$textMonstre .= "Gibier : ";
 		}
 		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." ".htmlspecialchars($m["taille_monstre"])." (n&deg;".$m["id_monstre"].")</label> ";
-		$textMonstre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onClick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\'cursor:pointer\'/> ';
+		$textMonstre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\'cursor:pointer\'/> ';
 		$textMonstre .= "<br />";
 		
 		if ($idTypeMonstre == "") {

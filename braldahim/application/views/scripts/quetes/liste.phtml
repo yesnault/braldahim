@@ -23,7 +23,7 @@
 			  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste">
 			  			<? if ($l["id_quete"] != null) : ?>
-						  	<label class="alabel" onClick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$l["id_quete"]?>');">
+						  	<label class="alabel" onclick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$l["id_quete"]?>');">
 						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?>
 						  	</label> 
 					  	<? else: ?>
@@ -32,7 +32,7 @@
 						  	</label>
 					  	<? endif;?>
 					  	
-					  	(<a title="Cliquez pour voir <?=$l["nom_ville"]?> dans les règles" style="text-decoration: none" onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$l["nom_ville"]?>')";><?=$l["nom_ville"]?></a>)
+					  	(<a title="Cliquez pour voir <?=$l["nom_ville"]?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$l["nom_ville"]?>')";><?=$l["nom_ville"]?></a>)
 					  
 					</td>
 					<td class="table_liste" nowrap>

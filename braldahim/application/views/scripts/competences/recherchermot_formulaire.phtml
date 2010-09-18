@@ -55,7 +55,7 @@
 				Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 			
 			<? if (count($this->labanRunes) > 0) : ?>
-				<input type="button" class='button1' value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes_recherche').style.display='block';this.style.display='none';">
+				<input type="button" class='button1' value="Choisir les runes" onclick="<?=$js ?>; $('choix_runes_recherche').style.display='block';this.style.display='none';">
 			
 				<div id="choix_runes_recherche" style="display:none">
 				
@@ -95,5 +95,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->rechercherMotOk === true) : ?>
-<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("valeur_1").value);' disabled>
 <? endif ?>

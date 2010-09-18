@@ -175,7 +175,7 @@
 						type="submit" class="button1" name="Modifier"
 						value="Modifier la référence" /> <input
 						type="button" class="button1" name="Annuler" value="Annuler"
-						onClick="document.location.href='/Administrationmonstre/referentiel/'" />
+						onclick="document.location.href='/Administrationmonstre/referentiel/'" />
 
 						<? else: ?> 
 						<!-- <input type="submit" class="button1" name="Ajouter"
@@ -268,7 +268,7 @@
 			<td><?=$r["estimation_pv_max"]?></td>
 			<td><input type="button" class="button1" name="Modifier"
 				value="Modifier"
-				onClick="document.location.href='/Administrationmonstre/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';" /></td>
+				onclick="document.location.href='/Administrationmonstre/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';" /></td>
 		</tr>
 		<? endforeach; ?>
 	</table>

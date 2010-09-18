@@ -16,7 +16,7 @@
 	<? if (!empty($this->listesContacts)): ?>
 		<? $i = 0;
 		   foreach($this->listesContacts as $listesContacts): ?>
-		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=editer&valeur_2=".$listesContacts['id']."');\" style='cursor:pointer' title='Lire le message'"; ?>
+		   		<? $js="onclick=\"_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=editer&valeur_2=".$listesContacts['id']."');\" style='cursor:pointer' title='Lire le message'"; ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?>" valign="top">
 	  				<td class="table_liste">
 	  					<?=$listesContacts["nom"] ?>
@@ -28,12 +28,12 @@
 					<?=$listesContacts["bralduns"]["aff_js_destinataires"];?>
 					</td>
 					<td>
-						<label class='alabel' onClick="Javascript:ecrireMessageListeContact(<?=$listesContacts["id"] ?>)">Écrire à la liste
+						<label class='alabel' onclick="Javascript:ecrireMessageListeContact(<?=$listesContacts["id"] ?>)">Écrire à la liste
 	  					<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
 					</td>
 	  				<td class="table_liste">
-						<img src="/public/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br />
-						<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer">
+						<img src="/public/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br />
+						<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer">
 					</td>
 	  			</tr>
 		  	<? endforeach; ?>
@@ -44,5 +44,5 @@
    		<? endif; ?>
 	</tbody>
 </table>
-<input type="button" class='button1' name="Nouvelle liste" value="Nouvelle liste / nouveau contact" onClick="_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=nouveau');" /> 
+<input type="button" class='button1' name="Nouvelle liste" value="Nouvelle liste / nouveau contact" onclick="_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=nouveau');" /> 
 <br />

@@ -14,7 +14,7 @@
 <ul id="navigation" style="width:99%;text-align:left">
 
 <li id="pocheSoule<?=$equipe["id_equipe"] ?>">
-	<h3 id="pocheSoule<?=$equipe["id_equipe"] ?>-head" class="head" onClick="maccordion(this);">Les Joueurs</h3>
+	<h3 id="pocheSoule<?=$equipe["id_equipe"] ?>-head" class="head" onclick="maccordion(this);">Les Joueurs</h3>
 	<? if ($this->matchEnCours != null) : ?>
 	<ul id="pocheSoule<?=$equipe["id_equipe"] ?>-body" style="display:none">
 	<? else: ?>
@@ -30,7 +30,7 @@
 		  	foreach($equipe["joueurs"] as $j): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste" nowrap>
-			  		<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+			  		<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
 			  		<?=$j["prenom_braldun"]?> <?=$j["nom_braldun"]?> (<?=$j["id_braldun"]?>)
 			  		</a>
 			  		<? if ($this->matchEnCours != null) : ?>
@@ -42,8 +42,8 @@
 				  		Actuellement plaqué
 				  		<? endif;?>
 			  		<? endif;?>
-			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
-			  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
+			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
+			  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
 		  		</tr>
 		  	<? endforeach; ?>
 		<? else: ?>

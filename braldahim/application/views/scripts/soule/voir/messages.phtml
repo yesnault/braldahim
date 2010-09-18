@@ -2,7 +2,7 @@
 
 <div class="titre textalic textsizec">Messages de l'équipe</div>
 
-<input type="button" class='button1' name="rafraichir_soule" id="rafraichir_soule" value="Rafraîchir" onClick="Javascript:_get_('/interface/load/?box=box_soule');"/>
+<input type="button" class='button1' name="rafraichir_soule" id="rafraichir_soule" value="Rafraîchir" onclick="Javascript:_get_('/interface/load/?box=box_soule');"/>
 
 <table class="table_liste" style="width:80%;text-align:center">
 	<thead class="table_liste">
@@ -16,7 +16,7 @@
    		<td colspan="3">
 		<ul id="navigation" style="width:100%;text-align:center" >
 			<li id="pocheSouleMessage">
-			<h3 id="pocheSouleMessage-head" class="head" onClick="maccordion(this);" >
+			<h3 id="pocheSouleMessage-head" class="head" onclick="maccordion(this);" >
 			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau Message"/> 
 			</h3>
 			<? if ($this->matchEnCours != null) : ?>

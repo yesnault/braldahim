@@ -94,6 +94,6 @@
 </form>
 <br />
 <?php if ($this->vendreOk > 0) : ?>
-<input type='button' class='button1' id='bouton_vendrealiment' value='Mettre en vente !' onClick='this.disabled=true;$("valeur_9").value=encodePlus($("valeur_commentaire").value);_get_("/echoppes/doaction?caction=do_echoppes_vendrealiment");' disabled>
+<input type='button' class='button1' id='bouton_vendrealiment' value='Mettre en vente !' onclick='this.disabled=true;$("valeur_9").value=encodePlus($("valeur_commentaire").value);_get_("/echoppes/doaction?caction=do_echoppes_vendrealiment");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

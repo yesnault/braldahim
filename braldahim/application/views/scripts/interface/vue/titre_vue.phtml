@@ -12,7 +12,7 @@
 	    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
 	    <? endif; ?>
 	    <? if (!empty($this->centre_nom_ville)):?>
-	     <a class="titre textalia textsized" title="Cliquez pour voir <?=$this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$this->centre_nom_ville ?>')";><?=$this->centre_nom_ville ?></a>
+	     <a class="titre textalia textsized" title="Cliquez pour voir <?=$this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$this->centre_nom_ville ?>')";><?=$this->centre_nom_ville ?></a>
 	    <? endif; ?>
 	    <? if ($this->centre_est_capitale) : ?>
 	    	- Capitale
@@ -67,6 +67,6 @@
 	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?=$this->centre_x ?>">
 	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?=$this->centre_y ?>">
 	Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3" value="<?=$this->z_position ?>">
-	<input type="button" class='button1' value="Se Positionner" onClick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('administrationvue_x').value + 'h' + $('administrationvue_y').value + 'h' + $('administrationvue_z').value);"/>
+	<input type="button" class='button1' value="Se Positionner" onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('administrationvue_x').value + 'h' + $('administrationvue_y').value + 'h' + $('administrationvue_z').value);"/>
 
   <? endif;?>

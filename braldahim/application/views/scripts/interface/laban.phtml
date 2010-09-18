@@ -7,7 +7,7 @@
 <? if ($this->affichageInterne == true) : ?>
 
 	<? if ($this->user->pa_braldun >= 1) : 
-      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
+      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
     else:
       $attr = "disabled";
     endif;?>

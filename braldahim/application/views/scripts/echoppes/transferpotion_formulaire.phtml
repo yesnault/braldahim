@@ -33,6 +33,6 @@
 </form>
 <br />
 <?php if ($this->transfererOk > 0 && $this->placeDispo === true) : ?>
-<input type='button' class='button1' id='bouton_transferpotion' value='Transf&eacute;rer !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferpotion");' disabled>
+<input type='button' class='button1' id='bouton_transferpotion' value='Transf&eacute;rer !' onclick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferpotion");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

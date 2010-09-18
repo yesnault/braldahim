@@ -44,9 +44,9 @@
 				endforeach; 
 				?>
 				<br/>
-				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"/> 
-				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>"/>
-				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>"/>
+				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?=$js?>"/> 
+				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?=$jsFermer ?>"/>
+				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?=$jsOuvrir ?>"/>
 				<br/><br/>
 				Transbahuter vers :<br />
 					<? 
@@ -80,7 +80,7 @@
    					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
    				</div>
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
 		<?else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?endif; ?>

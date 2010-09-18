@@ -29,7 +29,7 @@ if ($case['n_lieux'] > 0) :
       	$textLieu .= htmlspecialchars($l['nom_lieu']);
       	$type_lieu = $l['nom_systeme_type_lieu'];
       	if ($this->user->administrationvue == true) {
-       		$textLieu .= ' <label class=\'alabel\' onClick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
+       		$textLieu .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
       	}
 	}
 	 
@@ -53,11 +53,11 @@ if ($case['n_echoppes'] > 0) :
 			$textEchoppe .= htmlspecialchars($c['nom_echoppe']). ', ';
 		endif; 
 		$textEchoppe .= '&Eacute;choppe '.$d.htmlspecialchars($c['nom_metier']).' appartenant &agrave; <br />';
-		$textEchoppe .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
+		$textEchoppe .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
 		$textEchoppe .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
 		$textEchoppe .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textEchoppe .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
+			$textEchoppe .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
       	$textEchoppe .= '<br />';
       	$nomSystemeEchoppe = $c['nom_systeme_metier'];
@@ -82,11 +82,11 @@ if ($case['n_champs'] > 0) :
 			$textChamp .= htmlspecialchars($c['nom_champ']). ', ';
 		endif; 
 		$textChamp .= 'Champ appartenant &agrave; <br />';
-		$textChamp .= '<label class=\'alabel\' onClick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
+		$textChamp .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
 		$textChamp .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
 		$textChamp .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textChamp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onClick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
+			$textChamp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
       	$textChamp .= '<br />';
 	}

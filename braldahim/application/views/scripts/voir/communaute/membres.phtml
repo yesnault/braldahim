@@ -14,12 +14,12 @@ Filtrer par rang :
 <table class="table_liste" style="width:90%">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
- 	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
+ 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
  	<th style="cursor:pointer" nowrap>Profil Public</th>
   </tr>
 </thead>
@@ -28,10 +28,10 @@ Filtrer par rang :
     <th colspan='10'>
     	Affichage de <?=count($this->tabMembres) ?> braldun<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <? endif; ?>
 	   <? if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
 	   <? endif; ?>
     </th>
   </tr>
@@ -47,7 +47,7 @@ Filtrer par rang :
 	  <td class="table_liste"><?=$m["niveau_braldun"] ?></td>
 	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
 	  <td class="table_liste">Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=$m["nom_rang_communaute"] ?></td>
-	  <td class="table_liste"><input type="button" class='button1' onClick="Javascript:document.location.href='/voir/braldun/?braldun=<?=$m["id_braldun"] ?>';" value="Voir"></td>
+	  <td class="table_liste"><input type="button" class='button1' onclick="Javascript:document.location.href='/voir/braldun/?braldun=<?=$m["id_braldun"] ?>';" value="Voir"></td>
 	</tr>
 <? endforeach; ?>
 <? else: ?>

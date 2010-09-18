@@ -53,7 +53,7 @@ $js = "
 ";
 ?>
 <?php if ($this->vendreBoisOk === true && $this->assezDePa === true) : ?>
-	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br />
-	<input type='button' class='button1' id='bouton_vendrebois' value='Vendre !' onClick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendrebois");' disabled>
+	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?=$js?>"> <br />
+	<input type='button' class='button1' id='bouton_vendrebois' value='Vendre !' onclick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendrebois");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

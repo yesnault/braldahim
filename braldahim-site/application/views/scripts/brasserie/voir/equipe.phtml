@@ -15,7 +15,7 @@
 		  	foreach($equipe["joueurs"] as $j): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste" nowrap>
-			  		<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+			  		<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
 			  		<?=$j["prenom_braldun"]?> <?=$j["nom_braldun"]?> (<?=$j["id_braldun"]?>)
 			  		</a>
 			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
@@ -29,7 +29,7 @@
 				  		Actuellement plaqué
 				  		<? endif;?>
 			  		<? endif;?>
-			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
+			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
 		  		</tr>
 		  	<? endforeach; ?>
 		<? else: ?>

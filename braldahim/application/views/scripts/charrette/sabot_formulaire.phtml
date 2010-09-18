@@ -46,6 +46,6 @@
 
 <br />
 <?php if ($this->possedeCharrette === true && $this->possedeSabot === true) : ?>
-<input type='button' class='button1' id='bouton_sabot' value='Configurer' onClick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_sabot");'>
+<input type='button' class='button1' id='bouton_sabot' value='Configurer' onclick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_sabot");'>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

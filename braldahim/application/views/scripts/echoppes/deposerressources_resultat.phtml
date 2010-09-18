@@ -1,13 +1,13 @@
 <div class='comp_titre'>D&eacute;poser des mati&egrave;res premi&egrave;res</div>
 <div class='comp_contenu'>
-	 <div id='deposerressources_text' style="display:block"  onClick="javascript:switch2div('deposerressources_text','deposerressources_copie');">
+	 <div id='deposerressources_text' style="display:block"  onclick="javascript:switch2div('deposerressources_text','deposerressources_copie');">
 		Vous avez d&eacute;pos&eacute; les &eacute;l&eacute;ments suivants : <br />
 		<?=htmlspecialchars($this->elementsRetires) ?>
 		<br />
 	 </div>
 	 
 	 <div id='deposerressources_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		<textarea onclick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez d&eacute;pos&eacute; les &eacute;l&eacute;ments suivants : ";
 		echo htmlspecialchars($this->elementsRetires);
 	?>
@@ -15,5 +15,5 @@
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('deposerressources_text','deposerressources_copie');">
+<input type='button' class='button1' value='Copier' onclick="javascript:switch2div('deposerressources_text','deposerressources_copie');">
 <? echo Bral_Helper_Fermer::affiche(); ?>

@@ -1,11 +1,11 @@
-<input type="button" class="button1" value="Voir toutes les notes" onClick='_get_("/interface/load/?box=box_carnet");'>
+<input type="button" class="button1" value="Voir toutes les notes" onclick='_get_("/interface/load/?box=box_carnet");'>
 <br /><br />
 
 Note n°<?=$this->idCarnet?><br />
 <textarea name="valeur_carnet" id="valeur_carnet" class="inputbox" rows="18" cols="60" onkeydown="textCount($('valeur_carnet'),$('characterstyped'),1000);" onkeyup="textCount($('valeur_carnet'),$('characterstyped'),1000);"><?=$this->htmlCarnet?></textarea>
 <br /><input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=1000-mb_strlen($this->htmlCarnet)?>" type="text"> Caract&egrave;res restants<br />
 
-<input type="button" class="button1" value="Enregistrer" onClick="_get_specifique_('/carnet/doaction?caction=do_carnet_voir', 'mode=editer&carnet=<?=$this->idCarnet?>&texte_carnet='+encodeURIComponent($('valeur_carnet').value))">
+<input type="button" class="button1" value="Enregistrer" onclick="_get_specifique_('/carnet/doaction?caction=do_carnet_voir', 'mode=editer&carnet=<?=$this->idCarnet?>&texte_carnet='+encodeURIComponent($('valeur_carnet').value))">
 <br />
 <?=$this->noteInfo?><br />
 <br />

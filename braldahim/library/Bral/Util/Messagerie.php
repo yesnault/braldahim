@@ -61,7 +61,7 @@ class Bral_Util_Messagerie {
 				$aff_js_destinataires .= Bral_Util_Lien::getJsBraldun($h["id_braldun"], $h["prenom_braldun"].' '.$h["nom_braldun"].' ('.$h["id_braldun"].')', $afficheLien);
 				if ($afficheSupprimer)  {
 					$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
-					$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_braldun"].'\', \''.$valeur.'_dest\', \''.$h["id_braldun"].'\')" />';
+					$aff_js_destinataires .= ' onclick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_braldun"].'\', \''.$valeur.'_dest\', \''.$h["id_braldun"].'\')" />';
 					$aff_js_destinataires .= '</span>';
 				} else {
 					$aff_js_destinataires .= "<br />";
@@ -110,7 +110,7 @@ class Bral_Util_Messagerie {
 				}
 				$aff_js_contacts .= '<span id="m_'.$valeur.'_'.$c["id"].'">';
 				$aff_js_contacts .= $c["name"]. ' <img src="/public/images/supprimer.gif" ';
-				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
+				$aff_js_contacts .= ' onclick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
 			}
 

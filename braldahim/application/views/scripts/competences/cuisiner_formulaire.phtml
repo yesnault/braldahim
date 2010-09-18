@@ -60,5 +60,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->sourceOk == true) : ?>
-<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner&type_aliment="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner&type_aliment="+$("valeur_1").value);' disabled>
 <? endif ?>

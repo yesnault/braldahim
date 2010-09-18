@@ -12,7 +12,7 @@
 	<? if ($this->idEnquete != null) : ?>
 		Votre message est bien envoyé. Un enquêteur vous contactera par mail si besoin.
 		<br /><br />
-		<input type="button" class='button1' name="Retour" value="Retour" onClick="javascript:document.location.href='/Parametres/'"/>
+		<input type="button" class='button1' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/'"/>
 		 
 	<? else: ?>
 	   	<table width='70%' align='center'>
@@ -39,8 +39,8 @@
 		 Votre message : <br />
 		  <textarea rows='10' cols='80' name="message"  id="message"></textarea>
 		  <br /><br /></br>
-		  <input type="button" class='button1' name="Envoyer" onClick="$('form_message').submit(); " value="Envoyer" />
-		  <input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
+		  <input type="button" class='button1' name="Envoyer" onclick="$('form_message').submit(); " value="Envoyer" />
+		  <input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
 	
 	 <? endif;?>
 		

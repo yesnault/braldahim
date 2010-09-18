@@ -3,10 +3,10 @@
 endif; ?>
 
 <?php if ($this->estMobile) : ?>
-<div id='onglet_menu' class='onglet actif' onClick='Javascript:switch2div("boite_m","<?=$this->nom_interne ?>"); '>
+<div id='onglet_menu' class='onglet actif' onclick='Javascript:switch2div("boite_m","<?=$this->nom_interne ?>"); '>
 Menu
 </div>
-<div id='onglet_menu' class='onglet actif' onClick="Javascript:_get_('/interface/load/?box=<?=$this->nom_interne ?>'); ">
+<div id='onglet_menu' class='onglet actif' onclick="Javascript:_get_('/interface/load/?box=<?=$this->nom_interne ?>'); ">
 Rafraîchir
 </div>
 <?php endif; ?>

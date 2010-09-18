@@ -32,7 +32,7 @@
 	<? if ($this->user->activation == true) :?>
 		Vous pouvez vous inscrire.
 		<? if ($this->user->pa_braldun >= 0) : 
-	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
+	      $attr = "onclick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
 	    else:
 	      $attr = "disabled";
 	    endif;?>
@@ -46,7 +46,7 @@
 	<? if ($this->desinscriptionPossible === true): ?>
 		Vous pouvez vous désinscrire.
 		<? if ($this->user->pa_braldun >=2) : 
-	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');\"";
+	      $attr = "onclick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');\"";
 	    else:
 	      $attr = "disabled";
 	    endif;?>

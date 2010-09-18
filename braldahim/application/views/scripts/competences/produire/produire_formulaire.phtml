@@ -36,5 +36,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->produireEchoppeOk === true && $this->etape1 === true && $this->ressourcesOk === true) : ?>
-<input type='button' class='button1' id='bouton_produire' value='Produire !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_<?=$this->nom_systeme?>&type_materiel="+$("valeur_1").value);'>
+<input type='button' class='button1' id='bouton_produire' value='Produire !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_<?=$this->nom_systeme?>&type_materiel="+$("valeur_1").value);'>
 <? endif ?>

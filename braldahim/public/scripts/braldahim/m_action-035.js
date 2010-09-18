@@ -1346,3 +1346,18 @@ function destroyDraggable(id) {
       }
     }
 }
+
+function braltipDispEnr(id) {
+	if ($(id + 'sel').style.display == 'inline') {
+		$(id + 'sel').style.display='none';
+	} else {
+		$(id + 'sel').style.display='inline';
+		$(id + 'btnEnr').disabled=false;
+	}
+	
+}
+
+function braltipEnr(el, id) {
+	el.disabled=true;
+	_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$(id+'numNote').value+'&msg='+id+'msg'+'&texte_carnet='+encodeURIComponent($(id+'texte').innerHTML))
+}
