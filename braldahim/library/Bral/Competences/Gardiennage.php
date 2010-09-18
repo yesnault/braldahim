@@ -96,7 +96,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		} elseif (intval($idNouveauGardien) != 0) {
 			$idGardien = intval($idNouveauGardien);
 		} else {
-			throw new Zend_Exception(get_class($this)." Gardien invalide : exitant:".$idGardienExistant. " nouveau:".$idNouveauGardien);
+			throw new Zend_Exception(get_class($this)." Gardien invalide : existant:".$idGardienExistant. " nouveau:".$idNouveauGardien);
 		}
 		
 		// Il ne faut pas que le gardien soit le joueur lui même
