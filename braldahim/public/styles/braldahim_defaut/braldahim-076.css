@@ -1290,6 +1290,8 @@ border-radius: 10px; /* en css3 lui même */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	
+opacity:0.9;
+
 background: #FFFFFF
 		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
 		scroll 0pt 100%;
