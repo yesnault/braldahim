@@ -26,8 +26,6 @@ Zend_Loader :: loadClass("Zend_Layout");
 Zend_Loader :: loadClass("Zend_Registry");
 Zend_Loader::loadClass("Zend_Exception");
 
-Zend_Loader :: loadClass("Bral_Helper_Box");
-
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');
 $registry = Zend_Registry :: getInstance();

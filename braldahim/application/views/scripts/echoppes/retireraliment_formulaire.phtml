@@ -6,7 +6,7 @@
  	<br />
 	<? if ($this->nbAlimentsEtal > 0): ?>
 		Vous pouvez retirer de l'&eacute;tal un aliment : <br />
-		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1){$('bouton_retirer').disabled=true } else {$('bouton_retirer').disabled=false }">
+		<select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1){$('bouton_retirer').disabled=true } else {$('bouton_retirer').disabled=false }">
 	 		<option value="-1">(Choisissez un aliment)</option>
 			<? foreach($this->alimentsEtal as $e) :?>
 				<option value="<?=$e["id_echoppe_aliment"] ?>">n&deg; <?=$e["id_echoppe_aliment"] ?> : <?=htmlspecialchars($e["nom"]) ?></option>

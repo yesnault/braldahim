@@ -22,12 +22,12 @@
 	 	
 		  <? if ($this->travauxOk === true) : ?>
 		  Réalisation de travaux d'intérêts généraux : 4 PA pour 1 point de gredin en moins: 
-		  <input type="radio" name="valeur_1" id="valeur_1" value="1" onChange="$('bouton_tribunal').disabled=false;"> 
+		  <input type="radio" name="valeur_1" id="valeur_1" value="1" onchange="$('bouton_tribunal').disabled=false;"> 
 		  <? endif;?>
 		  
 		  <? if ($this->cautionOk === true) : ?>
 		  Achat d'une caution : 100 castars et 1 PA pour 1 point de gredin en moins : 
-		  <input type="radio" name="valeur_1" id="valeur_1" value="2" onChange="$('bouton_tribunal').disabled=false;">
+		  <input type="radio" name="valeur_1" id="valeur_1" value="2" onchange="$('bouton_tribunal').disabled=false;">
 		  <? endif;?>
 	  
 	  <? else: ?>

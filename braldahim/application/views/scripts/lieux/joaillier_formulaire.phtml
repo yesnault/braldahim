@@ -8,7 +8,7 @@
  <? if ($this->achatPossibleCastars == true) :?>
  	<? if ($this->nbEquipementsLaban > 0): ?>
  		&Eacute;quipement:<br />
-		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
+		<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
 			<? foreach($this->equipementsLaban as $e) :?>
 				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=$e["nom"] ?> : n&deg;<?=$e["id_laban_equipement"] ?>,

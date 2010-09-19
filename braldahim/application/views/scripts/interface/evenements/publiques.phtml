@@ -1,7 +1,7 @@
 <div class="titre textalic textsizec">&Eacute;v&eacute;nements Publics </div>
   <div class="box_contenu1 textalic">
   	Type : 
-  	<select name='valeur_2'  onChange="Javascript:_get_('/interface/load/?box=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<select name='valeur_2'  onchange="Javascript:_get_('/interface/load/?box=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<? foreach ($this->typeEvenements as $t) : ?>
   	<option value='<?=$t["id_type_evenement"]?>' <?if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?=$t["nom"]?></option>
   	<? endforeach; ?>

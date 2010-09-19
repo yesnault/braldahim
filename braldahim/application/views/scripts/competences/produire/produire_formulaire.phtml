@@ -4,7 +4,7 @@
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez produire un mat&eacute;riel.<br /><br />
 	     
 	     Type de mat&eacute;riel :<br />
-	     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_<?=$this->nom_systeme?>&type_materiel='+this.value);">
+	     <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_<?=$this->nom_systeme?>&type_materiel='+this.value);">
 		 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 		 	<? foreach($this->typeMateriel as $t) : ?>
 		 		<option value="<?=$t["id_type_materiel"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_materiel"])?></option>

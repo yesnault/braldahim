@@ -77,7 +77,7 @@
 			<th colspan="2">Catégorie Scripts Dynamiques : 24 appels par jour</th>
 			</tr>
 		</thead>
-		
+		<tbody>
 		<tr>
 			<td width="20%">
 				Vue
@@ -88,11 +88,11 @@
 			Détails d'une ligne: TYPE;position_x;position_y;postion_z;autre_element;autre_element...
 			
 			<div id='details_vue_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_vue_a','details_vue_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_vue_a','details_vue_b');" />
 			</div>
 				
 			<div id='details_vue_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_vue_a', 'details_vue_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_vue_a', 'details_vue_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			POSITION;x;y;z;xMin;xMax;yMin;yMax;idBraldun;vueNbCases;vueBm
@@ -131,7 +131,7 @@
 			ROUTE;x;y;z;id_route;type_route
 			BALLON_SOULE;x;y;z;present
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_vue_a', 'details_vue_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_vue_a', 'details_vue_b');" />
 			</div>
 			<br />
 			</td>
@@ -145,11 +145,11 @@
 			URL : http://sp.braldahim.com/scripts/profil/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=1<br />
 			
 			<div id='details_profil_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_profil_a','details_profil_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_profil_a','details_profil_b');" />
 			</div>
 				
 			<div id='details_profil_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_profil_a', 'details_profil_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_profil_a', 'details_profil_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			Toutes les valeurs retournées sont sur une même ligne :
@@ -163,7 +163,7 @@
 			armureEquipement;bmAttaque;bmDegat;bmDefense;nbKo;nbKill;nbKoBraldun;
 			estEngage;estEngageProchainTour;estIntangible;nbPlaquagesSubis;nbPlaquagesEffectues
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_profil_a', 'details_profil_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_profil_a', 'details_profil_b');" />
 			</div>
 			<br />
 			</td>
@@ -179,12 +179,16 @@
 			<br /><br />
 			</td>
 		</tr>
+		</tbody>
+		</table>
 		
+		<table style="width:90%" class="table_liste"  >
 		<thead class="table_liste">
 			<tr>
 			<th colspan="2">Catégorie Scripts Statiques : 10 appels par jour</th>
 			</tr>
 		</thead>
+		<tbody>
 		<tr valign="top">
 			<td  width="20%">
 				<br />Compétences
@@ -206,11 +210,11 @@
 			Détails d'une ligne: TYPE;autre_element;autre_element...
 			
 			<div id='details_laban_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_laban_a','details_laban_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_laban_a','details_laban_b');" />
 			</div>
 				
 			<div id='details_laban_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_laban_a', 'details_laban_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_laban_a', 'details_laban_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			ELEMENT;Peau;quantite_peau_element
@@ -233,7 +237,7 @@
 			RUNE;id_rune_element_rune
 			TABAC;quantite_feuille_element_tabac;nom_court_type_tabac
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_laban_a', 'details_laban_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_laban_a', 'details_laban_b');" />
 			</div>
 			<br />
 			</td>
@@ -258,11 +262,11 @@
 			URL : http://sp.braldahim.com/scripts/charrette/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=1<br />
 			
 			<div id='details_charrette_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_charrette_a','details_charrette_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_charrette_a','details_charrette_b');" />
 			</div>
 				
 			<div id='details_charrette_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_charrette_a', 'details_charrette_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_charrette_a', 'details_charrette_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			CHARRETTE;idCharrette;durabiliteMax;durabiliteActuelle;poidsTransportable;poidsTransporte
@@ -271,7 +275,7 @@
 			
 			Le restant des lignes est similaire au script Laban.
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_charrette_a', 'details_charrette_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_charrette_a', 'details_charrette_b');" />
 			</div>
 			<br />
 			</td>
@@ -306,11 +310,11 @@
 			<br /><br />
 			
 			<div id='details_echoppe_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_echoppe_a','details_echoppe_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_echoppe_a','details_echoppe_b');" />
 			</div>
 				
 			<div id='details_echoppe_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_echoppe_a', 'details_echoppe_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_echoppe_a', 'details_echoppe_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			ECHOPPE;idEchoppe;x;y;z;idMetier;idRegion
@@ -339,7 +343,7 @@
 			INGREDIENT;nom_type_ingredient;id_type_ingredient;quantite_arriere;quantite_caisse
 			POTION;id_potion;type;nom_type_potion;nom_type_qualite;niveau_potion;
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_echoppe_a', 'details_echoppe_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_echoppe_a', 'details_echoppe_b');" />
 			</div>
 			
 			</td>
@@ -367,11 +371,11 @@
 			URL : http://sp.braldahim.com/scripts/quetes/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=1<br />
 			
 			<div id='details_quete_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_quete_a','details_quete_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_quete_a','details_quete_b');" />
 			</div>
 				
 			<div id='details_quete_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_quete_a', 'details_quete_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_quete_a', 'details_quete_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			QUETE;id_quete;date_creation_quete;;date_fin_quete;gain_quete;est_initiatique_quete
@@ -380,17 +384,22 @@
 			AUCUNE_QUETE
 			AUCUNE_ETAPE
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_quete_a', 'details_quete_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_quete_a', 'details_quete_b');" />
 			</div>
 			<br />
 			</td>
 		</tr>
+		
+		</tbody>
+		</table>
+		<table style="width:90%" class="table_liste"  >
 		
 		<thead class="table_liste">
 			<tr>
 			<th colspan="2">Catégorie Scripts Appels : 6 appels par jour</th>
 			</tr>
 		</thead>
+		<tbody>
 		<tr valign="top">
 			<td  width="20%">
 				<br />Appels
@@ -399,11 +408,11 @@
 			Version : 1<br />
 			URL : http://sp.braldahim.com/scripts/appels/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=1<br />
 			<div id='details_appels_a' style="display:block" >
-			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_appels_a','details_appels_b');">
+			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_appels_a','details_appels_b');" />
 			</div>
 				
 			<div id='details_appels_b' style="display:none" >
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_appels_a', 'details_appels_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_appels_a', 'details_appels_b');" />
 			
 			<pre style="background-color:#2a5911; text-align:left" >
 			
@@ -412,11 +421,12 @@
 			TYPE:dynamique;NB_DYNAMIQUE:0;MAX_AUTORISE:24
 			TYPE:statique;NB_STATIQUE:0;MAX_AUTORISE:100
 			</pre>
-			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_appels_a', 'details_appels_b');">
+			<input type='button' class='button1' value='Cacher détails' onclick="javascript:switch2div('details_appels_a', 'details_appels_b');" />
 			</div>
 			
 			</td>
 		</tr>
+		</tbody>
 	</table>
 	<br /><br />
 	
@@ -427,6 +437,7 @@
 			<th colspan="2">Elements Communs</th>
 			</tr>
 		</thead>
+		<tbody>
 		<tr>
 			<td>
 			La première ligne renvoyée indique soit une erreur, soit le nombre d'appels en cours.
@@ -450,6 +461,7 @@
 			
 			</td>
 		</tr>
+		</tbody>
 	</table>
 	
 	<br /><br />
@@ -458,6 +470,7 @@
 		<thead class="table_liste">
 			<tr><th colspan="2">Code d'erreurs</th></tr>
 		</thead>
+		<tbody>
 		<tr>
 			<td>
 			ERREUR-01. Erreur Technique, l'équipe est informée
@@ -503,6 +516,7 @@
 			ERREUR-09. Dépassement appels
 			</td>
 		</tr>
+		</tbody>
 	</table>
 	<br />
 </div>

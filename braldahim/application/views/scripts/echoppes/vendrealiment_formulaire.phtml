@@ -6,7 +6,7 @@
 	<br />
 	<? if (count($this->alimentsArriereBoutique) > 0): ?>
 		Vous pouvez mettre en vente un aliment pr&eacute;sent dans la r&eacute;serve : <br />
-		<select name="valeur_2" id="valeur_2"  onChange="javascript:$('valeur_commentaire').value=$('commentaire_' + this.value).value; if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrealiment').disabled=true } else {$('bouton_vendrealiment').disabled=false }">
+		<select name="valeur_2" id="valeur_2"  onchange="javascript:$('valeur_commentaire').value=$('commentaire_' + this.value).value; if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrealiment').disabled=true } else {$('bouton_vendrealiment').disabled=false }">
 	 		<option value="-1">(Choisissez un aliment)</option>
 			<? foreach($this->alimentsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_aliment"] ?>">n&deg; <?=$e["id_echoppe_aliment"] ?> : <?=htmlspecialchars($e["nom"]) ?></option>
@@ -38,7 +38,7 @@
 					unit&eacute;(s) de 
 				</td>
 				<td align="left">&nbsp;
-					<select name="valeur_4" id="valeur_4" onChange="<?=$js ?>">
+					<select name="valeur_4" id="valeur_4" onchange="<?=$js ?>">
 				 		<option value="-1">(Choisissez une unit&eacute;)</option>
 						<? foreach($this->unites as $k => $u) :?>
 							<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>

@@ -42,7 +42,7 @@
 			}
 			?>
 			Destination de la pi&egrave;ce : <br />
-			<select name="valeur_3" id="valeur_3" onChange="<? if ($js!= ""): echo $js; endif;?>">
+			<select name="valeur_3" id="valeur_3" onchange="<? if ($js!= ""): echo $js; endif;?>">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<? foreach($this->destinationTransfert as $d) :?>
 					<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false && $d["possible_force"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false && $d["possible_force"] == false): echo " : pas assez de place"; endif;?></option>

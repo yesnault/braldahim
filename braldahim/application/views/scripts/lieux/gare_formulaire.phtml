@@ -12,7 +12,7 @@
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    	<? else : ?>
    	   Choisir une destination : <br />
-   	   <select id='valeur_1' name='valeur_1' onChange="javascript:if($('valeur_1').value==-1){$('bouton_gare').disabled=true} else {$('bouton_gare').disabled=false}">
+   	   <select id='valeur_1' name='valeur_1' onchange="javascript:if($('valeur_1').value==-1){$('bouton_gare').disabled=true} else {$('bouton_gare').disabled=false}">
    	     <option value='-1'>(Choisissez une destination)</option>
    	     <? foreach($this->tabDestinations as $d) :?>
    	     <option value='<?=$d["id_lieu"]?>'><?=$d["nom"]?> (<?=$d["x"]?>,<?=$d["y"]?>) 

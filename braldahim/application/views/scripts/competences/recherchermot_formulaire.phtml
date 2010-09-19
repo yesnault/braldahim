@@ -5,7 +5,7 @@
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez rechercher un mot runique ...<br /><br />
 	 Ne sont affich&eacute;s que les mots disponibles suivant votre niveau de sagesse.<br /><br />
 	 
-	 <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_recherchermot&id_mot='+this.value);">
+	 <select name="valeur_1" id="valeur_1" onchange="_get_('/competences/doaction?caction=ask_competence_recherchermot&id_mot='+this.value);">
 	 	<option value="-1">(Choisissez un mot)</option>
 	 	<? foreach($this->motsRuniques as $k => $v) : ?>
 	 		<option value="<?=$k?>" <?=$v["selected"]?>><?=$v["suffixe_mot_runique"]?></option>

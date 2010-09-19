@@ -25,7 +25,7 @@
 				     </td>
 				     <td align='left' valign="top">
 				     <? if ($this->utilisationPaPossible === true && $r["achat_possible"] === true && $this->achatPossibleCastars === true): ?>
-				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$r["id_type_rune"]?>" onChange="$('bouton_echangeurrune').disabled=false;">
+				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$r["id_type_rune"]?>" onchange="$('bouton_echangeurrune').disabled=false;">
 				     <? endif;?>
 				     </td>
 				   </tr>

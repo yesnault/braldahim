@@ -10,7 +10,7 @@
  		Pour <?=$this->nb_pa?> PA, vous pouvez provoquer :<br /><br />
  		
 		Un monstre<br />
-			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_provoquer').disabled=true } else {$('bouton_provoquer').disabled=false }">
+			<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_provoquer').disabled=true } else {$('bouton_provoquer').disabled=false }">
 			<option value='-1'>(Choisissez un monstre)</option>
 			<? foreach ($this->tabMonstres as $m) : ?>
 			<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>)</option>

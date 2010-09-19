@@ -5,7 +5,7 @@
  	<? else: ?>
  		
  		Potion ou vernis &agrave; utiliser : <br />
- 		<select name='valeur_1' id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_utiliserpotion&potion='+this.value);">
+ 		<select name='valeur_1' id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_utiliserpotion&potion='+this.value);">
 			<option value='-1'>(Choisissez une potion ou un vernis)</option>
 			<? $tabPotions = "";
 				foreach ($this->tabPotions as $p) : 
@@ -62,7 +62,7 @@
 		 		
 				<? if ($this->nMonstres > 0): ?>
 				Un monstre<br />
-					<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_3').value==-1 && $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  $('valeur_3').value=-1; ">
+					<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_3').value==-1 && $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  $('valeur_3').value=-1; ">
 					<option value='-1'>(Choisissez un monstre)</option>
 					<? foreach ($this->tabMonstres as $m) : ?>
 					<option value="<?=$m["id_monstre"]?>"><?=htmlspecialchars($m["nom_monstre"])?> <?=htmlspecialchars($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
@@ -74,7 +74,7 @@
 				
 		 		<? if ($this->nBralduns > 0): ?>
 		 		 Un Braldûn<br />
-		 			<select name='valeur_3' id="valeur_3" onChange="javascript:<?=$js?>;if (controleTypePotion() || $('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
+		 			<select name='valeur_3' id="valeur_3" onchange="javascript:<?=$js?>;if (controleTypePotion() || $('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
 					<option value='-1'>(Choisissez un Braldûn)</option>
 					<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=htmlspecialchars($h["prenom_braldun"])?> <?=htmlspecialchars($h["nom_braldun"])?> (<?=$h["id_braldun"]?>)</option>
@@ -104,7 +104,7 @@
 		 		
 			<? if ($this->nEquipementsLaban > 0): ?>
 				Un équipement présent dans votre laban<br />
-				<select name='valeur_2' id="valeur_2" onChange="javascript:$('valeur_3').value=-1; if ($('valeur_1').value==-1 || $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } ">
+				<select name='valeur_2' id="valeur_2" onchange="javascript:$('valeur_3').value=-1; if ($('valeur_1').value==-1 || $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } ">
 				<option value='-1'>(Choisissez un équipement)</option>
 				<? foreach ($this->tabEquipementsLaban as $e) : ?>
 					<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>
@@ -116,7 +116,7 @@
 			
 	 		<? if ($this->nEquipementsCharrette > 0): ?>
 	 		 	Un équipement présent dans votre charrette<br />
-	 			<select name='valeur_3' id="valeur_3" onChange="javascript:$('valeur_2').value=-1; if ($('valeur_1').value==-1 || $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  ">
+	 			<select name='valeur_3' id="valeur_3" onchange="javascript:$('valeur_2').value=-1; if ($('valeur_1').value==-1 || $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  ">
 				<option value='-1'>(Choisissez un équipement)</option>
 				<? foreach ($this->tabEquipementsCharrette as $e) : ?>
 					<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>

@@ -1,7 +1,7 @@
 <? if (count($this->partiePlantes) > 0) :?>
 	&Eacute;lements de Plantes:<br/>
 	
-	<select name="valeur_3" id="valeur_3" onChange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
+	<select name="valeur_3" id="valeur_3" onchange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
 		 	<option value="-1">(Choisissez une plante)</option>
 	 	<? foreach($this->partiePlantes as $k => $m) :?>
 	 		<option value="<?=$k?>"><?=$m["nom_forme"]?> : <?=$m["quantite"]?> <?=$m["type"]?><? if ($m["quantite"] > 0): echo "s"; endif; ?> de <?=$m["type_plante"]?></option>

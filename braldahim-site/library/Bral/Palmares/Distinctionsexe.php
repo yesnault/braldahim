@@ -21,7 +21,7 @@ class Bral_Palmares_Distinctionsexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "distinctionfamille";		
+		return "distinctionsexe";		
 	}
 	
 	function setDisplay($display) {

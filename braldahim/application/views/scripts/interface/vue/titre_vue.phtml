@@ -48,7 +48,7 @@
   Double-Cliquez sur le coin inférieur gauche d'une case pour ajouter / supprimer une palissade.<br /><br />
 
 	Ville : 
- 	<select name='administrationvue_ville' id="administrationvue_ville" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
+ 	<select name='administrationvue_ville' id="administrationvue_ville" onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
  	<option value="-1" selected>Choisissez une ville</option>
  	<? foreach ($this->administrationVilles as $v) : ?>
 		<option value="<?=$v["id_ville"]?>"><?=$v["id_ville"]?> : <?=$v["nom_ville"]?></option>
@@ -56,7 +56,7 @@
 	</select>
 	
 	Lieux : 
- 	<select name='administrationvue_lieu' id="administrationvue_lieu" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
+ 	<select name='administrationvue_lieu' id="administrationvue_lieu" onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
  	<option value="-1" selected>Choisissez un lieu</option>
  	<? foreach ($this->administrationLieux as $l) : ?>
 		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>

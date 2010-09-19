@@ -11,7 +11,7 @@
 <? elseif ($this->materielsBase != null): ?>
  
  	S&eacute;lectionner un mat&eacute;riel de base : <br />
-  	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_assembleur&id_materiel_courant='+this.value);">
+  	<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_assembleur&id_materiel_courant='+this.value);">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 	 	<? foreach ($this->materielsBase as $m):?>
 	 		<option value="<?=$m["id_materiel"]?>" <?=$m["selected"]?>><?=$m["nom_type_materiel"]?>, n&deg;<?=$m["id_materiel"]?> 
@@ -29,7 +29,7 @@
  <? if (count($this->materielsAAssembler) > 0): ?>
  	<br /><br />
  	S&eacute;lectionner un mat&eacute;riel &agrave; assembler : <br />
-  	<select name="valeur_2" id="valeur_2"  onChange="if (this.value != -1) { $('bouton_assembleur').disabled=false; } else { $('bouton_assembleur').disabled=true;}">
+  	<select name="valeur_2" id="valeur_2"  onchange="if (this.value != -1) { $('bouton_assembleur').disabled=false; } else { $('bouton_assembleur').disabled=true;}">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 	 	<? foreach ($this->materielsAAssembler as $m):?>
 	 		<option value="<?=$m["id_materiel"]?>" <?=$m["selected"]?>><?=$m["nom_type_materiel"]?>, n&deg;<?=$m["id_materiel"]?>

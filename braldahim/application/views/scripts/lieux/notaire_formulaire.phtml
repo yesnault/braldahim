@@ -8,7 +8,7 @@
 	Que voulez-vous faire ?
 	<br /> (les champs sont disponibles à partir du niveau 5) : 
 	<br />
-	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_notaire&valeur_1='+this.value);">
+	<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_notaire&valeur_1='+this.value);">
  		<option value="-1">(Choisissez une action)</option>
 		<? foreach($this->typeAction as $t) :?>
 			<option value="<?=$t["id_type_action"] ?>" <?=$t["selected"]?>><?=$t["texte"] ?></option>

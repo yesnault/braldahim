@@ -9,7 +9,7 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onChange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
+	<select id="region" name="region" onchange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -18,7 +18,7 @@
 <td>
 	Filtre par emplacement: 
 	<br />
-	<select id="emplacement" name="emplacement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
+	<select id="emplacement" name="emplacement" onchange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->emplacements as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->emplacementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -27,7 +27,7 @@
 <td>
 	Filtre par équipement:
 	<br />
-	<select id="equipement" name="equipement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<select id="equipement" name="equipement" onchange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->equipements as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->equipementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>

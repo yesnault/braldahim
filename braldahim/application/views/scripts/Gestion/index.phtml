@@ -10,7 +10,7 @@
 	    <span class="titre textalia textsizec">Description Lieu (Role Auteur)</span>
 	    <br />
 	    Lieux : 
-	 	<select name='administration_lieu' id="administration_lieu" onChange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
+	 	<select name='administration_lieu' id="administration_lieu" onchange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
 	 	<option value="-1" selected>Choisissez un lieu</option>
 	 	<? foreach ($this->administrationLieux as $l) : ?>
 			<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>

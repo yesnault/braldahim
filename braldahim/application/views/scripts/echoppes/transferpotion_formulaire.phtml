@@ -6,7 +6,7 @@
  <br />
 	<? if (count($this->potionsArriereBoutique) > 0): ?>
 		Vous pouvez transf&eacute;rer une potion ou un vernis pr&eacute;sent dans votre laban.<br />
-		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
+		<select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
 	 		<option value="-1">(Choisissez une potion ou un vernis)</option>
 			<? foreach($this->potionsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_potion"] ?>">N&deg;<?=$e["id_echoppe_potion"] ?> <?=htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
@@ -16,7 +16,7 @@
 		<br /><br />
 		
 		Vers : <br />
-		<select name="valeur_3" id="valeur_3"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
+		<select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
 				<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>

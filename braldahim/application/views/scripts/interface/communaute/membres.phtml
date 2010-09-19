@@ -3,7 +3,7 @@
 <div class="titre textalic textsizec">Liste des Membres</div><br />
 
 Filtrer par rang : 
-<select name='valeur_2'  onChange="Javascript:_get_('/communaute/doaction?caction=ask_communaute_membres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
+<select name='valeur_2'  onchange="Javascript:_get_('/communaute/doaction?caction=ask_communaute_membres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
     <option value="-1">Tous les rangs</option>
 <? foreach ($this->tabRangs as $r) : ?>
   	<option value='<?=$r["id_type_rang"]?>' <?if ($this->filtre == $r["id_type_rang"]){echo "selected";}?>><?=htmlspecialchars($r["nom"])?></option>

@@ -31,7 +31,7 @@
 		<? endforeach; ?>
 		
 	   	Choix : <br />
-	   	<select name='valeur_1' id="valeur_1" onChange="javascript:$('bouton_auberge').value=$('bouton_'+this.value).value;if ($('valeur_1').value==-1 && $('valeur_2').value==0){$('bouton_auberge').disabled=true } else {$('bouton_auberge').disabled=false };if ($('valeur_1').value==2 || $('valeur_1').value==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('valeur_1').value==3 && $('valeur_2').value==<?=$this->nbPossible  ?>){$('valeur_2').value=<?=$this->nbPossible - $this->nbDeduction ?>}">
+	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('bouton_auberge').value=$('bouton_'+this.value).value;if ($('valeur_1').value==-1 && $('valeur_2').value==0){$('bouton_auberge').disabled=true } else {$('bouton_auberge').disabled=false };if ($('valeur_1').value==2 || $('valeur_1').value==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('valeur_1').value==3 && $('valeur_2').value==<?=$this->nbPossible  ?>){$('valeur_2').value=<?=$this->nbPossible - $this->nbDeduction ?>}">
 		<option value='-1'>(Choix &agrave; faire)</option>
 		<? foreach ($this->tabChoix as $k => $t) : ?>
 		<option value="<?=$k?>" <? if ($t["valid"] === false): echo "disabled"; endif;?>><?=$t["nom"]?> <? if ($t["valid"] === false): echo " (impossible)"; endif;?></option>

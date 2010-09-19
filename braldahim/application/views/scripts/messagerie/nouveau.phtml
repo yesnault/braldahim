@@ -45,7 +45,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		Contacts
 		<select name="contacts_liste" 
-				onChange="makeJsListeAvecSupprimer('valeur_4_contacts', this.options[this.selectedIndex].text, this.value, null);">
+				onchange="makeJsListeAvecSupprimer('valeur_4_contacts', this.options[this.selectedIndex].text, this.value, null);">
 			<option value="-1"></option>
 			<? foreach($this->listesContacts as $c) :?>
 				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>

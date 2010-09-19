@@ -10,7 +10,7 @@
 	 	Vous pouvez directement cliquer sur la case de votre champ à entretenir.<br /><br />
 	 	
 	 	Choisissez la case à entretenir : <br />  
-	 	<select name="valeur_1" id="valeur_1" onChange="if (this.value == -1) {$('bouton_entretenir').disabled = true;}else {$('bouton_entretenir').disabled = false;}">
+	 	<select name="valeur_1" id="valeur_1" onchange="if (this.value == -1) {$('bouton_entretenir').disabled = true;}else {$('bouton_entretenir').disabled = false;}">
 	 		<option value="-1">(Choisissez une case)</option>
 		 <? foreach($this->positions as $k => $v) : ?>
 			 <option value="<?=$k ?>" <? if ($v["possible"] == false) : echo 'disabled'; endif;?> <?=$v["selected"]?>> x:<?=$v["x"]?> y:<?=$v["y"]?></option>

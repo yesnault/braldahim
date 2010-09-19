@@ -17,7 +17,7 @@
 		Vous pouvez choisir un autre gestionnaire parmi les membres de la communaut&eacute;. <br />
 		Apr&egrave;s le changement, vous serez au second rang dans la communaut&eacute;.
 		 <br /><br />
-		<select name='valeur_1' id='valeur_1' onChange="if (this.value != -1) {$('button_valider_gestionnaire').disabled=false} else {$('button_valider_gestionnaire').disabled=true}">
+		<select name='valeur_1' id='valeur_1' onchange="if (this.value != -1) {$('button_valider_gestionnaire').disabled=false} else {$('button_valider_gestionnaire').disabled=true}">
 		    <option value="-1">(Choississez un gestionnaire)</option>
 			<? foreach ($this->tabMembres as $m) : ?>
 		  		<option value='<?=$m["id_braldun"]?>'><?=htmlspecialchars($m["prenom_braldun"])?> <?=htmlspecialchars($m["nom_braldun"])?>, n&deg;<?=$m["id_braldun"] ?></option>

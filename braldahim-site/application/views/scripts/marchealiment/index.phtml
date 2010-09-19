@@ -9,7 +9,7 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onChange="document.location.href = '/marchealiment/?regionselect='+this.value+'&alimentselect=<?=$this->alimentSelect?>&uid='+(new Date()).valueOf()">
+	<select id="region" name="region" onchange="document.location.href = '/marchealiment/?regionselect='+this.value+'&alimentselect=<?=$this->alimentSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -18,7 +18,7 @@
 <td>
 	Filtre par aliment :
 	<br />
-	<select id="aliment" name="aliment" onChange="document.location.href = '/marchealiment/?regionselect<?=$this->regionSelect?>&alimentselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<select id="aliment" name="aliment" onchange="document.location.href = '/marchealiment/?regionselect<?=$this->regionSelect?>&alimentselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->aliments as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->alimentSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>

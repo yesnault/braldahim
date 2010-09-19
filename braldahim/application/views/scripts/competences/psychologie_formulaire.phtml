@@ -10,7 +10,7 @@
  		
  		<? if ($this->nBralduns > 0): ?>
  		 Choississez un Braldûn : <br />
- 			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
+ 			<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
 			<option value='-1'>(Choisissez un Braldûn)</option>
 			<? foreach ($this->tabBralduns as $h) : ?>
 			<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
@@ -18,7 +18,7 @@
 			</select><br /><br />
 			
 			Choississez uen caractéristique : <br />
- 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
+ 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
 			<option value='-1'>(Choisissez une caractéristique)</option>
 			<? foreach ($this->tabCaracs as $k => $c) : ?>
 			<option value="<?=$k?>"><?=$c["nom"]?></option>

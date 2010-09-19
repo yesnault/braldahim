@@ -7,7 +7,7 @@
 	Pour <?=$this->nb_pa ?> PA, vous pouvez pister un type de monstre <br />
 	dans un rayon de <i>jet SAG + BM SAG</i> case(s) aux alentours<br />
  	et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> case<?=$s?>.<br /><br />
-	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_pister').disabled=true } else {$('bouton_pister').disabled=false }">
+	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_pister').disabled=true } else {$('bouton_pister').disabled=false }">
 		<option value='-1'>(Choisissez un type de monstre)</option>
 		<? foreach ($this->tabTypeMonstrePistable as $m) : ?>
 				<option value="<?=$m["id_type_monstre"]?>"><?=$m["nom_type_monstre"]?></option>

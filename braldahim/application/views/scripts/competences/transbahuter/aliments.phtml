@@ -8,7 +8,7 @@
 			<ul id="deposer_aliments-body" style="display:none">
 				<li>
 					Choississez un aliment (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
-					<select multiple size="5" name="valeur_13" id="valeur_13" onChange="<?=$jsBtn?>">
+					<select multiple size="5" name="valeur_13" id="valeur_13" onchange="<?=$jsBtn?>">
 						 <? foreach($this->aliments as $a) :?>
 						 	<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> 
 						 	<? if ($a["bbdf"] > 0): ?>

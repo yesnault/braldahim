@@ -21,7 +21,7 @@ class Bral_Palmares_Redresseurssexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "redresseursfamille";		
+		return "redresseurssexe";		
 	}
 	
 	function setDisplay($display) {

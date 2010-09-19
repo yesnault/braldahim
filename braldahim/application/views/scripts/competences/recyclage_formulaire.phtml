@@ -5,7 +5,7 @@
 <?php else: ?>
 	Pour <?=$this->nb_pa ?> PA, vous pouvez recycler une pi&egrave;ce d'&eacute;quipement :<br /><br />
 	
-	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_recycler').disabled=true } else {$('bouton_recycler').disabled=false }">
+	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_recycler').disabled=true } else {$('bouton_recycler').disabled=false }">
 		<option value='-1'>(Choisissez une pi&egrave;ce)</option>
 		<? foreach ($this->tabEquipementLaban as $e) : ?>
 				<option value="<?=$e["id_equipement"]?>">N° <?=$e["id_equipement"]?> : <?=$e["nom"]?> <?=$e["suffixe"]?> de qualit&eacute; <?=$e["qualite"]?> et de niveau <?=$e["niveau"]?></option>
