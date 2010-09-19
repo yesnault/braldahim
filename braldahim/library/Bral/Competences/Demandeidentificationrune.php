@@ -58,7 +58,7 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 
 		$idRune = intval($this->request->get("valeur_1"));
 		$idBraldun = intval($this->request->get("valeur_2"));
-		if ($idBraldun == -1) {
+		if ($idBraldun == -1 || $idBraldun == $this->view->user->id_braldun) {
 			$idBraldun = null;
 		}
 

@@ -20,20 +20,37 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$labanRuneTable = new LabanRune();
 		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, 'non');
 
-		if (count($runes) == 0) {
-			$this->view->identifierRuneOk = false;
-			return;
-		}
-
-		$this->view->identifierRuneOk = true;
 		foreach ($runes as $r) {
 			$tabRunes[] = array(
 				"id_rune" => $r["id_rune_laban_rune"],
 				"type" => $r["nom_type_rune"],
 				"sagesse_type_rune" => $r["sagesse_type_rune"],
 				"image" => $r["image_type_rune"],
+				"id_braldun_possesseur" => null,
 			);
 		}
+
+		// Récupération des runes identifiables dans les laban des autres braldûn présents sur la case
+		$runes = $labanRuneTable->findNonIdentifieeByIdIdentifieurBraldun($this->view->user->id_braldun, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+		foreach ($runes as $r) {
+			$tabRunes[] = array(
+				"id_rune" => $r["id_rune_laban_rune"],
+				"type" => $r["nom_type_rune"],
+				"sagesse_type_rune" => $r["sagesse_type_rune"],
+				"image" => $r["image_type_rune"],
+				"id_braldun_possesseur" => $r["id_braldun"],
+				"nom_braldun_possesseur" => $r["nom_braldun"],
+				"prenom_braldun_possesseur" => $r["prenom_braldun"],
+			);
+		}
+
+		if (count($tabRunes) == 0) {
+			$this->view->identifierRuneOk = false;
+			return;
+		} else {
+			$this->view->identifierRuneOk = true;
+		}
+
 		$this->view->runes = $tabRunes;
 	}
 
@@ -109,9 +126,23 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$where = 'id_rune = '.$rune["id_rune"];
 		$runeTable->update($data, $where);
 
+		$labanRuneTable = new LabanRune();
+		$data = null;
+		$data["id_fk_braldun_identification_laban_rune"] = null;
+		$where = 'id_rune_laban_rune = '.$rune["id_rune"];
+		$labanRuneTable->update($data, $where);
+		
 		$details = "[b".$this->view->user->id_braldun."] a identifié la rune n°".$rune["id_rune"];
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
+
+		if ($rune["id_braldun_possesseur"] != null) {
+			Zend_Loader::loadClass("Bral_Util_Messagerie");
+			$message = "[Ceci est un message automatique d'identification de rune]".PHP_EOL;
+			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a identifié votre rune n°".$rune["id_rune"]." présente dans votre laban.".PHP_EOL;
+			$message .= "C'est une rune de type ".$rune["type"].".".PHP_EOL;
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $rune["id_braldun_possesseur"], $message, $this->view);
+		}
 	}
 
 	public function calculPx() {

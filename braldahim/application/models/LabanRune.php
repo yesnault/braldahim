@@ -43,6 +43,26 @@ class LabanRune extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findNonIdentifieeByIdIdentifieurBraldun($idBraldunIdentifieur, $x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('laban_rune', '*')
+		->from('type_rune', '*')
+		->from('rune', '*')
+		->from('braldun', array('prenom_braldun', 'nom_braldun', 'id_braldun', 'x_braldun', 'y_braldun', 'z_braldun'))
+		->where('id_rune_laban_rune = id_rune')
+		->where('id_fk_type_rune = id_type_rune')
+		->where('id_fk_braldun_identification_laban_rune = ?', intval($idBraldunIdentifieur))
+		->where('id_fk_braldun_laban_rune = id_braldun')
+		->where('x_braldun = ?', intval($x))
+		->where('y_braldun = ?', intval($y))
+		->where('z_braldun = ?', intval($z))
+		->where('est_identifiee_rune like ?', 'non');
+		
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
