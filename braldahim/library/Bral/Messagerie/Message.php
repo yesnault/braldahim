@@ -187,8 +187,11 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$tabBraldun = Bral_Util_Messagerie::constructTabBraldun($filter->filter(trim($this->request->get('valeur_2'))));
 		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_braldun);
 
+		$texte = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3')));
+		$texte = str_replace("<br>", PHP_EOL, $texte);
+
 		$tabMessage = array(
-			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
+			'contenu' => $texte,
 			'destinataires' => $tabBraldun["destinataires"],
 			'aff_js_destinataires' => $tabBraldun["aff_js_destinataires"],
 			"contacts" => $tabContacts["contacts"],
@@ -472,7 +475,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			if ($nbDejaArchives > 1) {
 				$s = 's';
 			}
-				
+
 			if ($this->request->get("valeur_2") == "all") {
 				$this->view->information = "Tous les messages sont marqués comme lus.";
 			} elseif (count($messages) > 1) {

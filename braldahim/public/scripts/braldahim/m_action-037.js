@@ -338,8 +338,6 @@ function my_switch(box, conteneur) {
 	}
 	$("onglet_" + box).className = "onglet actif";
 	
-	fermeturePopup();
-	
 	if ($("loaded_" + box).value != "1") {
 		$("loaded_" + box).value = 1;
 		_get_('/interface/load/?box='+ box);
@@ -521,32 +519,26 @@ function hideModal() {
     $('modalPage').style.display = "none";
 }
 
-function ecrireMessage(idBraldun) {
-	fermeturePopup();
+function chargeBoxMessagerie() {
 	if ($("loaded_box_messagerie").value != "1") {
 		// pour eviter de recharger box_messagerie lors du my_switch en dessous
 		// si l'onglet n'a jamais été vu.
 		$("loaded_box_messagerie").value = "1"; 
 	}
+}
+
+function ecrireMessage(idBraldun) {
+	chargeBoxMessagerie();
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idBraldun);
 	my_switch("box_messagerie","boite_c");
 }
 
 function ecrireMessageListeContact(idListe) {
-	fermeturePopup();
 	if ($("loaded_box_messagerie").value != "1") {
 		$("loaded_box_messagerie").value = "1"; 
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
 	my_switch("box_messagerie","boite_c");
-}
-
-function fermeturePopup() {
-	try {
-		return cClick(); // fermeture popup
-	} catch (e) {
-		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur l'interface
-	}
 }
 
 function encodePlus(chaine) {
@@ -1320,7 +1312,9 @@ function braltipFixer(id) {
 	$(id).className='tipf';
 	(Position.offsetParent($(id))).style.zIndex=25;
 	$(id + 'clos').style.display='inline';
-	$(id + 'dep').style.display='inline';
+	if ($(id + 'dep')) {
+		$(id + 'dep').style.display='inline';
+	}
 	$(id + 'fix').style.display='none';
 	
 	new Draggable(id, { handle: id + 'dep' });
@@ -1330,7 +1324,9 @@ function braltipDeFixer(id) {
 	$(id).className='tip';
 	(Position.offsetParent($(id))).style.zIndex='auto';
 	$(id + 'clos').style.display='none';
-	$(id + 'dep').style.display='none';
+	if ($(id + 'dep')) {
+		$(id + 'dep').style.display='none';
+	}
 	$(id + 'fix').style.display='inline';
 	
 	$(id).style.left='0px';
@@ -1354,10 +1350,16 @@ function braltipDispEnr(id) {
 		$(id + 'sel').style.display='inline';
 		$(id + 'btnEnr').disabled=false;
 	}
-	
 }
 
 function braltipEnr(el, id) {
 	el.disabled=true;
 	_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$(id+'numNote').value+'&msg='+id+'msg'+'&texte_carnet='+encodeURIComponent($(id+'texte').innerHTML))
 }
+
+function braltipMsg(id) {
+	chargeBoxMessagerie();
+	_get_("/messagerie/doaction?caction=do_messagerie_message&valeur_1=envoi&valeur_3="+encodeURIComponent($(id+'texte').innerHTML));
+	my_switch("box_messagerie","boite_c");
+}
+
