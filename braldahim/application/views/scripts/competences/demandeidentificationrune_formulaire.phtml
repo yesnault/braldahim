@@ -1,0 +1,44 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <div class='comp_contenu'>
+	 <? if ($this->nbRuneOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez demander ou annuler l'identification d'une rune par un autre Braldûn.<br /><br />
+	 
+	 En cas de demande d'identification, le Braldûn sélectionné pourra choisir votre rune
+	 dans la liste des runes qui lui seront proposées dans sa compétence "Identification des Runes".
+	 <br /><br />
+	 Vous n'avez donc pas besoin de lui donner votre rune, il faut juste qu'il soit sur la 
+	 même case que vous.
+	 <br /><br />
+	 Choississez la rune : <br />
+	 <? $js='if ($("valeur_1").value==-1){$("bouton_demanderidentificationrune").disabled=true } else {$("bouton_demanderidentificationrune").disabled=false }';?>
+	 <select name="valeur_1" id="valeur_1"  onchange='javascript:<?=$js?>'>
+	 	<option value="-1">(Choisissez une rune)</option>
+	 	<? foreach($this->runes as $r) : ?>
+	 		<option value="<?=$r["id_rune"]?>">Rune non identifi&eacute;e n&deg; <?=$r["id_rune"]?>
+	 		<? if ($r["id_identification_braldun"] != null) : ?>
+	 			Identifiable par <?=$r["prenom_identification_braldun"] ?> <?=$r["nom_identification_braldun"] ?> (<?=$r["id_identification_braldun"] ?>)
+	 		<? endif;?>
+	 		</option>
+	 	<? endforeach; ?>
+	 </select>
+	 
+	 <br /><br /><br />
+	 Braldûn pouvant identifier cette rune. <br />
+	 Laissez vide pour rendre la rune identifiable que par vous même. 
+	 <input type="hidden" name="valeur_2" id="valeur_2" value="-1"/>
+	 <div id="div_braldun">
+		<input type="text" name="recherche_valeur_2_dest" size='30' id="recherche_valeur_2_dest" value="Entrez un nom" onFocus="if(this.value=='Entrez un nom'){this.value='';};activerRechercheBraldunIdentificationRune('valeur_2_dest');" />
+		<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
+		<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
+	   	<span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+	   </div>
+   				
+	 <? else: ?>
+	Vous n'avez aucune rune &agrave; identifier...
+	 <? endif; ?>
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->nbRuneOk === true) : ?>
+<input type='button' class='button1' id='bouton_demanderidentificationrune' value="Valider" onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_demandeidentificationrune");' disabled>
+<? endif ?>

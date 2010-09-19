@@ -123,7 +123,6 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
-		// Verification abattre arbre
 		if ($this->view->possedeCharrette == true) {
 			throw new Zend_Exception(get_class($this)." Possede deja charrette ");
 		}
