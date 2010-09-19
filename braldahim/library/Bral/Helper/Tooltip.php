@@ -23,7 +23,7 @@ class Bral_Helper_Tooltip {
 		}
 		$retour .= '<span id="'.$id.'clos" style="display:none" onclick="braltipDeFixer(\''.$id.'\')">[Ne plus fixer]</span>&nbsp;';
 		
-		$retour .= '<span id="'.$id.'enr" style="display:inline" onclick="braltipMsg(\''.$id.'\')">[Message]</span>&nbsp;';
+		$retour .= '<span id="'.$id.'msg" style="display:inline" onclick="braltipMsg(\''.$id.'\')">[Message]</span>&nbsp;';
 		$retour .= '<span id="'.$id.'enr" style="display:inline" onclick="braltipDispEnr(\''.$id.'\')">[Enregistrer]</span>&nbsp;';
 		
 		$retour .= '<span id="'.$id.'sel" style="display:none"><br />Enregistrer dans:';
@@ -33,7 +33,7 @@ class Bral_Helper_Tooltip {
 			$retour .= '<option value="'.$i.'">note n&deg;'.$i.'</option>';
 		 endfor;
 		$retou = '</select>';
-		$retour .= '<input type="button" class="button1" id="'.$id.'btnEnr" value="Enregistrer" onclick="braltipEnr(this, \''.$id.'\')">';				
+		$retour .= '<input type="button" class="button1" id="'.$id.'btnEnr" value="Enregistrer" onclick="braltipEnr(this, \''.$id.'\')" />';				
 		$retour .= '<span id="'.$id.'msg">&nbsp</span>';
 		$retour .= '</span>';
 		
