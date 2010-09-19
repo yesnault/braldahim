@@ -3,27 +3,29 @@
 	  	Suite &agrave; l'heureuse rencontre entre sa m&egrave;re 
   		<a title="Voir le profil" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->braldun["id_fk_mere_braldun"] ?>');">
   		<? if ($this->mere == null): ?>
-  			Braldun inconnue (n&deg;<?=$this->braldun["id_fk_mere_braldun"] ?>)</a>
+  			Braldun inconnue (n&deg;<?=$this->braldun["id_fk_mere_braldun"] ?>)
   		<? else : ?>
   			<? if ($this->mereAncienne) : ?>
   				<?=$this->mere->prenom_ancien_braldun ?> <?=$this->mere->nom_ancien_braldun ?>
   			<? else: ?>
   				<?=$this->mere->prenom_braldun ?> <?=$this->mere->nom_braldun ?>
   			<? endif;?>
-  			(n&deg;<?=$this->braldun["id_fk_mere_braldun"] ?>)</a>
+  			(n&deg;<?=$this->braldun["id_fk_mere_braldun"] ?>)
   		<? endif;?>
+  		</a>
 	  	et son p&egrave;re
   		<a title="Voir le profil" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->braldun["id_fk_pere_braldun"] ?>');">
   		<? if ($this->pere == null): ?>
-  			Braldun inconnu (n&deg;<?=$this->braldun["id_fk_pere_braldun"] ?>)</a>
+  			Braldun inconnu (n&deg;<?=$this->braldun["id_fk_pere_braldun"] ?>)
   		<? else : ?>
   			<? if ($this->pereAncien) : ?>
   				<?=$this->pere->prenom_ancien_braldun ?> <?=$this->pere->nom_ancien_braldun ?>
   			<? else: ?>
   				<?=$this->pere->prenom_braldun ?> <?=$this->pere->nom_braldun ?>
   			<? endif;?>
-  			(n&deg;<?=$this->braldun["id_fk_pere_braldun"] ?>)</a>
+  			(n&deg;<?=$this->braldun["id_fk_pere_braldun"] ?>)
   		<? endif;?>
+  		</a>
 	    <br />
 	    <?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?>  (n&deg;<?=$this->braldun["id_braldun"] ?>)
 	  	 est n&eacute;<? if ($this->braldun["sexe_braldun"] == 'feminin') echo "e"?>
