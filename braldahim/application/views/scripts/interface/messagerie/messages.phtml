@@ -59,8 +59,8 @@
 	  					   endif;
 	  					 ?>
 						
-						<img id='imgMsgALire<?=$message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="/public/images/uddeim/new_im.gif" border="0" style='<?=$displayAlire?>'/>
-						<img id='imgMsgLu<?=$message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="/public/images/uddeim/nonew_im.gif" border="0" style='<?=$displayLu?>' />
+						<img id='imgMsgALire<?=$message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="<?=$this->config->static->url?>/images/uddeim/new_im.gif" border="0" style='<?=$displayAlire?>'/>
+						<img id='imgMsgLu<?=$message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="<?=$this->config->static->url?>/images/uddeim/nonew_im.gif" border="0" style='<?=$displayLu?>' />
 					</td>
 					<? if (mb_strlen($message["titre"]) > 25) $texte= Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else $texte= Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
 	  				<td class="table_liste" style="padding:2px;" <?=$js ?>>

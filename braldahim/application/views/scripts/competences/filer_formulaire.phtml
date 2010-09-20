@@ -68,8 +68,8 @@
 		Saisissez le Braldûn que vous souhaitez filer : <br />
 		<input type="text" name="recherche_valeur_1" size='30' id="recherche_valeur_1" value="Entrez un nom" onFocus="if(this.value=='Entrez un nom'){this.value='';};activerRechercheUniqueBraldun('valeur_1', false, false);" />
 		<input type="hidden" name="recherche_valeur_1_actif" id="recherche_valeur_1_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_1_update" ></div> <img src="/public/images/loupe.gif" />
-		<span id="indicateur_recherche_valeur_1" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		<div class="recherche" id="recherche_valeur_1_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+		<span id="indicateur_recherche_valeur_1" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 		<br /><br />
 	<? endif;?>
 	

@@ -11,7 +11,7 @@ niveau <?=$this->equipementCourant["niveau"] ?><br /><br />
 <? endif; ?>
 <br />
 <? foreach($this->tabRunes as $k => $v) : ?>
-	<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
+	<img id="item_<?=$k ?>" class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
 <? endforeach ?>
 <br /><br />
 <? if ($this->suffixe != "") :?>

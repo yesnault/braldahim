@@ -75,7 +75,7 @@
 					  		<td class="table_liste">
 					  			<div class='braltip'>
 					  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-					  			<img src="/public/images/info_icon.gif" />
+					  			<img src="<?=$this->config->static->url?>/images/info_icon.gif" />
 					  			</div>
 					  		</td>
 					  	</tr>
@@ -100,7 +100,7 @@
 	   <? endif;?>
   <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
   <? endif; ?>
   
    <br />

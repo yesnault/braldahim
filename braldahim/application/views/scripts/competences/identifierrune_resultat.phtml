@@ -5,7 +5,7 @@
 	<? if ($this->identificationReussieOk === true): ?>
 		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
 		<? if ($this->rune["image"] != ""): ?>
-	    	<img src="/public/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
+	    	<img src="<?=$this->config->static->url?>/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
 	   	<? endif; ?>
 	   	
 	   	<? if ($this->rune["id_braldun_possesseur"] != null) :?>

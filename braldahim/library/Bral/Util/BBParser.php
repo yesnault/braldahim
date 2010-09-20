@@ -157,28 +157,6 @@ class Bral_Util_BBParser {
 	      ":kiss:"     => '<img src="'.$url.'/public/images/uddeim/emoticon_kiss.gif"      alt="" border="0" align="middle" />',
 	    );
 	
-	/*	if ($config->animatedex) { 
-			$iconfolder="animated-extended";
-			$smileys = $pathtouser."/templates/".$config->templatedir."/".$iconfolder."/";
-			if (is_dir($smileys)) {
-				$folder=opendir ($smileys); 
-				while ($file = readdir ($folder)) {
-					if($file != "." && $file != ".." && (substr($file, strrpos($file, '.'))=='.gif')) {
-						$ext = strrchr($file, '.');
-						if($ext !== false) {
-							$noextname = substr($file, 0, -strlen($ext));
-						} else {
-							$noextname = $file;
-						}
-						$name = ":".$noextname.":";
-						$message_emoticons[$name] = '<img src="/public/images/uddeim/'.$noextname.'.gif" alt="" border="0" align="middle" />';
-					}
-				}
-				closedir($folder);
-			}
-		}
-*/
-	      
 		reset($message_emoticons);
 		while (list($emo_txt,$emo_src)=each($message_emoticons)) {
 			$string = str_replace($emo_txt,$emo_src,$string);

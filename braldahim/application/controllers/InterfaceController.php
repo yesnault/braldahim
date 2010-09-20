@@ -32,7 +32,7 @@ class InterfaceController extends Zend_Controller_Action {
 		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
 		|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
 			if (!$hasIdentity) {
-				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue: dateAuth".$this->_request->get("dateAuth")." auth:".$this->view->user->dateAuth);
 			} else {
 				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {

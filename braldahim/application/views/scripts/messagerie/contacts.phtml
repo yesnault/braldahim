@@ -32,8 +32,8 @@
 	  					<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
 					</td>
 	  				<td class="table_liste">
-						<img src="/public/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br />
-						<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer">
+						<img src="<?=$this->config->static->url?>/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br />
+						<img src="<?=$this->config->static->url?>/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer">
 					</td>
 	  			</tr>
 		  	<? endforeach; ?>

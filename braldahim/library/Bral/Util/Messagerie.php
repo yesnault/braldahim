@@ -49,8 +49,9 @@ class Bral_Util_Messagerie {
 			$afficheLien = true;
 		}
 
+		$url = Zend_Registry::get('config')->static->url;
+		
 		foreach($bralduns as $h) {
-
 			if (in_array($h["id_braldun"],$idDestinatairesTab) && ($sansIdBraldun == -1 || $sansIdBraldun != $h["id_braldun"])) {
 				if ($destinataires == "") {
 					$destinataires = $h["id_braldun"];
@@ -60,7 +61,7 @@ class Bral_Util_Messagerie {
 				if ($afficheSupprimer) $aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_braldun"].'">';
 				$aff_js_destinataires .= Bral_Util_Lien::getJsBraldun($h["id_braldun"], $h["prenom_braldun"].' '.$h["nom_braldun"].' ('.$h["id_braldun"].')', $afficheLien);
 				if ($afficheSupprimer)  {
-					$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
+					$aff_js_destinataires .= ' <img src="'.$url.'/images/supprimer.gif" ';
 					$aff_js_destinataires .= ' onclick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_braldun"].'\', \''.$valeur.'_dest\', \''.$h["id_braldun"].'\')" />';
 					$aff_js_destinataires .= '</span>';
 				} else {
@@ -100,6 +101,8 @@ class Bral_Util_Messagerie {
 		$userIds = "";
 		$bralduns = "";
 		$tabBralduns = null;
+		
+		$url = Zend_Registry::get('config')->static->url;
 
 		foreach($contactsTab as $c) {
 			if (in_array($c["id"], $idContactsTab)) {
@@ -109,7 +112,7 @@ class Bral_Util_Messagerie {
 					$contacts = $contacts.",".$c["id"];
 				}
 				$aff_js_contacts .= '<span id="m_'.$valeur.'_'.$c["id"].'">';
-				$aff_js_contacts .= $c["name"]. ' <img src="/public/images/supprimer.gif" ';
+				$aff_js_contacts .= $c["name"]. ' <img src="'.$url.'/images/supprimer.gif" ';
 				$aff_js_contacts .= ' onclick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
 			}

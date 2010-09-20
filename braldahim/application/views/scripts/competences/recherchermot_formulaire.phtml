@@ -72,7 +72,7 @@
 						<? 
 						$i = 0;
 							foreach($this->labanRunes as $k => $v) : ?>
-								<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?> : <?=$v["effet_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
+								<img id="item_<?=$k ?>" class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?> : <?=$v["effet_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
 							<? endforeach; ?>
 					</div>
 						
