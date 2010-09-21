@@ -18,7 +18,7 @@
 	<? if ($this->config->general->production == 10) : ?>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/mini-<?=$versionCss?>.css" />
 	<? else: ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-<?=$versionCss?>.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/braldahim-<?=$versionCss?>.css" />
 	<? endif;?>
 	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
 	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
