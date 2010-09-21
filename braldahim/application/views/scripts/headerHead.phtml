@@ -13,14 +13,14 @@
 	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
 	
 	<title>Braldahim</title>
-	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="<?=$this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<? $versionCss = "076"; ?>
 	<? if ($this->config->general->production == 1) : ?>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/mini-<?=$versionCss?>.css" />
 	<? else: ?>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/braldahim-<?=$versionCss?>.css" />
 	<? endif;?>
-	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
+	<link rel="apple-touch-icon" href="<?=$this->config->static->url?>/images/mobile/icone-braldahim.png"/>
 	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 	<? if (Zend_Registry::get("estWork")) : ?>
 	<link  href="/public/styles/braldahim_defaut/work-004.css" type="text/css" rel="stylesheet" />
