@@ -140,7 +140,7 @@ class Bral_Util_BBParser {
 	      ":x"         => '<img src="'.$url.'/images/uddeim/emoticon_crossed.gif"   alt="" border="0" align="middle" />',
 	      "B)"         => '<img src="'.$url.'/images/uddeim/emoticon_cool.gif"      alt="" border="0" align="middle" />',
 	      ":("         => '<img src="'.$url.'/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
-	      ":)"         => '<img src="'.$url.'/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" width="19px" height="19px"/>',
+	      ":)"         => '<img src="'.$url.'/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" width="19" height="19"/>',
 	      ":-("        => '<img src="'.$url.'/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
 	      ":-)"        => '<img src="'.$url.'/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" />',
 	      ":laugh:"    => '<img src="'.$url.'/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',
