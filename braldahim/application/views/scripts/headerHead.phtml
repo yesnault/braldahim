@@ -23,7 +23,11 @@
 	<link  href="/public/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
 	<? endif;?>
 	
-	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
-	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/m_action-038.js"></script>
-	
+	<? $v = "038"; ?>
+	<? if ($this->config->general->production == 1) : ?>
+	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/all-<?=$v?>.js"></script>
+	<? else: ?>
+	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/protoaculous/protoaculous.1.8.3.min.js"></script>
+	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/m_action-<?=$v?>.js"></script>
+	<? endif;?>
 </head>
