@@ -320,10 +320,6 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"id_role_a_groupe_monstre" => $id_monstre,
 					"x_direction_groupe_monstre" => $x_monstre,
 					"y_direction_groupe_monstre" => $y_monstre,
-					"x_min_monstre" => $x_min_position,
-					"x_max_monstre" => $x_max_position,
-					"y_min_monstre" => $y_min_position,
-					"y_max_monstre" => $y_max_position,
 					"date_fin_tour_groupe_monstre" => $date_fin_tour_monstre,
 				);
 			}
