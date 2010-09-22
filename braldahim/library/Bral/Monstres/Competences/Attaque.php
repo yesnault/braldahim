@@ -64,7 +64,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
 			return false; // cible non morte
 		} else {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit true");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible (".$this->cible["id_braldun"].") - exit true");
 			return true;
 		}
 	}

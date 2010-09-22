@@ -57,22 +57,29 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				// s'il un monstre à une cible à lui, on verifie qu'elle peut être atteinte
 				if ($m["id_fk_braldun_cible_monstre"] != null) {
 					$braldunTable = new Braldun();
-					$cibleDuMonstre = $braldunTable->findBraldunAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"], $m["id_fk_braldun_cible_monstre"], false);
+					$cibleDuMonstre = $braldunTable->findBraldunAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"] + $m["vue_malus_monstre"], $m["id_fk_braldun_cible_monstre"], false);
 					if (count($cibleDuMonstre) > 0) {
 						$cibleDuMonstre = $cibleDuMonstre[0];
 						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_braldun_cible_monstre"]);
 						$koCibleMonstre = $vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
+						if ($koCibleMonstre == null) { // cible en dehors de la case mais dans la vue (puisque $cibleDuMonstre trouvee) , on tente un deplacement puis une attaque
+							Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_braldun_cible_monstre"]. " koCibleMonstre == null");
+							$vieMonstre->deplacementMonstre($cibleDuMonstre["x_braldun"], $cibleDuMonstre["y_braldun"]);
+							$koCibleMonstre = $vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
+						}
 						if ($koCibleMonstre === true || $koCibleMonstre === null) {
 							$m["id_fk_braldun_cible_monstre"] = null;
+							Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - Ko cible ou retour null pour le monstre (".$m["id_monstre"].")");
 						}
 					} else {
 						$m["id_fk_braldun_cible_monstre"] = null;
+						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - Aucune cible pour le monstre (".$m["id_monstre"].")");
 					}
 				}
 
 				// on regarde si la cible demandée est bien la cible du groupe
 				if ($cible["id_braldun"] == $m["id_fk_braldun_cible_monstre"] || $m["id_fk_braldun_cible_monstre"] == null) {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_braldun"]);
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") monstre (".$m["id_monstre"].") : ".$cible["id_braldun"]);
 					$koCible = $vieMonstre->attaqueCible($cible, $this->view);
 				}
 
