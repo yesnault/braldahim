@@ -26,7 +26,7 @@
     </tr>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
 			<? foreach ($this->tabHeures as $h): ?>
 			<option value='<?=$h?>'><?=$h?></option>
@@ -34,7 +34,7 @@
 			</select>
    		</td>
    		<td>
-   			<select id='valeur_2' name='valeur_2' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
 			<? foreach ($this->tabMinutes as $m): ?>
 			<option value='<?=$m?>'><?=$m?></option>
@@ -44,7 +44,7 @@
    	</tr>
    </table>
    <br />
-   <span id='dla_choisie' name='dla_choisie'>Choisissez les heures et les minutes</span> <br />
+   <span id='dla_choisie'>Choisissez les heures et les minutes</span> <br />
  </div>
 <br />
-<input type='button' class='button1' id='bouton_decalerdla' value='D&eacute;caler !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_decalerdla");' disabled>
+<input type='button' class='button1' id='bouton_decalerdla' value='D&eacute;caler !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_decalerdla");' disabled>

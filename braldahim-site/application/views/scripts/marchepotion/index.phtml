@@ -9,7 +9,7 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onChange="document.location.href = '/marchepotion/?regionselect='+this.value+'&typebmselect=<?=$this->typebmSelect?>&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
+	<select id="region" name="region" onchange="document.location.href = '/marchepotion/?regionselect='+this.value+'&typebmselect=<?=$this->typebmSelect?>&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -18,7 +18,7 @@
 <td>
 	Filtre par type: 
 	<br />
-	<select id="type" name="type" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect='+this.value+'&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
+	<select id="type" name="type" onchange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect='+this.value+'&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->types as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->typebmSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -27,7 +27,7 @@
 <td>
 	Filtre par potion et vernis:
 	<br />
-	<select id="potion" name="potion" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<select id="potion" name="potion" onchange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->potions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->potionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>

@@ -42,7 +42,7 @@
 			   			<? if ($p["echoppe"] != null && $r["nom_systeme_region"] == $p["nom_systeme_region"]): 
 			   				$echoppe = true;
 			   			?>
-			   				<td class="table_liste" style="cursor:pointer" onClick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$p["echoppe"]["id_echoppe"]?>')">
+			   				<td class="table_liste" style="cursor:pointer" onclick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$p["echoppe"]["id_echoppe"]?>')">
 			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"  class="alabel">[<?=$p["echoppe"]["x_echoppe"] ?> ; <?=$p["echoppe"]["y_echoppe"] ?>]</span>
 			   				</td>
 			   			<? else: ?>

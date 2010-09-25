@@ -1,6 +1,6 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <div class="titre textalia textsizec"><a class="titre textalia textsizec" title="Cliquez pour voir les règles complètes" style="text-decoration: none" onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/Soule');">Jeu de Soule</a></div>
+  <div class="titre textalia textsizec"><a class="titre textalia textsizec" title="Cliquez pour voir les règles complètes" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/Soule');">Jeu de Soule</a></div>
   <div class="contenu">
   <div class="box_contenu1 textalic">
   <div class="titre textalic textsized">Règle : prendre le ballon et l'emmener dans le fond du camp adverse</div>
@@ -12,7 +12,7 @@
    <br />
    
    Choissisez le terrain : 
-	<select name='id_terrain' onChange="Javascript:_get_('/soule/doaction?caction=ask_soule_voir&id_terrain='+this.value);">
+	<select name='id_terrain' onchange="Javascript:_get_('/soule/doaction?caction=ask_soule_voir&id_terrain='+this.value);">
 	<? if ($this->terrains != null) : ?>
 	   	<? foreach ($this->terrains as $t) : ?>
 		<option value='<?=$t["id_soule_terrain"]?>' <?if ($t["selected"] == true) { echo "selected"; }?>><?=$t["nom_soule_terrain"]?> (<?=$t["info_soule_terrain"]?>)</option>
@@ -25,7 +25,7 @@
 	</div>
 <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
 	</div> 
   </div>

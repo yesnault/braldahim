@@ -21,7 +21,7 @@ class Bral_Palmares_Recolteurssexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "recolteursfamille";		
+		return "recolteurssexe";		
 	}
 	
 	function setDisplay($display) {

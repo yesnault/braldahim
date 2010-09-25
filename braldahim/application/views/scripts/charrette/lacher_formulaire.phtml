@@ -19,6 +19,6 @@
 	 <br />
 </div>
 <?php if ($this->assezDePa == true && $this->possedeCharrette === true && $this->possedeCaleFrein === true) : ?>
-<input type='button' class='button1' id='bouton_lachercharrette' value='L&acirc;cher une charrette !' onClick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_lacher");'>
+<input type='button' class='button1' id='bouton_lachercharrette' value='L&acirc;cher une charrette !' onclick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_lacher");'>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

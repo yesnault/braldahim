@@ -24,7 +24,7 @@
 				foreach ($this->regions as $r) : ?>
 					<? 
 					$i++;
-					if ($i % 4 == 0): echo "<tr>"; endif;?>
+					if ($i % 4 == 0): ?><tr><? endif;?>
 						<td style="text-align:right">
 							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br />
 							<? foreach ($r["type_tabac"] as $t) : ?>

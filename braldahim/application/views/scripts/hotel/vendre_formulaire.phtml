@@ -21,7 +21,7 @@
  		Vous n'avez pas assez de Castar.
  	<? else: ?>
  	Vendre à partir de :<br />
-	<select name="valeur_1" id="valeur_1"  onChange="_get_('/hotel/doaction?caction=ask_hotel_vendre&valeur_1='+this.value);">
+	<select name="valeur_1" id="valeur_1"  onchange="_get_('/hotel/doaction?caction=ask_hotel_vendre&valeur_1='+this.value);">
 		<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
 		<? foreach($this->typeDepart as $t) : ?>
 		 	<option value="<?=$t["id_type_depart"]?>" <?=$t["selected"]?>><?=$t["nom_type_depart"]?></option>
@@ -31,7 +31,7 @@
 
  	
  	<? if ($this->choixDepart != null) : ?>
-	 <select name="valeur_2" id="valeur_2"  onChange="if ($('bouton_vendrehotel')) {$('bouton_vendrehotel').disabled=true} ;_get_('/hotel/doaction?caction=ask_hotel_vendre&valeur_1=<?=$this->idTypeCourantDepart?>&valeur_2='+this.value);">
+	 <select name="valeur_2" id="valeur_2"  onchange="if ($('bouton_vendrehotel')) {$('bouton_vendrehotel').disabled=true} ;_get_('/hotel/doaction?caction=ask_hotel_vendre&valeur_1=<?=$this->idTypeCourantDepart?>&valeur_2='+this.value);">
 	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->typeElements as $t) : ?>
 	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
@@ -55,6 +55,6 @@
 </form>
 <br />
 <?php if ($this->assezDePa && $this->assezDeCastars && $this->choixDepart && $this->vendreOk > 0) : ?>
-<input type='button' class='button1' id='bouton_vendrehotel' value='Mettre en vente !' onClick='this.disabled=true;$("valeur_11").value=encodePlus($("valeur_commentaire").value);_get_("/hotel/doaction?caction=do_hotel_vendre");' disabled>
+<input type='button' class='button1' id='bouton_vendrehotel' value='Mettre en vente !' onclick='this.disabled=true;$("valeur_11").value=encodePlus($("valeur_commentaire").value);_get_("/hotel/doaction?caction=do_hotel_vendre");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

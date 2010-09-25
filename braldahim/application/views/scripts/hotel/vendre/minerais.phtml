@@ -1,7 +1,7 @@
 <? if (count($this->minerais) > 0) :?>
 	Minerais Bruts ou Lingots :<br/>
 	
-	<select name="valeur_3" id="valeur_3" onChange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
+	<select name="valeur_3" id="valeur_3" onchange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
 	 	<option value="-1">(Choisissez un minerai)</option>
 	 	<? foreach($this->minerais as $k => $m) :?>
 	 		<option value="<?=$k?>"><?=$m["nom_forme"]?> : <?=$m["quantite"]?> <?=$m["type"]?></option>

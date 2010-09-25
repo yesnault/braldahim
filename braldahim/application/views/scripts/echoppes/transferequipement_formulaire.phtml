@@ -8,7 +8,7 @@
 	Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent
 	soit dans votre laban, soit votre charrette.<br /><br />
 		
-	<select name="valeur_3" id="valeur_3" onChange="_get_('/echoppes/doaction?caction=ask_echoppes_transferequipement&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
+	<select name="valeur_3" id="valeur_3" onchange="_get_('/echoppes/doaction?caction=ask_echoppes_transferequipement&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
  		<option value="-1">(Choisissez une destination)</option>
 		<? foreach($this->destinationTransfert as $d) :?>
 			<option value="<?=$d["id_destination"] ?>" <?=$d["selected"]?>><?=$d["texte"] ?></option>
@@ -19,7 +19,7 @@
 	<? if (count($this->equipementsArriereBoutique) > 0): ?>
 		<br /><br />
 		<? if ($this->destinationTransfertCourante != null) : ?>
-		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferequipement').disabled=true } else {$('bouton_transferequipement').disabled=false }">
+		<select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferequipement').disabled=true } else {$('bouton_transferequipement').disabled=false }">
 	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_equipement"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_equipement"] ?>, <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
@@ -37,6 +37,6 @@
 </form>
 <br />
 <?php if ($this->transfererOk > 0 && $this->destinationTransfertCourante != null) : ?>
-<input type='button' class='button1' id='bouton_transferequipement' value='Transf&eacute;rer !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferequipement&id_destination_courante=<?=$this->destinationTransfertCourante?>");' disabled>
+<input type='button' class='button1' id='bouton_transferequipement' value='Transf&eacute;rer !' onclick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferequipement&id_destination_courante=<?=$this->destinationTransfertCourante?>");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

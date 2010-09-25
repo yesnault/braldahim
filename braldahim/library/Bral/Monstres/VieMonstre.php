@@ -269,7 +269,7 @@ class Bral_Monstres_VieMonstre {
 	}
 
 	public function attaqueCible(&$cible, $view) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") cible(".$cible["id_braldun"].") - enter");
 		$koCible = false;
 
 		if ($this->monstre == null) {
@@ -551,10 +551,12 @@ class Bral_Monstres_VieMonstre {
 		$zoneNidTable = new ZoneNid();
 
 		$zone = $zoneNidTable->findById($idZoneNid);
-		if (count($zone) != 1) {
-			throw new Zend_Exception(" Zone Nid Invalide idZoneNid:".$idZoneNid);
+		if (count($zone) != 1) { // dans le cas où les monstres sont créés sans zone de nid
+			//throw new Zend_Exception(" Zone Nid Invalide idZoneNid:".$idZoneNid);
+			$zone = null;
+		} else {
+			$zone = $zone[0];
 		}
-		$zone = $zone[0];
 
 		if ($tab["x_direction"] < $xMin) {
 			$tab["x_direction"] = $xMin + Bral_Util_De::get_de_specifique(0, 5);
@@ -569,7 +571,7 @@ class Bral_Monstres_VieMonstre {
 			$tab["y_direction"] = $yMax - Bral_Util_De::get_de_specifique(0, 5);
 		}
 
-		if ($zone["est_ville_zone_nid"] == "oui") {
+		if ($zone != null && $zone["est_ville_zone_nid"] == "oui") {
 
 			if ($niveau <= 18) { // niveau <= 18, on limite le min à 54 cases, le max à 74 cases
 				$rayonMin = 5 + $niveau * 3;

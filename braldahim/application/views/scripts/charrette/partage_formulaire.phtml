@@ -30,12 +30,12 @@
 		<div id='aff_valeur_3_partage_dest'><?=$this->tabBralduns["aff_js_destinataires"]?></div>
 		<input type="hidden" name="valeur_3_partage_dest" id="valeur_3_partage_dest" value="<?=$this->tabBralduns["destinataires"]?>"/>
 		<input type="hidden" name="cpt_valeur_3_partage_dest" id="cpt_valeur_3_partage_dest" value=""/>
-		<input type="hidden" name="onChange_valeur_3_partage_dest" id="onChange_valeur_3_partage_dest"/>
+		<input type="hidden" name="onchange_valeur_3_partage_dest" id="onchange_valeur_3_partage_dest"/>
 		
 		<input type="text" name="recherche_valeur_3_partage_dest" size='40' id="recherche_valeur_3_partage_dest" value="Entrez un nom" onFocus='this.value=""; activerRechercheBraldun("valeur_3_partage_dest");' />
 		<input type="hidden" name="recherche_valeur_3_partage_dest_actif" id="recherche_valeur_3_partage_dest_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_3_partage_dest_update" ></div> <img src="/public/images/loupe.gif" />
-	    <span id="indicateur_recherche_valeur_3_partage_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		<div class="recherche" id="recherche_valeur_3_partage_dest_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+	    <span id="indicateur_recherche_valeur_3_partage_dest" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 		    
 	 <? endif; ?>
 	 <br />
@@ -43,6 +43,6 @@
 
 <br />
 <?php if ($this->possedeCharrette === true) : ?>
-<input type='button' class='button1' id='bouton_partagecharrette' value='Valider les partages' onClick='this.disabled=true;$("valeur_3").value=$("valeur_3_partage_dest").value;_get_("/charrette/doaction?caction=do_charrette_partage");'>
+<input type='button' class='button1' id='bouton_partagecharrette' value='Valider les partages' onclick='this.disabled=true;$("valeur_3").value=$("valeur_3_partage_dest").value;_get_("/charrette/doaction?caction=do_charrette_partage");'>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

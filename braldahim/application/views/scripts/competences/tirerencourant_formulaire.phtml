@@ -22,7 +22,7 @@
 	 		 <br />
 			<? if ($this->nMonstres > 0): ?>
 				Tirer en courant sur un monstre<br />
-				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">
+				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">
 				<option value='-1'>(Choisissez un monstre)</option>
 				<? foreach ($this->tabMonstres as $m) : ?>
 					<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>)</option>
@@ -34,7 +34,7 @@
 			
 	 		<? if ($this->nBralduns > 0): ?>
 	 		 	Tirer sur un Braldûn<br />
-	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
+	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
 				<option value='-1'>(Choisissez un Braldûn)</option>
 	 			<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
@@ -49,5 +49,5 @@
 
 <br />
 <?php if ($this->assezDePa == true) : ?>
-	<input type='button' class='button1' value='Tirer !' id='bouton_tirer' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_tirerencourant");' disabled>
+	<input type='button' class='button1' value='Tirer !' id='bouton_tirer' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_tirerencourant");' disabled>
 <? endif ?>

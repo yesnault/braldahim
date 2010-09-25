@@ -21,7 +21,7 @@ class Bral_Palmares_Kosexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "kofamille";		
+		return "kosexe";		
 	}
 	
 	function setDisplay($display) {

@@ -10,7 +10,7 @@
 	    <span class="titre textalia textsizec">Description Lieu (Role Auteur)</span>
 	    <br />
 	    Lieux : 
-	 	<select name='administration_lieu' id="administration_lieu" onChange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
+	 	<select name='administration_lieu' id="administration_lieu" onchange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
 	 	<option value="-1" selected>Choisissez un lieu</option>
 	 	<? foreach ($this->administrationLieux as $l) : ?>
 			<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
@@ -24,7 +24,7 @@
 	      <span class="titre textalia textsizec">Gestion de son Braldun (Role Testeur)</span>
 		<br />
 	    Braldun Id <?=$this->user->id_braldun?> <input type='hidden' name='id_braldun' id='id_braldun' value='<?=$this->user->id_braldun?>' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
+	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
 	   
 	    <? endif;?>
 	    

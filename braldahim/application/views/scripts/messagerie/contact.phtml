@@ -56,13 +56,13 @@
 	<input type="hidden" name="valeur_3_dest" id="valeur_3_dest" value="<?=$this->contactsListe["destinataires"]?>" />
 	<input type="text" name="recherche_valeur_3_dest" size='40' id="recherche_valeur_3_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheBraldun("valeur_3_dest");' />
 	<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />
-	<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
-    <span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+	<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+    <span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 
 <br /><br /><br />
 	
 	<? $libelle = "Modifier"; if ($this->contactsListe["id"] == "-1"): $libelle = "Cr&eacute;er"; endif; ?>
-	<input type="button" class='button1' name="<?=$libelle ?>" value="<?=$libelle ?>" onClick="
+	<input type="button" class='button1' name="<?=$libelle ?>" value="<?=$libelle ?>" onclick="
 	Javascript:$('nb_valeurs').value=5;
 	$('valeur_1').value='editer';
 	$('valeur_2').value=<?=$this->contactsListe["id"] ?>;
@@ -70,7 +70,7 @@
 	$('valeur_4').value=$('nom_liste_contact').value;
 	$('valeur_5').value=$('description_liste_contact').value;
 	 _get_('/messagerie/doaction?caction=do_messagerie_contacts');this.disabled=true;" />
-	<input type="button" class='button1' name="Annuler" value="Annuler" onClick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=liste');" /> 
+	<input type="button" class='button1' name="Annuler" value="Annuler" onclick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=liste');" /> 
 </form>
 
 <? endif; ?>

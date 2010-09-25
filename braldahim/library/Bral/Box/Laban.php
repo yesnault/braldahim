@@ -197,7 +197,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
-		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
+		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, array("niveau_type_rune", "nom_type_rune"), true);
 		unset($labanRuneTable);
 
 		foreach ($runes as $r) {
@@ -216,6 +216,9 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"image" => "rune_inconnue.png",
 					"est_identifiee" => $r["est_identifiee_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
+					"id_identification_braldun" => $r["id_braldun"],
+					"prenom_identification_braldun" => $r["prenom_braldun"],
+					"nom_identification_braldun" => $r["nom_braldun"],
 				);
 			}
 		}

@@ -81,7 +81,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 			//En bosquet un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-			if ($environnement == "montage" || $environnement == "marais") {
+			if ($environnement == "montagne" || $environnement == "marais") {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
 			} elseif ($nombreBosquets > 1) {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;

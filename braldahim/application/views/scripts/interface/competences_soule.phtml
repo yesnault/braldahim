@@ -13,7 +13,7 @@
  	foreach($this->competences as $c) : ?>
   <div class="ligne_espace">
       <? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
-      		$attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+      		$attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 	    else:
 	      $attr = "disabled alt=\"Vous n'avez pas assez de PA\"";
 	    endif;?>

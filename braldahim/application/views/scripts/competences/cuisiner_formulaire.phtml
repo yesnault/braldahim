@@ -4,7 +4,7 @@
 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner. <br /><br />
 	 
 	 Recette :<br />
-     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
+     <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
 	 	<option value="-1">(Choisissez un aliment)</option>
 	 	<? foreach($this->typeAliment as $t) : ?>
 	 		<option value="<?=$t["id_type_aliment"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_aliment"])?> (<?=$t['texte_type_bbdf']?>)</option>
@@ -25,7 +25,7 @@
 		
 		<br />
 	Source des ingrédients :<br />
-     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
+     <select name="valeur_2" id="valeur_2" onchange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
 	 	<option value="-1">(Choisissez une source)</option>
 	 	<? if ($this->recetteAvecPotion === true) : ?>
 		 	<? foreach($this->sources as $k => $t) : ?>
@@ -47,7 +47,7 @@
 	 
 	 <br /> <br />
 	Destination :<br />
-     <select name="valeur_3" id="valeur_3" onChange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true;}">
+     <select name="valeur_3" id="valeur_3" onchange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true;}">
 	 	<option value="-1">(Choisissez une destination)</option>
 	 	<? foreach($this->destinations as $k => $t) : ?>
 	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
@@ -60,5 +60,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->sourceOk == true) : ?>
-<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner&type_aliment="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner&type_aliment="+$("valeur_1").value);' disabled>
 <? endif ?>

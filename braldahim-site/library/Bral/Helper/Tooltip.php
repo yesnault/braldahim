@@ -23,11 +23,7 @@ class Bral_Helper_Tooltip {
 			$retour .= $titre;
 			$retour .= "<hr />";
 		}
-		
 		$retour .= $texte;
-		
-		/*$retour .= "<br /><br /><span onClick=\"
-		new Draggable('".$id."');Draggables.unregister('". $id."'); \">[Déplacer]</span>";*/
 		$retour .= '</div>';
 		return $retour;
 	}

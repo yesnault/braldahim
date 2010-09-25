@@ -7,7 +7,7 @@
 		$panneau = true;
 		?>
 		Transbahuter à partir de :<br />
-		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
+		<select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
 			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
 			<? foreach($this->typeDepart as $t) : ?>
 			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"] || count($this->typeDepart)==1): echo " selected='selected' "; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
@@ -44,9 +44,9 @@
 				endforeach; 
 				?>
 				<br/>
-				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"/> 
-				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>"/>
-				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>"/>
+				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?=$js?>"/> 
+				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?=$jsFermer ?>"/>
+				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?=$jsOuvrir ?>"/>
 				<br/><br/>
 				Transbahuter vers :<br />
 					<? 
@@ -65,7 +65,7 @@
 					 		}
 					   	}
 					?>
-				<select name="valeur_2" id="valeur_2" onChange="<?=$jsBtn.$jsCoffre?>">
+				<select name="valeur_2" id="valeur_2" onchange="<?=$jsBtn.$jsCoffre?>">
 					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
 					<?=$option ?>
 				</select>
@@ -76,11 +76,11 @@
 				<div id="div_braldun" style="visibility: hidden;display :none">
 					<input type="text" name="recherche_valeur_3_dest" size='30' id="recherche_valeur_3_dest" value="Entrez un nom" onFocus="if(this.value=='Entrez un nom'){this.value='';};activerRechercheCoffreBraldun('valeur_3_dest');" />
 					<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />
-					<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
-   					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+					<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+   					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
    				</div>
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
 		<?else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?endif; ?>

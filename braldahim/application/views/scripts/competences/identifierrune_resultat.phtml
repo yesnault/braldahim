@@ -5,8 +5,13 @@
 	<? if ($this->identificationReussieOk === true): ?>
 		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
 		<? if ($this->rune["image"] != ""): ?>
-	    	<img src="/public/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
+	    	<img src="<?=$this->config->static->url?>/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
 	   	<? endif; ?>
+	   	
+	   	<? if ($this->rune["id_braldun_possesseur"] != null) :?>
+	   		<br /><br /><?=$this->rune["prenom_braldun_possesseur"]?> <?=$this->rune["nom_braldun_possesseur"]?> (<?=$this->rune["id_braldun_possesseur"]?>) a été prévenu de cette identification.
+	   		<br /><br />
+	   	<? endif;?>
 	<? else: ?>
 		Vous avez manqu&eacute; votre identification
 		<?if ($this->jetBraldunLoin === true) :?>

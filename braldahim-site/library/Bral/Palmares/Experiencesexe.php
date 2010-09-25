@@ -21,7 +21,7 @@ class Bral_Palmares_Experiencesexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "experiencefamille";		
+		return "experiencesexe";		
 	}
 	
 	function setDisplay($display) {

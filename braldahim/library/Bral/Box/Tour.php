@@ -135,6 +135,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->braldun->est_ko_braldun == "oui")) {
+			if ($this->braldun->est_pnj_braldun == 'oui') {
+				$this->braldun->pa_braldun = 100;
+			}
 			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - true");
 			return true;
 		} else {
@@ -142,17 +145,17 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			return false;
 		}
 	}
-	
+
 	public function getWarningFinTour() {
 		$retour = null;
 		$date_courante = date("Y-m-d H:i:s");
-		
+
 		$dateFin = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, '00:30:00');
-		
+
 		if ($this->braldun->date_fin_tour_braldun < $dateFin && $this->braldun->pa_braldun > 0) {
 			$retour = "Votre tour se termine bientôt et il vous reste ".$this->braldun->pa_braldun." PA à jouer ! ";
 		}
-		
+
 		return $retour;
 	}
 
@@ -209,7 +212,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->braldun->duree_bm_tour_braldun = 0;
 			$this->braldun->bm_marcher_braldun = 0;
 			$this->braldun->nb_tour_blabla_braldun = 0;
-				
+
 			// Nouvelle DLA
 			$this->braldun->nb_dla_jouees_braldun = $this->braldun->nb_dla_jouees_braldun + 1;
 
@@ -261,7 +264,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if ($this->est_ko == false) {
 				$this->braldun->est_intangible_braldun = "non";
 			}
-			
+				
 			if ($this->braldun->est_intangible_prochaine_braldun == "oui") {
 				$this->braldun->est_intangible_braldun = "oui";
 				$this->braldun->est_intangible_prochaine_braldun == "non";
@@ -280,7 +283,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
-			
+				
 			Zend_Loader::loadClass("Bral_Util_Soule");
 			$this->view->sortieSoule = Bral_Util_Soule::calculSortieSoule($this->braldun);
 		}
@@ -350,7 +353,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			// statut engage
 			$this->braldun->est_engage_braldun = "non";
 			$this->braldun->est_engage_next_dla_braldun = "non";
-			
+				
 			// reputation
 			$this->braldun->nb_ko_redresseurs_suite_braldun = 0;
 			$this->braldun->nb_ko_gredins_suite_braldun = 0;
@@ -740,7 +743,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->view->user->nb_ko_redresseurs_suite_braldun = $this->braldun->nb_ko_redresseurs_suite_braldun;
 		$this->view->user->nb_ko_gredins_suite_braldun = $this->braldun->nb_ko_gredins_suite_braldun;
-		
+
 		$data = array(
 			'x_braldun' => $this->braldun->x_braldun,
 			'y_braldun'  => $this->braldun->y_braldun,

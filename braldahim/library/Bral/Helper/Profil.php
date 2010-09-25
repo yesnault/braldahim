@@ -18,7 +18,7 @@ class Bral_Helper_Profil {
 	public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun) {
 		$niveauCourantPx = ($niveau_braldun) * 5;
 		$niveauSuivantPx = ($niveau_braldun + 1) * 5;
-		$largeur = (($px_perso_braldun * 100) / $niveauSuivantPx);
+		$pourcentage = (($px_perso_braldun * 100) / $niveauSuivantPx);
 		$titre = "Exp&eacute;rience atteinte dans ce niveau";
 		$texte = "Vous avez ".$px_perso_braldun. " PX Perso.<br />";
 		$texte .= "Pour passer au niveau ".($niveau_braldun + 1).", il vous faut ";
@@ -30,6 +30,8 @@ class Bral_Helper_Profil {
 			$texte .= " 0 PX Perso.<br />";
 			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br />";
 		}
+		
+		$largeur = $pourcentage;
 
 		if ($largeur > 200) {
 			$largeur = 200;
@@ -46,7 +48,7 @@ class Bral_Helper_Profil {
 		$retour .= "</div></div>";
 		$retour .= "</td>";
 		$retour .= "<td width='10%' nowrap>";
-		$retour .= intval($largeur/2) ." %";
+		$retour .= intval($pourcentage) ." %";
 		$retour .= "</td>";
 
 		return $retour;
@@ -165,7 +167,7 @@ class Bral_Helper_Profil {
 			$largeur = self::COEF_TAILLE * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
 		}
 
-		$retour = "<div class='barre_vie braltip'><div class='barre_img img_barre_vie' style='".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour = "<div class='barre_vie braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "</div></div>";
 
 		return $retour;

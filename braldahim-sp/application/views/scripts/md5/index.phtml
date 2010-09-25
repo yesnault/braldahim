@@ -1,12 +1,12 @@
-<ul class="box_contenu1 textalic">
-	<ul class="titre textalic textsizeb">
+<div class="box_contenu1 textalic">
+	<div class="titre textalic textsizeb">
 		&nbsp; Calcul de votre mot de passe restreint
-	</ul>
+	</div>
 	<br />
 	Votre mot de passe actuel :
 	<form action='/md5'><input type='password' name='md5_source'
-		id='md5_source' value='' size='20' autocomplete="off"> <input
-		type='submit' value='MD5' class='button1'> <? if ($this->md5_value != "") : ?>
+		id='md5_source' value='' size='20' /> <input
+		type='submit' value='MD5' class='button1' /> <? if ($this->md5_value != "") : ?>
 	
 	<br /><br />
 	
@@ -17,9 +17,7 @@
 	<br /><br />
 	
 	<input type="button" class='button1'
-		onClick="document.location.href='/'"
-		value="Retour à la page des Scripts Publics">
+		onclick="document.location.href='/'"
+		value="Retour à la page des Scripts Publics" />
 	<br /><br />
-</ul>
-
-</ul>
+</div>

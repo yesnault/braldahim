@@ -11,7 +11,7 @@
 			<div style="width:200px">
 				<div class="inner">
 					<div class="contenu">
-							Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/annonces/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
+							Filtre par année: <select id="annee" name="annee" onchange="document.location.href = '/annonces/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
 							<? foreach($this->annees as $a): ?>
 								<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
 							<? endforeach;?>

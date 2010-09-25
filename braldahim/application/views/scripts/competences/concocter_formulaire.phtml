@@ -4,7 +4,7 @@
 	 
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave; <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <br />
-	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisissez une plante)</option>
 	 	<? foreach($this->partiesPlantes as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
@@ -16,7 +16,7 @@
 	 <br /><br />
 	 
 	 Quantité de plantes à utiliser : <br />
-	 <select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
+	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisissez la quantité à concocter)</option>
 	 	<? for($i=1; $i <= $this->nbPlantesMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;
@@ -34,5 +34,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->concocterEchoppeOk === true && $this->concocterPlanteOk) : ?>
-<input type='button' class='button1' id='bouton_concocter' value='Concocter !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_concocter");' disabled>
+<input type='button' class='button1' id='bouton_concocter' value='Concocter !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_concocter");' disabled>
 <? endif ?>

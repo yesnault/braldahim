@@ -6,7 +6,7 @@
 	<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
 	
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"
-       		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirerpotion&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirerpotion&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
 <? else: ?>
 	Vous n'avez aucune potion / vernis en vente
 <? endif; ?>

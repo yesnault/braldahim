@@ -27,7 +27,7 @@
    		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
    		
    	  	Vous pouvez demander votre entr&eacute;e dans une communaut&eacute; : <br />
-   	  	 <select name='valeur_1' id="valeur_1" onChange="javascript:$('valeur_2').value=-1; $('valeur_3').value=''; $('bouton_mairie_creer').disabled=true; if ($('valeur_1').value!=-1) { $('bouton_mairie_rentrer').disabled=false; } else { $('bouton_mairie_rentrer').disabled=true; } ">
+   	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('valeur_2').value=-1; $('valeur_3').value=''; $('bouton_mairie_creer').disabled=true; if ($('valeur_1').value!=-1) { $('bouton_mairie_rentrer').disabled=false; } else { $('bouton_mairie_rentrer').disabled=true; } ">
 			<option value='-1'>(Choisissez une communaut&eacute;)</option>
 			<? foreach ($this->communautes as $c) : ?>
 				<option value="<?=$c["id_communaute"] ?>"><?=$c["nom_communaute"] ?> </option>
@@ -44,10 +44,10 @@
 <br />
 <? if ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
 	<? if ($this->braldunAvecCommunaute == true) : ?>
-	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
+	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
 	<? else : ?>
-	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
-	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
 	<? endif; ?>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

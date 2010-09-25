@@ -18,13 +18,13 @@
 	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?=htmlspecialchars($this->communaute["site_web"]) ?>" />
 	
 	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
-		onClick="$('label_site').style.display='none'; 
+		onclick="$('label_site').style.display='none'; 
 		$('valeur_2').style.display='block' ; 
 		$('bouton_site').style.display='block'; 
 		this.style.display='none'"/>
 	
 	<input type="button" class='button1' id="bouton_site" name="bouton_site" 
- 	 onClick="
+ 	 onclick="
 	  $('label_site').style.display='block'; 
 	  $('valeur_2').style.display='none'; 
 	  this.style.display='none' ;
@@ -35,7 +35,7 @@
 	
 	<div class="titre textalic textsizec">Description</div><br />
 	<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
-	onClick="$('label_description').style.display='none'; 
+	onclick="$('label_description').style.display='none'; 
 		$('edition').style.display='block' ; 
 		$('bouton_description').style.display='block'; 
 		 this.style.display='none' ;
@@ -53,7 +53,7 @@
 	
 	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?=stripslashes($this->communaute["description"]) ?></textarea>
 	  <input type="button" class='button1' id="bouton_description" 
-	  onClick="
+	  onclick="
 		  $('label_description').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;

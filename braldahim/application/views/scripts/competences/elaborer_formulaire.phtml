@@ -8,7 +8,7 @@
      Vous êtes niveau <?=$this->user->niveau_braldun?>.<br /><br />
      <? endif;?>
      Type de potion / vernis :<br />
-     <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
+     <select name="valeur_1" id="valeur_1" onchange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
 	 	<option value="-1">(Choisissez une potion ou un vernis)</option>
 	 	<? foreach($this->typePotion as $p) : ?>
 	 		<optgroup label="<?=$p["nom"] ?>" style="font-weight:bold"></optgroup>
@@ -65,7 +65,7 @@
 	 ";
 	 
 	 ?>
-	 <select name="valeur_2" id="valeur_2" onChange="<?=$js1?>">
+	 <select name="valeur_2" id="valeur_2" onchange="<?=$js1?>">
 	 	<option value="-1">(Choisissez un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
 	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlspecialchars($v["niveauText"])?></option>
@@ -149,7 +149,7 @@
 	
 	"
 	?>
-		<select name="valeur_3" id="valeur_3" onChange="<?=$js?>" disabled>
+		<select name="valeur_3" id="valeur_3" onchange="<?=$js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 1)</option>
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? if ($k == $this->cout[1][0]["id_type_partieplante"]): ?>
@@ -182,7 +182,7 @@
 		 <input type='hidden' id='valeur_5' name='valeur_5' value='-2'>
 	<? elseif (isset($this->tabPartiePlantes)) : ?> 
 		<br />
-		<select name="valeur_4" id="valeur_4" onChange="<?=$js?>" disabled>
+		<select name="valeur_4" id="valeur_4" onchange="<?=$js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 2)</option>
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? if ($k == $this->cout[1][1]["id_type_partieplante"]): ?>
@@ -193,7 +193,7 @@
 		 	<? endforeach; ?>
 		</select>
 		<br />
-		<select name="valeur_5" id="valeur_5" onChange="<?=$js?>" disabled>
+		<select name="valeur_5" id="valeur_5" onchange="<?=$js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 3)</option>
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? foreach($v as $k2 => $v2) : ?>
@@ -213,5 +213,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->elaborerEchoppeOk === true && $this->etape1 === true) : ?>
-<input type='button' class='button1' id='bouton_elaborer' value='&Eacute;laborer !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_elaborer&type_potion="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_elaborer' value='&Eacute;laborer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_elaborer&type_potion="+$("valeur_1").value);' disabled>
 <? endif ?>

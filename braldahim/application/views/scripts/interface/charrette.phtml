@@ -7,8 +7,8 @@
     <? if ($this->affichageInterne == true) : ?>
     
     	<? if ($this->user->pa_braldun >=1) : 
-	      $attrA = "onClick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper');\"";
-	      $attrB = "onClick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_lacher');\"";
+	      $attrA = "onclick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper');\"";
+	      $attrB = "onclick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_lacher');\"";
 	    else:
 	      $attrA = "disabled";
 	      $attrB = "disabled";
@@ -46,9 +46,9 @@
 		   				Partage avec : <?=$this->partageBralduns?><br /><br />
 		   			<? endif;?>
 		   			
-		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
+		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
 		   			<? if ($this->possedeSabot) : ?>
-		   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
+		   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
 		   			<? endif;?>
 		   		</td>
 		   		<td align="left" valign="top">
@@ -75,7 +75,7 @@
 					  		<td class="table_liste">
 					  			<div class='braltip'>
 					  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-					  			<img src="/public/images/info_icon.gif" />
+					  			<img src="<?=$this->config->static->url?>/images/info_icon.gif" />
 					  			</div>
 					  		</td>
 					  	</tr>
@@ -100,7 +100,7 @@
 	   <? endif;?>
   <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
   <? endif; ?>
   
    <br />

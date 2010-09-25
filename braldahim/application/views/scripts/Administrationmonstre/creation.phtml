@@ -23,7 +23,7 @@
 				<br />Création dans la zone : <br />
 				(non utilisé si des coodonnées sont utilisées ci-dessous, mais à remplir tout de même)
 				<br />
-				<select name="id_zone" onChange="javascript:t=this.value.split(':'); $('x_min_zone').value=t[0]; $('x_max_zone').value=t[1]; $('y_min_zone').value=t[2]; $('y_max_zone').value=t[3]">
+				<select name="id_zone" onchange="javascript:t=this.value.split(':'); $('x_min_zone').value=t[0]; $('x_max_zone').value=t[1]; $('y_min_zone').value=t[2]; $('y_max_zone').value=t[3]">
 				<option value=":::">
 					(Zones pr&eacute;d&eacute;finies)
 				</option>
@@ -88,7 +88,7 @@
 					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
 					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
 					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?>
-					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?=$g["id_monstre"]?>"'> 
+					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?=$g["id_monstre"]?>"'> 
 	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> <br />
 				<? endforeach; ?>
 				

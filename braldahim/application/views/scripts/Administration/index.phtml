@@ -69,7 +69,7 @@
 	    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
 	    <br /><br />
 	     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
-	    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
+	    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
 	    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").value);'> 
 	   
 	    <br /> <br /> 
@@ -78,11 +78,11 @@
 	    <br />
 	    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_2_voir");' />
 		<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="/public/images/loupe.gif" />
-		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 		<br />
 	    Braldûn Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
+	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
 	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").value);'> 
 	    
 	    <br /> <br /> <br />
@@ -91,7 +91,7 @@
 	    <br /> 
 	    Transformation md5 - Chaine &agrave; encoder : 
 	     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
-	     <input type='button' value='MD5' class='button1'  onClick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
+	     <input type='button' value='MD5' class='button1'  onclick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
 		 <? if ($this->md5_value != "") : ?>
 		 <br />
 		 Valeur MD5 de <?=$this->md5_source ?> = <?=$this->md5_value ?>

@@ -5,7 +5,7 @@
   $premier = " premier";
   foreach($this->onglets as $onglet) : ?>
   	<input type='hidden' id='loaded_<?=$onglet["nom"] ?>' value='<?=$onglet["chargementInBoxes"] ?>'>
-    <span id='onglet_<?=$onglet["nom"] ?>' class='onglet <?=$onglet["css"] ?><?=$premier?>' onClick='Javascript:my_switch("<?=$onglet["nom"] ?>","<?=$this->conteneur ?>"); '>
+    <span id='onglet_<?=$onglet["nom"] ?>' class='onglet <?=$onglet["css"] ?><?=$premier?>' onclick='Javascript:my_switch("<?=$onglet["nom"] ?>","<?=$this->conteneur ?>"); '>
       &nbsp;<?=$onglet["titre"] ?>&nbsp;
     </span>
   <?php $premier = ""; 

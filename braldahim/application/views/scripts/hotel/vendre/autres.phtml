@@ -1,6 +1,6 @@
 <? if ($this->vendreOk === true) : ?>
  	Choississez un &eacute;l&eacute;ment &agrave; vendre :<br />
-	<select name="valeur_3" id="valeur_3" onChange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true">
+	<select name="valeur_3" id="valeur_3" onchange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true">
 	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->autres as $k => $v) :?>
  			<option value="<?=$k?>"><?=$v["nom"] ?> : <?=$v["nb"] ?></option>

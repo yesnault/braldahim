@@ -40,6 +40,6 @@
 <? endif;?>
 <br />
 <? if ($this->queteEnCours === false && $this->niveauOk === true && $this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_quete" value="Oui, J'accepte !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
+<input type='button' class='button1' id="bouton_quete" value="Oui, J'accepte !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

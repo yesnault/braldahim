@@ -10,7 +10,7 @@
 			
 	 		<? if ($this->nBralduns > 0): ?>
 	 		 Braldûn destinataire : <br />
-	 			<select name='valeur_1' id="valeur_1" onChange="javascript:if (this.value==-1){$('bouton_donnerballon').disabled=true } else {$('bouton_donnerballon').disabled=false }">
+	 			<select name='valeur_1' id="valeur_1" onchange="javascript:if (this.value==-1){$('bouton_donnerballon').disabled=true } else {$('bouton_donnerballon').disabled=false }">
 					<option value='-1'>(Choisissez un Braldûn)</option>
 	 				<? foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
@@ -23,5 +23,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->possedeBallon === true) : ?>
-<input type='button' class='button1' value='Donner le ballon !' id='bouton_donnerballon' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_donnerballon");' disabled>
+<input type='button' class='button1' value='Donner le ballon !' id='bouton_donnerballon' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_donnerballon");' disabled>
 <? endif ?>

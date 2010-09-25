@@ -14,7 +14,7 @@
 </form>
 <br />
 <? if ($this->contratEnCours != null) : ?>
-<input type='button' class='button1' id='bouton_annuler' value='Annuler le contrat' onClick='this.disabled=true;_get_("/contrat/doaction?caction=do_contrat_annuler");'/>
+<input type='button' class='button1' id='bouton_annuler' value='Annuler le contrat' onclick='this.disabled=true;_get_("/contrat/doaction?caction=do_contrat_annuler");'/>
 <? endif;?>
 
 <? echo Bral_Helper_Fermer::affiche(); ?>

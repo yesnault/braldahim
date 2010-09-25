@@ -12,7 +12,7 @@
  	foreach($this->competences as $c) : ?>
   <div class="ligne_espace">
   <? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
-      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
     else:
       $attr = "disabled";
     endif;?>
@@ -26,7 +26,7 @@
  
  <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
 
  </div>

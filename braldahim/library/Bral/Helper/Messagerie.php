@@ -29,7 +29,7 @@ class Bral_Helper_Messagerie {
 		
 		$retour = "";
 		if ($js != "") {
-			$retour = '<label id="message_nb_label" class="alabel" style="text-decoration: underline;" onClick="'.$js.'">'.$texte.'</label>';
+			$retour = '<label id="message_nb_label" class="alabel" style="text-decoration: underline;" onclick="'.$js.'">'.$texte.'</label>';
 		}
 		
 		return $retour;

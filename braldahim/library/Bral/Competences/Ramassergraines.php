@@ -66,7 +66,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 				$this->view->placeDispo = true;
 			}
 		}
-		
+
 		$this->view->charrette = $charrette;
 	}
 
@@ -82,7 +82,6 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
-		// Verification abattre arbre
 		if ($this->view->ramasserGrainesEnvironnementOk == false || $this->view->placeDispo == false) {
 			throw new Zend_Exception(get_class($this)." Ramasser des graines interdit ");
 		}

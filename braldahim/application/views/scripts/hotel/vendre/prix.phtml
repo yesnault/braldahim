@@ -18,7 +18,7 @@ Vous pouvez vendre &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <
 			unit&eacute;(s) de 
 		</td>
 		<td align="left">&nbsp;
-			<select name="valeur_6" id="valeur_6" onChange="<?=$js ?>">
+			<select name="valeur_6" id="valeur_6" onchange="<?=$js ?>">
 		 		<option value="-1">(Choisissez une unit&eacute;)</option>
 				<? foreach($this->unites as $k => $u) :?>
 					<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>

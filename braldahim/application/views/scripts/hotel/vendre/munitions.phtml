@@ -1,7 +1,7 @@
 <? if (count($this->munitions) > 0) :?>
 	Munitions:<br/>
 	
-	<select name="valeur_3" id="valeur_3" onChange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
+	<select name="valeur_3" id="valeur_3" onchange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
 	 	<option value="-1">(Choisissez un type de munition brut)</option>
 	 	<? foreach($this->munitions as $m) :?>
 	 		<option value="<?=$m["id_type_munition"]?>"><?=$m["type"]?> : <?=$m["quantite"]?></option>

@@ -74,20 +74,20 @@
  			<div id='aff_valeur_1_coequiper'></div>
 			<input type="hidden" name="valeur_1_coequiper" id="valeur_1_coequiper" value=""/>
 			<input type="hidden" name="cpt_valeur_1_coequiper" id="cpt_valeur_1_coequiper" value=""/>
-			<input type="hidden" name="onChange_valeur_1_coequiper" id="onChange_valeur_1_coequiper" value="if ($('cpt_valeur_1_coequiper').value == 8) {$('bouton_poste_nouveau').disabled = false;} else {$('bouton_poste_nouveau').disabled = true;}"/>
+			<input type="hidden" name="onchange_valeur_1_coequiper" id="onchange_valeur_1_coequiper" value="if ($('cpt_valeur_1_coequiper').value == 8) {$('bouton_poste_nouveau').disabled = false;} else {$('bouton_poste_nouveau').disabled = true;}"/>
 			
 			<input type="text" name="recherche_valeur_1_coequiper" size='40' id="recherche_valeur_1_coequiper" value="Entrez un nom" onFocus='this.value=""; activerRechercheBourlingueur("valeur_1_coequiper", "<?=$this->idTypeDistinctionCourante?>");' />
 			<input type="hidden" name="recherche_valeur_1_coequiper_actif" id="recherche_valeur_1_coequiper_actif" value="0" />
-			<div class="recherche" id="recherche_valeur_1_coequiper_update" ></div> <img src="/public/images/loupe.gif" />
-		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+			<div class="recherche" id="recherche_valeur_1_coequiper_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 		    
 		    <br /><br />
-		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onClick="this.disabled=true;$('valeur_1').value=$('valeur_1_coequiper').value;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
+		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onclick="this.disabled=true;$('valeur_1').value=$('valeur_1_coequiper').value;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
 	
 		<? elseif ($this->inscriptionDemandee === true): ?>
-			 <input type='button' class='button1' id="bouton_poste_nouveau" value="Valider l'inscription" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
+			 <input type='button' class='button1' id="bouton_poste_nouveau" value="Valider l'inscription" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
 		<? elseif ($this->estMeneur && $this->descentePossible) : ?>
-		 	 <input type='button' class='button1' id="bouton_poste_nouveau" value="Ouvrir la porte du Donjon" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
+		 	 <input type='button' class='button1' id="bouton_poste_nouveau" value="Ouvrir la porte du Donjon" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
 		<? endif;?>
  	<? endif;?>
  	

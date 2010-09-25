@@ -10,13 +10,20 @@
 			<tbody>
 			  <? $i = 0;
 		      foreach ($this->runesNonIdentifiees as $r) : 
-		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
-		    	?>
+		     	if ($i == 0) : ?><tr class='table_liste'><? endif;?> 
 		    	<td class="table_liste table_liste_border">
 		    		<div class="braltip">
 		    		<?=Bral_Helper_Tooltip::render("Rune non identifi&eacute;e n&deg;".$r["id_rune"], "Rune non identifiée");?>
-		    		<img src="/public/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
+		    		<img src="<?=$this->config->static->url?>/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
 		    		</div>
+		    		<? if (array_key_exists("id_identification_braldun", $r) && $r["id_identification_braldun"] != null):?>
+		    			identifiable par <br />
+						<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		    				<?=$r["prenom_identification_braldun"]?> <?=$r["nom_identification_braldun"]?> (<?=$r["id_identification_braldun"]?>)
+		    				<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?=$r["id_identification_braldun"]?>');" style='cursor:pointer'/>
+			  				<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$r["id_identification_braldun"]?>');" style='cursor:pointer'/>
+		    			</a>
+		    		<? endif;?>
 		    	</td>
 		    	<? 
 		    	if ($i == 9) :
@@ -44,13 +51,12 @@
 			<tbody>
 			  <? $i = 0;
 		      foreach ($this->runesIdentifiees as $r) : 
-		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
-		    	?>
+		     	if ($i == 0) : ?><tr class='table_liste'><? endif;?> 
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
 		    		<div class="braltip">
 		    		<?=Bral_Helper_Tooltip::render(Bral_Helper_DetailRune::afficherTexte($r, true));?>
-		    		<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    		<img src="<?=$this->config->static->url?>/images/runes/<?=$r["image"]?>"  class="rune" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
 		    		</div>
 	    			<? else: ?>
 		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)

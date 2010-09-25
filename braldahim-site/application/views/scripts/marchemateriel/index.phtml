@@ -9,7 +9,7 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onChange="document.location.href = '/marchemateriel/?regionselect='+this.value+'&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf()">
+	<select id="region" name="region" onchange="document.location.href = '/marchemateriel/?regionselect='+this.value+'&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
@@ -18,7 +18,7 @@
 <td>
 	Filtre par matériel:
 	<br />
-	<select id="materiel" name="materiel" onChange="document.location.href = '/marchemateriel/?regionselect<?=$this->regionSelect?>&materielselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<select id="materiel" name="materiel" onchange="document.location.href = '/marchemateriel/?regionselect<?=$this->regionSelect?>&materielselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->materiels as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->materielSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>

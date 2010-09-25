@@ -5,15 +5,15 @@
   <div class="box_contenu1 textalic">
   
 <? if ($this->affichageInterne == true) : ?>
-    <input type='button' class='button1' value='Mes Quêtes' onClick="_get_('/quetes/doaction?caction=ask_quetes_liste');">
-    <input type='button' class='button1' value='Mes Contrats' onClick="_get_('/contrats/doaction?caction=ask_contrats_liste');">
-    <input type='button' class='button1' value='Mes Filatures' onClick="_get_('/filatures/doaction?caction=ask_filatures_liste');">
+    <input type='button' class='button1' value='Mes Quêtes' onclick="_get_('/quetes/doaction?caction=ask_quetes_liste');">
+    <input type='button' class='button1' value='Mes Contrats' onclick="_get_('/contrats/doaction?caction=ask_contrats_liste');">
+    <input type='button' class='button1' value='Mes Filatures' onclick="_get_('/filatures/doaction?caction=ask_filatures_liste');">
     <div id="box_quete_interne">
     <?=$this->htmlContenu ?>
     </div>
 <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
   
   </div>

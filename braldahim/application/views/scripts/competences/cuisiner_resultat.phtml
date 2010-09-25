@@ -12,7 +12,7 @@
 			<? if ($h['id_braldun'] == $this->user->id_braldun) : ?>
 				Vous-même
 			<? else: ?>
-				<label class='alabel profil' onClick="ouvrirProfilH('<?=$h["id_braldun"]?>');" title='Voir le profil' >
+				<label class='alabel profil' onclick="ouvrirProfilH('<?=$h["id_braldun"]?>');" title='Voir le profil' >
 			<?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (n&deg; <?=$h["id_braldun"]?>)
 			</label>
 			<? endif;?>

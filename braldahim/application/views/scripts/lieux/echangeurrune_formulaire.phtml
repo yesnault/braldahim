@@ -14,7 +14,7 @@
 			 	<? if ($r["a_afficher"] == true): ?>
 				   <tr>
 				     <td valign="top">
-				     <img class="rune" src="/public/images/runes/<?=$r["image_type_rune"]?>" title="<?=$r["nom_type_rune"]?>" alt="<?=$r["nom_type_rune"] ?>"/>
+				     <img class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$r["image_type_rune"]?>" title="<?=$r["nom_type_rune"]?>" alt="<?=$r["nom_type_rune"] ?>"/>
 				     <br />
 				     3 runes <?=$r["nom_type_rune"]?>
 				     <br />
@@ -25,7 +25,7 @@
 				     </td>
 				     <td align='left' valign="top">
 				     <? if ($this->utilisationPaPossible === true && $r["achat_possible"] === true && $this->achatPossibleCastars === true): ?>
-				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$r["id_type_rune"]?>" onChange="$('bouton_echangeurrune').disabled=false;">
+				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$r["id_type_rune"]?>" onchange="$('bouton_echangeurrune').disabled=false;">
 				     <? endif;?>
 				     </td>
 				   </tr>
@@ -44,6 +44,6 @@ Vous n'avez pas assez de PA.<br />
 
 
 <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->tabAAfficher === true): ?>
-<input type='button' class='button1' id="bouton_echangeurrune" value='&Eacute;changer !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_echangeurrune');"  disabled>
+<input type='button' class='button1' id="bouton_echangeurrune" value='&Eacute;changer !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_echangeurrune');"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

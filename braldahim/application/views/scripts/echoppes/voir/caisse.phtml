@@ -5,7 +5,7 @@
 				<? foreach($this->arBoutiqueCaisse as $k => $v) : ?>
 					<? if ($v["a_afficher"] == true) :?>
 					<li id="arboutiqueCaisse<?=$k?>">
-				      	<h3 id="arboutiqueCaisse<?=$k?>-head" class="head" onClick="maccordion(this);">
+				      	<h3 id="arboutiqueCaisse<?=$k?>-head" class="head" onclick="maccordion(this);">
 							<?=htmlspecialchars($v["nom"]) ?>
 						</h3>
 						<ul id="arboutiqueCaisse<?=$k?>-body" style="display:none">
@@ -35,5 +35,5 @@
   <? endif; ?>
   
 <input type="button" class='button1' value="0 PA - Retirer des &eacute;l&eacute;ments"
-       onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirercaisse&valeur_1=<?=$this->echoppe["id_echoppe"] ?>') "  <?=$disabled ?> />
+       onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirercaisse&valeur_1=<?=$this->echoppe["id_echoppe"] ?>') "  <?=$disabled ?> />
 <br />

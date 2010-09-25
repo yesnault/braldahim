@@ -1,31 +1,23 @@
 <?php echo $this->render('header.phtml'); ?> 
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
-
 <div id="wrapper">
-	<br/><br/><br/>
-	<table width="100%">
-		<tr>
-			<td width="33%" valign="top" align="center">
-				<? include("gazette.phtml") ?>	
-				<br/>
-			</td>
-			<td width="33%" valign="top" align="center">
-				<? include("login/formulaire.phtml")?>
-				<br/>
-				<? if (!Zend_Registry::get("estWork")) : ?>
-				<? include("login/pub.phtml")?>
-				<? endif;?>
-			</td>
-			<td width="33%" valign="top" align="center">
-				<? include("annonces.phtml") ?>	
-				<br/>
-				<? include("login/association.phtml")?>
-			</td>
-		</tr>
-	</table>
+<br/><br/><br/>
+<table width="100%">
+<tr>
+<td width="33%" valign="top" align="center"><? include("gazette.phtml") ?><br/></td>
+<td width="33%" valign="top" align="center">
+	<? include("login/formulaire.phtml")?>
 	<br/>
+	<? if (!Zend_Registry::get("estWork")) : ?>
+	<? include("login/pub.phtml")?>
+	<? endif;?>
+</td>
+<td width="33%" valign="top" align="center"><? include("annonces.phtml") ?><br/><? include("login/association.phtml")?></td>
+</tr>
+</table>
+<br/>
 </div>
 <script type="text/javascript">
 $('post_email_braldun').focus();
 </script>
-<?php echo $this->render('footer.phtml'); ?>  
+<?php echo $this->render('footer.phtml'); ?>

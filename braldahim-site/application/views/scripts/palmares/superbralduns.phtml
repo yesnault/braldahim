@@ -2,9 +2,9 @@
 <div class="inner">
 <div class="box_contenu1 textalic">
 	
-	Filtre par Niveau : <select id="filtre" name="filtre" onChange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_supersbralduns', false)">
+	Filtre par Niveau : <select id="filtre" name="filtre" onchange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_supersbralduns', false)">
 	<? foreach($this->niveaux as $f): ?>
-			<option value="<?=$f["niveau"]?>"<?if ($this->filtre == $f["niveau"]): echo "selected" ; endif;?>>Niveau <?=$f["niveau"]?></option>
+			<option value="<?=$f["niveau"]?>"<?if ($this->filtre == $f["niveau"]): echo " selected='selected'" ; endif;?>>Niveau <?=$f["niveau"]?></option>
 	<? endforeach;?>
 	</select>
 	<br /><br />

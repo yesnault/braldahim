@@ -4,7 +4,7 @@
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez forger une pi&egrave;ce d'&eacute;quipement<br /><br />
      
      Type de l'&eacute;quipement :<br />
-     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_forger&type_equipement='+this.value);">
+     <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_forger&type_equipement='+this.value);">
 	 	<option value="-1">(Choisissez un &eacute;quipement)</option>
 	 	<? foreach($this->typeEquipement as $t) : ?>
 	 		<option value="<?=$t["id_type_equipement"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_equipement"])?></option>
@@ -17,7 +17,7 @@
 	 
 	 <? if ($this->niveaux != null) : ?>
 	 Niveau de l'&eacute;quipement :<br />
-	 <select name="valeur_2" id="valeur_2" onChange="javascript:<?=$js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_forger').disabled=true } else {$('bouton_forger').disabled=false }">
+	 <select name="valeur_2" id="valeur_2" onchange="javascript:<?=$js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_forger').disabled=true } else {$('bouton_forger').disabled=false }">
 	 	<option value="-1">(Choisissez un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
 	 		<? if ($v["a_afficher"] == true) : ?>
@@ -36,7 +36,7 @@
 			Cet &eacute;quipement peut porter des runes.<br />
 			 <? if ($this->runes != null) : ?>
 			 Nombre d'emplacements sur l'&eacute;quipement :<br />
-			 <select name="valeur_3" id="valeur_3"  onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_forger').disabled=true } else {$('bouton_forger').disabled=false }">
+			 <select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_forger').disabled=true } else {$('bouton_forger').disabled=false }">
 			 	<option value="-1">(Choisissez un nombre d'emplacements)</option>
 			 	<? foreach($this->runes as $n) : ?>
 			 		<option value="<?=$n["nombre"]?>"><?=$n["nombre"]?> rune<?if($n["nombre"]>1)echo "s";?></option>
@@ -75,5 +75,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->forgerEchoppeOk === true && $this->etape1 === true) : ?>
-<input type='button' class='button1' id='bouton_forger' value='Forger !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_forger&type_equipement="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_forger' value='Forger !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_forger&type_equipement="+$("valeur_1").value);' disabled>
 <? endif ?>

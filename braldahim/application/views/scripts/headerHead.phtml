@@ -1,43 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="Cache-Control" content="no-cache" />
-	<? if (Zend_Registry::get("estMobile")) : ?>
-		<? if (Zend_Registry::get("estIphone")) : ?>
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<? endif;?>
-		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
-	<? endif;?>
-	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
-	
-	<title>Braldahim</title>
-	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-075.css" />
-	<link rel="apple-touch-icon" href="/public/images/mobile/icone-braldahim.png"/>
-	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
-	<? if (Zend_Registry::get("estWork")) : ?>
-	<link  href="/public/styles/braldahim_defaut/work-004.css" type="text/css" rel="stylesheet" />
-	<? elseif (Zend_Registry::get("estMobile")) : ?>
-	<link  href="/public/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
-	<? endif;?>
-	
-	<script type="text/javascript" src="/public/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_action-035.js"></script>
-	
-	<? if ($this->config->tracker->enabled == "1") : ?>
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  <? Zend_Loader::loadClass("Bral_Util_Tracker"); ?>
-		  _gaq.push(['_setAccount', '<?=Bral_Util_Tracker::getKey()?>']);
-		  _gaq.push(['_trackPageview']);
-		
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-		</script>
-<? endif; ?>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<? if (Zend_Registry::get("estMobile")) : ?>
+<? if (Zend_Registry::get("estIphone")) : ?>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<? endif;?>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;"/>
+<? endif;?>
+<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
+
+<title>Braldahim</title>
+<link href="<?=$this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<? $versionCss = "076"; ?>
+<? if ($this->config->general->production == 1) : ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/mini-<?=$versionCss?>.css" />
+<? else: ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?=$this->config->static->url?>/styles/braldahim_defaut/braldahim-<?=$versionCss?>.css" />
+<? endif;?>
+<link rel="apple-touch-icon" href="<?=$this->config->static->url?>/images/mobile/icone-braldahim.png"/>
+<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
+<? if (Zend_Registry::get("estWork")) : ?>
+<link  href="/public/styles/braldahim_defaut/work-004.css" type="text/css" rel="stylesheet" />
+<? elseif (Zend_Registry::get("estMobile")) : ?>
+<link  href="/public/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
+<? endif;?>
+
+<? $versionJs = "038"; ?>
+<? if ($this->config->general->production == 1) : ?>
+<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/all-<?=$versionJs?>.js"></script>
+<? else: ?>
+<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/protoaculous/protoaculous.js"></script>
+<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/m_action-<?=$versionJs?>.js"></script>
+<? endif;?>
 </head>

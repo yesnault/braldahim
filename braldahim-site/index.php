@@ -28,7 +28,6 @@ Zend_Loader :: loadClass("Zend_Registry");
 Zend_Loader :: loadClass("Bral_Controller_Box");
 Zend_Loader :: loadClass("Bral_Brasserie_Factory");
 Zend_Loader :: loadClass("Bral_Palmares_Factory");
-Zend_Loader :: loadClass("Bral_Helper_Box");
 Zend_Loader :: loadClass("Bral_Helper_Tooltip");
 Zend_Loader :: loadClass("Bral_Util_BBParser");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");

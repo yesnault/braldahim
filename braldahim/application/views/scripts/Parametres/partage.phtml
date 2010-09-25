@@ -12,12 +12,12 @@
 	<? if ($this->erreurBraldun) : ?>
 		Une erreur est survenue. Veuillez bien renseigner le n° de Braldun avec lequel vous partagez la connexion.<br />
 		<br /><br />
-		<input type="button" class='button1' name="Retour" value="Retour" onClick="javascript:document.location.href='/Parametres/partage'"/>
+		<input type="button" class='button1' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/partage'"/>
 		
 	<? elseif ($this->idPartage != null) : ?>
 		Votre partage est bien signalé. Un enquêteur vous contactera par mail si besoin.
 		<br /><br />
-		<input type="button" class='button1' name="Retour" value="Retour" onClick="javascript:document.location.href='/Parametres/'"/>
+		<input type="button" class='button1' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/'"/>
 		 
 	<? else: ?>
 	   	<table width='70%' align='center'>
@@ -38,16 +38,16 @@
 		 Braldun concerné : 
 		<input type="text" name="recherche_valeur_1_voir" size='40' id="recherche_valeur_1_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_1_voir");' />
 		<input type="hidden" name="recherche_valeur_1_voir_actif" id="recherche_valeur_1_voir_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_1_voir_update" ></div> <img src="/public/images/loupe.gif" />
-		<span id="indicateur_recherche_valeur_1_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		<div class="recherche" id="recherche_valeur_1_voir_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+		<span id="indicateur_recherche_valeur_1_voir" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 		<br />
 	    Identifiant du Braldun (remplit automatiquement) <input type='text' name='id_braldun' id='id_braldun' value='' size='5' readonly> 
 	    <br /> <br />
 		 Décrivez ici vos liens avec le joueur du Braldun cité ci-dessus  : <br />
 		 <textarea rows='10' cols='80' name="message" id="message"></textarea>
 		 <br /><br /></br>
-		 <input type="button" class='button1' name="bouton_partage"  id="bouton_partage" onClick="if (parseInt($('id_braldun').value * 1) > 0 && $('message').value !='') { $('form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
-		 <input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
+		 <input type="button" class='button1' name="bouton_partage"  id="bouton_partage" onclick="if (parseInt($('id_braldun').value * 1) > 0 && $('message').value !='') { $('form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
+		 <input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
 	
 	 <? endif;?>
 		

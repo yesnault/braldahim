@@ -12,7 +12,7 @@
 </form>
 <br />
 <? if ($this->filerEnCours != null) : ?>
-<input type='button' class='button1' id='bouton_annuler' value='Annuler la filature' onClick='this.disabled=true;_get_("/filature/doaction?caction=do_filature_annuler");'/>
+<input type='button' class='button1' id='bouton_annuler' value='Annuler la filature' onclick='this.disabled=true;_get_("/filature/doaction?caction=do_filature_annuler");'/>
 <? endif;?>
 
 <? echo Bral_Helper_Fermer::affiche(); ?>

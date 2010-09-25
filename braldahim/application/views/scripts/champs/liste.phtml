@@ -3,7 +3,7 @@
   <div class="box_contenu1 textalic">
   <br />
   	
-  	Pour obtenir un champ, rendez-vous dans &agrave; l'<a title="Cliquez pour voir l''Office Notariale dans les règles" style="text-decoration: none" onClick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/Office_Notarial')";>Office Notarial</a>.<br /> 
+  	Pour obtenir un champ, rendez-vous dans &agrave; l'<a title="Cliquez pour voir l''Office Notariale dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/Office_Notarial')";>Office Notarial</a>.<br /> 
   	Vous ne pourrez obtenir de champ que dans la Comt&eacute; o&ugrave; vous 
   	serez. <br />
  	
@@ -27,7 +27,7 @@
 	   			<td class="table_liste">
 	   			<? if ($r["champs"] != null) :?>
 			   		<? foreach($r["champs"] as $c) :?>
-		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onClick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?=$c["id_champ"]?>')">
+		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onclick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?=$c["id_champ"]?>')">
 		   					<?=$c["nom_champ"] ?> [<?=$c["x_champ"] ?> ; <?=$c["y_champ"] ?>]
 		   				</span><br />
 			   		<? endforeach; ?>

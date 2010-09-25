@@ -4,7 +4,7 @@
  	<? if ($this->planteOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez cueillir des &eacute;l&eacute;ments d'une plante...<br /><br />
 	 
-	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
 	 	<option value="-1">(Choisissez une plante)</option>
 	 	<? foreach($this->plantes as $p) : ?>
 	 		<option value="<?=$p["id_plante"]?>"><?=$p["categorie"]?> - <?=$p["nom_type"]?> (<?=$p["id_plante"]?>)</option>
@@ -39,5 +39,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->planteOk === true ) : ?>
-<input type='button' class='button1' id='bouton_cueillir' value='Cueillir !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cueillir");' disabled>
+<input type='button' class='button1' id='bouton_cueillir' value='Cueillir !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cueillir");' disabled>
 <? endif ?>

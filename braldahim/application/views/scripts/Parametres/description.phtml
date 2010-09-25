@@ -13,12 +13,12 @@
 		
 		<div class="titre textalic textsizec">Description</div><br />
 			<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
-			onClick="$('label_description').style.display='none'; 
+			onclick="$('label_description').style.display='none'; 
 				$('edition').style.display='block' ; 
 				$('bouton_description').style.display='block'; 
 				 this.style.display='none' ;"/>
 				
-			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
+			<input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
 		 
 			 <br />
 			 
@@ -31,7 +31,7 @@
 			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?=stripslashes($this->user->description_braldun) ?></textarea>
 			 
 				  <input type="button" class='button1' id="bouton_description" 
-				  	onClick="
+				  	onclick="
 					  $('label_description').style.display='block'; 
 					  $('edition').style.display='none'; 
 					  this.style.display='none' ;

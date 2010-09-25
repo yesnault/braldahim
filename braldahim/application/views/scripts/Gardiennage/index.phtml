@@ -34,7 +34,7 @@
 							<? endif; ?>
 						</td>
 						<td>
-							<a onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
+							<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
 						  		<?=htmlspecialchars(stripslashes($g["prenom_braldun"])). " ". htmlspecialchars(stripslashes($g["nom_braldun"])). ' ('.$g["id_braldun"].')';?>
 						  	</a>
 						</td>
@@ -56,9 +56,9 @@
 <? elseif (!empty($this->tabBraldunGarde)): ?>
 Aucune des gardes débute aujourd'hui.<br /><br />
 <? endif; ?>
-<input type="button" name="retour" class='button1' value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
+<input type="button" name="retour" class='button1' value="Retour Interface" onclick="javascript:document.location.href='/interface/'"/>
 <? if (!empty($this->message)) : ?>
-<input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
+<input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onclick="javascript:document.location.href='/auth/logout'"/>
 <? endif; ?>
 		</div>
 	</div>

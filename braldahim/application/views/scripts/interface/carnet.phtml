@@ -16,7 +16,7 @@
 				<table class="table_liste" style="width:80%;" >
 				<? 	$i = 0;
 					foreach($this->carnets as $c) : ?>
-					<tr class="table_liste<?=($i % 2);$i++; ?> hhover"  onClick='_get_("/carnet/doaction?caction=do_carnet_voir&carnet=<?=$c["id_carnet"]?>");'>
+					<tr class="table_liste<?=($i % 2);$i++; ?> hhover"  onclick='_get_("/carnet/doaction?caction=do_carnet_voir&carnet=<?=$c["id_carnet"]?>");'>
 					<td class="table_liste" style="padding:0px;">
 					Note <?=$c["id_carnet"]?>
 					</td>
@@ -39,7 +39,7 @@
 <br /><br />
 	<? else: ?>
 		Chargement en cours
-		<br /><img src="/public/images/wait.gif" />
+		<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 	<? endif; ?>
 	  </div>
  </div>

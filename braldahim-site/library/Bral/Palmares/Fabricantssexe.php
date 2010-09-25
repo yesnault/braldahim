@@ -21,7 +21,7 @@ class Bral_Palmares_Fabricantssexe extends Bral_Palmares_Box {
 	}
 
 	function getNomClasse() {
-		return "fabricantsfamille";
+		return "fabricantssexe";
 	}
 
 	function setDisplay($display) {

@@ -13,7 +13,7 @@
 	<td>
 		<? if ($this->pereMereOk === true) :?>
 	  		Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
-	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_mere_braldun ?>');">
+	  		<a title="Voir le profil" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_mere_braldun ?>');">
 	  		<? if ($this->mere == null): ?>
 	  			Braldun inconnue (n&deg;<?=$this->user->id_fk_mere_braldun ?>)
 	  		<? else : ?>
@@ -26,7 +26,7 @@
 	  		<? endif;?>
 	  		</a>
 		  	et votre p&egrave;re
-	  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_pere_braldun ?>');">
+	  		<a title="Voir le profil" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_fk_pere_braldun ?>');">
 	  		<? if ($this->pere == null): ?>
 	  			Braldun inconnu (n&deg;<?=$this->user->id_fk_pere_braldun ?>)
 	  		<? else : ?>
@@ -51,7 +51,7 @@
 	    <? else : ?>
 	    	Avec votre conjoint<? if ($this->user->sexe_braldun != 'feminin') echo "e"?>
 	    	<? if ($this->conjoint != null) : ?>
-		    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->conjoint["id_braldun"] ?>');">
+		    	<a title="Voir le profil" href="#" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->conjoint["id_braldun"] ?>');">
 		    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_braldun"] ?>)</a>,
 		    <? else: ?>
 		    	disparu<? if ($this->user->sexe_braldun != 'feminin') echo "e"?>
@@ -73,7 +73,7 @@
 			<tbody>
 				<? foreach($this->enfants as $e) :?>
 				<tr class="table_liste">
-					<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["id_braldun"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_braldun"]?>)</a></td>
+					<td><a title="Voir le profil" href="#" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["id_braldun"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_braldun"]?>)</a></td>
 					<td nowrap>n&eacute;<? if ($e["sexe_braldun"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
 				</tr>
 				<? endforeach; ?>
@@ -88,7 +88,7 @@
    
  <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
    </div>
 </div>

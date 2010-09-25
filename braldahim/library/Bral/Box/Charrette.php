@@ -577,7 +577,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$liste = null;
 		if (count($partages) > 0) {
 			foreach($partages as $b) {
-				$liste .= "<label class='alabel profil' onClick='ouvrirProfilH(".$b["id_braldun"].");'  title='Voir le profil'>";
+				$liste .= "<label class='alabel profil' onclick='ouvrirProfilH(".$b["id_braldun"].");'  title='Voir le profil'>";
 				$liste .= addslashes(htmlspecialchars($b["prenom_braldun"]))." ".addslashes(htmlspecialchars($b["nom_braldun"]));
 				$liste .= " (n&deg;".$b["id_braldun"].")</label>, ";
 			}

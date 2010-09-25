@@ -21,7 +21,7 @@ class Bral_Palmares_Gredinssexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "gredinsfamille";		
+		return "gredinssexe";		
 	}
 	
 	function setDisplay($display) {

@@ -26,7 +26,7 @@
  
 <? if ($this->nCompetences > 0): ?>
  <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
-  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_bibliotheque').disabled=true;" checked style="display:none">
+  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('bouton_bibliotheque').disabled=true;" checked style="display:none">
  <? endif; ?>
  <table>
  <? foreach ($this->tabCompetences as $c):?>
@@ -36,7 +36,7 @@
      <td align='left'>
      <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
      	<? if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>
-       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_bibliotheque').disabled=false;">
+       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onchange="$('bouton_bibliotheque').disabled=false;">
        	<? else :?>
        		(N&eacute;cessite Connaissances des monstres !)
        	<?endif; ?>
@@ -52,6 +52,6 @@
 <br />
 
 <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
-<input type='button' class='button1' id="bouton_bibliotheque" value='Apprendre cette comp&eacute;tence !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_bibliotheque');"  disabled>
+<input type='button' class='button1' id="bouton_bibliotheque" value='Apprendre cette comp&eacute;tence !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_bibliotheque');"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

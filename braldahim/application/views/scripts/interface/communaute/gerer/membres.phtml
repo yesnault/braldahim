@@ -15,7 +15,7 @@
 <input type="hidden" name='valeur_8' id="valeur_9" value="-1" >
 
 Filtrer par rang : 
-	<select name='valeur_2'  onChange="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
+	<select name='valeur_2'  onchange="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
 	    <option value="-1">Tous les rangs</option>
 		<? foreach ($this->tabRangs as $r) : ?>
 	  	<option value='<?=$r["id_rang"]?>' <?if ($this->filtre == $r["id_rang"]){echo "selected";}?>><?=htmlspecialchars($r["nom"])?></option>
@@ -25,7 +25,7 @@ Filtrer par rang :
   	
  <? if ($this->message != null) : ?>
 	<div id="communaute_gerer_membre_update">
-	 <img src="/public/images/info_icon.gif"/> <?=htmlspecialchars($this->message) ?>
+	 <img src="<?=$this->config->static->url?>/images/info_icon.gif"/> <?=htmlspecialchars($this->message) ?>
 	</div>
  <? endif; ?>
  <br />
@@ -33,12 +33,12 @@ Filtrer par rang :
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
 	<th>Action</th>
   </tr>
 </thead>
@@ -47,10 +47,10 @@ Filtrer par rang :
     <th colspan='7'>
     	Affichage de <?=count($this->tabMembres) ?> braldun<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <input type="button" class='button1' onclick="Javascript:get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <? endif; ?>
 	   <? if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
+	   <input type="button" class='button1' onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
 	   <? endif; ?>
     </th>
   </tr>
@@ -71,26 +71,26 @@ Filtrer par rang :
 	  	  	Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlspecialchars($m["nom_rang_communaute"]) ?><br />
 		  	<i>Non modifiable</i>
   	   <? else : ?>
-		<label id="label_rang<?=$m["id_braldun"] ?>" onClick="javascript:this.style.display='none' ; $('valeur_rang<?=$m["id_braldun"] ?>').style.display='block'" style="display:block">
+		<label id="label_rang<?=$m["id_braldun"] ?>" onclick="javascript:this.style.display='none' ; $('valeur_rang<?=$m["id_braldun"] ?>').style.display='block'" style="display:block">
 	  		Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlspecialchars($m["nom_rang_communaute"]) ?>
 	  	</label>
 	  
-	  	<select name='valeur_rang<?=$m["id_braldun"] ?>' id='valeur_rang<?=$m["id_braldun"] ?>' onChange="$('button_valider<?=$m["id_braldun"] ?>').style.display='block'"  style="display:none">
+	  	<select name='valeur_rang<?=$m["id_braldun"] ?>' id='valeur_rang<?=$m["id_braldun"] ?>' onchange="$('button_valider<?=$m["id_braldun"] ?>').style.display='block'"  style="display:none">
 			<? foreach ($this->tabRangs as $r) : ?>
 		  	<option value='<?=$r["id_rang"]?>' <?if ($m["id_rang_communaute"] == $r["id_rang"]){echo "selected";}?>><?=htmlspecialchars($r["nom"])?></option>
 		  	<? endforeach; ?>
 		</select>
 		
-		<input type="button" id="button_valider<?=$m["id_braldun"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='r'; $('valeur_7').value=<?=$m["id_braldun"]?> ; $('valeur_8').value=$('valeur_rang<?=$m["id_braldun"] ?>').value; $('valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
+		<input type="button" id="button_valider<?=$m["id_braldun"] ?>" class='button1' onclick="Javascript:$('valeur_1').value='r'; $('valeur_7').value=<?=$m["id_braldun"]?> ; $('valeur_8').value=$('valeur_rang<?=$m["id_braldun"] ?>').value; $('valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
 	  <? endif; ?>
 	  </td>
 	  <td class="table_liste">
 	  	<? if ($m["ordre_rang_communaute"] != 1) : ?>
-	  	<input type="button" class='button1' onClick="javascript:this.style.display='none' ; $('div_exclure<?=$m["id_braldun"] ?>').style.display='block'"" value="Exclure">
+	  	<input type="button" class='button1' onclick="javascript:this.style.display='none' ; $('div_exclure<?=$m["id_braldun"] ?>').style.display='block'"" value="Exclure">
 	  	
 	  	<div id="div_exclure<?=$m["id_braldun"] ?>"  style="display:none">
 	  		Veuillez-confirmer cette exclusion.<br />
-	  		<input type="button" id="button_confirmer<?=$m["id_braldun"] ?>" class='button1' onClick="Javascript:$('valeur_1').value='e'; $('valeur_7').value=-1; $('valeur_8').value=-1; $('valeur_9').value=<?=$m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
+	  		<input type="button" id="button_confirmer<?=$m["id_braldun"] ?>" class='button1' onclick="Javascript:$('valeur_1').value='e'; $('valeur_7').value=-1; $('valeur_8').value=-1; $('valeur_9').value=<?=$m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
 	  	</div>
 	  	
 	  	<? endif; ?>

@@ -1,14 +1,14 @@
 <div class='comp_titre'>Transf&eacute;rer une potion ou un vernis</div>
 
  <div class='comp_contenu'>
-	 <div id='transferpotion_text' style="display:block"  onClick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
+	 <div id='transferpotion_text' style="display:block"  onclick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
 		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> l'élément suivant : <br />
 		<?=$this->potion["nom_type"]?> <?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
 		<br />
 	 </div>
 	 
 	 <div id='transferpotion_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		<textarea onclick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez transf&eacute;r&eacute; ";
 		echo " dans ".htmlspecialchars($this->destination["texte"]);
 		echo " l'élément suivant : ";
@@ -21,5 +21,5 @@
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
+<input type='button' class='button1' value='Copier' onclick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
 <? echo Bral_Helper_Fermer::affiche(); ?>

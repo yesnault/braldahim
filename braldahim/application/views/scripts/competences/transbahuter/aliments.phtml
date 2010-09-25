@@ -2,13 +2,13 @@
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_aliments">
 			<? $poches[] = "deposer_aliments-head" ?>
-			<h3 id="deposer_aliments-head" class="head" onClick="maccordion(this);">
+			<h3 id="deposer_aliments-head" class="head" onclick="maccordion(this);">
 				Aliments / Boissons
 			</h3>
 			<ul id="deposer_aliments-body" style="display:none">
 				<li>
 					Choississez un aliment (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
-					<select multiple size="5" name="valeur_13" id="valeur_13" onChange="<?=$jsBtn?>">
+					<select multiple size="5" name="valeur_13" id="valeur_13" onchange="<?=$jsBtn?>">
 						 <? foreach($this->aliments as $a) :?>
 						 	<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> 
 						 	<? if ($a["bbdf"] > 0): ?>

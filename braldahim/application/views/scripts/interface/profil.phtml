@@ -1,7 +1,7 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
   <div class="titre textalia textsizec">
-  	<a class="titre textalia textsizec" onClick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
+  	<a class="titre textalia textsizec" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
   		Mon Profil
   	</a>, n&deg;<?=$this->user->id_braldun;?></div>
   <div class="titre textalib textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
@@ -238,7 +238,7 @@
 		</table>
 <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
 	  </div>
  </div>

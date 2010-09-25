@@ -15,13 +15,13 @@ elseif ($this->affichageInterne == true) : ?>
 		<? foreach($this->competences as $m) : ?>
 			<li id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>">
 				<? if (count($this->competences) > 2): $display = "none"; $css = "head"; else: $display = "block"; $css = "head selected"; endif;?>
-				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="<?=$css?>" onClick="maccordion(this);"><?=$m["nom_metier"]?></h3>
+				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="<?=$css?>" onclick="maccordion(this);"><?=$m["nom_metier"]?></h3>
 				<? if (count($this->competences) > 2): $display = "none"; else: $display = "block"; endif;?>
 				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:<?=$display?>">
 				<? foreach($m["competences"] as $c) : ?>
 					<li>
 					<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
-				      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+				      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 				    else:
 				      $attr = " disabled ";
 				    endif;?>
@@ -42,7 +42,7 @@ elseif ($this->affichageInterne == true) : ?>
  
 <? else: ?>
 	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
 
  </div>

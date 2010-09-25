@@ -1,46 +1,46 @@
-	<br />
-  	<center>
-  	
-  	<ul class="titre textalic textsizec">Réputation</ul>
-  	Points de Gredin : <?=$this->braldun["points_gredin_braldun"];?><br />
-  	Points de Redresseur de Torts : <?=$this->braldun["points_redresseur_braldun"];?><br /><br />
-  	
-  	<ul class="titre textalic textsizec">Distinctions</ul>
-  	<? $s=""; if ($this->braldun["points_distinctions_braldun"] > 1): $s='s'; endif; ?>
-   	<?=$this->braldun["points_distinctions_braldun"] ?> point<?=$s?> de distinction (total actualisé une fois par jour)
-   	<br />
-   	</center>
-	   	
-  	<table class="table_liste" style="width:90%">
-		<thead class="table_liste">
-		  <tr class="table_liste">
-			<th>Date</th>
-			<th>Distinction</th>
-			<th>Points</th>
-		  </tr>
-		</thead>
-  	<? if (count($this->tabDistinctions) >= 1): ?>
-		<tbody>
-		
-		<? foreach($this->tabDistinctions as $d): ?>
-			 <tr class="table_liste">
-			 	<td class="table_liste_th" colspan="3">Catégorie : <?=$d["nom"]?></td>
-			 </tr>
-		  	<? $i = 0; 
-		  	foreach($d["distinctions"] as $t): ?>
-		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-			  		<td class="table_liste"><?=$t["date_hdistinction"]?></td>
-			  		<td class="table_liste"><?=$t["nom"]?></td>
-			  		<td class="table_liste"><?=$t["points"]?></td>
-		  		</tr>
-		  	<? endforeach; ?>
+<br />
+  <center>
+  
+  <div class="titre textalic textsizec">Réputation</div>
+  Points de Gredin : <?=$this->braldun["points_gredin_braldun"];?><br />
+  Points de Redresseur de Torts : <?=$this->braldun["points_redresseur_braldun"];?><br /><br />
+  
+  <div class="titre textalic textsizec">Distinctions</div>
+  <? $s=""; if ($this->braldun["points_distinctions_braldun"] > 1): $s='s'; endif; ?>
+   <?=$this->braldun["points_distinctions_braldun"] ?> point<?=$s?> de distinction (total actualisé une fois par jour)
+   <br />
+   </center>
+   	
+  <table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Date</th>
+		<th>Distinction</th>
+		<th>Points</th>
+	  </tr>
+	</thead>
+  <? if (count($this->tabDistinctions) >= 1): ?>
+	<tbody>
+	
+	<? foreach($this->tabDistinctions as $d): ?>
+		 <tr class="table_liste">
+		 	<td class="table_liste_th" colspan="3">Catégorie : <?=$d["nom"]?></td>
+		 </tr>
+	  	<? $i = 0; 
+	  	foreach($d["distinctions"] as $t): ?>
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste"><?=$t["date_hdistinction"]?></td>
+		  		<td class="table_liste"><?=$t["nom"]?></td>
+		  		<td class="table_liste"><?=$t["points"]?></td>
+	  		</tr>
 	  	<? endforeach; ?>
-	  	</tbody>
+  	<? endforeach; ?>
+  	</tbody>
    <? else: ?>
-   	<tr class="table_liste">
-   	 <td colspan='5'>
-   		Aucune distinction
-   	 </td>
-   	 </tr>
+   <tr class="table_liste">
+    <td colspan='5'>
+   	Aucune distinction
+    </td>
+    </tr>
    <? endif; ?>
    </table>

@@ -13,7 +13,7 @@
 ?>
 <div class="box_contenu1 textalic">
 <? if (Zend_Registry::get("estWork")) : ?>
-	<input type='button' class='button1' value='Afficher / Cacher la vue et ses images' onClick="switch2div('vueFoo', 'vueTableWrapper');">
+	<input type='button' class='button1' value='Afficher / Cacher la vue et ses images' onclick="switch2div('vueFoo', 'vueTableWrapper');">
 	<div id='vueFoo'>Vue Cachée</div>
 <? endif;?>
   <table align="center" id="vueTableWrapper" class="vueTableWrapper">
@@ -34,7 +34,7 @@
 </div>
 <? else: ?>
 	Chargement de la vue en cours
-	<br /><img src="/public/images/wait.gif" />
+	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
 <? endif; ?>
 </div>
 <? include("box_bottom.phtml") ?>

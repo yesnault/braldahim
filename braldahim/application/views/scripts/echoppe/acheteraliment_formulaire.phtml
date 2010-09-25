@@ -42,7 +42,7 @@
 			}
 			?>
 			Destination de la pi&egrave;ce : <br />
-			<select name="valeur_3" id="valeur_3" onChange="<? if ($js!= ""): echo $js; endif;?>">
+			<select name="valeur_3" id="valeur_3" onchange="<? if ($js!= ""): echo $js; endif;?>">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<? foreach($this->destinationTransfert as $d) :?>
 					<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false && $d["possible_force"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false && $d["possible_force"] == false): echo " : pas assez de place"; endif;?></option>
@@ -67,7 +67,7 @@
 					<br />
 					Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->aliment["charrette_detail"]?>
 				<? elseif ($p["possible"] === true && $this->aliment["place_dispo"] === true) : ?>
-					<input type='button' class='button1' id='bouton_acheterealiment<?=$k?>' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheteraliment");' <? if ($this->aliment["est_charrette"] == false) : echo "disabled"; endif;?>></input>
+					<input type='button' class='button1' id='bouton_acheterealiment<?=$k?>' value='Acheter !' onclick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheteraliment");' <? if ($this->aliment["est_charrette"] == false) : echo "disabled"; endif;?>></input>
 				<? elseif ($this->aliment["place_dispo"] !== true): ?>
 				: Pas assez de place disponible
 				<? else: ?>

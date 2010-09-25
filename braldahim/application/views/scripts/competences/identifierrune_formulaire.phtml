@@ -1,11 +1,24 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 	 <? if ($this->identifierRuneOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez identifier une rune ...<br />
-	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_identifierrune').disabled=true } else {$('bouton_identifierrune').disabled=false }">
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez tenter d'identifier une rune.<br /><br />
+	 
+	 Cette rune doit être : 
+	 <ul>
+	 	<li>soit présente dans votre laban</li>
+	 	<li>soit présente dans le laban d'un autre Braldûn présent sur votre case. Celui-ci doit vous avoir autorisé à identifier cette rune</li>
+	 </ul>
+	  
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_identifierrune').disabled=true } else {$('bouton_identifierrune').disabled=false }">
 	 	<option value="-1">(Choisissez une rune)</option>
 	 	<? foreach($this->runes as $r) : ?>
-	 		<option value="<?=$r["id_rune"]?>">Rune non identifi&eacute;e n&deg; <?=$r["id_rune"]?></option>
+	 		<option value="<?=$r["id_rune"]?>">Rune non identifi&eacute;e n&deg; <?=$r["id_rune"]?>
+	 		<? if ($r["id_braldun_possesseur"] == null) : ?>
+	 		<? else: ?>
+	 			dans le laban de 
+	 			<?=$r["prenom_braldun_possesseur"]?> <?=$r["nom_braldun_possesseur"]?> (<?=$r["id_braldun_possesseur"]?>) 
+	 		<? endif;?>
+	 		</option>
 	 	<? endforeach; ?>
 	 </select>
 	 <? else: ?>
@@ -15,5 +28,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->identifierRuneOk === true) : ?>
-<input type='button' class='button1' id='bouton_identifierrune' value='Identifier une rune !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_identifierrune");' disabled>
+<input type='button' class='button1' id='bouton_identifierrune' value='Identifier une rune !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_identifierrune");' disabled>
 <? endif ?>

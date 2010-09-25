@@ -41,12 +41,18 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
+			Zend_Loader::loadClass('Zend_Filter_StripTags');
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim());
+			$filter->addFilter(new Zend_Filter_StripTags());
 
+			$texte = $this->request->get('texte_carnet');
+			$texte = str_replace("<br>", PHP_EOL, $texte);
+			$texte = stripslashes(htmlspecialchars($filter->filter($texte)));
+			
 			if ($this->request->get("mode") == "editer") {
-				$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
+				$data["texte_carnet"] = $texte;
 			} else {
 				$carnet = $carnetTable->findByIdBraldunAndIdCarnet($this->view->user->id_braldun, $idCarnet);
 				if ($carnet != null && count($carnet) == 1) {
@@ -54,7 +60,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 				} else {
 					$debut = "";
 				}
-				$data["texte_carnet"] = $debut.stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
+				$data["texte_carnet"] = $debut.$texte;
 			}
 
 			$carnetTable->insertOrUpdate($data);
@@ -73,6 +79,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 		}
 		$this->view->htmlCarnet = $htmlCarnet;
 		$this->view->noteInfo = $noteInfo;
+		$this->view->idCarnet = $idCarnet;
 	}
 
 	function prepareFormulaire() {
@@ -83,8 +90,6 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 	}
 
 	function prepareResultat() {
-
-
 	}
 
 }

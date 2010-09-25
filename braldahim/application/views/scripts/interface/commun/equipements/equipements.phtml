@@ -35,7 +35,7 @@
 				  		<td class="table_liste">
 				  			<div class='braltip'>
 				  			<?=Bral_Helper_DetailEquipement::afficherTooltip($e);?>
-				  			<img src="/public/images/info_icon.gif"/>
+				  			<img src="<?=$this->config->static->url?>/images/info_icon.gif"/>
 				  			</div>
 				  		</td>
 				  		<? if ($this->estElementsEtal === true) : ?>
@@ -44,7 +44,7 @@
 						<? endif; ?>
 						<? if ($this->estElementsEtalAchat === true) : ?>
 							<td class="table_liste">
-							<input type="button" class='button1' onClick='_get_("/echoppe/doaction?caction=ask_echoppe_acheterequipement&idEquipement=<?=$e["id_equipement"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+							<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_acheterequipement&idEquipement=<?=$e["id_equipement"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
 							</td>
 						<? endif; ?>
 				  	</tr>

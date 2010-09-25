@@ -6,7 +6,7 @@
 	Pour <?=$this->nb_pa ?> PA, vous pouvez conna&icirc;tre les caract&eacute;ristiques de base d'un monstre &agrave; <?=$this->distance ?> cases.<br />
 
 	Reconna&icirc;tre un monstre<br />
-	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cdm').disabled=true } else {$('bouton_cdm').disabled=false }">
+	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_cdm').disabled=true } else {$('bouton_cdm').disabled=false }">
 		<option value='-1'>(Choisissez un monstre)</option>
 		<? $dist=-1; ?>
 		<? foreach ($this->tabMonstres as $m) : ?>
@@ -30,6 +30,6 @@
 		<? endforeach; ?>
 	</select>
 	<br /><br />
-	<input type='button' class='button1' value='Reconna&icirc;tre !' id='bouton_cdm' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_connaissancemonstres");' disabled>
+	<input type='button' class='button1' value='Reconna&icirc;tre !' id='bouton_cdm' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_connaissancemonstres");' disabled>
 <?php endif; ?>
 </div>

@@ -1,6 +1,6 @@
 <? if ($this->vendreOk === true) : ?>
 	Choississez un mat&eacute;riel &agrave; mettre en vente : <br />
-	<select name="valeur_3" id="valeur_3" onChange="if (this.value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
+	<select name="valeur_3" id="valeur_3" onchange="if (this.value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 	 	<? foreach($this->materiels as $e) :?>
 	 		<option value="<?=$e["id_materiel"]?>">n&deg;<?=$e["id_materiel"] ?> <?=$e["nom"]?></option>

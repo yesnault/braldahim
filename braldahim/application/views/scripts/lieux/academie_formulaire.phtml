@@ -72,7 +72,7 @@
  <? endif; ?>
  
   <? if ($this->utilisationPaPossible === true && $this->achatPossible === true): ?>
-  Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_academie').disabled=true;" checked>
+  Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('bouton_academie').disabled=true;" checked>
   <? endif ?>
   
    <div class="ligne_espace">
@@ -80,7 +80,7 @@
    Achat d'un niveau : <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
      <? if ($this->coutAgilite <= $this->user->pi_braldun): ?>
-      <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_academie').disabled=false;">
+      <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onchange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -91,7 +91,7 @@
    Achat d'un niveau : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
      <? if ($this->coutForce <= $this->user->pi_braldun): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_academie').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onchange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -102,7 +102,7 @@
    Achat d'un niveau : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
      <? if ($this->coutVigueur <= $this->user->pi_braldun): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_academie').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onchange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -113,7 +113,7 @@
     Achat d'un niveau : <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
      <? if ($this->coutSagesse <= $this->user->pi_braldun): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_academie').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onchange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -128,6 +128,6 @@
 </form>
 
 <? if ($this->utilisationPaPossible === true && ($this->achatPossible === true)): ?>
-<input type='button' class='button1' id="bouton_academie" value="S'am&eacute;liorer !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
+<input type='button' class='button1' id="bouton_academie" value="S'am&eacute;liorer !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

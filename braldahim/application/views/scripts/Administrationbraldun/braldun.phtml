@@ -21,13 +21,13 @@
 		<? else: 
 			$nbElement = 0; ?>
 			<? if ($this->user->administrateur) : ?>
-				<input type="button"  class='button1' name="mode" value="Usurpation sans activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/non'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/> 
-				<input type="button"  class='button1' name="mode" value="Usurpation avec activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/oui'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/><br />
+				<input type="button"  class='button1' name="mode" value="Usurpation sans activation DLA (se deconnecter ensuite!)" onclick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/non'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/> 
+				<input type="button"  class='button1' name="mode" value="Usurpation avec activation DLA (se deconnecter ensuite!)" onclick="document.location.href='/Administrationbraldun/usurpation/idbraldun/<?=$this->id_braldun?>/activation/oui'" <? if ($this->braldun["est_compte_actif_braldun"] != "oui") :echo "disabled='disabled'"; endif;?>/><br />
 				
 				<? if ($this->mode == "simple") :?>
-		 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onClick="document.location.href='/Administrationbraldun/braldun/mode/complexe/idbraldun/<?=$this->id_braldun?>'"/>
+		 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onclick="document.location.href='/Administrationbraldun/braldun/mode/complexe/idbraldun/<?=$this->id_braldun?>'"/>
 		   	 	<? else: ?>
-		    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onClick="document.location.href='/Administrationbraldun/braldun/mode/simple/idbraldun/<?=$this->id_braldun?>'"/>
+		    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onclick="document.location.href='/Administrationbraldun/braldun/mode/simple/idbraldun/<?=$this->id_braldun?>'"/>
 		    	<? endif; ?>
 	    	<? endif;?>
 	    

@@ -57,9 +57,9 @@
 						<td class="table_liste" nowrap><?=$blabla["x_blabla"] ?> / <?=$blabla["y_blabla"] ?> / <?=$blabla["z_blabla"] ?></td>
 						<td class="table_liste"><?=$blabla["id_fk_braldun_blabla"] ?></td>
 						<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($blabla["message_blabla"]);?></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer le blabla" onClick='document.location.href="/Administrationblabla/blabla/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Censurer" onClick='document.location.href="/Administrationblabla/estcensure/id_blabla/<?=$blabla["id_blabla"] ?>/"'></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Dé-Censurer" onClick='document.location.href="/Administrationblabla/estnoncensure/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer le blabla" onclick='document.location.href="/Administrationblabla/blabla/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Censurer" onclick='document.location.href="/Administrationblabla/estcensure/id_blabla/<?=$blabla["id_blabla"] ?>/"'></td>
+						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Dé-Censurer" onclick='document.location.href="/Administrationblabla/estnoncensure/id_blabla/<?=$blabla["id_blabla"] ?>"'/></td>
 					</tr>
 				<? endforeach; ?>
 			<? endif; ?>

@@ -16,6 +16,6 @@
 <br /> 
 <br />
 <? if ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
-	<input type='button' class='button1' id="bouton_obtenir" value='Obtenir la distinction' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_lieumythique');" >
+	<input type='button' class='button1' id="bouton_obtenir" value='Obtenir la distinction' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_lieumythique');" >
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

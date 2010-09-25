@@ -28,7 +28,7 @@
 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
 						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
 						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" 
-						onClick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none" ; if (<?=$e["id_type_emplacement"]?> != i){$("laban_"+i).selectedIndex = 0}}} ;$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
+						onclick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none" ; if (<?=$e["id_type_emplacement"]?> != i){$("laban_"+i).selectedIndex = 0}}} ;$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
  					<? endforeach; ?>
  				<? else : ?>
  					Libre
@@ -58,7 +58,7 @@
  						<? echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
  						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
  						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" 
- 						onClick='this.disabled=true; for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none"} ; if ($("laban_"+i)) {$("laban_"+i).selectedIndex = 0}};$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
+ 						onclick='this.disabled=true; for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none"} ; if ($("laban_"+i)) {$("laban_"+i).selectedIndex = 0}};$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
  					<? endforeach; ?>
 	 			<? endif;  ?>
 	 			</td>
@@ -86,7 +86,7 @@
 	 		<td class="equipement">
 	 			<?=htmlspecialchars($e["nom_type_emplacement"]) ?><br />
 	 			<? if (count($e["equipementLaban"]) > 0): ?>
-	 				<select name="laban_<?=$e["id_type_emplacement"]?>" id="laban_<?=$e["id_type_emplacement"]?>"  onChange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='block'}">
+	 				<select name="laban_<?=$e["id_type_emplacement"]?>" id="laban_<?=$e["id_type_emplacement"]?>"  onchange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='block'}">
 	 					<option value="-1">(Choisissez un &eacute;quipement)</option>
 	 					<? foreach($e["equipementLaban"] as $p) : ?>
 	 					<option value="<?=$p["id_equipement"] ?>">
@@ -95,7 +95,7 @@
 	 					<? endforeach; ?>
 	 				</select>
 	 				<input type='button' class='button1' id='bouton_mettre_<?=$e["id_type_emplacement"]?>' value="Mettre (<?=$this->nb_pa ?> PA) !" 
-	 				onClick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_enlever_"+i)) {$("bouton_enlever_"+i).style.display="none"}} ; $("valeur_1").value=$("laban_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");' style="display:none">
+	 				onclick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_enlever_"+i)) {$("bouton_enlever_"+i).style.display="none"}} ; $("valeur_1").value=$("laban_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");' style="display:none">
 	 			<? endif;  ?>
 	 		</td>
 	 	<? 	if ($e["ordre_emplacement"] % 2 == 0) : echo "</tr>"; endif;

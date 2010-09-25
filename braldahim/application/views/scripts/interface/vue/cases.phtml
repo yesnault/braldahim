@@ -15,7 +15,7 @@
 <img src='/public/styles/braldahim_defaut/images/vue/pas.png' 
 	<? if (!Zend_Registry::get("estMobile")) : ?>
 		alt='Cliquez pour Marcher' title="Cliquez pour Marcher : <?=$texte?>"
-		onClick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;"
+		onclick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;"
 	<? else:?>/>
 	<? endif; ?>
 <? endif; ?>
