@@ -189,17 +189,17 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$tabCDM["min_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vue_monstre"], $n, $dist);
 		$tabCDM["max_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vue_monstre"], $n, $dist);
 
-		$tabCDM["min_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["force_base_monstre"], $n, $dist);
-		$tabCDM["max_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["force_base_monstre"], $n, $dist);
+		$tabCDM["min_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["force_base_monstre"], $n, $dist) + $this->view->config->game->base_force;
+		$tabCDM["max_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["force_base_monstre"], $n, $dist) + $this->view->config->game->base_force;
 
-		$tabCDM["min_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["agilite_base_monstre"], $n, $dist);
-		$tabCDM["max_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["agilite_base_monstre"], $n, $dist);
+		$tabCDM["min_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["agilite_base_monstre"], $n, $dist) + $this->view->config->game->base_agilite;
+		$tabCDM["max_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["agilite_base_monstre"], $n, $dist) + $this->view->config->game->base_agilite;
 
-		$tabCDM["min_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["sagesse_base_monstre"], $n, $dist);
-		$tabCDM["max_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["sagesse_base_monstre"], $n, $dist);
+		$tabCDM["min_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["sagesse_base_monstre"], $n, $dist) + $this->view->config->game->base_sagesse;
+		$tabCDM["max_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["sagesse_base_monstre"], $n, $dist) + $this->view->config->game->base_sagesse;
 
-		$tabCDM["min_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vigueur_base_monstre"], $n, $dist);
-		$tabCDM["max_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vigueur_base_monstre"], $n, $dist);
+		$tabCDM["min_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vigueur_base_monstre"], $n, $dist) + $this->view->config->game->base_vigueur;
+		$tabCDM["max_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vigueur_base_monstre"], $n, $dist) + $this->view->config->game->base_vigueur;
 
 		$tabCDM["min_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["regeneration_monstre"], $n, $dist);
 		$tabCDM["max_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["regeneration_monstre"], $n, $dist);
