@@ -87,8 +87,8 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$yLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));
 		$zLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_3"));
 		$idTypeLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_4"));
-		$nomLieu = $this->request->getPost("valeur_5");
-		$descriptionLieu = $this->request->getPost("valeur_6");
+		$nomLieu = stripslashes($this->request->getPost("valeur_5"));
+		$descriptionLieu = stripslashes($this->request->getPost("valeur_6"));
 		$idVille = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_7"));
 		$estSoule = $this->request->getPost("valeur_8");
 		

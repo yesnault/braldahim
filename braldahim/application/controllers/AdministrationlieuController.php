@@ -73,7 +73,7 @@ class AdministrationlieuController extends Zend_Controller_Action {
 				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->setSubject("[Braldahim-Admin Jeu] Gestion Lieu ".$this->_request->getPost("id_lieu"));
-				$texte = "--------> Utilisateur ".$this->view->user->prenom_lieu." ".$this->view->user->nom_lieu. " (".$this->view->user->id_lieu.")".PHP_EOL;
+				$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
 				$texte .= PHP_EOL.$modification;
 
 				$mail->setBodyText($texte);
