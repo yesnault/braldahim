@@ -67,13 +67,16 @@ Zend_Session::start();
 
 $debut2 = microtime(true);
 
-// load configuration
-$config = new Zend_Config_Ini('./application/config.ini', 'general');
 $registry = Zend_Registry::getInstance();
+$configdb = new Zend_Config_Ini('./application/configdb.ini', 'general');
+$registry->set('configdb', $configdb);
+
+$config = new Zend_Config_Ini('./application/config.ini', 'general');
 $registry->set('config', $config);
 
 // setup database Game
-$dbAdapterGame = Zend_Db::factory($config->db->game->adapter, $config->db->game->config->toArray());
+$dbAdapterGame = Zend_Db::factory($configdb->db->game->adapter, $configdb->db->game->config->toArray());
+
 $dbAdapterGame->query('SET NAMES UTF8');
 
 Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
@@ -111,7 +114,7 @@ $debut3 = microtime(true);
 // run!
 try {
 	$frontController->dispatch();
-	if ($config->db->game->config->profiler == true) {
+	if ($configdb->db->game->config->profiler == true) {
 		Zend_Loader::loadClass("Bral_Util_Profiler");
 		Bral_Util_Profiler::traite($dbAdapterGame);
 	}
