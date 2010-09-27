@@ -165,15 +165,11 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			$idEquipeChoisie = (int)$this->request->get("valeur_1");
 		}
 
-		/*
-		 if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
 			throw new Zend_Exception("Bral_Soule_Inscription :: Nombre invalideb : ".$this->request->get("valeur_2"));
-			} else {
+		} else {
 			$idChoix = (int)$this->request->get("valeur_2");
-			}
-			*/
-
-		$idChoix = 1;
+		}
 
 		$this->calculInscription($idEquipeChoisie, $idChoix);
 		$this->majBraldun();
@@ -194,7 +190,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		} else {
 			$this->view->nb_castars = 10;
 		}
-		
+
 		if ($this->view->user->castars_braldun - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {
