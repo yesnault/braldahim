@@ -186,6 +186,14 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 
+		if ($jetDegat["critique"] < 0) {
+			$jetDegat["critique"] = 0;
+		}
+
+		if ($jetDegat["noncritique"] < 0) {
+			$jetDegat["noncritique"] = 0;
+		}
+
 		return $jetsDegat;
 	}
 
@@ -195,7 +203,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - 1er attaque -");
 			$this->view->nb_px_commun = 0;
 			parent::calculPx();
-				
+
 			$this->view->calcul_px_generique = false;
 
 			Bral_Util_Log::attaque()->trace("Frenesie - idB:".$this->view->user->id_braldun." - 1er attaque - nb_px_perso:".$this->view->nb_px_perso);

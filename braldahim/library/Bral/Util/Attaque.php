@@ -915,6 +915,14 @@ class Bral_Util_Attaque {
 		$jetDegat["critique"] = floor($jetDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun);
 		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun);
 
+		if ($jetDegat["critique"] < 0) {
+			$jetDegat["critique"] = 0;
+		}
+
+		if ($jetDegat["noncritique"] < 0) {
+			$jetDegat["noncritique"] = 0;
+		}
+
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - critique=".$jetDegat["critique"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - noncritique=".$jetDegat["noncritique"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - exit -");

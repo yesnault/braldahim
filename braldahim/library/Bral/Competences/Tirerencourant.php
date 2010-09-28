@@ -250,6 +250,14 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
 
+		if ($jetDegat["critique"] < 0) {
+			$jetDegat["critique"] = 0;
+		}
+
+		if ($jetDegat["noncritique"] < 0) {
+			$jetDegat["noncritique"] = 0;
+		}
+
 		return $jetDegat;
 	}
 

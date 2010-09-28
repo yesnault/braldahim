@@ -267,7 +267,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
 		$this->majBraldun();
-		
+
 		Zend_Loader::loadClass("Bral_Util_Filature");
 		Bral_Util_Filature::action($this->view->user, $this->view);
 	}
@@ -317,6 +317,14 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		$jetDegat["critique"] = floor($jetDegat["critique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
 		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
+
+		if ($jetDegat["critique"] < 0) {
+			$jetDegat["critique"] = 0;
+		}
+
+		if ($jetDegat["noncritique"] < 0) {
+			$jetDegat["noncritique"] = 0;
+		}
 
 		return $jetDegat;
 	}
