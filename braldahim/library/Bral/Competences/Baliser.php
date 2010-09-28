@@ -173,6 +173,9 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		}
 
 		$date_creation = date("Y-m-d H:i:s");
+		if ($nbJours < 1) {
+			$nbJours = 1;
+		}
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nbJours);
 
 		$data = array(

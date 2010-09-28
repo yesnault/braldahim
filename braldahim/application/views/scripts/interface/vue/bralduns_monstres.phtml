@@ -142,7 +142,7 @@ endif;
         $idTypeMonstre == 9 || $idTypeMonstre == 10 ||
         $idTypeMonstre == 23 || $idTypeMonstre == 24 ||
         $idTypeMonstre == 21 || $idTypeMonstre == 37) {
-    	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px"/> <?
+    	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px;left:0px;"/> <?
     } else if ($idTypeMonstre == -1) {
         ?> <img src='/public/styles/braldahim_defaut/images/vue/monstres.png' style="position: absolute;top:-17px"/> <?
     } else {
@@ -152,7 +152,7 @@ endif;
 ?>
 
 <? if ($case["n_bralduns"] > 1) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/bralduns_<?=$sexe_braldun?><?=$soule_braldun?>.png' style="position: absolute;top:-6px;left:5px;" />
+    <img src='/public/styles/braldahim_defaut/images/vue/bralduns_<?=$sexe_braldun?><?=$soule_braldun?>.png' style="position: absolute;top:-6px;left:0px;" />
 <? elseif ($case["n_bralduns"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/braldun_<?=$sexe_braldun?><?=$soule_braldun?>.png' style="position: absolute;left:5px;top:-6px"/>
 <? endif; ?>
