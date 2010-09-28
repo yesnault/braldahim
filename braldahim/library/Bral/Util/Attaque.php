@@ -141,10 +141,12 @@ class Bral_Util_Attaque {
 		}
 
 		if ($braldunCible->points_gredin_braldun <= 0) { // cible sans points de gredin
-			$braldunCible->points_redresseur_braldun = $braldunCible->points_redresseur_braldun - 3;
+			if ($braldunCible->points_redresseur_braldun > 0) {
+				$braldunCible->points_redresseur_braldun = $braldunCible->points_redresseur_braldun - 3;
+				$retourAttaque["cibleDeltaPointsRedresseur"] = -3;
+			}
 			$braldunAttaquant->points_gredin_braldun = $braldunAttaquant->points_gredin_braldun + 3;
-			$retourAttaque["cibleDeltaPointsRedresseur"] = -3;
-			$retourAttaque["attaquantDeltaPointsGredin"] = -3;
+			$retourAttaque["attaquantDeltaPointsGredin"] = +3;
 			if ($braldunAttaquant->points_redresseur_braldun > 0) { // s'il est redresseur
 				$braldunAttaquant->points_redresseur_braldun = $braldunAttaquant->points_redresseur_braldun - 3;
 				$retourAttaque["attaquantDeltaPointsRedresseur"] = -3;
