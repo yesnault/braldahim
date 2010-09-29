@@ -113,9 +113,9 @@ class Bral_Util_BBParser {
 		$string = preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/si","<a href=\"\\1\" target=\"_blank\">\\2</a>",$string);
 
 		// img replacement
-		$string = preg_replace("/\[img size=([0-9][0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" />",$string);
-		$string = preg_replace("/\[img size=([0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" />",$string);
-		$string = preg_replace("/\[img\](.*?)\[\/img\]/si","<img src=\"$1\" border=\"0\" />",$string);
+		$string = preg_replace("/\[img size=([0-9][0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" alt=\"\" />",$string);
+		$string = preg_replace("/\[img size=([0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" alt=\"\" />",$string);
+		$string = preg_replace("/\[img\](.*?)\[\/img\]/si","<img src=\"$1\" border=\"0\" alt=\"\" />",$string);
 		$string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);
 
 		$string = nl2br($string);
