@@ -143,7 +143,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$competenceTable = new Competence();
 		$competences = $competenceTable->findAll();
 
-		$contenu = "id_competence;nom_systeme_competence;nom_competence;niveau_requis_competence;type_competence";
+		$contenu = "id_competence;nom_systeme_competence;nom_competence;niveau_requis_competence;type_competence;id_fk_metier_competence";
 		$contenu .= PHP_EOL;
 
 		if (count($competences) > 0) {
@@ -151,8 +151,13 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $c["id_competence"].';';
 				$contenu .= $c["nom_systeme_competence"].';';
 				$contenu .= $c["nom_competence"].';';
-				$contenu .= $c["niveau_requis_competence"].';';
-				$contenu .= $c["type_competence"];
+				if ($c["id_fk_metier_competence"] != null) {
+					$contenu .= $c["niveau_min_metier"].';';
+				} else {
+					$contenu .= $c["niveau_requis_competence"].';';
+				}
+				$contenu .= $c["type_competence"].';';
+				$contenu .= $c["id_fk_metier_competence"];
 				$contenu .= PHP_EOL;
 			}
 		}

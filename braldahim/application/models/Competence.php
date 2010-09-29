@@ -50,6 +50,7 @@ class Competence extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('competence', '*')
+		->joinLeft('metier','id_fk_metier_competence = id_metier')
 		->order('id_competence ASC');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
