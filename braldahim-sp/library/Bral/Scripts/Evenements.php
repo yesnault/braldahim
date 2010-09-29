@@ -21,7 +21,7 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 	}
 
 	public function getVersion() {
-		return 1;
+		return 2;
 	}
 
 	public function calculScriptImpl() {
@@ -36,7 +36,7 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 
 	private function calculEvenements(&$retour) {
 
-		$retour1 = 'idBraldun;idEvenement;type;date;details'.PHP_EOL;
+		$retour1 = 'idBraldun;idEvenement;type;date;details;detailsbot'.PHP_EOL;
 		$retour2 = '';
 
 		Zend_Loader::loadClass("Evenement");
@@ -44,7 +44,25 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 		$evenements = $evenementTable->findByIdBraldun($this->braldun->id_braldun, 1, 100, -1);
 
 		foreach ($evenements as $p) {
-			$retour2 .= $this->braldun->id_braldun.';'.$p["id_evenement"].';'.$p["nom_type_evenement"].';'.$p["date_evenement"].';'.str_replace(';','',$p["details_evenement"]).PHP_EOL;
+				
+			$details = str_replace('</label>', '<!-- FIN -->', $p["details_evenement"]);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/braldun/?braldun=", '<!-- DEBUT_BRALDUN:', $details);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/monstre/?monstre=", '<!-- DEBUT_MONSTRE:', $details);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/materiel/?materiel=", '<!-- DEBUT_MATERIEL:', $details);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/rune/?rune=", '<!-- DEBUT_RUNE:', $details);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/equipement/?equipement=", '<!-- DEBUT_EQUIPEMENT:', $details);
+			$details = str_replace("<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/potion/?potion=", '<!-- DEBUT_POTION:', $details);
+			$details = str_replace("');\">", '-- FIN_A -->', $details);
+				
+			$detailsBots = str_replace(';','',$p["details_bot_evenement"]);
+			$detailsBots = str_replace("\r", '', $detailsBots);
+			$detailsBots = str_replace("\n", '<br>', $detailsBots);
+			$detailsBots = trim($detailsBots);
+				
+			$retour2 .= $this->braldun->id_braldun.';'.$p["id_evenement"].';'.$p["nom_type_evenement"].';'.$p["date_evenement"].';';
+			$retour2 .= $details.';';
+			$retour2 .= $detailsBots;
+			$retour2 .= PHP_EOL;
 		}
 
 		$retour .= $retour1;
