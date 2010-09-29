@@ -14,7 +14,7 @@ class Bral_Util_Attaque {
 
 	public static function attaqueBraldun(&$braldunAttaquant, &$braldunCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true, $tir = false, $enregistreEvenementDansAttaque = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - enter -");
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - jetAttaquant=".$jetAttaquant);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - jetAttaquant=".$jetAttaquant["jet"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - degatCase=".$degatCase);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - effetMotSPossible=".$effetMotSPossible);
@@ -67,11 +67,11 @@ class Bral_Util_Attaque {
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - attaqueBraldun - jetAttaquant".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
+		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - attaqueBraldun - jetAttaquant".$retourAttaque["jetAttaquant"]["jet"]. " jetCible=".$retourAttaque["jetCible"]);
 
-		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) { // attaque reussie
+		if ($retourAttaque["jetAttaquant"]["jet"] > $retourAttaque["jetCible"]) { // attaque reussie
 			self::calculAttaqueBraldunReussie($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
-		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) { // esquive normale
+		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]["jet"]) { // esquive normale
 			self::calculAttaqueBraldunEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
 		} else { // esquive parfaite
 			self::calculAttaqueBraldunParfaitementEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
@@ -183,7 +183,7 @@ class Bral_Util_Attaque {
 
 		$retourAttaque["attaqueReussie"] = true;
 
-		if ($retourAttaque["jetAttaquant"] / 2 > $retourAttaque["jetCible"]) {
+		if ($retourAttaque["jetAttaquant"]["jet"] / 2 > $retourAttaque["jetCible"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque critique");
 			if (Bral_Util_Commun::getEffetMotX($braldunCible->id_braldun) == true) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotX true, pas de critique");
@@ -422,7 +422,7 @@ class Bral_Util_Attaque {
 			$details .= ". Le ballon est tombé à terre !";
 		}
 
-		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $pieceCibleAbimee);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"]["jet"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $pieceCibleAbimee);
 		if ($effetMotSPossible == false) {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
@@ -473,7 +473,7 @@ class Bral_Util_Attaque {
 		}
 		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
 		$details .= " qui a esquivé l'attaque";
-		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"]["jet"] , $retourAttaque["jetCible"]);
 		if ($effetMotSPossible == false) {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $retourAttaque["typeEvenement"], $details, $detailsBot, $braldunAttaquant->niveau_braldun, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
@@ -500,7 +500,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["idMatchSoule"]  = $braldunAttaquant->id_fk_soule_match_braldun;
 		}
 		$details = "[b".$braldunAttaquant->id_braldun."] a attaqué [b".$retourAttaque["cible"]["id_cible"]."]";
-		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+		$detailsBot .= self::getDetailsBot($retourAttaque, $braldunAttaquant, $retourAttaque["cible"], "braldun", $retourAttaque["jetAttaquant"]["jet"] , $retourAttaque["jetCible"]);
 		$details .= " qui a esquivé parfaitement l'attaque";
 		if ($effetMotSPossible == false) {
 			$detailsBot .= " Riposte de ".$braldunAttaquant->prenom_braldun ." ". $braldunAttaquant->nom_braldun ." (".$braldunAttaquant->id_braldun.")".PHP_EOL;
@@ -551,7 +551,7 @@ class Bral_Util_Attaque {
 
 	public static function attaqueMonstre(&$braldunAttaquant, &$monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false, $enregistreEvenementDansAttaque = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant["jet"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - degatSurCase=".$degatCase);
 
@@ -611,11 +611,11 @@ class Bral_Util_Attaque {
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
-		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$retourAttaque["jetAttaquant"]["jet"]. " jetCible=".$retourAttaque["jetCible"]);
+		if ($retourAttaque["jetAttaquant"]["jet"] > $retourAttaque["jetCible"]) {
 			$retourAttaque["attaqueReussie"] = true;
 
-			if ($retourAttaque["jetAttaquant"] / 2 > $retourAttaque["jetCible"]) {
+			if ($retourAttaque["jetAttaquant"]["jet"] / 2 > $retourAttaque["jetCible"]) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque critique");
 				$retourAttaque["critique"]  = true;
 			}
@@ -767,7 +767,7 @@ class Bral_Util_Attaque {
 
 				// malus sur la durée du tour
 			}
-		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) { // esquive normale
+		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]["jet"]) { // esquive normale
 			// En cas d'esquive : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
 			$monstre["bm_attaque_monstre"] = $monstre["bm_attaque_monstre"] - Bral_Util_De::get_1d3();
 			$monstre["bm_defense_monstre"] = $monstre["bm_defense_monstre"] - Bral_Util_De::get_1d6();
@@ -785,7 +785,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["fragilisee"] = true;
 		}
 
-		$detailsBot = self::getDetailsBot($retourAttaque, $braldunAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
+		$detailsBot = self::getDetailsBot($retourAttaque, $braldunAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"]["jet"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
 
 		$libelleMonstreGibier = "monstre";
 		if ($monstre["id_fk_type_groupe_monstre"] == $config->game->groupe_monstre->type->gibier) {
@@ -814,9 +814,9 @@ class Bral_Util_Attaque {
 			}
 			$details = " [b".$braldunAttaquant->id_braldun."] ".$verbe." le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 
-			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
+			if ($retourAttaque["jetAttaquant"]["jet"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
 				$details .= " qui a esquivé parfaitement";
-			} else if ($retourAttaque["jetAttaquant"] <= $retourAttaque["jetCible"]) { // esquive
+			} else if ($retourAttaque["jetAttaquant"]["jet"] <= $retourAttaque["jetCible"]) { // esquive
 				$details .= " qui a esquivé ";
 			} else { // attaque reussie
 				$details .= "";
@@ -886,15 +886,22 @@ class Bral_Util_Attaque {
 	public static function calculJetAttaqueNormale($braldun) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
 		$config = Zend_Registry::get('config');
-		$jetAttaquant = Bral_Util_De::getLanceDe6($config->game->base_agilite + $braldun->agilite_base_braldun);
+		$nbDe = $config->game->base_agilite + $braldun->agilite_base_braldun;
+		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
+		$jetAttaquantDetails = $nbDe."D6";
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant=".$jetAttaquant);
 		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_braldun + bm_attaque_braldun =".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
-		return $jetAttaquant;
+		$tabJetAttaquant["jet"] = $jetAttaquant;
+		$tabJetAttaquant["details"] = $jetAttaquantDetails;
+		return $tabJetAttaquant;
 	}
 
 	public static function calculDegatAttaqueNormale($braldun) {

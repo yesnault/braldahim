@@ -34,9 +34,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$labanMunition = new LabanMunition();
 			$munitionPorteRowset = 	$labanMunition->findByIdBraldun($this->view->user->id_braldun);
 			if (count ($munitionPorteRowset) > 0) {
-				foreach ($equipementPorteRowset as $eq){
-					foreach ($munitionPorteRowset as $mun){
-						if ($mun['id_fk_type_laban_munition'] == $eq['id_fk_type_munition_type_equipement']){
+				foreach ($equipementPorteRowset as $eq) {
+					foreach ($munitionPorteRowset as $mun) {
+						if ($mun['id_fk_type_laban_munition'] == $eq['id_fk_type_munition_type_equipement']) {
 							$munitionPortee = true;
 							$idMunitionPortee = $eq['id_fk_type_munition_type_equipement'];
 							break;
@@ -160,10 +160,10 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Monstre ou Braldun invalide (!=-1)");
 		}
 
-		if ($this->view->armeTirPortee === false){
+		if ($this->view->armeTirPortee === false) {
 			throw new Zend_Exception(get_class($this)." pas d'arme de tir");
 		}
-		if ($this->view->munitionPortee === false){
+		if ($this->view->munitionPortee === false) {
 			throw new Zend_Exception(get_class($this)." pas de munition");
 		}
 
@@ -236,9 +236,11 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$palissade = false;
 		$monte=false;
 
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
+		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
+		$jetAttaquantDetails = $nbDe."D6";
 
-		if ($this->view->xCible < $braldun->x_braldun){
+		if ($this->view->xCible < $braldun->x_braldun) {
 			$x_min = $this->view->xCible;
 			$x_max = $braldun->x_braldun;
 		} else{
@@ -246,7 +248,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$x_max = $this->view->xCible;
 		}
 
-		if ($this->view->yCible < $braldun->y_braldun){
+		if ($this->view->yCible < $braldun->y_braldun) {
 			$y_min = $this->view->yCible;
 			$y_max = $braldun->y_braldun;
 		} else{
@@ -256,7 +258,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 		$z = $braldun->z_braldun;
 
-		if ($this->view->distCible > 1){
+		if ($this->view->distCible > 1) {
 			Zend_Loader::loadClass("Palissade");
 
 			// equation droite y = mx + p  => ax + by + c = 0
@@ -264,11 +266,11 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			// la distance entre le point et la droite doit être inférieure à sqrt(2)/2
 
 			// calcul de m, p, a, b et c :
-			if ($this->view->user->x_braldun != $this->view->xCible){
+			if ($this->view->user->x_braldun != $this->view->xCible) {
 				$m = ($this->view->user->y_braldun-$this->view->yCible)/($this->view->user->x_braldun-$this->view->xCible);
 				$p = $this->view->yCible - $m * $this->view->xCible;
 				$a = 1;
-				if ($m != 0 ){
+				if ($m != 0 ) {
 					$b = -1/$m;
 				} else{
 					$a=0;
@@ -286,8 +288,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			for ($x = $x_min; $x <= $x_max; $x++) {
 				for ($y = $y_min; $y <= $y_max; $y++) {
 					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
-					if ( round($dist,5) < sqrt(2)/2 ){
-						if ($palissadeTable->findByCase($x,$y, $z)){
+					if ( round($dist,5) < sqrt(2)/2 ) {
+						if ($palissadeTable->findByCase($x,$y, $z)) {
 							$palissade = true;
 							break;
 						}
@@ -296,8 +298,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			}
 		}
 
-		if ($palissade == false){
-			switch ($this->view->distCible){
+		if ($palissade == false) {
+			switch ($this->view->distCible) {
 				case 0 :
 					$coef=0.6;
 					break;
@@ -314,7 +316,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 					$coef=0.6;
 			}
 		} else{
-			switch ($this->view->distCible){
+			switch ($this->view->distCible) {
 				case 2 :
 					$coef=0.533;
 					break;
@@ -325,8 +327,12 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			}
 		}
 		$jetAttaquantNonReduit = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
+		
 		$jetAttaquant = floor($coef * ($jetAttaquantNonReduit));
-		if ($jetAttaquant < 0){
+		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
 
@@ -334,7 +340,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$this->view->coef = $coef;
 		$this->view->jetAttaquantNonReduit = $jetAttaquantNonReduit;
 
-		return $jetAttaquant;
+		$tabJetAttaquant["jet"] = $jetAttaquant;
+		$tabJetAttaquant["details"] = $jetAttaquantDetails;
+		return $tabJetAttaquant;
 	}
 
 	protected function calculDegat($braldun) {
@@ -359,8 +367,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		return $jetDegat;
 	}
 
-	private function calculTirer($id,$type){
-		if ($type == "braldun"){
+	private function calculTirer($id,$type) {
+		if ($type == "braldun") {
 			$this->view->retourAttaque = $this->attaqueBraldun($this->view->user, $id, true, true);
 		} else{
 			$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $id, true);

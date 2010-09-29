@@ -13,7 +13,7 @@
 	<? endif; ?>
 	<br />
 	Vous avez donc subi un malus de <?=100-100*$this->coef?>%<br />
-	Jet d'attaque corrig&eacute; : <?=$this->retourAttaque["jetAttaquant"]?><br />
+	Jet d'attaque corrig&eacute; : <?=$this->retourAttaque["jetAttaquant"]["jet"]?> (<?=$this->retourAttaque["jetAttaquant"]["details"]?>)<br />
 	Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
 	 <? if ($this->retourAttaque["attaqueReussie"] === true) : ?>

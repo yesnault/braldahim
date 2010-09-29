@@ -11,7 +11,7 @@
 		
 		<? foreach($this->retoursAttaques as $retourAttaque) : ?> 
 	 		<?=htmlspecialchars($retourAttaque["cible"]["nom_cible"])?> (<?=$retourAttaque["cible"]["id_cible"]?>) 
-			 Jet d'attaque : <?=$retourAttaque["jetAttaquant"]?>, jet de d&eacute;fense : <?=$retourAttaque["jetCible"]?><br />
+			 Jet d'attaque : <?=$retourAttaque["jetAttaquant"]["jet"]?> (<?=$retourAttaque["jetAttaquant"]["details"]?>), jet de d&eacute;fense : <?=$retourAttaque["jetCible"]?><br />
 			 
 		 	<? if ($retourAttaque["attaqueReussie"] === true) : ?>
 		 		<? if ($retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>

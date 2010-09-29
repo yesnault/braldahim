@@ -286,13 +286,20 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	protected function calculJetAttaque($braldun) {
 		$jetAttaquant = 0;
 
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
-
+		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
+		$jetAttaquantDetails = "0.5x(".$nbDe."D6)";
+		
 		$jetAttaquant = floor(0.5 * $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
-		return $jetAttaquant;
+		$tabJetAttaquant["jet"] = $jetAttaquant;
+		$tabJetAttaquant["details"] = $jetAttaquantDetails;
+		return $tabJetAttaquant;
 	}
 
 	/*

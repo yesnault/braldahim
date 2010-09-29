@@ -7,7 +7,7 @@
 	<? if ($this->okJet1 === true): ?>
 		 Vous avez charg&eacute; <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) 
 		 <br /> et vous &ecirc;tes arriv&eacute; en x:<?=$this->retourAttaque["cible"]["x_cible"]?> y:<?=$this->retourAttaque["cible"]["y_cible"]?><br /><br />
-		 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
+		 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]["jet"]?> (<?=$this->retourAttaque["jetAttaquant"]["details"]?>)<br />
 		 Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
 	 	<? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
