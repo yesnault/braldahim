@@ -2698,6 +2698,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 						case "Charrette" :
 							$departTable = new Charrette();
+							$data = array (
+								"id_charrette" => $this->view->id_charrette_depart,
+								"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
+							);
 							break;
 						case "Echoppe" :
 							$departTable = new Echoppe();
