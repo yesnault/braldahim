@@ -139,6 +139,13 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$this->view->bbdfAliment = Bral_Util_De::get_de_specifique(20, 25);
 		$this->view->aliment= $aliment;
 
+		Zend_Loader::loadClass("Bral_Util_Attaque");
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
+		
+		if ($estRegionPvp) {
+			$this->view->bbdfAliment = intval($this->view->bbdfAliment / 2);	
+		}
+		
 		$elementAlimentTable = new ElementAliment();
 		$labanAlimentTable = new LabanAliment();
 
