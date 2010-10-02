@@ -190,14 +190,25 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$jetDegatForce = 0;
 		$coefCritique = 1.5;
 			
-		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $braldun->force_base_braldun);
+		$nbDe = $this->view->config->game->base_force + $braldun->force_base_braldun;
+		$jetDegatForce = Bral_Util_De::getLanceDe6($nbDe);
 
 		$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
 		$jetsDegat["noncritique"] = $jetDegatForce;
+		
+		$jetDetailsNonCritique = $nbDe."D6";
+		$jetDetailsCritique = $coefCritique."x(".$nbDe."D6)";
 
 		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $braldun->force_bm_braldun + $braldun->force_bbdf_braldun + $braldun->bm_degat_braldun));
 
+		$jetDetails = Bral_Util_String::getSigneValeur($braldun->force_bm_braldun);
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->force_bbdf_braldun);
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->bm_degat_braldun);
+		
+		$jetsDegat["critiquedetails"] = "(".$jetDetailsCritique.$jetDetails.")x".$this->_coef;
+		$jetsDegat["noncritiquedetails"] = "(".$jetDetailsNonCritique.$jetDetails.")x".$this->_coef;
+		
 		if ($jetsDegat["critique"] < 0) {
 			$jetsDegat["critique"] = 0;
 		}

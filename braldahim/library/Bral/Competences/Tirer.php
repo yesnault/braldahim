@@ -349,12 +349,23 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
+		
+		$nbDeAgi = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$nbDeSag = $this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun;
 
-		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
-		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun);
+		$jetDegAgi = Bral_Util_De::getLanceDe6($nbDeAgi);
+		$jetDegSag = Bral_Util_De::getLanceDe6($nbDeSag);
 
+		//$details = "Jet AGI:".$jetDegAgi." Jet SAG:".$jetDegSag.". ";
+		
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
+		
+		$jetDetailsNonCritique = "(".$nbDeAgi."D6 + ".$nbDeSag. "D6)/2";
+		$jetDetailsCritique = $coefCritique."x".$jetDetailsNonCritique;
+		
+		$jetDegat["critiquedetails"] = $jetDetailsCritique;
+		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique;
 
 		if ($jetDegat["critique"] < 0) {
 			$jetDegat["critique"] = 0;
