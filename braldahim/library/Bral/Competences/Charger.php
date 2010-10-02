@@ -286,13 +286,20 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	protected function calculJetAttaque($braldun) {
 		$jetAttaquant = 0;
 
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
+		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
+		$jetAttaquantDetails = "0.5x(".$nbDe."D6)";
 
 		$jetAttaquant = floor(0.5 * $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
-		return $jetAttaquant;
+		$tabJetAttaquant["jet"] = $jetAttaquant;
+		$tabJetAttaquant["details"] = $jetAttaquantDetails;
+		return $tabJetAttaquant;
 	}
 
 	/*
@@ -306,17 +313,31 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
 
-		$jetDegat["critique"] = Bral_Util_De::getLanceDe6(($this->view->config->game->base_force + $braldun->force_base_braldun) * $coefCritique);
+		$nbDe = $this->view->config->game->base_force + $braldun->force_base_braldun;
+		$jetDetailsNonCritique = $nbDe."D6";
+		$jetDetailsCritique = $coefCritique."x(".$nbDe."D6)";
+
+		$jetDegat["critique"] = Bral_Util_De::getLanceDe6($nbDe * $coefCritique);
 		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
 
-		$jetDegat["noncritique"] = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $braldun->force_base_braldun);
+		$jetDegat["noncritique"] = Bral_Util_De::getLanceDe6($nbDe);
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
+
+		$jetDetails = Bral_Util_String::getSigneValeur($braldun->force_bm_braldun);
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->force_bbdf_braldun);
 
 		$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun);
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun);
 
 		$jetDegat["critique"] = floor($jetDegat["critique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
 		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
+
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->vigueur_bm_braldun);
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->vigueur_bbdf_braldun);
+		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->bm_degat_braldun);
+
+		$jetDegat["critiquedetails"] = $jetDetailsCritique.$jetDetails;
+		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique.$jetDetails;
 
 		if ($jetDegat["critique"] < 0) {
 			$jetDegat["critique"] = 0;

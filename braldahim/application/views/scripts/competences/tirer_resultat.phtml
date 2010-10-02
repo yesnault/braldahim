@@ -13,15 +13,17 @@
 	<? endif; ?>
 	<br />
 	Vous avez donc subi un malus de <?=100-100*$this->coef?>%<br />
-	Jet d'attaque corrig&eacute; : <?=$this->retourAttaque["jetAttaquant"]?><br />
-	Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
+	Jet d'attaque corrig&eacute; : <span class="resultat" title="<?=$this->retourAttaque["jetAttaquant"]["details"]?>"><?=$this->retourAttaque["jetAttaquant"]["jet"]?> </span> 
+	 <span class="resultat_cache">(<?=$this->retourAttaque["jetAttaquant"]["details"]?>)</span><br />
+	 Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
 	 <? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
 	 	<? if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-	 	Vous avez inflig&eacute; <?=$this->retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;ts
+	 	Vous avez inflig&eacute; <span class="resultat" title="<?=$this->retourAttaque["jetDegat"]["details"]?>"><?=$this->retourAttaque["jetDegat"]["jet"]?></span> point<?=$s?> de d&eacute;g&acirc;ts
 	 	<? if ($this->retourAttaque["critique"]  == true): ?>
 	 		en attaque critique
 	 	<? endif; ?>
+	 	<span class="resultat_cache">(<?=$this->retourAttaque["jetDegat"]["details"]?>)</span>
 	 	<br /><br />
 	 	<? if ($this->retourAttaque["arm_nat_cible"] > 0) :?>
 		 	L'armure naturelle l'a prot&eacute;g&eacute;e.<br />

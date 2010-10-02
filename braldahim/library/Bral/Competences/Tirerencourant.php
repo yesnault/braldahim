@@ -229,26 +229,45 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 	}
 
 	protected function calculJetAttaque($braldun) {
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
+		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
+		$jetAttaquantDetails = $nbDe."D6";
+		
 		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
 
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
-		return $jetAttaquant;
+		
+		$tabJetAttaquant["jet"] = $jetAttaquant;
+		$tabJetAttaquant["details"] = $jetAttaquantDetails;
+		return $tabJetAttaquant;
 	}
 
 	protected function calculDegat($braldun) {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
+		
+		$nbDeAgi = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
+		$nbDeSag = $this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun;
 
-		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun->agilite_base_braldun);
+		$jetDegAgi = Bral_Util_De::getLanceDe6($nbDeAgi);
+		$jetDegSag = Bral_Util_De::getLanceDe6($nbDeSag);
 
-		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun);
-
+		//$details = "Jet AGI:".$jetDegAgi." Jet SAG:".$jetDegSag.". ";
+		
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
+		
+		$jetDetailsNonCritique = "(".$nbDeAgi."D6 + ".$nbDeSag. "D6)/2";
+		$jetDetailsCritique = $coefCritique."x".$jetDetailsNonCritique;
+		
+		$jetDegat["critiquedetails"] = $jetDetailsCritique;
+		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique;
 
 		if ($jetDegat["critique"] < 0) {
 			$jetDegat["critique"] = 0;

@@ -161,6 +161,14 @@ span.id_braldun {
 	color: red;
 }
 
+span.resultat {
+	cursor:pointer
+}
+
+span.resultat_cache {
+	display:none;
+}
+
 #navigation {
 	margin: 0px;
 	padding: 0px;

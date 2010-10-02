@@ -11,14 +11,17 @@
 		
 		<? foreach($this->retoursAttaques as $retourAttaque) : ?> 
 	 		<?=htmlspecialchars($retourAttaque["cible"]["nom_cible"])?> (<?=$retourAttaque["cible"]["id_cible"]?>) 
-			 Jet d'attaque : <?=$retourAttaque["jetAttaquant"]?>, jet de d&eacute;fense : <?=$retourAttaque["jetCible"]?><br />
+			 Jet d'attaque : <span class="resultat" title="<?=$retourAttaque["jetAttaquant"]["details"]?>"><?=$retourAttaque["jetAttaquant"]["jet"]?> </span>, 
+		 <span class="resultat_cache">(<?=$retourAttaque["jetAttaquant"]["details"]?>)</span>
+		 jet de d&eacute;fense de la cible : <?=$retourAttaque["jetCible"]?><br />
 			 
 		 	<? if ($retourAttaque["attaqueReussie"] === true) : ?>
 		 		<? if ($retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-		 		Vous avez inflig&eacute; <?=$retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;t
-		 		<? if ($retourAttaque["critique"]  == true): ?>
-		 		en attaque critique.
+		 		Vous avez inflig&eacute; <span class="resultat" title="<?=$retourAttaque["jetDegat"]["details"]?>"><?=$retourAttaque["jetDegat"]["jet"]?></span> point<?=$s?> de d&eacute;g&acirc;t
+		 		<? if ($retourAttaque["critique"] == true): ?>
+		 		en attaque critique
 		 		<? endif; ?>
+		 		<span class="resultat_cache">(<?=$retourAttaque["jetDegat"]["details"]?>)</span>.
 		 		<br />
 		 		<? if ($retourAttaque["arm_nat_cible"] > 0) :?>
 				 	L'armure naturelle l'a prot&eacute;g&eacute;e.<br />
