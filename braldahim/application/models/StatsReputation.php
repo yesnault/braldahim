@@ -47,6 +47,20 @@ class StatsReputation extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findByIdBraldun($idBraldun, $dateDebut, $dateFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$select->from('stats_reputation', '*');
+		$select->where('id_fk_braldun_stats_reputation = id_braldun');
+		$select->where('id_fk_braldun_stats_reputation =  ?', $idBraldun);
+		$select->where('mois_stats_reputation >= ?', $dateDebut);
+		$select->where('mois_stats_reputation < ?', $dateFin);
+		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function deleteAndInsert($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();

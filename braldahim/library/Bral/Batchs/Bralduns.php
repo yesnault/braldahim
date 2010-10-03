@@ -294,13 +294,31 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
 				$statsDistinction->deleteAndInsert($data);
 
+				$statsReputation = new StatsReputation();
+				$moisDebut =  mktime(0, 0, 0, $mois-1, 2, date("Y"));
+				$moisFin =  mktime(0, 0, 0, $mois+1, 2, date("Y"));
+				$reputation = $statsReputation->findByIdBraldun($h["id_braldun"], date("Y-m-d", $moisDebut), date("Y-m-d", $moisFin));
+
+				if ($reputation != null) { // Si le Braldûn avait des points avant, on fait le delta
+					$reputation = $reputation[0];
+					$pointsGredinAvant = $reputation["points_gredin_stats_reputation"];
+					$pointsRedresseurAvant = $reputation["points_redresseur_stats_reputation"];
+
+					$pointsGredinActuels = $h["points_gredin_braldun"] - $reputation["points_gredin_stats_reputation"];
+					$pointsRedresseurActuels = $h["points_redresseur_braldun"] - $reputation["points_redresseur_stats_reputation"];
+				} else { // S'il n'y a pas de Stats, on prend les points actuels
+					$pointsGredinActuels = $h["points_gredin_braldun"];
+					$pointsRedresseurActuels = $h["points_redresseur_braldun"];
+				}
+					
 				$data = null;
-				$data["points_gredin_stats_reputation"] = $h["points_gredin_braldun"];
-				$data["points_redresseur_stats_reputation"] = $h["points_redresseur_braldun"];
+				$data["points_gredin_stats_reputation"] = $pointsGredinActuels;
+				$data["points_redresseur_stats_reputation"] = $pointsRedresseurActuels;
 				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
 				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
 				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
 				$statsReputation->deleteAndInsert($data);
+
 			}
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - exit -".$retour);
