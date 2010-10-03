@@ -25,7 +25,7 @@ class BraldunsDistinction extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findDistinctionsByBraldunId($idBraldun) {
+	function findDistinctionsByBraldunId($idBraldun, $moisDebut = null, $moisFin = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bralduns_distinction', '*')
@@ -35,6 +35,10 @@ class BraldunsDistinction extends Zend_Db_Table {
 		->where('id_fk_type_distinction_hdistinction = id_type_distinction')
 		->where('id_fk_type_categorie_distinction = id_type_categorie')
 		->order(array('ordre_type_categorie', 'date_hdistinction'));
+		if ($moisDebut != null && $moisFin != null) {
+			$select->where('date_hdistinction >= ?', $moisDebut);
+			$select->where('date_hdistinction < ?', $moisFin);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

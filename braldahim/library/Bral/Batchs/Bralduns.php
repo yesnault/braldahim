@@ -10,12 +10,12 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculBatchImpl - enter -");
 		$retour = null;
-		
-		$retour .= $this->distinctionsReputation();
-		$retour .= $this->distinctionsPalmares();
+
+		/*$retour .= $this->distinctionsReputation();
+		 $retour .= $this->distinctionsPalmares();*/
 		$retour .= $this->calculPointsDistinctions();
-		$retour .= $this->suppression();
-		$retour .= $this->preventionSuppression();
+		/*$retour .= $this->suppression();
+		 $retour .= $this->preventionSuppression();*/
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculBatchImpl - exit -");
 		return $retour;
@@ -255,39 +255,61 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$statsReputation = new StatsReputation();
 
 		if (count($bralduns) > 0) {
-			foreach ($bralduns as $h) {
-				$points = 0;
-				$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($h["id_braldun"]);
 
-				if (count($braldunsDistinctionRowset) > 0) {
-					foreach($braldunsDistinctionRowset as $t) {
-						$points = $points + $t["points_type_distinction"];
+			for ($i=6; $i <=10; $i++) {
+				foreach ($bralduns as $h) {
+					$points = 0;
+
+					//Profil
+					if ($i == 6) {
+						$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($h["id_braldun"]);
+
+						if (count($braldunsDistinctionRowset) > 0) {
+							foreach($braldunsDistinctionRowset as $t) {
+								$points = $points + $t["points_type_distinction"];
+							}
+						}
 					}
+
+					$data = array('points_distinctions_braldun' => $points);
+					$where = "id_braldun=".intval($h["id_braldun"]);
+					$braldunTable->update($data, $where);
+
+					//Stats
+
+					//$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
+					//$moisEnCours  = mktime(0, 0, 0, 10, 1, date("Y"));
+
+					$moisEnCours  = mktime(0, 0, 0, $i, 2, date("Y"));
+					$moisDebut =  mktime(0, 0, 0, $i, 2, date("Y"));
+					$moisFin =  mktime(0, 0, 0, $i+1, 2, date("Y"));
+
+					$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($h["id_braldun"], date("Y-m-d", $moisDebut), date("Y-m-d",$moisFin));
+
+					$points = 0;
+					if (count($braldunsDistinctionRowset) > 0) {
+						foreach($braldunsDistinctionRowset as $t) {
+							$points = $points + $t["points_type_distinction"];
+						}
+					}
+					
+					$data = null;
+					$data["points_stats_distinction"] = $points;
+					$data["id_fk_braldun_stats_distinction"] = $h["id_braldun"];
+					$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
+					$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
+					$statsDistinction->deleteAndInsert($data);
+
+					$data = null;
+					$data["points_gredin_stats_reputation"] = $h["points_gredin_braldun"];
+					$data["points_redresseur_stats_reputation"] = $h["points_redresseur_braldun"];
+					$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
+					$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
+					$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
+					$statsReputation->deleteAndInsert($data);
 				}
-
-				$data = array('points_distinctions_braldun' => $points);
-				$where = "id_braldun=".intval($h["id_braldun"]);
-				$braldunTable->update($data, $where);
-
-				$data = null;
-				$data["points_stats_distinction"] = $points;
-				$data["id_fk_braldun_stats_distinction"] = $h["id_braldun"];
-				$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
-				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-				$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
-				$statsDistinction->deleteAndInsert($data);
-
-				$data = null;
-				$data["points_gredin_stats_reputation"] = $h["points_gredin_braldun"];
-				$data["points_redresseur_stats_reputation"] = $h["points_redresseur_braldun"];
-				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
-				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
-				$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
-				$statsReputation->deleteAndInsert($data);
 			}
 		}
-
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - exit -".$retour);
 		return $retour;
 	}
