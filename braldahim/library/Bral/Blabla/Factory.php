@@ -3,12 +3,7 @@
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
- *
- * $Id: Factory.php 2737 2010-06-15 17:19:50Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-06-15 19:19:50 +0200 (mar., 15 juin 2010) $
- * $LastChangedRevision: 2737 $
- * $LastChangedBy: yvonnickesnault $
+ * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Blabla_Factory {
 	static function getAction($request, $view) {

@@ -3,12 +3,7 @@
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
- *
- * $Id: Profil.php 2833 2010-08-13 22:04:20Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-08-14 00:04:20 +0200 (sam., 14 août 2010) $
- * $LastChangedRevision: 2833 $
- * $LastChangedBy: yvonnickesnault $
+ * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Box_Blabla extends Bral_Box_Box {
 	

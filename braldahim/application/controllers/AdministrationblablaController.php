@@ -3,12 +3,7 @@
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
- *
- * $Id: AdministrationblablaController.php 2596 2010-04-27 06:36:21Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-04-27 08:36:21 +0200 (Mar, 27 avr 2010) $
- * $LastChangedRevision: 2596 $
- * $LastChangedBy: yvonnickesnault $
+ * Copyright: see http://www.braldahim.com/sources
  */
 class AdministrationblablaController extends Zend_Controller_Action {
 

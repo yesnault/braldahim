@@ -3,12 +3,7 @@
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
- *
- * $Id: Soule.php 2688 2010-05-19 18:26:04Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2010-05-19 20:26:04 +0200 (Mer, 19 mai 2010) $
- * $LastChangedRevision: 2688 $
- * $LastChangedBy: yvonnickesnault $
+ * Copyright: see http://www.braldahim.com/sources
  */
 abstract class Bral_Blabla_Blabla {
 

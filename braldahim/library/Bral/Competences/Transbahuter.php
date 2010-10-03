@@ -2,12 +2,7 @@
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
- *
- * $Id$
- * $Author$
- * $LastChangedDate$
- * $LastChangedRevision$
- * $LastChangedBy$
+ * Copyright: see http://www.braldahim.com/sources
  */
 
 //@TODO bouton transfert equipement, potion et materiel dans echoppe ==> edit Boule. On ne remet pas quelque chose dans l'échoppe si c'est déjà sorti.
