@@ -84,7 +84,6 @@ class BraldunsDistinction extends Zend_Db_Table {
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
-		echo $sql;
 		return $nombre;
 	}
 
