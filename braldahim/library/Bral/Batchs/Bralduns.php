@@ -73,7 +73,9 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - distinctionsPalmares ". $retour);
 
-		$nbDistinctions = $braldunsDistinctionsTable->countIdTypeDistinctionByDate(Bral_Util_Distinction::ID_TYPE_EXPERIENCE_MOIS, $moisDebut, $moisFin);
+		// Exemple : si l'on veut attribuer des distinctions du mois de septembre, on regarde si elles ont
+		// été attribuées au mois d'octobre (le 1er par exemple)
+		$nbDistinctions = $braldunsDistinctionsTable->countIdTypeDistinctionByDate(Bral_Util_Distinction::ID_TYPE_EXPERIENCE_MOIS, $moisFin, $moisFin2);
 
 		if ($nbDistinctions > 0) {
 			$retour .= " distinctions palmares pour ".$moisDebut."/".$moisFin." deja calculees nb:".$nbDistinctions;

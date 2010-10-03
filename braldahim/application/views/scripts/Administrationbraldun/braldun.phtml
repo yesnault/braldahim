@@ -31,6 +31,8 @@
 		    	<? endif; ?>
 	    	<? endif;?>
 	    
+	    	<input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun=<?=$this->id_braldun?>");'>
+	    
 			<table  align='center'>
 			<? foreach ($this->braldun as $key => $value) : 
 				if ($this->mode == "simple") {
