@@ -31,13 +31,13 @@ if ($case['n_lieux'] > 0) :
       	if ($this->user->administrationvue == true) {
        		$textLieu .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
       	}
+      	
+	    if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textLieu .= ' <span title="Cliquer pour acc&eacute;der directement au lieu"';
+			$textLieu .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" class="alabel">[Entrer dans le lieu]</span>';
+		}
 	}
 	 
-	$doubleClick = '';
-	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement au lieu"';
-		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
-	}
 endif;
 
 if ($case['n_ballons'] > 0) :
@@ -59,6 +59,12 @@ if ($case['n_echoppes'] > 0) :
 		if ($this->estVueEtendue == false) {
 			$textEchoppe .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
+		
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textEchoppe .= ' <span title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe"';
+			$textEchoppe .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" style="alabel">[Enter dans l\'échoppe]</span>';
+		}
+		
       	$textEchoppe .= '<br />';
       	$nomSystemeEchoppe = $c['nom_systeme_metier'];
 	}
@@ -67,11 +73,6 @@ if ($case['n_echoppes'] > 0) :
 		$s = 's';
 	}
 	
-	$doubleClick = '';
-	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe"';
-		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
-	}
 endif; 
 
 if ($case['n_champs'] > 0) :
@@ -88,14 +89,15 @@ if ($case['n_champs'] > 0) :
 		if ($this->estVueEtendue == false) {
 			$textChamp .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
+		
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textChamp .= ' <span title="Cliquer pour acc&eacute;der directement au champ"';
+			$textChamp .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" style="alabel">[Enter dans le lieu]</span>';
+		}
+	
       	$textChamp .= '<br />';
 	}
 	
-	$doubleClick = '';
-	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-		$doubleClick = 'title="Double Cliquer pour acc&eacute;der directement au champ"';
-		$doubleClick .= 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'boite_c\');"';
-	}
 endif; ?>
 
 <div class='braltip'>
@@ -105,16 +107,16 @@ endif; ?>
 <? if ($textLieu != '' ) :?>
 	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
 	<? if ($type_lieu != '') : ?>
-		<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
+		<img src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
 	<? else: ?>
 		<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 	<? endif; ?>
 <? elseif ($textChamp != '') : ?>
 	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
-	<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
+	<img src='/public/styles/braldahim_defaut/images/vue/champ.png' />
 <? elseif ($textEchoppe != '') : ?>
 	<?=Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
-	<img <?=$doubleClick ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
+	<img src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? else: ?>
 	<br />
 <? endif;?>  
