@@ -274,13 +274,15 @@ class InscriptionController extends Zend_Controller_Action {
 		// region aleatoire
 
 		if ($this->id_region == -1) {
-			$de = Bral_Util_De::get_1D2();
+			//$de = Bral_Util_De::get_1D2();
 
+			$this->id_region = 1;
+			/*
 			if ($de == 1) {
 				$this->id_region = 1;
 			} else {
 				$this->id_region = 3;
-			}
+			}*/
 				
 			/*	$regionTable = new Region();
 			 $regionsRowset = $regionTable->fetchAll();
