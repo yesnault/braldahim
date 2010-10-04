@@ -45,6 +45,7 @@ if ($case['n_ballons'] > 0) :
 endif; 
 
 if ($case['n_echoppes'] > 0) :
+	$textEchoppe = '';
 	$nomSystemeEchoppe = '';
 	foreach($case['echoppes'] as $c) {
 		if ($c['nom_metier']{0} == 'A') : $d='d\''; else: $d='de '; endif;
