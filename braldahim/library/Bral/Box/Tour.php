@@ -150,7 +150,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		if ($this->braldun->date_fin_tour_braldun < $dateFin && $this->braldun->pa_braldun > 0) {
 			$retour = "Votre tour se termine bientôt et il vous reste ".$this->braldun->pa_braldun." PA à jouer ! ";
 		}
-
+		
 		return $retour;
 	}
 
