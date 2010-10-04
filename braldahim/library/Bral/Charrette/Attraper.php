@@ -85,7 +85,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 					$possedeSabot = true;
 				}
 
-				$tabCharrettes[] = array (
+				$charrette = array (
 					"id_charrette" => $c[$nomIdCharrette],
 					"nom" => $c["nom_type_materiel"], 
 					"possible" => $possible, 
@@ -94,12 +94,22 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 					"possede_sabot" => $possedeSabot,
 					"id_type_materiel" => $c["id_type_materiel"],
 					"durabilite_type_materiel" => $c["durabilite_type_materiel"],
-					"capacite_type_materiel" => $c["capacite_type_materiel"],
-					"sabot_1_charrette" => $c["sabot_1_charrette"],
-					"sabot_2_charrette" => $c["sabot_2_charrette"],
-					"sabot_3_charrette" => $c["sabot_3_charrette"],
-					"sabot_4_charrette" => $c["sabot_4_charrette"],
+					"capacite_type_materiel" => $c["capacite_type_materiel"]
 				);
+			
+				if ($typeProvenance == "sol") {
+					$charrette["sabot_1_charrette"] = $c["sabot_1_charrette"];
+					$charrette["sabot_2_charrette"] = $c["sabot_2_charrette"];
+					$charrette["sabot_3_charrette"] = $c["sabot_3_charrette"];
+					$charrette["sabot_4_charrette"] = $c["sabot_4_charrette"];
+				} else {
+					$charrette["sabot_1_charrette"] = 0;
+					$charrette["sabot_2_charrette"] = 0;
+					$charrette["sabot_3_charrette"] = 0;
+					$charrette["sabot_4_charrette"] = 0;
+				}
+				
+				$tabCharrettes[] = $charrette;
 			}
 		}
 		$this->view->charrettes = $tabCharrettes;
