@@ -143,7 +143,25 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 			}
 		}
 
-		$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + floor($aliment["bbdf"] * $coef);
+		$this->view->gainPv = 0;
+		$gain = floor($aliment["bbdf"] * $coef);
+		$nbSupplementaires = $this->view->user->balance_faim_braldun + $gain;
+		$nbPvManquants = $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun - $this->view->user->pv_restant_braldun;
+		
+		if ($nbPvManquants > 0 && // manque des pv
+			$nbSupplementaires >= 110 // gain donne 10% au min supplémentaire 
+		) {
+			$this->view->gainPv = floor(($nbSupplementaires - 100) / 10); // exemple : (122 - 100)/10 => 22/10 => 2pv en gains
+			if ($this->view->gainPv > $nbPvManquants) {
+				$this->view->gainPv = $nbPvManquants;
+			}
+			$this->view->user->pv_restant_braldun = $this->view->user->pv_restant_braldun + $this->view->gainPv;
+			if ($this->view->user->pv_restant_braldun > $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun) {
+				$this->view->user->pv_restant_braldun = $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun;
+			}
+		}
+		
+		$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $gain;
 
 		if ($this->view->user->balance_faim_braldun > 100) {
 			$this->view->user->balance_faim_braldun = 100;
