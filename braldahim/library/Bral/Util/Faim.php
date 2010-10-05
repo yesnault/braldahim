@@ -10,7 +10,7 @@ class Bral_Util_Faim {
 	private function __construct() {
 	}
 
-	public static function calculBalanceFaim(&$braldun) {
+	public static function calculBalanceFaim(&$braldun, $delta = null) {
 		/*
 		 * [0] : -N/2
 		 * [1;10] : -N/3
@@ -39,9 +39,28 @@ class Bral_Util_Faim {
 			$coef = -1;
 		}
 
+		$balanceFaimPvPerdus = null;
+		
+		if ($delta != null) {
+			if ($braldun->niveau_braldun >=5 && -$delta > $braldun->balance_faim_braldun) {
+				$pvAvant = $braldun->pv_restant_braldun;
+				$braldun->pv_restant_braldun = $braldun->pv_restant_braldun + $delta;
+				if ($braldun->pv_restant_braldun <= 0) {
+					$braldun->pv_restant_braldun = 1;
+				}
+				$balanceFaimPvPerdus = $pvAvant - $braldun->pv_restant_braldun;
+			}
+			$braldun->balance_faim_braldun = $braldun->balance_faim_braldun + $delta;
+			if ($braldun->balance_faim_braldun > 100) {
+				$braldun->balance_faim_braldun = 100;
+			}
+		}
+
 		$braldun->force_bbdf_braldun = $coef * round($braldun->niveau_braldun / $div);
 		$braldun->agilite_bbdf_braldun = $coef * round($braldun->niveau_braldun / $div);
 		$braldun->vigueur_bbdf_braldun = $coef * round($braldun->niveau_braldun / $div);
 		$braldun->sagesse_bbdf_braldun = $coef * round($braldun->niveau_braldun / $div);
+		
+		return $balanceFaimPvPerdus;
 	}
 }

@@ -1,4 +1,9 @@
 <? if ($this->balanceFaimUtilisee === true): ?>
-	Influence sur la balance de faim : <?=$this->balance_faim ?> %<br /><br />
+Influence sur la balance de faim : <?=$this->balance_faim ?> %<br />
+	<? if ($this->balanceFaimPvPerdus != null): ?>
+	<b>Vous avez perdu <?=$this->balanceFaimPvPerdus?> PV</b>.<br />
+	N'oubliez pas de manger ! <br />
+	<? endif;?>
+<br />
 <? endif; ?>
-	Cela vous a co&ucirc;t&eacute; <?=$this->nb_pa?> PA<br /><br />
+Cela vous a co&ucirc;t&eacute; <?=$this->nb_pa?> PA<br /><br />

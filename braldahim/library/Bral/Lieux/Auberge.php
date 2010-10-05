@@ -99,10 +99,8 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$typeAlimentTable = new TypeAliment();
 			$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 				
-			$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $aliment->bbdf_base_type_aliment;
-			if ($this->view->user->balance_faim_braldun > 100) {
-				$this->view->user->balance_faim_braldun = 100;
-			}
+			Zend_Loader::loadClass("Bral_Util_Faim");
+			Bral_Util_Faim::calculBalanceFaim($this->view->user, $aliment->bbdf_base_type_aliment);
 			Zend_Loader::loadClass("Bral_Util_Quete");
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, true);
 		} else {
@@ -117,8 +115,6 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		}
 
 		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
-		Zend_Loader::loadClass("Bral_Util_Faim");
-		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->majBraldun();
 
 		$this->view->coutCastars = $this->_coutCastars;
