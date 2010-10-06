@@ -117,6 +117,20 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		);
 		$where = "id_soule_match = ".$this->match["id_soule_match"];
 		$souleMatch->update($data, $where);
+
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipe = new SouleEquipe();
+
+		$joueur = $souleEquipe->findByIdBraldunAndIdMatch($this->view->user->id_braldun, $this->view->user->id_fk_soule_match_braldun);
+		if ($joueur == null) {
+			throw new Zend_Exception("Erreur calculDonnerballon idH:".$this->view->user->id_braldun." idM:".$this->view->user->id_fk_soule_match_braldun);
+		}
+
+		$data = array(
+			"nb_passe_soule_equipe" => $joueur["nb_passe_soule_equipe"] + 1,
+		);
+		$where = "id_soule_equipe=".$joueur["id_soule_equipe"];
+		$souleEquipe->update($data, $where);
 	}
 
 	function getListBoxRefresh() {

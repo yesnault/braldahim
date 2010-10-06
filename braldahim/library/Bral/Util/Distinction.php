@@ -78,9 +78,18 @@ class Bral_Util_Distinction {
 	const ID_TYPE_KO_1000_GREDIN = 92;
 
 	const ID_TYPE_KO_NIVEAU_SUPERIEUR_OU_EGAL = 93;
-	
+
 	const ID_TYPE_GREDIN_MOIS = 94;
 	const ID_TYPE_REDRESSEUR_MOIS = 95;
+
+	const ID_TYPE_PLAQUEUR = 102;
+	const ID_TYPE_MEILLEUR_PLAQUEUR = 103;
+	const ID_TYPE_PASSEUR = 104;
+	const ID_TYPE_MARQUEUR = 105;
+	const ID_TYPE_GRANDE_COURSE = 106;
+	const ID_TYPE_GAGNER_MATCH = 107;
+	const ID_TYPE_GAGNER_MATCH_INFERIORITE = 108;
+	const ID_TYPE_CHAMPION_SOULE = 109;
 
 	function __construct() {
 	}
@@ -111,9 +120,13 @@ class Bral_Util_Distinction {
 		}
 	}
 
-	public static function ajouterDistinctionEtEvenement($idBraldun, $niveauBraldun, $idTypeDistinction, $moisDebut = null, $moisFin = null, $complementDistinction = "") {
+	public static function ajouterDistinctionEtEvenement($idBraldun, $niveauBraldun, $idTypeDistinction, $moisDebut = null, $moisFin = null, $complementDistinction = "", $controlePossede = true) {
 
-		$possede = self::possedeDistinction($idBraldun, $idTypeDistinction, $moisDebut, $moisFin);
+		if ($controlePossede) {
+			$possede = self::possedeDistinction($idBraldun, $idTypeDistinction, $moisDebut, $moisFin);
+		} else {
+			$possede = false;
+		}
 
 		if ($possede == false) {
 			Zend_Loader::loadClass("TypeDistinction");

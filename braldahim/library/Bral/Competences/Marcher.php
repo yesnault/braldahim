@@ -84,6 +84,11 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		Zend_Loader::loadClass("Bral_Util_Filature");
 		Bral_Util_Filature::action($this->view->user, $this->view);
+		
+		if ($this->view->user->est_soule_braldun == "oui") {
+			Zend_Loader::loadClass("Bral_Util_Soule");
+			Bral_Util_Soule::deplacerAvecBallon($this->view->user, $offset_x, $offset_y);
+		}
 	}
 	
 

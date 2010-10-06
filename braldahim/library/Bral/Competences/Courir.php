@@ -26,7 +26,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->view->possedeCharrette = false;
 		if ($nombreCharrette == 1) {
 			$this->view->possedeCharrette = true;
-				
+
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			$this->view->courirPossible = Bral_Util_Charrette::calculCourrirChargerPossible($this->view->user->id_braldun);
 			if ($this->view->courirPossible == false) {
@@ -174,7 +174,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_Crevasse");
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
-		
+
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = "[b".$this->view->user->id_braldun."] a couru";
 		$this->setDetailsEvenement($details, $id_type);
@@ -184,9 +184,14 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
 		$this->majBraldun();
-		
+
 		Zend_Loader::loadClass("Bral_Util_Filature");
 		Bral_Util_Filature::action($this->view->user, $this->view);
+
+		if ($this->view->user->est_soule_braldun == "oui") {
+			Zend_Loader::loadClass("Bral_Util_Soule");
+			Bral_Util_Soule::deplacerAvecBallon($this->view->user, $this->offset_x_calcul, $this->offset_y_calcul);
+		}
 	}
 
 	function getListBoxRefresh() {

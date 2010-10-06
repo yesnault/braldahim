@@ -148,14 +148,29 @@ class Bral_Util_Soule {
 		$equipeB = array();
 
 		$niveauTotal = 0;
+		$maxPlaquages = 0;
+		$nbCasesBallon = 0;
 		foreach($joueurs as $j) {
 			if ($j["camp_soule_equipe"] == "a") {
 				$equipeA[$j["id_braldun"]]["nb_plaquage"] = $j["nb_braldun_plaquage_soule_equipe"];
+				$equipeA[$j["id_braldun"]]["nb_passe"] = $j["nb_passe_soule_equipe"];
+				$equipeA[$j["id_braldun"]]["nb_case_ballon"] = $j["nb_case_ballon_soule_equipe"];
 				$equipeA[$j["id_braldun"]]["braldun"] = $j;
 			} else {
 				$equipeB[$j["id_braldun"]]["nb_plaquage"] = $j["nb_braldun_plaquage_soule_equipe"];
+				$equipeB[$j["id_braldun"]]["nb_passe"] = $j["nb_passe_soule_equipe"];
+				$equipeB[$j["id_braldun"]]["nb_case_ballon"] = $j["nb_case_ballon_soule_equipe"];
 				$equipeB[$j["id_braldun"]]["braldun"] = $j;
 			}
+
+			if ($maxPlaquages < $j["nb_braldun_plaquage_soule_equipe"]) {
+				$maxPlaquages = $j["nb_braldun_plaquage_soule_equipe"];
+			}
+
+			if ($nbCasesBallon < $j["nb_case_ballon_soule_equipe"]) {
+				$nbCasesBallon = $j["nb_case_ballon_soule_equipe"];
+			}
+
 			$niveauTotal = $niveauTotal + $j["niveau_braldun"];
 		}
 
@@ -167,17 +182,17 @@ class Bral_Util_Soule {
 		$plantes = Bral_Util_Plantes::getTabPlantes();
 
 		if ($campGagnant == 'a') {
-			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeA, true, $minerais, $plantes);
-			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeB, false, $minerais, $plantes);
+			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeA, true, $minerais, $plantes, $maxPlaquages, $nbCasesBallon, $equipeB);
+			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeB, false, $minerais, $plantes, $maxPlaquages, $nbCasesBallon, $equipeA);
 		} else {
-			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeA, false, $minerais, $plantes);
-			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeB, true, $minerais, $plantes);
+			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeA, false, $minerais, $plantes, $maxPlaquages, $nbCasesBallon, $equipeB);
+			self::repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipeB, true, $minerais, $plantes, $maxPlaquages, $nbCasesBallon, $equipeA);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchGains - exit -");
 	}
 
-	private static function repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
+	private static function repartitionGain($match, $idBraldunFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes, $maxPlaquages, $nbCasesBallon, $equipeAdverse) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter -");
 
 		if ($estGagnant) {
@@ -212,13 +227,13 @@ class Bral_Util_Soule {
 				$nbGain = 3;
 			}
 
-			self::calculGainBraldun($match, $equipe, $idBraldunFin, $tab["braldun"], $view, $nbGain, $minerais, $plantes, $rang, $estGagnant);
+			self::calculGainBraldun($match, $equipe, $idBraldunFin, $tab["braldun"], $view, $nbGain, $minerais, $plantes, $rang, $estGagnant, $maxPlaquages, $nbCasesBallon, $equipeAdverse);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - exit -");
 	}
 
-	private static function calculGainBraldun($match, $equipe, $idBraldunFin, $braldun, $view, $nbGain, $minerais, $plantes, $rang, $estGagnant) {
+	private static function calculGainBraldun($match, $equipe, $idBraldunFin, $braldun, $view, $nbGain, $minerais, $plantes, $rang, $estGagnant, $maxPlaquages, $nbCasesBallon, $equipeAdverse) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainBraldun - enter - idBraldun(".$braldun["id_braldun"].") gain(".$nbGain.")");
 
 		$nbMinerai = count($minerais);
@@ -264,6 +279,36 @@ class Bral_Util_Soule {
 		$detailsBot .= " placés directement dans votre coffre à la banque";
 
 		Bral_Util_Evenement::majEvenements($braldun["id_braldun"], $idType, $details, $detailsBot, $braldun["niveau_braldun"], "braldun", true, $view, $match["id_soule_match"]);
+
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+
+		if ($equipe[$braldun["id_braldun"]]["nb_plaquage"] > 0) { // plaqueur dans un match de Soule
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_PLAQUEUR, null, null, " (match n°".$match["id_soule_match"].")", false);
+		}
+
+		if ($maxPlaquages == $equipe[$braldun["id_braldun"]]["nb_plaquage"]) { // Meilleur plaqueur dans un match de Soule
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_MEILLEUR_PLAQUEUR, null, null, " (match n°".$match["id_soule_match"].")", false);
+		}
+
+		if ($nbCasesBallon == $equipe[$braldun["id_braldun"]]["nb_case_ballon"]) { // Plus grande course du match
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_GRANDE_COURSE, null, null, " (match n°".$match["id_soule_match"].")", false);
+		}
+
+		if ($equipe[$braldun["id_braldun"]]["nb_passe"] > 0) { // Passeur dans un match de Soule
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_PASSEUR, null, null, " (match n°".$match["id_soule_match"].")", false);
+		}
+
+		if ($idBraldunFin == $braldun["id_braldun"]) { // Marqueur dans un match de Soule
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_MARQUEUR, null, null, " (match n°".$match["id_soule_match"].")", false);
+		}
+
+		if ($estGagnant) { // Gagner un match de Soule
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_GAGNER_MATCH, null, null, " (match n°".$match["id_soule_match"].")");
+		}
+
+		if (count($equipeAdverse) > count($equipe)) { // Gagner un match de Soule en infériorité
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_GAGNER_MATCH_INFERIORITE, null, null, " (match n°".$match["id_soule_match"].")");
+		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainBraldun - exit -");
 	}
@@ -368,7 +413,7 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchDb - enter - matchId(".$match["id_soule_match"].")");
 
 		$htmlFin = self::prepareCarte($match, $view);
-		
+
 		$souleMatchTable = new SouleMatch();
 		$data = array(
 			"date_fin_soule_match" => date("Y-m-d H:i:s"),
@@ -400,7 +445,7 @@ class Bral_Util_Soule {
 
 		return $view->render("soule/voir/carte.phtml");
 	}
-	
+
 	private static function calculFinMatchJoueursDb($braldun, $joueurs, $match) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchJoueursDb - enter - matchId(".$match["id_soule_match"].")");
 
@@ -432,7 +477,7 @@ class Bral_Util_Soule {
 			$mdate = date("Y-m-d H:i:s");
 			$config = Zend_Registry::get('config');
 			$date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $config->game->tour->inscription->duree_base_cumul);
-				
+
 			$data = array(
 				"x_braldun" => $x_braldun,
 				"y_braldun" => $y_braldun,
@@ -567,5 +612,46 @@ class Bral_Util_Soule {
 		}
 
 		return $retour;
+	}
+
+	public static function deplacerAvecBallon($braldun, $offsetX, $offsetY) {
+
+		Zend_Loader::loadClass("SouleMatch");
+		$souleMatch = new SouleMatch();
+		$matchsRowset = $souleMatch->findByIdBraldunBallon($braldun->id_braldun);
+
+		if ($matchsRowset != null && count($matchsRowset) == 1) {
+			//$this->match = $matchsRowset[0];
+		} else { // pas de ballon
+			return;
+		}
+
+
+		$nbCasesX = $offsetX; // ex : -1, ou -2, ou 2, etc...
+		$nbCasesY = $offsetY;
+
+		if ($nbCasesX < 0) {
+			$nbCasesX = -$nbCasesX;
+		}
+		if ($nbCasesY < 0) {
+			$nbCasesY = -$nbCasesY;
+		}
+		if ($nbCasesX < $nbCasesY) {
+			$nbCases = $nbCasesY;
+		} else {
+			$nbCases = $nbCasesX;
+		}
+
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipeTable = new SouleEquipe();
+
+		$joueur = $souleEquipeTable->findByIdBraldunAndIdMatch($braldun->id_braldun, $braldun->id_fk_soule_match_braldun);
+		if ($joueur == null) {
+			throw new Zend_Exception("Erreur deplacerAvecBallon idH:".$braldun->id_braldun." idM:".$braldun->id_fk_soule_match_braldun);
+		}
+
+		$where = "id_soule_equipe=".$joueur["id_soule_equipe"];
+		$data["nb_case_ballon_soule_equipe"] = $joueur["nb_case_ballon_soule_equipe"] + $nbCases;
+		$souleEquipeTable->update($data, $where);
 	}
 }
