@@ -102,11 +102,11 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 		$this->view->jetBraldun = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
-		if ($this->view->jetBraldun >= $rune["sagesse_type_rune"]) {
+		if ($this->view->jetBraldun > $rune["sagesse_type_rune"]) {
 			$this->view->identificationReussieOk = true;
 		} else {
 			$this->view->identificationReussieOk  = false;
-			if ($this->view->jetBraldun < $rune["sagesse_type_rune"] / 2) {
+			if ($this->view->jetBraldun <= $rune["sagesse_type_rune"] / 2) {
 				$this->view->jetBraldunLoin = true;
 			} else {
 				$this->view->jetBraldunLoin = false;
