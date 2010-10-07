@@ -233,7 +233,7 @@ class Bral_Util_Distinction {
 		$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndListeIdTypeDistinction($idBraldun, $listId);
 		$possedeDistinction = false;
 
-		if ($braldunsDistinctionRowset != null && $braldunsDistinctionRowset[0]["nombre"] >= 7) {
+		if ($braldunsDistinctionRowset != null && count($braldunsDistinctionRowset) >= 7) {
 			$retour = true;
 		}
 		return $retour;

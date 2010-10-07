@@ -280,12 +280,12 @@ class Bral_Util_Soule {
 
 		Bral_Util_Evenement::majEvenements($braldun["id_braldun"], $idType, $details, $detailsBot, $braldun["niveau_braldun"], "braldun", true, $view, $match["id_soule_match"]);
 
-		self::calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin);
+		self::calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin, $match);
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainBraldun - exit -");
 	}
 
-	private static function calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin) {
+	private static function calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin, $match) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculDistinction - enter -");
 
 		Zend_Loader::loadClass("Bral_Util_Distinction");
