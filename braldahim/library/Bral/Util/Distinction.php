@@ -211,4 +211,31 @@ class Bral_Util_Distinction {
 		}
 		return $retour;
 	}
+
+	/**
+	 * Renvoie true si le joueur possède toutes les distinctions pour être champion de soule.
+	 * @param int $idBraldun Identifiant du Braldûn
+	 */
+	public static function possedeDistinctionSoulePourChampion($idBraldun) {
+		$retour = false;
+
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		
+		$listId[] = self::ID_TYPE_PLAQUEUR;
+		$listId[] = self::ID_TYPE_MEILLEUR_PLAQUEUR;
+		$listId[] = self::ID_TYPE_PASSEUR;
+		$listId[] = self::ID_TYPE_MARQUEUR;
+		$listId[] = self::ID_TYPE_GRANDE_COURSE;
+		$listId[] = self::ID_TYPE_GAGNER_MATCH;
+		$listId[] = self::ID_TYPE_GAGNER_MATCH_INFERIORITE;
+
+		$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndListeIdTypeDistinction($idBraldun, $listId);
+		$possedeDistinction = false;
+
+		if ($braldunsDistinctionRowset != null && $braldunsDistinctionRowset[0]["nombre"] >= 7) {
+			$retour = true;
+		}
+		return $retour;
+	}
 }

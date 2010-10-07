@@ -280,6 +280,14 @@ class Bral_Util_Soule {
 
 		Bral_Util_Evenement::majEvenements($braldun["id_braldun"], $idType, $details, $detailsBot, $braldun["niveau_braldun"], "braldun", true, $view, $match["id_soule_match"]);
 
+		self::calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin);
+
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainBraldun - exit -");
+	}
+
+	private static function calculDistinction($equipe, $braldun, $maxPlaquages, $nbCasesBallon, $estGagnant, $equipeAdverse, $idBraldunFin) {
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculDistinction - enter -");
+
 		Zend_Loader::loadClass("Bral_Util_Distinction");
 
 		if ($equipe[$braldun["id_braldun"]]["nb_plaquage"] > 0) { // plaqueur dans un match de Soule
@@ -310,7 +318,12 @@ class Bral_Util_Soule {
 			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_GAGNER_MATCH_INFERIORITE, null, null, " (match n°".$match["id_soule_match"].")");
 		}
 
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainBraldun - exit -");
+		// Champion de soule
+		if (Bral_Util_Distinction::possedeDistinctionSoulePourChampion($braldun["id_braldun"]) && !Bral_Util_Distinction::possedeDistinction($braldun["id_braldun"], Bral_Util_Distinction::ID_TYPE_CHAMPION_SOULE, null, null)) {
+			Bral_Util_Distinction::ajouterDistinctionEtEvenement($braldun["id_braldun"], $braldun["niveau_braldun"], Bral_Util_Distinction::ID_TYPE_CHAMPION_SOULE);
+		}
+
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculDistinction - exit -");
 	}
 
 	private static function updateDbDataPxPerso($match, $braldun, $equipe) {
