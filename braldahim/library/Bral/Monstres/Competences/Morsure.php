@@ -22,7 +22,7 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 		$nbTours = Bral_Util_De::get_1d3() + 1;
 
 		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
-		$jetMonstre = $jetMonstre + $this->monstre["agilite_bm_monstre"];
+		$jetMonstre = $jetMonstre + $this->monstre["vigueur_bm_monstre"];
 		
 		$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->cible["vigueur_base_braldun"]);
 		$jetBraldun = $jetBraldun + $this->cible["vigueur_bm_braldun"] + $this->cible["vigueur_bbdf_braldun"];
