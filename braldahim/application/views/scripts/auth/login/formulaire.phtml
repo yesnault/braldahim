@@ -22,6 +22,7 @@
 	</p>
 	<? if (!$this->estMobile) : ?>
 		<div id="braldunjeu"></div>
+		<?=Bral_Helper_Bougrie::render();?>
 		<br/>
 	<? endif;?>
 
@@ -43,6 +44,8 @@
 	    | <a href="http://work.braldahim.com">Version Work</a></p>
 	    <br/>
 	    <? endif;?>
+	    
+	    
 	    <p align="center">
 	    <?=new Zend_Date(); ?>
     <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>

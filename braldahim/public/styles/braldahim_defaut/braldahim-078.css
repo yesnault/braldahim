@@ -1204,7 +1204,7 @@ td.cases.actuelle {
 	text-indent:-999em;
 	width:190px;
 	position:absolute;
-	margin-top:30px;
+	margin-top:70px;
 	margin-left:-110px;
 }
 
@@ -1310,4 +1310,15 @@ border: none 0;
 border-top: 1px dotted #C0C0C0;
 width: 100%;
 height: 1px;
+}
+
+.bougrie {
+width:100%;
+}
+	
+.bougrie_text {
+background: #C3E691; /* old browsers */
+background: -moz-linear-gradient(top, #C3E691 0%, #628B28 100%); /* firefox */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#C3E691), color-stop(100%,#628B28)); /* webkit */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C3E691', endColorstr='#628B28',GradientType=0 ); /* ie */
 }

@@ -38,6 +38,11 @@ class GestionController extends Zend_Controller_Action {
 		$lieux = $lieuTable->fetchAll();
 		$this->view->administrationLieux = $lieux;
 		
+		Zend_Loader::loadClass("Bougrie");
+		$bougrieTable = new Bougrie();
+		$bougries = $bougrieTable->fetchAll();
+		$this->view->administrationBougries = $bougries;
+		
 		$this->render();
 	}
 }

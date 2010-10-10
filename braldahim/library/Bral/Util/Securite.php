@@ -9,6 +9,7 @@ class Bral_Util_Securite {
 
 	const ROLE_AUTEUR_LIEU = "auteurlieu";
 	const ROLE_BETA_TESTEUR = "testeur";
+	const ROLE_AUTEUR_BOUGRIE = "bougrie";
 
 	private function __construct() {}
 
@@ -40,12 +41,15 @@ class Bral_Util_Securite {
 			$acl = new Zend_Acl();
 
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_AUTEUR_LIEU));
+			$acl->addRole(new Zend_Acl_Role(self::ROLE_AUTEUR_BOUGRIE));
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_BETA_TESTEUR));
 				
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'AdministrationlieuController');
+			$acl->allow(self::ROLE_AUTEUR_BOUGRIE, null, 'AdministrationbougrieController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationbraldunController');
 				
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'GestionController');
+			$acl->allow(self::ROLE_AUTEUR_BOUGRIE, null, 'GestionController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'GestionController');
 
 			Zend_Loader::loadClass("BraldunsRoles");

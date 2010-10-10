@@ -7,7 +7,7 @@
 	  <div class="box_contenu1 textalic">
 	  
 	  	<? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_LIEU, $this->roles)) : ?>
-	    <span class="titre textalia textsizec">Description Lieu (Role Auteur)</span>
+	    <span class="titre textalia textsizec">Description Lieu (Rôle Auteur Lieu)</span>
 	    <br />
 	    Lieux : 
 	 	<select name='administration_lieu' id="administration_lieu" onchange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
@@ -16,7 +16,21 @@
 			<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
 		<? endforeach; ?>
 		</select>
+	    <br /><br /><br />
+	    <? endif;?>
 	    <br />
+	    
+	    <? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_BOUGRIE, $this->roles)) : ?>
+	    <span class="titre textalia textsizec">Description Lieu (Rôle Auteur Bougrie)</span>
+	    <br />
+	    Bougries : 
+	 	<select name='administration_bougrie' id="administration_bougrie" onchange='document.location.href="/Administrationbougrie/bougrie/id_bougrie/"+this.value;'>
+	 	<option value="-1" selected>Choisissez une bougrie</option>
+	 	<? foreach ($this->administrationBougries as $b) : ?>
+			<option value="<?=$b["id_bougrie"]?>"><?=$b["id_bougrie"]?></option>
+		<? endforeach; ?>
+		</select>
+	    <br /><br /><br />
 	    <? endif;?>
 	    <br />
 	    

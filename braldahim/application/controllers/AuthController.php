@@ -33,6 +33,8 @@ class AuthController extends Zend_Controller_Action {
 		if ($this->view->estMobile) {
 			$this->_forward("loginmobile");
 		} else {
+			Zend_Loader::loadClass('Bral_Helper_Bougrie');
+			
 			$this->loginWork();
 			$this->render();
 		}
