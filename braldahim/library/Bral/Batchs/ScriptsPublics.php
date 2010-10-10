@@ -487,18 +487,18 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		if (count($environnements) > 0) {
 			foreach ($environnements as $v) {
 				$contenu .= $v["nom_environnement"].';';
-				$contenu .= $v["nom_systeme_environnement"].';';
+				$contenu .= $v["nom_systeme_environnement"];
 				$contenu .= PHP_EOL;
 			}
 		}
 
-		$contenu .= "Eau peu profonde;peuprofonde;";
+		$contenu .= "Eau peu profonde;peuprofonde";
 		$contenu .= PHP_EOL;
-		$contenu .= "Eau profonde;peuprofonde;";
+		$contenu .= "Eau profonde;peuprofonde";
 		$contenu .= PHP_EOL;
-		$contenu .= "Lac;lac;";
+		$contenu .= "Lac;lac";
 		$contenu .= PHP_EOL;
-		$contenu .= "Mer;mer;";
+		$contenu .= "Mer;mer";
 		$contenu .= PHP_EOL;
 
 		Zend_Loader::loadClass("TypeBosquet");
@@ -508,7 +508,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		if (count($typesBosquet) > 0) {
 			foreach ($typesBosquet as $v) {
 				$contenu .= $v["nom_type_bosquet"].';';
-				$contenu .= $v["nom_systeme_type_bosquet"].';';
+				$contenu .= $v["nom_systeme_type_bosquet"];
 				$contenu .= PHP_EOL;
 			}
 		}
