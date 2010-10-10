@@ -26,7 +26,6 @@ class Bougrie extends Zend_Db_Table {
 
 		if ($res[0]["nombre"] > 0) {
 			$de = Bral_Util_De::get_de_specifique(1, $res[0]["nombre"]);
-			$de = 27;
 			$db = $this->getAdapter();
 			$select = $db->select();
 			$select->from('bougrie', '*')
