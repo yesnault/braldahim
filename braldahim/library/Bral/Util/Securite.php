@@ -9,7 +9,7 @@ class Bral_Util_Securite {
 
 	const ROLE_AUTEUR_LIEU = "auteurlieu";
 	const ROLE_BETA_TESTEUR = "testeur";
-	const ROLE_AUTEUR_BOUGRIE = "bougrie";
+	const ROLE_AUTEUR_BOUGRIE = "auteurbougrie";
 
 	private function __construct() {}
 
