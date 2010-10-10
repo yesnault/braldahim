@@ -10,7 +10,8 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass('Charrette');
+		Zend_Loader::loadClass('Eau');
 
 		$charretteTable = new Charrette();
 		$nombreCharrette = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
@@ -47,8 +48,16 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
+		$eauTable = new Eau();
+		$eaux = $eauTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+		$estSurEau = false;
+		if (count($eaux) == 1) {
+			$estSurEau = true;
+		}
+
 		$this->view->nb_cases = 1;
-		if ($environnement == "plaine") {
+		if ($environnement == "plaine" && $estSurEau == false) {
 			$this->distance = 12;
 		} else {
 			$this->distance = 6;
@@ -62,16 +71,21 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_braldun);
 
-		$this->tabValidationPalissade = null;
+		$eaux = $eauTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_braldun, false);
+
+		$this->tabValidationEauPalissade = null;
 		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
-				$this->tabValidationPalissade[$x][$y] = true;
+				$this->tabValidationEauPalissade[$x][$y] = true;
 			}
 		}
 		foreach($palissades as $p) {
-			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+			$this->tabValidationEauPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+		foreach($eaux as $e) {
+			$this->tabValidationEauPalissade[$e["x_eau"]][$e["y_eau"]] = false;
 		}
 
 		$defautChecked = false;
@@ -114,7 +128,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 				}
 
 				// on regarde s'il n'y a pas de palissade
-				if ($this->tabValidationPalissade[$x][$y] === false) {
+				if ($this->tabValidationEauPalissade[$x][$y] === false) {
 					$valid = false;
 				}
 
@@ -208,16 +222,16 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$y = $this->view->user->y_braldun;
 
 		$k = 0;
-		$this->view->palissadeRencontree = false;
+		$this->view->eauPalissadeRencontree = false;
 
 		for ($i = 1; $i <= $this->distance; $i++) {
-			if ($this->tabValidationPalissade[$x + $i * $offset_x][$y + $i * $offset_y] == false
+			if ($this->tabValidationEauPalissade[$x + $i * $offset_x][$y + $i * $offset_y] == false
 			|| $x + $i*$offset_x < $this->view->config->game->x_min
 			|| $x + $i*$offset_x > $this->view->config->game->x_max
 			|| $y + $i*$offset_y < $this->view->config->game->y_min
 			|| $y + $i*$offset_y > $this->view->config->game->y_max) {
 				$k = $i-1;
-				$this->view->palissadeRencontree = true;
+				$this->view->eauPalissadeRencontree = true;
 				break;
 			} else {
 				$k = $i;

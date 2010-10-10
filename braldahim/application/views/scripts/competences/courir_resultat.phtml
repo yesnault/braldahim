@@ -3,8 +3,8 @@
 Vous avez couru jusqu'en  : <br />
 x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?> <br /><br />
 
-<? if ($this->palissadeRencontree === true) : ?>
-	Vous vous &ecirc;tes arr&ecirc;t&eacute; devant une palissade.
+<? if ($this->eauPalissadeRencontree === true) : ?>
+	Vous vous &ecirc;tes arr&ecirc;t&eacute; devant une palissade ou devant de l'eau profonde.
 	
 	<? if ($this->estCrevasseEvenement === true) : ?>
 	... et ...
