@@ -23,6 +23,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierTitres();
 		$retour .= $this->genereFichierDistinctions();
 		$retour .= $this->genereFichierPlantes();
+		$retour .= $this->genereFichierEnvironnements();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -468,6 +469,53 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_plantes, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierPlantes - exit -");
+		return $retour;
+	}
+
+	private function genereFichierEnvironnements() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEnvironnements - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Environnement");
+		$environnementTable = new Environnement();
+		$environnements = $environnementTable->fetchAll();
+
+		$contenu = "nom_environnement;nom_systeme_environnement";
+		$contenu .= PHP_EOL;
+
+		if (count($environnements) > 0) {
+			foreach ($environnements as $v) {
+				$contenu .= $v["nom_environnement"].';';
+				$contenu .= $v["nom_systeme_environnement"].';';
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		$contenu .= "Eau peu profonde;peuprofonde;";
+		$contenu .= PHP_EOL;
+		$contenu .= "Eau profonde;peuprofonde;";
+		$contenu .= PHP_EOL;
+		$contenu .= "Lac;lac;";
+		$contenu .= PHP_EOL;
+		$contenu .= "Mer;mer;";
+		$contenu .= PHP_EOL;
+
+		Zend_Loader::loadClass("TypeBosquet");
+		$typeBosquetTable = new TypeBosquet();
+		$typesBosquet = $typeBosquetTable->fetchAll();
+
+		if (count($typesBosquet) > 0) {
+			foreach ($typesBosquet as $v) {
+				$contenu .= $v["nom_type_bosquet"].';';
+				$contenu .= $v["nom_systeme_type_bosquet"].';';
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_environnements, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEnvironnements - exit -");
 		return $retour;
 	}
 
