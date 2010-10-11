@@ -548,12 +548,10 @@ margin-right:auto !important;
 	color:#eeeeee;
 	backgound-color:#5d8035;
 	
-	    /* Ombre portee */
-    /*-webkit-box-shadow: #000 0px 0 16px -1px;
+	 /* Ombre portee */
+    -webkit-box-shadow: #000 0px 0 16px -1px;
     -moz-box-shadow: #000 0px 0 16px -1px;
-    box-shadow: #000 0px 0 16px -1px;*/
-    
-    -moz-box-shadow: #000 0px 0 16px 0px;
+    box-shadow: #000 0px 0 16px -1px;
     width:97%;
 }
 
