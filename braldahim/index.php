@@ -94,7 +94,7 @@ if ($_SERVER['SERVER_NAME'] == "work.braldahim.com") {
 } else {
 	Zend_Registry::set('estWork', false);
 }
-Zend_Registry::set('estWork', true);
+
 Bral_Util_Registre::chargement();
 
 // setup controller
