@@ -11,6 +11,10 @@ body {
 	margin-left: 0px;
 	margin-right: 0px;
 	color:#eeeeee;
+	
+	 /* Degrade */
+    background: -moz-linear-gradient(45deg,#003b00,#5d8035);
+    background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
 }
 
 #frisebot, #frisetop {
@@ -285,6 +289,11 @@ span.id_braldun {
 	border-width: 1px;
 	margin: 2px;
 	margin-left: 10px;
+	
+	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
+	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror… */
 }
 
 .onglet.actif {
@@ -323,7 +332,6 @@ span.id_braldun {
 /* ************************************************ */
 
 #menu {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
@@ -401,12 +409,6 @@ span.id_braldun {
 	background-position:-480px -45px;
 }
 
-#wrapper {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
-	height:auto;
-	min-height:290px;
-}
-
 .contenu {
 	border-width: 0px;
 	border-color: #000000;
@@ -459,7 +461,7 @@ span.id_braldun {
 }
 
 .titre {
-	padding: 0px;
+	padding: 5px;
 	font-weight: bolder;
 	margin: 0.0em;
 	color: #f0ae21;
@@ -477,14 +479,17 @@ span.id_braldun {
 
 .textsizea {
 	font-size: 2em;
+	text-shadow: rgba(0,0,0,0.7) 2px 3px;
 }
 
 .textsizeb {
 	font-size: 1.4em;
+	text-shadow: rgba(0,0,0,0.7) 2px 3px;
 }
 
 .textsizec {
 	font-size: 1.2em;
+	text-shadow: rgba(0,0,0,0.7) 2px 3px;
 }
 
 .textsized {
@@ -531,6 +536,10 @@ span.id_braldun {
 	border-width: 1pt 1px;
 	display: block;
 	background: #003b00 repeat-x scroll 0pt 0%;
+	
+	 -webkit-box-shadow: 0px 10px 16px -1px #000000;
+    -moz-box-shadow:0px 10px 16px -1px #000000;
+     box-shadow: 0px 10px 16px -1px #000000;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
@@ -560,6 +569,12 @@ span.id_braldun {
 	display: block;
 	color: #eeeeee;
 	text-align: center;
+	
+	 /* Ombre portee */
+    -webkit-box-shadow: #000 0px 0 16px -1px;
+    -moz-box-shadow: #000 0px 0 16px -1px;
+    box-shadow: #000 0px 0 16px -1px;
+    width:97%;
 }
 	
 .box_contenu {
@@ -571,6 +586,10 @@ span.id_braldun {
 	padding: 0px;
 	margin: 0px;
 	border: 1px solid #000000;
+	
+	 -webkit-box-shadow: 0px 10px 16px -1px #000000;
+    -moz-box-shadow:0px 10px 16px -1px #000000;
+     box-shadow: 0px 10px 16px -1px #000000;
 }
 
 #header {

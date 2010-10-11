@@ -11,8 +11,8 @@ body {
 	min-height:500px;
 	
 	 /* Degrade */
-    background: -moz-linear-gradient(-90deg,#003b00,#5d8035);
-    background: -webkit-gradient(linear, left top, left bottom, from(#003b00), to(#5d8035));
+    background: -moz-linear-gradient(45deg,#003b00,#5d8035);
+    background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
 }
 
 #frisebot, #frisetop {
