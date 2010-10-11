@@ -8,7 +8,7 @@ body {
 	margin-right: 0px;
 	color:#000000;
 	
-	min-height:700px;
+	min-height:500px;
 	
 	 /* Degrade */
     background: -moz-linear-gradient(-90deg,#003b00,#5d8035);
@@ -293,6 +293,16 @@ span.resultat_cache {
 
 .box_pub_login {
 	width: 300px;
+}
+
+.box_public {
+	height:auto;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10px;
+	position:relative;
+	text-align:center;
+	width:90%;	
 }
 
 .box_infos_jeu {
