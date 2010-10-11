@@ -38,6 +38,9 @@ body {
 
 .inner {
 	background: none;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .box_contenu1 {
@@ -76,6 +79,7 @@ input {
 
 .textsizea {
 	color: #666666;
+	text-shadow: none;
 }
 
 .textsizeb {
@@ -144,3 +148,7 @@ div.braltip:hover span.tip{
 	background-image:none;
 }
 
+.bougrie_text {
+background: #FFFFFF;
+border:1px solid #666666;
+}
