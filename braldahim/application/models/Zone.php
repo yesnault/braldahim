@@ -51,13 +51,16 @@ class Zone extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function fetchAllAvecEnvironnement() {
+	public function fetchAllAvecEnvironnement($where = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('environnement', '*')
 		->from('zone', '*')
 		->where('zone.id_fk_environnement_zone = environnement.id_environnement')
 		->order('zone.id_zone');
+		if ($where != null) {
+			$select->where($where);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

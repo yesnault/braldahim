@@ -24,6 +24,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierDistinctions();
 		$retour .= $this->genereFichierPlantes();
 		$retour .= $this->genereFichierEnvironnements();
+		$retour .= $this->genereFichierZones();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -516,6 +517,37 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_environnements, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEnvironnements - exit -");
+		return $retour;
+	}
+
+	private function genereFichierZones() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierZones - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Zone");
+		$zoneTable = new Zone();
+		$zones = $zoneTable->fetchAllAvecEnvironnement("id_fk_donjon_zone is null and z_zone=0");
+
+		$contenu = "id_zone;id_fk_environnement_zone;nom_systeme_environnement;x_min_zone;x_max_zone;y_min_zone;y_max_zone";
+		$contenu .= PHP_EOL;
+
+		if (count($zones) > 0) {
+			foreach ($zones as $v) {
+				$contenu .= $v["id_zone"].';';
+				$contenu .= $v["id_fk_environnement_zone"].';';
+				$contenu .= $v["nom_systeme_environnement"].';';
+				$contenu .= $v["x_min_zone"].';';
+				$contenu .= $v["x_max_zone"].';';
+				$contenu .= $v["y_min_zone"].';';
+				$contenu .= $v["y_max_zone"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_zones, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierZones - exit -");
 		return $retour;
 	}
 
