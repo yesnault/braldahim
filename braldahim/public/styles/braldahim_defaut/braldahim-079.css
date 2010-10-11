@@ -7,6 +7,12 @@ body {
 	margin-left: 0px;
 	margin-right: 0px;
 	color:#000000;
+	
+	min-height:400px;
+	
+	 /* Degrade */
+    background: -moz-linear-gradient(-90deg,#003b00,#5d8035);
+    background: -webkit-gradient(linear, left top, left bottom, from(#003b00), to(#5d8035));
 }
 
 #frisebot, #frisetop {
@@ -335,6 +341,7 @@ span.resultat_cache {
 }
 
 .textsizea {
+	text-shadow: rgba(0,0,0,0.7) 2px 3px;
 	font-size: 2em;
 	color: #f0ae21;
 }
@@ -518,6 +525,10 @@ margin-right:auto !important;
 	border-width: 1pt 1px;
 	display: block;
 	background: #628b28 repeat-x scroll 0pt 0%;
+	
+	-webkit-box-shadow: #000 0px 0 16px -1px;
+    -moz-box-shadow: #000 0px 0 16px -1px;
+    box-shadow: #000 0px 0 16px -1px;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
@@ -535,6 +546,15 @@ margin-right:auto !important;
 	display: block;
 	text-align: center;
 	color:#eeeeee;
+	backgound-color:#5d8035;
+	
+	    /* Ombre portee */
+    /*-webkit-box-shadow: #000 0px 0 16px -1px;
+    -moz-box-shadow: #000 0px 0 16px -1px;
+    box-shadow: #000 0px 0 16px -1px;*/
+    
+    -moz-box-shadow: #000 0px 0 16px 0px;
+    width:97%;
 }
 
 .box_contenu { /* interieur de la boite */
@@ -1088,7 +1108,7 @@ td.cases.actuelle {
 /* ************************************************ */
 
 #menu {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
+	/*background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;*/
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
@@ -1168,10 +1188,11 @@ td.cases.actuelle {
 }
 
 #wrapper {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
+/*	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
 	margin-top: 0px;
+*/
 }
 
 #header {
@@ -1317,8 +1338,7 @@ width:100%;
 }
 	
 .bougrie_text {
-background: #C3E691; /* old browsers */
-background: -moz-linear-gradient(top, #C3E691 0%, #628B28 100%); /* firefox */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#C3E691), color-stop(100%,#628B28)); /* webkit */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C3E691', endColorstr='#628B28',GradientType=0 ); /* ie */
+background: #C3E691;
+border:1px solid #666666;
+border-collapse:collapse;
 }
