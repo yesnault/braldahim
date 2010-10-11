@@ -494,7 +494,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 
 		$contenu .= "Eau peu profonde;peuprofonde";
 		$contenu .= PHP_EOL;
-		$contenu .= "Eau profonde;peuprofonde";
+		$contenu .= "Eau profonde;profonde";
 		$contenu .= PHP_EOL;
 		$contenu .= "Lac;lac";
 		$contenu .= PHP_EOL;
