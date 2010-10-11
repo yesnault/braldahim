@@ -256,6 +256,13 @@ span.resultat_cache {
 	margin: 1px;
 	margin-left: 3px;
 	color:#000000;
+	text-align:center;
+	padding-left:3px;
+	
+	border-radius: 1px 1px 0px 0px; /* en css3 lui même */
+	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 1px 1px 0px 0px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 60px 60px 10px 10px; /* pour Khtml : Konqueror… */
 }
 
 .onglet.premier {
@@ -537,9 +544,9 @@ margin-right:auto !important;
 	display: block;
 	background: #628b28 repeat-x scroll 0pt 0%;
 	
-	-webkit-box-shadow: #000 0px 0 16px -1px;
-    -moz-box-shadow: #000 0px 0 16px -1px;
-    box-shadow: #000 0px 0 16px -1px;
+    -webkit-box-shadow: 0px 10px 16px -1px #000000;
+    -moz-box-shadow:0px 10px 16px -1px #000000;
+     box-shadow: 0px 10px 16px -1px #000000;
 }
 
 

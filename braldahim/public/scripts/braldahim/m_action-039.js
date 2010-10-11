@@ -331,12 +331,21 @@ function my_switch(box, conteneur) {
 		if ($(val[i])) {
 			$(val[i]).style.display = "none";
 		}
-		$("onglet_" + val[i]).className = "onglet inactif";
+		if ($("onglet_" + val[i]).className.indexOf("premier") > 1) {
+			$("onglet_" + val[i]).className = "onglet inactif premier";
+		} else {
+			$("onglet_" + val[i]).className = "onglet inactif";	
+		}
+		
 	}
 	if ($(box)) {
 		$(box).style.display = "block";
 	}
-	$("onglet_" + box).className = "onglet actif";
+	if ($("onglet_" + box).className.indexOf("premier") > 1) {
+		$("onglet_" + box).className = "onglet actif premier";
+	} else {
+		$("onglet_" + box).className = "onglet actif";
+	}
 	
 	if ($("loaded_" + box).value != "1") {
 		$("loaded_" + box).value = 1;
