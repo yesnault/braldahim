@@ -259,10 +259,10 @@ span.resultat_cache {
 	text-align:center;
 	padding-left:3px;
 	
-	border-radius: 1px 1px 0px 0px; /* en css3 lui même */
+	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
 	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 1px 1px 0px 0px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 60px 60px 10px 10px; /* pour Khtml : Konqueror… */
+	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror… */
 }
 
 .onglet.premier {
