@@ -748,7 +748,7 @@ class Bral_Util_Attaque {
 
 				$retourAttaque["mort"] = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $braldunAttaquant->niveau_braldun, $view);
+				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $braldunAttaquant, $view);
 			} else {
 				if ($retourAttaque["critique"] == false) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
 					$monstre["bm_attaque_monstre"] = $monstre["bm_attaque_monstre"] - Bral_Util_De::get_1d3();

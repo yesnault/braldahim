@@ -459,7 +459,7 @@ class Bral_Monstres_VieMonstre {
 	 * Mort d'un monstre : mise à jour table monstre
 	 * Drop Rune
 	 */
-	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauBraldun, $view) {
+	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $braldun, $view) {
 
 		if ($id_monstre == null || (int)$id_monstre<=0 ) {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
@@ -488,11 +488,29 @@ class Bral_Monstres_VieMonstre {
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
 
+		Zend_Loader::loadClass("Butin");
+		$butinTable = new Butin();
+		$data["id_fk_braldun_butin"] = $braldun->id_braldun;
+		$data["date_butin"] = $dateCreation;
+		$data["x_butin"] = $braldun->x_braldun;
+		$data["y_butin"] = $braldun->y_braldun;
+		$data["z_butin"] = $braldun->z_braldun;
+		$idButin = $butinTable->insert($data);
+		
 		Zend_Loader::loadClass("Bral_Util_Rune");
-		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $niveauBraldun, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre);
-		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauBraldun, $monstre["id_fk_type_groupe_monstre"]);
+		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $braldun->niveau_braldun, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre, $idButin);
+		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauBraldun, $monstre["id_fk_type_groupe_monstre"], $idButin);
 
 		$tabGains["finDonjon"] = null;
+		$s = "";
+		if ($tabGains["gainCastars"] > 1) {
+			$s = "s";
+		}
+		$tabGains["butin"] = "Butin n°".$idButin." : ".$tabGains["gainCastars"]." castar".$s;
+		
+		if ($tabGains["gainRune"] != false) {
+			$tabGains["butin"] = $tabGains["butin"] . " et rune n°".$tabGains["butin"];
+		}
 
 		Zend_Loader::loadClass("TailleMonstre");
 		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
@@ -503,7 +521,7 @@ class Bral_Monstres_VieMonstre {
 		return $tabGains;
 	}
 
-	private function dropCastars($x, $y, $z, $niveauMonstre, $effetMotH, $niveauBraldun, $idTypeGroupeMonstre) {
+	private function dropCastars($x, $y, $z, $niveauMonstre, $effetMotH, $niveauBraldun, $idTypeGroupeMonstre, $idButin) {
 
 		if ($idTypeGroupeMonstre == self::$config->game->groupe_monstre->type->gibier) {
 			// pas de drop de castar pour les gibiers
@@ -530,6 +548,7 @@ class Bral_Monstres_VieMonstre {
 				"x_element" => $x,
 				"y_element" => $y,
 				"z_element" => $z,
+				"id_fk_butin_element" => $idButin,
 		);
 		$elementTable->insertOrUpdate($data);
 

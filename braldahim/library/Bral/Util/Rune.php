@@ -14,7 +14,7 @@ class Bral_Util_Rune {
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
 	const HISTORIQUE_IDENTIFIER_ID = 6;
 	
-	public static function dropRune($x, $y, $z, $niveauTue, $niveauBraldun, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
+	public static function dropRune($x, $y, $z, $niveauTue, $niveauBraldun, $idTypeGroupeMonstre, $effetMotD, $idMonstre, $idButin) {
 
 		// on ne prend pas le config initialise ici,
 		// methode pouvant etre appelée en static de l'exterieur de la classe
@@ -85,6 +85,7 @@ class Bral_Util_Rune {
 			"y_element_rune" => $y,
 			"z_element_rune" => $z,
 			"date_fin_element_rune" => $dateFin,
+			"id_fk_butin_element_rune" => $idButin,
 		);
 
 		$elementRuneTable = new ElementRune();
@@ -101,7 +102,7 @@ class Bral_Util_Rune {
 		$details = "[m".$idMonstre."] a laissé tomber la rune n°".$idRune;
 		self::insertHistorique(self::HISTORIQUE_CREATION_ID, $idRune, $details);
 
-		return true;
+		return $idRune;
 	}
 
 	public static function insertHistorique($idTypeHistoriqueRune, $idRune, $details) {
