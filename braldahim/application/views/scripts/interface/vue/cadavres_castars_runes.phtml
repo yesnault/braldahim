@@ -82,12 +82,14 @@ endif;
 
 if ($case["n_castars"] > 0) :
 	$textCastar = "<br />";
+	$saut = "";
 	foreach($case["castars"] as $c) {
 		$s = "";
 		if ($c["nb_castar"] > 1) {
 			$s = "s";
 		}
-		$textCastar .= $c["nb_castar"]. " castar".$s;
+		$textCastar .= $saut.$c["nb_castar"]. " castar".$s;
+		$saut = "<br />";
 	}
 endif;
 

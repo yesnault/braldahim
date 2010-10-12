@@ -36,10 +36,14 @@ class Element extends Zend_Db_Table {
 		quantite_castar_element as quantiteCastar,
 		quantite_fourrure_element as quantiteFourrure,
 		quantite_planche_element as quantitePlanche,
-		quantite_rondin_element as quantiteRondin')
+		quantite_rondin_element as quantiteRondin,
+		id_fk_butin_element as idButin')
 		->where('x_element = ?',$data["x_element"])
 		->where('y_element = ?',$data["y_element"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
+		if (isset($data['id_fk_butin_element'])) {
+			$select->where('id_fk_butin_element = ?',$data["id_fk_butin_element"]);
+		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -53,6 +57,7 @@ class Element extends Zend_Db_Table {
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
 			$quantiteRondin = $resultat[0]["quantiteRondin"];
+			$idButin = $resultat[0]["idButin"];
 
 			$dataUpdate['quantite_peau_element'] = $quantitePeau;
 			$dataUpdate['quantite_cuir_element'] = $quantiteCuir;
@@ -60,6 +65,7 @@ class Element extends Zend_Db_Table {
 			$dataUpdate['quantite_castar_element'] = $quantiteCastar;
 			$dataUpdate['quantite_planche_element'] = $quantitePlanche;
 			$dataUpdate['quantite_rondin_element'] = $quantiteRondin;
+			$dataUpdate['id_fk_butin_element'] = $idButin;
 
 			if (isset($data["quantite_peau_element"])) {
 				$dataUpdate['quantite_peau_element'] = $quantitePeau + $data["quantite_peau_element"];
@@ -82,6 +88,11 @@ class Element extends Zend_Db_Table {
 
 			$where = ' x_element = '.$data["x_element"];
 			$where .= ' AND y_element = '.$data["y_element"];
+			if ($idButin != null) {
+				$where .= ' AND id_fk_butin_element = '.$idButin;
+			} else {
+				$where .= ' AND id_fk_butin_element is null';
+			}
 
 			if ($dataUpdate['quantite_peau_element'] <= 0 &&
 			$dataUpdate['quantite_cuir_element'] <= 0 &&

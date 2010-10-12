@@ -130,11 +130,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Si on a choisi le départ, on peut choisir l'arrivée
 		if ($choixDepart === true) {
-			
+
 			if ($tabEndroit[$id_type_courant_depart]["nom_systeme"] == "Charrette") { // positionnement de la charrette choisie
 				$this->view->id_charrette_depart = $tabEndroit[$id_type_courant_depart]["id_charrette"];
 			}
-				
+
 			$tabTypeArrivee = null;
 			//Si l'arrivée est déjà choisie on récupère la valeur
 			if ($this->request->get("valeur_2") != "") {
@@ -2578,39 +2578,72 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 		}
 
-		if (count($autres) == 1) {
+		$autresButin = null;
+		
+		if (count($autres) >= 1) {
+			$tabAutres = array(
+					"nb_castar" => 0,
+					"nb_peau" => 0,
+					"nb_cuir" => 0,
+					"nb_fourrure" => 0,
+					"nb_planche" => 0,
+					"nb_rondin" => 0,
+					"info_castar" => "",
+					"info_peau" => "",
+					"info_cuir" => "",
+					"info_fourrure" => "",
+					"info_planche" => "",
+					"info_rondin" => "",
+			);
+
 			if ($depart == "Echoppe") {
 				$strqte = "arriere_echoppe";
-				$p = $autres[0];
-				$tabAutres = array(
-					"nb_castar" => 0,
-					"nb_peau" => $p["quantite_peau_".strtolower($strqte)],
-					"nb_cuir" => $p["quantite_cuir_".strtolower($strqte)],
-					"nb_fourrure" => $p["quantite_fourrure_".strtolower($strqte)],
-					"nb_planche" => $p["quantite_planche_".strtolower($strqte)],
-					"nb_rondin" => $p["quantite_rondin_".strtolower($strqte)],
-				);
-			}
-			else {
+			} else {
 				$strqte = $depart;
-				$p = $autres[0];
-				$tabAutres = array(
-					"nb_castar" => $p["quantite_castar_".strtolower($strqte)],
-					"nb_peau" => $p["quantite_peau_".strtolower($strqte)],
-					"nb_cuir" => $p["quantite_cuir_".strtolower($strqte)],
-					"nb_fourrure" => $p["quantite_fourrure_".strtolower($strqte)],
-					"nb_planche" => $p["quantite_planche_".strtolower($strqte)],
-					"nb_rondin" => $p["quantite_rondin_".strtolower($strqte)],
-				);
 			}
+
+			foreach($autres as $p) {
+				if ($depart == "Echoppe") {
+					$tabAutres["nb_castar"] = 0;
+				} else {
+					$tabAutres["nb_castar"] = $tabAutres["nb_castar"] + $p["quantite_castar_".strtolower($strqte)];
+				}
+				$tabAutres["nb_peau"] = $tabAutres["nb_peau"] + $p["quantite_peau_".strtolower($strqte)];
+				$tabAutres["nb_cuir"] = $tabAutres["nb_cuir"] + $p["quantite_cuir_".strtolower($strqte)];
+				$tabAutres["nb_fourrure"] = $tabAutres["nb_fourrure"] + $p["quantite_fourrure_".strtolower($strqte)];
+				$tabAutres["nb_planche"] = $tabAutres["nb_planche"] + $p["quantite_planche_".strtolower($strqte)];
+				$tabAutres["nb_rondin"] = $tabAutres["nb_rondin"] + $p["quantite_rondin_".strtolower($strqte)];
+				if ($depart == "Element") {
+					if ($p["id_fk_butin_element"] != null) {
+						$autresButin[] = $p;
+						if ($p["quantite_castar_".strtolower($strqte)] > 0) $tabAutres["info_castar"] .= " Butin n°".$p["id_fk_butin_element"];
+						if ($p["quantite_peau_".strtolower($strqte)] > 0) $tabAutres["info_peau"] .= " Butin n°".$p["id_fk_butin_element"];
+						if ($p["quantite_cuir_".strtolower($strqte)] > 0) $tabAutres["info_cuir"] .= " Butin n°".$p["id_fk_butin_element"];
+						if ($p["quantite_fourrure_".strtolower($strqte)] > 0) $tabAutres["info_fourrure"] .= " Butin n°".$p["id_fk_butin_element"];
+						if ($p["quantite_planche_".strtolower($strqte)] > 0) $tabAutres["info_planche"] .= " Butin n°".$p["id_fk_butin_element"];
+						if ($p["quantite_rondin_".strtolower($strqte)] > 0) $tabAutres["info_rondin"] .= " Butin n°".$p["id_fk_butin_element"];
+					}
+
+
+				}
+			}
+
 			if ( $tabAutres["nb_castar"] != 0 || $tabAutres["nb_peau"] != 0 ||
 			$tabAutres["nb_cuir"] != 0 || $tabAutres["nb_fourrure"] != 0 ||
 			$tabAutres["nb_planche"] != 0 || $tabAutres["nb_rondin"] != 0
 			) {
 				$this->view->deposerOk = true;
+
+				if ($tabAutres["info_castar"] != "") $tabAutres["info_castar"] = " (dont ".$tabAutres["info_castar"].")";
+				if ($tabAutres["info_peau"] != "") $tabAutres["info_peau"] = " (dont ".$tabAutres["info_castar"].")";
+				if ($tabAutres["info_cuir"] != "") $tabAutres["info_cuir"] = " (dont ".$tabAutres["info_castar"].")";
+				if ($tabAutres["info_fourrure"] != "") $tabAutres["info_fourrure"] = " (dont ".$tabAutres["info_castar"].")";
+				if ($tabAutres["info_planche"] != "") $tabAutres["info_planche"] = " (dont ".$tabAutres["info_castar"].")";
+				if ($tabAutres["info_rondin"] != "") $tabAutres["info_rondin"] = " (dont ".$tabAutres["info_castar"].")";
 			}
 		}
 		$this->view->autres = $tabAutres;
+		$this->autresButin = $autresButin;
 	}
 
 	private function deposeTypeAutres($depart,$arrivee) {
@@ -2681,12 +2714,45 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 						case "Element" :
 							$departTable = new Element();
-							$data = array(
+
+							$nbAEnlever = $nb;
+
+							// on supprime les butins en premier
+							if ($this->autresButin != null) {
+								foreach($this->autresButin as $b) {
+
+									$data = array(
+											"quantite_".$nom_systeme."_element" => -$nbAEnlever,
+											"x_element" => $this->view->user->x_braldun,
+											"y_element" => $this->view->user->y_braldun,
+											"z_element" => $this->view->user->z_braldun,
+											"id_fk_butin_element" => $b["id_fk_butin_element"],
+									);
+
+									$departTable->insertOrUpdate($data);
+
+									if ($b["quantite_".$nom_systeme."_element"] >= $nbAEnlever) {
+										$nbAEnlever = 0;
+									} else {
+										$nbAEnlever = $nbAEnlever - $b["quantite_".$nom_systeme."_element"];
+									}
+
+									if ($nbAEnlever <= 0) {
+										break;
+									}
+								}
+							}
+
+							if ($nbAEnlever > 0) {
+								$data = array(
 								"quantite_".$nom_systeme."_element" => -$nb,
 								"x_element" => $this->view->user->x_braldun,
 								"y_element" => $this->view->user->y_braldun,
 								"z_element" => $this->view->user->z_braldun,
-							);
+								"id_fk_butin_element" => null,
+								);
+								$departTable->insertOrUpdate($data);
+							}
 							break;
 						case "Coffre" :
 							$departTable = new Coffre();
@@ -2707,8 +2773,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 					}
 					if ($departTable) {
-						$departTable->insertOrUpdate($data);
-						unset($departTable);
+						if ($depart != "Element") {
+							$departTable->insertOrUpdate($data);
+							unset($departTable);
+						}
 					}
 
 					$arriveeTable = null;
