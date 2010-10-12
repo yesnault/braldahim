@@ -66,17 +66,21 @@ class Bral_Util_Attaque {
 
 		if ($retourAttaque["jetAttaquant"]["jet"] > $retourAttaque["jetCible"]) { // attaque reussie
 			self::calculAttaqueBraldunReussie($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
+			if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
+				self::calculStatutEngage(&$braldunAttaquant, true);
+			}
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]["jet"]) { // esquive normale
 			self::calculAttaqueBraldunEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
+			if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
+				self::calculStatutEngage(&$braldunAttaquant, true);
+			}
 		} else { // esquive parfaite
 			self::calculAttaqueBraldunParfaitementEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
 		}
 
 		self::calculAttaqueBraldunRiposte($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $degatCase);
 
-		if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
-			self::calculStatutEngage(&$braldunAttaquant, true);
-		}
+
 		self::calculStatutEngage(&$braldunCible, true);
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - exit -");
@@ -188,7 +192,7 @@ class Bral_Util_Attaque {
 				$retourAttaque["critique"]  = true;
 			}
 		}
-		
+
 		if ($retourAttaque["critique"] == true) {
 			$retourAttaque["jetDegat"]["jet"] = $jetsDegat["critique"];
 			$retourAttaque["jetDegat"]["details"] = $jetsDegat["critiquedetails"];
@@ -198,7 +202,7 @@ class Bral_Util_Attaque {
 		}
 
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - jetDegat avant effetMotA=".$retourAttaque["jetDegat"]["jet"]);
-		$avant = $retourAttaque["jetDegat"]["jet"]; 
+		$avant = $retourAttaque["jetDegat"]["jet"];
 		$retourAttaque["jetDegat"]["jet"] = Bral_Util_Commun::getEffetMotA($braldunCible->id_braldun, $retourAttaque["jetDegat"]["jet"]);
 		if ($avant != $retourAttaque["jetDegat"]["jet"]) {
 			$retourAttaque["jetDegat"]["details"] .= " +".($retourAttaque["jetDegat"]["jet"] - $avant);
@@ -842,7 +846,7 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($braldunAttaquant->id_braldun, $idTypeEvenement, $details, $detailsBot, $braldunAttaquant->niveau_braldun, "braldun", null, null, null, $actionEvenement, $braldunAttaquant->nb_dla_jouees_braldun);
 		}
 
-		if ($tir==false) {
+		if ($tir == false) {
 			//pour un tir l'attaquant n'est pas engagé
 			self::calculStatutEngage(&$braldunAttaquant, true);
 		}
@@ -943,7 +947,7 @@ class Bral_Util_Attaque {
 		if ($jetDegat["noncritique"] < 0) {
 			$jetDegat["noncritique"] = 0;
 		}
-		
+
 		$jetDegat["critiquedetails"] = $jetDetailsCritique.$jetDetails;
 		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique.$jetDetails;
 

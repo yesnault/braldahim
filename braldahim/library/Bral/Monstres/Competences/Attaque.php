@@ -71,8 +71,6 @@ abstract class Bral_Monstres_Competences_Attaque {
 	protected function updateCible() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_braldun=".$this->cible["id_braldun"].")");
 
-		Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
-
 		// Mise a jour de la cible
 		$braldunTable = new Braldun();
 		$data = array(
@@ -170,6 +168,8 @@ abstract class Bral_Monstres_Competences_Attaque {
 				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($this->cible["id_braldun"]);
+				
+				Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 				$this->updateCible();
 				if ($effetMotS != null) {
 
@@ -198,6 +198,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 			$this->cible["bm_attaque_braldun"] = $this->cible["bm_attaque_braldun"] - Bral_Util_De::get_1d3();
 			$this->cible["bm_defense_braldun"] = $this->cible["bm_defense_braldun"] - Bral_Util_De::get_1d6();
 
+			Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 			$this->updateCible();
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a $verbe [b".$this->cible["id_braldun"]."] qui a esquivé l'attaque";
