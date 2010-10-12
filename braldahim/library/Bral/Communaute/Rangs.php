@@ -76,7 +76,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
-			$valeur = $filter->filter($this->_request->get('valeur_3'));
+			$valeur = stripslashes($filter->filter($this->_request->get('valeur_3')));
 		} else {
 			return;
 		}
