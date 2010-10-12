@@ -561,7 +561,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($elementsRunes != null) {
 						foreach($elementsRunes as $r) {
 							if ($display_x == $r["x_element_rune"] && $display_y == $r["y_element_rune"]) {
-								$tabElementsRunes[] = array("id_rune_element_rune" => $r["id_rune_element_rune"]);
+								$tabElementsRunes[] = array("id_rune_element_rune" => $r["id_rune_element_rune"], 'id_butin' => $r["id_fk_butin_element_rune"]);
 							}
 						}
 					}

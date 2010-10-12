@@ -17,130 +17,139 @@ if ($this->user->administrationvue == true && $case["n_routes"] > 0) {
 }
 
 if ($case["n_braldunsKo"] > 0) :
-	$sexe_braldun = "";
-	$textCorpBraldun = "<br />Braldûn";
-	if ($case["n_bralduns"] > 1) {
-		$textCorpBraldun .= "s";
+$sexe_braldun = "";
+$textCorpBraldun = "<br />Braldûn";
+if ($case["n_bralduns"] > 1) {
+	$textCorpBraldun .= "s";
+}
+$textCorpBraldun .= " KO:<br />";
+foreach($case["braldunsKo"] as $b) {
+	$intangible = "";
+	$textIntangible = "";
+	if ($b["est_intangible_braldun"] == 'oui') {
+		$intangible = "Intangible";
+		$textIntangible = "(Braldûn intangible) -";
 	}
-	$textCorpBraldun .= " KO:<br />";
-	foreach($case["braldunsKo"] as $b) {
-		$intangible = "";
-		$textIntangible = "";
-		if ($b["est_intangible_braldun"] == 'oui') {
-			$intangible = "Intangible";
-			$textIntangible = "(Braldûn intangible) -";
-		}
-		$textCorpBraldun .= '<label class=\'alabel profil'.$intangible.'\' onclick=ouvrirProfilH('.$b["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
-		$textCorpBraldun .= htmlspecialchars($b["prenom_braldun"]).' '.htmlspecialchars($b["nom_braldun"]);
-		$textCorpBraldun .= " (n&deg;".$b["id_braldun"].")</label>, niv.".$b["niveau_braldun"];
-		
-		$textCorpBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
-		if ($this->estVueEtendue == false) {
-			$textCorpBraldun .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
-		}
-		if ($b["id_communaute"] != null) {
-			$textCorpBraldun .= ' - <label class=alabel onclick=ouvrirCommunaute('.$b["id_communaute"].');>'.htmlspecialchars($b["nom_communaute"]).'</label>';
-		}
-		$textCorpBraldun .= "<br />";
-		
-		if ($sexe_braldun != "masculin_feminin"  &&
-		    ($sexe_braldun == "masculin" && $b["sexe_braldun"] == "feminin") ||
-		    ($sexe_braldun == "feminin" && $b["sexe_braldun"] == "masculin")) {
-			$sexe_braldun = "masculin_feminin";
-		} elseif ($b["sexe_braldun"] == "masculin") {
-			$sexe_braldun = "masculin";
-		} else {
-			$sexe_braldun = "feminin";
-		}
-	} 
-	$s = "";
-	if ($case["n_bralduns"] > 1) {
-		$s = "s";
+	$textCorpBraldun .= '<label class=\'alabel profil'.$intangible.'\' onclick=ouvrirProfilH('.$b["id_braldun"].'); title=\''.$textIntangible.' Voir le profil\' >';
+	$textCorpBraldun .= htmlspecialchars($b["prenom_braldun"]).' '.htmlspecialchars($b["nom_braldun"]);
+	$textCorpBraldun .= " (n&deg;".$b["id_braldun"].")</label>, niv.".$b["niveau_braldun"];
+
+	$textCorpBraldun .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
+	if ($this->estVueEtendue == false) {
+		$textCorpBraldun .= ' <img src=\'/public/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$b["id_braldun"].'); style=\'cursor:pointer\'/> ';
 	}
-endif; 
+	if ($b["id_communaute"] != null) {
+		$textCorpBraldun .= ' - <label class=alabel onclick=ouvrirCommunaute('.$b["id_communaute"].');>'.htmlspecialchars($b["nom_communaute"]).'</label>';
+	}
+	$textCorpBraldun .= "<br />";
+
+	if ($sexe_braldun != "masculin_feminin"  &&
+	($sexe_braldun == "masculin" && $b["sexe_braldun"] == "feminin") ||
+	($sexe_braldun == "feminin" && $b["sexe_braldun"] == "masculin")) {
+		$sexe_braldun = "masculin_feminin";
+	} elseif ($b["sexe_braldun"] == "masculin") {
+		$sexe_braldun = "masculin";
+	} else {
+		$sexe_braldun = "feminin";
+	}
+}
+$s = "";
+if ($case["n_bralduns"] > 1) {
+	$s = "s";
+}
+endif;
 
 if ($case["n_cadavres"] > 0) :
-	$textCadavre = "<br />Cadavre";
-	if ($case["n_cadavres"] > 0) {
-		$textCadavre .= "s";
+$textCadavre = "<br />Cadavre";
+if ($case["n_cadavres"] > 0) {
+	$textCadavre .= "s";
+}
+$textCadavre .= ": 	<br />";
+foreach($case["cadavres"] as $c) {
+	$textCadavre .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\'); title=\'Voir le profil\' >';
+	if ($c["est_gibier"]) {
+		$textCadavre .= "Gibier : ";
 	}
-	$textCadavre .= ": 	<br />";
-	foreach($case["cadavres"] as $c) {
-		$textCadavre .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\'); title=\'Voir le profil\' >';
-		if ($c["est_gibier"]) {
-			$textCadavre .= "Gibier : ";
-		}
-		$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label>";
-		$textCadavre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$c["id_monstre"].'); style=\'cursor:pointer\'/> ';
-		$textCadavre .= "<br />";
-	}
-	$s = "";
-	if ($case["n_cadavres"] > 1) {
-		$s = "s";
-	}
+	$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label>";
+	$textCadavre .= ' <img src=\'/public/images/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$c["id_monstre"].'); style=\'cursor:pointer\'/> ';
+	$textCadavre .= "<br />";
+}
+$s = "";
+if ($case["n_cadavres"] > 1) {
+	$s = "s";
+}
 endif;
 
 if ($case["n_castars"] > 0) :
-	$textCastar = "<br />";
-	$saut = "";
-	foreach($case["castars"] as $c) {
-		$s = "";
-		if ($c["nb_castar"] > 1) {
-			$s = "s";
-		}
-		$textCastar .= $saut.$c["nb_castar"]. " castar".$s;
-		$saut = "<br />";
+$textCastar = "<br />";
+$saut = "";
+foreach($case["castars"] as $c) {
+	$s = "";
+	if ($c["nb_castar"] > 1) {
+		$s = "s";
 	}
+	$textCastar .= $saut.$c["nb_castar"]. " castar".$s;
+	$saut = "<br />";
+}
 endif;
 
 if ($case["n_elements_runes"] > 0) :
-	$s = '';
-	if ($case["n_elements_runes"] > 1) $s = 's';
-	$textRune = "<br />Rune".$s.":<br />";
-	foreach($case["elements_runes"] as $r) {
-		$textRune .= "<label class=\'alabel\' onclick=ouvRune(".$r["id_rune_element_rune"].")>";
-		$textRune .= "Rune n&deg;".$r["id_rune_element_rune"]."</label><br />";
+$s = '';
+if ($case["n_elements_runes"] > 1) $s = 's';
+$textRune = "<br />Rune".$s.":<br />";
+foreach($case["elements_runes"] as $r) {
+	$textRune .= "<label class=\'alabel\' onclick=ouvRune(".$r["id_rune_element_rune"].")>";
+	$textRune .= "Rune n&deg;".$r["id_rune_element_rune"];
+	if ($r["id_butin"] != null) {
+		$textRune .= "(butin n°".$r["id_butin"].")";
 	}
-	$s = "";
-	if ($case["n_elements_runes"] > 1) {
-		$s = "s";
-	}
+	$textRune .= "</label><br />";
+}
+$s = "";
+if ($case["n_elements_runes"] > 1) {
+	$s = "s";
+}
 endif;
 
 if ($case["n_buissons"] > 0) :
-	$s = '';
-	if ($case["n_buissons"] > 1) $s = 's';
-	$textBuisson = "<br />Buisson".$s.":<br />";
-	foreach($case["buissons"] as $b) {
-		$textBuisson .= htmlspecialchars($b["nom_buisson"])."<br />";
-	}
+$s = '';
+if ($case["n_buissons"] > 1) $s = 's';
+$textBuisson = "<br />Buisson".$s.":<br />";
+foreach($case["buissons"] as $b) {
+	$textBuisson .= htmlspecialchars($b["nom_buisson"])."<br />";
+}
 endif;
 
 ?>
-<div class="braltip">
-<?=Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
-	<?
-	if ($case["n_buissons"] > 0) :
-	?><img src='/public/styles/braldahim_defaut/images/vue/buisson.png' style="position: absolute; top: -14px" /><?
+<div class="braltip"><?=Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
+<?
+if ($case["n_buissons"] > 0) :
+?><img src='/public/styles/braldahim_defaut/images/vue/buisson.png'
+	style="position: absolute; top: -14px" /><?
 	endif;
 
 	if ($case["n_elements_runes"] > 0) :
-	?><img src='/public/styles/braldahim_defaut/images/vue/runes.png' style="position: absolute; left: 4px; top: -9px" /><?
+	?><img src='/public/styles/braldahim_defaut/images/vue/runes.png'
+	style="position: absolute; left: 4px; top: -9px" /><?
 
 	endif;
 
 	if ($case["n_cadavres"] > 0 && $case["n_castars"] > 0) :
-	?> <img src='/public/styles/braldahim_defaut/images/vue/cadavre_castars.png' style="position: absolute; top: -9px; left:5px;" /> <?
+	?> <img
+	src='/public/styles/braldahim_defaut/images/vue/cadavre_castars.png'
+	style="position: absolute; top: -9px; left: 5px;" /> <?
 
 	elseif ($case["n_castars"] > 0) :
-	?> <img src='/public/styles/braldahim_defaut/images/vue/castars.png' style="position: absolute; left: 10px; top: -10px" /> <?
+	?> <img src='/public/styles/braldahim_defaut/images/vue/castars.png'
+	style="position: absolute; left: 10px; top: -10px" /> <?
 
 	elseif ($case["n_cadavres"] > 0) :
-	?> <img src='/public/styles/braldahim_defaut/images/vue/cadavre.png' style="position: absolute; top: -12px; left:5px;" /> <?
+	?> <img src='/public/styles/braldahim_defaut/images/vue/cadavre.png'
+	style="position: absolute; top: -12px; left: 5px;" /> <?
 	endif;
-	
+
 	if ($case["n_braldunsKo"] > 0) :
-	?> <img src='/public/styles/braldahim_defaut/images/vue/braldunKo.png' style="position: absolute; left: 10px; top: -2px" /> <?
+	?> <img src='/public/styles/braldahim_defaut/images/vue/braldunKo.png'
+	style="position: absolute; left: 10px; top: -2px" /> <?
 	endif;
-	?>
-</div>
+	?></div>

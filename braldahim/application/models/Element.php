@@ -9,35 +9,53 @@ class Element extends Zend_Db_Table {
 	protected $_name = 'element';
 	protected $_primary = array('x_element', 'y_element');
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $controleButin = false, $listIdsButin = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', '*')
-		->where('x_element <= ?',$x_max)
-		->where('x_element >= ?',$x_min)
-		->where('y_element <= ?',$y_max)
-		->where('y_element >= ?',$y_min)
-		->where('z_element = ?',$z);
-		$sql = $select->__toString();
+		->where('x_element <= ?', $x_max)
+		->where('x_element >= ?', $x_min)
+		->where('y_element <= ?', $y_max)
+		->where('y_element >= ?', $y_min)
+		->where('z_element = ?', $z);
 
+		if ($controleButin) {
+
+			if ($listIdsButin != null) {
+				foreach($listIdsButin as $id) {
+					if ((int) $id."" == $id."") {
+						if ($liste == "") {
+							$liste = $id;
+						} else {
+							$liste = $liste." OR ".id_fk_butin_element."=".$id;
+						}
+					}
+				}
+				$select->where('id_fk_butin_element is NULL OR id_fk_butin_element = '.$liste);
+			} else {
+				$select->where('id_fk_butin_element is NULL');
+			}
+		}
+
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z) {
-		return $this->selectVue($x, $y, $x, $y, $z);
+	function findByCase($x, $y, $z, $controleButin = false,  $listIdsButin = null) {
+		return $this->selectVue($x, $y, $x, $y, $z, $controleButin, $listIdsButin);
 	}
 
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', 'count(*) as nombre,
-		quantite_peau_element as quantitePeau, 
-		quantite_cuir_element as quantiteCuir,
-		quantite_castar_element as quantiteCastar,
-		quantite_fourrure_element as quantiteFourrure,
-		quantite_planche_element as quantitePlanche,
-		quantite_rondin_element as quantiteRondin,
-		id_fk_butin_element as idButin')
+				quantite_peau_element as quantitePeau,
+				quantite_cuir_element as quantiteCuir,
+				quantite_castar_element as quantiteCastar,
+				quantite_fourrure_element as quantiteFourrure,
+				quantite_planche_element as quantitePlanche,
+				quantite_rondin_element as quantiteRondin,
+				id_fk_butin_element as idButin')
 		->where('x_element = ?',$data["x_element"])
 		->where('y_element = ?',$data["y_element"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
@@ -98,12 +116,12 @@ class Element extends Zend_Db_Table {
 			$dataUpdate['quantite_cuir_element'] <= 0 &&
 			$dataUpdate['quantite_fourrure_element'] <= 0 &&
 			$dataUpdate['quantite_planche_element'] <= 0 &&
-			$dataUpdate['quantite_castar_element'] <= 0 && 
+			$dataUpdate['quantite_castar_element'] <= 0 &&
 			$dataUpdate['quantite_rondin_element'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);
 			}
+			}
 		}
 	}
-}

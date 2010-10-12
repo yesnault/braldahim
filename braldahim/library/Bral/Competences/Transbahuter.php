@@ -15,6 +15,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharrettePartage");
 		Zend_Loader::loadClass("Echoppe");
+		Zend_Loader::loadClass("Butin");
 
 		$choixDepart = false;
 		//liste des endroits
@@ -103,6 +104,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$id_type_courant_depart = -1;
 		}
 
+		// Construction de la liste des butins
+		$butinTable = new Butin();
+		$butins = $butinTable->findByIdBraldun($this->view->user->id_braldun);
+		$tabButins = null;
+		foreach($butins as $b) {
+			$tabButins[] = $b["id_butin"];
+		}
+		$this->tabButins = $tabButins;
+		
 		//Construction du tableau des départs
 		$tabTypeDepart = null;
 		$i=1;
@@ -620,7 +630,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Element" :
 					$elementRuneTable = new ElementRune();
-					$runes = $elementRuneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+					$runes = $elementRuneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, true, $this->tabButins);
 					unset($elementruneTable);
 					break;
 				case "Coffre" :
@@ -644,7 +654,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"est_identifiee" => $r["est_identifiee_rune"],
 						"effet_type_rune" => $r["effet_type_rune"],
 						"id_fk_type_rune" => $r["id_fk_type_rune"],
+						"info" => "",
 					);
+					if ($depart == "Element" && $r["id_fk_butin_element_rune"] != null) {
+						$tabRunes[$r["id_rune_".strtolower($depart)."_rune"]]["info"] = " (Butin n°".$r["id_fk_butin_element_rune"].")";
+					}
 				}
 				$this->view->deposerOk = true;
 			}
@@ -2558,7 +2572,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementTable = new Element();
-				$autres = $elementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+				$autres = $elementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, true, $this->tabButins);
 				unset($elementTable);
 				break;
 			case "Coffre" :
@@ -2579,7 +2593,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 
 		$autresButin = null;
-		
+
 		if (count($autres) >= 1) {
 			$tabAutres = array(
 					"nb_castar" => 0,
