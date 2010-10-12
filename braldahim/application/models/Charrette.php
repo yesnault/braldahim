@@ -9,7 +9,7 @@ class Charrette extends Zend_Db_Table {
 	protected $_name = 'charrette';
 	protected $_primary = array('id_charrette');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun, $idCharrette = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
@@ -18,6 +18,9 @@ class Charrette extends Zend_Db_Table {
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_braldun_charrette = ? ', intval($idBraldun));
+		if ($idCharrette != null) {
+			$select->where('id_charrette = ?', $idCharrette);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

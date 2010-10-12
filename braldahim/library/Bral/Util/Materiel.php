@@ -35,6 +35,7 @@ class Bral_Util_Materiel {
 		Zend_Loader::loadClass("CharretteMateriel");
 		Zend_Loader::loadClass("EchoppeMateriel");
 		Zend_Loader::loadClass("LabanMateriel");
+		Zend_Loader::loadClass("Charrette");
 
 		$table = new LabanMateriel();
 		$materiel = $table->findByIdBraldun($idBraldun, $idMateriel);
@@ -50,6 +51,12 @@ class Bral_Util_Materiel {
 
 		$table = new EchoppeMateriel();
 		$materiel = $table->findByIdEchoppe($idBraldun, null, $idMateriel);
+		if ($materiel != null) {
+			return true;
+		}
+
+		$table = new Charrette();
+		$materiel = $table->findByIdBraldun($idBraldun, $idMateriel);
 		if ($materiel != null) {
 			return true;
 		}
