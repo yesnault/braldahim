@@ -334,13 +334,21 @@ class Bral_Util_Attaque {
 
 			$retourAttaque["mort"] = true;
 			if ($braldunAttaquant->est_soule_braldun == "non") {
-				$nbCastars = Bral_Util_Commun::dropBraldunCastars($braldunCible, $effetH);
+				Zend_Loader::loadClass("Bral_Util_Butin");
+				$idButin = Bral_Util_Butin::nouveau($braldunAttaquant->id_braldun, $braldunAttaquant->x_braldun, $braldunAttaquant->y_braldun, $braldunAttaquant->z_braldun);
+
+				$nbCastars = Bral_Util_Commun::dropBraldunCastars($braldunCible, $effetH, $idButin);
 				$braldunCible->castars_braldun = $braldunCible->castars_braldun - $nbCastars;
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - nbCastars=".$nbCastars);
 				$retourAttaque["gains"]["gainCastars"] = $nbCastars;
 				if ($braldunCible->castars_braldun < 0) {
 					$braldunCible->castars_braldun = 0;
 				}
+				$s = "";
+				if ($nbCastars > 1) {
+					$s = "s";
+				}
+				$retourAttaque["gains"]["butin"] = "Butin n°".$idButin." : ".$nbCastars." castar".$s;
 			}
 			self::calculPointsKo($braldunAttaquant, $braldunCible, $retourAttaque);
 			Zend_Loader::loadClass("Bral_Util_Contrat");

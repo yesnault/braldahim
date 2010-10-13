@@ -22,12 +22,13 @@ class Element extends Zend_Db_Table {
 		if ($controleButin) {
 
 			if ($listIdsButin != null) {
+				$liste = "";
 				foreach($listIdsButin as $id) {
 					if ((int) $id."" == $id."") {
 						if ($liste == "") {
 							$liste = $id;
 						} else {
-							$liste = $liste." OR ".id_fk_butin_element."=".$id;
+							$liste = $liste." OR id_fk_butin_element =".$id;
 						}
 					}
 				}

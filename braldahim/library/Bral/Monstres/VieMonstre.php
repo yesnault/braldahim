@@ -488,18 +488,12 @@ class Bral_Monstres_VieMonstre {
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
 
-		Zend_Loader::loadClass("Butin");
-		$butinTable = new Butin();
-		$data["id_fk_braldun_butin"] = $braldun->id_braldun;
-		$data["date_butin"] = $dateCreation;
-		$data["x_butin"] = $braldun->x_braldun;
-		$data["y_butin"] = $braldun->y_braldun;
-		$data["z_butin"] = $braldun->z_braldun;
-		$idButin = $butinTable->insert($data);
+		Zend_Loader::loadClass("Bral_Util_Butin");
+		$idButin = Bral_Util_Butin::nouveau($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
 		
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $braldun->niveau_braldun, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre, $idButin);
-		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauBraldun, $monstre["id_fk_type_groupe_monstre"], $idButin);
+		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $braldun->niveau_braldun, $monstre["id_fk_type_groupe_monstre"], $idButin);
 
 		$tabGains["finDonjon"] = null;
 		$s = "";
@@ -509,13 +503,13 @@ class Bral_Monstres_VieMonstre {
 		$tabGains["butin"] = "Butin n°".$idButin." : ".$tabGains["gainCastars"]." castar".$s;
 		
 		if ($tabGains["gainRune"] != false) {
-			$tabGains["butin"] = $tabGains["butin"] . " et rune n°".$tabGains["butin"];
+			$tabGains["butin"] = $tabGains["butin"] . " et rune n°".$tabGains["gainRune"];
 		}
 
 		Zend_Loader::loadClass("TailleMonstre");
 		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
 			Zend_Loader::loadClass("Bral_Util_Donjon");
-			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $niveauBraldun, $effetMotD, $view);
+			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $braldun->niveau_braldun, $effetMotD, $view);
 		}
 
 		return $tabGains;

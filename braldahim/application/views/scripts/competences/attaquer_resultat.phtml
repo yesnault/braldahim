@@ -39,10 +39,10 @@
  		<?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
  		
  		<? if ($this->retourAttaque["gains"] != null) :?>
- 			<? if (isset($this->retourAttaque["gain"]["butin"])) :?>
+ 			<? if (isset($this->retourAttaque["gains"]["butin"])) :?>
  				Le butin suivant est tombé à terre : 
- 				<?=$this->retourAttaque["gains"]["butin"];?>
- 			<? elseif (isset($this->retourAttaque["gain"]["gainRune"]) && $this->retourAttaque["gains"]["gainRune"] != false) :?>
+ 				<?=$this->retourAttaque["gains"]["butin"];?><br /><br />
+ 			<? elseif (isset($this->retourAttaque["gains"]["gainRune"]) && $this->retourAttaque["gains"]["gainRune"] != false) :?>
  				Une rune est tomb&eacute;e &agrave; terre <? if ($this->retourAttaque["gains"]["gainCastars"] > 0) : ?>
  				ainsi que <?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?><? endif;?>.
  				<br /><br />

@@ -277,7 +277,7 @@ class Bral_Util_Commun {
 	/*
 	 * Lorqu'un Braldun meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
-	public static function dropBraldunCastars($cible, $effetH = null) {
+	public static function dropBraldunCastars($cible, $effetH, $idButin) {
 		$nbCastars = 0;
 
 		if ($cible->castars_braldun > 0) {
@@ -294,6 +294,7 @@ class Bral_Util_Commun {
 					"quantite_castar_element" => $nbCastars,
 					"x_element" => $cible->x_braldun,
 					"y_element" => $cible->y_braldun,
+					"id_fk_butin_element" => $idButin,
 				);
 				$elementTable->insertOrUpdate($data);
 
