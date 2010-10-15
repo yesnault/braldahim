@@ -89,6 +89,9 @@ foreach($case["castars"] as $c) {
 		$s = "s";
 	}
 	$textCastar .= $saut.$c["nb_castar"]. " castar".$s;
+	if ($c["butin"] != null) {
+		$textCastar .= " (butin n°".$c["butin"].")";	
+	}
 	$saut = "<br />";
 }
 endif;
