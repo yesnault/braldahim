@@ -164,7 +164,11 @@ abstract class Bral_Competences_Competence {
 
 	protected function calculBalanceFaim($coef = 1) {
 		$this->view->balanceFaimUtilisee = true;
+
 		$this->view->balance_faim = floor($this->competence["balance_faim"] * $coef);
+		if ($this->view->okJet1 == false) {
+			$this->view->balance_faim = floor($this->view->balance_faim / 2);
+		}
 		Zend_Loader::loadClass("Bral_Util_Faim");
 		$this->view->balanceFaimPvPerdus = Bral_Util_Faim::calculBalanceFaim($this->view->user, $this->view->balance_faim);
 	}
