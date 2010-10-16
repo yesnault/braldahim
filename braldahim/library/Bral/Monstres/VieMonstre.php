@@ -492,7 +492,7 @@ class Bral_Monstres_VieMonstre {
 		// pas de butin pour les gibiers
 		if ($monstre["id_fk_type_groupe_monstre"] != self::$config->game->groupe_monstre->type->gibier) {
 			Zend_Loader::loadClass("Bral_Util_Butin");
-			$idButin = Bral_Util_Butin::nouveau($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
+			$idButin = Bral_Util_Butin::nouveau($braldun->id_braldun, $monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"]);
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Rune");

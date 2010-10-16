@@ -335,7 +335,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["mort"] = true;
 			if ($braldunAttaquant->est_soule_braldun == "non") {
 				Zend_Loader::loadClass("Bral_Util_Butin");
-				$idButin = Bral_Util_Butin::nouveau($braldunAttaquant->id_braldun, $braldunAttaquant->x_braldun, $braldunAttaquant->y_braldun, $braldunAttaquant->z_braldun);
+				$idButin = Bral_Util_Butin::nouveau($braldunAttaquant->id_braldun, $braldunCible->x_braldun, $braldunCible->y_braldun, $braldunCible->z_braldun);
 
 				$nbCastars = Bral_Util_Commun::dropBraldunCastars($braldunCible, $effetH, $idButin);
 				$braldunCible->castars_braldun = $braldunCible->castars_braldun - $nbCastars;

@@ -54,7 +54,6 @@ class Butin extends Zend_Db_Table {
 		}
 
 		$select->where('id_fk_braldun_butin = '.$liste);
-
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
