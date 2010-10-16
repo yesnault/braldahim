@@ -11,6 +11,12 @@ class Bral_Util_Butin {
 	}
 
 	public static function nouveau($idBraldun, $x, $y, $z) {
+		Zend_Loader::loadClass("Bral_Util_Attaque");
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($x, $y);
+		
+		if ($estRegionPvp) {
+			return null; // pas de butin en region pvp
+		}
 		
 		Zend_Loader::loadClass("Butin");
 		$butinTable = new Butin();

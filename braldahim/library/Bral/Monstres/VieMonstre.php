@@ -488,9 +488,13 @@ class Bral_Monstres_VieMonstre {
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
 
-		Zend_Loader::loadClass("Bral_Util_Butin");
-		$idButin = Bral_Util_Butin::nouveau($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
-		
+		$idButin = null;
+		// pas de butin pour les gibiers
+		if ($idTypeGroupeMonstre != self::$config->game->groupe_monstre->type->gibier) {
+			Zend_Loader::loadClass("Bral_Util_Butin");
+			$idButin = Bral_Util_Butin::nouveau($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
+		}
+
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $braldun->niveau_braldun, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre, $idButin);
 		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $braldun->niveau_braldun, $monstre["id_fk_type_groupe_monstre"], $idButin);
@@ -500,10 +504,12 @@ class Bral_Monstres_VieMonstre {
 		if ($tabGains["gainCastars"] > 1) {
 			$s = "s";
 		}
-		$tabGains["butin"] = "Butin n°".$idButin." : ".$tabGains["gainCastars"]." castar".$s;
-		
-		if ($tabGains["gainRune"] != false) {
-			$tabGains["butin"] = $tabGains["butin"] . " et rune n°".$tabGains["gainRune"];
+		if ($idButin != null) {
+			$tabGains["butin"] = "Butin n°".$idButin." : ".$tabGains["gainCastars"]." castar".$s;
+
+			if ($tabGains["gainRune"] != false) {
+				$tabGains["butin"] = $tabGains["butin"] . " et rune n°".$tabGains["gainRune"];
+			}
 		}
 
 		Zend_Loader::loadClass("TailleMonstre");
