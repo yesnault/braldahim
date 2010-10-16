@@ -2868,19 +2868,28 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$partage = $butinPartageTable->findByIdBraldunAutorise($this->view->user->id_braldun);
 		$proprietaires[] = $this->view->user->id_braldun;
 		foreach($partage as $p) {
-			$proprietaires[] = $p["id_fk_braldun_butin_partage"]; 
-		} 
+			$proprietaires[] = $p["id_fk_braldun_butin_partage"];
+		}
 
 		$tabButinsATerreAutorises = null;
 		if ($proprietaires != null) {
 			$butinTable = new Butin();
 			$butinsATerreAutorises = $butinTable->findByCaseAndProprietaires($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $proprietaires);
 			foreach($butinsATerreAutorises as $b) {
-				$tabButinsATerreAutorises[] = $b["id_butin"];
+				$tabButinsATerreAutorises[$b["id_butin"]] = $b["id_butin"];
 			}
 		}
-		
+
+		if ($this->view->user->id_fk_communaute_braldun != null) {
+			$butinsCommunaute = $butinTable->findByCaseAndIdCommunaute($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_fk_communaute_braldun);
+			if ($butinsCommunaute != null) {
+				foreach($butinsCommunaute as $b) {
+					$tabButinsATerreAutorises[$b["id_butin"]] = $b["id_butin"];
+				}
+			}
+		}
+
 		$this->tabButins = $tabButinsATerreAutorises;
 	}
-	
+
 }

@@ -58,4 +58,20 @@ class Butin extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function findByCaseAndIdCommunaute($x, $y, $z, $idCommunaute) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('butin', '*')
+		->from('braldun', '*')
+		->where('z_butin = ?', intval($z))
+		->where('x_butin = ?', intval($x))
+		->where('y_butin = ?', intval($y))
+		->where('id_fk_braldun_butin = id_braldun')
+		->where('est_partage_communaute_butin_braldun = ?', 'oui')
+		->where('id_fk_communaute_braldun = ?', $idCommunaute);
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
