@@ -1,0 +1,35 @@
+<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <div class='comp_contenu'>
+ 	<? if ($this->possedeCharrette === false) : ?>
+	 	Vous n'avez pas de butin...
+	 <? else: ?>
+		Pour 0 PA, vous pouvez partager vos butins avec d'autres Braldûns. <br />
+		
+		Partage avec les Braldûns de votre communauté : 
+		<select name='valeur_1' id="valeur_1">
+			<option value="oui" <? if ($this->user->est_partage_communaute_butin_braldun == "oui") : echo "selected"; endif;?>>Oui</option>
+			<option value="non" <? if ($this->user->est_partage_communaute_butin_braldun == "non") : echo "selected"; endif;?>>Non</option>
+		</select><br /><br />
+		
+		Partage avec les Braldûns suivants : 
+		
+		<input type="hidden" name="valeur_2" id="valeur_2" value="" />
+		
+		<div id='aff_valeur_2_partage_dest'><?=$this->tabBralduns["aff_js_destinataires"]?></div>
+		<input type="hidden" name="valeur_2_partage_dest" id="valeur_2_partage_dest" value="<?=$this->tabBralduns["destinataires"]?>"/>
+		<input type="hidden" name="cpt_valeur_2_partage_dest" id="cpt_valeur_2_partage_dest" value=""/>
+		<input type="hidden" name="onchange_valeur_2_partage_dest" id="onchange_valeur_2_partage_dest"/>
+		
+		<input type="text" name="recherche_valeur_2_partage_dest" size='40' id="recherche_valeur_2_partage_dest" value="Entrez un nom" onFocus='this.value=""; activerRechercheBraldun("valeur_2_partage_dest");' />
+		<input type="hidden" name="recherche_valeur_2_partage_dest_actif" id="recherche_valeur_2_partage_dest_actif" value="0" />
+		<div class="recherche" id="recherche_valeur_2_partage_dest_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
+	    <span id="indicateur_recherche_valeur_2_partage_dest" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
+		    
+	 <? endif; ?>
+	 <br />
+</div>
+
+<br />
+<input type='button' class='button1' id='bouton_partagebutin' value='Valider les partages' onclick='this.disabled=true;$("valeur_2").value=$("valeur_2_partage_dest").value;_get_("/butin/doaction?caction=do_butin_partage");'>
+<? echo Bral_Helper_Fermer::affiche(); ?>

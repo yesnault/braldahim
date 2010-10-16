@@ -47,7 +47,7 @@ function _get_(url, encode) {
 			if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule") { // /lieux/doaction?caction=ask/do
+		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule" || url.substring(0, 6) == "/butin") { // /lieux/doaction?caction=ask/do
 			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
 				action = "do";
 			}

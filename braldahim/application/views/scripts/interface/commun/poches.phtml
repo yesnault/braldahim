@@ -1,4 +1,12 @@
 
+<? if ($this->user->pa_braldun >= 1) : 
+      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
+    else:
+      $attr = "disabled";
+    endif;?>
+    
+	<input type="button" class='button1' <?=$attr?> value="1 PA - Transbahuter">
+	
 <input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?=$this->pocheNomSysteme ?>').click();">
 <input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?=$this->pocheNomSysteme ?>').click();">
    

@@ -104,15 +104,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$id_type_courant_depart = -1;
 		}
 
-		// Construction de la liste des butins
-		$butinTable = new Butin();
-		$butins = $butinTable->findByIdBraldun($this->view->user->id_braldun);
-		$tabButins = null;
-		foreach($butins as $b) {
-			$tabButins[] = $b["id_butin"];
-		}
-		$this->tabButins = $tabButins;
-		
+		$this->prepareButins();
+
 		//Construction du tableau des départs
 		$tabTypeDepart = null;
 		$i=1;
@@ -2867,4 +2860,27 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($arrivee == "Element") $tabRetour["arriveeTexte"] = "Sol";
 		return $tabRetour;
 	}
+
+	private function prepareButins() {
+		Zend_Loader::loadClass("ButinPartage");
+		$butinPartageTable = new ButinPartage();
+
+		$partage = $butinPartageTable->findByIdBraldunAutorise($this->view->user->id_braldun);
+		$proprietaires[] = $this->view->user->id_braldun;
+		foreach($partage as $p) {
+			$proprietaires[] = $p["id_fk_braldun_butin_partage"]; 
+		} 
+
+		$tabButinsATerreAutorises = null;
+		if ($proprietaires != null) {
+			$butinTable = new Butin();
+			$butinsATerreAutorises = $butinTable->findByCaseAndProprietaires($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $proprietaires);
+			foreach($butinsATerreAutorises as $b) {
+				$tabButinsATerreAutorises[] = $b["id_butin"];
+			}
+		}
+		
+		$this->tabButins = $tabButinsATerreAutorises;
+	}
+	
 }

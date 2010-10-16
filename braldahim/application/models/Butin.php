@@ -18,4 +18,44 @@ class Butin extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+
+	function findByCaseAndProprietaire($x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('butin', '*')
+		->where('z_butin = ?', intval($z))
+		->where('x_butin = ?', intval($x))
+		->where('y_butin = ?', intval($y));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function findByCaseAndProprietaires($x, $y, $z, $listIdsBraldun) {
+		if ($listIdsBraldun == null || count($listIdsBraldun) < 1) {
+			return null;
+		}
+
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('butin', '*')
+		->where('z_butin = ?', intval($z))
+		->where('x_butin = ?', intval($x))
+		->where('y_butin = ?', intval($y));
+
+		$liste = "";
+		foreach($listIdsBraldun as $id) {
+			if ((int) $id."" == $id."") {
+				if ($liste == "") {
+					$liste = $id;
+				} else {
+					$liste = $liste." OR id_fk_braldun_butin =".$id;
+				}
+			}
+		}
+
+		$select->where('id_fk_braldun_butin = '.$liste);
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

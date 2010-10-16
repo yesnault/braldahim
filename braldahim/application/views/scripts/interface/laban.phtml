@@ -1,19 +1,23 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<div class="titre textalia textsizec">Mon Laban, besace du braldun</div>
+<div class="titre textalia textsizec">Mon Laban, besace du Braldûn</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
   
 <? if ($this->affichageInterne == true) : ?>
 
-	<? if ($this->user->pa_braldun >= 1) : 
-      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
-    else:
-      $attr = "disabled";
-    endif;?>
-    
-	<input type="button" class='button1' <?=$attr?> value="1 PA - Transbahuter">
+	<div class="titre textalic textsized braltip">Partage de butin</div>
 	
+	Partage avec les Braldûns de la communauté : <?=$this->user->est_partage_communaute_butin_braldun?><br />
+   			
+   	<? if ($this->partageBralduns == null) : ?>
+   		Partage avec aucun autre Braldûn<br /><br />
+   	<? else: ?>
+  		Partage avec : <?=$this->partageBralduns?><br /><br />
+   	<? endif;?>
+   			
+	<input type="button" class='button1' value="0 PA - Configurer les partages de butin" onclick="Javascript:_get_('/butin/doaction?caction=ask_butin_partage');" />
+
 	<br /><br />
 	Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
     <? include("commun/poches.phtml"); ?>
@@ -23,6 +27,6 @@
 <? endif; ?>
 
   </div>
-</div>
+ </div>
 </div>
 <? include("box_bottom.phtml") ?>

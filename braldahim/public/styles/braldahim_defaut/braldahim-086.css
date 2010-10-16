@@ -576,13 +576,24 @@ margin-right:auto !important;
 	display: block;
 	text-align: center;
 	color:#eeeeee;
-	backgound-color:#5d8035;
-	
+}
+
+.inner_footer {
+
 	 /* Ombre portee */
     -webkit-box-shadow: #000 0px 0 16px -1px;
     -moz-box-shadow: #000 0px 0 16px -1px;
     box-shadow: #000 0px 0 16px -1px;
-    width:97%;
+	
+	backgound-color:#5d8035;
+	width:90%;
+	margin:0 auto;
+	padding : 5px;
+	
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 }
 
 .box_contenu { /* interieur de la boite */

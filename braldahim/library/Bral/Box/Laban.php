@@ -26,12 +26,34 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	function render() {
 		if ($this->view->affichageInterne) {
 			$this->data();
+			$this->preparePartage();
 			$this->view->pocheNom = "Poche";
 			$this->view->pocheNomSysteme = "Laban";
 			$this->view->nb_castars = $this->view->user->castars_braldun;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/laban.phtml");
+	}
+
+	private function preparePartage() {
+		Zend_Loader::loadClass("ButinPartage");
+
+		$butinPartageTable = new ButinPartage();
+		$partages = $butinPartageTable->findByIdBraldun($this->view->user->id_braldun, true);
+		$liste = null;
+		if (count($partages) > 0) {
+			foreach($partages as $b) {
+				$liste .= "<label class='alabel profil' onclick='ouvrirProfilH(".$b["id_braldun"].");'  title='Voir le profil'>";
+				$liste .= addslashes(htmlspecialchars($b["prenom_braldun"]))." ".addslashes(htmlspecialchars($b["nom_braldun"]));
+				$liste .= " (n&deg;".$b["id_braldun"].")</label>, ";
+			}
+		}
+
+		if ($liste != null) {
+			$liste = substr($liste, 0, count($liste) - 3);
+		}
+
+		$this->view->partageBralduns = $liste;
 	}
 
 	function data() {
@@ -188,7 +210,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
 			);
 		}
-		
+
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
