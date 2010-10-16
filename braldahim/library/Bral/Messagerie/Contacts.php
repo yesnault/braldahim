@@ -166,14 +166,9 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 				$this->view->destinatairesErreur = $destinatairesErreur;
 			}
 
-			$contactsListe = array("id" => -1,
-				"nom" => $nom,
-				"description" => $description ,
-				'destinataires' => $destinataires["destinataires"],
-				'aff_js_destinataires' => $destinataires["aff_js_destinataires"],
-			);
-
-			$this->view->contactsListe = $contactsListe;
+			if ($id != -1) {
+				$this->view->contactsListe = $this->prepareContactsListe($id);
+			}
 			return;
 		} else {
 			$this->view->contactsListe = $this->prepareContactsListe($id);
