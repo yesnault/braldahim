@@ -348,7 +348,9 @@ class Bral_Util_Attaque {
 				if ($nbCastars > 1) {
 					$s = "s";
 				}
-				$retourAttaque["gains"]["butin"] = "Butin n°".$idButin." : ".$nbCastars." castar".$s;
+				if ($idButin != null) {
+					$retourAttaque["gains"]["butin"] = "Butin n°".$idButin." : ".$nbCastars." castar".$s;
+				}
 			}
 			self::calculPointsKo($braldunAttaquant, $braldunCible, $retourAttaque);
 			Zend_Loader::loadClass("Bral_Util_Contrat");
