@@ -10,7 +10,6 @@ class Bral_Batchs_Butins extends Bral_Batchs_Batch {
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Butins - calculBatchImpl - enter -");
 		Zend_Loader::loadClass('Butin'); 
-		
 		$butinTable = new Butin();
 		
 		$date = date("Y-m-d H:i:s");
