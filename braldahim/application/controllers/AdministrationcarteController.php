@@ -81,6 +81,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&filons=1";
 		}
 
+		$parametres .= "&zposition=".intval($this->_request->get("zposition"));
+
 		if (intval($this->_request->get("plantes")) == 1) {
 			$parametres .= "&plantes=1";
 		}
@@ -160,7 +162,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 
 		if (intval($this->_request->get("filons")) == 1) {
-			$this->dessineFilons(&$image);
+			$this->dessineFilons(&$image, intval($this->_request->get("zposition")));
 		}
 
 		if (intval($this->_request->get("plantes")) == 1) {
@@ -419,10 +421,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 2, $nbVilles." Villes", $this->noir);
 	}
 
-	private function dessineFilons(&$image) {
+	private function dessineFilons(&$image, $z = 0) {
 		Zend_Loader::loadClass('Filon');
 		$filonsTable = new Filon();
-		$filons = $filonsTable->fetchall();
+		$filons = $filonsTable->fetchall("z_filon = ".intval($z));
 
 		$nbFilons = 0;
 		foreach ($filons as $f) {

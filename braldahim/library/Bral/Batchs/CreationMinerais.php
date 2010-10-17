@@ -7,6 +7,14 @@
  */
 class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 
+	const MIN_SOL = 10;
+	const MAX_SOL = 20;
+	
+	const MIN_SOUS_SOL = 10;
+	const MAX_SOUS_SOL = 10;
+	
+	const COEF_QUANTITE_SOUS_SOL = 2;
+	
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - enter -");
 
@@ -17,7 +25,8 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 
 		$retour = null;
 
-		$retour .= $this->calculCreation();
+		$retour .= $this->calculCreation(0);
+		$retour .= $this->calculCreation(-10);
 		$retour .= $this->suppressionSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - exit -");
@@ -37,7 +46,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$limit = 1000;
 
 		$where = "";
-		
+
 		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
 			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
 			$nb = 0;
@@ -69,7 +78,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function calculCreation() {
+	private function calculCreation($z) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculCreation - enter -");
 		$retour = "";
 
@@ -129,13 +138,16 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 						$nbCreation = ceil($t["nb_creation_type_minerai"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]]));
 						$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_minerai"]);
 
+						if ($z != 0) {
+							$nbCreation = $nbCreation * self::COEF_QUANTITE_SOUS_SOL;
+						}
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) {
 							$tmp = " deja pleine";
 						}
 						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]].")");
 						if ($aCreer > 0) {
-							$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable);
+							$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable, $z);
 						} else {
 							$retour .= "zone(".$z["id_zone"].") pleine de minerai(".$t["id_type_minerai"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
 							$retour .= $this->supprime($t["id_type_minerai"], $z, $nbActuel, 0 - $aCreer, $filonTable);
@@ -201,7 +213,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function insert($idTypeMinerai, $zone, $aCreer, $filonTable) {
+	private function insert($idTypeMinerai, $zone, $aCreer, $filonTable, $z) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - insert - enter - idtype(".$idTypeMinerai.") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
 		$retour = "minerai(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
 
@@ -211,12 +223,18 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			usleep(Bral_Util_De::get_de_specifique(100, 10000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
-			$quantite = Bral_Util_De::get_de_specifique(10, 20);
+				
+			if ($z == 0) {
+				$quantite = Bral_Util_De::get_de_specifique(self::MIN_SOL, self::MAX_SOL);
+			} else {
+				$quantite = Bral_Util_De::get_de_specifique(self::MIN_SOUS_SOL, self::MAX_SOUS_SOL);
+			}
 
 			$data = array(
 				'id_fk_type_minerai_filon' => $idTypeMinerai, 
 				'x_filon' => $x, 
 				'y_filon' => $y, 
+				'z_filon' => $z,
 				'quantite_restante_filon' => $quantite, 
 				'quantite_max_filon' => $quantite
 			);
