@@ -27,6 +27,9 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 
 		$retour .= $this->calculCreation(0);
 		$retour .= $this->calculCreation(-10);
+		$retour .= $this->calculCreation(-11);
+		$retour .= $this->calculCreation(-12);
+		$retour .= $this->calculCreation(-13);
 		$retour .= $this->suppressionSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - exit -");
