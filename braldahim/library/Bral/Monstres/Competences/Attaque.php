@@ -206,7 +206,6 @@ abstract class Bral_Monstres_Competences_Attaque {
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		} else {
 			// En cas d'esquive parfaite : Aucun malus appliqué.
-			Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a $verbe [b".$this->cible["id_braldun"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);

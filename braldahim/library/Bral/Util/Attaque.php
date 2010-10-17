@@ -66,22 +66,19 @@ class Bral_Util_Attaque {
 
 		if ($retourAttaque["jetAttaquant"]["jet"] > $retourAttaque["jetCible"]) { // attaque reussie
 			self::calculAttaqueBraldunReussie($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $jetsDegat, $view, $config, $degatCase, $effetMotSPossible, $tir, $enregistreEvenementDansAttaque);
-			if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
-				self::calculStatutEngage(&$braldunAttaquant, true);
-			}
+			self::calculStatutEngage(&$braldunCible, true);
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]["jet"]) { // esquive normale
 			self::calculAttaqueBraldunEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
-			if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
-				self::calculStatutEngage(&$braldunAttaquant, true);
-			}
+			self::calculStatutEngage(&$braldunCible, true);
 		} else { // esquive parfaite
 			self::calculAttaqueBraldunParfaitementEsquivee($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $enregistreEvenementDansAttaque);
 		}
 
 		self::calculAttaqueBraldunRiposte($detailsBot, $retourAttaque, $braldunAttaquant, $braldunCible, $view, $config, $effetMotSPossible, $degatCase);
 
-
-		self::calculStatutEngage(&$braldunCible, true);
+		if ($tir == false) { //pour un tir l'attaquant n'est pas engagé
+			self::calculStatutEngage(&$braldunAttaquant, true);
+		}
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueBraldun - exit -");
 		return $retourAttaque;
