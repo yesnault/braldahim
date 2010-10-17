@@ -88,6 +88,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 			$this->calculIdentifierRune($rune);
 		}
 
+		$this->view->rune = $rune;
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majBraldun();
