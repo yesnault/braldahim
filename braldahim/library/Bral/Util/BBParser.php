@@ -38,6 +38,8 @@ class Bral_Util_BBParser {
 
 		// size Max size is 7
 		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
+		// et une seconde fois pour les chaines du style : [size=4]sqfdqsdf[size=3]qqsdfqsf[/size][/size] 
+		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
 
 		// color
 		$string = preg_replace("%\[color=(.*?)\](.*?)\[/color\]%si","<span style=\"color: \\1\">\\2</span>",$string);
