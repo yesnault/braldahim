@@ -308,21 +308,24 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
 
-		$nbDe = $this->view->config->game->base_force + $braldun->force_base_braldun;
-		$jetDetailsNonCritique = $nbDe."D6";
-		$jetDetailsCritique = $coefCritique."x(".$nbDe."D6)";
+		$nbDeForce = $this->view->config->game->base_force + $braldun->force_base_braldun;
+		$jetDetailsNonCritiqueForce = $nbDeForce."D6";
+		$jetDetailsCritiqueForce = $coefCritique."x(".$nbDeForce."D6)";
 
-		$jetDegat["critique"] = Bral_Util_De::getLanceDe6($nbDe * $coefCritique);
+		$nbDeVigueur = $this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun;
+		$jetDetailsVigueur = "+".$nbDeVigueur."D6";
+
+		$jetDegat["critique"] = Bral_Util_De::getLanceDe6($nbDeForce * $coefCritique);
 		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
 
-		$jetDegat["noncritique"] = Bral_Util_De::getLanceDe6($nbDe);
+		$jetDegat["noncritique"] = Bral_Util_De::getLanceDe6($nbDeForce);
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
 
 		$jetDetails = Bral_Util_String::getSigneValeur($braldun->force_bm_braldun);
 		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->force_bbdf_braldun);
 
-		$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun);
-		$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun);
+		$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::getLanceDe6($nbDeVigueur);
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::getLanceDe6($nbDeVigueur);
 
 		$jetDegat["critique"] = floor($jetDegat["critique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
 		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $braldun->vigueur_bm_braldun + $braldun->vigueur_bbdf_braldun + $braldun->bm_degat_braldun);
@@ -331,8 +334,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->vigueur_bbdf_braldun);
 		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->bm_degat_braldun);
 
-		$jetDegat["critiquedetails"] = $jetDetailsCritique.$jetDetails;
-		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique.$jetDetails;
+		$jetDegat["critiquedetails"] = $jetDetailsCritiqueForce.$jetDetailsVigueur.$jetDetails;
+		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritiqueForce.$jetDetailsVigueur.$jetDetails;
 
 		if ($jetDegat["critique"] < 0) {
 			$jetDegat["critique"] = 0;
