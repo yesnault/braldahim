@@ -68,6 +68,7 @@ class Bral_Util_Poids {
 		$tab["transporte"] = 0;
 		$tab["transportable"] = 0;
 
+		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
 		$charretteRowset = $charretteTable->findByIdBraldun($idBraldun);
 

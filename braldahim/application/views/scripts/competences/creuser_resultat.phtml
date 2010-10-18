@@ -1,0 +1,7 @@
+<? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->okJet1 === true): ?>
+		Vous avez creusé un tunnel en 
+		<?=$this->tunnel["x_tunnel"] ?>, <?=$this->tunnel["y_tunnel"] ?>.<br /><br />
+		Vous vous êtes déplacé dans ce tunnel.<br />
+<? endif; ?>
