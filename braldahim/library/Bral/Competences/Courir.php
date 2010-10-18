@@ -12,6 +12,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('Eau');
+		Zend_Loader::loadClass('Tunnel');
 
 		$charretteTable = new Charrette();
 		$nombreCharrette = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
@@ -73,12 +74,42 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		$eaux = $eauTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_braldun, false);
 
+		Zend_Loader::loadClass("Zone");
+		$zoneTable = new Zone();
+		$zones = $zoneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+		// La requete ne doit renvoyer qu'une seule case
+		if (count($zones) == 1) {
+			$zone = $zones[0];
+		} else {
+			throw new Zend_Exception("Bral_Competences_Courir::prepareCommun : Nombre de case invalide");
+		}
+
+		$tunnels = null;
+		if ($zone["est_mine_zone"] == "oui") {
+			$tunnelTable = new Tunnel();
+			$tunnels = $tunnelTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_braldun);
+		}
+
 		$this->tabValidationEauPalissade = null;
 		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 				$this->tabValidationEauPalissade[$x][$y] = true;
+
+				if ($zone["est_mine_zone"] == "oui") { // dans une mine
+					$tunnelOk = false;
+					foreach($tunnels as $t) {
+						if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
+							$tunnelOk = true;
+							break;
+						}
+					}
+					if ($tunnelOk == false) { // si pas de tunnel trouvé => non accessible
+						$this->tabValidationEauPalissade[$x][$y] = false;
+					}
+				}
 			}
 		}
 		foreach($palissades as $p) {

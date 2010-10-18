@@ -49,7 +49,6 @@ class Tunnel extends Zend_Db_Table {
 		->where('z_tunnel = ?', $z)
 		->order('tunnel.id_tunnel');
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 

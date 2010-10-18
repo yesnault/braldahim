@@ -12,7 +12,7 @@ class Bral_Util_Dijkstra {
 	var $visited = array();
 	var $distance = array();
 	var $previousNode = array();
-	var $startnode =null;
+	var $startnode = null;
 	var $map = array();
 	var $infiniteDistance = 1000;
 	var $numberOfNodes = 0;

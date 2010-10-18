@@ -53,15 +53,31 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			$tabCoord = null;
 			$course = false;
 			$palissadeTable = new Palissade();
-			$config = Zend_Registry::get('config');
+
+			Zend_Loader::loadClass("Zone");
+			$zoneTable = new Zone();
+			$zones = $zoneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+			// La requete ne doit renvoyer qu'une seule case
+			if (count($zones) == 1) {
+				$zone = $zones[0];
+			} else {
+				throw new Zend_Exception("Bral_Competences_Courir::prepareCommun : Nombre de case invalide");
+			}
+
+			Zend_Loader::loadClass("Tunnel");
+			$tunnelTable = new Tunnel();
+			
 			for ($x=$x_min;$x<=$x_max;$x++){
 				for ($y=$y_min;$y<=$y_max;$y++){
 					if ( !($x == $this->view->user->x_braldun && $y == $this->view->user->y_braldun)){
-						if (($palissadeTable->findByCase($x,$y,$z)==false) && ($x <= $config->game->x_max) && ($x >= $config->game->x_min) && ($y <= $config->game->y_max) && ($y >= $config->game->y_min)){
-							$tabCoord[]=array(
-								'x' => $x,
-								'y' => $y,
-							);
+						if (($palissadeTable->findByCase($x, $y, $z) == null) && ($x <= $this->view->config->game->x_max) && ($x >= $this->view->config->game->x_min) && ($y <= $this->view->config->game->y_max) && ($y >= $this->view->config->game->y_min)){
+							if ($zone["est_mine_zone"] == 'non' || $tunnelTable->findByCase($x, $y, $z) != null) {
+								$tabCoord[]=array(
+									'x' => $x,
+									'y' => $y,
+								);
+							}
 						}
 					}
 				}
@@ -212,7 +228,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			/* on va à une case aléatoire autour du braldun parmi celles disponibles*/
 			$nbCasePossible = count ($this->view->tabCourse);
 
-			$n=Bral_Util_De::getLanceDeSpecifique(1,1,$nbCasePossible);
+			$n = Bral_Util_De::getLanceDeSpecifique(1,1,$nbCasePossible);
 
 			$this->view->user->x_braldun = $this->view->tabCourse[$n-1]["x"];
 			$this->view->user->y_braldun = $this->view->tabCourse[$n-1]["y"];
@@ -227,7 +243,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
 		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
 		$jetAttaquantDetails = $nbDe."D6";
-		
+
 		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
@@ -236,7 +252,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
-		
+
 		$tabJetAttaquant["jet"] = $jetAttaquant;
 		$tabJetAttaquant["details"] = $jetAttaquantDetails;
 		return $tabJetAttaquant;
@@ -246,7 +262,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
-		
+
 		$nbDeAgi = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
 		$nbDeSag = $this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun;
 
@@ -254,13 +270,13 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$jetDegSag = Bral_Util_De::getLanceDe6($nbDeSag);
 
 		//$details = "Jet AGI:".$jetDegAgi." Jet SAG:".$jetDegSag.". ";
-		
+
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
-		
+
 		$jetDetailsNonCritique = "(".$nbDeAgi."D6 + ".$nbDeSag. "D6)/2";
 		$jetDetailsCritique = $coefCritique."x".$jetDetailsNonCritique;
-		
+
 		$jetDegat["critiquedetails"] = $jetDetailsCritique;
 		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique;
 
