@@ -5,7 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Tunel extends Zend_Db_Table {
+class Tunnel extends Zend_Db_Table {
 	protected $_name = 'tunnel';
 	protected $_primary = 'id_tunnel';
 

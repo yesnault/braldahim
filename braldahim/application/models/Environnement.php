@@ -8,6 +8,13 @@
 class Environnement extends Zend_Db_Table {
 	protected $_name = 'environnement';
 	protected $_primary = 'id_environnement';
+	
+	const NOM_PLAINE = "plaine";
+	const NOM_MARAIS = "marais";
+	const NOM_MONTAGNE = "montagne";
+	const NOM_GAZON = "gazon";
+	const NOM_CAVERNE = "caverne";
+	const INCONNU = "inconnu";
 
 	function findAllQuete() {
 		$db = $this->getAdapter();

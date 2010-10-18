@@ -37,6 +37,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("ElementIngredient");
 			Zend_Loader::loadClass("ElementRune");
 			Zend_Loader::loadClass("ElementTabac");
+			Zend_Loader::loadClass("Environnement");
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("BraldunsMetiers");
 			Zend_Loader::loadClass("Monstre");
@@ -49,6 +50,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Route");
 			Zend_Loader::loadClass("Eau");
 			Zend_Loader::loadClass("SouleMatch");
+			Zend_Loader::loadClass("Tunnel");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass('Bral_Util_Marcher');
@@ -278,6 +280,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$souleMatchTable = new SouleMatch();
 		$souleMatch = $souleMatchTable->selectBallonVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($souleMatchTable);
+
+		$tunnels = null;
+		if ($this->view->z_position < 10) {
+			$tunnelTable = new Tunnel();
+			$tunnels = $tunnelTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+			unset($tunnelTable);
+		}
 		$villeTable = new Ville();
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($villeTable);
@@ -339,9 +348,11 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabBosquets = null;
 				$tabRoutes = null;
 				$tabBallons = null;
+				$tabTunnels = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
+				$est_mine_zone = null;
 				$description_zone = null;
 				$ville = null;
 					
@@ -358,10 +369,24 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						$display_y >= $z["y_min_zone"] &&
 						$display_y <= $z["y_max_zone"]) {
 							$nom_zone = $z["nom_zone"];
+							$est_mine_zone = $z["est_mine_zone"];
 							$description_zone = $z["description_zone"];
-							$nom_systeme_environnement = $z["nom_systeme_environnement"];
+							if ($est_mine_zone == "oui") {
+								$nom_systeme_environnement = Environnement::INCONNU;
+							} else {
+								$nom_systeme_environnement = $z["nom_systeme_environnement"];
+							}
 							$nom_environnement = htmlspecialchars($z["nom_environnement"]);
 							break;
+						}
+					}
+
+					if ($tunnels != null && $est_mine_zone == "oui") {
+						foreach($tunnels as $t) {
+							if ($display_x == $t["x_tunnel"] && $display_y == $t["y_tunnel"]) {
+								$nom_systeme_environnement = Environnement::NOM_CAVERNE;
+								$nom_environnement = Environnement::NOM_CAVERNE;
+							}
 						}
 					}
 
@@ -706,6 +731,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
+
 				}
 
 				if ($this->view->user->x_braldun == $display_x && $this->view->user->y_braldun == $display_y) { // Position du joueur
