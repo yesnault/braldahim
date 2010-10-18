@@ -11,6 +11,7 @@ class Bral_Util_Marcher {
 	}
 
 	function calcul($braldun, $selection = null, $construireRoute = false) {
+		Zend_Loader::loadClass('Environnement');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Bosquet');
@@ -99,7 +100,7 @@ class Bral_Util_Marcher {
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
-		$dijkstra->calcul($this->nb_cases, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun);
+		$dijkstra->calcul($this->nb_cases, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun, $case);
 
 		$defautChecked = false;
 		$config = Zend_Registry::get('config');
@@ -240,7 +241,7 @@ class Bral_Util_Marcher {
 			$this->nb_cases = 3;
 			$this->nb_pa = 1;
 		}
-		
+
 		if ($estSurEau) {
 			// 2 PA + 1 Pa si charrette + 1 PA/tranche de 10Kg porté (équipé +laban)
 			Zend_Loader::loadClass("Charrette");
@@ -251,7 +252,7 @@ class Bral_Util_Marcher {
 			if ($nombre > 0) {
 				$this->nb_pa = $this->nb_pa + 1;
 			}
-			
+
 			$n = intval($braldun->poids_transporte_braldun / 10);
 			if ($n > 0) {
 				$this->nb_pa = $this->nb_pa + $n;

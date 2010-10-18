@@ -8,12 +8,19 @@
 class Environnement extends Zend_Db_Table {
 	protected $_name = 'environnement';
 	protected $_primary = 'id_environnement';
-	
-	const NOM_PLAINE = "plaine";
-	const NOM_MARAIS = "marais";
-	const NOM_MONTAGNE = "montagne";
-	const NOM_GAZON = "gazon";
-	const NOM_CAVERNE = "caverne";
+
+	const NOM_PLAINE = "Plaine";
+	const NOM_MARAIS = "Marais";
+	const NOM_MONTAGNE = "Montagne";
+	const NOM_GAZON = "Gazon";
+	const NOM_CAVERNE = "Caverne";
+
+	const NOM_SYSTEME_PLAINE = "plaine";
+	const NOM_SYSTEME_MARAIS = "marais";
+	const NOM_SYSTEME_MONTAGNE = "montagne";
+	const NOM_SYSTEME_GAZON = "gazon";
+	const NOM_SYSTEME_CAVERNE = "caverne";
+
 	const INCONNU = "inconnu";
 
 	function findAllQuete() {

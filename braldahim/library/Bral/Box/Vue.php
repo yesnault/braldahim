@@ -384,7 +384,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($tunnels != null && $est_mine_zone == "oui") {
 						foreach($tunnels as $t) {
 							if ($display_x == $t["x_tunnel"] && $display_y == $t["y_tunnel"]) {
-								$nom_systeme_environnement = Environnement::NOM_CAVERNE;
+								$nom_systeme_environnement = Environnement::NOM_SYSTEME_CAVERNE;
 								$nom_environnement = Environnement::NOM_CAVERNE;
 							}
 						}

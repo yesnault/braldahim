@@ -47,7 +47,6 @@ class Zone extends Zend_Db_Table {
 		->where('z_zone = ?',$z)
 		->where('zone.id_fk_environnement_zone = environnement.id_environnement');
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 
