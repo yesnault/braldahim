@@ -23,7 +23,7 @@ class Bral_Helper_ChampBoutique {
 			$retour .= "    Stock restant : ".$tab["nbStockRestant"];
 			$retour .= "'> [?] </span>";
 		} else {
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_partieplante/type_partieplante_".$tab["id_type_partieplante"].".png' alt=\"image\"/><br />";
+			$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_partieplante/type_partieplante_".$tab["id_type_partieplante"].".png' alt=\"image\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br />Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
@@ -55,7 +55,7 @@ class Bral_Helper_ChampBoutique {
 			if ($tab["estLingot"] == true) {
 				$p = "_p"; 
 			}
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
+			$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br />Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
@@ -83,7 +83,7 @@ class Bral_Helper_ChampBoutique {
 			$retour .= "onkeyup=\"".$js."\">";
 			
 		} else {
-			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
+			$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";

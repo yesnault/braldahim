@@ -33,7 +33,7 @@ if ($textCharrette != '' || $textElementsMateriels != '' || $textElementsEquipem
 	|| $textElements != '' || $textElementsPotions != '' || $textElementsTabac != '' || $textElementsAliments != '') : ?>
 	<div class="braltip">
 		<?=Bral_Helper_Tooltip::render($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsIngredients.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?>
-		<img src='/public/styles/braldahim_defaut/images/vue/laban.png' />
+		<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/laban.png' />
 	</div>
 <? else: ?>
 	&nbsp;

@@ -7,9 +7,9 @@
 	  	
 	    <?=$this->centre_nom_region ?>&nbsp;
 	    <? if ($this->est_pvp_region == true) :?>
-	    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
+	    	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
 	    <? else: ?>
-	    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
+	    	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
 	    <? endif; ?>
 	    <? if (!empty($this->centre_nom_ville)):?>
 	     <a class="titre textalia textsized" title="Cliquez pour voir <?=$this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$this->centre_nom_ville ?>')";><?=$this->centre_nom_ville ?></a>

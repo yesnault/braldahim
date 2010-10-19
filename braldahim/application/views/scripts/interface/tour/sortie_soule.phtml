@@ -1,6 +1,6 @@
 <? if ($this->sortieSoule != null): ?>
 	<br />
-	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
+	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/ballon.png'/>
 	<br /><br />
 	<? if ($this->sortieSoule["resultat"] == "victoire") : ?>
 		Votre équipe, "<b><?=$this->sortieSoule["equipeBraldun"]?></b>" s'est montrée supérieure à 
@@ -18,6 +18,6 @@
 		consulter dans vos événements.
 	<? endif;?>
 	<br />
-	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
+	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/ballon.png'/>
 	<br /><br />
 <? endif; ?>

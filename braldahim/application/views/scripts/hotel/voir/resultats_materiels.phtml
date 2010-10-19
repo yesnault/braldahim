@@ -1,7 +1,7 @@
 <? foreach($e["objet"] as $a) : ?>
 <div class='braltip'>
 <?=Bral_Helper_DetailMateriel::afficherTooltip($a);?>
-<img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$a["id_type_materiel"]?>.png'>
+<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$a["id_type_materiel"]?>.png'>
 </div>
 <br />
 <?=$a["nom"] ?> n°<?=$a["id_vente_materiel"] ?>

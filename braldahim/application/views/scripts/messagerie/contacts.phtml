@@ -29,7 +29,7 @@
 					</td>
 					<td>
 						<label class='alabel' onclick="Javascript:ecrireMessageListeContact(<?=$listesContacts["id"] ?>)">Écrire à la liste
-	  					<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
+	  					<img src='<?=$this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
 					</td>
 	  				<td class="table_liste">
 						<img src="<?=$this->config->static->url?>/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br />

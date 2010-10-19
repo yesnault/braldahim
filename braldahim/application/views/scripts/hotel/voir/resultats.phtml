@@ -65,7 +65,7 @@
 	  			<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["vente"]["id_braldun"]?>');" title="Cliquez pour voir le profil">
 		  		<?=$e["vente"]["prenom_braldun"]?> <?=$e["vente"]["nom_braldun"]?> (<?=$e["vente"]["id_braldun"]?>)
 		  		</a>
-		  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$e["vente"]["id_braldun"]?>');" style='cursor:pointer'/>
+		  		<img src='<?=$this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$e["vente"]["id_braldun"]?>');" style='cursor:pointer'/>
 	  		</td>
 	  		<td class="table_liste">
 	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>

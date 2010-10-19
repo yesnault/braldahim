@@ -29,7 +29,7 @@
 			      foreach($em["equipements"] as $e) :?>
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_equipement"] ?></td>
-				  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
+				  		<td class="table_liste"><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
 				  		<td class="table_liste"><?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
 				  		<td class="table_liste"><?=$e["niveau"] ?></td>
 				  		<td class="table_liste">

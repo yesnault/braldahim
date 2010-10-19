@@ -23,7 +23,7 @@
 			   foreach($this->materiels as $e) :?>
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_materiel"] ?></td>
-				  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
+				  		<td class="table_liste"><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
 				  		<td class="table_liste"><?=$e["nom"] ?></td>
 				  		<td class="table_liste">
 				  			<div class='braltip'>
