@@ -16,7 +16,7 @@ body {
 }
 
 #frisebot, #frisetop {
-	background:transparent url(/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+	background:transparent url('/styles/braldahim_defaut/images/layout/frise.gif') repeat-x scroll 0 0;
 	height:50px;
 	padding:0px;
 	margin-left: -10px;
@@ -24,16 +24,16 @@ body {
 
 #frisetop {
 	margin-top: 5px;
-	background:transparent url(/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+	background:transparent url('/styles/braldahim_defaut/images/layout/frise.gif') repeat-x scroll 0 0;
 }
 
 #frisetopvide {
 	margin-top: 5px;
-	background:transparent url(/styles/braldahim_defaut/images/layout/frisevide.gif) repeat-x scroll 0 0;
+	background:transparent url('/styles/braldahim_defaut/images/layout/frisevide.gif') repeat-x scroll 0 0;
 }
 
 #frisebot {
-	background:transparent url(/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
+	background:transparent url('/styles/braldahim_defaut/images/layout/frise.gif') repeat-x scroll 0 0;
 	margin-top: -10px;
 }
 
@@ -90,7 +90,7 @@ input.button1 {
 	font-size: 11px;
 	border: 1px solid #666666;
 	background-image:
-		url(/styles/braldahim_defaut/images/layout/bg_button.gif);
+		url('/styles/braldahim_defaut/images/layout/bg_button.gif');
 }
 
 input.button1:hover {
@@ -102,7 +102,7 @@ input.button1:hover {
 input.button1:active {
 	color: #000000;
 	background-image:
-		url(/styles/braldahim_defaut/images/layout/bg_button.gif);
+		url('/styles/braldahim_defaut/images/layout/bg_button.gif');
 }
 
 input.button1:disabled {
@@ -183,7 +183,7 @@ span.resultat_cache {
 }
 
 #navigation h3.head {
-	background: #497621 url(/images/collapsed.gif) no-repeat scroll
+	background: #497621 url('/images/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	color: #232323;
@@ -202,7 +202,7 @@ span.resultat_cache {
 
 
 #navigation h3.head.selected {
-	background: #497621 url(/images/expanded.gif) no-repeat scroll
+	background: #497621 url('/images/expanded.gif') no-repeat scroll
 		3px 4px;
 }
 
@@ -520,7 +520,7 @@ span.resultat_cache {
 	border-style: solid;
 	border-color: #990000;
 	background: #FFFFFF
-		url(/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		url('/styles/braldahim_defaut/images/layout/gris.png') repeat-x
 		scroll 0pt 100%;
 	color: black;
 	padding: 5pt 5px;
@@ -641,19 +641,19 @@ margin-right:auto !important;
 }
 
 .img_barre_faim {
-	background-image: url(/images/barre_faim.gif);
+	background-image: url('/images/barre_faim.gif');
 }
 
 .img_barre_vie {
-	background-image: url(/images/barre_vie.gif);
+	background-image: url('/images/barre_vie.gif');
 }
 
 .img_barre_niveau {
-	background-image: url(/images/barre_niveau.gif);
+	background-image: url('/images/barre_niveau.gif');
 }
 
 .img_barre_poids {
-	background-image: url(/images/barre_poids.gif);
+	background-image: url('/images/barre_poids.gif');
 }
 
 .barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite {
@@ -671,15 +671,15 @@ margin-right:auto !important;
 }
 
 .img_tour_sommeil {
-	background-image: url(/images/barre_tour_sommeil.gif);
+	background-image: url('/images/barre_tour_sommeil.gif');
 }
 
 .img_tour_eveil {
-	background-image: url(/images/barre_tour_eveil.gif);
+	background-image: url('/images/barre_tour_eveil.gif');
 }
 
 .img_tour_activite {
-	background-image: url(/images/barre_tour_activite.gif);
+	background-image: url('/images/barre_tour_activite.gif');
 }
 
 .barre_tour_sommeil, .barre_tour_eveil  {
@@ -882,7 +882,7 @@ background: transparent;
 	/* ************************************************ */
 .popup_fg { #
 	background: #FFFFFF
-		url(/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		url('/styles/braldahim_defaut/images/layout/gris.png') repeat-x
 		scroll 0pt 100%;
 	background: transparent;
 }
@@ -1148,7 +1148,6 @@ td.cases.actuelle {
 /* ************************************************ */
 
 #menu {
-	/*background:#003b00 url(/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;*/
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
@@ -1173,62 +1172,62 @@ td.cases.actuelle {
 	height:46px;
 }
 #menu li.accueil a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position: 0 0;
 	width:120px;
 }
 #menu li.accueil a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position: 0 -45px;
 }
 #menu li.jouer a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-120px 0;
 	width:70px;
 }
 #menu li.jouer a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-120px -45px;
 }
 #menu li.bourg a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-190px 0;
 	width:110px;
 }
 #menu li.bourg a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-190px -45px;
 }
 #menu li.forums a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-300px 0;
 	width:95px;
 }
 #menu li.forums a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-300px -45px;
 }
 #menu li.regles a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-395px 0;
 	width:75px;
 }
 #menu li.regles a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-395px -45px;
 }
 #menu li.projet a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-480px 0;
 	width:115px;
 }
 #menu li.projet a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url('/styles/braldahim_defaut/images/layout/menub.gif');
 	background-position:-480px -45px;
 }
 
 #wrapper {
-/*	background:#003b00 url(/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
+/*	background:#003b00 url('/styles/braldahim_defaut/images/layout/fonddegrad.png') repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
 	margin-top: 0px;
@@ -1240,7 +1239,7 @@ td.cases.actuelle {
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim2.png) no-repeat scroll 0 0;
+	background:transparent url('/styles/braldahim_defaut/images/layout/braldahim2.png') no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:57px;
@@ -1256,7 +1255,7 @@ td.cases.actuelle {
 
 #braldunjeu {
 	z-index:1000;
-	background:transparent url(/images/braldun-jeu.png) no-repeat scroll 0 0;
+	background:transparent url('/images/braldun-jeu.png') no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:220px;
@@ -1279,7 +1278,7 @@ td.cases.actuelle {
 .feed {
   margin-left: 3px;
   padding: 0 0 0 19px;
-  background: url("/images/rss.png") no-repeat 0 50%;
+  background: url('/images/rss.png') no-repeat 0 50%;
 } 
 
 .lune {
@@ -1289,36 +1288,36 @@ td.cases.actuelle {
 	float:right;top:-23px;
 }
 
-.lune.lune0 { background:transparent url(/styles/braldahim_defaut/images/lune/moon0.png) no-repeat scroll 0 0; }
-.lune.lune1 { background:transparent url(/styles/braldahim_defaut/images/lune/moon1.png) no-repeat scroll 0 0; }
-.lune.lune2 { background:transparent url(/styles/braldahim_defaut/images/lune/moon2.png) no-repeat scroll 0 0; }
-.lune.lune3 { background:transparent url(/styles/braldahim_defaut/images/lune/moon3.png) no-repeat scroll 0 0; }
-.lune.lune4 { background:transparent url(/styles/braldahim_defaut/images/lune/moon4.png) no-repeat scroll 0 0; }
-.lune.lune5 { background:transparent url(/styles/braldahim_defaut/images/lune/moon5.png) no-repeat scroll 0 0; }
-.lune.lune6 { background:transparent url(/styles/braldahim_defaut/images/lune/moon6.png) no-repeat scroll 0 0; }
-.lune.lune7 { background:transparent url(/styles/braldahim_defaut/images/lune/moon7.png) no-repeat scroll 0 0; }
-.lune.lune8 { background:transparent url(/styles/braldahim_defaut/images/lune/moon8.png) no-repeat scroll 0 0; }
-.lune.lune9 { background:transparent url(/styles/braldahim_defaut/images/lune/moon9.png) no-repeat scroll 0 0; }
-.lune.lune10 { background:transparent url(/styles/braldahim_defaut/images/lune/moon10.png) no-repeat scroll 0 0; }
-.lune.lune11 { background:transparent url(/styles/braldahim_defaut/images/lune/moon11.png) no-repeat scroll 0 0; }
-.lune.lune12 { background:transparent url(/styles/braldahim_defaut/images/lune/moon12.png) no-repeat scroll 0 0; }
-.lune.lune13 { background:transparent url(/styles/braldahim_defaut/images/lune/moon13.png) no-repeat scroll 0 0; }
-.lune.lune14 { background:transparent url(/styles/braldahim_defaut/images/lune/moon14.png) no-repeat scroll 0 0; }
-.lune.lune15 { background:transparent url(/styles/braldahim_defaut/images/lune/moon15.png) no-repeat scroll 0 0; }
-.lune.lune16 { background:transparent url(/styles/braldahim_defaut/images/lune/moon16.png) no-repeat scroll 0 0; }
-.lune.lune17 { background:transparent url(/styles/braldahim_defaut/images/lune/moon17.png) no-repeat scroll 0 0; }
-.lune.lune18 { background:transparent url(/styles/braldahim_defaut/images/lune/moon18.png) no-repeat scroll 0 0; }
-.lune.lune19 { background:transparent url(/styles/braldahim_defaut/images/lune/moon19.png) no-repeat scroll 0 0; }
-.lune.lune20 { background:transparent url(/styles/braldahim_defaut/images/lune/moon20.png) no-repeat scroll 0 0; }
-.lune.lune21 { background:transparent url(/styles/braldahim_defaut/images/lune/moon21.png) no-repeat scroll 0 0; }
-.lune.lune22 { background:transparent url(/styles/braldahim_defaut/images/lune/moon22.png) no-repeat scroll 0 0; }
-.lune.lune23 { background:transparent url(/styles/braldahim_defaut/images/lune/moon23.png) no-repeat scroll 0 0; }
-.lune.lune24 { background:transparent url(/styles/braldahim_defaut/images/lune/moon24.png) no-repeat scroll 0 0; }
-.lune.lune25 { background:transparent url(/styles/braldahim_defaut/images/lune/moon25.png) no-repeat scroll 0 0; }
-.lune.lune26 { background:transparent url(/styles/braldahim_defaut/images/lune/moon26.png) no-repeat scroll 0 0; }
-.lune.lune27 { background:transparent url(/styles/braldahim_defaut/images/lune/moon27.png) no-repeat scroll 0 0; }
-.lune.lune28 { background:transparent url(/styles/braldahim_defaut/images/lune/moon28.png) no-repeat scroll 0 0; }
-.lune.lune29 { background:transparent url(/styles/braldahim_defaut/images/lune/moon29.png) no-repeat scroll 0 0; }
+.lune.lune0 { background:transparent url('/styles/braldahim_defaut/images/lune/moon0.png') no-repeat scroll 0 0; }
+.lune.lune1 { background:transparent url('/styles/braldahim_defaut/images/lune/moon1.png') no-repeat scroll 0 0; }
+.lune.lune2 { background:transparent url('/styles/braldahim_defaut/images/lune/moon2.png') no-repeat scroll 0 0; }
+.lune.lune3 { background:transparent url('/styles/braldahim_defaut/images/lune/moon3.png') no-repeat scroll 0 0; }
+.lune.lune4 { background:transparent url('/styles/braldahim_defaut/images/lune/moon4.png') no-repeat scroll 0 0; }
+.lune.lune5 { background:transparent url('/styles/braldahim_defaut/images/lune/moon5.png') no-repeat scroll 0 0; }
+.lune.lune6 { background:transparent url('/styles/braldahim_defaut/images/lune/moon6.png') no-repeat scroll 0 0; }
+.lune.lune7 { background:transparent url('/styles/braldahim_defaut/images/lune/moon7.png') no-repeat scroll 0 0; }
+.lune.lune8 { background:transparent url('/styles/braldahim_defaut/images/lune/moon8.png') no-repeat scroll 0 0; }
+.lune.lune9 { background:transparent url('/styles/braldahim_defaut/images/lune/moon9.png') no-repeat scroll 0 0; }
+.lune.lune10 { background:transparent url('/styles/braldahim_defaut/images/lune/moon10.png') no-repeat scroll 0 0; }
+.lune.lune11 { background:transparent url('/styles/braldahim_defaut/images/lune/moon11.png') no-repeat scroll 0 0; }
+.lune.lune12 { background:transparent url('/styles/braldahim_defaut/images/lune/moon12.png') no-repeat scroll 0 0; }
+.lune.lune13 { background:transparent url('/styles/braldahim_defaut/images/lune/moon13.png') no-repeat scroll 0 0; }
+.lune.lune14 { background:transparent url('/styles/braldahim_defaut/images/lune/moon14.png') no-repeat scroll 0 0; }
+.lune.lune15 { background:transparent url('/styles/braldahim_defaut/images/lune/moon15.png') no-repeat scroll 0 0; }
+.lune.lune16 { background:transparent url('/styles/braldahim_defaut/images/lune/moon16.png') no-repeat scroll 0 0; }
+.lune.lune17 { background:transparent url('/styles/braldahim_defaut/images/lune/moon17.png') no-repeat scroll 0 0; }
+.lune.lune18 { background:transparent url('/styles/braldahim_defaut/images/lune/moon18.png') no-repeat scroll 0 0; }
+.lune.lune19 { background:transparent url('/styles/braldahim_defaut/images/lune/moon19.png') no-repeat scroll 0 0; }
+.lune.lune20 { background:transparent url('/styles/braldahim_defaut/images/lune/moon20.png') no-repeat scroll 0 0; }
+.lune.lune21 { background:transparent url('/styles/braldahim_defaut/images/lune/moon21.png') no-repeat scroll 0 0; }
+.lune.lune22 { background:transparent url('/styles/braldahim_defaut/images/lune/moon22.png') no-repeat scroll 0 0; }
+.lune.lune23 { background:transparent url('/styles/braldahim_defaut/images/lune/moon23.png') no-repeat scroll 0 0; }
+.lune.lune24 { background:transparent url('/styles/braldahim_defaut/images/lune/moon24.png') no-repeat scroll 0 0; }
+.lune.lune25 { background:transparent url('/styles/braldahim_defaut/images/lune/moon25.png') no-repeat scroll 0 0; }
+.lune.lune26 { background:transparent url('/styles/braldahim_defaut/images/lune/moon26.png') no-repeat scroll 0 0; }
+.lune.lune27 { background:transparent url('/styles/braldahim_defaut/images/lune/moon27.png') no-repeat scroll 0 0; }
+.lune.lune28 { background:transparent url('/styles/braldahim_defaut/images/lune/moon28.png') no-repeat scroll 0 0; }
+.lune.lune29 { background:transparent url('/styles/braldahim_defaut/images/lune/moon29.png') no-repeat scroll 0 0; }
 
 .braltip {
 position:relative;
@@ -1362,7 +1361,7 @@ border-radius: 10px; /* en css3 lui même */
 opacity:0.9;
 
 background: #FFFFFF
-		url(/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		url('/styles/braldahim_defaut/images/layout/gris.png') repeat-x
 		scroll 0pt 100%;
 }
 
