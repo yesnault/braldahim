@@ -101,11 +101,26 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByNiveauAndCaracteristique($niveau, $caracteristique) {
+	function countByNiveauMinMax($niveauMin, $niveauMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', 'count(id_braldun) as nombre');
+		$select->where('niveau_braldun >= ?', $niveauMin);
+		$select->where('niveau_braldun <= ?', $niveauMax);
+		$select->where('est_pnj_braldun = ?', "non");
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
+	function findByNiveauxMinMaxAndCaracteristique($niveauMin, $niveauMax, $caracteristique) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', $this->getSelectCaracteristique($caracteristique)));
-		$select->where('niveau_braldun = ?', $niveau);
+		$select->where('niveau_braldun >= ?', $niveauMin);
+		$select->where('niveau_braldun <= ?', $niveauMax);
 		$select->where('est_compte_actif_braldun = ?', "oui");
 		$select->where('est_pnj_braldun = ?', "non");
 		$select->group(array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -117,7 +132,7 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-
+	
 	private function getSelectCaracteristique($caracteristique) {
 		$retour = "";
 		switch($caracteristique) {
