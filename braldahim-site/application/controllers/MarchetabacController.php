@@ -59,7 +59,7 @@ class MarchetabacController extends Zend_Controller_Action {
 			$tab = null;
 			$tab[] = $stock["nom_region"];
 			$tab[] = Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$stock["date_stock_tabac"]);
-			$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_tabac/type_tabac_".$stock["id_fk_type_stock_tabac"].".png' alt=\"image\"/>";
+			$tab[] = "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_tabac/type_tabac_".$stock["id_fk_type_stock_tabac"].".png' alt=\"image\"/>";
 			$tab[] = $stock["nom_type_tabac"];
 			$tab[] = $stock["prix_unitaire_vente_stock_tabac"];
 			$tab[] = $stock["prix_unitaire_reprise_stock_tabac"];

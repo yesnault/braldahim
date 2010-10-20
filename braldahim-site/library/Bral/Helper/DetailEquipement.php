@@ -19,7 +19,7 @@ class Bral_Helper_DetailEquipement {
 
 	public static function afficher($e) {
 		$retour = "<div class='braltip'>".self::afficherDetails($e);
-		$retour .= "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
+		$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
 		$retour .= "</div>";
 		return $retour;
 	}

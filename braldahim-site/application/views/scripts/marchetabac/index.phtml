@@ -9,7 +9,7 @@
 	gridQString = '/marchetabac/renderxml?uid='+(new Date()).valueOf();
 	
 	mygrid = new dhtmlXGridObject('mygrid_container');
-	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setImagePath("<?=$this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygrid.setHeader("Comté,Date,,Partie,Prix Vente Unitaire,Prix Reprise Unitaire,Stock Initial,Stock Restant");
 	mygrid.setInitWidths("118,95,50,110,85,118,118,90,90");
 	mygrid.setColAlign("left,center,center,center,right,right,right,right,right");

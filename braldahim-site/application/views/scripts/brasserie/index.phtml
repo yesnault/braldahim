@@ -2,7 +2,7 @@
 <div class="titre textalic textsizea">La Brasserie des Sports</div>
 <br />
 <div class="textalic">
-<img src='/public/images/ballon.png'/>
+<img src='<?=$this->config->static->url?>/images/ballon.png'/>
 <? if (count($this->matchs) > 0):?>
 	<div style="padding-left:20px">
 		Liste des matchs : <br /><select id="filtre" name="filtre" onchange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)};" style="text-decoration: underline;"">

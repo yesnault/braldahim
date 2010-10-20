@@ -190,7 +190,7 @@ class MarchealimentController extends Zend_Controller_Action {
 				} else {
 					$tab[] = $e["nom_feminin_metier"]. "<br />(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
-				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_".$aliment["id_type_aliment"].".png' alt=\"".htmlspecialchars($aliment["nom"]) ."\"/>";
+				$tab[] = "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_aliment/type_aliment_".$aliment["id_type_aliment"].".png' alt=\"".htmlspecialchars($aliment["nom"]) ."\"/>";
 				$tab[] = $e["nom_type_aliment"];
 				$tab[] = $aliment["qualite"];
 				$tab[] = $aliment["recette"];
