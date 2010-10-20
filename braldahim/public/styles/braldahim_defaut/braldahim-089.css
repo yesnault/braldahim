@@ -329,9 +329,9 @@ span.resultat_cache {
 	-webkit-border-radius: 60px 60px 10px 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 60px 60px 10px 10px; /* pour Khtml : Konqueror… */
 	
-	-webkit-box-shadow: #000 0px 0 46px 10px;
-    -moz-box-shadow: #000 0px 0 46px 10px;
-    box-shadow: #000 0px 0 46px 10px;
+	-webkit-box-shadow: #000 -5px 5px 20px 10px;
+    -moz-box-shadow: #000 -5px 5px 20px 10px;
+    box-shadow: #000 -5px 5px 20px 10px;
 }
 
 .gazette_histoire {

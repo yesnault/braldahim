@@ -32,13 +32,14 @@ class Bral_Util_Exception {
 			$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
 			$mail->setSubject("[Braldahim-Exception] Exception rencontrée");
 				
-			$formatTexte = date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
-			$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
-			$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
-			$formatTexte .= ' '.$_SERVER['HTTP_USER_AGENT'];
-			$formatTexte .= ' '.$user;
+			$formatTexte = 'Heure: '.date("Y-m-d H:m:s").PHP_EOL;
+			$formatTexte .= 'REMOTE_ADDR: '. $_SERVER['REMOTE_ADDR'].PHP_EOL;
+			$formatTexte .=  'SERVER_NAME / REQUEST_METHOD: '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'].PHP_EOL;
+			$formatTexte .= 'REQUEST_URI: '. $_SERVER['REQUEST_URI'].PHP_EOL;
+			$formatTexte .= 'HTTP_USER_AGENT: '.$_SERVER['HTTP_USER_AGENT'].PHP_EOL;
+			$formatTexte .= 'Utilisateur: '.$user.PHP_EOL;
 
-			$mail->setBodyText("--------> ".$formatTexte." ".$e." " . PHP_EOL);
+			$mail->setBodyText("--------> ".$formatTexte.PHP_EOL.$e." " . PHP_EOL);
 			$mail->send();
 		}
 	}

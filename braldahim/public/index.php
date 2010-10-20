@@ -66,41 +66,6 @@ Zend_Session::start();
 
 $debut2 = microtime(true);
 
-$registry = Zend_Registry::getInstance();
-$configdb = new Zend_Config_Ini('../application/configs/configdb.ini', 'general');
-$registry->set('configdb', $configdb);
-
-$config = new Zend_Config_Ini('../application/configs/config.ini', 'general');
-$registry->set('config', $config);
-
-// setup database Game
-$dbAdapterGame = Zend_Db::factory($configdb->db->game->adapter, $configdb->db->game->config->toArray());
-
-$dbAdapterGame->query('SET NAMES UTF8');
-
-Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
-Zend_Registry::set('dbAdapter', $dbAdapterGame);
-
-if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
-	Zend_Registry::set('estMobile', true);
-} else {
-	Zend_Registry::set('estMobile', false);
-}
-
-if ($_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
-	Zend_Registry::set('estIphone', true);
-} else {
-	Zend_Registry::set('estIphone', false);
-}
-
-if ($_SERVER['SERVER_NAME'] == "work.braldahim.com") {
-	Zend_Registry::set('estWork', true);
-} else {
-	Zend_Registry::set('estWork', false);
-}
-
-Bral_Util_Registre::chargement();
-
 // Create application, bootstrap, and run
 $application = new Zend_Application(
     APPLICATION_ENV,
