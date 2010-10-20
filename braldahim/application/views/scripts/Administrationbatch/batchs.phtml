@@ -5,8 +5,8 @@
     	&nbsp;
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
-	    Purge des batchs OK tous les <?=$this->config->batchs->purge->table->batch->nbjours->ok?> jours glissants.<br />
-	    Purge des batchs tous statuts tous les <?=$this->config->batchs->purge->table->batch->nbjours->tous?> jours glissants.<br />
+	    Purge des batchs OK tous les <?=Bral_Batchs_Batch::PURGE_NB_JOUR_OK ?> jours glissants.<br />
+	    Purge des batchs tous statuts tous les <?=Bral_Batchs_Batch::PURGE_NB_JOUR_TOUS?> jours glissants.<br />
 	    
 	    Nombre OK : <?=$this->nbOk?>
 	    <br />

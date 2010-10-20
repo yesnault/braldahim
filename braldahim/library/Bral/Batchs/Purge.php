@@ -66,7 +66,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$batchTable = new Batch();
 
 		$date = date("Y-m-d H:i:s");
-		$add_day = - $this->config->batchs->purge->table->batch->nbjours->ok;
+		$add_day = - Bral_Batchs_Batch::PURGE_NB_JOUR_OK;
 
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);
@@ -74,7 +74,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
 		$retour = " Ok:nb delete:".$nb. " date:".$dateFin;
 
-		$add_day = - $this->config->batchs->purge->table->batch->nbjours->tous;
+		$add_day = - Bral_Batchs_Batch::PURGE_NB_JOUR_TOUS;
 
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);

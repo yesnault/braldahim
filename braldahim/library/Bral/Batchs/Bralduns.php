@@ -333,7 +333,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 		$braldunTable = new Braldun();
 		$date = date("Y-m-d H:i:s");
-		$add_day = - ($this->config->batchs->purge->table->braldun->suppression->nbjours - $this->config->batchs->purge->table->braldun->prevention->nbjours);
+		$add_day = - (Bral_Batchs_Batch::PURGE_BRALDUN_SUPPRESSION_NBJOURS - Bral_Batchs_Batch::PURGE_BRALDUN_PREVENTION_NBJOURS);
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$bralduns = $braldunTable->findAllBatchByDateFin($dateFin);
 
@@ -353,7 +353,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$retour = "";
 
 		$this->view->braldun = $braldun;
-		$add_day = $this->config->batchs->purge->table->braldun->suppression->nbjours;
+		$add_day = Bral_Batchs_Batch::PURGE_BRALDUN_SUPPRESSION_NBJOURS;
 		$this->view->dateSuppression = Bral_Util_ConvertDate::get_date_add_day_to_date($braldun["date_fin_tour_braldun"], $add_day);
 		if ( $this->view->dateSuppression < date("Y-m-d H:i:s")) {
 			$this->view->dateSuppression = date("Y-m-d 0:0:0");
@@ -396,7 +396,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 		$braldunTable = new Braldun();
 		$date = date("Y-m-d H:i:s");
-		$add_day = -$this->config->batchs->purge->table->braldun->suppression->nbjours;
+		$add_day = -Bral_Batchs_Batch::PURGE_BRALDUN_SUPPRESSION_NBJOURS;
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 
 		$bralduns = $braldunTable->findAllBatchByDateFin($dateFin);
@@ -514,7 +514,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 			$this->view->braldun = $braldun;
 			$this->view->urlJeu = $this->config->general->url;
 			$this->view->adresseSupport = $this->config->general->adresseSupport;
-			$this->view->nbJours = $this->config->batchs->purge->table->braldun->suppression->nbjours;
+			$this->view->nbJours = Bral_Batchs_Batch::PURGE_BRALDUN_SUPPRESSION_NBJOURS;
 
 			$contenuText = $this->view->render("batchs/bralduns/mailSuppressionText.phtml");
 			$contenuHtml = $this->view->render("batchs/bralduns/mailSuppressionHtml.phtml");

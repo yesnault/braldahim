@@ -28,12 +28,27 @@ class Bral_Util_Log {
 	private static $tour = null;
 	private static $viemonstres = null;
 
+	const FICHIER_AUTHENTIFICATION = "bral_authentification.log";
+	const FICHIER_ATTAQUE = "bral_attaque.log";
+	const FICHIER_BATCHS = "bral_batchs.log";
+	const FICHIER_ERREUR = "bral_erreur.log";
+	const FICHIER_EXCEPTION	= "bral_exception.log";
+	const FICHIER_INSCRIPTION = "bral_inscription.log";
+	const FICHIER_MAIL = "bral_mail.log";
+	const FICHIER_POTION = "bral_potion.log";
+	const FICHIER_PROFILER = "bral_profiler.log";
+	const FICHIER_SOULE = "bral_soule.log";
+	const FICHIER_QUETE = "bral_quete.log";
+	const FICHIER_TECH = "bral_tech.log";
+	const FICHIER_TOUR = "bral_tour.log";
+	const FICHIER_VIEMONSTRES = "bral_viemonstres.log";
+
 	public static function authentification() {
 		if (self::$instance == null) {
 			$instance = self::getInstance();
 		}
 		if (self::$authentification == null) {
-			self::$authentification = self::initLog(self::$config->log->fichier->authentification, self::$config->log->niveau->authentification);
+			self::$authentification = self::initLog(self::$config->log->repertoire.self::FICHIER_AUTHENTIFICATION, self::$config->log->niveau->authentification);
 		}
 		return self::$authentification;
 	}
@@ -78,7 +93,7 @@ class Bral_Util_Log {
 			$instance = self::getInstance();
 		}
 		if (self::$mail == null) {
-			self::$mail = self::initLog(self::$config->log->fichier->mail, self::$config->log->niveau->mail);
+			self::$mail = self::initLog(self::$config->log->repertoire.self::FICHIER_MAIL, self::$config->log->niveau->mail);
 		}
 		return self::$mail;
 	}
@@ -123,7 +138,7 @@ class Bral_Util_Log {
 			$instance = self::getInstance();
 		}
 		if (self::$tour == null) {
-			self::$tour = self::initLog(self::$config->log->fichier->tour, self::$config->log->niveau->tour);
+			self::$tour = self::initLog(self::$config->log->repertoire.self::FICHIER_TOUR, self::$config->log->niveau->tour);
 		}
 		return self::$tour;
 	}
@@ -155,7 +170,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$attaque = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->attaque);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_ATTAQUE);
 		self::$attaque->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->attaque);
 		self::$attaque->addFilter($filtre);
@@ -173,7 +188,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$batchs = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->batchs);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_BATCHS);
 		self::$batchs->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->batchs);
 		self::$batchs->addFilter($filtre);
@@ -191,7 +206,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$erreur = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->erreur);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_ERREUR);
 		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$erreur->addWriter($redacteur);
@@ -211,7 +226,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$exception = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->exception);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_EXCEPTION);
 		$formatTexte = "--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
 		$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
 		$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
@@ -230,7 +245,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$inscription = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->inscription);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_INSCRIPTION);
 		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$inscription->addWriter($redacteur);
@@ -268,7 +283,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$potion = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->potion);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_POTION);
 		self::$potion->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->potion);
 		self::$potion->addFilter($filtre);
@@ -286,7 +301,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$profiler = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->profiler);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_PROFILER);
 		self::$profiler->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->profiler);
 		self::$profiler->addFilter($filtre);
@@ -304,7 +319,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$quete = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->quete);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_QUETE);
 		self::$quete->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->quete);
 		self::$quete->addFilter($filtre);
@@ -322,7 +337,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$soule = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->soule);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_SOULE);
 		self::$soule->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->soule);
 		self::$soule->addFilter($filtre);
@@ -340,7 +355,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$tech = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->tech);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_TECH);
 		$formatTexte = "--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
 		$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
 		$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
@@ -364,7 +379,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$viemonstres = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->viemonstres);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_VIEMONSTRES);
 		self::$viemonstres->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->viemonstres);
 		self::$viemonstres->addFilter($filtre);
