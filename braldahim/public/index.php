@@ -16,8 +16,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
-
-include "Zend/Loader.php";
+require_once "Zend/Loader.php";
 
 Zend_Loader::loadClass('Zend_Controller_Action');
 Zend_Loader::loadClass('Zend_Controller_Front');
