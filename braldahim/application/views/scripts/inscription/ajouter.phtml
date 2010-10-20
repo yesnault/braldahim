@@ -15,7 +15,7 @@
 				<?=$this->messageCaptchaInvalide?><br />
 			</div>
 			<?php endif; ?>
-			<img src="<?=$this->config->static->url?>/images/captcha/<?=$this->captcha->getId();?>.png"><br />
+			<img src="/images/captcha/<?=$this->captcha->getId();?>.png"><br />
 			&Eacute;crivez ici le texte que vous voyez ci-dessus : 
 			<input type="text" name="captcha[input]" value="" size="10" maxlength="10"/> 
 			<input type="hidden" name="captcha[id]" value="<?=$this->captcha->getId();?>" />
