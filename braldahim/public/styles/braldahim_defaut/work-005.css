@@ -112,7 +112,7 @@ thead.table_liste,tfoot.table_liste {
 }
 
 #navigation h3.head {
-	background: url("/public/images/collapsed.gif") no-repeat scroll 3px 4px
+	background: url("/images/collapsed.gif") no-repeat scroll 3px 4px
 		#FFFFFF;
 }
 
@@ -121,7 +121,7 @@ thead.table_liste,tfoot.table_liste {
 }
 
 #navigation h3.head.selected {
-	background: #FFFFFF url(/public/images/expanded.gif) no-repeat scroll
+	background: #FFFFFF url(/images/expanded.gif) no-repeat scroll
 		3px 4px;
 }
 
