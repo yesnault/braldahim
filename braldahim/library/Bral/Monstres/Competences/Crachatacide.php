@@ -31,9 +31,15 @@ class Bral_Monstres_Competences_Crachatacide extends Bral_Monstres_Competences_A
 
 				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
 				$jetMonstre = $jetMonstre + $this->monstre["vigueur_bm_monstre"];
+				if ($jetMonstre < 0) {
+					$jetMonstre = 0;
+				}
 
 				$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $h["vigueur_base_braldun"]);
 				$jetBraldun = $jetBraldun + $h["vigueur_bm_braldun"] + $h["vigueur_bbdf_braldun"];
+				if ($jetBraldun < 0) {
+					$jetBraldun = 0;
+				}
 
 				if ($jetBraldun > $jetMonstre) {
 					$malus = floor($malus / 2);
