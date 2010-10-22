@@ -9,7 +9,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('LabanRune');
-		// on verifie que le braldun possede au moins une rune
+		// on verifie que le Braldûn possede au moins une rune
 
 		$this->view->rechercherMotOk = false;
 

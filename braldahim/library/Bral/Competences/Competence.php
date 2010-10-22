@@ -49,7 +49,7 @@ abstract class Bral_Competences_Competence {
 		$this->view->estSurEchoppe = false;
 		$this->view->possedeCharrette = false;
 
-		// recuperation de braldun competence
+		// recuperation de Braldûn competence
 		$this->braldun_competence = $braldunCompetence;
 
 		// si c'est une competence metier, on verifie que ce n'est pas utilise plus de 2 fois par DLA
@@ -270,7 +270,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun / du monstre.
+	 * Mise à jour des événements du Braldûn / du monstre.
 	 */
 	protected function setDetailsEvenement($details, $idType) {
 		$this->detailEvenement = $details;
@@ -288,21 +288,21 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun / du monstre.
+	 * Mise à jour des événements du Braldûn / du monstre.
 	 */
 	protected function setEstEvenementAuto($flag) {
 		$this->estEvenementAuto = $flag;
 	}
 
 	/*
-	 * Mise à jour des événements du braldun / du monstre.
+	 * Mise à jour des événements du Braldûn / du monstre.
 	 */
 	protected function setEvenementQueSurOkJet1($flag) {
 		$this->evenementQueSurOkJet1 = $flag;
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : compétence.
+	 * Mise à jour des événements du Braldûn : type : compétence.
 	 */
 	private function majEvenementsStandard($detailsBot) {
 		if ($this->estEvenementAuto === true) {

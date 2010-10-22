@@ -96,7 +96,7 @@ abstract class Bral_Echoppe_Echoppe {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : compétence.
+	 * Mise à jour des événements du Braldûn : type : compétence.
 	 */
 	private function majEvenementsEchoppe($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->echoppe;

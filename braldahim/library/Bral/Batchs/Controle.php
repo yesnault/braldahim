@@ -172,7 +172,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 
 		if ($nbBralduns > 0) {
 			foreach($bralduns as $h) {
-				$texte .= "    Braldun n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"];
+				$texte .= "    Braldûn n°".$h["id_braldun"]. " ".$h["prenom_braldun"]." ".$h["nom_braldun"]." ".$h["email_braldun"];
 			}
 		}
 

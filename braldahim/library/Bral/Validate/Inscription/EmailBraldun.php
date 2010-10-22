@@ -15,7 +15,7 @@ class Bral_Validate_Inscription_EmailBraldun implements Zend_Validate_Interface 
 		$valid = true;
 
 		if (mb_strlen($valeur) < 5) {
-			$this->_messages[] = "L'email du braldun doit contenir plus de 5 caract&egrave;res";
+			$this->_messages[] = "L'email du Braldûn doit contenir plus de 5 caract&egrave;res";
 			$valid = false;
 		}
 

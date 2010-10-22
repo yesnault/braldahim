@@ -445,7 +445,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::prix invalide. non connu");
 		}
 
-		// on verifie que le braldun a assez de ressources.
+		// on verifie que le Braldûn a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}

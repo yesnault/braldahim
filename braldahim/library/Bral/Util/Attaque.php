@@ -300,12 +300,12 @@ class Bral_Util_Attaque {
 			$braldunCible->pv_restant_braldun = 0;
 
 			if ($braldunAttaquant->est_soule_braldun == "non") {
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - KO du braldun !");
+				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - KO du Braldûn !");
 				$braldunCible->est_ko_braldun = "oui";
 				$braldunCible->nb_ko_braldun = $braldunCible->nb_ko_braldun + 1;
 				$braldunAttaquant->nb_braldun_ko_braldun = $braldunAttaquant->nb_braldun_ko_braldun + 1;
 			} else {
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Plaquage du braldun !");
+				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Plaquage du Braldûn !");
 				$braldunCible->est_ko_braldun = "oui";
 				$braldunCible->nb_plaque_braldun = $braldunCible->nb_plaque_braldun + 1;
 				$braldunAttaquant->nb_braldun_plaquage_braldun = $braldunAttaquant->nb_braldun_plaquage_braldun + 1;
@@ -550,7 +550,7 @@ class Bral_Util_Attaque {
 				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueBraldun($braldunCible, $braldunAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, $degatCase, false);
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
 					
-				$detailsBot .= PHP_EOL."Le braldun ".$retourAttaque["cible"]["prenom_braldun"]." ".$retourAttaque["cible"]["nom_braldun"]." (".$retourAttaque["cible"]["id_braldun"] . ") a riposté.";
+				$detailsBot .= PHP_EOL."Le Braldûn ".$retourAttaque["cible"]["prenom_braldun"]." ".$retourAttaque["cible"]["nom_braldun"]." (".$retourAttaque["cible"]["id_braldun"] . ") a riposté.";
 				$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
 			}
 
@@ -1193,7 +1193,7 @@ class Bral_Util_Attaque {
 		if ($est_ko_braldun == 'non') {
 			$est_engage_braldun = 'oui';
 			$date_courante = date("Y-m-d H:i:s");
-			// si le braldun n'a pas encore activé ce tour
+			// si le Braldûn n'a pas encore activé ce tour
 			if ($date_fin_tour_braldun < $date_courante) {
 				$est_engage_next_dla_braldun = 'oui';
 			}

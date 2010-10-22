@@ -187,7 +187,7 @@ class Bral_Util_Equipement {
 
 	/*
 	 * 33% chance d'avoir une usure prématurée quand on prend un coup sur l'une de ses pièce équipée.
-	 * - On tire au hasard une des pièce que le Braldun a déquipée.
+	 * - On tire au hasard une des pièces que le Braldûn a déséquipé.
 	 * - Elle s'use de 1D10+5 immédiatement.
 	 *
 	 * return le nom de la pièce d'équipement abimée ou null sinon

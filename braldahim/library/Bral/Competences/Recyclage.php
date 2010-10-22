@@ -11,7 +11,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanEquipement");
 
 		/*
-		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
+		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa == false) {

@@ -16,7 +16,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("LabanMunition");
 
-		//on verifie que le braldun porte une arme de tir
+		//on verifie que le Braldûn porte une arme de tir
 		$armeTirPortee = false;
 		$munitionPortee = false;
 		$idMunitionPortee = null;
@@ -146,13 +146,13 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
 		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_2"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre != -1 && $idBraldun != -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldun invalide (!=-1)");
+			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (!=-1)");
 		}
 
 		if ($this->view->armeTirPortee === false) {

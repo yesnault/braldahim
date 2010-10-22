@@ -80,7 +80,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			$braldunCible = $tableBraldun->findById($idBraldun);
 			if ($braldunCible == null || $braldunCible["est_pnj_braldun"] == "oui" ||
 			$braldunCible["id_braldun"] == $this->view->user->id_braldun) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide 2 : ".$this->request->get("valeur_1"));
+				throw new Zend_Exception(get_class($this)." Braldûn invalide 2 : ".$this->request->get("valeur_1"));
 			}
 		} else {
 			if ($this->view->peutCastars && (int)$this->request->get("valeur_1") == 1
@@ -93,7 +93,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 		}
 
 		if ($braldunCible == null) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide 3");
+			throw new Zend_Exception(get_class($this)." Braldûn invalide 3");
 		}
 
 		// calcul des jets

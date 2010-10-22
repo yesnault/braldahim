@@ -65,7 +65,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		}
 
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_1"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
@@ -80,7 +80,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 			}
 		}
 		if ($donnerBallonBraldun === false) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
+			throw new Zend_Exception(get_class($this)." Braldûn invalide (".$idBraldun.")");
 		}
 			
 		$this->detailEvenement = "";

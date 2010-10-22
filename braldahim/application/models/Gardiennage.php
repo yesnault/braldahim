@@ -21,7 +21,7 @@ class Gardiennage extends Zend_Db_Table {
 	);
 	
 	/**
-	 * Renvoie tous les gardiens du braldun passe en parametre.
+	 * Renvoie tous les gardiens du Braldûn passe en parametre.
 	 */
     function findGardiens($id_braldun_garde) {
 		$db = $this->getAdapter();

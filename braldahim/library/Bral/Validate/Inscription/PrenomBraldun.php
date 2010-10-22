@@ -16,12 +16,12 @@ class Bral_Validate_Inscription_PrenomBraldun implements Zend_Validate_Interface
 		$valid = true;
 		
 		if (mb_strlen($valeur) < 5) {
-			$this->_messages[] = "Le pr&eacute;nom du braldun doit contenir plus de 5 caract&egrave;res";
+			$this->_messages[] = "Le pr&eacute;nom du Braldûn doit contenir plus de 5 caract&egrave;res";
 			$valid = false;
 		}
 		
     	if (mb_strlen($valeur) > 15) {
-			$this->_messages[] = "Le pr&eacute;nom du braldun doit contenir au maximum 15 caract&egrave;res";
+			$this->_messages[] = "Le pr&eacute;nom du Braldûn doit contenir au maximum 15 caract&egrave;res";
 			$valid = false;
     	}
 		
@@ -30,7 +30,7 @@ class Bral_Validate_Inscription_PrenomBraldun implements Zend_Validate_Interface
 		for ($i = 0; $i< mb_strlen($valeur); $i++) {
 			$trouve = Bral_Util_String::isCaractereValid(mb_substr($valeur, $i, 1));
 			if ($trouve == false) {
-				$this->_messages[] = "Le nom du braldun contient un ou plusieurs caract&egrave;res invalides : ".mb_substr($valeur, $i, 1);
+				$this->_messages[] = "Le nom du Braldûn contient un ou plusieurs caract&egrave;res invalides : ".mb_substr($valeur, $i, 1);
 				$tab = Bral_Util_String::getTabCaractereValid();
 				foreach ($tab as $t) {
 					$val .= $t. " ";

@@ -257,7 +257,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$id = $captcha->generate();
 		$this->view->captcha = $captcha;
 
-		// braldun par defaut
+		// Braldûn par defaut
 		$this->view->braldun= new stdClass();
 		$this->view->braldun->id_braldun = null;
 		$this->view->braldun->prenom_braldun = $this->prenom_braldun;
@@ -470,10 +470,10 @@ class InscriptionController extends Zend_Controller_Action {
 
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {
-				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de braldun f disponible");
+				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de Braldûn f disponible");
 			}
 		} else {
-			Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de braldun m disponible");
+			Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de Braldûn m disponible");
 		}
 		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - exit");
 		return $dataParents;

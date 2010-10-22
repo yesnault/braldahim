@@ -98,7 +98,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 	/*
 	 * Uniquement utilisable en forêt.
-	 * Le Braldun abat un arbre : il ramasse n rondins (directement dans la charrette).
+	 * Le Braldûn abat un arbre : il ramasse n rondins (directement dans la charrette).
 	 * Le nombre de rondins ramassés est fonction de la VIGUEUR :
 	 * de 0 à 4 : 1D3 + BM VIG/2
 	 * de 5 à 9 : 2D3 + BM VIG/2

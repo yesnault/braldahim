@@ -92,7 +92,7 @@ abstract class Bral_Boutique_Boutique {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : compétence.
+	 * Mise à jour des événements du Braldûn : type : compétence.
 	 */
 	private function majEvenementsBoutique($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->boutique;

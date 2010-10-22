@@ -100,7 +100,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		}
 		
 		if ($braldunTrouve == false) {
-			throw new Zend_Exception(get_class($this)." Braldun Invalide:".$idBraldun);
+			throw new Zend_Exception(get_class($this)." Braldûn Invalide:".$idBraldun);
 		}
 		
 		$communauteTable = new Communaute();

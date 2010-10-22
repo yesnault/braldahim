@@ -176,7 +176,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 					$peutRiposter = Bral_Util_Attaque::verificationNbRiposte($this->cible["nb_dla_jouees_braldun"], $this->cible["id_braldun"]);
 					if ($peutRiposter == true) {
 						Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - ".$this->cible["id_braldun"]." peut riposter");
-						$detailsBot .= PHP_EOL."Le braldun ".$this->cible["prenom_braldun"]." ".$this->cible["nom_braldun"]." (".$this->cible["id_braldun"] . ") a riposté.";
+						$detailsBot .= PHP_EOL."Le Braldûn ".$this->cible["prenom_braldun"]." ".$this->cible["nom_braldun"]." (".$this->cible["id_braldun"] . ") a riposté.";
 						$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
 
 						Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$this->cible["id_braldun"].") possede le mot S -> Riposte");

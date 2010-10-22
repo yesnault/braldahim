@@ -207,7 +207,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				}
 			}
 			if ($braldunTrouve == false) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide : val=".$idBraldun);
+				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
 			
 			$rangTrouve = false;
@@ -226,7 +226,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
 			
-			$this->view->message = "Modification du Braldun ".$idBraldun. " effectuée";
+			$this->view->message = "Modification du Braldûn ".$idBraldun. " effectuée";
 		}
 	}
 	
@@ -244,7 +244,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				}
 			}
 			if ($braldunTrouve == false) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide : val=".$idBraldun);
+				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
 			
 			$braldunTable = new Braldun();
@@ -256,7 +256,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
 			
-			$this->view->message = "Exclusion du Braldun ".$idBraldun. " effectuée";
+			$this->view->message = "Exclusion du Braldûn ".$idBraldun. " effectuée";
 		}
 	}
 }

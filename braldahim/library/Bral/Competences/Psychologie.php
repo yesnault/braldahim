@@ -45,7 +45,7 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_1"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
@@ -58,7 +58,7 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 		}
 
 		if ($idBraldun == -1 || $caract == null) {
-			throw new Zend_Exception(get_class($this)." Caract ou Braldun invalide");
+			throw new Zend_Exception(get_class($this)." Caract ou Braldûn invalide");
 		}
 
 		$psychologieBraldun = false;
@@ -73,7 +73,7 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 			}
 		}
 		if ($psychologieBraldun === false) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide (".$idBraldun.")");
+			throw new Zend_Exception(get_class($this)." Braldûn invalide (".$idBraldun.")");
 		}
 
 

@@ -46,7 +46,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 
 		foreach($gareRowset as $e) {
 			if ($e["x_lieu"] == $this->view->user->x_braldun && $e["y_lieu"] == $this->view->user->y_braldun) {
-				// on ne propose pas le lieu ou le braldun est present
+				// on ne propose pas le lieu ou le Braldûn est present
 			} else {
 				$est_capitale = ($e["est_capitale_ville"] == "oui");
 				if ($gareCourant["est_capitale_ville"] == "oui") {

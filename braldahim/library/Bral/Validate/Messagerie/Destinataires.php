@@ -45,7 +45,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 			foreach ($matches[0] as $id) {
 				$r = $braldunTable->findById(trim($id));
 				if ($r == null || count($r) == 0) {
-					$this->_messages[] = "Le braldun est inconnu";
+					$this->_messages[] = "Le Braldûn est inconnu";
 					$valid = false;
 				}
 			}

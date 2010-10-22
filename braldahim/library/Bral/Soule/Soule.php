@@ -62,7 +62,7 @@ abstract class Bral_Soule_Soule {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : compétence.
+	 * Mise à jour des événements du Braldûn : type : compétence.
 	 */
 	private function majEvenementsSoule($detailsBot) {
 		if ($this->estEvenementAuto == true) {

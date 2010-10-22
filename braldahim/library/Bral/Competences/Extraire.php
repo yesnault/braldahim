@@ -231,7 +231,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
 	 * disponible à cet endroit du filon (ce qu'il reste à exploiter) et
-	 * le niveau de FOR du Braldun :
+	 * le niveau de FOR du Braldûn :
 	 * de 0 à 4 : 1D3 + BM FOR
 	 * de 5 à 9 : 1D3+1 + BM FOR
 	 * de 10 à 14 :1D3+2 + BM FOR

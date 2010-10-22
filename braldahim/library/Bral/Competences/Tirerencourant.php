@@ -16,7 +16,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanMunition");
 		Zend_Loader::loadClass("Palissade");
 
-		//on verifie que le braldun porte une arme de tir
+		//on verifie que le Braldûn porte une arme de tir
 		$armeTirPortee = false;
 		$munitionPortee = false;
 		$idMunitionPortee = null;
@@ -43,7 +43,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 
 		if ($armeTirPortee == true && $munitionPortee == true && $this->view->user->est_intangible_braldun == "non") {
 
-			//on vérifie que le braldun peut courrir (palissade et coins du jeu)
+			//on vérifie que le Braldûn peut courrir (palissade et coins du jeu)
 			$x_min = $this->view->user->x_braldun - 1;
 			$x_max = $this->view->user->x_braldun + 1;
 			$y_min = $this->view->user->y_braldun - 1;
@@ -149,13 +149,13 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
 		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_2"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre == -1 && $idBraldun == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldun invalide (==-1)");
+			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (==-1)");
 		}
 
 		$attaqueMonstre = false;
@@ -225,7 +225,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			);
 			$labanMunition->insertOrUpdate($data);
 
-			/* on va à une case aléatoire autour du braldun parmi celles disponibles*/
+			/* on va à une case aléatoire autour du Braldûn parmi celles disponibles*/
 			$nbCasePossible = count ($this->view->tabCourse);
 
 			$n = Bral_Util_De::getLanceDeSpecifique(1,1,$nbCasePossible);

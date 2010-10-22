@@ -19,7 +19,7 @@ abstract class Bral_Monstres_Competences_Reperage extends Bral_Monstres_Competen
 		
 		$retour = true;
 		
-		// Recuperation du nombre d'attaque esquive par le braldun dans les 3 dernières DLA.
+		// Recuperation du nombre d'attaque esquive par le Braldûn dans les 3 dernières DLA.
 		$evenementTable = new Evenement();
 		$nbAttaqueEsquivee  = $evenementTable->countByIdMonstreIdBraldunLast3tours($monstre["nb_dla_jouees_monstre"], $monstre["id_monstre"], $cible["id_braldun"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		

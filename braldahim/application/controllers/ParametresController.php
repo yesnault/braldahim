@@ -332,8 +332,8 @@ class ParametresController extends Zend_Controller_Action {
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idPartage);
-			$texte = "--------> Braldun déclarant : ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-			$texte .= "--------> Braldun déclaré : ".$braldun->prenom_braldun." ".$braldun->nom_braldun. " (".$braldun->id_braldun.")".PHP_EOL;
+			$texte = "--------> Braldûn déclarant : ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
+			$texte .= "--------> Braldûn déclaré : ".$braldun->prenom_braldun." ".$braldun->nom_braldun. " (".$braldun->id_braldun.")".PHP_EOL;
 			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_braldun.PHP_EOL;
 			$texte .= "--------> Mail du déclaré : ".$braldun->email_braldun.PHP_EOL;
 			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR'];
@@ -375,7 +375,7 @@ class ParametresController extends Zend_Controller_Action {
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->setSubject("[Braldahim-Enqueteur Jeu] Enquête n°".$this->view->idEnquete);
-			$texte = "--------> Braldun ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
+			$texte = "--------> Braldûn ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
 			$texte .= "--------> Mail ".$this->view->user->email_braldun.PHP_EOL;
 			$texte .= "--------> Message : ".PHP_EOL;
 			$texte .= $message.PHP_EOL;

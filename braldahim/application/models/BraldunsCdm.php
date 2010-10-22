@@ -88,7 +88,7 @@ class BraldunsCdm extends Zend_Db_Table {
 	        ->where('id_fk_taille_monstre_hcdm = ?', $data["id_fk_taille_monstre_hcdm"]);
 	        $sql = $select->__toString();
 	        $resultat = $db->fetchAll($sql);
-	        //Si une cdm pour ce monstre et pour cette taille n'existe pas pour ce braldun on insère.
+	        //Si une cdm pour ce monstre et pour cette taille n'existe pas pour ce Braldûn on insère.
 	    	if ( count($resultat) == 0) { // insert
 				$this->insert($data);
 			}

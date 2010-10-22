@@ -15,7 +15,7 @@ class Bral_Validate_Perdu_EmailBraldun implements Zend_Validate_Interface {
 		$valid = true;
 		
 		if (mb_strlen($valeur) < 5) {
-			$this->_messages[] = "L'email du braldun doit contenir plus de 5 caractères";
+			$this->_messages[] = "L'email du Braldûn doit contenir plus de 5 caractères";
 			$valid = false;
 		}
 		

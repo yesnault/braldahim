@@ -9,7 +9,7 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('LabanRune');
-		// on verifie que le braldun possede au moins une rune dans son laban
+		// on verifie que le Braldûn possede au moins une rune dans son laban
 
 		$tabRunes = null;
 		$labanRuneTable = new LabanRune();

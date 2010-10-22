@@ -69,7 +69,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 				}
 			}
 			if ($trouve == false) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide : o:".$this->view->user->id_braldun." d:".$tab["id_braldun"]);
+				throw new Zend_Exception(get_class($this)." Braldûn invalide : o:".$this->view->user->id_braldun." d:".$tab["id_braldun"]);
 			}
 			if ($tab["px_recu"] > 0) {
 				$tabDistribution[] = $tab;

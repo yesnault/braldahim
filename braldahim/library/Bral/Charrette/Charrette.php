@@ -94,7 +94,7 @@ abstract class Bral_Charrette_Charrette {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : compétence.
+	 * Mise à jour des événements du Braldûn : type : compétence.
 	 */
 	private function majEvenementsCharrette($detailsBot) {
 		if ($this->estEvenementAuto === true) {

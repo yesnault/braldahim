@@ -217,13 +217,13 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception(get_class($this)." Braldun invalide : ".$this->request->get("valeur_3"));
+			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_3"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_3");
 		}
 
 		if ($idMonstre == -1 && $idBraldun == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldun invalide (==-1)");
+			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (==-1)");
 		}
 
 		$potion = null;
@@ -264,7 +264,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($trouveH == false && $trouveM == false) {
-			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Braldun (".$idBraldun.") invalide");
+			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Braldûn (".$idBraldun.") invalide");
 		}
 
 		$this->idBraldunCible = $idBraldun;
@@ -354,7 +354,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			}
 			if ($utiliserPotionBraldun === false) {
-				throw new Zend_Exception(get_class($this)." Braldun invalide (".$this->idBraldunCible.")");
+				throw new Zend_Exception(get_class($this)." Braldûn invalide (".$this->idBraldunCible.")");
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {

@@ -123,7 +123,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		}
 
 		if ($changementMetier && !$apprentissageMetier) {
-			// verification que le metier est bien possede par le braldun
+			// verification que le metier est bien possede par le Braldûn
 			$changementOk = false;
 			if ($this->_possedeMetier == true) {
 				foreach ($this->_tabMetiers as $t) {
@@ -140,11 +140,11 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		}
 
 		if ($apprentissageMetier) { // apprentissage
-			// verification que le braldun peut acheter le metier
+			// verification que le Braldûn peut acheter le metier
 			if ($this->_achatPossible === false) {
 				throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
 			}
-			// verification que le metier n'est pas encore possede par le braldun
+			// verification que le metier n'est pas encore possede par le Braldûn
 			$nouveau = false;
 			if (count($this->_tabNouveauMetiers) > 0) {
 				foreach ($this->_tabNouveauMetiers as $t) {

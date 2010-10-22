@@ -315,7 +315,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				if (array_key_exists($message["toid"], $tabBralduns)) {
 					$destinataire = Bral_Util_Lien::getJsBraldun($tabBralduns[$message["toid"]]["id_braldun"], $tabBralduns[$message["toid"]]["prenom_braldun"] . " ". $tabBralduns[$message["toid"]]["nom_braldun"]. " (".$tabBralduns[$message["toid"]]["id_braldun"].")");
 				} else {
-					$destinataire = " Erreur Braldun n°".$message["toid"];
+					$destinataire = " Erreur Braldûn n°".$message["toid"];
 				}
 
 				$tabDestinataires = preg_split("/,/", $message["toids"]);
@@ -324,7 +324,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 						$destinataires .= Bral_Util_Lien::getJsBraldun($tabBralduns[$d]["id_braldun"], $tabBralduns[$d]["prenom_braldun"] . " ". $tabBralduns[$d]["nom_braldun"]. " (".$tabBralduns[$d]["id_braldun"].")");
 						$destinataires .= ", ";
 					} else {
-						$destinataires .= " Erreur Braldun n°:".$d.", ";
+						$destinataires .= " Erreur Braldûn n°:".$d.", ";
 					}
 				}
 			}

@@ -100,7 +100,7 @@ abstract class Bral_Hotel_Hotel {
 	}
 
 	/*
-	 * Mise à jour des événements du braldun : type : service.
+	 * Mise à jour des événements du Braldûn : type : service.
 	 */
 	private function majEvenementsHotel($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;

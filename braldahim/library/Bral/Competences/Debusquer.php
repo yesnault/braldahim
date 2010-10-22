@@ -256,7 +256,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	}
 
 	/*
-	 * CoefH : nb Braldun dans sa vue :
+	 * CoefH : nb Braldûn dans sa vue :
 	 * < 2 : 1
 	 * de 2 à 5 : -1
 	 * de 6 à 10 : -3

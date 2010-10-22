@@ -18,7 +18,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		$typePotionCourante = null;
 
-		// On regarde si le braldun est dans une de ses echopppes
+		// On regarde si le Braldûn est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
