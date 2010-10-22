@@ -5,13 +5,15 @@
 	Aucun Gardiennage en cours.
 <? else: ?>
 	Gardiennage en cours
-	<table>
-	<tr>
-	<th class='comp_titre'>Gardien</th>
-	<th class='comp_titre'>Date de d&eacute;but</th>
-	<th class='comp_titre'>Nombre de jour(s)</th>
-	<th class='comp_titre'>Commentaire</th>
+	<table class="table_liste" style="width:100%;text-align:center">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	<td>Gardien</td>
+	<td>Date de d&eacute;but</td>
+	<td>Nombre de jour(s)</td>
+	<td>Commentaire</td>
 	</tr>
+	</thead>
 	<? foreach($this->tabGardiennage as $g): ?>
 		<tr>
 			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
@@ -21,4 +23,29 @@
 		</tr>
 	<? endforeach; ?>
 	</table>
+<? endif;?>
+	<br /><br />
+<? if (empty($this->tabGardiennageTrenteJours)) : ?>
+	Aucun Gardiennage depuis 30 jours.
+<? else: ?>
+	Gardiennage depuis 30 jours
+	<table class="table_liste" style="width:100%;text-align:center">
+		<thead class="table_liste">
+	  <tr class="table_liste">
+	<td>Gardien</td>
+	<td>Date de d&eacute;but</td>
+	<td>Nombre de jour(s)</td>
+	<td>Commentaire</td>
+	</tr>
+	</thead>
+	<? foreach($this->tabGardiennageTrenteJours as $g): ?>
+		<tr>
+			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
+			<td><?=$g["date_debut"] ?></td>
+			<td><?=$g["nb_jours"] ?></td>
+			<td><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
+		</tr>
+	<? endforeach; ?>
+	</table>
 <? endif; ?>
+<br /><br />
