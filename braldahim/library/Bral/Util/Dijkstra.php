@@ -46,7 +46,7 @@ class Bral_Util_Dijkstra {
 			if (count($zones) == 1) {
 				$zone = $zones[0];
 			} else {
-				throw new Zend_Exception("Dijkstra::calcul : Nombre de case invalide");
+				throw new Zend_Exception("Dijkstra::calcul : Nombre de case invalide pour zone x:$xPosition , y: $yPosition, z:$zPosition nb:(".count($zones).")");
 			}
 		}
 
