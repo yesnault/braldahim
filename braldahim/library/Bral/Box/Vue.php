@@ -757,7 +757,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if (count($tabEaux) >= 1) {
 						$css = $nom_environnement;
 					} elseif (count($tabRoutes) >= 1) {
-						if ($tabRoutes[0]["type_route"] == "ville") {
+						if ($tabRoutes[0]["type_route"] == "ville" || $tabRoutes[0]["type_route"] == "ruine") {
 							$css = "pave";
 						} elseif ($tabRoutes[0]["type_route"] == "echoppe") {
 							$css = "pave";

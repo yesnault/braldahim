@@ -106,4 +106,5 @@ class AdministrationController extends Zend_Controller_Action {
 	function md5Action() {
 		$this->render();
 	}
+	
 }

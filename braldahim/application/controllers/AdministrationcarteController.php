@@ -489,10 +489,16 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		$nbRuines = 0;
 		foreach ($lieux as $f) {
+			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_lieu"]) / $this->coefTaille;
+			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_lieu"]) / $this->coefTaille;
+			
+			
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_lieu"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_lieu"]) / $this->coefTaille;
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbRuines++;
+		//	ImageString($image, 1, $x_deb_map , $y_deb_map, $f["id_lieu"]." ".$f["x_lieu"]."/".$f["x_lieu"]. " ".$texte, $this->noir);
+				
 		}
 		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 20, $nbRuines." Ruines", $this->gris2);
 	}

@@ -92,6 +92,11 @@ class Bral_Util_De {
 		return rand(1, 7);
 	}
 
+	public static function get_1d8() {
+		srand(self::make_seed());
+		return rand(1, 8);
+	}
+
 	public static function get_2d10() {
 		return self::getLanceDeSpecifique(2, 1, 10);
 	}
