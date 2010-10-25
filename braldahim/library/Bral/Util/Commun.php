@@ -278,7 +278,7 @@ class Bral_Util_Commun {
 	}
 
 	/*
-	 * Lorqu'un Braldun meurt il perd une partie de ces castars : 1/3 arr inférieur.
+	 * Lorqu'un Braldûn meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
 	public static function dropBraldunCastars($cible, $effetH, $idButin) {
 		$nbCastars = 0;

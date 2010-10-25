@@ -548,7 +548,7 @@ class Bral_Util_Soule {
 	}
 
 	/**
-	 * Désinscription d'un braldun à un match de Soule.
+	 * Désinscription d'un Braldûn à un match de Soule.
 	 * @param $idBraldun identifiant du Hobbbit
 	 * @return null si pas de match
 	 */
