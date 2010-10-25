@@ -225,6 +225,7 @@ class Bral_Util_Marcher {
 					$this->nb_cases = 2;
 				}
 				break;
+			case "mine" :
 			case "caverne" :
 				$this->nb_cases = 1;
 				$this->nb_pa = 1;

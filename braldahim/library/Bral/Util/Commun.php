@@ -40,6 +40,9 @@ class Bral_Util_Commun {
 			case "caverne":
 				$r = 2;
 				break;
+			case "mine":
+				$r = 2;
+				break;
 			case "plaine" :
 				$r = 6;
 				break;

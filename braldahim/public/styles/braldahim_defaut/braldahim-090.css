@@ -1037,6 +1037,10 @@ td.vue2d.caverne { background: url('/styles/braldahim_defaut/images/vue/environn
 td.vue2d.caverne-gr { background: url('/styles/braldahim_defaut/images/vue/environnement/caverne-gr.png') repeat;}
 td.vue2d.caverne-crevasse { background: url('/styles/braldahim_defaut/images/vue/environnement/caverne-crevasse.png') repeat;}
 td.vue2d.caverne-gr-crevasse { background: url('/styles/braldahim_defaut/images/vue/environnement/caverne-gr-crevasse.png') repeat;}
+td.vue2d.mine { background: url('/styles/braldahim_defaut/images/vue/environnement/mine.png') repeat;}
+td.vue2d.mine-gr { background: url('/styles/braldahim_defaut/images/vue/environnement/mine-gr.png') repeat;}
+td.vue2d.tunnel { background: url('/styles/braldahim_defaut/images/vue/environnement/tunnel.png') repeat;}
+td.vue2d.tunnel-gr { background: url('/styles/braldahim_defaut/images/vue/environnement/tunnel-gr.png') repeat;}
 
 td.vue2d.route { background: url('/styles/braldahim_defaut/images/vue/route.png') repeat; }
 td.vue2d.pave { background: url('/styles/braldahim_defaut/images/vue/pave.png') repeat; }

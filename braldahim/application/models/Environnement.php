@@ -14,12 +14,16 @@ class Environnement extends Zend_Db_Table {
 	const NOM_MONTAGNE = "Montagne";
 	const NOM_GAZON = "Gazon";
 	const NOM_CAVERNE = "Caverne";
+	const NOM_MINE = "Mine";
+	const NOM_TUNNEL = "Tunnel";
 
 	const NOM_SYSTEME_PLAINE = "plaine";
 	const NOM_SYSTEME_MARAIS = "marais";
 	const NOM_SYSTEME_MONTAGNE = "montagne";
 	const NOM_SYSTEME_GAZON = "gazon";
 	const NOM_SYSTEME_CAVERNE = "caverne";
+	const NOM_SYSTEME_MINE = "mine";
+	const NOM_SYSTEME_TUNNEL = "tunnel";
 
 	const INCONNU = "inconnu";
 

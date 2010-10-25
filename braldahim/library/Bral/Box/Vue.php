@@ -371,11 +371,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							$nom_zone = $z["nom_zone"];
 							$est_mine_zone = $z["est_mine_zone"];
 							$description_zone = $z["description_zone"];
-							if ($est_mine_zone == "oui") {
-								$nom_systeme_environnement = Environnement::INCONNU;
-							} else {
-								$nom_systeme_environnement = $z["nom_systeme_environnement"];
-							}
+							$nom_systeme_environnement = $z["nom_systeme_environnement"];
 							$nom_environnement = htmlspecialchars($z["nom_environnement"]);
 							break;
 						}
@@ -384,8 +380,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($tunnels != null && $est_mine_zone == "oui") {
 						foreach($tunnels as $t) {
 							if ($display_x == $t["x_tunnel"] && $display_y == $t["y_tunnel"]) {
-								$nom_systeme_environnement = Environnement::NOM_SYSTEME_CAVERNE;
-								$nom_environnement = Environnement::NOM_CAVERNE;
+								$nom_systeme_environnement = Environnement::NOM_SYSTEME_TUNNEL;
+								$nom_environnement = Environnement::NOM_TUNNEL;
 							}
 						}
 					}
