@@ -371,7 +371,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
 		$mail->addTo($this->email_braldun, $this->prenom_braldun);
 		$mail->addBcc($this->view->config->general->adresseInscriptions);
-		$mail->setSubject($this->view->config->game->inscription->titre_mail);
+		$mail->setSubject("Braldahim - Validation de l'inscription");
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
 			$mail->setBodyHtml($contenuHtml);

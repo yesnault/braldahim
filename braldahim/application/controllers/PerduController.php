@@ -127,7 +127,7 @@ class PerduController extends Zend_Controller_Action {
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
 		$mail->addTo($this->email_braldun, $this->prenom_braldun);
-		$mail->setSubject($this->view->config->game->perdu->titre_mail);
+		$mail->setSubject("Braldahim - Perte de mot de passe");
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
 			$mail->setBodyHtml($contenuHtml);
@@ -157,7 +157,7 @@ class PerduController extends Zend_Controller_Action {
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
 		$mail->addTo($this->email_braldun, $this->destinataire);
-		$mail->setSubject($this->view->config->game->perdu->titre_mail);
+		$mail->setSubject("Braldahim - Perte de mot de passe");
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
 			$mail->setBodyHtml($contenuHtml);

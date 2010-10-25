@@ -226,7 +226,7 @@ class Bral_Util_Log {
 		}
 		self::$config = Zend_Registry::get('config');
 		self::$exception = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_EXCEPTION);
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->repertoire.self::FICHIER_EXCEPTION, 'w');
 		$formatTexte = "--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
 		$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
 		$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
