@@ -1,33 +1,33 @@
-<? if ($this->nbelement > 0) : ?>
-	<? include("commun_text_resultat.phtml") ?>
+<?php if ($this->nbelement > 0) : ?>
+	<?php include("commun_text_resultat.phtml") ?>
 	
 	Vous avez transbahut&eacute; avec succ&egrave;s ces &eacute;l&eacute;ments : <br /><br />
 	
-	<?=htmlspecialchars($this->elementsRetires);?><br /><br />
-	Source : <?=$this->depart?><br />
-	Destination : <?=$this->arrivee?><br /><br />
+	<?php echo htmlspecialchars($this->elementsRetires);?><br /><br />
+	Source : <?php echo $this->depart?><br />
+	Destination : <?php echo $this->arrivee?><br /><br />
 	
-	<? if ($this->poidsOk == false) : ?>
+	<?php if ($this->poidsOk == false) : ?>
 		Certains &eacute;l&eacute;ments trop lourds pour la destination n'ont pu &ecirc;tre transbahut&eacute; :<br />
-		<?=$this->elementsNonRetiresPoids;?><br /><br />
-	<? endif; ?>
+		<?php echo $this->elementsNonRetiresPoids;?><br /><br />
+	<?php endif; ?>
 	
-	<? if ($this->panneau == false) : ?>
+	<?php if ($this->panneau == false) : ?>
 		Certains &eacute;l&eacute;ments n'ont pu &ecirc;tre transbahut&eacute; car votre charrette ne poss&egrave;de pas de panneau amovible :<br />
-		<?=$this->elementsNonRetiresPanneau;?><br />
-	<? endif; ?>
-<? else :?>
+		<?php echo $this->elementsNonRetiresPanneau;?><br />
+	<?php endif; ?>
+<?php else :?>
 	<br />
 	Aucun &eacute;l&eacute;ment n'a pu &ecirc;tre transbahut&eacute; !<br /><br />
-	<? if ($this->poidsOk == false) : ?>
+	<?php if ($this->poidsOk == false) : ?>
 		Certains &eacute;l&eacute;ments trop lourds pour la destination n'ont pu &ecirc;tre transbahut&eacute; :<br />
-		<?=$this->elementsNonRetiresPoids;?><br /><br />
-	<? endif; ?>
+		<?php echo $this->elementsNonRetiresPoids;?><br /><br />
+	<?php endif; ?>
 	
-	<? if ($this->panneau == false) : ?>
+	<?php if ($this->panneau == false) : ?>
 		Certains &eacute;l&eacute;ments n'ont pu &ecirc;tre transbahut&eacute; car votre charrette ne poss&egrave;de pas de panneau amovible :<br />
-		<?=$this->elementsNonRetiresPanneau;?><br /><br />
-	<? endif; ?>
+		<?php echo $this->elementsNonRetiresPanneau;?><br /><br />
+	<?php endif; ?>
 	Vous n'avez d&eacute;pens&eacute; aucun PA.<br />
-<? endif;?>
+<?php endif;?>
 	

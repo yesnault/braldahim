@@ -124,35 +124,35 @@ foreach($case["buissons"] as $b) {
 endif;
 
 ?>
-<div class="braltip"><?=Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
+<div class="braltip"><?php echo Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
 <?
 if ($case["n_buissons"] > 0) :
-?><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/buisson.png'
+?><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/buisson.png'
 	style="position: absolute; top: -14px" /><?
 	endif;
 
 	if ($case["n_elements_runes"] > 0) :
-	?><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/runes.png'
+	?><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/runes.png'
 	style="position: absolute; left: 4px; top: -9px" /><?
 
 	endif;
 
 	if ($case["n_cadavres"] > 0 && $case["n_castars"] > 0) :
 	?> <img
-	src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre_castars.png'
+	src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre_castars.png'
 	style="position: absolute; top: -9px; left: 5px;" /> <?
 
 	elseif ($case["n_castars"] > 0) :
-	?> <img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/castars.png'
+	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/castars.png'
 	style="position: absolute; left: 10px; top: -10px" /> <?
 
 	elseif ($case["n_cadavres"] > 0) :
-	?> <img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre.png'
+	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre.png'
 	style="position: absolute; top: -12px; left: 5px;" /> <?
 	endif;
 
 	if ($case["n_braldunsKo"] > 0) :
-	?> <img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/braldunKo.png'
+	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/braldunKo.png'
 	style="position: absolute; left: 10px; top: -2px" /> <?
 	endif;
 	?></div>

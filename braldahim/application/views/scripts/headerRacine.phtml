@@ -1,11 +1,11 @@
-<? if (isset($this->user) ): ?>
+<?php if (isset($this->user) ): ?>
 
-<? if (Zend_Registry::get("estMobile")):?>
+<?php if (Zend_Registry::get("estMobile")):?>
 <div id="wrappermobile">
 <div id="racinemobile" class="box_racine">
-<? else:?>
+<?php else:?>
 <div id="wrapper">
 <div id="racine" class="box_racine">
-<? endif;?>
+<?php endif;?>
 </div>
-<? endif; ?>
+<?php endif; ?>

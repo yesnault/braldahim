@@ -1,11 +1,11 @@
 Bonjour ! <br /><br />
 
-Votre Braldûn <?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?> (N°<?=$this->braldun["id_braldun"] ?>) a été supprimé. <br /><br />
+Votre Braldûn <?php echo $this->braldun["prenom_braldun"] ?> <?php echo $this->braldun["nom_braldun"] ?> (N°<?php echo $this->braldun["id_braldun"] ?>) a été supprimé. <br /><br />
 
-Soit vous n'avez jamais activé votre compte, soit vous ne l'avez pas joué depuis plus de <?=$this->nbJours?> jours.
+Soit vous n'avez jamais activé votre compte, soit vous ne l'avez pas joué depuis plus de <?php echo $this->nbJours?> jours.
 
 Pour créer un nouveau braldun, rendez-vous ici : <br />
-<a href="<?=$this->urlJeu ?>"><?=$this->urlJeu ?></a><br /><br />
+<a href="<?php echo $this->urlJeu ?>"><?php echo $this->urlJeu ?></a><br /><br />
 
 A bientôt ! <br /><br />
 

@@ -1,29 +1,29 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
 Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
 
-<? if (count($this->equipementRetire) > 0) :?>
+<?php if (count($this->equipementRetire) > 0) :?>
 	Vous avez retir&eacute; : <br />
-	<? foreach($this->equipementRetire as $r) :?>
-		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau 
-		<? if ($r["niveau"] == -1) : ?>
+	<?php foreach($this->equipementRetire as $r) :?>
+		<?php echo htmlspecialchars($r["nom"]) ?>, n&deg;<?php echo htmlspecialchars($r["id_equipement"]) ?>, niveau 
+		<?php if ($r["niveau"] == -1) : ?>
 			spécial.<br />
-		<? else : ?>
-			<?=htmlspecialchars($r["niveau"]) ?>.<br />
-		<? endif;?><br />
-	<? endforeach; ?>
-<? else : ?>
+		<?php else : ?>
+			<?php echo htmlspecialchars($r["niveau"]) ?>.<br />
+		<?php endif;?><br />
+	<?php endforeach; ?>
+<?php else : ?>
 	Vous n'avez rien retir&eacute;
-<? endif; ?>
+<?php endif; ?>
 
-<? if (count($this->equipementAjoute)) :?>
+<?php if (count($this->equipementAjoute)) :?>
 	et vous avez rajout&eacute; sur vous : <br />
-	<? foreach($this->equipementAjoute as $r) :?>
-		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau 
-		<? if ($r["niveau"] == -1) : ?>
+	<?php foreach($this->equipementAjoute as $r) :?>
+		<?php echo htmlspecialchars($r["nom"]) ?>, n&deg;<?php echo htmlspecialchars($r["id_equipement"]) ?>, niveau 
+		<?php if ($r["niveau"] == -1) : ?>
 			spécial.<br />
-		<? else : ?>
-			<?=htmlspecialchars($r["niveau"]) ?>.<br />
-		<? endif;?>
-	<? endforeach; ?>
-<? endif; ?>
+		<?php else : ?>
+			<?php echo htmlspecialchars($r["niveau"]) ?>.<br />
+		<?php endif;?>
+	<?php endforeach; ?>
+<?php endif; ?>

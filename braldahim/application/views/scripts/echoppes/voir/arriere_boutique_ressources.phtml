@@ -3,39 +3,39 @@
 		<td width="50%" valign="top">
 			<div class="titre textalic textsizee">Mat&eacute;riaux Bruts</div>
 			<ul id="navigation" style="width:99%;text-align:left">
-				<? foreach($this->arBoutiqueBruts as $k => $v) : ?>
-					<? if ($v["a_afficher"] == true) :?>
-					<li id="arboutiqueBruts<?=$k?>">
-				      	<h3 id="arboutiqueBruts<?=$k?>-head" class="head" onclick="maccordion(this);">
-							<?=htmlspecialchars($v["nom"]) ?>
+				<?php foreach($this->arBoutiqueBruts as $k => $v) : ?>
+					<?php if ($v["a_afficher"] == true) :?>
+					<li id="arboutiqueBruts<?php echo $k?>">
+				      	<h3 id="arboutiqueBruts<?php echo $k?>-head" class="head" onclick="maccordion(this);">
+							<?php echo htmlspecialchars($v["nom"]) ?>
 						</h3>
-						<ul id="arboutiqueBruts<?=$k?>-body" style="display:none">
+						<ul id="arboutiqueBruts<?php echo $k?>-body" style="display:none">
 							<li>
-								<? include("poche_arr_bout_".$k.".phtml") ?>
+								<?php include("poche_arr_bout_".$k.".phtml") ?>
 							</li>
 						</ul>
 					</li>
-					<? endif; ?>
-				<? endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</ul>
 		</td>
 		<td width="50%" valign="top">
 			<div class="titre textalic textsizee">Mat&eacute;riaux Transform&eacute;s</div>
 			<ul id="navigation" style="width:99%;text-align:left">
-				<? foreach($this->arBoutiqueTransformes as $k => $v) : ?>
-					<? if ($v["a_afficher"] == true) :?>
-					<li id="arboutiqueTransformes<?=$k?>">
-				      	<h3 id="arboutiqueTransformes<?=$k?>-head" class="head" onclick="maccordion(this);">
-							<?=htmlspecialchars($v["nom"]) ?>
+				<?php foreach($this->arBoutiqueTransformes as $k => $v) : ?>
+					<?php if ($v["a_afficher"] == true) :?>
+					<li id="arboutiqueTransformes<?php echo $k?>">
+				      	<h3 id="arboutiqueTransformes<?php echo $k?>-head" class="head" onclick="maccordion(this);">
+							<?php echo htmlspecialchars($v["nom"]) ?>
 						</h3>
-						<ul id="arboutiqueTransformes<?=$k?>-body" style="display:none">
+						<ul id="arboutiqueTransformes<?php echo $k?>-body" style="display:none">
 							<li>
-								<? include("poche_arr_bout_".$k.".phtml") ?>
+								<?php include("poche_arr_bout_".$k.".phtml") ?>
 							</li>
 						</ul>
 					</li>
-					<? endif; ?>
-				<? endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</ul>
 		</td>
 	</tr>

@@ -1,40 +1,40 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 		
-<? if ($this->okJet1 === true):
+<?php if ($this->okJet1 === true):
 	$s = "";
 	if ($this->nbAliment > 1) : $s = "s"; endif;
 ?>
 	Vous avez r&eacute;ussi votre cuisine.<br /> <br />
 	
-	<? if ($this->estQuintuple === true) : ?>
+	<?php if ($this->estQuintuple === true) : ?>
 		Les Braldûns suivants se sont régalés avec votre banquet : <br />
-		<? foreach($this->bralduns as $h) : ?>
-			<? if ($h['id_braldun'] == $this->user->id_braldun) : ?>
+		<?php foreach($this->bralduns as $h) : ?>
+			<?php if ($h['id_braldun'] == $this->user->id_braldun) : ?>
 				Vous-même
-			<? else: ?>
-				<label class='alabel profil' onclick="ouvrirProfilH('<?=$h["id_braldun"]?>');" title='Voir le profil' >
-			<?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (n&deg; <?=$h["id_braldun"]?>)
+			<?php else: ?>
+				<label class='alabel profil' onclick="ouvrirProfilH('<?php echo $h["id_braldun"]?>');" title='Voir le profil' >
+			<?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (n&deg; <?php echo $h["id_braldun"]?>)
 			</label>
-			<? endif;?>
+			<?php endif;?>
 			<br />
-		<? endforeach;?>
-	<? else: ?>
-		Vous avez préparé <?=$this->nbAliment ?> part<?=$s?> de 
-		<?=$this->typeAlimentCourant["nom_type_aliment"]?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
+		<?php endforeach;?>
+	<?php else: ?>
+		Vous avez préparé <?php echo $this->nbAliment ?> part<?php echo $s?> de 
+		<?php echo $this->typeAlimentCourant["nom_type_aliment"]?> de qualit&eacute; <?php echo $this->qualite?> avec pour effet sur la balance de +<?php echo $this->bbdfAliment?> %.
 		<br />
-		<? if ($this->nbAlimentATerre > 0): ?>
-			Faute de place, <?=$this->nbAlimentATerre ?> part<? if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;s à terre"; else: " est tomb&eacute; à terre"; endif?>.
-		<? endif;?>
+		<?php if ($this->nbAlimentATerre > 0): ?>
+			Faute de place, <?php echo $this->nbAlimentATerre ?> part<?php if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;s à terre"; else: " est tomb&eacute; à terre"; endif?>.
+		<?php endif;?>
 		<br /><br />
 		
-		<? if ($this->effetRune) :?>
+		<?php if ($this->effetRune) :?>
 			Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute; : + 1 part.
-		<? endif; ?>
-	<? endif;?>
+		<?php endif; ?>
+	<?php endif;?>
 	
-	<? if ($this->recetteAvecPotion === true) : ?>
-		 La potion utilisée (potion n°<?=$this->idPotion?>) sera appliquée lors de la consommation de la préparation.<br />
-	<? endif;?>
-<? else: ?>
+	<?php if ($this->recetteAvecPotion === true) : ?>
+		 La potion utilisée (potion n°<?php echo $this->idPotion?>) sera appliquée lors de la consommation de la préparation.<br />
+	<?php endif;?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre cuisine. Vous avez perdu la moitié des ingrédients nécessaires.<br />
-<? endif; ?>
+<?php endif; ?>

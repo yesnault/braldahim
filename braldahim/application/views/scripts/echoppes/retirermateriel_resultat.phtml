@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 	 <div id='retirer_text' style="display:block"  onclick="javascript:switch2div('retirer_text','retirer_copie');">
 		Vous avez retir&eacute; de l'&eacute;tal le mat&eacute;riel suivant : <br />
-		<?=htmlspecialchars($this->materiel["nom"]) ?>
+		<?php echo htmlspecialchars($this->materiel["nom"]) ?>
 		<br />
 	 </div>
 	 
@@ -16,4 +16,4 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onclick="javascript:switch2div('retirer_text','retirer_copie');">
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

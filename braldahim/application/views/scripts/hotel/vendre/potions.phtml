@@ -1,10 +1,10 @@
-<? if ($this->vendreOk === true) : ?>
+<?php if ($this->vendreOk === true) : ?>
 	Choississez une potion &agrave; d&eacute;poser.<br />
 	<select name="valeur_3" id="valeur_3" onchange="if (this.value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
 	 	<option value="-1">(Choisissez une potion ou un vernis)</option>
-	 	<? foreach($this->potions as $p) :?>
-	 		<option value="<?=$p["id_potion"]?>"><?=$p["nom_type"] ?> <?=$p["nom"] ?> n&deg;<?=$p["id_potion"] ?> de qualit&eacute; <?=$p["qualite"] ?></option>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->potions as $p) :?>
+	 		<option value="<?php echo $p["id_potion"]?>"><?php echo $p["nom_type"] ?> <?php echo $p["nom"] ?> n&deg;<?php echo $p["id_potion"] ?> de qualit&eacute; <?php echo $p["qualite"] ?></option>
+	 	<?php endforeach; ?>
 	</select>
 	<input type='hidden' name='valeur_4' id='valeur_4' value='1' />
-<? endif; ?>
+<?php endif; ?>

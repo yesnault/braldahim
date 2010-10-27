@@ -1,19 +1,19 @@
-<div class='comp_titre'><?=$this->nomAction ?></div>
+<div class='comp_titre'><?php echo $this->nomAction ?></div>
 
  <div class='comp_contenu'>
-	 <div id='<?=$this->nomSysteme?>_text' style="display:block">
-	<?=$this->texte ?>
+	 <div id='<?php echo $this->nomSysteme?>_text' style="display:block">
+	<?php echo $this->texte ?>
 		<br />
 	 </div>
 	 
-	 <div id='<?=$this->nomSysteme?>_copie' style="display:none">
-		<textarea onclick="javascript:this.select();" rows=4 cols=35><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
+	 <div id='<?php echo $this->nomSysteme?>_copie' style="display:none">
+		<textarea onclick="javascript:this.select();" rows=4 cols=35><?php echo Bral_Helper_Affiche::copie($this->texte); ?></textarea>
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onclick="javascript:switch2div('<?=$this->nomSysteme?>_text','<?=$this->nomSysteme?>_copie');">
-<? if ($this->reloadInterface == true): ?>
+<input type='button' class='button1' value='Copier' onclick="javascript:switch2div('<?php echo $this->nomSysteme?>_text','<?php echo $this->nomSysteme?>_copie');">
+<?php if ($this->reloadInterface == true): ?>
 	<input type='button' class='button1' value='Fermer' onclick='_get_("/interface/reload");fermeBralBox();'>
-<? else: ?>
-	<? echo Bral_Helper_Fermer::affiche(); ?>
-<? endif; ?>
+<?php else: ?>
+	<?php echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>

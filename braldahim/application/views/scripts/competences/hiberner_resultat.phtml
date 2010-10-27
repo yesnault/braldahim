@@ -1,5 +1,5 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
 Vous allez &ecirc;tre en hibernation &agrave; partir de demain pendant 5 jours minimum.<br />
 <br /><br />
-La fin de l'hibernation minimum est fix&eacute;e au <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_fin_hibernation_braldun);?> (dernier jour inclus)<br />
+La fin de l'hibernation minimum est fix&eacute;e au <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_fin_hibernation_braldun);?> (dernier jour inclus)<br />

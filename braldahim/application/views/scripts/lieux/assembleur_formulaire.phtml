@@ -2,55 +2,55 @@
  <form name='myForm'  id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, l'Assembleur <br />
+ Pour <?php echo $this->paUtilisationLieu ?> PA et <?php echo $this->coutCastars?> castars, l'Assembleur <br />
   vous propose d'assembler quelques uns de vos mat&eacute;riels.<br /><br />
   
 
-<? if ($this->achatPossibleCastars == false) :?>
+<?php if ($this->achatPossibleCastars == false) :?>
 	Vous n'avez pas assez de castars.
-<? elseif ($this->materielsBase != null): ?>
+<?php elseif ($this->materielsBase != null): ?>
  
  	S&eacute;lectionner un mat&eacute;riel de base : <br />
   	<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_assembleur&id_materiel_courant='+this.value);">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
-	 	<? foreach ($this->materielsBase as $m):?>
-	 		<option value="<?=$m["id_materiel"]?>" <?=$m["selected"]?>><?=$m["nom_type_materiel"]?>, n&deg;<?=$m["id_materiel"]?> 
-	 		<? if ($m["origine"] != "") : ?>
-	 		 présent dans <?=$m["origine"]?>
-	 		<? endif;?>
+	 	<?php foreach ($this->materielsBase as $m):?>
+	 		<option value="<?php echo $m["id_materiel"]?>" <?php echo $m["selected"]?>><?php echo $m["nom_type_materiel"]?>, n&deg;<?php echo $m["id_materiel"]?> 
+	 		<?php if ($m["origine"] != "") : ?>
+	 		 présent dans <?php echo $m["origine"]?>
+	 		<?php endif;?>
 	 		</option>
-	 	<? endforeach; ?>
+	 	<?php endforeach; ?>
 	</select>
 
-<? else : ?>
+<?php else : ?>
 	Vous n'avez pas de mat&eacute;riel qui pourrait recevoir un autre mat&eacute;riel.
-<? endif; ?>
+<?php endif; ?>
  
- <? if (count($this->materielsAAssembler) > 0): ?>
+ <?php if (count($this->materielsAAssembler) > 0): ?>
  	<br /><br />
  	S&eacute;lectionner un mat&eacute;riel &agrave; assembler : <br />
   	<select name="valeur_2" id="valeur_2"  onchange="if (this.value != -1) { $('bouton_assembleur').disabled=false; } else { $('bouton_assembleur').disabled=true;}">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
-	 	<? foreach ($this->materielsAAssembler as $m):?>
-	 		<option value="<?=$m["id_materiel"]?>" <?=$m["selected"]?>><?=$m["nom_type_materiel"]?>, n&deg;<?=$m["id_materiel"]?>
-	 		<? if ($m["origine"] != "") : ?>
-	 		 présent dans <?=$m["origine"]?>
-	 		<? endif;?>
+	 	<?php foreach ($this->materielsAAssembler as $m):?>
+	 		<option value="<?php echo $m["id_materiel"]?>" <?php echo $m["selected"]?>><?php echo $m["nom_type_materiel"]?>, n&deg;<?php echo $m["id_materiel"]?>
+	 		<?php if ($m["origine"] != "") : ?>
+	 		 présent dans <?php echo $m["origine"]?>
+	 		<?php endif;?>
 	 		</option>
-	 	<? endforeach; ?>
+	 	<?php endforeach; ?>
 	</select>
- <? else: ?>
+ <?php else: ?>
  	<input type="hidden" name="valeur_2" id="valeur_2" value="-1">
- 	<? if ($this->materielCourant != null): ?>
+ 	<?php if ($this->materielCourant != null): ?>
  	<br /><br />
  	Vous n'avez aucun mat&eacute;riel &agrave; assembler sur le mat&eacute;riel de base choisi.
- 	<? endif; ?>
- <? endif;?>
+ 	<?php endif; ?>
+ <?php endif;?>
  </div> 
 </form>
 <br />
 
-<? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->materielCourant != null && count($this->materielsAAssembler) > 0): ?>
-<input type='button' class='button1' id="bouton_assembleur" value="Demander l'assemblage !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_assembleur&id_materiel_courant=<?=$this->materielCourant["id_materiel"]?>');"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->materielCourant != null && count($this->materielsAAssembler) > 0): ?>
+<input type='button' class='button1' id="bouton_assembleur" value="Demander l'assemblage !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_assembleur&id_materiel_courant=<?php echo $this->materielCourant["id_materiel"]?>');"  disabled>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

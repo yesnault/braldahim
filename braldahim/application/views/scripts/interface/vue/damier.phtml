@@ -65,19 +65,19 @@ foreach($this->tableau as $k => $case) :
 	?>
 	<?php if ($case["change_level"] == true) : 
 		$col="ok"; ?>
-		<tr><td><?=$case["y"]?></td>
+		<tr><td><?php echo $case["y"]?></td>
     <?php endif; ?>
-	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
+	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>">
 	
-	<div class="cases <?=$case["css_actuelle"]?>">
-		<table class="cases <?=$case["css_actuelle"]?>">
+	<div class="cases <?php echo $case["css_actuelle"]?>">
+		<table class="cases <?php echo $case["css_actuelle"]?>">
 		<tr>
-		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickEau?>><? include('bralduns_monstres.phtml');ob_flush();?></td>
-		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickLieu?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
+		<td class="cases <?php echo $case["css_actuelle"]?>" <?php echo $adminDoubleClickEau?>><?php include('bralduns_monstres.phtml');ob_flush();?></td>
+		<td class="cases <?php echo $case["css_actuelle"]?>" <?php echo $adminDoubleClickLieu?>><?php include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>
-		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickRoute?>><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
-		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickPalissade?>><? include('elements_charrettes.phtml'); ob_flush();?><? include('cases.phtml');?></td>
+		<td class="cases <?php echo $case["css_actuelle"]?>" <?php echo $adminDoubleClickRoute?>><?php include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+		<td class="cases <?php echo $case["css_actuelle"]?>" <?php echo $adminDoubleClickPalissade?>><?php include('elements_charrettes.phtml'); ob_flush();?><?php include('cases.phtml');?></td>
 		</tr>
 		</table>
 	</div>
@@ -92,12 +92,12 @@ foreach($this->tableau as $k => $case) :
 </table>
 
 
-<? if (Zend_Registry::get("estMobile")) : ?>
+<?php if (Zend_Registry::get("estMobile")) : ?>
 	Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br /><br />
-<? 	else : ?>
+<?php 	else : ?>
 	Compétence Marcher accessible depuis la vue : 
-	Cliquez sur <img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher<br />
+	Cliquez sur <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher<br />
 	Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br />
-<? endif ?>
+<?php endif ?>
 
 &nbsp;

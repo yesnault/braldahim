@@ -1,68 +1,68 @@
 
 <br />
 <ul class="titre textalic textsizec">
-	<?=$this->terrainCourant["nom_soule_terrain"]?>
+	<?php echo $this->terrainCourant["nom_soule_terrain"]?>
 </ul>
 <br />
 
-<? if ($this->matchEnCours != null) : ?>
+<?php if ($this->matchEnCours != null) : ?>
 	Il y a actuellement un match en cours sur ce terrain. <br />
-	<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
-		Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
-		y:<?=$this->matchEnCours["y_ballon_soule_match"]?>
-	<? elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
-		Le ballon est actuellement port&eacute; par <?=Bral_Util_Lien::getJsBraldun($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_braldun"]." ".$this->porteur["nom_braldun"]." (".$this->porteur["id_braldun"].")")?>
-		qui est en x:<?=$this->porteur["x_braldun"]?> y:<?=$this->porteur["y_braldun"]?>
-	<? else: ?>
+	<?php if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
+		Le ballon est actuellement libre et se trouve en x:<?php echo $this->matchEnCours["x_ballon_soule_match"]?>,
+		y:<?php echo $this->matchEnCours["y_ballon_soule_match"]?>
+	<?php elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
+		Le ballon est actuellement port&eacute; par <?php echo Bral_Util_Lien::getJsBraldun($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_braldun"]." ".$this->porteur["nom_braldun"]." (".$this->porteur["id_braldun"].")")?>
+		qui est en x:<?php echo $this->porteur["x_braldun"]?> y:<?php echo $this->porteur["y_braldun"]?>
+	<?php else: ?>
 	Erreur. Merci de le signaler sur le forum.
-	<? endif;?>
-<? else: ?>
+	<?php endif;?>
+<?php else: ?>
 	Il n'y a actuellement aucun match en cours sur ce terrrain.
-<? endif;?>
+<?php endif;?>
 
 <table width="100%">
 	<tr>
-		<td valign="top"><? if ($this->matchEnCours != null) : include("voir/carte.phtml"); endif;?></td>
-		<td valign="top"><? if ($this->matchEnCours != null) : include("voir/evenements.phtml"); endif;?></td>
+		<td valign="top"><?php if ($this->matchEnCours != null) : include("voir/carte.phtml"); endif;?></td>
+		<td valign="top"><?php if ($this->matchEnCours != null) : include("voir/evenements.phtml"); endif;?></td>
 	</tr>
 </table>
 <br /><br />
 
-<? if ($this->inscriptionPossible === true): ?>
-	<? if ($this->user->activation == true) :?>
+<?php if ($this->inscriptionPossible === true): ?>
+	<?php if ($this->user->activation == true) :?>
 		Vous pouvez vous inscrire.
-		<? if ($this->user->pa_braldun >= 0) : 
+		<?php if ($this->user->pa_braldun >= 0) : 
 	      $attr = "onclick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
 	    else:
 	      $attr = "disabled";
 	    endif;?>
-		<input type="button" class='button1' value="0 PA - Inscription" <?=$attr?>/>
-	<? else: ?>
+		<input type="button" class='button1' value="0 PA - Inscription" <?php echo $attr?>/>
+	<?php else: ?>
 	Tour non activ&eacute; &agrave; la connexion, activez-le pour vous inscrire.
-	<? endif;?>
-<? else:?>
-	<?=$this->inscriptionNonPossibleInfo?>
+	<?php endif;?>
+<?php else:?>
+	<?php echo $this->inscriptionNonPossibleInfo?>
 	<br />
-	<? if ($this->desinscriptionPossible === true): ?>
+	<?php if ($this->desinscriptionPossible === true): ?>
 		Vous pouvez vous désinscrire.
-		<? if ($this->user->pa_braldun >=2) : 
+		<?php if ($this->user->pa_braldun >=2) : 
 	      $attr = "onclick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');\"";
 	    else:
 	      $attr = "disabled";
 	    endif;?>
-		<input type="button" class='button1' value="2 PA - Désinscription" <?=$attr?>/>
-	<? endif; ?>
-	<? if ($this->deinscriptionNonPossibleInfo != "") : ?>
-		<br /><?=$this->deinscriptionNonPossibleInfo ?><br />
-	<? endif;?>
-<? endif; ?>
+		<input type="button" class='button1' value="2 PA - Désinscription" <?php echo $attr?>/>
+	<?php endif; ?>
+	<?php if ($this->deinscriptionNonPossibleInfo != "") : ?>
+		<br /><?php echo $this->deinscriptionNonPossibleInfo ?><br />
+	<?php endif;?>
+<?php endif; ?>
 
-<? if ($this->souleInfo != "") : ?>
-<br /><?=$this->souleInfo ?><br />
-<? endif; ?>
+<?php if ($this->souleInfo != "") : ?>
+<br /><?php echo $this->souleInfo ?><br />
+<?php endif; ?>
 
 <?php include("voir/equipes.phtml")?>
 
-<? if ($this->matchEnCours != null && $this->user->id_fk_soule_match_braldun == $this->matchEnCours["id_soule_match"]) : ?>
+<?php if ($this->matchEnCours != null && $this->user->id_fk_soule_match_braldun == $this->matchEnCours["id_soule_match"]) : ?>
 	<?php include("voir/messages.phtml")?>
-<? endif; ?>
+<?php endif; ?>

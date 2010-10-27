@@ -1,45 +1,45 @@
-<div class='comp_titre'><?=$this->nomLieu?></div>
+<div class='comp_titre'><?php echo $this->nomLieu?></div>
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  	<br />
  	
- 	Bonjour à vous <?=$this->user->prenom_braldun ?> <?=$this->user->nom_braldun ?>.<br />
+ 	Bonjour à vous <?php echo $this->user->prenom_braldun ?> <?php echo $this->user->nom_braldun ?>.<br />
  	<br />
- 	<? if ($this->queteEnCours === true):?>
+ 	<?php if ($this->queteEnCours === true):?>
  	Vous avez d&eacute;j&agrave; une quête en cours... Terminez-là et revenez me voir ensuite.
  	
- 	<? elseif ($this->niveauOk === false):?>
- 		Atteignez donc le niveau <?=$this->niveauRequis ?> et revenez me voir ensuite.
- 	<? elseif ($this->queteObtenue === false):?>
+ 	<?php elseif ($this->niveauOk === false):?>
+ 		Atteignez donc le niveau <?php echo $this->niveauRequis ?> et revenez me voir ensuite.
+ 	<?php elseif ($this->queteObtenue === false):?>
  	
- 	Vous êtes à la recherche de quête à <?=$this->nomVille?> ? 
+ 	Vous êtes à la recherche de quête à <?php echo $this->nomVille?> ? 
  	<br /><br />
  	Bien, j'ai une mission pour vous qui me semble adapt&eacute;e.<br /> 
- 	Vous devez payer <?=$this->coutCastars?> castars 
- 	(et <?=$this->paUtilisationLieu ?> PA).<br /><br />
+ 	Vous devez payer <?php echo $this->coutCastars?> castars 
+ 	(et <?php echo $this->paUtilisationLieu ?> PA).<br /><br />
  	
  	Cette mission sera en quelque sorte liée à votre métier courant, 
  	donc si vous souhaitez changer de métier avant, passez à l'académie et revenez ici ensuite...<br /><br />
  	
  	Êtes-vous prêt &agrave; accepter ?<br /><br />
  	
- 	<? else: ?>
+ 	<?php else: ?>
  	Vous êtes déjà rentré dans ce lieu, vous n'avez plus rien à faire ici...
- 	<? endif;?>
+ 	<?php endif;?>
  </div> 
 </form>
 <br /> 
 
-<? if ($this->utilisationPaPossible !== true): ?>
+<?php if ($this->utilisationPaPossible !== true): ?>
 	Vous n'avez pas assez de PA.<br />
-<? endif;?>
+<?php endif;?>
 
-<? if ($this->utilisationPossible !== true): ?>
+<?php if ($this->utilisationPossible !== true): ?>
 	Vous n'avez pas assez de castars.
-<? endif;?>
+<?php endif;?>
 <br />
-<? if ($this->queteEnCours === false && $this->niveauOk === true && $this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
+<?php if ($this->queteEnCours === false && $this->niveauOk === true && $this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
 <input type='button' class='button1' id="bouton_quete" value="Oui, J'accepte !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

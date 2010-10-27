@@ -2,53 +2,53 @@
 <div class="titre textalic textsizea">La Brasserie des Sports</div>
 <br />
 <div class="textalic">
-<img src='<?=$this->config->static->url?>/images/ballon.png'/>
-<? if (count($this->matchs) > 0):?>
+<img src='<?php echo $this->config->static->url?>/images/ballon.png'/>
+<?php if (count($this->matchs) > 0):?>
 	<div style="padding-left:20px">
 		Liste des matchs : <br /><select id="filtre" name="filtre" onchange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)};" style="text-decoration: underline;"">
 		<option value="-1">Choisissez un match</option>
-		<? foreach($this->matchs as $m) : ?>
-			<option value="<?=$m["id_soule_match"]?>" <? if ($this->idMatchDirect == $m["id_soule_match"]): echo 'selected'; endif;?>>
-			Match n°<?=$m["id_soule_match"]?> 
-		 - <?=$m["nom_soule_terrain"]?> 
-			<? if ($m["date_debut_soule_match"] == null && $m["date_fin_soule_match"] == null) : ?>
+		<?php foreach($this->matchs as $m) : ?>
+			<option value="<?php echo $m["id_soule_match"]?>" <?php if ($this->idMatchDirect == $m["id_soule_match"]): echo 'selected'; endif;?>>
+			Match n°<?php echo $m["id_soule_match"]?> 
+		 - <?php echo $m["nom_soule_terrain"]?> 
+			<?php if ($m["date_debut_soule_match"] == null && $m["date_fin_soule_match"] == null) : ?>
 			- Non d&eacute;but&eacute;
-			<? elseif ($m["date_debut_soule_match"] != null && $m["date_fin_soule_match"] == null) : ?>
+			<?php elseif ($m["date_debut_soule_match"] != null && $m["date_fin_soule_match"] == null) : ?>
 			- En Cours
-			<? else: ?>
+			<?php else: ?>
 			- Terminé
-			<? endif;?>
+			<?php endif;?>
 			</option>
-		<? endforeach;?>
+		<?php endforeach;?>
 		</select>
 	</div>
-<? else: ?>
+<?php else: ?>
 Aucun match
-<? endif;?>
+<?php endif;?>
 </div><br />
 			
 <table style="width:100%">
 <tr>
 	<td style="width:500px; border: 0px solid #791E1E;" valign="top">
-		<?=$this->render("commun/box_header.phtml"); ?>
+		<?php echo $this->render("commun/box_header.phtml"); ?>
 		<div class="box_brasserie_match" id="box_brasserie_match">
-		    <? if ($this->directFluxErreur == true) : ?>
+		    <?php if ($this->directFluxErreur == true) : ?>
 		    	<div class="inner">
 					<div class="box_contenu1 textalic"><br />
 					Match invalide. Choisissez un match<br /><br />
 					</div>
 				</div>
-		    <? elseif ($this->directFlux != null): ?>
-		    	<?=$this->directFlux?>
-		    <? else : ?>
+		    <?php elseif ($this->directFlux != null): ?>
+		    	<?php echo $this->directFlux?>
+		    <?php else : ?>
 				<div class="inner">
 					<div class="box_contenu1 textalic"><br />
 					Choisissez un match<br /><br />
 					</div>
 				</div>
-			<? endif;?>
+			<?php endif;?>
 		</div>
-		<?=$this->render("commun/box_bottom.phtml"); ?>
+		<?php echo $this->render("commun/box_bottom.phtml"); ?>
 	</td>
 </tr>
 </table>

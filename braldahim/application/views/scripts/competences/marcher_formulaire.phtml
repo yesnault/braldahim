@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 
 <?php if ($this->estEngage == false && $this->estSurRoute == false) : ?>
- Environnement : <?=htmlspecialchars($this->environnement) ?>. <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
+ Environnement : <?php echo htmlspecialchars($this->environnement) ?>. <?php echo $this->nb_pa ?> PA, <?php echo $this->nb_cases ?>
  <?php if ($this->nb_cases == 1) :?>
    case
  <?php else :?>
@@ -22,39 +22,39 @@
 <?php else : ?>
 
 	<?php if ($this->estEngage == true) : ?>
-	Vous &ecirc;tes actuellement engag&eacute;, vous pouvez marcher de <?=$this->nb_cases?> case pour <?=$this->nb_pa ?> PA.
+	Vous &ecirc;tes actuellement engag&eacute;, vous pouvez marcher de <?php echo $this->nb_cases?> case pour <?php echo $this->nb_pa ?> PA.
 	<?php endif; ?>
 	
 	<?php if ($this->estSurRoute == true) : ?>
 	Vous &ecirc;tes actuellement sur une route, <br />
-	vous pouvez donc marcher de <?=$this->nb_cases?> case<? if ($this->nb_cases > 1) : echo "s"; endif;?> pour <?=$this->nb_pa ?> PA !
+	vous pouvez donc marcher de <?php echo $this->nb_cases?> case<?php if ($this->nb_cases > 1) : echo "s"; endif;?> pour <?php echo $this->nb_pa ?> PA !
 	<?php endif; ?>
 
 	<?php if ($this->marcherPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
   	<?php endif; ?>
   
-  <? if ($this->effetMot == true) : ?>
+  <?php if ($this->effetMot == true) : ?>
   	Votre &eacute;quipement a de l'effet sur le co&ucirc;t en PA ou sur le nombre de cases possible.<br /><br />
-  <? endif; ?>
+  <?php endif; ?>
   
-  <? include('marcher_tableau.phtml'); ?>
-<? endif ?>
+  <?php include('marcher_tableau.phtml'); ?>
+<?php endif ?>
 
 
-<? if (!Zend_Registry::get("estMobile")) : ?>
+<?php if (!Zend_Registry::get("estMobile")) : ?>
 	<br />
 	<b>Informations</b> : 
 	Cette compétence est accessible directement depuis la vue.
 	<ul> 
-	<li>Cliquez sur <img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher</li>
+	<li>Cliquez sur <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/pas2.png'> pour Marcher</li>
 	<li>Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.</li>
 	</ul>
-<? endif ?>
+<?php endif ?>
 
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->marcherPossible === true) : ?>
 <input type='button' class='button1' value='Marcher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_marcher");'>
-<? endif ?>
+<?php endif ?>

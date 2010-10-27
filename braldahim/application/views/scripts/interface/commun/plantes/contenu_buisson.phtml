@@ -1,18 +1,18 @@
- <? foreach ($this->typePlantes["Buisson"]["type_plante"] as $k => $v) : ?>
- 	<? if ($v["a_afficher"] == true) : ?>
+ <?php foreach ($this->typePlantes["Buisson"]["type_plante"] as $k => $v) : ?>
+ 	<?php if ($v["a_afficher"] == true) : ?>
  	<tr class="table_liste">
 	 	<td class="table_liste" style="text-align: left;">
-	 		<?=htmlspecialchars($k); ?>
+	 		<?php echo htmlspecialchars($k); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["feuille"]); ?>
+	 		<?php echo Bral_Helper_Contenu::affichePlante($v["parties"]["feuille"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["fleur"]); ?>
+	 		<?php echo Bral_Helper_Contenu::affichePlante($v["parties"]["fleur"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["epine"]); ?>
+	 		<?php echo Bral_Helper_Contenu::affichePlante($v["parties"]["epine"]); ?>
 	 	</td>
  	</tr>
- 	<? endif; ?>
- <? endforeach; ?>
+ 	<?php endif; ?>
+ <?php endforeach; ?>

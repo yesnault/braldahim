@@ -4,15 +4,15 @@
 <br/><br/><br/>
 <table width="100%">
 <tr>
-<td width="33%" valign="top" align="center"><? include("gazette.phtml") ?><br/></td>
+<td width="33%" valign="top" align="center"><?php include("gazette.phtml") ?><br/></td>
 <td width="33%" valign="top" align="center">
-	<? include("login/formulaire.phtml")?>
+	<?php include("login/formulaire.phtml")?>
 	<br/>
-	<? if (!Zend_Registry::get("estWork")) : ?>
-	<? include("login/pub.phtml")?>
-	<? endif;?>
+	<?php if (!Zend_Registry::get("estWork")) : ?>
+	<?php include("login/pub.phtml")?>
+	<?php endif;?>
 </td>
-<td width="33%" valign="top" align="center"><? include("annonces.phtml") ?><br/><? include("login/association.phtml")?></td>
+<td width="33%" valign="top" align="center"><?php include("annonces.phtml") ?><br/><?php include("login/association.phtml")?></td>
 </tr>
 </table>
 <br/>

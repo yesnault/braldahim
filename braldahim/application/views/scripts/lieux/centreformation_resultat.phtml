@@ -1,28 +1,28 @@
-<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
+<?php echo $this->render("/commun/commun_quete_resultat.phtml") ?>
 
-<? if($this->apprentissageMetier === true) : ?>
+<?php if($this->apprentissageMetier === true) : ?>
 	Vous avez appris le m&eacute;tier suivant :<br />
-	<?=$this->nomMetier ?>
+	<?php echo $this->nomMetier ?>
 	<br /><br />
 	C'est &eacute;galement votre m&eacute;tier courant<br />
-	Il vous reste <?=$this->user->castars_braldun; ?>
-	<? if ($this->user->castars_braldun == 0): ?>
+	Il vous reste <?php echo $this->user->castars_braldun; ?>
+	<?php if ($this->user->castars_braldun == 0): ?>
 	castar.
-	<? else: ?>
+	<?php else: ?>
 	castars.
-	<? endif; ?>
+	<?php endif; ?>
 	<br /><br />
-	<? if ($this->constructionCharrette === true): ?>
+	<?php if ($this->constructionCharrette === true): ?>
 		De plus, vous avez r&eacute;cup&eacute;r&eacute; une charrette !
-	<? endif; ?>
-	<? if ($this->constructionEchoppe === true): ?>
+	<?php endif; ?>
+	<?php if ($this->constructionEchoppe === true): ?>
 		De plus, vous pouvez construire une &eacute;choppe, rendez-vous &agrave; l'Office Notarial !
-	<? endif; ?>
-<? endif; ?>
-<? if ($this->changementMetier === true) : ?>
-	<? if ($this->apprentissageMetier === false) : ?>
+	<?php endif; ?>
+<?php endif; ?>
+<?php if ($this->changementMetier === true) : ?>
+	<?php if ($this->apprentissageMetier === false) : ?>
 		Votre m&eacute;tier courant est maintenant :<br />
-		<?=$this->nomMetier ?>
-	<? endif; ?>
+		<?php echo $this->nomMetier ?>
+	<?php endif; ?>
 	<br />Vous avez &eacute;galement perdu 10% sur les comp&eacute;tences de votre ancien m&eacute;tier.
-<? endif; ?>
+<?php endif; ?>

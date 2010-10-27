@@ -12,22 +12,22 @@
 				<div class="inner">
 					<div class="contenu">
 							Filtre par année: <select id="annee" name="annee" onchange="document.location.href = '/annonces/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
-							<? foreach($this->annees as $a): ?>
-								<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
-							<? endforeach;?>
+							<?php foreach($this->annees as $a): ?>
+								<option value="<?php echo $a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?php echo $a?></option>
+							<?php endforeach;?>
 							</select>
 							
 							<br/><br/>
 							
-							<?=count($this->annonces)?> annonce<? if (count($this->annonces) > 0) : echo "s"; endif; ?>
-							 pour l'année <?=$this->anneeSelect?> 
+							<?php echo count($this->annonces)?> annonce<?php if (count($this->annonces) > 0) : echo "s"; endif; ?>
+							 pour l'année <?php echo $this->anneeSelect?> 
 					</div>
 				</div>
 			</div>
 			</td>
 			
 			<td width="60%" valign="top" align="left">
-			<? include("annonces.phtml") ?>	
+			<?php include("annonces.phtml") ?>	
 			<br />
 		</td>
 	</tr>

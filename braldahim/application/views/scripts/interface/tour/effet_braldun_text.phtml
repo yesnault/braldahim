@@ -1,32 +1,32 @@
-<? if ($this->effetBraldun == true) :
+<?php if ($this->effetBraldun == true) :
 	$nb = count($this->effetBraldunEffets);
 	if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
 	?>
-	<br /><b><?=$nb ?> effet<?=$s ?> <?=$verb?> eu de l'influence sur vous.</b><br />
+	<br /><b><?php echo $nb ?> effet<?php echo $s ?> <?php echo $verb?> eu de l'influence sur vous.</b><br />
 	
-	<? foreach($this->effetBraldunEffets as $e) : ?>
-		<? if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
+	<?php foreach($this->effetBraldunEffets as $e) : ?>
+		<?php if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
 		       $e["effet"]["caracteristique"] == "STOUT" || 
 		       $e["effet"]["caracteristique"] == "TOUR") : ?>
-			<?=$e["effet"]["texte_calcule_effet_braldun"]?>
-		<? else: ?>
-			<?=$e["retourEffet"]["nEffet"] ?> point<? if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
-			<? if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
+			<?php echo $e["effet"]["texte_calcule_effet_braldun"]?>
+		<?php else: ?>
+			<?php echo $e["retourEffet"]["nEffet"] ?> point<?php if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?php echo $e["effet"]["bm_type"] ?> sur 
+			<?php if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
 				ATT / DEG / DEF
-			<? else: ?>
-				<?=$e["effet"]["caracteristique"]?>
-			<? endif;?>
-		<? endif;?>
-		<? if ($e["effet"]["caracteristique"] != "TOUR") : ?>
-			et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
-		<? endif;?>
-		<? if ($e["effet"]["texte_effet_braldun"]) : ?>
-			: <i><?=$e["effet"]["texte_effet_braldun"]?></i>
-		<? endif;?>
-		<? if ($e["effet"]["actif"] == false):?>
+			<?php else: ?>
+				<?php echo $e["effet"]["caracteristique"]?>
+			<?php endif;?>
+		<?php endif;?>
+		<?php if ($e["effet"]["caracteristique"] != "TOUR") : ?>
+			et <?php echo $e["effet"]["nb_tour_restant"] ?> tour<?php $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?php echo $s ?>
+		<?php endif;?>
+		<?php if ($e["effet"]["texte_effet_braldun"]) : ?>
+			: <i><?php echo $e["effet"]["texte_effet_braldun"]?></i>
+		<?php endif;?>
+		<?php if ($e["effet"]["actif"] == false):?>
 			   Effet non cumulable donc non actif.
-		<? endif;?>
+		<?php endif;?>
 		<br />
-	<? endforeach; ?>
+	<?php endforeach; ?>
 	<br />
-<? endif; ?>
+<?php endif; ?>

@@ -1,5 +1,5 @@
 Vous avez achet&eacute; l'&eacute;quipement suivant : <br />
-<?=htmlspecialchars($this->equipement["nom"])." ".htmlspecialchars(addslashes($this->equipement["suffixe"]))." de qualit&eacute; ".htmlspecialchars($this->equipement["qualite"]) ?>,
- n&deg; <?=$this->equipement["id_equipement"]; ?>
- pour <?=$this->detailPrix?>.<br /><br />
-La pi&egrave;ce est plac&eacute;e dans <?=$this->destination["texte"]?>.
+<?php echo htmlspecialchars($this->equipement["nom"])." ".htmlspecialchars(addslashes($this->equipement["suffixe"]))." de qualit&eacute; ".htmlspecialchars($this->equipement["qualite"]) ?>,
+ n&deg; <?php echo $this->equipement["id_equipement"]; ?>
+ pour <?php echo $this->detailPrix?>.<br /><br />
+La pi&egrave;ce est plac&eacute;e dans <?php echo $this->destination["texte"]?>.

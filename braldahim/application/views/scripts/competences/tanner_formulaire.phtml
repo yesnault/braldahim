@@ -1,27 +1,27 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	 <? if ($this->tannerEchoppeOk === true && $this->tannerPeauOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez tanner jusqu'&agrave; <?=$this->nbPeauMax ?> pi&egrave;ce<? if ($this->nbPeauMax > 1): echo "s"; endif; ?> de peau en pi&egrave;ce(s) de fourrure ou de cuir ...<br />
+	 <?php if ($this->tannerEchoppeOk === true && $this->tannerPeauOk === true) : ?>
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez tanner jusqu'&agrave; <?php echo $this->nbPeauMax ?> pi&egrave;ce<?php if ($this->nbPeauMax > 1): echo "s"; endif; ?> de peau en pi&egrave;ce(s) de fourrure ou de cuir ...<br />
 	
 	<br />
 	Quantité de pièces à utiliser : <br />
 	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_tanner').disabled=true } else {$('bouton_tanner').disabled=false }">
 	 	<option value="-1">(Choisissez la quantité à tanner)</option>
-	 	<? for($i=1; $i <= $this->nbPeauMax; $i++) :
+	 	<?php for($i=1; $i <= $this->nbPeauMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;
 	 	?>
-	 		<option value="<?=$i ?>"><?=$i?> pi&egrave;ce<?=$s?></option>
-	 	<? endfor; ?>
+	 		<option value="<?php echo $i ?>"><?php echo $i?> pi&egrave;ce<?php echo $s?></option>
+	 	<?php endfor; ?>
 	 </select>
 	 
-	 <? elseif ($this->tannerEchoppeOk == false) : ?>
+	 <?php elseif ($this->tannerEchoppeOk == false) : ?>
 		Vous ne pouvez tanner que dans une de vos &eacute;choppes de Tanneur.
-	<? else: ?>
-		Vous n'avez pas assez de peau pour tanner... (<?=$this->nbPeau ?> peau<? if ($this->nbPeau > 1): echo "x"; endif; ?> minimum)
-	<? endif; ?>
+	<?php else: ?>
+		Vous n'avez pas assez de peau pour tanner... (<?php echo $this->nbPeau ?> peau<?php if ($this->nbPeau > 1): echo "x"; endif; ?> minimum)
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->tannerEchoppeOk === true && $this->tannerPeauOk) : ?>
 <input type='button' class='button1' id='bouton_tanner' value='Tanner !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_tanner");'/>
-<? endif ?>
+<?php endif ?>

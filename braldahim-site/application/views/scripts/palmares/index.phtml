@@ -7,55 +7,55 @@
 			<div class="titre textalic textsizec">
 			Général
 			</div>
-			<? foreach($this->selection as $s) : ?>
-				<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
-			<? endforeach;?>
+			<?php foreach($this->selection as $s) : ?>
+				<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
+			<?php endforeach;?>
 			<br/>
 			
 			<div class="titre textalic textsizec">
 			Réputation
 			</div>
-			<? if (count($this->selectionReputation) > 0): ?>
-				<? foreach($this->selectionReputation as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
-				<? endforeach;?>
-			<? endif; ?>
+			<?php if (count($this->selectionReputation) > 0): ?>
+				<?php foreach($this->selectionReputation as $s) : ?>
+					<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
+				<?php endforeach;?>
+			<?php endif; ?>
 			<br/>
 			
 			<div class="titre textalic textsizec">
 			Récolteurs
 			</div>
-			<? if (count($this->selectionRecolteurs) > 0): ?>
-				<? foreach($this->selectionRecolteurs as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
-				<? endforeach;?>
-			<? endif; ?>
+			<?php if (count($this->selectionRecolteurs) > 0): ?>
+				<?php foreach($this->selectionRecolteurs as $s) : ?>
+					<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
+				<?php endforeach;?>
+			<?php endif; ?>
 			<br/>
 			<div class="titre textalic textsizec">
 			Fabricants
 			</div>
-			<? if (count($this->selectionFabricants) > 0): ?>
-				<? foreach($this->selectionFabricants as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
-				<? endforeach;?>
-			<? endif; ?>
+			<?php if (count($this->selectionFabricants) > 0): ?>
+				<?php foreach($this->selectionFabricants as $s) : ?>
+					<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
+				<?php endforeach;?>
+			<?php endif; ?>
 			<br/>
 			<div class="titre textalic textsizec">
 			Runes
 			</div>
-			<? if (count($this->selectionRunes) > 0): ?>
-				<? foreach($this->selectionRunes as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br/>
-				<? endforeach;?>
-			<? endif; ?>
+			<?php if (count($this->selectionRunes) > 0): ?>
+				<?php foreach($this->selectionRunes as $s) : ?>
+					<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
+				<?php endforeach;?>
+			<?php endif; ?>
 			<br/>
 		</div>
 	</td>
 	<td style="width:400px; border: 0px solid #791E1E;" valign="top">
 		<div class="titre textalic textsizec">
-			<?=$this->titre?><br/><br/>
+			<?php echo $this->titre?><br/><br/>
 		</div>
-		<?=$this->render("commun/box_onglets.phtml"); ?>
+		<?php echo $this->render("commun/box_onglets.phtml"); ?>
 	</td>
 </tr>
 </table>

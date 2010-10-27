@@ -10,9 +10,9 @@
 	    <br />
       	Vous devez accepter la nouvelle charte pour continuer &agrave; jouer.<br />
       	Elle est disponible &agrave; cette adresse : 
-      	<a href="<?=$this->config->general->charte->url?>" target="_blank"><?=$this->config->general->charte->url?></a>.
+      	<a href="<?php echo $this->config->general->charte->url?>" target="_blank"><?php echo $this->config->general->charte->url?></a>.
 		<br />
-      	Raison du changement : <?=$this->config->general->charte->raison?>
+      	Raison du changement : <?php echo $this->config->general->charte->raison?>
       	<br /><br />
 		<div id="formbutton">
 			<input type="submit" name="accepter" class='button1' value="Accepter la nouvelle charte et continuer &agrave; jouer !" />

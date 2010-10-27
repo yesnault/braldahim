@@ -23,12 +23,12 @@
 			 <br />
 			 
 			  <div id="label_description">
-			  <?=Bral_Util_BBParser::bbcodeReplace($this->user->description_braldun) ?><? if (mb_strlen(trim($this->user->description_braldun)) == 0 || $this->user->description_braldun == null) :?> [vide]<? endif; ?>
+			  <?php echo Bral_Util_BBParser::bbcodeReplace($this->user->description_braldun) ?><?php if (mb_strlen(trim($this->user->description_braldun)) == 0 || $this->user->description_braldun == null) :?> [vide]<?php endif; ?>
 			  </div>
 			  
 			  <div id="edition" style="display:none">
-			  <?=Bral_Helper_BBBoutons::affiche('valeur_2', 1000000)?>
-			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?=stripslashes($this->user->description_braldun) ?></textarea>
+			  <?php echo Bral_Helper_BBBoutons::affiche('valeur_2', 1000000)?>
+			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?php echo stripslashes($this->user->description_braldun) ?></textarea>
 			 
 				  <input type="button" class='button1' id="bouton_description" 
 				  	onclick="

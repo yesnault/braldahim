@@ -1,29 +1,29 @@
 <br />
-<? if ($this->filtre == $this->config->messagerie->message->type->envoye): 
+<?php if ($this->filtre == $this->config->messagerie->message->type->envoye): 
 	$titre = "Messages envoyés";
 ?>
-	<ul class="titre textalic textsized" ><?=$titre?></ul>
+	<ul class="titre textalic textsized" ><?php echo $titre?></ul>
 	Les messages envoyés sont supprimés au bout de 30 jours.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): 
+<?php elseif ($this->filtre == $this->config->messagerie->message->type->supprime): 
 	$titre = "Messages supprimés";
 ?>
-	<ul class="titre textalic textsized" ><?=$titre?></ul>
+	<ul class="titre textalic textsized" ><?php echo $titre?></ul>
 	Les messages supprimés sont définitivement supprimés dans la nuit.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->reception): 
+<?php elseif ($this->filtre == $this->config->messagerie->message->type->reception): 
 	$titre = "Boite de réception";
 ?>
-	<ul class="titre textalic textsized" ><?=$titre?></ul>
+	<ul class="titre textalic textsized" ><?php echo $titre?></ul>
 	Les messages présents dans la boite de réception sont supprimés au bout de 30 jours.
-<? elseif ($this->filtre == $this->config->messagerie->message->type->archive): 
+<?php elseif ($this->filtre == $this->config->messagerie->message->type->archive): 
 	$titre = "Messages archivés";
 ?>
-	<ul class="titre textalic textsized" ><?=$titre?></ul>
+	<ul class="titre textalic textsized" ><?php echo $titre?></ul>
 	Vous ne pouvez pas avoir plus de 200 messages archivés
-<? endif; ?>
+<?php endif; ?>
 		
 <br /><br />
 
-<? if ($this->estMobile) :
+<?php if ($this->estMobile) :
 	$jsMobile = "$('messagerieMessages').style.display='none';";
 	$cssMobile = "display:none;";
  else:
@@ -33,12 +33,12 @@
 <table id="messagerieMessages" width="100%" style="padding:0px;border-spacing:0px;">
 <tr>
 
-<td  width="<? if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : echo "40%"; else: echo "100%"; endif;?>" valign="top">
+<td  width="<?php if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : echo "40%"; else: echo "100%"; endif;?>" valign="top">
 
 <table class="table_liste" style="width:100%;" >
 	<tbody>
-	<? if (!empty($this->messages)): ?>
-		<? $i = 0;
+	<?php if (!empty($this->messages)): ?>
+		<?php $i = 0;
 		   $listeIdMessage = "";
 		   foreach($this->messages as $message):
 		   		$jsLu = "";
@@ -48,9 +48,9 @@
 			   		endif;
 		   		endif;
 		   		$js="onclick=\"".$jsMobile.$jsLu."_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."&valeur_3=".$this->page."&valeur_4=".$this->filtre."');\"  title='Lire le message'"; ?>
-	  			<tr class="table_liste<?=($i % 2);$i++; ?> hhover">
-	  				<td class="table_liste" style="padding:0px;" <?=$js ?>>
-	  					<? if ($message["toread"] == "0") :
+	  			<tr class="table_liste<?php echo ($i % 2);$i++; ?> hhover">
+	  				<td class="table_liste" style="padding:0px;" <?php echo $js ?>>
+	  					<?php if ($message["toread"] == "0") :
 	  						$displayAlire = 'display:block;';
 	  						$displayLu = 'display:none;';
 	  					   else:
@@ -59,69 +59,69 @@
 	  					   endif;
 	  					 ?>
 						
-						<img id='imgMsgALire<?=$message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="<?=$this->config->static->url?>/images/uddeim/new_im.gif" border="0" style='<?=$displayAlire?>'/>
-						<img id='imgMsgLu<?=$message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="<?=$this->config->static->url?>/images/uddeim/nonew_im.gif" border="0" style='<?=$displayLu?>' />
+						<img id='imgMsgALire<?php echo $message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->static->url?>/images/uddeim/new_im.gif" border="0" style='<?php echo $displayAlire?>'/>
+						<img id='imgMsgLu<?php echo $message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="<?php echo $this->config->static->url?>/images/uddeim/nonew_im.gif" border="0" style='<?php echo $displayLu?>' />
 					</td>
-					<? if (mb_strlen($message["titre"]) > 25) $texte= Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else $texte= Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
-	  				<td class="table_liste" style="padding:2px;" <?=$js ?>>
-	  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
-		  					De <?=$message["expediteur"];?>&nbsp;
+					<?php if (mb_strlen($message["titre"]) > 25) $texte= Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else $texte= Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
+	  				<td class="table_liste" style="padding:2px;" <?php echo $js ?>>
+	  					<?php if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+		  					De <?php echo $message["expediteur"];?>&nbsp;
 		  					&agrave;<br/>
-		  					<?=$message["destinataire"];?>&nbsp;
-	  					<? elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
-	  						<?=$message["destinataire"];?>&nbsp;
-	  					<? else: ?>
-	  						<?=$message["expediteur"];?>&nbsp;
-	  					<? endif; ?>
-	  					<? if ($this->estMobile) : ?>
-							 <br /><?=$texte?>
-						<? endif;?>
+		  					<?php echo $message["destinataire"];?>&nbsp;
+	  					<?php elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+	  						<?php echo $message["destinataire"];?>&nbsp;
+	  					<?php else: ?>
+	  						<?php echo $message["expediteur"];?>&nbsp;
+	  					<?php endif; ?>
+	  					<?php if ($this->estMobile) : ?>
+							 <br /><?php echo $texte?>
+						<?php endif;?>
 	  				</td>
-	  				<? if (!$this->estMobile) : ?>
-	  				<td class="table_liste" style="padding:2px;" <?=$js ?>> <?=$texte?></td>
-	  				<? endif;?>
-	  				<td class="table_liste" style="padding:2px;<?=$cssMobile?>" <?=$js ?>>
-	  					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\> H:i', $message["date"]);?></td>
+	  				<?php if (!$this->estMobile) : ?>
+	  				<td class="table_liste" style="padding:2px;" <?php echo $js ?>> <?php echo $texte?></td>
+	  				<?php endif;?>
+	  				<td class="table_liste" style="padding:2px;<?php echo $cssMobile?>" <?php echo $js ?>>
+	  					<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\> H:i', $message["date"]);?></td>
 					<td class="table_liste" style="padding:0px;">
-						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-							<input type="checkbox" id="msgId_<?=$message["id_message"];?>" value="<?=$message["id_message"];?>"/>
-							<? $listeIdMessage .= "msgId_".$message["id_message"].",";?>
-						<? endif; ?>
+						<?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+							<input type="checkbox" id="msgId_<?php echo $message["id_message"];?>" value="<?php echo $message["id_message"];?>"/>
+							<?php $listeIdMessage .= "msgId_".$message["id_message"].",";?>
+						<?php endif; ?>
 					</td>
 	  			</tr>
-		  	<? endforeach; ?>
-		  	<? if ($listeIdMessage != "") :?>
-		  		<input type="hidden" id="listeIdMessage" value="<?=substr($listeIdMessage, 0, strlen($listeIdMessage) - 1);?>"/>
-		  	<? endif;?>
-		<? else: ?>
+		  	<?php endforeach; ?>
+		  	<?php if ($listeIdMessage != "") :?>
+		  		<input type="hidden" id="listeIdMessage" value="<?php echo substr($listeIdMessage, 0, strlen($listeIdMessage) - 1);?>"/>
+		  	<?php endif;?>
+		<?php else: ?>
    		<tr class="table_liste">
    			<td colspan="6">Aucun message</td>
    		</tr>
-   		<? endif; ?>
+   		<?php endif; ?>
 	</tbody>
 		<thead class="table_liste">
 		<tr class="table_liste">
 		<th>&nbsp;</th>
 		<th>
-		<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+		<?php if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
 			&Agrave;
-		<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+		<?php elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 			De / &Agrave;
-		<? else: ?>
+		<?php else: ?>
 			De
-		<? endif; ?>
+		<?php endif; ?>
 		
-		<? if ($this->estMobile) : ?>
+		<?php if ($this->estMobile) : ?>
 		 / Message
-		<? endif;?>
+		<?php endif;?>
 		</th>
-		<th style="<?=$cssMobile?>">Message</th>
-		<th style="<?=$cssMobile?>">Date</th>
+		<th style="<?php echo $cssMobile?>">Message</th>
+		<th style="<?php echo $cssMobile?>">Date</th>
 		<th>
-			<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+			<?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 				<span id="messages_tous" style="cursor:pointer" onclick='javascript:checkboxCocher($("listeIdMessage").value, true, this, $("messages_aucun"))'>Tous</span>
 				<span id="messages_aucun" style="cursor:pointer; display:none" onclick='javascript:checkboxCocher($("listeIdMessage").value, false, this, $("messages_tous"))'>Aucun</span>
-			<? endif; ?>
+			<?php endif; ?>
 		</th>
 	  	</tr>
 	</thead>
@@ -130,44 +130,44 @@
 		    <th colspan='5'>
 		    
 		    	<br />
-		    	<input type="hidden" id="messagerie_filtre" name="messagerie_filtre" value="<?=$this->filtre?>" />
+		    	<input type="hidden" id="messagerie_filtre" name="messagerie_filtre" value="<?php echo $this->filtre?>" />
 		      	<?php echo $this->paginator; ?>
              	<br />
 			   
-			   <? if (!empty($this->messages)) : ?>
-				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimerselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}'  id="msgBtnSupSelect" value="Supprimer les messages sélectionnés" />
-			       <? endif; ?>
-				   <? if ($this->filtre == $this->config->messagerie->message->type->reception): ?>
-				   	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiverselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnArcSelect" value="Archiver les messages sélectionnés" />
-				   <? endif; ?>
-				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
-			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnMarSelect" value="Marquer les messages sélectionnés comme lus" />
-			       <? endif; ?>
+			   <?php if (!empty($this->messages)) : ?>
+				   <?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimerselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}'  id="msgBtnSupSelect" value="Supprimer les messages sélectionnés" />
+			       <?php endif; ?>
+				   <?php if ($this->filtre == $this->config->messagerie->message->type->reception): ?>
+				   	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiverselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnArcSelect" value="Archiver les messages sélectionnés" />
+				   <?php endif; ?>
+				   <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
+			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnMarSelect" value="Marquer les messages sélectionnés comme lus" />
+			       <?php endif; ?>
 			       <br /><br />
-			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-			       	<input type="button" class='button1'  onclick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?=$titre?> : <?=PHP_EOL?>Supprimer TOUS les messages" />
-			       <? endif; ?>
-			       <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
-			       	<input type="button" class='button1'  onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>"); disabledAllBtnMessagerie();' id="msgBtnMarAll" value="<?=$titre?> : <?=PHP_EOL?>Marquer TOUS les messages comme lus" />
-			       <? endif; ?>
-			   <? endif;?>
+			       <?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+			       	<input type="button" class='button1'  onclick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?php echo $titre?> : <?php echo PHP_EOL?>Supprimer TOUS les messages" />
+			       <?php endif; ?>
+			       <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
+			       	<input type="button" class='button1'  onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlu&valeur_2=all&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();' id="msgBtnMarAll" value="<?php echo $titre?> : <?php echo PHP_EOL?>Marquer TOUS les messages comme lus" />
+			       <?php endif; ?>
+			   <?php endif;?>
 		    </th>
 		  </tr>
 	</tfoot>
 </table>
 
 </td>
-<? if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : ?>
+<?php if ($this->user->position_messagerie_braldun == 'd' && !$this->estMobile) : ?>
 <td width="50%"  valign="top">
 <div id="messagerie_message"></div>
 </td>
-<? endif;?>
+<?php endif;?>
 </tr>
 </table>
 
-<? if ($this->user->position_messagerie_braldun == 'b' || $this->estMobile) : ?>
-<? if (!$this->estMobile) :?><br /><br /><? endif;?>
+<?php if ($this->user->position_messagerie_braldun == 'b' || $this->estMobile) : ?>
+<?php if (!$this->estMobile) :?><br /><br /><?php endif;?>
 <div id="messagerie_message"></div>
-<? endif;?>
+<?php endif;?>
 <br />

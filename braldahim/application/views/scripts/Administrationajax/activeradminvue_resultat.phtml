@@ -1,6 +1,6 @@
 Administration par la vue
-<? if (Zend_Auth::getInstance()->getIdentity()->administrationvue === true): ?>
+<?php if (Zend_Auth::getInstance()->getIdentity()->administrationvue === true): ?>
  activée
-<? else:?>
+<?php else:?>
  désactivée
-<? endif;?>
+<?php endif;?>

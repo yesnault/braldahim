@@ -1,38 +1,38 @@
 <div class='comp_titre'>Transf&eacute;rer une potion ou un vernis</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
- <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?php echo $this->idEchoppe ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
  <br />
-	<? if (count($this->potionsArriereBoutique) > 0): ?>
+	<?php if (count($this->potionsArriereBoutique) > 0): ?>
 		Vous pouvez transf&eacute;rer une potion ou un vernis pr&eacute;sent dans votre laban.<br />
 		<select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
 	 		<option value="-1">(Choisissez une potion ou un vernis)</option>
-			<? foreach($this->potionsArriereBoutique as $e) :?>
-				<option value="<?=$e["id_echoppe_potion"] ?>">N&deg;<?=$e["id_echoppe_potion"] ?> <?=htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
-				 niveau: <?=$e["niveau"] ?></option>
-			<? endforeach; ?>
+			<?php foreach($this->potionsArriereBoutique as $e) :?>
+				<option value="<?php echo $e["id_echoppe_potion"] ?>">N&deg;<?php echo $e["id_echoppe_potion"] ?> <?php echo htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?php echo htmlspecialchars($e["qualite"]) ?>,
+				 niveau: <?php echo $e["niveau"] ?></option>
+			<?php endforeach; ?>
 		</select>
 		<br /><br />
 		
 		Vers : <br />
 		<select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
 	 		<option value="-1">(Choisissez une destination)</option>
-			<? foreach($this->destinationTransfert as $d) :?>
-				<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>
-			<? endforeach; ?>
+			<?php foreach($this->destinationTransfert as $d) :?>
+				<option value="<?php echo $d["id_destination"] ?>"><?php echo $d["texte"] ?></option>
+			<?php endforeach; ?>
 		</select>
 		
-	<? endif; ?>
+	<?php endif; ?>
 	<br />
-	<? if ($this->placeDispo == false) :?>
+	<?php if ($this->placeDispo == false) :?>
 		Vous n'avez pas assez de place dans votre laban.<br />
-	<? endif; ?>
+	<?php endif; ?>
  </div>
 
 </form>
 <br />
 <?php if ($this->transfererOk > 0 && $this->placeDispo === true) : ?>
 <input type='button' class='button1' id='bouton_transferpotion' value='Transf&eacute;rer !' onclick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferpotion");' disabled>
-<? endif ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

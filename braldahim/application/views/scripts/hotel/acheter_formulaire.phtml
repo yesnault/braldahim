@@ -1,42 +1,42 @@
-<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+<div class='comp_titre'><?php echo htmlspecialchars($this->titreAction) ?></div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
- <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->vente["vente"]["id_vente"] ?>'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?php echo $this->vente["vente"]["id_vente"] ?>'>
  <input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
 	
-	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
+	Co&ucirc;t du service : <?php echo $this->nb_pa ?> PA<br />
 	
 	Objet : 
 	
-	<? if ($this->vente["vente"]["type_vente"] == "materiel") : ?>
-		<? $this->materiels = array($this->vente["objet"]); ?>
-		<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
-	<? elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
+	<?php if ($this->vente["vente"]["type_vente"] == "materiel") : ?>
+		<?php $this->materiels = array($this->vente["objet"]); ?>
+		<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
+	<?php elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
 		
-		<? if (floor($this->user->niveau_braldun / 10) < $this->vente["objet"]["niveau"]) : ?>
+		<?php if (floor($this->user->niveau_braldun / 10) < $this->vente["objet"]["niveau"]) : ?>
 			Attention ! Vous n'avez pas le niveau requis pour équiper cette pièce.
-		<? endif;?>
-		<?  
+		<?php endif;?>
+		<?php  
 			$equipements = null;
 			$equipements[$this->vente["objet"]["id_type_emplacement"]]["equipements"][] = $this->vente["objet"];
 			$equipements[$this->vente["objet"]["id_type_emplacement"]]["nom_type_emplacement"] = $this->vente["objet"]["emplacement"];
 			$this->equipements = $equipements;
 			?>
-		<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
-	<? else : ?>
-		<?=$this->vente["objet"]["nom"]; ?>.<br />
-	<? endif; ?>
+		<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
+	<?php else : ?>
+		<?php echo $this->vente["objet"]["nom"]; ?>.<br />
+	<?php endif; ?>
 	<br />
 	
-	<? if ($this->vente["objet"]["place_dispo"] === false) : ?>
+	<?php if ($this->vente["objet"]["place_dispo"] === false) : ?>
 		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if (count($this->prix) > 0) : ?>
+	<?php if (count($this->prix) > 0) : ?>
 		
-		<? if ($this->vente["objet"]["est_charrette"] === false) : ?>
+		<?php if ($this->vente["objet"]["est_charrette"] === false) : ?>
 			<?
 			$jsTrue = "";
 			$jsFalse = "";
@@ -54,45 +54,45 @@
 			}
 			?>
 			Destination : <br />
-			<select name="valeur_3" id="valeur_3" onchange="<? if ($js!= ""): echo $js; endif;?>">
+			<select name="valeur_3" id="valeur_3" onchange="<?php if ($js!= ""): echo $js; endif;?>">
 		 		<option value="-1">(Choisissez une destination)</option>
-				<? foreach($this->destinationTransfert as $d) :?>
-					<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>
-				<? endforeach; ?>
+				<?php foreach($this->destinationTransfert as $d) :?>
+					<option value="<?php echo $d["id_destination"] ?>" <?php if ($d["possible"] == false): echo "disabled"; endif;?>><?php echo $d["texte"] ?> <?php if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>
+				<?php endforeach; ?>
 			</select>
-		<? else :?>
+		<?php else :?>
 			 <input type='hidden' id='valeur_3' name='valeur_3' value='laban'>
-		<? endif;?>
+		<?php endif;?>
 		
 		<br />
 		
-		<? if ($this->vente["objet"]["charrette_possible"] === false) : ?>
-				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->vente["objet"]["charrette_detail"]?>
-		<? else: ?>	
+		<?php if ($this->vente["objet"]["charrette_possible"] === false) : ?>
+				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?php echo $this->vente["objet"]["charrette_detail"]?>
+		<?php else: ?>	
 		<br />
 			<div class="titre textalic textsizec">Prix</div>
 			<br />
-			<? foreach($this->prix as $k => $p) : ?>
-				<?=$p["id_destination"] ?> : <?=$p["prix"] ?> <?=$p["nom"] ?>
-				<? if ($this->assezDePa == false): ?>
+			<?php foreach($this->prix as $k => $p) : ?>
+				<?php echo $p["id_destination"] ?> : <?php echo $p["prix"] ?> <?php echo $p["nom"] ?>
+				<?php if ($this->assezDePa == false): ?>
 					: Pas assez de PA
-				<? elseif ($this->vente["objet"]["charrette_possible"] === false) : ?>
+				<?php elseif ($this->vente["objet"]["charrette_possible"] === false) : ?>
 					<br />
-					Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->vente["objet"]["charrette_detail"]?>
-				<? elseif ($p["possible"] === true && $this->vente["objet"]["place_dispo"] === true) : ?>
-					<input type='button' class='button1' id='bouton_acheterhotel<?=$k?>' value='Acheter !' onclick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/hotel/doaction?caction=do_hotel_acheter");' <? if ($this->vente["objet"]["est_charrette"] == false) : echo "disabled"; endif;?>/>
-				<? elseif ($this->vente["objet"]["place_dispo"] == false): ?>
+					Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?php echo $this->vente["objet"]["charrette_detail"]?>
+				<?php elseif ($p["possible"] === true && $this->vente["objet"]["place_dispo"] === true) : ?>
+					<input type='button' class='button1' id='bouton_acheterhotel<?php echo $k?>' value='Acheter !' onclick='this.disabled=true;$("valeur_2").value=<?php echo $k ?>; _get_("/hotel/doaction?caction=do_hotel_acheter");' <?php if ($this->vente["objet"]["est_charrette"] == false) : echo "disabled"; endif;?>/>
+				<?php elseif ($this->vente["objet"]["place_dispo"] == false): ?>
 					: Pas assez de place disponible
-				<? else: ?>
+				<?php else: ?>
 					: Pas assez de ressources
-				<? endif; ?>
+				<?php endif; ?>
 				<br />
-			<? endforeach; ?>
-		<? endif;?>
-	<? endif; ?>
+			<?php endforeach; ?>
+		<?php endif;?>
+	<?php endif; ?>
 	
  </div>
 
 </form>
 <br />
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

@@ -2,10 +2,10 @@ Une erreur est survenue : <br />
 
 
 <div id="erreur_message_static" style="display:block" onclick="javascript:switch2div('erreur_message_static','erreur_message_form');">
-<?=$this->messageErreur ?>
+<?php echo $this->messageErreur ?>
 </div>
 <div id="erreur_message_form" style="display:none">
-<textarea id="message_erreur" rows=15 cols=60><?=$this->messageErreur ?>
+<textarea id="message_erreur" rows=15 cols=60><?php echo $this->messageErreur ?>
 </textarea>
 </div>
 

@@ -1,30 +1,30 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
- Cible de la réanimation : <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>).<br /><br />
+ Cible de la réanimation : <?php echo $this->braldun["prenom_braldun"]?> <?php echo $this->braldun["nom_braldun"]?> (<?php echo $this->braldun["id_braldun"]?>).<br /><br />
 
- Votre premier jet de sagesse : <?=$this->jetBraldunPourForce?><br /> 
- Jet de Force de la cible : <?=$this->jetCibleForce?><br /><br />
+ Votre premier jet de sagesse : <?php echo $this->jetBraldunPourForce?><br /> 
+ Jet de Force de la cible : <?php echo $this->jetCibleForce?><br /><br />
  
- Votre second jet de sagesse : <?=$this->jetBraldunPourSagesse?><br /> 
- Jet de Force de la cible : <?=$this->jetCibleSagesse?><br /><br />
+ Votre second jet de sagesse : <?php echo $this->jetBraldunPourSagesse?><br /> 
+ Jet de Force de la cible : <?php echo $this->jetCibleSagesse?><br /><br />
  
- Votre troisième jet de sagesse : <?=$this->jetBraldunPourAgilite?><br /> 
- Jet de Force de la cible : <?=$this->jetCibleAgilite?><br /><br />
+ Votre troisième jet de sagesse : <?php echo $this->jetBraldunPourAgilite?><br /> 
+ Jet de Force de la cible : <?php echo $this->jetCibleAgilite?><br /><br />
  
- Votre quatrième jet de sagesse : <?=$this->jetBraldunPourVigueur?><br /> 
- Jet de Force de la cible : <?=$this->jetCibleVigueur?><br /><br />
+ Votre quatrième jet de sagesse : <?php echo $this->jetBraldunPourVigueur?><br /> 
+ Jet de Force de la cible : <?php echo $this->jetCibleVigueur?><br /><br />
 
- <? if ($this->nbReussi > 3) : ?>
+ <?php if ($this->nbReussi > 3) : ?>
  
    Vous avez réussi la réanimation, 
-   <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>) est de nouveau debout.
+   <?php echo $this->braldun["prenom_braldun"]?> <?php echo $this->braldun["nom_braldun"]?> (<?php echo $this->braldun["id_braldun"]?>) est de nouveau debout.
 	
-	Il possède maintenant <?=$this->pvRestants?> Pv.<br />
-	 <? if ($this->nbReussi > 3) : ?>
-	 	Sa balance de faim est remontée à <?=$this->balanceFaim?>.<br />
-	 <? endif; ?>
+	Il possède maintenant <?php echo $this->pvRestants?> Pv.<br />
+	 <?php if ($this->nbReussi > 3) : ?>
+	 	Sa balance de faim est remontée à <?php echo $this->balanceFaim?>.<br />
+	 <?php endif; ?>
 
- <? else: ?>
- Vous avez raté la réanimation de <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>).
- <? endif;?>
+ <?php else: ?>
+ Vous avez raté la réanimation de <?php echo $this->braldun["prenom_braldun"]?> <?php echo $this->braldun["nom_braldun"]?> (<?php echo $this->braldun["id_braldun"]?>).
+ <?php endif;?>
  <br /><br />

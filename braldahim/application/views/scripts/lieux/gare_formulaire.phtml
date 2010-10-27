@@ -3,33 +3,33 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	<br />
- 	Pour utiliser la diligence, il faut <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu?> PA.<br /><br />
-   	<? if ($this->utilisationPossible === false): ?>
+ 	Pour utiliser la diligence, il faut <?php echo $this->coutCastars?> castars et <?php echo $this->paUtilisationLieu?> PA.<br /><br />
+   	<?php if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars <br />
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-   	<? elseif ($this->utilisationPaPossible === false) :?>
+   	<?php elseif ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA <br />
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-   	<? else : ?>
+   	<?php else : ?>
    	   Choisir une destination : <br />
    	   <select id='valeur_1' name='valeur_1' onchange="javascript:if($('valeur_1').value==-1){$('bouton_gare').disabled=true} else {$('bouton_gare').disabled=false}">
    	     <option value='-1'>(Choisissez une destination)</option>
-   	     <? foreach($this->tabDestinations as $d) :?>
-   	     <option value='<?=$d["id_lieu"]?>'><?=$d["nom"]?> (<?=$d["x"]?>,<?=$d["y"]?>) 
-   	     <? if ($d["est_capitale"]): ?>
+   	     <?php foreach($this->tabDestinations as $d) :?>
+   	     <option value='<?php echo $d["id_lieu"]?>'><?php echo $d["nom"]?> (<?php echo $d["x"]?>,<?php echo $d["y"]?>) 
+   	     <?php if ($d["est_capitale"]): ?>
    	     - Capitale
-   	     <? else: ?>
+   	     <?php else: ?>
    	     - Ville
-   	     <? endif; ?>
+   	     <?php endif; ?>
    	     </option>
-   	     <? endforeach; ?>
+   	     <?php endforeach; ?>
    	   </select>
-   	<? endif; ?>
+   	<?php endif; ?>
  </div> 
 </form>
 <br /> 
 
-<? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
+<?php if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
 <input type='button' class='button1' id="bouton_gare" value='Utiliser la diligence !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_gare');"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

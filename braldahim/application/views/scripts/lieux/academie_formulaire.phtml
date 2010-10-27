@@ -2,21 +2,21 @@
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-  Pour <?=$this->paUtilisationLieu ?> PA, le professeur <br />
+  Pour <?php echo $this->paUtilisationLieu ?> PA, le professeur <br />
   vous propose d'am&eacute;liorer une caract&eacute;ristique.<br /><br />
  
- <? if ($this->user->pi_academie_braldun > 0) : ?>
- Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_braldun?> PI à l'académie.<br /><br />
- <? endif;?>
+ <?php if ($this->user->pi_academie_braldun > 0) : ?>
+ Pour information, vous avez déjà dépensé <?php echo $this->user->pi_academie_braldun?> PI à l'académie.<br /><br />
+ <?php endif;?>
  
- <? if ($this->user->niveau_braldun < Bral_Util_Niveau::NIVEAU_MAX) : ?>
- 	Une fois que vous aurez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pourrez plus obtenir de nouveaux PI.
- 	Vous aurez à ce moment là, en comptant les PI déjà dépensés, la possibilité de dépenser <?=Bral_Util_Niveau::NB_PI_NIVEAU_MAX?> en tout à l'académie.
+ <?php if ($this->user->niveau_braldun < Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ 	Une fois que vous aurez atteint le niveau <?php echo Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pourrez plus obtenir de nouveaux PI.
+ 	Vous aurez à ce moment là, en comptant les PI déjà dépensés, la possibilité de dépenser <?php echo Bral_Util_Niveau::NB_PI_NIVEAU_MAX?> en tout à l'académie.
  	<br /><br />
- <? elseif ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
- 	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br />
- 	Il vous reste <?=$this->user->pi_braldun?> PI à dépenser à l'académie.<br /><br />
- <? endif;?>
+ <?php elseif ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ 	Vous avez atteint le niveau <?php echo Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br />
+ 	Il vous reste <?php echo $this->user->pi_braldun?> PI à dépenser à l'académie.<br /><br />
+ <?php endif;?>
  
  Connaissez-vous la spécialisation ? <br /><br />
  
@@ -33,22 +33,22 @@
  		<td>SAG</td>
  	</tr>
  	</thead>
- 	<? $i = 0;?>
- 	<tr class="table_liste<?=($i % 2);$i++; ?>">
+ 	<?php $i = 0;?>
+ 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 	 	<td class="table_liste">13</td>
 	 	<td class="table_liste">+2 FOR</td>
 	 	<td class="table_liste">+2 AGI</td>
 	 	<td class="table_liste">+2 VIG</td>
 	 	<td class="table_liste">+2 SAG</td>
  	</tr>
- 	<tr class="table_liste<?=($i % 2);$i++; ?>">
+ 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 	 	<td class="table_liste">16</td>
 	 	<td class="table_liste">+3 FOR <br />+3 DEG</td>
 	 	<td class="table_liste">+3 AGI <br />+3 DEF</td>
 	 	<td class="table_liste">+3 VIG <br />+3 REG</td>
 	 	<td class="table_liste">+3 SAG <br />Tour : -20min</td>
  	</tr>
- 	<tr class="table_liste<?=($i % 2);$i++; ?>">
+ 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 	 	<td class="table_liste">20</td>
 	 	<td class="table_liste">+10 DEG</td>
 	 	<td class="table_liste">+10 DEF</td>
@@ -61,63 +61,63 @@
  Par exemple, si vous avez un niveau 16 en force, vous aurez un bonus de +5 en Force et de +3 en dégâts. 
  Les bonus sont cumulatifs.
  <br /><br />
- Vous avez actuellement <?=$this->user->pi_braldun?> PI à dépenser.<br /><br />
+ Vous avez actuellement <?php echo $this->user->pi_braldun?> PI à dépenser.<br /><br />
  
- <? if ($this->utilisationPaPossible == false) : ?>
+ <?php if ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br /><br />
- <? elseif ($this->achatPossibleCumul == false) : ?>
- 	Vous ne pouvez déjà dépensé <?=$this->user->pi_academie_braldun?> PI, vous ne pouvez plus vous améliorer<br /><br />
- <? elseif ($this->achatPossible == false): ?>
+ <?php elseif ($this->achatPossibleCumul == false) : ?>
+ 	Vous ne pouvez déjà dépensé <?php echo $this->user->pi_academie_braldun?> PI, vous ne pouvez plus vous améliorer<br /><br />
+ <?php elseif ($this->achatPossible == false): ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI ou de castars<br /><br />
- <? endif; ?>
+ <?php endif; ?>
  
-  <? if ($this->utilisationPaPossible === true && $this->achatPossible === true): ?>
+  <?php if ($this->utilisationPaPossible === true && $this->achatPossible === true): ?>
   Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('bouton_academie').disabled=true;" checked>
-  <? endif ?>
+  <?php endif ?>
   
    <div class="ligne_espace">
-   Agilit&eacute; (AGI) : Actuellement niveau <?=$this->user->agilite_base_braldun?>. <br />
-   Achat d'un niveau : <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
-   <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
-     <? if ($this->coutAgilite <= $this->user->pi_braldun): ?>
+   Agilit&eacute; (AGI) : Actuellement niveau <?php echo $this->user->agilite_base_braldun?>. <br />
+   Achat d'un niveau : <?php echo $this->coutPIAgilite?> PI et <?php echo $this->coutCastarsAgilite?> castar<?php if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
+   <?php if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
+     <?php if ($this->coutAgilite <= $this->user->pi_braldun): ?>
       <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onchange="$('bouton_academie').disabled=false;">
-     <? else :?>
+     <?php else :?>
        Trop cher !
-     <? endif;?>
-   <? endif; ?>
+     <?php endif;?>
+   <?php endif; ?>
     </div>
     <div class="ligne_espace">
-    Force (FOR) : Actuellement niveau <?=$this->user->force_base_braldun?>. <br />
-   Achat d'un niveau : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
-   <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
-     <? if ($this->coutForce <= $this->user->pi_braldun): ?>
+    Force (FOR) : Actuellement niveau <?php echo $this->user->force_base_braldun?>. <br />
+   Achat d'un niveau : <?php echo $this->coutPIForce?> PI et <?php echo $this->coutCastarsForce?> castar<?php if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
+   <?php if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
+     <?php if ($this->coutForce <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onchange="$('bouton_academie').disabled=false;">
-     <? else :?>
+     <?php else :?>
        Trop cher !
-     <? endif;?>
-   <? endif;?>
+     <?php endif;?>
+   <?php endif;?>
     </div>
     <div class="ligne_espace">
-	Vigueur (VIG) : Actuellement niveau <?=$this->user->vigueur_base_braldun?>. <br />
-   Achat d'un niveau : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
-   <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
-     <? if ($this->coutVigueur <= $this->user->pi_braldun): ?>
+	Vigueur (VIG) : Actuellement niveau <?php echo $this->user->vigueur_base_braldun?>. <br />
+   Achat d'un niveau : <?php echo $this->coutPIVigueur?> PI et <?php echo $this->coutCastarsVigueur?> castar<?php if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
+   <?php if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
+     <?php if ($this->coutVigueur <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onchange="$('bouton_academie').disabled=false;">
-     <? else :?>
+     <?php else :?>
        Trop cher !
-     <? endif;?>
-   <? endif;?>
+     <?php endif;?>
+   <?php endif;?>
        </div>
     <div class="ligne_espace">
-    Sagesse (SAG) : Actuellement niveau <?=$this->user->sagesse_base_braldun?>. <br />
-    Achat d'un niveau : <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
-   <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
-     <? if ($this->coutSagesse <= $this->user->pi_braldun): ?>
+    Sagesse (SAG) : Actuellement niveau <?php echo $this->user->sagesse_base_braldun?>. <br />
+    Achat d'un niveau : <?php echo $this->coutPISagesse?> PI et <?php echo $this->coutCastarsSagesse?> castar<?php if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
+   <?php if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
+     <?php if ($this->coutSagesse <= $this->user->pi_braldun): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onchange="$('bouton_academie').disabled=false;">
-     <? else :?>
+     <?php else :?>
        Trop cher !
-     <? endif;?>
-   <? endif;?><br /><br />
+     <?php endif;?>
+   <?php endif;?><br /><br />
    Informations : <br />
    A partir du niveau 13 en sagesse, des compétences deviennent disponibles gratuitement à la bibliothèque.<br />
    <a href='http://regles.braldahim.com/wiki/Dissuader'>Compétence Dissuader</a>.<br />
@@ -127,7 +127,7 @@
  </div> 
 </form>
 
-<? if ($this->utilisationPaPossible === true && ($this->achatPossible === true)): ?>
+<?php if ($this->utilisationPaPossible === true && ($this->achatPossible === true)): ?>
 <input type='button' class='button1' id="bouton_academie" value="S'am&eacute;liorer !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

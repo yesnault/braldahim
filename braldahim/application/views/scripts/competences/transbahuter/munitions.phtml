@@ -1,21 +1,21 @@
-<? if (count($this->munitions) > 0) : ?>
+<?php if (count($this->munitions) > 0) : ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_munitions">
-			<? $poches[] = "deposer_munitions-head" ?>
+			<?php $poches[] = "deposer_munitions-head" ?>
 			<h3 id="deposer_munitions-head" class="head" onclick="maccordion(this);">
 				Munitions
 			</h3>
 			<ul id="deposer_munitions-body" style="display:none">
 				<li>
-				<? foreach($this->munitions as $k => $m) :?>
-					<?=$m["type"]?> : <?=$m["quantite"]?>
+				<?php foreach($this->munitions as $k => $m) :?>
+					<?php echo $m["type"]?> : <?php echo $m["quantite"]?>
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
-					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite"]?>' />
-					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_poids' id='valeur_<?=$k?>_poids' value='<?=Bral_Util_Poids::POIDS_MUNITION ?>' />
-					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_echoppe' id='valeur_<?=$k?>_echoppe' value='non' />
+					<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k?>' id='valeur_<?php echo $k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite"]?>' />
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_MUNITION ?>' />
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='non' />
 					<br />
-				<? endforeach; ?>
+				<?php endforeach; ?>
 			  	</li>
 			</ul>
 		</li>

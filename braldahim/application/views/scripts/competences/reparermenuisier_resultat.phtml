@@ -1,13 +1,13 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
+<?php if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; r&eacute;parer la charrette appartenant &agrave; <br />
 	
-	<?=$this->charrette["prenom_braldun"]?> <?=$this->charrette["nom_braldun"]?> (<?=$this->charrette["id_braldun"]?>) pour <br />
-	<?=$this->charrette["cout_reparation_planche"]?> planche<? if ($this->charrette["cout_reparation_planche"] > 1): echo "s"; endif;?>.
+	<?php echo $this->charrette["prenom_braldun"]?> <?php echo $this->charrette["nom_braldun"]?> (<?php echo $this->charrette["id_braldun"]?>) pour <br />
+	<?php echo $this->charrette["cout_reparation_planche"]?> planche<?php if ($this->charrette["cout_reparation_planche"] > 1): echo "s"; endif;?>.
 	
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre r&eacute;paration. <br/>
 	Aucune planche n'est d&eacute;truite.<br />
-<? endif; ?>
+<?php endif; ?>
 <br/><br/>

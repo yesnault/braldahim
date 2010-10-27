@@ -8,20 +8,20 @@
 	  		 <form action="/Administrationbatch/logs" method="post">
 	  		 	
 	  		 	Commande <select name="commande">
-				<? foreach ($this->commandes as $f) : ?>
-				<option value="<?=$f?>" <? if ($this->commandeChoisie == $f): echo "selected" ; endif;?>><?=$f?></option>
-				<? endforeach; ?>
+				<?php foreach ($this->commandes as $f) : ?>
+				<option value="<?php echo $f?>" <?php if ($this->commandeChoisie == $f): echo "selected" ; endif;?>><?php echo $f?></option>
+				<?php endforeach; ?>
 				</select>
 				<br />
 				Argument : Chiffres exclusivement: Recherche, chaine à recherche, Tail : nombre de ligne<br /> 
-				<input type="text" name="recherche" value="<?=$this->recherche?>" onkeypress="chiffres(event);" size="10" maxlength="10" />
+				<input type="text" name="recherche" value="<?php echo $this->recherche?>" onkeypress="chiffres(event);" size="10" maxlength="10" />
 				<br />
 				
 				Fichier :
 				<select name="fichier">
-				<? foreach ($this->fichiers as $f) : ?>
-				<option value="<?=$f?>" <? if ($this->fichierChoisi == $f): echo "selected" ; endif;?>><?=$f?></option>
-				<? endforeach; ?>
+				<?php foreach ($this->fichiers as $f) : ?>
+				<option value="<?php echo $f?>" <?php if ($this->fichierChoisi == $f): echo "selected" ; endif;?>><?php echo $f?></option>
+				<?php endforeach; ?>
 				</select>
 				<input type="submit" class="button1" name="Rechercher" value="Rechercher" />
 			</form>
@@ -34,7 +34,7 @@
 				?>
 				</pre>
 			
-	   <?=$this->retour?>
+	   <?php echo $this->retour?>
 		</div>
 	</div>
 	&nbsp;

@@ -1,7 +1,7 @@
 <div class="titre textalic textsizec">Messages publics autour de vous</div>
 
-Les messages affichés ci-dessous sont des messages envoyés jusqu'à <?=$this->nb_cases_max?> cases aux alentours de votre position.<br />
-Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?=$this->nb_messages_max?> messages par tour de jeu.<br />
+Les messages affichés ci-dessous sont des messages envoyés jusqu'à <?php echo $this->nb_cases_max?> cases aux alentours de votre position.<br />
+Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?php echo $this->nb_messages_max?> messages par tour de jeu.<br />
 <br />
 Le blabla est destiné à l'échange de messages "Role Play" ou tactiques, merci de <a href="/Parametres/contacter">contacter un enquêteur</a> pour tout abus constaté.<br />
 Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.<br />
@@ -19,7 +19,7 @@ Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.
 	<tr class="table_liste">
 		
    		<td colspan="4">
-   		<? if ($this->nouveauPossible) : ?>
+   		<?php if ($this->nouveauPossible) : ?>
 		<ul id="navigation" style="width:100%;text-align:center" >
 			<li id="pocheBlablaMessage">
 			<h3 id="pocheBlablaMessage-head" class="head" onclick="maccordion(this);">
@@ -32,32 +32,32 @@ Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.
 			</ul>
 			</li>
 		</ul>
-		<? else: ?>
-	   	Vous avez déjà envoyé <?=$this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
+		<?php else: ?>
+	   	Vous avez déjà envoyé <?php echo $this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
 	   	Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.
-	   	<? endif;?>
+	   	<?php endif;?>
 		</td>
 		
    	</tr>
    
 
-  <? if (count($this->blablaMessages) > 0): ?>
+  <?php if (count($this->blablaMessages) > 0): ?>
 	<tbody>
-  	<? $i = 0; 
+  	<?php $i = 0; 
   	foreach($this->blablaMessages as $e): ?>
-  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-  			<td class="table_liste"><?=$e["date"]?>&nbsp;</td>
-  			<td class="table_liste"><?=$e["braldun"]?>&nbsp;</td>
-  			<td class="table_liste"><?=$e["x"]?> / <?=$e["y"]?></td>
-	  		<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
+  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+  			<td class="table_liste"><?php echo $e["date"]?>&nbsp;</td>
+  			<td class="table_liste"><?php echo $e["braldun"]?>&nbsp;</td>
+  			<td class="table_liste"><?php echo $e["x"]?> / <?php echo $e["y"]?></td>
+	  		<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
   		</tr>
-  	<? endforeach; ?>
+  	<?php endforeach; ?>
   	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    		<td colspan="4">
    			Aucun message
    		</td>
    	</tr>
-<? endif; ?>
+<?php endif; ?>
 </table>

@@ -1,33 +1,33 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=($this->n_bralduns*2)?>'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?php echo ($this->n_bralduns*2)?>'>
  <div class='comp_contenu'>
  	
- 	<? if ($this->user->points_gredin_braldun > 0) : ?>
- 		Vous êtes gredin (<?=$this->user->points_gredin_braldun?> point<? if ($this->user->points_gredin_braldun > 1): echo 's'; endif;?>).
+ 	<?php if ($this->user->points_gredin_braldun > 0) : ?>
+ 		Vous êtes gredin (<?php echo $this->user->points_gredin_braldun?> point<?php if ($this->user->points_gredin_braldun > 1): echo 's'; endif;?>).
  		Vous ne pouvez distribuer des PX qu'à d'autres gredins.<br /><br />
- 	<? endif;?>
- 	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='<?=$this->user->px_commun_braldun?>' size='4' disabled> PX<br /><br />
- 	<input type='hidden' id='cagnotte_origine' name='cagnotte_origine' value='<?=$this->user->px_commun_braldun?>'>
+ 	<?php endif;?>
+ 	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='<?php echo $this->user->px_commun_braldun?>' size='4' disabled> PX<br /><br />
+ 	<input type='hidden' id='cagnotte_origine' name='cagnotte_origine' value='<?php echo $this->user->px_commun_braldun?>'>
  	
- 	<? if ($this->estMaxBralduns === true): ?>
- 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_braldun?> bralduns dans votre vue<br /><br />
- 		Seuls les <?=$this->config->game->competence->distribuerpx->nb_max_braldun?> bralduns les plus proches<br /> sont disponibles pour recevoir des px<br /><br />
- 	<? endif; ?>
+ 	<?php if ($this->estMaxBralduns === true): ?>
+ 		Il y a plus de <?php echo $this->config->game->competence->distribuerpx->nb_max_braldun?> bralduns dans votre vue<br /><br />
+ 		Seuls les <?php echo $this->config->game->competence->distribuerpx->nb_max_braldun?> bralduns les plus proches<br /> sont disponibles pour recevoir des px<br /><br />
+ 	<?php endif; ?>
 
 	<table align="center">
- 	<? $i=0;
+ 	<?php $i=0;
  	foreach ($this->tabBralduns as $h) : 
  		$i = $i+2;
  	?>
  		<tr>
  			<td>
- 			<input type='hidden' id='valeur_<?=($i-1)?>' name='valeur_<?=($i-1)?>' value='<?=$h["id_braldun"]?>'>
- 			<?=htmlspecialchars($h["prenom_braldun"])?> <?=htmlspecialchars($h["nom_braldun"])?> (<?=$h["id_braldun"]?>)
+ 			<input type='hidden' id='valeur_<?php echo ($i-1)?>' name='valeur_<?php echo ($i-1)?>' value='<?php echo $h["id_braldun"]?>'>
+ 			<?php echo htmlspecialchars($h["prenom_braldun"])?> <?php echo htmlspecialchars($h["nom_braldun"])?> (<?php echo $h["id_braldun"]?>)
  			</td>
  			<td>
- 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {n=parseInt(n * 1)+parseInt($('valeur_'+i).value * 1); } if ($('cagnotte_origine').value < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnotte').value=parseInt($('cagnotte_origine').value * 1) - parseInt(n * 1); ">
+ 				<input type='text' id='valeur_<?php echo $i?>' name='valeur_<?php echo $i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {n=parseInt(n * 1)+parseInt($('valeur_'+i).value * 1); } if ($('cagnotte_origine').value < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnotte').value=parseInt($('cagnotte_origine').value * 1) - parseInt(n * 1); ">
  			</td>
  		</tr>
- 	<? endforeach; ?>
+ 	<?php endforeach; ?>
  	</table>
  </div>
 <br />

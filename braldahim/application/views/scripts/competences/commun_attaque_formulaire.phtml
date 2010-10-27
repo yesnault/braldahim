@@ -1,20 +1,20 @@
 		
-Points de Gredin : <?=$this->user->points_gredin_braldun?>.<br />
-Points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?>.<br /><br />
+Points de Gredin : <?php echo $this->user->points_gredin_braldun?>.<br />
+Points de Redresseur de Torts : <?php echo $this->user->points_redresseur_braldun?>.<br /><br />
 
- <? if ($this->estRegionPvp == false) :?>
- 	<? if ($this->user->points_gredin_braldun > 0 || $this->user->points_redresseur_braldun > 0) : ?>
+ <?php if ($this->estRegionPvp == false) :?>
+ 	<?php if ($this->user->points_gredin_braldun > 0 || $this->user->points_redresseur_braldun > 0) : ?>
  		Dans cette région, vous ne pouvez attaquer que des gredins ou des redresseurs de torts.
- 	<? else : ?>
+ 	<?php else : ?>
 		Vous ne pouvez pas attaquer de Braldûn dans cette r&eacute;gion.
-	<? endif;?>
+	<?php endif;?>
 	<br /><br />
-<? endif;?>
+<?php endif;?>
 
-<? if ($this->user->est_soule_braldun == 'oui') :?>
+<?php if ($this->user->est_soule_braldun == 'oui') :?>
 	Vous ne pouvez attaquer que des adversaires pendant un match de soule.<br /><br />
-<? endif;?>
+<?php endif;?>
 
-<? if ($this->user->est_intangible_braldun == 'oui') :?>
+<?php if ($this->user->est_intangible_braldun == 'oui') :?>
 	Vous êtes actuellement intangible, vous ne pouvez pas attaquer.<br /><br />
-<? endif;?>
+<?php endif;?>

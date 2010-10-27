@@ -5,23 +5,23 @@
 <table class="table_liste" style="width:50%;">
    <tr class="table_liste">
 	<th>Date de cr&eacute;ation</th>
-	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->communaute["date_creation_communaute"]); ?></th>
+	<th>Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->communaute["date_creation_communaute"]); ?></th>
   </tr>
   <tr class="table_liste">
 	<th>Gestionnaire</th>
 	<td class="table_liste" nowrap>
-	<a href='/voir/braldun/?braldun=<?=$this->communaute["id_braldun"] ?>' title="Voir le profil public">
-	<?=$this->communaute["prenom_braldun"] ?> <?=$this->communaute["nom_braldun"] ?>, n&deg;<?=$this->communaute["id_braldun"] ?>
+	<a href='/voir/braldun/?braldun=<?php echo $this->communaute["id_braldun"] ?>' title="Voir le profil public">
+	<?php echo $this->communaute["prenom_braldun"] ?> <?php echo $this->communaute["nom_braldun"] ?>, n&deg;<?php echo $this->communaute["id_braldun"] ?>
 	</a>
 	</td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de membres</th>
-	<td class="table_liste"><?=$this->nbMembresTotal ?></td>
+	<td class="table_liste"><?php echo $this->nbMembresTotal ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Site Web</th>
-	<td class="table_liste"><a href="<?=$this->communaute["site_web_communaute"] ?>"><?=$this->communaute["site_web_communaute"] ?></a></td>
+	<td class="table_liste"><a href="<?php echo $this->communaute["site_web_communaute"] ?>"><?php echo $this->communaute["site_web_communaute"] ?></a></td>
   </tr>
 </table>
 
@@ -32,7 +32,7 @@
 <table class="table_liste" style="width:90%;">
 <tr class="table_liste">
 	<td style="padding-left:30px">
-<?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description_communaute"]); ?>
+<?php echo Bral_Util_BBParser::bbcodeReplace($this->communaute["description_communaute"]); ?>
 </td>
 </tr>
 </table>

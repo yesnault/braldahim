@@ -1,4 +1,4 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu textalic">
 	<?include("filtre.phtml")?>
@@ -8,42 +8,42 @@
 	<thead class="table_liste">
 	  <tr class="table_liste">
 		<th>Niveau</th>
-		<th><?=$this->titreColonne2?></th>
-		<? if ($this->afficheMoyenne === true) : ?>
-			<th><?=$this->titreColonne3?></th>
-		<? endif;?>
+		<th><?php echo $this->titreColonne2?></th>
+		<?php if ($this->afficheMoyenne === true) : ?>
+			<th><?php echo $this->titreColonne3?></th>
+		<?php endif;?>
 	  </tr>
 	</thead>
-  	<? if (count($this->sexes) > 0): ?>
+  	<?php if (count($this->sexes) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->sexes as $f): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-		  			<? if ($f["sexe_braldun"] == "masculin") :?>
+		  			<?php if ($f["sexe_braldun"] == "masculin") :?>
 		  				Masculin
-		  			<? else: ?>
+		  			<?php else: ?>
 		  				Féminin
-		  			<? endif;?>
+		  			<?php endif;?>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$f["nombre"]?>
+		  			<?php echo $f["nombre"]?>
 		  		</td>
-		  		<? if ($this->afficheMoyenne === true) : ?>
-	  				<td><?=floor($f["moyenne"])?></td>
-	  			<? endif;?>
+		  		<?php if ($this->afficheMoyenne === true) : ?>
+	  				<td><?php echo floor($f["moyenne"])?></td>
+	  			<?php endif;?>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
    	</tr>
-   <? endif; ?>
+   <?php endif; ?>
    </table>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

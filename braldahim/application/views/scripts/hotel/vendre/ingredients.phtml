@@ -1,13 +1,13 @@
-<? if (count($this->ingredients) > 0) :?>
+<?php if (count($this->ingredients) > 0) :?>
 	Ingrédients :<br/>
 	
 	<select name="valeur_3" id="valeur_3" onchange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
 	 	<option value="-1">(Choisissez un type)</option>
-	 	<? foreach($this->ingredients as $k => $m) :?>
-	 		<option value="<?=$k?>"><?=$m["type"]?> : <?=$m["quantite"]?></option>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->ingredients as $k => $m) :?>
+	 		<option value="<?php echo $k?>"><?php echo $m["type"]?> : <?php echo $m["quantite"]?></option>
+	 	<?php endforeach; ?>
 	</select>
 	<br/>
 	Nombre à vendre : <br />
 	<input type='text' maxlength='7' size='7' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event);" onkeyup="if (this.value > 0 && $('valeur_3').value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
-<? endif; ?>
+<?php endif; ?>

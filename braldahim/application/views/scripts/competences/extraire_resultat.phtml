@@ -1,53 +1,53 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->filonOk !== true): ?>
+<?php if ($this->filonOk !== true): ?>
 	Il n'y a pas de minerai ici... Il faut sonder !
-<? elseif ($this->okJet1 === true):?>
-	<? if ($this->minerai["quantite_extraite"] < 1) : ?>
+<?php elseif ($this->okJet1 === true):?>
+	<?php if ($this->minerai["quantite_extraite"] < 1) : ?>
 		Vous n'avez rien extrait  
 		&agrave; cause de vos malus importants en Force.<br /> <br />
-	<? else: ?>
+	<?php else: ?>
 		<br />Vous avez extrait avec succ&egrave;s 
-		<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
-		de <?=$this->minerai["nom_type"]?>
-		<? if ($this->arrivee == 1 && $this->nbATerre == 0) : ?>
+		<?php echo $this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
+		de <?php echo $this->minerai["nom_type"]?>
+		<?php if ($this->arrivee == 1 && $this->nbATerre == 0) : ?>
 			dans votre charrette.<br />
-		<? endif; ?>
-		<? if ($this->arrivee == 2 && $this->nbATerre == 0) : ?>
+		<?php endif; ?>
+		<?php if ($this->arrivee == 2 && $this->nbATerre == 0) : ?>
 			dans votre laban.<br />
-		<? endif; ?>
-		<? if ($this->nbATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
-			: <?=$this->minerai["quantite_extraite"] - $this->nbATerre?>
-			<? if ($this->arrivee == 1 ) : ?>
+		<?php endif; ?>
+		<?php if ($this->nbATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
+			: <?php echo $this->minerai["quantite_extraite"] - $this->nbATerre?>
+			<?php if ($this->arrivee == 1 ) : ?>
 				dans votre charrette 
-			<? endif; ?>
-			<? if ($this->arrivee == 2) : ?>
+			<?php endif; ?>
+			<?php if ($this->arrivee == 2) : ?>
 				dans votre laban 
-			<? endif; ?>
-			et, faute de place, <?=$this->nbATerre?> 
-			<? if ($this->nbATerre > 1) : ?>
+			<?php endif; ?>
+			et, faute de place, <?php echo $this->nbATerre?> 
+			<?php if ($this->nbATerre > 1) : ?>
 				minerais sont tombés au sol.<br />
-			<? else :?>
+			<?php else :?>
 				minerai est tombé au sol.<br />
-			<? endif;?>
-		<? endif;?>
-		<? if ($this->arrivee == 3) : ?>
+			<?php endif;?>
+		<?php endif;?>
+		<?php if ($this->arrivee == 3) : ?>
 			au sol.<br />
-		<? endif; ?>
+		<?php endif; ?>
 		<br />
-		<? if ($this->filonDetruit === true): ?>
+		<?php if ($this->filonDetruit === true): ?>
 			Pfiou, il n'y a plus rien dans le filon...
-		<? endif; ?>
+		<?php endif; ?>
 		<br /><br />		
-		<? if ($this->effetRune) :?>
+		<?php if ($this->effetRune) :?>
 			Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
-		<? endif; ?>
-	<? endif; ?>
-<? else :  ?>
-	<? if ($this->filonDetruit === true) : ?>
-		Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=htmlspecialchars($this->minerai["nom_type"])?>
+		<?php endif; ?>
+	<?php endif; ?>
+<?php else :  ?>
+	<?php if ($this->filonDetruit === true) : ?>
+		Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?php echo htmlspecialchars($this->minerai["nom_type"])?>
 		tombent en miettes dans vos mains et le filon est d&eacute;truit !
-	<? else: ?>
-		Des fragments de <?=htmlspecialchars($this->minerai["nom_type"])?> tombent en miettes dans vos mains et sont d&eacute;truits.
-	<? endif; ?>
-<? endif; ?>
+	<?php else: ?>
+		Des fragments de <?php echo htmlspecialchars($this->minerai["nom_type"])?> tombent en miettes dans vos mains et sont d&eacute;truits.
+	<?php endif; ?>
+<?php endif; ?>

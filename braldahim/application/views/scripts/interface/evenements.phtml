@@ -1,19 +1,19 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizeb">Mes &Eacute;v&eacute;nements</div>
  <div class="contenuC">
  
- <? if ($this->affichageInterne == true) : ?>
-	 <? include("evenements/publiques.phtml") ?>
+ <?php if ($this->affichageInterne == true) : ?>
+	 <?php include("evenements/publiques.phtml") ?>
 	<br />
-	 <? include("evenements/bot.phtml") ?>
-<? else: ?>
+	 <?php include("evenements/bot.phtml") ?>
+<?php else: ?>
 	<div class="box_contenu1 textalic">
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
 	</div>
-<? endif; ?>
+<?php endif; ?>
 
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

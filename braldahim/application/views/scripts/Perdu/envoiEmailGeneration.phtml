@@ -9,14 +9,14 @@
 	    <div class="box_contenu1 textalic">
 		&nbsp;
 		<div>
-			<? if ($this->emailGenerationOk) : ?>
+			<?php if ($this->emailGenerationOk) : ?>
 				Pour g&eacute;n&eacute;rer un nouveau mot de passe, 
 				suivez les indications que vous venez de recevoir
 				 &agrave; l'adresse suivante : <br />
-				<?= $this->email_braldun ?>
-			<? else : ?>
-				Erreur :  <?=$this->view->message?>
-			<? endif; ?>
+				<?php echo  $this->email_braldun ?>
+			<?php else : ?>
+				Erreur :  <?php echo $this->view->message?>
+			<?php endif; ?>
 				<br /><br />
 				Courbettes distingu&eacute;es, <br /><br />
 				Les ma&icirc;tres du jeu.<br /><br />

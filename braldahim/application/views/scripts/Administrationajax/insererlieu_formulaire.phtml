@@ -1,4 +1,4 @@
-<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+<div class='comp_titre'><?php echo htmlspecialchars($this->titreAction) ?></div>
 <form name='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='9'>
  
@@ -6,45 +6,45 @@
  
 	Id : Automatique<br />
 	
-	 X : <input type='text' id='valeur_1' name='valeur_1' value='<?=$this->xLieu?>'><br />
-	 Y : <input type='text' id='valeur_2' name='valeur_2' value='<?=$this->yLieu?>'><br />
-	 Z : <input type='text' id='valeur_3' name='valeur_3' value='<?=$this->zLieu?>'><br />
+	 X : <input type='text' id='valeur_1' name='valeur_1' value='<?php echo $this->xLieu?>'><br />
+	 Y : <input type='text' id='valeur_2' name='valeur_2' value='<?php echo $this->yLieu?>'><br />
+	 Z : <input type='text' id='valeur_3' name='valeur_3' value='<?php echo $this->zLieu?>'><br />
 	 
 	 Type : <br />
 	 	<select name='valeur_4' id="valeur_4">
-	 	<? foreach ($this->typeLieux as $t) : ?>
-		<option value="<?=$t["type"]["id_type_lieu"]?>" <?=$t["selected"]?>><?=$t["type"]["id_type_lieu"]?> : <?=$t["type"]["nom_type_lieu"]?></option>
-		<? endforeach; ?>
+	 	<?php foreach ($this->typeLieux as $t) : ?>
+		<option value="<?php echo $t["type"]["id_type_lieu"]?>" <?php echo $t["selected"]?>><?php echo $t["type"]["id_type_lieu"]?> : <?php echo $t["type"]["nom_type_lieu"]?></option>
+		<?php endforeach; ?>
 		</select><br /><br />
 	 
-	 Nom : <input type='text' id='valeur_5' name='valeur_5' onKeyUp="$('valeur_9_fin').value=this.value" value="<?=$this->villeEnCours?>"><br />
+	 Nom : <input type='text' id='valeur_5' name='valeur_5' onKeyUp="$('valeur_9_fin').value=this.value" value="<?php echo $this->villeEnCours?>"><br />
 	 
 	 <br />
 	 Nom Distinction (pour lieu mythique uniquement). Ceci est suivi automatiquement du nom du lieu.<br />
 	 Par exemple, mettre "A visité" pour "A visité La flêche dans l'arbre".<br /> 
 	 <br /><input type='text' id='valeur_9' name='valeur_9' value="">
-	 <input type='text' id='valeur_9_fin' name='valeur_9_fin' value="<?=$this->villeEnCours?>" readonly>
+	 <input type='text' id='valeur_9_fin' name='valeur_9_fin' value="<?php echo $this->villeEnCours?>" readonly>
 	 <br />
 	<br /> Description : 
-	 <textarea name="valeur_6" id="valeur_6" class="inputbox" rows="10" cols="60">Description <?=$this->villeEnCours?></textarea>
+	 <textarea name="valeur_6" id="valeur_6" class="inputbox" rows="10" cols="60">Description <?php echo $this->villeEnCours?></textarea>
 	 <br /><br />
 	 Ville : <br />
 	 	<select name='valeur_7' id="valeur_7">
 	 	<option value="-1">Aucune ville (pour lieu RP par exemple)</option>
-	 	<? foreach ($this->villes as $v) : ?>
-		<option value="<?=$v["ville"]["id_ville"]?>" <?=$v["selected"]?>><?=$v["ville"]["id_ville"]?> : <?=$v["ville"]["nom_ville"]?> <?=$v["info"]?></option>
-		<? endforeach; ?>
+	 	<?php foreach ($this->villes as $v) : ?>
+		<option value="<?php echo $v["ville"]["id_ville"]?>" <?php echo $v["selected"]?>><?php echo $v["ville"]["id_ville"]?> : <?php echo $v["ville"]["nom_ville"]?> <?php echo $v["info"]?></option>
+		<?php endforeach; ?>
 		</select><br /><br />
 		
 		 Est Lieu Soule : <br />
 	 	<select name='valeur_8' id="valeur_8">
-	 	<? foreach ($this->estSoule as $k => $v) : ?>
-			<option value="<?=$k?>"><?=$k?></option>
-		<? endforeach; ?>
+	 	<?php foreach ($this->estSoule as $k => $v) : ?>
+			<option value="<?php echo $k?>"><?php echo $k?></option>
+		<?php endforeach; ?>
 		</select><br /><br />
  </div>
 
 </form>
 <br />
 <input type='button' class='button1' id='bouton_insererlieu' value='Insérer' onclick='this.disabled=true;_get_("/administrationajax/doaction?caction=do_administrationajax_insererlieu");'>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

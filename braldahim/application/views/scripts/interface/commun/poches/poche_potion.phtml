@@ -1,7 +1,7 @@
-<? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
-<? if ($this->nb_potions == 0) : ?>
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
+<?php if ($this->nb_potions == 0) : ?>
 	<center><i>Vide</i></center>
-<? else : ?>
-	<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
+<?php else : ?>
+	<?php echo $this->render("/interface/commun/potions/potions.phtml"); ?>
    <br/>
-<? endif; ?>
+<?php endif; ?>

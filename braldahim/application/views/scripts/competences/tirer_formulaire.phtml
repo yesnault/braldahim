@@ -1,30 +1,30 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  
- 	<? include('commun_attaque_formulaire.phtml');?>
+ 	<?php include('commun_attaque_formulaire.phtml');?>
  
-	<? if ($this->armeTirPortee == true) :?>
-		<? if (!$this->munitionPortee == true) :?>
+	<?php if ($this->armeTirPortee == true) :?>
+		<?php if (!$this->munitionPortee == true) :?>
 			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br />
-		<? endif; ?>
-	<? else: ?>
+		<?php endif; ?>
+	<?php else: ?>
 		Vous ne portez pas d'arme de tir ! <br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
+	<?php if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
 		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br /></br>
-	 	<? if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
-	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
-	 	<? else: ?>
-	 		Pour <?=$this->nb_pa?> PA, vous pouvez tirer &agrave; <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
+	 	<?php if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
+	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?php echo $this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
+	 	<?php else: ?>
+	 		Pour <?php echo $this->nb_pa?> PA, vous pouvez tirer &agrave; <?php echo $this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
 	 		 <br />
-			<? if ($this->nMonstres > 0): ?>
+			<?php if ($this->nMonstres > 0): ?>
 				Tirer sur un monstre<br />
 				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">
 				<option value='-1'>(Choisissez un monstre)</option>
-				<? $dist=-1; ?>
-				<? foreach ($this->tabMonstres as $m) : ?>
-					<? if ($dist != $m['dist_monstre']) : ?>
+				<?php $dist=-1; ?>
+				<?php foreach ($this->tabMonstres as $m) : ?>
+					<?php if ($dist != $m['dist_monstre']) : ?>
 						<?
 						$dist = $m['dist_monstre'];
 						switch ($dist) {
@@ -38,22 +38,22 @@
 								$case = "&agrave; $dist cases : ";
 						}
 						?>
-						<optgroup label="<?=$case ?>" style="font-weight:bold"></optgroup>
-					<? endif; ?>
-					<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>) x:<?=$m["x_monstre"]?> , y:<?=$m["y_monstre"]?></option>
-				<? endforeach; ?>
+						<optgroup label="<?php echo $case ?>" style="font-weight:bold"></optgroup>
+					<?php endif; ?>
+					<option value="<?php echo $m["id_monstre"]?>"><?php echo $m["nom_monstre"]?> <?php echo $m["taille_monstre"]?>  (<?php echo $m["id_monstre"]?>) x:<?php echo $m["x_monstre"]?> , y:<?php echo $m["y_monstre"]?></option>
+				<?php endforeach; ?>
 				</select><br /><br />
-			<? else: ?>
+			<?php else: ?>
 				<input type="hidden" name='valeur_1' value="-1" id="valeur_1" >
-			<? endif; ?>
+			<?php endif; ?>
 			
-	 		<? if ($this->nBralduns > 0): ?>
+	 		<?php if ($this->nBralduns > 0): ?>
 	 		 	Tirer sur un Braldûn<br />
 	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
 				<option value='-1'>(Choisissez un Braldûn)</option>
-				<? $dist=-1; ?>
-	 			<? foreach ($this->tabBralduns as $h) : ?>
-		 			<? if ($dist != $h['dist_braldun']) : ?>
+				<?php $dist=-1; ?>
+	 			<?php foreach ($this->tabBralduns as $h) : ?>
+		 			<?php if ($dist != $h['dist_braldun']) : ?>
 						<?
 						$dist = $h['dist_braldun'];
 						switch ($dist) {
@@ -67,19 +67,19 @@
 								$case = "&agrave; $dist cases : ";
 						}
 						?>
-						<optgroup label="<?=$case ?>" style="font-weight:bold"></optgroup>
-					<? endif; ?>
-					<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>) x:<?=$h["x_braldun"]?> , y:<?=$h["y_braldun"]?></option>
-				<? endforeach; ?>
+						<optgroup label="<?php echo $case ?>" style="font-weight:bold"></optgroup>
+					<?php endif; ?>
+					<option value="<?php echo $h["id_braldun"]?>"><?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (<?php echo $h["id_braldun"]?>) x:<?php echo $h["x_braldun"]?> , y:<?php echo $h["y_braldun"]?></option>
+				<?php endforeach; ?>
 				</select><br /><br />
-			<? else: ?>
+			<?php else: ?>
 				<input type="hidden" name='valeur_2' value="-1" id="valeur_2">
-			<? endif;?>
-		<? endif; ?>
-	<? endif; ?>
+			<?php endif;?>
+		<?php endif; ?>
+	<?php endif; ?>
  </div>
 
 <br />
 <?php if ($this->assezDePa == true) : ?>
 	<input type='button' class='button1' value='Tirer !' id='bouton_tirer' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_tirer");' disabled>
-<? endif ?>
+<?php endif ?>

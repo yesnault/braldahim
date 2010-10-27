@@ -1,21 +1,21 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu1 textalic">
 	
-	Filtre par Niveau : <select id="filtre" name="filtre" onchange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_supersbralduns', false)">
-	<? foreach($this->niveaux as $k => $v): ?>
-			<option value="<?=$k?>"<?if ($this->filtre == $k): echo " selected='selected'" ; endif;?>>Niveaux <?=$v?></option>
-	<? endforeach;?>
+	Filtre par Niveau : <select id="filtre" name="filtre" onchange="_get_('/palmares/load?caction=do_palmares_<?php echo $this->nom_systeme?>_'+this.value+'_supersbralduns', false)">
+	<?php foreach($this->niveaux as $k => $v): ?>
+			<option value="<?php echo $k?>"<?if ($this->filtre == $k): echo " selected='selected'" ; endif;?>>Niveaux <?php echo $v?></option>
+	<?php endforeach;?>
 	</select>
 	<br /><br />
 	Pour un niveau choisi, la valeur maximum de chaque caractéristique (possédée par un braldûn) est indiquée.<br />
 	Les Bonus et les Malus ne sont pas pris en compte.
 	<br /><br />
 	
-	<? if ($this->bralduns == null) : ?>
-		Il n'y a pas assez de Braldûns de niveau <?=$this->filtre?> pour afficher les caractéristiques "Super Braldûns".
+	<?php if ($this->bralduns == null) : ?>
+		Il n'y a pas assez de Braldûns de niveau <?php echo $this->filtre?> pour afficher les caractéristiques "Super Braldûns".
 		<br /><br />
-	<? else: ?>
+	<?php else: ?>
 		<table class="table_liste" style="width:90%">
 		<thead class="table_liste">
 		  <tr class="table_liste">
@@ -24,26 +24,26 @@
 		  </tr>
 		</thead>
 			<tbody>
-		  	<? $i = 0; 
+		  	<?php $i = 0; 
 		  	foreach($this->bralduns as $k => $v): ?>
-		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  			<td class="table_liste" >
-		  			<?=$k?>
+		  			<?php echo $k?>
 		  			</td>
 			  		<td class="table_liste">
-			  			<? if ($v["base"] != ""): ?>
-			  				<?=($v["nombre"] + $v["base"]) ?>
-			  			<? else: ?>
-			  				<?=$v["nombre"] ?>
-			  			<? endif;?>
-			  			<?=$v["libelle"]?>
+			  			<?php if ($v["base"] != ""): ?>
+			  				<?php echo ($v["nombre"] + $v["base"]) ?>
+			  			<?php else: ?>
+			  				<?php echo $v["nombre"] ?>
+			  			<?php endif;?>
+			  			<?php echo $v["libelle"]?>
 			  		</td>
 		  		</tr>
-		  	<? endforeach; ?>
+		  	<?php endforeach; ?>
 		  	</tbody>
 		</table>
-	<? endif; ?>
+	<?php endif; ?>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

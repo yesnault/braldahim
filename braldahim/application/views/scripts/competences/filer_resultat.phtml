@@ -1,21 +1,21 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
-<? else: ?>
-	<? include("commun_text_resultat.phtml") ?>
-	<? if ($this->okJet1 === true):?>
-		<? if ($this->filerEnCours == null) : ?>
-			Vous filez maintenant <?=$this->braldunCible["prenom_braldun"]?> <?=$this->braldunCible["nom_braldun"]?> (<?=$this->braldunCible["id_braldun"]?>).
-		<? else: ?>
-			<?=$this->details?>
+<?php else: ?>
+	<?php include("commun_text_resultat.phtml") ?>
+	<?php if ($this->okJet1 === true):?>
+		<?php if ($this->filerEnCours == null) : ?>
+			Vous filez maintenant <?php echo $this->braldunCible["prenom_braldun"]?> <?php echo $this->braldunCible["nom_braldun"]?> (<?php echo $this->braldunCible["id_braldun"]?>).
+		<?php else: ?>
+			<?php echo $this->details?>
 			<br /><br />
 			
-			<? if ($this->filerEnCours["etape_filature"] < 3) :?>
-				<? if ($this->enPayant) : ?>
+			<?php if ($this->filerEnCours["etape_filature"] < 3) :?>
+				<?php if ($this->enPayant) : ?>
 					Vous avez payé 50 castars pour être prévenu du passage de la cible...
-				<? else: ?>
+				<?php else: ?>
 					Vous n'avez pas payé pour être prévenu du passage de la cible...
-				<? endif?>
-			<? endif?>
-		<? endif;?>
-	<? endif;?>
-<? endif; ?>
+				<?php endif?>
+			<?php endif?>
+		<?php endif;?>
+	<?php endif;?>
+<?php endif; ?>

@@ -1,35 +1,35 @@
-	<? if ($this->effetMotB) : ?>
+	<?php if ($this->effetMotB) : ?>
 		Votre casque de Spiritualit&eacute; vous donne un bonus de deux fois son niveau en sagesse.<br />
-	<? endif; ?>
-	<? if ($this->effetMotE) : ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotE) : ?>
 		Votre arme des Vampires a r&eacute;duit votre vie maximum. Cependant, si vous r&eacute;ussissez une attaque, 
 		vous gagnerez en PV la moiti&eacute; des d&eacute;g&acirc;ts inflig&eacute;s (avec au maximum trois fois le 
 		niveau de l'arme). <br />
-	<? endif; ?>
-	<? if ($this->effetMotK) : ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotK) : ?>
 		Votre arme de Pr&eacute;cision double son bonus d'attaque (ou divise par deux son malus s'il est n&eacute;gatif).<br />
-	<? endif; ?>
-	<? if ($this->effetMotM) : ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotM) : ?>
 		Votre arme de R&acute;flexes double son bonus de d&eacute;fense (ou divise par deux son malus s'il est n&eacute;gatif).<br />
-	<? endif; ?>
-	<? if ($this->effetMotN) : ?>
-		<? if ($this->effetMotNPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
-		Votre armure de Feu C&eacute;leste inflige <?=$this->effetMotNPointsDegats?> point<?=$s?> de d&eacute;g&acirc;t <?=$s?> &agrave; tout ce qui se trouve sur sa case.<br />
-		<? $this->ciblesEffet = $this->ciblesEffetN; ?>
-		<? include("tour_effet_touches_text.phtml") ?>
-	<? endif; ?>
-	<? if ($this->effetMotO) : ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotN) : ?>
+		<?php if ($this->effetMotNPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
+		Votre armure de Feu C&eacute;leste inflige <?php echo $this->effetMotNPointsDegats?> point<?php echo $s?> de d&eacute;g&acirc;t <?php echo $s?> &agrave; tout ce qui se trouve sur sa case.<br />
+		<?php $this->ciblesEffet = $this->ciblesEffetN; ?>
+		<?php include("tour_effet_touches_text.phtml") ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotO) : ?>
 		Votre armure de B&eacute;n&eacute;diction Divine procure une aura de soin donnant des PVs de deux fois son niveau, &agrave; tout ce qui se trouve sur sa case.<br />
-		<? $this->ciblesEffet = $this->ciblesEffetO; ?>
-		<? include("tour_effet_touches_text.phtml") ?>
-	<? endif; ?>
-	<? if ($this->effetMotU) : ?>
-		<? if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
-		Votre armure de Nosferatu inflige un souffle vampirique <?=$this->effetMotUPointsDegats?> point<?=$s?> de d&eacute;g&acirc;t <?=$s?> &agrave; tout ce qui se trouve sur sa case.<br />
-		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->effetMotUNbPv?> PV.<br />
-		<? $this->ciblesEffet = $this->ciblesEffetU; ?>
-		<? include("tour_effet_touches_text.phtml") ?>
-	<? endif; ?>
-	<? if ($this->effetMotV) : ?>
+		<?php $this->ciblesEffet = $this->ciblesEffetO; ?>
+		<?php include("tour_effet_touches_text.phtml") ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotU) : ?>
+		<?php if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
+		Votre armure de Nosferatu inflige un souffle vampirique <?php echo $this->effetMotUPointsDegats?> point<?php echo $s?> de d&eacute;g&acirc;t <?php echo $s?> &agrave; tout ce qui se trouve sur sa case.<br />
+		Vous avez r&eacute;cup&eacute;r&eacute; <?php echo $this->effetMotUNbPv?> PV.<br />
+		<?php $this->ciblesEffet = $this->ciblesEffetU; ?>
+		<?php include("tour_effet_touches_text.phtml") ?>
+	<?php endif; ?>
+	<?php if ($this->effetMotV) : ?>
 		Votre casque de Vision augmente votre vue de deux cases.<br />
-	<? endif; ?>
+	<?php endif; ?>

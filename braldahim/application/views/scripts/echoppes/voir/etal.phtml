@@ -3,20 +3,20 @@ L'&eacute;tal permet &agrave; l'artisan d'exposer ses ouvrages pour les mettre e
  <div class="contenuc">
   <div class="box_contenu1 textalic">
   
-  	<? if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
+  	<?php if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
   		<div class="titre textalic textsized">Mat&eacute;riels en vente</div>
-  		<? include("etal_materiels.phtml") ?>
+  		<?php include("etal_materiels.phtml") ?>
   		<br /><br />
-  	<? endif?>
-  	<? if ($this->afficheType == "equipements") :?>
+  	<?php endif?>
+  	<?php if ($this->afficheType == "equipements") :?>
   		<div class="titre textalic textsized">&Eacute;quipements en vente</div>
-  		<? include("etal_equipements.phtml") ?>
-  	<? elseif ($this->afficheType == "potions") :?>
+  		<?php include("etal_equipements.phtml") ?>
+  	<?php elseif ($this->afficheType == "potions") :?>
   		<div class="titre textalic textsized">Potions / Vernis en vente</div>
-  		<? include("etal_potions.phtml") ?>
-  	<? elseif ($this->afficheType == "aliments") :?>
+  		<?php include("etal_potions.phtml") ?>
+  	<?php elseif ($this->afficheType == "aliments") :?>
   		<div class="titre textalic textsized">Aliments en vente</div>
-  		<? include("etal_aliments.phtml") ?>
-  	<? endif; ?>
+  		<?php include("etal_aliments.phtml") ?>
+  	<?php endif; ?>
    </div>
 </div>

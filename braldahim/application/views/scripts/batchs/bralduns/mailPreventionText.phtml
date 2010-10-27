@@ -2,19 +2,19 @@ Bonjour !
 
 Votre Braldûn vous réclame, corps et âme.
 
-Il sera supprimé le <?=$this->dateSuppression?> si vous ne le jouez pas avant. 
+Il sera supprimé le <?php echo $this->dateSuppression?> si vous ne le jouez pas avant. 
 Si toutefois vous ne pouvez pas le jouer pendant plusieurs jours, nous vous conseillons de le mettre en hibernation.
 En hibernation, votre Braldûn ne sera pas supprimé et n'apparaîtra pas dans le monde de Braldahim.
 
-Email : <?=$this->braldun["email_braldun"] ?> 
+Email : <?php echo $this->braldun["email_braldun"] ?> 
 
-Braldun : <?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?>.
+Braldun : <?php echo $this->braldun["prenom_braldun"] ?> <?php echo $this->braldun["nom_braldun"] ?>.
 
-Numero du Braldûn :<?=$this->braldun["id_braldun"] ?>.
+Numero du Braldûn :<?php echo $this->braldun["id_braldun"] ?>.
 
-Pour vous connecter, rendez-vous ici : <?=$this->urlJeu ?>
+Pour vous connecter, rendez-vous ici : <?php echo $this->urlJeu ?>
 
-Si vous rencontrez un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante :  <?=$this->adresseSupport ?>
+Si vous rencontrez un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante :  <?php echo $this->adresseSupport ?>
 
 Bon jeu ! 
 

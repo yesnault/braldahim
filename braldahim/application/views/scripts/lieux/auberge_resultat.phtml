@@ -1,12 +1,12 @@
-<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
+<?php echo $this->render("/commun/commun_quete_resultat.phtml") ?>
 
-<? if ($this->idChoix == 1 || $this->idChoix == 3) :?>
+<?php if ($this->idChoix == 1 || $this->idChoix == 3) :?>
 	Vous vous &ecirc;tes restaur&eacute;<br /> <br />
-	Votre balance de faim est maintenant de <?=$this->user->balance_faim_braldun ?> %<br /><br />
-<? endif;?>
+	Votre balance de faim est maintenant de <?php echo $this->user->balance_faim_braldun ?> %<br /><br />
+<?php endif;?>
 
-<? if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
-	Vous avez achet&eacute; <?=$this->nbAcheter ?>  <?=$this->aliment->nom_type_aliment?><? if ($this->nbAcheter > 1): echo "s"; endif; ?>, 
-	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?=$this->bbdfAliment?> %.<br /><br />
-<? endif;?>
-Vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castars.
+<?php if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
+	Vous avez achet&eacute; <?php echo $this->nbAcheter ?>  <?php echo $this->aliment->nom_type_aliment?><?php if ($this->nbAcheter > 1): echo "s"; endif; ?>, 
+	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?php echo $this->bbdfAliment?> %.<br /><br />
+<?php endif;?>
+Vous avez d&eacute;pens&eacute; <?php echo $this->coutCastars ?> castars.

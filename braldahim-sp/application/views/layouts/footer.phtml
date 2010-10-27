@@ -3,9 +3,9 @@
 	 <div class="inner_footer">
 	 	<span id='date_heure' class=''>&nbsp;</span>
 	 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
-	 	<? if (isset($this->user) && isset($this->user->email_braldun)) : ?> 
+	 	<?php if (isset($this->user) && isset($this->user->email_braldun)) : ?> 
 	 		<span id='nb_connectes' class=''>&nbsp;</span><br />
-	 	<? endif;?>
+	 	<?php endif;?>
 		<a href="http://www.jeuxweb.org">Braldahim est hébergé par l'Association JeuxWeb.org ASBL</a>
 		 	
 	 	<br />
@@ -14,15 +14,15 @@
 	 	<br />
 	 </div>
 	
-	<? if ($this->config->tracker->enabled == "1") : ?>
+	<?php if ($this->config->tracker->enabled == "1") : ?>
 	<script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 	</script>
 	<script type="text/javascript">
-	var pageTracker = _gat._getTracker("<?=$this->config->tracker->id?>");
+	var pageTracker = _gat._getTracker("<?php echo $this->config->tracker->id?>");
 	pageTracker._initData();
 	pageTracker._trackPageview();
 	</script>
-	<? endif; ?>
+	<?php endif; ?>
 </div>

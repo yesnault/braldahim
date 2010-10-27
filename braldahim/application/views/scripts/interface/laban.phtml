@@ -1,32 +1,32 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Mon Laban, besace du Braldûn</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
   
-<? if ($this->affichageInterne == true) : ?>
+<?php if ($this->affichageInterne == true) : ?>
 
 	<div class="titre textalic textsized braltip">Partage de butin</div>
 	
-	Partage avec les Braldûns de la communauté : <?=$this->user->est_partage_communaute_butin_braldun?><br />
+	Partage avec les Braldûns de la communauté : <?php echo $this->user->est_partage_communaute_butin_braldun?><br />
    			
-   	<? if ($this->partageBralduns == null) : ?>
+   	<?php if ($this->partageBralduns == null) : ?>
    		Partage avec aucun autre Braldûn<br /><br />
-   	<? else: ?>
-  		Partage avec : <?=$this->partageBralduns?><br /><br />
-   	<? endif;?>
+   	<?php else: ?>
+  		Partage avec : <?php echo $this->partageBralduns?><br /><br />
+   	<?php endif;?>
    			
 	<input type="button" class='button1' value="0 PA - Configurer les partages de butin" onclick="Javascript:_get_('/butin/doaction?caction=ask_butin_partage');" />
 
 	<br /><br />
 	Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
-    <? include("commun/poches.phtml"); ?>
-<? else: ?>
+    <?php include("commun/poches.phtml"); ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 
   </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

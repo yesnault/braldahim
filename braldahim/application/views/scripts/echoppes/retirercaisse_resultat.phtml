@@ -2,12 +2,12 @@
  <div class='comp_contenu'>
  	<br />	
 	 <div id='retirercaisse_text' style="display:block"  onclick="javascript:switch2div('retirercaisse_text','retirercaisse_copie');">
-	 	<? if (trim($this->elementsRetires) != "") :?>
+	 	<?php if (trim($this->elementsRetires) != "") :?>
 			Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : <br />
-			<?=htmlspecialchars($this->elementsRetires) ?>
-		<? else: ?>
+			<?php echo htmlspecialchars($this->elementsRetires) ?>
+		<?php else: ?>
 			Vous n'avez rien retir&eacute;, vous n'avez plus de place disponible !
-		<? endif;?>
+		<?php endif;?>
 		<br /><br />
 	 </div>
 	 
@@ -25,4 +25,4 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onclick="javascript:switch2div('retirercaisse_text','retirercaisse_copie');">
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

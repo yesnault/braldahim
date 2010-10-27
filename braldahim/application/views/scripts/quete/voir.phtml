@@ -3,12 +3,12 @@
 		<thead class="table_liste">
 		  <tr class="table_liste">
 			<th colspan="4">
-			Qu&ecirc;te de la <?=$this->quete["nom_lieu"]?>,
-		  	<? if ($this->quete["date_fin_quete"] != null): ?> 
-		  		terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->quete["date_fin_quete"]) ?>
-		  	<? else: ?>
+			Qu&ecirc;te de la <?php echo $this->quete["nom_lieu"]?>,
+		  	<?php if ($this->quete["date_fin_quete"] != null): ?> 
+		  		terminée le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->quete["date_fin_quete"]) ?>
+		  	<?php else: ?>
 		  		en cours
-		  	<? endif;?>
+		  	<?php endif;?>
 			</th>
 		  </tr>
 		  <tr class="table_liste">
@@ -19,54 +19,54 @@
 		  </tr>
 		</thead>
 		<tbody>
-		<? if ($this->etapes != null): ?>
-		  <? $i = 0; 
+		<?php if ($this->etapes != null): ?>
+		  <?php $i = 0; 
 		  foreach($this->etapes as $e): ?>
-		  	<tr class="table_liste<?=($i % 2);$i++; ?>">
-		  		<td class="table_liste">&Eacute;tape n&deg; <?=$e["ordre_etape"]?></td>
+		  	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+		  		<td class="table_liste">&Eacute;tape n&deg; <?php echo $e["ordre_etape"]?></td>
 		  		<td class="table_liste">
-		  		<? if ($e["date_debut_etape"] != null) : ?>
-			  		<?=$e["libelle_etape"]?>
-		  		<? else: ?>
+		  		<?php if ($e["date_debut_etape"] != null) : ?>
+			  		<?php echo $e["libelle_etape"]?>
+		  		<?php else: ?>
 		  			non r&eacute;v&eacute;l&eacute;e
-		  		<? endif;?>
+		  		<?php endif;?>
 		  		</td>
 		  		<td class="table_liste">
-		  		<? if ($e["est_terminee_etape"] == "oui") : ?>
-			  		Termin&eacute;, le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_fin_etape"]) ?>
-		  		<? elseif ($e["date_debut_etape"] != null) : ?>
+		  		<?php if ($e["est_terminee_etape"] == "oui") : ?>
+			  		Termin&eacute;, le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_fin_etape"]) ?>
+		  		<?php elseif ($e["date_debut_etape"] != null) : ?>
 		  			En Cours
-		  		<? else: ?>
+		  		<?php else: ?>
 		  			Non d&eacute;but&eacute;
-		  		<? endif;?>
+		  		<?php endif;?>
 		  		</td>
 		  		<td class="table_liste">
-		  		<?=$e["objectif_etape"]?>
+		  		<?php echo $e["objectif_etape"]?>
 		  		</td>
 		  	</tr>
-		  <? endforeach; ?>
+		  <?php endforeach; ?>
 		  
 		 
-		  <tr class="table_liste<?=($i % 2);$i++; ?>">
+		  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  <td class="table_liste">
 			  Gains
 			  </td>
 			  <td class="table_liste" colspan="3">
-			   <? if ($this->quete["date_fin_quete"] != null): ?>
-			 	 <?=nl2br($this->quete["gain_quete"])?>
-			   <? else: ?>
+			   <?php if ($this->quete["date_fin_quete"] != null): ?>
+			 	 <?php echo nl2br($this->quete["gain_quete"])?>
+			   <?php else: ?>
 			  		Les gains seront indiqu&eacute;s ici &agrave; la fin de la qu&ecirc;te.
-			   <? endif;?>
+			   <?php endif;?>
 			  </td>
 		  </tr>
 		 
-		<? else: ?>
+		<?php else: ?>
 		   <tr class="table_liste">
 		   	<td colspan="5">
 		   		Aucune &eacute;tape
 		   	</td>
 		   </tr>
-		<? endif; ?>
+		<?php endif; ?>
 	   </tbody>
 	</table>
 					

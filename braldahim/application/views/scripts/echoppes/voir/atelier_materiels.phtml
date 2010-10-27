@@ -1,10 +1,10 @@
-<? if (count($this->materielsArriereBoutique) > 0): ?>
+<?php if (count($this->materielsArriereBoutique) > 0): ?>
 
-	<? $this->materiels = $this->materielsArriereBoutique; ?>
-	<? $this->idMaterielsTable = $this->idMaterielsArriereBoutiqueTable; ?>
-	<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+	<?php $this->materiels = $this->materielsArriereBoutique; ?>
+	<?php $this->idMaterielsTable = $this->idMaterielsArriereBoutiqueTable; ?>
+	<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	
-	<? if ($this->estSurEchoppe === true): 
+	<?php if ($this->estSurEchoppe === true): 
   		$disabled = "";
 	   else: 
   		$disabled = "disabled" ;
@@ -12,10 +12,10 @@
   	?>
   	
 	<input type="button" class='button1' value="0 PA - Mettre en vente à l'échoppe"
-       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_vendremateriel&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_vendremateriel&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" />
 	<input type="button" class='button1' value="0 PA - Transf&eacute;rer un mat&eacute;riel"
-       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_transfermateriel&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled ?>/>
+       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_transfermateriel&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled ?>/>
 
-<? else: ?>
+<?php else: ?>
 	Vous n'avez aucun mat&eacute;riel en r&eacute;serve
-<? endif; ?>
+<?php endif; ?>

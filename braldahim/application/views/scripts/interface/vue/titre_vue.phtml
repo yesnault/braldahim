@@ -3,44 +3,44 @@
   <tr>
   	<td width="20%">
 	  	<div class="box_contenu1 textalia textsized braltip">
-	  	<? if ($this->centre_nom_region != null) : ?><?=Bral_Helper_Tooltip::render($this->centre_description_region)?><? endif;?>
+	  	<?php if ($this->centre_nom_region != null) : ?><?php echo Bral_Helper_Tooltip::render($this->centre_description_region)?><?php endif;?>
 	  	
-	    <?=$this->centre_nom_region ?>&nbsp;
-	    <? if ($this->est_pvp_region == true) :?>
-	    	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
-	    <? else: ?>
-	    	<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
-	    <? endif; ?>
-	    <? if (!empty($this->centre_nom_ville)):?>
-	     <a class="titre textalia textsized" title="Cliquez pour voir <?=$this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$this->centre_nom_ville ?>')";><?=$this->centre_nom_ville ?></a>
-	    <? endif; ?>
-	    <? if ($this->centre_est_capitale) : ?>
+	    <?php echo $this->centre_nom_region ?>&nbsp;
+	    <?php if ($this->est_pvp_region == true) :?>
+	    	<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
+	    <?php else: ?>
+	    	<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
+	    <?php endif; ?>
+	    <?php if (!empty($this->centre_nom_ville)):?>
+	     <a class="titre textalia textsized" title="Cliquez pour voir <?php echo $this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?php echo $this->centre_nom_ville ?>')";><?php echo $this->centre_nom_ville ?></a>
+	    <?php endif; ?>
+	    <?php if ($this->centre_est_capitale) : ?>
 	    	- Capitale
-	    <? endif; ?>
+	    <?php endif; ?>
 	  </div>
   	</td>
   	<td width="30%">
-  		<? include('boussole.phtml'); ?>
+  		<?php include('boussole.phtml'); ?>
   	</td>
   	<td width="35%">
 	  	<div class="box_contenu1 textalib textsized">
-	    Ma Position : X=  <?=$this->user->x_braldun ?>, Y= <?=$this->user->y_braldun ?>, 
+	    Ma Position : X=  <?php echo $this->user->x_braldun ?>, Y= <?php echo $this->user->y_braldun ?>, 
 	    
-	    <? if ($this->user->z_braldun != 0):?>
-	   	 Z= <?=$this->user->z_braldun ?>
-	    <? endif;?>
-	    Vue=<?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
-	    Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> 
-	    <? if ($this->user->z_braldun != 0):?>
-	   	 Z= <?=$this->user->z_braldun ?>
-	    <? endif;?>
-	    <?=$this->centre_environnement ?> <br />
+	    <?php if ($this->user->z_braldun != 0):?>
+	   	 Z= <?php echo $this->user->z_braldun ?>
+	    <?php endif;?>
+	    Vue=<?php echo $this->vue_nb_cases ?> <?php echo $this->environnement ?> <br />
+	    Centrage : X= <?php echo $this->centre_x ?> , Y= <?php echo $this->centre_y ?> 
+	    <?php if ($this->user->z_braldun != 0):?>
+	   	 Z= <?php echo $this->user->z_braldun ?>
+	    <?php endif;?>
+	    <?php echo $this->centre_environnement ?> <br />
 	  	</div>
   	</td>
   </tr>
   </table>
   
-  <? if ($this->user->administrationvue == true) :?>
+  <?php if ($this->user->administrationvue == true) :?>
   <b>Administration par la vue activée.</b><br />
   Double-Cliquez sur le coin supérieur gauche d'une case pour ajouter une eau.<br />
   Double-Cliquez sur le coin supérieur droit d'une case pour ajouter un lieu.<br />
@@ -50,23 +50,23 @@
 	Ville : 
  	<select name='administrationvue_ville' id="administrationvue_ville" onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
  	<option value="-1" selected>Choisissez une ville</option>
- 	<? foreach ($this->administrationVilles as $v) : ?>
-		<option value="<?=$v["id_ville"]?>"><?=$v["id_ville"]?> : <?=$v["nom_ville"]?></option>
-	<? endforeach; ?>
+ 	<?php foreach ($this->administrationVilles as $v) : ?>
+		<option value="<?php echo $v["id_ville"]?>"><?php echo $v["id_ville"]?> : <?php echo $v["nom_ville"]?></option>
+	<?php endforeach; ?>
 	</select>
 	
 	Lieux : 
  	<select name='administrationvue_lieu' id="administrationvue_lieu" onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
  	<option value="-1" selected>Choisissez un lieu</option>
- 	<? foreach ($this->administrationLieux as $l) : ?>
-		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
-	<? endforeach; ?>
+ 	<?php foreach ($this->administrationLieux as $l) : ?>
+		<option value="<?php echo $l["id_lieu"]?>"><?php echo $l["id_lieu"]?> : <?php echo $l["nom_lieu"]?> (<?php echo $l["x_lieu"]?>,<?php echo $l["y_lieu"]?>)</option>
+	<?php endforeach; ?>
 	</select>
 	<br />
 	
-	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?=$this->centre_x ?>">
-	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?=$this->centre_y ?>">
-	Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3" value="<?=$this->z_position ?>">
+	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?php echo $this->centre_x ?>">
+	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?php echo $this->centre_y ?>">
+	Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3" value="<?php echo $this->z_position ?>">
 	<input type="button" class='button1' value="Se Positionner" onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('administrationvue_x').value + 'h' + $('administrationvue_y').value + 'h' + $('administrationvue_z').value);"/>
 
-  <? endif;?>
+  <?php endif;?>

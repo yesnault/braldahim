@@ -1,38 +1,38 @@
 
 <br />
 
-<? if ($this->isUpdateGestionnaire == true) :?>
+<?php if ($this->isUpdateGestionnaire == true) :?>
 	Gestionnaire mis &agrave; jour.
 	<br />
 	<input type="button"  class='button1' onclick="Javascript: _get_('/interface/load/?box=box_communaute')" value="Finir l'action (Recharge l'onglet Communaut&eacute;)" >
 	
-<? else : ?>
+<?php else : ?>
 
 <center>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
 	
 	<div class="titre textalic textsizec">Changer de Gestionnaire</div><br />
 	
-	<? if (count($this->tabMembres) > 0) :?>
+	<?php if (count($this->tabMembres) > 0) :?>
 		Vous pouvez choisir un autre gestionnaire parmi les membres de la communaut&eacute;. <br />
 		Apr&egrave;s le changement, vous serez au second rang dans la communaut&eacute;.
 		 <br /><br />
 		<select name='valeur_1' id='valeur_1' onchange="if (this.value != -1) {$('button_valider_gestionnaire').disabled=false} else {$('button_valider_gestionnaire').disabled=true}">
 		    <option value="-1">(Choississez un gestionnaire)</option>
-			<? foreach ($this->tabMembres as $m) : ?>
-		  		<option value='<?=$m["id_braldun"]?>'><?=htmlspecialchars($m["prenom_braldun"])?> <?=htmlspecialchars($m["nom_braldun"])?>, n&deg;<?=$m["id_braldun"] ?></option>
-		  	<? endforeach; ?>
+			<?php foreach ($this->tabMembres as $m) : ?>
+		  		<option value='<?php echo $m["id_braldun"]?>'><?php echo htmlspecialchars($m["prenom_braldun"])?> <?php echo htmlspecialchars($m["nom_braldun"])?>, n&deg;<?php echo $m["id_braldun"] ?></option>
+		  	<?php endforeach; ?>
   		</select>
   		<br />
   		
   		<input type="button" id="button_valider_gestionnaire" class='button1' onclick="Javascript: _get_('/communaute/doaction?caction=do_communaute_gestionnaire')" value="Valider" disabled>
 
-	<? else: ?>
-		<img src="<?=$this->config->static->url?>/images/info_icon.gif"/> Vous ne pouvez pas changer de gestionnaire. <br />
+	<?php else: ?>
+		<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/> Vous ne pouvez pas changer de gestionnaire. <br />
 		Il n'y a pas d'autre membre que vous dans 
 		la communaut&eacute;. Si vous souhaitez supprimer la communaut&eacute;, veuillez-vous
 		rendre dans une mairie.
-	<? endif; ?>
+	<?php endif; ?>
 	<br /><br /><br />
 </center>
-<? endif; ?>
+<?php endif; ?>

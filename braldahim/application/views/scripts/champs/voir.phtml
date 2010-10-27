@@ -4,39 +4,39 @@
 
 <div class="titre textalic textsizec">
 <?if ($this->champ["nom_champ"] != null && $this->champ["nom_champ"] != "") : ?>
-	<?=htmlspecialchars($this->champ["nom_champ"])?>,
-<? endif; ?>
+	<?php echo htmlspecialchars($this->champ["nom_champ"])?>,
+<?php endif; ?>
 Champ <br /></div>
-<div class="titre textalic textsizec"><?=htmlspecialchars($this->champ["nom_region"])?>, x:<?=$this->champ["x_champ"]?>, y:<?=$this->champ["y_champ"]?></div>
+<div class="titre textalic textsizec"><?php echo htmlspecialchars($this->champ["nom_region"])?>, x:<?php echo $this->champ["x_champ"]?>, y:<?php echo $this->champ["y_champ"]?></div>
 <br />
 
-    <? if ($this->estSurChamp === true && $this->user->activation == true): 
+    <?php if ($this->estSurChamp === true && $this->user->activation == true): 
   		$disabled = "";
   	   else:
   		$disabled = "disabled" ;
   	?>
   		Vous n'&ecirc;tes pas dans votre champ, vous n'avez pas acc&egrave;s aux actions...<br />
-  	<? endif; ?>
+  	<?php endif; ?>
 
  <input type="button" class='button1' value="0 PA - Modifier le nom" 
- onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifiernom&valeur_1=<?=$this->champ["id_champ"] ?>')" <?=$disabled?> />
+ onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifiernom&valeur_1=<?php echo $this->champ["id_champ"] ?>')" <?php echo $disabled?> />
  <input type="button" class='button1' value="0 PA - Modifier la description"
-  onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifierdescription&valeur_1=<?=$this->champ["id_champ"] ?>')" <?=$disabled?>/>
+  onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifierdescription&valeur_1=<?php echo $this->champ["id_champ"] ?>')" <?php echo $disabled?>/>
  
 <hr> <br />
 
 <div class="titre textalic textsizec">Le champ</div><br />
 
-<? 
+<?php 
 if ($this->competences != null) :
 	foreach($this->competences as $c) : ?>
-		<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+		<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
 	      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 	    else:
 	      $attr = " disabled ";
 	    endif;?>
-	    <input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?=$attr?>>
-	<? endforeach;
+	    <input type="button" class='button1' value="<?php echo $c["pa_utilisation"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
+	<?php endforeach;
 endif;?>
 <br /><br />
- <? include('voir/grille.phtml')?>
+ <?php include('voir/grille.phtml')?>

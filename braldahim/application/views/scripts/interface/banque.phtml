@@ -1,25 +1,25 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 
 <div class="titre textalic textsizeb">
 	<div class="titre textalia" style="position:Absolute">
 	<input type="button" class='button1' onclick='_get_("/interface/load/?box=box_lieu");' value="Sortir de la banque">
 	</div>
-		<?=$this->nomLieu ?><br/><br/>
+		<?php echo $this->nomLieu ?><br/><br/>
 	</div>
  	<div class="contenuC">
  		<div class="box_contenu1 textalic">
 		
 	<br /><br />
 
-	<input type="button" class='button1' onclick='_get_("/competences/doaction?caction=ask_competence_transbahuter&valeur_1=3&valeur_2=2");' value="<?=$this->paUtilisationBanque ?> PA - Retirer des &eacute;l&eacute;ments">
-	<input type="button" class='button1' onclick='_get_("/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2&valeur_2=3");' value="<?=$this->paUtilisationBanque ?> PA - D&eacute;poser des &eacute;l&eacute;ments">
+	<input type="button" class='button1' onclick='_get_("/competences/doaction?caction=ask_competence_transbahuter&valeur_1=3&valeur_2=2");' value="<?php echo $this->paUtilisationBanque ?> PA - Retirer des &eacute;l&eacute;ments">
+	<input type="button" class='button1' onclick='_get_("/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2&valeur_2=3");' value="<?php echo $this->paUtilisationBanque ?> PA - D&eacute;poser des &eacute;l&eacute;ments">
 	<br /><br />
 	Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souhaitez ouvrir. <br /><br />
 
 	<br />
-	<? include("commun/poches.phtml") ?>
+	<?php include("commun/poches.phtml") ?>
 	</div>
  	</div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

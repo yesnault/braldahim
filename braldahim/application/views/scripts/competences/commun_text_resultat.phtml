@@ -1,94 +1,94 @@
-	<? if ($this->jetUtilise === true):?>	
-		<? if ($this->okJet1 === true):?>
-			<span class="action_ok">Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %
-			<? if ($this->bmJet1 !== false && $this->bmJet1 != 0) : ?>
-				(<?=($this->jet1 - $this->bmJet1) ?> 
-				<? if ($this->bmJet1 > 0) : echo "+"; endif;?>
-				<?=$this->bmJet1?> %)
-			<? endif;?>
+	<?php if ($this->jetUtilise === true):?>	
+		<?php if ($this->okJet1 === true):?>
+			<span class="action_ok">Vous avez r&eacute;ussi votre jet d'action <?php echo $this->jet1 ?> %
+			<?php if ($this->bmJet1 !== false && $this->bmJet1 != 0) : ?>
+				(<?php echo ($this->jet1 - $this->bmJet1) ?> 
+				<?php if ($this->bmJet1 > 0) : echo "+"; endif;?>
+				<?php echo $this->bmJet1?> %)
+			<?php endif;?>
 			</span><br />
-			<? if ($this->okJet2 === true):?>
-				De plus, vous avez r&eacute;ussi votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br />
-				et vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br /><br />
-			<? elseif ($this->jet2Possible === false): ?>
-				<? if ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
+			<?php if ($this->okJet2 === true):?>
+				De plus, vous avez r&eacute;ussi votre jet d'am&eacute;lioration : <?php echo $this->jet2?> %<br />
+				et vous am&eacute;liorez votre comp&eacute;tence de <?php echo $this->jet3?> % !<br /><br />
+			<?php elseif ($this->jet2Possible === false): ?>
+				<?php if ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
 					Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave; 
 					votre m&eacute;tier courant<br /><br />
-				<? else: ?>
+				<?php else: ?>
 					Vous ne pouvez plus am&eacute;liorer cette comp&eacute;tence<br /><br />
-				<? endif; ?>
-			<? else: ?>
-					Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br /><br />
-			<? endif; ?>
+				<?php endif; ?>
+			<?php else: ?>
+					Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?php echo $this->jet2?> %<br /><br />
+			<?php endif; ?>
 			
-			<? if ($this->nbGainCommunParDlaOk === false) :?>
+			<?php if ($this->nbGainCommunParDlaOk === false) :?>
 				Vous avez d&eacute;j&agrave; utilis&eacute; avec <span title="succès : Jet d'action réussi" style="cursor:pointer">succ&egrave;s</span>
 				 cette comp&eacute;tence 2 fois au cours de votre tour.<br /><br />
-			<? endif;?>
-		<? else: ?>
-			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> % 
-			<? if ($this->bmJet1 !== false && $this->bmJet1 != 0) : ?>
-				(<?=($this->jet1 - $this->bmJet1) ?> 
-				<? if ($this->bmJet1 > 0) : echo "+"; endif;?>
-				<?=$this->bmJet1?> %)
-			<? endif;?>
+			<?php endif;?>
+		<?php else: ?>
+			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?php echo $this->jet1 ?> % 
+			<?php if ($this->bmJet1 !== false && $this->bmJet1 != 0) : ?>
+				(<?php echo ($this->jet1 - $this->bmJet1) ?> 
+				<?php if ($this->bmJet1 > 0) : echo "+"; endif;?>
+				<?php echo $this->bmJet1?> %)
+			<?php endif;?>
 			
 			</span><br />
-			<? if ($this->okJet2 === true):?>
-				Cependant, vous avez r&eacute;ussi votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br />
-				et vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br /><br />
-			<? elseif ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
+			<?php if ($this->okJet2 === true):?>
+				Cependant, vous avez r&eacute;ussi votre jet d'am&eacute;lioration : <?php echo $this->jet2?> %<br />
+				et vous am&eacute;liorez votre comp&eacute;tence de <?php echo $this->jet3?> % !<br /><br />
+			<?php elseif ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
 				Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave; 
 				votre m&eacute;tier courant<br /><br />
-			<? elseif ($this->jet2Possible === true): ?>
-				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br /><br />
-			<? endif; ?>
-		<? endif; ?>
-	<? endif; ?>
-	<? if ($this->calcul_px_generique === true) : ?>
-		<? if ($this->nb_px == 0) : ?>
+			<?php elseif ($this->jet2Possible === true): ?>
+				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?php echo $this->jet2?> %<br /><br />
+			<?php endif; ?>
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($this->calcul_px_generique === true) : ?>
+		<?php if ($this->nb_px == 0) : ?>
 			Vous n'avez gagn&eacute; aucun PX<br /><br /> 
-		<? else: ?>
-			Vous avez gagn&eacute; <b><?=$this->nb_px?> PX</b><br /><br />
-		<? endif; ?>
-	<? endif; ?>
+		<?php else: ?>
+			Vous avez gagn&eacute; <b><?php echo $this->nb_px?> PX</b><br /><br />
+		<?php endif; ?>
+	<?php endif; ?>
 			
-	<? if ($this->balanceFaimUtilisee === true): ?>
-		Influence sur la balance de faim : <?=$this->balance_faim ?> %<br />
-		<? if ($this->balanceFaimPvPerdus != null): ?>
-		<b>Vous avez perdu <?=$this->balanceFaimPvPerdus?> PV</b>.<br />
+	<?php if ($this->balanceFaimUtilisee === true): ?>
+		Influence sur la balance de faim : <?php echo $this->balance_faim ?> %<br />
+		<?php if ($this->balanceFaimPvPerdus != null): ?>
+		<b>Vous avez perdu <?php echo $this->balanceFaimPvPerdus?> PV</b>.<br />
 		N'oubliez pas de manger ! <br />
-		<? endif;?>
+		<?php endif;?>
 		<br />
-	<? endif; ?>
-		Cela vous a co&ucirc;t&eacute; <?=$this->nb_pa?> PA<br /><br />
+	<?php endif; ?>
+		Cela vous a co&ucirc;t&eacute; <?php echo $this->nb_pa?> PA<br /><br />
 		
-	<? if ($this->changeNiveau === true):?>
+	<?php if ($this->changeNiveau === true):?>
 		Vous avez chang&eacute; de niveau ! <br />
-		Vous &ecirc;tes maintenant Niveau <?=$this->user->niveau_braldun ?><br />
-		Vous avez  <?=$this->user->pi_braldun ?> PI<br /><br />
-		<? if (($this->user->niveau_braldun % 10) == 0) : ?>
-			<? if ($this->user->niveau_braldun > 10) :?>
+		Vous &ecirc;tes maintenant Niveau <?php echo $this->user->niveau_braldun ?><br />
+		Vous avez  <?php echo $this->user->pi_braldun ?> PI<br /><br />
+		<?php if (($this->user->niveau_braldun % 10) == 0) : ?>
+			<?php if ($this->user->niveau_braldun > 10) :?>
 				Vous avez un nouveau titre !
-			<? else : ?>
+			<?php else : ?>
 				Vous avez gagn&eacute; un titre !
-			<? endif;?>
+			<?php endif;?>
 			<br />
 			Vous &ecirc;tes maintenant 
-			<?=$this->escape($this->user->prenom_braldun);?>  <?=$this->escape($this->user->nom_braldun);?>, <?=$this->user->titre_courant_braldun?><br /><br />
+			<?php echo $this->escape($this->user->prenom_braldun);?>  <?php echo $this->escape($this->user->nom_braldun);?>, <?php echo $this->user->titre_courant_braldun?><br /><br />
 			Si toutefois vous étiez inscrit à un match de Soule, vous êtes désinscrit automatiquement (sauf si le match s'apprête à être lancé).<br /><br />
-		<? endif;?>
+		<?php endif;?>
 		
-		<? if ($this->user->niveau_braldun < 11) : ?>
-			Pour ce passage de niveau, vous avez gagné <?=($this->user->niveau_braldun*50)?> castars, 
+		<?php if ($this->user->niveau_braldun < 11) : ?>
+			Pour ce passage de niveau, vous avez gagné <?php echo ($this->user->niveau_braldun*50)?> castars, 
 			directement placés dans votre coffre à la banque.<br /><br />
-		<? endif;?>
-	<? endif; ?>
+		<?php endif;?>
+	<?php endif; ?>
 	
-	<? if ($this->finMatchSoule === true): ?>
-		<img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/ballon.png'/><br />
+	<?php if ($this->finMatchSoule === true): ?>
+		<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/ballon.png'/><br />
 		<span style="font-weight: bold ;">F&eacute;licitations, vous avez apporté le ballon dans le camp adverse !</span><br />
 		<span style="font-weight: bold ;">Consultez vos &eacute;v&eacute;nements pour le d&eacute;tails des gains.</span><br /><br />
-	<? endif;?>
+	<?php endif;?>
 	
-	<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
+	<?php echo $this->render("/commun/commun_quete_resultat.phtml") ?>

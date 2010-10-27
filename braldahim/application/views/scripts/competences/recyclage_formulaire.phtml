@@ -3,13 +3,13 @@
 <?php if ($this->nbEquipementLaban == 0) : ?>
  	Vous n'avez pas de pi&egrave;ce d'&eacute;quipement dans votre laban !<br /><br />
 <?php else: ?>
-	Pour <?=$this->nb_pa ?> PA, vous pouvez recycler une pi&egrave;ce d'&eacute;quipement :<br /><br />
+	Pour <?php echo $this->nb_pa ?> PA, vous pouvez recycler une pi&egrave;ce d'&eacute;quipement :<br /><br />
 	
 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_recycler').disabled=true } else {$('bouton_recycler').disabled=false }">
 		<option value='-1'>(Choisissez une pi&egrave;ce)</option>
-		<? foreach ($this->tabEquipementLaban as $e) : ?>
-				<option value="<?=$e["id_equipement"]?>">N° <?=$e["id_equipement"]?> : <?=$e["nom"]?> <?=$e["suffixe"]?> de qualit&eacute; <?=$e["qualite"]?> et de niveau <?=$e["niveau"]?></option>
-		<? endforeach; ?>
+		<?php foreach ($this->tabEquipementLaban as $e) : ?>
+				<option value="<?php echo $e["id_equipement"]?>">N° <?php echo $e["id_equipement"]?> : <?php echo $e["nom"]?> <?php echo $e["suffixe"]?> de qualit&eacute; <?php echo $e["qualite"]?> et de niveau <?php echo $e["niveau"]?></option>
+		<?php endforeach; ?>
 	</select>
 	<br /><br />
 	<input type='button' class='button1' value='Recycler !' id='bouton_recycler' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recyclage");' disabled>

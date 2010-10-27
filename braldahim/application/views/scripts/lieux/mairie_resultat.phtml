@@ -1,11 +1,11 @@
- <? if ($this->creerCommunaute === true) : ?>
- 	F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
- <? elseif ($this->entrerCommunaute === true) : ?>
- 	F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
- <? else : // sortie, suppression ?>
- 	Vous est sorti de la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
+ <?php if ($this->creerCommunaute === true) : ?>
+ 	F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; <?php echo $this->communaute["nom_communaute"] ?>, n&deg; <?php echo $this->communaute["id_communaute"] ?>.
+ <?php elseif ($this->entrerCommunaute === true) : ?>
+ 	F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; <?php echo $this->communaute["nom_communaute"] ?>, n&deg; <?php echo $this->communaute["id_communaute"] ?>.
+ <?php else : // sortie, suppression ?>
+ 	Vous est sorti de la communaut&eacute; <?php echo $this->communaute["nom_communaute"] ?>, n&deg; <?php echo $this->communaute["id_communaute"] ?>.
  	<br />
- 	<? if ($this->supprimerCommunaute === true) : ?>
+ 	<?php if ($this->supprimerCommunaute === true) : ?>
  		Vous avez supprim&eacute; cette communaut&eacute;.
- 	<? endif; ?>
- <? endif; ?>
+ 	<?php endif; ?>
+ <?php endif; ?>

@@ -1,6 +1,6 @@
 <div class='comp_titre'>D&eacute;poser des mati&egrave;res premi&egrave;res</div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
- <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?php echo $this->nb_valeurs ?>'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?php echo $this->idEchoppe ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
  	Vous pouvez d&eacute;poser des mati&egrave;res premi&egrave;res pr&eacute;sentes 
@@ -8,68 +8,68 @@
  	l'arri&egrave;re-boutique de cette &eacute;choppe.<br />
  	
 	<br />
-	<?=$poches = null; ?>
+	<?php echo $poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_divers">
-			<? $poches[] = "deposer_divers-head" ?>
+			<?php $poches[] = "deposer_divers-head" ?>
 			<h3 id="deposer_divers-head" class="head" onclick="maccordion(this);">
 				Divers
 			</h3>
 			<ul id="deposer_divers-body" style="display:none">
 			<li>
-				<? if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
-					Rondins : <?=$this->charrette["nb_rondin"] ?>
+				<?php if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
+					Rondins : <?php echo $this->charrette["nb_rondin"] ?>
 					Quantit&eacute; &agrave; d&eacute;poser : 
-					<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->charrette["nb_rondin"]  ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
-					<input type='hidden' maxlength='4' size='4' name='valeur_2_max' id='valeur_2_max' value='<?=$this->charrette["nb_rondin"] ?>' >
+					<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?php echo $this->charrette["nb_rondin"]  ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
+					<input type='hidden' maxlength='4' size='4' name='valeur_2_max' id='valeur_2_max' value='<?php echo $this->charrette["nb_rondin"] ?>' >
 					<br />
-				<? else : ?>
+				<?php else : ?>
 					<input type='hidden' maxlength='4' size='4' name='valeur_2_max' id='valeur_2_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' >
-				<? endif; ?>
-				<? if ($this->laban["nb_peau"] > 0): ?>
-				Peau : <?=$this->laban["nb_peau"] ?>.
+				<?php endif; ?>
+				<?php if ($this->laban["nb_peau"] > 0): ?>
+				Peau : <?php echo $this->laban["nb_peau"] ?>.
 				Quantit&eacute; &agrave; d&eacute;poser : 
-				<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-				<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='<?=$this->laban["nb_peau"] ?>' >
-				<? else : ?>
+				<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->laban["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+				<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='<?php echo $this->laban["nb_peau"] ?>' >
+				<?php else : ?>
 					Aucune Peau.
 					<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
-				<? endif; ?>
+				<?php endif; ?>
 				<br />
-				<? if ($this->laban["nb_cuir"] > 0): ?>
-					Cuir : <?=$this->laban["nb_cuir"] ?>.
+				<?php if ($this->laban["nb_cuir"] > 0): ?>
+					Cuir : <?php echo $this->laban["nb_cuir"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
-					<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-					<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='<?=$this->laban["nb_cuir"] ?>' >
-				<? else : ?>
+					<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->laban["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+					<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='<?php echo $this->laban["nb_cuir"] ?>' >
+				<?php else : ?>
 					Aucun cuir.
 					<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' >
-				<? endif; ?>
+				<?php endif; ?>
 				<br />
-				<? if ($this->laban["nb_fourrure"] > 0): ?>
-					Fourrure : <?=$this->laban["nb_fourrure"] ?>.
+				<?php if ($this->laban["nb_fourrure"] > 0): ?>
+					Fourrure : <?php echo $this->laban["nb_fourrure"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
-					<input type='text' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-					<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='<?=$this->laban["nb_fourrure"] ?>' >
-				<? else : ?>
+					<input type='text' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->laban["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+					<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='<?php echo $this->laban["nb_fourrure"] ?>' >
+				<?php else : ?>
 					Aucune fourrure.
 					<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' >
-				<? endif; ?>
+				<?php endif; ?>
 				<br />
-				<? if ($this->laban["nb_planche"] > 0): ?>
-					Planche : <?=$this->laban["nb_planche"] ?>.
+				<?php if ($this->laban["nb_planche"] > 0): ?>
+					Planche : <?php echo $this->laban["nb_planche"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
-					<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-					<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='<?=$this->laban["nb_planche"] ?>' >
-				<? else : ?>
+					<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->laban["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+					<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='<?php echo $this->laban["nb_planche"] ?>' >
+				<?php else : ?>
 					Aucune planche.
 					<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' >
-				<? endif; ?>
+				<?php endif; ?>
 			</li>
 			</ul>
 		</li>
@@ -77,23 +77,23 @@
 	
 	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="deposer_plantes">
-		<? $poches[] = "deposer_plantes-head" ?>
+		<?php $poches[] = "deposer_plantes-head" ?>
 		<h3 id="deposer_plantes-head" class="head" onclick="maccordion(this);">
 			Plantes brutes / pr&eacute;par&eacute;es
 		</h3>
 		<ul id="deposer_plantes-body" style="display:none">
 		<li>
-		   <? if ($this->nb_partiePlantes == 0 && $this->nb_prepareesPartiePlantes == 0) : ?>
+		   <?php if ($this->nb_partiePlantes == 0 && $this->nb_prepareesPartiePlantes == 0) : ?>
 		   		Aucune plante brute ou pr&eacute;par&eacute;e<br />
-		    <? else : ?>
-			    <? if ($this->nb_partiePlantes==1):$s=''; else:$s='s';endif; ?>
-		  		<?=$this->nb_partiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br />
+		    <?php else : ?>
+			    <?php if ($this->nb_partiePlantes==1):$s=''; else:$s='s';endif; ?>
+		  		<?php echo $this->nb_partiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes brute<?php echo $s?>: <br />
 			    et 
-			    <? if ($this->nb_prepareesPartiePlantes==1):$s=''; else:$s='s';endif; ?>
-			    <?=$this->nb_prepareesPartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes pr&eacute;par&eacute;e<?=$s?>. <br />
+			    <?php if ($this->nb_prepareesPartiePlantes==1):$s=''; else:$s='s';endif; ?>
+			    <?php echo $this->nb_prepareesPartiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes pr&eacute;par&eacute;e<?php echo $s?>. <br />
 		    
 		    <table width='100%'>
-		    <? $i = 0;
+		    <?php $i = 0;
 		      $lignes = 0;
 		      $enter = false;
 		      $nb = count($this->partieplantes);
@@ -103,18 +103,18 @@
 			    	if ($i % 3 == 0) echo "<tr>"; 
 			    	?>
 			    	<td>
-			    		<? if ($p["quantite_laban_partieplante"] > 1) : $s="s" ; else: $s=""; endif; ?>
-				    		<? if ($p["quantite_preparee_laban_partieplante"] > 1) : $s2="s" ; else: $s2="";endif;?>
+			    		<?php if ($p["quantite_laban_partieplante"] > 1) : $s="s" ; else: $s=""; endif; ?>
+				    		<?php if ($p["quantite_preparee_laban_partieplante"] > 1) : $s2="s" ; else: $s2="";endif;?>
 				    		
-				    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_laban_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s ?> brute<?=$s ?> et <?=$p["quantite_preparee_laban_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s2 ?> pr&eacute;par&eacute;<?=$s2 ?>.
+				    		<?php echo htmlspecialchars($p["nom_plante"])?> : <?php echo $p["quantite_laban_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s ?> brute<?php echo $s ?> et <?php echo $p["quantite_preparee_laban_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s2 ?> pr&eacute;par&eacute;<?php echo $s2 ?>.
 			    		<br />Quantit&eacute; &agrave; d&eacute;poser : 
-			    		<br />Brute : <input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-			    		<br />Pr&eacute;par&eacute;e : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparee_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-			    		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$p["quantite_laban_partieplante"]?>' >
-			    		<input type='hidden' maxlength='4' size='4' name='valeur_<?=($k+1)?>_max' id='valeur_<?=($k+1)?>_max' value='<?=$p["quantite_preparee_laban_partieplante"]?>' >
+			    		<br />Brute : <input type='text' maxlength='4' size='4' name='valeur_<?php echo $k?>' id='valeur_<?php echo $k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+			    		<br />Pr&eacute;par&eacute;e : <input type='text' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>' id='valeur_<?php echo ($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_preparee_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+			    		<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $p["quantite_laban_partieplante"]?>' >
+			    		<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_max' id='valeur_<?php echo ($k+1)?>_max' value='<?php echo $p["quantite_preparee_laban_partieplante"]?>' >
 			    	<br />
 			    	</td>
-			    	<? if ($i % 3 == 2) {
+			    	<?php if ($i % 3 == 2) {
 				    		echo "</tr>";
 				    		$lignes++;
 				    		if ($lignes == 2 && $i+1 < $nb) {
@@ -144,7 +144,7 @@
 		     endif;
 		     ?>
 		    </table>
-		   <? endif; ?>
+		   <?php endif; ?>
 		  </li>
 		 </ul>
 		</li>
@@ -152,40 +152,40 @@
    
    	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="deposer_minerais">
-		<? $poches[] = "deposer_minerais-head" ?>
+		<?php $poches[] = "deposer_minerais-head" ?>
 		<h3 id="deposer_minerais-head" class="head" onclick="maccordion(this);">
 			Minerais bruts / Lingots
 		</h3>
 		<ul id="deposer_minerais-body" style="display:none">
 		<li>
-		   <? if ($this->nb_minerai_brut == 0 && $this->nb_minerai_lingot == 0) : ?>
+		   <?php if ($this->nb_minerai_brut == 0 && $this->nb_minerai_lingot == 0) : ?>
 		   	Aucun minerai brut ou lingot<br />
-		   <? else: ?>
-		    <? if ($this->nb_minerai_brut == 1):$s=''; else:$s='s';endif; ?>
-		    <?=$this->nb_minerai_brut?> minerai<?=$s?> brut<?=$s?>
+		   <?php else: ?>
+		    <?php if ($this->nb_minerai_brut == 1):$s=''; else:$s='s';endif; ?>
+		    <?php echo $this->nb_minerai_brut?> minerai<?php echo $s?> brut<?php echo $s?>
 		    et 
-		    <? if ($this->nb_minerai_lingot == 1):$s=''; else:$s='s';endif; ?>
-		    <?=$this->nb_minerai_lingot?> lingot<?=$s?>. <br />
+		    <?php if ($this->nb_minerai_lingot == 1):$s=''; else:$s='s';endif; ?>
+		    <?php echo $this->nb_minerai_lingot?> lingot<?php echo $s?>. <br />
 		    
 		    <table width='100%'>
-		    <? $i = 0;
+		    <?php $i = 0;
 		      $enter = false;
 		      foreach ($this->minerais as $k => $m) : 
 		      	$enter = true;
 		     	if ($i % 3 == 0) echo "<tr>"; 
 		    	?>
 		    	<td>
-		    		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_brut_laban_minerai"] > 0) echo "s" ?> : <?=$m["quantite_brut_laban_minerai"]?>, lingot<? if ($m["quantite_lingots_laban_minerai"] > 0) echo "s" ?> : <?=$m["quantite_lingots_laban_minerai"]?>
+		    		<?php echo htmlspecialchars($m["type"])?> - brut<?php if ($m["quantite_brut_laban_minerai"] > 0) echo "s" ?> : <?php echo $m["quantite_brut_laban_minerai"]?>, lingot<?php if ($m["quantite_lingots_laban_minerai"] > 0) echo "s" ?> : <?php echo $m["quantite_lingots_laban_minerai"]?>
 		    		<br />
 		    		Quantit&eacute; &agrave; d&eacute;poser : <br />
-		    		Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
+		    		Brut : <input type='text' maxlength='4' size='4' name='valeur_<?php echo $k ?>' id='valeur_<?php echo $k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite_brut_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
 		    		<br />
-		    		Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
+		    		Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?php echo ($k+1) ?>' id='valeur_<?php echo ($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite_lingots_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
 		    	
-		    		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite_brut_laban_minerai"]?>' >
-			    	<input type='hidden' maxlength='4' size='4' name='valeur_<?=($k+1)?>_max' id='valeur_<?=($k+1)?>_max' value='<?=$m["quantite_lingots_laban_minerai"]?>' >
+		    		<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite_brut_laban_minerai"]?>' >
+			    	<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_max' id='valeur_<?php echo ($k+1)?>_max' value='<?php echo $m["quantite_lingots_laban_minerai"]?>' >
 		    	</td>
-		    	<? if ($i % 3 == 2) echo "</tr>"; 
+		    	<?php if ($i % 3 == 2) echo "</tr>"; 
 		    	$i++; 
 		     endforeach;
 		     if ($enter == true) :
@@ -193,7 +193,7 @@
 		     endif;
 		     ?>
 		    </table> 
-		    <? endif; ?>
+		    <?php endif; ?>
 		  </li>
 		</ul>
 		</li>
@@ -217,7 +217,7 @@ $js = "
 ";
 ?>
 
-<? 
+<?php 
 $jsFermer = "";
 $jsOuvrir = "";
 foreach ($poches as $p) :
@@ -226,12 +226,12 @@ foreach ($poches as $p) :
 endforeach; 
 ?>
    
-   <input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?=$js?>"> 
-	<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?=$jsFermer ?>">
-    <input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?=$jsOuvrir ?>">
+   <input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"> 
+	<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
+    <input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
 	<br />
 	
 <?php if ($this->deposerRessourcesOk === true) : ?>
 	<input type='button' class='button1' id='bouton_deposermatierespremieres' value='D&eacute;poser des &eacute;l&eacute;ments !' onclick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_deposerressources");' disabled>
-<? endif ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

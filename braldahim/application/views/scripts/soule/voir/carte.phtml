@@ -1,6 +1,6 @@
 <style type="text/css">
 
-<? $coef = 7;
+<?php $coef = 7;
 $largeur = $this->terrainCourant["x_max_soule_terrain"] - $this->terrainCourant["x_min_soule_terrain"];
 $hauteur = $this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant["y_min_soule_terrain"];
 if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :
@@ -13,8 +13,8 @@ endif;
 ?>
 
 #terrain {
-	width:<?=($largeur * $coef) ?>px;
-	height:<?=($hauteur * $coef) ?>px;
+	width:<?php echo ($largeur * $coef) ?>px;
+	height:<?php echo ($hauteur * $coef) ?>px;
 	background-color: #6B8E23;
 	position:relative;
 	left:3em;
@@ -32,8 +32,8 @@ endif;
     bottom:0px;
     margin:0px;
     cursor:pointer;
-    left:<?= -4 + ($xBallon - $this->terrainCourant["x_min_soule_terrain"]) * $coef ?>px; 
-    top:<?= -3 + ($this->terrainCourant["y_max_soule_terrain"] - $yBallon) * $coef ?>px; 
+    left:<?php echo  -4 + ($xBallon - $this->terrainCourant["x_min_soule_terrain"]) * $coef ?>px; 
+    top:<?php echo  -3 + ($this->terrainCourant["y_max_soule_terrain"] - $yBallon) * $coef ?>px; 
 }
 
 .bande {
@@ -44,7 +44,7 @@ endif;
 	margin:0px;
 }
 .haut {top:0px;}
-.milieu {top:<?=(($hauteur/2 * $coef) - 2) ?>px;}
+.milieu {top:<?php echo (($hauteur/2 * $coef) - 2) ?>px;}
 .bas {bottom:0px;}
 
 .camp {
@@ -83,12 +83,12 @@ endif;
 <p class="bande milieu"></p>
 <p class="bande bas"></p>
 <p class="camp terrain" style="color:#eeeeee">
-	<?=$this->terrainCourant["nom_soule_terrain"]?>
+	<?php echo $this->terrainCourant["nom_soule_terrain"]?>
 	<br /><br />
-	Dimensions Terrain : <?=$this->terrainCourant["x_max_soule_terrain"] - $this->terrainCourant["x_min_soule_terrain"]?> x <?=$this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant["y_min_soule_terrain"]?>
+	Dimensions Terrain : <?php echo $this->terrainCourant["x_max_soule_terrain"] - $this->terrainCourant["x_min_soule_terrain"]?> x <?php echo $this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant["y_min_soule_terrain"]?>
 </p>
-<p class="camp equipeA" style="color:red">Camp équipe A :<br /> <?=$this->equipes["equipea"]["nom_equipe"]?></p>
-<p class="camp equipeB" style="color:blue">Camp équipe B :<br /> <?=$this->equipes["equipeb"]["nom_equipe"]?></p>
-<p class="ballon" title="Ballon en X:<?=$xBallon?>, Y:<?=$yBallon?>"></p>
+<p class="camp equipeA" style="color:red">Camp équipe A :<br /> <?php echo $this->equipes["equipea"]["nom_equipe"]?></p>
+<p class="camp equipeB" style="color:blue">Camp équipe B :<br /> <?php echo $this->equipes["equipeb"]["nom_equipe"]?></p>
+<p class="ballon" title="Ballon en X:<?php echo $xBallon?>, Y:<?php echo $yBallon?>"></p>
 <?php $joueurs = $this->joueurs; include("carteequipe.phtml");?>
 </div>

@@ -1,43 +1,43 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  
- <? if ($this->filonOk == false) : ?>
+ <?php if ($this->filonOk == false) : ?>
 	 Il n'y a pas de minerai ici...
- <? else : ?>
- 	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
+ <?php else : ?>
+ 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
  	
 	<select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_extraire').disabled=true } else {$('bouton_extraire').disabled=false }">
 	 	<option value="-1">(Choisissez un minerai)</option>
-	 		<? foreach($this->filons as $f) : ?>
- 		<option value="<?=$f["id_filon"]?>"><?=$f["nom_type_minerai"]?> (<?=$f["id_filon"]?>)</option>
-	 	<? endforeach; ?>
+	 		<?php foreach($this->filons as $f) : ?>
+ 		<option value="<?php echo $f["id_filon"]?>"><?php echo $f["nom_type_minerai"]?> (<?php echo $f["id_filon"]?>)</option>
+	 	<?php endforeach; ?>
 	 </select>
 	 <br /><br />
- 	 <? if ($this->charettePleine == true && $this->possedeCharrette == true) : ?>
+ 	 <?php if ($this->charettePleine == true && $this->possedeCharrette == true) : ?>
  		Votre charette ne peut plus contenir de minerai.<br />
- 	 <? endif;?>
- 	 <? if ($this->labanPlein == true) : ?>
+ 	 <?php endif;?>
+ 	 <?php if ($this->labanPlein == true) : ?>
  		Votre laban ne peut plus contenir de minerai.<br />
- 	 <? endif;?>
+ 	 <?php endif;?>
  	 <br />
  	 Choisissez la destination :
 	 <br />
 	 <?$select="";?>
 	 <select name="valeur_2" id="valeur_2">
-		<? if ($this->possedeCharrette == true && $this->charettePleine == false ) : ?>
-			<? $select = " selected='selected' ";?>
-			<option value="1" <?=$select;?>>Votre charrette (<?=$this->nbPossibleDansCharretteMax?> minerai(s) maximum)</option>
-		<? endif; ?>
-		<? if ( $this->labanPlein == false ) : ?>
-			<? if ($select == "") $select = " selected='selected' "; else $select="";  ?>
-				<option value="2" <?=$select;?>>Votre laban (<?=$this->nbPossibleDansLabanMax?> minerai(s) maximum)</option>
-		<? endif; ?>
+		<?php if ($this->possedeCharrette == true && $this->charettePleine == false ) : ?>
+			<?php $select = " selected='selected' ";?>
+			<option value="1" <?php echo $select;?>>Votre charrette (<?php echo $this->nbPossibleDansCharretteMax?> minerai(s) maximum)</option>
+		<?php endif; ?>
+		<?php if ( $this->labanPlein == false ) : ?>
+			<?php if ($select == "") $select = " selected='selected' "; else $select="";  ?>
+				<option value="2" <?php echo $select;?>>Votre laban (<?php echo $this->nbPossibleDansLabanMax?> minerai(s) maximum)</option>
+		<?php endif; ?>
 		<option value="3">Le sol</option>
 	 </select>
- <? endif; ?>
+ <?php endif; ?>
  </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->filonOk === true) : ?>
 <input type='button' class='button1' id='bouton_extraire' value='Extraire un minerai !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_extraire");' disabled>
-<? endif ?>
+<?php endif ?>

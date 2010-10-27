@@ -1,12 +1,12 @@
-<? if ($this->config->tracker->enabled == "1") : ?>
+<?php if ($this->config->tracker->enabled == "1") : ?>
 <script type="text/javascript">
 var _gaq = _gaq || [];
-<? Zend_Loader::loadClass("Bral_Util_Tracker"); ?>_gaq.push(['_setAccount', '<?=Bral_Util_Tracker::getKey()?>']);_gaq.push(['_trackPageview']);
+<?php Zend_Loader::loadClass("Bral_Util_Tracker"); ?>_gaq.push(['_setAccount', '<?php echo Bral_Util_Tracker::getKey()?>']);_gaq.push(['_trackPageview']);
 (function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();
 </script>
-<? endif; ?>
+<?php endif; ?>
 
-<? if ($this->user): ?>
-<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/sorthtmltable_200/sortHTMLTableMini.js" ></script>
-<? endif;?>
+<?php if ($this->user): ?>
+<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/sorthtmltable_200/sortHTMLTableMini.js" ></script>
+<?php endif;?>
 </body></html>

@@ -1,46 +1,46 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->monstreVisible == false) : ?>
+<?php if ($this->monstreVisible == false) : ?>
 	Le monstre a disparu, il ne fait pas partie de votre vue.<br />
-<? elseif ($this->okJet1 === true): ?>
+<?php elseif ($this->okJet1 === true): ?>
 	
-	Le monstre <?=$this->tabCDM['nom_monstre'] ?> <?=$this->tabCDM["taille_monstre"]?> (<?=$this->tabCDM['id_monstre'] ?>) a les caract&eacute;ristiques suivantes :<br /><br />
+	Le monstre <?php echo $this->tabCDM['nom_monstre'] ?> <?php echo $this->tabCDM["taille_monstre"]?> (<?php echo $this->tabCDM['id_monstre'] ?>) a les caract&eacute;ristiques suivantes :<br /><br />
 	
-	Niveau : entre <?=$this->tabCDM['min_niveau_monstre'] ?> et <?=$this->tabCDM['max_niveau_monstre'] ?><br />
-	Point de vie max : entre <?=$this->tabCDM['min_pvmax_monstre'] ?> et <?=$this->tabCDM['max_pvmax_monstre'] ?><br />
-	Point de vie actuels : entre <?=$this->tabCDM['min_pvact_monstre'] ?> et <?=$this->tabCDM['max_pvact_monstre'] ?><br />
-	Vue : entre <?=$this->tabCDM['min_vue_monstre'] ?> et <?=$this->tabCDM['max_vue_monstre'] ?><br />
-	Force : entre <?=$this->tabCDM['min_for_monstre'] ?> et <?=$this->tabCDM['max_for_monstre'] ?> D<?=$this->config->game->de_force?><br />
-	Agilit&eacute; : entre <?=$this->tabCDM['min_agi_monstre'] ?> et <?=$this->tabCDM['max_agi_monstre'] ?> D<?=$this->config->game->de_agilite?><br />
-	Sagesse : entre <?=$this->tabCDM['min_sag_monstre'] ?> et <?=$this->tabCDM['max_sag_monstre'] ?> D<?=$this->config->game->de_sagesse?><br />
-	Vigueur : entre <?=$this->tabCDM['min_vig_monstre'] ?> et <?=$this->tabCDM['max_vig_monstre'] ?> D<?=$this->config->game->de_vigueur?><br />
-	R&eacute;g&eacute;n&eacute;ration : entre <?=$this->tabCDM['min_reg_monstre'] ?> et <?=$this->tabCDM['max_reg_monstre'] ?><br />
-	Armure : entre <?=$this->tabCDM['min_arm_monstre'] ?> et <?=$this->tabCDM['max_arm_monstre'] ?><br />
-	Dur&eacute;e du tour : entre <?=$this->tabCDM['min_dla_monstre'] ?> et <?=$this->tabCDM['max_dla_monstre'] ?><br />
+	Niveau : entre <?php echo $this->tabCDM['min_niveau_monstre'] ?> et <?php echo $this->tabCDM['max_niveau_monstre'] ?><br />
+	Point de vie max : entre <?php echo $this->tabCDM['min_pvmax_monstre'] ?> et <?php echo $this->tabCDM['max_pvmax_monstre'] ?><br />
+	Point de vie actuels : entre <?php echo $this->tabCDM['min_pvact_monstre'] ?> et <?php echo $this->tabCDM['max_pvact_monstre'] ?><br />
+	Vue : entre <?php echo $this->tabCDM['min_vue_monstre'] ?> et <?php echo $this->tabCDM['max_vue_monstre'] ?><br />
+	Force : entre <?php echo $this->tabCDM['min_for_monstre'] ?> et <?php echo $this->tabCDM['max_for_monstre'] ?> D<?php echo $this->config->game->de_force?><br />
+	Agilit&eacute; : entre <?php echo $this->tabCDM['min_agi_monstre'] ?> et <?php echo $this->tabCDM['max_agi_monstre'] ?> D<?php echo $this->config->game->de_agilite?><br />
+	Sagesse : entre <?php echo $this->tabCDM['min_sag_monstre'] ?> et <?php echo $this->tabCDM['max_sag_monstre'] ?> D<?php echo $this->config->game->de_sagesse?><br />
+	Vigueur : entre <?php echo $this->tabCDM['min_vig_monstre'] ?> et <?php echo $this->tabCDM['max_vig_monstre'] ?> D<?php echo $this->config->game->de_vigueur?><br />
+	R&eacute;g&eacute;n&eacute;ration : entre <?php echo $this->tabCDM['min_reg_monstre'] ?> et <?php echo $this->tabCDM['max_reg_monstre'] ?><br />
+	Armure : entre <?php echo $this->tabCDM['min_arm_monstre'] ?> et <?php echo $this->tabCDM['max_arm_monstre'] ?><br />
+	Dur&eacute;e du tour : entre <?php echo $this->tabCDM['min_dla_monstre'] ?> et <?php echo $this->tabCDM['max_dla_monstre'] ?><br />
 	
 	<br />
-	Vous avez effectué cette compétence à une distance de <?=$this->distance?> de la cible.
+	Vous avez effectué cette compétence à une distance de <?php echo $this->distance?> de la cible.
 	<br />
-	<? if ($this->tabCDM["id_taille_monstre"] != TailleMonstre::ID_TAILLE_BOSS) : ?>
-		<? if (count ($this->pister) == 0): ?>
+	<?php if ($this->tabCDM["id_taille_monstre"] != TailleMonstre::ID_TAILLE_BOSS) : ?>
+		<?php if (count ($this->pister) == 0): ?>
 			Vous pouvez pister ce type de monstre !<br />
-		<? else: ?>
+		<?php else: ?>
 			Vous ne pouvez pas encore pister ce type de monstre !<br />
-			<? if ($this->possedePister === true) : ?>
+			<?php if ($this->possedePister === true) : ?>
 				Il vous faut reconna&icirc;tre encore au moins : <br />
-				<? foreach ($this->pister as $p) : ?>
-					1 <?=$p['taille'] ?><br />
-				<? endforeach; ?>
-			<? endif; ?>
-		<? endif; ?>
-	<? else:?>
-		<? if ($this->possedePister === true) : ?>
+				<?php foreach ($this->pister as $p) : ?>
+					1 <?php echo $p['taille'] ?><br />
+				<?php endforeach; ?>
+			<?php endif; ?>
+		<?php endif; ?>
+	<?php else:?>
+		<?php if ($this->possedePister === true) : ?>
 			Vous ne pouvez pas pister ce type de monstre.<br />
-		<? endif;?>
-	<? endif;?>
+		<?php endif;?>
+	<?php endif;?>
 	
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre reconnaissance.<br />
-<? endif; ?>
+<?php endif; ?>
 
 

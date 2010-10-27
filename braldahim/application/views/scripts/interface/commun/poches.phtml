@@ -1,163 +1,163 @@
 
-<? if ($this->user->pa_braldun >= 1) : 
+<?php if ($this->user->pa_braldun >= 1) : 
       $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
     else:
       $attr = "disabled";
     endif;?>
     
-	<input type="button" class='button1' <?=$attr?> value="1 PA - Transbahuter">
+	<input type="button" class='button1' <?php echo $attr?> value="1 PA - Transbahuter">
 	
-<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?=$this->pocheNomSysteme ?>').click();">
-<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?=$this->pocheNomSysteme ?>').click();">
+<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
    
-<?=$poches = null; ?>
+<?php echo $poches = null; ?>
 <ul id="navigation" style="width:99%;text-align:left">
 	
-	<li id="poche<?=$this->pocheNomSysteme ?>Castars">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Castars-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Castars-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les castars
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Castars">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Castars-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Castars-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les castars
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Castars-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Castars-body" style="display:none">
 			<li>
-				<? include("materiaux/castars.phtml") ?>
+				<?php include("materiaux/castars.phtml") ?>
 			</li>
 		</ul>
 	</li>
 	
-	<? if (count($this->tabBraldunMetiers) > 0) :?>
-		<? foreach ($this->tabBraldunMetiers as $m) : ?>
-			<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
-			<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
-				<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
-	      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onclick="maccordion(this);">
-					<?=$this->pocheNom ?> <?=$m["nom"]?>
+	<?php if (count($this->tabBraldunMetiers) > 0) :?>
+		<?php foreach ($this->tabBraldunMetiers as $m) : ?>
+			<?php if ($m["nom_systeme"] == "guerrier") { continue; }?>
+			<li id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>">
+				<?php $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
+	      		<h3 id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>-head" class="head" onclick="maccordion(this);">
+					<?php echo $this->pocheNom ?> <?php echo $m["nom"]?>
 				</h3>
-				<ul id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-body" style="display:none">
+				<ul id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>-body" style="display:none">
 					<li>
-						<? include("poches/poche_".$m["nom_systeme"].".phtml") ?>
+						<?php include("poches/poche_".$m["nom_systeme"].".phtml") ?>
 					</li>
 				</ul>
 			</li>
-		<? endforeach; ?>
-	<? endif; ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 	
-	<? if (count($this->tabMetiers) > 0) :?>
-		<? foreach ($this->tabMetiers as $m) : ?>
-			<? if ($m["a_afficher"] == true) : ?>
-				<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
-				<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
-					<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
-		      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onclick="maccordion(this);" >
-						<?=$this->pocheNom ?>  mat&eacute;riaux 
-						<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste" || $m["nom_systeme"] == "bucheron") : ?>
+	<?php if (count($this->tabMetiers) > 0) :?>
+		<?php foreach ($this->tabMetiers as $m) : ?>
+			<?php if ($m["a_afficher"] == true) : ?>
+				<?php if ($m["nom_systeme"] == "guerrier") { continue; }?>
+				<li id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>">
+					<?php $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
+		      		<h3 id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>-head" class="head" onclick="maccordion(this);" >
+						<?php echo $this->pocheNom ?>  mat&eacute;riaux 
+						<?php if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste" || $m["nom_systeme"] == "bucheron") : ?>
 						r&eacute;colt&eacute;s
-						<? else: ?>
+						<?php else: ?>
 						transform&eacute;s 
-						<? endif; ?>
-						par un <?=$m["nom"]?>
+						<?php endif; ?>
+						par un <?php echo $m["nom"]?>
 					</h3>
-					<ul id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-body" style="display:none">
+					<ul id="poche<?php echo $this->pocheNomSysteme ?><?php echo $m["nom_systeme"]?>-body" style="display:none">
 						<li>
-							<? include("poches/poche_".$m["nom_systeme"].".phtml") ?>
+							<?php include("poches/poche_".$m["nom_systeme"].".phtml") ?>
 						</li>
 					</ul>
 				</li>
-			<? endif; ?>
-		<? endforeach; ?>
-	<? endif; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 	
-	<li id="poche<?=$this->pocheNomSysteme ?>Rune">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Rune-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Rune-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les runes
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Rune">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Rune-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Rune-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les runes
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Rune-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Rune-body" style="display:none">
 			<li>
-				<? include("poches/poche_rune.phtml") ?>
+				<?php include("poches/poche_rune.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Materiel">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Materiel-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Materiel-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour le mat&eacute;riel
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Materiel">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Materiel-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Materiel-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour le mat&eacute;riel
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Materiel-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Materiel-body" style="display:none">
 			<li>
-				<? include("poches/poche_materiel.phtml") ?>
+				<?php include("poches/poche_materiel.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Equipement">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Equipement-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Equipement-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les pi&egrave;ces d'&eacute;quipements
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Equipement">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Equipement-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Equipement-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les pi&egrave;ces d'&eacute;quipements
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Equipement-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Equipement-body" style="display:none">
 			<li>
-				<? include("poches/poche_equipement.phtml") ?>
+				<?php include("poches/poche_equipement.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Munition">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Munition-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Munition-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les munitions
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Munition">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Munition-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Munition-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les munitions
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Munition-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Munition-body" style="display:none">
 			<li>
-				<? include("poches/poche_munition.phtml") ?>
+				<?php include("poches/poche_munition.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Potion">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Potion-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Potion-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?>  pour les potions et vernis
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Potion">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Potion-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Potion-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?>  pour les potions et vernis
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Potion-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Potion-body" style="display:none">
 			<li>
-				<? include("poches/poche_potion.phtml") ?>
+				<?php include("poches/poche_potion.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Aliment">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Aliment-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Aliment-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les aliments / boissons
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Aliment">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Aliment-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Aliment-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les aliments / boissons
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Aliment-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Aliment-body" style="display:none">
 			<li>
-				<? include("poches/poche_aliment.phtml") ?>
+				<?php include("poches/poche_aliment.phtml") ?>
 			</li>
 		</ul>
 	</li>
-	<li id="poche<?=$this->pocheNomSysteme ?>Graine">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Graine-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Graine-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les graines
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Graine">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Graine-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Graine-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les graines
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Graine-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Graine-body" style="display:none">
 			<li>
-				<? include("poches/poche_graine.phtml") ?>
+				<?php include("poches/poche_graine.phtml") ?>
 			</li>
 		</ul>
 	</li>
 	
-	<li id="poche<?=$this->pocheNomSysteme ?>Tabac">
-		<? $poches[] = "poche".$this->pocheNomSysteme."Tabac-head" ?>
-      	<h3 id="poche<?=$this->pocheNomSysteme ?>Tabac-head" class="head" onclick="maccordion(this);">
-			<?=$this->pocheNom ?> pour les feuilles de tabac
+	<li id="poche<?php echo $this->pocheNomSysteme ?>Tabac">
+		<?php $poches[] = "poche".$this->pocheNomSysteme."Tabac-head" ?>
+      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Tabac-head" class="head" onclick="maccordion(this);">
+			<?php echo $this->pocheNom ?> pour les feuilles de tabac
 		</h3>
-		<ul id="poche<?=$this->pocheNomSysteme ?>Tabac-body" style="display:none">
+		<ul id="poche<?php echo $this->pocheNomSysteme ?>Tabac-body" style="display:none">
 			<li>
-				<? include("poches/poche_tabac.phtml") ?>
+				<?php include("poches/poche_tabac.phtml") ?>
 			</li>
 		</ul>
 	</li>
 </ul>
-<? 
+<?php 
 $jsFermer = "";
 $jsOuvrir = "";
 foreach ($poches as $p) :
@@ -165,6 +165,6 @@ foreach ($poches as $p) :
 	$jsOuvrir .= "maccordion_ouvrir($('$p'));";
 endforeach; ?>
    
-<input type='button' class='button1' id="fermer_poche<?=$this->pocheNomSysteme ?>" name="fermer_poche<?=$this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?=$jsFermer ?>">
-<input type='button' class='button1' id="ouvrir_poche<?=$this->pocheNomSysteme ?>" name="ouvrir_poche<?=$this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?=$jsOuvrir ?>">
+<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
+<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
    	

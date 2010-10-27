@@ -1,36 +1,36 @@
-<? include("commun_text_resultat.phtml") ?>
-<? if ($this->okJet1 === true):?>
-	Vous avez recherch&eacute; <?=$this->libelleRecherche?>.<br />
-	<? if ($this->trouve === true): ?>
-		<? if ($this->proche === true): ?>
-			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
+<?php include("commun_text_resultat.phtml") ?>
+<?php if ($this->okJet1 === true):?>
+	Vous avez recherch&eacute; <?php echo $this->libelleRecherche?>.<br />
+	<?php if ($this->trouve === true): ?>
+		<?php if ($this->proche === true): ?>
+			La plante la plus proche, de cat&eacute;gorie : <?php echo $this->plante["categorie"] ?><br /> 
 			se situe en : 
-			X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br />
-		<? elseif ($this->proche === false): ?>
-			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
+			X=<?php echo $this->plante["x_plante"]?> et Y=<?php echo $this->plante["y_plante"]?><br />
+		<?php elseif ($this->proche === false): ?>
+			La plante la plus proche, de cat&eacute;gorie : <?php echo $this->plante["categorie"] ?><br /> 
 			se situe   
-		<? endif; ?>
-		<? if ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
+		<?php endif; ?>
+		<?php if ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
 		en direction du Nord.
-		<? elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction du Nord Est.
-		<? elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction du Nord Ouest.
-		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun == $this->plante["x_plante"]): ?>
 		en direction du Sud.
-		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction du Sud Est.
-		<? elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction du Sud Ouest.
-		<? elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun < $this->plante["x_plante"]): ?>
 		en direction de l'Est.
-		<? elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->plante["y_plante"] && $this->user->x_braldun > $this->plante["x_plante"]): ?>
 		en direction de l'Ouest.
-		<? else: ?>
+		<?php else: ?>
 		sur place !
-		<? endif; ?>
-	<? else: ?>
+		<?php endif; ?>
+	<?php else: ?>
 		Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br />
-		un rayon de <?=$this->rayon_max;?> cases.
-	<? endif; ?>
-<? endif; ?>
+		un rayon de <?php echo $this->rayon_max;?> cases.
+	<?php endif; ?>
+<?php endif; ?>

@@ -3,7 +3,7 @@
 <?php if ($this->inscriptionDemandee == true) : ?>
 	Vous inscription est prise en compte. Restez ici pour que le meneur puisse ouvrir 
 	la porte du Donjon une fois que tout le monde aura validé.
-<? elseif ($this->inscriptionEquipe === true): ?>
+<?php elseif ($this->inscriptionEquipe === true): ?>
 	Vous avez inscrit avec succès votre équipe.<br />
 	Demandez à vos coéquipiers de valider leur inscription au Poste de Garde (ici-même)
 	et de rester en place. Dès que tous les inscriptions seront validées, 
@@ -16,10 +16,10 @@
 	de votre équipe soit annulée.<br /><br />
 	
 	Votre équipe : <br />
-	<? foreach($this->tabBraldunsEquipe as $h):?>
-		<?=$h["prenom_braldun"]. " ".$h["nom_braldun"]." (".$h["id_braldun"].")";?><br />	
-	<? endforeach;?>
-<? elseif ($this->estMeneur && $this->descentePossible) : ?>
+	<?php foreach($this->tabBraldunsEquipe as $h):?>
+		<?php echo $h["prenom_braldun"]. " ".$h["nom_braldun"]." (".$h["id_braldun"].")";?><br />	
+	<?php endforeach;?>
+<?php elseif ($this->estMeneur && $this->descentePossible) : ?>
 	Vous avez ouvert la porte du Donjon... Tous vos coéquipiers vous ont suivi. <br /><br />
 	Vous avez maintenant deux lunes pour sortir victorieux du Donjon ou sinon gare aux conséquences.<br />
-<? endif;?>
+<?php endif;?>

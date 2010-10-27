@@ -1,4 +1,4 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Mes Comp&eacute;tences de Soule</div>
  <div class="contenuB">
@@ -12,12 +12,12 @@
  } else if (count($this->competences) > 0) {
  	foreach($this->competences as $c) : ?>
   <div class="ligne_espace">
-      <? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+      <?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
       		$attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 	    else:
 	      $attr = "disabled alt=\"Vous n'avez pas assez de PA\"";
 	    endif;?>
-	    <input type="button" class='button1' value="<?=$c["pa_texte"]?> PA - <?=$c["nom"]?>" <?=$attr?>>
+	    <input type="button" class='button1' value="<?php echo $c["pa_texte"]?> PA - <?php echo $c["nom"]?>" <?php echo $attr?>>
   </div>
  <?php endforeach ;
   } else {	
@@ -27,4 +27,4 @@
  </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

@@ -14,9 +14,9 @@
 				Type<br />
 				
 				<select name="id_type">
-				<? foreach ($this->typesMonstre as $t) : ?>
-				<option value="<?=$t["id_type_monstre"]?>" <? if ($t["nom_groupe_monstre"] == "Gibier"): echo 'disabled'; endif; ?>><?=$t["nom_groupe_monstre"]?> - <?=$t["nom_type"]?> (min:<?=$t["nb_membres_min"]?>, max:<?=$t["nb_membres_max"]?>) </option>
-				<? endforeach; ?>
+				<?php foreach ($this->typesMonstre as $t) : ?>
+				<option value="<?php echo $t["id_type_monstre"]?>" <?php if ($t["nom_groupe_monstre"] == "Gibier"): echo 'disabled'; endif; ?>><?php echo $t["nom_groupe_monstre"]?> - <?php echo $t["nom_type"]?> (min:<?php echo $t["nb_membres_min"]?>, max:<?php echo $t["nb_membres_max"]?>) </option>
+				<?php endforeach; ?>
 				</select>
 				<br /><br />
 				
@@ -27,11 +27,11 @@
 				<option value=":::">
 					(Zones pr&eacute;d&eacute;finies)
 				</option>
-				<? foreach ($this->zones as $z) : ?>
-				<option value="<?=$z["x_min"]?>:<?=$z["x_max"]?>:<?=$z["y_min"]?>:<?=$z["y_max"]?>">
-					Zone <?=$z["id_zone"]?> xmin:<?=$z["x_min"]?> xmax:<?=$z["x_max"]?>, ymin <?=$z["y_min"]?> ymax:<?=$z["y_max"]?>
+				<?php foreach ($this->zones as $z) : ?>
+				<option value="<?php echo $z["x_min"]?>:<?php echo $z["x_max"]?>:<?php echo $z["y_min"]?>:<?php echo $z["y_max"]?>">
+					Zone <?php echo $z["id_zone"]?> xmin:<?php echo $z["x_min"]?> xmax:<?php echo $z["x_max"]?>, ymin <?php echo $z["y_min"]?> ymax:<?php echo $z["y_max"]?>
 				</option>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 				</select>
 				<br />				
 				X min
@@ -69,30 +69,30 @@
 			</tr>
 			</table>
 			<br /><br />
-			<? if ($this->creation === true): ?>
+			<?php if ($this->creation === true): ?>
 			<div class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</div>
-				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
+				Cr&eacute;ation de <?php echo count($this->tabCreation["monstres"])?> monstre(s) et de <?php echo count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
 				
-				<? if ($this->tabCreation["groupesMonstres"] != null) : ?>
+				<?php if ($this->tabCreation["groupesMonstres"] != null) : ?>
 					Groupes : <br />
-					<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
-						Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br />
-					<? endforeach; ?>
-				<? endif; ?>
+					<?php foreach($this->tabCreation["groupesMonstres"] as $g): ?>
+						Groupe Id <?php echo $g["id_groupe_monstre"]?> Nombre de membres <?php echo $g["nb_membres_max_groupe_monstre"]?><br />
+					<?php endforeach; ?>
+				<?php endif; ?>
 				
 				Monstres : <br />
-				<? foreach($this->tabCreation["monstres"] as $g): ?>
-					Monstre Id <?=$g["id_monstre"]?> <?=$g["nom_type"]?> (<?=$g["taille"]?>) 
-					niveau:<?=$g["niveau_monstre"]?> pv:<?=$g["pv_restant_monstre"]?>
-					x:<?=$g["x_monstre"]?> y:<?=$g["y_monstre"]?>
-					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
-					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
-					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?>
-					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?=$g["id_monstre"]?>"'> 
-	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> <br />
-				<? endforeach; ?>
+				<?php foreach($this->tabCreation["monstres"] as $g): ?>
+					Monstre Id <?php echo $g["id_monstre"]?> <?php echo $g["nom_type"]?> (<?php echo $g["taille"]?>) 
+					niveau:<?php echo $g["niveau_monstre"]?> pv:<?php echo $g["pv_restant_monstre"]?>
+					x:<?php echo $g["x_monstre"]?> y:<?php echo $g["y_monstre"]?>
+					FOR:<?php echo $g["force_base_monstre"]?> SAG:<?php echo $g["sagesse_base_monstre"]?>
+					AGI:<?php echo $g["agilite_base_monstre"]?> VIG:<?php echo $g["vigueur_base_monstre"]?>
+					ARMNAT :<?php echo $g["armure_naturelle_monstre"]?> DLA:<?php echo $g["duree_base_tour_monstre"]?>
+					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?php echo $g["id_monstre"]?>"'> 
+	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?php echo $g["id_monstre"]?>");'> <br />
+				<?php endforeach; ?>
 				
-			<? endif; ?>
+			<?php endif; ?>
 				
 			<br /><br /><br /><br />
 			<div class="titre textalic textsizea">Statistiques actuelles</div><br />
@@ -103,21 +103,21 @@
 				
 				<div class="titre textalic textsizec">Stats globales</div>
 	
-				Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
-				Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
-				Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
+				Nombre de groupe actuellement en base : <?php echo $this->stats["nb_groupes"] ?><br />
+				Nombre de monstre actuellement en base : <?php echo $this->stats["nb_monstres"] ?><br />
+				Pourcentage de couverture globale : <?php echo $this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
 	
 				<br />
 				<br /><div class="titre textalic textsizec">Nombre de monstres par type</div>
-				<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
-					<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
-				<? endforeach; ?>
+				<?php foreach($this->stats["nb_monstre_par_type"] as $t): ?>
+					<?php echo $t["nom_type"]?> : <?php echo $t["nombre"]?><br />
+				<?php endforeach; ?>
 				
 				<br />
 				<div class="titre textalic textsizec">Nombre de monstres par taille</div>
-				<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
-					<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br />
-				<? endforeach; ?>
+				<?php foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
+					<?php echo $t["nom_feminin"]?> / <?php echo $t["nom_masculin"]?> : <?php echo $t["nombre"]?><br />
+				<?php endforeach; ?>
 				
 			</td>
 			<td>
@@ -138,20 +138,20 @@
 					<th>Couverture</th>
 				</tr>
 				</thead>
-				<? foreach ($this->zones as $zone) : ?>
+				<?php foreach ($this->zones as $zone) : ?>
 					<tr>
-						<td><?=$zone["id_zone"] ?></td>
-						<td><?=$zone["environnement"] ?></td>
-						<td><?=$zone["villes"] ?></td>
-						<td><?=$zone["x_min"] ?></td>
-						<td><?=$zone["x_max"] ?></td>
-						<td><?=$zone["y_min"] ?></td>
-						<td><?=$zone["y_max"] ?></td>
-						<td><?=$zone["nombre_cases"] ?></td>
-						<td><?=$zone["nombre_monstres"] ?></td>
-						<td><?=$zone["couverture"] ?> % </td>
+						<td><?php echo $zone["id_zone"] ?></td>
+						<td><?php echo $zone["environnement"] ?></td>
+						<td><?php echo $zone["villes"] ?></td>
+						<td><?php echo $zone["x_min"] ?></td>
+						<td><?php echo $zone["x_max"] ?></td>
+						<td><?php echo $zone["y_min"] ?></td>
+						<td><?php echo $zone["y_max"] ?></td>
+						<td><?php echo $zone["nombre_cases"] ?></td>
+						<td><?php echo $zone["nombre_monstres"] ?></td>
+						<td><?php echo $zone["couverture"] ?> % </td>
 					</tr>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 				</table>
 			</td>
 			</tr>

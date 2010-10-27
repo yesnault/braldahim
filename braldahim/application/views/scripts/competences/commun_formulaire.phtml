@@ -1,4 +1,4 @@
-<div class='comp_titre'><?=$this->competence["nom"] ?></div>
+<div class='comp_titre'><?php echo $this->competence["nom"] ?></div>
 <br/>
 <form name='myForm' id='myForm'>
 <?php if ($this->assezDePa == false && $this->competence["nom_systeme"] != "marcher") : ?>
@@ -15,9 +15,9 @@
 	</div>
 <?php else : ?>
 	
-	<?=$this->texte ?>
+	<?php echo $this->texte ?>
 	
-<? endif ?>
+<?php endif ?>
 
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>
 </form>

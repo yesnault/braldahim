@@ -1,19 +1,19 @@
 Bonjour,
 
-Votre Braldûn <?=$this->mailBraldun["prenom_braldun"] ?> <?=$this->mailBraldun["nom_braldun"] ?> (<?=$this->mailBraldun["id_braldun"] ?>)
+Votre Braldûn <?php echo $this->mailBraldun["prenom_braldun"] ?> <?php echo $this->mailBraldun["nom_braldun"] ?> (<?php echo $this->mailBraldun["id_braldun"] ?>)
 a reçu le message suivant:
 
 - Debut Message -
 
-<?=$this->mailMessage;?> 
+<?php echo $this->mailMessage;?> 
  
 - Fin Message -
 
 Vous pouvez regler l'envoi des mails dans vos paramètres.
  
-Pour vous connecter, rendez-vous ici :  <?=$this->mailUrlJeu ?>
+Pour vous connecter, rendez-vous ici :  <?php echo $this->mailUrlJeu ?>
  
-Si vous rencontrez un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante : <?=$this->mailAdresseSupport ?> 
+Si vous rencontrez un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante : <?php echo $this->mailAdresseSupport ?> 
  
 Bon jeu !
 

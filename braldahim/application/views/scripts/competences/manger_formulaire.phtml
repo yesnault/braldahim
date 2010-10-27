@@ -1,36 +1,36 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
-	 <? if ($this->mangerNbAlimentOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez manger 1 aliment. <br /><br />
+	 <?php if ($this->mangerNbAlimentOk === true) : ?>
+	 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez manger 1 aliment. <br /><br />
 	 	
 	 	Aliment &agrave; manger : <br />
  		<select name='valeur_1' id="valeur_1" onchange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
 			<option value='-1'>(Choisissez un aliment)</option>
-			<? foreach ($this->tabAliments as $p) : ?>
-				<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["nom"]) ?>
-				 : + <?=$p["bbdf"]?> % (recette <?=$p["recette"]?>)</option>
-			<? endforeach; ?>
+			<?php foreach ($this->tabAliments as $p) : ?>
+				<option value="<?php echo $p["id_aliment"] ?>"><?php echo htmlspecialchars($p["nom"]) ?>
+				 : + <?php echo $p["bbdf"]?> % (recette <?php echo $p["recette"]?>)</option>
+			<?php endforeach; ?>
 		</select>
 		
 		<br /><br />
 		Boisson pour accompagner : <br />
  		<select name='valeur_2' id="valeur_2" onchange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
 			<option value='-1'>(Choisissez une boisson - falcultatif)</option>
-			<? if ($this->tabBoissons != null) : ?>
-				<? foreach ($this->tabBoissons as $p) : ?>
-					<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["recette"]) ?> n°<?=htmlspecialchars($p["id_aliment"]) ?> : <?=htmlspecialchars($p["nom"]) ?></option>
-				<? endforeach; ?>
-			<? endif;?>
+			<?php if ($this->tabBoissons != null) : ?>
+				<?php foreach ($this->tabBoissons as $p) : ?>
+					<option value="<?php echo $p["id_aliment"] ?>"><?php echo htmlspecialchars($p["recette"]) ?> n°<?php echo htmlspecialchars($p["id_aliment"]) ?> : <?php echo htmlspecialchars($p["nom"]) ?></option>
+				<?php endforeach; ?>
+			<?php endif;?>
 		</select>
 		
-	 <? else: ?>
-		 <? if ($this->mangerNbAlimentOk != true) :?>
+	 <?php else: ?>
+		 <?php if ($this->mangerNbAlimentOk != true) :?>
 		 	Vous n'avez pas assez d'aliment pour manger<br />
-		 <? endif; ?>
-	 <? endif; ?>
+		 <?php endif; ?>
+	 <?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->mangerNbAlimentOk === true) : ?>
 <input type='button' class='button1' id='bouton_manger' value='Manger !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_manger");' disabled>
-<? endif ?>
+<?php endif ?>

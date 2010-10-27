@@ -1,10 +1,10 @@
 <br />
 
-<? if ($this->isUpdateDescription == true) :?>
+<?php if ($this->isUpdateDescription == true) :?>
 	Description mise &agrave; jour.
-<? elseif ($this->isUpdateSiteWeb == true) : ?>
+<?php elseif ($this->isUpdateSiteWeb == true) : ?>
 	Site web mis &agrave; jour.
-<? else : ?>
+<?php else : ?>
 
 <center>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
@@ -13,9 +13,9 @@
 	
 	<div class="titre textalic textsizec">Site Web</div><br />
 	<div id="label_site">
-		<a href="<?=htmlspecialchars($this->communaute["site_web"]) ?>"><?=htmlspecialchars($this->communaute["site_web"]) ?></a>
+		<a href="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>"><?php echo htmlspecialchars($this->communaute["site_web"]) ?></a>
 	</div>
-	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?=htmlspecialchars($this->communaute["site_web"]) ?>" />
+	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>" />
 	
 	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
 		onclick="$('label_site').style.display='none'; 
@@ -45,13 +45,13 @@
   <div id="label_description" style="text-align:left; padding-left:30px">
 <br /><br />  
   
-  <?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><? if (mb_strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
+  <?php echo Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><?php if (mb_strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<?php endif; ?>
   </div>
   
   <div id="edition" style="display:none">
-	 <?=Bral_Helper_BBBoutons::affiche('valeur_description')?>
+	 <?php echo Bral_Helper_BBBoutons::affiche('valeur_description')?>
 	
-	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?=stripslashes($this->communaute["description"]) ?></textarea>
+	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?php echo stripslashes($this->communaute["description"]) ?></textarea>
 	  <input type="button" class='button1' id="bouton_description" 
 	  onclick="
 		  $('label_description').style.display='block'; 
@@ -62,4 +62,4 @@
 		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
 	</div>
 
-<? endif; ?>
+<?php endif; ?>

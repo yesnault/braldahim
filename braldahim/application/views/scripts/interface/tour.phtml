@@ -1,17 +1,17 @@
 <?php Zend_Loader::loadClass("Bral_Util_Tour")?>
 	
-	<ul class="titre textalic textsized"><?=Bral_Helper_Calendrier::affiche();?></ul>
+	<ul class="titre textalic textsized"><?php echo Bral_Helper_Calendrier::affiche();?></ul>
 	<br />
 	
-	<div class="titre textalic textsizec"><?=$this->escape($this->user->prenom_braldun);?> 
-	  <?=$this->escape($this->user->nom_braldun);?><? if ($this->user->titre_courant_braldun != null) :?>,
-	  	<?=$this->user->titre_courant_braldun?> 
-	  <? endif;?>
+	<div class="titre textalic textsizec"><?php echo $this->escape($this->user->prenom_braldun);?> 
+	  <?php echo $this->escape($this->user->nom_braldun);?><?php if ($this->user->titre_courant_braldun != null) :?>,
+	  	<?php echo $this->user->titre_courant_braldun?> 
+	  <?php endif;?>
 	</div>
   
 	<?php if ($this->is_ko): ?>
 			<p style='text-align:justify'>
-			<? echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit.
+			<?php echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit.
 			Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis.
 			Vous tournez doucement la tête et constatez que vous êtes dans un lit qui n'est pas le vôtre...
 			Il y  a un lit vide à côté du vôtre. Vous êtes dans une petite pièce aux fenêtres arrondies.
@@ -33,51 +33,51 @@
 		<?php if ($this->is_tour_manque) : ?>
 			<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br />
 		<?php endif; ?>
-		<? if ($this->jetRegeneration != -1): ?>
+		<?php if ($this->jetRegeneration != -1): ?>
 			<br />
-			Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.<br />
-		<? endif; ?>
-	<? endif; ?>		
+			Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?php echo $this->jetRegeneration ?> point<?php if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.<br />
+		<?php endif; ?>
+	<?php endif; ?>		
 	Points de vie : 
-	<?=$this->user->pv_restant_braldun ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?> 
-	(<?=($this->config->game->pv_base + $this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) ?> 
-	<? if ($this->user->pv_max_bm_braldun >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_braldun ?>)
+	<?php echo $this->user->pv_restant_braldun ?> / <?php echo ($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?> 
+	(<?php echo ($this->config->game->pv_base + $this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) ?> 
+	<?php if ($this->user->pv_max_bm_braldun >= 0): echo "+"; endif;?><?php echo  $this->user->pv_max_bm_braldun ?>)
 	<br />
 	
 	<br />
 	
 	Votre tour de jeu : <br />
-	<? Zend_Loader::loadClass("Bral_Helper_Profil")?>
-	<?=Bral_Helper_Profil::afficheBarreTour($this->user)?>
+	<?php Zend_Loader::loadClass("Bral_Helper_Profil")?>
+	<?php echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
 	
-	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_braldun ?>, Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?> <br />
+	Dur&eacute;e du tour : <?php echo $this->user->duree_courant_tour_braldun ?>, Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?> <br />
 	<br />
-	Nombre de Points d'Action : <?=$this->user->pa_braldun ?><br /><br />
+	Nombre de Points d'Action : <?php echo $this->user->pa_braldun ?><br /><br />
 	
-	<? if ($this->charretteDetruite) : ?>
+	<?php if ($this->charretteDetruite) : ?>
 		<br />
 		<b>Votre charrette a &eacute;t&eacute; d&eacute;truite, vous ne l'avez pas r&eacute;par&eacute;e &agrave; temps. Tout ce qu'elle portait est tomb&eacute; &agrave; terre.</b>
 		<br /><br /><br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->equipementDetruit != null) : ?>
-		<? if (array_key_exists("detruit", $this->equipementDetruit)) : ?>
+	<?php if ($this->equipementDetruit != null) : ?>
+		<?php if (array_key_exists("detruit", $this->equipementDetruit)) : ?>
 			<br />Vous n'avez pas réparé votre équipement correctement :<br />
-			<b><?=$this->equipementDetruit["detruit"]?></b>
+			<b><?php echo $this->equipementDetruit["detruit"]?></b>
 			<br />
-		<? endif;?>
-		<? if (array_key_exists("abime", $this->equipementDetruit)) : ?>
-			<br />Réparation<? if ($this->equipementDetruit["abime"]["nb"] > 1): echo "s"; endif;?> à faire rapidement :<br />
-			<b><?=$this->equipementDetruit["abime"]["texte"]?></b>
+		<?php endif;?>
+		<?php if (array_key_exists("abime", $this->equipementDetruit)) : ?>
+			<br />Réparation<?php if ($this->equipementDetruit["abime"]["nb"] > 1): echo "s"; endif;?> à faire rapidement :<br />
+			<b><?php echo $this->equipementDetruit["abime"]["texte"]?></b>
 			<br />
-		<? endif;?>
-	<? endif; ?>
+		<?php endif;?>
+	<?php endif; ?>
 	
-	<? include("tour/effet_mot_text.phtml"); ?>
-	<? include("tour/effet_potion_text.phtml"); ?>
-	<? include("tour/effet_braldun_text.phtml"); ?>
-	<? include("tour/sortie_soule.phtml"); ?>
-	<? include("tour/derniers_messages.phtml"); ?>
+	<?php include("tour/effet_mot_text.phtml"); ?>
+	<?php include("tour/effet_potion_text.phtml"); ?>
+	<?php include("tour/effet_braldun_text.phtml"); ?>
+	<?php include("tour/sortie_soule.phtml"); ?>
+	<?php include("tour/derniers_messages.phtml"); ?>
 	
 	<br />
 

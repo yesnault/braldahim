@@ -1,21 +1,21 @@
-<? include('voirHeader.phtml'); ?>
+<?php include('voirHeader.phtml'); ?>
 
 <div class="box_public">
 <div class="inner">
 
-<? if ($this->connu == false) : ?>
+<?php if ($this->connu == false) : ?>
 	<div class="titre textalic textsizea">Monstre Inconnu</div>
-<? else : ?>
+<?php else : ?>
     <div class="titre textalic textsizea">
-    <?=$this->monstre["nom_type_monstre"] ?> 
-    <? if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
-    	<?=$this->monstre["nom_taille_f_monstre"] ?>
-    <? else: ?>
-    	<?=$this->monstre["nom_taille_m_monstre"] ?>
-    <? endif; ?>
+    <?php echo $this->monstre["nom_type_monstre"] ?> 
+    <?php if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
+    	<?php echo $this->monstre["nom_taille_f_monstre"] ?>
+    <?php else: ?>
+    	<?php echo $this->monstre["nom_taille_m_monstre"] ?>
+    <?php endif; ?>
      </div>
      <div class="titre textalic textsizec">
-     Monstre n&deg; <?=$this->monstre["id_monstre"] ?>
+     Monstre n&deg; <?php echo $this->monstre["id_monstre"] ?>
      </div>
 	&nbsp;
 	<div class="contenu">
@@ -23,18 +23,18 @@
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
-				<th style="cursor:pointer" onclick='document.location.href="/voir/monstre/?monstre=<?=$this->monstre["id_monstre"] ?>"' title="Voir le profil">Profil</th>
-				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_monstre&monstre=<?=$this->monstre["id_monstre"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
+				<th style="cursor:pointer" onclick='document.location.href="/voir/monstre/?monstre=<?php echo $this->monstre["id_monstre"] ?>"' title="Voir le profil">Profil</th>
+				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_monstre&monstre=<?php echo $this->monstre["id_monstre"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
 			  </tr>
 			</thead>
 			</table>
 			<div id="box_voir_monstre_inner">
-				<?=$this->flux; ?>
+				<?php echo $this->flux; ?>
 			</div>
 		</div>
 	</div>
 	&nbsp;
-<? endif; ?>
+<?php endif; ?>
 </div>
 </div>
 

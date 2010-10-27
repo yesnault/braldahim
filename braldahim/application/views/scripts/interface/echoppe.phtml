@@ -1,38 +1,38 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 
 <div class="titre textalic textsizeb">
 	<div class="titre textalia" style="position:Absolute">
 	<input type="button" class='button1' onclick='_get_("/interface/load/?box=box_lieu");' value="Sortir de l'&eacute;choppe">
 	</div>
-		<?=$this->nomEchoppe ?><br/><br/>
+		<?php echo $this->nomEchoppe ?><br/><br/>
 	</div>
  	<div class="contenuC">
  		<div class="box_contenu1 textalic">
 			<br /><br /><br />
 			
-			<? if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
-				<? $this->materiels = $this->materielsEtal; ?>
-				<? $this->idMaterielsTable = false; ?>
-				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+			<?php if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
+				<?php $this->materiels = $this->materielsEtal; ?>
+				<?php $this->idMaterielsTable = false; ?>
+				<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
 				<br /><br />
-			<? endif;?>
-			<? if ($this->afficheType == "equipements") :?>
-				<? $this->equipements = $this->equipementsEtal; ?>
-				<? $this->idEquipementsTable = false; ?>
-				<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
-			<? elseif ($this->afficheType == "potions") :?>
-				<? $this->potions = $this->potionsEtal; ?>
-				<? $this->idPotionsTable = $this->idPotionsEtalTable; ?>
-				<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
-			<? elseif ($this->afficheType == "aliments") :?>
-				<? $this->aliments = $this->alimentsEtal; ?>
-				<? $this->idAlimentsTable = false; ?>
-				<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
-			<? endif; ?>
+			<?php endif;?>
+			<?php if ($this->afficheType == "equipements") :?>
+				<?php $this->equipements = $this->equipementsEtal; ?>
+				<?php $this->idEquipementsTable = false; ?>
+				<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
+			<?php elseif ($this->afficheType == "potions") :?>
+				<?php $this->potions = $this->potionsEtal; ?>
+				<?php $this->idPotionsTable = $this->idPotionsEtalTable; ?>
+				<?php echo $this->render("/interface/commun/potions/potions.phtml"); ?>
+			<?php elseif ($this->afficheType == "aliments") :?>
+				<?php $this->aliments = $this->alimentsEtal; ?>
+				<?php $this->idAlimentsTable = false; ?>
+				<?php echo $this->render("/interface/commun/aliments/aliments.phtml"); ?>
+			<?php endif; ?>
 			
 			<br />
  		</div>
  	</div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

@@ -1,11 +1,11 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu1 textalic">
 	<?include("filtre.phtml")?>
 	
 	<br/>
 	
-	Total: <?=$this->total?>
+	Total: <?php echo $this->total?>
 	<br/>
 	<table class="table_liste" style="width:90%">
 	<thead class="table_liste">
@@ -14,29 +14,29 @@
 		<th>Nombre</th>
 	  </tr>
 	</thead>
-  	<? if (count($this->regions) > 0): ?>
+  	<?php if (count($this->regions) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->regions as $r): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-		  			<?=$r["nom_region"]?>
+		  			<?php echo $r["nom_region"]?>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$r["nombre"]?>
+		  			<?php echo $r["nombre"]?>
 		  		</td>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
    	</tr>
-   <? endif; ?>
+   <?php endif; ?>
    </table>
 	<br/>
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

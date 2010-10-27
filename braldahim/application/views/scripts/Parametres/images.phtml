@@ -24,19 +24,19 @@
 		<div class="titre textalic textsizec">L'Avatar</div><br />
 		L'avatar doit &ecirc;tre au format 110px (largeur) x 110px (hauteur). <br/>
 		
-		<? if ($this->urlAvatarValide == false) : ?>
-			<?=Bral_Helper_Image::afficherErreur();?>
-		<? endif; ?>
-		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_braldun ?>' size="50" maxlength="200">
+		<?php if ($this->urlAvatarValide == false) : ?>
+			<?php echo Bral_Helper_Image::afficherErreur();?>
+		<?php endif; ?>
+		<input type='text' id='valeur_1' name='valeur_1' value='<?php echo $this->user->url_avatar_braldun ?>' size="50" maxlength="200">
 		
 		<div class="titre textalic textsizec">Le Blason</div><br />
 		Le blason doit &ecirc;tre au format 300px (largeur) x 400px (hauteur). <br/>
 		
-		<? if ($this->urlBlasonValide == false) : ?>
-			<?=Bral_Helper_Image::afficherErreur();?>
-		<? endif; ?>
+		<?php if ($this->urlBlasonValide == false) : ?>
+			<?php echo Bral_Helper_Image::afficherErreur();?>
+		<?php endif; ?>
 		
-		<input type='text' id='valeur_2' name='valeur_2' value='<?=$this->user->url_blason_braldun ?>' size="50" maxlength="200">
+		<input type='text' id='valeur_2' name='valeur_2' value='<?php echo $this->user->url_blason_braldun ?>' size="50" maxlength="200">
 		<br />
 		
 		<input type="submit" class='button1' id="bouton_valider" value="Valider" />
@@ -52,8 +52,8 @@
 			</thead>
 			<tbody>
 				<tr class="table_liste">
-				  <td class="table_liste"><?=Bral_Helper_Image::afficherAvatar($this->user->url_avatar_braldun); ?></td>	
-				  <td class="table_liste"><?=Bral_Helper_Image::afficherBlason($this->user->url_blason_braldun); ?></td>	
+				  <td class="table_liste"><?php echo Bral_Helper_Image::afficherAvatar($this->user->url_avatar_braldun); ?></td>	
+				  <td class="table_liste"><?php echo Bral_Helper_Image::afficherBlason($this->user->url_blason_braldun); ?></td>	
 				</tr>
 			</tbody>
 		</table>

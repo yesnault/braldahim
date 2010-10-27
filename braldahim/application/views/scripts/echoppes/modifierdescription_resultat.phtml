@@ -3,7 +3,7 @@
  	<br />	
 	 <div id='modifierdescription_text' style="display:block"  onclick="javascript:switch2div('modifierdescription_text','modifierdescription_copie');">
 		La description de l'&eacute;choppe est maintenant : <br />
-		<?=Bral_Util_BBParser::bbcodeReplace($this->description) ?>
+		<?php echo Bral_Util_BBParser::bbcodeReplace($this->description) ?>
 	 </div>
 	 
 	 <div id='modifierdescription_copie' style="display:none">
@@ -17,4 +17,4 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onclick="javascript:switch2div('modifierdescription_text','modifierdescription_copie');">
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

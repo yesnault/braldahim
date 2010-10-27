@@ -9,21 +9,21 @@
 	    <div class="box_contenu1 textalic">
 		&nbsp;
 		<div>
-			<? if ($this->generationOk) : ?>
+			<?php if ($this->generationOk) : ?>
 				Un nouveau mot de passe vient d'&ecirc;tre g&eacute;n&eacute;r&eacute;. 
 				Vous venez de le recevoir par mail &agrave; l'adresse suivante : <br />
-				<?= $this->email_braldun ?>
+				<?php echo  $this->email_braldun ?>
 		
-			<? else : ?>
+			<?php else : ?>
 				<b>Une erreur est survenue lors de la g&eacute;n&eacute;ration de votre mot de passe.</b><br /><br />
 				
 				Veuillez contacter le maitre du jeu &agrave; l'adresse suivante :
-				<?= $this->emailMaitreJeu ?>. <br /><br />
+				<?php echo  $this->emailMaitreJeu ?>. <br /><br />
 				N'oubliez pas d'indiquer : <br />
 				=&gt; votre nom et num&eacute;ro de braldun<br />
 				=&gt; votre adresse de validation<br />
 				=&gt; le probl&egrave;me rencontr&eacute;.<br />
-			<? endif ?>
+			<?php endif ?>
 				<br /><br />
 				Courbettes distingu&eacute;es, <br /><br />
 				Les ma&icirc;tres du jeu.<br /><br />

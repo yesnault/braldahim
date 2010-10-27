@@ -1,5 +1,5 @@
-<? if ($this->user): ?>
+<?php if ($this->user): ?>
 <form id='formAuth' name='formAuth' action="POST">
-<input type="hidden" name="dateAuth" id="dateAuth" value="<?=$this->user->dateAuth ?>"/>
+<input type="hidden" name="dateAuth" id="dateAuth" value="<?php echo $this->user->dateAuth ?>"/>
 </form>
-<? endif; ?>
+<?php endif; ?>

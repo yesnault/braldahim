@@ -2,46 +2,46 @@
  <div class='comp_contenu'>
  	Vous ne pouvez brasser qu'à l'intérieur de votre échoppe de cuisinier.<br />
  	Vous devez avoir au minimum 5Kg d'Orge et 26g de Houblon pour brasser.<br />
-	 <? if ($this->sourceOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez brasser <?=$this->nbBieres ?> outre<? if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br />
+	 <?php if ($this->sourceOk === true) : ?>
+	 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez brasser <?php echo $this->nbBieres ?> outre<?php if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br />
 	 
 		<br /><br />Ingrédients nécessaires : <br />
-		<? foreach($this->ingredients as $k => $t) : ?>
-	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br />
-	 	<? endforeach; ?>
-	 	<? if ($this->potions != null) : ?>
-		 	<? foreach($this->potions as $k => $t) : ?>
-		 		Potion <?=$t["nom_type_potion"]?> : 1<br />
-		 	<? endforeach; ?>
-	 	<? endif;?>
+		<?php foreach($this->ingredients as $k => $t) : ?>
+	 		<?php echo $t["nom_type_ingredient"]?> : <?php echo $t["quantite_recette_aliments"]?><br />
+	 	<?php endforeach; ?>
+	 	<?php if ($this->potions != null) : ?>
+		 	<?php foreach($this->potions as $k => $t) : ?>
+		 		Potion <?php echo $t["nom_type_potion"]?> : 1<br />
+		 	<?php endforeach; ?>
+	 	<?php endif;?>
 	 	
 		<br /><br />
 		Source des ingrédients :<br />
 	     <select name="valeur_1" id="valeur_1" onchange="if ($('valeur_1').value != -1 && $('valeur_2').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true; }">
 		 	<option value="-1">(Choisissez une source)</option>
-			 <? foreach($this->sources as $k => $t) : ?>
-		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; else: echo $t["selected"]; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
-		 	<? endforeach; ?>
+			 <?php foreach($this->sources as $k => $t) : ?>
+		 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; else: echo $t["selected"]; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
+		 	<?php endforeach; ?>
 		 </select>
 		 
 		 <br /> <br />
 		Destination :<br />
 	     <select name="valeur_2" id="valeur_2" onchange="if ($('valeur_2').value != -1 && $('valeur_1').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true;}">
 		 	<option value="-1">(Choisissez une destination)</option>
-		 	<? foreach($this->destinations as $k => $t) : ?>
-		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
-		 	<? endforeach?>
+		 	<?php foreach($this->destinations as $k => $t) : ?>
+		 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
+		 	<?php endforeach?>
 		 </select>
 		<br />
-		<? //Attention, si vous n'avez pas assez de place pour contenir les outres créés, les outres en trop seront laissées au sol.?>
+		<?php //Attention, si vous n'avez pas assez de place pour contenir les outres créés, les outres en trop seront laissées au sol.?>
 	
-	 <? else: ?>
+	 <?php else: ?>
 		 Vous n'avez pas assez d'Orge et de Houblon pour brasser.<br />
-	 <? endif; ?>
+	 <?php endif; ?>
 
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->sourceOk === true) : ?>
 <input type='button' class='button1' id='bouton_brasser' value='Brasser !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_brasser");' disabled>
-<? endif ?>
+<?php endif ?>

@@ -1,20 +1,20 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 		
 Vous avez couru jusqu'en  : <br />
-x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?> <br /><br />
+x=<?php echo $this->user->x_braldun?>, y=<?php echo $this->user->y_braldun?> <br /><br />
 
-<? if ($this->eauPalissadeRencontree === true) : ?>
+<?php if ($this->eauPalissadeRencontree === true) : ?>
 	Vous vous &ecirc;tes arr&ecirc;t&eacute; devant un obstacle.
 	
-	<? if ($this->estCrevasseEvenement === true) : ?>
+	<?php if ($this->estCrevasseEvenement === true) : ?>
 	... et ...
-	<? endif?>
+	<?php endif?>
 	<br /><br />
-<? endif; ?>
+<?php endif; ?>
 
-<? if ($this->estCrevasseEvenement === true) : ?>
-	<? Zend_Loader::loadClass("Bral_Helper_Crevasse");
+<?php if ($this->estCrevasseEvenement === true) : ?>
+	<?php Zend_Loader::loadClass("Bral_Helper_Crevasse");
 	   echo Bral_Helper_Crevasse::afficheResultat($this->user);
 	?>
 	<br />
-<? endif;?>
+<?php endif;?>

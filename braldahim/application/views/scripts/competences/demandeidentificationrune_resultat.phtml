@@ -1,12 +1,12 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-La rune n&deg; <?=$this->rune["id_rune"] ?> est maintenant identifiable 
+La rune n&deg; <?php echo $this->rune["id_rune"] ?> est maintenant identifiable 
 
-<? if ($this->rune["id_fk_braldun_identification_laban_rune"] != null) : ?>
-	par <?=$this->rune["prenom_braldun"]?> <?=$this->rune["nom_braldun"]?> (<?=$this->rune["id_braldun"]?>),
+<?php if ($this->rune["id_fk_braldun_identification_laban_rune"] != null) : ?>
+	par <?php echo $this->rune["prenom_braldun"]?> <?php echo $this->rune["nom_braldun"]?> (<?php echo $this->rune["id_braldun"]?>),
 	qui a reçu un message l'informant de cette demande.
-<? else: ?>
+<?php else: ?>
 	que par vous-même.
-<? endif;?>
+<?php endif;?>
 
 <br />

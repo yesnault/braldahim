@@ -1,9 +1,9 @@
 <br />
 <div class="titre textalic textsized" >Nouveau message</div>
 
-<? if ($this->envoiMessage == true): ?>
+<?php if ($this->envoiMessage == true): ?>
 	Votre message est envoy&eacute;
-<? else: ?>
+<?php else: ?>
 <br />
 <form name="myForm" id="myForm">
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='-1'>
@@ -15,56 +15,56 @@
 	<?php if(!empty($this->destinatairesErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->destinatairesErreur as $message) :?>
-			<?=$this->escape($message);?><br />
+			<?php echo $this->escape($message);?><br />
 		<?php endforeach; ?>
 		</div>
-	<? endif; ?>
+	<?php endif; ?>
 	
 	<?php if(!empty($this->contactsErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->contactsErreur as $message) :?>
-			<?=$this->escape($message);?><br />
+			<?php echo $this->escape($message);?><br />
 		<?php endforeach; ?>
 		</div>
-	<? endif; ?>
+	<?php endif; ?>
 
 	<label>Destinataires</label><br />
 	
-	<div id='aff_valeur_2_dest'><?=$this->message["aff_js_destinataires"]?></div>
-	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
+	<div id='aff_valeur_2_dest'><?php echo $this->message["aff_js_destinataires"]?></div>
+	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?php echo $this->message["destinataires"]?>" />
 	
-	<div id='aff_valeur_4_contacts'><?=$this->message["aff_js_contacts"]?></div>
-	<input type="hidden" name="valeur_4_contacts" id="valeur_4_contacts" value="<?=$this->message["contacts"]?>" />
+	<div id='aff_valeur_4_contacts'><?php echo $this->message["aff_js_contacts"]?></div>
+	<input type="hidden" name="valeur_4_contacts" id="valeur_4_contacts" value="<?php echo $this->message["contacts"]?>" />
 	
 	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheBraldun("valeur_2_dest");' />
 	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
-	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="<?=$this->config->static->url?>/images/loupe.gif" />
-    <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="<?=$this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
+	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="<?php echo $this->config->static->url?>/images/loupe.gif" />
+    <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="<?php echo $this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
 	
-	<? if ($this->listesContacts != null) :?>
+	<?php if ($this->listesContacts != null) :?>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		Contacts
 		<select name="contacts_liste" 
 				onchange="makeJsListeAvecSupprimer('valeur_4_contacts', this.options[this.selectedIndex].text, this.value, null);">
 			<option value="-1"></option>
-			<? foreach($this->listesContacts as $c) :?>
-				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>
-			<? endforeach; ?>
+			<?php foreach($this->listesContacts as $c) :?>
+				<option value="<?php echo $c["id"] ?>"><?php echo $c["nom"] ?></option>
+			<?php endforeach; ?>
 		</select>
-	<? endif; ?>
+	<?php endif; ?>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<?=Bral_Helper_Messagerie::destinatairesZoneJs($this->user->x_braldun, $this->user->y_braldun, $this->user->x_braldun, $this->user->y_braldun, $this->user->z_braldun, $this->user->id_braldun, "Braldun sur la case") ?>
+	<?php echo Bral_Helper_Messagerie::destinatairesZoneJs($this->user->x_braldun, $this->user->y_braldun, $this->user->x_braldun, $this->user->y_braldun, $this->user->z_braldun, $this->user->id_braldun, "Braldun sur la case") ?>
 	
 <br /><br />
 
-	<?=Bral_Helper_BBBoutons::affiche('valeur_message', 2500)?>
+	<?php echo Bral_Helper_BBBoutons::affiche('valeur_message', 2500)?>
 	
 	<span>Message</span><br />
-	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?=strip_tags($this->message["contenu"]);?></textarea>
+	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?php echo strip_tags($this->message["contenu"]);?></textarea>
 	
 	<br />
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br />
 	<input type="button" class='button1' name="Envoyer" value="Envoyer" onclick="Javascript:$('nb_valeurs').value=4;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value);$('valeur_4').value = $('valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message', true);" /> 
 </form>
 
-<? endif; ?>
+<?php endif; ?>

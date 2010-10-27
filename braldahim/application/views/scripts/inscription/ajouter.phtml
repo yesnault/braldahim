@@ -12,13 +12,13 @@
 			<div class="titre textalic textsizec">Contr&ocirc;le</div>
 			<?php if(!empty($this->messageCaptchaInvalide)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->messageCaptchaInvalide?><br />
+				<?php echo $this->messageCaptchaInvalide?><br />
 			</div>
 			<?php endif; ?>
-			<img src="/images/captcha/<?=$this->captcha->getId();?>.png"><br />
+			<img src="/images/captcha/<?php echo $this->captcha->getId();?>.png"><br />
 			&Eacute;crivez ici le texte que vous voyez ci-dessus : 
 			<input type="text" name="captcha[input]" value="" size="10" maxlength="10"/> 
-			<input type="hidden" name="captcha[id]" value="<?=$this->captcha->getId();?>" />
+			<input type="hidden" name="captcha[id]" value="<?php echo $this->captcha->getId();?>" />
 			<div class="titre textalic textsized">Si vous ne voyez pas clairement le texte, <a href="/inscription">recharger la page</a></div>
 			<br />
 			<br />
@@ -26,7 +26,7 @@
 		<?php if(!empty($this->messages)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messages as $message) :?>
-				<?=$this->escape($message);?><br />
+				<?php echo $this->escape($message);?><br />
 			<?php endforeach; ?>
 		</div> 
 		<?php endif; ?> 
@@ -41,7 +41,7 @@
 		    <?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
-				<?=$message?><br />
+				<?php echo $message?><br />
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
@@ -65,26 +65,26 @@
 		    <br />
 		    <u>Choisissez bien votre pr&eacute;nom</u>, il ne sera pas possible de le changer par la suite.<br />
 		    
-			<input type="text" name="prenom_braldun" value="<?=$this->braldun->prenom_braldun;?>" size="25" maxlength="15"/>
+			<input type="text" name="prenom_braldun" value="<?php echo $this->braldun->prenom_braldun;?>" size="25" maxlength="15"/>
 		</div>
 		<div><br />
 		   <div class="titre textalic textsizec">Email</div>
 		  	<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
-				<?=$message;?><br />
+				<?php echo $message;?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
 		    Un email de confirmation vous sera envoy&eacute; &agrave; cette adresse<br />
-		    <input type="text" name="email_braldun" value="<?=$this->escape($this->braldun->email_braldun);?>" size="25" maxlength="100"/> 
+		    <input type="text" name="email_braldun" value="<?php echo $this->escape($this->braldun->email_braldun);?>" size="25" maxlength="100"/> 
 		    <?php if(!empty($this->messagesEmailConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->messagesEmailConfirm;?><br />
+				<?php echo $this->messagesEmailConfirm;?><br />
 			</div>
 			<?php endif; ?>
 			<br /><label for="title">Confirmation Email</label><br />
-		    <input type="text" name="email_confirm_braldun" value="<?=$this->escape($this->braldun->email_confirm_braldun);?>" size="25" maxlength="100"/>      
+		    <input type="text" name="email_confirm_braldun" value="<?php echo $this->escape($this->braldun->email_confirm_braldun);?>" size="25" maxlength="100"/>      
 		</div>
 		<div><br />
 
@@ -92,7 +92,7 @@
 		    <?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPassword as $message) :?>
-				<?=$message?><br />
+				<?php echo $message?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
@@ -101,7 +101,7 @@
 		    <input type="password" name="password_braldun" value="" size="25" maxlength="20"/>
 			<?php if(!empty($this->messagesPasswordConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->messagesPasswordConfirm?><br />
+				<?php echo $this->messagesPasswordConfirm?><br />
 			</div>
 			<?php endif; ?>
 		    <br /><label for="title">Confirmation Mot de Passe</label><br />
@@ -110,7 +110,7 @@
 		<div><br />
 			<?php if(!empty($this->messagesSexe)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesSexe);?><br />
+				<?php echo $this->escape($this->messagesSexe);?><br />
 			</div>
 			<?php endif; ?>
 			Sexe du Braldûn : <input type="radio" name="sexe_braldun" value="feminin" 
@@ -132,14 +132,14 @@
 			
 			Choisissez une Comt&eacute; : 
 			<select name='id_region' id='id_region'>
-				<option value='-1' <? if ($this->id_region == -1) echo "selected" ?>>
+				<option value='-1' <?php if ($this->id_region == -1) echo "selected" ?>>
 					Comt&eacute; Al&eacute;atoire
 				</option>
-				<? foreach ($this->regions as $k => $v) : ?>
-				<option value="<?=$k?>" <? if ($this->id_region == $k) echo "selected" ?>>
-					<?=htmlspecialchars($v["nom"])?> - PVP : <?=$v["est_pvp"] ?>
+				<?php foreach ($this->regions as $k => $v) : ?>
+				<option value="<?php echo $k?>" <?php if ($this->id_region == $k) echo "selected" ?>>
+					<?php echo htmlspecialchars($v["nom"])?> - PVP : <?php echo $v["est_pvp"] ?>
 				</option>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 			</select><br /><br />
 			Vous pourrez bien s&ucirc;r changer de comté au cours du jeu.<br />
 			
@@ -147,7 +147,7 @@
 
 			<div class="titre textalic textsizec">Charte</div>
 			Vous devez accepter la charte d'utilisation pr&eacute;sent&eacute;e ici :<br />
-			<a href="<?=$this->config->general->charte->url?>" target="_blank"><?=$this->config->general->charte->url?></a>.
+			<a href="<?php echo $this->config->general->charte->url?>" target="_blank"><?php echo $this->config->general->charte->url?></a>.
 			<br /><br />
 			D&egrave;s lors que vous serez inscrit, nous consid&eacute;rerons que vous aurez accept&eacute; la charte du jeu.<br />
 		</div>

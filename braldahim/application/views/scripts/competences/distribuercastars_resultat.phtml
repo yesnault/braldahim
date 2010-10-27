@@ -1,16 +1,16 @@
-<? include("commun_text_resultat.phtml") ?>
-Vous avez distribu&eacute; <?=$this->totalDistribution?> castar<? if ($this->totalDistribution > 1) : echo "s" ; endif;?>.<br /><br />
+<?php include("commun_text_resultat.phtml") ?>
+Vous avez distribu&eacute; <?php echo $this->totalDistribution?> castar<?php if ($this->totalDistribution > 1) : echo "s" ; endif;?>.<br /><br />
 <table>
- <? foreach ($this->tabAffiche as $t):?>
+ <?php foreach ($this->tabAffiche as $t):?>
  	<tr>
  		<td>
- 		<?=htmlspecialchars($t["nom_braldun"])?> (<?=$t["id_braldun"]?>)
+ 		<?php echo htmlspecialchars($t["nom_braldun"])?> (<?php echo $t["id_braldun"]?>)
  		</td>
  		<td>
- 		<?=$t["castars_recus"]?> 
- 		Castar<? if ($t["castars_recus"] > 1): echo "s"; endif;?><? if ($t["castars_recus_terre"] > 0): ?>, dont <?=$t["castars_recus_terre"]?> tomb&eacute;<? if ($t["castars_recus_terre"] > 1): echo "s"; endif;?> &agrave; terre.
- 		<? endif;?>
+ 		<?php echo $t["castars_recus"]?> 
+ 		Castar<?php if ($t["castars_recus"] > 1): echo "s"; endif;?><?php if ($t["castars_recus_terre"] > 0): ?>, dont <?php echo $t["castars_recus_terre"]?> tomb&eacute;<?php if ($t["castars_recus_terre"] > 1): echo "s"; endif;?> &agrave; terre.
+ 		<?php endif;?>
  		</td>
  	</tr>
- <? endforeach; ?>
+ <?php endforeach; ?>
  </table>

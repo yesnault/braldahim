@@ -1,16 +1,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
-	 <? if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
+	 <?php if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
 	 
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave; <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave; <?php echo $this->nbPlantes ?> <?php if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?php echo $s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <br />
 	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisissez une plante)</option>
-	 	<? foreach($this->partiesPlantes as $m) :
+	 	<?php foreach($this->partiesPlantes as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
 	 	?>
-	 		<option value="<?=$m["indicateur"]?>"><?=$m["quantite_arriere"]?> <?=$m["nom_type_partieplante"]?><?=$s?> de <?=$m["nom_type"]?></option>
-	 	<? endforeach; ?>
+	 		<option value="<?php echo $m["indicateur"]?>"><?php echo $m["quantite_arriere"]?> <?php echo $m["nom_type_partieplante"]?><?php echo $s?> de <?php echo $m["nom_type"]?></option>
+	 	<?php endforeach; ?>
 	 </select>
 	 
 	 <br /><br />
@@ -18,21 +18,21 @@
 	 Quantité de plantes à utiliser : <br />
 	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('valeur_2').value==-1 || $('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisissez la quantité à concocter)</option>
-	 	<? for($i=1; $i <= $this->nbPlantesMax; $i++) :
+	 	<?php for($i=1; $i <= $this->nbPlantesMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;
 	 	?>
-	 		<option value="<?=$i ?>"><?=$i?> plante<?=$s?></option>
-	 	<? endfor; ?>
+	 		<option value="<?php echo $i ?>"><?php echo $i?> plante<?php echo $s?></option>
+	 	<?php endfor; ?>
 	 </select>
 	 
-	<? elseif ($this->concocterEchoppeOk == false) : ?>
+	<?php elseif ($this->concocterEchoppeOk == false) : ?>
 		Vous ne pouvez concocter que dans une de vos &eacute;choppes d'Aphoticaire.
-	<? else: ?>
+	<?php else: ?>
 		Vous n'avez pas assez de plante pour concocter...
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->concocterEchoppeOk === true && $this->concocterPlanteOk) : ?>
 <input type='button' class='button1' id='bouton_concocter' value='Concocter !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_concocter");' disabled>
-<? endif ?>
+<?php endif ?>

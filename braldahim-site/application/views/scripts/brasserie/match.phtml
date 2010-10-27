@@ -2,47 +2,47 @@
 <div class="box_contenu1 textalic"><br />
 	
 	<div class="titre textalic textsizec">
-		Match n°<?=$this->matchEnCours["id_soule_match"]?>
-		- <?=$this->matchEnCours["nom_soule_terrain"]?> 
+		Match n°<?php echo $this->matchEnCours["id_soule_match"]?>
+		- <?php echo $this->matchEnCours["nom_soule_terrain"]?> 
 		<br /> 
-		<? if ($this->matchEnCours["date_debut_soule_match"] == null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
+		<?php if ($this->matchEnCours["date_debut_soule_match"] == null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
 		Non d&eacute;but&eacute;  - Inscriptions en cours
-		<? elseif ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
+		<?php elseif ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) : ?>
 		En Cours
-		<? else: ?>
+		<?php else: ?>
 		Terminé
-		<? endif;?>
+		<?php endif;?>
 	</div>
 	<br />
-	Adresse directe pour vos marques-pages : <a href='http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?>'>http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?></a>
+	Adresse directe pour vos marques-pages : <a href='http://www.braldahim.com/brasserie/?match=<?php echo $this->matchEnCours["id_soule_match"]?>'>http://www.braldahim.com/brasserie/?match=<?php echo $this->matchEnCours["id_soule_match"]?></a>
 	<br /><br />
-	<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
-		<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
-			Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
-			y:<?=$this->matchEnCours["y_ballon_soule_match"]?>
-		<? elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
-			Le ballon est actuellement port&eacute; par <?=Bral_Util_Lien::getJsBraldun($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_braldun"]." ".$this->porteur["nom_braldun"]." (".$this->porteur["id_braldun"].")")?>
-			qui est en x:<?=$this->porteur["x_braldun"]?> y:<?=$this->porteur["y_braldun"]?>
-		<? endif;?>
-	<? endif;?>
+	<?php if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
+		<?php if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
+			Le ballon est actuellement libre et se trouve en x:<?php echo $this->matchEnCours["x_ballon_soule_match"]?>,
+			y:<?php echo $this->matchEnCours["y_ballon_soule_match"]?>
+		<?php elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
+			Le ballon est actuellement port&eacute; par <?php echo Bral_Util_Lien::getJsBraldun($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_braldun"]." ".$this->porteur["nom_braldun"]." (".$this->porteur["id_braldun"].")")?>
+			qui est en x:<?php echo $this->porteur["x_braldun"]?> y:<?php echo $this->porteur["y_braldun"]?>
+		<?php endif;?>
+	<?php endif;?>
 
 <table width="100%">
 	<tr>
 		<td valign="top" align="center">
-		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] != null) : ?>
-			<? if ($this->matchEnCours["html_fin_soule_match"] != null) : ?>
+		<?php if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] != null) : ?>
+			<?php if ($this->matchEnCours["html_fin_soule_match"] != null) : ?>
 				Photo de fin de match<br /><br />
-				<?=$this->matchEnCours["html_fin_soule_match"];?>
+				<?php echo $this->matchEnCours["html_fin_soule_match"];?>
 			
-			<? else: ?>
+			<?php else: ?>
 				Photo de fin de match indisponible.
-			<? endif;?>
+			<?php endif;?>
 			
-		<? else: ?>
-			<? include("voir/carte.phtml");?>
-		<? endif;?>	
+		<?php else: ?>
+			<?php include("voir/carte.phtml");?>
+		<?php endif;?>	
 		</td>
-		<td valign="top"><? include("voir/evenements.phtml");?></td>
+		<td valign="top"><?php include("voir/evenements.phtml");?></td>
 	</tr>
 </table>
 <?php include("voir/equipes.phtml")?>

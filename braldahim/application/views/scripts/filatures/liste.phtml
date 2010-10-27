@@ -5,14 +5,14 @@
   <div class="titre textalic textsized">Vous pouvez filer un Braldûn avec la compétence Filer</div>
   <br /> 
   
-  <? if ($this->filatures == null) : ?>
+  <?php if ($this->filatures == null) : ?>
   	Vous n'avez aucune filature.
-  <? else: ?>
+  <?php else: ?>
   
-  <? if ($this->idFilatureEnCours != null) : ?>
-	  <input type='button' class='button1' value='Annuler la filature en cours - 0 PA' onclick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?=$this->idFilatureEnCours?>');">
+  <?php if ($this->idFilatureEnCours != null) : ?>
+	  <input type='button' class='button1' value='Annuler la filature en cours - 0 PA' onclick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?php echo $this->idFilatureEnCours?>');">
 	  <br /><br />
-  <? endif;?>
+  <?php endif;?>
     
     
  	<table width="100%">
@@ -26,31 +26,31 @@
 					</thead>
 					
 					<tbody>
-					 <? foreach($this->filatures as $f) :
+					 <?php foreach($this->filatures as $f) :
 					 	$i = 0; 
 					 	?>
-				  		<tr class="table_liste<?=($i % 2);$i++; ?>" title="Cliquer pour voir le détail" style="cursor:pointer" onclick="Javascript:_get_('/filature/doaction?caction=ask_filature_voir&id_filature=<?=$f["id_filature"]?>');">
+				  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>" title="Cliquer pour voir le détail" style="cursor:pointer" onclick="Javascript:_get_('/filature/doaction?caction=ask_filature_voir&id_filature=<?php echo $f["id_filature"]?>');">
 				  		<td class="table_liste">
-				  			<?=$f["cible"]?>
+				  			<?php echo $f["cible"]?>
 				  		</td>
 						<td class="table_liste" nowrap>
-						  	<? if ($f["date_fin_filature"] != null): ?> 
-						  		Terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_fin_filature"]);?>
-						  	<? else: ?>
-						  		En Cours, depuis le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_creation_filature"]);?>
-						  	<? endif;?>
+						  	<?php if ($f["date_fin_filature"] != null): ?> 
+						  		Terminée le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_fin_filature"]);?>
+						  	<?php else: ?>
+						  		En Cours, depuis le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$f["date_creation_filature"]);?>
+						  	<?php endif;?>
 						 </td>
 					  	 </tr>
-					  <? endforeach;?>
+					  <?php endforeach;?>
 					</tbody>
 				</table>
  			</td>
  			<td width="60%" valign="top">
  				<div id="box_filature_voir">
-				<?=$this->htmlFilature?>
+				<?php echo $this->htmlFilature?>
 				</div>
  			</td>
  		</tr>
  	</table>
- <? endif; ?>
+ <?php endif; ?>
  	

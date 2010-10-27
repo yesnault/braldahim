@@ -1,16 +1,16 @@
-<? include('voirHeader.phtml'); ?>
+<?php include('voirHeader.phtml'); ?>
 
 <div class="box_public">
 <div class="inner">
 
-<? if ($this->connu == false) : ?>
+<?php if ($this->connu == false) : ?>
 	<div class="titre textalic textsizea">&Eacute;quipement Inconnu</div>
-<? else : ?>
+<?php else : ?>
     <div class="titre textalic textsizea">
-    <?=$this->equipement["nom"]." ".addslashes($this->equipement["suffixe"])." de qualit&eacute; ".$this->equipement["qualite"] ?>
+    <?php echo $this->equipement["nom"]." ".addslashes($this->equipement["suffixe"])." de qualit&eacute; ".$this->equipement["qualite"] ?>
      </div>
      <div class="titre textalic textsized">
-      &Eacute;quipement n&deg;<?=$this->equipement["id_equipement"]?><br />
+      &Eacute;quipement n&deg;<?php echo $this->equipement["id_equipement"]?><br />
      </div>
      
 	&nbsp;
@@ -19,18 +19,18 @@
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
-				<th style="cursor:pointer" onclick='document.location.href="/voir/equipement/?equipement=<?=$this->equipement["id_equipement"] ?>"' title="Voir le profil">Profil</th>
-				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->equipement["id_equipement"] ?>&menu=historique");' title="Voir l'historique">Historique</th>
+				<th style="cursor:pointer" onclick='document.location.href="/voir/equipement/?equipement=<?php echo $this->equipement["id_equipement"] ?>"' title="Voir le profil">Profil</th>
+				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_equipement&equipement=<?php echo $this->equipement["id_equipement"] ?>&menu=historique");' title="Voir l'historique">Historique</th>
 			  </tr>
 			</thead>
 			</table>
 			<div id="box_voir_equipement_inner">
-				<?=$this->flux; ?>
+				<?php echo $this->flux; ?>
 			</div>
 		</div>
 	</div>
 	&nbsp;
-<? endif; ?>
+<?php endif; ?>
 </div>
 </div>
 

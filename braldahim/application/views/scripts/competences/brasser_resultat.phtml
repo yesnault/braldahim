@@ -1,15 +1,15 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 		
-<? if ($this->okJet1 === true):
+<?php if ($this->okJet1 === true):
 	$s = "";
 	if ($this->nbBieres > 1) : $s = "s"; endif;
 ?>
 		Vous avez r&eacute;ussi à brasser.<br /> 
 		Vous avez préparé
-		<?=$this->nbBieres ?> outre<? if ($this->nbBieres) : echo "s"; endif;?> <?=$this->qualite?>.<br /><br />
-		<? if ($this->nbBieresATerre > 0): ?>
-			Faute de place, <?=$this->nbBieresATerre ?> outre<? if ($this->nbBieresATerre > 1): echo "s sont tomb&eacute;es à terre"; else: " est tomb&eacute;e à terre"; endif?>.
+		<?php echo $this->nbBieres ?> outre<?php if ($this->nbBieres) : echo "s"; endif;?> <?php echo $this->qualite?>.<br /><br />
+		<?php if ($this->nbBieresATerre > 0): ?>
+			Faute de place, <?php echo $this->nbBieresATerre ?> outre<?php if ($this->nbBieresATerre > 1): echo "s sont tomb&eacute;es à terre"; else: " est tomb&eacute;e à terre"; endif?>.
 			<br /><br />
-		<? endif;?>
-<? endif; ?>
+		<?php endif;?>
+<?php endif; ?>
 <br />

@@ -1,27 +1,27 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
   <div class="titre textalia textsizec">Mon Carnet</div>
   <div class="contenuA">
 	  <div class="box_contenu1 textalic">
 	  
-	<? if ($this->affichageInterne == true) : ?>
+	<?php if ($this->affichageInterne == true) : ?>
 			<br />
 			
 			<div id='carnet_html'>
-			<? if ($this->carnets != null && count($this->carnets) > 0): ?>
+			<?php if ($this->carnets != null && count($this->carnets) > 0): ?>
 			Vous n'avez pas de tête ? Bon, ce carnet est fait pour vous alors...
 			<br /><br />
 			Cliquez sur une note pour l'éditer.<br />
 			
 				<table class="table_liste" style="width:80%;" >
-				<? 	$i = 0;
+				<?php 	$i = 0;
 					foreach($this->carnets as $c) : ?>
-					<tr class="table_liste<?=($i % 2);$i++; ?> hhover"  onclick='_get_("/carnet/doaction?caction=do_carnet_voir&carnet=<?=$c["id_carnet"]?>");'>
+					<tr class="table_liste<?php echo ($i % 2);$i++; ?> hhover"  onclick='_get_("/carnet/doaction?caction=do_carnet_voir&carnet=<?php echo $c["id_carnet"]?>");'>
 					<td class="table_liste" style="padding:0px;">
-					Note <?=$c["id_carnet"]?>
+					Note <?php echo $c["id_carnet"]?>
 					</td>
 	  				<td class="table_liste" style="padding:0px;">
-	  				<? if (mb_strlen($c["texte_carnet"]) > 25) :
+	  				<?php if (mb_strlen($c["texte_carnet"]) > 25) :
 	  					echo mb_substr($c["texte_carnet"], 0, 25)."...";
 	  					else : 
 	  					echo $c["texte_carnet"];
@@ -29,19 +29,19 @@
 					?>
 	  				</td>
 	  				</tr>
-				<? endforeach;?>
+				<?php endforeach;?>
 				</table>
-			<? else:?>
+			<?php else:?>
 				Vos n'avez pas encore saisi de note.
-			<? endif;?>
+			<?php endif;?>
 			
 			</div>
 <br /><br />
-	<? else: ?>
+	<?php else: ?>
 		Chargement en cours
-		<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-	<? endif; ?>
+		<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+	<?php endif; ?>
 	  </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

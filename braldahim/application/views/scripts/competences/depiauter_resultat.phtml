@@ -1,50 +1,50 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true):
+<?php if ($this->okJet1 === true):
 	$s = "";
 	if ($this->nbPeau > 1) : $s = "s"; endif;
 ?>
-	Vous avez d&eacute;piaut&eacute; <?=$this->nbPeau ?> unit&eacute;<?=$s ?> de peau.
+	Vous avez d&eacute;piaut&eacute; <?php echo $this->nbPeau ?> unit&eacute;<?php echo $s ?> de peau.
 	<br />
-	<? if ($this->nbPeauCharrette >= 1) :?>
-		Vous en avez r&eacute;cup&eacute;r&eacute; <?=$this->nbPeauCharrette?> dans votre charrette.<br />
-	<? endif;?>
-	<? if ($this->limitationCharrette == true) : ?>
+	<?php if ($this->nbPeauCharrette >= 1) :?>
+		Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbPeauCharrette?> dans votre charrette.<br />
+	<?php endif;?>
+	<?php if ($this->limitationCharrette == true) : ?>
 		Faute de place, <?echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
-	<? endif;?>
-	<? if ($this->nbPeauLaban >= 1) :?>
-		Vous en avez r&eacute;cup&eacute;r&eacute; <?=$this->nbPeauLaban?> dans votre laban.<br />
-	<? endif;?>
-	<? if ($this->limitationLaban == true) : ?>
+	<?php endif;?>
+	<?php if ($this->nbPeauLaban >= 1) :?>
+		Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbPeauLaban?> dans votre laban.<br />
+	<?php endif;?>
+	<?php if ($this->limitationLaban == true) : ?>
 		Faute de place, <?echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
-	<? endif;?>
-	<? if ($this->arrivee == 3) :?>
-		Vous en avez laiss&eacute; <?=$this->nbPeauSol?> au sol.<br />
-	<? endif;?>
-	<? if ($this->nbViande >= 1) :?>
+	<?php endif;?>
+	<?php if ($this->arrivee == 3) :?>
+		Vous en avez laiss&eacute; <?php echo $this->nbPeauSol?> au sol.<br />
+	<?php endif;?>
+	<?php if ($this->nbViande >= 1) :?>
 		<br />
-		Le cadavre &eacute;tait un gibier, vous avez &eacute;galement r&eacute;cup&eacute;r&eacute;  <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?> de viande.
+		Le cadavre &eacute;tait un gibier, vous avez &eacute;galement r&eacute;cup&eacute;r&eacute;  <?php echo $this->nbViande ?> unit&eacute;<?php if ($this->nbViande > 1) : echo "s"; endif; ?> de viande.
 		<br />
-		<? if ($this->nbViandeCharrette >= 1) :?>
-			Vous en avez r&eacute;cup&eacute;r&eacute; <?=$this->nbViandeCharrette?> dans votre charrette.<br />
-		<? endif;?>
-		<? if ($this->limitationCharrette == true) : ?>
+		<?php if ($this->nbViandeCharrette >= 1) :?>
+			Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbViandeCharrette?> dans votre charrette.<br />
+		<?php endif;?>
+		<?php if ($this->limitationCharrette == true) : ?>
 			Faute de place, <?echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
-		<? endif;?>
-		<? if ($this->nbViandeLaban >= 1) :?>
-			Vous en avez r&eacute;cup&eacute;r&eacute; <?=$this->nbViandeLaban?> dans votre laban.<br />
-		<? endif;?>
-		<? if ($this->limitationLaban == true) : ?>
+		<?php endif;?>
+		<?php if ($this->nbViandeLaban >= 1) :?>
+			Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbViandeLaban?> dans votre laban.<br />
+		<?php endif;?>
+		<?php if ($this->limitationLaban == true) : ?>
 			Faute de place, <?echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
-		<? endif;?>
-		<? if ($this->arrivee == 3) :?>
-			Vous en avez laiss&eacute; <?=$this->nbViandeSol?> au sol.<br />
-		<? endif;?>
-	<? endif;?>
+		<?php endif;?>
+		<?php if ($this->arrivee == 3) :?>
+			Vous en avez laiss&eacute; <?php echo $this->nbViandeSol?> au sol.<br />
+		<?php endif;?>
+	<?php endif;?>
 	
 	<br /><br />
 	
-	<? if ($this->effetRune) :?>
+	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de peau d&eacute;piaut&eacute;e.
-	<? endif; ?>
-<? endif; ?>
+	<?php endif; ?>
+<?php endif; ?>

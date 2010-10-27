@@ -1,18 +1,18 @@
-<? include("commun_text_resultat.phtml") ?>
-Vous avez mang&eacute; 1 <?=$this->aliment["nom"]?> de qualit&eacute; <?=$this->aliment["qualite"]?>,<br />
- avec pour effet sur la balance de +<?=$this->aliment["bbdf"]?> %.<br /> 
-Votre balance de faim est maintenant de <?=$this->user->balance_faim_braldun ?> %<br />
+<?php include("commun_text_resultat.phtml") ?>
+Vous avez mang&eacute; 1 <?php echo $this->aliment["nom"]?> de qualit&eacute; <?php echo $this->aliment["qualite"]?>,<br />
+ avec pour effet sur la balance de +<?php echo $this->aliment["bbdf"]?> %.<br /> 
+Votre balance de faim est maintenant de <?php echo $this->user->balance_faim_braldun ?> %<br />
 <br />
 
-<? if ($this->gainPv > 0) : ?>
-	Vous avez récupéré <?=$this->gainPv?> PV. Il vous reste maintenant <?=$this->user->pv_restant_braldun?> PV / <?=$this->user->pv_max_braldun + $this->user->pv_max_bm_braldun?> PV.
-<? endif;?>
+<?php if ($this->gainPv > 0) : ?>
+	Vous avez récupéré <?php echo $this->gainPv?> PV. Il vous reste maintenant <?php echo $this->user->pv_restant_braldun?> PV / <?php echo $this->user->pv_max_braldun + $this->user->pv_max_bm_braldun?> PV.
+<?php endif;?>
 
 <br /><br />
 
-<? if ($this->avecEffet === true) : ?>
+<?php if ($this->avecEffet === true) : ?>
 	 Cette nourriture a eu de l'effet sur vous... Consultez votre onglet effets.
 	 <br />
 	 L'effet est imm&eacute;diat.<br />
-<? endif;?>
+<?php endif;?>
 

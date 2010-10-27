@@ -1,32 +1,32 @@
-<? if (count($this->runes) > 0) : ?>
+<?php if (count($this->runes) > 0) : ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_runes">
-			<? $poches[] = "deposer_runes-head" ?>
+			<?php $poches[] = "deposer_runes-head" ?>
 			<h3 id="deposer_runes-head" class="head" onclick="maccordion(this);">
 				Runes
 			</h3>
 			<ul id="deposer_runes-body" style="display:none">
 				<li>
 					Choississez une rune (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
-					<select multiple size="5" name="valeur_14" id="valeur_14" onchange="<?=$jsBtn?>">
-						 <? foreach($this->runes as $r) :?>
-						 	<option value="<?=$r["id_rune"]?>">Rune n&deg;<?=$r["id_rune"] ?>, 
-						 	<? if ($r["est_identifiee"] == "oui") : ?>
-						 		<?=$r["type"] ?>
-						 	<? else: ?>
+					<select multiple size="5" name="valeur_14" id="valeur_14" onchange="<?php echo $jsBtn?>">
+						 <?php foreach($this->runes as $r) :?>
+						 	<option value="<?php echo $r["id_rune"]?>">Rune n&deg;<?php echo $r["id_rune"] ?>, 
+						 	<?php if ($r["est_identifiee"] == "oui") : ?>
+						 		<?php echo $r["type"] ?>
+						 	<?php else: ?>
 						 		rune non identifi&eacute;e
-						 	<? endif; ?>
-						 	<?=$r["info"]?>
+						 	<?php endif; ?>
+						 	<?php echo $r["info"]?>
 						 	</option>
-						 <? endforeach; ?>
+						 <?php endforeach; ?>
 					</select>
 				</li>
 			</ul>
 		</li>
 	</ul>
-<? else : ?>
+<?php else : ?>
 	<input type='hidden' maxlength='4' size='4' name='valeur_14' id='valeur_14' value='0' />
 	<input type='hidden' maxlength='4' size='4' name='valeur_14_max' id='valeur_14_max' value='0' />
 <?endif; ?>
-<input type='hidden' maxlength='4' size='4' name='valeur_14_poids' id='valeur_14_poids' value='<?=Bral_Util_Poids::POIDS_RUNE ?>' >
+<input type='hidden' maxlength='4' size='4' name='valeur_14_poids' id='valeur_14_poids' value='<?php echo Bral_Util_Poids::POIDS_RUNE ?>' >
 <input type='hidden' maxlength='4' size='4' name='valeur_14_echoppe' id='valeur_14_echoppe' value='non' >

@@ -1,6 +1,6 @@
-<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
+<?php echo $this->render("/commun/commun_quete_resultat.phtml") ?>
 
-Pour <?=$this->coutCastars?> castar<? if ($this->coutCastars > 1): echo "s"; endif; ?> et <?=$this->coutPi?> PI, vous avez am&eacute;lior&eacute; <br />
-la caract&eacute;ristique : <?=$this->nomCaracteristique?> <br /><br />
+Pour <?php echo $this->coutCastars?> castar<?php if ($this->coutCastars > 1): echo "s"; endif; ?> et <?php echo $this->coutPi?> PI, vous avez am&eacute;lior&eacute; <br />
+la caract&eacute;ristique : <?php echo $this->nomCaracteristique?> <br /><br />
  
 Faites-en bon usage...

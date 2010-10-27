@@ -1,29 +1,29 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-Vous avez attaqu&eacute; une palissade en x:<?=$this->palissade["x_palissade"]?> et y:<?=$this->palissade["y_palissade"]?> !<br />
-<? if ($this->degats > 1) : $s='s'; else : $s=''; endif;?>
- Vous avez inflig&eacute; <?=$this->degats?> point<?=$s?> de d&eacute;g&acirc;ts.<br />
+Vous avez attaqu&eacute; une palissade en x:<?php echo $this->palissade["x_palissade"]?> et y:<?php echo $this->palissade["y_palissade"]?> !<br />
+<?php if ($this->degats > 1) : $s='s'; else : $s=''; endif;?>
+ Vous avez inflig&eacute; <?php echo $this->degats?> point<?php echo $s?> de d&eacute;g&acirc;ts.<br />
 
-<? if ($this->degatsInfliges != $this->degats) : ?>
-	<? if ($this->degatsInfliges > 1) : $s='s'; else : $s=''; endif;?>
-	Son armure la prot&egrave;ge, elle ne perd que <?=$this->degatsInfliges?> point<?=$s?> de d&eacute;g&acirc;ts.<br />
-<? endif; ?>
+<?php if ($this->degatsInfliges != $this->degats) : ?>
+	<?php if ($this->degatsInfliges > 1) : $s='s'; else : $s=''; endif;?>
+	Son armure la prot&egrave;ge, elle ne perd que <?php echo $this->degatsInfliges?> point<?php echo $s?> de d&eacute;g&acirc;ts.<br />
+<?php endif; ?>
 
-<? if ($this->detruire) :?>
+<?php if ($this->detruire) :?>
 	La palissade est d&eacute;truite.
-<? else: ?>
-	La palissade est touch&eacute;e &agrave; <?=floor(100 - ($this->palissade["pv_restant_palissade"]*100 / $this->palissade["pv_max_palissade"])) ?> %
-<? endif; ?>
+<?php else: ?>
+	La palissade est touch&eacute;e &agrave; <?php echo floor(100 - ($this->palissade["pv_restant_palissade"]*100 / $this->palissade["pv_max_palissade"])) ?> %
+<?php endif; ?>
 <br /><br />
 
-<? if ($this->apparitionMonstre): ?>
+<?php if ($this->apparitionMonstre): ?>
 <b>Oh oh... quelque chose est apparu.</b>
 <br /><br />
-<? endif;?>
+<?php endif;?>
 
-<? if ($this->nb_px > 0) :?>
-	Vous avez gagn&eacute; <?=$this->nb_px?> PX.
-<? else : ?>
+<?php if ($this->nb_px > 0) :?>
+	Vous avez gagn&eacute; <?php echo $this->nb_px?> PX.
+<?php else : ?>
 	Vous n'avez pas gagn&eacute; de PX.
-<? endif; ?>
+<?php endif; ?>
 <br /><br />

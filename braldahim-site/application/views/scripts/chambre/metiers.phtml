@@ -13,20 +13,20 @@
 	  </tr>
 	</thead>
 	<tbody>
-	<? if ($this->metiers != null): ?>
-	  <? $i = 0; 
+	<?php if ($this->metiers != null): ?>
+	  <?php $i = 0; 
 	   foreach($this->metiers as $m) :?>
-	  	<tr class="table_liste<?=($i % 2);$i++; ?>">
-	  		<td class="table_liste" width="50%"><?=$m["nom_metier"]?></td>
-	  		<td class="table_liste" width="50%"><?=$m["nombre"]?></td>
+	  	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+	  		<td class="table_liste" width="50%"><?php echo $m["nom_metier"]?></td>
+	  		<td class="table_liste" width="50%"><?php echo $m["nombre"]?></td>
 	  	</tr>
-	  <? endforeach; ?>
-	<? else: ?>
+	  <?php endforeach; ?>
+	<?php else: ?>
 	   <tr class="table_liste">
 	   	<td colspan="5">
 	   		Aucun m&eacute;tier.
 	   	</td>
 	   </tr>
-	<? endif; ?>
+	<?php endif; ?>
    </tbody>
 </table>

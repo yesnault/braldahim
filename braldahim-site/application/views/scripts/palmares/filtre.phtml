@@ -1,8 +1,8 @@
-Filtre : <select id="filtre<?=$this->nom_systeme?>" name="filtre<?=$this->nom_systeme?>" onchange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_<?=$this->type?>', false)">
-<? foreach($this->listFiltre as $f): ?>
-	<? if (($this->afficheMoisEnCours === true && $f["valeur"] == 1) || ($f["valeur"] > 1)) : ?>
-		<option value="<?=$f["valeur"]?>"<?if ($this->filtre == $f["valeur"]): echo "selected='selected'" ; endif;?>><?=$f["nom"]?></option>
-	<? endif;?>
-<? endforeach;?>
+Filtre : <select id="filtre<?php echo $this->nom_systeme?>" name="filtre<?php echo $this->nom_systeme?>" onchange="_get_('/palmares/load?caction=do_palmares_<?php echo $this->nom_systeme?>_'+this.value+'_<?php echo $this->type?>', false)">
+<?php foreach($this->listFiltre as $f): ?>
+	<?php if (($this->afficheMoisEnCours === true && $f["valeur"] == 1) || ($f["valeur"] > 1)) : ?>
+		<option value="<?php echo $f["valeur"]?>"<?if ($this->filtre == $f["valeur"]): echo "selected='selected'" ; endif;?>><?php echo $f["nom"]?></option>
+	<?php endif;?>
+<?php endforeach;?>
 </select>
 <br/>

@@ -1,14 +1,14 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
- Votre jet de sagesse : <?=$this->jetBraldun?><br /> 
+ Votre jet de sagesse : <?php echo $this->jetBraldun?><br /> 
  
- Jet de <?=$this->caract?> de <?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>): <?=$this->jetCible?><br /><br />
+ Jet de <?php echo $this->caract?> de <?php echo $this->braldun["prenom_braldun"]?> <?php echo $this->braldun["nom_braldun"]?> (<?php echo $this->braldun["id_braldun"]?>): <?php echo $this->jetCible?><br /><br />
 
- <? if ($this->psychologieOk === true) : ?>
+ <?php if ($this->psychologieOk === true) : ?>
  Vous avez réussi votre psychologie, 
-<?=$this->braldun["prenom_braldun"]?> <?=$this->braldun["nom_braldun"]?> (<?=$this->braldun["id_braldun"]?>)
- n'a maintenant plus de malus de <?=$this->caract?> pour le restant de son tour.
- <? else: ?>
+<?php echo $this->braldun["prenom_braldun"]?> <?php echo $this->braldun["nom_braldun"]?> (<?php echo $this->braldun["id_braldun"]?>)
+ n'a maintenant plus de malus de <?php echo $this->caract?> pour le restant de son tour.
+ <?php else: ?>
  Vous avez raté votre psychologie.
- <? endif;?>
+ <?php endif;?>
  <br /><br />

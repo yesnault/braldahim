@@ -5,10 +5,10 @@
     	&nbsp;
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
-			<? if ($this->creation === true) : ?>
-			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes</b> <br />
+			<?php if ($this->creation === true) : ?>
+			<b>Cr&eacute;ation de <?php echo $this->nb_creation ?> plantes</b> <br />
 			<b>Les plantes créées en villes ont été ensuite supprimées</b>.<br />
-			<? endif; ?>
+			<?php endif; ?>
 			<form action="/Administrationplante/plantes" method="post">
 			<table align='center'>
 			<tr>
@@ -19,16 +19,16 @@
 			<tr valign='top'>
 				<td>
 					<select name="id_zone">
-					<? foreach ($this->zones as $z) : ?>
-					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
-					<? endforeach; ?>
+					<?php foreach ($this->zones as $z) : ?>
+					<option value="<?php echo $z["id_zone"]?>"><?php echo $z["id_zone"]?></option>
+					<?php endforeach; ?>
 					</select>
 				</td>
 				<td>
 					<select name="id_type_plante">
-					<? foreach ($this->typePlantes as $p) : ?>
-					<option value="<?=$p["id_type_plante"]?>"><?=$p["nom"]?> - <?=$p["categorie"] ?> - <?=$p["environnement"]?> - A:<?=$p["nom_partie_1"]?> - B:<?=$p["nom_partie_2"]?> - C:<?=$p["nom_partie_3"]?> - D:<?=$p["nom_partie_4"] ?></option>
-					<? endforeach; ?>
+					<?php foreach ($this->typePlantes as $p) : ?>
+					<option value="<?php echo $p["id_type_plante"]?>"><?php echo $p["nom"]?> - <?php echo $p["categorie"] ?> - <?php echo $p["environnement"]?> - A:<?php echo $p["nom_partie_1"]?> - B:<?php echo $p["nom_partie_2"]?> - C:<?php echo $p["nom_partie_3"]?> - D:<?php echo $p["nom_partie_4"] ?></option>
+					<?php endforeach; ?>
 					</select>
 					<br />
 					Quantit&eacute; partie A : min <input type="text" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="text" name="partie_1b" onkeypress="chiffres(event);" /><br />
@@ -38,9 +38,9 @@
 				</td>
 				<td>
 					<select name="couverture">
-					<? for ($i=1; $i<100; $i++) : ?>
-						<option value="<?=$i?>"><?=$i?> %</option>
-					<? endfor; ?>
+					<?php for ($i=1; $i<100; $i++) : ?>
+						<option value="<?php echo $i?>"><?php echo $i?> %</option>
+					<?php endfor; ?>
 					</select>
 				</td>
 			</tr>
@@ -63,23 +63,23 @@
 			<th class='comp_titre'>Nombre Plantes</th>
 			<th class='comp_titre'>Couverture</th>
 			</tr>			
-			<? foreach ($this->zones as $zone) : ?>
+			<?php foreach ($this->zones as $zone) : ?>
 				<tr>
-					<td><?=$zone["id_zone"] ?></td>
-					<td><?=$zone["environnement"] ?></td>
-					<td><?=$zone["villes"] ?></td>
-					<td><?=$zone["x_min"] ?></td>
-					<td><?=$zone["x_max"] ?></td>
-					<td><?=$zone["y_min"] ?></td>
-					<td><?=$zone["y_max"] ?></td>
-					<td><?=$zone["nombre_cases"] ?></td>
-					<td><?=$zone["nombre_plantes"] ?></td>
-					<td><?=$zone["couverture"] ?> % </td>
+					<td><?php echo $zone["id_zone"] ?></td>
+					<td><?php echo $zone["environnement"] ?></td>
+					<td><?php echo $zone["villes"] ?></td>
+					<td><?php echo $zone["x_min"] ?></td>
+					<td><?php echo $zone["x_max"] ?></td>
+					<td><?php echo $zone["y_min"] ?></td>
+					<td><?php echo $zone["y_max"] ?></td>
+					<td><?php echo $zone["nombre_cases"] ?></td>
+					<td><?php echo $zone["nombre_plantes"] ?></td>
+					<td><?php echo $zone["couverture"] ?> % </td>
 					<td>
 					
 					</td>
 				</tr>
-			<? endforeach; ?>
+			<?php endforeach; ?>
 			</table>
 		</div>
 	</div>

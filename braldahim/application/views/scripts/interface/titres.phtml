@@ -1,16 +1,16 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
   <div class="titre textalia textsizec">Ma Réputation</div>
   <div class="contenu">
 	  <div class="box_contenu1 textalic">
 
 <div class="titre textalic textsized">Mes Titres</div>
- <? if ($this->affichageInterne == true) : ?>
-	   <? if (!$this->possedeTitre): ?>
+ <?php if ($this->affichageInterne == true) : ?>
+	   <?php if (!$this->possedeTitre): ?>
 	   	Vous n'avez aucun titre <br /><br />
 	   	
-	   <? else : ?>
-		   	<? if (count($this->tabTitres) >= 1): ?>
+	   <?php else : ?>
+		   	<?php if (count($this->tabTitres) >= 1): ?>
 		   		<table class="table_liste">
 					<thead class="table_liste">
 					  <tr class="table_liste" title="Cliquer pour Trier">
@@ -21,48 +21,48 @@
 					  </tr>
 					</thead>
 					<tbody>
-						<? foreach ($this->tabTitres as $t) : ?>
+						<?php foreach ($this->tabTitres as $t) : ?>
 							<tr class="table_liste">
-								<td class="" nowrap><?=$t["nom"];?></td>
-								<td class="" nowrap><?=$t["niveau_acquis_htitre"];?></td>
-								<td class="" nowrap><?=$t["date_acquis_htitre"];?></td>
-								<td class="" nowrap>&nbsp;&nbsp;<?=$t["description"];?></td>
+								<td class="" nowrap><?php echo $t["nom"];?></td>
+								<td class="" nowrap><?php echo $t["niveau_acquis_htitre"];?></td>
+								<td class="" nowrap><?php echo $t["date_acquis_htitre"];?></td>
+								<td class="" nowrap>&nbsp;&nbsp;<?php echo $t["description"];?></td>
 							</tr>
-						<? endforeach; ?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
-		    <? endif; ?>
-	   <? endif; ?>
+		    <?php endif; ?>
+	   <?php endif; ?>
 	   <br />
 	   
 	<div class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Torts</div>
-		Vos points de Gredin : <?=$this->user->points_gredin_braldun?><br />
-		Vos points de Redresseur de Torts : <?=$this->user->points_redresseur_braldun?><br /><br />
+		Vos points de Gredin : <?php echo $this->user->points_gredin_braldun?><br />
+		Vos points de Redresseur de Torts : <?php echo $this->user->points_redresseur_braldun?><br /><br />
 		
 	<div class="titre textalic textsized">Mes Distinctions</div>
-	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
-	   	<? $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
-	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_braldun ?> point<?=$s?> de distinction. (?)</span>
+	   <?php if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
+	   	<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
+	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?> de distinction. (?)</span>
 	   	<br />
-	   	<? foreach($this->tabDistinctions as $d): ?>
+	   	<?php foreach($this->tabDistinctions as $d): ?>
 	   		<br />
-			 Catégorie : <?=$d["nom"]?>
+			 Catégorie : <?php echo $d["nom"]?>
 			 <br />
-		  	<? $i = 0; 
+		  	<?php $i = 0; 
 		  	foreach($d["distinctions"] as $t): ?>
-			  	<?=$t["date_hdistinction"]?> : 
-			  	<?=$t["nom"]?> (<?=$t["points"]?> pt<? if ($t["points"] > 1): echo "s"; endif;?>) <br />
-		  	<? endforeach; ?>
-	  	<? endforeach; ?>
-	  <? else: ?>
+			  	<?php echo $t["date_hdistinction"]?> : 
+			  	<?php echo $t["nom"]?> (<?php echo $t["points"]?> pt<?php if ($t["points"] > 1): echo "s"; endif;?>) <br />
+		  	<?php endforeach; ?>
+	  	<?php endforeach; ?>
+	  <?php else: ?>
 	  	Aucune distinction
-	  <? endif;?>
+	  <?php endif;?>
 	   <br />
-<? else: ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 	</div> 
   </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

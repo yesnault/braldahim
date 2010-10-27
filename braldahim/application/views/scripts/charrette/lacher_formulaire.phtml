@@ -1,24 +1,24 @@
-<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+<div class='comp_titre'><?php echo htmlspecialchars($this->titreAction) ?></div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  <br />
  	
-	 <? if ($this->possedeCharrette === false) : ?>
+	 <?php if ($this->possedeCharrette === false) : ?>
 	 	Vous n'avez pas de charrette...
-	 <? elseif ($this->assezDePa === false) :?>
+	 <?php elseif ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
-	 <? else: ?>
-		 Pour <?=$this->nb_pa ?> PA, vous pouvez l&acirc;cher votre charrette. <br /><br />
+	 <?php else: ?>
+		 Pour <?php echo $this->nb_pa ?> PA, vous pouvez l&acirc;cher votre charrette. <br /><br />
 		 
-		 <? if ($this->possedeCaleFrein === true) : ?>
+		 <?php if ($this->possedeCaleFrein === true) : ?>
 			 La charrette possède un Cale-Frein, vous pouvez la l&acirc;cher.<br />
-		<? else: ?>
+		<?php else: ?>
 			La charrette ne possède pas de Cale-Frein, vous ne pouvez donc pas la l&acirc;cher.<br />
-		 <? endif;?>
-	 <? endif; ?>
+		 <?php endif;?>
+	 <?php endif; ?>
 	 <br />
 </div>
 <?php if ($this->assezDePa == true && $this->possedeCharrette === true && $this->possedeCaleFrein === true) : ?>
 <input type='button' class='button1' id='bouton_lachercharrette' value='L&acirc;cher une charrette !' onclick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_lacher");'>
-<? endif ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

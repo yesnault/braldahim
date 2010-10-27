@@ -1,20 +1,20 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
-	<? if ($this->nbLingots > 0) : ?>
-		Vous avez r&eacute;ussi &agrave; fondre <?=$this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's';endif;?>
-		 de <?=htmlspecialchars($this->mineraiNomType) ?>.<br />
-		Vous avez obtenu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br />
-	<? else: ?>
+<?php if ($this->okJet1 === true): ?>
+	<?php if ($this->nbLingots > 0) : ?>
+		Vous avez r&eacute;ussi &agrave; fondre <?php echo $this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's';endif;?>
+		 de <?php echo htmlspecialchars($this->mineraiNomType) ?>.<br />
+		Vous avez obtenu <?php echo $this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br />
+	<?php else: ?>
 		Vous avez rat&eacute; la fonte de 
 		<?if($this->nbMineraiFondus > 1):?>
 			tous vos minerais.
-		<? else: ?>
+		<?php else: ?>
 			votre minerai.
-		<? endif; ?>
+		<?php endif; ?>
 		<br />
-		Aucun lingot n'est apparu et <?=$this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
-	<? endif; ?>
-<? else: ?>
+		Aucun lingot n'est apparu et <?php echo $this->nbMineraiFondus ?> minerai<?if($this->nbMineraiFondus > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
+	<?php endif; ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre fonte, mais aucun minerai n'est perdu.<br />
-<? endif; ?>
+<?php endif; ?>

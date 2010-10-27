@@ -1,29 +1,29 @@
-Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez serti <?=$this->nbRunes ?> 
-rune<? if ($this->nbRunes > 1) echo "s"; ?> sur <br />
-l'&eacute;quipement n&deg;<?=$this->equipementCourant["id_laban_equipement"] ?> : <?=$this->equipementCourant["nom"] ?>  
-qualit&eacute; <?=$this->equipementCourant["qualite"] ?>,
-niveau <?=$this->equipementCourant["niveau"] ?><br /><br />
+Pour <?php echo $this->coutCastars?> castars et <?php echo $this->coutPi?> PI, vous avez serti <?php echo $this->nbRunes ?> 
+rune<?php if ($this->nbRunes > 1) echo "s"; ?> sur <br />
+l'&eacute;quipement n&deg;<?php echo $this->equipementCourant["id_laban_equipement"] ?> : <?php echo $this->equipementCourant["nom"] ?>  
+qualit&eacute; <?php echo $this->equipementCourant["qualite"] ?>,
+niveau <?php echo $this->equipementCourant["niveau"] ?><br /><br />
  
-<? if ($this->nbRunes > 1) : ?>
+<?php if ($this->nbRunes > 1) : ?>
 	Les runes serties sont dans l'ordre :
-<? else : ?>
+<?php else : ?>
 	La rune sertie est : 
-<? endif; ?>
+<?php endif; ?>
 <br />
-<? foreach($this->tabRunes as $k => $v) : ?>
-	<img id="item_<?=$k ?>" class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
-<? endforeach ?>
+<?php foreach($this->tabRunes as $k => $v) : ?>
+	<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>"/>
+<?php endforeach ?>
 <br /><br />
-<? if ($this->suffixe != "") :?>
-	Vous avez trouv&eacute; un mot runique : <?=$this->suffixe ?><br />
-	L'&eacute;quipement est devenu : <?=$this->equipementCourant["nom"] ?> <?=$this->suffixe ?>
-<? else: ?>
+<?php if ($this->suffixe != "") :?>
+	Vous avez trouv&eacute; un mot runique : <?php echo $this->suffixe ?><br />
+	L'&eacute;quipement est devenu : <?php echo $this->equipementCourant["nom"] ?> <?php echo $this->suffixe ?>
+<?php else: ?>
 	Aucun mot runique n'est associ&eacute; &agrave; ce sertissage
-<? endif; ?>
+<?php endif; ?>
 <br /><br />
 Faites-en bon usage...<br /><br />
  
-<? if ($this->effetMotF === true) : ?>
+<?php if ($this->effetMotF === true) : ?>
 	F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion. <br />
 	Vous ne vous vous ferez plus attaquer par un type de monstre...<br /><br />
-<? endif; ?>
+<?php endif; ?>

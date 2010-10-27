@@ -1,29 +1,29 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
-	 <? if ($this->elaborerEchoppeOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions ou vernis<br /><br />
+	 <?php if ($this->elaborerEchoppeOk === true) : ?>
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions ou vernis<br /><br />
      
-     <? if ($this->user->niveau_braldun <= 9) :  ?>
+     <?php if ($this->user->niveau_braldun <= 9) :  ?>
      Les vernis ne sont accessibles qu'à partir du niveau 10. 
-     Vous êtes niveau <?=$this->user->niveau_braldun?>.<br /><br />
-     <? endif;?>
+     Vous êtes niveau <?php echo $this->user->niveau_braldun?>.<br /><br />
+     <?php endif;?>
      Type de potion / vernis :<br />
      <select name="valeur_1" id="valeur_1" onchange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
 	 	<option value="-1">(Choisissez une potion ou un vernis)</option>
-	 	<? foreach($this->typePotion as $p) : ?>
-	 		<optgroup label="<?=$p["nom"] ?>" style="font-weight:bold"></optgroup>
-	 		<? foreach($p["liste"] as $t) : ?>
-	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"]) ?></option>
-	 		<? endforeach; ?>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->typePotion as $p) : ?>
+	 		<optgroup label="<?php echo $p["nom"] ?>" style="font-weight:bold"></optgroup>
+	 		<?php foreach($p["liste"] as $t) : ?>
+	 		<option value="<?php echo $t["id_type_potion"]?>" <?php echo $t["selected"]?>><?php echo htmlspecialchars($t["nom_type_potion"]) ?></option>
+	 		<?php endforeach; ?>
+	 	<?php endforeach; ?>
 	 </select>
-	<? endif; ?>
+	<?php endif; ?>
 
-	 <? if ($this->niveaux != null) : ?>
+	 <?php if ($this->niveaux != null) : ?>
 	 <br /><br />
 	 Niveau de la potion / vernis<br />
 	 
-	 <? 
+	 <?php 
 	 
 	 $js1 = "
 	 	javascript:
@@ -65,33 +65,33 @@
 	 ";
 	 
 	 ?>
-	 <select name="valeur_2" id="valeur_2" onchange="<?=$js1?>">
+	 <select name="valeur_2" id="valeur_2" onchange="<?php echo $js1?>">
 	 	<option value="-1">(Choisissez un niveau)</option>
-	 	<? foreach($this->niveaux as $k => $v) : ?>
-	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlspecialchars($v["niveauText"])?></option>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->niveaux as $k => $v) : ?>
+	 		<option value="<?php echo $k?>" <?php if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?php echo htmlspecialchars($v["niveauText"])?></option>
+	 	<?php endforeach; ?>
 	 </select>
-	 <? endif; ?>
+	 <?php endif; ?>
 	 
-	<? if (isset($this->cout)): ?>
+	<?php if (isset($this->cout)): ?>
 		<br /><br />Co&ucirc;t en plantes pr&eacute;par&eacute;es : 
-	 	<? foreach($this->cout as $key1 => $value1) :?>
-	 			<br />Niveau <?=$key1 ?> -&gt; 
-		 		<? 
+	 	<?php foreach($this->cout as $key1 => $value1) :?>
+	 			<br />Niveau <?php echo $key1 ?> -&gt; 
+		 		<?php 
 		 			$i = 0;
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=htmlspecialchars($c["nom_type_plante"]) ?>: <?=$c["cout"] ?> <?=htmlspecialchars($c["nom_type_partieplante"]) ?><? if ($c["cout"] > 1): echo "s"; endif;?><?if ($i<count($value1))echo ","; else echo "."; ?>
-		 		<input type="hidden" id="hiddenCout-<?=$key1 ?>-<?=$c["id_type_partieplante"]?>" value="<?=$c["cout"] ?>">
-		 	<? endforeach; ?>
-		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
+		 		<?php echo htmlspecialchars($c["nom_type_plante"]) ?>: <?php echo $c["cout"] ?> <?php echo htmlspecialchars($c["nom_type_partieplante"]) ?><?php if ($c["cout"] > 1): echo "s"; endif;?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<input type="hidden" id="hiddenCout-<?php echo $key1 ?>-<?php echo $c["id_type_partieplante"]?>" value="<?php echo $c["cout"] ?>">
+		 	<?php endforeach; ?>
+		 	<?php if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe
-			<? endif; ?>
-	 	<? endforeach; ?>
-	<? endif; ?>
+			<?php endif; ?>
+	 	<?php endforeach; ?>
+	<?php endif; ?>
 	
-	<? if (isset($this->tabPartiePlantes)) : ?>
+	<?php if (isset($this->tabPartiePlantes)) : ?>
 	<br />
 	
 	
@@ -99,8 +99,8 @@
 	foreach($this->tabPartiePlantes as $k => $v) :
 		foreach($v as $k2 => $v2) :
 			?> 
-			<input type="hidden" id="hiddenIngredientQuantite-<?=$v2["id_calcule"]?>" value="<?=$v2["quantite_preparees"]?>">
-			<input type="hidden" id="hiddenIngredientIdType-<?=$v2["id_calcule"]?>" value="<?=$v2["id_type_partieplante"]?>">
+			<input type="hidden" id="hiddenIngredientQuantite-<?php echo $v2["id_calcule"]?>" value="<?php echo $v2["quantite_preparees"]?>">
+			<input type="hidden" id="hiddenIngredientIdType-<?php echo $v2["id_calcule"]?>" value="<?php echo $v2["id_type_partieplante"]?>">
 			<?
 		endforeach;
 	endforeach;
@@ -149,69 +149,69 @@
 	
 	"
 	?>
-		<select name="valeur_3" id="valeur_3" onchange="<?=$js?>" disabled>
+		<select name="valeur_3" id="valeur_3" onchange="<?php echo $js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 1)</option>
-		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
-		 		<? if ($k == $this->cout[1][0]["id_type_partieplante"]): ?>
-			 		<? foreach($v as $k2 => $v2) : ?>
-			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
-			 		<? endforeach; ?>
-	 			<? endif;?>
-		 	<? endforeach; ?>
+		 	<?php foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<?php if ($k == $this->cout[1][0]["id_type_partieplante"]): ?>
+			 		<?php foreach($v as $k2 => $v2) : ?>
+			 			<option value="<?php echo $v2["id_calcule"]?>"><?php echo $v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
+			 		<?php endforeach; ?>
+	 			<?php endif;?>
+		 	<?php endforeach; ?>
 		</select>
-	<? else: ?>
+	<?php else: ?>
 		<input type='hidden' id='valeur_3' name='valeur_3' value='-2'>
-	<? endif;?>
+	<?php endif;?>
 	
-	<? if (isset($this->coutIngredient)): ?>
+	<?php if (isset($this->coutIngredient)): ?>
 		<br /><br />Autre Co&ucirc;t :
-		<? foreach($this->coutIngredient as $key1 => $value1) :?>
-	 			<br />Niveau <?=$key1 ?> -&gt; 
-		 		<? 
+		<?php foreach($this->coutIngredient as $key1 => $value1) :?>
+	 			<br />Niveau <?php echo $key1 ?> -&gt; 
+		 		<?php 
 		 			$i = 0;
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=htmlspecialchars($c["nom"]) ?><?if ($i<count($value1)) echo ","; else echo "."; ?>
-		 		<? if ($c["ressourcesOk"] == false) : ?>
+		 		<?php echo htmlspecialchars($c["nom"]) ?><?if ($i<count($value1)) echo ","; else echo "."; ?>
+		 		<?php if ($c["ressourcesOk"] == false) : ?>
 			 		Pas assez de ressource dans l'&eacute;choppe
-				<? endif; ?>
-		 		<? endforeach; ?>
-		 <? endforeach; ?>
+				<?php endif; ?>
+		 		<?php endforeach; ?>
+		 <?php endforeach; ?>
 		 <input type='hidden' id='valeur_4' name='valeur_4' value='-2'>
 		 <input type='hidden' id='valeur_5' name='valeur_5' value='-2'>
-	<? elseif (isset($this->tabPartiePlantes)) : ?> 
+	<?php elseif (isset($this->tabPartiePlantes)) : ?> 
 		<br />
-		<select name="valeur_4" id="valeur_4" onchange="<?=$js?>" disabled>
+		<select name="valeur_4" id="valeur_4" onchange="<?php echo $js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 2)</option>
-		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
-		 		<? if ($k == $this->cout[1][1]["id_type_partieplante"]): ?>
-			 		<? foreach($v as $k2 => $v2) : ?>
-			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
-			 		<? endforeach; ?>
-	 			<? endif;?>
-		 	<? endforeach; ?>
+		 	<?php foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<?php if ($k == $this->cout[1][1]["id_type_partieplante"]): ?>
+			 		<?php foreach($v as $k2 => $v2) : ?>
+			 			<option value="<?php echo $v2["id_calcule"]?>"><?php echo $v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
+			 		<?php endforeach; ?>
+	 			<?php endif;?>
+		 	<?php endforeach; ?>
 		</select>
 		<br />
-		<select name="valeur_5" id="valeur_5" onchange="<?=$js?>" disabled>
+		<select name="valeur_5" id="valeur_5" onchange="<?php echo $js?>" disabled>
 		 	<option value="-1">(Choisissez l'ingrédient 3)</option>
-		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
-		 		<? foreach($v as $k2 => $v2) : ?>
-		 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
-		 		<? endforeach; ?>
-		 	<? endforeach; ?>
+		 	<?php foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<?php foreach($v as $k2 => $v2) : ?>
+		 			<option value="<?php echo $v2["id_calcule"]?>"><?php echo $v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
+		 		<?php endforeach; ?>
+		 	<?php endforeach; ?>
 		</select>
-	<? else :?>
+	<?php else :?>
 		<input type='hidden' id='valeur_4' name='valeur_4' value='-2'>
 	    <input type='hidden' id='valeur_5' name='valeur_5' value='-2'>
-	<? endif;?>
+	<?php endif;?>
 	 
-	 <? if ($this->elaborerEchoppeOk == false) : ?>
+	 <?php if ($this->elaborerEchoppeOk == false) : ?>
 		<br />Vous ne pouvez &eacute;laborer une potion que dans une de vos &eacute;choppes d'Aphoticaire.
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->elaborerEchoppeOk === true && $this->etape1 === true) : ?>
 <input type='button' class='button1' id='bouton_elaborer' value='&Eacute;laborer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_elaborer&type_potion="+$("valeur_1").value);' disabled>
-<? endif ?>
+<?php endif ?>

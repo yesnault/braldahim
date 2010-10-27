@@ -12,9 +12,9 @@
 
 		<?php if(!empty($this->messagesPasswordActuel)) :?>
 			<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesPasswordActuel); ?><br />
+			<?php echo $this->escape($this->messagesPasswordActuel); ?><br />
 			</div>
-		<? endif; ?>
+		<?php endif; ?>
 		<label for="title">Mot de Passe Actuel</label><br />
 	    <input type="password" name="password_actuel_braldun" value="" size="25" maxlength="20"/>
 	    <br /><br />
@@ -22,7 +22,7 @@
 		<?php if(!empty($this->messagesPasswordNouveau)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPasswordNouveau as $message) :?>
-				<?=$this->escape($message);?><br />
+				<?php echo $this->escape($message);?><br />
 			<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
@@ -32,7 +32,7 @@
 		
 		<?php if(!empty($this->messagesPasswordConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesPasswordConfirm);?><br />
+				<?php echo $this->escape($this->messagesPasswordConfirm);?><br />
 			</div>
 		<?php endif; ?>
 	    <br /><label for="title">Confirmation du nouveau Mot de Passe</label><br />

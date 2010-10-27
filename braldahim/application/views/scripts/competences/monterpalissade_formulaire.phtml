@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 
 Pour construire une palissade, vous devez avoir dans votre charrette au minimum
-<?=$this->nRondinsNecessaires?> rondin<? if ($this->nRondinsNecessaires > 1): echo "s"; endif;?>.
+<?php echo $this->nRondinsNecessaires?> rondin<?php if ($this->nRondinsNecessaires > 1): echo "s"; endif;?>.
 
 
 <?php if ($this->monterPalissadeCharretteOk == false) : ?>
@@ -30,10 +30,10 @@ Pour construire une palissade, vous devez avoir dans votre charrette au minimum
                   <tr>
 		<?php endif; ?>
           <td class='comp_marcher_position_td' nowrap>
-           <?=$case["display"] ?><br />
+           <?php echo $case["display"] ?><br />
 
 		<?php if ($case["valid"] == true) : ?>
-            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
+            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?php echo $case["default"]?>>
 		<?php else: ?>
 			&nbsp;
 		<?php endif; ?>
@@ -44,10 +44,10 @@ Pour construire une palissade, vous devez avoir dans votre charrette au minimum
      </td>
     </tr>
   </table>
-<? endif ?>
+<?php endif ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa === true && $this->monterPalissadeOk === true && $this->nRondinsSuffisants === true) : ?>
 <input type='button' class='button1' value='Monter une palissade !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_monterpalissade");'>
-<? endif ?>
+<?php endif ?>

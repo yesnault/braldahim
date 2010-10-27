@@ -1,9 +1,9 @@
-<? 
+<?php 
 Zend_Loader::loadClass('Bral_Helper_Contenu');
 Zend_Loader::loadClass('Bral_Helper_ChampBoutique');
 $vide = true; ?>  
-    <? if ($this->typePlantes["Arbre"]["a_afficher"] == true) :?>
-    <? $vide = false; ?>  
+    <?php if ($this->typePlantes["Arbre"]["a_afficher"] == true) :?>
+    <?php $vide = false; ?>  
 	    <table class="table_liste" style="width:auto; padding:5px;" >
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -15,14 +15,14 @@ $vide = true; ?>
 			  </tr>
 			</thead>
 			<tbody>
-				<? include("contenu_arbre.phtml") ?>
+				<?php include("contenu_arbre.phtml") ?>
 			</tbody>
 		</table>
 		<br />
-    <? endif; ?>
+    <?php endif; ?>
     
-    <? if ($this->typePlantes["Buisson"]["a_afficher"] == true) :?>
-    <? $vide = false; ?>
+    <?php if ($this->typePlantes["Buisson"]["a_afficher"] == true) :?>
+    <?php $vide = false; ?>
 		   <table class="table_liste" style="width:auto; padding:5px;" >
 			<thead class="table_liste">
 			  <tr class="table_liste">
@@ -33,14 +33,14 @@ $vide = true; ?>
 			  </tr>
 			</thead>
 			<tbody>
-				<? include("contenu_buisson.phtml") ?>
+				<?php include("contenu_buisson.phtml") ?>
 			</tbody>
 			</table>
 			<br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-   <? if ($this->typePlantes["Fleur"]["a_afficher"] == true) :?>
-   <? $vide = false; ?>
+   <?php if ($this->typePlantes["Fleur"]["a_afficher"] == true) :?>
+   <?php $vide = false; ?>
 			<table class="table_liste" style="width:auto; padding:5px;" >
 				<thead class="table_liste">
 				  <tr class="table_liste">
@@ -49,11 +49,11 @@ $vide = true; ?>
 				  </tr>
 				</thead>
 				<tbody>
-					<? include("contenu_fleur.phtml") ?>
+					<?php include("contenu_fleur.phtml") ?>
 				</tbody>
 			</table>
 			<br />
-	<? endif; ?>
-<? if ($vide == true) : ?>
+	<?php endif; ?>
+<?php if ($vide == true) : ?>
  <center><i>Vide</i></center>
-<? endif; ?>
+<?php endif; ?>

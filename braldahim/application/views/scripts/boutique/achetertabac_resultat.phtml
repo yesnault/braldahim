@@ -1,18 +1,18 @@
 
-<? if ($this->elementsAchetes != "") :?>
-	Vous avez achet&eacute; : <?=$this->elementsAchetes?>.<br />
+<?php if ($this->elementsAchetes != "") :?>
+	Vous avez achet&eacute; : <?php echo $this->elementsAchetes?>.<br />
 	
-	Au total, vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castar<? if ($this->coutCastars > 1): echo 's'; endif;?>
-<? else: ?>
+	Au total, vous avez d&eacute;pens&eacute; <?php echo $this->coutCastars ?> castar<?php if ($this->coutCastars > 1): echo 's'; endif;?>
+<?php else: ?>
 	Vous n'avez rien achet&eacute;. <br /><br />
 	
 	Aucun PA n'a été dépensé.
-<? endif;?>
+<?php endif;?>
 
-<? if ($this->manqueCastars) : ?>
+<?php if ($this->manqueCastars) : ?>
 	<br />
 	Certains &eacute;l&eacute;ments n'ont pas pu &ecirc;tes achet&eacute;s 
-	<? if ($this->manqueCastars) : ?>
+	<?php if ($this->manqueCastars) : ?>
 		par manque de castars
-	<? endif;?> 
-<? endif;?> 
+	<?php endif;?> 
+<?php endif;?> 

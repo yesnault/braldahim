@@ -1,37 +1,37 @@
 <div class="titre textalic textsizeb">Les Annonces</div><br/>
-<? if (count($this->annonces) > 0) : ?>
+<?php if (count($this->annonces) > 0) : ?>
     <table class="table_liste" style="width:300px; border: 0px">
-		<? 
+		<?php 
 			$i = 0; 
 			foreach ($this->annonces as $info) : ?>
-			<tr class="table_liste<?=($i % 2);$i++; ?>">
+			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 				<td class="table_liste">
 				
-				Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
+				Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
 				<br/>
-				<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
-					<img src="<?=$this->config->static->url?>/images/new.gif" alt="information de moins de 36 heures" style="cursor:pointer"/>
+				<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
+					<img src="<?php echo $this->config->static->url?>/images/new.gif" alt="information de moins de 36 heures" style="cursor:pointer"/>
 					<br/>
-				<? else:?>
+				<?php else:?>
 					&nbsp;
-				<? endif;?>
+				<?php endif;?>
 				
-				<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
+				<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 					<br/>
-					<?=stripslashes($info["titre_info_jeu"])?>
+					<?php echo stripslashes($info["titre_info_jeu"])?>
 					<br/>
-				<? endif;?>
+				<?php endif;?>
 				
-				<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
-				<? if ($info["lien_wiki_info_jeu"] != null) :?>
-					<a href="<?=htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
-				<? endif;?>
-				<? if ($info["lien_info_jeu"] != null) :?>
-					<br/><a href="<?=htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
-				<? endif;?>
+				<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+				<?php if ($info["lien_wiki_info_jeu"] != null) :?>
+					<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
+				<?php endif;?>
+				<?php if ($info["lien_info_jeu"] != null) :?>
+					<br/><a href="<?php echo htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
+				<?php endif;?>
 				</td>
 			</tr>
-		<? endforeach; ?>
+		<?php endforeach; ?>
 		</table>
-<? endif; ?>
+<?php endif; ?>
 <a href="http://jeu.braldahim.com/annonces" class="aWhite">Voir les archives</a>

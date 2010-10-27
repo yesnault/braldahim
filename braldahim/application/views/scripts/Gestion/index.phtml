@@ -6,41 +6,41 @@
 	<div class="contenu">
 	  <div class="box_contenu1 textalic">
 	  
-	  	<? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_LIEU, $this->roles)) : ?>
+	  	<?php if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_LIEU, $this->roles)) : ?>
 	    <span class="titre textalia textsizec">Description Lieu (Rôle Auteur Lieu)</span>
 	    <br />
 	    Lieux : 
 	 	<select name='administration_lieu' id="administration_lieu" onchange='document.location.href="/Administrationlieu/lieu/mode/simple/idlieu/"+this.value;'>
 	 	<option value="-1" selected>Choisissez un lieu</option>
-	 	<? foreach ($this->administrationLieux as $l) : ?>
-			<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
-		<? endforeach; ?>
+	 	<?php foreach ($this->administrationLieux as $l) : ?>
+			<option value="<?php echo $l["id_lieu"]?>"><?php echo $l["id_lieu"]?> : <?php echo $l["nom_lieu"]?> (<?php echo $l["x_lieu"]?>,<?php echo $l["y_lieu"]?>)</option>
+		<?php endforeach; ?>
 		</select>
 	    <br /><br /><br />
-	    <? endif;?>
+	    <?php endif;?>
 	    <br />
 	    
-	    <? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_BOUGRIE, $this->roles)) : ?>
+	    <?php if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_AUTEUR_BOUGRIE, $this->roles)) : ?>
 	    <span class="titre textalia textsizec">Description Lieu (Rôle Auteur Bougrie)</span>
 	    <br />
 	    Bougries : 
 	 	<select name='administration_bougrie' id="administration_bougrie" onchange='document.location.href="/Administrationbougrie/bougrie/id_bougrie/"+this.value;'>
 	 	<option value="-1" selected>Choisissez une bougrie</option>
-	 	<? foreach ($this->administrationBougries as $b) : ?>
-			<option value="<?=$b["id_bougrie"]?>"><?=$b["id_bougrie"]?></option>
-		<? endforeach; ?>
+	 	<?php foreach ($this->administrationBougries as $b) : ?>
+			<option value="<?php echo $b["id_bougrie"]?>"><?php echo $b["id_bougrie"]?></option>
+		<?php endforeach; ?>
 		</select>
 	    <br /><br /><br />
-	    <? endif;?>
+	    <?php endif;?>
 	    <br />
 	    
-	   	<? if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_BETA_TESTEUR, $this->roles)) : ?>
+	   	<?php if ($this->user->administrateur == true || in_array(Bral_Util_Securite::ROLE_BETA_TESTEUR, $this->roles)) : ?>
 	      <span class="titre textalia textsizec">Gestion de son Braldûn (Rôle Testeur)</span>
 		<br />
-	    Braldûn Id <?=$this->user->id_braldun?> <input type='hidden' name='id_braldun' id='id_braldun' value='<?=$this->user->id_braldun?>' size='5'> 
+	    Braldûn Id <?php echo $this->user->id_braldun?> <input type='hidden' name='id_braldun' id='id_braldun' value='<?php echo $this->user->id_braldun?>' size='5'> 
 	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
 	   
-	    <? endif;?>
+	    <?php endif;?>
 	    
 		</div>
 	</div>

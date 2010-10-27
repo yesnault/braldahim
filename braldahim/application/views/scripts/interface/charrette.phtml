@@ -1,12 +1,12 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Ma Charrette</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
   
-    <? if ($this->affichageInterne == true) : ?>
+    <?php if ($this->affichageInterne == true) : ?>
     
-    	<? if ($this->user->pa_braldun >=1) : 
+    	<?php if ($this->user->pa_braldun >=1) : 
 	      $attrA = "onclick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper');\"";
 	      $attrB = "onclick=\"Javascript:_get_('/charrette/doaction?caction=ask_charrette_lacher');\"";
 	    else:
@@ -14,42 +14,42 @@
 	      $attrB = "disabled";
 	    endif;?>
 	    
-		<input type="button" class='button1' value="1 PA - Attraper une charrette" <?=$attrA?> />
-		<input type="button" class='button1' value="1 PA - Lâcher une charrette" <?=$attrB?> />
+		<input type="button" class='button1' value="1 PA - Attraper une charrette" <?php echo $attrA?> />
+		<input type="button" class='button1' value="1 PA - Lâcher une charrette" <?php echo $attrB?> />
 	   
 	    <br /> <br />
 	    
-	     <? if ($this->possedeCharrette) : ?>
+	     <?php if ($this->possedeCharrette) : ?>
 	     
 		   <table align="center" width="80%">
 		   	<tr>
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized">Caract&eacute;ristiques</div>
 		   			
-		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?=$this->charrette["id_charrette"]?>")'>l'historique</label><br /><br />
-				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
-				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->charrette)?>
-				   <?=$this->tabPoidsCharrette["transporte"]?> Kg / <?=$this->tabPoidsCharrette["transportable"]?> Kg transportable.
+		   			<?php echo $this->charrette["nom_charrette"]?> n&deg;<?php echo $this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?php echo $this->charrette["id_charrette"]?>")'>l'historique</label><br /><br />
+				   <?php Zend_Loader::loadClass("Bral_Helper_Charrette")?>
+				   <?php echo Bral_Helper_Charrette::afficheBarrePoids($this->charrette)?>
+				   <?php echo $this->tabPoidsCharrette["transporte"]?> Kg / <?php echo $this->tabPoidsCharrette["transportable"]?> Kg transportable.
 				   <br /><br />
-				   <?=Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
-				   Durabilit&eacute; : <?=$this->charrette["durabilite_actuelle"]?> / <?=$this->charrette["durabilite_max"]?>.
+				   <?php echo Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
+				   Durabilit&eacute; : <?php echo $this->charrette["durabilite_actuelle"]?> / <?php echo $this->charrette["durabilite_max"]?>.
 		   		</td>
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized braltip">Partage
-		   				<?=Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br /> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
+		   				<?php echo Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br /> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
 		   			</div>
-		   			Partage avec les Braldûns de la communauté : <?=$this->charrette["est_partage_communaute"]?><br />
-		   			Partage avec tous les Braldûns : <?=$this->charrette["est_partage_bralduns"]?><br />
-		   			<? if ($this->partageBralduns == null) : ?>
+		   			Partage avec les Braldûns de la communauté : <?php echo $this->charrette["est_partage_communaute"]?><br />
+		   			Partage avec tous les Braldûns : <?php echo $this->charrette["est_partage_bralduns"]?><br />
+		   			<?php if ($this->partageBralduns == null) : ?>
 		   				Partage avec aucun autre Braldûn<br /><br />
-		   			<? else: ?>
-		   				Partage avec : <?=$this->partageBralduns?><br /><br />
-		   			<? endif;?>
+		   			<?php else: ?>
+		   				Partage avec : <?php echo $this->partageBralduns?><br /><br />
+		   			<?php endif;?>
 		   			
 		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
-		   			<? if ($this->possedeSabot) : ?>
+		   			<?php if ($this->possedeSabot) : ?>
 		   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
-		   			<? endif;?>
+		   			<?php endif;?>
 		   		</td>
 		   		<td align="left" valign="top">
 		   			<div class="titre textalic textsized">Am&eacute;liorations</div>
@@ -64,27 +64,27 @@
 					  </tr>
 					</thead>
 					<tbody>
-		   			<? if ($this->materielsAssembles != null && count($this->materielsAssembles) > 0): ?>
-		   			<? $i = 0;
+		   			<?php if ($this->materielsAssembles != null && count($this->materielsAssembles) > 0): ?>
+		   			<?php $i = 0;
 		   				Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
 				   		foreach($this->materielsAssembles as $e) :?>
-						<tr class="table_liste<?=($i % 2);$i++; ?>">
-					  		<td class="table_liste"><?=$e["id_materiel"] ?></td>
-					  		<td class="table_liste"><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
-					  		<td class="table_liste"><?=$e["nom"] ?></td>
+						<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+					  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
+					  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
+					  		<td class="table_liste"><?php echo $e["nom"] ?></td>
 					  		<td class="table_liste">
 					  			<div class='braltip'>
-					  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-					  			<img src="<?=$this->config->static->url?>/images/info_icon.gif" />
+					  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+					  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif" />
 					  			</div>
 					  		</td>
 					  	</tr>
-						<? endforeach; ?>
-					<? else: ?>
+						<?php endforeach; ?>
+					<?php else: ?>
 						<tr class="table_liste0">
 							<td colspan="4">Aucun mat&eacute;riel assembl&eacute;</td>
 						</tr>
-		   			<? endif;?>
+		   			<?php endif;?>
 		   			</tbody>
 					</table>
 		   		</td>
@@ -93,18 +93,18 @@
 		   
 		   <br />
 			<div class="titre textalic textsized">Contenu de la charrette</div>	   
-	   		<? include("commun/poches.phtml") ?>
+	   		<?php include("commun/poches.phtml") ?>
 	
-	   <? else: ?>
+	   <?php else: ?>
 	   Vous n'avez pas de charrette.
-	   <? endif;?>
-  <? else: ?>
+	   <?php endif;?>
+  <?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-  <? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+  <?php endif; ?>
   
    <br />
    </div>
 </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

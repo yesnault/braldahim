@@ -4,64 +4,64 @@
 		  <tr class="table_liste">
 			<th colspan="4">
 		  	
-		  	Contrat n°<?=$this->contrat["id_contrat"]?>			
+		  	Contrat n°<?php echo $this->contrat["id_contrat"]?>			
 			</th>
 		  </tr>
 		</thead>
 		<tbody>
-		<? $i = 0;?>
-		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		<?php $i = 0;?>
+		   <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		    <td class="table_liste">
 		   	Type du contrat
 		   </td>
 		   <td class="table_liste">
-		   <? if ($this->contrat["etat_contrat"] == "gredin") : ?>
+		   <?php if ($this->contrat["etat_contrat"] == "gredin") : ?>
 		  		Gredin.<br />
 		  		Vous devez mettre KO un Redresseur de Torts.
-		  	<? else :  ?>
+		  	<?php else :  ?>
 		  		Redresseur de Torts.<br />
 		  		Vous devez mettre KO un Gredin.
-		  	<? endif; ?>
+		  	<?php endif; ?>
 		   </td>
 		   </tr>
 		   
-		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		   <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		    <td class="table_liste">
 		   	Objectif
 		   </td>
 		   <td class="table_liste">
-		   	Vous devez mettre KO <?=Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->contrat["id_fk_cible_braldun_contrat"]."]");?>
+		   	Vous devez mettre KO <?php echo Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->contrat["id_fk_cible_braldun_contrat"]."]");?>
 		   </td>
 		   </tr>
 		   
-		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		   <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		    <td class="table_liste">
 		   	État
 		    </td>
 		   <td class="table_liste">
 		   	<br />
-			<? if ($this->contrat["etat_contrat"] == "terminé"): ?>
-		  		Terminé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
-		  	<? elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
-		  		Annulé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
-		  	<? else: ?>
-		  		En cours, depuis le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_creation_contrat"]);?>
-		  	<? endif;?>
+			<?php if ($this->contrat["etat_contrat"] == "terminé"): ?>
+		  		Terminé le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
+		  	<?php elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
+		  		Annulé le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_fin_contrat"]);?>
+		  	<?php else: ?>
+		  		En cours, depuis le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->contrat["date_creation_contrat"]);?>
+		  	<?php endif;?>
 		   </td>
 		   </tr>
 		   
-		   <tr class="table_liste<?=($i % 2);$i++; ?>">
+		   <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		    <td class="table_liste">
 		   Gains
 		   </td>
 		   	<td class="table_liste">
-		   	<? if ($this->contrat["etat_contrat"] == "terminé"): ?>
-		  		<?=$this->contrat["gain_contrat"]?>
-		  	<? elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
+		   	<?php if ($this->contrat["etat_contrat"] == "terminé"): ?>
+		  		<?php echo $this->contrat["gain_contrat"]?>
+		  	<?php elseif ($this->contrat["etat_contrat"] == "annulé"): ?> 
 		  		Aucun.
-		  	<? else: ?>
+		  	<?php else: ?>
 		  		En attente.
-		  	<? endif;?>
+		  	<?php endif;?>
 		   	</td>
 		   	</tr>
 	   </tbody>

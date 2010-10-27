@@ -12,26 +12,26 @@ Pour modifier un nom ou une description, cliquez dessus.<br />
   </tr>
 </thead>
 <tbody>
-<? $i = 0;
+<?php $i = 0;
    foreach($this->tabRangs as $r) :?>
-	<tr class="table_liste<?=($i % 2);$i++; ?>">
-	  <td class="table_liste"><?=htmlspecialchars($r["id_rang"]) ?></td>
+	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+	  <td class="table_liste"><?php echo htmlspecialchars($r["id_rang"]) ?></td>
 	  <td class="table_liste" > 
-	  	<label id="label_nom<?=$r["id_rang"] ?>" onclick="this.style.display='none'; $('value_nom<?=$r["id_rang"] ?>').style.display='block' ; $('bouton_nom<?=$r["id_rang"] ?>').style.display='block'">
-	  		<?=htmlspecialchars($r["nom"]) ?><? if (mb_strlen(trim($r["nom"])) == 0 || $r["nom"] == null) :?> [vide]<? endif; ?>
+	  	<label id="label_nom<?php echo $r["id_rang"] ?>" onclick="this.style.display='none'; $('value_nom<?php echo $r["id_rang"] ?>').style.display='block' ; $('bouton_nom<?php echo $r["id_rang"] ?>').style.display='block'">
+	  		<?php echo htmlspecialchars($r["nom"]) ?><?php if (mb_strlen(trim($r["nom"])) == 0 || $r["nom"] == null) :?> [vide]<?php endif; ?>
 	  	</label>
-	  	<input type="text" value="<?=htmlspecialchars($r["nom"]) ?>" id="value_nom<?=$r["id_rang"] ?>" style="display:none" maxlength="40" size="41"/>
-	  	<input type="button" class='button1' id="bouton_nom<?=$r["id_rang"] ?>" onclick="$('label_nom<?=$r["id_rang"] ?>').style.display='block'; $('value_nom<?=$r["id_rang"] ?>').style.display='none'; this.style.display='none' ; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=1&valeur_2=<?=$r["id_rang"] ?>&valeur_3='+$('value_nom<?=$r["id_rang"] ?>').value)" value="Valider" style="display:none">
+	  	<input type="text" value="<?php echo htmlspecialchars($r["nom"]) ?>" id="value_nom<?php echo $r["id_rang"] ?>" style="display:none" maxlength="40" size="41"/>
+	  	<input type="button" class='button1' id="bouton_nom<?php echo $r["id_rang"] ?>" onclick="$('label_nom<?php echo $r["id_rang"] ?>').style.display='block'; $('value_nom<?php echo $r["id_rang"] ?>').style.display='none'; this.style.display='none' ; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=1&valeur_2=<?php echo $r["id_rang"] ?>&valeur_3='+$('value_nom<?php echo $r["id_rang"] ?>').value)" value="Valider" style="display:none">
 	  </td>
 	  <td class="table_liste">
-	  <label id="label_desc<?=$r["id_rang"] ?>" onclick="this.style.display='none'; $('value_desc<?=$r["id_rang"] ?>').style.display='block' ; $('bouton_desc<?=$r["id_rang"] ?>').style.display='block'; $('max_desc<?=$r["id_rang"] ?>').style.display='block'";>
-	  		<?=$r["description"] ?><? if (mb_strlen(trim($r["description"])) == 0 || $r["description"] == null) :?> [vide]<? endif; ?>
+	  <label id="label_desc<?php echo $r["id_rang"] ?>" onclick="this.style.display='none'; $('value_desc<?php echo $r["id_rang"] ?>').style.display='block' ; $('bouton_desc<?php echo $r["id_rang"] ?>').style.display='block'; $('max_desc<?php echo $r["id_rang"] ?>').style.display='block'";>
+	  		<?php echo $r["description"] ?><?php if (mb_strlen(trim($r["description"])) == 0 || $r["description"] == null) :?> [vide]<?php endif; ?>
  		</label>
-	  	<textarea onkeyup="limiteTailleTextarea(this, 200, 'max_desc<?=$r["id_rang"]?>')"  onkeydown="limiteTailleTexarea(this, 200)" id="value_desc<?=$r["id_rang"] ?>" style="display:none" cols="40" rows="2"><?=$r["description"] ?></textarea>
-	  	<label id="max_desc<?=$r["id_rang"] ?>"></label>
-	  	<input type="button" class='button1' id="bouton_desc<?=$r["id_rang"] ?>" onclick="$('label_nom<?=$r["id_rang"] ?>').style.display='block'; $('value_desc<?=$r["id_rang"] ?>').style.display='none'; this.style.display='none' ; $('max_desc<?=$r["id_rang"] ?>').style.display='none'; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=2&valeur_2=<?=$r["id_rang"] ?>&valeur_3='+$('value_desc<?=$r["id_rang"] ?>').value)" value="Valider" style="display:none">
+	  	<textarea onkeyup="limiteTailleTextarea(this, 200, 'max_desc<?php echo $r["id_rang"]?>')"  onkeydown="limiteTailleTexarea(this, 200)" id="value_desc<?php echo $r["id_rang"] ?>" style="display:none" cols="40" rows="2"><?php echo $r["description"] ?></textarea>
+	  	<label id="max_desc<?php echo $r["id_rang"] ?>"></label>
+	  	<input type="button" class='button1' id="bouton_desc<?php echo $r["id_rang"] ?>" onclick="$('label_nom<?php echo $r["id_rang"] ?>').style.display='block'; $('value_desc<?php echo $r["id_rang"] ?>').style.display='none'; this.style.display='none' ; $('max_desc<?php echo $r["id_rang"] ?>').style.display='none'; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=2&valeur_2=<?php echo $r["id_rang"] ?>&valeur_3='+$('value_desc<?php echo $r["id_rang"] ?>').value)" value="Valider" style="display:none">
 	 </td>
 	</tr>
-<? endforeach; ?>
+<?php endforeach; ?>
 </tbody>
 </table>

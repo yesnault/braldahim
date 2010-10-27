@@ -1,26 +1,26 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br /> 
+Vous avez fum&eacute; <?php echo $this->tabac["nom_type_tabac"] ?>.<br /> 
 
-	<? if ($this->competences != null) :?>
-		<? if ($this->nbToursBonus > 1) :?>
+	<?php if ($this->competences != null) :?>
+		<?php if ($this->nbToursBonus > 1) :?>
 			Pour ce tour et le prochain, 
-		<? else: ?>
+		<?php else: ?>
 			Pour le tour courant, 
-		<? endif; ?>
+		<?php endif; ?>
 	
 		cela rajoute 15% dans les comp&eacute;tences suivantes : <br />
 		
-		<? foreach($this->competences as $c): ?>
-			<?=$c["nom_competence"]?><br />
-		<? endforeach;?>
+		<?php foreach($this->competences as $c): ?>
+			<?php echo $c["nom_competence"]?><br />
+		<?php endforeach;?>
 		
 		<br />
-		Vous aurez ensuite <?=$this->nbToursMalus?> tour<? if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
+		Vous aurez ensuite <?php echo $this->nbToursMalus?> tour<?php if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
 		
-	<? else: ?>
+	<?php else: ?>
 		Vous vous sentez bien, tr&egrave;s relax&eacute;, mais ce tabac n'a aucune influence sur vous.
-	<? endif; ?>
+	<?php endif; ?>
 
 <br />
 <br />

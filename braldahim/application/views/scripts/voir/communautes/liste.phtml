@@ -1,4 +1,4 @@
-<? Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
+<?php Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
   	
  <br />
  Pour voir le profil d'une communaut&eacute;, vous pouvez cliquer sur la ligne.<br />
@@ -6,39 +6,39 @@
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Date de cr&eacute;ation <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>Site Web <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Nombre de membres <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>");'>Nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>");'>Date de cr&eacute;ation <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>");'>Site Web <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>");'>Nombre de membres <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
   </tr>
 </thead>
 <tfoot class="table_liste">
   <tr class="table_liste">
     <th colspan='7'>
-       <? if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communautes&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
-	   <? endif; ?>
-	   <? if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communautes&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
-	   <? endif; ?>
+       <?php if ($this->precedentOk === true) : ?>
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communautes&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <?php endif; ?>
+	   <?php if ($this->suivantOk === true) : ?>
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communautes&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page suivante">
+	   <?php endif; ?>
     </th>
   </tr>
 </tfoot>
 <tbody>
-<? if (count($this->tabCommunautes) > 0): ?>
-<? $i = 0;
+<?php if (count($this->tabCommunautes) > 0): ?>
+<?php $i = 0;
    foreach($this->tabCommunautes as $m) :?>
-	<tr class="table_liste<?=($i % 2);$i++; ?>" onclick='document.location.href="/voir/communaute/?communaute=<?=$m["id_communaute"] ?>";' style="cursor:pointer" title="Cliquez pour accéder au profil">
-	  <td class="table_liste"><?=htmlspecialchars($m["nom_communaute"]) ?></td>	
-	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_creation_communaute"]); ?></td>
-	  <td class="table_liste"><?=htmlspecialchars($m["site_web_communaute"]) ?></td>
-	  <td class="table_liste"><?=htmlspecialchars($m["nb_membres"]) ?></td>
+	<tr class="table_liste<?php echo ($i % 2);$i++; ?>" onclick='document.location.href="/voir/communaute/?communaute=<?php echo $m["id_communaute"] ?>";' style="cursor:pointer" title="Cliquez pour accéder au profil">
+	  <td class="table_liste"><?php echo htmlspecialchars($m["nom_communaute"]) ?></td>	
+	  <td class="table_liste"><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_creation_communaute"]); ?></td>
+	  <td class="table_liste"><?php echo htmlspecialchars($m["site_web_communaute"]) ?></td>
+	  <td class="table_liste"><?php echo htmlspecialchars($m["nb_membres"]) ?></td>
 	</tr>
-<? endforeach; ?>
-<? else: ?>
+<?php endforeach; ?>
+<?php else: ?>
 	<tr class="table_liste0">
 	  <td class="table_liste" colspan="7">Pas d'autre communaut&eacute;</td>
 	</tr>
-<? endif; ?>
+<?php endif; ?>
 </tbody>
 </table>

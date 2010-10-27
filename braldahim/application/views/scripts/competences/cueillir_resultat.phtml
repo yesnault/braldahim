@@ -1,33 +1,33 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true):?>
-	<? if ($this->nbCueillette < 1):?>
+<?php if ($this->okJet1 === true):?>
+	<?php if ($this->nbCueillette < 1):?>
 		Vous n'avez rien cueilli &agrave; cause de vos malus importants en Agilit&eacute;.<br /> <br />
-	<? elseif ($this->nbCueillette > 1):?>
+	<?php elseif ($this->nbCueillette > 1):?>
 	Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante 
-	<? else: ?>
+	<?php else: ?>
 	Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante 
-	<? endif; ?>
-	<? if ($this->arrivee == 1) : ?>
+	<?php endif; ?>
+	<?php if ($this->arrivee == 1) : ?>
 		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre charrette.
-		<? if ($this->nbCueilletteTerre > 0) : ?> 
-			Mais, faute de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).
-		<? endif;?>
-	<? endif;?>
-	<? if ($this->arrivee == 2) : ?>
+		<?php if ($this->nbCueilletteTerre > 0) : ?> 
+			Mais, faute de place, certains éléments sont tombés à terre (<?php echo $this->nbCueilletteTerre ?>).
+		<?php endif;?>
+	<?php endif;?>
+	<?php if ($this->arrivee == 2) : ?>
 		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre laban.
-		<? if ($this->nbCueilletteTerre > 0) : ?> 
-			Mais, faute de place, certains éléments sont tombés à terre (<?=$this->nbCueilletteTerre ?>).
-		<? endif;?>
-	<? endif;?>
-	<? if ($this->arrivee == 3) : ?>
+		<?php if ($this->nbCueilletteTerre > 0) : ?> 
+			Mais, faute de place, certains éléments sont tombés à terre (<?php echo $this->nbCueilletteTerre ?>).
+		<?php endif;?>
+	<?php endif;?>
+	<?php if ($this->arrivee == 3) : ?>
 		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> au sol.
-	<? endif;?>
+	<?php endif;?>
 	<br /><br />
-	<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
+	<?php echo htmlspecialchars($this->plante["categorie"])?> - <?php echo htmlspecialchars($this->plante["nom_type"])?> (<?php echo $this->plante["id_plante"]?>)
 	<br /><br />
 
-	<? if ($this->cueillette[1]["quantite"] != 0) {
+	<?php if ($this->cueillette[1]["quantite"] != 0) {
 		echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]." <br/>";
 	}
 	if ($this->cueillette[2]["quantite"] != 0) {
@@ -40,19 +40,19 @@
 		echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br/>";
 	}
 	?>
-	<? if ($this->planteDetruite === true) : ?>
+	<?php if ($this->planteDetruite === true) : ?>
 		Vous avez pris ce qu'il restait sur la plante... elle n'existe donc plus. <br />
-	<? endif; ?>
+	<?php endif; ?>
 	<br />
-	<? if ($this->effetRune) :?>
+	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; d'&eacute;l&eacute;ments cueillis.
-	<? endif; ?>
-<? else: ?>
-	<? if ($this->planteDetruite === true) : ?>
+	<?php endif; ?>
+<?php else: ?>
+	<?php if ($this->planteDetruite === true) : ?>
 		Vous avez tout g&acirc;ch&eacute; ! La plante 
-		<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
+		<?php echo htmlspecialchars($this->plante["categorie"])?> - <?php echo htmlspecialchars($this->plante["nom_type"])?> (<?php echo $this->plante["id_plante"]?>)
 		est d&eacute;truite.
-	<? else: ?>
+	<?php else: ?>
 		Vous avez rat&eacute; votre cueillette, certains &eacute;l&eacute;ments de la plante sont d&eacute;truits !
-	<? endif; ?>
-<? endif; ?>
+	<?php endif; ?>
+<?php endif; ?>

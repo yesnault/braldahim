@@ -1,22 +1,22 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Mes Quêtes / Contrats et Filatures</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
   
-<? if ($this->affichageInterne == true) : ?>
+<?php if ($this->affichageInterne == true) : ?>
     <input type='button' class='button1' value='Mes Quêtes' onclick="_get_('/quetes/doaction?caction=ask_quetes_liste');">
     <input type='button' class='button1' value='Mes Contrats' onclick="_get_('/contrats/doaction?caction=ask_contrats_liste');">
     <input type='button' class='button1' value='Mes Filatures' onclick="_get_('/filatures/doaction?caction=ask_filatures_liste');">
     <div id="box_quete_interne">
-    <?=$this->htmlContenu ?>
+    <?php echo $this->htmlContenu ?>
     </div>
-<? else: ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
   
   </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

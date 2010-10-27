@@ -1,19 +1,19 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Effets</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
   
- <? if ($this->affichageInterne == true) : ?>
+ <?php if ($this->affichageInterne == true) : ?>
  
  	<div class="titre textalic textsized">Potions</div>
  
-		<? $nb = count($this->potions);
+		<?php $nb = count($this->potions);
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
 		?>
 		
-		<? if ($nb > 0) :?>
-		<?=$nb ?> potion<?=$s ?> <?=$verb?> actuellement de l'effet sur vous.<br />
+		<?php if ($nb > 0) :?>
+		<?php echo $nb ?> potion<?php echo $s ?> <?php echo $verb?> actuellement de l'effet sur vous.<br />
 		
 			<table class="table_liste" style="width:90%">
 				<thead class="table_liste">
@@ -24,31 +24,31 @@
 				  </tr>
 				</thead>
 				<tbody>
-					<? foreach($this->potions as $e) : ?>
+					<?php foreach($this->potions as $e) : ?>
 					<tr class="table_liste">
-						<td class='alabel' onclick='ouvHistoP("<?=$e["potion"]["id_potion"]?>")'>
-						n°<?=$e["potion"]["id_potion"]?>
+						<td class='alabel' onclick='ouvHistoP("<?php echo $e["potion"]["id_potion"]?>")'>
+						n°<?php echo $e["potion"]["id_potion"]?>
 						</td>
-						<td><?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 
-						niveau <?=$e["potion"]["niveau"] ?>
+						<td><?php echo htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?php echo htmlspecialchars($e["potion"]["qualite"]) ?>, 
+						niveau <?php echo $e["potion"]["niveau"] ?>
 						</td>
 						<td>
-						<?=$e["potion"]["bm_effet_potion"] ?> point<? if ($e["potion"]["bm_effet_potion"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
-						et <?=$e["potion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["potion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						<?php echo $e["potion"]["bm_effet_potion"] ?> point<?php if ($e["potion"]["bm_effet_potion"]): echo 's'; endif; ?> de <?php echo $e["potion"]["bm_type"] ?> sur <?php echo $e["potion"]["caracteristique"]?>
+						et <?php echo $e["potion"]["nb_tour_restant"] ?> tour<?php $s = ''; if ($e["potion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?php echo $s ?>
 						</td>
 					</tr>
-					<? endforeach; ?>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<? else: ?>
+		<?php else: ?>
 		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.<br />
-		<? endif;?>
+		<?php endif;?>
    <br />
    
    <div class="titre textalic textsized">Autres Effets</div>
    
-	  	<? $nb = count($this->effets);?>
-		<? if ($nb > 0) :?>
+	  	<?php $nb = count($this->effets);?>
+		<?php if ($nb > 0) :?>
 			<table class="table_liste" style="width:90%">
 				<thead class="table_liste">
 				  <tr class="table_liste" title="Cliquer pour Trier">
@@ -56,46 +56,46 @@
 				  </tr>
 				</thead>
 				<tbody>
-					<? foreach($this->effets as $e) : ?>
+					<?php foreach($this->effets as $e) : ?>
 					<tr class="table_liste">
 						<td>
-						<? if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
+						<?php if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
 						       $e["effet"]["caracteristique"] == "STOUT" || 
 						       $e["effet"]["caracteristique"] == "TOUR") : ?>
-							<?=$e["effet"]["texte_calcule_effet_braldun"]?>
-						<? else: ?>
-							<?=$e["effet"]["bm_effet_braldun"] ?> point<? if ($e["effet"]["bm_effet_braldun"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
-							<? if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
+							<?php echo $e["effet"]["texte_calcule_effet_braldun"]?>
+						<?php else: ?>
+							<?php echo $e["effet"]["bm_effet_braldun"] ?> point<?php if ($e["effet"]["bm_effet_braldun"]): echo 's'; endif; ?> de <?php echo $e["effet"]["bm_type"] ?> sur 
+							<?php if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
 								ATT / DEG / DEF
-							<? else: ?>
-								<?=$e["effet"]["caracteristique"]?>
-							<? endif;?>
-						<? endif;?>
-						<? if ($e["effet"]["caracteristique"] != "TOUR") : ?>
-							et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
-						<? endif;?>
-						<? if ($e["effet"]["texte_effet_braldun"]) : ?>
-							<br /><i><?=$e["effet"]["texte_effet_braldun"]?></i>
-						<? endif;?>
-						<? if ($e["effet"]["actif"] == false):?>
+							<?php else: ?>
+								<?php echo $e["effet"]["caracteristique"]?>
+							<?php endif;?>
+						<?php endif;?>
+						<?php if ($e["effet"]["caracteristique"] != "TOUR") : ?>
+							et <?php echo $e["effet"]["nb_tour_restant"] ?> tour<?php $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?php echo $s ?>
+						<?php endif;?>
+						<?php if ($e["effet"]["texte_effet_braldun"]) : ?>
+							<br /><i><?php echo $e["effet"]["texte_effet_braldun"]?></i>
+						<?php endif;?>
+						<?php if ($e["effet"]["actif"] == false):?>
 							   Effet non cumulable donc non actif.
-						<? endif;?>
+						<?php endif;?>
 						<hr>
 						</td>
 					</tr>
-					<? endforeach; ?>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<? else: ?>
+		<?php else: ?>
 		Aucun autre effet n'est appliqu&eacute; sur vous actuellement.
-		<? endif;?>
+		<?php endif;?>
 		<br /><br />
    
- <? else: ?>
+ <?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
    </div>
 </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

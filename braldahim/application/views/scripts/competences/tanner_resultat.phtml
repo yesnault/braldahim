@@ -1,32 +1,32 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
+<?php if ($this->okJet1 === true): ?>
 
-	<? if ($this->quantiteFourrure > 0 || $this->quantiteCuir > 0) : ?>
+	<?php if ($this->quantiteFourrure > 0 || $this->quantiteCuir > 0) : ?>
 	
-		Vous avez r&eacute;ussi &agrave; tanner <?=$this->quantitePeauUtilisee ?> pi&egrave;ce<? if ($this->quantitePeauUtilisee > 1): echo "s"; endif; ?> de peau en 
+		Vous avez r&eacute;ussi &agrave; tanner <?php echo $this->quantitePeauUtilisee ?> pi&egrave;ce<?php if ($this->quantitePeauUtilisee > 1): echo "s"; endif; ?> de peau en 
 		
-		<? if ($this->quantiteFourrure > 0): ?>
-			<? if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>
-			<?=$this->quantiteFourrure  ?> pi&egrave;ce<?=$s ?> de fourrure
-		<? endif; ?>
+		<?php if ($this->quantiteFourrure > 0): ?>
+			<?php if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>
+			<?php echo $this->quantiteFourrure  ?> pi&egrave;ce<?php echo $s ?> de fourrure
+		<?php endif; ?>
 		
-		<? if ($this->quantiteCuir > 0): ?>
-			<? if ($this->quantiteFourrure > 0): ?>
+		<?php if ($this->quantiteCuir > 0): ?>
+			<?php if ($this->quantiteFourrure > 0): ?>
 			et 
-			<? endif; ?>
-			<? if ($this->quantiteCuir > 1): $s='s'; else: $s=""; endif; ?>
-			<?=$this->quantiteCuir  ?> pi&egrave;ce<?=$s ?> de cuir.
-		<? endif; ?>
+			<?php endif; ?>
+			<?php if ($this->quantiteCuir > 1): $s='s'; else: $s=""; endif; ?>
+			<?php echo $this->quantiteCuir  ?> pi&egrave;ce<?php echo $s ?> de cuir.
+		<?php endif; ?>
 	
-	<? else: ?>
+	<?php else: ?>
 		Vous avez rat&eacute; votre tannage.
 		<br />
-		Aucune fourrure et aucun cuir n'est apparu, <?=$this->quantitePeauUtilisee ?> pi&egrave;ce<?if($this->quantitePeauUtilisee > 1):echo 's  de peau sont perdus'; else: echo ' de peau est perdue'; endif;?>.<br />
-	<? endif; ?>
+		Aucune fourrure et aucun cuir n'est apparu, <?php echo $this->quantitePeauUtilisee ?> pi&egrave;ce<?if($this->quantitePeauUtilisee > 1):echo 's  de peau sont perdus'; else: echo ' de peau est perdue'; endif;?>.<br />
+	<?php endif; ?>
 	
 	
 	<br />
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre tannage, mais aucune pi&egrave;ce de peau n'est perdue.<br />
-<? endif; ?>
+<?php endif; ?>

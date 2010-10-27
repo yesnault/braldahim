@@ -5,33 +5,33 @@
     	&nbsp;
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
-	    Purge des batchs OK tous les <?=Bral_Batchs_Batch::PURGE_NB_JOUR_OK ?> jours glissants.<br />
-	    Purge des batchs tous statuts tous les <?=Bral_Batchs_Batch::PURGE_NB_JOUR_TOUS?> jours glissants.<br />
+	    Purge des batchs OK tous les <?php echo Bral_Batchs_Batch::PURGE_NB_JOUR_OK ?> jours glissants.<br />
+	    Purge des batchs tous statuts tous les <?php echo Bral_Batchs_Batch::PURGE_NB_JOUR_TOUS?> jours glissants.<br />
 	    
-	    Nombre OK : <?=$this->nbOk?>
+	    Nombre OK : <?php echo $this->nbOk?>
 	    <br />
-	    Nombre KO : <?=$this->nbKo?>
+	    Nombre KO : <?php echo $this->nbKo?>
 	    <br />
-	    Nombre En Cours : <?=$this->nbEnCours?>
+	    Nombre En Cours : <?php echo $this->nbEnCours?>
 	    <br />
-	    Total : <?=$this->nbTotal?>
+	    Total : <?php echo $this->nbTotal?>
 	    <br /><br />
-	    Nombre OK 3 derniers jours (du <?=$this->dateDebut ?> au <?=$this->dateFin?> ) : <?=$this->nbOk3jours?> 
+	    Nombre OK 3 derniers jours (du <?php echo $this->dateDebut ?> au <?php echo $this->dateFin?> ) : <?php echo $this->nbOk3jours?> 
 	    <br />
-	    Nombre KO 3 derniers jours (du <?=$this->dateDebut ?> au <?=$this->dateFin?> ) : <?=$this->nbKo3jours?> 
+	    Nombre KO 3 derniers jours (du <?php echo $this->dateDebut ?> au <?php echo $this->dateFin?> ) : <?php echo $this->nbKo3jours?> 
 	    <br />
 	      
 		<br /><br />
 			<table  align='center'>
 				<tr>
-				<? foreach ($this->batchs as $h) : ?>
-					<? foreach ($h as $key => $value) : ?>
-					<th class='comp_titre'><?=$key?></th>
-					<? endforeach; ?>
-				<? break;endforeach; ?>
+				<?php foreach ($this->batchs as $h) : ?>
+					<?php foreach ($h as $key => $value) : ?>
+					<th class='comp_titre'><?php echo $key?></th>
+					<?php endforeach; ?>
+				<?php break;endforeach; ?>
 			
-				<? foreach ($this->batchs as $b) : ?>
-				<? if ($b["etat_batch"] == "OK") :
+				<?php foreach ($this->batchs as $b) : ?>
+				<?php if ($b["etat_batch"] == "OK") :
 					$color= "#66CC66";
 				   elseif ($b["etat_batch"] == "EN_COURS") :
 				   	$color = "#FF9900";
@@ -40,18 +40,18 @@
 				   endif;
 				?>
 				</tr>
-				<tr style="background-color:<?=$color?>">
-					<? foreach ($b as $key => $value) : ?>
+				<tr style="background-color:<?php echo $color?>">
+					<?php foreach ($b as $key => $value) : ?>
 						<td>
-						<? if ($key == "message_batch") : ?>
-							<textarea class="inputbox" rows="1" cols="100"><?=$value ?></textarea>
-						<? else: ?>
-							<?=$value ?>
-						<? endif;?>
+						<?php if ($key == "message_batch") : ?>
+							<textarea class="inputbox" rows="1" cols="100"><?php echo $value ?></textarea>
+						<?php else: ?>
+							<?php echo $value ?>
+						<?php endif;?>
 						</td>
-					<? endforeach; ?>
+					<?php endforeach; ?>
 				</tr>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 			</table>
 		</div>
 	</div>

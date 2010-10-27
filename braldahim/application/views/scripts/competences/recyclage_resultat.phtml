@@ -1,47 +1,47 @@
-<? include("commun_text_resultat.phtml") ?>
-<? if ($this->okJet1 === true): ?>
+<?php include("commun_text_resultat.phtml") ?>
+<?php if ($this->okJet1 === true): ?>
 	Vous avez recycl&eacute; votre &eacute;quipement ce qui a eu pour effet de le d&eacute;truire !<br />
-	Jet de recyclage effectué : <?=$this->jetRecyclage ?><br />
+	Jet de recyclage effectué : <?php echo $this->jetRecyclage ?><br />
 	<br />
 	<?if ($this->nbPlancheLaban > 0 || $this->nbCuirLaban > 0 || $this->nbFourrureLaban > 0 || count($this->mineraiLaban) > 0 ):?> 
 		Vous avez r&eacute;cup&eacute;r&eacute; dans votre laban : <br />
-		<? if ($this->nbPlancheLaban > 0): ?>
-			<?=$this->nbPlancheLaban ?> planche<? if ($this->nbPlancheLaban > 1): ?>s<? endif; ?><br />
-		<? endif; ?>
-		<? if ($this->nbCuirLaban > 0): ?>	
-			<?=$this->nbCuirLaban ?> cuir<? if ($this->nbCuirLaban > 1): ?>s<? endif; ?> <br />
-		<? endif; ?>
-		<? if ($this->nbFourrureLaban > 0): ?>
-			<?=$this->nbFourrureLaban ?> fourrure<? if ($this->nbFourrureLaban > 1): ?>s<? endif; ?> <br />
-		<? endif; ?>
-		<? if (count($this->mineraiLaban) > 0): ?>
-			<? foreach ($this->mineraiLaban as $m) : ?>
-				<?=$m["quantite"] ?> <?=$m["nom"] ?> <br />
-			<? endforeach; ?>
-		<? endif; ?>
-	<? else: ?>
+		<?php if ($this->nbPlancheLaban > 0): ?>
+			<?php echo $this->nbPlancheLaban ?> planche<?php if ($this->nbPlancheLaban > 1): ?>s<?php endif; ?><br />
+		<?php endif; ?>
+		<?php if ($this->nbCuirLaban > 0): ?>	
+			<?php echo $this->nbCuirLaban ?> cuir<?php if ($this->nbCuirLaban > 1): ?>s<?php endif; ?> <br />
+		<?php endif; ?>
+		<?php if ($this->nbFourrureLaban > 0): ?>
+			<?php echo $this->nbFourrureLaban ?> fourrure<?php if ($this->nbFourrureLaban > 1): ?>s<?php endif; ?> <br />
+		<?php endif; ?>
+		<?php if (count($this->mineraiLaban) > 0): ?>
+			<?php foreach ($this->mineraiLaban as $m) : ?>
+				<?php echo $m["quantite"] ?> <?php echo $m["nom"] ?> <br />
+			<?php endforeach; ?>
+		<?php endif; ?>
+	<?php else: ?>
 		Vous n'avez rien r&eacute;cup&eacute;r&eacute; dans votre laban ! <br />
-	<? endif; ?>
+	<?php endif; ?>
 	<br />
 	<?if ($this->nbPlancheTerre > 0 || $this->nbCuirTerre > 0 || $this->nbFourrureTerre > 0 || count($this->mineraiTerre) > 0 ):?> 
 		Ces &eacute;l&egrave;ments sont tomb&eacute;s &agrave; terre : <br />
-		<? if ($this->nbPlancheTerre > 0): ?>
-			<?=$this->nbPlancheTerre ?> planche<? if ($this->nbPlancheTerre > 1): ?>s<? endif; ?> <br />
-		<? endif; ?>
-		<? if ($this->nbCuirTerre > 0): ?>	
-			<?=$this->nbCuirTerre ?> cuir<? if ($this->nbCuirTerre > 1): ?>s<? endif; ?> <br />
-		<? endif; ?>
-		<? if ($this->nbFourrureTerre > 0): ?>
-			<?=$this->nbFourrureTerre ?> fourrure<? if ($this->nbFourrureTerre > 1): ?>s<? endif; ?> <br />
-		<? endif; ?>
-		<? if (count($this->mineraiTerre) > 0): ?>
-			<? foreach ($this->mineraiTerre as $m) : ?>
-				<?=$m["quantite"] ?> <?=$m["nom"] ?> <br />
-			<? endforeach; ?>
-		<? endif; ?>
-	<? else: ?>
+		<?php if ($this->nbPlancheTerre > 0): ?>
+			<?php echo $this->nbPlancheTerre ?> planche<?php if ($this->nbPlancheTerre > 1): ?>s<?php endif; ?> <br />
+		<?php endif; ?>
+		<?php if ($this->nbCuirTerre > 0): ?>	
+			<?php echo $this->nbCuirTerre ?> cuir<?php if ($this->nbCuirTerre > 1): ?>s<?php endif; ?> <br />
+		<?php endif; ?>
+		<?php if ($this->nbFourrureTerre > 0): ?>
+			<?php echo $this->nbFourrureTerre ?> fourrure<?php if ($this->nbFourrureTerre > 1): ?>s<?php endif; ?> <br />
+		<?php endif; ?>
+		<?php if (count($this->mineraiTerre) > 0): ?>
+			<?php foreach ($this->mineraiTerre as $m) : ?>
+				<?php echo $m["quantite"] ?> <?php echo $m["nom"] ?> <br />
+			<?php endforeach; ?>
+		<?php endif; ?>
+	<?php else: ?>
 		Rien n'est tomb&eacute; par terre ! <br />
-	<? endif; ?>
-<? else: ?>
+	<?php endif; ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre recyclage.<br />
-<? endif; ?>
+<?php endif; ?>

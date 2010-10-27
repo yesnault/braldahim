@@ -1,19 +1,19 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Gestion des champs</div>
  <div class="contenuc">
   <div class="box_contenu1 textalic">
   <div id="box_champ">
  
-<? if ($this->affichageInterne == true) : ?>
-    <?=$this->htmlContenu ?>
-<? else: ?>
+<?php if ($this->affichageInterne == true) : ?>
+    <?php echo $this->htmlContenu ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 
   </div>
 </div>
 </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

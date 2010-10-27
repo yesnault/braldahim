@@ -6,16 +6,16 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    <br />
-			<? if (!empty($this->message)): ?>
-				<b><?=$this->message; ?></b><br /><br />
-			<? endif; ?>
+			<?php if (!empty($this->message)): ?>
+				<b><?php echo $this->message; ?></b><br /><br />
+			<?php endif; ?>
 			
 			<input type="button" class='button1' value="Retour à l'interface" onclick="javascript:document.location.href='/interface/'"/>
 			<br /><br /><br />
 			
 			<span class="titre textalic textsizeb">Braldûn</span>
 			<br />
-			<input type="button" class='button1' value="Voir le profil public" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$this->user->id_braldun ?>');"/>
+			<input type="button" class='button1' value="Voir le profil public" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');"/>
 			<input type="button" class='button1' value="Modifier la description" onclick="javascript:document.location.href='/Parametres/description'"/>
 			<input type="button" class='button1' value="Modifier l'avatar / le blason" onclick="javascript:document.location.href='/Parametres/images'"/>
 			

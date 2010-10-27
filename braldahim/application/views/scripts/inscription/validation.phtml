@@ -8,7 +8,7 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    <br />
-		<? if ($this->validationOk) : ?>
+		<?php if ($this->validationOk) : ?>
 			F&eacute;licitations ! Votre validation est prise en compte. <br /> <br />
 		
 			Pour vous connecter, cliquez ici : 
@@ -18,23 +18,23 @@
 			Ah, un dernier mot avant de vous laisser filer, voici un message qui vous est attribué :
 			<br /><br />
 		
-		<? elseif ($this->compteActif == true) :?>
+		<?php elseif ($this->compteActif == true) :?>
 			Vous avez d&eacute;j&agrave; valid&eacute; votre compte.
 			<br /><br />
 			Voici un message que vous avez peut-&ecirc;tre d&eacute;j&agrave; lu :
 			<br /><br />
-		<? else : ?>
+		<?php else : ?>
 			<b>Une erreur est survenue lors de la validation de votre compte.</b><br /><br />
 			
 			Veuillez contacter les ma&icirc;tres du jeu &agrave; l'adresse suivante :
-			<?= $this->emailMaitreJeu ?>. <br /><br />
+			<?php echo  $this->emailMaitreJeu ?>. <br /><br />
 			N'oubliez pas d'indiquer : <br />
 			=&gt; votre nom et num&eacute;ro de braldun<br />
 			=&gt; votre adresse de validation<br />
 			=&gt; le probl&egrave;me rencontr&eacute; (avec copie d'&eacute;cran si possible).<br />
-		<? endif; ?>
+		<?php endif; ?>
 		
-		<? if ($this->validationOk || $this->compteActif == true) : ?>
+		<?php if ($this->validationOk || $this->compteActif == true) : ?>
 		<table width='40%' align='center'>
  			<tr><td style='text-align:justify; background-color:#CCCC99'>
 			Message des Thains : <br />
@@ -58,7 +58,7 @@
 			<br /><br />
 			</td></tr>
  			</table>
-		<? endif;?>
+		<?php endif;?>
 		</div>
 	</div>
 	&nbsp;

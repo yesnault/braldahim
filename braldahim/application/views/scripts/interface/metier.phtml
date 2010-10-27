@@ -1,32 +1,32 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
   <div class="titre textalia textsizec">Mes M&eacute;tiers</div>
   <div class="contenu">
 	  <div class="box_contenu1 textalic">
 
- <? if ($this->affichageInterne == true) : ?>
-	   <? if (!$this->possedeMetier): ?>
+ <?php if ($this->affichageInterne == true) : ?>
+	   <?php if (!$this->possedeMetier): ?>
 	   	Vous ne pratiquez aucun m&eacute;tier <br /><br />
 	   	
 	   	Vous pouvez aller vous renseigner dans un Centre de Formation
-	   <? else : ?>
+	   <?php else : ?>
 		   	Vous &ecirc;tes actuellement :
-		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($this->tabMetierCourant["description"]))); ?>
-		   	<? $titre = "Description du m&eacute;tier ";
+		   	<?php $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($this->tabMetierCourant["description"]))); ?>
+		   	<?php $titre = "Description du m&eacute;tier ";
 		   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 		   	 $titre .= $this->tabMetierCourant["nom"];
 		   	?>
 		   	<div class="braltip">
-		   	<?=Bral_Helper_Tooltip::render($contenu, $titre) ?>
-		  	 	<?=$this->tabMetierCourant["nom"] ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
+		   	<?php echo Bral_Helper_Tooltip::render($contenu, $titre) ?>
+		  	 	<?php echo $this->tabMetierCourant["nom"] ?>, appris le <?php echo $this->tabMetierCourant["date_apprentissage"] ?>
 		    </div>
 			<br /><br />
-		   	<? if (count($this->tabMetiers) == 1): ?>
+		   	<?php if (count($this->tabMetiers) == 1): ?>
 		   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br />
-		   	<? elseif (count($this->tabMetiers) > 1): ?>
+		   	<?php elseif (count($this->tabMetiers) > 1): ?>
 		   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br />
-		   	<? endif; ?>	
-		   	<? if (count($this->tabMetiers) >= 1): ?>
+		   	<?php endif; ?>	
+		   	<?php if (count($this->tabMetiers) >= 1): ?>
 		   		<table class="table_liste">
 					<thead class="table_liste">
 					  <tr class="table_liste" title="Cliquer pour Trier">
@@ -35,27 +35,27 @@
 					  </tr>
 					</thead>
 					<tbody>
-						<? foreach ($this->tabMetiers as $m) : ?>
-							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($m["description"])));?>
-					   		<? $titre = "Description du m&eacute;tier ";
+						<?php foreach ($this->tabMetiers as $m) : ?>
+							<?php $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars($m["description"])));?>
+					   		<?php $titre = "Description du m&eacute;tier ";
 			   	 			if ($m["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 			   	 			$titre .= $m["nom"]?>
 							<tr class="table_liste">
 								
-								<td class=""><div class="braltip"><?=Bral_Helper_Tooltip::render($contenu, $titre) ?><?=$m["nom"];?></div></td>
-								<td class=""><?=$m["date_apprentissage"];?></td>
+								<td class=""><div class="braltip"><?php echo Bral_Helper_Tooltip::render($contenu, $titre) ?><?php echo $m["nom"];?></div></td>
+								<td class=""><?php echo $m["date_apprentissage"];?></td>
 							</tr>
-						<? endforeach; ?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
-		    <? endif; ?>
-	   <? endif; ?>
+		    <?php endif; ?>
+	   <?php endif; ?>
 	   
-<? else: ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 	</div> 
   </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

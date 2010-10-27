@@ -3,7 +3,7 @@
 <div class="contenu">
 <div class="box_contenu3 textalib">
 <p class="titre textalic textsizeb center" ><a href="/gazette" title="Voir les Archives" style="text-decoration:none">La Gazette</a></p>
-<? if (count($this->histoires) > 0) :
+<?php if (count($this->histoires) > 0) :
 echo $this->render('gazette/histoires.phtml'); 
 endif; ?>
 <br/><a href="/gazette">Archives</a>&nbsp;

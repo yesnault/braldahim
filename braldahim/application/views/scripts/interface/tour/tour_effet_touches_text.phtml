@@ -1,49 +1,49 @@
-<? if (isset($this->ciblesEffet["braldunTouches"]) || isset($this->ciblesEffet["monstreTouches"]) &&
+<?php if (isset($this->ciblesEffet["braldunTouches"]) || isset($this->ciblesEffet["monstreTouches"]) &&
 	  ($this->ciblesEffet["braldunTouches"] != null || $this->ciblesEffet["monstreTouches"] != null)) : ?>
 	Vous avez touch&eacute; : <br />
-<? endif; ?>
-<? if (isset($this->ciblesEffet["braldunTouches"]) && $this->ciblesEffet["braldunTouches"] != null) : ?>
-	<? foreach($this->ciblesEffet["braldunTouches"] as $val) :
+<?php endif; ?>
+<?php if (isset($this->ciblesEffet["braldunTouches"]) && $this->ciblesEffet["braldunTouches"] != null) : ?>
+	<?php foreach($this->ciblesEffet["braldunTouches"] as $val) :
 		$h = $val["braldun"];?>
-		<?=htmlspecialchars($h["prenom_braldun"])?>  <?=htmlspecialchars($h["nom_braldun"])?> (<?=$h["id_braldun"]?>)
-		<? if (isset($val["retourAttaque"])) :?>
-			: <?=$val["retourAttaque"]["jetDegat"] ?> point<? if ($val["retourAttaque"]["jetDegat"] > 1) { echo "s"; }?> de d&eacute;g&acirc;ts
-		<? endif; ?>
+		<?php echo htmlspecialchars($h["prenom_braldun"])?>  <?php echo htmlspecialchars($h["nom_braldun"])?> (<?php echo $h["id_braldun"]?>)
+		<?php if (isset($val["retourAttaque"])) :?>
+			: <?php echo $val["retourAttaque"]["jetDegat"] ?> point<?php if ($val["retourAttaque"]["jetDegat"] > 1) { echo "s"; }?> de d&eacute;g&acirc;ts
+		<?php endif; ?>
 		<br />
-		<? 
+		<?php 
 		$this->retourAttaque = $val["retourAttaque"];
 		echo $this->render("competences/commun_text_effets.phtml");
 		?>
-	<? endforeach; ?>
-<? endif; ?>
-<? if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) : ?>
-	<? foreach($this->ciblesEffet["monstreTouches"] as $val) : 
+	<?php endforeach; ?>
+<?php endif; ?>
+<?php if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) : ?>
+	<?php foreach($this->ciblesEffet["monstreTouches"] as $val) : 
 		$m = $val["monstre"]; ?>
-		<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>)<br />
-		<? 
+		<?php echo htmlspecialchars($m["nom_type_monstre"])?> (<?php echo $m["id_monstre"]?>)<br />
+		<?php 
 		$this->retourAttaque = $val["retourAttaque"];
 		echo $this->render("competences/commun_text_effets.phtml");
 		?>
-	<? endforeach; ?>
-<? endif; ?>
-<? if (isset($this->ciblesEffet["braldunMorts"]) && $this->ciblesEffet["braldunMorts"] != null) : ?>
+	<?php endforeach; ?>
+<?php endif; ?>
+<?php if (isset($this->ciblesEffet["braldunMorts"]) && $this->ciblesEffet["braldunMorts"] != null) : ?>
 	Vous avez 
-	<? if ($this->user->est_soule_braldun == "oui") :?>
+	<?php if ($this->user->est_soule_braldun == "oui") :?>
 		plaqu&eacute; : 
-	<? else: ?>
+	<?php else: ?>
 		mis KO :
-	<? endif;?>
+	<?php endif;?>
 	<br />
-	<? foreach($this->ciblesEffet["braldunMorts"] as $val) : 
+	<?php foreach($this->ciblesEffet["braldunMorts"] as $val) : 
 		$h = $val["braldun"];?>
-		<?=htmlspecialchars($h["prenom_braldun"])?>  <?=htmlspecialchars($h["nom_braldun"])?> (<?=$h["id_braldun"]?>)<br />
-	<? endforeach; ?>
-<? endif; ?>
-<? if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) : ?>
+		<?php echo htmlspecialchars($h["prenom_braldun"])?>  <?php echo htmlspecialchars($h["nom_braldun"])?> (<?php echo $h["id_braldun"]?>)<br />
+	<?php endforeach; ?>
+<?php endif; ?>
+<?php if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) : ?>
 	<br />Vous avez tu&eacute; : <br />
-	<? foreach($this->ciblesEffet["monstreMorts"] as $val) : 
+	<?php foreach($this->ciblesEffet["monstreMorts"] as $val) : 
 		$m = $val["monstre"];?>
-		<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>)<br />
-	<? endforeach; ?>
-<? endif; ?>
+		<?php echo htmlspecialchars($m["nom_type_monstre"])?> (<?php echo $m["id_monstre"]?>)<br />
+	<?php endforeach; ?>
+<?php endif; ?>
 		

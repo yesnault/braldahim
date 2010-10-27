@@ -1,24 +1,24 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
+<?php if ($this->okJet1 === true): ?>
 	
-	<? if ($this->routeTrouvee) : ?>
+	<?php if ($this->routeTrouvee) : ?>
 		Vous avez découvert une ancienne route. Félicitations !
-	<? else: ?>
+	<?php else: ?>
 		Vous avez balisé un sentier !<br />
 		
 		Ce sentier a les caract&eacute;ristiques suivantes : <br />
-		Qualit&eacute; : <?=$this->qualite?><br />
-		Position : <?=$this->user->x_braldun ?>, <?=$this->user->y_braldun ?><br />
-		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->route["date_fin_route"]); ?>
+		Qualit&eacute; : <?php echo $this->qualite?><br />
+		Position : <?php echo $this->user->x_braldun ?>, <?php echo $this->user->y_braldun ?><br />
+		Date de destruction : le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->route["date_fin_route"]); ?>
 		
 		<br /><br />
 		
-		<? if ($this->construireRouteContinueOk == true) : ?>
-			<? if ($this->deplacement == true) : ?>
-				Vous êtes arrivé en x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?>.<br /><br />
-			<? endif;?>
+		<?php if ($this->construireRouteContinueOk == true) : ?>
+			<?php if ($this->deplacement == true) : ?>
+				Vous êtes arrivé en x=<?php echo $this->user->x_braldun?>, y=<?php echo $this->user->y_braldun?>.<br /><br />
+			<?php endif;?>
 		Vous avez balisé à côté d'un autre sentier balisé, vous avez donc bénéficié de -10% sur votre jet d'action.
-		<? endif;?>
-	<? endif;?>
-<? endif; ?>
+		<?php endif;?>
+	<?php endif;?>
+<?php endif; ?>

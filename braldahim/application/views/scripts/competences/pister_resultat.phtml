@@ -1,32 +1,32 @@
-<? include("commun_text_resultat.phtml") ?>
-<? if ($this->okJet1 === true):?>
-	<? if ($this->trouve === true): ?>
-		Le monstre le plus proche, de type : <?=$this->monstre["nom_type_monstre"] ?><br /> 
+<?php include("commun_text_resultat.phtml") ?>
+<?php if ($this->okJet1 === true):?>
+	<?php if ($this->trouve === true): ?>
+		Le monstre le plus proche, de type : <?php echo $this->monstre["nom_type_monstre"] ?><br /> 
 		se situe  
-		<? if ($this->proche === true): ?>
-			en X=<?=$this->monstre["x_monstre"]?> et Y=<?=$this->monstre["y_monstre"]?><br /> 
-		<? endif; ?>
-		<? if ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
+		<?php if ($this->proche === true): ?>
+			en X=<?php echo $this->monstre["x_monstre"]?> et Y=<?php echo $this->monstre["y_monstre"]?><br /> 
+		<?php endif; ?>
+		<?php if ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
 		en direction du Nord
-		<? elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction du Nord Est
-		<? elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction du Nord Ouest
-		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun == $this->monstre["x_monstre"]): ?>
 		en direction du Sud 
-		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction du Sud Est		
-		<? elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction du Sud Ouest
-		<? elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun < $this->monstre["x_monstre"]): ?>
 		en direction de l'Est
-		<? elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->monstre["y_monstre"] && $this->user->x_braldun > $this->monstre["x_monstre"]): ?>
 		en direction de l'Ouest
-		<? else: ?>
+		<?php else: ?>
 		sur place !
-		<? endif; ?>
-	<? else: ?>
-		Aucun monstre de type <?=$this->nomTypeMonstre ?> n'a &eacute;t&eacute; trouv&eacute;e dans un rayon de <?=$this->rayon_max;?> cases
-	<? endif; ?>
+		<?php endif; ?>
+	<?php else: ?>
+		Aucun monstre de type <?php echo $this->nomTypeMonstre ?> n'a &eacute;t&eacute; trouv&eacute;e dans un rayon de <?php echo $this->rayon_max;?> cases
+	<?php endif; ?>
 <br />	
-<? endif; ?>
+<?php endif; ?>

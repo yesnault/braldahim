@@ -1,13 +1,13 @@
 
-<? if (!$this->possede) : ?>
+<?php if (!$this->possede) : ?>
 	Vous ne possédez pas cet équipement, vous ne pouvez pas voir son historique.
-<? else: ?>
+<?php else: ?>
 
   	Type : 
-  	<select name='valeur_2'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->equipement["id_equipement"]?>&menu=historique&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
-  	<? foreach ($this->typeHistorique as $t) : ?>
-  	<option value='<?=$t["id_type_historique"]?>' <?if ($this->filtre == $t["id_type_historique"]){echo "selected";}?>><?=$t["nom"]?></option>
-  	<? endforeach; ?>
+  	<select name='valeur_2'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?php echo $this->equipement["id_equipement"]?>&menu=historique&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<?php foreach ($this->typeHistorique as $t) : ?>
+  	<option value='<?php echo $t["id_type_historique"]?>' <?if ($this->filtre == $t["id_type_historique"]){echo "selected";}?>><?php echo $t["nom"]?></option>
+  	<?php endforeach; ?>
   	</select>
   	<br /><br />
   	
@@ -22,35 +22,35 @@
 		<tfoot class="table_liste">
 		  <tr class="table_liste">
 		    <th colspan='5'>
-			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->equipement["id_equipement"]?>&menu=historique&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
-			   <? endif; ?>
-			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->equipement["id_equipement"]?>&menu=historique&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
-			   <? endif; ?>
+			   <?php if ($this->precedentOk === true) : ?>
+			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?php echo $this->equipement["id_equipement"]?>&menu=historique&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <?php endif; ?>
+			   <?php if ($this->suivantOk === true) : ?>
+			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_equipement&equipement=<?php echo $this->equipement["id_equipement"]?>&menu=historique&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page suivante">
+			   <?php endif; ?>
 		    </th>
 		  </tr>
 		</tfoot>
-  	<? if ($this->nbHistorique > 0): ?>
+  	<?php if ($this->nbHistorique > 0): ?>
 	  	
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->historique as $e): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-		  		<td class="table_liste"><?=$e["date"]?></td>
-		  		<td class="table_liste"><?=$e["type"]?></td>
-		  		<td class="table_liste"><?=$e["details"]?>&nbsp;</td>
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+		  		<td class="table_liste"><?php echo $e["date"]?></td>
+		  		<td class="table_liste"><?php echo $e["type"]?></td>
+		  		<td class="table_liste"><?php echo $e["details"]?>&nbsp;</td>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
 	  	
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun historique
    	 </td>
    	 </tr>
-   <? endif; ?>
+   <?php endif; ?>
    </table>
    <br /><br />
-<? endif; ?>
+<?php endif; ?>

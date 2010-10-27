@@ -2,38 +2,38 @@
 <table class="table_liste" style="width:100%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-		<th><?=$nomEquipe?> : <?=$equipe["nom_equipe"]?>, <?=count($equipe["joueurs"])?> joueur<? if (count($equipe["joueurs"]) > 1): echo 's'; endif;?><br />
-		Plaquages Effectués : <?=$equipe["plaquages"]?><br />
-		Plaquages Subis : <?=$equipe["plaques"]?><br />
-		Cagnotte : <?=$equipe["px"]?> PX</th>
+		<th><?php echo $nomEquipe?> : <?php echo $equipe["nom_equipe"]?>, <?php echo count($equipe["joueurs"])?> joueur<?php if (count($equipe["joueurs"]) > 1): echo 's'; endif;?><br />
+		Plaquages Effectués : <?php echo $equipe["plaquages"]?><br />
+		Plaquages Subis : <?php echo $equipe["plaques"]?><br />
+		Cagnotte : <?php echo $equipe["px"]?> PX</th>
 	  </tr>
 	</thead>
 	<tbody>
-		<? if ($equipe["joueurs"] != null && count($equipe["joueurs"]) > 0): ?>
-		  	<? 
+		<?php if ($equipe["joueurs"] != null && count($equipe["joueurs"]) > 0): ?>
+		  	<?php 
 		  	$i = 0; 
 		  	foreach($equipe["joueurs"] as $j): ?>
-		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste" nowrap>
-			  		<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
-			  		<?=$j["prenom_braldun"]?> <?=$j["nom_braldun"]?> (<?=$j["id_braldun"]?>)
+			  		<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+			  		<?php echo $j["prenom_braldun"]?> <?php echo $j["nom_braldun"]?> (<?php echo $j["id_braldun"]?>)
 			  		</a>
-			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
-			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_braldun"]?>, <?=$j["y_braldun"]?></span>.
-			  		<? endif;?>
-			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null) : ?>
-			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_braldun_plaquage_soule_equipe"]?> fois.
-			  		<? endif;?>
-			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
-				  		<? if ($j["est_ko_braldun"] == "oui") :?>
+			  		<?php if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
+			  		en <span title="Position X, Y" style="cursor:pointer"><?php echo $j["x_braldun"]?>, <?php echo $j["y_braldun"]?></span>.
+			  		<?php endif;?>
+			  		<?php if ($this->matchEnCours["date_debut_soule_match"] != null) : ?>
+			  		Plaqué : <?php echo $j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?php echo $j["nb_braldun_plaquage_soule_equipe"]?> fois.
+			  		<?php endif;?>
+			  		<?php if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
+				  		<?php if ($j["est_ko_braldun"] == "oui") :?>
 				  		Actuellement plaqué
-				  		<? endif;?>
-			  		<? endif;?>
-			  		<img src='<?=$this->config->static->url?>/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?=$j["id_braldun"]?>');" style='cursor:pointer'/>
+				  		<?php endif;?>
+			  		<?php endif;?>
+			  		<img src='<?php echo $this->config->static->url?>/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $j["id_braldun"]?>');" style='cursor:pointer'/>
 		  		</tr>
-		  	<? endforeach; ?>
-		<? else: ?>
+		  	<?php endforeach; ?>
+		<?php else: ?>
 		<tr><td>Aucun joueur</td></tr>
-		<? endif; ?>
+		<?php endif; ?>
   	</tbody>
 </table>

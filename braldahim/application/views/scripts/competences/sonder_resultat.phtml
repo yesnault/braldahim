@@ -1,37 +1,37 @@
-<? include("commun_text_resultat.phtml") ?>
-<? if ($this->okJet1 === true):?>
-	Vous avez recherch&eacute; <?=$this->libelleRecherche?>.<br />
-	<? if ($this->trouve == true): ?>
-		<? if ($this->proche === true): ?>
+<?php include("commun_text_resultat.phtml") ?>
+<?php if ($this->okJet1 === true):?>
+	Vous avez recherch&eacute; <?php echo $this->libelleRecherche?>.<br />
+	<?php if ($this->trouve == true): ?>
+		<?php if ($this->proche === true): ?>
 			Le filon le plus proche se situe en : 
-			X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br />
-			<? if (($this->user->y_braldun == $this->filon["y_filon"]) && ($this->user->x_braldun == $this->filon["x_filon"])) : ?>
+			X=<?php echo $this->filon["x_filon"]?> et Y=<?php echo $this->filon["y_filon"]?><br />
+			<?php if (($this->user->y_braldun == $this->filon["y_filon"]) && ($this->user->x_braldun == $this->filon["x_filon"])) : ?>
 				Vous &ecirc;tes sur le filon !
-			<? else: ?>
+			<?php else: ?>
 				 en direction
-			<? endif; ?>
-		<? elseif ($this->proche === false): ?>
+			<?php endif; ?>
+		<?php elseif ($this->proche === false): ?>
 			Le filon le plus proche se situe en direction <br />
-		<? endif; ?>
-		<? if ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
+		<?php endif; ?>
+		<?php if ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
 		du Nord
-		<? elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		du Nord Est
-		<? elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun < $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		du Nord Ouest
-		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun == $this->filon["x_filon"]): ?>
 		du Sud 
-		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		du Sud Est		
-		<? elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun > $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		du Sud Ouest
-		<? elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun < $this->filon["x_filon"]): ?>
 		de l'Est
-		<? elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
+		<?php elseif ($this->user->y_braldun == $this->filon["y_filon"] && $this->user->x_braldun > $this->filon["x_filon"]): ?>
 		de l'Ouest
-		<? endif; ?>
-	<? else: ?>
+		<?php endif; ?>
+	<?php else: ?>
 		Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br />
-		un rayon de <?=$this->rayon_max;?> cases
-	<? endif; ?>
-<? endif; ?>
+		un rayon de <?php echo $this->rayon_max;?> cases
+	<?php endif; ?>
+<?php endif; ?>

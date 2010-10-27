@@ -6,25 +6,25 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    
-	    <? if ($this->modificationLieu === true) :?>
+	    <?php if ($this->modificationLieu === true) :?>
 	    	Modification du lieu prise en compte.
-	    <? endif; ?>
+	    <?php endif; ?>
 	    
-	    <form action="/Administrationlieu/lieu/mode/<?=$this->mode?>/idlieu/<?=$this->id_lieu?>" method="post">
-		<? if ($this->lieu == null): ?>
+	    <form action="/Administrationlieu/lieu/mode/<?php echo $this->mode?>/idlieu/<?php echo $this->id_lieu?>" method="post">
+		<?php if ($this->lieu == null): ?>
 			Lieu inconnu 
-		<? else: 
+		<?php else: 
 			$nbElement = 0; ?>
-			<? if ($this->user->administrateur) : ?>
-				<? if ($this->mode == "simple") :?>
-		 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onclick="document.location.href='/Administrationlieu/lieu/mode/complexe/idlieu/<?=$this->id_lieu?>'"/>
-		   	 	<? else: ?>
-		    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onclick="document.location.href='/Administrationlieu/lieu/mode/simple/idlieu/<?=$this->id_lieu?>'"/>
-		    	<? endif; ?>
-	    	<? endif;?>
+			<?php if ($this->user->administrateur) : ?>
+				<?php if ($this->mode == "simple") :?>
+		 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onclick="document.location.href='/Administrationlieu/lieu/mode/complexe/idlieu/<?php echo $this->id_lieu?>'"/>
+		   	 	<?php else: ?>
+		    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onclick="document.location.href='/Administrationlieu/lieu/mode/simple/idlieu/<?php echo $this->id_lieu?>'"/>
+		    	<?php endif; ?>
+	    	<?php endif;?>
 	    
 			<table  align='center'>
-			<? foreach ($this->lieu as $key => $value) : 
+			<?php foreach ($this->lieu as $key => $value) : 
 				if ($this->mode == "simple") {
 					if (!in_array($key, $this->keySimple)) {
 						continue;
@@ -33,36 +33,36 @@
 				$nbElement++;	
 			?>
 			<tr>
-				<td class='comp_titre' valign="top"><?=$key?></td>
+				<td class='comp_titre' valign="top"><?php echo $key?></td>
 				<td>
-				<? if ($key == "id_lieu"): ?>
-					<input type='hidden' name="<?=$key ?>" value="<?=stripslashes($value)?>">
-					<?=$value ?>
-				<? elseif ($key == "description_lieu"): ?>
+				<?php if ($key == "id_lieu"): ?>
+					<input type='hidden' name="<?php echo $key ?>" value="<?php echo stripslashes($value)?>">
+					<?php echo $value ?>
+				<?php elseif ($key == "description_lieu"): ?>
 					
 					<div id="label_description">
-					  <?=Bral_Util_BBParser::bbcodeReplace($value) ?><? if (mb_strlen(trim($value)) == 0 || $value == null) :?> [vide]<? endif; ?>
+					  <?php echo Bral_Util_BBParser::bbcodeReplace($value) ?><?php if (mb_strlen(trim($value)) == 0 || $value == null) :?> [vide]<?php endif; ?>
 					  </div>
 					  
 					  <div id="edition" style="display:block">
-					  <?=Bral_Helper_BBBoutons::affiche($key)?>
-					  <textarea rows='10' cols='80' name="<?=$key?>"  id="<?=$key?>"><?=stripslashes($value) ?></textarea>
+					  <?php echo Bral_Helper_BBBoutons::affiche($key)?>
+					  <textarea rows='10' cols='80' name="<?php echo $key?>"  id="<?php echo $key?>"><?php echo stripslashes($value) ?></textarea>
 					  </div>
 					  
-				<? else: ?>
-					<input type='text' name="<?=$key ?>" value="<?=stripslashes($value)?>">
-				<? endif; ?>
+				<?php else: ?>
+					<input type='text' name="<?php echo $key ?>" value="<?php echo stripslashes($value)?>">
+				<?php endif; ?>
 				</td>
 				<td>				
-				<? if ($nbElement % 8 == 0) :?>
+				<?php if ($nbElement % 8 == 0) :?>
 				<input type="submit"  class='button1' name="Modifier" value="Modifier le lieu" />
-				<? endif; ?>
+				<?php endif; ?>
 				</td>
 			</tr>
-			<? endforeach; ?>
+			<?php endforeach; ?>
 			</table>
 			<input type="submit"  class='button1' name="Modifier" value="Modifier le lieu" />
-		<? endif; ?>
+		<?php endif; ?>
 		</form>
 		</div>
 	</div>

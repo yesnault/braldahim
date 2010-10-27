@@ -66,7 +66,7 @@
 <i>Pour relater un fait, choisissez la compétence "<a href="http://wiki.braldahim.com/wiki/Relater_un_fait" class="aWhite">Relater un fait</a>" dans le jeu.</i><br/>
 			<label  class="aWhite" style="text-decoration:underline" onclick="javascript:$('abus_div').style.display='block';">Merci de signaler tout abus constaté</label>.<br/>
 			<div id='abus_div' style="display:none">
-			<?=$this->render('abus/formulaire.phtml')?>
+			<?php echo $this->render('abus/formulaire.phtml')?>
 			</div>
 			<br/><br/>
 	<table style="width:100%">
@@ -77,15 +77,15 @@
 			</div><br/>
 			
 			Filtre par année: <select id="anneeRelate" name="anneeRelate" onchange="goToRelate();">
-			<? foreach($this->annees as $a): ?>
-				<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='selected'" ; endif;?>><?=$a?></option>
-			<? endforeach;?>
+			<?php foreach($this->annees as $a): ?>
+				<option value="<?php echo $a?>" <?if ($this->anneeSelect == $a): echo "selected='selected'" ; endif;?>><?php echo $a?></option>
+			<?php endforeach;?>
 			</select>
 			
 			Filtre par type: <select id="typeRelate" name="typeRelate" onchange="goToRelate();">
-			<? foreach($this->types as $t): ?>
-				<option value="<?=$t["id_type"]?>" <?if ($this->typeSelect == $t["id_type"]): echo "selected='selected'" ; endif;?>><?=$t["nom_type"]?></option>
-			<? endforeach;?>
+			<?php foreach($this->types as $t): ?>
+				<option value="<?php echo $t["id_type"]?>" <?if ($this->typeSelect == $t["id_type"]): echo "selected='selected'" ; endif;?>><?php echo $t["nom_type"]?></option>
+			<?php endforeach;?>
 			</select>
 			<br/><br/>
 			
@@ -101,11 +101,11 @@
 	</tr>
 	<tr>
 		<td style="width:320px" valign="top">
-		<? include('relate.phtml')?>
+		<?php include('relate.phtml')?>
 		</td>
 		
 		<td style="width:320px" valign="top">
-		<? include('recherche.phtml')?>
+		<?php include('recherche.phtml')?>
 		</td>
 	</tr>
 	</table>

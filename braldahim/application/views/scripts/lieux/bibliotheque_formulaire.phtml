@@ -2,56 +2,56 @@
  <form name='myForm'  id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, la Biblioth&egrave;que <br />
+ Pour <?php echo $this->paUtilisationLieu ?> PA et <?php echo $this->coutCastars?> castars, la Biblioth&egrave;que <br />
   vous propose d'apprendre une nouvelle comp&eacute;tence.<br /><br />
   
-  <? if ($this->possedeCompetenceCommune === false): ?>
+  <?php if ($this->possedeCompetenceCommune === false): ?>
 	  C'est votre première visite, la première compétence est gratuite en castars!<br /><br />
-  <? endif; ?>
+  <?php endif; ?>
   
-  <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
- 	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous devez
+  <?php if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ 	Vous avez atteint le niveau <?php echo Bral_Util_Niveau::NIVEAU_MAX?>, vous devez
  	acheter les nouvelles compétences à l'aide de PX et non de PI.<br /><br />
- <? endif;?>
+ <?php endif;?>
  
- <? if ($this->nCompetences == 0): ?>
+ <?php if ($this->nCompetences == 0): ?>
 	Il n'y a aucune comp&eacute;tence pour vous...
- <? elseif ($this->utilisationPaPossible == false) : ?>
+ <?php elseif ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de PA<br /><br />
- <? elseif ($this->achatPiPossible == false): ?>
- 	Vous ne pouvez rien apprendre, vous n'avez pas assez de <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?><br /><br />
- <? elseif ($this->achatPossibleCastars == false): ?>
+ <?php elseif ($this->achatPiPossible == false): ?>
+ 	Vous ne pouvez rien apprendre, vous n'avez pas assez de <?php if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?><br /><br />
+ <?php elseif ($this->achatPossibleCastars == false): ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de Castars<br /><br />
- <? endif; ?>
+ <?php endif; ?>
  
-<? if ($this->nCompetences > 0): ?>
- <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
+<?php if ($this->nCompetences > 0): ?>
+ <?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
   Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('bouton_bibliotheque').disabled=true;" checked style="display:none">
- <? endif; ?>
+ <?php endif; ?>
  <table>
- <? foreach ($this->tabCompetences as $c):?>
+ <?php foreach ($this->tabCompetences as $c):?>
    <tr>
-     <td><a href='http://regles.braldahim.com/wiki/<?=$c["nom"]?>'><?=$c["nom"]?></a></td>
-     <td nowrap> co&ucirc;t : <?=$c["pi_cout"]?> <? if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?> </td>
+     <td><a href='http://regles.braldahim.com/wiki/<?php echo $c["nom"]?>'><?php echo $c["nom"]?></a></td>
+     <td nowrap> co&ucirc;t : <?php echo $c["pi_cout"]?> <?php if ($this->user->niveau_braldun >= Bral_Util_Niveau::NIVEAU_MAX) : echo "PX"; else : echo "PI"; endif;?> </td>
      <td align='left'>
-     <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
-     	<? if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>
-       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onchange="$('bouton_bibliotheque').disabled=false;">
-       	<? else :?>
+     <?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
+     	<?php if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>
+       		<input type="radio" name="valeur_1" id="valeur_1" value="<?php echo $c["id_competence"]?>" onchange="$('bouton_bibliotheque').disabled=false;">
+       	<?php else :?>
        		(N&eacute;cessite Connaissances des monstres !)
        	<?endif; ?>
-     <? endif;?>
+     <?php endif;?>
      </td>
    </tr>
- <? endforeach; ?>
+ <?php endforeach; ?>
  </table>
- <? endif; ?>
+ <?php endif; ?>
  
  </div> 
 </form>
 <br />
 
-<? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
+<?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
 <input type='button' class='button1' id="bouton_bibliotheque" value='Apprendre cette comp&eacute;tence !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_bibliotheque');"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

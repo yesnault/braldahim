@@ -13,46 +13,46 @@
 				</thead>
 				
 				<tbody>
-				 <? foreach($this->lieuxQuetes as $region) :
+				 <?php foreach($this->lieuxQuetes as $region) :
 				 	$i = 0; 
 				 	?>
 				 	<tr class="table_liste">
-						<td class="table_liste_th" colspan='2'><?=$region["nom"]?></td>
+						<td class="table_liste_th" colspan='2'><?php echo $region["nom"]?></td>
 				 	</tr>
-				 	<? foreach($region["lieux"] as $l) : ?>
-			  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+				 	<?php foreach($region["lieux"] as $l) : ?>
+			  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste">
-			  			<? if ($l["id_quete"] != null) : ?>
-						  	<label class="alabel" onclick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$l["id_quete"]?>');">
-						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?>
+			  			<?php if ($l["id_quete"] != null) : ?>
+						  	<label class="alabel" onclick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?php echo $l["id_quete"]?>');">
+						  	Qu&ecirc;te de la <?php echo $l["nom_lieu"]?>
 						  	</label> 
-					  	<? else: ?>
+					  	<?php else: ?>
 						  	<label>
-						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?>
+						  	Qu&ecirc;te de la <?php echo $l["nom_lieu"]?>
 						  	</label>
-					  	<? endif;?>
+					  	<?php endif;?>
 					  	
-					  	(<a title="Cliquez pour voir <?=$l["nom_ville"]?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?=$l["nom_ville"]?>')";><?=$l["nom_ville"]?></a>)
+					  	(<a title="Cliquez pour voir <?php echo $l["nom_ville"]?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?php echo $l["nom_ville"]?>')";><?php echo $l["nom_ville"]?></a>)
 					  
 					</td>
 					<td class="table_liste" nowrap>
-					  	<? if ($l["date_fin_quete"] != null): ?> 
+					  	<?php if ($l["date_fin_quete"] != null): ?> 
 					  		Terminée
-					  	<? elseif ($l["en_cours"] === true): ?>
+					  	<?php elseif ($l["en_cours"] === true): ?>
 					  		En Cours
-					  	<? else: ?>
+					  	<?php else: ?>
 					  		Non Débutée
-					  	<? endif;?>
+					  	<?php endif;?>
 					 </td>
 				  	 </tr>
-				  	<? endforeach;?>
-				  <? endforeach;?>
+				  	<?php endforeach;?>
+				  <?php endforeach;?>
 				</tbody>
 			</table>
  		</td>
  		<td width="60%" valign="top">
  			<div id="box_quete_voir">
-			<?=$this->htmlQuete?>
+			<?php echo $this->htmlQuete?>
 			</div>
  		</td>
  	</tr>

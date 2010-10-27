@@ -1,4 +1,4 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu1 textalic">
 	<?include("filtre.phtml")?>
@@ -11,31 +11,31 @@
 		<th>Nombre de kills de bralduns</th>
 	  </tr>
 	</thead>
-  	<? if (count($this->top10) > 0): ?>
+  	<?php if (count($this->top10) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->top10 as $e): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onclick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/monstre/?monstre=<?=$e["id_monstre"]?>');" title="Cliquez pour voir le profil">
-		  				<?=$e["nom_type_monstre"]?>, n&deg;<?=$e["id_monstre"]?>
+		  			<a href="#" onclick="javascript:ouvrirWin('<?php echo $this->config->url->game?>/voir/monstre/?monstre=<?php echo $e["id_monstre"]?>');" title="Cliquez pour voir le profil">
+		  				<?php echo $e["nom_type_monstre"]?>, n&deg;<?php echo $e["id_monstre"]?>
 		  			</a>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$e["nombre"]?>
+		  			<?php echo $e["nombre"]?>
 		  		</td>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-	<? else: ?>
+	<?php else: ?>
 	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
 	</tr>
-	<? endif; ?>
+	<?php endif; ?>
 	</table>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

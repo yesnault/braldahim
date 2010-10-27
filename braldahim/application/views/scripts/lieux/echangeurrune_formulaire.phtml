@@ -2,48 +2,48 @@
  <form name='myForm'  id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA et quelques castars, Glourte Pieds Visqueux vous propose d'échanger
+ Pour <?php echo $this->paUtilisationLieu ?> PA et quelques castars, Glourte Pieds Visqueux vous propose d'échanger
  trois runes identiques contre une rune d'un niveau supérieur. Attention, seules des runes de certaines raret&eacute;s sont &eacute;changeables.<br /><br />
  
- <? if ($this->utilisationPaPossible === true) : ?>
-	 Vous avez actuellement <?=$this->user->castars_braldun?> castar<? if ($this->user->castars_braldun > 1): echo "s"; endif;?>.<br /><br />
+ <?php if ($this->utilisationPaPossible === true) : ?>
+	 Vous avez actuellement <?php echo $this->user->castars_braldun?> castar<?php if ($this->user->castars_braldun > 1): echo "s"; endif;?>.<br /><br />
 	 
-		<? if (count($this->labanRunes) > 0 && $this->tabAAfficher === true) : ?>
+		<?php if (count($this->labanRunes) > 0 && $this->tabAAfficher === true) : ?>
 			<table>
-			 <? foreach ($this->labanRunes as $r): ?>
-			 	<? if ($r["a_afficher"] == true): ?>
+			 <?php foreach ($this->labanRunes as $r): ?>
+			 	<?php if ($r["a_afficher"] == true): ?>
 				   <tr>
 				     <td valign="top">
-				     <img class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$r["image_type_rune"]?>" title="<?=$r["nom_type_rune"]?>" alt="<?=$r["nom_type_rune"] ?>"/>
+				     <img class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $r["image_type_rune"]?>" title="<?php echo $r["nom_type_rune"]?>" alt="<?php echo $r["nom_type_rune"] ?>"/>
 				     <br />
-				     3 runes <?=$r["nom_type_rune"]?>
+				     3 runes <?php echo $r["nom_type_rune"]?>
 				     <br />
-				     co&ucirc;t : <?=$r["cout_castars"]?> castars.
-				     <? if ($r["achat_possible"] !== true): ?>
+				     co&ucirc;t : <?php echo $r["cout_castars"]?> castars.
+				     <?php if ($r["achat_possible"] !== true): ?>
 				     	(trop cher)
-				     <? endif;?>
+				     <?php endif;?>
 				     </td>
 				     <td align='left' valign="top">
-				     <? if ($this->utilisationPaPossible === true && $r["achat_possible"] === true && $this->achatPossibleCastars === true): ?>
-				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$r["id_type_rune"]?>" onchange="$('bouton_echangeurrune').disabled=false;">
-				     <? endif;?>
+				     <?php if ($this->utilisationPaPossible === true && $r["achat_possible"] === true && $this->achatPossibleCastars === true): ?>
+				       		<input type="radio" name="valeur_1" id="valeur_1" value="<?php echo $r["id_type_rune"]?>" onchange="$('bouton_echangeurrune').disabled=false;">
+				     <?php endif;?>
 				     </td>
 				   </tr>
-				  <? endif;?>
-				<? endforeach; ?>
+				  <?php endif;?>
+				<?php endforeach; ?>
 			 </table>
-		<? else: ?>
+		<?php else: ?>
 			Vous n'avez de runes &eacute;changeables dans votre laban.
-		<? endif; ?>
+		<?php endif; ?>
 	 </div> 
 	</form>
 
-<? else :?>
+<?php else :?>
 Vous n'avez pas assez de PA.<br />
-<? endif; ?>
+<?php endif; ?>
 
 
-<? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->tabAAfficher === true): ?>
+<?php if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->tabAAfficher === true): ?>
 <input type='button' class='button1' id="bouton_echangeurrune" value='&Eacute;changer !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_echangeurrune');"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

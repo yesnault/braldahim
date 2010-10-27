@@ -19,11 +19,11 @@
 			<h3 id="pocheSouleMessage-head" class="head" onclick="maccordion(this);" >
 			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau Message"/> 
 			</h3>
-			<? if ($this->matchEnCours != null) : ?>
+			<?php if ($this->matchEnCours != null) : ?>
 			<ul id="pocheSouleMessage-body" style="display:none">
-			<? else: ?>
+			<?php else: ?>
 			<ul id="pocheSouleMessage-body" style="display:block">
-			<? endif;?>
+			<?php endif;?>
 				<li>
 					<?php include("nouveau.phtml")?>
 				</li>
@@ -33,22 +33,22 @@
 		</td>
    	</tr>
 
-  <? if (count($this->souleMessages) > 0): ?>
+  <?php if (count($this->souleMessages) > 0): ?>
 	<tbody>
-  	<? $i = 0; 
+  	<?php $i = 0; 
   	foreach($this->souleMessages as $e): ?>
-  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-  			<td class="table_liste"><?=$e["date"]?>&nbsp;</td>
-  			<td class="table_liste"><?=$e["braldun"]?>&nbsp;</td>
-	  		<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
+  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+  			<td class="table_liste"><?php echo $e["date"]?>&nbsp;</td>
+  			<td class="table_liste"><?php echo $e["braldun"]?>&nbsp;</td>
+	  		<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
   		</tr>
-  	<? endforeach; ?>
+  	<?php endforeach; ?>
   	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    		<td colspan="3">
    			Aucun message
    		</td>
    	</tr>
-<? endif; ?>
+<?php endif; ?>
 </table>

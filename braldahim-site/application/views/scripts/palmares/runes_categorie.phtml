@@ -1,7 +1,7 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu1 textalic">
-	<? include("filtre.phtml") ?>
+	<?php include("filtre.phtml") ?>
 	
 	<br />
 	Les runes découvertes ce mois-ci ne sont pas prises en compte.<br />
@@ -13,37 +13,37 @@
 		<th>Nombre</th>
 	  </tr>
 	</thead>
-  	<? if (count($this->categories) > 0): ?>
+  	<?php if (count($this->categories) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->categories as $f): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-		  			<? if ($f["niveau"] == "d"): ?>
+		  			<?php if ($f["niveau"] == "d"): ?>
 		  				Runes communes 
-		  			<? elseif ($f["niveau"] == "c"): ?>
+		  			<?php elseif ($f["niveau"] == "c"): ?>
 		  				Runes peu communes
-		  			<? elseif ($f["niveau"] == "b"): ?>
+		  			<?php elseif ($f["niveau"] == "b"): ?>
 		  				Runes rares 
-		  			<? elseif ($f["niveau"] == "a"): ?>
+		  			<?php elseif ($f["niveau"] == "a"): ?>
 		  				Runes très rares 
-		  			<? endif;?>
+		  			<?php endif;?>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$f["nombre"]?>
+		  			<?php echo $f["nombre"]?>
 		  		</td>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
    	</tr>
-   <? endif; ?>
+   <?php endif; ?>
    </table>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

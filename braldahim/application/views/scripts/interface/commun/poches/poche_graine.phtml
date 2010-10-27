@@ -1,6 +1,6 @@
-<? if ($this->nb_graines == 0) : ?>
+<?php if ($this->nb_graines == 0) : ?>
 	<center><i>Vide</i></center>
-<? else : ?>
-	<?=$this->render("/interface/commun/graines/graines.phtml"); ?>
+<?php else : ?>
+	<?php echo $this->render("/interface/commun/graines/graines.phtml"); ?>
    <br/>
-<? endif; ?>
+<?php endif; ?>

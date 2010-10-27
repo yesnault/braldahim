@@ -1,23 +1,23 @@
-<? include("commun_text_resultat.phtml") ?>
-<? if ($this->okJet1 === true): ?>
-	Le Braldûn <?=$this->tabCDM['prenom_braldun']?> <?=$this->tabCDM['nom_braldun'] ?> (<?=$this->tabCDM['id_braldun'] ?>) a les caract&eacute;ristiques suivantes :<br /><br />
+<?php include("commun_text_resultat.phtml") ?>
+<?php if ($this->okJet1 === true): ?>
+	Le Braldûn <?php echo $this->tabCDM['prenom_braldun']?> <?php echo $this->tabCDM['nom_braldun'] ?> (<?php echo $this->tabCDM['id_braldun'] ?>) a les caract&eacute;ristiques suivantes :<br /><br />
 	
-	Niveau : <?=$this->tabCDM['niveau_braldun'] ?> <br />
-	Point de vie max : entre <?=$this->tabCDM['min_pvmax_braldun'] ?> et <?=$this->tabCDM['max_pvmax_braldun'] ?><br />
-	Point de vie actuels : entre <?=$this->tabCDM['min_pvact_braldun'] ?> et <?=$this->tabCDM['max_pvact_braldun'] ?><br />
-	Force : entre <?=$this->tabCDM['min_for_braldun'] ?> et <?=$this->tabCDM['max_for_braldun'] ?> D<?=$this->config->game->de_force?><br />
-	Agilit&eacute; : entre <?=$this->tabCDM['min_agi_braldun'] ?> et <?=$this->tabCDM['max_agi_braldun'] ?> D<?=$this->config->game->de_agilite?><br />
-	Sagesse : entre <?=$this->tabCDM['min_sag_braldun'] ?> et <?=$this->tabCDM['max_sag_braldun'] ?> D<?=$this->config->game->de_sagesse?><br />
-	Vigueur : entre <?=$this->tabCDM['min_vig_braldun'] ?> et <?=$this->tabCDM['max_vig_braldun'] ?> D<?=$this->config->game->de_vigueur?><br />
-	R&eacute;g&eacute;n&eacute;ration : entre <?=$this->tabCDM['min_reg_braldun'] ?> et <?=$this->tabCDM['max_reg_braldun'] ?> D<?=$this->config->game->de_regeneration?><br />
-	Armure : entre <?=$this->tabCDM['min_arm_braldun'] ?> et <?=$this->tabCDM['max_arm_braldun'] ?><br />
-	Dur&eacute;e du tour : entre <?=$this->tabCDM['min_dla_braldun'] ?> et <?=$this->tabCDM['max_dla_braldun'] ?><br />
+	Niveau : <?php echo $this->tabCDM['niveau_braldun'] ?> <br />
+	Point de vie max : entre <?php echo $this->tabCDM['min_pvmax_braldun'] ?> et <?php echo $this->tabCDM['max_pvmax_braldun'] ?><br />
+	Point de vie actuels : entre <?php echo $this->tabCDM['min_pvact_braldun'] ?> et <?php echo $this->tabCDM['max_pvact_braldun'] ?><br />
+	Force : entre <?php echo $this->tabCDM['min_for_braldun'] ?> et <?php echo $this->tabCDM['max_for_braldun'] ?> D<?php echo $this->config->game->de_force?><br />
+	Agilit&eacute; : entre <?php echo $this->tabCDM['min_agi_braldun'] ?> et <?php echo $this->tabCDM['max_agi_braldun'] ?> D<?php echo $this->config->game->de_agilite?><br />
+	Sagesse : entre <?php echo $this->tabCDM['min_sag_braldun'] ?> et <?php echo $this->tabCDM['max_sag_braldun'] ?> D<?php echo $this->config->game->de_sagesse?><br />
+	Vigueur : entre <?php echo $this->tabCDM['min_vig_braldun'] ?> et <?php echo $this->tabCDM['max_vig_braldun'] ?> D<?php echo $this->config->game->de_vigueur?><br />
+	R&eacute;g&eacute;n&eacute;ration : entre <?php echo $this->tabCDM['min_reg_braldun'] ?> et <?php echo $this->tabCDM['max_reg_braldun'] ?> D<?php echo $this->config->game->de_regeneration?><br />
+	Armure : entre <?php echo $this->tabCDM['min_arm_braldun'] ?> et <?php echo $this->tabCDM['max_arm_braldun'] ?><br />
+	Dur&eacute;e du tour : entre <?php echo $this->tabCDM['min_dla_braldun'] ?> et <?php echo $this->tabCDM['max_dla_braldun'] ?><br />
 	
 	<br />
-	Vous avez effectué cette compétence à une distance de <?=$this->distance?> de la cible.
+	Vous avez effectué cette compétence à une distance de <?php echo $this->distance?> de la cible.
 	
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre reconnaissance.<br />
-<? endif; ?>
+<?php endif; ?>
 
 

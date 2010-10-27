@@ -6,14 +6,14 @@
   Pour obtenir un contrat de Redresseur de Torts, allez à Sarlute dans la maison de contrat.<br />
   <br />
   <br />
-  <? if ($this->contrats == null) : ?>
+  <?php if ($this->contrats == null) : ?>
   	Vous n'avez aucun contrat.<br />
-  <? else: ?>
+  <?php else: ?>
   
-    <? if ($this->idContratEnCours != null) : ?>
-	  <input type='button' class='button1' value='Annuler le contrat en cours - 0 PA' onclick="_get_('/contrat/doaction?caction=ask_contrat_annuler&id_contrat=<?=$this->idContratEnCours?>');">
+    <?php if ($this->idContratEnCours != null) : ?>
+	  <input type='button' class='button1' value='Annuler le contrat en cours - 0 PA' onclick="_get_('/contrat/doaction?caction=ask_contrat_annuler&id_contrat=<?php echo $this->idContratEnCours?>');">
 	  <br /><br />
-  	<? endif;?>
+  	<?php endif;?>
   
  	<table width="100%">
  		<tr>
@@ -26,33 +26,33 @@
 					</thead>
 					
 					<tbody>
-					 <? foreach($this->contrats as $c) :
+					 <?php foreach($this->contrats as $c) :
 					 	$i = 0; 
 					 	?>
-				  		<tr class="table_liste<?=($i % 2);$i++; ?>" title="Cliquer pour voir le détail" style="cursor:pointer" onclick="Javascript:_get_('/contrat/doaction?caction=ask_contrat_voir&id_contrat=<?=$c["id_contrat"]?>');">
+				  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>" title="Cliquer pour voir le détail" style="cursor:pointer" onclick="Javascript:_get_('/contrat/doaction?caction=ask_contrat_voir&id_contrat=<?php echo $c["id_contrat"]?>');">
 				  		<td class="table_liste">
-				  			<?=$c["cible"]?>
+				  			<?php echo $c["cible"]?>
 				  		</td>
 						<td class="table_liste" nowrap>
-						  	<? if ($c["etat_contrat"] == "terminé"): ?>
-						  		Terminé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_fin_contrat"]);?>
-						  	<? elseif ($c["etat_contrat"] == "annulé"): ?>
-						  		Annulé le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_fin_contrat"]);?>
-						  	<? else: ?>
-						  		En Cours, depuis le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_creation_contrat"]);?>
-						  	<? endif;?>
+						  	<?php if ($c["etat_contrat"] == "terminé"): ?>
+						  		Terminé le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_fin_contrat"]);?>
+						  	<?php elseif ($c["etat_contrat"] == "annulé"): ?>
+						  		Annulé le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_fin_contrat"]);?>
+						  	<?php else: ?>
+						  		En Cours, depuis le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$c["date_creation_contrat"]);?>
+						  	<?php endif;?>
 						 </td>
 					  	 </tr>
-					  <? endforeach;?>
+					  <?php endforeach;?>
 					</tbody>
 				</table>
  			</td>
  			<td width="60%" valign="top">
  				<div id="box_contrat_voir">
-				<?=$this->htmlContrat?>
+				<?php echo $this->htmlContrat?>
 				</div>
  			</td>
  		</tr>
  	</table>
- <? endif;?>
+ <?php endif;?>
  	

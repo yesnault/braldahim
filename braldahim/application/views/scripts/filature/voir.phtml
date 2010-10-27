@@ -3,12 +3,12 @@
 		<thead class="table_liste">
 		  <tr class="table_liste">
 			<th colspan="4">
-			Filature de <?=Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->filature["id_fk_cible_braldun_filature"]."]");?>
-		  	<? if ($this->filature["date_fin_filature"] != null): ?> 
-		  		terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->filature["date_fin_filature"]) ?>
-		  	<? else: ?>
+			Filature de <?php echo Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$this->filature["id_fk_cible_braldun_filature"]."]");?>
+		  	<?php if ($this->filature["date_fin_filature"] != null): ?> 
+		  		terminée le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->filature["date_fin_filature"]) ?>
+		  	<?php else: ?>
 		  		en cours
-		  	<? endif;?>
+		  	<?php endif;?>
 			</th>
 		  </tr>
 		  <tr class="table_liste">
@@ -17,26 +17,26 @@
 		  </tr>
 		</thead>
 		<tbody>
-		<? if ($this->historique != null): ?>
-		  <? $i = 0; 
+		<?php if ($this->historique != null): ?>
+		  <?php $i = 0; 
 		  foreach($this->historique as $e): ?>
-		  	<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-			  		<?=$e["date_historique_filature"]?>
+			  		<?php echo $e["date_historique_filature"]?>
 		  		</td>
 		  		<td class="table_liste">
-			  		<?=$e["details_historique_filature"]?>
+			  		<?php echo $e["details_historique_filature"]?>
 		  		</td>
 		  	</tr>
-		  <? endforeach; ?>
+		  <?php endforeach; ?>
 		  
-		<? else: ?>
+		<?php else: ?>
 		   <tr class="table_liste">
 		   	<td colspan="5">
 		   		Aucun historique
 		   	</td>
 		   </tr>
-		<? endif; ?>
+		<?php endif; ?>
 	   </tbody>
 	</table>
 					

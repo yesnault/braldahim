@@ -1,4 +1,4 @@
-<? include("box_header.phtml");
+<?php include("box_header.phtml");
 Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 ?>
 <div class="inner">
@@ -6,25 +6,25 @@ Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
  <div class="contenuA">
   <div class="box_contenu1 textalic">
  
- <? if ($this->affichageInterne == true) : ?>
+ <?php if ($this->affichageInterne == true) : ?>
  
    &Eacute;quipement pr&eacute;sent sur vous : <br />
 
 	<table>
 	<tr>
-	<td><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/vue/braldun_<?=$this->user->sexe_braldun?>_grand.png'"/></td>
+	<td><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/braldun_<?php echo $this->user->sexe_braldun?>_grand.png'"/></td>
 	
-	<td><?=Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement); ?></td>
+	<td><?php echo Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement); ?></td>
 	</tr>
 	</table>
 	
   	
- <? else: ?>
+ <?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 
    </div>
 </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

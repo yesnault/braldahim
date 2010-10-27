@@ -1,40 +1,40 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
-<? if ($this->affichageInterne == true) :
+<?php if ($this->affichageInterne == true) :
 	if ($this->estVueEtendue == false) {
 		include('vue/titre_vue.phtml'); 
 	} else {
 		?><div class="titre textalic textsizea">Ma Vue &Eacute;tendue</div>
 		<div class="titre textalic textsizef">
-		<?=$this->vue_nb_cases ?> case<? if ($this->vue_nb_cases > 1): echo "s"; endif; ?>
+		<?php echo $this->vue_nb_cases ?> case<?php if ($this->vue_nb_cases > 1): echo "s"; endif; ?>
 		aux alentours
 		</div><?
 	}
 ?>
 <div class="box_contenu1 textalic">
-<? if (Zend_Registry::get("estWork")) : ?>
+<?php if (Zend_Registry::get("estWork")) : ?>
 	<input type='button' class='button1' value='Afficher / Cacher la vue et ses images' onclick="switch2div('vueFoo', 'vueTableWrapper');">
 	<div id='vueFoo'>Vue Cachée</div>
-<? endif;?>
+<?php endif;?>
   <table align="center" id="vueTableWrapper" class="vueTableWrapper">
   	<tr>
   		<td valign="top">
-		<? if ($this->user->z_braldun != 0) : ?>
+		<?php if ($this->user->z_braldun != 0) : ?>
 			<div class="textalic textsizee">
-				<b>Vous êtes au niveau z:<?=$this->user->z_braldun?></b>
+				<b>Vous êtes au niveau z:<?php echo $this->user->z_braldun?></b>
 			</div>
-		<? endif;?>  		
-		<? include('vue/damier.phtml'); ?>
+		<?php endif;?>  		
+		<?php include('vue/damier.phtml'); ?>
 		</td>
-		<? if (!$this->estMobile && !$this->estVueEtendue) : ?>
+		<?php if (!$this->estMobile && !$this->estVueEtendue) : ?>
   		<?//<td valign="top" style="padding-top:18px"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>?>
-  		<? endif;?>
+  		<?php endif;?>
   	</tr>
   </table>
 </div>
-<? else: ?>
+<?php else: ?>
 	Chargement de la vue en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

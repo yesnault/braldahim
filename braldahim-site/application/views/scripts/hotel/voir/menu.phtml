@@ -9,9 +9,9 @@
 <td colspan='3'>
 		<select name="hotel_menu_recherche_pratique" id="hotel_menu_recherche_pratique" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Recherches pratiques</option>
-		<? foreach($this->menuRecherchePratique as $m) : ?>
-			<option value="<?=$m["numero_element"]?>" <?=$m["selected"]?>><?=$m["nom"]?></option>
-		<? endforeach;?>
+		<?php foreach($this->menuRecherchePratique as $m) : ?>
+			<option value="<?php echo $m["numero_element"]?>" <?php echo $m["selected"]?>><?php echo $m["nom"]?></option>
+		<?php endforeach;?>
 		</select>
 </td>
 </tr>
@@ -19,28 +19,28 @@
 	<td>
 		<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Équipements</option>
-		<? foreach($this->menuRechercheEquipement as $m) : ?>
-			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
-			<? foreach($m["elements"] as $e) : ?>
-				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-			<? endforeach; ?>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheEquipement as $m) : ?>
+			<optgroup label="<?php echo $m["titre"]?>" style="font-weight:bold"></optgroup>
+			<?php foreach($m["elements"] as $e) : ?>
+				<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom"]?></option>
+			<?php endforeach; ?>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Potions et Vernis</option>
-		<? foreach($this->menuRecherchePotion as $e) : ?>
-			<option value="<?=$e["numero_element"]?>"><?=$e["nom_type"]?> <?=$e["nom"]?></option>
-		<? endforeach;?>
+		<?php foreach($this->menuRecherchePotion as $e) : ?>
+			<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom_type"]?> <?php echo $e["nom"]?></option>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_materiels" id="hotel_menu_recherche_materiels" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Matériels</option>
-		<? foreach($this->menuRechercheMateriel as $m) : ?>
-			<option value="<?=$m["numero_element"]?>"><?=$m["nom"]?></option>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheMateriel as $m) : ?>
+			<option value="<?php echo $m["numero_element"]?>"><?php echo $m["nom"]?></option>
+		<?php endforeach;?>
 		</select>
 	</td>
 </tr>
@@ -48,31 +48,31 @@
 	<td>
 		<select name="hotel_menu_recherche_munitions" id="hotel_menu_recherche_munitions" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Munitions</option>
-		<? foreach($this->menuRechercheMunition as $m) : ?>
-			<option value="<?=$m["numero_element"]?>"><?=$m["nom"]?></option>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheMunition as $m) : ?>
+			<option value="<?php echo $m["numero_element"]?>"><?php echo $m["nom"]?></option>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_matieres_premieres" id="hotel_menu_recherche_matieres_premieres" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Matières Premières</option>
-		<? foreach($this->menuRechercheMatieresPremieres as $m) : ?>
-			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
-			<? foreach($m["elements"] as $e) : ?>
-				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-			<? endforeach; ?>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheMatieresPremieres as $m) : ?>
+			<optgroup label="<?php echo $m["titre"]?>" style="font-weight:bold"></optgroup>
+			<?php foreach($m["elements"] as $e) : ?>
+				<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom"]?></option>
+			<?php endforeach; ?>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_matieres_transformees" id="hotel_menu_recherche_matieres_transformees" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Matières Transformées</option>
-		<? foreach($this->menuRechercheMatieresTransformees as $m) : ?>
-			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
-			<? foreach($m["elements"] as $e) : ?>
-				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-			<? endforeach; ?>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheMatieresTransformees as $m) : ?>
+			<optgroup label="<?php echo $m["titre"]?>" style="font-weight:bold"></optgroup>
+			<?php foreach($m["elements"] as $e) : ?>
+				<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom"]?></option>
+			<?php endforeach; ?>
+		<?php endforeach;?>
 		</select>
 	</td>
 </tr>
@@ -80,20 +80,20 @@
 	<td>
 		<select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Runes</option>
-		<? foreach($this->menuRechercheRune as $e) : ?>
-			<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheRune as $e) : ?>
+			<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom"]?></option>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_aliments_ingredients" id="hotel_menu_recherche_aliments_ingredients" onchange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Aliments / Ingrédients</option>
-		<? foreach($this->menuRechercheAlimentsIngredients as $m) : ?>
-			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
-			<? foreach($m["elements"] as $e) : ?>
-				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-			<? endforeach; ?>
-		<? endforeach;?>
+		<?php foreach($this->menuRechercheAlimentsIngredients as $m) : ?>
+			<optgroup label="<?php echo $m["titre"]?>" style="font-weight:bold"></optgroup>
+			<?php foreach($m["elements"] as $e) : ?>
+				<option value="<?php echo $e["numero_element"]?>"><?php echo $e["nom"]?></option>
+			<?php endforeach; ?>
+		<?php endforeach;?>
 		</select>
 	</td>
 	<td>&nbsp;

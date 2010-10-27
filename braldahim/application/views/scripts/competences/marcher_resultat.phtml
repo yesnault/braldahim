@@ -1,22 +1,22 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
-<? else: ?>
-	<? include("commun_text_resultat.phtml") ?>
+<?php else: ?>
+	<?php include("commun_text_resultat.phtml") ?>
 	D&eacute;placement r&eacute;ussi jusqu'en : <br />
-	x=<?=$this->user->x_braldun?>, y=<?=$this->user->y_braldun?> 
+	x=<?php echo $this->user->x_braldun?>, y=<?php echo $this->user->y_braldun?> 
 	
-	<? if ($this->user->z_braldun != 0) : ?>
-		et z=<?=$this->user->z_braldun?>
-	<? endif;?>
+	<?php if ($this->user->z_braldun != 0) : ?>
+		et z=<?php echo $this->user->z_braldun?>
+	<?php endif;?>
 	
 	<br /><br />
 	 
-	Type de terrain de d&eacute;part : <?=htmlspecialchars($this->environnement)?><br /><br />
+	Type de terrain de d&eacute;part : <?php echo htmlspecialchars($this->environnement)?><br /><br />
 	
-	<? if ($this->estCrevasseEvenement === true) : ?>
-		<? Zend_Loader::loadClass("Bral_Helper_Crevasse");
+	<?php if ($this->estCrevasseEvenement === true) : ?>
+		<?php Zend_Loader::loadClass("Bral_Helper_Crevasse");
 		   echo Bral_Helper_Crevasse::afficheResultat($this->user);
 		?>
 	<br />
-	<? endif;?>
-<? endif; ?>
+	<?php endif;?>
+<?php endif; ?>

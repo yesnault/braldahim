@@ -1,22 +1,22 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
-	Provocation de <?=$this->monstre["nom_monstre"]?> <?=$this->monstre["taille_monstre"]?>  (<?=$this->monstre["id_monstre"]?>)
+<?php if ($this->okJet1 === true): ?>
+	Provocation de <?php echo $this->monstre["nom_monstre"]?> <?php echo $this->monstre["taille_monstre"]?>  (<?php echo $this->monstre["id_monstre"]?>)
 	<br /><br />
-	 Votre jet de vigueur : <?=$this->jetBraldun?><br />
-	 Jet de sagesse du monstre : <?=$this->jetMonstre?><br />
+	 Votre jet de vigueur : <?php echo $this->jetBraldun?><br />
+	 Jet de sagesse du monstre : <?php echo $this->jetMonstre?><br />
 	 
 	 <br />
 	 
-	 <? if ($this->provoquerOk === true) : ?>
+	 <?php if ($this->provoquerOk === true) : ?>
 	 	Vous avez provoqu&eacute; avec succ&egrave;s. <br />	
 	 	
 	 	Vous êtes maintenant la cible privil&eacute;gi&eacute;e de ce monstre...<br /><br />
 	 	
-	 <? else: ?>
+	 <?php else: ?>
 	 	Le monstre ne semble pas vous avoir vu.<br />
-	 <? endif; ?>
+	 <?php endif; ?>
 
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre provocation.<br />
-<? endif; ?>
+<?php endif; ?>

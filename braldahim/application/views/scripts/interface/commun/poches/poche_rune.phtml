@@ -1,31 +1,31 @@
-<? if ($this->nb_runes == 0) : ?>
+<?php if ($this->nb_runes == 0) : ?>
    <center><i>Vide</i></center>
-<? else : ?>
-	<div class="textalic textsizee">Poids d'une rune : <?=Bral_Util_Poids:: POIDS_RUNE?> Kg, 
-	Poids total de la poche : <?=($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?> Kg</div><br />
+<?php else : ?>
+	<div class="textalic textsizee">Poids d'une rune : <?php echo Bral_Util_Poids:: POIDS_RUNE?> Kg, 
+	Poids total de la poche : <?php echo ($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?> Kg</div><br />
 	
-	<? if (count($this->runesNonIdentifiees) > 0) : ?>
+	<?php if (count($this->runesNonIdentifiees) > 0) : ?>
 		<div class="titre textalic textsized">Runes non identifi&eacute;es</div><br />
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
-			  <? $i = 0;
+			  <?php $i = 0;
 		      foreach ($this->runesNonIdentifiees as $r) : 
-		     	if ($i == 0) : ?><tr class='table_liste'><? endif;?> 
+		     	if ($i == 0) : ?><tr class='table_liste'><?php endif;?> 
 		    	<td class="table_liste table_liste_border">
 		    		<div class="braltip">
-		    		<?=Bral_Helper_Tooltip::render("Rune non identifi&eacute;e n&deg;".$r["id_rune"], "Rune non identifiée");?>
-		    		<img src="<?=$this->config->static->url?>/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
+		    		<?php echo Bral_Helper_Tooltip::render("Rune non identifi&eacute;e n&deg;".$r["id_rune"], "Rune non identifiée");?>
+		    		<img src="<?php echo $this->config->static->url?>/images/runes/rune_inconnue.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?php echo $r["id_rune"]?>" />
 		    		</div>
-		    		<? if (array_key_exists("id_identification_braldun", $r) && $r["id_identification_braldun"] != null):?>
+		    		<?php if (array_key_exists("id_identification_braldun", $r) && $r["id_identification_braldun"] != null):?>
 		    			identifiable par <br />
-						<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$j["id_braldun"]?>');" title="Cliquez pour voir le profil">
-		    				<?=$r["prenom_identification_braldun"]?> <?=$r["nom_identification_braldun"]?> (<?=$r["id_identification_braldun"]?>)
-		    				<img src='<?=$this->config->static->url?>/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?=$r["id_identification_braldun"]?>');" style='cursor:pointer'/>
-			  				<img src='<?=$this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$r["id_identification_braldun"]?>');" style='cursor:pointer'/>
+						<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		    				<?php echo $r["prenom_identification_braldun"]?> <?php echo $r["nom_identification_braldun"]?> (<?php echo $r["id_identification_braldun"]?>)
+		    				<img src='<?php echo $this->config->static->url?>/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $r["id_identification_braldun"]?>');" style='cursor:pointer'/>
+			  				<img src='<?php echo $this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?php echo $r["id_identification_braldun"]?>');" style='cursor:pointer'/>
 		    			</a>
-		    		<? endif;?>
+		    		<?php endif;?>
 		    	</td>
-		    	<? 
+		    	<?php 
 		    	if ($i == 9) :
 		    		echo "</tr>";
 		    		$i = 0;
@@ -43,26 +43,26 @@
 			</tbody>
 		</table>
 		<br />
-	<? endif ?>
+	<?php endif ?>
 
-	<? if (count($this->runesIdentifiees) > 0) : ?>
+	<?php if (count($this->runesIdentifiees) > 0) : ?>
 		<div class="titre textalic textsized">Runes identifi&eacute;es</div><br />
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
-			  <? $i = 0;
+			  <?php $i = 0;
 		      foreach ($this->runesIdentifiees as $r) : 
-		     	if ($i == 0) : ?><tr class='table_liste'><? endif;?> 
+		     	if ($i == 0) : ?><tr class='table_liste'><?php endif;?> 
 		    	<td class="table_liste table_liste_border">
-		    		<? if ($r["image"] != ""): ?>
+		    		<?php if ($r["image"] != ""): ?>
 		    		<div class="braltip">
-		    		<?=Bral_Helper_Tooltip::render(Bral_Helper_DetailRune::afficherTexte($r, true));?>
-		    		<img src="<?=$this->config->static->url?>/images/runes/<?=$r["image"]?>"  class="rune" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    		<?php echo Bral_Helper_Tooltip::render(Bral_Helper_DetailRune::afficherTexte($r, true));?>
+		    		<img src="<?php echo $this->config->static->url?>/images/runes/<?php echo $r["image"]?>"  class="rune" alt="<?php echo $r["type"]?> n&deg;<?php echo $r["id_rune"]?>"  />
 		    		</div>
-	    			<? else: ?>
-		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
-		    		<? endif; ?>
+	    			<?php else: ?>
+		    			<?php echo $r["type"]?> (<?php echo $r["id_rune"]?>)
+		    		<?php endif; ?>
 		    	</td>
-		    	<? 
+		    	<?php 
 		    	if ($i == 9) :
 		    		echo "</tr>";
 		    		$i = 0;
@@ -79,5 +79,5 @@
 		     ?>
 			</tbody>
 		</table>
-	<? endif; ?>
-<? endif; ?>
+	<?php endif; ?>
+<?php endif; ?>

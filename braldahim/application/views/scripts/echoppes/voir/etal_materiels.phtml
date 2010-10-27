@@ -1,11 +1,11 @@
-<? if (count($this->materielsEtal) > 0) : ?>
+<?php if (count($this->materielsEtal) > 0) : ?>
 
-	<? $this->materiels = $this->materielsEtal; ?>
-	<? $this->idMaterielsTable = $this->idMaterielsEtalTable; ?>
-	<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+	<?php $this->materiels = $this->materielsEtal; ?>
+	<?php $this->idMaterielsTable = $this->idMaterielsEtalTable; ?>
+	<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"
-       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirermateriel&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
-<? else: ?>
+       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirermateriel&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" />
+<?php else: ?>
 	Vous n'avez aucun materiel en vente
-<? endif; ?>
+<?php endif; ?>

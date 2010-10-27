@@ -1,28 +1,28 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true):?>
-	Votre Jet d'identification : <?=$this->jetBraldun ?> <br />
-	<? if ($this->identificationReussieOk === true): ?>
-		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
-		<? if ($this->rune["image"] != ""): ?>
-	    	<img src="<?=$this->config->static->url?>/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
-	   	<? endif; ?>
+<?php if ($this->okJet1 === true):?>
+	Votre Jet d'identification : <?php echo $this->jetBraldun ?> <br />
+	<?php if ($this->identificationReussieOk === true): ?>
+		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?php echo $this->rune["id_rune"] ?><br />
+		<?php if ($this->rune["image"] != ""): ?>
+	    	<img src="<?php echo $this->config->static->url?>/images/runes/<?php echo $this->rune["image"]?>" title="<?php echo $this->rune["type"]?> (<?php echo $this->rune["id_rune"]?>)" />
+	   	<?php endif; ?>
 	   	
-	   	<? if ($this->rune["id_braldun_possesseur"] != null) :?>
-	   		<br /><br /><?=$this->rune["prenom_braldun_possesseur"]?> <?=$this->rune["nom_braldun_possesseur"]?> (<?=$this->rune["id_braldun_possesseur"]?>) a été prévenu de cette identification.
+	   	<?php if ($this->rune["id_braldun_possesseur"] != null) :?>
+	   		<br /><br /><?php echo $this->rune["prenom_braldun_possesseur"]?> <?php echo $this->rune["nom_braldun_possesseur"]?> (<?php echo $this->rune["id_braldun_possesseur"]?>) a été prévenu de cette identification.
 	   		<br /><br />
-	   	<? endif;?>
-	<? else: ?>
-		Vous avez manqu&eacute; votre identification sur la rune n&deg; <?=$this->rune["id_rune"] ?>
+	   	<?php endif;?>
+	<?php else: ?>
+		Vous avez manqu&eacute; votre identification sur la rune n&deg; <?php echo $this->rune["id_rune"] ?>
 		<?if ($this->jetBraldunLoin === true) :?>
 			<br />et vous &ecirc;tes loin d'identifier cette rune...
-		<? endif; ?>
+		<?php endif; ?>
 		<br /><br />
-	<? endif; ?>
-<? endif; ?>
+	<?php endif; ?>
+<?php endif; ?>
 
-<? if ($this->nb_px == 0) : ?>
+<?php if ($this->nb_px == 0) : ?>
 	Vous n'avez gagn&eacute; aucun PX<br /><br /> 
-<? else: ?>
-	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
-<? endif; ?>
+<?php else: ?>
+	Vous avez gagn&eacute; <?php echo $this->nb_px?> PX<br /><br />
+<?php endif; ?>

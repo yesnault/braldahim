@@ -8,36 +8,36 @@
   	serez. <br />
  	
  	<br />
-	<? if ($this->nChamps < 1) : ?>
+	<?php if ($this->nChamps < 1) : ?>
   		Vous n'avez aucun champ.<br /><br />
-   	<? else: ?>
+   	<?php else: ?>
 	   	<table class="table_liste">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-		  	<? $i = 0;
+		  	<?php $i = 0;
 			   $champ = false;
 			   foreach($this->tabRegions as $r) : ?>
-					<th><?=htmlspecialchars($r["nom_region"]); ?></th>
-			<? endforeach; ?>
+					<th><?php echo htmlspecialchars($r["nom_region"]); ?></th>
+			<?php endforeach; ?>
 		  </tr>
 		</thead>
 		<tbody>
 		   <tr>
-	   		<? foreach($this->tabRegions as $r) : ?>
+	   		<?php foreach($this->tabRegions as $r) : ?>
 	   			<td class="table_liste">
-	   			<? if ($r["champs"] != null) :?>
-			   		<? foreach($r["champs"] as $c) :?>
-		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onclick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?=$c["id_champ"]?>')">
-		   					<?=$c["nom_champ"] ?> [<?=$c["x_champ"] ?> ; <?=$c["y_champ"] ?>]
+	   			<?php if ($r["champs"] != null) :?>
+			   		<?php foreach($r["champs"] as $c) :?>
+		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onclick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?php echo $c["id_champ"]?>')">
+		   					<?php echo $c["nom_champ"] ?> [<?php echo $c["x_champ"] ?> ; <?php echo $c["y_champ"] ?>]
 		   				</span><br />
-			   		<? endforeach; ?>
-		   		<? endif; ?>
+			   		<?php endforeach; ?>
+		   		<?php endif; ?>
 		   		</td>
-	   		<? endforeach;?>
+	   		<?php endforeach;?>
 		   </tr>
 		</tbody>
 		</table>
-	<? endif; ?>
+	<?php endif; ?>
 	
 	<br /><br />
    </div>

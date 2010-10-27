@@ -1,7 +1,7 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu1 textalic">
-	<? include("filtre.phtml") ?>
+	<?php include("filtre.phtml") ?>
 	
 	<br />
 	<table class="table_liste" style="width:90%">
@@ -12,32 +12,32 @@
 		<th>Nombre</th>
 	  </tr>
 	</thead>
-  	<? if (count($this->mots) > 0): ?>
+  	<?php if (count($this->mots) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->mots as $f): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-		  			<?=$f["suffixe"]?>
+		  			<?php echo $f["suffixe"]?>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$f["nomPiece"]?>
+		  			<?php echo $f["nomPiece"]?>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$f["nombre"]?>
+		  			<?php echo $f["nombre"]?>
 		  		</td>
 	  		</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
    	</tr>
-   <? endif; ?>
+   <?php endif; ?>
    </table>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

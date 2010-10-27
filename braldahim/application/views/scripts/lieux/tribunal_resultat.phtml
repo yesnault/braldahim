@@ -1,17 +1,17 @@
 <div class='comp_titre'>Tribunal</div>
 
-<? if ($this->type == "gredin"): ?>
-	<? if ($this->choix == 1) : ?>
+<?php if ($this->type == "gredin"): ?>
+	<?php if ($this->choix == 1) : ?>
 		Vous avez réalisé avec succès les travaux d'intérêts généraux. 
-	<? else : ?>
+	<?php else : ?>
 		Vous avez payé avec succès votre caution.
-	<? endif;?>
+	<?php endif;?>
 	<br /><br />
 	Vous avez 1 point de gredin en moins.<br />
-	Vous avez maintenant <?=$this->user->points_gredin_braldun;?>
-	 point<? if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de gredin.
+	Vous avez maintenant <?php echo $this->user->points_gredin_braldun;?>
+	 point<?php if ($this->user->points_gredin_braldun > 1) : echo "s"; endif;?> de gredin.
 
-<? else: ?>
-	Vous avez maintenant <?=$this->user->points_redresseur_braldun;?> point de Redresseur de Torts.
-<? endif;?>
+<?php else: ?>
+	Vous avez maintenant <?php echo $this->user->points_redresseur_braldun;?> point de Redresseur de Torts.
+<?php endif;?>
 <br />

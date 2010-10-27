@@ -1,4 +1,4 @@
-<?=$this->render("commun/box_header.phtml") ?>
+<?php echo $this->render("commun/box_header.phtml") ?>
 <div class="inner">
 <div class="box_contenu textalic">
 	<?include("filtre.phtml")?>
@@ -8,43 +8,43 @@
 	<thead class="table_liste">
 	  <tr class="table_liste">
 		<th>Braldûn</th>
-		<th><?=$this->titreColonne2?></th>
-		<? if ($this->afficheMoyenne === true) : ?>
-			<th><?=$this->titreColonne3?></th>
-		<? endif;?>
+		<th><?php echo $this->titreColonne2?></th>
+		<?php if ($this->afficheMoyenne === true) : ?>
+			<th><?php echo $this->titreColonne3?></th>
+		<?php endif;?>
 	  </tr>
 	</thead>
-  	<? if (count($this->top10) > 0): ?>
+  	<?php if (count($this->top10) > 0): ?>
 		<tbody>
-	  	<? $i = 0; 
+	  	<?php $i = 0; 
 	  	foreach($this->top10 as $e): 
 	  		if ($e["nombre"] > 0) :
 	  		?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onclick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/braldun/?braldun=<?=$e["id_braldun"]?>');" title="Cliquez pour voir le profil">
-		  				<?=$e["prenom_braldun"]?> <?=$e["nom_braldun"]?> (<?=$e["id_braldun"]?>)
+		  			<a href="#" onclick="javascript:ouvrirWin('<?php echo $this->config->url->game?>/voir/braldun/?braldun=<?php echo $e["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		  				<?php echo $e["prenom_braldun"]?> <?php echo $e["nom_braldun"]?> (<?php echo $e["id_braldun"]?>)
 		  			</a>
 		  		</td>
 		  		<td class="table_liste">
-		  			<?=$e["nombre"]?>
+		  			<?php echo $e["nombre"]?>
 		  		</td>
-		  		<? if ($this->afficheMoyenne === true) : ?>
-	  				<td><?=floor($e["moyenne"])?></td>
-	  			<? endif;?>
+		  		<?php if ($this->afficheMoyenne === true) : ?>
+	  				<td><?php echo floor($e["moyenne"])?></td>
+	  			<?php endif;?>
 	  		</tr>
-			<? endif;?>
-	  	<? endforeach; ?>
+			<?php endif;?>
+	  	<?php endforeach; ?>
 	  	</tbody>
-	<? else: ?>
+	<?php else: ?>
 	<tr class="table_liste">
    	 <td colspan='5'>
    		Aucun résultat
    	 </td>
 	</tr>
-	<? endif; ?>
+	<?php endif; ?>
 	</table>
 	<br />
 </div>
 </div>
-<?=$this->render("commun/box_bottom.phtml") ?>
+<?php echo $this->render("commun/box_bottom.phtml") ?>

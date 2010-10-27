@@ -2,15 +2,15 @@
  <input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
  <div class='comp_contenu'>
 
-	Seules les pièces d'équipement de niveau inférieur ou égal à votre niveau / 10 sont équipables. Avec votre niveau (<?=$this->user->niveau_braldun?>),
-	vous pouvez équiper les pièces de niveau inférieur ou égal à <?=floor($this->user->niveau_braldun / 10)?>.<br /><br />	 	
+	Seules les pièces d'équipement de niveau inférieur ou égal à votre niveau / 10 sont équipables. Avec votre niveau (<?php echo $this->user->niveau_braldun?>),
+	vous pouvez équiper les pièces de niveau inférieur ou égal à <?php echo floor($this->user->niveau_braldun / 10)?>.<br /><br />	 	
 	 	
 	Si vous mettez une pi&egrave;ce d'&eacute;quipement &agrave; la place d'une pi&egrave;ce existante (ou de plusieurs pi&egrave;ces existantes), la pi&egrave;ce
 	existante sera automatiquement transf&eacute;r&eacute;e dans votre laban.<br />
 	 	
 <?php Zend_Loader::loadClass("Bral_Helper_DetailEquipement"); ?>
-	 <? if ($this->sequiperOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez mettre ou enlever une pi&egrave;ce d'&eacute;quipement.<br /><br />
+	 <?php if ($this->sequiperOk === true) : ?>
+	 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez mettre ou enlever une pi&egrave;ce d'&eacute;quipement.<br /><br />
 
 	 	&Eacute;quipement pr&eacute;sent sur vous : <br />
 	<table align="center" border="0">
@@ -18,57 +18,57 @@
 	    <td>
 	 	<table align="center" border='1'>
 	 	
-	 	<? foreach($this->typesEmplacement as $k => $e) : ?>
-	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
+	 	<?php foreach($this->typesEmplacement as $k => $e) : ?>
+	 		<?php if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
 	 		<tr>
 	 			<td class="equipement">
-	 			<?=htmlspecialchars($e["nom_type_emplacement"]) ?><br />
-	 			<? if (count($e["equipementPorte"]) > 0): ?>
-					<? foreach($e["equipementPorte"] as $p) : ?>
-						<? echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
-						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
-						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" 
-						onclick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none" ; if (<?=$e["id_type_emplacement"]?> != i){$("laban_"+i).selectedIndex = 0}}} ;$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
- 					<? endforeach; ?>
- 				<? else : ?>
+	 			<?php echo htmlspecialchars($e["nom_type_emplacement"]) ?><br />
+	 			<?php if (count($e["equipementPorte"]) > 0): ?>
+					<?php foreach($e["equipementPorte"] as $p) : ?>
+						<?php echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
+						<input type="hidden" id="porte_<?php echo $e["id_type_emplacement"]?>" value="<?php echo $p["id_equipement"] ?>">
+						<input type='button' class='button1' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !" 
+						onclick='this.disabled=true;for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none" ; if (<?php echo $e["id_type_emplacement"]?> != i){$("laban_"+i).selectedIndex = 0}}} ;$("valeur_1").value=$("porte_<?php echo $e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
+ 					<?php endforeach; ?>
+ 				<?php else : ?>
  					Libre
-	 			<? endif;  ?>
+	 			<?php endif;  ?>
 	 			</td>
 	 		</tr>
-	 		<? endif; ?>
-	 	<?  endforeach; ?>
+	 		<?php endif; ?>
+	 	<?php  endforeach; ?>
 	 	</table>
 	  </td>
 	  <td>
 	 	<table align="center" border="1">
 	 		<tr>
-	 	<? 	$i = 0;
+	 	<?php 	$i = 0;
 	 		foreach($this->typesEmplacement as $k => $e) : ?>
 	 			
-	 		<? if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
+	 		<?php if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
 	 			$i++;
 	 			if ($k == "deuxmains") {
 	 				$i++;
 	 			}
 	 			?>
 	 			<td class="equipement">
-	 			<?=htmlspecialchars($e["nom_type_emplacement"]) ?><br />
-	 			<? if (count($e["equipementPorte"]) > 0): ?>
-					<? foreach($e["equipementPorte"] as $p) : ?>
- 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
- 						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
- 						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" 
- 						onclick='this.disabled=true; for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none"} ; if ($("laban_"+i)) {$("laban_"+i).selectedIndex = 0}};$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
- 					<? endforeach; ?>
-	 			<? endif;  ?>
+	 			<?php echo htmlspecialchars($e["nom_type_emplacement"]) ?><br />
+	 			<?php if (count($e["equipementPorte"]) > 0): ?>
+					<?php foreach($e["equipementPorte"] as $p) : ?>
+ 						<?php echo Bral_Helper_DetailEquipement::afficher($p); ?><br />
+ 						<input type="hidden" id="porte_<?php echo $e["id_type_emplacement"]?>" value="<?php echo $p["id_equipement"] ?>">
+ 						<input type='button' class='button1' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !" 
+ 						onclick='this.disabled=true; for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none"} ; if ($("laban_"+i)) {$("laban_"+i).selectedIndex = 0}};$("valeur_1").value=$("porte_<?php echo $e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");'>
+ 					<?php endforeach; ?>
+	 			<?php endif;  ?>
 	 			</td>
-	 		<? endif; ?>
-	 	<?  endforeach; ?>
-	 		<? if ($i == 1) : ?>
+	 		<?php endif; ?>
+	 	<?php  endforeach; ?>
+	 		<?php if ($i == 1) : ?>
 	 			<td class="equipement">1 main de libre</td>
-	 		<? elseif ($i < 1) : ?>
+	 		<?php elseif ($i < 1) : ?>
 	 			<td class="equipement">2 mains de libres</td>
-	 		<? endif;?>
+	 		<?php endif;?>
 	 	  </tr>
 	 	</table>
 	</td>
@@ -79,29 +79,29 @@
 	 	&Eacute;quipement pr&eacute;sent dans votre laban : <br />
 	 	
 	 	<table align="center" border='1'>
-	 	<? 
+	 	<?php 
 	 		foreach($this->typesEmplacement as $e) :
-	 			if ($e["ordre_emplacement"] % 2 == 1) :?><tr><? endif;?>
+	 			if ($e["ordre_emplacement"] % 2 == 1) :?><tr><?php endif;?>
 	 		<td class="equipement">
-	 			<?=htmlspecialchars($e["nom_type_emplacement"]) ?><br />
-	 			<? if (count($e["equipementLaban"]) > 0): ?>
-	 				<select name="laban_<?=$e["id_type_emplacement"]?>" id="laban_<?=$e["id_type_emplacement"]?>"  onchange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='block'}">
+	 			<?php echo htmlspecialchars($e["nom_type_emplacement"]) ?><br />
+	 			<?php if (count($e["equipementLaban"]) > 0): ?>
+	 				<select name="laban_<?php echo $e["id_type_emplacement"]?>" id="laban_<?php echo $e["id_type_emplacement"]?>"  onchange="for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?php echo $e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?php echo $e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?php echo $e["id_type_emplacement"]?>').style.display='block'}">
 	 					<option value="-1">(Choisissez un &eacute;quipement)</option>
-	 					<? foreach($e["equipementLaban"] as $p) : ?>
-	 					<option value="<?=$p["id_equipement"] ?>">
-	 						<?=htmlspecialchars($p["nom"]) ?>, n&deg;<?=$p["id_equipement"] ?>
+	 					<?php foreach($e["equipementLaban"] as $p) : ?>
+	 					<option value="<?php echo $p["id_equipement"] ?>">
+	 						<?php echo htmlspecialchars($p["nom"]) ?>, n&deg;<?php echo $p["id_equipement"] ?>
 	 					</option>
-	 					<? endforeach; ?>
+	 					<?php endforeach; ?>
 	 				</select>
-	 				<input type='button' class='button1' id='bouton_mettre_<?=$e["id_type_emplacement"]?>' value="Mettre (<?=$this->nb_pa ?> PA) !" 
-	 				onclick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_enlever_"+i)) {$("bouton_enlever_"+i).style.display="none"}} ; $("valeur_1").value=$("laban_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");' style="display:none">
-	 			<? endif;  ?>
+	 				<input type='button' class='button1' id='bouton_mettre_<?php echo $e["id_type_emplacement"]?>' value="Mettre (<?php echo $this->nb_pa ?> PA) !" 
+	 				onclick='this.disabled=true;for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("bouton_enlever_"+i)) {$("bouton_enlever_"+i).style.display="none"}} ; $("valeur_1").value=$("laban_<?php echo $e["id_type_emplacement"]?>").value;_get_("/competences/doaction?caction=do_competence_sequiper");' style="display:none">
+	 			<?php endif;  ?>
 	 		</td>
-	 	<? 	if ($e["ordre_emplacement"] % 2 == 0) : ?></tr><? endif;
+	 	<?php 	if ($e["ordre_emplacement"] % 2 == 0) : ?></tr><?php endif;
 	 	endforeach ?>
 	 	</table>
-	<? else : ?>
+	<?php else : ?>
 		Vous n'avez pas d'&eacute;quipement &agrave; mettre ou &agrave; enlever..
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 <br />

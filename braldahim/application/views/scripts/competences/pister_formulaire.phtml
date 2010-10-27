@@ -3,15 +3,15 @@
 <?php if (count($this->tabTypeMonstrePistable) == 0) : ?>
  	Vous n'avez pas fait assez de connaissances des monstres pour pouvoir pister !<br />
 <?php else: ?>
-	<? if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
-	Pour <?=$this->nb_pa ?> PA, vous pouvez pister un type de monstre <br />
+	<?php if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
+	Pour <?php echo $this->nb_pa ?> PA, vous pouvez pister un type de monstre <br />
 	dans un rayon de <i>jet SAG + BM SAG</i> case(s) aux alentours<br />
- 	et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> case<?=$s?>.<br /><br />
+ 	et de mani&egrave;re pr&eacute;cise dans un rayon de <?php echo $this->rayon_precis ?> case<?php echo $s?>.<br /><br />
 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_pister').disabled=true } else {$('bouton_pister').disabled=false }">
 		<option value='-1'>(Choisissez un type de monstre)</option>
-		<? foreach ($this->tabTypeMonstrePistable as $m) : ?>
-				<option value="<?=$m["id_type_monstre"]?>"><?=$m["nom_type_monstre"]?></option>
-		<? endforeach; ?>
+		<?php foreach ($this->tabTypeMonstrePistable as $m) : ?>
+				<option value="<?php echo $m["id_type_monstre"]?>"><?php echo $m["nom_type_monstre"]?></option>
+		<?php endforeach; ?>
 	</select>
 	<br /><br />
 	<input type='button' class='button1' value='Pister !' id='bouton_pister' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_pister");' disabled>
@@ -21,25 +21,25 @@
 	<br />Connaissance des monstres d&eacute;j&agrave; effectu&eacute;es :<br /><br />
 	<table align='center' width='100%'>
 	<tr><th width="25%">Type de monstre</th>
-	<? foreach ($this->tabTailleMonstre as $t) : ?>
-		<th width="<?=75/count($this->tabTailleMonstre)?>%"><?=$t["nom_taille_m_monstre"]?></th>
-	<? endforeach;?>
+	<?php foreach ($this->tabTailleMonstre as $t) : ?>
+		<th width="<?php echo 75/count($this->tabTailleMonstre)?>%"><?php echo $t["nom_taille_m_monstre"]?></th>
+	<?php endforeach;?>
 	</tr>
-	<? foreach ($this->tabTypeMonstreCdm as $t) : ?>
+	<?php foreach ($this->tabTypeMonstreCdm as $t) : ?>
 			<tr>
-			<td> <?=$t["nom_type_monstre"]?> </td>
-			<? foreach ($this->tabTailleMonstre as $taille) : $tailleTrouve = false;?>
-				<? foreach ($t["tailles"] as $tailleCdm) : ?>
-					<? if ($tailleCdm["taille"] == $taille["nom_taille_m_monstre"] ): $tailleTrouve = true;?>
-						<td align='center'><font color='red'><?=$tailleCdm["nb_manquant"]?></font></td>
-					<? endif;?>
-				<? endforeach; ?>
-				<? if ($tailleTrouve == false) : ?>
-					<td align='center'><font color='green'><?=$taille["nb_cdm_taille_monstre"]?>/<?=$taille["nb_cdm_taille_monstre"]?></font></td>
-				<? endif;?>
-			<? endforeach;?>
+			<td> <?php echo $t["nom_type_monstre"]?> </td>
+			<?php foreach ($this->tabTailleMonstre as $taille) : $tailleTrouve = false;?>
+				<?php foreach ($t["tailles"] as $tailleCdm) : ?>
+					<?php if ($tailleCdm["taille"] == $taille["nom_taille_m_monstre"] ): $tailleTrouve = true;?>
+						<td align='center'><font color='red'><?php echo $tailleCdm["nb_manquant"]?></font></td>
+					<?php endif;?>
+				<?php endforeach; ?>
+				<?php if ($tailleTrouve == false) : ?>
+					<td align='center'><font color='green'><?php echo $taille["nb_cdm_taille_monstre"]?>/<?php echo $taille["nb_cdm_taille_monstre"]?></font></td>
+				<?php endif;?>
+			<?php endforeach;?>
 			</tr>
-	<? endforeach; ?>
+	<?php endforeach; ?>
 	</table>
 <?php endif; ?>
 </div>

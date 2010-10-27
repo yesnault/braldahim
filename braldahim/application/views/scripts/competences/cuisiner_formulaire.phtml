@@ -1,64 +1,64 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
 
-	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner. <br /><br />
+	Pour <?php echo $this->nb_pa ?> PA, vous pouvez cuisiner. <br /><br />
 	 
 	 Recette :<br />
      <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
 	 	<option value="-1">(Choisissez un aliment)</option>
-	 	<? foreach($this->typeAliment as $t) : ?>
-	 		<option value="<?=$t["id_type_aliment"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_aliment"])?> (<?=$t['texte_type_bbdf']?>)</option>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->typeAliment as $t) : ?>
+	 		<option value="<?php echo $t["id_type_aliment"]?>" <?php echo $t["selected"]?>><?php echo htmlspecialchars($t["nom_type_aliment"])?> (<?php echo $t['texte_type_bbdf']?>)</option>
+	 	<?php endforeach; ?>
 	 </select>
 	 
-	<? if ($this->typeAlimentCourant != null) : ?>
+	<?php if ($this->typeAlimentCourant != null) : ?>
 		
 		<br /><br />Ingrédients nécessaires : <br />
-		<? foreach($this->ingredients as $k => $t) : ?>
-	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br />
-	 	<? endforeach; ?>
-	 	<? if ($this->potions != null) : ?>
-		 	<? foreach($this->potions as $k => $t) : ?>
-		 		Potion <?=$t["nom_type_potion"]?> : 1<br />
-		 	<? endforeach; ?>
-	 	<? endif;?>
+		<?php foreach($this->ingredients as $k => $t) : ?>
+	 		<?php echo $t["nom_type_ingredient"]?> : <?php echo $t["quantite_recette_aliments"]?><br />
+	 	<?php endforeach; ?>
+	 	<?php if ($this->potions != null) : ?>
+		 	<?php foreach($this->potions as $k => $t) : ?>
+		 		Potion <?php echo $t["nom_type_potion"]?> : 1<br />
+		 	<?php endforeach; ?>
+	 	<?php endif;?>
 		
 		<br />
 	Source des ingrédients :<br />
      <select name="valeur_2" id="valeur_2" onchange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
 	 	<option value="-1">(Choisissez une source)</option>
-	 	<? if ($this->recetteAvecPotion === true) : ?>
-		 	<? foreach($this->sources as $k => $t) : ?>
-	 			<optgroup label="<?=$t["nom"] ?> et utiliser la potion : " style="font-weight:bold"></optgroup>
-	 			<? if ($t["potions"] != null && count($t["potions"]) > 0) : ?>
-		 			<? foreach($t["potions"] as $u => $v) : ?>
-			 			<option value="<?=$k.'-'.$v["id_potion"]?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$v["nom"]?> n°<?=$v["id_potion"]?> <? if ($t["possible"] != true): echo "- Pas assez de place ou manque d'ingrédient"; endif; ?></option>
-			 		<? endforeach; ?>
-		 		<? else: ?>
+	 	<?php if ($this->recetteAvecPotion === true) : ?>
+		 	<?php foreach($this->sources as $k => $t) : ?>
+	 			<optgroup label="<?php echo $t["nom"] ?> et utiliser la potion : " style="font-weight:bold"></optgroup>
+	 			<?php if ($t["potions"] != null && count($t["potions"]) > 0) : ?>
+		 			<?php foreach($t["potions"] as $u => $v) : ?>
+			 			<option value="<?php echo $k.'-'.$v["id_potion"]?>" <?php if ($t["possible"] != true): echo "disabled"; endif; ?>><?php echo $v["nom"]?> n°<?php echo $v["id_potion"]?> <?php if ($t["possible"] != true): echo "- Pas assez de place ou manque d'ingrédient"; endif; ?></option>
+			 		<?php endforeach; ?>
+		 		<?php else: ?>
 		 			<option value="-2" disabled>Aucune potion</option>
-		 		<? endif?>
-		 	<? endforeach; ?>
-	 	<? else: ?>
-		 	<? foreach($this->sources as $k => $t) : ?>
-		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
-		 	<? endforeach; ?>
-	 	<? endif; ?>
+		 		<?php endif?>
+		 	<?php endforeach; ?>
+	 	<?php else: ?>
+		 	<?php foreach($this->sources as $k => $t) : ?>
+		 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
+		 	<?php endforeach; ?>
+	 	<?php endif; ?>
 	 </select>
 	 
 	 <br /> <br />
 	Destination :<br />
      <select name="valeur_3" id="valeur_3" onchange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true;}">
 	 	<option value="-1">(Choisissez une destination)</option>
-	 	<? foreach($this->destinations as $k => $t) : ?>
-	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
-	 	<? endforeach?>
+	 	<?php foreach($this->destinations as $k => $t) : ?>
+	 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
+	 	<?php endforeach?>
 	 </select>
 	<br />
 	Attention, si vous n'avez pas assez de place pour contenir les aliments créés, les aliments en trop seront laissés au sol.
-	<? endif;?>
+	<?php endif;?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->sourceOk == true) : ?>
 <input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner&type_aliment="+$("valeur_1").value);' disabled>
-<? endif ?>
+<?php endif ?>

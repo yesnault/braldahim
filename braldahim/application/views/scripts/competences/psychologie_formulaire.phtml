@@ -1,35 +1,35 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  
- 	<? if ($this->user->est_intangible_braldun == 'oui') :?>
+ 	<?php if ($this->user->est_intangible_braldun == 'oui') :?>
 		Vous êtes actuellement intangible, vous ne pouvez pas utiliser cette compétence.<br /><br />
-	<? elseif ($this->nBralduns == 0): ?>
+	<?php elseif ($this->nBralduns == 0): ?>
  		Il n'y a rien aucun Braldûn ici, vous ne pouvez pas utiliser cette compétence...<br />
- 	<? else: ?>
- 		Pour <?=$this->nb_pa?> PA, vous pouvez faire de la Psychologie sur un Braldûn pour lui enlever ses malus sur son tour courant.<br /><br />
+ 	<?php else: ?>
+ 		Pour <?php echo $this->nb_pa?> PA, vous pouvez faire de la Psychologie sur un Braldûn pour lui enlever ses malus sur son tour courant.<br /><br />
  		
- 		<? if ($this->nBralduns > 0): ?>
+ 		<?php if ($this->nBralduns > 0): ?>
  		 Choississez un Braldûn : <br />
  			<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
 			<option value='-1'>(Choisissez un Braldûn)</option>
-			<? foreach ($this->tabBralduns as $h) : ?>
-			<option value="<?=$h["id_braldun"]?>"><?=$h["prenom_braldun"]?> <?=$h["nom_braldun"]?> (<?=$h["id_braldun"]?>)</option>
-			<? endforeach; ?>
+			<?php foreach ($this->tabBralduns as $h) : ?>
+			<option value="<?php echo $h["id_braldun"]?>"><?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (<?php echo $h["id_braldun"]?>)</option>
+			<?php endforeach; ?>
 			</select><br /><br />
 			
 			Choississez uen caractéristique : <br />
  			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1) { $('bouton_psychologie').disabled=true } else { $('bouton_psychologie').disabled=false }">
 			<option value='-1'>(Choisissez une caractéristique)</option>
-			<? foreach ($this->tabCaracs as $k => $c) : ?>
-			<option value="<?=$k?>"><?=$c["nom"]?></option>
-			<? endforeach; ?>
+			<?php foreach ($this->tabCaracs as $k => $c) : ?>
+			<option value="<?php echo $k?>"><?php echo $c["nom"]?></option>
+			<?php endforeach; ?>
 			</select><br /><br />
-		<? endif;?>
-	<? endif; ?>
+		<?php endif;?>
+	<?php endif; ?>
 	
  </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->user->est_intangible_braldun == 'non') : ?>
 <input type='button' class='button1' value='Psychologie !' id='bouton_psychologie' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_psychologie");' disabled>
-<? endif ?>
+<?php endif ?>

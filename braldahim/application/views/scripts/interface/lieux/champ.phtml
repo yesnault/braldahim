@@ -1,4 +1,4 @@
-<div class="titre textalic textsizeb"><?=htmlspecialchars($this->nomChamp) ?></div>
+<div class="titre textalic textsizeb"><?php echo htmlspecialchars($this->nomChamp) ?></div>
 
 <br />
 
@@ -6,5 +6,5 @@
 <br /><br />
 
 <div style="text-align:left;padding:30px">
-	<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireChamp); ?><br /><br />
+	<?php echo Bral_Util_BBParser::bbcodeReplace($this->commentaireChamp); ?><br /><br />
 </div>

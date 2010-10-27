@@ -11,18 +11,18 @@
 	    
 		<label for="title">&Ecirc;tre pr&eacute;venu &agrave; la r&eacute;ception d'un message perso</label><br />
 		
-		<input type="radio" id="valeur_1" name="valeur_1" value="oui" <? if ($this->user->envoi_mail_message_braldun == "oui"):echo "checked"; endif; ?>>Oui
-		<input type="radio" id="valeur_1" name="valeur_1" value="non" <? if ($this->user->envoi_mail_message_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
+		<input type="radio" id="valeur_1" name="valeur_1" value="oui" <?php if ($this->user->envoi_mail_message_braldun == "oui"):echo "checked"; endif; ?>>Oui
+		<input type="radio" id="valeur_1" name="valeur_1" value="non" <?php if ($this->user->envoi_mail_message_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
 	    <br /><br />
 	    
 	    <label for="title">&Ecirc;tre pr&eacute;venu d'un &eacute;v&eacute;nement me concernant</label><br />
-		<input type="radio" id="valeur_2" name="valeur_2" value="oui" <? if ($this->user->envoi_mail_evenement_braldun == "oui"):echo "checked"; endif; ?>>Oui
-		<input type="radio" id="valeur_2" name="valeur_2" value="non" <? if ($this->user->envoi_mail_evenement_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
+		<input type="radio" id="valeur_2" name="valeur_2" value="oui" <?php if ($this->user->envoi_mail_evenement_braldun == "oui"):echo "checked"; endif; ?>>Oui
+		<input type="radio" id="valeur_2" name="valeur_2" value="non" <?php if ($this->user->envoi_mail_evenement_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
 		<br />
 		
 		<label for="title">Position de lecture d'un message dans la messagerie du jeu</label><br />
-		<input type="radio" id="valeur_3"" name="valeur_3" value="d" <? if ($this->user->position_messagerie_braldun == "d"):echo "checked"; endif; ?>>À droite des messages
-		<input type="radio" id="valeur_3" name="valeur_3" value="b" <? if ($this->user->position_messagerie_braldun == "b"):echo "checked"; endif; ?>>Sous les messages <br /><br />
+		<input type="radio" id="valeur_3"" name="valeur_3" value="d" <?php if ($this->user->position_messagerie_braldun == "d"):echo "checked"; endif; ?>>À droite des messages
+		<input type="radio" id="valeur_3" name="valeur_3" value="b" <?php if ($this->user->position_messagerie_braldun == "b"):echo "checked"; endif; ?>>Sous les messages <br /><br />
 		<br />
 
 		<div id="formbutton">

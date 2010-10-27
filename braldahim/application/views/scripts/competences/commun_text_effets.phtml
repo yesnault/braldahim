@@ -1,54 +1,54 @@
-	<? if ($this->retourAttaque["effetMotD"]) : ?>
+	<?php if ($this->retourAttaque["effetMotD"]) : ?>
 		<br />Votre casque de La Mouette a eu de l'effet sur cette action : vos chances de trouver des runes rares ont &eacute;t&eacute; augment&eacute;es. <br />
-	<? endif; ?>
+	<?php endif; ?>
 
-	<? if ($this->retourAttaque["effetMotE"]) : ?>
+	<?php if ($this->retourAttaque["effetMotE"]) : ?>
 		<br />Votre arme des Vampires a eu de l'effet sur cette action :  
-		Votre arme des Vampires vous permet de gagner <?=$this->retourAttaque["effetMotEPoints"]?> point<? if ($this->retourAttaque["effetMotEPoints"] > 1): echo "s"; endif;?> de vie. <br />
-	<? endif; ?>
+		Votre arme des Vampires vous permet de gagner <?php echo $this->retourAttaque["effetMotEPoints"]?> point<?php if ($this->retourAttaque["effetMotEPoints"] > 1): echo "s"; endif;?> de vie. <br />
+	<?php endif; ?>
 	
-	<? if ($this->retourAttaque["effetMotG"]) : ?>
+	<?php if ($this->retourAttaque["effetMotG"]) : ?>
 		<br />Votre arme de Massacre a eu de l'effet sur cette action : le bonus de d&eacute;g&acirc;ts de votre 
 		arme a &eacute;t&eacute; doubl&eacute; (ou divis&eacute; par deux s'il est n&eacute;gatif). <br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->retourAttaque["effetMotH"]) : ?>
+	<?php if ($this->retourAttaque["effetMotH"]) : ?>
 		<br />Votre arme d'Appar&acirc;t a eu de l'effet sur cette action : la quantit&eacute; de castars dropp&eacute;s a &eacute;t&eacute; doubl&eacute;e. <br />
-	<? endif; ?>
+	<?php endif; ?>
 
-	<? if ($this->retourAttaque["effetMotI"]) : ?>
+	<?php if ($this->retourAttaque["effetMotI"]) : ?>
 		<br />Votre arme de Maladie a eu de l'effet sur cette action : la cible subit un malus de r&eacute;g&eacute;n&eacute;ration &eacute;gal au niveau de l'arme. <br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->retourAttaque["effetMotL"]) : ?>
+	<?php if ($this->retourAttaque["effetMotL"]) : ?>
 		<br />Votre arme de Finisseur a eu de l'effet sur cette action : vous gagnez 3 Points d'Action. <br />
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->retourAttaque["effetMotQ"]) : ?>
+	<?php if ($this->retourAttaque["effetMotQ"]) : ?>
 		<br />Votre arme de Glace a eu de l'effet sur cette action : la cible subit un malus d'agilit&eacute; &eacute;gal au niveau de l'arme. 
 		Le malus est appliqu&eacute; pour le tour actuel et le tour suivant de la cible. <br />
-	<? endif; ?>
-	<? if ($this->retourAttaque["effetMotS"]) : ?>
+	<?php endif; ?>
+	<?php if ($this->retourAttaque["effetMotS"]) : ?>
 		<br />Votre cible a rispost&eacute; &agrave; votre attaque !<br />
-		 Jet d'attaque de votre cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetAttaquant"]?><br />
-		 Votre jet de r&eacute;sistance : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br />
+		 Jet d'attaque de votre cible : <?php echo $this->retourAttaque["retourAttaqueEffetMotS"]["jetAttaquant"]?><br />
+		 Votre jet de r&eacute;sistance : <?php echo $this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br />
 		 
-	 	<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) : ?>
-	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;ts
-	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true): ?>
+	 	<?php if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) : ?>
+	 		<?php if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
+	 		Vous avez eu <?php echo $this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?php echo $s?> de d&eacute;g&acirc;ts
+	 		<?php if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true): ?>
 	 		en attaque critique
-	 		<? endif; ?>
+	 		<?php endif; ?>
 	 		<br /><br />
-	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["mort"] === true): ?>
+	 		<?php if ($this->retourAttaque["retourAttaqueEffetMotS"]["mort"] === true): ?>
 	 			Vous avez &eacute;t&eacute; mis KO <br /><br />
-	 		<? endif; ?>
-	 	<? else: ?>
+	 		<?php endif; ?>
+	 	<?php else: ?>
 	 		Vous avez esquiv&eacute; l'attaque
-	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["fragilisee"] === true) : ?>
+	 		<?php if ($this->retourAttaque["retourAttaqueEffetMotS"]["fragilisee"] === true) : ?>
 	 		<br /> Vous &eacute;tes fragilis&eacute; pour les prochaines attaques<br />
-	 		<? else: ?>
+	 		<?php else: ?>
 	 		parfaitement.
-	 		<? endif; ?>
-	 	<? endif; ?>
-	<? endif; ?>
+	 		<?php endif; ?>
+	 	<?php endif; ?>
+	<?php endif; ?>

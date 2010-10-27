@@ -1,14 +1,14 @@
-<? include("commun_text_resultat.phtml") ?>
-Vous avez distribu&eacute; <?=$this->totalDistribution?> px.<br /><br />
+<?php include("commun_text_resultat.phtml") ?>
+Vous avez distribu&eacute; <?php echo $this->totalDistribution?> px.<br /><br />
 <table>
- <? foreach ($this->tabAffiche as $t):?>
+ <?php foreach ($this->tabAffiche as $t):?>
  	<tr>
  		<td>
- 		<?=htmlspecialchars($t["nom_braldun"])?> (<?=$t["id_braldun"]?>)
+ 		<?php echo htmlspecialchars($t["nom_braldun"])?> (<?php echo $t["id_braldun"]?>)
  		</td>
  		<td>
- 		<?=$t["px_recu"]?>  PX
+ 		<?php echo $t["px_recu"]?>  PX
  		</td>
  	</tr>
- <? endforeach; ?>
+ <?php endforeach; ?>
  </table>

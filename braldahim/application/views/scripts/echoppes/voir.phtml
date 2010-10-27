@@ -4,28 +4,28 @@
 
 <div class="titre textalic textsizec">
 <?if ($this->echoppe["nom_echoppe"] != null && $this->echoppe["nom_echoppe"] != "") : ?>
-	<?=htmlspecialchars($this->echoppe["nom_echoppe"])?>,
-<? endif; ?>
-&Eacute;choppe <? if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?> <?=htmlspecialchars($this->echoppe["nom_metier"])?><br /></div>
-<div class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_region"])?>, x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></div>
+	<?php echo htmlspecialchars($this->echoppe["nom_echoppe"])?>,
+<?php endif; ?>
+&Eacute;choppe <?php if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?> <?php echo htmlspecialchars($this->echoppe["nom_metier"])?><br /></div>
+<div class="titre textalic textsizec"><?php echo htmlspecialchars($this->echoppe["nom_region"])?>, x:<?php echo $this->echoppe["x_echoppe"]?>, y:<?php echo $this->echoppe["y_echoppe"]?></div>
 <br />
 
-    <? if ($this->estSurEchoppe === true && $this->user->activation == true): 
+    <?php if ($this->estSurEchoppe === true && $this->user->activation == true): 
   		$disabled = "";
   	   else:
   		$disabled = "disabled" ;
   	?>
   		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
-  	<? endif; ?>
+  	<?php endif; ?>
 
  <input type="button" class='button1' value="0 PA - Modifier le nom" 
- onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifiernom&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled?> />
+ onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifiernom&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled?> />
  <input type="button" class='button1' value="0 PA - Modifier la description"
-  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled?>/>
+  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled?>/>
  
 <hr> <br />
-<? include("voir/arriere_boutique.phtml") ?>
+<?php include("voir/arriere_boutique.phtml") ?>
 <hr> <br />
-<? include("voir/atelier.phtml") ?>
+<?php include("voir/atelier.phtml") ?>
 <hr><br />
-<? include("voir/etal.phtml") ?>
+<?php include("voir/etal.phtml") ?>

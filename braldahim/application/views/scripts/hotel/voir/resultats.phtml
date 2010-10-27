@@ -1,11 +1,11 @@
 
-<? if ($this->venteDefaut == true) : ?>
+<?php if ($this->venteDefaut == true) : ?>
 	<div class="titre textalic">
 	Affichage des 50 dernières ventes inscrites
 	</div>
 	Vous pouvez affiner votre recherche avec les listes à choix présentes ci-dessus.
 	<br /><br />
-<? endif;?>
+<?php endif;?>
  <br />
  <table class="table_liste" style="width:95%">
 	<thead class="table_liste">
@@ -18,21 +18,21 @@
 		<th>Acheter</th>
 	  </tr>
 	</thead>
-  <? if (count($this->resultats) > 0): ?>
+  <?php if (count($this->resultats) > 0): ?>
 	<tbody>
 	
-	<? if ($this->user->pa_braldun >= $this->paUtilisationHotel): 
+	<?php if ($this->user->pa_braldun >= $this->paUtilisationHotel): 
 		$disabled = "";
 	else:
 		$disabled = "disabled" ;
 	endif;
 	?>
 
-  	<? $i = 0; 
+  	<?php $i = 0; 
   	foreach($this->resultats as $e): ?>
-  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-  			<td class="table_liste">N&deg;<?=$e["vente"]["id_vente"]?>
-  			<br /><?=$e["vente"]["date_fin_vente"]?>
+  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+  			<td class="table_liste">N&deg;<?php echo $e["vente"]["id_vente"]?>
+  			<br /><?php echo $e["vente"]["date_fin_vente"]?>
   			</td>
 	  		<td class="table_liste">
 	  		<?
@@ -62,28 +62,28 @@
 	  		?>
 	  		</td>
 	  		<td class="table_liste">
-	  			<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$e["vente"]["id_braldun"]?>');" title="Cliquez pour voir le profil">
-		  		<?=$e["vente"]["prenom_braldun"]?> <?=$e["vente"]["nom_braldun"]?> (<?=$e["vente"]["id_braldun"]?>)
+	  			<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $e["vente"]["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		  		<?php echo $e["vente"]["prenom_braldun"]?> <?php echo $e["vente"]["nom_braldun"]?> (<?php echo $e["vente"]["id_braldun"]?>)
 		  		</a>
-		  		<img src='<?=$this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?=$e["vente"]["id_braldun"]?>');" style='cursor:pointer'/>
+		  		<img src='<?php echo $this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?php echo $e["vente"]["id_braldun"]?>');" style='cursor:pointer'/>
 	  		</td>
 	  		<td class="table_liste">
-	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>
+	  		<?php echo Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>
 	  		</td>
-	  		<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["vente"]["commentaire_vente"])?></td>
+	  		<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["vente"]["commentaire_vente"])?></td>
 	  		<td class="table_liste">
-	  			<input type="button" class='button1' onclick='_get_("/hotel/doaction?caction=ask_hotel_acheter&valeur_1=<?=$e["vente"]["id_vente"]?>");' value="<?=$this->paUtilisationHotel ?> PA - Acheter" <?=$disabled?>>
+	  			<input type="button" class='button1' onclick='_get_("/hotel/doaction?caction=ask_hotel_acheter&valeur_1=<?php echo $e["vente"]["id_vente"]?>");' value="<?php echo $this->paUtilisationHotel ?> PA - Acheter" <?php echo $disabled?>>
 		  	</td>
   		</tr>
-  	<? endforeach; ?>
+  	<?php endforeach; ?>
   	</tbody>
-   <? else: ?>
+   <?php else: ?>
    	<tr class="table_liste">
    		<td colspan="5">
    			Aucun r&eacute;sultat
    		</td>
    	</tr>
-   <? endif; ?>
+   <?php endif; ?>
 </table>
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 

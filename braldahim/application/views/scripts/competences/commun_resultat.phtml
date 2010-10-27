@@ -1,36 +1,36 @@
 <div class='comp_titre'>
-<? if ($this->titreAction != null) : ?>
-	<?=$this->titreAction ?>
-<? endif;?>
-<?=$this->competence["nom"] ?></div>
+<?php if ($this->titreAction != null) : ?>
+	<?php echo $this->titreAction ?>
+<?php endif;?>
+<?php echo $this->competence["nom"] ?></div>
 
  <div class='comp_contenu'>
-	 <div id='<?=$this->competence["nom_systeme"]?>_text' style="display:block">
-	<?=$this->texte ?>
+	 <div id='<?php echo $this->competence["nom_systeme"]?>_text' style="display:block">
+	<?php echo $this->texte ?>
 	<br />
 	 </div>
 	 
-	 <div id='<?=$this->competence["nom_systeme"]?>_copie' style="display:none">
-		<textarea rows='10' cols='40' id='competence_copie'><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
+	 <div id='<?php echo $this->competence["nom_systeme"]?>_copie' style="display:none">
+		<textarea rows='10' cols='40' id='competence_copie'><?php echo Bral_Helper_Affiche::copie($this->texte); ?></textarea>
 	  <br />
 	  Vous pouvez éditer le texte ci-dessous avant de cliquer sur enregistrer.<br />
 	  Enregistrer dans :
 		<select name="numNoteCompetence" id="numNoteCompetence">
-		<? Zend_Loader::loadClass("Carnet");
+		<?php Zend_Loader::loadClass("Carnet");
 			for($i = 1; $i <= Carnet::MAX_NOTE; $i++) :?>
-			<option value="<?=$i?>">note n&deg;<?=$i?></option>
-		<? endfor;?>
+			<option value="<?php echo $i?>">note n&deg;<?php echo $i?></option>
+		<?php endfor;?>
 		</select>
 		<input type="button" class="button1" value="Enregistrer" onclick="this.disabled=true;_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$('numNoteCompetence').value+'&texte_carnet='+encodeURIComponent($('competence_copie').value))">				
 		<span id='competence_resultat'></span>
 	</div>
  </div>
 
-<input type='button' class='button1' id="copie_carnet_retour" value='Retour au résultat' style="display:none" onclick="javascript:this.style.display='none';$('copie_carnet').style.display='block';switch2div('<?=$this->competence["nom_systeme"]?>_text','<?=$this->competence["nom_systeme"]?>_copie');"> 
-<input type='button' class='button1' id="copie_carnet" value='Copier dans le carnet' onclick="javascript:this.style.display='none';$('copie_carnet_retour').style.display='block';switch2div('<?=$this->competence["nom_systeme"]?>_text','<?=$this->competence["nom_systeme"]?>_copie');">
+<input type='button' class='button1' id="copie_carnet_retour" value='Retour au résultat' style="display:none" onclick="javascript:this.style.display='none';$('copie_carnet').style.display='block';switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');"> 
+<input type='button' class='button1' id="copie_carnet" value='Copier dans le carnet' onclick="javascript:this.style.display='none';$('copie_carnet_retour').style.display='block';switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');">
 
-<? if ($this->reloadInterface == true || $this->finMatchSoule === true): ?>
+<?php if ($this->reloadInterface == true || $this->finMatchSoule === true): ?>
 	<input type='button' class='button1' value='Fermer' onclick='_get_("/interface/reload");fermeBralBox();'>
-<? else: ?>
-	<? echo Bral_Helper_Fermer::affiche(); ?>
-<? endif; ?>
+<?php else: ?>
+	<?php echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>

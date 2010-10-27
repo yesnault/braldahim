@@ -1,4 +1,4 @@
-<div class='comp_titre'><?=$this->nomAction ?></div>
+<div class='comp_titre'><?php echo $this->nomAction ?></div>
 <br/>
 <form name='myForm' id='myForm'>
 <?php if ($this->assezDePa == false) : ?>
@@ -8,9 +8,9 @@
 	</div>
 <?php else : ?>
 	
-	<?=$this->texte ?>
+	<?php echo $this->texte ?>
 	
-<? endif ?>
+<?php endif ?>
 
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>
 </form>

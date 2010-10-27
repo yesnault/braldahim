@@ -1,54 +1,54 @@
-<? Zend_Loader::loadClass("Bral_Helper_DetailMateriel"); ?>
+<?php Zend_Loader::loadClass("Bral_Helper_DetailMateriel"); ?>
 
-<table class="table_liste" style="width:90%" <? if ($this->idMaterielsTable != false) : ?> id="<?=$this->idMaterielsTable?>"<? endif; ?>>
+<table class="table_liste" style="width:90%" <?php if ($this->idMaterielsTable != false) : ?> id="<?php echo $this->idMaterielsTable?>"<?php endif; ?>>
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
 	  	<th>&nbsp;</th>
 		<th>Nom</th>
 		<th>Caract&eacute;ristiques</th>
-		<? if ($this->estElementsEtal === true) : ?>
+		<?php if ($this->estElementsEtal === true) : ?>
 			<th>Prix</th>
 			<th>Commentaire du vendeur</th>
-		<? endif; ?>
-		<? if ($this->estElementsEtalAchat === true) : ?>
+		<?php endif; ?>
+		<?php if ($this->estElementsEtalAchat === true) : ?>
 			<th>Marchander / Acheter</th>
-		<? endif; ?>
+		<?php endif; ?>
 		<th>&nbsp;</th>
 	  </tr>
 	</thead>
 	<tbody>
-		<? if (count($this->materiels) > 0) :?>
-			<? $i = 0;
+		<?php if (count($this->materiels) > 0) :?>
+			<?php $i = 0;
 			   foreach($this->materiels as $e) :?>
-					<tr class="table_liste<?=($i % 2);$i++; ?>">
-				  		<td class="table_liste"><?=$e["id_materiel"] ?></td>
-				  		<td class="table_liste"><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
-				  		<td class="table_liste"><?=$e["nom"] ?></td>
+					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+				  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
+				  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
+				  		<td class="table_liste"><?php echo $e["nom"] ?></td>
 				  		<td class="table_liste">
 				  			<div class='braltip'>
-				  			<?=Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-				  			<img src="<?=$this->config->static->url?>/images/info_icon.gif"/>
+				  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+				  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
 				  			</div>
 				  		</td>
-				  		<? if ($this->estElementsEtal === true) : ?>
-							<td class="table_liste" nowrap><?=Bral_Helper_DetailMateriel::afficherPrix($e);?></td>
-							<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["commentaire_vente_echoppe_materiel"])?></td>
-						<? endif; ?>
-						<? if ($this->estElementsEtalAchat === true) : ?>
+				  		<?php if ($this->estElementsEtal === true) : ?>
+							<td class="table_liste" nowrap><?php echo Bral_Helper_DetailMateriel::afficherPrix($e);?></td>
+							<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["commentaire_vente_echoppe_materiel"])?></td>
+						<?php endif; ?>
+						<?php if ($this->estElementsEtalAchat === true) : ?>
 							<td class="table_liste">
-							<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel&valeur_1=<?=$e["id_materiel"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+							<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel&valeur_1=<?php echo $e["id_materiel"] ?>");' value="<?php echo $this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
 							</td>
-						<? endif; ?>
+						<?php endif; ?>
 						<td class="table_liste">
-							<? if ($this->estElementsAchat == false && $this->estElementsEtalAchat == false && substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette"):?>
+							<?php if ($this->estElementsAchat == false && $this->estElementsEtalAchat == false && substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette"):?>
 							<input type="button" class='button1' value="1 PA - Attraper une charrette" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper&provenance=echoppe')" />
-							<? endif;?>
+							<?php endif;?>
 						</td>
 				  	</tr>
-			<? endforeach; ?>
-		<? else: ?>
+			<?php endforeach; ?>
+		<?php else: ?>
 			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucun mat&eacute;riel</i></td></tr>
-		<? endif; ?>
+		<?php endif; ?>
 	</tbody>
 </table>

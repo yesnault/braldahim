@@ -1,40 +1,40 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	 <? if ($this->produireEchoppeOk === true) : ?>
-		 Pour <?=$this->nb_pa ?> PA, vous pouvez produire un mat&eacute;riel.<br /><br />
+	 <?php if ($this->produireEchoppeOk === true) : ?>
+		 Pour <?php echo $this->nb_pa ?> PA, vous pouvez produire un mat&eacute;riel.<br /><br />
 	     
 	     Type de mat&eacute;riel :<br />
-	     <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_<?=$this->nom_systeme?>&type_materiel='+this.value);">
+	     <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_<?php echo $this->nom_systeme?>&type_materiel='+this.value);">
 		 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
-		 	<? foreach($this->typeMateriel as $t) : ?>
-		 		<option value="<?=$t["id_type_materiel"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_materiel"])?></option>
-		 	<? endforeach; ?>
+		 	<?php foreach($this->typeMateriel as $t) : ?>
+		 		<option value="<?php echo $t["id_type_materiel"]?>" <?php echo $t["selected"]?>><?php echo htmlspecialchars($t["nom_type_materiel"])?></option>
+		 	<?php endforeach; ?>
 		 </select>
 		 
 		 <br /><br />
 		 
-		<? if (isset($this->typeMaterielCourant)) : ?>
-		<?=Bral_Helper_DetailMateriel::afficheRecette($this->typeMaterielCourant);?>
-		<? endif;?>
+		<?php if (isset($this->typeMaterielCourant)) : ?>
+		<?php echo Bral_Helper_DetailMateriel::afficheRecette($this->typeMaterielCourant);?>
+		<?php endif;?>
 			
-		<? if (isset($this->cout)): ?>
+		<?php if (isset($this->cout)): ?>
 		<br />Co&ucirc;t 
-			<? if ($this->ressourcesOk === false) : ?>
+			<?php if ($this->ressourcesOk === false) : ?>
 		 		(Pas assez de ressource dans l'&eacute;choppe)
-			<? endif; ?> : 
-		 	<? foreach($this->cout as $key1 => $c) :?>
-	 			<br /><?=htmlspecialchars($c["nom"]) ?> : <?=$c["cout"] ?> <? if (isset($c["unite"]) && $c["unite"] != "") :?><?=$c["unite"] ?><? if ($c["cout"] > 1) : echo 's'; endif;?> <? if ($c["ressourcesOk"] == "non") : echo ' ressources Ko'; else:  echo ' ressources Ok'; endif;?><? endif; ?>
-		 	<? endforeach; ?>
-		<? endif; ?>
+			<?php endif; ?> : 
+		 	<?php foreach($this->cout as $key1 => $c) :?>
+	 			<br /><?php echo htmlspecialchars($c["nom"]) ?> : <?php echo $c["cout"] ?> <?php if (isset($c["unite"]) && $c["unite"] != "") :?><?php echo $c["unite"] ?><?php if ($c["cout"] > 1) : echo 's'; endif;?> <?php if ($c["ressourcesOk"] == "non") : echo ' ressources Ko'; else:  echo ' ressources Ok'; endif;?><?php endif; ?>
+		 	<?php endforeach; ?>
+		<?php endif; ?>
 	
-	 <? elseif ($this->produireEchoppeOk == false) : ?>
+	 <?php elseif ($this->produireEchoppeOk == false) : ?>
 		Vous ne pouvez produire que dans une de vos &eacute;choppes.
-	<? else: ?>
+	<?php else: ?>
 		Vous n'avez pas assez de mati&egrave;res premi&egrave; pour produire...
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->produireEchoppeOk === true && $this->etape1 === true && $this->ressourcesOk === true) : ?>
-<input type='button' class='button1' id='bouton_produire' value='Produire !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_<?=$this->nom_systeme?>&type_materiel="+$("valeur_1").value);'>
-<? endif ?>
+<input type='button' class='button1' id='bouton_produire' value='Produire !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_<?php echo $this->nom_systeme?>&type_materiel="+$("valeur_1").value);'>
+<?php endif ?>

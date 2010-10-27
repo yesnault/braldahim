@@ -1,6 +1,6 @@
-<? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
  
-<table class="table_liste" style="width:90%" <? if ($this->idPotionsTable != false) : ?> id="<?=$this->idPotionsTable?>"<? endif; ?>>
+<table class="table_liste" style="width:90%" <?php if ($this->idPotionsTable != false) : ?> id="<?php echo $this->idPotionsTable?>"<?php endif; ?>>
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
@@ -11,57 +11,57 @@
 		<th>Type</th>
 		<th>Effet sur</th>
 		<th>Caract&eacute;ristiques</th>
-		<? if ($this->estElementsEtal === true) : ?>
+		<?php if ($this->estElementsEtal === true) : ?>
 			<th>Prix</th>
 			<th>Commentaire du vendeur</th>
-		<? endif; ?>
-		<? if ($this->estElementsEtalAchat === true) : ?>
+		<?php endif; ?>
+		<?php if ($this->estElementsEtalAchat === true) : ?>
 			<th>Marchander / Acheter</th>
-		<? endif; ?>
+		<?php endif; ?>
 	  </tr>
 	</thead>
 	<tbody>
-		<? if (count($this->potions) > 0) :?>
-			<? $i = 0;
+		<?php if (count($this->potions) > 0) :?>
+			<?php $i = 0;
 			   foreach($this->potions as $p) :?>
-				  <tr class="table_liste<?=($i % 2);$i++; ?>">
-			  		<td class="table_liste"><?=$p["id_potion"] ?></td>
-			  		<td class="table_liste"><img src='<?=$this->config->static->url?>/styles/braldahim_defaut/images/type_potion/type_potion_<?=$p["id_type_potion"]?>.png' alt="<?=htmlspecialchars($p["nom"])?>"/></td>
-			  		<td class="table_liste"><?=htmlspecialchars($p["nom"]) ?></td>
-			  		<td class="table_liste"><?=htmlspecialchars($p["qualite"]) ?></td>
-			  		<td class="table_liste"><?=$p["niveau"] ?></td>
+				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+			  		<td class="table_liste"><?php echo $p["id_potion"] ?></td>
+			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_potion/type_potion_<?php echo $p["id_type_potion"]?>.png' alt="<?php echo htmlspecialchars($p["nom"])?>"/></td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($p["nom"]) ?></td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($p["qualite"]) ?></td>
+			  		<td class="table_liste"><?php echo $p["niveau"] ?></td>
 			  		<td class="table_liste">
-			  		<?=$p["nom_type"] ?>
+			  		<?php echo $p["nom_type"] ?>
 			   		</td>
 			  		<td class="table_liste">
-			  		<? if ($p["bm_type"] == null) : ?>
+			  		<?php if ($p["bm_type"] == null) : ?>
 			  			État équipement
-			  		<? else :?>
-				  		<?=$p["bm_type"] ?> <?=$p["caracteristique"] ?>
-				  		<? if ($p["bm2_type"] != null) : ?>
-				  			<br /><?=$p["bm2_type"] ?> <?=$p["caracteristique2"] ?>
-				  		<? endif;?>
-			  		<? endif;?>
+			  		<?php else :?>
+				  		<?php echo $p["bm_type"] ?> <?php echo $p["caracteristique"] ?>
+				  		<?php if ($p["bm2_type"] != null) : ?>
+				  			<br /><?php echo $p["bm2_type"] ?> <?php echo $p["caracteristique2"] ?>
+				  		<?php endif;?>
+			  		<?php endif;?>
 			  		</td>
 			  		<td class="table_liste">
 			  			<div class='braltip'>
-			  			<?=Bral_Helper_DetailPotion::afficherTooltip($p);?>
-						<img src="<?=$this->config->static->url?>/images/info_icon.gif"/>
+			  			<?php echo Bral_Helper_DetailPotion::afficherTooltip($p);?>
+						<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
 						</div>
 					</td>
-			  		<? if ($this->estElementsEtal === true) : ?>
-						<td class="table_liste" nowrap><?=Bral_Helper_DetailPotion::afficherPrix($p);?></td>
-						<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($p["commentaire_vente_echoppe_potion"])?></td>
-					<? endif; ?>
-					<? if ($this->estElementsEtalAchat === true) : ?>
+			  		<?php if ($this->estElementsEtal === true) : ?>
+						<td class="table_liste" nowrap><?php echo Bral_Helper_DetailPotion::afficherPrix($p);?></td>
+						<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($p["commentaire_vente_echoppe_potion"])?></td>
+					<?php endif; ?>
+					<?php if ($this->estElementsEtalAchat === true) : ?>
 						<td class="table_liste">
-						<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_acheterpotion&idPotion=<?=$p["id_potion"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+						<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_acheterpotion&idPotion=<?php echo $p["id_potion"] ?>");' value="<?php echo $this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
 						</td>
-					<? endif; ?>
+					<?php endif; ?>
 				  </tr>
-			<? endforeach; ?>
-		<? else: ?>
+			<?php endforeach; ?>
+		<?php else: ?>
 			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune potion ou vernis</i></td></tr>
-		<? endif; ?>
+		<?php endif; ?>
 	</tbody>
 </table>

@@ -2,20 +2,20 @@
 	<tr>
 		<td width="100%" valign="top">
 			<ul id="navigation" style="width:99%;text-align:left">
-				<? foreach($this->arBoutiqueTransformes as $k => $v) : ?>
-					<? if ($v["a_afficher"] == true) :?>
-					<li id="arboutiqueTransformes<?=$k?>">
-				      	<h3 id="arboutiqueTransformes<?=$k?>-head" class="head" onclick="maccordion(this);">
-							<?=htmlspecialchars($v["nom"]) ?>
+				<?php foreach($this->arBoutiqueTransformes as $k => $v) : ?>
+					<?php if ($v["a_afficher"] == true) :?>
+					<li id="arboutiqueTransformes<?php echo $k?>">
+				      	<h3 id="arboutiqueTransformes<?php echo $k?>-head" class="head" onclick="maccordion(this);">
+							<?php echo htmlspecialchars($v["nom"]) ?>
 						</h3>
-						<ul id="arboutiqueTransformes<?=$k?>-body" style="display:none">
+						<ul id="arboutiqueTransformes<?php echo $k?>-body" style="display:none">
 							<li>
-								<? include("poche_arr_bout_".$k.".phtml") ?>
+								<?php include("poche_arr_bout_".$k.".phtml") ?>
 							</li>
 						</ul>
 					</li>
-					<? endif; ?>
-				<? endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</ul>
 		</td>
 	</tr>

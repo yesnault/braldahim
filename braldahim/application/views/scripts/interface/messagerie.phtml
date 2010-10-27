@@ -1,44 +1,44 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizeb">Mes messages</div>
  <div class="contenuC">
   <div class="box_contenu1 textalic">
 
 <span style="cursor:pointer;" title="Messages reçus" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Messages envoy&eacute;s" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->envoye ?>");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s
+<span style="cursor:pointer;" title="Messages envoy&eacute;s" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?php echo $this->config->messagerie->message->type->envoye ?>");'>
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Messages archivés" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->archive ?>");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_archive.gif" alt="Reçus"> Archivés
+<span style="cursor:pointer;" title="Messages archivés" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?php echo $this->config->messagerie->message->type->archive ?>");'>
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_archive.gif" alt="Reçus"> Archivés
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Corbeille" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->supprime ?>");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille
+<span style="cursor:pointer;" title="Corbeille" onclick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?php echo $this->config->messagerie->message->type->supprime ?>");'>
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille
 </span> &nbsp;&nbsp;
 
 <span style="cursor:pointer;" title="Contacts" onclick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=liste");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_book.gif" alt="Contacts" border="0"> 
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_book.gif" alt="Contacts" border="0"> 
 Contacts</span> &nbsp;&nbsp;
 
 <span style="cursor:pointer;" title="Nouveau Message" onclick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau");'>
-<img src="<?=$this->config->static->url?>/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> 
+<img src="<?php echo $this->config->static->url?>/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> 
 Nouveau</span>
 
 <br />
 <div id='messagerie_contenu'>
-	<? if ($this->affichageInterne == true) : ?>
-	   	<? include("messagerie/messages.phtml") ?>
-	<? else: ?>
+	<?php if ($this->affichageInterne == true) : ?>
+	   	<?php include("messagerie/messages.phtml") ?>
+	<?php else: ?>
 		Chargement en cours
-		<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-	<? endif; ?>
+		<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+	<?php endif; ?>
 </div>
 
   </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

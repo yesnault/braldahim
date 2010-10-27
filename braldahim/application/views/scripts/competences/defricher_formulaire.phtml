@@ -1,16 +1,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
 	
-	<? if ($this->defricherOk === true) : ?>
+	<?php if ($this->defricherOk === true) : ?>
 		Vous pouvez défricher l'endroit où vous êtes pour peut-être y
 		trouver une ancienne route...
-	<? else:?>
+	<?php else:?>
 		Cet endroit est déjà défriché, il n'y a plus de route à trouver.
-	<? endif;?>
+	<?php endif;?>
 
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->defricherOk === true) : ?>
 <input type='button' class='button1' id='bouton_defricher' value='Défricher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_defricher");'>
-<? endif ?>
+<?php endif ?>

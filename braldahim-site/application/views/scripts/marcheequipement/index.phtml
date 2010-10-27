@@ -9,28 +9,28 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onchange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
-	<? foreach($this->regions as $k => $e): ?>
-		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
-	<? endforeach;?>
+	<select id="region" name="region" onchange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?php echo $this->emplacementSelect?>&equipementselect=<?php echo $this->equipementSelect?>&uid='+(new Date()).valueOf()">
+	<?php foreach($this->regions as $k => $e): ?>
+		<option value="<?php echo $k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+	<?php endforeach;?>
 	</select>
 </td>
 <td>
 	Filtre par emplacement: 
 	<br />
-	<select id="emplacement" name="emplacement" onchange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
-	<? foreach($this->emplacements as $k => $e): ?>
-		<option value="<?=$k?>" <?if ($this->emplacementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
-	<? endforeach;?>
+	<select id="emplacement" name="emplacement" onchange="document.location.href = '/marcheequipement/?regionselect<?php echo $this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?php echo $this->equipementSelect?>&uid='+(new Date()).valueOf()">
+	<?php foreach($this->emplacements as $k => $e): ?>
+		<option value="<?php echo $k?>" <?if ($this->emplacementSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+	<?php endforeach;?>
 	</select>
 </td>
 <td>
 	Filtre par équipement:
 	<br />
-	<select id="equipement" name="equipement" onchange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect='+this.value+'&uid='+(new Date()).valueOf()">
-	<? foreach($this->equipements as $k => $e): ?>
-		<option value="<?=$k?>" <?if ($this->equipementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
-	<? endforeach;?>
+	<select id="equipement" name="equipement" onchange="document.location.href = '/marcheequipement/?regionselect<?php echo $this->regionSelect?>&emplacementselect=<?php echo $this->emplacementSelect?>&equipementselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<?php foreach($this->equipements as $k => $e): ?>
+		<option value="<?php echo $k?>" <?if ($this->equipementSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+	<?php endforeach;?>
 	</select>
 </td>
 </tr>
@@ -40,7 +40,7 @@
 
 <div id="mygrid_container" style="width:770px;height:650px;align:center"></div> 
 <script>
-	gridQString = '/marcheequipement/renderxml?regionselect=<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf();
+	gridQString = '/marcheequipement/renderxml?regionselect=<?php echo $this->regionSelect?>&emplacementselect=<?php echo $this->emplacementSelect?>&equipementselect=<?php echo $this->equipementSelect?>&uid='+(new Date()).valueOf();
 	function sortGridOnServer(ind,gridObj,direct){
 	    mygrid.clearAll();
 	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
@@ -50,7 +50,7 @@
 	}
 	
 	mygrid = new dhtmlXGridObject('mygrid_container');
-	mygrid.setImagePath("<?=$this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setImagePath("<?php echo $this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygrid.setHeader("Comté,Date,Braldun,Echoppe,Emplacement,,Objet,Niveau,Prix,Commentaire");
 	mygrid.setInitWidths("60,55,100,70,85,32,100,65,90,*");
 	mygrid.setColAlign("left,left,left,left,left,left,left,centr,left,left");

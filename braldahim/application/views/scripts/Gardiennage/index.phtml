@@ -8,12 +8,12 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    <br />
-      	<? if (!empty($this->message)) : ?>
-   			<?=$this->message?>
-   		<? else: ?>
-			<? if (empty($this->tabBraldunGarde)) : ?>
+      	<?php if (!empty($this->message)) : ?>
+   			<?php echo $this->message?>
+   		<?php else: ?>
+			<?php if (empty($this->tabBraldunGarde)) : ?>
 				Vous n'avez aucun Braldûn en garde actuellement.
-			<? else: ?>
+			<?php else: ?>
 				<div class="titre textalic textsized">Gardes à effectuer</div><br />
 				<table class="table_liste">
 				<thead class="table_liste">
@@ -24,42 +24,42 @@
 					<th>Nb. jours</th>
 					<th>Commentaire</th>
 				</thead>
-				<? foreach($this->tabBraldunGarde as $g): ?>
+				<?php foreach($this->tabBraldunGarde as $g): ?>
 					<tr>
 						<td>
-							<? if($g["date_ok"] === true): ?>
-							<input type="radio" name="id_gardiennage" value="<?=$g["id_gardiennage"]?>" />
-							<? else:?>
+							<?php if($g["date_ok"] === true): ?>
+							<input type="radio" name="id_gardiennage" value="<?php echo $g["id_gardiennage"]?>" />
+							<?php else:?>
 							-
-							<? endif; ?>
+							<?php endif; ?>
 						</td>
 						<td>
-							<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
-						  		<?=htmlspecialchars(stripslashes($g["prenom_braldun"])). " ". htmlspecialchars(stripslashes($g["nom_braldun"])). ' ('.$g["id_braldun"].')';?>
+							<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $g["id_braldun"] ?>');" title="Cliquez pour voir le profil">
+						  		<?php echo htmlspecialchars(stripslashes($g["prenom_braldun"])). " ". htmlspecialchars(stripslashes($g["nom_braldun"])). ' ('.$g["id_braldun"].')';?>
 						  	</a>
 						</td>
-						<td><?=Bral_Util_ConvertDate::get_date_mysql_datetime('d/m \<\b\r \/\> Y',$g["date_debut"]); ?></td>
-						<td nowrap><?=$g["nb_jours"] ?></td>
-						<td nowrap><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
+						<td><?php echo Bral_Util_ConvertDate::get_date_mysql_datetime('d/m \<\b\r \/\> Y',$g["date_debut"]); ?></td>
+						<td nowrap><?php echo $g["nb_jours"] ?></td>
+						<td nowrap><?php echo htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 					</tr>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 				</table>
 			    Activation du tour :
 			    oui <input type="radio" id="activation_tour_gardiennage" name="activation_tour_gardiennage" value="oui" checked>
 			    non <input type="radio" id="activation_tour_gardiennage" name="activation_tour_gardiennage" value="non"> <br />
-			<? endif; ?>
-		<? endif; ?>
+			<?php endif; ?>
+		<?php endif; ?>
 <br />
 <div id="formbutton">
-<? if (!empty($this->tabBraldunGarde) && $this->uneGardePossible) : ?>
+<?php if (!empty($this->tabBraldunGarde) && $this->uneGardePossible) : ?>
 <input type="submit" name="add" class='button1' value="Jouer !" />
-<? elseif (!empty($this->tabBraldunGarde)): ?>
+<?php elseif (!empty($this->tabBraldunGarde)): ?>
 Aucune des gardes débute aujourd'hui.<br /><br />
-<? endif; ?>
+<?php endif; ?>
 <input type="button" name="retour" class='button1' value="Retour Interface" onclick="javascript:document.location.href='/interface/'"/>
-<? if (!empty($this->message)) : ?>
+<?php if (!empty($this->message)) : ?>
 <input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onclick="javascript:document.location.href='/auth/logout'"/>
-<? endif; ?>
+<?php endif; ?>
 		</div>
 	</div>
 	&nbsp;

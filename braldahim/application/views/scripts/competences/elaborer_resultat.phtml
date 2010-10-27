@@ -1,23 +1,23 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; &eacute;laborer <?=$this->nbPotions?> 
-	<?=$this->nomPotionVernis?> : 
+<?php if ($this->okJet1 === true): ?>
+	Vous avez r&eacute;ussi &agrave; &eacute;laborer <?php echo $this->nbPotions?> 
+	<?php echo $this->nomPotionVernis?> : 
 	<br />
-	<?=htmlspecialchars($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
-	et de niveau <?=$this->niveau ?>.
+	<?php echo htmlspecialchars($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?php echo $this->qualite ?>
+	et de niveau <?php echo $this->niveau ?>.
 	<br /><br />
-	<? if ($this->effetRune) :?>
+	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de la pr&eacute;paration.
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->competenceAmelioree != null) : ?>
+	<?php if ($this->competenceAmelioree != null) : ?>
 		<br />Vous avez r&eacute;ussi &agrave; am&eacute;liorer votre compétence Produire :
 		<br />
-		<b><?=$this->competenceAmelioree["competence"]["nom_competence"]?> : + <?=$this->competenceAmelioree["gain"]?> % </b><br />
-	<? endif;?>
+		<b><?php echo $this->competenceAmelioree["competence"]["nom_competence"]?> : + <?php echo $this->competenceAmelioree["gain"]?> % </b><br />
+	<?php endif;?>
 	
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre pr&eacute;paration. <br/>
 	La moiti&eacute; des composants sont d&eacute;truits.<br />
-<? endif; ?>
+<?php endif; ?>

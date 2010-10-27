@@ -2,8 +2,8 @@
 
  <div class='comp_contenu'>
 	 <div id='transferpotion_text' style="display:block"  onclick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
-		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> l'élément suivant : <br />
-		<?=$this->potion["nom_type"]?> <?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
+		Vous avez transf&eacute;r&eacute; dans <?php echo htmlspecialchars($this->destination["texte"])?> l'élément suivant : <br />
+		<?php echo $this->potion["nom_type"]?> <?php echo htmlspecialchars($this->potion["nom"]) ?> n&deg; <?php echo $this->potion["id_echoppe_potion"] ?>
 		<br />
 	 </div>
 	 
@@ -22,4 +22,4 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onclick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

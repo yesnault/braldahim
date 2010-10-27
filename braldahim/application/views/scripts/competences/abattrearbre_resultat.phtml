@@ -1,52 +1,52 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true):
+<?php if ($this->okJet1 === true):
 	$s = "";
 	if ($this->nbRondins > 1) : $s = "s"; endif;
 ?>
-	<? if ($this->nbRondins < 1) :?>
+	<?php if ($this->nbRondins < 1) :?>
 		Vous avez r&eacute;ssi votre comp&eacute;tence, mais vous n'avez rien abattu
 			&agrave; cause de vos malus importants en Vigueur.<br />
-	<? else: ?>
+	<?php else: ?>
 		Vous avez abattu un arbre.<br /> 
 		Vous avez 
-		<? if ($this->arrivee == 3) : ?>
+		<?php if ($this->arrivee == 3) : ?>
 			déposé
-		<? else: ?>
+		<?php else: ?>
 			r&eacute;cup&eacute;r&eacute;
-		<? endif;?>
-		<?=$this->nbRondins ?> 
-		rondin<?=$s ?>
-	<? endif; ?>
-	<? if ($this->arrivee == 1 && $this->nbRondinsATerre == 0) : ?>
+		<?php endif;?>
+		<?php echo $this->nbRondins ?> 
+		rondin<?php echo $s ?>
+	<?php endif; ?>
+	<?php if ($this->arrivee == 1 && $this->nbRondinsATerre == 0) : ?>
 		dans votre charrette.<br />
-	<? endif; ?>
-	<? if ($this->arrivee == 2 && $this->nbRondinsATerre == 0) : ?>
+	<?php endif; ?>
+	<?php if ($this->arrivee == 2 && $this->nbRondinsATerre == 0) : ?>
 		dans votre laban.<br />
-	<? endif; ?>
-	<? if ($this->nbRondinsATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
-		: <?=$this->nbRondins - $this->nbRondinsATerre?>
-		<? if ($this->arrivee == 1 ) : ?>
+	<?php endif; ?>
+	<?php if ($this->nbRondinsATerre > 0 && ($this->arrivee == 2 || $this->arrivee == 1 )) : ?>
+		: <?php echo $this->nbRondins - $this->nbRondinsATerre?>
+		<?php if ($this->arrivee == 1 ) : ?>
 			dans votre charrette 
-		<? endif; ?>
-		<? if ($this->arrivee == 2) : ?>
+		<?php endif; ?>
+		<?php if ($this->arrivee == 2) : ?>
 			dans votre laban 
-		<? endif; ?>
-		et, faute de place, <?=$this->nbRondinsATerre?> 
-		<? if ($this->nbRondinsATerre > 1) : ?>
+		<?php endif; ?>
+		et, faute de place, <?php echo $this->nbRondinsATerre?> 
+		<?php if ($this->nbRondinsATerre > 1) : ?>
 			rondins sont tombés au sol.<br />
-		<? else :?>
+		<?php else :?>
 			rondin est tombé au sol.<br />
-		<? endif;?>
-	<? endif;?>
-	<? if ($this->arrivee == 3) : ?>
+		<?php endif;?>
+	<?php endif;?>
+	<?php if ($this->arrivee == 3) : ?>
 		au sol.<br />
-	<? endif; ?>
-	<? if ($this->bosquetDetruit) : ?>
+	<?php endif; ?>
+	<?php if ($this->bosquetDetruit) : ?>
 		<br />Vous avez récupéré les derniers rondins sur ce bosquet.
-	<? endif;?>
+	<?php endif;?>
 	<br /><br />
-	<? if ($this->effetRune) :?>
+	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.
-	<? endif; ?>
-<? endif; ?>
+	<?php endif; ?>
+<?php endif; ?>

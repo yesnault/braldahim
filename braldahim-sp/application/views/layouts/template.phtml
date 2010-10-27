@@ -8,13 +8,13 @@
 	<title>Braldahim - Scripts Publics</title>
 	<meta name="description" content="Braldahim - Jeu Web - Bralduns" />
 	<meta name="keywords" content="jeu web, Semi-Homme, Braldûns, MMO, rôle, aventure" />
-	<link href="<?=$this->config->static->url?>/styles/braldahim-sp-010.css" media="screen" rel="Stylesheet" type="text/css" />
+	<link href="<?php echo $this->config->static->url?>/styles/braldahim-sp-010.css" media="screen" rel="Stylesheet" type="text/css" />
 	
-	<link href="<?=$this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 	
-	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/braldahim/m_display-sp-001.js"></script>
-	<script type="text/javascript" src="<?=$this->config->static->url?>/scripts/prototype_1602/prototype.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_display-sp-001.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/prototype_1602/prototype.js"></script>
 </head>
 
 <body>
@@ -24,15 +24,15 @@
 </div>
 </div>
 	<div id="page">
-		<?=$this->render("menu.phtml"); ?>
+		<?php echo $this->render("menu.phtml"); ?>
 		<div id="wrapper">
 		<div class="contenu">
 			<br /><br />
-			<?= $this->layout()->contenu ?>
+			<?php echo  $this->layout()->contenu ?>
 			<br /><br />
 		</div>
 		</div>
-		<?=$this->render("footer.phtml"); ?>
+		<?php echo $this->render("footer.phtml"); ?>
 	</div>
 </body>
 </html>

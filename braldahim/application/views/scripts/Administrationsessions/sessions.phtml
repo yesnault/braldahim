@@ -6,7 +6,7 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    	
-	    	<? if (count($this->sessions > 0)) : ?>
+	    	<?php if (count($this->sessions > 0)) : ?>
 	    		<table class="table_liste" style="width:80%">
 					<thead class="table_liste">
 					  <tr class="table_liste" title="Cliquer pour Trier">
@@ -17,19 +17,19 @@
 					  </tr>
 					</thead>
 					<tbody>
-						<? foreach($this->sessions as $s) :?>
+						<?php foreach($this->sessions as $s) :?>
 							<tr class="table_liste">
-							<td style="cursor:pointer" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?=$s["id_fk_braldun_session"]?>');"><?=$s["nom"]?> (<?=$s["id_fk_braldun_session"]?>)</td>
-							<td><?=$s["id_php_session"]?></td>
-							<td><?=$s["ip_session"]?></td>
-							<td><?=$s["date_derniere_action_session"]?></td>
+							<td style="cursor:pointer" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $s["id_fk_braldun_session"]?>');"><?php echo $s["nom"]?> (<?php echo $s["id_fk_braldun_session"]?>)</td>
+							<td><?php echo $s["id_php_session"]?></td>
+							<td><?php echo $s["ip_session"]?></td>
+							<td><?php echo $s["date_derniere_action_session"]?></td>
 							</tr>
-						<? endforeach; ?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
-	    	<? else: ?>
+	    	<?php else: ?>
 	    		Aucune session
-	    	<? endif; ?>
+	    	<?php endif; ?>
 	  
 		</div>
 	</div>

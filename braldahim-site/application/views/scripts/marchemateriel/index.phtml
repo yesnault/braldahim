@@ -9,19 +9,19 @@
 <td>
 	Filtre par comté: 
 	<br />
-	<select id="region" name="region" onchange="document.location.href = '/marchemateriel/?regionselect='+this.value+'&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf()">
-	<? foreach($this->regions as $k => $e): ?>
-		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
-	<? endforeach;?>
+	<select id="region" name="region" onchange="document.location.href = '/marchemateriel/?regionselect='+this.value+'&materielselect=<?php echo $this->materielSelect?>&uid='+(new Date()).valueOf()">
+	<?php foreach($this->regions as $k => $e): ?>
+		<option value="<?php echo $k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+	<?php endforeach;?>
 	</select>
 </td>
 <td>
 	Filtre par matériel:
 	<br />
-	<select id="materiel" name="materiel" onchange="document.location.href = '/marchemateriel/?regionselect<?=$this->regionSelect?>&materielselect='+this.value+'&uid='+(new Date()).valueOf()">
-	<? foreach($this->materiels as $k => $e): ?>
-		<option value="<?=$k?>" <?if ($this->materielSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
-	<? endforeach;?>
+	<select id="materiel" name="materiel" onchange="document.location.href = '/marchemateriel/?regionselect<?php echo $this->regionSelect?>&materielselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<?php foreach($this->materiels as $k => $e): ?>
+		<option value="<?php echo $k?>" <?if ($this->materielSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+	<?php endforeach;?>
 	</select>
 </td>
 </tr>
@@ -31,7 +31,7 @@
 
 <div id="mygrid_container" style="width:770px;height:650px;align:center"></div> 
 <script>
-	gridQString = '/marchemateriel/renderxml?regionselect=<?=$this->regionSelect?>&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf();
+	gridQString = '/marchemateriel/renderxml?regionselect=<?php echo $this->regionSelect?>&materielselect=<?php echo $this->materielSelect?>&uid='+(new Date()).valueOf();
 	function sortGridOnServer(ind,gridObj,direct){
 	    mygrid.clearAll();
 	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
@@ -41,7 +41,7 @@
 	}
 	
 	mygrid = new dhtmlXGridObject('mygrid_container');
-	mygrid.setImagePath("<?=$this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setImagePath("<?php echo $this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygrid.setHeader("Comté,Date,Braldun,Echoppe,,Objet,Prix,Commentaire");
 	mygrid.setInitWidths("60,55,110,80,40,135,80,*");
 	mygrid.setColAlign("left,left,left,left,left,left,left,left");

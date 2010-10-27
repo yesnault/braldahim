@@ -1,8 +1,8 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->sabotOk) : ?>
-Vous avez attrap&eacute; la charrette n&deg; <?=$this->idCharrette ?>.
+<?php if ($this->sabotOk) : ?>
+Vous avez attrap&eacute; la charrette n&deg; <?php echo $this->idCharrette ?>.
 
-<? else: ?>
+<?php else: ?>
 Vous n'avez pas attrapé la charrette, le code sabot n'est pas correct.
-<? endif;?>
+<?php endif;?>

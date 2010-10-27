@@ -14,7 +14,7 @@
  	?>
  	
  	Votre Date Limite d'Action est actuellement fix&eacute;e &agrave; : <br />
- 	<?=$this->dlaActuelle["texte"]?><br />
+ 	<?php echo $this->dlaActuelle["texte"]?><br />
  	<br />Vous pouvez la d&eacute;caler si vous souhaitez...<br /><br />
  	
  	Le d&eacute;calage s'exprime en heures et en minutes. <br />
@@ -26,19 +26,19 @@
     </tr>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?php echo $js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
-			<? foreach ($this->tabHeures as $h): ?>
-			<option value='<?=$h?>'><?=$h?></option>
-			<? endforeach; ?>
+			<?php foreach ($this->tabHeures as $h): ?>
+			<option value='<?php echo $h?>'><?php echo $h?></option>
+			<?php endforeach; ?>
 			</select>
    		</td>
    		<td>
-   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?php echo $js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
-			<? foreach ($this->tabMinutes as $m): ?>
-			<option value='<?=$m?>'><?=$m?></option>
-			<? endforeach; ?>
+			<?php foreach ($this->tabMinutes as $m): ?>
+			<option value='<?php echo $m?>'><?php echo $m?></option>
+			<?php endforeach; ?>
 			</select>
    		</td>
    	</tr>

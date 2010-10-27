@@ -4,50 +4,50 @@
  <div class='comp_contenu'>
  
 	<br />
- 	Pour utiliser les services de la mairie, il faut <?=$this->coutCastars?> castar et <?=$this->paUtilisationLieu?> PA.<br /><br />
-   	<? if ($this->utilisationPossible !== true || $this->utilisationPaPossible !== true): ?>
+ 	Pour utiliser les services de la mairie, il faut <?php echo $this->coutCastars?> castar et <?php echo $this->paUtilisationLieu?> PA.<br /><br />
+   	<?php if ($this->utilisationPossible !== true || $this->utilisationPaPossible !== true): ?>
    		Vous n'avez pas assez de PA ou de castars <br />
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
    		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
    		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
-   	<? elseif ($this->braldunAvecCommunaute == true) : ?>
+   	<?php elseif ($this->braldunAvecCommunaute == true) : ?>
    		Vous appartenez &agrave; une communaut&eacute;. Vous pouvez sortir de cette communaut&eacute;...
    		
-   		<? if ($this->gestionnaireCommunaute === true) : ?>
+   		<?php if ($this->gestionnaireCommunaute === true) : ?>
    		<br /><br />
    		Attention ! Vous &ecirc;tes le gestionnaire de cette communaut&eacute;. Si vous en sortez, elle
    		sera supprim&eacute;e.
-   		<? endif; ?>
+   		<?php endif; ?>
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
    		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
    		<input type='hidden' id='valeur_4' name='valeur_4' value='1'>
-   	<? else : ?>
+   	<?php else : ?>
    		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
    		
    	  	Vous pouvez demander votre entr&eacute;e dans une communaut&eacute; : <br />
    	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('valeur_2').value=-1; $('valeur_3').value=''; $('bouton_mairie_creer').disabled=true; if ($('valeur_1').value!=-1) { $('bouton_mairie_rentrer').disabled=false; } else { $('bouton_mairie_rentrer').disabled=true; } ">
 			<option value='-1'>(Choisissez une communaut&eacute;)</option>
-			<? foreach ($this->communautes as $c) : ?>
-				<option value="<?=$c["id_communaute"] ?>"><?=$c["nom_communaute"] ?> </option>
-			<? endforeach; ?>
+			<?php foreach ($this->communautes as $c) : ?>
+				<option value="<?php echo $c["id_communaute"] ?>"><?php echo $c["nom_communaute"] ?> </option>
+			<?php endforeach; ?>
 		</select><br /><br />
    	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />
    	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
    	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onKeyup="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
    	  		
-   	<? endif; ?>
+   	<?php endif; ?>
  </div> 
 </form>
 <br /> 
 <br />
-<? if ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
-	<? if ($this->braldunAvecCommunaute == true) : ?>
+<?php if ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
+	<?php if ($this->braldunAvecCommunaute == true) : ?>
 	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
-	<? else : ?>
+	<?php else : ?>
 	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
 	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
-	<? endif; ?>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+	<?php endif; ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

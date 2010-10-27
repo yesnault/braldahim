@@ -1,18 +1,18 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 
 <div class="titre textalic textsizeb">
 	<div class="titre textalia" style="position:Absolute">
 	<input type="button" class='button1' onclick='_get_("/interface/load/?box=box_lieu");' value="Sortir de l'Hôtel des Ventes">
 	</div>
-		<?=$this->nomLieu ?><br/><br/>
+		<?php echo $this->nomLieu ?><br/><br/>
 	</div>
  	<div class="contenuC">
  		<div class="box_contenu1 textalic">
 			<br />
-			<?=$this->htmlContenu?>
+			<?php echo $this->htmlContenu?>
 			<br />
  		</div>
  	</div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

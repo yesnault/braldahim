@@ -1,26 +1,26 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	 <? if ($this->decouperEchoppeOk === true && $this->decouperPlancheOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez decouper jusqu'&agrave;  <?=$this->nbRondinsMax ?> <? if ($this->nbRondinsMax > 1) : $s = 's';  else: $s = ''; endif; ?> rondin<?=$s ?> en planche(s) ...<br />
+	 <?php if ($this->decouperEchoppeOk === true && $this->decouperPlancheOk === true) : ?>
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez decouper jusqu'&agrave;  <?php echo $this->nbRondinsMax ?> <?php if ($this->nbRondinsMax > 1) : $s = 's';  else: $s = ''; endif; ?> rondin<?php echo $s ?> en planche(s) ...<br />
 	<br />
 	Quantité de rondins à utiliser : <br />
 	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_decouper').disabled=true } else {$('bouton_decouper').disabled=false }">
 	 	<option value="-1">(Choisissez la quantité à découper)</option>
-	 	<? for($i=1; $i <= $this->nbRondinsMax; $i++) :
+	 	<?php for($i=1; $i <= $this->nbRondinsMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;
 	 	?>
-	 		<option value="<?=$i ?>"><?=$i?> rondin<?=$s?></option>
-	 	<? endfor; ?>
+	 		<option value="<?php echo $i ?>"><?php echo $i?> rondin<?php echo $s?></option>
+	 	<?php endfor; ?>
 	 </select>
 	 
-	 <? elseif ($this->decouperEchoppeOk == false) : ?>
+	 <?php elseif ($this->decouperEchoppeOk == false) : ?>
 		Vous ne pouvez d&eacute;couper que dans une de vos &eacute;choppes de Menuisier.
-	<? else: ?>
+	<?php else: ?>
 		Vous n'avez pas assez de rondins pour d&eacute;couper
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->decouperEchoppeOk === true && $this->decouperPlancheOk) : ?>
 <input type='button' class='button1' id='bouton_decouper' value='D&eacute;couper !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_decouper");' disabled/>
-<? endif ?>
+<?php endif ?>

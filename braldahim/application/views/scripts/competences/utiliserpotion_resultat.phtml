@@ -1,19 +1,19 @@
- <? include("commun_text_resultat.phtml") ?>
+ <?php include("commun_text_resultat.phtml") ?>
  
- <? if (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "potion") : ?>
-	 Vous avez utilis&eacute; une potion <?=htmlspecialchars($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($this->retourPotion['potion']["qualite"])?>
-	  sur <?=htmlspecialchars($this->retourPotion["cible"]["nom_cible"])?> (<?=$this->retourPotion["cible"]["id_cible"]?>).<br />
+ <?php if (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "potion") : ?>
+	 Vous avez utilis&eacute; une potion <?php echo htmlspecialchars($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?php echo htmlspecialchars($this->retourPotion['potion']["qualite"])?>
+	  sur <?php echo htmlspecialchars($this->retourPotion["cible"]["nom_cible"])?> (<?php echo $this->retourPotion["cible"]["id_cible"]?>).<br />
 	  
-	  L'effet de la potion porte sur <?=$this->retourPotion['effet']['nb_tour_restant']?> tour<? if ($this->retourPotion['effet']['nb_tour_restant'] > 1): echo 's'; endif; ?>.
+	  L'effet de la potion porte sur <?php echo $this->retourPotion['effet']['nb_tour_restant']?> tour<?php if ($this->retourPotion['effet']['nb_tour_restant'] > 1): echo 's'; endif; ?>.
 	  <br />
 	  La cible vient de subir 
-	  <?=$this->retourPotion['effet']["nEffet"] ?> point<? if ($this->retourPotion['effet']["nEffet"] > 1): echo 's'; endif; ?> de <?=$this->retourPotion['potion']["bm_type"] ?> sur <?=$this->retourPotion['potion']["caracteristique"]?>
+	  <?php echo $this->retourPotion['effet']["nEffet"] ?> point<?php if ($this->retourPotion['effet']["nEffet"] > 1): echo 's'; endif; ?> de <?php echo $this->retourPotion['potion']["bm_type"] ?> sur <?php echo $this->retourPotion['potion']["caracteristique"]?>
 	  <br />
 	  L'effet est imm&eacute;diat.<br />
-  <? elseif (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "vernis_reparateur" || $this->potionCourante["type_potion"] == "vernis_enchanteur") : // vernis ?>
-	Le vernis <?=$this->potionCourante["nom_type_potion"]?> est appliqué sur l'équipement : <?=htmlspecialchars($this->equipement["nom"])?>, n&deg; <?=$this->equipement["id_equipement"]?>.<br /> <br />
+  <?php elseif (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "vernis_reparateur" || $this->potionCourante["type_potion"] == "vernis_enchanteur") : // vernis ?>
+	Le vernis <?php echo $this->potionCourante["nom_type_potion"]?> est appliqué sur l'équipement : <?php echo htmlspecialchars($this->equipement["nom"])?>, n&deg; <?php echo $this->equipement["id_equipement"]?>.<br /> <br />
 	Détail des modifications apportées :<br /> 
-	<?=$this->detail?><br /> <br /> 
-  <? else: ?>
+	<?php echo $this->detail?><br /> <br /> 
+  <?php else: ?>
   	Erreur, merci de la signaler sur le forum.
-  <? endif; ?>	
+  <?php endif; ?>	

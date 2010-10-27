@@ -1,35 +1,35 @@
-<? if ($this->nb_graine > 0) : ?>
+<?php if ($this->nb_graine > 0) : ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_graines">
-			<? $poches[] = "deposer_graines-head" ?>
+			<?php $poches[] = "deposer_graines-head" ?>
 			<h3 id="deposer_graines-head" class="head" onclick="maccordion(this);">
 				Poignées de graines
 			</h3>
 			<ul id="deposer_graines-body" style="display:none">
 				<li>
-				<? if ($this->nb_graine == 1):$s=''; else:$s='s';endif; ?>
-				<?=$this->nb_graine?> poignée<?=$s?> de graine<?=$s?>
+				<?php if ($this->nb_graine == 1):$s=''; else:$s='s';endif; ?>
+				<?php echo $this->nb_graine?> poignée<?php echo $s?> de graine<?php echo $s?>
 				<br /> 
 				
-				<? if (count($this->graines) > 0): ?>
+				<?php if (count($this->graines) > 0): ?>
 				<table width='100%'>
-					<? $i = 0;
+					<?php $i = 0;
 					$enter = false;
 					foreach ($this->graines as $k => $m) : 
 						$enter = true;
 						if ($i % 3 == 0) echo "<tr>"; 
 					?>
 						<td>
-						<?=htmlspecialchars($m["type"])?>  : <?=$m["quantite_graine"]?> poignée<? if ($m["quantite_graine"] > 1) echo "s" ?>
+						<?php echo htmlspecialchars($m["type"])?>  : <?php echo $m["quantite_graine"]?> poignée<?php if ($m["quantite_graine"] > 1) echo "s" ?>
 						<br />
 						Quantit&eacute; &agrave; transbahuter : <br />
-						<input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_graine"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?=$jsBtn?>" />
+						<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k ?>' id='valeur_<?php echo $k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite_graine"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?php echo $jsBtn?>" />
 						<br />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite_graine"]?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_poids' id='valeur_<?=$k?>_poids' value='<?=Bral_Util_Poids::POIDS_POIGNEE_GRAINES ?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_echoppe' id='valeur_<?=$k?>_echoppe' value='non' />
+						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite_graine"]?>' />
+						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_POIGNEE_GRAINES ?>' />
+						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='non' />
 						</td>
-						<? if ($i % 3 == 2) echo "</tr>"; 
+						<?php if ($i % 3 == 2) echo "</tr>"; 
 						    $i++; 
 					endforeach;
 					if ($enter == true && $i % 3 != 0) :
@@ -37,7 +37,7 @@
 					endif;
 						 ?>
 				</table> 
-				<? endif;?>
+				<?php endif;?>
 			  	</li>
 			</ul>
 		</li>

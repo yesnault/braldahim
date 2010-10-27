@@ -5,13 +5,13 @@
     	&nbsp;
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
-			<? if ($this->creation === true) : ?>
+			<?php if ($this->creation === true) : ?>
 				<b>Cr&eacute;ation du nouveau stock effectu&eacute;e</b> <br />
-			<? endif; ?>
+			<?php endif; ?>
 			<form action="/Administrationstocktabac/tabac" method="post">
 				
 				Ajouter un nouveau stock, qui sera actif le : 
-				<?=$this->dateCreationStock ?>
+				<?php echo $this->dateCreationStock ?>
 				<br /><br />
 					<span class="titre textalia textsizeb">PV : Prix Vente en castars, par la boutique</span><br />
 					<span class="titre textalia textsizeb">PR : Prix Reprise en castars, par la boutique</span><br />
@@ -19,29 +19,29 @@
 				<br /><br />
 				
 				<table width="100%">
-				<? 
+				<?php 
 				$i = -1;
 				foreach ($this->regions as $r) : ?>
-					<? 
+					<?php 
 					$i++;
-					if ($i % 4 == 0): ?><tr><? endif;?>
+					if ($i % 4 == 0): ?><tr><?php endif;?>
 						<td style="text-align:right">
-							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br />
-							<? foreach ($r["type_tabac"] as $t) : ?>
+							<span class="titre textalia textsizec"><?php echo $r["nom_region"]?></span> <br />
+							<?php foreach ($r["type_tabac"] as $t) : ?>
 							
-								<span class="titre textalia textsized"><?=$t["nom"]?></span><br />
+								<span class="titre textalia textsized"><?php echo $t["nom"]?></span><br />
 							
-								 <?=$t["nom"]?>
-								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="text" name="<?=$t["id_form"]."_vente"?>" size='3' value="<?=$t["prix_unitaire_vente"]?>" />
-								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="text" name="<?=$t["id_form"]."_reprise"?>" size='3' value="<?=$t["prix_unitaire_reprise"]?>"/>
-								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="text" name="<?=$t["id_form"]."_nbinitial"?>" size='3' value="<?=$t["nb_feuille"]?>"/> <br />
+								 <?php echo $t["nom"]?>
+								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="text" name="<?php echo $t["id_form"]."_vente"?>" size='3' value="<?php echo $t["prix_unitaire_vente"]?>" />
+								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="text" name="<?php echo $t["id_form"]."_reprise"?>" size='3' value="<?php echo $t["prix_unitaire_reprise"]?>"/>
+								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="text" name="<?php echo $t["id_form"]."_nbinitial"?>" size='3' value="<?php echo $t["nb_feuille"]?>"/> <br />
 								<br />
-							<? endforeach; ?>
+							<?php endforeach; ?>
 							<br /><br />
 						
 						</td>
-					<? if ($i % 4 == 3): echo "</tr>"; endif;?>
-				<? endforeach; ?>
+					<?php if ($i % 4 == 3): echo "</tr>"; endif;?>
+				<?php endforeach; ?>
 				</table>
 				
 			<input type="submit" class="button1" name="add" value="Ajouter le nouveau stock" />
@@ -52,9 +52,9 @@
 				Date Stock (AAAA-MM-JJ 00:00:00) 
 				
 				<select name="dateStock">
-					<? foreach($this->listeDates as $k=>$v) : ?>
-						<option value="<?=$v?>" <? if ($this->dateStock == $v) : echo "selected"; endif;?>><?=substr($v, 0, 10)?></option>
-					<? endforeach;?>
+					<?php foreach($this->listeDates as $k=>$v) : ?>
+						<option value="<?php echo $v?>" <?php if ($this->dateStock == $v) : echo "selected"; endif;?>><?php echo substr($v, 0, 10)?></option>
+					<?php endforeach;?>
 				</select>
 				
 				<input type="submit" class="button1" name="add" value="Voir stock" />
@@ -62,7 +62,7 @@
 			
 		<br /><br />
 			
-			<? if (count($this->stocks) > 0 ) : ?>
+			<?php if (count($this->stocks) > 0 ) : ?>
 				<table align='center'>
 				<tr>
 				<th class='comp_titre'>N&deg;</th>
@@ -74,22 +74,22 @@
 				<th class='comp_titre'>Prix Reprise</th>
 				<th class='comp_titre'>R&eacute;gion</th>
 				</tr>
-				<? foreach($this->stocks as $r) :?>
+				<?php foreach($this->stocks as $r) :?>
 					<tr>
-						<td><?=$r["id_stock_tabac"]?></td>
-						<td><?=$r["date_stock_tabac"]?></td>
-						<td><?=$r["nom_type_tabac"]?></td>
-						<td><?=$r["nb_feuille_initial_stock_tabac"]?></td>
-						<td><?=$r["nb_feuille_restant_stock_tabac"]?></td>
-						<td><?=$r["prix_unitaire_vente_stock_tabac"]?></td>
-						<td><?=$r["prix_unitaire_reprise_stock_tabac"]?></td>
-						<td><?=$r["id_fk_region_stock_tabac"]?></td>
+						<td><?php echo $r["id_stock_tabac"]?></td>
+						<td><?php echo $r["date_stock_tabac"]?></td>
+						<td><?php echo $r["nom_type_tabac"]?></td>
+						<td><?php echo $r["nb_feuille_initial_stock_tabac"]?></td>
+						<td><?php echo $r["nb_feuille_restant_stock_tabac"]?></td>
+						<td><?php echo $r["prix_unitaire_vente_stock_tabac"]?></td>
+						<td><?php echo $r["prix_unitaire_reprise_stock_tabac"]?></td>
+						<td><?php echo $r["id_fk_region_stock_tabac"]?></td>
 					</tr>
-				<? endforeach;?>
+				<?php endforeach;?>
 				</table>
-			<? else: ?>
-			Ancun stock, date <?=$this->dateStock?>
-			<? endif;?>
+			<?php else: ?>
+			Ancun stock, date <?php echo $this->dateStock?>
+			<?php endif;?>
 		</div>
 	</div>
 	&nbsp;

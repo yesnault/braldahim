@@ -1,13 +1,13 @@
 <div id="header">
 <div id="frisetop">
 
-<? if (Zend_Registry::get("estWork")) : ?>
+<?php if (Zend_Registry::get("estWork")) : ?>
 	<center><input type='button' class='button1' value='Afficher / Cacher les liens' onclick="switch2div('menuFoo', 'menu');"></center>
 	<div id='menuFoo'></div>
 	<h1><a href="/">Braldahim - Work</a></h1>
-<? else:?>
+<?php else:?>
 	<h1><a href="/">Braldahim - Jeu</a></h1>
-<? endif;?>
+<?php endif;?>
 
 </div>
 </div>

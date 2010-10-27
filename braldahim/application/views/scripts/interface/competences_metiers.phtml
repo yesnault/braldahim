@@ -1,10 +1,10 @@
-<? include("box_header.phtml") ?>
+<?php include("box_header.phtml") ?>
 <div class="inner">
 <div class="titre textalia textsizec">Mes Comp&eacute;tences m&eacute;tiers</div>
  <div class="contenuB">
   <div class="box_contenu1 textalic">
  
- <? 
+ <?php 
  
 if ($this->user->activation == false) :
  	echo "Tour non activé à la connexion";
@@ -12,26 +12,26 @@ elseif ($this->affichageInterne == true) : ?>
 	 <?php if (count($this->competences) > 0) : ?>
 	 
 		<ul id="navigation" style="width:100%;">
-		<? foreach($this->competences as $m) : ?>
-			<li id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>">
-				<? if (count($this->competences) > 2): $display = "none"; $css = "head"; else: $display = "block"; $css = "head selected"; endif;?>
-				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="<?=$css?>" onclick="maccordion(this);"><?=$m["nom_metier"]?></h3>
-				<? if (count($this->competences) > 2): $display = "none"; else: $display = "block"; endif;?>
-				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:<?=$display?>">
-				<? foreach($m["competences"] as $c) : ?>
+		<?php foreach($this->competences as $m) : ?>
+			<li id="menuCompetencesMetier<?php echo $m["nom_systeme_metier"]?>">
+				<?php if (count($this->competences) > 2): $display = "none"; $css = "head"; else: $display = "block"; $css = "head selected"; endif;?>
+				<h3 id="menuCompetencesMetier<?php echo $m["nom_systeme_metier"]?>-head" class="<?php echo $css?>" onclick="maccordion(this);"><?php echo $m["nom_metier"]?></h3>
+				<?php if (count($this->competences) > 2): $display = "none"; else: $display = "block"; endif;?>
+				<ul id="menuCompetencesMetier<?php echo $m["nom_systeme_metier"]?>-body" style="display:<?php echo $display?>">
+				<?php foreach($m["competences"] as $c) : ?>
 					<li>
-					<? if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+					<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
 				      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 				    else:
 				      $attr = " disabled ";
 				    endif;?>
-				    <input type="button" class='button1' value="<?=$c["pa_texte"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?=$attr?>>
+				    <input type="button" class='button1' value="<?php echo $c["pa_texte"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
 			    
 					</li>
-				<? endforeach; ?>
+				<?php endforeach; ?>
 				</ul>
 			</li>
-		<? endforeach; ?>
+		<?php endforeach; ?>
 		</ul>
 	 
 	 <?php 
@@ -40,12 +40,12 @@ elseif ($this->affichageInterne == true) : ?>
 	  endif;
 	 ?>
  
-<? else: ?>
+<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?=$this->config->static->url?>/images/wait.gif" />
-<? endif; ?>
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 
  </div>
  </div>
 </div>
-<? include("box_bottom.phtml") ?>
+<?php include("box_bottom.phtml") ?>

@@ -3,7 +3,7 @@
  <div class='comp_contenu'>
 	 <div id='vendre_text' style="display:block"  onclick="javascript:switch2div('vendre_text','vendre_copie');">
 		Vous avez mis en vente l'élément suivant : <br />
-		<?=$this->potion["nom_type"]?> <?=htmlspecialchars($this->potion["nom"]) ?> n&deg;<?=htmlspecialchars($this->potion["id_echoppe_potion"]) ?>
+		<?php echo $this->potion["nom_type"]?> <?php echo htmlspecialchars($this->potion["nom"]) ?> n&deg;<?php echo htmlspecialchars($this->potion["id_echoppe_potion"]) ?>
 		<br />
 	 </div>
 	 
@@ -19,4 +19,4 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onclick="javascript:switch2div('vendre_text','vendre_copie');">
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

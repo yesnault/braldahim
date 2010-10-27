@@ -1,32 +1,32 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
+<?php if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; confectionner 
-	<? if ($this->typePiece == "munition") : ?>
+	<?php if ($this->typePiece == "munition") : ?>
 		des munitions :
-	<? else: ?>
+	<?php else: ?>
 		une pi&egrave;ce d'&eacute;quipement : 
-	<? endif;?>
+	<?php endif;?>
 	<br />
-	<?=$this->typeEquipementCourant["nom_type_equipement"] ?>, de qualit&eacute; <?=$this->qualite ?>
-	et de niveau <?=$this->niveau ?>.
+	<?php echo $this->typeEquipementCourant["nom_type_equipement"] ?>, de qualit&eacute; <?php echo $this->qualite ?>
+	et de niveau <?php echo $this->niveau ?>.
 	<br />
-	<? if ($this->typePiece != "munition") : ?>
-		Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
+	<?php if ($this->typePiece != "munition") : ?>
+		Il y a <?php echo $this->nbRunes ?> emplacement<?php if ($this->nbRunes > 1) echo 's'; ?> runique<?php if ($this->nbRunes > 1) echo 's'; ?>.
 		<br /><br />
-		Le bonus apport&eacute; sur l'&eacute;quipement est : <?=$this->bonus?>.
-	<? endif;?>
+		Le bonus apport&eacute; sur l'&eacute;quipement est : <?php echo $this->bonus?>.
+	<?php endif;?>
 	<br /><br />
-	<? if ($this->effetRune) :?>
+	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if ($this->competenceAmelioree != null) : ?>
+	<?php if ($this->competenceAmelioree != null) : ?>
 		<br />Vous avez r&eacute;ussi &agrave; am&eacute;liorer votre compétence Produire :
 		<br />
-		<b><?=$this->competenceAmelioree["competence"]["nom_competence"]?> : + <?=$this->competenceAmelioree["gain"]?> % </b><br />
-	<? endif;?>
-<? else: ?>
+		<b><?php echo $this->competenceAmelioree["competence"]["nom_competence"]?> : + <?php echo $this->competenceAmelioree["gain"]?> % </b><br />
+	<?php endif;?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre confection.<br/>
 	La moiti&eacute; des composants sont d&eacute;truits.<br />
-<? endif; ?>
+<?php endif; ?>

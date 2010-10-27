@@ -2,62 +2,62 @@
  <div class="contenuc">
   <div class="box_contenu1 textalic">
   <br />
-  	Vous &ecirc;tes actuellement <?=htmlspecialchars($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
-  	situez dans la <?=htmlspecialchars($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
+  	Vous &ecirc;tes actuellement <?php echo htmlspecialchars($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
+  	situez dans la <?php echo htmlspecialchars($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
   	
   	Pour construire une &eacute;choppe, rendez-vous dans &agrave; l'Office Notarial.<br /> 
   	Vous ne pourrez construire d'&eacute;choppe que dans la Comt&eacute; o&ugrave; vous 
   	serez. <br />
  	
- 	<? if ($this->constructionPossible == false): ?>
+ 	<?php if ($this->constructionPossible == false): ?>
  		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant.<br />
- 	<? endif; ?>
+ 	<?php endif; ?>
  	<br />
-	<? if ($this->nEchoppes < 1) : ?>
+	<?php if ($this->nEchoppes < 1) : ?>
   		Vous n'avez aucune &eacute;choppe.<br /><br />
-   	<? else: ?>
+   	<?php else: ?>
    	
    	<table class="table_liste">
 		<thead class="table_liste">
 		  <tr class="table_liste">
 			<th>Position de vos &eacute;choppes [x ; y]</th>
-			<? foreach($this->tabMetiers as $m) : ?>
-			<th><?=htmlspecialchars($m["nom_metier"]) ?></th>
-			<? endforeach; ?>
+			<?php foreach($this->tabMetiers as $m) : ?>
+			<th><?php echo htmlspecialchars($m["nom_metier"]) ?></th>
+			<?php endforeach; ?>
 		  </tr>
 		</thead>
 		<tbody>
-		<? $i = 0;
+		<?php $i = 0;
 		   $echoppe = false;
 		   foreach($this->tabRegions as $r) : ?>
 			
-			<tr class="table_liste<?=($i % 2);$i++; ?>">
+			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			<td class="table_liste">
-			<?=htmlspecialchars($r["nom_region"]); ?>
+			<?php echo htmlspecialchars($r["nom_region"]); ?>
 			</td>
-				<? foreach($this->tabMetiers as $m) : 
+				<?php foreach($this->tabMetiers as $m) : 
 					$echoppe = false;
 					?>
-			   		<? foreach($m["regions"] as $p) :?>
-			   			<? if ($p["echoppe"] != null && $r["nom_systeme_region"] == $p["nom_systeme_region"]): 
+			   		<?php foreach($m["regions"] as $p) :?>
+			   			<?php if ($p["echoppe"] != null && $r["nom_systeme_region"] == $p["nom_systeme_region"]): 
 			   				$echoppe = true;
 			   			?>
-			   				<td class="table_liste" style="cursor:pointer" onclick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$p["echoppe"]["id_echoppe"]?>')">
-			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"  class="alabel">[<?=$p["echoppe"]["x_echoppe"] ?> ; <?=$p["echoppe"]["y_echoppe"] ?>]</span>
+			   				<td class="table_liste" style="cursor:pointer" onclick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?php echo $p["echoppe"]["id_echoppe"]?>')">
+			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"  class="alabel">[<?php echo $p["echoppe"]["x_echoppe"] ?> ; <?php echo $p["echoppe"]["y_echoppe"] ?>]</span>
 			   				</td>
-			   			<? else: ?>
+			   			<?php else: ?>
 			   				
-			   			<? endif; ?>
-			   		<? endforeach; ?>
-			   		<? if ($echoppe == false) :?>
+			   			<?php endif; ?>
+			   		<?php endforeach; ?>
+			   		<?php if ($echoppe == false) :?>
 			   			<td class="table_liste">&nbsp;</td>	
-			   		<? endif; ?>
-			   	<? endforeach; ?>
+			   		<?php endif; ?>
+			   	<?php endforeach; ?>
 			</tr>
-		<? endforeach; ?>
+		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<? endif; ?>
+	<?php endif; ?>
 	<br /><br />
    </div>
 </div>

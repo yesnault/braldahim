@@ -1,79 +1,79 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
-	 <? if ($this->confectionnerEchoppeOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez confectionner une pi&egrave;ce d'&eacute;quipement<br /><br />
+	 <?php if ($this->confectionnerEchoppeOk === true) : ?>
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez confectionner une pi&egrave;ce d'&eacute;quipement<br /><br />
      
      Type de l'&eacute;quipement :<br />
      <select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_confectionner&type_equipement='+this.value);">
 	 	<option value="-1">(Choisissez un &eacute;quipement)</option>
-	 	<? foreach($this->typeEquipement as $t) : ?>
-	 		<option value="<?=$t["id_type_equipement"]?>" <?=$t["selected"]?>><?=$t["nom_type_equipement"]?></option>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->typeEquipement as $t) : ?>
+	 		<option value="<?php echo $t["id_type_equipement"]?>" <?php echo $t["selected"]?>><?php echo $t["nom_type_equipement"]?></option>
+	 	<?php endforeach; ?>
 	 </select>
 	 
 	 <br /><br />
 	 
-	 <? $js = Bral_Helper_DetailEquipement::afficheRecetteJs($this->niveaux);?>
+	 <?php $js = Bral_Helper_DetailEquipement::afficheRecetteJs($this->niveaux);?>
 	 
-	 <? if ($this->niveaux != null) : ?>
+	 <?php if ($this->niveaux != null) : ?>
 	 Niveau de l'&eacute;quipement :<br />
-	 <select name="valeur_2" id="valeur_2" onchange="javascript:<?=$js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_confectionner').disabled=true } else {$('bouton_confectionner').disabled=false }">
+	 <select name="valeur_2" id="valeur_2" onchange="javascript:<?php echo $js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_confectionner').disabled=true } else {$('bouton_confectionner').disabled=false }">
 	 	<option value="-1">(Choisissez un niveau)</option>
-	 	<? foreach($this->niveaux as $k => $v) : ?>
-	 		<? if ($v["a_afficher"] === true) : ?>
-	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=$v["niveauText"]?></option>
-	 		<? endif; ?>
-	 	<? endforeach; ?>
+	 	<?php foreach($this->niveaux as $k => $v) : ?>
+	 		<?php if ($v["a_afficher"] === true) : ?>
+	 		<option value="<?php echo $k?>" <?php if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?php echo $v["niveauText"]?></option>
+	 		<?php endif; ?>
+	 	<?php endforeach; ?>
 	 </select>
-	 <? endif; ?>
+	 <?php endif; ?>
 	 
-	 <?=Bral_Helper_DetailEquipement::afficheRecette($this->caracs, $this->niveaux);?>
+	 <?php echo Bral_Helper_DetailEquipement::afficheRecette($this->caracs, $this->niveaux);?>
 		
 	<br /><br />
 	
-	<? if (isset($this->peutRunes)): 
+	<?php if (isset($this->peutRunes)): 
 		if ($this->peutRunes === true) : ?>
 			Cet &eacute;quipement peut porter des runes.<br />
-			 <? if ($this->runes != null) : ?>
+			 <?php if ($this->runes != null) : ?>
 			 Nombre d'emplacements sur l'&eacute;quipement :<br />
 			 <select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_confectionner').disabled=true } else {$('bouton_confectionner').disabled=false }">
 			 	<option value="-1">(Choisissez un nombre d'emplacements)</option>
-			 	<? foreach($this->runes as $n) : ?>
-			 		<option value="<?=$n["nombre"]?>"><?=$n["nombre"]?> rune<?if($n["nombre"]>1)echo "s";?></option>
-			 	<? endforeach; ?>
+			 	<?php foreach($this->runes as $n) : ?>
+			 		<option value="<?php echo $n["nombre"]?>"><?php echo $n["nombre"]?> rune<?if($n["nombre"]>1)echo "s";?></option>
+			 	<?php endforeach; ?>
 			 </select>
-			 <? endif; ?>
-		<? else: ?>
+			 <?php endif; ?>
+		<?php else: ?>
 			<input type='hidden' id='valeur_3' name='valeur_3' value='0'>
 			Cet &eacute;quipement ne peut pas porter de rune.<br />
-		<? endif; ?>
-	<? endif; ?>
+		<?php endif; ?>
+	<?php endif; ?>
 	
-	<? if (isset($this->cout)): ?>
+	<?php if (isset($this->cout)): ?>
 	<br /><br />Co&ucirc;t : 
-	 	<? foreach($this->cout as $key1 => $value1) :?>
-	 			<br />Niveau <?=$key1 ?> -&gt; 
-		 		<? 
+	 	<?php foreach($this->cout as $key1 => $value1) :?>
+	 			<br />Niveau <?php echo $key1 ?> -&gt; 
+		 		<?php 
 		 			$i = 0;
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=$c["nom"] ?> : <?=$c["cout"] ?><? if (isset($c["unite"]) && $c["unite"] != "") :?> <?=$c["unite"] ?><? if ($c["cout"] > 1) : echo 's'; endif;?><? endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
-		 	<? endforeach; ?>
-		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
+		 		<?php echo $c["nom"] ?> : <?php echo $c["cout"] ?><?php if (isset($c["unite"]) && $c["unite"] != "") :?> <?php echo $c["unite"] ?><?php if ($c["cout"] > 1) : echo 's'; endif;?><?php endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 	<?php endforeach; ?>
+		 	<?php if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe
-			<? endif; ?>
-	 	<? endforeach; ?>
-	<? endif; ?>
+			<?php endif; ?>
+	 	<?php endforeach; ?>
+	<?php endif; ?>
 	
-	 <? elseif ($this->confectionnerEchoppeOk == false) : ?>
+	 <?php elseif ($this->confectionnerEchoppeOk == false) : ?>
 		Vous ne pouvez confectionner que dans une de vos &eacute;choppes de Tanneur.
-	<? else: ?>
+	<?php else: ?>
 		Vous n'avez aucun lingot pour confectionner...
-	<? endif; ?>
+	<?php endif; ?>
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->confectionnerEchoppeOk === true && $this->etape1 === true) : ?>
 <input type='button' class='button1' id='bouton_confectionner' value='Confectionner !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_confectionner&type_equipement="+$("valeur_1").value);' disabled>
-<? endif ?>
+<?php endif ?>

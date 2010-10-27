@@ -1,45 +1,45 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true):?>
+<?php if ($this->okJet1 === true):?>
 
 	Vous avez &eacute;tudi&eacute; 
-	le mot <?=$this->motCourant["suffixe_mot_runique"]?> avec <?=$this->nbRunes ?> 
-	rune<? if ($this->nbRunes > 1) echo "s"; ?> <br /><br />
+	le mot <?php echo $this->motCourant["suffixe_mot_runique"]?> avec <?php echo $this->nbRunes ?> 
+	rune<?php if ($this->nbRunes > 1) echo "s"; ?> <br /><br />
 	 
 	Ordre des runes :
 	<br />
-	<? foreach($this->tabRunes as $k => $v) : ?>
-		<?=$v["nom_type_rune"]?>
-	<? endforeach ?>
+	<?php foreach($this->tabRunes as $k => $v) : ?>
+		<?php echo $v["nom_type_rune"]?>
+	<?php endforeach ?>
 	<br />
-	<? foreach($this->tabRunes as $k => $v) : ?>
-		<img id="item_<?=$k ?>" class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
-	<? endforeach ?>
+	<?php foreach($this->tabRunes as $k => $v) : ?>
+		<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>"/>
+	<?php endforeach ?>
 	<br /><br />
 	
-	<? if ($this->nbPositionOk == 0 && $this->nbOkMalPlace == 0): ?>
+	<?php if ($this->nbPositionOk == 0 && $this->nbOkMalPlace == 0): ?>
 		Vous alignez les runes sur le sol. Vous regardez attentivement .... <br />C'est votre estomac, une heure plus tard, 
 		qui vous rappelle à l'ordre : il ne se passera jamais rien avec n'importe quelle rune posée.
-	<? elseif ($this->nbPositionOk == $this->motCourant["nb_runes"] && $this->nbOkMalPlace == 0) : ?>
+	<?php elseif ($this->nbPositionOk == $this->motCourant["nb_runes"] && $this->nbOkMalPlace == 0) : ?>
 		Vous alignez les runes sur le sol devant vous. <br />&Agrave; peine avez-vous pos&eacute; la dernière rune que vous êtes sur de vous : vous 
-		venez de découvrir le mot runique <?=$this->motCourant["suffixe_mot_runique"]?>.<br /> 
+		venez de découvrir le mot runique <?php echo $this->motCourant["suffixe_mot_runique"]?>.<br /> 
 		" Combien de temps cette combinaison fonctionnera t-elle ? "<br />
-	<? else : ?>
+	<?php else : ?>
 		Vous alignez les runes sur le sol devant vous. <br />Elles réagissent ! Il se passe quelque chose : <br />
-		<? if ($this->nbPositionOk == 1): ?>
+		<?php if ($this->nbPositionOk == 1): ?>
 			Vous avez la certitude qu'une des runes est bien positionnée.<br />
-		<? elseif ($this->nbPositionOk > 1): ?>
-			Tout s'éclaire, <?=$this->nbPositionOk?> runes sont bien positionnées.<br />
-		<? endif; ?>
+		<?php elseif ($this->nbPositionOk > 1): ?>
+			Tout s'éclaire, <?php echo $this->nbPositionOk?> runes sont bien positionnées.<br />
+		<?php endif; ?>
 		<br />
-		<? if ($this->nbOkMalPlace == 1) : ?>
+		<?php if ($this->nbOkMalPlace == 1) : ?>
 			L'ordre d'une rune n'est pas satisfaisante. Votre intuition vous indique qu'une rune est utile mais pas à sa place.<br />
-		<? elseif ($this->nbOkMalPlace > 1) :?>
+		<?php elseif ($this->nbOkMalPlace > 1) :?>
 			L'ordre de plusieurs runes n'est pas correct. <br />
-			Votre intuition vous dit que <?=$this->nbOkMalPlace ?> runes sont utilisées
+			Votre intuition vous dit que <?php echo $this->nbOkMalPlace ?> runes sont utilisées
 			dans le mot mais qu'elles ne sont pas à leur place.<br />
-		<? endif;?>
-	<? endif;?>
+		<?php endif;?>
+	<?php endif;?>
 	<br />
 	Notez bien toutes les informations citées ici, elles vous seront utiles pour les prochaines recherches ou chez un joallier.
-<? endif; ?>
+<?php endif; ?>

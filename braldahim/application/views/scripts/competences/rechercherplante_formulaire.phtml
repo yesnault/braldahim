@@ -2,13 +2,13 @@
  <div class='comp_contenu'>
  
  
- <? if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
- Pour <?=$this->nb_pa ?> PA, vous pouvez rechercher des plantes <br />
+ <?php if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
+ Pour <?php echo $this->nb_pa ?> PA, vous pouvez rechercher des plantes <br />
  dans un rayon de <i>jet SAG + BM SAG</i> case(s) aux alentours<br />
- et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> case<?=$s?>.<br /><br />
+ et de mani&egrave;re pr&eacute;cise dans un rayon de <?php echo $this->rayon_precis ?> case<?php echo $s?>.<br /><br />
 </div>
 
-<? 
+<?php 
 $disabled = "";
 if ($this->avecChoix) : 
 $disabled = "disabled"
@@ -19,16 +19,16 @@ Vous ma&icirc;trisez assez la recherche de plante pour choisir ce que vous souha
 	<optgroup label="Recherche classique" style="font-weight:bold"></optgroup>
 	<option value="-2">Plante la plus proche</option>
 	<optgroup label="Recherche par type" style="font-weight:bold"></optgroup>
-	<? foreach ($this->tabChoix as $k => $v) : ?>
-	<option value="<?=$k?>"><?=$v["categorie_type_plante"]?> : <?=$v["nom_type_plante"]?> - <?=$v["nom_type_partieplante"]?></option>
-	<? endforeach; ?>
+	<?php foreach ($this->tabChoix as $k => $v) : ?>
+	<option value="<?php echo $k?>"><?php echo $v["categorie_type_plante"]?> : <?php echo $v["nom_type_plante"]?> - <?php echo $v["nom_type_partieplante"]?></option>
+	<?php endforeach; ?>
 	</select><br /><br />
 
-<? else:?>
+<?php else:?>
 <input type='hidden' id='valeur_1' name='valeur_1' value='-3'>
-<? endif;?>
+<?php endif;?>
 
 <br />
 <?php if ($this->assezDePa == true) : ?>
-<input type='button' class='button1' id="bouton_rechercherplante" value='Rechercher une plante !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_rechercherplante");' <?=$disabled?>>
-<? endif ?>
+<input type='button' class='button1' id="bouton_rechercherplante" value='Rechercher une plante !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_rechercherplante");' <?php echo $disabled?>>
+<?php endif ?>

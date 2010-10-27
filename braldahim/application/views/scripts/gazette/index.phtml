@@ -10,22 +10,22 @@
 			<div class="inner">
 				<div class="contenu">
 						Filtre par année: <select id="annee" name="annee" onchange="document.location.href = '/gazette/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
-						<? foreach($this->annees as $a): ?>
-							<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
-						<? endforeach;?>
+						<?php foreach($this->annees as $a): ?>
+							<option value="<?php echo $a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?php echo $a?></option>
+						<?php endforeach;?>
 						</select>
 						
 						<br/><br/>
 						
-						<?=count($this->histoires)?> article<? if (count($this->histoires) > 0) : echo "s"; endif; ?>
-						 dans la gazette pour l'année <?=$this->anneeSelect?> 
+						<?php echo count($this->histoires)?> article<?php if (count($this->histoires) > 0) : echo "s"; endif; ?>
+						 dans la gazette pour l'année <?php echo $this->anneeSelect?> 
 				</div>
 			</div>
 			</div>
 			</td>
 			
 			<td width="60%" valign="top" align="left">
-			<? include("gazette.phtml") ?>	
+			<?php include("gazette.phtml") ?>	
 			<br/>
 		</td>
 	</tr>

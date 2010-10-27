@@ -1,16 +1,16 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-Vous avez entretenu la zone x:<?=$this->etatZone["x"]?> y:<?=$this->etatZone["y"]?>. <br /><br />
+Vous avez entretenu la zone x:<?php echo $this->etatZone["x"]?> y:<?php echo $this->etatZone["y"]?>. <br /><br />
 
-<? if ($this->etatZone["etat"] == ChampTaupe::ETAT_ENTRETENU) : ?>
+<?php if ($this->etatZone["etat"] == ChampTaupe::ETAT_ENTRETENU) : ?>
 	Vous n'avez pas trouvé de taupe à cet endroit.
-<? else: ?>
-	Vous avez trouvé une partie de taupe de taille <?=$this->etatZone["taille"] ?> ! <br /><br />
+<?php else: ?>
+	Vous avez trouvé une partie de taupe de taille <?php echo $this->etatZone["taille"] ?> ! <br /><br />
 	
-	<? if ($this->taupeDetruite) : ?>
+	<?php if ($this->taupeDetruite) : ?>
 		La taupe est occise.
-	<? else: ?>
+	<?php else: ?>
 		Consultez votre champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement.<br />
-	<? endif;?>
-<? endif?>
+	<?php endif;?>
+<?php endif?>
 <br /><br />

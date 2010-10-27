@@ -1,80 +1,80 @@
-<? if ($this->idTypeCourant == "acheterchamp") : ?>
+<?php if ($this->idTypeCourant == "acheterchamp") : ?>
  	
-	<? if ($this->constructionChampOk === true): ?>
+	<?php if ($this->constructionChampOk === true): ?>
 		Vous avez acheté un champ avec succ&egrave;s ! <br /><br />
 		
-		Il se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
-		dans la <?=$this->tabRegionCourante["nom_region"] ?>.<br /><br />
+		Il se trouve en x:<?php echo $this->x_construction ?> y:<?php echo $this->y_construction ?> 
+		dans la <?php echo $this->tabRegionCourante["nom_region"] ?>.<br /><br />
 		
-	<? elseif ($this->construireLieuOk == false) : ?>
-		Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+	<?php elseif ($this->construireLieuOk == false) : ?>
+		Un lieu particulier existe en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuEchoppeOk == false) : ?>
-		Une échoppe existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+	<?php elseif ($this->construireLieuEchoppeOk == false) : ?>
+		Une échoppe existe en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuPalissadeOk == false) : ?>
-		Une palissade existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+	<?php elseif ($this->construireLieuPalissadeOk == false) : ?>
+		Une palissade existe d&eacute;j&agrave; en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuChampOk == false) : ?>
-		Un champ existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+	<?php elseif ($this->construireLieuChampOk == false) : ?>
+		Un champ existe d&eacute;j&agrave; en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuRouteOk == false) : ?>
+	<?php elseif ($this->construireLieuRouteOk == false) : ?>
 		Vous ne pouvez pas acheter de champ &agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuEauOk == false) : ?>
-		De l'eau est présente en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+	<?php elseif ($this->construireLieuEauOk == false) : ?>
+		De l'eau est présente en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireRegionOk == false) : ?>
-		&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
+	<?php elseif ($this->construireRegionOk == false) : ?>
+		&Eacute;tant dans la <?php echo $this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
 		acheter de champ dans une autre Comt&eacute;.
-	<? endif; ?>
-<? elseif ($this->idTypeCourant == "acheterechoppe" || $this->idTypeCourant == "deplacerechoppe") : ?>
+	<?php endif; ?>
+<?php elseif ($this->idTypeCourant == "acheterechoppe" || $this->idTypeCourant == "deplacerechoppe") : ?>
 
-	<? if ($this->constructionEchoppeOk === true): ?>
+	<?php if ($this->constructionEchoppeOk === true): ?>
 		Vous avez construit une &eacute;choppe avec succ&egrave;s ! <br /><br />
 		
-		Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
-		dans la <?=$this->tabRegionCourante["nom_region"] ?>.<br /><br />
+		Elle se trouve en x:<?php echo $this->x_construction ?> y:<?php echo $this->y_construction ?> 
+		dans la <?php echo $this->tabRegionCourante["nom_region"] ?>.<br /><br />
 		
-		C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=$this->nom_metier_courant ?>.
+		C'est une &eacute;choppe <?php if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?php echo $this->nom_metier_courant ?>.
 	
-	<? elseif ($this->deplacerEchoppeOk === true): ?>
+	<?php elseif ($this->deplacerEchoppeOk === true): ?>
 		Vous avez déplacé une &eacute;choppe avec succ&egrave;s ! <br /><br />
 		
-		Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
-		dans la <?=$this->tabRegionCourante["nom_region"] ?>.<br /><br />
-	<? elseif ($this->construireLieuOk == false) : ?>
-		Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
+		Elle se trouve en x:<?php echo $this->x_construction ?> y:<?php echo $this->y_construction ?> 
+		dans la <?php echo $this->tabRegionCourante["nom_region"] ?>.<br /><br />
+	<?php elseif ($this->construireLieuOk == false) : ?>
+		Un lieu particulier existe en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuEchoppeOk == false) : ?>
-		Une &eacute;choppe existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
+	<?php elseif ($this->construireLieuEchoppeOk == false) : ?>
+		Une &eacute;choppe existe d&eacute;j&agrave; en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuPalissadeOk == false) : ?>
-		Une palissade existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
+	<?php elseif ($this->construireLieuPalissadeOk == false) : ?>
+		Une palissade existe d&eacute;j&agrave; en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
 		&agrave; cet endroit.
 		
-	<? elseif ($this->construireLieuChampOk == false) : ?>
-		Un champ existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
+	<?php elseif ($this->construireLieuChampOk == false) : ?>
+		Un champ existe d&eacute;j&agrave; en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas construire ou déplacer une &eacute;choppe 
 		&agrave; cet endroit.
 	
-	<? elseif ($this->construireLieuRouteOk == false) : ?>
+	<?php elseif ($this->construireLieuRouteOk == false) : ?>
 		Vous ne pouvez pas acheter ou déplacer une échoppe &agrave; cet endroit.
 	
-	<? elseif ($this->construireLieuEauOk == false) : ?>
-		De l'eau est présente en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter d'échoppe
+	<?php elseif ($this->construireLieuEauOk == false) : ?>
+		De l'eau est présente en x:<?php echo $this->x_construction ?>, y:<?php echo $this->y_construction ?>, vous ne pouvez pas acheter d'échoppe
 		&agrave; cet endroit.
 	
-	<? elseif ($this->construireRegionOk == false) : ?>
-		&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
+	<?php elseif ($this->construireRegionOk == false) : ?>
+		&Eacute;tant dans la <?php echo $this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
 		construire d'&eacute;choppe dans une autre Comt&eacute;.
-	<? endif; ?>
-<? elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
+	<?php endif; ?>
+<?php elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
 	Vous avez supprimé une &eacute;choppe avec succ&egrave;s ! <br /><br />
-<? endif; ?>
+<?php endif; ?>

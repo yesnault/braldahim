@@ -1,9 +1,9 @@
-<? if ($this->nouveauGardiennage === true) : ?>
+<?php if ($this->nouveauGardiennage === true) : ?>
 	Gardiennage enregistr&eacute; avec succ&egrave;s
-<? endif; ?>
-<? if (empty($this->tabGardiennage)) : ?>
+<?php endif; ?>
+<?php if (empty($this->tabGardiennage)) : ?>
 	Aucun Gardiennage en cours.
-<? else: ?>
+<?php else: ?>
 	Gardiennage en cours
 	<table class="table_liste" style="width:100%;text-align:center">
 	<thead class="table_liste">
@@ -14,20 +14,20 @@
 	<td>Commentaire</td>
 	</tr>
 	</thead>
-	<? foreach($this->tabGardiennage as $g): ?>
+	<?php foreach($this->tabGardiennage as $g): ?>
 		<tr>
-			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
-			<td><?=$g["date_debut"] ?></td>
-			<td><?=$g["nb_jours"] ?></td>
-			<td><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
+			<td><?php echo $g["prenom_gardien"]?> <?php echo $g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
+			<td><?php echo $g["date_debut"] ?></td>
+			<td><?php echo $g["nb_jours"] ?></td>
+			<td><?php echo htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 		</tr>
-	<? endforeach; ?>
+	<?php endforeach; ?>
 	</table>
-<? endif;?>
+<?php endif;?>
 	<br /><br />
-<? if (empty($this->tabGardiennageTrenteJours)) : ?>
+<?php if (empty($this->tabGardiennageTrenteJours)) : ?>
 	Aucun Gardiennage depuis 30 jours.
-<? else: ?>
+<?php else: ?>
 	Gardiennage depuis 30 jours
 	<table class="table_liste" style="width:100%;text-align:center">
 		<thead class="table_liste">
@@ -38,14 +38,14 @@
 	<td>Commentaire</td>
 	</tr>
 	</thead>
-	<? foreach($this->tabGardiennageTrenteJours as $g): ?>
+	<?php foreach($this->tabGardiennageTrenteJours as $g): ?>
 		<tr>
-			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
-			<td><?=$g["date_debut"] ?></td>
-			<td><?=$g["nb_jours"] ?></td>
-			<td><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
+			<td><?php echo $g["prenom_gardien"]?> <?php echo $g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
+			<td><?php echo $g["date_debut"] ?></td>
+			<td><?php echo $g["nb_jours"] ?></td>
+			<td><?php echo htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 		</tr>
-	<? endforeach; ?>
+	<?php endforeach; ?>
 	</table>
-<? endif; ?>
+<?php endif; ?>
 <br /><br />

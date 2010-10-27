@@ -2,43 +2,43 @@
  <form name='myForm'  id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br />
+ Pour <?php echo $this->paUtilisationLieu ?> PA et <?php echo $this->coutCastars?> castars, le joaillier <br />
   vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br /><br />
  
- <? if ($this->achatPossibleCastars == true) :?>
- 	<? if ($this->nbEquipementsLaban > 0): ?>
+ <?php if ($this->achatPossibleCastars == true) :?>
+ 	<?php if ($this->nbEquipementsLaban > 0): ?>
  		&Eacute;quipement:<br />
 		<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
-			<? foreach($this->equipementsLaban as $e) :?>
-				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=$e["nom"] ?> : n&deg;<?=$e["id_laban_equipement"] ?>,
-				 nb. emplacements: <?=$e["nb_runes"] ?></option>
-			<? endforeach; ?>
+			<?php foreach($this->equipementsLaban as $e) :?>
+				<option value="<?php echo $e["id_laban_equipement"] ?>" <?php echo $e["selected"]?>><?php echo $e["nom"] ?> : n&deg;<?php echo $e["id_laban_equipement"] ?>,
+				 nb. emplacements: <?php echo $e["nb_runes"] ?></option>
+			<?php endforeach; ?>
 		</select>
 		<br /><br />
-	<? else: ?>
+	<?php else: ?>
 	Vous n'avez aucun équipement à sertir.
-	<? endif; ?>
+	<?php endif; ?>
 	
-	<? if (isset($this->equipementCourant) ) : ?>
-		<? if ($this->equipementCourant["nb_runes"] < 1) : ?>
+	<?php if (isset($this->equipementCourant) ) : ?>
+		<?php if ($this->equipementCourant["nb_runes"] < 1) : ?>
 			Cet &eacute;quipement ne peut pas &ecirc;tre serti de rune.
-		<? else : ?>
-			<? if ($this->nbEquipementRune > 0) :
+		<?php else : ?>
+			<?php if ($this->nbEquipementRune > 0) :
 			
 				if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
-			Il y a d&eacute;j&agrave; <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br />
+			Il y a d&eacute;j&agrave; <?php echo $this->nbEquipementRune ?> rune<?php echo $s ?> de sertie<?php echo $s ?> sur cet &eacute;quipement. <br />
 			
 			Vous ne pouvez pas sertir de rune sur un &eacute;quipement d&eacute;j&agrave; serti.
 			
-			<? else : ?>
+			<?php else : ?>
 			
 				Glissez une rune sur l'&eacute;quipement ci-dessous. L'ordre des runes ayant une importance,
 				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br /><br />
 				Tous les emplacements runiques doivent &ecirc;tre utilis&eacute;s.<br />
 				Tout objet serti, ne pourra pas faire l'objet d'un nouveau sertissage dans le futur.<br />
 				<br />
-				<? $js="sections = ['group1','group2'];
+				<?php $js="sections = ['group1','group2'];
 					function calculNbRune(total){ 
 						liste=Sortable.serialize('group2'); 
 						if (liste.length > 0) {
@@ -76,13 +76,13 @@
 					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', scroll:'group1'});
 					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 				
-				<? if (count($this->labanRunes) > 0) : ?>
-					<input type="button" class='button1' value="Choisir les runes" onclick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
+				<?php if (count($this->labanRunes) > 0) : ?>
+					<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('choix_runes').style.display='block';this.style.display='none';">
 				
 					<div id="choix_runes" style="display:none">
 					
 					<br />
-						<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
+						<?php if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?php echo $this->equipementCourant["nb_runes"]?> emplacement<?php echo $s?> au total, il en reste <label id="dispo"><?php echo $this->equipementCourant["nb_runes"]?></label>.
 						<br />
 						<label id='rune_text'></label>
 						<div id="group2" class="liste_runes" style="height:40px">
@@ -92,11 +92,11 @@
 						<h3 class="handle">Vos runes disponibles</h3>
 						
 						<div id="group1" class="liste_runes" style="height:130px ;overflow:auto">
-							<? 
+							<?php 
 							$i = 0;
 								foreach($this->labanRunes as $k => $v) : ?>
-									<img id="item_<?=$k ?>" class="rune" src="<?=$this->config->static->url?>/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?> : <?=$v["effet_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
-								<? endforeach; ?>
+									<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?> : <?php echo $v["effet_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>" style="cursor:pointer;"/>
+								<?php endforeach; ?>
 						</div>
 							
 						<br />
@@ -104,28 +104,28 @@
 						<input type="hidden" id="valeur_3" name="valeur_3">
 						
 					</div>
-				<? else: ?>
+				<?php else: ?>
 					Vous n'avez aucune rune dans votre laban
-				<? endif; ?>
-			<? endif; ?>
-		<? endif; ?>
-	<? endif; ?>
+				<?php endif; ?>
+			<?php endif; ?>
+		<?php endif; ?>
+	<?php endif; ?>
 	
  </div> 
 </form>
-<? endif;?>
+<?php endif;?>
 <br />
 
-<? if ($this->achatPossibleCastars !== true) :?>
+<?php if ($this->achatPossibleCastars !== true) :?>
 Vous n'avez pas assez de castars.<br /><br />
-<? endif; ?>
+<?php endif; ?>
 
-<? if ($this->utilisationPaPossible !== true) :?>
+<?php if ($this->utilisationPaPossible !== true) :?>
 Vous n'avez pas assez de PA.<br />
-<? endif; ?>
+<?php endif; ?>
 
 
-<? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+<?php if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
 <input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_joaillier&id_equipement='+$('valeur_1').value);"  disabled>
-<? endif; ?>
-<? echo Bral_Helper_Fermer::affiche(); ?>
+<?php endif; ?>
+<?php echo Bral_Helper_Fermer::affiche(); ?>

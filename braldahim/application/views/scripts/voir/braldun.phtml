@@ -1,47 +1,47 @@
-<? include('voirHeader.phtml'); ?>
+<?php include('voirHeader.phtml'); ?>
 
 <div class="box_public">
 <div class="inner">
 
-<? if ($this->connu == false) : ?>
+<?php if ($this->connu == false) : ?>
 	<div class="titre textalic textsizea">Braldûn Inconnu</div>
-<? else : ?>
-    <div class="titre textalic textsizea"><?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?><? 
+<?php else : ?>
+    <div class="titre textalic textsizea"><?php echo $this->braldun["prenom_braldun"] ?> <?php echo $this->braldun["nom_braldun"] ?><?php 
     if ($this->ancien === false && $this->braldun["titre_courant_braldun"] != null) : ?>, 
-    <?=$this->braldun["titre_courant_braldun"] ?>
-    <? endif;?>
+    <?php echo $this->braldun["titre_courant_braldun"] ?>
+    <?php endif;?>
      </div>
      <div class="titre textalic textsized">
-      Braldûn n&deg;<?=$this->braldun["id_braldun"] ?>
+      Braldûn n&deg;<?php echo $this->braldun["id_braldun"] ?>
      </div>
      
-    <? if ($this->ancien) : ?>
+    <?php if ($this->ancien) : ?>
 	    <div class="titre textalic textsized">
 	    Ce Braldûn a disparu, il n'est plus joué.
 	    </div>
-    <? endif;?>
+    <?php endif;?>
 	&nbsp;
 	<div class="contenu">
 	    <div class="box_contenu1">
 			<table class="table_liste" style="width:250px">
 			<thead class="table_liste">
 			  <tr class="table_liste">
-				<th style="cursor:pointer" onclick='document.location.href="/voir/braldun/?braldun=<?=$this->braldun["id_braldun"] ?>"' title="Voir le profil">Profil</th>
-				 <? if ($this->ancien === false) : ?>
-					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
-					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"] ?>&menu=distinctions");' title="Voir les distinctions">Distinctions</th>
-				 <? endif; ?>
-				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?=$this->braldun["id_braldun"] ?>&menu=famille");' title="Voir la famille">Famille</th>
+				<th style="cursor:pointer" onclick='document.location.href="/voir/braldun/?braldun=<?php echo $this->braldun["id_braldun"] ?>"' title="Voir le profil">Profil</th>
+				 <?php if ($this->ancien === false) : ?>
+					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
+					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=distinctions");' title="Voir les distinctions">Distinctions</th>
+				 <?php endif; ?>
+				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=famille");' title="Voir la famille">Famille</th>
 			  </tr>
 			</thead>
 			</table>
 			<div id="box_voir_braldun_inner">
-				<?=$this->flux; ?>
+				<?php echo $this->flux; ?>
 			</div>
 		</div>
 	</div>
 	&nbsp;
-<? endif; ?>
+<?php endif; ?>
 </div>
 </div>
 

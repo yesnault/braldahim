@@ -1,4 +1,4 @@
-<div class="titre textalic textsizeb"><?=htmlspecialchars($this->nomEchoppe) ?></div>
+<div class="titre textalic textsizeb"><?php echo htmlspecialchars($this->nomEchoppe) ?></div>
 
 <br />
 
@@ -6,7 +6,7 @@
 <br /><br />
 
 <div style="text-align:left;padding:30px">
-	<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
+	<?php echo Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
 </div>
 
 <input type="button" class='button1' value="Rentrer dans l'&eacute;choppe" onclick='_get_("/interface/load/?box=box_echoppe");'>

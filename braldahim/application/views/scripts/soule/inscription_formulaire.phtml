@@ -2,35 +2,35 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	
- 	<? if ($this->hibernationPrevue === true) : ?>
+ 	<?php if ($this->hibernationPrevue === true) : ?>
  	Vous ne pouvez pas vous inscrire &agrave; un match de soule avec une hibernation de pr&eacute;vue.<br />
  	
- 	<? elseif ($this->donjonEnCours === true) : ?>
+ 	<?php elseif ($this->donjonEnCours === true) : ?>
  	Vous ne pouvez pas vous inscrire &agrave; un match de soule en étant dans un Donjon ou inscrit à un Donjon.<br />
  	
- 	<? else: ?>
-		Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castar<?if ($this->nb_castars > 1): echo 's'; endif?>, vous pouvez vous inscrire pour le prochain match de soule
-		sur le <?=$this->terrainCourant["nom_soule_terrain"]?>.
+ 	<?php else: ?>
+		Pour <?php echo $this->nb_pa?> PA et <?php echo $this->nb_castars?> castar<?if ($this->nb_castars > 1): echo 's'; endif?>, vous pouvez vous inscrire pour le prochain match de soule
+		sur le <?php echo $this->terrainCourant["nom_soule_terrain"]?>.
 	 </div>
 	 <br />
 	
-		<? if ($this->assezDePa === false) :?>
+		<?php if ($this->assezDePa === false) :?>
 			Vous n'avez pas assez de PA.
-		<? elseif ($this->assezDeCastars === false) : ?>
+		<?php elseif ($this->assezDeCastars === false) : ?>
 			Vous n'avez pas assez de castars.
-		<? //elseif ($this->user->est_engage_braldun == "oui") : ?>
+		<?php //elseif ($this->user->est_engage_braldun == "oui") : ?>
 			<!-- Vous &ecirc;tes engag&eacute;. -->
-		<? else: ?>
+		<?php else: ?>
 	 	&Eacute;quipe :<br />
 	 
 		<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
 			<option value='-1'>(Choisissez une &eacute;quipe)</option>
-			<? foreach ($this->tabEquipes as $k => $e) : ?>
-			<option value="<?=$k?>" <? if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
-				<?=$e["nom_equipe"]?> (<?=$e["nb_inscrits"]?> inscrit<? if ($e["nb_inscrits"] > 1): echo "s"; endif;?>)
-				<? if ($e["inscription_possible"] !=  true): echo " : nombre max de joueurs atteint"; endif;?>
+			<?php foreach ($this->tabEquipes as $k => $e) : ?>
+			<option value="<?php echo $k?>" <?php if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
+				<?php echo $e["nom_equipe"]?> (<?php echo $e["nb_inscrits"]?> inscrit<?php if ($e["nb_inscrits"] > 1): echo "s"; endif;?>)
+				<?php if ($e["inscription_possible"] !=  true): echo " : nombre max de joueurs atteint"; endif;?>
 			</option>
-			<? endforeach; ?>
+			<?php endforeach; ?>
 		</select><br /><br />
 		<br />
 		
@@ -43,11 +43,11 @@
 		</select>
 		<br /><br />
 		
-		<? endif; ?>
-	<? endif;?>
+		<?php endif; ?>
+	<?php endif;?>
  
 </form>
 <br />
-<? if ($this->inscriptionPossible === true): ?>
+<?php if ($this->inscriptionPossible === true): ?>
 <input type='button' class='button1' id='bouton_inscription' value='Inscription' onclick='this.disabled=true;_get_("/soule/doaction?caction=do_soule_inscription");' disabled>
-<? endif;?>
+<?php endif;?>

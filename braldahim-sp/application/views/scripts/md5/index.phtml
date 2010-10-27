@@ -6,13 +6,13 @@
 	Votre mot de passe actuel :
 	<form action='/md5'><input type='password' name='md5_source'
 		id='md5_source' value='' size='20' /> <input
-		type='submit' value='MD5' class='button1' /> <? if ($this->md5_value != "") : ?>
+		type='submit' value='MD5' class='button1' /> <?php if ($this->md5_value != "") : ?>
 	
 	<br /><br />
 	
 	Mot de passe restreint :<br /> <br />
-	<?=$this->md5_value ?>
-	<? endif; ?></form>
+	<?php echo $this->md5_value ?>
+	<?php endif; ?></form>
 	
 	<br /><br />
 	

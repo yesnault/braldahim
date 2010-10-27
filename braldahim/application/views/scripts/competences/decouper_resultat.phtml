@@ -1,17 +1,17 @@
-<? include("commun_text_resultat.phtml") ?>
+<?php include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
-	<? if ($this->quantitePlanches > 0) : ?>
-		Vous avez r&eacute;ussi &agrave; d&eacute;couper <?=$this->quantiteRondinsUtilisee ?> <? if ($this->quantiteRondinsUtilisee > 1) : $s = 's';  else: $s = ''; endif; ?> rondin<?=$s ?> en 
-		<? if ($this->quantitePlanches > 1): $s='s'; else: $s=""; endif; ?>
-		<?=$this->quantitePlanches  ?> planche<?=$s ?>.
+<?php if ($this->okJet1 === true): ?>
+	<?php if ($this->quantitePlanches > 0) : ?>
+		Vous avez r&eacute;ussi &agrave; d&eacute;couper <?php echo $this->quantiteRondinsUtilisee ?> <?php if ($this->quantiteRondinsUtilisee > 1) : $s = 's';  else: $s = ''; endif; ?> rondin<?php echo $s ?> en 
+		<?php if ($this->quantitePlanches > 1): $s='s'; else: $s=""; endif; ?>
+		<?php echo $this->quantitePlanches  ?> planche<?php echo $s ?>.
 		<br />
-	<? else: ?>
+	<?php else: ?>
 		Vous avez rat&eacute; votre d&eacute;coupe.
 		<br />
-		Aucune planche n'est apparue et <?=$this->quantiteRondinsUtilisee ?> rondin<?if($this->quantiteRondinsUtilisee > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
-	<? endif; ?>
+		Aucune planche n'est apparue et <?php echo $this->quantiteRondinsUtilisee ?> rondin<?if($this->quantiteRondinsUtilisee > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
+	<?php endif; ?>
 	
-<? else: ?>
+<?php else: ?>
 	Vous avez manqu&eacute; votre d&eacute;coupe, mais aucun rondin n'est perdu.<br />
-<? endif; ?>
+<?php endif; ?>

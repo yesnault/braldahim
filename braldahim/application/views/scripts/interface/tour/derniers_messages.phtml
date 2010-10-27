@@ -1,64 +1,64 @@
-<? if (!empty($this->messages)): ?>
-	<? if ($this->nbMessagesNonLus > 1): $s = 's'; else : $s = ''; endif;?>
-    Vous avez <b><?=$this->nbMessagesNonLus?> message<?=$s?> non lu<?=$s?></b>.
+<?php if (!empty($this->messages)): ?>
+	<?php if ($this->nbMessagesNonLus > 1): $s = 's'; else : $s = ''; endif;?>
+    Vous avez <b><?php echo $this->nbMessagesNonLus?> message<?php echo $s?> non lu<?php echo $s?></b>.
     N'oubliez pas de consulter votre onglet Messagerie.<br />
     <i>Pour marquer vos messages comme lus, passez par l'onglet messagerie.<br /> 
     Vous pouvez tout de même consulter le message ici rapidement en cliquant dessus.</i>
 	<table class="table_liste" style="width:100%;border-collapse">
 	<tbody>
-	<? $i = 0;
+	<?php $i = 0;
 	   foreach($this->messages as $message): ?>
-  			<tr class="table_liste<?=($i % 2);$i++; ?>">
+  			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
   				<td class="table_liste">
-  					<img alt="&Agrave; lire" title="&Agrave; lire" src="<?=$this->config->static->url?>/images/uddeim/new_im.gif" border="0" />
+  					<img alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->static->url?>/images/uddeim/new_im.gif" border="0" />
 				</td>
   				<td class="table_liste">
-  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
-	  					De <?=$message["expediteur"];?>&nbsp;
+  					<?php if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+	  					De <?php echo $message["expediteur"];?>&nbsp;
 	  					&agrave;<br/>
-	  					<?=$message["destinataire"];?>&nbsp;
-  					<? elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
-  						<?=$message["destinataire"];?>&nbsp;
-  					<? else: ?>
-  						<?=$message["expediteur"];?>&nbsp;
-  					<? endif; ?>
+	  					<?php echo $message["destinataire"];?>&nbsp;
+  					<?php elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+  						<?php echo $message["destinataire"];?>&nbsp;
+  					<?php else: ?>
+  						<?php echo $message["expediteur"];?>&nbsp;
+  					<?php endif; ?>
   				</td>
   				<td class="table_liste" > 
-  					<div id='cmsga<?=$message["id_message"]?>' onclick="switch2div('cmsga<?=$message["id_message"]?>','cmsgb<?=$message["id_message"]?>')" style='cursor:pointer' title='Cliquez pour voir le message'>
+  					<div id='cmsga<?php echo $message["id_message"]?>' onclick="switch2div('cmsga<?php echo $message["id_message"]?>','cmsgb<?php echo $message["id_message"]?>')" style='cursor:pointer' title='Cliquez pour voir le message'>
   					<?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
   					</div>
-  					<div id='cmsgb<?=$message["id_message"]?>' onclick="switch2div('cmsga<?=$message["id_message"]?>','cmsgb<?=$message["id_message"]?>')" style="display:none; cursor:pointer; background-color:#eeeeee">
-  					Message en entier:<br /><?=Bral_Util_BBParser::bbcodeReplace($message["titre"]);?>
+  					<div id='cmsgb<?php echo $message["id_message"]?>' onclick="switch2div('cmsga<?php echo $message["id_message"]?>','cmsgb<?php echo $message["id_message"]?>')" style="display:none; cursor:pointer; background-color:#eeeeee">
+  					Message en entier:<br /><?php echo Bral_Util_BBParser::bbcodeReplace($message["titre"]);?>
   					</div>
   				</td>
-  				<td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\>H:i', $message["date"]);?></td>
+  				<td class="table_liste"><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y\<\b\r\>H:i', $message["date"]);?></td>
   			</tr>
-	  	<? endforeach; ?>
+	  	<?php endforeach; ?>
 	</tbody>
 	<thead class="table_liste">
 		<tr class="table_liste">
 		<th colspan=4>Vos derniers messages non lus
-		<? if (count($this->messages) >= 5) : ?>
+		<?php if (count($this->messages) >= 5) : ?>
 			(Affichage des 5 derniers uniquement)
-		<? endif;?>
+		<?php endif;?>
 		</th>
 		</tr>
 		<tr class="table_liste">
 		<th>&nbsp;</th>
 		<th>
-		<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+		<?php if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
 			&Agrave;
-		<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+		<?php elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 			De / &Agrave;
-		<? else: ?>
+		<?php else: ?>
 			De
-		<? endif; ?>
+		<?php endif; ?>
 		</th>
 		<th>Message</th>
 		<th>Date</th>
 	  	</tr>
 	</thead>
 </table>
-<? else :?>
-<img src="<?=$this->config->static->url?>/images/uddeim/nonew_im.gif"> Messagerie : vous n'avez aucun nouveau message.
-<? endif; ?>
+<?php else :?>
+<img src="<?php echo $this->config->static->url?>/images/uddeim/nonew_im.gif"> Messagerie : vous n'avez aucun nouveau message.
+<?php endif; ?>

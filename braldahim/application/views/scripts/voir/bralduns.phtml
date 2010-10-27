@@ -1,4 +1,4 @@
-<? include('voirHeader.phtml'); ?>
+<?php include('voirHeader.phtml'); ?>
 
 <div class="box_public">
 <div class="inner">
@@ -11,35 +11,35 @@
 				<br />
 				<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='9'>
 				<input type="hidden" name='valeur_1' id="valeur_1" value="-1" >
-				<input type="hidden" name='valeur_2' id="valeur_2" value="<?=$this->filtre ?>" >
-				<input type="hidden" name='valeur_3' id="valeur_3" value="<?=$this->page ?>" >
-				<input type="hidden" name='valeur_4' id="valeur_4" value="<?=$this->filtre?>" >
-				<input type="hidden" name='valeur_5' id="valeur_5" value="<?=$this->ordre ?>" >
-				<input type="hidden" name='valeur_6' id="valeur_6" value="<?=$this->sensOrdre ?>" >
-				<input type="hidden" name='valeur_7' id="valeur_7" value="<?=$this->filtrePrenom ?>" >
+				<input type="hidden" name='valeur_2' id="valeur_2" value="<?php echo $this->filtre ?>" >
+				<input type="hidden" name='valeur_3' id="valeur_3" value="<?php echo $this->page ?>" >
+				<input type="hidden" name='valeur_4' id="valeur_4" value="<?php echo $this->filtre?>" >
+				<input type="hidden" name='valeur_5' id="valeur_5" value="<?php echo $this->ordre ?>" >
+				<input type="hidden" name='valeur_6' id="valeur_6" value="<?php echo $this->sensOrdre ?>" >
+				<input type="hidden" name='valeur_7' id="valeur_7" value="<?php echo $this->filtrePrenom ?>" >
 				<input type="hidden" name='valeur_8' id="valeur_8" value="-1" >
 				<input type="hidden" name='valeur_9' id="valeur_9" value="-1" >
 				
 				Filtrer par niveau : 
-				<select name='select_valeur_2' id='select_valeur_2' onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7='+ $('select_valeur_7').value)">
+				<select name='select_valeur_2' id='select_valeur_2' onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+ $('select_valeur_7').value)">
 				    <option value="-1">Tous les niveaux</option>
-					<? foreach ($this->tabNiveaux as $n) : ?>
-				  	<option value='<?=$n["niveau_braldun"]?>' <?if ($this->filtre == $n["niveau_braldun"]){echo "selected";}?>>Niveau <?=$n["niveau_braldun"]?></option>
-				  	<? endforeach; ?>
+					<?php foreach ($this->tabNiveaux as $n) : ?>
+				  	<option value='<?php echo $n["niveau_braldun"]?>' <?if ($this->filtre == $n["niveau_braldun"]){echo "selected";}?>>Niveau <?php echo $n["niveau_braldun"]?></option>
+				  	<?php endforeach; ?>
 			  	</select>
 			  	<br />
 			  	
 			  	Filtrer par la première lettre du prénom : 
-				<select name='select_valeur_7' id='select_valeur_7'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ $('select_valeur_2').value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7='+this.value)">
+				<select name='select_valeur_7' id='select_valeur_7'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ $('select_valeur_2').value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+this.value)">
 				    <option value="-1">Tous les prénoms</option>
-					<? foreach ($this->tabLettres as $k => $v) : ?>
-				  	<option value='<?=$k?>' <?if ($this->filtrePrenom == $k){echo "selected";}?>><?=$v?></option>
-				  	<? endforeach; ?>
+					<?php foreach ($this->tabLettres as $k => $v) : ?>
+				  	<option value='<?php echo $k?>' <?if ($this->filtrePrenom == $k){echo "selected";}?>><?php echo $v?></option>
+				  	<?php endforeach; ?>
 			  	</select>
 			  	<br />
 			  	
   			<div id="box_voir_bralduns_inner">
-				<? include('bralduns/liste.phtml'); ?>
+				<?php include('bralduns/liste.phtml'); ?>
 			</div>
 		</div>
 	</div>
