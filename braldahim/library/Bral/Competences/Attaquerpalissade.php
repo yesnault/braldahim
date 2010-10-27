@@ -26,11 +26,11 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			$this->view->x_max = $this->view->user->x_braldun + $this->distance;
 			$this->view->y_min = $this->view->user->y_braldun - $this->distance;
 			$this->view->y_max = $this->view->user->y_braldun + $this->distance;
-				
+
 			$palissadeTable = new Palissade();
 			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 			$defautChecked = false;
-				
+
 			for ($j = $this->distance; $j >= -$this->distance; $j --) {
 				$change_level = true;
 				for ($i = -$this->distance; $i <= $this->distance; $i ++) {
@@ -72,7 +72,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 						"valid" => $valid,
 				 		"est_destructible" => $est_destructible,
 					);
-						
+
 					if ($this->request->get("valeur_1") != null) { // attaque palissade en cours
 						$x_y = $this->request->get("valeur_1");
 						list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
@@ -80,7 +80,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 							$this->view->palissade = $palissade;
 						}
 					}
-						
+
 					$tabValidation[$i][$j] = $valid;
 
 					if ($change_level) {
@@ -145,6 +145,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		$this->view->degats = $tabDegats["noncritique"];
 
 		$this->view->detruire = false;
+		$this->view->apparitionMonstre = false;
 		$this->view->degatsInfliges = $this->view->degats - $this->view->palissade["armure_naturelle_palissade"];
 
 		if ($this->view->degatsInfliges < 0) {
@@ -155,6 +156,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		if ($this->view->palissade["pv_restant_palissade"] <= 0) {
 			$this->view->palissade["pv_restant_palissade"] = 0;
 			$this->view->detruire = true;
+			$this->calculRuine();
 		}
 
 		$palissadeTable = new Palissade();
@@ -175,6 +177,77 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 
 		Bral_Util_Attaque::calculStatutEngage(&$this->view->user);
 		unset($palissadeTable);
+	}
+
+	/**
+	 * En cas de destruction de la palissade, on regarde s'il y a une ruine à côté.
+	 */
+	private function calculRuine() {
+
+		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("TypeLieu");
+
+		$lieuTable = new Lieu();
+		$xMin = $this->view->palissade["x_palissade"]-1;
+		$yMin = $this->view->palissade["y_palissade"]-1;
+		$xMax = $this->view->palissade["x_palissade"]+1;
+		$yMax = $this->view->palissade["y_palissade"]+1;
+		$z = $this->view->palissade["z_palissade"];
+		$ruines = $lieuTable->selectVue($xMin, $yMin, $xMax, $yMax, $z, TypeLieu::ID_TYPE_RUINE);
+		if ($ruines == null || count($ruines) <= 0) {
+			return; // pas de ruine à côté
+		}
+		$ruine = $ruines[0];
+
+		Zend_Loader::loadClass("Nid");
+		Zend_Loader::loadClass("ZoneNid");
+		Zend_Loader::loadClass("TypeMonstre");
+		Zend_Loader::loadClass("Braldun");
+		
+		$nidTable = new Nid();
+		$zoneNidTable = new ZoneNid();
+		$braldunTable = new Braldun();
+		
+		// récupération d'une zone de nid
+		$zonesNids = $zoneNidTable->findByCase($ruine["x_lieu"], $ruine["y_lieu"], $ruine["z_lieu"]);
+		if (count($zonesNids) == 0) {
+			throw new Zend_Exception("Erreur AttaquerPalissade. zonesNids invalide:x:".$ruine["x_lieu"].", y:".$ruine["y_lieu"].", z:".$ruine["z_lieu"]);
+		}
+		
+		$xMin = $this->view->palissade["x_palissade"]-10;
+		$yMin = $this->view->palissade["y_palissade"]+10;
+		$xMax = $this->view->palissade["x_palissade"]-10;
+		$yMax = $this->view->palissade["y_palissade"]+10;
+		
+		$bralduns = $braldunTable->selectVue($xMin, $yMin, $xMax, $yMax, $z);
+		$nbMin = 1;
+		$nbMax = 1;
+		if ($bralduns != null && count($bralduns) > 2) {
+			$nbMax = count($bralduns);
+		}
+		if ($nbMax > 8) {
+			$nbMax = 8;
+		}
+
+		$zoneNid = $zonesNids[0];
+		
+		$nbMonstres = Bral_Util_De::get_de_specifique($nbMin, $nbMax);
+		$data["x_nid"] = $ruine["x_lieu"];
+		$data["y_nid"] = $ruine["y_lieu"];
+		$data["z_nid"] = $ruine["z_lieu"];
+		$data["nb_monstres_total_nid"] = $nbMonstres;
+		$data["nb_monstres_restants_nid"] = $nbMonstres;
+
+		$data["id_fk_zone_nid"] = $zoneNid["id_zone_nid"];
+		$data["id_fk_type_monstre_nid"] = TypeMonstre::ID_TYPE_DRAGON;
+
+		$data["id_fk_donjon_nid"] = null;
+		$data["date_creation_nid"] = date("Y-m-d H:i:s");
+		$data["date_generation_nid"] = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), - 1);
+
+		$nidTable->insert($data);
+			
+		$this->view->apparitionMonstre = true;
 	}
 
 	protected function calculPx() {

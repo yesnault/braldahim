@@ -15,6 +15,12 @@ Vous avez attaqu&eacute; une palissade en x:<?=$this->palissade["x_palissade"]?>
 	La palissade est touch&eacute;e &agrave; <?=floor(100 - ($this->palissade["pv_restant_palissade"]*100 / $this->palissade["pv_max_palissade"])) ?> %
 <? endif; ?>
 <br /><br />
+
+<? if ($this->apparitionMonstre): ?>
+<b>Oh oh... quelque chose est apparu.</b>
+<br /><br />
+<? endif;?>
+
 <? if ($this->nb_px > 0) :?>
 	Vous avez gagn&eacute; <?=$this->nb_px?> PX.
 <? else : ?>
