@@ -8,11 +8,6 @@
 
    	Vous avez <?php echo $this->user->castars_braldun ?> castar<?php if ($this->user->castars_braldun > 1): echo "s"; endif; ?> et <?php echo $this->poidsRestant?> Kg de poids transportable disponible.<br />
    	
-   	<br />
-   	<b><i>
-   	La Comté PVP, qui n'a reçu d'aide d'aucun Braldûn pour protéger ses greniers, est pénalisée. Sans grain, les auberges ont du mal à fonctionner correctement...
-   	</i>
-	</b>
 	<br /><br />
 	<?php if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars !<br />
