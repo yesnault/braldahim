@@ -63,7 +63,7 @@ class Bral_Helper_ProfilEquipement {
 	 	if ($i == 1) {
     		$retour .= "<td class='equipement'>1 main de libre</td>";
 	 	} elseif ($i == 0) {
-    		$retour .= "<td class='equipement'>2 mains de libres</td>";
+    		$retour .= "<td class='equipement'>Mains libres</td>";
 	 	}
     	$retour .= "</tr>";
     	$retour .= "</table>";
