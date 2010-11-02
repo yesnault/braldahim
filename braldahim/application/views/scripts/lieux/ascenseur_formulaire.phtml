@@ -1,13 +1,21 @@
 <div class='comp_titre'>Ascenseur</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	<br />
  	Pour <?php echo $this->paUtilisationLieu ?> PA, 
- 	vous pouvez prendre l'ascenseur et remonter à la surface.<br />
+ 	vous pouvez prendre l'ascenseur.<br />
    	
    	<?php if ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA !<br />
+   		
+   	<?php else: ?>
+	<br /> Niveau de destination :<br />
+	 <select name="valeur_1" id="valeur_1">
+	 	<?php foreach($this->niveaux as $k => $v) : ?>
+	 		<option value="<?php echo $k?>"><?php echo htmlspecialchars($v["niveauText"])?></option>
+	 	<?php endforeach; ?>
+	 </select>
    	<?php endif; ?>
  </div> 
 </form>

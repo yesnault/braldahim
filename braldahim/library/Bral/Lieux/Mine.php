@@ -9,13 +9,23 @@ class Bral_Lieux_Mine extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
+
+		for($i = -10; $i >= -13; $i--) {
+			$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i);
+		}
+		$this->view->niveaux = $tabNiveaux;
 	}
 
 	function prepareFormulaire() {
 	}
 
 	function prepareResultat() {
-		$this->view->user->z_braldun = $this->view->user->z_braldun - 10;
+		$niveau = (int)$this->request->get("valeur_1");
+
+		if (!array_key_exists($niveau, $this->view->niveaux)) {
+			throw new Zend_Exception(get_class($this)." niveau invalide:".$niveau);
+		}
+		$this->view->user->z_braldun = $this->view->user->z_braldun + $niveau;
 		$this->majBraldun();
 	}
 

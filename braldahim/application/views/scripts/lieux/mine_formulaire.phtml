@@ -1,6 +1,6 @@
 <div class='comp_titre'>Entrée de Mine</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	<br />
  	Pour <?php echo $this->paUtilisationLieu ?> PA, 
@@ -8,6 +8,14 @@
    	
    	<?php if ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA !<br />
+   		
+   	<?php else: ?>
+	<br /><br /> Niveau :<br />
+	 <select name="valeur_1" id="valeur_1">
+	 	<?php foreach($this->niveaux as $k => $v) : ?>
+	 		<option value="<?php echo $k?>"><?php echo htmlspecialchars($v["niveauText"])?></option>
+	 	<?php endforeach; ?>
+	 </select>
    	<?php endif; ?>
  </div> 
 </form>

@@ -312,6 +312,14 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				}
 					
 				$data = null;
+				
+				if ($pointsGredinActuels < 0) {
+					$pointsGredinActuels = 0;
+				}
+				if ($pointsRedresseurActuels < 0) {
+					$pointsRedresseurActuels = 0;
+				}
+				
 				$data["points_gredin_stats_reputation"] = $pointsGredinActuels;
 				$data["points_redresseur_stats_reputation"] = $pointsRedresseurActuels;
 				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
