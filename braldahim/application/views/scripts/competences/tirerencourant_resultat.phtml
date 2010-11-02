@@ -62,6 +62,10 @@
 	 	Vous vous &ecirc;tes d&eacute;plac&eacute; en x=<?php echo $this->user->x_braldun ?>, y=<?php echo $this->user->y_braldun ?>
 		<br />
 		<?php include('commun_attaque_resultat.phtml');?>
+		
+		Il vous reste <?php echo $this->nbMunitionsPortees?> munition<?php if ($this->nbMunitionsPortees > 1): echo "s"; endif;?> dans votre laban.
+		<br />
+		
 	<?php else: ?>
 		Vous avez manqu&eacute; votre tir !<br />
 	<?php endif; ?>

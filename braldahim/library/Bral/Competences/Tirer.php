@@ -19,6 +19,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		//on verifie que le Braldûn porte une arme de tir
 		$armeTirPortee = false;
 		$munitionPortee = false;
+		$nbMunitionsPortees = 0;
 		$idMunitionPortee = null;
 		$braldunEquipement = new BraldunEquipement();
 		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
@@ -33,6 +34,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 					foreach ($munitionPorteRowset as $mun) {
 						if ($mun['id_fk_type_laban_munition'] == $eq['id_fk_type_munition_type_equipement']) {
 							$munitionPortee = true;
+							$nbMunitionsPortees = $mun["quantite_laban_munition"];
 							$idMunitionPortee = $eq['id_fk_type_munition_type_equipement'];
 							break;
 						}
@@ -118,6 +120,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		}
 		$this->view->armeTirPortee = $armeTirPortee;
 		$this->view->munitionPortee = $munitionPortee;
+		$this->view->nbMunitionsPortees = $nbMunitionsPortees;
 		$this->view->idMunitionPortee = $idMunitionPortee;
 	}
 
@@ -208,9 +211,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		}
 
 		if ($attaqueBraldun === true) {
-			$this->calculTirer($idBraldun,"braldun");
+			$this->calculTirer($idBraldun, "braldun");
 		} elseif ($attaqueMonstre === true) {
-			$this->calculTirer($idMonstre,"monstre");
+			$this->calculTirer($idMonstre, "monstre");
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -373,7 +376,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		return $jetDegat;
 	}
 
-	private function calculTirer($id,$type) {
+	private function calculTirer($id, $type) {
 		if ($type == "braldun") {
 			$this->view->retourAttaque = $this->attaqueBraldun($this->view->user, $id, true, true);
 		} else{
@@ -387,6 +390,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 		);
 		$labanMunition->insertOrUpdate($data);
+		$this->view->nbMunitionsPortees = $this->view->nbMunitionsPortees - 1; 
 	}
 
 	function getListBoxRefresh() {

@@ -78,6 +78,9 @@
 		
 		<?php include('commun_attaque_resultat.phtml');?>
 		
+		Il vous reste <?php echo $this->nbMunitionsPortees?> munition<?php if ($this->nbMunitionsPortees > 1): echo "s"; endif;?> dans votre laban.
+		<br />
+		
  	<?php else: ?>
 	 	Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 	 	<?php if ($this->retourAttaque["fragilisee"] === true) : ?>
@@ -86,6 +89,5 @@
 	 		parfaitement.
 	 	<?php endif; ?>
  	<?php endif; ?>
-	<br />
 <?php endif;?>
 <?php include("commun_text_effets.phtml") ?>
