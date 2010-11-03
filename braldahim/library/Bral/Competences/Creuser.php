@@ -11,6 +11,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Tunnel');
 		Zend_Loader::loadClass("Bral_Util_Metier");
 
+		Zend_Loader::loadClass("Bral_Util_Dijkstra");
+		$dijkstra = new Bral_Util_Dijkstra();
+		$dijkstra->calcul(1, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, false);
+
 		$this->view->creuserOk = false;
 
 		$this->distance = 2;
@@ -40,11 +44,13 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		$this->distance = 1;
 
+		$numero = -1;
+
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
 			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
-
+				$numero++;
 				$nDecouverte = 0;
 				if ($tabTunnels[$x-1][$y-1] === true) $nDecouverte++;
 				if ($tabTunnels[$x-1][$y] === true) $nDecouverte++;
@@ -57,7 +63,11 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 				//La case à creuser doit avoir au minimum 4 cases adjacentes non évidées
 				if ($nDecouverte < 3) {
-					$tabTunnelsPossibles[$x][$y] = true;
+					// on regarde la distance dijkstra
+					if ($dijkstra->getDistance($numero) == 1) {
+						$tabTunnelsPossibles[$x][$y] = true;
+					}
+						
 				}
 			}
 		}
@@ -163,6 +173,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculCreuser($x, $y) {
 
+		if (Bral_Util_De::get_1d30() == 15) {
+			$nidDecouvert = $this->calculNid($x, $y, $this->view->user->z_braldun);
+		}
+
 		$this->view->user->x_braldun = $x;
 		$this->view->user->y_braldun = $y;
 
@@ -189,6 +203,75 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
 		$this->view->tunnel = $data;
+	}
+
+	private function calculNid($x, $y, $z) {
+		// on récupère l'entrée de mine la plus proche au niveau 0;
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+
+		$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_MINE, $this->view->user->x_braldun, $this->view->user->y_braldun, "non");
+		if ($lieuRowset == null || count($lieuRowset) < 1) {
+			throw new Zend_Exception("Erreur nb mine x:".$this->view->user->x_braldun." y:".$this->view->user->y_braldun);
+		}
+		$lieu = $lieuRowset[0];
+		$distance =  $lieu["distance"];
+
+		if ($distance < 11) { // 11: distance = 5 + niveauMin x 3, avec niveauMin=2, distanceMin : 11
+			return false; // pas de monstre à poper pour une distance < 11
+		}
+
+		Zend_Loader::loadClass("Bral_Batchs_Batch");
+		Zend_Loader::loadClass("Bral_Batchs_CreationNids");
+		Zend_Loader::loadClass("TypeMonstre");
+		Zend_Loader::loadClass("ZoneNid");
+		Zend_Loader::loadClass("CreationNids");
+		Zend_Loader::loadClass("Nid");
+
+		$nbMonstres = Bral_Util_De::get_de_specifique(Bral_Batchs_CreationNids::NB_MONSTRES_PAR_NID_MIN, Bral_Batchs_CreationNids::NB_MONSTRES_PAR_NID_MAX);
+		$nbJours = Bral_Util_De::get_de_specifique(0, 4);
+
+		// Recuperation de la zone de nid
+		$zoneNidTable = new ZoneNid();
+		$zones = $zoneNidTable->findByCase($x, $y, $z);
+		if ($zones == null || count($zones) > 1) {
+			throw new Zend_Exception("Creuser: Erreur Parametrage zone nid: x:".$x." y:".$y." z:".$z);
+		}
+		$idZoneNid = $zones[0]["id_zone_nid"];
+
+		$typeMonstreTable = new TypeMonstre();
+		$niveauMin = ($distance - 5) / 3;
+		$niveauMax = ($distance + 15 - 5) / 3;
+
+		// Récupération des types de monstres associés à la zone de nid
+		$creationNidsTable = new CreationNids();
+		$typesMonstres = $creationNidsTable->findIdTypeMonstreNiveauMinMaxByIdZone($idZoneNid, $niveauMin, $niveauMax);
+
+		if ($typesMonstres == null || count($typesMonstres) < 1) {
+			throw new Zend_Exception("Creuser: Erreur Parametrage 2 zone nid: ".$idZoneNid);
+		}
+
+		$idKey = Bral_Util_De::get_de_specifique(0, count($typesMonstres) - 1);
+		$typeMonstre = $typesMonstres[$idKey];
+
+		$idTypeMonstre = $typeMonstre["id_type_monstre"];
+
+
+		$data = array(
+			'x_nid' => $x,
+			'y_nid' => $y,
+			'z_nid' => $z,
+			'nb_monstres_total_nid' => $nbMonstres,
+			'nb_monstres_restants_nid' => $nbMonstres,
+			'id_fk_zone_nid' => $idZoneNid,
+			'id_fk_type_monstre_nid' => $idTypeMonstre,
+			'date_creation_nid' => date("Y-m-d H:i:s"),
+			'date_generation_nid' =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours),
+		);
+		$nidTable = new Nid();
+		$nidTable->insert($data);
+		return true;
 	}
 
 	function getListBoxRefresh() {

@@ -9,10 +9,18 @@
 	$texte .= "Nombre PA nécessaire".$s.": ".$case["marcher"]["general"]["nb_pa"]." ";
 	if ($case["n_crevasses"] > 0) :
 		$texte .= "Attention ! Il y a une crevasse découverte, quelqu'un est tombé ici.<br />";
-	endif;?>
+	endif;
+	
+	if ($case["css"] == "tunnel") {
+		$pas = "pasfonce.png";
+	} else {
+		$pas = "pas.png";
+	}
+	
+	?>
 	
 <?//=Bral_Helper_Tooltip::render($texte, "Marcher", true); ?> 	
-<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/pas.png' 
+<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/<?php echo $pas; ?>' 
 	<?php if (!Zend_Registry::get("estMobile")) : ?>
 		alt='Cliquez pour Marcher' title="Cliquez pour Marcher : <?php echo $texte?>"
 		onclick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?php echo $case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;"

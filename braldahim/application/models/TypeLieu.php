@@ -33,4 +33,11 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_ESCALIERS = 22;
 	const ID_TYPE_LIEUMYTHIQUE = 23;
 	const ID_TYPE_RUINE = 24;
+	const ID_TYPE_TRIBUNAL = 25;
+	const ID_TYPE_MAISON_CONTRAT = 26;
+	const ID_TYPE_MAISON_PNJ = 27;
+	const ID_TYPE_MINE = 28;
+	const ID_TYPE_PUIT = 29;
+	const ID_TYPE_ASCENSEUR = 30;
+	
 }

@@ -19,4 +19,22 @@ class CreationNids extends Zend_Db_Table {
 
 		return $resultat;
 	}
+
+	public function findIdTypeMonstreNiveauMinMaxByIdZone($idZone, $niveauMin, $niveauMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('creation_nid', null)
+		->from('type_monstre', 'id_type_monstre')
+		->from('ref_monstre', null)
+		->where('id_fk_zone_creation_nid = ?', $idZone)
+		->where('id_type_monstre = id_fk_type_monstre_creation_nid')
+		->where('id_type_monstre = id_fk_type_ref_monstre')
+		->where('niveau_min_ref_monstre >= ?', $niveauMin)
+		->where('niveau_max_ref_monstre <= ?', $niveauMax)
+		->group('id_type_monstre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		return $resultat;
+	}
 }

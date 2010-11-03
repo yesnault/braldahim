@@ -1,16 +1,15 @@
-<div class='comp_titre'>Ascenseur</div>
+<div class='comp_titre'>Puit</div>
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	<br />
  	Pour <?php echo $this->paUtilisationLieu ?> PA, 
- 	vous pouvez prendre l'ascenseur.<br />
+ 	vous pouvez changer de niveau.<br />
    	
    	<?php if ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA !<br />
-   		
    	<?php else: ?>
-	<br /> Niveau de destination :<br />
+	<br /> Niveau :<br />
 	 <select name="valeur_1" id="valeur_1">
 	 	<?php foreach($this->niveaux as $k => $v) : ?>
 	 		<option value="<?php echo $k?>"><?php echo htmlspecialchars($v["niveauText"])?></option>
@@ -22,6 +21,6 @@
 <br /> 
 
 <?php if ($this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_ascenseur" value="Prendre l'ascenseur" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_ascenseur');">
+<input type='button' class='button1' id="bouton_mine" value='Changer de niveau !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_puit');">
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

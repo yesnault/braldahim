@@ -28,7 +28,7 @@ class Bral_Util_Dijkstra {
 
 	public function Dijkstra() {}
 
-	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null) {
+	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true) {
 
 		$this->bestPath = 0;
 		$this->nbCasesLargeur = $nbCases + $nbCases + 1;
@@ -50,14 +50,14 @@ class Bral_Util_Dijkstra {
 			}
 		}
 
-		$this->initTabPalissadesEaux($zone);
+		$this->initTabPalissadesEaux($zone, $controleTunnel);
 		$this->map = $this->initMap();
 		$this->numberOfNodes = count($this->map);
 
 		$this->findShortestPath();
 	}
 
-	private function initTabPalissadesEaux($zone) {
+	private function initTabPalissadesEaux($zone, $controleTunnel) {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Eau');
 		Zend_Loader::loadClass('Tunnel');
@@ -74,7 +74,7 @@ class Bral_Util_Dijkstra {
 		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 		$eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, false);
 		$tunnels = null;
-		if ($zone["est_mine_zone"] == "oui") {
+		if ($zone["est_mine_zone"] == "oui" && $controleTunnel) {
 			$tunnels = $tunnelTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 		}
 
@@ -99,13 +99,15 @@ class Bral_Util_Dijkstra {
 				}
 				if ($zone["est_mine_zone"] == "oui") { // dans une mine
 					$tunnelOk = false;
-					foreach($tunnels as $t) {
-						if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
-							$tunnelOk = true;
-							break;
+					if ($tunnels != null) {
+						foreach($tunnels as $t) {
+							if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
+								$tunnelOk = true;
+								break;
+							}
 						}
 					}
-					if ($tunnelOk == false) { // si pas de tunnel trouvé => non accessible
+					if ($tunnelOk == false && $controleTunnel) { // si pas de tunnel trouvé => non accessible
 						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
 					}
 				}

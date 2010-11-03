@@ -63,7 +63,7 @@ class ZoneNid extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findZonesNids($estVille = null, $idDonjon = null) {
+	function findZonesNids($estVille = null, $idDonjon = null, $estMine = 'non') {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*');
@@ -77,6 +77,9 @@ class ZoneNid extends Zend_Db_Table {
 		} else {
 			$select->where('id_fk_donjon_zone_nid is NULL');
 		}
+		
+		$select->where('est_mine_zone_nid is ?', $estMine);
+		
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

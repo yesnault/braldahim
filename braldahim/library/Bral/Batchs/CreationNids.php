@@ -26,6 +26,11 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 
 		$retour = null;
+		
+		/* Les nids dans les donjons et les dans les mines ne sont pas traités ici.
+		 * Mine : compétence creuser.
+		 * Donjon : Util Donjon
+		 */
 
 		$retour .= $this->calculZonesHorsVille();
 		$retour .= $this->calculZonesVille();
@@ -122,7 +127,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$creationNidsTable = new CreationNids();
 		$typesMonstresDansZone = $creationNidsTable->findByIdZoneNid($zone["id_zone_nid"]);
 		$nbTypesTotalDansZone = count($typesMonstresDansZone);
-
+		
 		$typeMonstreTable = new TypeMonstre();
 		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
 
