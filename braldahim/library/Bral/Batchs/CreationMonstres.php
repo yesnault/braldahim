@@ -134,7 +134,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		}
 
 		if ($referenceCourante["id_fk_type_groupe_monstre"] != 1 && $referenceCourante["id_fk_type_groupe_monstre"] != 6) { // 1 => type Solitaire, 6 => type Boss
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de nuee ");
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de nuee aCreer:".$aCreer." ref:".$referenceCourante["nb_membres_min_type_groupe_monstre"]. " nbRestantsDansNid:".$nbRestantsDansNid);
 			if ($aCreer < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // s'il n'y a pas assez a creer pour le type de groupe
 				if ($aCreer + $nbRestantsDansNid < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // et qu'en rajoutant le reste du nid il n'y a pas assez
 					// on supprime le nid

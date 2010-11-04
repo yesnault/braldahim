@@ -52,7 +52,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				// s'il un monstre à une cible à lui, on verifie qu'elle peut être atteinte
 				if ($m["id_fk_braldun_cible_monstre"] != null) {
 					$braldunTable = new Braldun();
-					$cibleDuMonstre = $braldunTable->findBraldunAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"] + $m["vue_malus_monstre"], $m["id_fk_braldun_cible_monstre"], false);
+					$cibleDuMonstre = $braldunTable->findBraldunAvecRayon($m["x_monstre"], $m["y_monstre"], $m["z_monstre"], $m["vue_monstre"] + $m["vue_malus_monstre"], $m["id_fk_braldun_cible_monstre"], false);
 					if (count($cibleDuMonstre) > 0) {
 						$cibleDuMonstre = $cibleDuMonstre[0];
 						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_braldun_cible_monstre"]);

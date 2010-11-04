@@ -192,9 +192,9 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculCreuser($x, $y) {
 
-		if (Bral_Util_De::get_1d30() == 15) {
+//		if (Bral_Util_De::get_1d30() == 15) {
 			$nidDecouvert = $this->calculNid($x, $y, $this->view->user->z_braldun);
-		}
+//		}
 
 		$this->view->user->x_braldun = $x;
 		$this->view->user->y_braldun = $y;
@@ -265,13 +265,19 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$typeMonstreTable = new TypeMonstre();
 		$niveauMin = ($distance - 5) / 3;
 		$niveauMax = ($distance + 15 - 5) / 3;
+		if ($niveauMin > 18) {
+			$niveauMin = 18;
+		}
+		if ($niveauMax > 39) {
+			$niveauMax = 1000;
+		}
 
 		// Récupération des types de monstres associés à la zone de nid
 		$creationNidsTable = new CreationNids();
 		$typesMonstres = $creationNidsTable->findIdTypeMonstreNiveauMinMaxByIdZone($idZoneNid, $niveauMin, $niveauMax);
 
 		if ($typesMonstres == null || count($typesMonstres) < 1) {
-			throw new Zend_Exception("Creuser: Erreur Parametrage 2 zone nid: ".$idZoneNid);
+			throw new Zend_Exception("Creuser: Erreur Parametrage 2 zone nid: ".$idZoneNid." min:".$niveauMin. " max:".$niveauMax);
 		}
 
 		$idKey = Bral_Util_De::get_de_specifique(0, count($typesMonstres) - 1);

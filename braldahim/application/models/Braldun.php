@@ -225,7 +225,7 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findBraldunAvecRayon($x, $y, $rayon, $idBraldun, $avecIntangibles) {
+	function findBraldunAvecRayon($x, $y, $z, $rayon, $idBraldun, $avecIntangibles) {
 
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -234,11 +234,15 @@ class Braldun extends Zend_Db_Table {
 		->where('x_braldun <= ?', $x + $rayon)
 		->where('y_braldun >= ?', $y - $rayon)
 		->where('y_braldun <= ?', $y + $rayon)
+		->where('z_braldun = ?', $z)
 		->where('est_ko_braldun = ?', "non")
 		->where('est_compte_actif_braldun = ?', "oui")
 		->where('est_en_hibernation_braldun = ?' ,"non")
-		->where('est_pnj_braldun = ?', "non")
-		->where('id_braldun = ?', $idBraldun);
+		->where('est_pnj_braldun = ?', "non");
+
+		if ($idBraldun != null) {
+			$select->where('id_braldun = ?', $idBraldun);
+		}
 
 		if ($avecIntangibles == false) {
 			$select->where("est_intangible_braldun like ?", "non");

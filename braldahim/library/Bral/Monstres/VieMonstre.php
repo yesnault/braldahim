@@ -193,6 +193,7 @@ class Bral_Monstres_VieMonstre {
 				case "caverne" :
 				case "gazon" :
 				case "plaine" :
+				case "mine" :
 					$nbPa = 1;
 					break;
 				case "marais" :

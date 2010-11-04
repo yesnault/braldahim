@@ -20,7 +20,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 				$vue = 0;
 			}
 
-			$cibles = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false);
+			$cibles = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false);
 			if (count($cibles) > 0) {
 				foreach($cibles as $c) {
 					if (Bral_Monstres_Competences_Reperage::peutAttaquer($c, $this->monstre)) {

@@ -58,7 +58,9 @@ abstract class Bral_Monstres_VieGroupes {
 		$suitePrereperage = $this->calculPreReperageGroupe($monstre_role_a, $groupe, $monstres);
 
 		$cible = null;
-		if ($suitePrereperage == Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_STANDARD) {
+		if ($suitePrereperage == Bral_Monstres_Competences_Prereperage::SUITE_DISPARITION) {
+			$this->suppressionGroupe($groupe);
+		} elseif ($suitePrereperage == Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_STANDARD) {
 			$cible = $this->calculReperageGroupe($monstre_role_a, $groupe, $monstres);
 		} elseif ($suitePrereperage == Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_CASE) {
 			$cible = $this->calculReperageGroupe($monstre_role_a, $groupe, $monstres, true);
@@ -230,6 +232,8 @@ abstract class Bral_Monstres_VieGroupes {
 	 */
 	private function suppressionGroupe(&$groupe) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - suppressionGroupe - enter (id_groupe=".$groupe["id_groupe_monstre"].")");
+		$monstreTable = new Monstre();
+		$monstreTable->delete("id_fk_groupe_monstre = ". $groupe["id_groupe_monstre"]);
 		$groupeMonstreTable = new GroupeMonstre();
 		$where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
 		$groupeMonstreTable->delete($where);

@@ -38,6 +38,19 @@ class Nid extends Zend_Db_Table {
 		return $resultat;
 	}
 
+	function findByCase($x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('nid', '*')
+		->from('type_monstre', '*')
+		->where('id_fk_type_monstre_nid = id_type_monstre')
+		->where('x_nid = ?',$x)
+		->where('y_nid = ?',$y)
+		->where('z_nid = ?',$z);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();

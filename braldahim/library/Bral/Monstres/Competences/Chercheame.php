@@ -22,7 +22,7 @@ class Bral_Monstres_Competences_Chercheame extends Bral_Monstres_Competences_Rep
 				$vue = 0;
 			}
 
-			$cible = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false, $order);
+			$cible = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false, $order);
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 				$this->monstre["x_direction_monstre"] = $cible["x_braldun"];

@@ -164,7 +164,7 @@ class Monstre extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z) {
+	function findByCase($x, $y, $z, $idGroupeAExclure = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
@@ -176,6 +176,10 @@ class Monstre extends Zend_Db_Table {
 		->where('y_monstre = ?',$y)
 		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?', 'non');
+		
+		if ($idGroupeAExclure != null) {
+			$select->where('id_fk_groupe_monstre != ?', $idGroupeAExclure);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

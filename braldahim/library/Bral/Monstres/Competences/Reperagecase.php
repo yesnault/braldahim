@@ -17,7 +17,7 @@ class Bral_Monstres_Competences_Reperagecase extends Bral_Monstres_Competences_R
 			$braldunTable = new Braldun();
 			$vue = 0;
 				
-			$cible = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false);
+			$cible = $braldunTable->findBraldunAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], $vue, $this->monstre["id_fk_braldun_cible_monstre"], false);
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 				$this->monstre["x_direction_monstre"] = $cible["x_braldun"];
