@@ -7,15 +7,26 @@
  */
 class Bral_Monstres_Competences_Bouchertunnel extends Bral_Monstres_Competences_Attaque {
 
-	public function calculJetAttaque(){}
-	public function calculDegat($estCritique){}
-
+	// prereperage
 	public function actionSpecifique() {
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Bouchertunnel - enter - (idm:".$this->monstre["id_monstre"].")");
+
+		$retour = Bral_Monstres_Competences_Prereperage::SUITE_DISPARITION;
+		
+		//abat un tunnel et disparait s'il n'a personne (Braldûn) dans sa vue.
+		
+		//TODO
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Bouchertunnel - exit - (idm:".$this->monstre["id_monstre"].")");
+		return $retour;
 	}
 
-	private function majEvenement($braldun, $malus, $nbTours, $jetMonstre, $jetBraldun) {
+	public function enchainerAvecReperageStandard() {
+		return false;
 	}
 
-	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetBraldun) {
+	private function majEvenement() {
+		//TODO
 	}
 }

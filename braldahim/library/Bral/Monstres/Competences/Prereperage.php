@@ -10,6 +10,7 @@ abstract class Bral_Monstres_Competences_Prereperage extends Bral_Monstres_Compe
 	const SUITE_REPERAGE_STANDARD = "standard";
 	const SUITE_REPERAGE_CASE = "reperagecase";
 	const SUITE_DEPLACEMENT = "deplacement";
+	const SUITE_DISPARITION = "disparition";
 	
 	abstract function enchainerAvecReperageStandard();
 	

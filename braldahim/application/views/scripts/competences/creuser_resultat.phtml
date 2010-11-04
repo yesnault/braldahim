@@ -5,3 +5,8 @@
 		<?php echo $this->tunnel["x_tunnel"] ?>, <?php echo $this->tunnel["y_tunnel"] ?>.<br /><br />
 		Vous vous êtes déplacé dans ce tunnel.<br />
 <?php endif; ?>
+
+<?php if ($this->filonsSupprimes != null && count($this->filonsSupprimes) > 0) : ?>
+	<br /><b>Vous avez détruit <?php echo count($this->filonsSupprimes);?> filon<?php if (count($this->filonsSupprimes) > 1): echo "s"; endif;?> autour de vous.</b>
+<?php endif;?>
+<br /><br />

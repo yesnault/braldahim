@@ -10,21 +10,28 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Tunnel');
 		Zend_Loader::loadClass("Bral_Util_Metier");
+		
+		$this->view->creuserOk = false;
+		$this->prepareTableau(false);
+	}
+
+	private function prepareTableau($supprimeMinerai) {
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
 		$dijkstra->calcul(1, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, false);
-
-		$this->view->creuserOk = false;
-
+		
 		$this->distance = 2;
-		$this->view->x_min = $this->view->user->x_braldun - $this->distance;
-		$this->view->x_max = $this->view->user->x_braldun + $this->distance;
-		$this->view->y_min = $this->view->user->y_braldun - $this->distance;
-		$this->view->y_max = $this->view->user->y_braldun + $this->distance;
+		$x_min = $this->view->user->x_braldun - $this->distance;
+		$x_max = $this->view->user->x_braldun + $this->distance;
+		$y_min = $this->view->user->y_braldun - $this->distance;
+		$y_max = $this->view->user->y_braldun + $this->distance;
 
+		Zend_Loader::loadClass("Filon");
+		$filonTable = new Filon();
+		
 		$tunnelTable = new Tunnel();
-		$tunnels = $tunnelTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$tunnels = $tunnelTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
 
 		$defautChecked = false;
 
@@ -43,6 +50,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		}
 
 		$this->distance = 1;
+		$filonsSupprimes = null;
 
 		$numero = -1;
 
@@ -67,7 +75,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 					if ($dijkstra->getDistance($numero) == 1) {
 						$tabTunnelsPossibles[$x][$y] = true;
 					}
-						
+
 				}
 			}
 		}
@@ -80,6 +88,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 					
+				$caseCourante = false;
 				$display = $x;
 				$display .= " ; ";
 				$display .= $y;
@@ -93,6 +102,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 				if (($j == 0 && $i == 0) == true) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
+					$caseCourante = true;
 				}
 					
 				if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
@@ -100,6 +110,13 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 					$valid = false;
 				}
 
+				// si l'on a effectué l'action, on supprimer les filons
+				// où les cases sont non valides, où la construction de tunnel n'est pas possible
+				// et où il n'y a pas déjà un tunnel
+				if ($supprimeMinerai && !$valid && $tabTunnelsPossibles[$x][$y] == false && $tabTunnels[$x][$y] === false && !$caseCourante) {
+					$filonsSupprimes[] = $filonTable->delete("x_filon = ".$x. " and y_filon = ".$y." and z_filon=".$this->view->user->z_braldun);
+				}
+				
 				if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
@@ -123,6 +140,8 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				}
 			}
 		}
+
+		$this->view->filonsSupprimes = $filonsSupprimes;
 		$this->view->tableau = $tab;
 		$this->tableauValidation = $tabValidation;
 	}
@@ -191,6 +210,9 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$tunnelTable = new Tunnel();
 		$tunnelTable->insert($data);
 		unset($tunnelTable);
+		
+		// Pour la suppression des filons invalides
+		$this->prepareTableau(true);
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
