@@ -78,7 +78,7 @@ class ZoneNid extends Zend_Db_Table {
 			$select->where('id_fk_donjon_zone_nid is NULL');
 		}
 		
-		$select->where('est_mine_zone_nid is ?', $estMine);
+		$select->where('est_mine_zone_nid like ?', $estMine);
 		
 		$sql = $select->__toString();
 
