@@ -31,7 +31,7 @@ class Bral_Monstres_Competences_Bouchertunnel extends Bral_Monstres_Competences_
 
 		if ($cible == null || count($cible) < 1) {
 				
-			if ($nids != null && count($nids) > 1) { // S'il y a des nids sur la case
+			if ($nids != null && count($nids) > 0) { // S'il y a des nids sur la case
 				$retour = Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_STANDARD;
 			} elseif ($monstres == null || count($monstres) < 1) { // S'il n'y a pas d'autres groupes ou monstres hors du groupe sur la case
 				Zend_Loader::loadClass("Tunnel");

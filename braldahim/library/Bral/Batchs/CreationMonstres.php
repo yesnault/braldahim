@@ -111,13 +111,14 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - enter - idNid(".$nid["id_nid"].") id_zone_nid(".$zone['id_zone_nid'].")");
 
 		$retour = "";
+		$dateCourante = date("Y-m-d H:i:s");
 		$referenceCourante = $this->recupereReferenceMonstre($refRowset, $nid["id_fk_type_monstre_nid"]);
 		$creation = true;
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - idtypeGroupe(".$referenceCourante["id_fk_type_groupe_monstre"].")");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - idtypeGroupe(".$referenceCourante["id_fk_type_groupe_monstre"].") dateCourante:".$dateCourante. " dateGenerationNid:".$nid["date_generation_nid"]. " NbRestantDansNid:".$nid["nb_monstres_restants_nid"]);
 
 		$aCreer = 0;
 		$nbRestantsDansNid = 0;
-		$dateCourante = date("Y-m-d H:i:s");
+		
 		if ($nid["nb_monstres_restants_nid"] <= 0) {
 			$nbRestantsDansNid = 0;
 			$aCreer = 0;
@@ -140,8 +141,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					// on supprime le nid
 					$aCreer = 0;
 					$nid["nb_monstres_restants_nid"] = 0;
+					Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de nuee - suppression du nid à faire");
 				} else { // il y a assez pour faire un groupe avec ce qu'il reste dans le nid
 					$aCreer = $referenceCourante["nb_membres_min_type_groupe_monstre"];
+					Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de nuee - monstres à créer");
 				}
 			}
 
