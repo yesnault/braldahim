@@ -329,6 +329,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		$this->view->niveau = $niveau;
 		$this->view->nbRunes = $nbRunes;
 		$this->view->niveauQualite = $qualite;
+		$nbSupplementaires = 0;
 
 		Zend_Loader::loadClass("RecetteEquipement");
 		$recetteEquipementTable = new RecetteEquipement();
@@ -344,14 +345,13 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				break;
 			}
 
-
 			Zend_Loader::loadClass("IdsEquipement");
 			$idsEquipementTable = new IdsEquipement();
 			$id_equipement = $idsEquipementTable->prepareNext();
 
 			Zend_Loader::loadClass("Equipement");
 			$equipementTable = new Equipement();
-			$data = array(
+			$dataEquipement = array(
 				'id_equipement' => $id_equipement,
 				'id_fk_recette_equipement' => $this->recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_equipement' => $nbRunes,
@@ -368,16 +368,16 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				'degat_equipement' => $this->recetteEquipementACreer["bm_degat_recette_equipement"],
 				'defense_equipement' => $this->recetteEquipementACreer["bm_defense_recette_equipement"],
 			);
-			$equipementTable->insert($data);
+			$equipementTable->insert($dataEquipement);
 
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
-			$data = array(
+			$dataEchoppe = array(
 				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
 				'type_vente_echoppe_equipement' => 'aucune',
 			);
-			$echoppeEquipementTable->insert($data);
+			$echoppeEquipementTable->insert($dataEchoppe);
 
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($id_equipement, $niveau, $this->region["id_region"]);
 			$this->view->typePiece = $this->recetteEquipementACreer["nom_systeme_type_piece"];
@@ -398,6 +398,24 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {
 				$details = "[b".$this->view->user->id_braldun."] a fabriqué la pièce d'équipement n°".$id_equipement;
 				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $id_equipement, $details);
+			} else {
+				$nbSupplementaires = 0;
+				if ($this->braldun_competence["pourcentage_hcomp"] > 60) {
+					$nbSupplementaires = 3;
+				} else if ($this->braldun_competence["pourcentage_hcomp"] > 30) {
+					$nbSupplementaires = 2;
+				} else if ($this->braldun_competence["pourcentage_hcomp"] > 20) {
+					$nbSupplementaires = 1;
+				}
+
+				for ($i = 1; $i<= $nbSupplementaires; $i++) {
+					// Et l'on insère les autres instances
+					$id_equipement = $idsEquipementTable->prepareNext();
+					$dataEquipement["id_equipement"] = $id_equipement;
+					$equipementTable->insert($dataEquipement);
+					$dataEchoppe['id_echoppe_equipement'] = $id_equipement;
+					$echoppeEquipementTable->insert($dataEchoppe);
+				}
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
@@ -406,6 +424,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Competence");
 		$nomSystemeCompetence = "produire".self::NOM_METIER;
 		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_braldun);
+		$this->view->nbSupplementaires = $nbSupplementaires;
 	}
 
 	public function majCout($niveau, $estReussi) {

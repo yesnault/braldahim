@@ -4,13 +4,20 @@
 	Vous avez r&eacute;ussi &agrave; fabriquer 
 	<?php if ($this->typePiece == "munition") : ?>
 		des munitions :
+		<?php echo htmlspecialchars($this->typeEquipementCourant["nom_type_equipement"]) ?>.
+		<?php if ($this->nbSupplementaires > 0) : ?>
+		<br> Vous maîtrisez bien votre compétence, vous avez créé  <?php echo $this->nbSupplementaires?> carquois
+		 supplémentaire<?php if ($this->nbSupplementaires > 1): echo "s"; endif;?>.
+		<?php endif;?>
 	<?php else: ?>
 		une pi&egrave;ce d'&eacute;quipement : 
+		<br />
+		<?php echo htmlspecialchars($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?php echo $this->qualite ?>
+		et de niveau <?php echo $this->niveau ?>.
+		
 	<?php endif;?>
 	<br />
-	<?php echo htmlspecialchars($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?php echo $this->qualite ?>
-	et de niveau <?php echo $this->niveau ?>.
-	<br />
+	
 	<?php if ($this->typePiece != "munition") : ?>
 		Il y a <?php echo $this->nbRunes ?> emplacement<?php if ($this->nbRunes > 1) echo 's'; ?> runique<?php if ($this->nbRunes > 1) echo 's'; ?>.
 		<br /><br />
