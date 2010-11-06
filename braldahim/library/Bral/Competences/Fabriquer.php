@@ -401,9 +401,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			} else {
 				$nbSupplementaires = 0;
 				if ($this->braldun_competence["pourcentage_hcomp"] > 60) {
-					$nbSupplementaires = 3;
-				} else if ($this->braldun_competence["pourcentage_hcomp"] >= 30) {
 					$nbSupplementaires = 2;
+				} else if ($this->braldun_competence["pourcentage_hcomp"] >= 30) {
+					$nbSupplementaires = 1;
 				}
 
 				for ($i = 1; $i<= $nbSupplementaires; $i++) {
