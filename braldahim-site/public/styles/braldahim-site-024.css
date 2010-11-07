@@ -17,7 +17,7 @@ body {
     background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
 }
 
-#frisetop {
+#frisebot, #frisetop {
 	background:transparent url(/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
 	height:50px;
 	padding:0px;
@@ -26,6 +26,25 @@ body {
 
 #frisetop {
 	margin-top: 5px;
+}
+
+#frisebot {
+	margin-top: -10px;
+}
+
+#braldunsite {
+	z-index:1000;
+	background:transparent url(/images/braldun-site.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:340px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:330px;
+	position:absolute;
+	margin-top:-140px;
+	margin-left:-150px;
 }
 
 #logo {
@@ -69,6 +88,57 @@ input:hover {
 	color: #cc0000;
 }
 
+.braltip {
+position:relative;
+z-index:24;
+cursor:pointer;
+}
+.braltipf {
+z-index:25;
+}
+.braltip:hover {
+color:#000000;
+z-index:25;
+}
+.braltip div.tip {
+display:none;
+text-align:left;
+}
+div.braltip:hover div.tip, div.tipf {
+background-color:#FFFFFF;
+text-align:left;
+border:1px solid #555555;
+color:#505050;
+display:block!important;
+font-size:1em;
+font:1em arial,verdana,sans-serif;
+letter-spacing: 0pt;
+left:2px;
+padding:4px;
+position:absolute;
+top:3px;
+min-width:250px;
+width:auto;
+min-height:100px;
+z-index:300;
+cursor:pointer;
+border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	
+background: #FFFFFF
+		url(/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
+}
+
+div.tip hr, div.tipf hr {
+border: none 0;
+border-top: 1px dotted #C0C0C0;
+width: 100%;
+height: 1px;
+}
+
 * html input.button1 {
 	margin-bottom: 1px;
 	padding-bottom: 0pt;
@@ -101,7 +171,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #eeeeee;
+	color: #003b00;
 	text-align: center;
 }
 
@@ -110,7 +180,7 @@ a:hover,.alabel:hover {
 	cursor: pointer;
 }
 
-.afooter{
+.aWhite {
 	color: #eeeeee;
 }
 
@@ -122,7 +192,6 @@ span.id_braldun {
 	position: absolute;
 	width: 200px;
 	height: 60px;
-	valign: center;
 	margin-left: -110px;
 	margin-top: -100px;
 	text-align: center;
@@ -131,7 +200,6 @@ span.id_braldun {
 	font-weight: bold;
 	z-index: 1000;
 }
-
 
 .box_gazette {
 	width: 350px;
@@ -210,14 +278,9 @@ span.id_braldun {
 /* ************************************************ */
 /* ********************** Onglets ***************** */
 /* ************************************************ */
-.boite_a, {
+.boite_a {
 	margin-top: 10px;
 	width: auto;
-}
-
-.boite_a, {
-	margin-top: 10px;
-	width: 365px;
 }
 
 .onglet {
@@ -226,6 +289,11 @@ span.id_braldun {
 	border-width: 1px;
 	margin: 2px;
 	margin-left: 10px;
+	
+	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
+	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror… */
 }
 
 .onglet.actif {
@@ -247,7 +315,7 @@ span.id_braldun {
 	height: auto;
 	text-align: center;
 	z-index: 10;
-	background: #transparent none repeat scroll 0% 0%;
+	background: none repeat scroll 0% 0%;
 }
 
 /* ************************************************ */
@@ -259,180 +327,19 @@ span.id_braldun {
 	text-align: center;
 }
 
-
-/* ************************************************ */
-/* ********************** Box ********************* */
-/* ************************************************ */
-
-/* Bordures top */
-.xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_t1,.xb_t2 {
-	height: 1px;
-}
-
-.xb_t3,.xb_t4,.xb_t5,.xb_t6 {
-	height: 1px;
-}
-
-.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_t3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_t2 {
-	background: #003b00 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_t3 {
-	background: #003b00 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_t4 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_t5 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_t6 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_t7 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-/* Bordures bottom */
-.xb_b1,.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_b1,.xb_b2 {
-	height: 1px;
-}
-
-.xb_b3,.xb_b4,.xb_b5,.xb_b6 {
-	height: 1px;
-}
-
-.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_b3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_b2 {
-	background: #003b00 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_b3 {
-	background: #003b00 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_b4 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_b5 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_b6 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_b7 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
 /* ************************************************ */
 /* ********************** Menu *********************** */
 /* ************************************************ */
 
 #menu {
-	display: block;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
 }
 #menu ul {
-	height:50px;
 	list-style-type:none;
 	margin:0 auto;
-	padding:1 50px;
+	padding:1px 50px;
 	text-align:center;
 	width:640px;
 }
@@ -502,11 +409,6 @@ span.id_braldun {
 	background-position:-480px -45px;
 }
 
-#wrapper {
-	height:auto;
-	min-height:290px;
-}
-
 .contenu {
 	border-width: 0px;
 	border-color: #000000;
@@ -516,6 +418,30 @@ span.id_braldun {
 	padding:1px 0 0;
 	position:relative;
 	width:775px;
+}
+
+.box_contenu1 { /* interieur de la boite */
+	background: #C3E691 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
+}
+
+.box_contenu0 { /* interieur de la boite */
+	background: #628b28 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
 }
 
 .contenuA,.contenuB {
@@ -535,12 +461,20 @@ span.id_braldun {
 }
 
 .titre {
-	padding: 0px;
+	padding: 5px;
 	font-weight: bolder;
 	margin: 0.0em;
 	color: #f0ae21;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
+}
+
+.equipea {
+	color: red;
+}
+
+.equipeb {
+	color: blue;
 }
 
 .textsizea {
@@ -561,6 +495,10 @@ span.id_braldun {
 .textsized {
 	font-size: 1.1em;
 	letter-spacing: 1pt;
+}
+
+.textdark {
+	color:#232323;	
 }
 
 .textalia {
@@ -588,12 +526,20 @@ span.id_braldun {
 }
 
 .inner { /* exterieur de boite */
-	padding: 1pt 10px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	padding: 5pt 10px;
 	border-color: #000000;
 	border-style: solid;
-	border-width: 0pt 1px;
+	border-width: 1pt 1px;
 	display: block;
 	background: #003b00 repeat-x scroll 0pt 0%;
+	
+	 -webkit-box-shadow: 0px 10px 16px -1px #000000;
+    -moz-box-shadow:0px 10px 16px -1px #000000;
+     box-shadow: 0px 10px 16px -1px #000000;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
@@ -604,7 +550,6 @@ span.id_braldun {
 	border-width: 0pt 1px;
 	display: block;
 	background: #003b00 repeat-x scroll 0pt 0%;
-	text-align: top;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
@@ -625,19 +570,18 @@ span.id_braldun {
 	color: #eeeeee;
 	text-align: center;
 	
-	/* Ombre portee */
+	 /* Ombre portee */
     -webkit-box-shadow: #000 0px 0 16px -1px;
     -moz-box-shadow: #000 0px 0 16px -1px;
     box-shadow: #000 0px 0 16px -1px;
     width:97%;
 }
 	
-.box_contenu { /* interieur de la boite */
+.box_contenu {
 	border-radius: 10px; /* en css3 lui même */
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-	
 	background: #003b00 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
@@ -648,22 +592,12 @@ span.id_braldun {
      box-shadow: 0px 10px 16px -1px #000000;
 }
 
-.box_contenu1 { /* interieur de la boite */
-	background: #003b00 repeat-x scroll 0pt 0%;
-	padding: 0px;
-	margin: 0px;
-}
-
-
 #header {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
 	height:50px;
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim2.png) no-repeat scroll 0 0;
+	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim3.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:75px;
@@ -687,13 +621,22 @@ table.table_liste {
 	width: 70%;
 	margin: auto;
 	align: center;
+	color: #232323;
 }
 
 thead.table_liste,tfoot.table_liste {
-	background-color: #5d8231;
+	color: #232323;
+	background-color: #497621;
 	border: 1px solid #000000;
 	text-align: center;
 }
+
+td.table_liste_th {
+	color: #000000;
+	background-color: #2a5911;
+	border: 1px solid #000000;
+}
+
 th.table_liste {
 	padding: 5px;
 	background-color: #000000;
@@ -701,11 +644,11 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #2a5911;
+	background: #C3E691;
 }
 
 tr.table_liste1 {
-	background: #;
+	background: #628b28;/*2a5911;*/
 }
 
 td.table_liste_border {
@@ -725,14 +668,18 @@ td.table_liste {
     height: 1500px;
     top: 0px; left: 0px;
 }
+
 .modalBackground
 {
-    filter: Alpha(Opacity=40); -moz-opacity:0.0; opacity: 0.0;
+    filter: alpha (opacity=40); 
+    -moz-opacity:0.0; 
+    opacity: 0.0;
     width: 100%; height: 100%; background-color: #999999;
     position: absolute;
     z-index: 500;
     top: 0px; left: 0px;
 }
+
 .modalContainer
 {
     position: absolute;
@@ -810,6 +757,7 @@ div.yoo-tooltip div.yoodefault .tooltip-m {
 	background: #ffffff;
 	padding: 10px 0px 0px 0px;
 	overflow: hidden;
+	color:#000000;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-bl {
@@ -840,6 +788,340 @@ div.yoo-tooltip div.yoodefault .tooltip-arrow {
 .feed {
   margin-left: 3px;
   padding: 0 0 0 15px;
-  background: url("http://www.braldahim.com/images/rss.png") no-repeat 0 50%;
+  background: url("/images/rss.png") no-repeat 0 50%;
   color: #eeeeee;
 } 
+
+div.gridbox {
+	overflow: hidden;
+}
+
+.dhx_sub_row {
+	background-color: white;
+}
+
+div.gridbox .xhdr {
+	background-Color: #D4D0C8;
+}
+
+div.gridbox table.hdr td {
+	font-family: arial;
+	font-size: 12px;
+	background-Color: #D4D0C8;
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	text-align: center;
+	margin: 0px;
+	padding: 5px 0px 5px 0px;
+	font-weight: normal;
+	-moz-user-select: none;
+	empty-cells: show;
+}
+
+div.gridbox table.hdr td div.hdrcell {
+	overflow: hidden;
+}
+
+div.gridbox table.obj td {
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	font-family: Arial;
+	font-size: 12px;
+	-moz-user-select: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	empty-cells: show;
+}
+
+div.gridbox table.obj th {
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+div.gridbox table.row20px tr  td {
+	height: 20px;
+	white-space: nowrap;
+	padding: 0px;
+}
+
+div.gridbox .objbox {
+	background-color: white;
+}
+
+div.gridbox table.obj td span.space,div.gridbox table.obj td img.space {
+	width: 18px;
+}
+
+div.gridbox table.obj td.editable {
+	-moz-user-select: text;
+}
+
+div.gridbox table.obj td.group_row {
+	vertical-align: middle;
+	font-family: Tahoma;
+	font-size: 10pt;
+	font-weight: bold;
+	height: 30px;
+	border: 0px;
+	border-bottom: 2px solid navy;
+}
+
+.dragSpanDiv {
+	font-size: 12px;
+	border: 1px gray solid;
+	background-color: white;
+}
+
+.dhx_combo_select {
+	font-family: arial;
+	font-size: 12px;
+	border: 1px solid;
+	border-color: black silver silver black;
+	background-color: white;
+	overflow: hidden;
+	cursor: default;
+	position: absolute;
+	height: auto;
+	z-index: 600;
+}
+
+.dhx_combo_edit {
+	width: 100%;
+	border: 0px;
+	padding: 0px;
+	padding-right: 1px;
+	margin: 0px;
+	font: 12px arial;
+	overflow: hidden;
+}
+
+.dhx_textarea {
+	border: 1px solid;
+	border-color: black silver silver black;
+	position: absolute;
+	height: 100px;
+}
+
+.dhx_clist {
+	background-color: white;
+	border: 1px solid black;
+	padding: 2px 2px 2px 2px;
+	z-index: 300;
+}
+
+.gridDragLine {
+	position: absolute;
+	top: 10px;
+	left: 0px;
+	width: 100%;
+	height: 2px;
+	background-color: black;
+	overflow: hidden;
+}
+
+/*paginal output*/
+DIV.pagingBlock {
+	font-size: 12px;
+	font-family: verdana, arial;
+}
+
+DIV.pagingBlock .pagingCurrentPage {
+	font-weight: bold;
+	cursor: default;
+}
+
+DIV.pagingBlock .pagingPage {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+SPAN.recordsInfoBlock {
+	font-size: 12px;
+	font-family: verdana, arial;
+}
+
+DIV.pagingBlock a {
+	text-decoration: none;
+	padding-right: 2px;
+	color: black;
+}
+
+/*class for toolbar selectbox. used with pagingWT*/
+.toolbar_select {
+	font-size: 10px;
+}
+
+/*block selection style*/
+.dhtmlxGrid_selection {
+	-moz-opacity: 0.5;
+	/*filter: alpha(opacity =   50);*/
+	background-color: yellow;
+	opacity: 0.5;
+	border: 1px dotted black;
+}
+
+div.gridbox div.ftr {
+	position: absolute;
+	left: 0px;
+	bottom: 1px;
+	width: 100%;
+	padding-right: 20px;
+	overflow: hidden;
+}
+
+div.gridbox div.ftr td {
+	padding: 0px;
+	padding-left: 10px;
+	padding-right: 5px;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+	background-color: #ffffcc;
+	font-style: italic;
+	font-family: arial;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+div.gridbox table.hdr td.columnTargetR div.hdrcell {
+	border-right: 3px double #FF6600;
+	border-left: 3px solid #D4D0C8;
+}
+
+div.gridbox table.hdr td.columnTargetL div.hdrcell {
+	border-right: 3px solid #D4D0C8;
+	border-left: 3px double #FF6600;
+}
+
+.dhx_dragColDiv {
+	font-family: Arial;
+	font-size: 12px;
+	background-color: #D4D0C8;
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	text-align: center;
+	margin: 0px;
+	padding: 5px 20px 5px 20px;
+	font-weight: normal;
+	/*filter: alpha(opacity : 75);*/
+	-moz-opacity: 0.75;
+	opacity: 0.75;
+}
+
+/*braldahim*/
+div.gridbox_braldahim .objbox {
+	background-color: #003b00;
+	color: #000000;
+}
+
+div.gridbox_braldahim {
+	color: #232323;
+}
+
+div.gridbox_braldahim {
+	margin-left: 1px;
+}
+
+div.gridbox_braldahim .xhdr {
+	border: 1px solid #000000;
+	background-color: #5d8231;
+	text-align: center;
+}
+
+div.gridbox_braldahim .xhdr_last {
+	border: 1px solid #000000;
+}
+
+div.gridbox_braldahim table.hdr {
+	text-align: center;
+}
+
+div.gridbox_braldahim table.hdr td {
+	border: 0px solid;
+	border-color: #000000;
+	background-color: transparent;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	vertical-align: top;
+	text-align: left;
+}
+
+div.gridbox_braldahim table.hdr td div.hdrcell {
+	width: auto;
+	padding-left: 10px;
+}
+
+div.gridbox_braldahim table.hdr .filter {
+	padding-left: 0px !important;
+	text-align: center;
+	-moz-user-select: text;
+}
+
+div.gridbox_braldahim table.obj td {
+	border-width: 0px 1px 0px 0px;
+	border-left: 0px solid white;
+	border-right: 0px solid #000000;
+	font-family: Tahoma;
+	font-size: 11px;
+	padding-right: 4px;
+	padding-left: 4px;
+	white-space: normal;
+}
+
+div.gridbox_braldahim table.obj {
+	border: 1px solid #000000;
+	background-color: #C3E691;
+}
+
+div.gridbox_braldahim table.row20px tr td {
+	padding-right: 4px;
+	padding-left: 4px;
+	white-space: normal;
+}
+
+div.gridbox_braldahim .dhx_combo_edit {
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+
+div.gridbox_braldahim .odd_braldahim {
+	background-color: #628b28;
+	white-space: normal;
+}
+
+div.gridbox_braldahim div.ftr td {
+	empty-cells: show;
+}
+
+/*
+lightbox
+*/
+
+#lightbox{	position: absolute;	left: 0; width: 100%; z-index: 1100; text-align: center; line-height: 0;}
+#lightbox img{ width: auto; height: auto;}
+#lightbox a img{ border: none; }
+
+#outerImageContainer{ position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
+#imageContainer{ padding: 10px; }
+
+#loading{ position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0; }
+#hoverNav{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 10; }
+#imageContainer>#hoverNav{ left: 0;}
+#hoverNav a{ outline: none;}
+
+#prevLink, #nextLink{ width: 49%; height: 100%; background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */ display: block; }
+#prevLink { left: 0; float: left;}
+#nextLink { right: 0; float: right;}
+#prevLink:hover, #prevLink:visited:hover { background: url(/images/lightbox/prevlabel.png) left 15% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(/images/lightbox/nextlabel.png) right 15% no-repeat; }
+
+#imageDataContainer{ font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%	; }
+
+#imageData{	padding:0 10px; color: #666; }
+#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
+#imageData #caption{ font-weight: bold;	}
+#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}			
+#imageData #bottomNavClose{ width: 66px; float: right;  padding-bottom: 0.7em; outline: none;}	 	
+
+#overlay{ position: absolute; top: 0; left: 0; z-index: 90; width: 100%; height: 500px; background-color: #000; }

@@ -10,7 +10,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Tunnel');
 		Zend_Loader::loadClass("Bral_Util_Metier");
-		
+
 		$this->view->creuserOk = false;
 		$this->prepareTableau(false);
 	}
@@ -20,7 +20,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
 		$dijkstra->calcul(1, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, false);
-		
+
 		$this->distance = 2;
 		$x_min = $this->view->user->x_braldun - $this->distance;
 		$x_max = $this->view->user->x_braldun + $this->distance;
@@ -29,7 +29,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Filon");
 		$filonTable = new Filon();
-		
+
 		$tunnelTable = new Tunnel();
 		$tunnels = $tunnelTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
 
@@ -116,7 +116,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				if ($supprimeMinerai && !$valid && $tabTunnelsPossibles[$x][$y] == false && $tabTunnels[$x][$y] === false && !$caseCourante) {
 					$filonsSupprimes[] = $filonTable->delete("x_filon = ".$x. " and y_filon = ".$y." and z_filon=".$this->view->user->z_braldun);
 				}
-				
+
 				if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
@@ -210,7 +210,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$tunnelTable = new Tunnel();
 		$tunnelTable->insert($data);
 		unset($tunnelTable);
-		
+
 		// Pour la suppression des filons invalides
 		$this->prepareTableau(true);
 
@@ -282,9 +282,20 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		$idKey = Bral_Util_De::get_de_specifique(0, count($typesMonstres) - 1);
 		$typeMonstre = $typesMonstres[$idKey];
-
 		$idTypeMonstre = $typeMonstre["id_type_monstre"];
 
+		if ($idTypeMonstre == TypeMonstre::ID_TYPE_BALROG) {
+			Zend_Loader::loadClass("Monstre");
+			$monstreTable = new Monstre();
+			if ($monstreTable->countAllByType($idTypeMonstre) > 0) {
+				$idTypeMonstre = $idTypeMonstre - 1;
+			} else {
+				$nbMonstres = 1;
+				$nbJours = 0;
+				Zend_Loader::loadClass("Bral_Util_Tracemail");
+				Bral_Util_Tracemail::traite("Creation du Balrog en $x, $y, $z", $this->view);
+			}
+		}
 
 		$data = array(
 			'x_nid' => $x,

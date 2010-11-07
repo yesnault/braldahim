@@ -10,6 +10,7 @@ class TypeMonstre extends Zend_Db_Table {
 	protected $_primary = "id_type_monstre";
 
 	const ID_TYPE_DRAGON = 3;
+	const ID_TYPE_BALROG = 45;
 
 	public function fetchAllAvecTypeGroupe() {
 		$db = $this->getAdapter();
