@@ -261,7 +261,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 	private function constructionRoute() {
 		$routeTable = new Route();
 		// Suppression d'une route s'il y en a une
-		$where = "x_route = ".$this->view->x_construction. " AND y_route=".$this->view->y_construction;
+		$where = "x_route = ".$this->view->x_construction. " AND y_route=".$this->view->y_construction. " and z_route=0";
 		$routeTable->delete($where);
 
 		// et construction d'une route d'échoppe
@@ -292,6 +292,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$data = array (
 			'x_echoppe' => $this->view->x_construction,
 			'y_echoppe' => $this->view->y_construction,
+			'z_echoppe' => 0,
 		);
 		$where = "id_echoppe = ".intval($this->idSelection);
 		$echoppesTable->update($data, $where);
@@ -299,7 +300,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$routeTable = new Route();
 		// Suppression d'une route s'il y en a une
-		$where = "x_route = ".$this->echoppeCourante["x_echoppe"]. " AND y_route=".$this->echoppeCourante["y_echoppe"];
+		$where = "x_route = ".$this->echoppeCourante["x_echoppe"]. " AND y_route=".$this->echoppeCourante["y_echoppe"]. " and z_route = 0";
 		$routeTable->delete($where);
 
 		$this->constructionRoute();

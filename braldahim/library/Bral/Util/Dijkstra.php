@@ -28,7 +28,7 @@ class Bral_Util_Dijkstra {
 
 	public function Dijkstra() {}
 
-	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true) {
+	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true, $controleCrevasse = false) {
 
 		$this->bestPath = 0;
 		$this->nbCasesLargeur = $nbCases + $nbCases + 1;
@@ -50,21 +50,23 @@ class Bral_Util_Dijkstra {
 			}
 		}
 
-		$this->initTabPalissadesEaux($zone, $controleTunnel);
+		$this->initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse);
 		$this->map = $this->initMap();
 		$this->numberOfNodes = count($this->map);
 
 		$this->findShortestPath();
 	}
 
-	private function initTabPalissadesEaux($zone, $controleTunnel) {
+	private function initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse) {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Eau');
 		Zend_Loader::loadClass('Tunnel');
+		Zend_Loader::loadClass('Crevasse');
 
 		$palissadeTable = new Palissade();
 		$eauTable = new Eau();
 		$tunnelTable = new Tunnel();
+		$crevasseTable = new Crevasse();
 
 		$xMin = $this->xPosition - $this->nbCasesLargeur;
 		$xMax = $this->xPosition + $this->nbCasesLargeur;
@@ -76,6 +78,10 @@ class Bral_Util_Dijkstra {
 		$tunnels = null;
 		if ($zone["est_mine_zone"] == "oui" && $controleTunnel) {
 			$tunnels = $tunnelTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
+		}
+
+		if ($controleCrevasse) {
+			$crevasses = $crevasseTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 		}
 
 		$numero = -1;
@@ -109,6 +115,14 @@ class Bral_Util_Dijkstra {
 					}
 					if ($tunnelOk == false && $controleTunnel) { // si pas de tunnel trouvé => non accessible
 						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+					}
+				}
+				if ($controleCrevasse) {
+					foreach($crevasses as $c) {
+						if ($c["x_crevasse"] == $x && $c["y_crevasse"] == $y) {
+							$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+							break;
+						}
 					}
 				}
 				if ($x == $this->xPosition && $y == $this->yPosition) {
@@ -257,11 +271,11 @@ class Bral_Util_Dijkstra {
 		return $foo;
 	}
 
-	private function getResults($to = null) {
+	public function getShortestPath($to) {
 		$ourShortestPath = array();
 		$foo = '';
 		for ($i = 0; $i < $this->numberOfNodes; $i++) {
-			if ($to !== null && $to !== $i) {
+			if ($to !== $i) {
 				continue;
 			}
 			$ourShortestPath[$i] = array();
@@ -274,22 +288,29 @@ class Bral_Util_Dijkstra {
 				$currNode = $this->previousNode[$currNode];
 			}
 			$ourShortestPath[$i] = array_reverse($ourShortestPath[$i]);
-			if ($to === null || $to === $i) {
+			if ($to === $i) {
 				if ($this->distance[$i] >= $this->infiniteDistance) {
-					$foo .= sprintf("Aucun accès de %d à %d. \n",$this->startnode,$i);
+					//		$foo .= sprintf("Aucun accès de %d à %d. \n",$this->startnode,$i);
+					$ourShortestPath = null;
+					break;
 				} else {
-					$foo .= sprintf('%d => %d = %d [%d]: (%s).'."\n" ,
-					$this->startnode,$i, $this->distance[$i],
-					count($ourShortestPath[$i]),
-					implode('-',$ourShortestPath[$i]));
+					/*		$foo .= sprintf('%d => %d = %d [%d]: (%s).'."\n" ,
+					 $this->startnode,$i, $this->distance[$i],
+					 count($ourShortestPath[$i]),
+					 implode('-',$ourShortestPath[$i]));
+					 */
 				}
-				$foo .= str_repeat('-',20) . "\n";
+				//$foo .= str_repeat('-',20) . "\n";
 				if ($to === $i) {
 					break;
 				}
 			}
 		}
-		return $foo;
+		if (array_key_exists($i, $ourShortestPath)) {
+			return $ourShortestPath[$i];
+		} else {
+			return null;
+		}
 	}
 
 	// Recopie de getResults en modifiant seulement le retour pour n'avoir que la distance

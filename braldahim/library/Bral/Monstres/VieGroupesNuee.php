@@ -142,7 +142,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 	 */
 	protected function deplacementGroupe(&$monstre_role_a, &$groupe, &$monstres) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementGroupe - enter");
-		// si le role_a est sur la direction, on deplacement le groupe
+		// si le role_a est sur la direction, on deplace le groupe
 
 		$groupe["phase_tactique_groupe_monstre"] = self::PHASE_NOMINAL;
 
@@ -150,8 +150,13 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) ||
 		($groupe["x_direction_groupe_monstre"] == 0 && $groupe["y_direction_groupe_monstre"] == 0)) {
 
-			$dx = Bral_Util_De::get_1d12();
-			$dy = Bral_Util_De::get_1d12();
+			if ($monstre_role_a["z_monstre"] < 0) {
+				$dx = Bral_Util_De::get_1d1();
+				$dy = Bral_Util_De::get_1d1();
+			} else {
+				$dx = Bral_Util_De::get_1d10();
+				$dy = Bral_Util_De::get_1d10();
+			}
 
 			$plusMoinsX = Bral_Util_De::get_1d2();
 			$plusMoinsY = Bral_Util_De::get_1d2();

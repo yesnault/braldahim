@@ -110,8 +110,13 @@ class Bral_Monstres_VieSolitaire {
 				$ajoutFuite = 0;
 			}
 
-			$dx = Bral_Util_De::get_1d12() + $ajoutFuite;
-			$dy = Bral_Util_De::get_1d12() + $ajoutFuite;
+			if ($monstre["z_monstre"] < 0) {
+				$dx = Bral_Util_De::get_1d1();
+				$dy = Bral_Util_De::get_1d1();
+			} else {
+				$dx = Bral_Util_De::get_1d10() + $ajoutFuite;
+				$dy = Bral_Util_De::get_1d10() + $ajoutFuite;
+			}
 
 			$plusMoinsX = Bral_Util_De::get_1d2();
 			$plusMoinsY = Bral_Util_De::get_1d2();

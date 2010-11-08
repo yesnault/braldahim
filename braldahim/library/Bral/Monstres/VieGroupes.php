@@ -68,11 +68,13 @@ abstract class Bral_Monstres_VieGroupes {
 
 		if ($cible != null) { // si une cible est trouvee, on attaque
 			$this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
-		} elseif ($suitePrereperage != Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_CASE) {
+		} elseif ($suitePrereperage != Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_CASE && $suitePrereperage != Bral_Monstres_Competences_Prereperage::SUITE_DISPARITION) {
 			$this->deplacementGroupe($monstre_role_a, $groupe, $monstres);
 		}
 
-		$this->majDlaGroupe($groupe, $monstres);
+		if ($suitePrereperage != Bral_Monstres_Competences_Prereperage::SUITE_DISPARITION) {
+			$this->majDlaGroupe($groupe, $monstres);
+		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieGroupeAction - exit");
 	}
 
