@@ -13,7 +13,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 	const MIN_SOUS_SOL = 100;
 	const MAX_SOUS_SOL = 170;
 	
-	const COEF_QUANTITE_SOUS_SOL = 2;
+	const COEF_QUANTITE_SOUS_SOL = 1.5;
 	
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - enter -");
@@ -142,7 +142,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 						$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $zposition, $t["id_type_minerai"]);
 
 						if ($zposition != 0) {
-							$nbCreation = $nbCreation * self::COEF_QUANTITE_SOUS_SOL;
+							$nbCreation = intval($nbCreation * self::COEF_QUANTITE_SOUS_SOL);
 						}
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) {
