@@ -16,6 +16,18 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	}
 
 	private function prepareTableau($supprimeMinerai) {
+		
+		$tabNiveauxValides[] = -10;
+		$tabNiveauxValides[] = -11;
+		$tabNiveauxValides[] = -12;
+		$tabNiveauxValides[] = -13;
+		
+		if (!in_array($this->view->user->z_braldun, $tabNiveauxValides)) {
+			$this->view->niveauValide = false;
+			return;
+		} else {
+			$this->view->niveauValide = true;
+		}
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
@@ -153,9 +165,14 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
+		
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+		}
+		
+		if ($this->view->niveauValide == false) {
+			throw new Zend_Exception(get_class($this)." Niveau invalide : ".$this->view->user->z_braldun);
 		}
 
 		if ($this->view->creuserOk == false) {

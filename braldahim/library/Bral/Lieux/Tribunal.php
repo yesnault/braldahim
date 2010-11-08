@@ -39,6 +39,9 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 				$this->view->utilisationPaPossible = true;
 			}
 			$this->view->utilisationPossible = $utilisationPointPossible && ($travauxOk || $cautionOk);
+			if ($this->view->user->pa_braldun >= 4) {
+				$this->view->utilisationPaPossible = true;
+			} 
 
 		} elseif ($this->view->user->points_redresseur_braldun > 0) {
 			$type = "redresseur";
@@ -115,7 +118,7 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 		
 		if ($this->view->user->pa_braldun < $this->view->paUtilisationLieu) {
 			// dernier contrôle
-			throw new Zend_Exception(get_class($this)." Tribunal Pas assez de PA");
+			throw new Zend_Exception(get_class($this)." Tribunal Pas assez de PA braldun:".$this->view->user->pa_braldun. " lieu:".$this->view->paUtilisationLieu);
 		}
 
 		$this->majBraldun();

@@ -3,7 +3,9 @@
 
 Pour <?php echo $this->nb_pa ?> PA, vous pouvez creuser un tunnel. <br />
 
-<?php if ($this->creuserOk == false) : ?>
+<?php if ($this->niveauValide == false) : ?>
+ Vous n'êtes pas au bon niveau pour creuser un tunnel. Entrez dans une mine. <br />
+<?php elseif ($this->creuserOk == false) : ?>
  Vous ne pouvez pas creuser de tunnel aux alentours de vous.
 <?php else : ?>
   <table align='center'>
@@ -42,6 +44,6 @@ Pour <?php echo $this->nb_pa ?> PA, vous pouvez creuser un tunnel. <br />
 </div>
 
 <br />
-<?php if ($this->assezDePa === true && $this->creuserOk === true) : ?>
+<?php if ($this->niveauValide === true && $this->assezDePa === true && $this->creuserOk === true) : ?>
 <input type='button' class='button1' value='Creuser un tunnel !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_creuser");'>
 <?php endif ?>

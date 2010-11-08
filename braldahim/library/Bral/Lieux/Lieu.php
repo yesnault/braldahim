@@ -65,7 +65,11 @@ abstract class Bral_Lieux_Lieu {
 
 		$this->view->estQueteEvenement = false;
 
-		$this->view->utilisationPaPossible = (($view->user->pa_braldun - $this->view->paUtilisationLieu) >= 0);
+		if ($view->user->pa_braldun - $this->view->paUtilisationLieu >= 0) {
+			$this->view->utilisationPaPossible = true;
+		} else {
+			$this->view->utilisationPaPossible = false;
+		}
 
 		$this->prepareCommun();
 
@@ -77,7 +81,7 @@ abstract class Bral_Lieux_Lieu {
 				if ($this->view->utilisationPaPossible) {
 					$this->prepareResultat();
 				} else {
-					throw new Zend_Exception(get_class($this)."::pas assez de PA");
+					throw new Zend_Exception(get_class($this)."::pas assez de PA braldun:".$view->user->pa_braldun. " lieu:".$this->view->paUtilisationLieu);
 				}
 				break;
 			default:

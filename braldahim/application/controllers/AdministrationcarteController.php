@@ -593,7 +593,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 	private function dessineEaux(&$image) {
 		Zend_Loader::loadClass('Eau');
 		$eauxTable = new Eau();
-		$eaux = $eauxTable->fetchall('where z_eau=-10');
+		$eaux = $eauxTable->fetchall('z_eau=-10');
 
 		$nbEauxGue = 0;
 		$nbEauxProfonde = 0;

@@ -5,7 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationController extends Zend_Controller_Action {
+class AdministrationSqlController extends Zend_Controller_Action {
 
 	function init() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
@@ -21,6 +21,7 @@ class AdministrationController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
+		$this->ajoutCompetence();
 	/*	$this->eauCreation(-10);
 		$this->eauCreation(-11);
 		$this->eauCreation(-12);
@@ -28,6 +29,54 @@ class AdministrationController extends Zend_Controller_Action {
 		$this->render();
 	}
 
+	function ajoutCompetence() {
+		
+		$idMetier = 1;
+		$idCompetence = 72;
+		
+		Zend_Loader::loadClass("Competence");
+		$competenceTable = new Competence();
+		$data = array(
+			"id_competence" => "72",
+            "nom_systeme_competence" => "creuser",
+            "nom_competence" => "Creuser un tunnel",
+            "description_competence" => "Description Creuser",
+            "niveau_requis_competence" => "0",
+            "niveau_sagesse_requis_competence" => "0",
+            "pi_cout_competence" => "0",
+            "px_gain_competence" => "1",
+            "balance_faim_competence" => "-3",
+            "pourcentage_max_competence" => "90",
+            "pourcentage_init_competence" => "10",
+            "pa_utilisation_competence" => "3",
+            "pa_manquee_competence" => "2",
+            "type_competence" => "metier",
+            "id_fk_metier_competence" => "1",
+            "id_fk_type_tabac_competence" => "1",
+            "ordre_competence" => "0",
+		);
+		$competenceTable->insert($data);
+		
+		Zend_Loader::loadClass("BraldunsCompetences");
+		$braldunsCompetencesTable = new BraldunsCompetences();
+		
+		Zend_Loader::loadClass("BraldunsMetiers");
+		$braldunsMetierTable = new BraldunsMetiers();
+		$bralduns = $braldunsMetierTable->fetchall("id_fk_metier_hmetier=".$idMetier);
+		
+		foreach($bralduns as $b) {
+			$data = array(
+			'id_fk_braldun_hcomp' => $b["id_fk_braldun_hmetier"],
+			'id_fk_competence_hcomp' => $idCompetence,
+			);
+			if ($b["id_fk_braldun_hmetier"] == 8) {
+				$data["pourcentage_hcomp"] = 80;
+			}
+			$braldunsCompetencesTable->insert($data);
+		}
+		
+	}
+	
 	function biereDuMilieuAction() {
 
 		return;

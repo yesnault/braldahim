@@ -18,7 +18,12 @@
 	 <?php elseif ($this->user->pa_braldun <1) : ?>
 	 	Vous n'avez pas assez de PA (1 minimum).
 	  <?php elseif ($this->utilisationPointPossible === true) : ?>
-	 		Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br /> 
+	  
+	  	<?php if ($this->travauxOk != true && $this->cautionOk !== true) : ?>
+		  	Vous n'avez pas assez de PA (4 minimum) ou de castars (100 minimum).
+		  <?php else: ?>
+		  
+	 	  Vous pouvez vous racheter et perdre un point de gredin en effectuant une action ci-dessous :<br /> 
 	 	
 		  <?php if ($this->travauxOk === true) : ?>
 		  Réalisation de travaux d'intérêts généraux : 4 PA pour 1 point de gredin en moins: 
@@ -28,6 +33,8 @@
 		  <?php if ($this->cautionOk === true) : ?>
 		  Achat d'une caution : 100 castars et 1 PA pour 1 point de gredin en moins : 
 		  <input type="radio" name="valeur_1" id="valeur_1" value="2" onchange="$('bouton_tribunal').disabled=false;">
+		  <?php endif;?>
+		  
 		  <?php endif;?>
 	  
 	  <?php else: ?>
