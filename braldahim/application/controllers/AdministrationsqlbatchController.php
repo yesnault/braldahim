@@ -5,7 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationSqlController extends Zend_Controller_Action {
+class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 	function init() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
