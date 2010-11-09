@@ -34,6 +34,8 @@ class Bral_Monstres_VieMonstre {
 	 */
 	private function __construct() {}
 
+
+
 	/**
 	 * Déplacement du monstre vers une position.
 	 *
@@ -54,11 +56,158 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  en position");
 			return false;
 		}
-		$modif = false;
+
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA restants pour idm:" .$this->monstre["id_monstre"]." : ".$this->monstre["pa_monstre"]);
 		if ($this->monstre["pa_monstre"] == 0) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre ".$this->monstre["id_monstre"]." n'a plus de PA");
 		}
+
+		if ($this->monstre["z_monstre"] < 0) {
+			$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
+		} else {
+			$modif = $this->deplacementNormalMonstre($x_destination, $y_destination);
+		}
+
+		if ($modif === true) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
+			$retour = true;
+		} else if($modif === false) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false");
+			$retour = false;
+		} else {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif null");
+			$this->monstre["x_direction_monstre"] = $this->monstre["x_monstre"];
+			$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
+			$retour = null;
+		}
+		// mise à jour du monstre, quoi qu'il arrive
+		$this->updateMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
+	}
+
+	/**
+	 * Déplacement du monstre vers une position.
+	 *
+	 * @param int $x_destination
+	 * @param int $y_destination
+	 * @return boolean : le monstre a bougé (true) ou non (false)
+	 */
+	private function deplacementNormalMonstre($x_destination, $y_destination) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementNormalMonstre ".$this->monstre["id_monstre"]."  - enter");
+
+		$modif = false;
+
+		$palissadeTable = new Palissade();
+		$x_min = $this->monstre["x_monstre"] - 12;
+		$x_max = $this->monstre["x_monstre"] + 12;
+		$y_min = $this->monstre["y_monstre"] - 12;
+		$y_max = $this->monstre["y_monstre"] + 12;
+
+		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
+
+		$crevasseTable = new Crevasse();
+		$crevasses = $crevasseTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
+
+		$eauTable = new Eau();
+		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"], false);
+
+		$zoneTable = new Zone();
+
+		$this->tabValidation = null;
+		$tabEaux = null;
+		for ($j = 12; $j >= -12; $j--) {
+			for ($i = -12; $i <= 12; $i++) {
+				$x = $this->monstre["x_monstre"] + $i;
+				$y = $this->monstre["y_monstre"] + $j;
+				$this->tabValidation[$x][$y] = true;
+				$tabEaux[$x][$y] = false;
+			}
+		}
+		foreach($palissades as $p) {
+			$this->tabValidation[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+
+		foreach($eaux as $e) {
+			$tabEaux[$e["x_eau"]][$e["y_eau"]] = true;
+		}
+
+		foreach($crevasses as $c) {
+			$this->tabValidation[$c["x_crevasse"]][$c["y_crevasse"]] = false;
+		}
+			
+		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
+		$nb_pa_joues = 0;
+
+		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
+
+			$coutPA = $this->calculCoutPADeplacement($zoneTable, $tabEaux); // on calcule le coût en PA du déplacement
+			if ($coutPA > $this->monstre["pa_monstre"]) {
+				// si le monstre n'a plus assez de PA, on sort
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas assez de PA pour se deplacer paRestant:".$this->monstre["pa_monstre"].". cout:".$coutPA);
+				break;
+			}
+
+			$x_monstre = $this->monstre["x_monstre"];
+			$y_monstre = $this->monstre["y_monstre"];
+			$x_offset = 0;
+			$y_offset = 0;
+
+			$modif = true;
+
+			if ($this->monstre["x_monstre"] < $x_destination) {
+				$x_monstre = $this->monstre["x_monstre"] + 1;
+				$x_offset = +1;
+			} else if ($this->monstre["x_monstre"] > $x_destination) {
+				$x_monstre = $this->monstre["x_monstre"] - 1;
+				$x_offset = -1;
+			}
+			if ($this->monstre["y_monstre"] < $y_destination) {
+				$y_monstre = $this->monstre["y_monstre"] + 1;
+				$y_offset = +1;
+			} else if ($this->monstre["y_monstre"] > $y_destination) {
+				$y_monstre = $this->monstre["y_monstre"] - 1;
+				$y_offset = -1;
+			}
+
+			if ($this->tabValidation[$x_monstre][$y_monstre] == true) {
+				$this->monstre["x_monstre"] = $x_monstre;
+				$this->monstre["y_monstre"] = $y_monstre;
+			} elseif ($this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
+				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
+			} elseif ($this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
+				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
+			} else {
+				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
+					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
+					$modif = null;
+				}
+			}
+
+			$nb_pa_joues = $nb_pa_joues + $coutPA;
+
+			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
+		}
+
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementNormalMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$modif.")");
+		return $modif;
+	}
+
+
+	/**
+	 * Déplacement du monstre vers une position.
+	 *
+	 * @param int $x_destination
+	 * @param int $y_destination
+	 * @return boolean : le monstre a bougé (true) ou non (false)
+	 */
+	private function deplacementDijkstraMonstre($x_destination, $y_destination) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre ".$this->monstre["id_monstre"]."  - enter");
+
+		$modif = false;
 
 		$nbCases = 20; // 10 cases de déplacement destination max + 10 cases fuite
 
@@ -152,22 +301,8 @@ class Bral_Monstres_VieMonstre {
 			$nb_pa_joues = $nb_pa_joues + $coutPA;
 
 		}
-
-		if ($modif === true) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
-			$retour = true;
-		} else if($modif === false) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false ".$x_destination. "!=". $this->monstre["x_monstre"]." ".$y_destination."!=". $this->monstre["y_monstre"]." nb_pa_joues:".$nb_pa_joues." < pa_a_jouer:".$pa_a_jouer) ;
-			$retour = false;
-		} else {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif null");
-			$this->monstre["x_direction_monstre"] = $this->monstre["x_monstre"];
-			$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
-			$retour = null;
-		}
-		// mise à jour du monstre, quoi qu'il arrive
-		$this->updateMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$modif.")");
+		return $modif;
 	}
 
 	/**
