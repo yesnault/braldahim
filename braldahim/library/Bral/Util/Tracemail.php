@@ -9,7 +9,7 @@ class Bral_Util_Tracemail {
 
 	private function __construct(){}
 
-	public static function traite($message, $view) {
+	public static function traite($message, $view, $titre) {
 
 		$user = "braldun:inconnu";
 		if ($view != null && $view->user != null) {
@@ -24,7 +24,7 @@ class Bral_Util_Tracemail {
 
 			$mail->setFrom($config->general->mail->trace->from, $config->general->mail->trace->nom);
 			$mail->addTo($config->general->mail->trace->from, $config->general->mail->trace->nom);
-			$mail->setSubject("[Braldahim-Trace] Trace rencontrée");
+			$mail->setSubject("[Braldahim-Trace] Trace rencontrée ".$titre);
 				
 			$formatTexte = 'Heure: '.date("Y-m-d H:m:s").PHP_EOL;
 			$formatTexte .= 'REMOTE_ADDR: '. $_SERVER['REMOTE_ADDR'].PHP_EOL;
@@ -32,8 +32,15 @@ class Bral_Util_Tracemail {
 			$formatTexte .= 'REQUEST_URI: '. $_SERVER['REQUEST_URI'].PHP_EOL;
 			$formatTexte .= 'HTTP_USER_AGENT: '.$_SERVER['HTTP_USER_AGENT'].PHP_EOL;
 			$formatTexte .= 'Utilisateur: '.$user.PHP_EOL;
+			$formatTexte .= 'Trace:'.PHP_EOL.$message.PHP_EOL;
+			
+			if ($view != null && $view->user != null) {
+				$formatTexte .= 'View User : '.var_dump($view->user).PHP_EOL;
+			} else {
+				$formatTexte .= 'View User : null'.PHP_EOL;
+			}
 
-			$mail->setBodyText("--------> ".$formatTexte.PHP_EOL.$message." " . PHP_EOL);
+			$mail->setBodyText("--------> ".$formatTexte.PHP_EOL. PHP_EOL);
 			$mail->send();
 		}
 	}

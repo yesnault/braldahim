@@ -310,7 +310,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				$nbMonstres = 1;
 				$nbJours = 0;
 				Zend_Loader::loadClass("Bral_Util_Tracemail");
-				Bral_Util_Tracemail::traite("Creation du Balrog en $x, $y, $z", $this->view);
+				Bral_Util_Tracemail::traite("Creation du Balrog en $x, $y, $z", $this->view, "Balrog !");
 			}
 		}
 
