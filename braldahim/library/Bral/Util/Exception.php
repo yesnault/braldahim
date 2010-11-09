@@ -38,10 +38,10 @@ class Bral_Util_Exception {
 			$formatTexte .= 'REQUEST_URI: '. $_SERVER['REQUEST_URI'].PHP_EOL;
 			$formatTexte .= 'HTTP_USER_AGENT: '.$_SERVER['HTTP_USER_AGENT'].PHP_EOL;
 			$formatTexte .= 'Utilisateur: '.$user.PHP_EOL;
-			$formatTexte .= 'Exception : '.PHP_EOL.$e.PHP_EOL;
+			$formatTexte .= 'Exception : '.PHP_EOL.$e.PHP_EOL.PHP_EOL;
 				
 			if ($view != null && $view->user != null) {
-				$formatTexte .= 'View User : '.var_dump($view->user).PHP_EOL;
+				$formatTexte .= 'View User : '.var_export($view->user, true).PHP_EOL;
 			} else {
 				$formatTexte .= 'View User : null'.PHP_EOL;
 			}
