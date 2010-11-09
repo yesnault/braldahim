@@ -28,8 +28,8 @@ class Bral_Helper_Profil {
 		
 		$largeur = $pourcentage;
 
-		if ($largeur > 200) {
-			$largeur = 200;
+		if ($largeur > 100) {
+			$largeur = 100;
 		}
 
 		if (Zend_Registry::get("estMobile")) {
