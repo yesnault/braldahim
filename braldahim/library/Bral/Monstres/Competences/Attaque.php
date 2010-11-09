@@ -168,7 +168,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($this->cible["id_braldun"]);
-				
+
 				Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 				$this->updateCible();
 				if ($effetMotS != null) {
@@ -234,13 +234,19 @@ abstract class Bral_Monstres_Competences_Attaque {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBotAttaque - enter");
 		$retour = "";
 
-		$retour .= "Vous avez été ";
-		if ($this->competence["nom_systeme_mcompetence"] == "charger") {
-			$retour .= "chargé";
+		if ($this->competence["nom_systeme_mcompetence"] == "ruee") {
+			$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
+			$retour .= " s'est rué sus vous.";
 		} else {
-			$retour .= "attaqué";
+			$retour .= "Vous avez été ";
+			if ($this->competence["nom_systeme_mcompetence"] == "charger") {
+				$retour .= "chargé";
+			} else {
+				$retour .= "attaqué";
+			}
+			$retour .= " par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
 		}
-		$retour .= " par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
+
 
 		$retour .= PHP_EOL."Jet d'attaque : ".$jetAttaquant;
 		$retour .= PHP_EOL."Jet de défense : ".$jetCible;
@@ -271,11 +277,11 @@ abstract class Bral_Monstres_Competences_Attaque {
 			}
 
 			$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
-				
+
 			if ($pieceCibleAbimee != null) {
 				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
 			}
-				
+
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= PHP_EOL."Il vous reste ".$this->cible["pv_restant_braldun"]." PV ";
 

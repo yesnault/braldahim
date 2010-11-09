@@ -221,11 +221,10 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$retour = "minerai(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
 
 		for($i = 1; $i <= $aCreer; $i++) {
-			usleep(Bral_Util_De::get_de_specifique(50, 10000));
+			usleep(Bral_Util_De::get_de_specifique(50, 30000));
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
-			usleep(Bral_Util_De::get_de_specifique(100, 10000));
+			usleep(Bral_Util_De::get_de_specifique(150, 30000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-
 				
 			if ($zposition == 0) {
 				$quantite = Bral_Util_De::get_de_specifique(self::MIN_SOL, self::MAX_SOL);
