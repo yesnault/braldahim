@@ -62,7 +62,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		}
 
 		$this->distance = 1;
-		$filonsSupprimes = null;
+		$filonsSupprimes = 0;
 
 		$numero = -1;
 
@@ -122,11 +122,12 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 					$valid = false;
 				}
 
-				// si l'on a effectué l'action, on supprimer les filons
+				// si l'on a effectué l'action, on supprime les filons
 				// où les cases sont non valides, où la construction de tunnel n'est pas possible
 				// et où il n'y a pas déjà un tunnel
 				if ($supprimeMinerai && !$valid && $tabTunnelsPossibles[$x][$y] == false && $tabTunnels[$x][$y] === false && !$caseCourante) {
-					$filonsSupprimes[] = $filonTable->delete("x_filon = ".$x. " and y_filon = ".$y." and z_filon=".$this->view->user->z_braldun);
+					$nb = $filonTable->delete("x_filon = ".$x. " and y_filon = ".$y." and z_filon=".$this->view->user->z_braldun);
+					$filonsSupprimes = $filonsSupprimes + $nb;
 				}
 
 				if ($valid === true && $defautChecked == false) {
