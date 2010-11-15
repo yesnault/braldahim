@@ -17,13 +17,13 @@ class Bral_Util_Commun {
 
 	public static function getVueBase($x, $y, $z) {
 		Zend_Loader::loadClass('Zone');
-		
+
 		$zoneTable = new Zone();
 		$zones = $zoneTable->findByCase($x, $y, $z);
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);
-		
+
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
 		$nombreBosquets = $bosquetTable->countByCase($x, $y, $z);
@@ -33,7 +33,7 @@ class Bral_Util_Commun {
 		} else {
 			$environnement = $zone["nom_systeme_environnement"];
 		}
-		
+
 		$r = 0;
 		switch($environnement) {
 			case "marais":
@@ -41,6 +41,9 @@ class Bral_Util_Commun {
 				break;
 			case "montagne":
 				$r = 5;
+				break;
+			case "mine":
+				$r = 2;
 				break;
 			case "caverne":
 				$r = 2;
@@ -287,11 +290,11 @@ class Bral_Util_Commun {
 
 		if ($cible->castars_braldun > 0) {
 			$nbCastars = floor($cible->castars_braldun / 3);
-				
+
 			if ($effetH != null && $effetH == true) {
 				$nbCastars = $nbCastars * 2;
 			}
-				
+
 			if ($nbCastars > 0 && $cible->castars_braldun >= $nbCastars) {
 				Zend_Loader::loadClass("Element");
 				$elementTable = new Element();
