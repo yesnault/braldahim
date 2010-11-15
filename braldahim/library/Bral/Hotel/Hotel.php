@@ -21,7 +21,7 @@ abstract class Bral_Hotel_Hotel {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_braldun, $this->view->user->y_braldun);
+		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		unset($lieuxTable);
 		
 		$this->idEchoppe = null;

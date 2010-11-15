@@ -26,7 +26,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Si on est sur une banque :
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun,$this->view->user->y_braldun);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($banque) > 0 || $this->view->user->est_pnj_braldun == 'oui') {
 			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
@@ -341,7 +341,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	function getListBoxRefresh() {
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun,$this->view->user->y_braldun);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($banque) > 0) {
