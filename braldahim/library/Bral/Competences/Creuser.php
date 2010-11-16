@@ -16,12 +16,12 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	}
 
 	private function prepareTableau($supprimeMinerai) {
-		
+
 		$tabNiveauxValides[] = -10;
 		$tabNiveauxValides[] = -11;
 		$tabNiveauxValides[] = -12;
 		$tabNiveauxValides[] = -13;
-		
+
 		if (!in_array($this->view->user->z_braldun, $tabNiveauxValides)) {
 			$this->view->niveauValide = false;
 			return;
@@ -166,12 +166,12 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
+
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
-		
+
 		if ($this->view->niveauValide == false) {
 			throw new Zend_Exception(get_class($this)." Niveau invalide : ".$this->view->user->z_braldun);
 		}
@@ -313,6 +313,9 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				Zend_Loader::loadClass("Bral_Util_Tracemail");
 				Bral_Util_Tracemail::traite("Creation du Balrog en $x, $y, $z", $this->view, "Balrog !");
 			}
+		} else {
+			Zend_Loader::loadClass("Bral_Util_Tracemail");
+			Bral_Util_Tracemail::traite("Apparition monstre en mine en $x, $y, $z", $this->view, "Monstre en mine !");
 		}
 
 		$data = array(

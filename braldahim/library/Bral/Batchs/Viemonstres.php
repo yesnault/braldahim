@@ -26,6 +26,7 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Competence");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Reperage");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Prereperage");
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Deplacement");
 		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		Zend_Loader::loadClass("Ville");
 

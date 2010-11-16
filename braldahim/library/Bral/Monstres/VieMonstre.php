@@ -450,6 +450,34 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll - (idm:".$this->monstre["id_monstre"].") - exit");
 		return;
 	}
+	
+	public function calculDeplacement($view, $estFuite) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement (idm:".$this->monstre["id_monstre"].") - enter");
+		if ($this->monstre == null) {
+			new Zend_Exception("Bral_Monstres_VieMonstre::calculDeplacement, monstre inconnu");
+		}
+
+		$this->calculTour();
+		$retour = false;
+
+		$typeMonstreMCompetence = new TypeMonstreMCompetence();
+
+		// Choix de l'action dans mcompetences
+		$competences = $typeMonstreMCompetence->findDeplacementByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		$foo = null;
+		if ($competences != null) {
+			foreach($competences as $c) {
+				$actionDeplacement = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
+				$actionDeplacement->setEstFuite($estFuite);
+				$actionDeplacement->action();
+				$retour = true;
+			}
+		}
+
+		$this->updateMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement - (idm:".$this->monstre["id_monstre"].") - exit");
+		return $retour;
+	}
 
 	public function setMonstre($m) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter - (idm:".$m["id_monstre"].")");
