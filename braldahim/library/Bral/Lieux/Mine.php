@@ -31,9 +31,6 @@ class Bral_Lieux_Mine extends Bral_Lieux_Lieu {
 		}
 		$this->view->user->z_braldun = $niveau;
 		$this->majBraldun();
-
-		Zend_Loader::loadClass("Bral_Util_Tracemail");
-		Bral_Util_Tracemail::traite("Descente du Braldûn ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun." (".$this->view->user->id_braldun.") dans une mine en ".$this->view->user->x_braldun. "/".$this->view->user->y_braldun."/".$this->view->user->z_braldun, $this->view, " Descente dans Mine");
 	}
 
 	function getListBoxRefresh() {
