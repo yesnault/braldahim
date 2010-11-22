@@ -10,10 +10,10 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 	const MIN_SOL = 10;
 	const MAX_SOL = 20;
 	
-	const MIN_SOUS_SOL = 100;
-	const MAX_SOUS_SOL = 170;
+	const MIN_SOUS_SOL = 40;
+	const MAX_SOUS_SOL = 160;
 	
-	const COEF_QUANTITE_SOUS_SOL = 1.5;
+	const COEF_QUANTITE_SOUS_SOL = 1;
 	
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - enter -");
