@@ -23,7 +23,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			Zend_Registry::set('estIphone', false);
 		}
 
-		if ($_SERVER['SERVER_NAME'] == "work.braldahim.com") {
+		if ($_SERVER['SERVER_NAME'] == "work.braldahim.com" || $_SERVER['SERVER_NAME'] == "85.17.183.147") {
 			Zend_Registry::set('estWork', true);
 		} else {
 			Zend_Registry::set('estWork', false);
