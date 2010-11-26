@@ -175,7 +175,6 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			}
 		}
 
-		Bral_Util_Attaque::calculStatutEngage(&$this->view->user);
 		unset($palissadeTable);
 	}
 
