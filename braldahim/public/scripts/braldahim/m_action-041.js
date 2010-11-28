@@ -373,7 +373,7 @@ function chiffres(event, negatif) {
 	}
 
 	// IE 
-	if (event.keyCode == 37 || event.keyCode == 39 || // fleches deplacement
+	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || // tab, fleches deplacement
 			event.keyCode == 46 || event.keyCode == 8) { // backspace ou delete
 		return;
 	} else if (event.keyCode < 48 || event.keyCode > 57) {
@@ -382,7 +382,7 @@ function chiffres(event, negatif) {
 	}
 
 	// DOM
-	if (event.which == 46 || event.which == 8) { // backspace ou delete
+	if (event.which == 9 || event.which == 46 || event.which == 8) { // backspace ou delete
 		return;
 	} else if (negatif != null && event.which == 45) { // signe -
 		return;
