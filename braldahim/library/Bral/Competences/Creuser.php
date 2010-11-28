@@ -210,7 +210,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculCreuser($x, $y) {
 
-		if (Bral_Util_De::get_1d30() == 15) {
+		if (Bral_Util_De::get_1d20() == 10) {
 			$nidDecouvert = $this->calculNid($x, $y, $this->view->user->z_braldun);
 		}
 

@@ -11,6 +11,7 @@ class Bral_Monstres_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaque");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaquer");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Fuite");
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Charger");
 
 		$construct = "Bral_Monstres_Competences_".Bral_Util_String::firstToUpper($competence["nom_systeme_mcompetence"]);
 		try {

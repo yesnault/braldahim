@@ -209,7 +209,7 @@ class Bral_Monstres_VieMonstre {
 
 		$modif = false;
 
-		$nbCases = 20; // 10 cases de déplacement destination max + 10 cases fuite
+		$nbCases = 10; // 10 cases de déplacement destination max + 10 cases fuite
 
 		$x_min = $this->monstre["x_monstre"] - $nbCases;
 		$x_max = $this->monstre["x_monstre"] + $nbCases;
@@ -228,7 +228,7 @@ class Bral_Monstres_VieMonstre {
 			for ($i = $x_min ; $i <= $x_max ; $i++) {
 				$numero++;
 				$tabValide[$i][$j] = true;
-				if ($dijkstra->getDistance($numero) > 1) {
+				if ($dijkstra->getDistance($numero) > 999) {
 					$tabValide[$i][$j] = false;
 				}
 				if ($x_destination == $i && $y_destination == $j) {
@@ -252,7 +252,7 @@ class Bral_Monstres_VieMonstre {
 
 		if (array_key_exists($x_destination, $tabValide) && array_key_exists($y_destination, $tabValide[$x_destination])) {
 			if ($tabValide[$x_destination][$y_destination] == false) {
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, destination impossible 2");
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, destination impossible 2 x:".$x_destination." y:".$y_destination);
 				$modif = null;
 				$pa_a_jouer = 0;
 			}
@@ -413,6 +413,7 @@ class Bral_Monstres_VieMonstre {
 		$competences = $typeMonstreMCompetence->findAttaqueByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		if ($competences != null) {
 			foreach($competences as $c) {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - nomCompetence:".$c["nom_systeme_mcompetence"]);
 				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
 				$koCible = $actionAttaque->action();
 				if ($koCible || $this->monstre["pv_restant_monstre"] <= 0) {

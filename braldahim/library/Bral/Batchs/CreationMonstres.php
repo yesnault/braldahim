@@ -132,6 +132,9 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$aCreer = Bral_Util_De::get_de_specifique(1, $nid["nb_monstres_restants_nid"]);
 			$nbRestantsDansNid = $nid["nb_monstres_restants_nid"] - $aCreer;
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - C aCreer:".$aCreer." nbRestantsDansNid:".$nbRestantsDansNid);
+		} else {
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - D le nid n'est pas encore prêt à sortir des monstres");
+			return $retour;
 		}
 
 		if ($referenceCourante["id_fk_type_groupe_monstre"] != 1 && $referenceCourante["id_fk_type_groupe_monstre"] != 6) { // 1 => type Solitaire, 6 => type Boss

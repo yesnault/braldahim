@@ -22,10 +22,9 @@ class Bral_Monstres_Competences_Desorientation extends Bral_Monstres_Competences
 		$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_sagesse + $this->cible["sagesse_base_braldun"]);
 		$jetBraldun = $jetBraldun + $this->cible["sagesse_bm_braldun"] + $this->cible["sagesse_bbdf_braldun"];
 
-		if ($jetBraldun <= $jetMonstre) {
-			Zend_Loader::loadClass("Bral_Util_Effets");
-			Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Coup d'aile sur le nez");
-		}
+		Zend_Loader::loadClass("Bral_Util_Effets");
+		Bral_Util_Effets::ajouteEtAppliqueEffetBraldun($this->cible["id_braldun"], Bral_Util_Effets::CARACT_VUE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Désorientation");
+		
 		$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetBraldun);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");

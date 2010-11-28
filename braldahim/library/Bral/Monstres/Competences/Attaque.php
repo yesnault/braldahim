@@ -236,7 +236,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 		if ($this->competence["nom_systeme_mcompetence"] == "ruee") {
 			$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
-			$retour .= " s'est rué sus vous.";
+			$retour .= " s'est rué sur vous.";
 		} else {
 			$retour .= "Vous avez été ";
 			if ($this->competence["nom_systeme_mcompetence"] == "charger") {

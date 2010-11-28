@@ -306,7 +306,7 @@ class Bral_Util_Dijkstra {
 				}
 			}
 		}
-		if (array_key_exists($i, $ourShortestPath)) {
+		if ($ourShortestPath != null && count($ourShortestPath) > 0 && array_key_exists($i, $ourShortestPath)) {
 			return $ourShortestPath[$i];
 		} else {
 			return null;
