@@ -15,7 +15,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			return null;
 		}
 
-		$conteneurLaban = array("id_conteneur" => "laban", "texte_conteneur" => "Dans votre laban", "graines" => $this->prepareTabGraines("laban"));
+		$conteneurLaban = array("id_conteneur" => "laban", "texte_conteneur" => "Dans votre laban", "graines" => $this->prepareTabGraines("laban"), "id_charrette" => null);
 		$tabConteneurs["laban"] = $conteneurLaban;
 
 		$charretteTable = new Charrette();
@@ -24,7 +24,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		$charrette = null;
 		if (count($charrettes) == 1) {
 			$charrette = $charrettes[0];
-			$conteneurCharrette = array("id_conteneur" => "charrette", "texte_conteneur" => "Dans votre charrette", "graines" => $this->prepareTabGraines("charrette", $charrette["id_charrette"]));
+			$conteneurCharrette = array("id_conteneur" => "charrette", "texte_conteneur" => "Dans votre charrette", "graines" => $this->prepareTabGraines("charrette", $charrette["id_charrette"]), "id_charrette" => $charrette["id_charrette"]);
 
 			$tabConteneurs["charrette"] = $conteneurCharrette;
 		}
@@ -61,7 +61,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		} else if ($idCharrette != null) {
 			Zend_Loader::loadClass("CharretteGraine");
 			$charretteGraineTable = new CharretteGraine();
-			$graines = $charretteGraineTable->findByIdCharrette($this->view->user->id_braldun);
+			$graines = $charretteGraineTable->findByIdCharrette($idCharrette);
 		} else {
 			throw new Zend_Exception("prepareTabGraines invalide");
 		}
@@ -132,7 +132,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		}
 
 		// calcul des jets
-		$this->calculSemerChamp($type, $idTypeGraine);
+		$this->calculSemerChamp($type, $idTypeGraine, $this->view->conteneurs[$type]["id_charrette"]);
 
 		$idType = $this->view->config->game->evenements->type->competence;
 		$details = "[b".$this->view->user->id_braldun."] a semé un champ";
