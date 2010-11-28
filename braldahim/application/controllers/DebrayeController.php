@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3. 
