@@ -25,7 +25,7 @@
   				</td>
   				<td class="table_liste" > 
   					<div id='cmsga<?php echo $message["id_message"]?>' onclick="switch2div('cmsga<?php echo $message["id_message"]?>','cmsgb<?php echo $message["id_message"]?>')" style='cursor:pointer' title='Cliquez pour voir le message'>
-  					<?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
+  					<?php if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
   					</div>
   					<div id='cmsgb<?php echo $message["id_message"]?>' onclick="switch2div('cmsga<?php echo $message["id_message"]?>','cmsgb<?php echo $message["id_message"]?>')" style="display:none; cursor:pointer; background-color:#eeeeee">
   					Message en entier:<br /><?php echo Bral_Util_BBParser::bbcodeReplace($message["titre"]);?>

@@ -8,7 +8,7 @@
 		&agrave; cause de vos malus importants en Force.<br /> <br />
 	<?php else: ?>
 		<br />Vous avez extrait avec succ&egrave;s 
-		<?php echo $this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
+		<?php echo $this->minerai["quantite_extraite"]?> morceau<?php if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
 		de <?php echo $this->minerai["nom_type"]?>
 		<?php if ($this->arrivee == 1 && $this->nbATerre == 0) : ?>
 			dans votre charrette.<br />

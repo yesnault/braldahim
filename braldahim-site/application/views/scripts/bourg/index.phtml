@@ -78,13 +78,13 @@
 			
 			Filtre par année: <select id="anneeRelate" name="anneeRelate" onchange="goToRelate();">
 			<?php foreach($this->annees as $a): ?>
-				<option value="<?php echo $a?>" <?if ($this->anneeSelect == $a): echo "selected='selected'" ; endif;?>><?php echo $a?></option>
+				<option value="<?php echo $a?>" <?php if ($this->anneeSelect == $a): echo "selected='selected'" ; endif;?>><?php echo $a?></option>
 			<?php endforeach;?>
 			</select>
 			
 			Filtre par type: <select id="typeRelate" name="typeRelate" onchange="goToRelate();">
 			<?php foreach($this->types as $t): ?>
-				<option value="<?php echo $t["id_type"]?>" <?if ($this->typeSelect == $t["id_type"]): echo "selected='selected'" ; endif;?>><?php echo $t["nom_type"]?></option>
+				<option value="<?php echo $t["id_type"]?>" <?php if ($this->typeSelect == $t["id_type"]): echo "selected='selected'" ; endif;?>><?php echo $t["nom_type"]?></option>
 			<?php endforeach;?>
 			</select>
 			<br/><br/>

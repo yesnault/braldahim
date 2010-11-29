@@ -4,7 +4,7 @@
 	
 	Filtre par Niveau : <select id="filtre" name="filtre" onchange="_get_('/palmares/load?caction=do_palmares_<?php echo $this->nom_systeme?>_'+this.value+'_supersbralduns', false)">
 	<?php foreach($this->niveaux as $k => $v): ?>
-			<option value="<?php echo $k?>"<?if ($this->filtre == $k): echo " selected='selected'" ; endif;?>>Niveaux <?php echo $v?></option>
+			<option value="<?php echo $k?>"<?php if ($this->filtre == $k): echo " selected='selected'" ; endif;?>>Niveaux <?php echo $v?></option>
 	<?php endforeach;?>
 	</select>
 	<br /><br />

@@ -39,7 +39,7 @@
 			 <select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
 			 	<option value="-1">(Choisissez un nombre d'emplacements)</option>
 			 	<?php foreach($this->runes as $n) : ?>
-			 		<option value="<?php echo $n["nombre"]?>"><?php echo $n["nombre"]?> rune<?if($n["nombre"]>1)echo "s";?></option>
+			 		<option value="<?php echo $n["nombre"]?>"><?php echo $n["nombre"]?> rune<?php if($n["nombre"]>1)echo "s";?></option>
 			 	<?php endforeach; ?>
 			 </select>
 			 <?php endif; ?>
@@ -58,7 +58,7 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?php echo htmlspecialchars($c["nom"]) ?> : <?php echo $c["cout"] ?> <?php if (isset($c["unite"]) && $c["unite"] != "") :?><?php echo $c["unite"] ?><?php if ($c["cout"] > 1) : echo 's'; endif;?><?php endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<?php echo htmlspecialchars($c["nom"]) ?> : <?php echo $c["cout"] ?> <?php if (isset($c["unite"]) && $c["unite"] != "") :?><?php echo $c["unite"] ?><?php if ($c["cout"] > 1) : echo 's'; endif;?><?php endif; ?><?php if ($i<count($value1))echo ","; else echo "."; ?>
 		 	<?php endforeach; ?>
 		 	<?php if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe

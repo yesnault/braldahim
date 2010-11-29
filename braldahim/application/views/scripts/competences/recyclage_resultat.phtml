@@ -3,7 +3,7 @@
 	Vous avez recycl&eacute; votre &eacute;quipement ce qui a eu pour effet de le d&eacute;truire !<br />
 	Jet de recyclage effectué : <?php echo $this->jetRecyclage ?><br />
 	<br />
-	<?if ($this->nbPlancheLaban > 0 || $this->nbCuirLaban > 0 || $this->nbFourrureLaban > 0 || count($this->mineraiLaban) > 0 ):?> 
+	<?php if ($this->nbPlancheLaban > 0 || $this->nbCuirLaban > 0 || $this->nbFourrureLaban > 0 || count($this->mineraiLaban) > 0 ):?> 
 		Vous avez r&eacute;cup&eacute;r&eacute; dans votre laban : <br />
 		<?php if ($this->nbPlancheLaban > 0): ?>
 			<?php echo $this->nbPlancheLaban ?> planche<?php if ($this->nbPlancheLaban > 1): ?>s<?php endif; ?><br />
@@ -23,7 +23,7 @@
 		Vous n'avez rien r&eacute;cup&eacute;r&eacute; dans votre laban ! <br />
 	<?php endif; ?>
 	<br />
-	<?if ($this->nbPlancheTerre > 0 || $this->nbCuirTerre > 0 || $this->nbFourrureTerre > 0 || count($this->mineraiTerre) > 0 ):?> 
+	<?php if ($this->nbPlancheTerre > 0 || $this->nbCuirTerre > 0 || $this->nbFourrureTerre > 0 || count($this->mineraiTerre) > 0 ):?> 
 		Ces &eacute;l&egrave;ments sont tomb&eacute;s &agrave; terre : <br />
 		<?php if ($this->nbPlancheTerre > 0): ?>
 			<?php echo $this->nbPlancheTerre ?> planche<?php if ($this->nbPlancheTerre > 1): ?>s<?php endif; ?> <br />

@@ -9,9 +9,9 @@
 	  	<?php include('commun_attaque_formulaire.phtml');?>
 		
 	 	<?php if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
-	 		Il n'y a rien &agrave; charger dans votre distance de charge de <?php echo $this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br />
+	 		Il n'y a rien &agrave; charger dans votre distance de charge de <?php echo $this->charge_nb_cases ?> case<?php if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br />
 	 	<?php else: ?>
-	 		Pour <?php echo $this->nb_pa?> PA, vous pouvez charger &agrave; <?php echo $this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
+	 		Pour <?php echo $this->nb_pa?> PA, vous pouvez charger &agrave; <?php echo $this->charge_nb_cases ?> case<?php if ($this->charge_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
 	 		 <br /><br />
 			<?php if ($this->nMonstres > 0): ?>
 			Charger un monstre<br />

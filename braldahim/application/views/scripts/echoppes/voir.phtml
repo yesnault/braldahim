@@ -3,7 +3,7 @@
 </div>
 
 <div class="titre textalic textsizec">
-<?if ($this->echoppe["nom_echoppe"] != null && $this->echoppe["nom_echoppe"] != "") : ?>
+<?php if ($this->echoppe["nom_echoppe"] != null && $this->echoppe["nom_echoppe"] != "") : ?>
 	<?php echo htmlspecialchars($this->echoppe["nom_echoppe"])?>,
 <?php endif; ?>
 &Eacute;choppe <?php if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?> <?php echo htmlspecialchars($this->echoppe["nom_metier"])?><br /></div>

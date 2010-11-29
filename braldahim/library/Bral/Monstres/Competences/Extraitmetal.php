@@ -37,14 +37,14 @@ class Bral_Monstres_Competences_Extraitmetal extends Bral_Monstres_Competences_P
 		if ($nbRestant <= 0) {
 			$where = 'id_filon='.$filon["id_filon"];
 			$filonTable->delete($where);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - Suppression du filon ".$filon["id_filon"]." - (idm:".$this->monstre["id_monstre"].")");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - Suppression du filon ".$filon["id_filon"]." (idm:".$this->monstre["id_monstre"].")");
 		} else {
 			$data = array(
 				'quantite_restante_filon' =>  $nbRestant,
 			);
 			$where = 'id_filon='.$filon["id_filon"];
 			$filonTable->update($data, $where);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - MAJ du filon ".$filon["id_filon"]." nbRestant=".$nbRestant." - (idm:".$this->monstre["id_monstre"].")");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - MAJ du filon ".$filon["id_filon"]." nbRestant=".$nbRestant." (idm:".$this->monstre["id_monstre"].")");
 		}
 
 		$this->majEvenement();

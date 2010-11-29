@@ -22,7 +22,7 @@
 	<?php else: ?>
 		Vous avez rat&eacute; votre tannage.
 		<br />
-		Aucune fourrure et aucun cuir n'est apparu, <?php echo $this->quantitePeauUtilisee ?> pi&egrave;ce<?if($this->quantitePeauUtilisee > 1):echo 's  de peau sont perdus'; else: echo ' de peau est perdue'; endif;?>.<br />
+		Aucune fourrure et aucun cuir n'est apparu, <?php echo $this->quantitePeauUtilisee ?> pi&egrave;ce<?php if($this->quantitePeauUtilisee > 1):echo 's  de peau sont perdus'; else: echo ' de peau est perdue'; endif;?>.<br />
 	<?php endif; ?>
 	
 	

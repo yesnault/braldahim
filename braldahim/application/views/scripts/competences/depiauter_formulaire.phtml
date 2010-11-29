@@ -51,5 +51,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->nCadavres > 0) : ?>
-	<input type='button' class='button1' id='bouton_depiauter' value='D&eacute;piauter !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_depiauter");' <?if ( ($this->id_monstre_courant == "" || $this->id_monstre_courant == -1) && count ($this->tabCadavres) > 1) : ?>disabled<?endif;?>>
+	<input type='button' class='button1' id='bouton_depiauter' value='D&eacute;piauter !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_depiauter");' <?php if ( ($this->id_monstre_courant == "" || $this->id_monstre_courant == -1) && count ($this->tabCadavres) > 1) : ?>disabled<?endif;?>>
 <?php endif ?>

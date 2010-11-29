@@ -82,7 +82,7 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?php echo htmlspecialchars($c["nom_type_plante"]) ?>: <?php echo $c["cout"] ?> <?php echo htmlspecialchars($c["nom_type_partieplante"]) ?><?php if ($c["cout"] > 1): echo "s"; endif;?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<?php echo htmlspecialchars($c["nom_type_plante"]) ?>: <?php echo $c["cout"] ?> <?php echo htmlspecialchars($c["nom_type_partieplante"]) ?><?php if ($c["cout"] > 1): echo "s"; endif;?><?php if ($i<count($value1))echo ","; else echo "."; ?>
 		 		<input type="hidden" id="hiddenCout-<?php echo $key1 ?>-<?php echo $c["id_type_partieplante"]?>" value="<?php echo $c["cout"] ?>">
 		 	<?php endforeach; ?>
 		 	<?php if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
@@ -171,7 +171,7 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?php echo htmlspecialchars($c["nom"]) ?><?if ($i<count($value1)) echo ","; else echo "."; ?>
+		 		<?php echo htmlspecialchars($c["nom"]) ?><?php if ($i<count($value1)) echo ","; else echo "."; ?>
 		 		<?php if ($c["ressourcesOk"] == false) : ?>
 			 		Pas assez de ressource dans l'&eacute;choppe
 				<?php endif; ?>

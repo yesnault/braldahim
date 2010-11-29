@@ -24,7 +24,7 @@
 					<td><select name="id_type">
 					<?php foreach ($this->typesMonstre as $t) : ?>
 						<option value="<?php echo $t["id_type_monstre"]?>"
-						<?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?php echo $t["nom_type"]?></option>
+						<?php if ($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?php echo $t["nom_type"]?></option>
 						<?php endforeach; ?>
 					</select></td>
 				</tr>
@@ -33,7 +33,7 @@
 					<td><select name="id_taille">
 					<?php foreach ($this->taillesMonstre as $t) : ?>
 						<option value="<?php echo $t["id_taille_monstre"]?>"
-						<?if($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?php echo $t["nom_feminin"]?>
+						<?php if ($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?php echo $t["nom_feminin"]?>
 						/ <?php echo $t["nom_masculin"]?></option>
 						<?php endforeach; ?>
 					</select></td>

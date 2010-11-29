@@ -11,7 +11,7 @@
 	<br />
 	<select id="region" name="region" onchange="document.location.href = '/marchealiment/?regionselect='+this.value+'&alimentselect=<?php echo $this->alimentSelect?>&uid='+(new Date()).valueOf()">
 	<?php foreach($this->regions as $k => $e): ?>
-		<option value="<?php echo $k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+		<option value="<?php echo $k?>" <?php if ($this->regionSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
 	<?php endforeach;?>
 	</select>
 </td>
@@ -20,7 +20,7 @@
 	<br />
 	<select id="aliment" name="aliment" onchange="document.location.href = '/marchealiment/?regionselect<?php echo $this->regionSelect?>&alimentselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<?php foreach($this->aliments as $k => $e): ?>
-		<option value="<?php echo $k?>" <?if ($this->alimentSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+		<option value="<?php echo $k?>" <?php if ($this->alimentSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
 	<?php endforeach;?>
 	</select>
 </td>

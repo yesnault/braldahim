@@ -3,13 +3,13 @@
 <?php if ($this->okJet1 === true): ?>
 	<?php if ($this->nbPartiesPlantesPreparees > 0) : ?>
 		Vous avez r&eacute;ussi &agrave; concocter des parties de plante de <?php echo $this->planteNomType ?>.<br />
-		Vous avez obtenu <?php echo $this->nbPartiesPlantesPreparees ?> <?php echo $this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> 
-		pr&eacute;par&eacute;e<?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> en 
-		utilisant <?php echo $this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's';endif;?>.	
+		Vous avez obtenu <?php echo $this->nbPartiesPlantesPreparees ?> <?php echo $this->planteNomTypePartiePlante?><?php if ($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> 
+		pr&eacute;par&eacute;e<?php if ($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> en 
+		utilisant <?php echo $this->nbPlantesUtilisees ?> plante<?php if ($this->nbPlantesUtilisees > 1):echo 's';endif;?>.	
 	<?php else: ?>
 		Vous avez rat&eacute; votre pr&eacute;paration.
 		<br />
-		Aucune plante pr&eacute;par&eacute;e n'est apparue et <?php echo $this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's sont perdues'; else: echo ' est perdue'; endif;?>.<br />
+		Aucune plante pr&eacute;par&eacute;e n'est apparue et <?php echo $this->nbPlantesUtilisees ?> plante<?php if ($this->nbPlantesUtilisees > 1):echo 's sont perdues'; else: echo ' est perdue'; endif;?>.<br />
 	<?php endif; ?>
 	
 	<br />

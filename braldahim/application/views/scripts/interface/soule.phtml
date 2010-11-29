@@ -15,7 +15,7 @@
 	<select name='id_terrain' onchange="Javascript:_get_('/soule/doaction?caction=ask_soule_voir&id_terrain='+this.value);">
 	<?php if ($this->terrains != null) : ?>
 	   	<?php foreach ($this->terrains as $t) : ?>
-		<option value='<?php echo $t["id_soule_terrain"]?>' <?if ($t["selected"] == true) { echo "selected"; }?>><?php echo $t["nom_soule_terrain"]?> (<?php echo $t["info_soule_terrain"]?>)</option>
+		<option value='<?php echo $t["id_soule_terrain"]?>' <?php if ($t["selected"] == true) { echo "selected"; }?>><?php echo $t["nom_soule_terrain"]?> (<?php echo $t["info_soule_terrain"]?>)</option>
 		<?php endforeach; ?>
 	<?php endif;?>
 	</select>

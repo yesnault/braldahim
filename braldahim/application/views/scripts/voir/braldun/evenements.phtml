@@ -1,7 +1,7 @@
 <center>  	Type : 
   	<select name='valeur_2'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"]?>&menu=evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<?php foreach ($this->typeEvenements as $t) : ?>
-  	<option value='<?php echo $t["id_type_evenement"]?>' <?if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?php echo $t["nom"]?></option>
+  	<option value='<?php echo $t["id_type_evenement"]?>' <?php if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?php echo $t["nom"]?></option>
   	<?php endforeach; ?>
   	</select>
   	<br /><br />

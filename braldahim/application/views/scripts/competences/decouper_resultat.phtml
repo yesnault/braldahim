@@ -9,7 +9,7 @@
 	<?php else: ?>
 		Vous avez rat&eacute; votre d&eacute;coupe.
 		<br />
-		Aucune planche n'est apparue et <?php echo $this->quantiteRondinsUtilisee ?> rondin<?if($this->quantiteRondinsUtilisee > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
+		Aucune planche n'est apparue et <?php echo $this->quantiteRondinsUtilisee ?> rondin<?php if ($this->quantiteRondinsUtilisee > 1):echo 's sont perdus'; else: echo ' est perdu'; endif;?>.<br />
 	<?php endif; ?>
 	
 <?php else: ?>

@@ -14,9 +14,9 @@
 	<?php if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->user->est_intangible_braldun == 'non'):?>
 		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br /></br>
 	 	<?php if ($this->nBralduns == 0 && $this->nMonstres == 0): ?>
-	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?php echo $this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
+	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?php echo $this->tir_nb_cases ?> case<?php if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
 	 	<?php else: ?>
-	 		Pour <?php echo $this->nb_pa?> PA, vous pouvez tirer &agrave; <?php echo $this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
+	 		Pour <?php echo $this->nb_pa?> PA, vous pouvez tirer &agrave; <?php echo $this->tir_nb_cases ?> case<?php if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
 	 		 <br />
 			<?php if ($this->nMonstres > 0): ?>
 				Tirer sur un monstre<br />
