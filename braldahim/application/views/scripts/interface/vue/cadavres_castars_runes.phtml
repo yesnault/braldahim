@@ -1,4 +1,4 @@
-<?
+<?php
 $textCorpBraldun = "";
 $textCadavre = "";
 $textCastar = "";
@@ -125,34 +125,34 @@ endif;
 
 ?>
 <div class="braltip"><?php echo Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
-<?
+<?php
 if ($case["n_buissons"] > 0) :
 ?><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/buisson.png'
-	style="position: absolute; top: -14px" /><?
+	style="position: absolute; top: -14px" /><?php
 	endif;
 
 	if ($case["n_elements_runes"] > 0) :
 	?><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/runes.png'
-	style="position: absolute; left: 4px; top: -9px" /><?
+	style="position: absolute; left: 4px; top: -9px" /><?php
 
 	endif;
 
 	if ($case["n_cadavres"] > 0 && $case["n_castars"] > 0) :
 	?> <img
 	src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre_castars.png'
-	style="position: absolute; top: -9px; left: 5px;" /> <?
+	style="position: absolute; top: -9px; left: 5px;" /> <?php
 
 	elseif ($case["n_castars"] > 0) :
 	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/castars.png'
-	style="position: absolute; left: 10px; top: -10px" /> <?
+	style="position: absolute; left: 10px; top: -10px" /> <?php
 
 	elseif ($case["n_cadavres"] > 0) :
 	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/cadavre.png'
-	style="position: absolute; top: -12px; left: 5px;" /> <?
+	style="position: absolute; top: -12px; left: 5px;" /> <?php
 	endif;
 
 	if ($case["n_braldunsKo"] > 0) :
 	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/braldunKo.png'
-	style="position: absolute; left: 10px; top: -2px" /> <?
+	style="position: absolute; left: 10px; top: -2px" /> <?php
 	endif;
 	?></div>

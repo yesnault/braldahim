@@ -22,7 +22,6 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("TypeMinerai");
 			$typeMineraiTable = new TypeMinerai();
 			$tabChoix = $typeMineraiTable->fetchAll();
-
 		}
 		$this->view->tabChoix = $tabChoix;
 	}

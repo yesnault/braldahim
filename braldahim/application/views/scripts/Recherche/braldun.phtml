@@ -5,7 +5,7 @@
 	<li class="resultat">Trop de bralduns !</li>
 <?php else: ?>
 	<?php foreach ($this->tabBralduns as $h) : ?>
-		<li class="resultat" id_braldun="<?php echo $h["id_braldun"]?>" champ="<?php echo $this->champ?>" valeur="<?php echo $h["prenom"]?> <?php echo $h["nom"]?>"><?
+		<li class="resultat" id_braldun="<?php echo $h["id_braldun"]?>" champ="<?php echo $this->champ?>" valeur="<?php echo $h["prenom"]?> <?php echo $h["nom"]?>"><?php
 			$pos = stripos($h["prenom"], $this->pattern);
 			$nom = mb_substr($h["prenom"], 0, $pos) . '<font color="red">'.mb_substr($h["prenom"], $pos , mb_strlen($this->pattern)) .'</font>'.mb_substr($h["prenom"], $pos + mb_strlen($this->pattern));
 			$nom .= " ".$h["nom"];

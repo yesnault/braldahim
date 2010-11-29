@@ -94,14 +94,13 @@
 	<?php if (isset($this->tabPartiePlantes)) : ?>
 	<br />
 	
-	
-	<?
+	<?php
 	foreach($this->tabPartiePlantes as $k => $v) :
 		foreach($v as $k2 => $v2) :
 			?> 
 			<input type="hidden" id="hiddenIngredientQuantite-<?php echo $v2["id_calcule"]?>" value="<?php echo $v2["quantite_preparees"]?>">
 			<input type="hidden" id="hiddenIngredientIdType-<?php echo $v2["id_calcule"]?>" value="<?php echo $v2["id_type_partieplante"]?>">
-			<?
+			<?php
 		endforeach;
 	endforeach;
 	

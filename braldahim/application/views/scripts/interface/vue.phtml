@@ -1,15 +1,15 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
 <?php if ($this->affichageInterne == true) :
-	if ($this->estVueEtendue == false) {
+	if ($this->estVueEtendue == false): 
 		include('vue/titre_vue.phtml'); 
-	} else {
+	else :
 		?><div class="titre textalic textsizea">Ma Vue &Eacute;tendue</div>
 		<div class="titre textalic textsizef">
 		<?php echo $this->vue_nb_cases ?> case<?php if ($this->vue_nb_cases > 1): echo "s"; endif; ?>
 		aux alentours
-		</div><?
-	}
+		</div><?php
+	endif;
 ?>
 <div class="box_contenu1 textalic">
 <?php if (Zend_Registry::get("estWork")) : ?>
@@ -27,7 +27,7 @@
 		<?php include('vue/damier.phtml'); ?>
 		</td>
 		<?php if (!$this->estMobile && !$this->estVueEtendue) : ?>
-  		<?//<td valign="top" style="padding-top:18px"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>?>
+  		<?php //<td valign="top" style="padding-top:18px"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>?>
   		<?php endif;?>
   	</tr>
   </table>
