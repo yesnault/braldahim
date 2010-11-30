@@ -38,7 +38,7 @@ class Bral_Monstres_VieSolitaire {
 	}
 
 	private function vieSolitaireAction(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (id=".$monstre["id_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (idm:".$monstre["id_monstre"].") ############# start");
 
 		$estFuite = $this->calculFuiteSolitaire($monstre);
 		if ($estFuite) {
@@ -57,7 +57,7 @@ class Bral_Monstres_VieSolitaire {
 
 			$this->calculPostAllSolitaire($monstre);
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - exit - (idm:".$monstre["id_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - exit - (idm:".$monstre["id_monstre"].") ############# end");
 	}
 
 	/**
@@ -98,32 +98,32 @@ class Bral_Monstres_VieSolitaire {
 	 * Recherche competence de fuite.
 	 */
 	private function calculFuiteSolitaire(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - enter - (idm:".$monstre["id_monstre"].")");
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$estFuite = $vieMonstre->calculFuite($this->view);
 		$monstre = $vieMonstre->getMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 		return $estFuite;
 	}
 
 	private function calculReperageSolitaire(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - enter - (idm:".$monstre["id_monstre"].")");
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$cible = $vieMonstre->calculReperage($this->view);
 		$monstre = $vieMonstre->getMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 		return $cible;
 	}
 
 	private function calculDeplacementSolitaire(&$monstre, $estFuite) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacementSolitaire - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacementSolitaire - enter - (idm:".$monstre["id_monstre"].")");
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$possedeDeplacementSpecifique = $vieMonstre->calculDeplacement($this->view, $estFuite);
 		$monstre = $vieMonstre->getMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacementSolitaire - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacementSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 		return;
 	}
 

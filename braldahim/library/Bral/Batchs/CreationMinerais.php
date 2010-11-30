@@ -9,12 +9,12 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 
 	const MIN_SOL = 10;
 	const MAX_SOL = 20;
-	
+
 	const MIN_SOUS_SOL = 40;
 	const MAX_SOUS_SOL = 160;
-	
+
 	const COEF_QUANTITE_SOUS_SOL = 1;
-	
+
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - enter -");
 
@@ -31,6 +31,8 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$retour .= $this->calculCreation(-12);
 		$retour .= $this->calculCreation(-13);
 		$retour .= $this->suppressionSurEau();
+		$retour .= $this->suppressionSurLieux();
+		$retour .= $this->suppressionSurPalissades();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - calculBatchImpl - exit -");
 		return $retour;
@@ -78,6 +80,96 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			$filonTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurEau - exit -");
+		return $retour;
+	}
+
+	private function suppressionSurLieux() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurLieux - enter -");
+		$retour = "";
+
+		// Suppression des filons partout où il y a une eau
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$filonTable = new Filon();
+
+		$nblieux = $lieuTable->countAll();
+		$limit = 1000;
+
+		$where = "";
+
+		for ($offset = 0; $offset <= $nblieux + $limit; $offset =  $offset + $limit) {
+			$lieux = $lieuTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($lieux as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_filon = ".$r["x_lieu"]. " AND y_filon = ".$r["y_lieu"]." AND z_filon = ".$r["z_lieu"].") ";
+				$nb++;
+				if ($nb == $limit) {
+					$filonTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
+			}
+
+			if ($where != "") {
+				$filonTable->delete($where);
+			}
+		}
+
+		if ($where != "") {
+			$filonTable->delete($where);
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurLieux - exit -");
+		return $retour;
+	}
+
+	private function suppressionSurPalissades() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurPalissades - enter -");
+		$retour = "";
+
+		// Suppression des filons partout où il y a une eau
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		$filonTable = new Filon();
+
+		$nbPalissades = $palissadeTable->countAll();
+		$limit = 1000;
+
+		$where = "";
+
+		for ($offset = 0; $offset <= $nbPalissades + $limit; $offset =  $offset + $limit) {
+			$palissades = $palissadeTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($palissades as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_filon = ".$r["x_palissade"]. " AND y_filon = ".$r["y_palissade"]." AND z_filon = ".$r["z_palissade"].") ";
+				$nb++;
+				if ($nb == $limit) {
+					$filonTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
+			}
+
+			if ($where != "") {
+				$filonTable->delete($where);
+			}
+		}
+
+		if ($where != "") {
+			$filonTable->delete($where);
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurPalissades - exit -");
 		return $retour;
 	}
 
@@ -225,7 +317,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			usleep(Bral_Util_De::get_de_specifique(5000, 700000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-				
+
 			if ($zposition == 0) {
 				$quantite = Bral_Util_De::get_de_specifique(self::MIN_SOL, self::MAX_SOL);
 			} else {

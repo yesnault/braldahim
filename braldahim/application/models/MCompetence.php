@@ -8,6 +8,8 @@
 class MCompetence extends Zend_Db_Table {
 	protected $_name = 'mcompetence';
 	protected $_primary = 'id_mcompetence';
+	
+	const ID_DEPLACEMENT_SOLITAIRE = 49;
 
 	public function findReperagecase() {
 		$db = $this->getAdapter();

@@ -14,6 +14,16 @@ class Lieu extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
+	function countAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', 'count(*) as nombre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
 	public function findByType($type, $estSoule = null, $estReliee = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -198,7 +208,7 @@ class Lieu extends Zend_Db_Table {
 		->where('lieu.id_fk_type_lieu = ?', $type)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

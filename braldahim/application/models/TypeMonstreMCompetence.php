@@ -33,6 +33,18 @@ class TypeMonstreMCompetence extends Zend_Db_Table {
 		return $this->findByIdTypeGroupe($idTypeMonstre, "deplacement");
 	}
 
+	private function findDeplacementByIdMCompetence($idMCompetence) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_monstre_mcompetence', '*')
+		->from('mcompetence', '*')
+		->where('type_monstre_mcompetence.id_fk_mcompetence_type_monstre_mcompetence = mcompetence.id_mcompetence')
+		->where('mcompetence.id_mcompetence = ?', intval($idMCompetence));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+
 	private function findByIdTypeGroupe($idTypeMonstre, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();

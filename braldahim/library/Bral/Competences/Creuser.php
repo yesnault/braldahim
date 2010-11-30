@@ -210,7 +210,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculCreuser($x, $y) {
 
-		if (Bral_Util_De::get_1d20() == 10) {
+		if (Bral_Util_De::get_1d10() == 5) {
 			$nidDecouvert = $this->calculNid($x, $y, $this->view->user->z_braldun);
 		}
 
@@ -258,7 +258,8 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$lieu = $lieuRowset[0];
 		$distance =  $lieu["distance"];
 
-		if ($distance < 11) { // 11: distance = 5 + niveauMin x 3, avec niveauMin=2, distanceMin : 11
+		//if ($distance < 11) { // 11: distance = 5 + niveauMin x 3, avec niveauMin=2, distanceMin : 11
+		if ($distance < 5) {
 			return false; // pas de monstre à poper pour une distance < 11
 		}
 

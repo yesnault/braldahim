@@ -82,7 +82,7 @@ class Bral_Monstres_VieMonstre {
 		}
 		// mise à jour du monstre, quoi qu'il arrive
 		$this->updateMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($retour, true).")");
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementNormalMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$modif.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementNormalMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
 		return $modif;
 	}
 
@@ -205,7 +205,7 @@ class Bral_Monstres_VieMonstre {
 	 * @return boolean : le monstre a bougé (true) ou non (false)
 	 */
 	private function deplacementDijkstraMonstre($x_destination, $y_destination) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre ".$this->monstre["id_monstre"]."  - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
 
 		$modif = false;
 
@@ -241,23 +241,23 @@ class Bral_Monstres_VieMonstre {
 		$tabCheminValide = $dijkstra->getShortestPath($numeroDestination);
 
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 
 		if ($tabCheminValide == null) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, destination impossible 1");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].")  pas de deplacement, destination impossible 1");
 			$modif = null;
 			$pa_a_jouer = 0;
 		}
 
 		if (array_key_exists($x_destination, $tabValide) && array_key_exists($y_destination, $tabValide[$x_destination])) {
 			if ($tabValide[$x_destination][$y_destination] == false) {
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, destination impossible 2 x:".$x_destination." y:".$y_destination);
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].") pas de deplacement, destination impossible 2 x:".$x_destination." y:".$y_destination);
 				$modif = null;
 				$pa_a_jouer = 0;
 			}
 		} else {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, destination impossible 3");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].")  pas de deplacement, destination impossible 3");
 			$modif = null;
 			$pa_a_jouer = 0;
 		}
@@ -287,7 +287,7 @@ class Bral_Monstres_VieMonstre {
 			$coutPA = $this->calculCoutPADeplacement($zoneTable, $tabEaux); // on calcule le coût en PA du déplacement
 			if ($coutPA > $this->monstre["pa_monstre"]) {
 				// si le monstre n'a plus assez de PA, on sort
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas assez de PA pour se deplacer paRestant:".$this->monstre["pa_monstre"].". cout:".$coutPA);
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].") pas assez de PA pour se deplacer paRestant:".$this->monstre["pa_monstre"].". cout:".$coutPA);
 				break;
 			}
 
@@ -299,9 +299,9 @@ class Bral_Monstres_VieMonstre {
 			$modif = true;
 
 			$nb_pa_joues = $nb_pa_joues + $coutPA;
-
+			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$modif.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
 		return $modif;
 	}
 
@@ -315,7 +315,7 @@ class Bral_Monstres_VieMonstre {
 
 		if ($tabEaux[$this->monstre["x_monstre"]][$this->monstre["y_monstre"]] == true) {
 			$nbPa = 6;
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") 6 PA utilises pour deplacement sur eau");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].") 6 PA utilises pour deplacement sur eau");
 		} else {
 
 			$zone = $zoneTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"]);
@@ -379,6 +379,11 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
+		
+		if ($this->monstre["pa_monstre"] < 0) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - plus de PA:".$this->monstre["pa_monstre"]);
+			return;
+		}
 
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
@@ -386,10 +391,17 @@ class Bral_Monstres_VieMonstre {
 		$competences = $typeMonstreMCompetence->findReperageByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		$foo = null;
 		if ($competences != null) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competences de reperage");
 			foreach($competences as $c) {
 				$actionReperage = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$reperageCible = $actionReperage->action();
+				if ($this->monstre["pa_monstre"] < 0) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - plus de PA");
+					break;
+				}
 			}
+		} else {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - pas de competence de reperage");
 		}
 
 		$this->updateMonstre();
@@ -434,6 +446,11 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
+		
+		if ($this->monstre["pa_monstre"] < 0) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - plus de PA:".$this->monstre["pa_monstre"]);
+			return;
+		}
 
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
@@ -444,6 +461,10 @@ class Bral_Monstres_VieMonstre {
 			foreach($competences as $c) {
 				$actionPostAll = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$actionPostAll->action();
+				if ($this->monstre["pa_monstre"] < 0) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - plus de PA");
+					break;
+				}
 			}
 		}
 
@@ -451,7 +472,7 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll - (idm:".$this->monstre["id_monstre"].") - exit");
 		return;
 	}
-	
+
 	public function calculDeplacement($view, $estFuite) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement (idm:".$this->monstre["id_monstre"].") - enter");
 		if ($this->monstre == null) {
@@ -575,7 +596,7 @@ class Bral_Monstres_VieMonstre {
 	}
 
 	private function updateMonstre() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (".$this->monstre["id_monstre"].") - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception(get_class($this)." - miseAJourMonstre, monstre inconnu");
 		}

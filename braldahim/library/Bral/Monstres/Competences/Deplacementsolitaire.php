@@ -49,6 +49,8 @@ class Bral_Monstres_Competences_Deplacementsolitaire extends Bral_Monstres_Compe
 			$this->monstre["y_direction_monstre"] = $tab["y_direction"];
 
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." monstre (".$this->monstre["id_monstre"].")- calcul nouvelle valeur direction x=".$this->monstre["x_direction_monstre"]." y=".$this->monstre["y_direction_monstre"]." ");
+		} else {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." monstre (".$this->monstre["id_monstre"].")- pas de nouvelle direction direction:x=".$this->monstre["x_direction_monstre"]." y=".$this->monstre["y_direction_monstre"]." ");
 		}
 
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();

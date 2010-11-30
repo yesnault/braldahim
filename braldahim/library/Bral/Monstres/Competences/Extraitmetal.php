@@ -5,14 +5,10 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Monstres_Competences_Extraitmetal extends Bral_Monstres_Competences_Prereperage {
+class Bral_Monstres_Competences_Extraitmetal extends Bral_Monstres_Competences_Postall {
 
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - enter - (idm:".$this->monstre["id_monstre"].")");
-
-		$retour = Bral_Monstres_Competences_Prereperage::SUITE_REPERAGE_STANDARD;
-
-		$this->enchainerAvecReperageStandard = true;
 
 		Zend_Loader::loadClass("Filon");
 		$filonTable = new Filon();
@@ -21,12 +17,13 @@ class Bral_Monstres_Competences_Extraitmetal extends Bral_Monstres_Competences_P
 		if (count($filons) > 0) { // si l'on est sur un filon
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - (idm:".$this->monstre["id_monstre"].") - filon trouve sur la case");
 			$this->extraitmetal($filons[0]);
+			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $this->competence["pa_utilisation_mcompetence"];
 		} else {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - (idm:".$this->monstre["id_monstre"].") - filon non trouve sur la case");
 		}
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - exit - (idm:".$this->monstre["id_monstre"].") - retour:".$retour);
-		return $retour;
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - exit - (idm:".$this->monstre["id_monstre"].")");
+		return;
 	}
 
 	private function extraitmetal($filon) {
@@ -49,10 +46,6 @@ class Bral_Monstres_Competences_Extraitmetal extends Bral_Monstres_Competences_P
 
 		$this->majEvenement();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - Extraitmetal - exit - (idm:".$this->monstre["id_monstre"].")");
-	}
-
-	public function enchainerAvecReperageStandard() {
-		return $this->enchainerAvecReperageStandard;
 	}
 
 	private function majEvenement() {
