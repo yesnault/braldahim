@@ -49,7 +49,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$zones = $zoneNidTable->findZonesHorsVille();
 
 		foreach($zones as $z) {
-			if ($z["z_zone"] == 0) {
+			if ($z["z_zone_nid"] == 0) {
 				$this->calculZoneHorsVille($z);
 			}
 		}
@@ -308,7 +308,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$zones = $zoneNidTable->findZonesVille();
 
 		foreach($zones as $z) {
-			if ($z["z_zone"] == 0) {
+			if ($z["z_zone_nid"] == 0) {
 				$this->calculZoneVille($z);
 			}
 		}
