@@ -26,7 +26,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 
 		$retour = null;
-		
+
 		/* Les nids dans les donjons et les dans les mines ne sont pas traités ici.
 		 * Mine : compétence creuser.
 		 * Donjon : Util Donjon
@@ -49,7 +49,9 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$zones = $zoneNidTable->findZonesHorsVille();
 
 		foreach($zones as $z) {
-			$this->calculZoneHorsVille($z);
+			if ($z["z_zone"] == 0) {
+				$this->calculZoneHorsVille($z);
+			}
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZonesHorsVille - exit -");
@@ -127,7 +129,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$creationNidsTable = new CreationNids();
 		$typesMonstresDansZone = $creationNidsTable->findByIdZoneNid($zone["id_zone_nid"]);
 		$nbTypesTotalDansZone = count($typesMonstresDansZone);
-		
+
 		$typeMonstreTable = new TypeMonstre();
 		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
 
@@ -194,7 +196,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$nbNidACreer = floor($nbMonstreACreer / self::NB_MONSTRES_PAR_NID_MOYENNE);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - idz:".$zone["id_zone_nid"]. " - nbMonstreACreer:".$nbMonstreACreer." nbNidACreer:".$nbNidACreer);
-		
+
 		$config = Zend_Registry::get('config');
 
 		for($i=1; $i <= $nbNidACreer; $i++) {
@@ -205,14 +207,14 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			usleep(Bral_Util_De::get_de_specifique(50, self::USLEEP_DELTA));
 			$x =  Bral_Util_De::get_de_specifique($xMin, $xMax);
-			
+
 			if ($x > $xMax || $x < $xMin) {
 				echo "ERREUR idz:".$zone["id_zone_nid"]." x:$x xmin:$xMin xmax:$xMax";
 			}
 
 			usleep(Bral_Util_De::get_de_specifique(100, self::USLEEP_DELTA));
 			$y =  Bral_Util_De::get_de_specifique($yMin, $yMax);
-				
+
 			if ($x <= $config->game->x_min) {
 				$x = $config->game->x_min + 1;
 			}
@@ -306,7 +308,9 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$zones = $zoneNidTable->findZonesVille();
 
 		foreach($zones as $z) {
-			$this->calculZoneVille($z);
+			if ($z["z_zone"] == 0) {
+				$this->calculZoneVille($z);
+			}
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZonesVille - exit -");
@@ -400,7 +404,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			$rayonMin = $niveauMaxMonstre * 3; // le nid, avec un niveau gigantesque à 5, sera généré au minimum à 15 cases du centre de la ville
 			$rayonMax = $rayonMin + 20; // et donc à 35 cases du centre de la ville au maximum
-			
+
 			if ($rayonMax > 100) {
 				$rayonMax = 99;
 			}
