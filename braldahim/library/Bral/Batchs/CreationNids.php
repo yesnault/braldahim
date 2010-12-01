@@ -145,13 +145,13 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		foreach($tousTypesMontres as $t) {
 			$nbMonstre = 0;
 			foreach($monstres as $m) {
-				if ($t["id_type_monstre"] == $m["id_fk_type_monstre"]) {
+				if ($m["z_monstre"] == 0 && $t["id_type_monstre"] == $m["id_fk_type_monstre"]) {
 					$nbMonstre = $nbMonstre + $m["nombre"];
 					break;
 				}
 			}
 			foreach($nids as $n) {
-				if ($t["id_type_monstre"] == $n["id_fk_type_monstre_nid"]) {
+				if ($n["z_nid"] == 0 && $t["id_type_monstre"] == $n["id_fk_type_monstre_nid"]) {
 					$nbMonstre = $nbMonstre + $n["nombre"];
 					break;
 				}
