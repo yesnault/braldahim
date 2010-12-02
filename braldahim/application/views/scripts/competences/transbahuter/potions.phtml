@@ -20,6 +20,6 @@
 <?php else : ?>
 	<input type='hidden' maxlength='4' size='4' name='valeur_15' id='valeur_15' value='0' />
 	<input type='hidden' maxlength='4' size='4' name='valeur_15_max' id='valeur_15_max' value='0' />
-<?endif; ?>
+<?php endif; ?>
 <input type='hidden' maxlength='4' size='4' name='valeur_15_poids' id='valeur_15_poids' value='<?php echo Bral_Util_Poids::POIDS_POTION ?>' />
 <input type='hidden' maxlength='4' size='4' name='valeur_15_echoppe' id='valeur_15_echoppe' value='<?php if ($this->idEchoppe != null) : echo "oui"; else : echo "non"; endif;?>' />

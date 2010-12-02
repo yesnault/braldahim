@@ -62,6 +62,8 @@ class Element extends Zend_Db_Table {
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		if (isset($data['id_fk_butin_element'])) {
 			$select->where('id_fk_butin_element = ?',$data["id_fk_butin_element"]);
+		} else {
+			$select->where('id_fk_butin_element is null');
 		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

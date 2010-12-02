@@ -81,11 +81,11 @@
    				</div>
 				<br/>
 				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
-		<?else : ?>
+		<?php else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
-		<?endif; ?>
-	<?endif; ?>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div> 	
-<?else : ?>
+<?php else : ?>
 	Vous ne pouvez rien transbahuter !<br/><br/>
-<?endif; ?>
+<?php endif; ?>

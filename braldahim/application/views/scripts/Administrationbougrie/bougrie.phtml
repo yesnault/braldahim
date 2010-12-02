@@ -47,7 +47,7 @@
 					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 						<td class="table_liste"><?php echo $bougrie["id_bougrie"] ?></td>
 						<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($bougrie["texte_bougrie"]);?></td>
-						<td class="table_liste"><?php if ($bougrie["regle_bougrie"] != null && $bougrie["regle_bougrie"] != "") :?><a href='<?php echo $bougrie["regle_bougrie"];?>'>Règle</a><?php else:?>n/a<?endif;?></td>
+						<td class="table_liste"><?php if ($bougrie["regle_bougrie"] != null && $bougrie["regle_bougrie"] != "") :?><a href='<?php echo $bougrie["regle_bougrie"];?>'>Règle</a><?php else:?>n/a<?php endif;?></td>
 						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer la bougrie" onclick='document.location.href="/Administrationbougrie/bougrie/id_bougrie/<?php echo $bougrie["id_bougrie"] ?>"'/></td>
 					</tr>
 				<?php endforeach; ?>

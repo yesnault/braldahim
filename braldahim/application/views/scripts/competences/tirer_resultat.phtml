@@ -7,7 +7,7 @@
 
 	Vous avez tir&eacute; sur <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
 	Jet d'attaque : <?php echo $this->jetAttaquantNonReduit?><br />
-	Vous étiez &agrave; une distance de <?php echo $this->distCible ?> case<?php if ($this->distCible > 1) : ?>s<?endif;?><br />
+	Vous étiez &agrave; une distance de <?php echo $this->distCible ?> case<?php if ($this->distCible > 1) : ?>s<?php endif;?><br />
 	<?php if ($this->palissade === true) : ?>
 		et au moins une palissade se trouvait sur la trajectoire du tir !<br />
 	<?php endif; ?>
