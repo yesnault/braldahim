@@ -84,7 +84,7 @@ class Bral_Monstres_VieSolitaire {
 				$vieMonstre->setMonstre($monstre);
 				Zend_loader::loadClass("Bral_Monstres_Competences_Reperagestandard");
 				$cible = Bral_Monstres_Competences_Reperagestandard::rechercheNouvelleCible($monstre);
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
 				$vieMonstre->attaqueCible($cible, $this->view); // seconde attaque, utilise pour souffle de feu par exemple, si la cible principale est tuée par le souffle et qu'il reste 4 PA pour l'attaque
 			}
 		} else {

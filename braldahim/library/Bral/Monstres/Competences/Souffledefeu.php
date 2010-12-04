@@ -11,7 +11,7 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 	public function calculDegat($estCritique){}
 
 	public function actionSpecifique() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter (idm:".$this->monstre["id_monstre"].")");
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
@@ -73,21 +73,21 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 			}
 		}
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit - (idm:".$this->monstre["id_monstre"].")");
 		return $koCible;
 	}
 
 	private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter - (idm:".$this->monstre["id_monstre"].")");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
 		$details = "[m".$this->monstre["id_monstre"]."] a effectué un souffle de feu, touchant [b".$braldun["id_braldun"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit - (idm:".$this->monstre["id_monstre"].")");
 	}
 
 	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter - (idm:".$this->monstre["id_monstre"].")");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué un souffle de feu vous grillant quelques poils :";
 		$retour .= PHP_EOL."Jet du Monstre (jet de force) : ".$jetMonstre;
@@ -99,7 +99,7 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 		}
 		$retour .= PHP_EOL."Jet de Dégats du souffle : ".$malus;
 		$retour .= PHP_EOL."Armure prise en compte, points de vie en moins : ".$pvEnMoins." PV";
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit - (idm:".$this->monstre["id_monstre"].")");
 		return $retour;
 	}
 }

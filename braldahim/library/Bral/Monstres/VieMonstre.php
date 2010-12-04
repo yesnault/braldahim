@@ -501,7 +501,7 @@ class Bral_Monstres_VieMonstre {
 		return $retour;
 	}
 
-	public function setMonstre($m) {
+	public function setMonstre(&$m) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter - (idm:".$m["id_monstre"].")");
 		if ($m == null) {
 			throw new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
