@@ -66,6 +66,10 @@ class Bral_Monstres_VieMonstre {
 			$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
 		} else {
 			$modif = $this->deplacementNormalMonstre($x_destination, $y_destination);
+			if ($modif == null) { // pas de deplacement reussi en mode normal
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].")pas de deplacement reussi en mode normal, on tente Dijkstra");
+				$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
+			}
 		}
 
 		if ($modif === true) {
@@ -428,7 +432,7 @@ class Bral_Monstres_VieMonstre {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - nomCompetence:".$c["nom_systeme_mcompetence"]);
 				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
 				$koCible = $actionAttaque->action();
-				if ($koCible || $this->monstre["pv_restant_monstre"] <= 0) {
+				if ($koCible || $this->monstre["pv_restant_monstre"] <= 0 || $this->monstre["pa_monstre"] <= 0) {
 					break;
 				}
 			}
@@ -507,7 +511,7 @@ class Bral_Monstres_VieMonstre {
 			throw new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
-		$this->monstre = $m;
+		$this->monstre = &$m;
 	}
 
 	public function getMonstre() {
