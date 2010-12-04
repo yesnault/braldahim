@@ -53,7 +53,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 	}
 
 	public static function rechercheNouvelleCible(&$monstre, $vueForcee = null, $order = null) {
-		Bral_Util_Log::viemonstres()->trace("rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
 		$braldunTable = new Braldun();
 
 		if ($vueForcee == null) {
@@ -94,8 +94,10 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		if ($cibles != null) {
 			shuffle($cibles);
 			foreach($cibles as $c) {
-				// on ne charge pas sur la case
-				if (array_key_exists($c["x_braldun"], $tabValide) &&
+				if ($monstre["x_monstre"] == $c["x_braldun"] && $monstre["y_monstre"] == $c["y_braldun"]) { // même case
+					$cible = $c; // controle cible OK
+					break;
+				} else if (array_key_exists($c["x_braldun"], $tabValide) &&
 				array_key_exists($c["y_braldun"], $tabValide[$c["x_braldun"]]) &&
 				$tabValide[$c["x_braldun"]][$c["y_braldun"]] === true
 				&& Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
@@ -108,7 +110,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		}
 
 		if ($cible != null) {
-			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_braldun"]);
+			Bral_Util_Log::viemonstres()->debug(get_class($this)."rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_braldun"]);
 			$monstre["id_fk_braldun_cible_monstre"] = $cible["id_braldun"];
 			$monstre["x_direction_monstre"] = $cible["x_braldun"];
 			$monstre["y_direction_monstre"] = $cible["y_braldun"];
