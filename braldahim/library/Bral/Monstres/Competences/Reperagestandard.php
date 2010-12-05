@@ -53,7 +53,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 	}
 
 	public static function rechercheNouvelleCible(&$monstre, $vueForcee = null, $order = null) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_Competences_Reperagestandard - rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
 		$braldunTable = new Braldun();
 
 		if ($vueForcee == null) {
@@ -104,21 +104,21 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 					$cible = $c; // controle cible OK
 					break;
 				} else {
-					Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_braldun"]);
+					Bral_Util_Log::viemonstres()->debug("Bral_Monstres_Competences_Reperagestandard - rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_braldun"]);
 				}
 			}
 		}
 
 		if ($cible != null) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)."rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_braldun"]);
+			Bral_Util_Log::viemonstres()->debug("Bral_Monstres_Competences_Reperagestandard rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_braldun"]);
 			$monstre["id_fk_braldun_cible_monstre"] = $cible["id_braldun"];
 			$monstre["x_direction_monstre"] = $cible["x_braldun"];
 			$monstre["y_direction_monstre"] = $cible["y_braldun"];
 		} else {
-			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - aucune cible trouvee x=".$monstre["x_monstre"]." y=".$monstre["y_monstre"]." vue=".$monstre["vue_monstre"]);
+			Bral_Util_Log::viemonstres()->debug("Bral_Monstres_Competences_Reperagestandard - rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - aucune cible trouvee x=".$monstre["x_monstre"]." y=".$monstre["y_monstre"]." vue=".$monstre["vue_monstre"]);
 			$cible = null;
 		}
-		Bral_Util_Log::viemonstres()->trace("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - exit");
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_Competences_Reperagestandard - rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - exit");
 		return $cible;
 	}
 }

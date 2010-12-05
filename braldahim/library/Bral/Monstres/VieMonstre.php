@@ -9,6 +9,10 @@ class Bral_Monstres_VieMonstre {
 	private static $instance = null;
 	private $monstre = null;
 	private static $config = null;
+	
+	const DEPLACEMENT_REUSSI = 1;
+	const DEPLACEMENT_PAS_BOUGE = 2;
+	const DEPLACEMENT_ENV_KO = 3;
 
 	public static function getInstance() {
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
@@ -66,25 +70,25 @@ class Bral_Monstres_VieMonstre {
 			$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
 		} else {
 			$modif = $this->deplacementNormalMonstre($x_destination, $y_destination);
-			/*if ($modif == null) { // pas de deplacement reussi en mode normal
+			if ($modif === self::DEPLACEMENT_ENV_KO) { // pas de deplacement reussi en mode normal
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].")pas de deplacement reussi en mode normal, on tente Dijkstra");
 				$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
-				}*/
+			}
 		}
 
-		if ($modif === true) {
+		if ($modif === self::DEPLACEMENT_REUSSI) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
 			$retour = true;
-		} else if($modif === false) {
+		} else if($modif === self::DEPLACEMENT_PAS_BOUGE) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false");
 			$retour = false;
-		} else {
+		} else { // DEPLACEMENT_ENV_KO
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif null");
 			$this->monstre["x_direction_monstre"] = $this->monstre["x_monstre"];
 			$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
 			$retour = null;
 		}
-		
+
 		self::ajustementMax($this->monstre["x_monstre"], $this->monstre["y_monstre"]);
 
 		// mise à jour du monstre, quoi qu'il arrive
@@ -102,7 +106,7 @@ class Bral_Monstres_VieMonstre {
 	private function deplacementNormalMonstre($x_destination, $y_destination) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementNormalMonstre ".$this->monstre["id_monstre"]."  - enter");
 
-		$modif = false;
+		$modif = self::DEPLACEMENT_PAS_BOUGE;
 
 		$palissadeTable = new Palissade();
 		$x_min = $this->monstre["x_monstre"] - 12;
@@ -160,7 +164,7 @@ class Bral_Monstres_VieMonstre {
 			$x_offset = 0;
 			$y_offset = 0;
 
-			$modif = true;
+			$modif = self::DEPLACEMENT_REUSSI;
 
 			if ($this->monstre["x_monstre"] < $x_destination) {
 				$x_monstre = $this->monstre["x_monstre"] + 1;
@@ -189,7 +193,7 @@ class Bral_Monstres_VieMonstre {
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
-					$modif = null;
+					$modif = self::DEPLACEMENT_ENV_KO;
 				}
 			}
 
@@ -214,7 +218,7 @@ class Bral_Monstres_VieMonstre {
 	private function deplacementDijkstraMonstre($x_destination, $y_destination) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
 
-		$modif = false;
+		$modif = self::DEPLACEMENT_PAS_BOUGE;
 
 		$nbCases = 10; // 10 cases de déplacement destination max + 10 cases fuite
 
@@ -253,19 +257,19 @@ class Bral_Monstres_VieMonstre {
 
 		if ($tabCheminValide == null) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].")  pas de deplacement, destination impossible 1");
-			$modif = null;
+			$modif = self::DEPLACEMENT_ENV_KO;
 			$pa_a_jouer = 0;
 		}
 
 		if (array_key_exists($x_destination, $tabValide) && array_key_exists($y_destination, $tabValide[$x_destination])) {
 			if ($tabValide[$x_destination][$y_destination] == false) {
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].") pas de deplacement, destination impossible 2 x:".$x_destination." y:".$y_destination);
-				$modif = null;
+				$modif = self::DEPLACEMENT_ENV_KO;
 				$pa_a_jouer = 0;
 			}
 		} else {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (idm:".$this->monstre["id_monstre"].")  pas de deplacement, destination impossible 3");
-			$modif = null;
+			$modif = self::DEPLACEMENT_ENV_KO;
 			$pa_a_jouer = 0;
 		}
 
@@ -303,7 +307,7 @@ class Bral_Monstres_VieMonstre {
 
 			$this->monstre["x_monstre"] = $tabChemins[$numeroCase]["x"];
 			$this->monstre["y_monstre"] = $tabChemins[$numeroCase]["y"];
-			$modif = true;
+			$modif = self::DEPLACEMENT_REUSSI;
 
 			$nb_pa_joues = $nb_pa_joues + $coutPA;
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
@@ -885,7 +889,7 @@ class Bral_Monstres_VieMonstre {
 
 	private static function ajustementMax(&$x, &$y) {
 		$config = Zend_Registry::get('config');
-		
+
 		if ($x <= $config->game->x_min) {
 			$x = $config->game->x_min + 1;
 		}
