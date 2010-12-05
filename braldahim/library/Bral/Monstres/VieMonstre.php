@@ -69,7 +69,7 @@ class Bral_Monstres_VieMonstre {
 			/*if ($modif == null) { // pas de deplacement reussi en mode normal
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].")pas de deplacement reussi en mode normal, on tente Dijkstra");
 				$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
-			}*/
+				}*/
 		}
 
 		if ($modif === true) {
@@ -84,6 +84,9 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
 			$retour = null;
 		}
+		
+		self::ajustementMax($this->monstre["x_monstre"], $this->monstre["y_monstre"]);
+
 		// mise à jour du monstre, quoi qu'il arrive
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($retour, true).")");
@@ -383,7 +386,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-		
+
 		if ($this->monstre["pa_monstre"] < 0) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - plus de PA:".$this->monstre["pa_monstre"]);
 			return;
@@ -450,7 +453,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-		
+
 		if ($this->monstre["pa_monstre"] < 0) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - plus de PA:".$this->monstre["pa_monstre"]);
 			return;
@@ -873,24 +876,27 @@ class Bral_Monstres_VieMonstre {
 			$tab["y_direction"] = $yMax;
 		}
 
-		$config = Zend_Registry::get('config');
-
-		if ($tab["x_direction"] <= $config->game->x_min) {
-			$tab["x_direction"] = $config->game->x_min + 1;
-		}
-		if ($tab["x_direction"] >= $config->game->x_max) {
-			$tab["x_direction"] = $config->game->x_max - 1;
-		}
-		if ($tab["y_direction"] <= $config->game->y_min) {
-			$tab["y_direction"] = $config->game->y_min + 1;
-		}
-		if ($tab["y_direction"] >= $config->game->y_max) {
-			$tab["y_direction"] = $config->game->y_max - 1;
-		}
+		self::ajustementMax($tab["x_direction"], $tab["y_direction"]);
 
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - exit - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 
 		return $tab;
+	}
 
+	private static function ajustementMax(&$x, &$y) {
+		$config = Zend_Registry::get('config');
+		
+		if ($x <= $config->game->x_min) {
+			$x = $config->game->x_min + 1;
+		}
+		if ($x >= $config->game->x_max) {
+			$x = $config->game->x_max - 1;
+		}
+		if ($y <= $config->game->y_min) {
+			$y = $config->game->y_min + 1;
+		}
+		if ($y >= $config->game->y_max) {
+			$y = $config->game->y_max - 1;
+		}
 	}
 }
