@@ -9,7 +9,7 @@ class Bral_Monstres_VieMonstre {
 	private static $instance = null;
 	private $monstre = null;
 	private static $config = null;
-	
+
 	const DEPLACEMENT_REUSSI = 1;
 	const DEPLACEMENT_PAS_BOUGE = 2;
 	const DEPLACEMENT_ENV_KO = 3;
@@ -402,12 +402,16 @@ class Bral_Monstres_VieMonstre {
 		$competences = $typeMonstreMCompetence->findReperageByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		$foo = null;
 		if ($competences != null) {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competences de reperage");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competence(s) de reperage");
 			foreach($competences as $c) {
+				if ($this->monstre["pa_monstre"] < $c["pa_utilisation_mcompetence"]) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage pas assez de PA pour cette competence (".$c["nom_systeme_mcompetence"].") pa:".$this->monstre["pa_monstre"]." requis:".$c["pa_utilisation_mcompetence"]." (idm:".$this->monstre["id_monstre"].")");
+					continue;
+				}
 				$actionReperage = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$reperageCible = $actionReperage->action();
 				if ($this->monstre["pa_monstre"] < 0) {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - plus de PA");
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - plus de PA");
 					break;
 				}
 			}
@@ -435,7 +439,12 @@ class Bral_Monstres_VieMonstre {
 		// Choix de l'action dans mcompetences
 		$competences = $typeMonstreMCompetence->findAttaqueByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		if ($competences != null) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competence(s) d'attaque");
 			foreach($competences as $c) {
+				if ($this->monstre["pa_monstre"] < $c["pa_utilisation_mcompetence"]) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible pas assez de PA pour cette competence (".$c["nom_systeme_mcompetence"].") pa:".$this->monstre["pa_monstre"]." requis:".$c["pa_utilisation_mcompetence"]." (idm:".$this->monstre["id_monstre"].")");
+					continue;
+				}
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - nomCompetence:".$c["nom_systeme_mcompetence"]);
 				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
 				$koCible = $actionAttaque->action();
@@ -469,7 +478,12 @@ class Bral_Monstres_VieMonstre {
 		$competences = $typeMonstreMCompetence->findPostAllByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		$foo = null;
 		if ($competences != null) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competence(s) postAll");
 			foreach($competences as $c) {
+				if ($this->monstre["pa_monstre"] < $c["pa_utilisation_mcompetence"]) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll pas assez de PA pour cette competence (".$c["nom_systeme_mcompetence"].") pa:".$this->monstre["pa_monstre"]." requis:".$c["pa_utilisation_mcompetence"]." (idm:".$this->monstre["id_monstre"].")");
+					continue;
+				}
 				$actionPostAll = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$actionPostAll->action();
 				if ($this->monstre["pa_monstre"] < 0) {
@@ -499,11 +513,20 @@ class Bral_Monstres_VieMonstre {
 		$competences = $typeMonstreMCompetence->findDeplacementByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
 		$foo = null;
 		if ($competences != null) {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement (idm:".$this->monstre["id_monstre"].") - ".count($competences)." competence(s) de deplacement");
 			foreach($competences as $c) {
+				if ($this->monstre["pa_monstre"] < $c["pa_utilisation_mcompetence"]) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement pas assez de PA pour cette competence (".$c["nom_systeme_mcompetence"].") pa:".$this->monstre["pa_monstre"]." requis:".$c["pa_utilisation_mcompetence"]." (idm:".$this->monstre["id_monstre"].")");
+					continue;
+				}
 				$actionDeplacement = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$actionDeplacement->setEstFuite($estFuite);
 				$actionDeplacement->action();
 				$retour = true;
+				if ($this->monstre["pa_monstre"] < 0) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDeplacement (idm:".$this->monstre["id_monstre"].") - plus de PA");
+					break;
+				}
 			}
 		}
 

@@ -44,7 +44,6 @@ class TypeMonstreMCompetence extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-
 	private function findByIdTypeGroupe($idTypeMonstre, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
