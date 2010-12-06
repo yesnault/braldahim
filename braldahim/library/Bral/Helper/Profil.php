@@ -15,17 +15,29 @@ class Bral_Helper_Profil {
 		$niveauSuivantPx = ($niveau_braldun + 1) * 5;
 		$pourcentage = (($px_perso_braldun * 100) / $niveauSuivantPx);
 		$titre = "Exp&eacute;rience atteinte dans ce niveau";
-		$texte = "Vous avez ".$px_perso_braldun. " PX Perso.<br />";
+		$s = "";
+		if ($px_perso_braldun > 1) {
+			$s = "s";
+		}
+		$texte = "Vous avez ".$px_perso_braldun. " PX Perso".$s.".<br />";
 		$texte .= "Pour passer au niveau ".($niveau_braldun + 1).", il vous faut ";
 
 		if (($niveauSuivantPx - $px_perso_braldun) > 0) {
-			$texte .= " ".$niveauSuivantPx. " PX Perso.<br />";
-			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_braldun)." PX Perso.<br />";
+			$s = "";
+			if (($niveauSuivantPx) > 1) {
+				$s = "s";
+			}
+			$texte .= " ".$niveauSuivantPx. " PX Perso".$s.".<br />";
+			$s = "";
+			if (($niveauSuivantPx - $px_perso_braldun) > 1) {
+				$s = "s";
+			}
+			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_braldun)." PX Perso".$s.".<br />";
 		} else {
 			$texte .= " 0 PX Perso.<br />";
 			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br />";
 		}
-		
+
 		$largeur = $pourcentage;
 
 		if ($largeur > 100) {
