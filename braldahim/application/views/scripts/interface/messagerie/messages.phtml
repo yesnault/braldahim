@@ -135,17 +135,17 @@
              	<br />
 			   
 			   <?php if (!empty($this->messages)) : ?>
-				   <?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+				   <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimerselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}'  id="msgBtnSupSelect" value="Supprimer les messages sélectionnés" />
 			       <?php endif; ?>
-				   <?php if ($this->filtre == $this->config->messagerie->message->type->reception): ?>
+				   <?php if ($this->filtre == $this->config->messagerie->message->type->reception && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 				   	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiverselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnArcSelect" value="Archiver les messages sélectionnés" />
 				   <?php endif; ?>
 				   <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 			       	<input type="button" class='button1'  onclick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnMarSelect" value="Marquer les messages sélectionnés comme lus" />
 			       <?php endif; ?>
 			       <br /><br />
-			       <?php if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+			       <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
 			       	<input type="button" class='button1'  onclick='javascript:if (confirm("Confirmez-vous la suppression de tous les messages ?")) {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=all&valeur_3=<?php echo $this->page?>&valeur_4=<?php echo $this->filtre?>"); disabledAllBtnMessagerie();}' id="msgBtnSupAll" value="<?php echo $titre?> : <?php echo PHP_EOL?>Supprimer TOUS les messages" />
 			       <?php endif; ?>
 			       <?php if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
