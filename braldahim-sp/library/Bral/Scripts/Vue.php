@@ -60,6 +60,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		Zend_Loader::loadClass("ElementIngredient");
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("ElementTabac");
+		Zend_Loader::loadClass("Environnement");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("BraldunsMetiers");
 		Zend_Loader::loadClass("Monstre");
@@ -70,6 +71,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Route");
 		Zend_Loader::loadClass("Eau");
+		Zend_Loader::loadClass("Tunnel");
 		Zend_Loader::loadClass("SouleMatch");
 		Zend_Loader::loadClass("Zone");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -172,6 +174,12 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 		$souleMatchTable = new SouleMatch();
 		$souleMatch = $souleMatchTable->selectBallonVue($x_min, $y_min, $x_max, $y_max);
 		unset($souleMatchTable);
+		$tunnels = null;
+		if ($z_position < 10) {
+			$tunnelTable = new Tunnel();
+			$tunnels = $tunnelTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
+			unset($tunnelTable);
+		}
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
 		unset($zoneTable);
@@ -217,6 +225,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				$tabBallons = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
+				$est_mine_zone = null;
 
 				$pos = $display_x.';'.$display_y.';'.$z_position;
 				$fin = PHP_EOL;
@@ -230,7 +239,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 				} else {
 					$nom_environnement = "";
 					$nom_systeme_environnement = "";
-						
+
 					if ($eaux != null) {
 						foreach($eaux as $e) {
 							if ($display_x == $e["x_eau"] && $display_y == $e["y_eau"]) {
@@ -239,7 +248,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 							}
 						}
 					}
-						
+
 					foreach($zones as $z) {
 						if ($display_x >= $z["x_min_zone"] &&
 						$display_x <= $z["x_max_zone"] &&
@@ -249,9 +258,22 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 								$nom_systeme_environnement = $z["nom_systeme_environnement"];
 								$nom_environnement = htmlspecialchars($z["nom_environnement"]);
 							}
-							$retour .= 'ENVIRONNEMENT;'.$pos.';'.$nom_systeme_environnement.';'.$nom_environnement.$fin;
+							$est_mine_zone = $z["est_mine_zone"];
 							break;
 						}
+					}
+
+					if ($tunnels != null && $est_mine_zone == "oui") {
+						foreach($tunnels as $t) {
+							if ($display_x == $t["x_tunnel"] && $display_y == $t["y_tunnel"]) {
+								$nom_systeme_environnement = Environnement::NOM_SYSTEME_TUNNEL;
+								$nom_environnement = Environnement::NOM_TUNNEL;
+							}
+						}
+					}
+						
+					if ($nom_systeme_environnement != "") {
+						$retour .= 'ENVIRONNEMENT;'.$pos.';'.$nom_systeme_environnement.';'.$nom_environnement.$fin;
 					}
 
 					if ($cadavres != null) {
