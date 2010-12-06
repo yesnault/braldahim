@@ -22,8 +22,10 @@ class Couple extends Zend_Db_Table {
 	function findConjoint($sexe, $idBraldun, $estAncien = false) {
 		
 		$ancien = "";
+		$ancienKey = "";
 		if ($estAncien === true) {
 			$ancien = "ancien_";
+			$ancienKey = "_ancien_braldun";
 		}
 		
 		$db = $this->getAdapter();
@@ -31,12 +33,12 @@ class Couple extends Zend_Db_Table {
 		if ($sexe == 'masculin') {
 			$select->from('couple', '*')
 			->from($ancien.'braldun', '*')
-			->where('id_fk_f_braldun_couple = id_'.$ancien.'braldun')
+			->where('id_fk_f_braldun_couple = id_braldun'.$ancienKey)
 			->where('id_fk_m_braldun_couple = ?', (int)$idBraldun);
 		} else {
 			$select->from('couple', '*')
 			->from($ancien.'braldun', '*')
-			->where('id_fk_m_braldun_couple = id_'.$ancien.'braldun')
+			->where('id_fk_m_braldun_couple = id_braldun'.$ancienKey)
 			->where('id_fk_f_braldun_couple = ?', (int)$idBraldun);
 		}
 		$sql = $select->__toString();

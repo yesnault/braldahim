@@ -43,7 +43,7 @@ class Bral_Util_Conjoints {
 			$conjoint = array(
 				"prenom" => $c["prenom_ancien_braldun"],
 				"nom" => $c["nom_ancien_braldun"],
-				"id_braldun" => $c["id_ancien_braldun"]
+				"id_braldun" => $c["id_braldun_ancien_braldun"]
 			);
 		}
 		
