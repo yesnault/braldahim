@@ -54,7 +54,9 @@ class Bral_Monstres_Competences_Cheminement extends Bral_Monstres_Competences_De
 		$this->monstre["x_direction_monstre"] = $this->monstre["x_monstre"];
 		$this->monstre["y_direction_monstre"] = $this->monstre["y_monstre"];
 			
-		$this->majEvenement();
+		$suppressionPalissade = $this->supprimePalissade();
+		
+		$this->majEvenement($suppressionPalissade);
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
 		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $this->competence["pa_utilisation_mcompetence"];
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") apres action nb=".$this->monstre["pa_monstre"]);
@@ -63,6 +65,31 @@ class Bral_Monstres_Competences_Cheminement extends Bral_Monstres_Competences_De
 		return;
 	}
 
+	private function supprimePalissade() {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - supprimePalissade - enter - (idm:".$this->monstre["id_monstre"].")");
+		
+		$retour = false;
+		
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		$palissade = $palissadeTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"]);
+		if ($palissade != null && count($palissade) == 1) {
+			if ($palissade[0]["est_destructible_palissade"] == "oui") {
+				$retour = true;
+				$where = "id_palissade=".$palissade[0]["id_palissade"];
+				$palissadeTable->delete($where);
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - palissade supprimee - (idm:".$this->monstre["id_monstre"].")");
+			} else {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - palissade indestructible, non supprimée - (idm:".$this->monstre["id_monstre"].")");
+			}
+		} else {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - aucune palissade trouvee - (idm:".$this->monstre["id_monstre"].")");
+		}
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - supprimePalissade - exit - (idm:".$this->monstre["id_monstre"].")");
+		return $retour;
+	}
+	
 	private function verificationCible(&$cible) {
 		if ($this->monstre["id_fk_braldun_cible_monstre"] != null) {
 			// S'il y a une cible,
@@ -86,10 +113,14 @@ class Bral_Monstres_Competences_Cheminement extends Bral_Monstres_Competences_De
 		return true; // cible sur une case différente
 	}
 
-	private function majEvenement() {
+	private function majEvenement($suppressionPalissade) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->effet;
-		$details = "[m".$this->monstre["id_monstre"]."] chemine...";
+		$details = "[m".$this->monstre["id_monstre"]."] chemine";
+		if ($suppressionPalissade) {
+			$details .= " et écrase une palissade";
+		}
+		$details .= "...";
 		$detailsBot = "";
 		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $this->monstre["niveau_monstre"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");

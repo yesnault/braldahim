@@ -73,6 +73,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&routes=1";
 		}
 
+		if (intval($this->_request->get("tunnels")) == 1) {
+			$parametres .= "&tunnels=1";
+		}
+
 		if (intval($this->_request->get("eaux")) == 1) {
 			$parametres .= "&eaux=1";
 		}
@@ -155,6 +159,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("routes")) == 1) {
 			$this->dessineRoutes(&$image);
+		}
+
+		if (intval($this->_request->get("tunnels")) == 1) {
+			$this->dessineTunnels(&$image, intval($this->_request->get("zposition")));
 		}
 
 		if (intval($this->_request->get("eaux")) == 1) {
@@ -491,14 +499,14 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($lieux as $f) {
 			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_lieu"]) / $this->coefTaille;
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_lieu"]) / $this->coefTaille;
-			
-			
+
+
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_lieu"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_lieu"]) / $this->coefTaille;
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbRuines++;
-		//	ImageString($image, 1, $x_deb_map , $y_deb_map, $f["id_lieu"]." ".$f["x_lieu"]."/".$f["x_lieu"]. " ".$texte, $this->noir);
-				
+			//	ImageString($image, 1, $x_deb_map , $y_deb_map, $f["id_lieu"]." ".$f["x_lieu"]."/".$f["x_lieu"]. " ".$texte, $this->noir);
+
 		}
 		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 20, $nbRuines." Ruines", $this->gris2);
 	}
@@ -588,6 +596,22 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->vert_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 40, $nbRoutesNonVisible." Routes non visible", $this->rouge_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 50, $nbRoutesEchoppe." Routes Echoppe", $this->rouge_1);
+	}
+
+	private function dessineTunnels(&$image, $zposition) {
+		Zend_Loader::loadClass('Tunnel');
+		$tunnelsTable = new Tunnel();
+		$tunnels = $tunnelsTable->fetchall("z_tunnel=".$zposition);
+
+		$nbTunnelsVille = 0;
+		foreach ($tunnels as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_tunnel"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_tunnel"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_0);
+			$nbTunnelsVille++;
+
+		}
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbTunnelsVille." Tunnels", $this->rouge_0);
 	}
 
 	private function dessineEaux(&$image) {

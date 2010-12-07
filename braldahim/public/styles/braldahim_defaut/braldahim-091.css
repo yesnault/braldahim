@@ -1385,3 +1385,21 @@ background: #C3E691;
 border:1px solid #666666;
 border-collapse:collapse;
 }
+
+.admin_flottante {
+  background-color: #C3E691;
+  border: 1px solid #000000;
+  margin: 20px;
+  float: left;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+}
+
+.spacer {
+  clear: both;
+}
+

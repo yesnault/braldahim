@@ -106,7 +106,7 @@ function _get_(url, encode) {
 		valeurs = valeurs + sep + "dateAuth=-1" ;
 	}
 	var pars = valeurs;
-	//$("box_action").innerHTML = "";
+	// $("box_action").innerHTML = "";
 	var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
 }
 
@@ -125,7 +125,18 @@ function showResponse(originalRequest) {
 		if (textdoc == "") {
 			return;
 		} else if (textdoc.substring(0, 6) == "logout") {
-			alert("Votre session a expiré, veuillez vous reconnecter.");
+			if ($('valeur_message').value != '') {
+				alert("Votre session a expiré, veuillez vous reconnecter. " +
+						"\n\n Attention, vous avez un message en cours de rédaction. Pour le récupérer : " +
+						"\n 1 : selectionnez tout (Ctrl+A)" +
+						"\n 2 : copiez dans votre presse papier (Ctrl+C)" +
+						"\n 3 : appuyez sur la touche Entrée pour fermer cette fenêtre" +
+						"\n 4 : coller le texte quelque part (bloc note par ex.) (Ctrl+V)" +
+						"\n Le message :\n\n"
+						+ $('valeur_message').value);
+			} else {
+				alert("Votre session a expiré, veuillez vous reconnecter.");
+			}
 			document.location.href = "/";
 		} else if (textdoc.substring(0, 5) != "clear") {
 			_display_("erreur_catch", textdoc);
@@ -155,10 +166,17 @@ function showResponse(originalRequest) {
 						if (m_type_valeur == "box_action")
 							display_action = true;
 						else if (m_type_valeur == "box_informations" && m_data != "")
-							display_informations = true; // affichage de la boite d'informations
-						else if (m_type_valeur == "erreur" && m_data != "") display_erreur = true; // affichage de la boite d'erreur
+							display_informations = true; // affichage de la
+															// boite
+															// d'informations
+						else if (m_type_valeur == "erreur" && m_data != "") display_erreur = true; // affichage
+																									// de
+																									// la
+																									// boite
+																									// d'erreur
 						
-						//alert('m_type:' + m_type + " m_type_valeur:" + m_type_valeur );
+						// alert('m_type:' + m_type + " m_type_valeur:" +
+						// m_type_valeur );
 						
 						if (m_type == "display") {
 							_display_(m_type_valeur, m_data);
@@ -186,13 +204,17 @@ function showResponse(originalRequest) {
 						if (i == 5) m_data = node.childNodes.item(5).childNodes.item(0).data;
 						if (i == 5) {
 
-							//alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur);
+							// alert('Fin entrie \n m_type='+m_type+' \n
+							// m_type_valeur='+m_type_valeur);
 							if (m_type_valeur == "box_action") {
 								display_action = true;
 							} else if (m_type_valeur == "box_informations" && m_data != "") {
-								display_informations = true; // affichage de la boite d'informations
+								display_informations = true; // affichage de
+																// la boite
+																// d'informations
 							} else if (m_type_valeur == "erreur" && m_data != "") {
-								display_erreur = true; // affichage de la boite d'erreur
+								display_erreur = true; // affichage de la boite
+														// d'erreur
 							}
 
 							if (m_type == "display") {
@@ -204,7 +226,9 @@ function showResponse(originalRequest) {
 								} else if (m_type_valeur == "effect.disappear" && m_data != "") {
 									Effect.Appear(m_data, { duration :4.0, from :1.0, to :0.0 });
 								} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
-									//alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur + ' m_data='+m_data);
+									// alert('Fin entrie \n m_type='+m_type+' \n
+									// m_type_valeur='+m_type_valeur + '
+									// m_data='+m_data);
 									new HTMLTableTools(m_data);
 								} else if (m_type_valeur == "messagerie" && m_data != "") {
 									messagerie(m_data);
@@ -295,7 +319,7 @@ function fermeBralBox() {
 	$("box_action").style.display = "none";
 }
 
-function textCount(field,counterfield,max) {
+function textCount(field, counterfield, max) {
 	if (field.value.length > max) {
 		field.value = field.value.substring(0, max);
 	} else {
@@ -316,7 +340,8 @@ function _display_box(box, data) {
 		$(box).innerHTML = data;
 	}
 
-	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue ensuite
+	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue
+							// ensuite
 		_get_('/interface/load/?box=box_profil');
 		_get_('/interface/load/?box=box_competences_basiques');
 		_get_('/interface/load/?box=box_vue');
@@ -372,9 +397,12 @@ function chiffres(event, negatif) {
 		event = window.event;
 	}
 
-	// IE 
-	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || // tab, fleches deplacement
-			event.keyCode == 46 || event.keyCode == 8) { // backspace ou delete
+	// IE
+	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || // tab,
+																			// fleches
+																			// deplacement
+			event.keyCode == 46 || event.keyCode == 8) { // backspace ou
+															// delete
 		return;
 	} else if (event.keyCode < 48 || event.keyCode > 57) {
 		event.returnValue = false;
@@ -382,7 +410,9 @@ function chiffres(event, negatif) {
 	}
 
 	// DOM
-	if (event.which == 9 || event.which == 46 || event.which == 8) { // backspace ou delete
+	if (event.which == 9 || event.which == 46 || event.which == 8) { // backspace
+																		// ou
+																		// delete
 		return;
 	} else if (negatif != null && event.which == 45) { // signe -
 		return;
@@ -608,9 +638,9 @@ function wiglwogl(uddeElement) {
 	}
 } 
 
-/********************************************************************/
-/************************* Transbahuter ********************/
-/********************************************************************/
+/** ***************************************************************** */
+/** *********************** Transbahuter ******************* */
+/** ***************************************************************** */
 
 function controlePoids(){
 	var poids=0;
@@ -733,7 +763,7 @@ function selectAll(){
 	if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false){
 		cacher = true;
 	}
-	/*Coffre*/
+	/* Coffre */
 	if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
 		cacher = true;
 	}
@@ -763,19 +793,13 @@ function controleEchoppe(i) {
 	return true;
 }
 
-/*function echoppe() {
-	if($('valeur_2').value == 5){
-		ctrlEchoppe = false;
-		for (i=4; i<=$('nb_valeurs').value; i++) {
-			if (controleEchoppe(i) == false && ctrlEchoppe == false) {
-				ctrlEchoppe = true;
-			}
-		}
-		if (ctrlEchoppe == true) {
-			alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
-		}
-	}
-}*/
+/*
+ * function echoppe() { if($('valeur_2').value == 5){ ctrlEchoppe = false; for
+ * (i=4; i<=$('nb_valeurs').value; i++) { if (controleEchoppe(i) == false &&
+ * ctrlEchoppe == false) { ctrlEchoppe = true; } } if (ctrlEchoppe == true) {
+ * alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières
+ * premières !"); } } }
+ */
 
 function afficheAutreCoffre(){
 	if($('valeur_2').value==4){
@@ -836,9 +860,9 @@ function getBraldunIdentificationRune(text, li) {
 		}
 	}
 }
-/********************************************************************/
-/************************* RECHERCHE ********************/
-/********************************************************************/
+/** ***************************************************************** */
+/** *********************** RECHERCHE ******************* */
+/** ***************************************************************** */
 
 function activerRechercheBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
@@ -977,9 +1001,9 @@ function ajouterAuContenu(idsource, iddestination) {
 	}
 }
 
-/********************************************************************/
-/************************* UDDEIM TOOLS  *************************/
-/********************************************************************/
+/** ***************************************************************** */
+/** *********************** UDDEIM TOOLS ************************ */
+/** ***************************************************************** */
 function uddeidswap(id) {
 	bb = document.getElementById(id);
 	if (bb.style.visibility == 'visible') {
@@ -1002,12 +1026,12 @@ function uddeIMaddToSelection( frmName, srcListName, tgtListName ) {
 
 	var idjoin = new Array();
 	
-	//build array of target items
+	// build array of target items
 	for ( var i=tgtLen-1; i > -1; i-- ) {
 		tgt += "," + tgtList.options[i].value + ","
 	}
 
-	//Pull selected resources and add them to list	
+	// Pull selected resources and add them to list
 	for ( var i=0; i < srcLen; i++ ) {
 		if ( srcList.options[i].selected && tgt.indexOf( "," + srcList.options[i].value + "," ) == -1 ) {
 			if ( srcList.options[i].value == 0 || ( tgtLen != 0 && tgtList.options[0].value == 0 ) ) {
@@ -1055,21 +1079,22 @@ function selectionlistdblclick( sel, frmName, srcListName ) {
 }
 
 
-/********************************************************************/
-/*************************** BB Display ***************************/
-/********************************************************************/
-//bbCode control by
-//subBlue design
-//www.subBlue.com
-//Changed by/for uddeIM
-//Changed by/for braldahim
+/** ***************************************************************** */
+/** ************************* BB Display ************************** */
+/** ***************************************************************** */
+// bbCode control by
+// subBlue design
+// www.subBlue.com
+// Changed by/for uddeIM
+// Changed by/for braldahim
 
-//Startup variables
+// Startup variables
 var imageTag = false;
 var theSelection = false;
 
-//Check for Browser & Platform for PC & IE specific bits
-//More details from: http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html
+// Check for Browser & Platform for PC & IE specific bits
+// More details from:
+// http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html
 var clientPC = navigator.userAgent.toLowerCase(); // Get client info
 var clientVer = parseInt(navigator.appVersion); // Get browser version
 
@@ -1082,12 +1107,12 @@ var is_moz = 0;
 var is_win = ((clientPC.indexOf("win")!=-1) || (clientPC.indexOf("16bit") != -1));
 var is_mac = (clientPC.indexOf("mac")!=-1);
 
-//Define the bbCode tags
+// Define the bbCode tags
 bbcode = new Array();
 bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[color=#ff4040]','[/color]','[color=#40ff40]','[/color]','[color=#4040ff]','[/color]','[size=1]','[/size]','[size=2]','[/size]','[size=3]','[/size]','[size=4]','[/size]','[size=5]','[/size]','[ul]','[/ul]','[ol]','[/ol]','[img]','[/img]','[url]','[/url]','[li]','[/li]','[left]','[/left]','[center]','[/center]','[right]','[/right]','[justify]','[/justify]');
 imageTag = false;
 
-//Replacement for arrayname.length property
+// Replacement for arrayname.length property
 function getarraysize(thearray) {
 	for (i = 0; i < thearray.length; i++) {
 		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null)) {
@@ -1097,14 +1122,14 @@ function getarraysize(thearray) {
 	return thearray.length;
 }
 
-//Replacement for arrayname.push(value) not implemented in IE until version 5.5
-//Appends element to the array
+// Replacement for arrayname.push(value) not implemented in IE until version 5.5
+// Appends element to the array
 function arraypush(thearray,value) {
 	thearray[ getarraysize(thearray) ] = value;
 }
 
-//Replacement for arrayname.pop() not implemented in IE until version 5.5
-//Removes and returns the last element of an array
+// Replacement for arrayname.pop() not implemented in IE until version 5.5
+// Removes and returns the last element of an array
 function arraypop(thearray) {
 	thearraysize = getarraysize(thearray);
 	retval = thearray[thearraysize - 1];
@@ -1175,7 +1200,8 @@ function bbstyle(bbnumber, field) {
 	}
 
 	if ((clientVer >= 4) && is_ie && is_win) {
-		theSelection = document.selection.createRange().text; // Get text selection
+		theSelection = document.selection.createRange().text; // Get text
+																// selection
 		if (theSelection) {
 			var sluss;
 			var theGuy = bbtags[bbnumber] + theSelection + bbtags[bbnumber+1];
@@ -1205,7 +1231,8 @@ function bbstyle(bbnumber, field) {
 		}
 	}
 
-	if (donotinsert) {		// Close all open tags up to the one just clicked & default button names
+	if (donotinsert) {		// Close all open tags up to the one just clicked &
+							// default button names
 		while (bbcode[bblast]) {
 				butnumber = arraypop(bbcode) - 1;
 				// txtarea.value += bbtags[butnumber + 1];
@@ -1218,10 +1245,12 @@ function bbstyle(bbnumber, field) {
 			return;
 	} else { // Open tags
 	
-		if (imageTag && (bbnumber != 24)) {		// Close image tag before adding another
+		if (imageTag && (bbnumber != 24)) {		// Close image tag before adding
+												// another
 			// txtarea.value += bbtags[25];
 			pasteAtCursor(txtarea, bbtags[25]);
-			lastValue = arraypop(bbcode) - 1;	// Remove the close image tag from the list
+			lastValue = arraypop(bbcode) - 1;	// Remove the close image tag
+												// from the list
 			var jubla=$('myForm').addbbcode24.src;
 			var juble=jubla.substr(0, (jubla.length - 10));
 			var jubli=juble+".gif";
@@ -1233,7 +1262,13 @@ function bbstyle(bbnumber, field) {
 		// Open tag
 		// txtarea.value += bbtags[bbnumber];
 		pasteAtCursor(txtarea, bbtags[bbnumber]);
-		if ((bbnumber == 24) && (imageTag == false)) imageTag = 1; // Check to stop additional tags after an unclosed image tag
+		if ((bbnumber == 24) && (imageTag == false)) imageTag = 1; // Check to
+																	// stop
+																	// additional
+																	// tags
+																	// after an
+																	// unclosed
+																	// image tag
 		arraypush(bbcode,bbnumber+1);
 		// eval('$('myForm').addbbcode'+bbnumber+'.value += "*"');
 		var imgsrcori=eval('$("myForm").addbbcode'+bbnumber+'.src');
@@ -1246,7 +1281,7 @@ function bbstyle(bbnumber, field) {
 	storeCaret(txtarea);
 }
 
-//From http://www.massless.org/mozedit/
+// From http://www.massless.org/mozedit/
 function mozWrap(txtarea, open, close)
 {
 	var selLength = txtarea.textLength;
@@ -1271,14 +1306,14 @@ function mozWrap(txtarea, open, close)
 	return;
 }
 
-//Insert at Claret position. Code from
-//http://www.faqts.com/knowledge_base/view.phtml/aid/1052/fid/130
+// Insert at Claret position. Code from
+// http://www.faqts.com/knowledge_base/view.phtml/aid/1052/fid/130
 function storeCaret(textEl) {
 	if (textEl.createTextRange) textEl.caretPos = document.selection.createRange().duplicate();
 }
 
 
-//Insert emoticons
+// Insert emoticons
 function emo(e, field) {
 // $('myForm').pmessage.value=$('myForm').pmessage.value+$e;
 pasteAtCursor(field, e);
@@ -1290,7 +1325,7 @@ function pasteAtCursor(theGirl, theGuy) {
 /* (C) www.phpmyadmin.net. Changed by/for uddeIM */
 /* See http://www.gnu.org/copyleft/gpl.html for license */
 	if (document.selection) {
-		//IE support
+		// IE support
 		var sluss;
 		theGirl.focus();
 		sel = document.selection.createRange();
@@ -1300,7 +1335,7 @@ function pasteAtCursor(theGirl, theGuy) {
 			sel.moveStart('character', -theGuy.length + sluss);
 		}		
 	} else if (theGirl.selectionStart || theGirl.selectionStart == '0') {
-		//MOZILLA/NETSCAPE support
+		// MOZILLA/NETSCAPE support
 		var startPos = theGirl.selectionStart;
 		var endPos = theGirl.selectionEnd;
 		theGirl.value = theGirl.value.substring(0, startPos) + theGuy + theGirl.value.substring(endPos, theGirl.value.length);

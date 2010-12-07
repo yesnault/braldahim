@@ -4,110 +4,99 @@
     <div class="titre textalic textsizea">Administration</div>
     	&nbsp;
 	<div class="contenu">
-	  <div class="box_contenu1 textalic">
-	    <span class="titre textalia textsizec">Administration 01</span>
-	    <br />
-	    <a href='/Administration01/'>Voir</a> 
-	    <br /><br />
-	    <span class="titre textalia textsizec">Administration BlaBla</span>
-	    <br />
-	    <a href='/Administrationblabla/blabla'>Voir</a> 
-	    <br /><br />
-	    <span class="titre textalia textsizec">Administration Bougries</span>
-	    <br />
-	    <a href='/Administrationbougrie/bougrie'>Voir</a> 
-	    <br /><br />
-	    <span class="titre textalia textsizec">Administration Carte</span>
-	    <br />
-	    <a href='/Administrationcarte/carte?zones=1'>Carte des zones</a> -  
-	    <a href='/Administrationcarte/carte?bralduns=1'>Carte des Braldûns</a> -
-	    <a href='/Administrationcarte/carte?eaux=1'>Carte des eaux</a> - 
-	    <a href='/Administrationcarte/carte?routes=1'>Carte des routes</a> - 
-	    <a href='/Administrationcarte/carte?lieuxmythiques=1'>Carte des lieux mythiques</a> -  
-	     
-	    <a href='/Administrationcarte/carte?zonesnids=1&coef=0.6'>Carte des nids</a> 
-	    <br />
+	  
+		<div class="admin_flottante">
+		     <span class="titre textalia textsizec">Discussions</span>
+		     <br />
+		     <a href='/Administrationinfojeu/infosjeu'>Infos Jeux / News</a> 
+		    <br /><br />
+		    <a href='/Administrationblabla/blabla'>BlaBla</a> 
+		    <a href='/Administrationbougrie/bougrie'>Bougries</a> 
+		    <br />
+		    <hr/>
+		    <span class="titre textalia textsizec">Administration 01</span>
+	    	<br />
+	    	<a href='/Administration01/'>Voir</a> 
+	    	<br />
+		    <hr/>
+	    	<span class="titre textalia textsizec">Administration Batchs</span>
+		    <br />
+		    <a href='/Administrationbatch/batchs'>Voir</a> | 
+		    <a href='/Administrationbatch/logs'>Logs</a> 
+		    <br /><br />
+	    </div>
 	    
-	    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=60&zonenidmax=74'>Carte des monstres Villes (zones de nids 60 à 74)</a> - 
-	    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=1&zonenidmax=20'>Carte des monstres (zones de nids 1 à 20)</a> - 
-	    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=21&zonenidmax=40'>Carte des monstres (zones de nids 21 à 40)</a> - 
-	    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=41&zonenidmax=59'>Carte des monstres (zones de nids 41 à 60)</a> - 
+	    <div class="admin_flottante">
+		    <span class="titre textalia textsizec">Braldûn</span>
+		    <br />
+		    <a href='/Administrationsessions/sessions'>Sessions</a> 
+		    <br /><br />
+		    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldûn - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_2_voir");' />
+			<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
+			<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="<?php echo $this->config->static->url?>/images/loupe.gif" />
+			<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="<?php echo $this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
+			<br />
+		    Braldûn Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
+		    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
+		    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").value);'>
+		    
+	    	<br /> 
+		    Transformation md5 - Chaine &agrave; encoder : 
+		     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
+		     <input type='button' value='MD5' class='button1'  onclick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
+			 <?php if ($this->md5_value != "") : ?>
+			 <br />
+			 Valeur MD5 de <?php echo $this->md5_source ?> = <?php echo $this->md5_value ?>
+			 <?php endif; ?>
+		  
+	    </div>
 	    
-	    <br /> <br />
-	    
-	    <div class="box_contenu1 textalic">
-	    <span class="titre textalia textsizec">Administration Infos Jeu</span>
-	    <br />
-	    <a href='/Administrationinfojeu/infosjeu'>Voir</a> 
-	    <br /><br />
-	    
-	    <div class="box_contenu1 textalic">
-	    <span class="titre textalia textsizec">Administration Sessions</span>
-	    <br />
-	    <a href='/Administrationsessions/sessions'>Voir</a> 
-	    <br /><br />
-	    
-	    <span class="titre textalia textsizec">Cr&eacute;ation de donn&eacute;es</span> <br />
-	    <a href='/Administrationcreation/creation'>Param&eacute;trage Cr&eacute;ation</a> <br />
-	    <a href='/Administrationfilon/filons'>Administration Filons</a> <br />
-	    <a href='/Administrationplante/plantes'>Administration Plantes</a><br />
-	    
-	    <br />
-	    
-	    <span class="titre textalia textsizec">Stocks Boutique</span> <br />
-	    <a href='/Administrationstocktabac/tabac'>Stocks Tabac</a> <br />
-	    
-	    <br />
-	    
-	    <span class="titre textalia textsizec">Administration Batchs</span>
-	    <br />
-	    <a href='/Administrationbatch/batchs'>Voir</a> | 
-	    <a href='/Administrationbatch/logs'>Logs</a> 
-	    <br /> <br /> 
-	    
-	    <span class="titre textalia textsizec">Administration Monstres</span>
-	    <br />
-	    <a href='/Administrationmonstre/repartition'>[ R&eacute;partition ]</a>
-	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
-	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
-	    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
-	    <br /><br />
-	     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
-	    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
-	    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").value);'> 
-	   
-	    <br /> <br /> 
-	    
-	    <span class="titre textalia textsizec">Administration Braldûn</span>
-	    <br />
-	    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldûn - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_2_voir");' />
-		<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="<?php echo $this->config->static->url?>/images/loupe.gif" />
-		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="<?php echo $this->config->static->url?>/images/wait.gif" alt="Recherche..." /></span>
-		<br />
-	    Braldûn Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
-	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").value);'> 
-	    
-	    <br /> <br /> <br />
-	    
-	    <span class="titre textalia textsizec">Pratique</span>
-	    <br /> 
-	    Transformation md5 - Chaine &agrave; encoder : 
-	     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
-	     <input type='button' value='MD5' class='button1'  onclick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
-		 <?php if ($this->md5_value != "") : ?>
-		 <br />
-		 Valeur MD5 de <?php echo $this->md5_source ?> = <?php echo $this->md5_value ?>
-		 <?php endif; ?>
-		 
-	     <br /> <br /> 
-		
+	    <div class="admin_flottante">
+			<span class="titre textalia textsizec">Administration Monstres</span>
+		    <br />
+		    <a href='/Administrationmonstre/repartition'>[ R&eacute;partition ]</a>
+		    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
+		    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
+		    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
+		    <br /><br />
+		     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
+		    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
+		    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").value);'> 
 		</div>
+		
+	    <div class="admin_flottante">
+		    <span class="titre textalia textsizec">Cartes</span> <br />
+		    <a href='/Administrationcarte/carte?zones=1'>Zones</a> -  
+		    <a href='/Administrationcarte/carte?bralduns=1'>Braldûns</a> -
+		    <a href='/Administrationcarte/carte?eaux=1'>Eaux</a> - 
+		    <a href='/Administrationcarte/carte?routes=1'>Routes</a> -
+		    <a href='/Administrationcarte/carte?tunnels=1&zposition=-10'>Tunnels</a> -
+		    <a href='/Administrationcarte/carte?filons=1&zposition=-10'>Filons</a> - 
+		    <a href='/Administrationcarte/carte?lieuxmythiques=1'>Lieux mythiques</a> -  
+		    <a href='/Administrationcarte/carte?zonesnids=1&coef=0.6'>Nids</a> 
+		    <br /><br />
+		    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=60&zonenidmax=74'>Monstres Villes (zones de nids 60 à 74)</a><br /> 
+		    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=1&zonenidmax=20'>Monstres (zones de nids 1 à 20)</a> <br />
+		    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=21&zonenidmax=40'>Monstres (zones de nids 21 à 40)</a> <br />
+		    <a href='/Administrationcarte/carte?monstres=1&coef=0.6&zonenidmin=41&zonenidmax=59'>Monstres (zones de nids 41 à 60)</a> <br />
+	    </div>
+	  
+	 	<div class="admin_flottante">
+		    <span class="titre textalia textsizec">Stocks Boutique</span> <br />
+		    <a href='/Administrationstocktabac/tabac'>Stocks Tabac</a> <br />
+		</div>
+		
+		<div class="admin_flottante">
+			<span class="titre textalia textsizec">Cr&eacute;ation de donn&eacute;es</span> <br />
+		    <a href='/Administrationcreation/creation'>Param&eacute;trage Cr&eacute;ation</a> <br />
+		    <a href='/Administrationfilon/filons'>Administration Filons</a> <br />
+		    <a href='/Administrationplante/plantes'>Administration Plantes</a><br />
+		</div>
+		
+	    <div class="spacer"> </div>
+	    
 	</div>
 	&nbsp;
-</div>
-</div>
 </div>
 </div>
 <?php echo $this->render('footer.phtml'); ?>
