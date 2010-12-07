@@ -43,6 +43,7 @@ abstract class Bral_Lieux_Lieu {
 				$this->view->estAlterableLieu = ($lieu["est_alterable_type_lieu"] == "oui");
 				$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 				$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
+				$this->view->idCommunauteLieu = $lieu["id_fk_communaute_lieu"];
 				if (array_key_exists("nom_ville", $lieu)) {
 					$this->view->nomVille = $lieu["nom_ville"];
 				}

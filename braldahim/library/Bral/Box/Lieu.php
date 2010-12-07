@@ -53,6 +53,11 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			$this->view->estAlterableLieu = ($lieu["est_alterable_type_lieu"] == "oui");
 			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
+			$this->view->idCommunauteLieu = $lieu["id_fk_communaute_lieu"];
+			
+			if ($this->view->idCommunauteLieu != null) {
+				$this->prepareCommunaute();
+			}
 
 			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");
 		} else {
@@ -144,6 +149,18 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	private function prepareCommunaute() {
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communautes = $communauteTable->findById($this->view->idCommunauteLieu);
+		
+		if ($communautes != null && count($communautes) == 1) {
+			$communaute = $communautes[0];
+			$this->view->nomCommunauteLieu = $communaute["nom_communaute"];
+			$this->view->descriptionCommunauteLieu = $communaute["description_communaute"];
 		}
 	}
 

@@ -1,0 +1,13 @@
+
+Vous vous trouvez sur un Hall de Communauté.
+<br /><br />
+	<div class="titre textalic textsizeb">Communaut&eacute; : <?php echo $this->nomCommunauteLieu ?>, 
+			n&deg; <?php echo $this->idCommunauteLieu ?>
+	 </div>
+	 <br /><br />
+	<div class="titre textalic textsizeb">Profil Non Officiel</div>
+	<div class="titre textalic textsizec">Renseign&eacute; par le gestionnaire de la communaut&eacute;</div>
+	<table width='80%' align='center'>
+		<tr><td style='text-align:justify'><?php echo Bral_Util_BBParser::bbcodeReplace($this->descriptionCommunauteLieu); ?>
+		</td></tr>
+ 	</table>

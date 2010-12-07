@@ -38,6 +38,6 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_MAISON_PNJ = 27;
 	const ID_TYPE_MINE = 28;
 	const ID_TYPE_PUIT = 29;
-	const ID_TYPE_ASCENSEUR = 30;
+	const ID_TYPE_HALL = 30;
 	
 }

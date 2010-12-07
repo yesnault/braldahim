@@ -4,7 +4,7 @@
  <div class='comp_contenu'>
  	<br />
  	Pour <?php echo $this->paUtilisationLieu ?> PA, 
- 	vous pouvez transformer cette ruine en hall de Communauté.<br />
+ 	vous pouvez transformer cette ruine en Hall de Communauté.<br />
    	
    	<?php if ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA !<br />
@@ -17,6 +17,6 @@
 <br /> 
 
 <?php if ($this->utilisationPaPossible === true && $this->transformerOk === true): ?>
-<input type='button' class='button1' id="bouton_hopital" value='Prendre les escaliers' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_escaliers');">
+<input type='button' class='button1' id="bouton_hopital" value='Transformer en Hall de Communauté' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_ruine');">
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>
