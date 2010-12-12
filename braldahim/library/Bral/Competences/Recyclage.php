@@ -121,6 +121,8 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$jetSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 		$jetSag = $jetSag + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
+		$perte = 0.20; // pour le niveau 0
+		 
 		if ($jetSag < $nivEquipement*10) {
 			$perte = 0.25;
 		}
