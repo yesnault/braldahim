@@ -33,6 +33,16 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$dijkstra = new Bral_Util_Dijkstra();
 		$dijkstra->calcul(1, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, false);
 
+		$this->distance = 1;
+		$x_min = $this->view->user->x_braldun - $this->distance;
+		$x_max = $this->view->user->x_braldun + $this->distance;
+		$y_min = $this->view->user->y_braldun - $this->distance;
+		$y_max = $this->view->user->y_braldun + $this->distance;
+
+		Zend_Loader::loadClass("Zone");
+		$zoneTable = new Zone();
+		$zones = $zoneTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
+
 		$this->distance = 2;
 		$x_min = $this->view->user->x_braldun - $this->distance;
 		$x_max = $this->view->user->x_braldun + $this->distance;
@@ -48,17 +58,27 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$defautChecked = false;
 
 		$tabTunnels = null;
+		$tabZones = null;
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
 			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 				$tabTunnels[$x][$y] = false;
 				$tabTunnelsPossibles[$x][$y] = false;
+				if (count($zones) > 1) { // s'il y a plus de 2 zones, on fait un contrôle
+					$tabZones[$x][$y] = false;
+				} else {
+					$tabZones[$x][$y] = true;
+				}
 			}
 		}
 			
 		foreach($tunnels as $t) {
 			$tabTunnels[$t["x_tunnel"]][$t["y_tunnel"]] = true;
+		}
+
+		if (count($zones) > 1) { // s'il y a plus de 2 zones, on fait un contrôle
+			$this->calculTabZones($zones, $tabZones);
 		}
 
 		$this->distance = 1;
@@ -108,7 +128,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				$tunnelTrouve = false;
 				$valid = false;
 
-				if ($tabTunnelsPossibles[$x][$y] === true && $tabTunnels[$x][$y] === false) {
+				if ($tabZones[$x][$y] === true && $tabTunnelsPossibles[$x][$y] === true && $tabTunnels[$x][$y] === false) {
 					$valid = true;
 				}
 
@@ -337,5 +357,23 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue"));
+	}
+
+	private function calculTabZones($zones, &$tabZones) {
+		$distance = 1;
+		foreach($zones as $z) {
+			if ($z["est_mine_zone"] == "oui") {
+				for ($j = $distance; $j >= -$distance; $j --) {
+					for ($i = -$distance; $i <= $distance; $i ++) {
+						$x = $this->view->user->x_braldun + $i;
+						$y = $this->view->user->y_braldun + $j;
+						if ($x >= $z["x_min_zone"] && $x <= $z["x_max_zone"] &&
+						$y >= $z["y_min_zone"] && $y <= $z["y_max_zone"]) {
+							$tabZones[$x][$y] = true;
+						}
+					}
+				}
+			}
+		}
 	}
 }
