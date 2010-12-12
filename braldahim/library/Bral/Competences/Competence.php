@@ -166,7 +166,7 @@ abstract class Bral_Competences_Competence {
 		$this->view->balanceFaimUtilisee = true;
 
 		$this->view->balance_faim = floor($this->competence["balance_faim"] * $coef);
-		if ($this->view->okJet1 == false) {
+		if ($this->view->okJet1 == false && $this->view->jetUtilise == true) {
 			$this->view->balance_faim = floor($this->view->balance_faim / 2);
 		}
 		Zend_Loader::loadClass("Bral_Util_Faim");
