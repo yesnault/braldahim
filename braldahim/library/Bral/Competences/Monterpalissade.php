@@ -22,7 +22,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
 
-		/* 
+		/*
 		 * On verifie qu'il y a au moins 2 rondins
 		 */
 		$charretteTable = new Charrette();
