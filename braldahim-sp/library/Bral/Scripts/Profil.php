@@ -21,7 +21,7 @@ class Bral_Scripts_Profil extends Bral_Scripts_Script {
 	}
 
 	public function getVersion() {
-		return 1;
+		return 2;
 	}
 
 	public function calculScriptImpl() {
@@ -40,6 +40,10 @@ class Bral_Scripts_Profil extends Bral_Scripts_Script {
 		$retour2 = $this->braldun->id_braldun.';'.$this->braldun->prenom_braldun.';'.$this->braldun->nom_braldun.';'.$this->braldun->x_braldun.';'.$this->braldun->y_braldun.';'.$this->braldun->z_braldun.';';
 		$retour1 .= 'paRestant;DLA;DureeProchainTour;';
 		$retour2 .= $this->braldun->pa_braldun.';'.$this->braldun->date_fin_tour_braldun.';'.$this->braldun->duree_prochain_tour_braldun.';';
+		$retour1 .= 'dateDebutTour;dateFinTour;dateFinLatence;';
+		$retour2 .= $this->braldun->date_debut_tour_braldun.';'.$this->braldun->date_fin_tour_braldun.';'.$this->braldun->date_fin_latence_braldun.';';
+		$retour1 .= 'dateDebutCumul;dureeCourantTour;dureeBmTour;';
+		$retour2 .= $this->braldun->date_debut_cumul_braldun.';'.$this->braldun->duree_courant_tour_braldun.';'.$this->braldun->duree_bm_tour_braldun.';';
 		$retour1 .= 'PvRestant;bmPVmax;bbdf;';
 		$retour2 .= $this->braldun->pv_restant_braldun.';'.$this->braldun->pv_max_bm_braldun.';'.$this->braldun->balance_faim_braldun.';';
 		$retour1 .= 'nivAgilite;nivForce;nivVigueur;nivSagesse;';
