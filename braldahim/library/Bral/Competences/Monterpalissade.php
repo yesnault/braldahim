@@ -31,7 +31,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		if (!isset($charrette)) {
 			return;
 		}
-
+ 
 		$this->view->nRondins = 0;
 		foreach ($charrette as $c) {
 			$this->view->nRondins = $c["quantite_rondin_charrette"];
