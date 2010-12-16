@@ -15,6 +15,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Nid');
+		Zend_Loader::loadClass('Champ');
 		Zend_Loader::loadClass('Bral_Util_Quete');
 		Zend_Loader::loadClass("Bral_Util_Metier");
 
@@ -63,6 +64,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$champTable = new Champ();
+		$champs = $champTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$routeTable = new Route();
 		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
@@ -138,6 +141,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 				foreach($nids as $n) {
 					if ($x == $n["x_route"] && $y == $n["y_nid"] && $z == $n["z_nid"]) {
+						$valid = false;
+						break;
+					}
+				}
+
+				foreach($champs as $n) {
+					if ($x == $n["x_champ"] && $y == $n["y_champ"] && $z == $n["z_champ"]) {
 						$valid = false;
 						break;
 					}
