@@ -426,14 +426,14 @@ function maccordion_fermer(el) {
 	var eldown = el.parentNode.id + '-body';
 	if ($(eldown).style.display != "none") {
 		new Effect.SlideUp(eldown, { duration :0.1 });
-		el.style.backgroundImage='url("/public/images/collapsed.gif")';
+		el.style.backgroundImage='url("'+$('urlStatique').value+'/images/collapsed.gif")';
 	}
 }
 
 function maccordion_ouvrir(el) {
 	var eldown = el.parentNode.id + '-body';
 	new Effect.SlideDown(eldown, { duration :0.1 });
-	el.style.backgroundImage='url("/public/images/expanded.gif")';
+	el.style.backgroundImage='url("'+$('urlStatique').value+'/images/expanded.gif")';
 }
 
 function maccordion(el) {
@@ -953,7 +953,7 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 	if (idBraldun != null) {
 		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/braldun/?braldun='+idBraldun+'\');">' + texte + '(' + idBraldun + ')</label> ';
 	}
-	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
+	texte = texte + ' <img src="'+$('urlStatique').value+'/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
 	
 	if ($('cpt_' + champ)) {
