@@ -25,6 +25,10 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
 
+		if ($this->view->user->z_braldun !=0) {
+			throw new Zend_Exception(get_class($this)." Debusquer disponible qu'au niveau 0. Niveau Actuel:".$this->view->user->z_braldun);
+		}
+
 		// calcul des jets
 		$this->calculJets();
 

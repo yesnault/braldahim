@@ -2,12 +2,15 @@
  <div class='comp_contenu'>
  	Pour <?php echo $this->nb_pa ?> PA, vous pouvez d&eacute;busquer du gibier. <br /><br />
 
+
 	<?php if ($this->assezDePa !== true) : ?>
 		Vous n'avez pas assez de PA ! <br />
+	<?php elseif ($this->user->z_braldun != 0) : ?>
+		Vous ne pouvez débusquer qu'au niveau 0.
 	<?php endif; ?>
 </div>
 
 <br />
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->user->z_braldun == 0) : ?>
 <input type='button' class='button1' id='bouton_debusquer' value='D&eacute;busquer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_debusquer");'>
 <?php endif ?>
