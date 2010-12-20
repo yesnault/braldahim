@@ -359,12 +359,12 @@ class Bral_Util_Attaque {
 			}
 		} else {
 
-			if ($retourAttaque["critique"] == true) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
-				$braldunCible->bm_attaque_braldun = $braldunCible->bm_attaque_braldun - Bral_Util_De::get_1d3();
-				$braldunCible->bm_defense_braldun = $braldunCible->bm_defense_braldun - Bral_Util_De::get_1d6();
-			} else { //En cas de frappe critique : malus en BNS ATT : -2D3. Malus en BNS DEF : -2D6.
+			if ($retourAttaque["critique"] == true) { //En cas de frappe critique : malus en BNS ATT : -2D3. Malus en BNS DEF : -2D6.
 				$braldunCible->bm_attaque_braldun = $braldunCible->bm_attaque_braldun - Bral_Util_De::get_2d3();
 				$braldunCible->bm_defense_braldun = $braldunCible->bm_defense_braldun - Bral_Util_De::get_2d6();
+			} else { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
+				$braldunCible->bm_attaque_braldun = $braldunCible->bm_attaque_braldun - Bral_Util_De::get_1d3();
+				$braldunCible->bm_defense_braldun = $braldunCible->bm_defense_braldun - Bral_Util_De::get_1d6();
 			}
 
 			$braldunCible->est_ko_braldun = "non";
