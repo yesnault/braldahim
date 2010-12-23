@@ -1050,6 +1050,10 @@ td.vue2d.palissade {
 	background: url('/styles/braldahim_defaut/images/vue/palissade.png') repeat;
 }
 
+td.vue2d.portail {
+	background: url('/styles/braldahim_defaut/images/vue/palissade.png') repeat;
+}
+
 td.vue2d.inconnu {
 	background: url('/styles/braldahim_defaut/images/vue/inconnu.png') repeat;
 }

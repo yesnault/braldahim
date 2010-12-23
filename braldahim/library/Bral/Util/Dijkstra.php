@@ -26,9 +26,13 @@ class Bral_Util_Dijkstra {
 	var $yPosition = 0;
 	var $tabPalissades = array();
 
+	var $xPortail = null;
+	var $yPortail = null;
+	var $numeroPortail = null;
+
 	public function Dijkstra() {}
 
-	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true, $controleCrevasse = false) {
+	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true, $controleCrevasse = false, $xPortail = null, $yPortail = null) {
 
 		$this->bestPath = 0;
 		$this->nbCasesLargeur = $nbCases + $nbCases + 1;
@@ -36,6 +40,9 @@ class Bral_Util_Dijkstra {
 		$this->xPosition = $xPosition;
 		$this->yPosition = $yPosition;
 		$this->zPosition = $zPosition;
+		$this->xPortail = $xPortail;
+		$this->yPortail = $yPortail;
+		$this->numeroPortail = null;
 
 		if ($zone == null) {
 			Zend_Loader::loadClass("Zone");
@@ -84,6 +91,7 @@ class Bral_Util_Dijkstra {
 			$crevasses = $crevasseTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 		}
 
+
 		$numero = -1;
 		for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
 			for ($i = -$this->nbCases; $i <= $this->nbCases; $i++) {
@@ -92,9 +100,19 @@ class Bral_Util_Dijkstra {
 				$numero++;
 				$this->tabPalissadesEauxTunnels[$numero] = 1;
 				foreach($palissades as $p) {
-					if ($p["x_palissade"] == $x && $p["y_palissade"] == $y) {
+					if ($p["x_palissade"] == $x && $p["y_palissade"] == $y || ($this->xPortail != null && $this->yPortail != null && $i >= -1 && $i <= 1 && $j >= -1 && $j <= 1)) {
 						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
 						break;
+					}
+				}
+
+				if ($this->xPortail != null && $this->yPortail != null) {
+					foreach($palissades as $p) {
+						if ($p["x_palissade"] == $x && $p["y_palissade"] == $y && $x == $this->xPortail && $y == $this->yPortail) {
+							$this->tabPalissadesEauxTunnels[$numero] = 1;
+							$this->numeroPortail = $numero;
+							break;
+						}
 					}
 				}
 				foreach($eaux as $e) {
@@ -126,6 +144,7 @@ class Bral_Util_Dijkstra {
 					}
 				}
 				if ($x == $this->xPosition && $y == $this->yPosition) {
+					$this->tabPalissadesEauxTunnels[$numero] = 1;
 					$this->startnode = $numero;
 				}
 			}
@@ -341,6 +360,9 @@ class Bral_Util_Dijkstra {
 					break;
 				}
 			}
+		}
+		if ($this->numeroPortail != null && $this->numeroPortail == $to) {
+			$foo .= sprintf("%d",$this->infiniteDistance);
 		}
 		return $foo;
 	}

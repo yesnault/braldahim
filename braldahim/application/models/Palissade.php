@@ -47,7 +47,7 @@ class Palissade extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $portailUniquement = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('palissade', '*')
@@ -56,6 +56,9 @@ class Palissade extends Zend_Db_Table {
 		->where('y_palissade >= ?',$y_min)
 		->where('y_palissade <= ?',$y_max)
 		->where('z_palissade = ?',$z);
+		if ($portailUniquement == true) {
+			$select->where('est_portail_palissade like ?', 'oui');
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

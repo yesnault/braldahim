@@ -7,9 +7,13 @@ $textBallon = '';
 
 $textPalissade = "";
 	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br />Palissade : <br />";
+      	$textPalissade = "<br />Palissade / Portail : <br />";
       	foreach($case["palissades"] as $p) {
-      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+		  	if ($p["est_portail_palissade"] == "oui") {
+				$textPalissade .= "un portail (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+			} else {
+				$textPalissade .= "une palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+			}
       		if ($p["est_destructible_palissade"] == "oui") {
       			$textPalissade .= " destructible";
       		} else {

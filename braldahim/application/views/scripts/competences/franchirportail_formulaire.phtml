@@ -1,0 +1,62 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='6'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+ 
+<?php else : ?>
+
+	<?php if (count($this->tabPortails) > 1) : ?>
+	Choisissez un portail : <br />
+	<select name='numeroPortail' id="numeroPortail" onchange='_get_("/competences/doaction?caction=ask_competence_franchirportail&numeroPortail="+this.value);'>
+		<option value='-1'>(Choisissez un portail)</option>
+		<?php foreach($this->tabPortails as $k => $p) : ?>
+		<option value="<?php echo $k; ?>" <?php if ($k == $this->numeroPortail) echo "selected";?>>Portail en <?php echo $p["x_portail"]?> ; <?php echo $p["y_portail"]?></option>
+		<?php endforeach; ?>
+		</select><br /><br />
+	<?php endif;?>
+  
+  <?php if ($this->etatFormulaire == "choixDestination") : ?>
+ 	 <?php include('marcher_tableau.phtml'); ?>
+ 	 <input type='hidden' id='valeur_2' name='valeur_2' value='<?php echo $this->numeroPortail?>'>
+ 	 
+ 	 <br />
+ 	 Entrez le code du cadenas pour passer le portail : <br />
+ 	 <select id='valeur_3' name='valeur_3'>
+		<?php foreach ($this->chiffres as $c): ?>
+		<option value='<?php echo $c?>'><?php echo $c?></option>
+		<?php endforeach; ?>
+		</select>
+		
+		<select id='valeur_4' name='valeur_4'>
+		<?php foreach ($this->chiffres as $c): ?>
+		<option value='<?php echo $c?>'><?php echo $c?></option>
+		<?php endforeach; ?>
+		</select>
+		
+		<select id='valeur_5' name='valeur_5'>
+		<?php foreach ($this->chiffres as $c): ?>
+		<option value='<?php echo $c?>'><?php echo $c?></option>
+		<?php endforeach; ?>
+		</select>
+		
+		<select id='valeur_6' name='valeur_6'>
+		<?php foreach ($this->chiffres as $c): ?>
+		<option value='<?php echo $c?>'><?php echo $c?></option>
+		<?php endforeach; ?>
+	</select>
+  		
+  <?php elseif ($this->etatFormulaire == "choixPortail") : ?>
+  	<!--rien-->
+  <?php else: ?>
+  	Il n'y a pas de portail aux alentours de vous.
+  <?php endif;?>
+
+<?php endif ?>
+
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->franchirPossible === true) : ?>
+<input type='button' class='button1' value='Franchir le portail !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_franchirportail");'>
+<?php endif ?>

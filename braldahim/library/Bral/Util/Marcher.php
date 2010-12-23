@@ -10,7 +10,7 @@ class Bral_Util_Marcher {
 	function __construct() {
 	}
 
-	function calcul($braldun, $selection = null, $construireRoute = false) {
+	function calcul($braldun, $selection = null, $construireRoute = false, $xPortail = null, $yPortail = null) {
 		Zend_Loader::loadClass('Environnement');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Route');
@@ -79,7 +79,14 @@ class Bral_Util_Marcher {
 		/*
 		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
-		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute, $retour["estSurEau"]);
+
+		if ($xPortail == null && $yPortail == null) {
+			$franchirPortail = false;
+		} else {
+			$franchirPortail = true;
+		}
+
+		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute, $retour["estSurEau"], $franchirPortail);
 		$retour["nb_cases"] = $this->nb_cases;
 		$retour["effetMot"] = $this->effetMot;
 		$retour["nb_pa"] = $this->nb_pa;
@@ -100,7 +107,7 @@ class Bral_Util_Marcher {
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
-		$dijkstra->calcul($this->nb_cases, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun, $case);
+		$dijkstra->calcul($this->nb_cases, $braldun->x_braldun, $braldun->y_braldun, $braldun->z_braldun, $case, true, false, $xPortail, $yPortail);
 
 		$defautChecked = false;
 		$config = Zend_Registry::get('config');
@@ -193,7 +200,7 @@ class Bral_Util_Marcher {
 	 * Montagneux : 2 PA pour 1 case
 	 * Caverneux : 1 PA pour 1 case
 	 */
-	private function calculNbPa($braldun, $nom_systeme_environnement, $estSurRoute, $construireRoute, $estSurEau) {
+	private function calculNbPa($braldun, $nom_systeme_environnement, $estSurRoute, $construireRoute, $estSurEau, $franchirPortail) {
 		$this->effetMot = false;
 
 		switch($nom_systeme_environnement) {
@@ -272,6 +279,11 @@ class Bral_Util_Marcher {
 			
 		if ($braldun->bm_marcher_braldun != 0) {
 			$this->nb_pa = $this->nb_pa - $braldun->bm_marcher_braldun;
+		}
+
+		if ($franchirPortail) {
+			$this->nb_cases = 2;
+			$this->nb_pa = 2;
 		}
 
 		if ($braldun->pa_braldun - $this->nb_pa < 0) {

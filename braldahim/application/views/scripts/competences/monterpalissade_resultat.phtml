@@ -1,12 +1,17 @@
 <?php include("commun_text_resultat.phtml") ?>
 
 <?php if ($this->okJet1 === true): ?>
-		Vous avez mont&eacute; une palissade !<br />
+	<?php if ($this->palissade["est_portail_palissade"] == "oui") : ?>
+		Vous avez mont&eacute; un portail !<br />
+		Code pour franchir le portail : <?php echo $this->palissade["code_1_palissade"].$this->palissade["code_2_palissade"].$this->palissade["code_3_palissade"].$this->palissade["code_4_palissade"]; ?>.
+	<?php else:?>
+		Vous avez mont&eacute; une palissade !<br /><br />
+	<?php endif;?>
+	
 		Il vous a fallu <?php echo $this->nRondinsNecessaires ?> rondins.<br /><br />
-		
 		La palissade a les caract&eacute;ristiques suivantes : <br />
 		Position : <?php echo $this->palissade["x_palissade"] ?>, <?php echo $this->palissade["y_palissade"] ?><br />
 		Armure naturelle : <?php echo $this->palissade["armure_naturelle_palissade"] ?><br />
 		PV Palissade : <?php echo $this->palissade["pv_restant_palissade"] ?><br />
-		Date de destruction : le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->palissade["date_fin_palissade"]); ?>
+		Date de destruction : le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->palissade["date_fin_palissade"]); ?><br /><br />
 <?php endif; ?>

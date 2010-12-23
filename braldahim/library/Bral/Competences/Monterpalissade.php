@@ -21,8 +21,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
- 
-		/* 
+
+		/*
 		 * On verifie qu'il y a au moins 2 rondins
 		 */
 		$charretteTable = new Charrette();
@@ -31,7 +31,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		if (!isset($charrette)) {
 			return;
 		}
- 
+
 		$this->view->nRondins = 0;
 		foreach ($charrette as $c) {
 			$this->view->nRondins = $c["quantite_rondin_charrette"];
@@ -176,6 +176,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 				}
 			}
 		}
+		$tabChiffres = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		$this->view->chiffres = $tabChiffres;
 		$this->view->tableau = $tab;
 		$this->tableauValidation = $tabValidation;
 	}
@@ -204,6 +206,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : pas de charrette");
 		}
 
+		Zend_Loader::loadClass("Bral_Util_Controle");
+
+		$chiffre_1 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$chiffre_2 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		$chiffre_3 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+		$chiffre_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
+
 		// on verifie que l'on peut monter une palissade sur la case
 		$x_y = $this->request->get("valeur_1");
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
@@ -223,7 +232,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculMonterPalissade($this->view->user->x_braldun + $offset_x, $this->view->user->y_braldun + $offset_y);
+			$this->calculMonterPalissade($this->view->user->x_braldun + $offset_x, $this->view->user->y_braldun + $offset_y, $chiffre_1, $chiffre_2, $chiffre_3, $chiffre_4);
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 
@@ -234,7 +243,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$this->majBraldun();
 	}
 
-	private function calculMonterPalissade($x, $y) {
+	private function calculMonterPalissade($x, $y, $chiffre_1, $chiffre_2, $chiffre_3, $chiffre_4) {
 
 		$charretteTable = new Charrette();
 		$data = array(
@@ -251,6 +260,12 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		}
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 
+		if ($chiffre_1 == 0 && $chiffre_2 == 0 && $chiffre_3 == 0 && $chiffre_4 == 0) {
+			$estPorte = "non";
+		} else {
+			$estPorte = "oui";
+		}
+
 		$data = array(
 			"x_palissade"  => $x,
 			"y_palissade" => $y,
@@ -260,7 +275,12 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			"pv_restant_palissade" => $this->view->user->pv_restant_braldun,
 			"pv_max_palissade" => $this->view->user->pv_restant_braldun,
 			"date_creation_palissade" => $date_creation,
-			"date_fin_palissade" => $date_fin,
+			"date_fin_palissade" => $date_fin,	
+			"est_portail_palissade" => $estPorte,
+			"code_1_palissade" => $chiffre_1,
+			"code_2_palissade" => $chiffre_2,
+			"code_3_palissade" => $chiffre_3,
+			"code_4_palissade" => $chiffre_4,
 		);
 
 		$palissadeTable = new Palissade();

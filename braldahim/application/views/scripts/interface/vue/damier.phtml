@@ -43,25 +43,6 @@ foreach($this->tableau as $k => $case) :
 		$adminDoubleClickPalissade = "";
 	}
 	
-	$textPalissade = "";
-	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br />Palissade : <br />";
-      	foreach($case["palissades"] as $p) {
-      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
-      		if ($p["est_destructible_palissade"] == "oui") {
-      			$textPalissade .= " destructible";
-      		} else {
-      			$textPalissade .= " indestructible";
-      		}
-      		$textPalissade .= "<br />";
-		} 
-		$s = "";
-		if ($case["n_palissades"] > 1) {
-			$s = "s";
-		}
-	endif;
-	
-	
 	?>
 	<?php if ($case["change_level"] == true) : 
 		$col="ok"; ?>

@@ -1,7 +1,7 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
 
-Pour construire une palissade, vous devez avoir dans votre charrette au minimum
+Pour construire une palissade ou un portail, vous devez avoir dans votre charrette au minimum
 <?php echo $this->nRondinsNecessaires?> rondin<?php if ($this->nRondinsNecessaires > 1): echo "s"; endif;?>.
 
 
@@ -44,6 +44,37 @@ Pour construire une palissade, vous devez avoir dans votre charrette au minimum
      </td>
     </tr>
   </table>
+  
+  
+  <br />
+	Pour 0 PA, vous pouvez mettre un cadenas à cette palissade et en faire un portail. <br />
+	Si vous laissez le code 0 0 0 0, la palissade ne sera qu'une simple palissade et non un portail, elle sera donc infranchissable. <br />
+	
+	Code du cadenas :  <br />
+	<select id='valeur_2' name='valeur_2'>
+	<?php foreach ($this->chiffres as $c): ?>
+	<option value='<?php echo $c?>' <?php if (0 == $c): echo "selected"; endif;?>><?php echo $c?></option>
+	<?php endforeach; ?>
+	</select>
+	
+	<select id='valeur_3' name='valeur_3'>
+	<?php foreach ($this->chiffres as $c): ?>
+	<option value='<?php echo $c?>' <?php if (0 == $c): echo "selected"; endif;?>><?php echo $c?></option>
+	<?php endforeach; ?>
+	</select>
+	
+	<select id='valeur_4' name='valeur_4'>
+	<?php foreach ($this->chiffres as $c): ?>
+	<option value='<?php echo $c?>' <?php if (0 == $c): echo "selected"; endif;?>><?php echo $c?></option>
+	<?php endforeach; ?>
+	</select>
+	
+	<select id='valeur_5' name='valeur_5'>
+	<?php foreach ($this->chiffres as $c): ?>
+	<option value='<?php echo $c?>' <?php if (0 == $c): echo "selected"; endif;?>><?php echo $c?></option>
+	<?php endforeach; ?>
+	</select>
+		 <br /> <br />
 <?php endif ?>
 </div>
 
