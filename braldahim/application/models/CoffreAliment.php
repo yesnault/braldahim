@@ -9,7 +9,7 @@ class CoffreAliment extends Zend_Db_Table {
 	protected $_name = 'coffre_aliment';
 	protected $_primary = array('id_coffre_aliment');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdCoffre($idCoffre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_aliment', '*')
@@ -19,20 +19,8 @@ class CoffreAliment extends Zend_Db_Table {
 		->where('id_aliment = id_coffre_aliment')
 		->where('id_fk_type_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_aliment = id_type_qualite')
-		->where('id_fk_braldun_coffre_aliment = ?', intval($idBraldun));
+		->where('id_fk_coffre_coffre_aliment = ?', intval($idCoffre));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-    function countByIdBraldun($idBraldun) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('coffre_aliment', 'count(*) as nombre')
-		->where('id_fk_braldun_coffre_aliment = '.intval($idBraldun));
-		$sql = $select->__toString();
-		$resultat = $db->fetchAll($sql);
-
-		$nombre = $resultat[0]["nombre"];
-		return $nombre;
-    }
 }

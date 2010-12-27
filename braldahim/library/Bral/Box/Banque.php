@@ -122,41 +122,38 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		}
 		unset($metiersRowset);
 
-		$tabMineraisBruts = null;
-		$tabLingots = null;
-		$coffreMineraiTable = new CoffreMinerai();
-		$minerais = $coffreMineraiTable->findByIdBraldun($this->view->user->id_braldun);
-		unset($coffreMineraiTable);
 
-		foreach ($minerais as $m) {
-			if ($m["quantite_brut_coffre_minerai"] > 0) {
-				$tabMineraisBruts[] = array(
-					"id_type_minerai" => $m["id_type_minerai"],
-					"type" => $m["nom_type_minerai"],
-					"quantite" => $m["quantite_brut_coffre_minerai"],
-					"poids" => $m["quantite_brut_coffre_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
-				);
-					
-				if (isset($tabMetiers["mineur"])) {
-					$tabMetiers["mineur"]["a_afficher"] = true;
-				}
-			}
-			if ($m["quantite_lingots_coffre_minerai"] > 0) {
-				$tabLingots[] = array(
-					"id_type_minerai" => $m["id_type_minerai"],
-					"type" => $m["nom_type_minerai"],
-					"quantite" => $m["quantite_lingots_coffre_minerai"],
-					"poids" => $m["quantite_lingots_coffre_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
-					"estLingot" => true,
-				);
-					
-				if (isset($tabMetiers["forgeron"])) {
-					$tabMetiers["forgeron"]["a_afficher"] = true;
-				}
-			}
-		}
-		unset($minerais);
+		$tabCoffre = $this->renderAutres(&$tabMetiers);
+		$this->renderRune($tabCoffre["id_coffre"]);
+		$this->renderMinerai($tabMetiers, $tabCoffre["id_coffre"]);
+		$this->renderPlante($tabMetiers, $tabCoffre["id_coffre"]);
+		$this->renderEquipement($tabCoffre["id_coffre"]);
+		$this->renderMunition($tabCoffre["id_coffre"]);
+		$this->renderPotion($tabCoffre["id_coffre"]);
+		$this->renderAliment($tabCoffre["id_coffre"]);
+		$this->renderGraine($tabCoffre["id_coffre"]);
+		$this->renderIngredient($tabMetiers, $tabCoffre);
+		$this->renderTabac($tabCoffre["id_coffre"]);
+		$this->renderMateriel($tabCoffre["id_coffre"]);
 
+		$this->view->tabMetiers = $tabMetiers;
+		$this->view->tabBraldunMetiers = $tabBraldunMetiers;
+
+		$this->view->estElementsEtal = false;
+		$this->view->estElementsEtalAchat = false;
+		$this->view->estElementsAchat = false;
+
+		$this->view->nom_interne = $this->getNomInterne();
+
+		unset($tabBraldunMetiers);
+		unset($tabMetiers);
+		unset($tabMineraisBruts);
+		unset($tabLingots);
+		unset($tabRunesIdentifiees);
+		unset($tabRunesNonIdentifiees);
+	}
+
+	private function renderAutres(&$tabMetiers) {
 		$tabCoffre = null;
 		$coffreTable = new Coffre();
 		$coffre = $coffreTable->findByIdBraldun($this->view->user->id_braldun);
@@ -164,6 +161,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		foreach ($coffre as $p) {
 			$tabCoffre = array(
+				"id_coffre" => $p["id_coffre"],
 				"nb_peau" => $p["quantite_peau_coffre"],
 				"nb_cuir" => $p["quantite_cuir_coffre"],
 				"nb_fourrure" => $p["quantite_fourrure_coffre"],
@@ -199,11 +197,56 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			}
 		}
 		unset($coffre);
+		$this->view->coffre = $tabCoffre;
+		$this->view->laban = $tabCoffre; // pour les poches
+		return $tabCoffre;
+	}
 
+	private function renderMinerai(&$tabMetiers, $idCoffre) {
+		$tabMineraisBruts = null;
+		$tabLingots = null;
+		$coffreMineraiTable = new CoffreMinerai();
+		$minerais = $coffreMineraiTable->findByIdCoffre($idCoffre);
+		unset($coffreMineraiTable);
+
+		foreach ($minerais as $m) {
+			if ($m["quantite_brut_coffre_minerai"] > 0) {
+				$tabMineraisBruts[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_brut_coffre_minerai"],
+					"poids" => $m["quantite_brut_coffre_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+				);
+					
+				if (isset($tabMetiers["mineur"])) {
+					$tabMetiers["mineur"]["a_afficher"] = true;
+				}
+			}
+			if ($m["quantite_lingots_coffre_minerai"] > 0) {
+				$tabLingots[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_lingots_coffre_minerai"],
+					"poids" => $m["quantite_lingots_coffre_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
+					"estLingot" => true,
+				);
+					
+				if (isset($tabMetiers["forgeron"])) {
+					$tabMetiers["forgeron"]["a_afficher"] = true;
+				}
+			}
+		}
+		unset($minerais);
+
+		$this->view->mineraisBruts = $tabMineraisBruts;
+		$this->view->lingots = $tabLingots;
+	}
+
+	private function renderRune($idCoffre) {
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$coffreRuneTable = new CoffreRune();
-		$runes = $coffreRuneTable->findByIdBraldun($this->view->user->id_braldun);
+		$runes = $coffreRuneTable->findByIdCoffre($idCoffre);
 		unset($coffreRuneTable);
 
 		foreach ($runes as $r) {
@@ -227,46 +270,15 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		}
 		unset($runes);
 
-		$this->view->mineraisBruts = $tabMineraisBruts;
-		$this->view->lingots = $tabLingots;
-
 		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
-
-		$this->renderPlante($tabMetiers);
-		$this->renderEquipement();
-		$this->renderMunition();
-		$this->renderPotion();
-		$this->renderAliment();
-		$this->renderGraine();
-		$this->renderIngredient($tabMetiers, $tabCoffre);
-		$this->renderTabac();
-		$this->renderMateriel();
-
-		$this->view->tabMetiers = $tabMetiers;
-		$this->view->tabBraldunMetiers = $tabBraldunMetiers;
-		$this->view->coffre = $tabCoffre;
-		$this->view->laban = $tabCoffre; // pour les poches
-
-		$this->view->estElementsEtal = false;
-		$this->view->estElementsEtalAchat = false;
-		$this->view->estElementsAchat = false;
-
-		$this->view->nom_interne = $this->getNomInterne();
-
-		unset($tabBraldunMetiers);
-		unset($tabMetiers);
-		unset($tabMineraisBruts);
-		unset($tabLingots);
-		unset($tabRunesIdentifiees);
-		unset($tabRunesNonIdentifiees);
 	}
 
-	private function renderTabac() {
+	private function renderTabac($idCoffre) {
 		$tabTabac = null;
 		$coffreTabacTable = new CoffreTabac();
-		$tabacs = $coffreTabacTable->findByIdBraldun($this->view->user->id_braldun);
+		$tabacs = $coffreTabacTable->findByIdCoffre($idCoffre);
 		unset($coffreTabacTable);
 
 		foreach ($tabacs as $m) {
@@ -282,7 +294,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->tabac = $tabTabac;
 	}
 
-	private function renderPlante(&$tabMetiers) {
+	private function renderPlante(&$tabMetiers, $idCoffre) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
@@ -294,7 +306,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		$tabTypePlantes = null;
 		$coffrePartiePlanteTable = new CoffrePartieplante();
-		$partiePlantes = $coffrePartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
+		$partiePlantes = $coffrePartiePlanteTable->findByIdCoffre($idCoffre);
 		unset($coffrePartiePlanteTable);
 
 		foreach($typePartiePlantesRowset as $p) {
@@ -360,10 +372,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
 	}
 
-	private function renderMateriel() {
+	private function renderMateriel($idCoffre) {
 		$tabMateriels = null;
 		$coffreMaterielTable = new CoffreMateriel();
-		$materiels = $coffreMaterielTable->findByIdBraldun($this->view->user->id_braldun);
+		$materiels = $coffreMaterielTable->findByIdCoffre($idCoffre);
 		unset($coffreMaterielTable);
 
 		$tabWhere = null;
@@ -386,10 +398,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->materiels = $tabMateriels;
 	}
 
-	private function renderEquipement() {
+	private function renderEquipement($idCoffre) {
 		$tabEquipements = null;
 		$coffreEquipementTable = new CoffreEquipement();
-		$equipements = $coffreEquipementTable->findByIdBraldun($this->view->user->id_braldun);
+		$equipements = $coffreEquipementTable->findByIdCoffre($idCoffre);
 		unset($coffreEquipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -407,10 +419,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->equipements = $tabRetour;
 	}
 
-	private function renderMunition() {
+	private function renderMunition($idCoffre) {
 		$tabMunitions = null;
 		$coffreMunitionTable = new CoffreMunition();
-		$munitions = $coffreMunitionTable->findByIdBraldun($this->view->user->id_braldun);
+		$munitions = $coffreMunitionTable->findByIdCoffre($idCoffre);
 		unset($coffreMunitionTable);
 
 		foreach ($munitions as $m) {
@@ -426,11 +438,11 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->munitions = $tabMunitions;
 	}
 
-	private function renderPotion() {
+	private function renderPotion($idCoffre) {
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotions = null;
 		$coffrePotionTable = new CoffrePotion();
-		$potions = $coffrePotionTable->findByIdBraldun($this->view->user->id_braldun);
+		$potions = $coffrePotionTable->findByIdCoffre($idCoffre);
 		unset($coffrePotionTable);
 
 		foreach ($potions as $p) {
@@ -453,10 +465,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->potions = $tabPotions;
 	}
 
-	private function renderAliment() {
+	private function renderAliment($idCoffre) {
 		$tabAliments = null;
 		$coffreAlimentTable = new CoffreAliment();
-		$aliments = $coffreAlimentTable->findByIdBraldun($this->view->user->id_braldun);
+		$aliments = $coffreAlimentTable->findByIdCoffre($idCoffre);
 		unset($coffreAlimentTable);
 
 		Zend_Loader::loadClass("Bral_Util_Aliment");
@@ -476,10 +488,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->aliments = $tabAliments;
 	}
 
-	private function renderGraine() {
+	private function renderGraine($idCoffre) {
 		$tabGraines = null;
 		$coffreGraineTable = new CoffreGraine();
-		$graines = $coffreGraineTable->findByIdBraldun($this->view->user->id_braldun);
+		$graines = $coffreGraineTable->findByIdCoffre($idCoffre);
 		unset($coffreGraineTable);
 
 		foreach ($graines as $g) {
@@ -501,7 +513,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 	private function renderIngredient(&$tabMetiers, &$tabCoffre) {
 		$tabIngredients = null;
 		$coffreIngredientTable = new CoffreIngredient();
-		$ingredients = $coffreIngredientTable->findByIdBraldun($this->view->user->id_braldun);
+		$ingredients = $coffreIngredientTable->findByIdCoffre($tabCoffre["id_coffre"]);
 		unset($coffreIngredientTable);
 
 		Zend_Loader::loadClass("TypeIngredient");

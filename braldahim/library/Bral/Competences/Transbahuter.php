@@ -203,17 +203,27 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 		if ($endroitDepart === false) {
-			throw new Zend_Exception(get_class($this)." Endroit depart invalide = ".$idDepart.")");
+			throw new Zend_Exception(get_class($this)." Endroit depart invalide = ".$idDepart);
 		}
 		if ($endroitArrivee === false) {
-			throw new Zend_Exception(get_class($this)." Endroit arrivee invalide = ".$idArrivee.")");
+			throw new Zend_Exception(get_class($this)." Endroit arrivee invalide = ".$idArrivee);
 		}
 
-		$idCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-		if ($idCoffre == -1) {
+		$idBraldunCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		$this->view->id_braldun_coffre = null;
+		if ($idBraldunCoffre == -1) {
 			$this->view->id_braldun_coffre = $this->view->user->id_braldun;
 		} else{
-			$this->view->id_braldun_coffre = $idCoffre;
+			$this->view->id_braldun_coffre = $idBraldunCoffre;
+		}	
+
+		if ($this->view->id_braldun_coffre != null) {
+			$coffreTable = new Coffre();
+			$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_coffre);
+			if (count($coffre) != 1) {
+				throw new Zend_Exception(get_class($this)." Coffre arrivee invalide = ".$this->view->id_braldun_coffre);
+			}
+			$this->view->id_coffre_arrivee = $coffre[0]["id_coffre"];
 		}
 
 		$this->view->poidsOk = true;
@@ -412,7 +422,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreEquipementTable = new CoffreEquipement();
-				$equipements = $coffreEquipementTable->findByIdBraldun($this->view->user->id_braldun);
+				$equipements = $coffreEquipementTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreEquipementTable);
 				break;
 			case "Charrette" :
@@ -565,7 +575,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeEquipementTable = new CoffreEquipement();
 									$data = array (
 										"id_coffre_equipement" => $equipement["id_equipement"],
-										"id_fk_braldun_coffre_equipement" => $this->view->id_braldun_coffre,
+										"id_fk_coffre_coffre_equipement" => $this->view->id_coffre_arrivee,
 									);
 									$arriveeEquipementTable->insert($data);
 									break;
@@ -628,7 +638,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Coffre" :
 					$coffreRuneTable = new CoffreRune();
-					$runes = $coffreRuneTable->findByIdBraldun($this->view->user->id_braldun);
+					$runes = $coffreRuneTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreRuneTable);
 					break;
 				case "Charrette" :
@@ -754,7 +764,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeRuneTable = new CoffreRune();
 									$data = array (
 									"id_rune_coffre_rune" => $rune["id_rune"],
-									"id_fk_braldun_coffre_rune" => $this->view->id_braldun_coffre,
+									"id_fk_coffre_coffre_rune" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -801,7 +811,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffrePotionTable = new CoffrePotion();
-				$potions = $coffrePotionTable->findByIdBraldun($this->view->user->id_braldun);
+				$potions = $coffrePotionTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePotionTable);
 				break;
 			case "Charrette" :
@@ -922,7 +932,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveePotionTable = new CoffrePotion();
 									$data = array (
 										"id_coffre_potion" => $potion["id_potion"],
-										"id_fk_braldun_coffre_potion" => $this->view->id_braldun_coffre,
+										"id_fk_coffre_coffre_potion" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -975,7 +985,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Coffre" :
 					$coffreAlimentTable = new CoffreAliment();
-					$aliments = $coffreAlimentTable->findByIdBraldun($this->view->user->id_braldun);
+					$aliments = $coffreAlimentTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreAlimentTable);
 					break;
 				case "Charrette" :
@@ -1086,7 +1096,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeAlimentTable = new CoffreAliment();
 									$data = array (
 										"id_coffre_aliment" => $aliment["id_aliment"],
-										"id_fk_braldun_coffre_aliment" => $this->view->id_braldun_coffre,
+										"id_fk_coffre_coffre_aliment" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -1126,7 +1136,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Coffre" :
 					$coffreMunitionTable = new CoffreMunition();
-					$munitions = $coffreMunitionTable->findByIdBraldun($this->view->user->id_braldun);
+					$munitions = $coffreMunitionTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreMunitionTable);
 					break;
 				case "Charrette" :
@@ -1223,7 +1233,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_coffre_munition" => -$nbMunition,
 											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_braldun_coffre_munition" => $this->view->user->id_braldun,
+											"id_fk_coffre_coffre_munition" => $this->view->id_coffre_depart,
 									);
 									break;
 								case "Charrette" :
@@ -1269,7 +1279,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_coffre_munition" => $nbMunition,
 											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_braldun_coffre_munition" => $this->view->id_braldun_coffre,
+											"id_fk_coffre_coffre_munition" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -1314,7 +1324,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreMineraiTable = new CoffreMinerai();
-				$minerais = $coffreMineraiTable->findByIdBraldun($this->view->user->id_braldun);
+				$minerais = $coffreMineraiTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMineraiTable);
 				break;
 			case "Charrette" :
@@ -1441,7 +1451,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departMineraiTable = new CoffreMinerai();
 							$data = array (
-								"id_fk_braldun_coffre_minerai" => $this->view->user->id_braldun,
+								"id_fk_coffre_coffre_minerai" => $this->view->id_coffre_depart,
 								"id_fk_type_coffre_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 								"quantite_brut_coffre_minerai" => -$nbBrut,
 								"quantite_lingots_coffre_minerai" => -$nbLingot,
@@ -1498,7 +1508,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeMineraiTable = new CoffreMinerai();
 							$data = array (
-								"id_fk_braldun_coffre_minerai" => $this->view->id_braldun_coffre,
+								"id_fk_coffre_coffre_minerai" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 								"quantite_brut_coffre_minerai" => $nbBrut,
 								"quantite_lingots_coffre_minerai" => $nbLingot,
@@ -1550,7 +1560,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffrePartiePlanteTable = new CoffrePartieplante();
-				$partiePlantes = $coffrePartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
+				$partiePlantes = $coffrePartiePlanteTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePartiePlanteTable);
 				break;
 			case "Charrette" :
@@ -1688,7 +1698,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 								'id_fk_type_coffre_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								'id_fk_type_plante_coffre_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
-								'id_fk_braldun_coffre_partieplante' => $this->view->user->id_braldun,
+								'id_fk_coffre_coffre_partieplante' => $this->view->id_coffre_depart,
 								'quantite_coffre_partieplante' => -$nbBrutes,
 								'quantite_preparee_coffre_partieplante' => -$nbPreparees
 							);
@@ -1749,7 +1759,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveePartiePlanteTable = new CoffrePartieplante();
 							$data = array (
-								"id_fk_braldun_coffre_partieplante" => $this->view->id_braldun_coffre,
+								"id_fk_coffre_coffre_partieplante" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								"id_fk_type_plante_coffre_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 								"quantite_coffre_partieplante" => $nbBrutes,
@@ -1806,7 +1816,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Coffre" :
 					$coffreTabacTable = new CoffreTabac();
-					$tabacs = $coffreTabacTable->findByIdBraldun($this->view->user->id_braldun);
+					$tabacs = $coffreTabacTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreTabacTable);
 					break;
 				case "Charrette" :
@@ -1899,7 +1909,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_coffre_tabac" => -$nbTabac,
 											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_braldun_coffre_tabac" => $this->view->user->id_braldun,
+											"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_depart,
 									);
 									break;
 								case "Charrette" :
@@ -1940,7 +1950,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 											"quantite_feuille_coffre_tabac" => $nbTabac,
 											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_braldun_coffre_tabac" => $this->view->id_braldun_coffre,
+											"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -1981,7 +1991,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreMaterielTable = new CoffreMateriel();
-				$materiels = $coffreMaterielTable->findByIdBraldun($this->view->user->id_braldun);
+				$materiels = $coffreMaterielTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMaterielTable);
 				break;
 			case "Charrette" :
@@ -2099,7 +2109,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$arriveeMaterielTable = new CoffreMateriel();
 									$data = array (
 										"id_coffre_materiel" => $materiel["id_materiel"],
-										"id_fk_braldun_coffre_materiel" => $this->view->id_braldun_coffre,
+										"id_fk_coffre_coffre_materiel" => $this->view->id_coffre_arrivee,
 									);
 									break;
 								case "Charrette" :
@@ -2149,7 +2159,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreGraineTable = new CoffreGraine();
-				$graines = $coffreGraineTable->findByIdBraldun($this->view->user->id_braldun);
+				$graines = $coffreGraineTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreGraineTable);
 				break;
 			case "Charrette" :
@@ -2248,7 +2258,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departGraineTable = new CoffreGraine();
 							$data = array (
-								"id_fk_braldun_coffre_graine" => $this->view->user->id_braldun,
+								"id_fk_coffre_coffre_graine" => $this->view->id_coffre_depart,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => -$nb,
 							);
@@ -2300,7 +2310,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeGraineTable = new CoffreGraine();
 							$data = array (
-								"id_fk_braldun_coffre_graine" => $this->view->id_braldun_coffre,
+								"id_fk_coffre_coffre_graine" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => $nb,
 							);
@@ -2351,7 +2361,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreIngredientTable = new CoffreIngredient();
-				$ingredients = $coffreIngredientTable->findByIdBraldun($this->view->user->id_braldun);
+				$ingredients = $coffreIngredientTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreIngredientTable);
 				break;
 			case "Charrette" :
@@ -2450,7 +2460,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$departIngredientTable = new CoffreIngredient();
 							$data = array (
-								"id_fk_braldun_coffre_ingredient" => $this->view->user->id_braldun,
+								"id_fk_coffre_coffre_ingredient" => $this->view->id_coffre_depart,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => -$nb,
 							);
@@ -2502,7 +2512,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeIngredientTable = new CoffreIngredient();
 							$data = array (
-								"id_fk_braldun_coffre_ingredient" => $this->view->id_braldun_coffre,
+								"id_fk_coffre_coffre_ingredient" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => $nb,
 							);
@@ -2570,7 +2580,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Coffre" :
 				$coffreTable = new Coffre();
-				$autres = $coffreTable->findByIdBraldun($this->view->user->id_braldun);
+				$coffre = $autres = $coffreTable->findByIdBraldun($this->view->user->id_braldun);
+				if (count($coffre) != 1) {
+					throw new Zend_Exception(get_class($this)." Coffre depart invalide = idb:".$this->view->user->id_braldun);
+				}
+				$this->view->id_coffre_depart = $coffre[0]["id_coffre"];
 				unset($coffreTable);
 				break;
 			case "Charrette" :
@@ -2763,6 +2777,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 						case "Coffre" :
 							$departTable = new Coffre();
+							$data = array (
+								"id_coffre" => $this->view->id_coffre_depart,
+								"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
+							);
 							break;
 						case "Charrette" :
 							$departTable = new Charrette();
@@ -2815,7 +2833,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$data = array(
 									"quantite_".$nom_systeme."_coffre" => $nb,
-									"id_fk_braldun_coffre" => $this->view->id_braldun_coffre,
+									"id_coffre" => $this->view->id_coffre_arrivee,
 							);
 							$arriveeTable = new Coffre();
 							break;

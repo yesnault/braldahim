@@ -7,14 +7,14 @@
  */
 class CoffreMinerai extends Zend_Db_Table {
 	protected $_name = 'coffre_minerai';
-	protected $_primary = array('id_fk_braldun_coffre_minerai', 'id_fk_type_coffre_minerai');
+	protected $_primary = array('id_fk_coffre_coffre_minerai', 'id_fk_type_coffre_minerai');
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdCoffre($idCoffre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_minerai', '*')
 		->from('type_minerai', '*')
-		->where('id_fk_braldun_coffre_minerai = '.intval($id_braldun))
+		->where('id_fk_coffre_coffre_minerai = ?', intval($idCoffre))
 		->where('coffre_minerai.id_fk_type_coffre_minerai = type_minerai.id_type_minerai');
 		$sql = $select->__toString();
 
@@ -28,7 +28,7 @@ class CoffreMinerai extends Zend_Db_Table {
 		quantite_brut_coffre_minerai as quantiteBrut, 
 		quantite_lingots_coffre_minerai as quantiteLingots')
 		->where('id_fk_type_coffre_minerai = ?',$data["id_fk_type_coffre_minerai"])
-		->where('id_fk_braldun_coffre_minerai = ?',$data["id_fk_braldun_coffre_minerai"])
+		->where('id_fk_coffre_coffre_minerai = ?',$data["id_fk_coffre_coffre_minerai"])
 		->group(array('quantiteBrut', 'quantiteLingots'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -51,7 +51,7 @@ class CoffreMinerai extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_coffre_minerai = '.$data["id_fk_type_coffre_minerai"];
-			$where .= ' AND id_fk_braldun_coffre_minerai = '.$data["id_fk_braldun_coffre_minerai"];
+			$where .= ' AND id_fk_coffre_coffre_minerai = '.$data["id_fk_coffre_coffre_minerai"];
 			
 			if ($dataUpdate['quantite_brut_coffre_minerai'] <= 0 && $dataUpdate['quantite_lingots_coffre_minerai'] <= 0) { // delete
 				$this->delete($where);

@@ -9,7 +9,7 @@ class CoffreEquipement extends Zend_Db_Table {
 	protected $_name = 'coffre_equipement';
 	protected $_primary = array('id_coffre_equipement');
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdCoffre($idCoffre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_equipement', '*')
@@ -27,7 +27,7 @@ class CoffreEquipement extends Zend_Db_Table {
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
-		->where('id_fk_braldun_coffre_equipement = ?', intval($id_braldun))
+		->where('id_fk_coffre_coffre_equipement = ?', intval($idCoffre))
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

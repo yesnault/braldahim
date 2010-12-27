@@ -7,13 +7,33 @@
  */
 class Coffre extends Zend_Db_Table {
 	protected $_name = 'coffre';
-	protected $_primary = array('id_fk_braldun_coffre');
+	protected $_primary = array('id_coffre');
+
+	function findByIdCommunaute($id_communaute) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('coffre', '*')
+		->where('id_fk_communaute_coffre = ?', intval($id_communaute));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	function findByIdCoffre($idCoffre) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('coffre', '*')
+		->where('id_coffre = ?', intval($idCoffre));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 
 	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_fk_braldun_coffre = '.intval($id_braldun));
+		->where('id_fk_braldun_coffre = ?', intval($id_braldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -29,7 +49,7 @@ class Coffre extends Zend_Db_Table {
 		quantite_planche_coffre as quantitePlanche,
 		quantite_rondin_coffre as quantiteRondin,
 		quantite_castar_coffre as quantiteCastar')
-		->where('id_fk_braldun_coffre = ?',$data["id_fk_braldun_coffre"])
+		->where('id_coffre = ?', $data["id_coffre"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -44,7 +64,7 @@ class Coffre extends Zend_Db_Table {
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
 			$quantiteRondin = $resultat[0]["quantiteRondin"];
 			$quantiteCastar = $resultat[0]["quantiteCastar"];
-				
+
 			if (isset($data["quantite_peau_coffre"])) {
 				$dataUpdate['quantite_peau_coffre'] = $quantitePeau + $data["quantite_peau_coffre"];
 			}
@@ -64,7 +84,7 @@ class Coffre extends Zend_Db_Table {
 				$dataUpdate['quantite_castar_coffre'] = $quantiteCastar + $data["quantite_castar_coffre"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_braldun_coffre = '.$data["id_fk_braldun_coffre"];
+				$where = 'id_coffre = '.$data["id_coffre"];
 				$this->update($dataUpdate, $where);
 			}
 		}

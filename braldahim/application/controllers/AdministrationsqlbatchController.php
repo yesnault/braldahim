@@ -21,19 +21,97 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->ajoutCompetence();
-	/*	$this->eauCreation(-10);
-		$this->eauCreation(-11);
-		$this->eauCreation(-12);
-		$this->eauCreation(-13);*/
+		$this->correctionCoffre();
+		/*	$this->ajoutCompetence();
+		 $this->eauCreation(-10);
+		 $this->eauCreation(-11);
+		 $this->eauCreation(-12);
+		 $this->eauCreation(-13);*/
 		$this->render();
 	}
 
+	function correctionCoffre() {
+
+		Zend_Loader::loadClass("Communaute");
+
+		Zend_Loader::loadClass("Coffre");
+		Zend_Loader::loadClass("CoffreEquipement");
+		Zend_Loader::loadClass("CoffreMateriel");
+		Zend_Loader::loadClass("CoffreMinerai");
+		Zend_Loader::loadClass("CoffrePartieplante");
+		Zend_Loader::loadClass("CoffreAliment");
+		Zend_Loader::loadClass("CoffreGraine");
+		Zend_Loader::loadClass("CoffreIngredient");
+		Zend_Loader::loadClass("CoffreMunition");
+		Zend_Loader::loadClass("CoffrePotion");
+		Zend_Loader::loadClass("CoffreRune");
+		Zend_Loader::loadClass("CoffreTabac");
+
+		$coffreTable = new Coffre();
+
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall();
+
+		// creation d'un coffre pour tous les Braldûns
+		foreach($bralduns as $b) {
+			$idBraldun = $b["id_braldun"];
+			$coffre = $coffreTable->findByIdBraldun($idBraldun);
+			if ($coffre == null || count($coffre) == 0) {
+				$data = array(
+					"id_fk_braldun_coffre" => $idBraldun,
+				);
+				echo "Creation coffre pour le braldun $idBraldun <br>";
+				$coffreTable->insert($data);
+			}
+		}
+
+		$communauteTable = new Communaute();
+		$communautes = $communauteTable->fetchall();
+
+		// creation d'un coffre pour toutes les Communautes
+		foreach($communautes as $c) {
+			$idCommunaute = $c["id_communaute"];
+			$coffre = $coffreTable->findByIdCommunaute($idCommunaute);
+			if ($coffre == null || count($coffre) == 0) {
+				$data = array(
+					"id_fk_communaute_coffre" => $idCommunaute,
+				);
+				echo "Creation coffre pour la communaute $idBraldun <br>";
+				$coffreTable->insert($data);
+			}
+		}
+
+		$coffres = $coffreTable->fetchall();
+
+		// positionnement des FK
+		foreach($coffres as $c) {
+			$idCoffre = $c["id_coffre"];
+			$idBraldun = $c["id_fk_braldun_coffre"];
+
+			if ($idBraldun != null) {
+				$table = new CoffreEquipement(); $where = "id_fk_braldun_coffre_equipement = ".$idBraldun; $data = array("id_fk_coffre_coffre_equipement" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreMateriel(); $where = "id_fk_braldun_coffre_materiel = ".$idBraldun; $data = array("id_fk_coffre_coffre_materiel" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreMinerai(); $where = "id_fk_braldun_coffre_minerai = ".$idBraldun; $data = array("id_fk_coffre_coffre_minerai" => $idCoffre); $table->update($data, $where);
+				$table = new CoffrePartieplante(); $where = "id_fk_braldun_coffre_partieplante = ".$idBraldun; $data = array("id_fk_coffre_coffre_partieplante" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreAliment(); $where = "id_fk_braldun_coffre_aliment = ".$idBraldun; $data = array("id_fk_coffre_coffre_aliment" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreGraine(); $where = "id_fk_braldun_coffre_graine = ".$idBraldun; $data = array("id_fk_coffre_coffre_graine" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreIngredient(); $where = "id_fk_braldun_coffre_ingredient = ".$idBraldun; $data = array("id_fk_coffre_coffre_ingredient" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreMunition(); $where = "id_fk_braldun_coffre_munition = ".$idBraldun; $data = array("id_fk_coffre_coffre_munition" => $idCoffre); $table->update($data, $where);
+				$table = new CoffrePotion(); $where = "id_fk_braldun_coffre_potion = ".$idBraldun; $data = array("id_fk_coffre_coffre_potion" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreRune(); $where = "id_fk_braldun_coffre_rune = ".$idBraldun; $data = array("id_fk_coffre_coffre_rune" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreTabac(); $where = "id_fk_braldun_coffre_tabac = ".$idBraldun; $data = array("id_fk_coffre_coffre_tabac" => $idCoffre); $table->update($data, $where);
+			} else {
+				// Communaute
+			}
+		}
+
+	}
+
 	function ajoutCompetence() {
-		
+
 		$idMetier = 1;
 		$idCompetence = 72;
-		
+
 		Zend_Loader::loadClass("Competence");
 		$competenceTable = new Competence();
 		$data = array(
@@ -56,14 +134,14 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
             "ordre_competence" => "0",
 		);
 		$competenceTable->insert($data);
-		
+
 		Zend_Loader::loadClass("BraldunsCompetences");
 		$braldunsCompetencesTable = new BraldunsCompetences();
-		
+
 		Zend_Loader::loadClass("BraldunsMetiers");
 		$braldunsMetierTable = new BraldunsMetiers();
 		$bralduns = $braldunsMetierTable->fetchall("id_fk_metier_hmetier=".$idMetier);
-		
+
 		foreach($bralduns as $b) {
 			$data = array(
 			'id_fk_braldun_hcomp' => $b["id_fk_braldun_hmetier"],
@@ -74,9 +152,9 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			}
 			$braldunsCompetencesTable->insert($data);
 		}
-		
+
 	}
-	
+
 	function biereDuMilieuAction() {
 
 		return;
@@ -157,7 +235,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	function eauCreation($z) {
 		$nom_image="niveau-10.png";
 		$image=imagecreatefrompng($nom_image);
-		
+
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
 		//$eauTable->delete(false);
@@ -216,7 +294,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 						"type_eau" => $typeEau,	
 					);
 					$eauTable->insert($data);
-					
+
 					$dataTunnel = array(
 							"x_tunnel" => $xEau,
 							"y_tunnel" => $xEau,
@@ -265,7 +343,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 						$tunnelTable->insert($dataTunnel);
 
-					//	$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable, $z);
+						//	$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable, $z);
 					}
 				}
 			}
