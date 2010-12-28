@@ -372,7 +372,7 @@ class Bral_Util_Quete {
 				"gain_quete" => $quete["gain_quete"],
 			);
 			$where = "id_quete=".$quete["id_quete"];
-				
+
 			$queteTable->update($data, $where);
 
 			self::termineQueteDistinction($quete, $braldun);
@@ -443,23 +443,34 @@ class Bral_Util_Quete {
 
 	private static function calculGain(&$braldun, $nbEtape, $quete) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGain - enter");
+
+		Zend_Loader::loadClass("Coffre");
+		$coffreTable = new Coffre();
+
+		$coffre = $coffreTable->findByIdBraldun($braldun->id_braldun);
+		if ($coffre == null || count($coffre) != 1) {
+			throw new Zend_Eception("Erreur calculGainQueteInitiatiqueAliment idb:".$braldun->id_braldun);
+		}
+
+		$idCoffre = $coffre[0]["id_coffre"];
+
 		if ($quete["est_initiatique_quete"] == "oui") {
-			return self::calculGainQueteInitiatique($braldun);
+			return self::calculGainQueteInitiatique($braldun, $idCoffre);
 		} else {
-			return self::calculGainStandard($braldun, $nbEtape);
+			return self::calculGainStandard($braldun, $idCoffre, $nbEtape);
 		}
 	}
 
-	private static function calculGainQueteInitiatique(&$braldun) {
+	private static function calculGainQueteInitiatique(&$braldun, $idCoffre) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainQueteInitiatique - enter");
-		$retour = self::calculGainQueteInitiatiqueAliment($braldun);
+		$retour = self::calculGainQueteInitiatiqueAliment($braldun, $idCoffre);
 		$retour .= self::calculGainQueteInitiatiqueTabac($braldun);
 
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainQueteInitiatique - enter");
 		return $retour;
 	}
 
-	private static function calculGainQueteInitiatiqueAliment(&$braldun) {
+	private static function calculGainQueteInitiatiqueAliment(&$braldun, $idCoffre) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainQueteInitiatiqueAliment - enter");
 		$nbRagouts = 5;
 
@@ -492,10 +503,10 @@ class Bral_Util_Quete {
 				"bbdf_aliment" => $bbdfAliment,
 			);
 			$alimentTable->insert($data);
-				
+
 			$data = array(
 				'id_coffre_aliment' => $id_aliment,
-				'id_fk_braldun_coffre_aliment' => $braldun->id_braldun,
+				'id_fk_coffre_coffre_aliment' => $idCoffre,
 			);
 			$coffreAlimentTable->insert($data);
 		}
@@ -537,7 +548,7 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculGainStandard(&$braldun, $nbEtape) {
+	private static function calculGainStandard(&$braldun, $idCoffre, $nbEtape) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainStandard - enter");
 
 		$nbRecompenses = $nbEtape - Bral_Util_De::get_1d3();
@@ -553,15 +564,15 @@ class Bral_Util_Quete {
 			$liste[] = $n;
 
 			if ($n == 1) {
-				$retour .= self::calculGainRune($braldun);
+				$retour .= self::calculGainRune($braldun, $idCoffre);
 			} elseif ($n == 2) {
 				$retour .= self::calculGainExperience($braldun, $nbRecompenses, $nbEtape);
 			} elseif ($n == 3) {
-				$retour .= self::calculGainCastars($braldun, $nbRecompenses, $nbEtape);
+				$retour .= self::calculGainCastars($braldun, $idCoffre, $nbRecompenses, $nbEtape);
 			} elseif ($n == 4) {
-				$retour .= self::calculGainMinerais($braldun, $nbRecompenses, $nbEtape);
+				$retour .= self::calculGainMinerais($braldun, $idCoffre, $nbRecompenses, $nbEtape);
 			} elseif ($n == 5) {
-				$retour .= self::calculGainPlantes($braldun, $nbRecompenses, $nbEtape);
+				$retour .= self::calculGainPlantes($braldun, $idCoffre, $nbRecompenses, $nbEtape);
 			}
 		}
 
@@ -569,7 +580,7 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculGainRune(&$braldun) {
+	private static function calculGainRune(&$braldun, $idCoffre) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainRune - enter");
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("CoffreRune");
@@ -609,7 +620,7 @@ class Bral_Util_Quete {
 		$coffreRuneTable = new CoffreRune();
 		$data = array (
 			"id_rune_coffre_rune" => $idRune,
-			"id_fk_braldun_coffre_rune" => $braldun->id_braldun,
+			"id_fk_coffre_coffre_rune" => $idCoffre,
 		);
 		$coffreRuneTable->insert($data);
 
@@ -635,7 +646,7 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculGainCastars(&$braldun, $nbRecompenses, $nbEtape) {
+	private static function calculGainCastars(&$braldun, $idCoffre, $nbRecompenses, $nbEtape) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainCastars - enter");
 		$nbCastars = floor((($braldun->niveau_braldun / $nbRecompenses) * $nbEtape) + Bral_Util_De::get_de_specifique(1, $braldun->niveau_braldun)) * 10;
 		if ($nbCastars < 2) {
@@ -646,7 +657,7 @@ class Bral_Util_Quete {
 		$coffreTable = new Coffre();
 		$data = array(
 			"quantite_castar_coffre" => $nbCastars,
-			"id_fk_braldun_coffre" => $braldun->id_braldun,
+			"id_coffre" => $idCoffre,
 		);
 		$coffreTable->insertOrUpdate($data);
 
@@ -655,7 +666,7 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculGainMinerais(&$braldun, $nbRecompenses, $nbEtape) {
+	private static function calculGainMinerais(&$braldun, $idCoffre, $nbRecompenses, $nbEtape) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainMinerais - enter");
 		$nbMinerais = floor((($braldun->niveau_braldun / $nbRecompenses) * $nbEtape) + Bral_Util_De::get_1d6());
 		if ($nbMinerais < 2) {
@@ -671,7 +682,7 @@ class Bral_Util_Quete {
 		$typeMinerai = $types[$n-1];
 
 		$data = array (
-				"id_fk_braldun_coffre_minerai" => $braldun->id_braldun,
+				"id_fk_coffre_coffre_minerai" => $idCoffre,
 				"id_fk_type_coffre_minerai" => $typeMinerai["id_type_minerai"],
 				"quantite_brut_coffre_minerai" => $nbMinerais,
 		);
@@ -685,7 +696,7 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculGainPlantes(&$braldun, $nbRecompenses, $nbEtape) {
+	private static function calculGainPlantes(&$braldun, $idCoffre, $nbRecompenses, $nbEtape) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainPlantes - enter");
 		$retour = "";
 
@@ -705,19 +716,19 @@ class Bral_Util_Quete {
 		$tirage3 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbPlantes - 1, array($tirage1, $tirage2));
 
 		$nbUnitaireGain = ceil($nbPartiesPlantes / 3);
-		$retour .= self::calculGainPlantesDb($braldun, $plantes, $tirage1, $nbUnitaireGain) ;
-		$retour .= self::calculGainPlantesDb($braldun, $plantes, $tirage2, $nbUnitaireGain) ;
-		$retour .= self::calculGainPlantesDb($braldun, $plantes, $tirage3, $nbUnitaireGain) ;
+		$retour .= self::calculGainPlantesDb($braldun, $idCoffre, $plantes, $tirage1, $nbUnitaireGain) ;
+		$retour .= self::calculGainPlantesDb($braldun, $idCoffre, $plantes, $tirage2, $nbUnitaireGain) ;
+		$retour .= self::calculGainPlantesDb($braldun, $idCoffre, $plantes, $tirage3, $nbUnitaireGain) ;
 
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainPlantes - exit");
 		return $retour;
 	}
 
-	private static function calculGainPlantesDb(&$braldun, $plantes, $tirage, $nbUnitaireGain) {
+	private static function calculGainPlantesDb(&$braldun, $idCoffre, $plantes, $tirage, $nbUnitaireGain) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainPlantesDb - enter");
 		$coffrePartieplanteTable = new CoffrePartieplante();
 		$data = array (
-				"id_fk_braldun_coffre_partieplante" => $braldun->id_braldun,
+				"id_fk_coffre_coffre_partieplante" => $idCoffre,
 				"id_fk_type_coffre_partieplante" => $plantes[$tirage]["id_type_partieplante"],
 				"id_fk_type_plante_coffre_partieplante" => $plantes[$tirage]["id_type_plante"],
 				"quantite_coffre_partieplante" => $nbUnitaireGain,
@@ -1196,6 +1207,23 @@ class Bral_Util_Quete {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapePossederParamsCoffre - param3:".$etape["param_3_etape"]);
 
+		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI ||
+		$etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PLANTE ||
+		$etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU ||
+		$etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE ||
+		$etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR
+		) {
+			Zend_Loader::loadClass("Coffre");
+			$coffreTable = new Coffre();
+
+			$coffre = $coffreTable->findByIdBraldun($braldun->id_braldun);
+			if ($coffre == null || count($coffre) != 1) {
+				throw new Zend_Eception("Erreur calculEtapePossederParamsCoffre idb:".$braldun->id_braldun);
+			}
+
+			$idCoffre = $coffre[0]["id_coffre"];
+		}
+
 		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI) {
 			Zend_Loader::loadClass("CoffreMinerai");
 			$coffreMineraiTable = new CoffreMinerai();
@@ -1205,7 +1233,7 @@ class Bral_Util_Quete {
 					if ($l["id_fk_type_coffre_minerai"] == $etape["param_4_etape"]) {
 						if ($l["quantite_brut_coffre_minerai"] >= $etape["param_1_etape"]) {
 							$data = array (
-								"id_fk_braldun_coffre_minerai" => $braldun->id_braldun,
+								"id_fk_coffre_coffre_minerai" => $idCoffre,
 								"id_fk_type_coffre_minerai" => $l["id_fk_type_coffre_minerai"],
 								"quantite_brut_coffre_minerai" => -$etape["param_1_etape"],
 							);
@@ -1226,7 +1254,7 @@ class Bral_Util_Quete {
 						if ($p["quantite_coffre_partieplante"] >= $etape["param_1_etape"]) {
 							Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapePossederParamsCoffre - B");
 							$data = array (
-								"id_fk_braldun_coffre_partieplante" => $braldun->id_braldun,
+								"id_fk_coffre_coffre_partieplante" => $idCoffre,
 								"id_fk_type_coffre_partieplante" => $p["id_fk_type_coffre_partieplante"],
 								"id_fk_type_plante_coffre_partieplante" => $p["id_fk_type_plante_coffre_partieplante"],
 								"quantite_coffre_partieplante" => -$etape["param_1_etape"],
@@ -1247,21 +1275,21 @@ class Bral_Util_Quete {
 				if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU && $coffre["quantite_peau_coffre"] >= $etape["param_1_etape"]) {
 					$data = array(
 						"quantite_peau_coffre" => -$etape["param_1_etape"],
-						"id_fk_braldun_coffre" => $braldun->id_braldun,
+						"id_coffre" => $idCoffre,
 					);
 					$coffreTable->insertOrUpdate($data);
 					$retour = true;
 				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE && $coffre["quantite_fourrure_coffre"] >= $etape["param_1_etape"]) {
 					$data = array(
 						"quantite_fourrure_coffre" => -$etape["param_1_etape"],
-						"id_fk_braldun_coffre" => $braldun->id_braldun,
+						"id_coffre" => $idCoffre,
 					);
 					$coffreTable->insertOrUpdate($data);
 					$retour = true;
 				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR && $coffre["quantite_castar_coffre"] >= $etape["param_1_etape"]) {
 					$data = array(
 						"quantite_castar_coffre" => -$etape["param_1_etape"],
-						"id_fk_braldun_coffre" => $braldun->id_braldun,
+						"id_coffre" => $idCoffre,
 					);
 					$coffreTable->insertOrUpdate($data);
 					$retour = true;
@@ -1565,8 +1593,8 @@ class Bral_Util_Quete {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
 
 		if ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == 2) { // TODO à SUPPRIMER quand tout le monde a fini ce genre d'etape
-		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
-		$retour = true;
+			Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
+			$retour = true;
 		} elseif ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == self::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE && $etape["param_2_etape"] == $idTypeEquipement) {
 			Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
 			$retour = true;

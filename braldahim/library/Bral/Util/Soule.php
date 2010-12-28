@@ -360,10 +360,20 @@ class Bral_Util_Soule {
 			$s = "";
 		}
 			
+		Zend_Loader::loadClass("Coffre");
+		$coffreTable = new Coffre();
+
+		$coffre = $coffreTable->findByIdBraldun($idBraldun);
+		if ($coffre == null || count($coffre) != 1) {
+			throw new Zend_Eception("Erreur updateDbData idb:".$idBraldun);
+		}
+
+		$idCoffre = $coffre[0]["id_coffre"];
+			
 		if ($tirage < $nbMinerai) {
 			$coffreMineraiTable = new CoffreMinerai();
 			$data = array (
-				"id_fk_braldun_coffre_minerai" => $idBraldun,
+				"id_fk_coffre_coffre_minerai" => $idCoffre,
 				"id_fk_type_coffre_minerai" => $minerais[$tirage]["id_type_minerai"],
 				"quantite_brut_coffre_minerai" => $nbUnitaireGain,
 			);
@@ -373,7 +383,7 @@ class Bral_Util_Soule {
 		} else {
 			$coffrePartieplanteTable = new CoffrePartieplante();
 			$data = array (
-				"id_fk_braldun_coffre_partieplante" => $idBraldun,
+				"id_fk_coffre_coffre_partieplante" => $idCoffre,
 				"id_fk_type_coffre_partieplante" => $plantes[$tirage - $nbMinerai]["id_type_partieplante"],
 				"id_fk_type_plante_coffre_partieplante" => $plantes[$tirage - $nbMinerai]["id_type_plante"],
 				"quantite_coffre_partieplante" => $nbUnitaireGain,
