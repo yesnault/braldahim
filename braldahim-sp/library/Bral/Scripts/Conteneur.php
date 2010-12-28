@@ -24,7 +24,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		return 1;
 	}
 
-	public function calculConteneur($type, &$retour, $idCharrette = null) {
+	public function calculConteneur($type, &$retour, $idCharrette = null, $idCoffre = null) {
 		$typem = strtolower($type);
 		Zend_Loader::loadClass($type);
 		Zend_Loader::loadClass($type."Equipement");
@@ -44,10 +44,12 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 
 		$conteneurMinerai = $type."Minerai";
 		$mineraiTable = new $conteneurMinerai();
-		if ($idCharrette == null) {
-			$minerais = $mineraiTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$minerais = $mineraiTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$minerais = $mineraiTable->findByIdCoffre($idCoffre);
+		} else {
+			$minerais = $mineraiTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		unset($mineraiTable);
 
@@ -64,10 +66,12 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$tabLaban = null;
 		$conteneur = $type;
 		$table = new $conteneur();
-		if ($idCharrette == null) {
-			$elements = $table->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$elements = $table->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$elements = $table->findByIdCoffre($idCoffre);
+		} else {
+			$elements = $table->findByIdBraldun($this->braldun->id_braldun);
 		}
 		unset($table);
 
@@ -83,17 +87,19 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 
 		}
 		unset($elements);
-		
+
 		if ($typem == "laban") {
 			if ($this->braldun->castars_braldun > 0) $retour .= 'ELEMENT;Castar;'.$this->braldun->castars_braldun.PHP_EOL;
 		}
 
 		$conteneurRune = $type."Rune";
 		$runeTable = new $conteneurRune();
-		if ($idCharrette == null) {
-			$runes = $runeTable->findByIdBraldun($this->braldun->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
-		} else {
+		if ($idCharrette != null) {
 			$runes = $runeTable->findByIdCharrette($this->braldun->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
+		} elseif ($idCoffre != null) {
+			$runes = $runeTable->findByIdCoffre($idCoffre);
+		} else {
+			$runes = $runeTable->findByIdBraldun($this->braldun->id_braldun, null, array("niveau_type_rune", "nom_type_rune"));
 		}
 		unset($runeTable);
 
@@ -106,25 +112,27 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		}
 		unset($runes);
 
-		$this->renderPlante($type, $retour, $idCharrette);
-		$this->renderEquipement($type, $retour, $idCharrette);
-		$this->renderMateriel($type, $retour, $idCharrette);
-		$this->renderMunition($type, $retour, $idCharrette);
-		$this->renderPotion($type, $retour, $idCharrette);
-		$this->renderAliment($type, $retour, $idCharrette);
-		$this->renderGraine($type, $retour, $idCharrette);
-		$this->renderIngredient($type, $retour, $idCharrette);
-		$this->renderTabac($type, $retour, $idCharrette);
+		$this->renderPlante($type, $retour, $idCharrette, $idCoffre);
+		$this->renderEquipement($type, $retour, $idCharrette, $idCoffre);
+		$this->renderMateriel($type, $retour, $idCharrette, $idCoffre);
+		$this->renderMunition($type, $retour, $idCharrette, $idCoffre);
+		$this->renderPotion($type, $retour, $idCharrette, $idCoffre);
+		$this->renderAliment($type, $retour, $idCharrette, $idCoffre);
+		$this->renderGraine($type, $retour, $idCharrette, $idCoffre);
+		$this->renderIngredient($type, $retour, $idCharrette, $idCoffre);
+		$this->renderTabac($type, $retour, $idCharrette, $idCoffre);
 	}
 
-	private function renderTabac($type, &$retour, $idCharrette = null) {
+	private function renderTabac($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurTabac = $type."Tabac";
 		$tabacTable = new $conteneurTabac();
-		if ($idCharrette == null) {
-			$tabacs = $tabacTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$tabacs = $tabacTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$tabacs = $tabacTable->findByIdCoffre($idCoffre);
+		} else {
+			$tabacs = $tabacTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		unset($tabacTable);
 
@@ -136,14 +144,16 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		unset($tabacs);
 	}
 
-	private function renderPlante($type, &$retour, $idCharrette = null) {
+	private function renderPlante($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurPlante = $type."Partieplante";
 		$partiePlanteTable = new $conteneurPlante();
-		if ($idCharrette == null) {
-			$partiePlantes = $partiePlanteTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$partiePlantes = $partiePlanteTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$partiePlantes = $partiePlanteTable->findByIdCoffre($idCoffre);
+		} else {
+			$partiePlantes = $partiePlanteTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		unset($partiePlanteTable);
 
@@ -159,14 +169,16 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		unset($partiePlantes);
 	}
 
-	private function renderEquipement($type, &$retour, $idCharrette = null) {
+	private function renderEquipement($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurEquipement = $type."Equipement";
 		$equipementTable = new $conteneurEquipement();
-		if ($idCharrette == null) {
-			$equipements = $equipementTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$equipements = $equipementTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$equipements = $equipementTable->findByIdCoffre($idCoffre);
+		} else {
+			$equipements = $equipementTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		unset($equipementTable);
 
@@ -181,71 +193,81 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		}
 	}
 
-	private function renderMateriel($type, &$retour, $idCharrette = null) {
+	private function renderMateriel($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurMateriel = $type."Materiel";
 		$materielTable = new $conteneurMateriel();
-		if ($idCharrette == null) {
-			$materiels = $materielTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$materiels = $materielTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$materiels = $materielTable->findByIdCoffre($idCoffre);
+		} else {
+			$materiels = $materielTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($materiels as $e) {
 			$retour .= 'MATERIEL;'.$e["id_".$typem."_materiel"].';'.$e["nom_type_materiel"].PHP_EOL;
 		}
 	}
 
-	private function renderMunition($type, &$retour, $idCharrette = null) {
+	private function renderMunition($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurMunition = $type."Munition";
 		$munitionTable = new $conteneurMunition();
-		if ($idCharrette == null) {
-			$munitions = $munitionTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$munitions = $munitionTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$munitions = $munitionTable->findByIdCoffre($idCoffre);
+		} else {
+			$munitions = $munitionTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($munitions as $m) {
 			$retour .= 'MUNITION;'.$m["nom_type_munition"].';'.$m["nom_pluriel_type_munition"].';'.$m["quantite_".$typem."_munition"].PHP_EOL;
 		}
 	}
 
-	private function renderPotion($type, &$retour, $idCharrette = null) {
+	private function renderPotion($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$conteneurPotion = $type."Potion";
 		$potionTable = new $conteneurPotion();
-		if ($idCharrette == null) {
-			$potions = $potionTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$potions = $potionTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$potions = $potionTable->findByIdCoffre($idCoffre);
+		} else {
+			$potions = $potionTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($potions as $p) {
 			$retour .= 'POTION;'.$p["id_".$typem."_potion"].';'.Bral_Util_Potion::getNomType($p["type_potion"]).';'.$p["nom_type_potion"].';'.$p["nom_type_qualite"].';'.$p["niveau_potion"].PHP_EOL;
 		}
 	}
 
-	private function renderAliment($type, &$retour, $idCharrette = null) {
+	private function renderAliment($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurAliment = $type."Aliment";
 		$alimentTable = new $conteneurAliment();
-		if ($idCharrette == null) {
-			$aliments = $alimentTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$aliments = $alimentTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$aliments = $alimentTable->findByIdCoffre($idCoffre);
+		} else {
+			$aliments = $alimentTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($aliments as $p) {
 			$retour .= 'ALIMENT;'.$p["id_".$typem."_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].';'.$p["bbdf_aliment"].PHP_EOL;
 		}
 	}
 
-	private function renderGraine($type, &$retour, $idCharrette = null) {
+	private function renderGraine($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurGraine = $type."Graine";
 		$graineTable = new $conteneurGraine();
-		if ($idCharrette == null) {
-			$graines = $graineTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$graines = $graineTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$graines = $graineTable->findByIdCoffre($idCoffre);
+		} else {
+			$graines = $graineTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($graines as $g) {
 			if ($g["quantite_".$typem."_graine"] > 0) {
@@ -254,14 +276,16 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		}
 	}
 
-	private function renderIngredient($type, &$retour, $idCharrette = null) {
+	private function renderIngredient($type, &$retour, $idCharrette, $idCoffre) {
 		$typem = strtolower($type);
 		$conteneurIngredient = $type."Ingredient";
 		$ingredientTable = new $conteneurIngredient();
-		if ($idCharrette == null) {
-			$ingredients = $ingredientTable->findByIdBraldun($this->braldun->id_braldun);
-		} else {
+		if ($idCharrette != null) {
 			$ingredients = $ingredientTable->findByIdCharrette($idCharrette);
+		} elseif ($idCoffre != null) {
+			$ingredients = $ingredientTable->findByIdCoffre($idCoffre);
+		} else {
+			$ingredients = $ingredientTable->findByIdBraldun($this->braldun->id_braldun);
 		}
 		foreach ($ingredients as $p) {
 			if ($p["quantite_".$typem."_ingredient"] > 0) {

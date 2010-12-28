@@ -16,7 +16,16 @@ class Bral_Scripts_Coffre extends Bral_Scripts_Conteneur {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Coffre - calculScriptImpl - enter -");
 
 		$retour = null;
-		$this->calculConteneur("Coffre", $retour);
+
+		Zend_Loader::loadClass("Coffre");
+		$coffreTable = new Coffre();
+		
+		$coffre = $coffreTable->findByIdBraldun($this->braldun->id_braldun);
+		if ($coffre == null || count($coffre) != 1) {
+			throw new Zend_Eception("Erreur Bral_Scripts_Coffre idb:".$this->braldun->id_braldun);
+		} 
+
+		$this->calculConteneur("Coffre", $retour, null, $coffre[0]["id_coffre"]);
 
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Coffre - calculScriptImpl - exit -");
 		return $retour;
