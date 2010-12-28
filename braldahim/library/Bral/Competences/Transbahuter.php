@@ -216,15 +216,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->view->id_braldun_coffre = $this->view->user->id_braldun;
 		} else{
 			$this->view->id_braldun_coffre = $idBraldunCoffre;
-		}	
+		}
 
-		if ($this->view->id_braldun_coffre != null) {
-			$coffreTable = new Coffre();
-			$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_coffre);
-			if (count($coffre) != 1) {
-				throw new Zend_Exception(get_class($this)." Coffre arrivee invalide = ".$this->view->id_braldun_coffre);
+		if ($this->view->nbelement > 0 && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
+			if ($this->view->id_braldun_coffre != null) {
+				$coffreTable = new Coffre();
+				$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_coffre);
+				if (count($coffre) != 1) {
+					throw new Zend_Exception(get_class($this)." Coffre arrivee invalide = ".$this->view->id_braldun_coffre);
+				}
+				$this->view->id_coffre_arrivee = $coffre[0]["id_coffre"];
 			}
-			$this->view->id_coffre_arrivee = $coffre[0]["id_coffre"];
 		}
 
 		$this->view->poidsOk = true;
