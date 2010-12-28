@@ -156,6 +156,14 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communaute = $data;
 		$communaute["id_communaute"] = $communauteTable->insert($data);
 
+		// Creation du coffre
+		Zend_Loader::loadClass("Coffre");
+		$coffreTable = new Coffre();
+		$data = array(
+			"id_fk_communaute_coffre" => $communaute["id_communaute"],
+		);
+		$coffreTable->insert($data);
+
 		$idRangCreateur = $this->creerRangsDefaut($communaute["id_communaute"]);
 
 		$braldunTable = new Braldun();
