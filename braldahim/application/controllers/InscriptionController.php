@@ -212,6 +212,15 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->envoiEmail();
 				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_braldun);
 				echo $this->view->render("inscription/fin.phtml");
+
+				// Creation du coffre
+				Zend_Loader::loadClass("Coffre");
+				$coffreTable = new Coffre();
+				$data = array(
+					"id_fk_braldun_coffre" => $this->view->id_braldun,
+				);
+				$coffreTable->insert($data);
+				
 				return;
 			} else {
 				$tabPrenom = null;
@@ -278,12 +287,12 @@ class InscriptionController extends Zend_Controller_Action {
 
 			$this->id_region = 1;
 			/*
-			if ($de == 1) {
+			 if ($de == 1) {
 				$this->id_region = 1;
-			} else {
+				} else {
 				$this->id_region = 3;
-			}*/
-				
+				}*/
+
 			/*	$regionTable = new Region();
 			 $regionsRowset = $regionTable->fetchAll();
 			 $de = Bral_Util_De::get_de_specifique(0, count($regionsRowset)-1);
@@ -359,7 +368,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 	private function envoiEmail() {
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
-		
+
 		Zend_Loader::loadClass("Bral_Util_Inscription");
 		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->id_braldun, $this->email_braldun, md5($this->prenom_braldun), md5($this->password_braldun));
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;

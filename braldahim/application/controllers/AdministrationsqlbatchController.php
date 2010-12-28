@@ -21,8 +21,8 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->correctionCoffre();
-		/*	$this->ajoutCompetence();
+		/*$this->correctionCoffre();
+		 $this->ajoutCompetence();
 		 $this->eauCreation(-10);
 		 $this->eauCreation(-11);
 		 $this->eauCreation(-12);
@@ -76,7 +76,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 				$data = array(
 					"id_fk_communaute_coffre" => $idCommunaute,
 				);
-				echo "Creation coffre pour la communaute $idBraldun <br>";
+				echo "Creation coffre pour la communaute $idCommunaute <br>";
 				$coffreTable->insert($data);
 			}
 		}
