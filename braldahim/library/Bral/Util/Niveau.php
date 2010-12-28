@@ -9,7 +9,7 @@ class Bral_Util_Niveau {
 
 	const NIVEAU_MAX = 40;
 	const NB_PI_NIVEAU_MAX = 4100;
-	
+
 	private function __construct() {
 	}
 
@@ -23,7 +23,7 @@ class Bral_Util_Niveau {
 		if ($braldun->niveau_braldun >= self::NIVEAU_MAX) {
 			return false;
 		}
-		
+
 		if ($changeNiveau == null) {
 			$changeNiveau = false;
 		}
@@ -45,7 +45,7 @@ class Bral_Util_Niveau {
 				Bral_Util_Soule::calculDesinscription($braldun->id_braldun);
 				self::calculAccesNiveau40($braldun);
 			}
-			
+				
 			self::gainCastars($braldun);
 		}
 
@@ -55,7 +55,7 @@ class Bral_Util_Niveau {
 		}
 		return $changeNiveau;
 	}
-	
+
 	private static function calculAccesNiveau40(&$braldun) {
 		// Si niveau >= 40
 		// pi = 4100 - pi_braldun + pi_academie
@@ -99,12 +99,22 @@ class Bral_Util_Niveau {
 
 		if ($braldun->niveau_braldun < 11) {
 			$nbCastars = $braldun->niveau_braldun * 50;
+				
+			Zend_Loader::loadClass("Coffre");
+			$coffreTable = new Coffre();
+
+			$coffre = $coffreTable->findByIdBraldun($braldun->id_braldun);
+			if ($coffre == null || count($coffre) != 1) {
+				throw new Zend_Eception("Erreur gainCastars idb:".$braldun->id_braldun);
+			}
+
+			$idCoffre = $coffre[0]["id_coffre"];
 
 			Zend_Loader::loadClass("Coffre");
 			$coffreTable = new Coffre();
 			$data = array(
 				"quantite_castar_coffre" => $nbCastars,
-				"id_fk_braldun_coffre" => $braldun->id_braldun,
+				"id_coffre" => $idCoffre,
 			);
 			$coffreTable->insertOrUpdate($data);
 		}

@@ -979,6 +979,17 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		}
 
 		$this->view->detailPrix = "";
+		
+		
+		Zend_Loader::loadClass("Coffre");
+		$coffreTable = new Coffre();
+		
+		$coffre = $coffreTable->findByIdBraldun($this->view->vente["vente"]["id_fk_braldun_vente"]);
+		if ($coffre == null || count($coffre) != 1) {
+			throw new Zend_Eception("Erreur Bral_Scripts_Coffre idb:".$this->view->vente["vente"]["id_fk_braldun_vente"]);
+		} 
+
+		$this->id_coffre_vendeur = $coffre[0]["id_coffre"];
 
 		if ($this->view->prix[$idPrix]["type"] == "element") {
 			$this->calculAchatElement($this->view->prix[$idPrix]);
@@ -1079,7 +1090,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_fk_braldun_coffre' => $this->view->vente["vente"]["id_fk_braldun_vente"],
+					'id_coffre' => $this->id_coffre_vendeur,
 					"quantite_".$nomSysteme."_coffre" => $prix["prix"],
 				);
 				$coffreTable->insertOrUpdate($data);
@@ -1100,7 +1111,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_fk_braldun_coffre' => $this->view->vente["vente"]["id_fk_braldun_vente"],
+					'id_coffre' => $this->id_coffre_vendeur,
 					'quantite_castar_coffre' => $prix["prix"],
 				);
 				$coffreTable->insertOrUpdate($data);
@@ -1137,7 +1148,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$coffreMineraiTable = new CoffreMinerai();
 		if ($prix["prix"] > 0) {
 			$data = array(
-				'id_fk_braldun_coffre_minerai' => $this->view->vente["vente"]["id_fk_braldun_vente"],
+				'id_fk_coffre_coffre_minerai' => $this->id_coffre_vendeur,
 				'id_fk_type_coffre_minerai' => $prix["minerais"]["id_fk_type_minerai"],
 				'quantite_brut_coffre_minerai' => $prix["prix"],
 			);
@@ -1177,7 +1188,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data = array('quantite_coffre_partieplante' => $prix["prix"],
 						  'id_fk_type_coffre_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
 						  'id_fk_type_plante_coffre_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-						  'id_fk_braldun_coffre_partieplante' => $this->view->vente["vente"]["id_fk_braldun_vente"],
+						  'id_fk_coffre_coffre_partieplante' => $this->id_coffre_vendeur,
 			);
 			$coffrePartiePlanteTable->insertOrUpdate($data);
 		}
