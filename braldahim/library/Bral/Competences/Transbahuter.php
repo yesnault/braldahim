@@ -10,6 +10,7 @@
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Coffre");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Charrette");
