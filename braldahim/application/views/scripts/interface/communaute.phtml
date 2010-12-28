@@ -20,6 +20,7 @@
   		<br /><br />
   		<input type='button' class='button1' value='Voir le profil public' onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>
   		<input type='button' class='button1' value='Voir les membres' onclick='_get_("/communaute/doaction?caction=ask_communaute_membres");'>
+  		<input type='button' class='button1' value='Voir le coffre' onclick='_get_("/communaute/doaction?caction=ask_communaute_coffre");'>
   		
   		<?php if ($this->estGestionnaire == true) : ?>
   			<br /><br />
