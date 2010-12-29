@@ -86,7 +86,7 @@
    				</div>
    				
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();this.disabled=true;$('valeur_10').value=encodePlus($('valeur_commentaire').value);_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
 		<?php else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?php endif; ?>

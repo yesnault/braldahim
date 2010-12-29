@@ -14,10 +14,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	const ID_ENDROIT_LABAN = 2;
 	const ID_ENDROIT_MON_COFFRE = 3;
 	const ID_ENDROIT_COFFRE_BRALDUN = 4;
-	const ID_ENDROIT_ECHOPPE = 5;
-	const ID_ENDROIT_ECHOPPE_ETAL = 6;
-
+	const ID_ENDROIT_ECHOPPE_CAISSE = 5;
+	const ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE = 6;
+	const ID_ENDROIT_ECHOPPE_ATELIER = 7;
+	const ID_ENDROIT_ECHOPPE_ETAL = 8;
 	const ID_ENDROIT_CHARRETTE_DEPART = 10;
+
+	const NB_VALEURS = 23;
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Coffre");
@@ -68,7 +71,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ($e["nom_systeme"] == "Charrette") {
 					$this->view->id_charrette_depart = $e["id_charrette"];
 				}
-				$this->prepareType($e["nom_systeme"]);
+				$this->prepareType($e["nom_systeme"], $e["id_type_endroit"]);
 				if ($this->view->deposerOk == true) {
 					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"], "panneau" => $e["panneau"]);
 					$i++;
@@ -111,26 +114,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$i=1;
 		$uniteAPreparer = false;
 		foreach ($tabEndroit as $e) {
-			if ($e["id_type_endroit"] != $id_type_courant_depart ) {
-				if ($e["poids_restant"] == -1 || $e["poids_restant"] > 0 ) {
-					$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"], "poids_restant" => $e["poids_restant"]);
-					if ($e["nom_systeme"] == "Charrette") {
-						$tabTypeArrivee[$i]["id_charrette"] = $e["id_charrette"];
-					}
-					if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
-						$uniteAPreparer = true;
-					}
-					$i++;
-				}
+			// l'étal est accessible uniquement depuis l'atelier
+			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
+			// l'atelier n'est pas accessible en depot
+			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
+			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
+			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
+			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
+			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
+			
+			if ($e["id_type_endroit"] == $id_type_courant_depart) continue;
+			if ($e["poids_restant"] != -1 && $e["poids_restant"] <= 0) continue;
+
+			$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"], "poids_restant" => $e["poids_restant"]);
+			if ($e["nom_systeme"] == "Charrette") {
+				$tabTypeArrivee[$i]["id_charrette"] = $e["id_charrette"];
 			}
+			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
+				$uniteAPreparer = true;
+			}
+			$i++;
 		}
 
 		if ($uniteAPreparer) {
 			$this->prepareCommunUnites();
 		}
 		$this->view->typeArrivee = $tabTypeArrivee;
-		$this->view->nb_valeurs = 23;
-		$this->prepareType($tabEndroit[$id_type_courant_depart]["nom_systeme"]);
+		$this->view->nb_valeurs = self::NB_VALEURS;
+		$this->prepareType($tabEndroit[$id_type_courant_depart]["nom_systeme"], $tabEndroit[$id_type_courant_depart]["id_type_endroit"]);
 	}
 
 	private function prepareCommunUnites() {
@@ -206,13 +217,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($echoppeCase) > 0) {
 			if ($echoppeCase[0]["id_braldun"] == $this->view->user->id_braldun) {
-				$tabEndroit[self::ID_ENDROIT_ECHOPPE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe (caisse et arrière boutique)", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-				//$tabEndroit[6] = array("id_type_endroit" => 6,"nom_systeme" => "Echoppe", "nom_type_endroit" => "La caisse de votre échoppe", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ETAL] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ETAL, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe (étal)", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_CAISSE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_CAISSE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Caisse", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Matières Premières", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ATELIER, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Atelier", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ETAL] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ETAL, "nom_systeme" => "LotEtal", "nom_type_endroit" => "Votre échoppe : Étal", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 
 				$this->view->id_echoppe_depart = $echoppeCase[0]["id_echoppe"];
 			} else {
-				$tabEndroit[self::ID_ENDROIT_ECHOPPE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_braldun"]." ".$echoppeCase[0]["nom_braldun"], "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_braldun"]." ".$echoppeCase[0]["nom_braldun"], "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 			}
 			$this->view->id_echoppe_arrivee = $echoppeCase[0]["id_echoppe"];
 		}
@@ -221,7 +233,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	private function prepareCommunCharrette(&$tabEndroit) {
 
 		//Cas des charrettes
-		$nbendroit=self::ID_ENDROIT_CHARRETTE_DEPART;
+		$nbendroit = self::ID_ENDROIT_CHARRETTE_DEPART;
 		$charrette = new Charrette();
 		$charrettePartage = new CharrettePartage();
 
@@ -232,7 +244,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		foreach ($tabCharrette as $c) {
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c["id_braldun"]);
-			if ( $c["id_braldun"] == $this->view->user->id_braldun) {
+			if ($c["id_braldun"] == $this->view->user->id_braldun) {
 				$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
 				$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_braldun_charrette" => $c["id_fk_braldun_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
 				//$this->view->id_charrette_depart = $c["id_charrette"];
@@ -415,7 +427,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
 				}
 			}
-			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" ) {
+			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe") {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 				if ($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"] != $this->view->user->id_braldun) {
 					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
@@ -474,19 +486,19 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareType($depart) {
-		$this->prepareTypeAutres($depart);
-		$this->prepareTypeEquipements($depart);
-		$this->prepareTypeRunes($depart);
-		$this->prepareTypePotions($depart);
-		$this->prepareTypeAliments($depart);
-		$this->prepareTypeMunitions($depart);
-		$this->prepareTypePartiesPlantes($depart);
-		$this->prepareTypeMinerais($depart);
-		$this->prepareTypeGraines($depart);
-		$this->prepareTypeIngredients($depart);
-		$this->prepareTypeTabac($depart);
-		$this->prepareTypeMateriel($depart);
+	private function prepareType($depart, $idTypeDepart) {
+		$this->prepareTypeAutres($depart, $idTypeDepart);
+		$this->prepareTypeEquipements($depart, $idTypeDepart);
+		$this->prepareTypeRunes($depart, $idTypeDepart);
+		$this->prepareTypePotions($depart, $idTypeDepart);
+		$this->prepareTypeAliments($depart, $idTypeDepart);
+		$this->prepareTypeMunitions($depart, $idTypeDepart);
+		$this->prepareTypePartiesPlantes($depart, $idTypeDepart);
+		$this->prepareTypeMinerais($depart, $idTypeDepart);
+		$this->prepareTypeGraines($depart, $idTypeDepart);
+		$this->prepareTypeIngredients($depart, $idTypeDepart);
+		$this->prepareTypeTabac($depart, $idTypeDepart);
+		$this->prepareTypeMateriel($depart, $idTypeDepart);
 	}
 
 	private function deposeType($depart, $arrivee) {
@@ -545,7 +557,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			"id_fk_type_lot" => TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS,
 		);
 		$idLot = $lotTable->insert($data);
-		
+
 		$this->view->textePrixVente = array();
 
 		$this->calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
@@ -583,7 +595,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 
-		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_9')));
+		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_10')));
 
 		$dateDebut = date("Y-m-d H:0:0");
 		$dateFin = null;
@@ -592,30 +604,30 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			"date_debut_lot" => $dateDebut,
 			"date_fin_lot" => $dateFin, 
 			"commentaire_lot" => $commentaire,
-			"unite_1_lot" => $unite_1,
-			"unite_2_lot" => $unite_2,
-			"unite_3_lot" => $unite_3,
-			"prix_1_lot" => $prix_1,
-			"prix_2_lot" => $prix_2,
-			"prix_3_lot" => $prix_3,
+			"unite_1_lot" => $unite_1_lot,
+			"unite_2_lot" => $unite_2_lot,
+			"unite_3_lot" => $unite_3_lot,
+			"prix_1_lot" => $prix_1_lot,
+			"prix_2_lot" => $prix_2_lot,
+			"prix_3_lot" => $prix_3_lot,
 		);
 
 		$where = "id_lot=".$idLot;
-		$lotTable = new LotTable();
-		$echoppeEquipementTable->update($data, $where);
+		$lotTable = new Lot();
+		$lotTable->update($data, $where);
 	}
 
 	private function calculPrixLotMinerai($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
 		Zend_Loader::loadClass("LotPrixMinerai");
-		$ventePrixMineraiTable = new LotPrixMinerai();
+		$lotPrixMineraiTable = new LotPrixMinerai();
 
 		foreach($this->view->unites as $k => $u) {
 			if ($unite_1 == $k && mb_substr($unite_1, 0, 7) == "minerai") {
-				$data = array("prix_vente_prix_minerai" => $prix_1,
-							  "id_fk_type_vente_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_vente_prix_minerai" => $idLot,
+				$data = array("prix_lot_prix_minerai" => $prix_1,
+							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
+							  "id_fk_lot_prix_minerai" => $idLot,
 							  "type_prix_minerai" => $u["type_forme"]);
-				$ventePrixMineraiTable->insert($data);
+				$lotPrixMineraiTable->insert($data);
 				if ($prix_1 > 1) {
 					$keyTexte = "texte_forme_singulier";
 				} else {
@@ -624,11 +636,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1." ".$u[$keyTexte]);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 7) == "minerai") {
-				$data = array("prix_vente_prix_minerai" => $prix_2,
-							  "id_fk_type_vente_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_vente_prix_minerai" => $idLot,
+				$data = array("prix_lot_prix_minerai" => $prix_2,
+							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
+							  "id_fk_lot_prix_minerai" => $idLot,
 							  "type_prix_minerai" => $u["type_forme"]);
-				$ventePrixMineraiTable->insert($data);
+				$lotPrixMineraiTable->insert($data);
 				if ($prix_2 > 1) {
 					$keyTexte = "texte_forme_singulier";
 				} else {
@@ -637,11 +649,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2." ".$u[$keyTexte]);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 7) == "minerai") {
-				$data = array("prix_vente_prix_minerai" => $prix_3,
-							  "id_fk_type_vente_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_vente_prix_minerai" => $idLot,
+				$data = array("prix_lot_prix_minerai" => $prix_3,
+							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
+							  "id_fk_lot_prix_minerai" => $idLot,
 							  "type_prix_minerai" => $u["type_forme"]);
-				$ventePrixMineraiTable->insert($data);
+				$lotPrixMineraiTable->insert($data);
 				if ($prix_3 > 1) {
 					$keyTexte = "texte_forme_singulier";
 				} else {
@@ -654,66 +666,67 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
 		Zend_Loader::loadClass("LotPrixPartiePlante");
-		$ventePrixPartiePlanteTable = new LotPrixPartiePlante();
+		$lotPrixPartiePlanteTable = new LotPrixPartiePlante();
 
 		foreach($this->view->unites as $k => $u) {
 			if ($unite_1 == $k && mb_substr($unite_1, 0, 6) == "plante") {
-				$data = array("prix_vente_prix_partieplante" => $prix_1,
-							  "id_fk_type_vente_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_vente_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_vente_prix_partieplante" => $idLot,
+				$data = array("prix_lot_prix_partieplante" => $prix_1,
+							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
+							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
+							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
-				$ventePrixPartiePlanteTable->insert($data);
+				$lotPrixPartiePlanteTable->insert($data);
 				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) == "plante") {
-				$data = array("prix_vente_prix_partieplante" => $prix_2,
-							  "id_fk_type_vente_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_vente_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_vente_prix_partieplante" => $idLot,
+				$data = array("prix_lot_prix_partieplante" => $prix_2,
+							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
+							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
+							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
-				$ventePrixPartiePlanteTable->insert($data);
+				$lotPrixPartiePlanteTable->insert($data);
 				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) == "plante") {
-				$data = array("prix_vente_prix_partieplante" => $prix_3,
-							  "id_fk_type_vente_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_vente_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_vente_prix_partieplante" => $idLot,
+				$data = array("prix_lot_prix_partieplante" => $prix_3,
+							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
+							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
+							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
-				$ventePrixPartiePlanteTable->insert($data);
+				$lotPrixPartiePlanteTable->insert($data);
 				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3);
 			}
 		}
 	}
 
-	private function prepareTypeEquipements($depart) {
+	private function prepareTypeEquipements($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Equipement");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		$tabEquipements = null;
+		$equipements = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanEquipementTable = new LabanEquipement();
 				$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanEquipementTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementEquipementTable = new ElementEquipement();
 				$equipements = $elementEquipementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementEquipementTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreEquipementTable = new CoffreEquipement();
 				$equipements = $coffreEquipementTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreEquipementTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteEquipementTable = new CharretteEquipement();
 				$equipements = $charretteEquipementTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteEquipementTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_ATELIER :
 				$echoppeEquipementTable = new EchoppeEquipement();
 				$equipements = $echoppeEquipementTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeEquipementTable);
@@ -911,28 +924,29 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeRunes($depart) {
+	private function prepareTypeRunes($depart, $idTypeDepart) {
 		if ($depart != "Echoppe") {
 			Zend_Loader::loadClass($depart."Rune");
 			$tabRunes = null;
+			$runes = null;
 
-			switch ($depart) {
-				case "Laban" :
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
 					$labanRuneTable = new LabanRune();
 					$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanRuneTable);
 					break;
-				case "Element" :
+				case self::ID_ENDROIT_ELEMENT :
 					$elementRuneTable = new ElementRune();
 					$runes = $elementRuneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, true, $this->tabButins);
 					unset($elementruneTable);
 					break;
-				case "Coffre" :
+				case self::ID_ENDROIT_MON_COFFRE:
 					$coffreRuneTable = new CoffreRune();
 					$runes = $coffreRuneTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreRuneTable);
 					break;
-				case "Charrette" :
+				case self::ID_ENDROIT_CHARRETTE_DEPART :
 					$charretteRuneTable = new CharretteRune();
 					$runes = $charretteRuneTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteRuneTable);
@@ -1091,33 +1105,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypePotions($depart) {
+	private function prepareTypePotions($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Potion");
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotions = null;
+		$potions = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanPotionTable = new LabanPotion();
 				$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanPotionTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementPotionTable = new ElementPotion();
 				$potions = $elementPotionTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementPotionTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffrePotionTable = new CoffrePotion();
 				$potions = $coffrePotionTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePotionTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charrettePotionTable = new CharrettePotion();
 				$potions = $charrettePotionTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charrettePotionTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_ATELIER :
 				$echoppePotionTable = new EchoppePotion();
 				$potions = $echoppePotionTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppePotionTable);
@@ -1272,34 +1287,32 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeAliments($depart) {
+	private function prepareTypeAliments($depart, $idTypeDepart) {
 		if ($depart != "Echoppe") {
 			Zend_Loader::loadClass($depart."Aliment");
 			$tabAliments = null;
+			$aliments = null;
 
-			switch ($depart) {
-				case "Laban" :
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
 					$labanAlimentTable = new LabanAliment();
 					$aliments = $labanAlimentTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanAlimentTable);
 					break;
-				case "Element" :
+				case self::ID_ENDROIT_ELEMENT :
 					$elementAlimentTable = new ElementAliment();
 					$aliments = $elementAlimentTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementAlimentTable);
 					break;
-				case "Coffre" :
+				case self::ID_ENDROIT_MON_COFFRE:
 					$coffreAlimentTable = new CoffreAliment();
 					$aliments = $coffreAlimentTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreAlimentTable);
 					break;
-				case "Charrette" :
+				case self::ID_ENDROIT_CHARRETTE_DEPART :
 					$charretteAlimentTable = new CharretteAliment();
 					$aliments = $charretteAlimentTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteAlimentTable);
-					break;
-				case "Echoppe" :
-					$aliments = null;
 					break;
 			}
 
@@ -1429,29 +1442,29 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeMunitions($depart) {
+	private function prepareTypeMunitions($depart, $idTypeDepart) {
 		if ($depart != "Echoppe") {
 			Zend_Loader::loadClass($depart."Munition");
-
 			$tabMunitions = null;
+			$munitions = null;
 
-			switch ($depart) {
-				case "Laban" :
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
 					$labanMunitionTable = new LabanMunition();
 					$munitions = $labanMunitionTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanMunitionTable);
 					break;
-				case "Element" :
+				case self::ID_ENDROIT_ELEMENT :
 					$elementMunitionTable = new ElementMunition();
 					$munitions = $elementMunitionTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementMunitionTable);
 					break;
-				case "Coffre" :
+				case self::ID_ENDROIT_MON_COFFRE:
 					$coffreMunitionTable = new CoffreMunition();
 					$munitions = $coffreMunitionTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreMunitionTable);
 					break;
-				case "Charrette" :
+				case self::ID_ENDROIT_CHARRETTE_DEPART :
 					$charretteMunitionTable = new CharretteMunition();
 					$munitions = $charretteMunitionTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteMunitionTable);
@@ -1626,33 +1639,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeMinerais($depart) {
+	private function prepareTypeMinerais($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Minerai");
-
 		$tabMinerais = null;
+		$minerais = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanMineraiTable = new labanMinerai();
 				$minerais = $labanMineraiTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanMineraiTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementMineraiTable = new ElementMinerai();
 				$minerais = $elementMineraiTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementMineraiTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreMineraiTable = new CoffreMinerai();
 				$minerais = $coffreMineraiTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMineraiTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteMineraiTable = new CharretteMinerai();
 				$minerais = $charretteMineraiTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteMineraiTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppeMineraiTable = new EchoppeMinerai();
 				$minerais = $echoppeMineraiTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeMineraiTable);
@@ -1663,8 +1677,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->nb_minerai_lingot = 0;
 
 		if ($minerais != null) {
-			if ($depart == "Echoppe") {
+			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = "arriere_echoppe";
+			} elseif ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+				$strqte = "caisse_echoppe";
 			}
 			else {
 				$strqte = $depart;
@@ -1871,33 +1887,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypePartiesPlantes($depart) {
+	private function prepareTypePartiesPlantes($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Partieplante");
-
 		$tabPartiePlantes = null;
+		$partiePlantes = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanPartiePlanteTable = new LabanPartieplante();
 				$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanPartiePlanteTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementPartiePlanteTable = new ElementPartieplante();
 				$partiePlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementPartiePlanteTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffrePartiePlanteTable = new CoffrePartieplante();
 				$partiePlantes = $coffrePartiePlanteTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePartiePlanteTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charrettePartiePlanteTable = new CharrettePartiePlante();
 				$partiePlantes = $charrettePartiePlanteTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charrettePartiePlanteTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppePartiePlanteTable = new EchoppePartiePlante();
 				$partiePlantes = $echoppePartiePlanteTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppePartiePlanteTable);
@@ -1908,10 +1925,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->nb_prepareesPartiePlantes = 0;
 
 		if ($partiePlantes != null) {
-			if ($depart == "Echoppe") {
+			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = "arriere_echoppe";
-			}
-			else {
+			} else if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+				$strqte = "caisse_echoppe";
+			} else {
 				$strqte = $depart;
 			}
 			foreach ($partiePlantes as $p) {
@@ -2137,28 +2155,29 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeTabac($depart) {
+	private function prepareTypeTabac($depart, $idTypeDepart) {
 		if ( $depart != "Echoppe") {
 			Zend_Loader::loadClass($depart."Tabac");
 			$tabTabacs = null;
+			$tabacs = null;
 
-			switch ($depart) {
-				case "Laban" :
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
 					$labanTabacTable = new LabanTabac();
 					$tabacs = $labanTabacTable->findByIdBraldun($this->view->user->id_braldun);
 					unset($labanTabacTable);
 					break;
-				case "Element" :
+				case self::ID_ENDROIT_ELEMENT :
 					$elementTabacTable = new ElementTabac();
 					$tabacs = $elementTabacTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 					unset($elementTabacTable);
 					break;
-				case "Coffre" :
+				case self::ID_ENDROIT_MON_COFFRE:
 					$coffreTabacTable = new CoffreTabac();
 					$tabacs = $coffreTabacTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreTabacTable);
 					break;
-				case "Charrette" :
+				case self::ID_ENDROIT_CHARRETTE_DEPART :
 					$charretteTabacTable = new CharretteTabac();
 					$tabacs = $charretteTabacTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteTabacTable);
@@ -2321,32 +2340,33 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeMateriel($depart) {
+	private function prepareTypeMateriel($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Materiel");
 		$tabMateriels = null;
+		$materiels = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanMaterielTable = new LabanMateriel();
 				$materiels = $labanMaterielTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanMaterielTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementMaterielTable = new ElementMateriel();
 				$materiels = $elementMaterielTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementMaterielTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreMaterielTable = new CoffreMateriel();
 				$materiels = $coffreMaterielTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMaterielTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteMaterielTable = new CharretteMateriel();
 				$materiels = $charretteMaterielTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteMaterielTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_ATELIER :
 				$echoppeMaterielTable = new EchoppeMateriel();
 				$materiels = $echoppeMaterielTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeMaterielTable);
@@ -2495,33 +2515,33 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeGraines($depart) {
+	private function prepareTypeGraines($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Graine");
-
 		$tabGraines = null;
+		$graines = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanGraineTable = new LabanGraine();
 				$graines = $labanGraineTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanGraineTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementGraineTable = new ElementGraine();
 				$graines = $elementGraineTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementGraineTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreGraineTable = new CoffreGraine();
 				$graines = $coffreGraineTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreGraineTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteGraineTable = new CharretteGraine();
 				$graines = $charretteGraineTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteGraineTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 				$echoppeGraineTable = new EchoppeGraine();
 				$graines = $echoppeGraineTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeGraineTable);
@@ -2705,33 +2725,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeIngredients($depart) {
+	private function prepareTypeIngredients($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart."Ingredient");
-
 		$tabIngredients = null;
+		$ingredients = null;
 
-		switch ($depart) {
-			case "Laban" :
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN :
 				$labanIngredientTable = new LabanIngredient();
 				$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 				unset($labanIngredientTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementIngredientTable = new ElementIngredient();
 				$ingredients = $elementIngredientTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 				unset($elementIngredientTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreIngredientTable = new CoffreIngredient();
 				$ingredients = $coffreIngredientTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreIngredientTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteIngredientTable = new CharretteIngredient();
 				$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteIngredientTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppeIngredientTable = new EchoppeIngredient();
 				$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeIngredientTable);
@@ -2741,8 +2762,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->nb_ingredient = 0;
 
 		if ($ingredients != null) {
-			if ($depart == "Echoppe") {
+			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = "arriere_echoppe";
+			} elseif ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+				$strqte = "caisse_echoppe";
 			} else {
 				$strqte = $depart;
 			}
@@ -2914,7 +2937,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeAutres($depart) {
+	private function prepareTypeAutres($depart, $idTypeDepart) {
 		Zend_Loader::loadClass($depart);
 
 		$tabAutres["nb_castar"] = 0;
@@ -2924,8 +2947,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabAutres["nb_planche"] = 0;
 		$tabAutres["nb_rondin"] = 0;
 
-		switch ($depart) {
-			case "Laban" :
+		$autres = null;
+		switch ($idTypeDepart) {
+			case self::ID_ENDROIT_LABAN:
 				$labanTable = new Laban();
 				$autres = $labanTable->findByIdBraldun($this->view->user->id_braldun);
 				if ($autres == null) { // si l'on a pas de laban
@@ -2943,12 +2967,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				unset($labanTable);
 				break;
-			case "Element" :
+			case self::ID_ENDROIT_ELEMENT :
 				$elementTable = new Element();
 				$autres = $elementTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, true, $this->tabButins);
 				unset($elementTable);
 				break;
-			case "Coffre" :
+			case self::ID_ENDROIT_MON_COFFRE:
 				$coffreTable = new Coffre();
 				$coffre = $autres = $coffreTable->findByIdBraldun($this->view->user->id_braldun);
 				if (count($coffre) != 1) {
@@ -2957,12 +2981,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->id_coffre_depart = $coffre[0]["id_coffre"];
 				unset($coffreTable);
 				break;
-			case "Charrette" :
+			case self::ID_ENDROIT_CHARRETTE_DEPART :
 				$charretteTable = new Charrette();
 				$autres = $charretteTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteTable);
 				break;
-			case "Echoppe" :
+			case self::ID_ENDROIT_ECHOPPE_CAISSE :
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 				$echoppeTable = new Echoppe();
 				$autres = $echoppeTable->findById($this->view->id_echoppe_depart);
 				unset($echoppeTable);
@@ -2987,14 +3012,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					"info_rondin" => "",
 			);
 
-			if ($depart == "Echoppe") {
+			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = "arriere_echoppe";
+			} elseif ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+				$strqte = "caisse_echoppe";
 			} else {
 				$strqte = $depart;
 			}
 
 			foreach($autres as $p) {
-				if ($depart == "Echoppe") {
+				if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 					$tabAutres["nb_castar"] = 0;
 				} else {
 					$tabAutres["nb_castar"] = $tabAutres["nb_castar"] + $p["quantite_castar_".strtolower($strqte)];
