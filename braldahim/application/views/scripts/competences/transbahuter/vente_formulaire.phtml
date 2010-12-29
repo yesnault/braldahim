@@ -1,0 +1,56 @@
+<table class="table_liste" style="width:98%; border:0" >
+<tbody>
+	<tr class="table_liste" valign="top">
+		<td align="right">
+			<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='' onkeypress="chiffres(event, false);" onKeyup="<?php echo $js?>">
+			unit&eacute;(s) de 
+		</td>
+		<td align="left">&nbsp;
+			<select name="valeur_5" id="valeur_5" onchange="<?php echo $js ?>">
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
+				<?php foreach($this->unites as $k => $u) :?>
+					<option value="<?php echo $k ?>"><?php echo htmlspecialchars($u["nom_type_unite"]) ?> </option>
+				<?php endforeach; ?>
+			</select> OU
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='' onkeypress="chiffres(event, false);" onKeyup="<?php echo $js?>">
+			unit&eacute;(s) de 
+		</td>
+		<td align="left">&nbsp;
+			<select name="valeur_7" id="valeur_7">
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
+				<?php foreach($this->unites as $k => $u) :?>
+					<option value="<?php echo $k ?>"><?php echo htmlspecialchars($u["nom_type_unite"]) ?> </option>
+				<?php endforeach; ?>
+			</select> OU
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<input type='text' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='' onkeypress="chiffres(event, false);" onKeyup="<?php echo $js?>">
+			unit&eacute;(s) de 
+		</td>
+		<td align="left">&nbsp;
+			<select name="valeur_9" id="valeur_9">
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
+				<?php foreach($this->unites as $k => $u) :?>
+					<option value="<?php echo $k ?>"><?php echo htmlspecialchars($u["nom_type_unite"]) ?> </option>
+				<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+</tbody>
+</table>
+ 
+<br /><br />
+
+<div class="titre textalic textsized" > Commentaire de mise en vente </div>
+<br />
+<?php echo Bral_Helper_BBBoutons::affiche('valeur_commentaire', 300)?>
+<input type='hidden' id='valeur_10' name='valeur_10' value='' />
+<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="300" type="text"> Caract&egrave;res restants<br />
+<textarea name="valeur_commentaire" id="valeur_commentaire" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_commentaire'),$('characterstyped'),300);" onkeyup="textCount($('valeur_commentaire'),$('characterstyped'),300);"><?php echo $this->commentaire?></textarea>
+

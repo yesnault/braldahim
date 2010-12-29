@@ -802,14 +802,23 @@ function controleEchoppe(i) {
  */
 
 function afficheAutreCoffre(){
-	if($('valeur_2').value==4){
+	if($('valeur_2').value==4){ // constante definie dans Transbahuter.php
 		document.getElementById('div_braldun').style.visibility='visible';
 		document.getElementById('div_braldun').style.display='block';
-	}
-	else{
+	} else{
 		document.getElementById('div_braldun').style.visibility='hidden';
 		document.getElementById('div_braldun').style.display='none';
 		$('valeur_3').value=-1;
+	}
+}
+
+function afficheTransbahuterVente() {
+	if ($('valeur_2').value==6){ // constante definie dans Transbahuter.php
+		document.getElementById('div_vente_transbahuter').style.visibility='visible';
+		document.getElementById('div_vente_transbahuter').style.display='block';
+	} else{
+		document.getElementById('div_vente_transbahuter').style.visibility='hidden';
+		document.getElementById('div_vente_transbahuter').style.display='none';
 	}
 }
 
