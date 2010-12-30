@@ -18,7 +18,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	const ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE = 6;
 	const ID_ENDROIT_ECHOPPE_ATELIER = 7;
 	const ID_ENDROIT_ECHOPPE_ETAL = 8;
-	const ID_ENDROIT_CHARRETTE_DEPART = 10;
+	const ID_ENDROIT_CHARRETTE = 10;
 
 	const NB_VALEURS = 23;
 
@@ -111,18 +111,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$id_type_courant_arrivee = -1;
 		}
 
-		$i=1;
+		$i = 1;
 		$uniteAPreparer = false;
 		foreach ($tabEndroit as $e) {
-			// l'étal est accessible uniquement depuis l'atelier
-			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
+			// la caisse n'est pas accessible en depot
+			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
+			
+			// l'étal est accessible uniquement depuis l'atelier
+			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
-			
+
 			if ($e["id_type_endroit"] == $id_type_courant_depart) continue;
 			if ($e["poids_restant"] != -1 && $e["poids_restant"] <= 0) continue;
 
@@ -220,7 +222,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_CAISSE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_CAISSE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Caisse", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Matières Premières", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ATELIER, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Atelier", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ETAL] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ETAL, "nom_systeme" => "LotEtal", "nom_type_endroit" => "Votre échoppe : Étal", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ETAL] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ETAL, "nom_systeme" => "Lot", "nom_type_endroit" => "Votre échoppe : Étal", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 
 				$this->view->id_echoppe_depart = $echoppeCase[0]["id_echoppe"];
 			} else {
@@ -233,7 +235,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	private function prepareCommunCharrette(&$tabEndroit) {
 
 		//Cas des charrettes
-		$nbendroit = self::ID_ENDROIT_CHARRETTE_DEPART;
+		$nbendroit = self::ID_ENDROIT_CHARRETTE;
 		$charrette = new Charrette();
 		$charrettePartage = new CharrettePartage();
 
@@ -297,11 +299,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$endroitDepart = true;
 				$this->view->a_panneau = $e["panneau"];
 			}
-			if ($e["id_type_endroit"] == $idArrivee && $idArrivee < self::ID_ENDROIT_CHARRETTE_DEPART) {
+			if ($e["id_type_endroit"] == $idArrivee && $idArrivee < self::ID_ENDROIT_CHARRETTE) {
 				$endroitArrivee = true;
 				$this->view->poidsRestant = $e["poids_restant"];
 			}
-			if ($idArrivee >= self::ID_ENDROIT_CHARRETTE_DEPART) {
+			if ($idArrivee >= self::ID_ENDROIT_CHARRETTE) {
 				if ($e["nom_systeme"] == "Charrette") {
 					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
 					if ($id_charrette == $e["id_charrette"]) {
@@ -344,121 +346,122 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->elementsRetires = "";
 		$this->view->elementsNonRetiresPoids = "";
 		$this->view->elementsNonRetiresPanneau = "";
-		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+		$this->deposeType($this->view->tabEndroit[$idDepart], $this->view->tabEndroit[$idArrivee]);
 		$this->view->depart = $this->view->tabEndroit[$idDepart]["nom_type_endroit"];
 
-		if ($this->view->nbelement > 0) {
+		if ($this->view->nbelement <= 0) {
+			return;
+		}
 
-			if ($idArrivee == 4) {
-				Zend_Loader::loadClass("Braldun");
-				$braldun = new Braldun();
-				$nomBraldun = $braldun->findNomById($this->view->id_braldun_coffre);
-				$this->view->arrivee = "le coffre de ".$nomBraldun;
+		if ($idArrivee == 4) {
+			Zend_Loader::loadClass("Braldun");
+			$braldun = new Braldun();
+			$nomBraldun = $braldun->findNomById($this->view->id_braldun_coffre);
+			$this->view->arrivee = "le coffre de ".$nomBraldun;
+		}
+		else {
+			$this->view->arrivee = $this->view->tabEndroit[$idArrivee]["nom_type_endroit"];
+		}
+
+		if ($this->view->elementsRetires != "") {
+			// on enlève la dernière virgule de la chaîne
+			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
+		}
+
+		// Historique
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idDepart]["id_braldun_charrette"], true);
+
+			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+			$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Zend_Loader::loadClass("Bral_Util_Materiel");
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
+		}
+
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], true);
+
+			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+			$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Zend_Loader::loadClass("Bral_Util_Materiel");
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
+		}
+
+		// événements
+		$this->detailEvenement = "";
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
+			$idEvenement = $this->view->config->game->evenements->type->ramasser;
+			$this->detailEvenement = "[b".$this->view->user->id_braldun."] a ramassé des éléments à terre ";
+		}
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element") {
+			$idEvenement = $this->view->config->game->evenements->type->deposer;
+			$this->detailEvenement = "[b".$this->view->user->id_braldun."] a déposé des éléments à terre ";
+		}
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
+			$idEvenement = $this->view->config->game->evenements->type->service;
+			if ($this->view->id_braldun_coffre != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre") {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_coffre, $message, $this->view);
+
+				$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [b".$this->view->id_braldun_coffre."]";
+				$this->setDetailsEvenementCible($this->view->id_braldun_coffre, "braldun", 0, $messageCible);
 			}
 			else {
-				$this->view->arrivee = $this->view->tabEndroit[$idArrivee]["nom_type_endroit"];
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a utilisé les services de la banque ";
 			}
-
-			if ($this->view->elementsRetires != "") {
-				// on enlève la dernière virgule de la chaîne
-				$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
-			}
-
-			// Historique
-			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
-				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idDepart]["id_braldun_charrette"], true);
-
-				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-				Zend_Loader::loadClass("Bral_Util_Materiel");
-				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
-			}
-
-			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
-				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], true);
-
-				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-				Zend_Loader::loadClass("Bral_Util_Materiel");
-				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
-			}
-
-			// événements
-			$this->detailEvenement = "";
-			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
-				$idEvenement = $this->view->config->game->evenements->type->ramasser;
-				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a ramassé des éléments à terre ";
-			}
-			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element") {
-				$idEvenement = $this->view->config->game->evenements->type->deposer;
-				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a déposé des éléments à terre ";
-			}
-			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
-				$idEvenement = $this->view->config->game->evenements->type->service;
-				if ($this->view->id_braldun_coffre != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre") {
-					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
-					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_coffre, $message, $this->view);
-
-					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
-					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [b".$this->view->id_braldun_coffre."]";
-					$this->setDetailsEvenementCible($this->view->id_braldun_coffre, "braldun", 0, $messageCible);
-				}
-				else {
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a utilisé les services de la banque ";
-				}
-			}
-			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" ) {
-				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				if ($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"] != $this->view->user->id_braldun) {
-					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
-					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], $message, $this->view);
-
-					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
-					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);
-				}
-				else {
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
-				}
-			}
-			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe") {
-				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				if ($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"] != $this->view->user->id_braldun) {
-					$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-					$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
-					$message .= $this->view->elementsRetires;
-					$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], $message, $this->view);
-
-					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
-					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
-					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);
-				}
-				else {
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
-				}
-			}
-			if ($this->detailEvenement == "") {
-				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments ";
-			}
-
-			$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
-			$this->setEvenementQueSurOkJet1(false);
-
-			Zend_Loader::loadClass("Bral_Util_Quete");
-			$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
-
-			$this->calculBalanceFaim();
-			$this->calculPoids();
-			$this->majBraldun();
 		}
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" ) {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			if ($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"] != $this->view->user->id_braldun) {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], $message, $this->view);
+
+				$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);
+			}
+			else {
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
+			}
+		}
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe") {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			if ($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"] != $this->view->user->id_braldun) {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], $message, $this->view);
+
+				$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);
+			}
+			else {
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
+			}
+		}
+		if ($this->detailEvenement == "") {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments ";
+		}
+
+		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
+		$this->setEvenementQueSurOkJet1(false);
+
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
+
+		$this->calculBalanceFaim();
+		$this->calculPoids();
+		$this->majBraldun();
 	}
 
 	function getListBoxRefresh() {
@@ -503,22 +506,23 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function deposeType($depart, $arrivee) {
 		$this->idLot = null;
-		if ($arrivee == "LotEtal") {
-			$arrivee = "Lot";
+
+		if ($depart["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$this->idLot = $this->deposeTypeLot();
 		}
-		$this->deposeTypeAutres($depart, $arrivee);
-		$this->deposeTypeEquipements($depart, $arrivee);
-		$this->deposeTypeRunes($depart, $arrivee);
-		$this->deposeTypePotions($depart, $arrivee);
-		$this->deposeTypeAliments($depart, $arrivee);
-		$this->deposeTypeMunitions($depart, $arrivee);
-		$this->deposeTypePartiesPlantes($depart, $arrivee);
-		$this->deposeTypeMinerais($depart, $arrivee);
-		$this->deposeTypeGraines($depart, $arrivee);
-		$this->deposeTypeIngredients($depart, $arrivee);
-		$this->deposeTypeTabac($depart, $arrivee);
-		$this->deposeTypeMateriel($depart, $arrivee);
+
+		$this->deposeTypeAutres($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeEquipements($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeRunes($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypePotions($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeAliments($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeMunitions($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypePartiesPlantes($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeMinerais($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeGraines($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeIngredients($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeTabac($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+		$this->deposeTypeMateriel($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
 	}
 
 	private function deposeTypeLot() {
@@ -721,7 +725,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$equipements = $coffreEquipementTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreEquipementTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteEquipementTable = new CharretteEquipement();
 				$equipements = $charretteEquipementTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteEquipementTable);
@@ -756,176 +760,181 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->equipements = $tabEquipements;
 	}
 
-	private function deposeTypeEquipements($depart, $arrivee) {
-		if ($arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Equipement");
-			Zend_Loader::loadClass($arrivee."Equipement");
+	private function deposeTypeEquipements($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
+			return;
+		}
+			
+		Zend_Loader::loadClass($depart."Equipement");
+		Zend_Loader::loadClass($arrivee."Equipement");
 
-			$equipements = array();
-			$equipements = $this->request->get("valeur_19");
+		$equipements = array();
+		$equipements = $this->request->get("valeur_19");
 
-			if (count($equipements) > 0 && $equipements != 0) {
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					foreach ($equipements as $idEquipement) {
-						if (!array_key_exists($idEquipement, $this->view->equipements)) {
-							throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
-						}
-						$equipement = $this->view->equipements[$idEquipement];
-						$this->view->elementsNonRetiresPanneau .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
-					}
+		if ($equipements == 0 || count($equipements) == 0) {
+			return; // pas d'equipement selectionné
+		}
+
+		if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+			$this->view->panneau = false;
+			foreach ($equipements as $idEquipement) {
+				if (!array_key_exists($idEquipement, $this->view->equipements)) {
+					throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
 				}
-				else {
-					foreach ($equipements as $idEquipement) {
-						if (!array_key_exists($idEquipement, $this->view->equipements)) {
-							throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
-						}
+				$equipement = $this->view->equipements[$idEquipement];
+				$this->view->elementsNonRetiresPanneau .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
+			}
 
-						$equipement = $this->view->equipements[$idEquipement];
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
-							}
-						}
-						if ($poidsOk == true) {
-							$this->view->nbelement = $this->view->nbelement + 1;
+			return;  // pas de panneau et nb. equipements > 0 => d'equipement retiré
+		}
 
-							$where = "id_".strtolower($depart)."_equipement=".$idEquipement;
-							switch ($depart) {
-								case "Laban" :
-									$departEquipementTable = new LabanEquipement();
-									break;
-								case "Element" :
-									$departEquipementTable = new ElementEquipement();
-									break;
-								case "Coffre" :
-									$departEquipementTable = new CoffreEquipement();
-									break;
-								case "Charrette" :
-									$departEquipementTable = new CharretteEquipement();
-									break;
-								case "Echoppe" :
-									$departEquipementTable = new EchoppeEquipement();
-									break;
-							}
+		foreach ($equipements as $idEquipement) {
+			if (!array_key_exists($idEquipement, $this->view->equipements)) {
+				throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
+			}
 
-							$departEquipementTable->delete($where);
-							unset($departEquipementTable);
+			$equipement = $this->view->equipements[$idEquipement];
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
+				}
+			}
+			if ($poidsOk == true) {
+				$this->view->nbelement = $this->view->nbelement + 1;
 
-							switch ($arrivee) {
-								case "Laban" :
-									if ($equipement["nom_systeme_type_piece"] == "munition") {
-										Zend_Loader::loadClass("LabanMunition");
-										$arriveeEquipementTable = new LabanMunition();
-										$data = array(
+				$where = "id_".strtolower($depart)."_equipement=".$idEquipement;
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departEquipementTable = new LabanEquipement();
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departEquipementTable = new ElementEquipement();
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departEquipementTable = new CoffreEquipement();
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departEquipementTable = new CharretteEquipement();
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ATELIER :
+						$departEquipementTable = new EchoppeEquipement();
+						break;
+				}
+
+				$departEquipementTable->delete($where);
+				unset($departEquipementTable);
+
+				switch ($idTypeArrivee) {
+					case self::ID_ENDROIT_LABAN :
+						if ($equipement["nom_systeme_type_piece"] == "munition") {
+							Zend_Loader::loadClass("LabanMunition");
+							$arriveeEquipementTable = new LabanMunition();
+							$data = array(
 										"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 										"id_fk_type_laban_munition" => $equipement["id_fk_type_munition_type_equipement"],
 										"quantite_laban_munition" => $equipement["nb_munition_type_equipement"],
-										);
-										$arriveeEquipementTable->insertOrUpdate($data);
-									}
-									else {
-										$arriveeEquipementTable = new LabanEquipement();
-										$data = array (
+							);
+							$arriveeEquipementTable->insertOrUpdate($data);
+						}
+						else {
+							$arriveeEquipementTable = new LabanEquipement();
+							$data = array (
 											"id_laban_equipement" => $equipement["id_equipement"],
 											"id_fk_braldun_laban_equipement" => $this->view->user->id_braldun,
-										);
-										$arriveeEquipementTable->insert($data);
-									}
-									$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+							);
+							$arriveeEquipementTable->insert($data);
+						}
+						$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-									if ($equipement["nom_systeme_type_piece"] == "munition") {
-										Zend_Loader::loadClass("ElementMunition");
-										$arriveeEquipementTable = new ElementMunition();
-										$data = array(
+						if ($equipement["nom_systeme_type_piece"] == "munition") {
+							Zend_Loader::loadClass("ElementMunition");
+							$arriveeEquipementTable = new ElementMunition();
+							$data = array(
 										"x_element_munition" => $this->view->user->x_braldun,
 										"y_element_munition" => $this->view->user->y_braldun,
 										"z_element_munition" => $this->view->user->z_braldun,
 										"date_fin_element_munition" => $dateFin,
 										"id_fk_type_element_munition" => $equipement["id_fk_type_munition_type_equipement"],
 										"quantite_element_munition" => $equipement["nb_munition_type_equipement"],
-										);
-										$arriveeEquipementTable->insertOrUpdate($data);
-									}
-									else {
-										$arriveeEquipementTable = new ElementEquipement();
-										$data = array (
+							);
+							$arriveeEquipementTable->insertOrUpdate($data);
+						} else {
+							$arriveeEquipementTable = new ElementEquipement();
+							$data = array (
 											"id_element_equipement" => $equipement["id_equipement"],
 											"x_element_equipement" => $this->view->user->x_braldun,
 											"y_element_equipement" => $this->view->user->y_braldun,
 											"z_element_equipement" => $this->view->user->z_braldun,
 											"date_fin_element_equipement" => $dateFin,
-										);
-										$arriveeEquipementTable->insert($data);
-									}
-									break;
-								case "Coffre" :
-									$arriveeEquipementTable = new CoffreEquipement();
-									$data = array (
+							);
+							$arriveeEquipementTable->insert($data);
+						}
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveeEquipementTable = new CoffreEquipement();
+						$data = array (
 										"id_coffre_equipement" => $equipement["id_equipement"],
 										"id_fk_coffre_coffre_equipement" => $this->view->id_coffre_arrivee,
-									);
-									$arriveeEquipementTable->insert($data);
-									break;
-								case "Lot" :
-									$arriveeEquipementTable = new LotEquipement();
-									$data = array (
+						);
+						$arriveeEquipementTable->insert($data);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveeEquipementTable = new LotEquipement();
+						$data = array (
 										"id_lot_equipement" => $equipement["id_equipement"],
 										"id_fk_lot_lot_equipement" => $this->idLot,
-									);
-									$arriveeEquipementTable->insert($data);
-									break;
-								case "Charrette" :
-									if ($equipement["nom_systeme_type_piece"] == "munition") {
-										Zend_Loader::loadClass("CharretteMunition");
-										$arriveeEquipementTable = new CharretteMunition();
-										$data = array(
+						);
+						$arriveeEquipementTable->insert($data);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						if ($equipement["nom_systeme_type_piece"] == "munition") {
+							Zend_Loader::loadClass("CharretteMunition");
+							$arriveeEquipementTable = new CharretteMunition();
+							$data = array(
 										"id_fk_charrette_munition" => $this->view->id_charrette_arrivee,
 										"id_fk_type_charrette_munition" => $equipement["id_fk_type_munition_type_equipement"],
 										"quantite_charrette_munition" => $equipement["nb_munition_type_equipement"],
-										);
-										$arriveeEquipementTable->insertOrUpdate($data);
-									}
-									else {
-										$arriveeEquipementTable = new CharretteEquipement();
-										$data = array (
+							);
+							$arriveeEquipementTable->insertOrUpdate($data);
+						}
+						else {
+							$arriveeEquipementTable = new CharretteEquipement();
+							$data = array (
 											"id_charrette_equipement" => $equipement["id_equipement"],
 											"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
-										);
-										$arriveeEquipementTable->insert($data);
-									}
-									break;
-									/*case "Echoppe" :
-									 $arriveeEquipementTable = new EchoppeEquipement();
-									 $data = array (
-									 "id_echoppe_equipement" => $equipement["id_equipement"],
-									 "id_fk_echoppe_echoppe_equipement" => $this->view->id_echoppe_arrivee,
-									 );
-									 break;*/
-							}
-							unset($arriveeEquipementTable);
-							$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
-
-							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[b".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-							Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_TRANSBAHUTER_ID, $equipement["id_equipement"], $details);
+							);
+							$arriveeEquipementTable->insert($data);
 						}
-					}
+						break;
+						/* On remet pas de piece dans la charrette*/
 				}
+				unset($arriveeEquipementTable);
+				$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
+
+				$texte = $this->calculTexte($depart, $arrivee);
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_TRANSBAHUTER_ID, $equipement["id_equipement"], $details);
 			}
 		}
 	}
 
 	private function prepareTypeRunes($depart, $idTypeDepart) {
-		if ($depart != "Echoppe") {
+		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL) {
+
 			Zend_Loader::loadClass($depart."Rune");
 			$tabRunes = null;
 			$runes = null;
@@ -946,7 +955,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$runes = $coffreRuneTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreRuneTable);
 					break;
-				case self::ID_ENDROIT_CHARRETTE_DEPART :
+				case self::ID_ENDROIT_CHARRETTE :
 					$charretteRuneTable = new CharretteRune();
 					$runes = $charretteRuneTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteRuneTable);
@@ -977,130 +986,144 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function deposeTypeRunes($depart, $arrivee) {
-		if ($depart != "Echoppe" && $arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Rune");
-			Zend_Loader::loadClass($arrivee."Rune");
-			Zend_Loader::loadClass("Bral_Util_Rune");
+	private function deposeTypeRunes($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			return;
+		}
+			
+			
+		Zend_Loader::loadClass($depart."Rune");
+		Zend_Loader::loadClass($arrivee."Rune");
+		Zend_Loader::loadClass("Bral_Util_Rune");
 
-			$runes = array();
-			$runes = $this->request->get("valeur_21");
-			if (count($runes) > 0 && $runes !=0 ) {
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					foreach ($runes as $idRune) {
-						if (!array_key_exists($idRune, $this->view->runes)) {
-							throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
-						}
-						$rune = $this->view->runes[$idRune];
-						$nomRune = "non identifiée";
-						if ($rune["est_identifiee"] == "oui") {
-							$nomRune = $rune["type"];
-						}
-						$this->view->elementsNonRetiresPanneau .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
-					}
+		$runes = array();
+		$runes = $this->request->get("valeur_21");
+		if (count($runes) == 0 || $runes == 0) {
+			return; // pas de rune selectionnée
+		}
+
+		if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+			$this->view->panneau = false;
+			foreach ($runes as $idRune) {
+				if (!array_key_exists($idRune, $this->view->runes)) {
+					throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
 				}
-				else {
-					foreach ($runes as $idRune) {
-						if (!array_key_exists($idRune, $this->view->runes)) {
-							throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
-						}
+				$rune = $this->view->runes[$idRune];
+				$nomRune = "non identifiée";
+				if ($rune["est_identifiee"] == "oui") {
+					$nomRune = $rune["type"];
+				}
+				$this->view->elementsNonRetiresPanneau .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
+			}
 
-						$rune = $this->view->runes[$idRune];
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$nomRune = "non identifiée";
-								if ($rune["est_identifiee"] == "oui") {
-									$nomRune = $rune["type"];
-								}
-								$this->view->elementsNonRetiresPoids .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
-							}
-						}
-						if ($poidsOk == true) {
-							$this->view->nbelement = $this->view->nbelement + 1;
+			return; // pas de panneau
+		}
 
-							$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
+		foreach ($runes as $idRune) {
+			if (!array_key_exists($idRune, $this->view->runes)) {
+				throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
+			}
 
-							switch ($depart) {
-								case "Laban" :
-									$departRuneTable = new LabanRune();
-									break;
-								case "Element" :
-									$departRuneTable = new ElementRune();
-									break;
-								case "Coffre" :
-									$departRuneTable = new CoffreRune();
-									break;
-								case "Charrette" :
-									$departRuneTable = new CharretteRune();
-									break;
-							}
+			$rune = $this->view->runes[$idRune];
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$nomRune = "non identifiée";
+					if ($rune["est_identifiee"] == "oui") {
+						$nomRune = $rune["type"];
+					}
+					$this->view->elementsNonRetiresPoids .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
+				}
+			}
+			if ($poidsOk == true) {
+				$this->view->nbelement = $this->view->nbelement + 1;
 
-							$departRuneTable->delete($where);
-							unset($departRuneTable);
+				$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
 
-							switch ($arrivee) {
-								case "Laban" :
-									$arriveeRuneTable = new LabanRune();
-									$data = array (
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departRuneTable = new LabanRune();
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departRuneTable = new ElementRune();
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departRuneTable = new CoffreRune();
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departRuneTable = new CharretteRune();
+						break;
+				}
+
+				$departRuneTable->delete($where);
+				unset($departRuneTable);
+
+				switch ($idTypeArrivee) {
+					case self::ID_ENDROIT_LABAN :
+						$arriveeRuneTable = new LabanRune();
+						$data = array (
 										"id_rune_laban_rune" => $rune["id_rune"],
 										"id_fk_braldun_laban_rune" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-									$arriveeRuneTable = new ElementRune();
-									$data = array (
+						$arriveeRuneTable = new ElementRune();
+						$data = array (
 										"id_rune_element_rune" => $rune["id_rune"],
 										"x_element_rune" => $this->view->user->x_braldun,
 										"y_element_rune" => $this->view->user->y_braldun,
 										"z_element_rune" => $this->view->user->z_braldun,
 										"date_fin_element_rune" => $dateFin,
-									);
-									break;
-								case "Coffre" :
-									$arriveeRuneTable = new CoffreRune();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveeRuneTable = new CoffreRune();
+						$data = array (
 									"id_rune_coffre_rune" => $rune["id_rune"],
 									"id_fk_coffre_coffre_rune" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveeRuneTable = new LotRune();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveeRuneTable = new LotRune();
+						$data = array (
 									"id_rune_lot_rune" => $rune["id_rune"],
 									"id_fk_lot_lot_rune" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveeRuneTable = new CharretteRune();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$arriveeRuneTable = new CharretteRune();
+						$data = array (
 									"id_rune_charrette_rune" => $rune["id_rune"],
 									"id_fk_charrette_rune" => $this->view->id_charrette_arrivee,
-									);
-									break;
-							}
-							$arriveeRuneTable->insert($data);
-							unset($arriveeRuneTable);
-							$nomRune = "non identifiée";
-							if ($rune["est_identifiee"] == "oui") {
-								$nomRune = $rune["type"];
-							}
-							$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
-
-							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[b".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-							Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
-						}
-					}
+						);
+						break;
 				}
+				$arriveeRuneTable->insert($data);
+				unset($arriveeRuneTable);
+				$nomRune = "non identifiée";
+				if ($rune["est_identifiee"] == "oui") {
+					$nomRune = $rune["type"];
+				}
+				$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
+
+				$texte = $this->calculTexte($depart, $arrivee);
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
 			}
 		}
 	}
@@ -1127,7 +1150,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$potions = $coffrePotionTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePotionTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charrettePotionTable = new CharrettePotion();
 				$potions = $charrettePotionTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charrettePotionTable);
@@ -1161,134 +1184,147 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->potions = $tabPotions;
 	}
 
-	private function deposeTypePotions($depart, $arrivee) {
-		if ($arrivee != "Echoppe" ||
-		($this->view->idEchoppe != null)) { // echoppe cuisinier calcule dans prepare{
-			Zend_Loader::loadClass($depart."Potion");
-			Zend_Loader::loadClass($arrivee."Potion");
-			$potions = array();
-			$potions = $this->request->get("valeur_22");
-			if (count($potions) > 0 && $potions != 0) {
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					foreach ($potions as $idPotion) {
-						if (!array_key_exists($idPotion, $this->view->potions)) {
-							throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
-						}
-						$potion = $this->view->potions[$idPotion];
-						$this->view->elementsNonRetiresPanneau .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
-					}
+	private function deposeTypePotions($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
+		&& $this->view->idEchoppe == null) { // echoppe cuisinier calcule dans prepare{
+			return;
+		}
+
+		Zend_Loader::loadClass($depart."Potion");
+		Zend_Loader::loadClass($arrivee."Potion");
+		$potions = array();
+		$potions = $this->request->get("valeur_22");
+		if (count($potions) == 0 || $potions == 0) {
+			return;
+		}
+
+		if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+			$this->view->panneau = false;
+			foreach ($potions as $idPotion) {
+				if (!array_key_exists($idPotion, $this->view->potions)) {
+					throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
 				}
-				else {
-					foreach ($potions as $idPotion) {
-						if (!array_key_exists($idPotion, $this->view->potions)) {
-							throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
-						}
+				$potion = $this->view->potions[$idPotion];
+				$this->view->elementsNonRetiresPanneau .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
+			}
+			return; // pas de panneau
+		}
 
-						$potion = $this->view->potions[$idPotion];
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
-							}
-						}
-						if ($poidsOk == true) {
-							$this->view->nbelement = $this->view->nbelement + 1;
-							$where = "id_".strtolower($depart)."_potion=".$idPotion;
-							switch ($depart) {
-								case "Laban" :
-									$departPotionTable = new LabanPotion();
-									break;
-								case "Element" :
-									$departPotionTable = new ElementPotion();
-									break;
-								case "Coffre" :
-									$departPotionTable = new CoffrePotion();
-									break;
-								case "Charrette" :
-									$departPotionTable = new CharrettePotion();
-									break;
-								case "Echoppe" :
-									$departPotionTable = new EchoppePotion();
-									break;
-							}
+		foreach ($potions as $idPotion) {
+			if (!array_key_exists($idPotion, $this->view->potions)) {
+				throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
+			}
 
-							$departPotionTable->delete($where);
-							unset($departPotionTable);
+			$potion = $this->view->potions[$idPotion];
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
+				}
+			}
+			if ($poidsOk == true) {
+				$this->view->nbelement = $this->view->nbelement + 1;
+				$where = "id_".strtolower($depart)."_potion=".$idPotion;
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departPotionTable = new LabanPotion();
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departPotionTable = new ElementPotion();
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departPotionTable = new CoffrePotion();
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departPotionTable = new CharrettePotion();
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ATELIER :
+						$departPotionTable = new EchoppePotion();
+						break;
+				}
 
-							switch($arrivee) {
-								case "Laban" :
-									$arriveePotionTable = new LabanPotion();
-									$data = array (
+				$departPotionTable->delete($where);
+				unset($departPotionTable);
+
+				switch($arrivee) {
+					case self::ID_ENDROIT_LABAN :
+						$arriveePotionTable = new LabanPotion();
+						$data = array (
 										"id_laban_potion" => $potion["id_potion"],
 										"id_fk_braldun_laban_potion" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-									$arriveePotionTable = new ElementPotion();
-									$data = array (
+						$arriveePotionTable = new ElementPotion();
+						$data = array (
 										"id_element_potion" => $potion["id_potion"],
 										"x_element_potion" => $this->view->user->x_braldun,
 										"y_element_potion" => $this->view->user->y_braldun,
 										"z_element_potion" => $this->view->user->z_braldun,
 										"date_fin_element_potion" => $dateFin,
-									);
-									break;
-								case "Coffre" :
-									$arriveePotionTable = new CoffrePotion();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveePotionTable = new CoffrePotion();
+						$data = array (
 										"id_coffre_potion" => $potion["id_potion"],
 										"id_fk_coffre_coffre_potion" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveePotionTable = new LotPotion();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveePotionTable = new LotPotion();
+						$data = array (
 										"id_lot_potion" => $potion["id_potion"],
 										"id_fk_lot_lot_potion" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveePotionTable = new CharrettePotion();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$arriveePotionTable = new CharrettePotion();
+						$data = array (
 										"id_charrette_potion" => $potion["id_potion"],
 										"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
-									);
-									break;
-								case "Echoppe" :
-									// si le joueur est sur son echoppe de cuisinier
-									if ($this->calculEchoppe("cuisinier")) {
-										$arriveePotionTable = new EchoppePotion();
-										$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+						// si le joueur est sur son echoppe de cuisinier
+						if ($this->calculEchoppe("cuisinier")) {
+							$arriveePotionTable = new EchoppePotion();
+							$data = array (
 										"id_echoppe_potion" => $potion["id_potion"],
 										"id_fk_echoppe_echoppe_potion" => $this->view->id_echoppe_arrivee,
-										);
-										break;
-									}
-							}
-							$arriveePotionTable->insert($data);
-							unset($arriveePotionTable);
-							$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
-
-							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[b".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-							Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_TRANSBAHUTER_ID, $potion["id_potion"], $details);
+							);
+							break;
 						}
-					}
 				}
+				$arriveePotionTable->insert($data);
+				unset($arriveePotionTable);
+				$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
+
+				$texte = $this->calculTexte($depart, $arrivee);
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_TRANSBAHUTER_ID, $potion["id_potion"], $details);
 			}
 		}
 	}
 
 	private function prepareTypeAliments($depart, $idTypeDepart) {
-		if ($depart != "Echoppe") {
+		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL) {
+
 			Zend_Loader::loadClass($depart."Aliment");
 			$tabAliments = null;
 			$aliments = null;
@@ -1309,10 +1345,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$aliments = $coffreAlimentTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreAlimentTable);
 					break;
-				case self::ID_ENDROIT_CHARRETTE_DEPART :
+				case self::ID_ENDROIT_CHARRETTE :
 					$charretteAlimentTable = new CharretteAliment();
 					$aliments = $charretteAlimentTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteAlimentTable);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ATELIER :
+					$echoppeAlimentTable = new EchoppeAliment();
+					$potions = $echoppeAlimentTable->findByIdEchoppe($this->view->id_echoppe_depart);
+					unset($echoppeAlimentTable);
 					break;
 			}
 
@@ -1335,115 +1376,132 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function deposeTypeAliments($depart, $arrivee) {
-		if ($depart != "Echoppe" && $arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Aliment");
-			Zend_Loader::loadClass($arrivee."Aliment");
+	private function deposeTypeAliments($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
+			return;
+		}
+			
+		Zend_Loader::loadClass($depart."Aliment");
+		Zend_Loader::loadClass($arrivee."Aliment");
 
-			$aliments = array();
-			$aliments = $this->request->get("valeur_20");
-			if (count($aliments) > 0 && $aliments !=0 ) {
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					foreach ($aliments as $idAliment) {
-						if (!array_key_exists($idAliment, $this->view->aliments)) {
-							throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
-						}
-						$aliment = $this->view->aliments[$idAliment];
-						$this->view->elementsNonRetiresPanneau .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
-					}
-				} else {
-					foreach ($aliments as $idAliment) {
-						if (!array_key_exists($idAliment, $this->view->aliments)) {
-							throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
-						}
+		$aliments = array();
+		$aliments = $this->request->get("valeur_20");
+		if (count($aliments) == 0 || $aliments ==0 ) {
+			return;
+		}
 
-						$aliment = $this->view->aliments[$idAliment];
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
-							}
-						}
-						if ($poidsOk == true) {
-							$this->view->nbelement = $this->view->nbelement + 1;
-							$where = "id_".strtolower($depart)."_aliment=".$idAliment;
-							switch ($depart) {
-								case "Laban" :
-									$departAlimentTable = new LabanAliment();
-									break;
-								case "Element" :
-									$departAlimentTable = new ElementAliment();
-									break;
-								case "Coffre" :
-									$departAlimentTable = new CoffreAliment();
-									break;
-								case "Charrette" :
-									$departAlimentTable = new CharretteAliment();
-									break;
-							}
-							$departAlimentTable->delete($where);
-							unset($departAlimentTable);
+		if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+			$this->view->panneau = false;
+			foreach ($aliments as $idAliment) {
+				if (!array_key_exists($idAliment, $this->view->aliments)) {
+					throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
+				}
+				$aliment = $this->view->aliments[$idAliment];
+				$this->view->elementsNonRetiresPanneau .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
+			}
+			return; // pas de panneau
+		}
 
-							switch ($arrivee) {
-								case "Laban" :
-									$arriveeAlimentTable = new LabanAliment();
-									$data = array (
+		foreach ($aliments as $idAliment) {
+			if (!array_key_exists($idAliment, $this->view->aliments)) {
+				throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
+			}
+
+			$aliment = $this->view->aliments[$idAliment];
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
+				}
+			}
+			if ($poidsOk == true) {
+				$this->view->nbelement = $this->view->nbelement + 1;
+				$where = "id_".strtolower($depart)."_aliment=".$idAliment;
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departAlimentTable = new LabanAliment();
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departAlimentTable = new ElementAliment();
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departAlimentTable = new CoffreAliment();
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departAlimentTable = new CharretteAliment();
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ATELIER :
+						$departAlimentTable = new EchoppeAliment();
+						break;
+				}
+				$departAlimentTable->delete($where);
+				unset($departAlimentTable);
+
+				switch ($idTypeArrivee) {
+					case self::ID_ENDROIT_LABAN :
+						$arriveeAlimentTable = new LabanAliment();
+						$data = array (
 										"id_laban_aliment" => $aliment["id_aliment"],
 										"id_fk_braldun_laban_aliment" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-									$arriveeAlimentTable = new ElementAliment();
-									$data = array (
+						$arriveeAlimentTable = new ElementAliment();
+						$data = array (
 												"id_element_aliment" => $aliment["id_aliment"],
 												"x_element_aliment" => $this->view->user->x_braldun,
 												"y_element_aliment" => $this->view->user->y_braldun,
 												"z_element_aliment" => $this->view->user->z_braldun,
 												"date_fin_element_aliment" => $dateFin,
-									);
-									break;
-								case "Coffre" :
-									$arriveeAlimentTable = new CoffreAliment();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveeAlimentTable = new CoffreAliment();
+						$data = array (
 										"id_coffre_aliment" => $aliment["id_aliment"],
 										"id_fk_coffre_coffre_aliment" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveeAlimentTable = new LotAliment();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveeAlimentTable = new LotAliment();
+						$data = array (
 										"id_lot_aliment" => $aliment["id_aliment"],
 										"id_fk_lot_lot_aliment" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveeAlimentTable = new CharretteAliment();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$arriveeAlimentTable = new CharretteAliment();
+						$data = array (
 										"id_charrette_aliment" => $aliment["id_aliment"],
 										"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
-									);
-									break;
-							}
-							$arriveeAlimentTable->insert($data);
-							unset($arriveeAlimentTable);
-							$this->view->elementsRetires .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
-						}
-					}
+						);
+						break;
 				}
+				$arriveeAlimentTable->insert($data);
+				unset($arriveeAlimentTable);
+				$this->view->elementsRetires .= "Aliment n°".$aliment["id_aliment"]." : ".$aliment["nom"]." +".$aliment["bbdf"]."%, ";
 			}
 		}
 	}
 
 	private function prepareTypeMunitions($depart, $idTypeDepart) {
-		if ($depart != "Echoppe") {
+		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL) {
+
 			Zend_Loader::loadClass($depart."Munition");
 			$tabMunitions = null;
 			$munitions = null;
@@ -1464,10 +1522,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$munitions = $coffreMunitionTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreMunitionTable);
 					break;
-				case self::ID_ENDROIT_CHARRETTE_DEPART :
+				case self::ID_ENDROIT_CHARRETTE :
 					$charretteMunitionTable = new CharretteMunition();
 					$munitions = $charretteMunitionTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteMunitionTable);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ATELIER :
+					$echoppeMunitionTable = new EchoppeMunition();
+					$munitions = $echoppeMunitionTable->findByIdEchoppe($this->view->id_echoppe_depart);
+					unset($echoppeMunitionTable);
 					break;
 			}
 
@@ -1495,146 +1558,166 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function deposeTypeMunitions($depart, $arrivee) {
-		if ($depart != "Echoppe" && $arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Munition");
-			Zend_Loader::loadClass($arrivee."Munition");
+	private function deposeTypeMunitions($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			return;
+		}
 
-			if (count($this->view->munitions) > 0) {
-				$idMunition = null;
-				$nbMunition = null;
+		Zend_Loader::loadClass($depart."Munition");
+		Zend_Loader::loadClass($arrivee."Munition");
 
-				for ($i=17; $i<=$this->view->valeur_fin_munitions; $i++) {
+		if (count($this->view->munitions) == 0) {
+			return;
+		}
 
-					if ( $this->request->get("valeur_".$i) > 0) {
-						$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
+		$idMunition = null;
+		$nbMunition = null;
 
-						$munition = $this->view->munitions[$i];
+		for ($i=24; $i<=$this->view->valeur_fin_munitions; $i++) {
 
-						if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
-							throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
-						}
+			if ($this->request->get("valeur_".$i) <= 0) {
+				continue;
+			}
+			$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
+
+			$munition = $this->view->munitions[$i];
+
+			if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
+			}
 
 
-						if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-							$this->view->panneau = false;
-							$this->view->elementsNonRetiresPanneau .= $nbMunition." ".$munition["type_pluriel"].", ";
-						}
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+				$this->view->panneau = false;
+				$this->view->elementsNonRetiresPanneau .= $nbMunition." ".$munition["type_pluriel"].", ";
+			}
 
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbMunition, Bral_Util_Poids::POIDS_MUNITION);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= $nbMunition." ".$munition["type_pluriel"].", ";
-							}
-						}
-
-						if ($poidsOk == true && $this->view->panneau != false) {
-
-							$this->view->nbelement = $this->view->nbelement + 1;
-
-							switch ($depart) {
-								case "Laban" :
-									$departMunitionTable = new LabanMunition();
-									$data = array(
-											"quantite_laban_munition" => -$nbMunition,
-											"id_fk_type_laban_munition" => $munition["id_type_munition"],
-											"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
-									);
-									break;
-								case "Element" :
-									$departMunitionTable = new ElementMunition();
-									$data = array (
-											"x_element_munition" => $this->view->user->x_braldun,
-											"y_element_munition" => $this->view->user->y_braldun,
-											"z_element_munition" => $this->view->user->z_braldun,
-											"id_fk_type_element_munition" => $munition["id_type_munition"],
-											"quantite_element_munition" => -$nbMunition,
-									);
-									break;
-								case "Coffre" :
-									$departMunitionTable = new CoffreMunition();
-									$data = array(
-											"quantite_coffre_munition" => -$nbMunition,
-											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_coffre_coffre_munition" => $this->view->id_coffre_depart,
-									);
-									break;
-								case "Charrette" :
-									$departMunitionTable = new CharretteMunition();
-									$data = array(
-											"quantite_charrette_munition" => -$nbMunition,
-											"id_fk_type_charrette_munition" => $munition["id_type_munition"],
-											"id_fk_charrette_munition" => $this->view->id_charrette_depart,
-									);
-									break;
-							}
-
-							$departMunitionTable->insertOrUpdate($data);
-							unset ($departMunitionTable);
-
-							switch ($arrivee) {
-								case "Laban" :
-									$arriveeMunitionTable = new LabanMunition();
-									$data = array(
-											"quantite_laban_munition" => $nbMunition,
-											"id_fk_type_laban_munition" => $munition["id_type_munition"],
-											"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-
-									$arriveeMunitionTable = new ElementMunition();
-									$data = array (
-										"x_element_munition" => $this->view->user->x_braldun,
-										"y_element_munition" => $this->view->user->y_braldun,
-										"z_element_munition" => $this->view->user->z_braldun,
-										"id_fk_type_element_munition" => $munition["id_type_munition"],
-										"quantite_element_munition" => $nbMunition,
-										'date_fin_element_munition' => $dateFin,
-									);
-									break;
-								case "Coffre" :
-									$arriveeMunitionTable = new CoffreMunition();
-									$data = array(
-											"quantite_coffre_munition" => $nbMunition,
-											"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-											"id_fk_coffre_coffre_munition" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveeMunitionTable = new LotMunition();
-									$data = array(
-											"quantite_lot_munition" => $nbMunition,
-											"id_fk_type_lot_munition" => $munition["id_type_munition"],
-											"id_fk_lot_lot_munition" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveeMunitionTable = new CharretteMunition();
-									$data = array(
-											"quantite_charrette_munition" => $nbMunition,
-											"id_fk_type_charrette_munition" => $munition["id_type_munition"],
-											"id_fk_charrette_munition" => $this->view->id_charrette_arrivee,
-									);
-									break;
-							}
-							$arriveeMunitionTable->insertOrUpdate($data);
-							unset($arriveeMunitionTable);
-							if ($nbMunition > 1) {
-								$this->view->elementsRetires .= $nbMunition." ".$munition["type_pluriel"].", ";
-							}
-							else {
-								$this->view->elementsRetires .= $nbMunition." ".$munition["type"].", ";
-							}
-						}
-					}
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbMunition, Bral_Util_Poids::POIDS_MUNITION);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $nbMunition." ".$munition["type_pluriel"].", ";
 				}
+			}
+
+			if ($poidsOk != true || $this->view->panneau == false) {
+				continue;
+			}
+
+			$this->view->nbelement = $this->view->nbelement + 1;
+
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
+					$departMunitionTable = new LabanMunition();
+					$data = array(
+								"quantite_laban_munition" => -$nbMunition,
+								"id_fk_type_laban_munition" => $munition["id_type_munition"],
+								"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
+					);
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$departMunitionTable = new ElementMunition();
+					$data = array (
+								"x_element_munition" => $this->view->user->x_braldun,
+								"y_element_munition" => $this->view->user->y_braldun,
+								"z_element_munition" => $this->view->user->z_braldun,
+								"id_fk_type_element_munition" => $munition["id_type_munition"],
+								"quantite_element_munition" => -$nbMunition,
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+					$departMunitionTable = new CoffreMunition();
+					$data = array(
+								"quantite_coffre_munition" => -$nbMunition,
+								"id_fk_type_coffre_munition" => $munition["id_type_munition"],
+								"id_fk_coffre_coffre_munition" => $this->view->id_coffre_depart,
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$departMunitionTable = new CharretteMunition();
+					$data = array(
+								"quantite_charrette_munition" => -$nbMunition,
+								"id_fk_type_charrette_munition" => $munition["id_type_munition"],
+								"id_fk_charrette_munition" => $this->view->id_charrette_depart,
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ATELIER :
+					$departMunitionTable = new EchoppeMunition();
+					$data = array(
+								"quantite_echoppe_munition" => -$nbMunition,
+								"id_fk_type_echoppe_munition" => $munition["id_type_munition"],
+								"id_fk_echoppe_echoppe_munition" => $this->view->id_echoppe_depart,
+					);
+					break;
+			}
+
+			$departMunitionTable->insertOrUpdate($data);
+			unset ($departMunitionTable);
+
+			switch ($idTypeArrivee) {
+				case self::ID_ENDROIT_LABAN :
+					$arriveeMunitionTable = new LabanMunition();
+					$data = array(
+								"quantite_laban_munition" => $nbMunition,
+								"id_fk_type_laban_munition" => $munition["id_type_munition"],
+								"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
+					);
+					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$dateCreation = date("Y-m-d H:i:s");
+					$nbJours = Bral_Util_De::get_2d10();
+					$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
+					$arriveeMunitionTable = new ElementMunition();
+					$data = array (
+								"x_element_munition" => $this->view->user->x_braldun,
+								"y_element_munition" => $this->view->user->y_braldun,
+								"z_element_munition" => $this->view->user->z_braldun,
+								"id_fk_type_element_munition" => $munition["id_type_munition"],
+								"quantite_element_munition" => $nbMunition,
+								'date_fin_element_munition' => $dateFin,
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_BRALDUN :
+					$arriveeMunitionTable = new CoffreMunition();
+					$data = array(
+								"quantite_coffre_munition" => $nbMunition,
+								"id_fk_type_coffre_munition" => $munition["id_type_munition"],
+								"id_fk_coffre_coffre_munition" => $this->view->id_coffre_arrivee,
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ETAL :
+					$arriveeMunitionTable = new LotMunition();
+					$data = array(
+								"quantite_lot_munition" => $nbMunition,
+								"id_fk_type_lot_munition" => $munition["id_type_munition"],
+								"id_fk_lot_lot_munition" => $this->idLot,
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$arriveeMunitionTable = new CharretteMunition();
+					$data = array(
+								"quantite_charrette_munition" => $nbMunition,
+								"id_fk_type_charrette_munition" => $munition["id_type_munition"],
+								"id_fk_charrette_munition" => $this->view->id_charrette_arrivee,
+					);
+					break;
+			}
+			$arriveeMunitionTable->insertOrUpdate($data);
+			unset($arriveeMunitionTable);
+			if ($nbMunition > 1) {
+				$this->view->elementsRetires .= $nbMunition." ".$munition["type_pluriel"].", ";
+			} else {
+				$this->view->elementsRetires .= $nbMunition." ".$munition["type"].", ";
 			}
 		}
 	}
@@ -1660,7 +1743,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$minerais = $coffreMineraiTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMineraiTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteMineraiTable = new CharretteMinerai();
 				$minerais = $charretteMineraiTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteMineraiTable);
@@ -1681,10 +1764,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$strqte = "arriere_echoppe";
 			} elseif ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
 				$strqte = "caisse_echoppe";
-			}
-			else {
+			} else {
 				$strqte = $depart;
 			}
+
 			foreach ($minerais as $m) {
 				if ($m["quantite_brut_".strtolower($strqte)."_minerai"] > 0 || $m["quantite_lingots_".strtolower($depart)."_minerai"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brut
@@ -1706,7 +1789,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->minerais = $tabMinerais;
 	}
 
-	private function deposeTypeMinerais($depart, $arrivee) {
+	private function deposeTypeMinerais($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 		Zend_Loader::loadClass($depart."Minerai");
 		Zend_Loader::loadClass($arrivee."Minerai");
 
@@ -1763,8 +1846,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 					$this->view->nbelement = $this->view->nbelement + 1;
 
-					switch ($depart) {
-						case "Laban" :
+					switch ($idTypeDepart) {
+						case self::ID_ENDROIT_LABAN :
 							$departMineraiTable = new LabanMinerai();
 							$data = array(
 								'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_minerai"],
@@ -1773,7 +1856,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_lingots_laban_minerai' => -$nbLingot,
 							);
 							break;
-						case "Element" :
+						case self::ID_ENDROIT_ELEMENT :
 							$departMineraiTable = new ElementMinerai();
 							$data = array (
 								"x_element_minerai" => $this->view->user->x_braldun,
@@ -1784,7 +1867,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_element_minerai" => -$nbLingot,
 							);
 							break;
-						case "Coffre" :
+						case self::ID_ENDROIT_MON_COFFRE :
 							$departMineraiTable = new CoffreMinerai();
 							$data = array (
 								"id_fk_coffre_coffre_minerai" => $this->view->id_coffre_depart,
@@ -1793,7 +1876,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_coffre_minerai" => -$nbLingot,
 							);
 							break;
-						case "Charrette" :
+						case self::ID_ENDROIT_CHARRETTE :
 							$departMineraiTable = new CharretteMinerai();
 							$data = array (
 								"id_fk_charrette_minerai" => $this->view->id_charrette_depart,
@@ -1802,7 +1885,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_charrette_minerai" => -$nbLingot,
 							);
 							break;
-						case "Echoppe" :
+						case self::ID_ENDROIT_ECHOPPE_CAISSE :
+						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$departMineraiTable = new EchoppeMinerai();
 							$data = array (
 								"id_fk_echoppe_echoppe_minerai" => $this->view->id_echoppe_depart,
@@ -1815,8 +1899,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$departMineraiTable->insertOrUpdate($data);
 					unset ($departMineraiTable);
 
-					switch ($arrivee) {
-						case "Laban" :
+					switch ($idTypeArrivee) {
+						case self::ID_ENDROIT_LABAN :
 							$arriveeMineraiTable = new LabanMinerai();
 							$data = array(
 								"quantite_brut_laban_minerai" => $nbBrut,
@@ -1826,7 +1910,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MINERAI * $nbBrut - Bral_Util_Poids::POIDS_LINGOT * $nbLingot;
 							break;
-						case "Element" :
+						case self::ID_ENDROIT_ELEMENT :
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
@@ -1841,7 +1925,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								  'date_fin_element_minerai' => $dateFin,
 							);
 							break;
-						case "Coffre" :
+						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_BRALDUN :
 							$arriveeMineraiTable = new CoffreMinerai();
 							$data = array (
 								"id_fk_coffre_coffre_minerai" => $this->view->id_coffre_arrivee,
@@ -1850,7 +1935,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_coffre_minerai" => $nbLingot,
 							);
 							break;
-						case "Lot" :
+						case self::ID_ENDROIT_ECHOPPE_ETAL :
 							$arriveeMineraiTable = new LotMinerai();
 							$data = array (
 								"id_fk_lot_lot_minerai" => $this->idLot,
@@ -1859,7 +1944,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_lot_minerai" => $nbLingot,
 							);
 							break;
-						case "Charrette" :
+						case self::ID_ENDROIT_CHARRETTE :
 							$arriveeMineraiTable = new CharretteMinerai();
 							$data = array (
 								"id_fk_charrette_minerai" => $this->view->id_charrette_arrivee,
@@ -1868,7 +1953,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_charrette_minerai" => $nbLingot,
 							);
 							break;
-						case "Echoppe" :
+						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$arriveeMineraiTable = new EchoppeMinerai();
 							$data = array (
 								"id_fk_echoppe_echoppe_minerai" => $this->view->id_echoppe_arrivee,
@@ -1908,7 +1993,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$partiePlantes = $coffrePartiePlanteTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffrePartiePlanteTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charrettePartiePlanteTable = new CharrettePartiePlante();
 				$partiePlantes = $charrettePartiePlanteTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charrettePartiePlanteTable);
@@ -1956,7 +2041,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->partieplantes = $tabPartiePlantes;
 	}
 
-	private function deposeTypePartiesPlantes($depart, $arrivee) {
+	private function deposeTypePartiesPlantes($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 		Zend_Loader::loadClass($depart."Partieplante");
 		Zend_Loader::loadClass($arrivee."Partieplante");
 
@@ -2017,8 +2102,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 					$this->view->nbelement = $this->view->nbelement + 1;
 
-					switch ($depart) {
-						case "Laban" :
+					switch ($idTypeDepart) {
+						case self::ID_ENDROIT_LABAN :
 							$departPartiePlanteTable = new LabanPartieplante();
 							$data = array(
 								'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -2028,7 +2113,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_preparee_laban_partieplante' => -$nbPreparees
 							);
 							break;
-						case "Element" :
+						case self::ID_ENDROIT_ELEMENT :
 							$departPartiePlanteTable = new ElementPartieplante();
 							$data = array (
 									"x_element_partieplante" => $this->view->user->x_braldun,
@@ -2040,7 +2125,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"quantite_preparee_element_partieplante" => -$nbPreparees,
 							);
 							break;
-						case "Coffre" :
+						case self::ID_ENDROIT_MON_COFFRE :
 							$departPartiePlanteTable = new CoffrePartieplante();
 							$data = array(
 								'id_fk_type_coffre_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -2050,7 +2135,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_preparee_coffre_partieplante' => -$nbPreparees
 							);
 							break;
-						case "Charrette" :
+						case self::ID_ENDROIT_CHARRETTE :
 							$departPartiePlanteTable = new CharrettePartieplante();
 							$data = array(
 								'id_fk_type_charrette_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -2060,7 +2145,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_preparee_charrette_partieplante' => -$nbPreparees
 							);
 							break;
-						case "Echoppe" :
+						case self::ID_ENDROIT_ECHOPPE_CAISSE :
+						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$departPartiePlanteTable = new EchoppePartieplante();
 							$data = array(
 								'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -2075,8 +2161,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$departPartiePlanteTable->insertOrUpdate($data);
 					unset ($departPartiePlanteTable);
 
-					switch ($arrivee) {
-						case "Laban" :
+					switch ($idTypeArrivee) {
+						case self::ID_ENDROIT_LABAN :
 							$arriveePartiePlanteTable = new LabanPartieplante();
 							$data = array (
 								"id_fk_braldun_laban_partieplante" => $this->view->id_braldun_coffre,
@@ -2087,7 +2173,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE * $nbBrutes - Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE * $nbPreparees;
 							break;
-						case "Element" :
+						case self::ID_ENDROIT_ELEMENT :
 							$dateCreation = date("Y-m-d H:i:s");
 							$nbJours = Bral_Util_De::get_2d10();
 							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
@@ -2103,7 +2189,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								  'date_fin_element_partieplante' => $dateFin,
 							);
 							break;
-						case "Coffre" :
+						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_BRALDUN :
 							$arriveePartiePlanteTable = new CoffrePartieplante();
 							$data = array (
 								"id_fk_coffre_coffre_partieplante" => $this->view->id_coffre_arrivee,
@@ -2113,7 +2200,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_preparee_coffre_partieplante" => $nbPreparees,
 							);
 							break;
-						case "Lot" :
+						case self::ID_ENDROIT_ECHOPPE_ETAL :
 							$arriveePartiePlanteTable = new LotPartieplante();
 							$data = array (
 								"id_fk_lot_lot_partieplante" => $this->idLot,
@@ -2123,7 +2210,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_preparee_lot_partieplante" => $nbPreparees,
 							);
 							break;
-						case "Charrette" :
+						case self::ID_ENDROIT_CHARRETTE :
 							$arriveePartiePlanteTable = new CharrettePartieplante();
 							$data = array (
 								"id_fk_charrette_partieplante" => $this->view->id_charrette_arrivee,
@@ -2133,7 +2220,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_preparee_charrette_partieplante" => $nbPreparees,
 							);
 							break;
-						case "Echoppe" :
+						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$arriveePartiePlanteTable = new EchoppePartieplante();
 							$data = array (
 								"id_fk_echoppe_echoppe_partieplante" => $this->view->id_echoppe_arrivee,
@@ -2156,7 +2243,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareTypeTabac($depart, $idTypeDepart) {
-		if ( $depart != "Echoppe") {
+
+		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
+		$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL) {
+
 			Zend_Loader::loadClass($depart."Tabac");
 			$tabTabacs = null;
 			$tabacs = null;
@@ -2177,7 +2269,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$tabacs = $coffreTabacTable->findByIdCoffre($this->view->id_coffre_depart);
 					unset($coffreTabacTable);
 					break;
-				case self::ID_ENDROIT_CHARRETTE_DEPART :
+				case self::ID_ENDROIT_CHARRETTE :
 					$charretteTabacTable = new CharretteTabac();
 					$tabacs = $charretteTabacTable->findByIdCharrette($this->view->id_charrette_depart);
 					unset($charretteTabacTable);
@@ -2206,136 +2298,148 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function deposeTypeTabac($depart, $arrivee) {
-		if ($depart != "Echoppe" && $arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Tabac");
-			Zend_Loader::loadClass($arrivee."Tabac");
+	private function deposeTypeTabac($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			return;
+		}
+		Zend_Loader::loadClass($depart."Tabac");
+		Zend_Loader::loadClass($arrivee."Tabac");
 
-			if (count($this->view->tabacs) > 0) {
-				$idTabac = null;
-				$nbTabac = null;
+		if (count($this->view->tabacs) == 0) {
+			return;
+		}
 
-				for ($i=$this->view->valeur_fin_ingredients + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
+		$idTabac = null;
+		$nbTabac = null;
 
-					if ( $this->request->get("valeur_".$i) > 0) {
-						$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
+		for ($i=$this->view->valeur_fin_ingredients + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
 
-						$tabac = $this->view->tabacs[$i];
+			if ($this->request->get("valeur_".$i) <= 0) {
+				continue;
+			}
+			$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
 
-						if ($nbTabac > $tabac["quantite"] || $nbTabac < 0) {
-							throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac. " i=".$i);
-						}
+			$tabac = $this->view->tabacs[$i];
 
-						if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-							$this->view->panneau = false;
-							$this->view->elementsNonRetiresPanneau .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
-						}
+			if ($nbTabac > $tabac["quantite"] || $nbTabac < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac. " i=".$i);
+			}
 
-						$poidsOk=true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbTabac, Bral_Util_Poids::POIDS_TABAC);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
-							}
-						}
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+				$this->view->panneau = false;
+				$this->view->elementsNonRetiresPanneau .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
+			}
 
-						if ($poidsOk == true && $this->view->panneau != false) {
-
-							$this->view->nbelement = $this->view->nbelement + 1;
-							switch ($depart) {
-								case "Laban" :
-									$departTabacTable = new LabanTabac();
-									$data = array(
-											"quantite_feuille_laban_tabac" => -$nbTabac,
-											"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
-											"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
-									);
-									break;
-								case "Element" :
-									$departTabacTable = new ElementTabac();
-									$data = array (
-											"x_element_tabac" => $this->view->user->x_braldun,
-											"y_element_tabac" => $this->view->user->y_braldun,
-											"z_element_tabac" => $this->view->user->z_braldun,
-											"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
-											"quantite_feuille_element_tabac" => -$nbTabac,
-									);
-									break;
-								case "Coffre" :
-									$departTabacTable = new CoffreTabac();
-									$data = array(
-											"quantite_feuille_coffre_tabac" => -$nbTabac,
-											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_depart,
-									);
-									break;
-								case "Charrette" :
-									$departTabacTable = new CharretteTabac();
-									$data = array(
-											"quantite_feuille_charrette_tabac" => -$nbTabac,
-											"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
-											"id_fk_charrette_tabac" => $this->view->id_charrette_depart,
-									);
-									break;
-							}
-
-							$departTabacTable->insertOrUpdate($data);
-							unset ($departTabacTable);
-
-							switch ($arrivee) {
-								case "Laban" :
-									$arriveeTabacTable = new LabanTabac();
-									$data = array(
-											"quantite_feuille_laban_tabac" => $nbTabac,
-											"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
-											"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbTabac;
-									break;
-								case "Element" :
-									$arriveeTabacTable = new ElementTabac();
-									$data = array (
-										"x_element_tabac" => $this->view->user->x_braldun,
-										"y_element_tabac" => $this->view->user->y_braldun,
-										"z_element_tabac" => $this->view->user->z_braldun,
-										"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
-										"quantite_feuille_element_tabac" => $nbTabac,
-									);
-									break;
-								case "Coffre" :
-									$arriveeTabacTable = new CoffreTabac();
-									$data = array(
-											"quantite_feuille_coffre_tabac" => $nbTabac,
-											"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-											"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveeTabacTable = new LotTabac();
-									$data = array(
-											"quantite_feuille_lot_tabac" => $nbTabac,
-											"id_fk_type_lot_tabac" => $tabac["id_type_tabac"],
-											"id_fk_lot_lot_tabac" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveeTabacTable = new CharretteTabac();
-									$data = array(
-											"quantite_feuille_charrette_tabac" => $nbTabac,
-											"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
-											"id_fk_charrette_tabac" => $this->view->id_charrette_arrivee,
-									);
-									break;
-							}
-							$arriveeTabacTable->insertOrUpdate($data);
-							unset($arriveeTabacTable);
-							$stabac = "";
-							if ($nbTabac > 1) $stabac = "s";
-							$this->view->elementsRetires.= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
-						}
-					}
+			$poidsOk=true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbTabac, Bral_Util_Poids::POIDS_TABAC);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
 				}
+			}
+
+			if ($poidsOk == true && $this->view->panneau != false) {
+
+				$this->view->nbelement = $this->view->nbelement + 1;
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departTabacTable = new LabanTabac();
+						$data = array(
+									"quantite_feuille_laban_tabac" => -$nbTabac,
+									"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
+									"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
+						);
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departTabacTable = new ElementTabac();
+						$data = array (
+									"x_element_tabac" => $this->view->user->x_braldun,
+									"y_element_tabac" => $this->view->user->y_braldun,
+									"z_element_tabac" => $this->view->user->z_braldun,
+									"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
+									"quantite_feuille_element_tabac" => -$nbTabac,
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departTabacTable = new CoffreTabac();
+						$data = array(
+									"quantite_feuille_coffre_tabac" => -$nbTabac,
+									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
+									"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_depart,
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departTabacTable = new CharretteTabac();
+						$data = array(
+									"quantite_feuille_charrette_tabac" => -$nbTabac,
+									"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
+									"id_fk_charrette_tabac" => $this->view->id_charrette_depart,
+						);
+						break;
+				}
+
+				$departTabacTable->insertOrUpdate($data);
+				unset ($departTabacTable);
+
+				switch ($idTypeArrivee) {
+					case self::ID_ENDROIT_LABAN :
+						$arriveeTabacTable = new LabanTabac();
+						$data = array(
+									"quantite_feuille_laban_tabac" => $nbTabac,
+									"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
+									"id_fk_braldun_laban_tabac" => $this->view->user->id_braldun,
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbTabac;
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$arriveeTabacTable = new ElementTabac();
+						$data = array (
+									"x_element_tabac" => $this->view->user->x_braldun,
+									"y_element_tabac" => $this->view->user->y_braldun,
+									"z_element_tabac" => $this->view->user->z_braldun,
+									"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
+									"quantite_feuille_element_tabac" => $nbTabac,
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveeTabacTable = new CoffreTabac();
+						$data = array(
+									"quantite_feuille_coffre_tabac" => $nbTabac,
+									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
+									"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_arrivee,
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveeTabacTable = new LotTabac();
+						$data = array(
+									"quantite_feuille_lot_tabac" => $nbTabac,
+									"id_fk_type_lot_tabac" => $tabac["id_type_tabac"],
+									"id_fk_lot_lot_tabac" => $this->idLot,
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$arriveeTabacTable = new CharretteTabac();
+						$data = array(
+									"quantite_feuille_charrette_tabac" => $nbTabac,
+									"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
+									"id_fk_charrette_tabac" => $this->view->id_charrette_arrivee,
+						);
+						break;
+				}
+				$arriveeTabacTable->insertOrUpdate($data);
+				unset($arriveeTabacTable);
+				$stabac = "";
+				if ($nbTabac > 1) $stabac = "s";
+				$this->view->elementsRetires.= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
 			}
 		}
 	}
@@ -2361,7 +2465,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$materiels = $coffreMaterielTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreMaterielTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteMaterielTable = new CharretteMateriel();
 				$materiels = $charretteMaterielTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteMaterielTable);
@@ -2387,130 +2491,132 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->materiels = $tabMateriels;
 	}
 
-	private function deposeTypeMateriel($depart, $arrivee) {
-		if ($arrivee != "Echoppe") {
-			Zend_Loader::loadClass($depart."Materiel");
-			Zend_Loader::loadClass($arrivee."Materiel");
-			Zend_Loader::loadClass("Bral_Util_Materiel");
+	private function deposeTypeMateriel($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
+			return;
+		}
 
-			$materiels = array();
-			$materiels = $this->request->get("valeur_23");
+		Zend_Loader::loadClass($depart."Materiel");
+		Zend_Loader::loadClass($arrivee."Materiel");
+		Zend_Loader::loadClass("Bral_Util_Materiel");
 
-			if (count($materiels) > 0 && $materiels != 0) {
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					foreach ($materiels as $idMateriel) {
-						if (!array_key_exists($idMateriel, $this->view->materiels)) {
-							throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
-						}
+		$materiels = array();
+		$materiels = $this->request->get("valeur_23");
 
-						$materiel = $this->view->materiels[$idMateriel];
-						$this->view->elementsNonRetiresPanneau .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
-					}
-				} else {
-					foreach ($materiels as $idMateriel) {
-						if (!array_key_exists($idMateriel, $this->view->materiels)) {
-							throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
-						}
+		if (count($materiels) == 0 || $materiels == 0) {
+			return;
+		}
 
-						$materiel = $this->view->materiels[$idMateriel];
+		if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0) {
+			$this->view->panneau = false;
+			foreach ($materiels as $idMateriel) {
+				if (!array_key_exists($idMateriel, $this->view->materiels)) {
+					throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
+				}
 
-						$poidsOk = true;
-						if ($arrivee == "Laban" || $arrivee == "Charrette") {
-							$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$materiel["poids"]);
-							if ($poidsOk == false) {
-								$this->view->poidsOk = false;
-								$this->view->elementsNonRetiresPoids .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
-							}
-						}
+				$materiel = $this->view->materiels[$idMateriel];
+				$this->view->elementsNonRetiresPanneau .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
+			}
+			return; // pas de panneau
+		}
 
-						if ($poidsOk == true) {
+		foreach ($materiels as $idMateriel) {
+			if (!array_key_exists($idMateriel, $this->view->materiels)) {
+				throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
+			}
 
-							$this->view->nbelement = $this->view->nbelement + 1;
-							$where = "id_".strtolower($depart)."_materiel=".$idMateriel;
-							switch ($depart) {
-								case "Laban" :
-									$departMaterielTable = new LabanMateriel();
-									break;
-								case "Element" :
-									$departMaterielTable = new ElementMateriel();
-									break;
-								case "Coffre" :
-									$departMaterielTable = new CoffreMateriel();
-									break;
-								case "Charrette" :
-									$departMaterielTable = new CharretteMateriel();
-									break;
-								case "Echoppe" :
-									$departMaterielTable = new EchoppeMateriel();
-									break;
-							}
+			$materiel = $this->view->materiels[$idMateriel];
 
-							$departMaterielTable->delete($where);
-							unset($departMaterielTable);
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$materiel["poids"]);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
+				}
+			}
 
-							switch ($arrivee) {
-								case "Laban" :
-									$arriveeMaterielTable = new LabanMateriel();
-									$data = array (
+			if ($poidsOk == true) {
+
+				$this->view->nbelement = $this->view->nbelement + 1;
+				$where = "id_".strtolower($depart)."_materiel=".$idMateriel;
+				switch ($idTypeDepart) {
+					case self::ID_ENDROIT_LABAN :
+						$departMaterielTable = new LabanMateriel();
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$departMaterielTable = new ElementMateriel();
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+						$departMaterielTable = new CoffreMateriel();
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$departMaterielTable = new CharretteMateriel();
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ATELIER :
+						$departMaterielTable = new EchoppeMateriel();
+						break;
+				}
+
+				$departMaterielTable->delete($where);
+				unset($departMaterielTable);
+
+				switch ($idTypeArrivee) {
+					case self::ID_ENDROIT_LABAN :
+						$arriveeMaterielTable = new LabanMateriel();
+						$data = array (
 										"id_laban_materiel" => $materiel["id_materiel"],
 										"id_fk_braldun_laban_materiel" => $this->view->user->id_braldun,
-									);
-									$this->view->poidsRestant = $this->view->poidsRestant - $materiel["poids"];
-									break;
-								case "Element" :
-									$dateCreation = date("Y-m-d H:i:s");
-									$nbJours = Bral_Util_De::get_2d10();
-									$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - $materiel["poids"];
+						break;
+					case self::ID_ENDROIT_ELEMENT :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-									$arriveeMaterielTable = new ElementMateriel();
-									$data = array (
+						$arriveeMaterielTable = new ElementMateriel();
+						$data = array (
 										"id_element_materiel" => $materiel["id_materiel"],
 										"x_element_materiel" => $this->view->user->x_braldun,
 										"y_element_materiel" => $this->view->user->y_braldun,
 										"z_element_materiel" => $this->view->user->z_braldun,
 										"date_fin_element_materiel" => $dateFin,
-									);
-									break;
-								case "Coffre" :
-									$arriveeMaterielTable = new CoffreMateriel();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_BRALDUN :
+						$arriveeMaterielTable = new CoffreMateriel();
+						$data = array (
 										"id_coffre_materiel" => $materiel["id_materiel"],
 										"id_fk_coffre_coffre_materiel" => $this->view->id_coffre_arrivee,
-									);
-									break;
-								case "Lot" :
-									$arriveeMaterielTable = new LotMateriel();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_ECHOPPE_ETAL :
+						$arriveeMaterielTable = new LotMateriel();
+						$data = array (
 										"id_lot_materiel" => $materiel["id_materiel"],
 										"id_fk_lot_lot_materiel" => $this->idLot,
-									);
-									break;
-								case "Charrette" :
-									$arriveeMaterielTable = new CharretteMateriel();
-									$data = array (
+						);
+						break;
+					case self::ID_ENDROIT_CHARRETTE :
+						$arriveeMaterielTable = new CharretteMateriel();
+						$data = array (
 										"id_charrette_materiel" => $materiel["id_materiel"],
 										"id_fk_charrette_materiel" => $this->view->id_charrette_arrivee,
-									);
-									break;
-									/*case "Echoppe" :
-									 $arriveeMaterielTable = new EchoppeMateriel();
-									 $data = array (
-									 "id_echoppe_materiel" => $materiel["id_materiel"],
-									 "id_fk_echoppe_echoppe_materiel" => $this->view->id_echoppe_arrivee,
-									 );
-									 break;*/
-							}
-							$arriveeMaterielTable->insert($data);
-							unset($arriveeMaterielTable);
-							$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
-
-							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[b".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
-							Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
-						}
-					}
+						);
+						break;
+						/* On ne remet pas de piece dans l'echoppe*/
 				}
+				$arriveeMaterielTable->insert($data);
+				unset($arriveeMaterielTable);
+				$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
+
+				$texte = $this->calculTexte($depart, $arrivee);
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
 			}
 		}
 	}
@@ -2536,7 +2642,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$graines = $coffreGraineTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreGraineTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteGraineTable = new CharretteGraine();
 				$graines = $charretteGraineTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteGraineTable);
@@ -2574,7 +2680,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->graines = $tabGraines;
 	}
 
-	private function deposeTypeGraines($depart, $arrivee) {
+	private function deposeTypeGraines($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 		Zend_Loader::loadClass($depart."Graine");
 		Zend_Loader::loadClass($arrivee."Graine");
 
@@ -2591,137 +2697,140 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." NB Graine interdit=".$nb);
 			}
 
-			if ($nb > 0) {
+			if ($nb <= 0) {
+				continue;
+			}
 
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					$this->view->elementsNonRetiresPanneau .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+				$this->view->panneau = false;
+				$this->view->elementsNonRetiresPanneau .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
+			}
+
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
 				}
+			}
 
-				$poidsOk = true;
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
-					if ($poidsOk == false) {
-						$this->view->poidsOk = false;
-						$this->view->elementsNonRetiresPoids .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
-					}
-				}
+			if ($poidsOk != true || $this->view->panneau == false) {
+				continue;
+			}
 
-				if ($poidsOk == true && $this->view->panneau != false) {
-
-					$this->view->nbelement = $this->view->nbelement + 1;
-					switch ($depart) {
-						case "Laban" :
-							$departGraineTable = new LabanGraine();
-							$data = array(
+			$this->view->nbelement = $this->view->nbelement + 1;
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
+					$departGraineTable = new LabanGraine();
+					$data = array(
 								'id_fk_type_laban_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
 								'id_fk_braldun_laban_graine' => $this->view->user->id_braldun,
 								'quantite_laban_graine' => -$nb,
-							);
-							break;
-						case "Element" :
-							$departGraineTable = new ElementGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$departGraineTable = new ElementGraine();
+					$data = array (
 								"x_element_graine" => $this->view->user->x_braldun,
 								"y_element_graine" => $this->view->user->y_braldun,
 								"z_element_graine" => $this->view->user->z_braldun,
 								"id_fk_type_element_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_element_graine" => -$nb,
-							);
-							break;
-						case "Coffre" :
-							$departGraineTable = new CoffreGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+					$departGraineTable = new CoffreGraine();
+					$data = array (
 								"id_fk_coffre_coffre_graine" => $this->view->id_coffre_depart,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => -$nb,
-							);
-							break;
-						case "Charrette" :
-							$departGraineTable = new CharretteGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$departGraineTable = new CharretteGraine();
+					$data = array (
 								"id_fk_charrette_graine" => $this->view->id_charrette_depart,
 								"id_fk_type_charrette_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_charrette_graine" => -$nb,
-							);
-							break;
-						case "Echoppe" :
-							$departGraineTable = new EchoppeGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_CAISSE :
+					$departGraineTable = new EchoppeGraine();
+					$data = array (
+								"id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_depart,
+								"id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+								"quantite_caisse_echoppe_graine" => -$nb,
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+					$departGraineTable = new EchoppeGraine();
+					$data = array (
 								"id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_depart,
 								"id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_arriere_echoppe_graine" => -$nb,
-							);
-							break;
-					}
-					$departGraineTable->insertOrUpdate($data);
-					unset ($departGraineTable);
+					);
+					break;
+			}
+			$departGraineTable->insertOrUpdate($data);
+			unset ($departGraineTable);
 
-					switch ($arrivee) {
-						case "Laban" :
-							$arriveeGraineTable = new LabanGraine();
-							$data = array(
+			switch ($idTypeArrivee) {
+				case self::ID_ENDROIT_LABAN :
+					$arriveeGraineTable = new LabanGraine();
+					$data = array(
 								"quantite_laban_graine" => $nb,
 								"id_fk_type_laban_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"id_fk_braldun_laban_graine" => $this->view->user->id_braldun,
-							);
-							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
-							break;
-						case "Element" :
-							$dateCreation = date("Y-m-d H:i:s");
-							$nbJours = Bral_Util_De::get_2d10();
-							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+					);
+					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$dateCreation = date("Y-m-d H:i:s");
+					$nbJours = Bral_Util_De::get_2d10();
+					$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-							$arriveeGraineTable = new ElementGraine();
-							$data = array("x_element_graine" => $this->view->user->x_braldun,
+					$arriveeGraineTable = new ElementGraine();
+					$data = array("x_element_graine" => $this->view->user->x_braldun,
 								  "y_element_graine" => $this->view->user->y_braldun,
 								  "z_element_graine" => $this->view->user->z_braldun,
 								  'quantite_element_graine' => $nb,
 								  'id_fk_type_element_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
 								  'date_fin_element_graine' => $dateFin,
-							);
-							break;
-						case "Coffre" :
-							$arriveeGraineTable = new CoffreGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_BRALDUN :
+					$arriveeGraineTable = new CoffreGraine();
+					$data = array (
 								"id_fk_coffre_coffre_graine" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_coffre_graine" => $nb,
-							);
-							break;
-						case "Lot" :
-							$arriveeGraineTable = new LotGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ETAL :
+					$arriveeGraineTable = new LotGraine();
+					$data = array (
 								"id_fk_lot_lot_graine" => $this->idLot,
 								"id_fk_type_lot_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_lot_graine" => $nb,
-							);
-							break;
-						case "Charrette" :
-							$arriveeGraineTable = new CharretteGraine();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$arriveeGraineTable = new CharretteGraine();
+					$data = array (
 								"id_fk_charrette_graine" => $this->view->id_charrette_arrivee,
 								"id_fk_type_charrette_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 								"quantite_charrette_graine" => $nb,
-							);
-							break;
-							/*
-							 case "Echoppe" :
-							 $arriveeGraineTable = new EchoppeGraine();
-							 $data = array (
-							 "id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_arrivee,
-							 "id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
-							 "quantite_arriere_echoppe_graine" => $nb,
-							 );
-							 break;*/
-					}
-					$arriveeGraineTable->insertOrUpdate($data);
-					unset ($arriveeGraineTable);
-					$s = "";
-					if ($nb > 1) $s = "s";
-					$this->view->elementsRetires .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
-				}
+					);
+					break;
+					/* On ne met pas de graine dans l'echoppe. */
 			}
+			$arriveeGraineTable->insertOrUpdate($data);
+			unset ($arriveeGraineTable);
+			$s = "";
+			if ($nb > 1) $s = "s";
+			$this->view->elementsRetires .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines, ";
 		}
 	}
 
@@ -2746,7 +2855,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$ingredients = $coffreIngredientTable->findByIdCoffre($this->view->id_coffre_depart);
 				unset($coffreIngredientTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteIngredientTable = new CharretteIngredient();
 				$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteIngredientTable);
@@ -2788,7 +2897,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->ingredients = $tabIngredients;
 	}
 
-	private function deposeTypeIngredients($depart, $arrivee) {
+	private function deposeTypeIngredients($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart."Ingredient");
 		Zend_Loader::loadClass($arrivee."Ingredient");
 
@@ -2805,135 +2918,147 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." NB Ingredient interdit=".$nb);
 			}
 
-			if ($nb > 0) {
+			if ($nb <= 0) {
+				continue;
+			}
 
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					$this->view->elementsNonRetiresPanneau .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+				$this->view->panneau = false;
+				$this->view->elementsNonRetiresPanneau .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
+			}
+
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
 				}
+			}
 
-				$poidsOk = true;
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
-					if ($poidsOk == false) {
-						$this->view->poidsOk = false;
-						$this->view->elementsNonRetiresPoids .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
-					}
-				}
+			if ($poidsOk != true && $this->view->panneau == false) {
+				continue;
+			}
 
-				if ($poidsOk == true && $this->view->panneau != false) {
-					$this->view->nbelement = $this->view->nbelement + 1;
-					switch ($depart) {
-						case "Laban" :
-							$departIngredientTable = new LabanIngredient();
-							$data = array(
+			$this->view->nbelement = $this->view->nbelement + 1;
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
+					$departIngredientTable = new LabanIngredient();
+					$data = array(
 								'id_fk_type_laban_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
 								'quantite_laban_ingredient' => -$nb,
-							);
-							break;
-						case "Element" :
-							$departIngredientTable = new ElementIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$departIngredientTable = new ElementIngredient();
+					$data = array (
 								"x_element_ingredient" => $this->view->user->x_braldun,
 								"y_element_ingredient" => $this->view->user->y_braldun,
 								"z_element_ingredient" => $this->view->user->z_braldun,
 								"id_fk_type_element_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_element_ingredient" => -$nb,
-							);
-							break;
-						case "Coffre" :
-							$departIngredientTable = new CoffreIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+					$departIngredientTable = new CoffreIngredient();
+					$data = array (
 								"id_fk_coffre_coffre_ingredient" => $this->view->id_coffre_depart,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => -$nb,
-							);
-							break;
-						case "Charrette" :
-							$departIngredientTable = new CharretteIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$departIngredientTable = new CharretteIngredient();
+					$data = array (
 								"id_fk_charrette_ingredient" => $this->view->id_charrette_depart,
 								"id_fk_type_charrette_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_charrette_ingredient" => -$nb,
-							);
-							break;
-						case "Echoppe" :
-							$departIngredientTable = new EchoppeIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_CAISSE :
+					$departIngredientTable = new EchoppeIngredient();
+					$data = array (
+								"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_depart,
+								"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+								"quantite_caisse_echoppe_ingredient" => -$nb,
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+					$departIngredientTable = new EchoppeIngredient();
+					$data = array (
 								"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_depart,
 								"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_arriere_echoppe_ingredient" => -$nb,
-							);
-							break;
-					}
-					$departIngredientTable->insertOrUpdate($data);
-					unset ($departIngredientTable);
+					);
+					break;
+			}
+			$departIngredientTable->insertOrUpdate($data);
+			unset ($departIngredientTable);
 
-					switch ($arrivee) {
-						case "Laban" :
-							$arriveeIngredientTable = new LabanIngredient();
-							$data = array(
+			switch ($idTypeArrivee) {
+				case self::ID_ENDROIT_LABAN :
+					$arriveeIngredientTable = new LabanIngredient();
+					$data = array(
 								"quantite_laban_ingredient" => $nb,
 								"id_fk_type_laban_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"id_fk_braldun_laban_ingredient" => $this->view->user->id_braldun,
-							);
-							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
-							break;
-						case "Element" :
-							$dateCreation = date("Y-m-d H:i:s");
-							$nbJours = Bral_Util_De::get_2d10();
-							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+					);
+					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$dateCreation = date("Y-m-d H:i:s");
+					$nbJours = Bral_Util_De::get_2d10();
+					$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-							$arriveeIngredientTable = new ElementIngredient();
-							$data = array("x_element_ingredient" => $this->view->user->x_braldun,
+					$arriveeIngredientTable = new ElementIngredient();
+					$data = array("x_element_ingredient" => $this->view->user->x_braldun,
 								  "y_element_ingredient" => $this->view->user->y_braldun,
 								  "z_element_ingredient" => $this->view->user->z_braldun,
 								  'quantite_element_ingredient' => $nb,
 								  'id_fk_type_element_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								  'date_fin_element_ingredient' => $dateFin,
-							);
-							break;
-						case "Coffre" :
-							$arriveeIngredientTable = new CoffreIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_BRALDUN :
+					$arriveeIngredientTable = new CoffreIngredient();
+					$data = array (
 								"id_fk_coffre_coffre_ingredient" => $this->view->id_coffre_arrivee,
 								"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_coffre_ingredient" => $nb,
-							);
-							break;
-						case "Lot" :
-							$arriveeIngredientTable = new LotIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ETAL :
+					$arriveeIngredientTable = new LotIngredient();
+					$data = array (
 								"id_fk_lot_lot_ingredient" => $this->idLot,
 								"id_fk_type_lot_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_lot_ingredient" => $nb,
-							);
-							break;
-						case "Charrette" :
-							$arriveeIngredientTable = new CharretteIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$arriveeIngredientTable = new CharretteIngredient();
+					$data = array (
 								"id_fk_charrette_ingredient" => $this->view->id_charrette_arrivee,
 								"id_fk_type_charrette_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_charrette_ingredient" => $nb,
-							);
-							break;
-						case "Echoppe" :
-							$arriveeIngredientTable = new EchoppeIngredient();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+					$arriveeIngredientTable = new EchoppeIngredient();
+					$data = array (
 								"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_arrivee,
 								"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 								"quantite_arriere_echoppe_ingredient" => $nb,
-							);
-							break;
-					}
-					$arriveeIngredientTable->insertOrUpdate($data);
-					unset ($arriveeIngredientTable);
-					$s = "";
-					if ($nb > 1) $s = "s";
-					$this->view->elementsRetires .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
-				}
+					);
+					break;
 			}
+			$arriveeIngredientTable->insertOrUpdate($data);
+			unset ($arriveeIngredientTable);
+			$s = "";
+			if ($nb > 1) $s = "s";
+			$this->view->elementsRetires .= $this->view->ingredients[$indice]["type"]. " : ".$nb.", ";
 		}
 	}
 
@@ -2981,7 +3106,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->id_coffre_depart = $coffre[0]["id_coffre"];
 				unset($coffreTable);
 				break;
-			case self::ID_ENDROIT_CHARRETTE_DEPART :
+			case self::ID_ENDROIT_CHARRETTE :
 				$charretteTable = new Charrette();
 				$autres = $charretteTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteTable);
@@ -3064,7 +3189,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->autresButin = $autresButin;
 	}
 
-	private function deposeTypeAutres($depart, $arrivee) {
+	private function deposeTypeAutres($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+
+		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL ||
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart);
 		Zend_Loader::loadClass($arrivee);
 
@@ -3083,192 +3215,206 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabElement[6] = array("nom_systeme" => "rondin", "nb" => $nbRondin, "poids" => Bral_Util_Poids::POIDS_RONDIN);
 
 		foreach ($tabElement as $t) {
-			$nb=$t["nb"];
+			$nb = $t["nb"];
 			$nom_systeme = $t["nom_systeme"];
 			$poids = $t["poids"];
 			if ($nb < 0) {
 				throw new Zend_Exception(get_class($this)." Nb ".$nom_systeme." : ".$nb);
 			}
 
-			if ($nb > 0) {
-				if ($nb > $this->view->autres["nb_".$nom_systeme]) {
-					$nb = $this->view->autres["nb_".$nom_systeme];
-				}
-				if ( ($depart == "Echoppe" || $arrivee == "Echoppe") && ($nom_systeme == "viande" || $nom_systeme == "viande_preparee")) {
-					$nb = 0;
-				}
+			if ($nb <= 0) {
+				continue;
+			}
+			if ($nb > $this->view->autres["nb_".$nom_systeme]) {
+				$nb = $this->view->autres["nb_".$nom_systeme];
+			}
+			if (($depart == "Echoppe" || $arrivee == "Echoppe") && ($nom_systeme == "viande" || $nom_systeme == "viande_preparee")) {
+				$nb = 0;
+			}
+			
+			if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE && $nom_systeme == "castar") {
+				$nb = 0;
+			}
 
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
-					$this->view->panneau = false;
-					$this->view->elementsNonRetiresPanneau .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
-				}
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
+				$this->view->panneau = false;
+				$this->view->elementsNonRetiresPanneau .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
+			}
 
-				$poidsOk = true;
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, $poids );
-					if ($poidsOk == false) {
-						$this->view->poidsOk = false;
-						$this->view->elementsNonRetiresPoids .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
-					}
+			$poidsOk = true;
+			if ($arrivee == "Laban" || $arrivee == "Charrette") {
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, $poids);
+				if ($poidsOk == false) {
+					$this->view->poidsOk = false;
+					$this->view->elementsNonRetiresPoids .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme).", ";
 				}
+			}
 
-				if ($poidsOk == true && $this->view->panneau != false) {
-					$this->view->nbelement = $this->view->nbelement + 1;
-					$data = array(
+			if ($poidsOk != true || $this->view->panneau == false) {
+				continue;
+			}
+			
+			$this->view->nbelement = $this->view->nbelement + 1;
+			$data = array(
 						"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
 						"id_fk_braldun_".strtolower($depart) => $this->view->user->id_braldun,
-					);
-					$departTable = null;
-					switch ($depart) {
-						case "Laban" :
-							if ($nom_systeme == "castar") {
-								if ($nb > $this->view->user->castars_braldun) {
-									$nb = $this->view->user->castars_braldun;
-								}
-								$this->view->user->castars_braldun = $this->view->user->castars_braldun - $nb;
+			);
+			$departTable = null;
+			switch ($idTypeDepart) {
+				case self::ID_ENDROIT_LABAN :
+					if ($nom_systeme == "castar") {
+						if ($nb > $this->view->user->castars_braldun) {
+							$nb = $this->view->user->castars_braldun;
+						}
+						$this->view->user->castars_braldun = $this->view->user->castars_braldun - $nb;
+					} else {
+						$departTable = new Laban();
+					}
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$departTable = new Element();
+
+					$nbAEnlever = $nb;
+
+					// on supprime les butins en premier
+					if ($this->autresButin != null) {
+						foreach($this->autresButin as $b) {
+							$data = array(
+									"quantite_".$nom_systeme."_element" => -$nbAEnlever,
+									"x_element" => $this->view->user->x_braldun,
+									"y_element" => $this->view->user->y_braldun,
+									"z_element" => $this->view->user->z_braldun,
+									"id_fk_butin_element" => $b["id_fk_butin_element"],
+							);
+
+							$departTable->insertOrUpdate($data);
+
+							if ($b["quantite_".$nom_systeme."_element"] >= $nbAEnlever) {
+								$nbAEnlever = 0;
 							} else {
-								$departTable = new Laban();
-							}
-							break;
-						case "Element" :
-							$departTable = new Element();
-
-							$nbAEnlever = $nb;
-
-							// on supprime les butins en premier
-							if ($this->autresButin != null) {
-								foreach($this->autresButin as $b) {
-
-									$data = array(
-											"quantite_".$nom_systeme."_element" => -$nbAEnlever,
-											"x_element" => $this->view->user->x_braldun,
-											"y_element" => $this->view->user->y_braldun,
-											"z_element" => $this->view->user->z_braldun,
-											"id_fk_butin_element" => $b["id_fk_butin_element"],
-									);
-
-									$departTable->insertOrUpdate($data);
-
-									if ($b["quantite_".$nom_systeme."_element"] >= $nbAEnlever) {
-										$nbAEnlever = 0;
-									} else {
-										$nbAEnlever = $nbAEnlever - $b["quantite_".$nom_systeme."_element"];
-									}
-
-									if ($nbAEnlever <= 0) {
-										break;
-									}
-								}
+								$nbAEnlever = $nbAEnlever - $b["quantite_".$nom_systeme."_element"];
 							}
 
-							if ($nbAEnlever > 0) {
-								$data = array(
+							if ($nbAEnlever <= 0) {
+								break;
+							}
+						}
+					}
+
+					if ($nbAEnlever > 0) {
+						$data = array(
 								"quantite_".$nom_systeme."_element" => -$nb,
 								"x_element" => $this->view->user->x_braldun,
 								"y_element" => $this->view->user->y_braldun,
 								"z_element" => $this->view->user->z_braldun,
 								"id_fk_butin_element" => null,
-								);
-								$departTable->insertOrUpdate($data);
-							}
-							break;
-						case "Coffre" :
-							$departTable = new Coffre();
-							$data = array (
+						);
+						$departTable->insertOrUpdate($data);
+					}
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+					$departTable = new Coffre();
+					$data = array (
 								"id_coffre" => $this->view->id_coffre_depart,
 								"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
-							);
-							break;
-						case "Charrette" :
-							$departTable = new Charrette();
-							$data = array (
+					);
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$departTable = new Charrette();
+					$data = array (
 								"id_charrette" => $this->view->id_charrette_depart,
 								"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,
-							);
-							break;
-						case "Echoppe" :
-							$departTable = new Echoppe();
-							$data = array(
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ATELIER :
+					$departTable = new Echoppe();
+					$data = array(
 								"quantite_".$nom_systeme."_arriere_".strtolower($depart) => -$nb,
 								"id_".strtolower($depart) => $this->view->id_echoppe_depart,
-							);
-							break;
-					}
-					if ($departTable) {
-						if ($depart != "Element") {
-							$departTable->insertOrUpdate($data);
-							unset($departTable);
-						}
-					}
+					);
+					break;
+				case self::ID_ENDROIT_ECHOPPE_CAISSE :
+					$departTable = new Echoppe();
+					$data = array(
+								"quantite_".$nom_systeme."_caisse_".strtolower($depart) => -$nb,
+								"id_".strtolower($depart) => $this->view->id_echoppe_depart,
+					);
+					break;
+			}
+			if ($departTable) {
+				if ($depart != "Element") {
+					$departTable->insertOrUpdate($data);
+					unset($departTable);
+				}
+			}
 
-					$arriveeTable = null;
-					switch ($arrivee) {
-						case "Laban" :
-							if ($nom_systeme == "castar") {
-								$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
-								$this->view->elementsRetires .= $nb. " castar";
-								if ($nb > 1) $this->view->elementsRetires .= "s";
-								$this->view->elementsRetires .= ", ";
-							} else {
-								$data = array(
+			$arriveeTable = null;
+			switch ($idTypeArrivee) {
+				case self::ID_ENDROIT_LABAN :
+					if ($nom_systeme == "castar") {
+						$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
+						$this->view->elementsRetires .= $nb. " castar";
+						if ($nb > 1) $this->view->elementsRetires .= "s";
+						$this->view->elementsRetires .= ", ";
+					} else {
+						$data = array(
 									"quantite_".$nom_systeme."_laban" => $nb,
 									"id_fk_braldun_laban" => $this->view->user->id_braldun,
-								);
-								$arriveeTable = new Laban();
-							}
-							$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
-							break;
-						case "Element" :
-							$data = array(
-									"quantite_".$nom_systeme."_element" => $nb,
-									"x_element" => $this->view->user->x_braldun,
-									"y_element" => $this->view->user->y_braldun,
-									"z_element" => $this->view->user->z_braldun,
-							);
-							$arriveeTable = new Element();
-							break;
-						case "Coffre" :
-							$data = array(
-									"quantite_".$nom_systeme."_coffre" => $nb,
-									"id_coffre" => $this->view->id_coffre_arrivee,
-							);
-							$arriveeTable = new Coffre();
-							break;
-						case "Lot" :
-							$data = array(
-									"quantite_".$nom_systeme."_lot" => $nb,
-									"id_lot" => $this->idLot,
-							);
-							$arriveeTable = new Lot();
-							break;
-						case "Charrette" :
-							$data = array(
-									"quantite_".$nom_systeme."_charrette" => $nb,
-									"id_charrette" => $this->view->id_charrette_arrivee,
-							);
-							$arriveeTable = new Charrette();
-							break;
-						case "Echoppe" :
-							$data = array(
-									"quantite_".$nom_systeme."_arriere_echoppe" => $nb,
-									"id_echoppe" => $this->view->id_echoppe_arrivee,
-							);
-							$arriveeTable = new Echoppe();
-							break;
+						);
+						$arriveeTable = new Laban();
 					}
-					if ($arriveeTable) {
-						$arriveeTable->insertOrUpdate($data);
-						unset($arriveeTable);
-						if ($nom_systeme == "peau") {
-							$this->view->elementsRetires .= $nb. " peau";
-							if ($nb > 1) $this->view->elementsRetires .= "x";
-							$this->view->elementsRetires .= ", ";
-						} else {
-							$this->view->elementsRetires .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme);
-							if ($nb > 1) $this->view->elementsRetires .= "s";
-							$this->view->elementsRetires .= ", ";
-						}
-					}
+					$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
+					break;
+				case self::ID_ENDROIT_ELEMENT :
+					$data = array(
+								"quantite_".$nom_systeme."_element" => $nb,
+								"x_element" => $this->view->user->x_braldun,
+								"y_element" => $this->view->user->y_braldun,
+								"z_element" => $this->view->user->z_braldun,
+					);
+					$arriveeTable = new Element();
+					break;
+				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_BRALDUN :
+					$data = array(
+								"quantite_".$nom_systeme."_coffre" => $nb,
+								"id_coffre" => $this->view->id_coffre_arrivee,
+					);
+					$arriveeTable = new Coffre();
+					break;
+				case self::ID_ENDROIT_ECHOPPE_ETAL :
+					$data = array(
+								"quantite_".$nom_systeme."_lot" => $nb,
+								"id_lot" => $this->idLot,
+					);
+					$arriveeTable = new Lot();
+					break;
+				case self::ID_ENDROIT_CHARRETTE :
+					$data = array(
+								"quantite_".$nom_systeme."_charrette" => $nb,
+								"id_charrette" => $this->view->id_charrette_arrivee,
+					);
+					$arriveeTable = new Charrette();
+					break;
+				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
+					$data = array(
+								"quantite_".$nom_systeme."_arriere_echoppe" => $nb,
+								"id_echoppe" => $this->view->id_echoppe_arrivee,
+					);
+					$arriveeTable = new Echoppe();
+					break;
+			}
+			if ($arriveeTable) {
+				$arriveeTable->insertOrUpdate($data);
+				unset($arriveeTable);
+				if ($nom_systeme == "peau") {
+					$this->view->elementsRetires .= $nb. " peau";
+					if ($nb > 1) $this->view->elementsRetires .= "x";
+					$this->view->elementsRetires .= ", ";
+				} else {
+					$this->view->elementsRetires .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme);
+					if ($nb > 1) $this->view->elementsRetires .= "s";
+					$this->view->elementsRetires .= ", ";
 				}
 			}
 		}

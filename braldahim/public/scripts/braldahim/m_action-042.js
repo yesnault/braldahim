@@ -647,11 +647,11 @@ function controlePoids(){
 	if ($('valeur_2').value != -1 ){
 		poidsRestant = $('poids_' + $('valeur_2').value).value;
 		if (poidsRestant != -1){
-		 	for (i=4; i<=$('nb_valeurs').value; i++) {
+		 	for (i=11; i<=$('nb_valeurs').value; i++) {
 				if ( $('valeur_' + i).type == 'select-multiple' ){
 					for (j=0; j<$('valeur_' + i).options.length; j++){
 						if ($('valeur_' + i).options[j].selected == true) {
-							if ( i==12 || i==16 ){
+							if ( i==17 || i==23 ){
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
 							}
 							else{
@@ -662,6 +662,7 @@ function controlePoids(){
 				}
 				else {
 					poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
+					
 				}
 			}
 			if (poids > poidsRestant){
@@ -700,7 +701,7 @@ function controlePanneau (i) {
 function controleQte(){
 	 v=false;
 	 ctrlEchoppe = false;
-	 for (i=4;i<=$('nb_valeurs').value;i++) {
+	 for (i=11;i<=$('nb_valeurs').value;i++) {
 	 	if ($('valeur_'+i).value > 0 && $('valeur_panneau').value != true && v==true) {
 			controlePanneau (i);
 	 	}
@@ -729,7 +730,7 @@ function selectAll(){
 	cacher = true;
 	v = false;
 	ctrlEchoppe = false;
-	for (i=4; i<=$('nb_valeurs').value; i++) {
+	for (i=11; i<=$('nb_valeurs').value; i++) {
 		if ($('valeur_panneau').value != true && v==true) {
 			controlePanneau (i);
 			break;
@@ -802,7 +803,7 @@ function controleEchoppe(i) {
  */
 
 function afficheAutreCoffre(){
-	if($('valeur_2').value==4){ // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 4){ // constante definie dans Transbahuter.php
 		document.getElementById('div_braldun').style.visibility='visible';
 		document.getElementById('div_braldun').style.display='block';
 	} else{
@@ -813,7 +814,7 @@ function afficheAutreCoffre(){
 }
 
 function afficheTransbahuterVente() {
-	if ($('valeur_2').value==6){ // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 8){ // constante definie dans Transbahuter.php
 		document.getElementById('div_vente_transbahuter').style.visibility='visible';
 		document.getElementById('div_vente_transbahuter').style.display='block';
 	} else{

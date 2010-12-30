@@ -36,10 +36,12 @@ class RecetteEquipement extends Zend_Db_Table {
 		->from('type_equipement')
 		->from('type_qualite')
 		->from('type_emplacement')
+		->from('type_piece')
 		->where('id_fk_type_recette_equipement = ?',$idType)
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
+		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->order(array('niveau_recette_equipement', 'id_fk_type_qualite_recette_equipement'));
 
 		$sql = $select->__toString();

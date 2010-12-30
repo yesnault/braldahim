@@ -60,6 +60,13 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			$this->prepareCommunEquipements($echoppe["id_echoppe"]);
 		}
 
+		$this->view->afficheMunitions = false;
+		if ($echoppe["nom_systeme_metier"] == "menusier") {
+			$this->view->afficheMunitions = true;
+			$this->prepareCommunMunitions($echoppe["id_echoppe"]);
+				
+		}
+
 		$this->prepareCommunMateriels($echoppe["id_echoppe"]);
 
 		$this->view->nomEchoppe = $nom;
@@ -294,6 +301,31 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		}
 		$this->view->materielsEtal = $tabMaterielsEtal;
 		$this->view->idMaterielsEtalTable = "idMaterielsEtalTableEchoppe";
+	}
+
+	private function prepareCommunMunitions($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeMunition");
+
+		$tabMunitionsArriereBoutique = null;
+		$echoppeMunitionTable = new EchoppeMunition();
+		$munitions = $echoppeMunitionTable->findByIdEchoppe($idEchoppe);
+
+		if (count($munitions) > 0) {
+			foreach($munitions as $e) {
+					
+				$munition = array(
+					'type' => $e["nom_type_munition"],
+					'id_type' => $e["id_type_munition"],
+					'nom_systeme_type_munition' => $e["nom_systeme_type_munition"],
+					'nom' => $e["nom_type_munition"],
+					'quantite' => $e["quantite_echoppe_munition"],
+					'poids' => $e["quantite_echoppe_munition"] * Bral_Util_Poids::POIDS_MUNITION,
+				);
+
+				$tabMunitionsArriereBoutique[] = $munition;
+			}
+		}
+		$this->view->munitionsArriereBoutique = $tabMunitionsArriereBoutique;
 	}
 
 	private function prepareCommunPotions($idEchoppe) {

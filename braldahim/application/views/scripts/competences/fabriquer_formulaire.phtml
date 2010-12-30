@@ -13,23 +13,27 @@
 	 
 	 <br /><br />
 	 
-	 <?php $js = Bral_Helper_DetailEquipement::afficheRecetteJs($this->niveaux);?>
+	 <?php if ($this->caracs[0][2][0]["nom_systeme_type_piece"] == "munition") : ?>
+		 <input type='hidden' id='valeur_2' name='valeur_2' value='0'>
+		 
+	 <?php elseif ($this->niveaux != null) : ?>
 	 
-	 <?php if ($this->niveaux != null) : ?>
-	 Niveau de l'&eacute;quipement :<br />
-	 <select name="valeur_2" id="valeur_2" onchange="javascript:<?php echo $js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
-	 	<option value="-1">(Choisissez un niveau)</option>
-	 	<?php foreach($this->niveaux as $k => $v) : ?>
-	 		<?php if ($v["a_afficher"] == true) : ?>
-	 			<option value="<?php echo $k?>" <?php if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?php echo htmlspecialchars($v["niveauText"])?></option>
-	 		<?php endif; ?>
-	 	<?php endforeach; ?>
-	 </select>
+	 	<?php $js = Bral_Helper_DetailEquipement::afficheRecetteJs($this->niveaux);?>
+	 
+		 Niveau de l'&eacute;quipement :<br />
+		 <select name="valeur_2" id="valeur_2" onchange="javascript:<?php echo $js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
+		 	<option value="-1">(Choisissez un niveau)</option>
+		 	<?php foreach($this->niveaux as $k => $v) : ?>
+		 		<?php if ($v["a_afficher"] == true) : ?>
+		 			<option value="<?php echo $k?>" <?php if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?php echo htmlspecialchars($v["niveauText"])?></option>
+		 		<?php endif; ?>
+		 	<?php endforeach; ?>
+		 </select>
 	 <?php endif; ?>
-	 
-	 <?php echo Bral_Helper_DetailEquipement::afficheRecette($this->caracs, $this->niveaux);?>
-		
-	<br /><br />
+	 <?php if ($this->caracs[0][2][0]["nom_systeme_type_piece"] != "munition") : ?>
+		 <?php echo Bral_Helper_DetailEquipement::afficheRecette($this->caracs, $this->niveaux);?>
+		 <br /><br />
+	 <?php endif;?>
 	
 	<?php if (isset($this->peutRunes)): 
 		if ($this->peutRunes === true) : ?>
@@ -75,5 +79,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->fabriquerEchoppeOk === true && $this->etape1 === true) : ?>
-<input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("valeur_1").value);' disabled>
+<input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("valeur_1").value);' <?php if ($this->caracs[0][2][0]["nom_systeme_type_piece"] != "munition") : echo "disabled"; endif; ?>>
 <?php endif ?>

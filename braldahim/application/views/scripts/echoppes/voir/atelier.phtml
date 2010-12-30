@@ -45,6 +45,11 @@ endif;?>
   <br /><br />
 <?php endif?>
   	
+<?php if ($this->afficheTypeMunitions) :?>
+	<div class="titre textalic textsized">Munitions cr&eacute;&eacute;es</div>
+	<?php include("atelier_munitions.phtml") ?>
+<?php endif;?>
+
 <?php if ($this->afficheType == "equipements") :?>
 	<div class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</div>
 	<?php include("atelier_equipements.phtml") ?>

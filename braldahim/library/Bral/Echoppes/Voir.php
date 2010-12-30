@@ -125,6 +125,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				} elseif ($e["nom_systeme_metier"] == "cuisinier") {
 					$this->view->afficheType = "aliments";
 				}
+
+				$this->view->afficheTypeMunitions = false;
+				if ($e["nom_systeme_metier"] == "menuisier") {
+					$this->view->afficheTypeMunitions = true;
+				}
 				break;
 			}
 		}
@@ -160,6 +165,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
 		if ($this->view->afficheType == "potions") {
 			$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
+		}
+		if ($this->view->afficheTypeMunitions == true) {
+			$this->prepareCommunMunitions($tabEchoppe["id_echoppe"]);
 		}
 		$this->prepareCommunMateriels($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunAliments($tabEchoppe["id_echoppe"]);
@@ -724,6 +732,31 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->idAlimentsEtalTable = "idAlimentsEtalTable";
 	}
 
+	private function prepareCommunMunitions($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeMunition");
+
+		$tabMunitionsArriereBoutique = null;
+		$echoppeMunitionTable = new EchoppeMunition();
+		$munitions = $echoppeMunitionTable->findByIdEchoppe($idEchoppe);
+
+		if (count($munitions) > 0) {
+			foreach($munitions as $e) {
+					
+				$munition = array(
+					'type' => $e["nom_type_munition"],
+					'id_type' => $e["id_type_munition"],
+					'nom_systeme_type_munition' => $e["nom_systeme_type_munition"],
+					'nom' => $e["nom_type_munition"],
+					'quantite' => $e["quantite_echoppe_munition"],
+					'poids' => $e["quantite_echoppe_munition"] * Bral_Util_Poids::POIDS_MUNITION,
+				);
+
+				$tabMunitionsArriereBoutique[] = $munition;
+			}
+		}
+		$this->view->munitionsArriereBoutique = $tabMunitionsArriereBoutique;
+	}
+
 	private function prepareCommunPotions($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("EchoppePotionMinerai");
@@ -822,10 +855,10 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		if ($this->view->afficheType == "equipements") {
 			/*if (count($this->view->equipementsArriereBoutique) > 0) {
 				$tab[] = $this->view->idEquipementsArriereBoutiqueTable;
-			}
-			if (count($this->view->equipementsEtal) > 0) {
+				}
+				if (count($this->view->equipementsEtal) > 0) {
 				$tab[] = $this->view->idEquipementsEtalTable;
-			}*/
+				}*/
 		} elseif ($this->view->afficheType == "potions") {
 			if (count($this->view->potionsEtal) > 0) {
 				$tab[] = $this->view->idPotionsEtalTable;

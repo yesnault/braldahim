@@ -1,0 +1,15 @@
+<?php if (count($this->munitionsArriereBoutique) > 0): ?>
+
+	<?php $this->munitions = $this->munitionsArriereBoutique; ?>
+	<?php echo $this->render("/interface/commun/equipements/munitions.phtml"); ?>
+	
+	<?php if ($this->estSurEchoppe === true): 
+  		$disabled = "";
+	   else: 
+  		$disabled = "disabled" ;
+  	   endif;
+  	?>
+<?php else: ?>
+	Vous n'avez aucun &eacute;quipement en r&eacute;serve
+<?php endif; ?>
+<br /><br />
