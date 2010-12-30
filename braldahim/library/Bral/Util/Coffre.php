@@ -36,6 +36,9 @@ class Bral_Util_Coffre {
 		self::renderIngredient($tabMetiers, $tabCoffre, $view);
 		self::renderTabac($tabCoffre["id_coffre"], $view);
 		self::renderMateriel($tabCoffre["id_coffre"], $view);
+		
+		$view->coffre = $tabCoffre;
+		$view->laban = $tabCoffre; // pour les poches
 
 	}
 
@@ -90,8 +93,7 @@ class Bral_Util_Coffre {
 			}
 		}
 		unset($coffre);
-		$view->coffre = $tabCoffre;
-		$view->laban = $tabCoffre; // pour les poches
+		
 		return $tabCoffre;
 	}
 
