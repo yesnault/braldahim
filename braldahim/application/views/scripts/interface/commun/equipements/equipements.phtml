@@ -8,18 +8,10 @@
 		<th>Nom</th>
 		<th>Niveau</th>
 		<th>Caract&eacute;ristiques</th>
-		<?php if ($this->estElementsEtal === true) : ?>
-			<th>Prix</th>
-			<th>Commentaire du vendeur</th>
-		<?php endif; ?>
-		<?php if ($this->estElementsEtalAchat === true) : ?>
-			<th>Marchander / Acheter</th>
-		<?php endif; ?>
 	  </tr>
 	</thead>
 	<tbody>
 		<?php if (count($this->equipements) > 0) :?>
-		
 			<?php foreach($this->equipements as $em) : ?>
 			   	 <tr class="table_liste">
 				  	<th colspan="8" class="table_liste_th">Position : <?php echo $em["nom_type_emplacement"] ?></th>
@@ -38,15 +30,6 @@
 				  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
 				  			</div>
 				  		</td>
-				  		<?php if ($this->estElementsEtal === true) : ?>
-							<td class="table_liste" nowrap><?php echo Bral_Helper_DetailEquipement::afficherPrix($e);?></td>
-							<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["commentaire_vente_echoppe_equipement"])?></td>
-						<?php endif; ?>
-						<?php if ($this->estElementsEtalAchat === true) : ?>
-							<td class="table_liste">
-							<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_acheterequipement&idEquipement=<?php echo $e["id_equipement"] ?>");' value="<?php echo $this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
-							</td>
-						<?php endif; ?>
 				  	</tr>
 				  <?php endforeach; ?>
 			<?php endforeach; ?>

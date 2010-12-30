@@ -10,13 +10,6 @@
 		<th>Type de Recette</th>
 		<th>Bonus sur la Balance de Faim</th>
 		<th>Poids</th>
-		<?php if ($this->estElementsEtal === true) : ?>
-			<th>Prix</th>
-			<th>Commentaire du vendeur</th>
-		<?php endif; ?>
-		<?php if ($this->estElementsEtalAchat === true) : ?>
-			<th>Marchander / Acheter</th>
-		<?php endif; ?>
 	  </tr>
 	</thead>
 	<tbody>
@@ -43,15 +36,6 @@
 			  			n.a
 			  		<?php endif; ?> </td>
 			  		<td class="table_liste"><?php echo Bral_Util_Poids::POIDS_ALIMENT ?> Kg</td>
-			  		<?php if ($this->estElementsEtal === true) : ?>
-						<td class="table_liste" nowrap><?php echo Bral_Helper_DetailAliment::afficherPrix($a);?></td>
-						<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($a["commentaire_vente_echoppe_aliment"])?></td>
-					<?php endif; ?>
-					<?php if ($this->estElementsEtalAchat === true) : ?>
-						<td class="table_liste">
-						<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_acheteraliment&valeur_1=<?php echo $a["id_aliment"] ?>");' value="<?php echo $this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
-						</td>
-					<?php endif; ?>
 				  </tr>
 			<?php endforeach; ?>
 		<?php else: ?>

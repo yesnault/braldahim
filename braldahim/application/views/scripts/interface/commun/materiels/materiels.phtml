@@ -7,13 +7,6 @@
 	  	<th>&nbsp;</th>
 		<th>Nom</th>
 		<th>Caract&eacute;ristiques</th>
-		<?php if ($this->estElementsEtal === true) : ?>
-			<th>Prix</th>
-			<th>Commentaire du vendeur</th>
-		<?php endif; ?>
-		<?php if ($this->estElementsEtalAchat === true) : ?>
-			<th>Marchander / Acheter</th>
-		<?php endif; ?>
 		<th>&nbsp;</th>
 	  </tr>
 	</thead>
@@ -31,15 +24,6 @@
 				  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
 				  			</div>
 				  		</td>
-				  		<?php if ($this->estElementsEtal === true) : ?>
-							<td class="table_liste" nowrap><?php echo Bral_Helper_DetailMateriel::afficherPrix($e);?></td>
-							<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["commentaire_vente_echoppe_materiel"])?></td>
-						<?php endif; ?>
-						<?php if ($this->estElementsEtalAchat === true) : ?>
-							<td class="table_liste">
-							<input type="button" class='button1' onclick='_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel&valeur_1=<?php echo $e["id_materiel"] ?>");' value="<?php echo $this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
-							</td>
-						<?php endif; ?>
 						<td class="table_liste">
 							<?php if ($this->estElementsAchat == false && $this->estElementsEtalAchat == false && substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette"):?>
 							<input type="button" class='button1' value="1 PA - Attraper une charrette" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper&provenance=echoppe')" />
