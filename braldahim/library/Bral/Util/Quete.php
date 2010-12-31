@@ -444,6 +444,16 @@ class Bral_Util_Quete {
 	private static function calculGain(&$braldun, $nbEtape, $quete) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGain - enter");
 
+		$idCoffre = self::getIdCoffre($braldun);
+
+		if ($quete["est_initiatique_quete"] == "oui") {
+			return self::calculGainQueteInitiatique($braldun, $idCoffre);
+		} else {
+			return self::calculGainStandard($braldun, $idCoffre, $nbEtape);
+		}
+	}
+
+	private static function getIdCoffre($braldun) {
 		Zend_Loader::loadClass("Coffre");
 		$coffreTable = new Coffre();
 
@@ -453,14 +463,10 @@ class Bral_Util_Quete {
 		}
 
 		$idCoffre = $coffre[0]["id_coffre"];
-
-		if ($quete["est_initiatique_quete"] == "oui") {
-			return self::calculGainQueteInitiatique($braldun, $idCoffre);
-		} else {
-			return self::calculGainStandard($braldun, $idCoffre, $nbEtape);
-		}
+		
+		return $idCoffre;
 	}
-
+	
 	private static function calculGainQueteInitiatique(&$braldun, $idCoffre) {
 		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGainQueteInitiatique - enter");
 		$retour = self::calculGainQueteInitiatiqueAliment($braldun, $idCoffre);
@@ -1227,7 +1233,8 @@ class Bral_Util_Quete {
 		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI) {
 			Zend_Loader::loadClass("CoffreMinerai");
 			$coffreMineraiTable = new CoffreMinerai();
-			$coffreMinerai = $coffreMineraiTable->findByIdBraldun($braldun->id_braldun);
+			$idCoffre = self::getIdCoffre($braldun);
+			$coffreMinerai = $coffreMineraiTable->findByIdCoffre($idCoffre);
 			if ($coffreMinerai != null && count($coffreMinerai) >= 1) {
 				foreach($coffreMinerai as $l) {
 					if ($l["id_fk_type_coffre_minerai"] == $etape["param_4_etape"]) {
@@ -1247,7 +1254,8 @@ class Bral_Util_Quete {
 		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PLANTE) {
 			Zend_Loader::loadClass("CoffrePartieplante");
 			$coffrePartieplanteTable = new CoffrePartieplante();
-			$coffrePartieplante = $coffrePartieplanteTable->findByIdBraldun($braldun->id_braldun);
+			$idCoffre = self::getIdCoffre($braldun);
+			$coffrePartieplante = $coffrePartieplanteTable->findByIdCoffre($idCoffre);
 			if ($coffrePartieplante != null && count($coffrePartieplante) >= 1) {
 				foreach($coffrePartieplante as $p) {
 					if ($p["id_fk_type_plante_coffre_partieplante"] == $etape["param_4_etape"] && $p["id_fk_type_coffre_partieplante"] == $etape["param_5_etape"]) {
