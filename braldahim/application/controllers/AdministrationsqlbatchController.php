@@ -21,8 +21,10 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->jourYuleAction();
-		/*$this->correctionCoffre();
+		
+		/*
+		 * $this->jourYuleAction();
+		 * $this->correctionCoffre();
 		 $this->ajoutCompetence();
 		 $this->eauCreation(-10);
 		 $this->eauCreation(-11);
@@ -231,7 +233,9 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 	// le 31 décembre
 	function jourYuleAction() {
-
+		
+		return;
+		
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 
