@@ -24,10 +24,12 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	}
 
 	function render() {
+		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
 		return $this->view->render("echoppes/voir.phtml");
 	}
 
 	function prepareCommun() {
+		
 		if (!isset($this->idEchoppe)) {
 			$id_echoppe = (int)$this->request->get("valeur_1");
 		} else {
@@ -171,8 +173,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->prepareCommunMateriels($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunAliments($tabEchoppe["id_echoppe"]);
-		
-		$this->prepareCommunLots($tabEchoppe["id_echoppe"]);
+
+		Zend_Loader::loadClass("Bral_Util_Lot");
+		$this->view->lots = Bral_Util_Lot::getLotsByIdEchoppe($tabEchoppe["id_echoppe"], $this->view);
 
 		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
 		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
@@ -183,6 +186,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->estElementsEtal = true;
 		$this->view->estElementsEtalAchat = false;
 		$this->view->estElementsAchat = false;
+		$this->view->pocheNom = "Poche";
+		$this->view->pocheNomSysteme = "Etal";
 	}
 
 	function prepareFormulaire() {
@@ -563,10 +568,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->alimentsArriereBoutique = $tabAlimentsArriereBoutique;
 		$this->view->idAlimentsArriereBoutiqueTable = "idAlimentsArriereBoutiqueTable";
-	}
-	
-	private function prepareCommunLots($idEchoppe) {
-		
 	}
 
 	private function prepareCommunMunitions($idEchoppe) {

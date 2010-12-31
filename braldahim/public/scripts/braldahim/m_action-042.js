@@ -772,7 +772,7 @@ function selectAll(){
 }
 
 function charrette() {
-	if ($('valeur_2').value >= 7){
+	if ($('valeur_2').value >= 10){
 		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
 	}
 }

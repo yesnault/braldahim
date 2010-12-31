@@ -7,12 +7,18 @@
  */
 class Bral_Util_Lot {
 
-	public static function getLotsByIdEchoppe($idEchoppe) {
+	public static function getLotsByIdEchoppe($idEchoppe, &$view) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 
 		$lots = $lotTable->findByIdEchoppe($idEchoppe);
-		
+		$retourLots = self::prepareLots($lots, $view);
+
+		return $retourLots;
+	}
+
+	private static function prepareLots($lots, &$view) {
+
 		if (count($lots) == 0 || $lots == null) {
 			return null;
 		}
@@ -22,27 +28,64 @@ class Bral_Util_Lot {
 		foreach ($lots as $l) {
 			$idsLot[] = $l["id_lot"];
 		}
+
+
+		Zend_Loader::loadClass("LotPrixMinerai");
+		$lotPrixMineraiTable = new LotPrixMinerai();
+		$lotPrixMinerai = $lotPrixMineraiTable->findByIdLot($idsLot);
+
+		Zend_Loader::loadClass("LotPrixPartiePlante");
+		$lotPrixPartiePlanteTable = new LotPrixPartiePlante();
+		$lotPrixPartiePlante = $lotPrixPartiePlanteTable->findByIdLot($idsLot);
+
+		$tabLots = null;
 		
-		self::prepareLots($idsLot); 
+		foreach ($lots as $l) {
+			$minerai = null;
+			$partiesPlantes = null;
 
-		return $lots;
+			if ($lotPrixMinerai != null) {
+				foreach($lotPrixMinerai as $m) {
+					if ($m["id_fk_lot_prix_minerai"] == $l["id_lot"]) {
+						$minerai = self::recuperePrixMineraiAvecIdLot($m, $l["id_lot"]);
+						break;
+					}
+				}
+			}
+
+			if ($lotPrixPartiePlante != null) {
+				foreach($lotPrixPartiePlante as $p) {
+					if ($p["id_fk_lot_prix_partieplante"] == $l["id_lot"]) {
+						$partiesPlantes = self::recuperePrixPartiePlantesAvecIdLot($p, $l["id_lot"]);
+						break;
+					}
+				}
+			}
+
+			$tabLots[$l["id_lot"]] = self::prepareRowLot($l, $minerai, $partiesPlantes);
+		}
+
+		self::prepareLotsContenus($idsLot, $tabLots, $view);
+
+		return $tabLots;
 	}
 
-	private static function prepareLots($idsLot) {
+	private static function prepareLotsContenus($idsLot, &$lots) {
+		self::prepareLotEquipement($idsLot, $lots);
 
-		self::prepareLotAliment($idsLot);
-		self::prepareLotElement($idsLot);
-		self::prepareLotEquipement($idsLot);
-		self::prepareLotGraine($idsLot);
-		self::prepareLotIngredient($idsLot);
-		self::prepareLotMateriel($idsLot);
-		self::prepareLotMunition($idsLot);
-		self::prepareLotPartieplante($idsLot);
-		self::prepareLotPotion($idsLot);
-		self::prepareLotRune($idsLot);
+		/*self::prepareLotAliment($idsLot);
+		 self::prepareLotElement($idsLot);
+
+		 self::prepareLotGraine($idsLot);
+		 self::prepareLotIngredient($idsLot);
+		 self::prepareLotMateriel($idsLot);
+		 self::prepareLotMunition($idsLot);
+		 self::prepareLotPartieplante($idsLot);
+		 self::prepareLotPotion($idsLot);
+		 self::prepareLotRune($idsLot);*/
 	}
 
-	private static function prepareLotEquipement($idsLot) {
+	private static function prepareLotEquipement($idsLot, &$lots) {
 		Zend_Loader::loadClass("LotEquipement");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 
@@ -50,20 +93,16 @@ class Bral_Util_Lot {
 
 		if ($idsLot != null) {
 			$equipements = $lotEquipementTable->findByIdLot($idsLot);
-		} elseif ($numeroElement <= $this->numeroFinEmplacement) {
-			$equipements = $lotEquipementTable->findAllByIdTypeEmplacement($this->view->menuRechercheEquipement["type_emplacement"]["elements"][$numeroElement]["id_type_emplacement"]);
-		} else {
-			$equipements = $lotEquipementTable->findAllByIdTypeEquipement($this->view->menuRechercheEquipement["type_equipement"]["elements"][$numeroElement]["id_type_equipement"]);
 		}
 
 		$tabReturn = array();
 
 		$idEquipements = null;
-		$idsLot = null;
+		//$idsLot = null;
 		if ($equipements != null) {
 			foreach ($equipements as $e) {
 				$idEquipements[] = $e["id_lot_equipement"];
-				$idsLot[] = $e["id_lot"];
+				//$idsLot[] = $e["id_lot"];
 			}
 		}
 
@@ -75,90 +114,18 @@ class Bral_Util_Lot {
 			Zend_Loader::loadClass("EquipementBonus");
 			$equipementBonusTable = new EquipementBonus();
 			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-
-			Zend_Loader::loadClass("LotPrixMinerai");
-			$lotPrixMineraiTable = new LotPrixMinerai();
-			$lotPrixMinerai = $lotPrixMineraiTable->findByIdLot($idsLot);
-
-			Zend_Loader::loadClass("LotPrixPartiePlante");
-			$lotPrixPartiePlanteTable = new LotPrixPartiePlante();
-			$lotPrixPartiePlante = $lotPrixPartiePlanteTable->findByIdLot($idsLot);
 		}
 
-		if (count($equipements) > 0) {
-			foreach($equipements as $e) {
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$tabEquipements = Bral_Util_Equipement::prepareTabEquipements($equipements);
 
-				$minerai = $this->recuperePrixMineraiAvecIdLot($lotPrixMinerai, $e["id_lot"]);
-				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdLot($lotPrixPartiePlante, $e["id_lot"]);
-
-				$runes = null;
-				if (count($equipementRunes) > 0) {
-					foreach($equipementRunes as $r) {
-						if ($r["id_equipement_rune"] == $e["id_lot_equipement"]) {
-							$runes[] = array(
-								"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-								"id_fk_type_rune" => $r["id_fk_type_rune"],
-								"nom_type_rune" => $r["nom_type_rune"],
-								"image_type_rune" => $r["image_type_rune"],
-								"effet_type_rune" => $r["effet_type_rune"],
-							);
-						}
-					}
-				}
-
-				$bonus = null;
-				if (count($equipementBonus) > 0) {
-					foreach($equipementBonus as $b) {
-						if ($b["id_equipement_bonus"] == $e["id_lot_equipement"]) {
-							$bonus = $b;
-							break;
-						}
-					}
-				}
-
-				$tabObjet = array(
-					"id_equipement" => $e["id_lot_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-					"nom_standard" => $e["nom_type_equipement"],
-					"id_type_equipement" => $e["id_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"id_type_emplacement" => $e["id_type_emplacement"],
-					"emplacement" => $e["nom_type_emplacement"],
-					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-					"nb_runes" => $e["nb_runes_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-					"armure" => $e["armure_equipement"],
-					"force" => $e["force_equipement"],
-					"agilite" => $e["agilite_equipement"],
-					"vigueur" => $e["vigueur_equipement"],
-					"sagesse" => $e["sagesse_equipement"],
-					"vue" => $e["vue_recette_equipement"],
-					"attaque" => $e["attaque_equipement"],
-					"degat" => $e["degat_equipement"],
-					"defense" => $e["defense_equipement"],
-					"poids" => $e["poids_equipement"],
-					"suffixe" => $e["suffixe_mot_runique"],
-					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
-					"id_fk_region" => $e["id_fk_region_equipement"],
-					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
-					"etat_courant" => $e["etat_courant_equipement"],
-					"etat_initial" => $e["etat_initial_equipement"],
-					"ingredient" => $e["nom_type_ingredient"],
-					"runes" => $runes,
-					"bonus" => $bonus,
-				);
-
-				$tabReturn[] = array(
-					"type" => "equipement",
-					"lot" => $this->prepareRowLot($e, $minerai, $partiesPlantes),
-					"objet" => $tabObjet,
-				);
-
+		$tabRetour = null;
+		if ($tabEquipements != null) {
+			foreach($tabEquipements as $e) {
+				$lots[$e["id_lot"]]["equipements"][$e["id_type_emplacement"]]["equipements"][] = $e;
+				$lots[$e["id_lot"]]["equipements"][$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["emplacement"];
 			}
 		}
-
-		return $tabReturn;
 	}
 
 	private static function prepareLotMinerai($idsLot) {
@@ -858,5 +825,60 @@ class Bral_Util_Lot {
 		return $tabReturn;
 	}
 
+	private static function recuperePrixMineraiAvecIdLot($lotPrixMinerai, $idLot) {
+		$minerai = null;
+		if (count($lotPrixMinerai) > 0) {
+			foreach($lotPrixMinerai as $r) {
+				if ($r["id_fk_lot_prix_minerai"] == $idLot) {
+					$minerai[] = array(
+								"prix_lot_prix_minerai" => $r["prix_lot_prix_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+					);
+				}
+			}
+		}
+		return $minerai;
+	}
+
+	private static function recuperePrixPartiePlantesAvecIdLot($lotPrixPartiePlante, $idLot) {
+		$partiesPlantes = null;
+		if (count($lotPrixPartiePlante) > 0) {
+			foreach($lotPrixPartiePlante as $p) {
+				if ($p["id_fk_lot_prix_partieplante"] == $idLot) {
+					$partiesPlantes[] = array(
+								"prix_lot_prix_partieplante" => $p["prix_lot_prix_partieplante"],
+								"nom_type_plante" => $p["nom_type_plante"],
+								"nom_type_partieplante" => $p["nom_type_partieplante"],
+								"prefix_type_plante" => $p["prefix_type_plante"],
+					);
+				}
+			}
+		}
+		return $partiesPlantes;
+	}
+
+	private static function prepareRowLot($r, $minerai, $partiesPlantes) {
+
+		$tab = array("id_lot" => $r["id_lot"],
+				"unite_1_lot" => $r["unite_1_lot"],
+				"unite_2_lot" => $r["unite_2_lot"],
+				"unite_3_lot" => $r["unite_3_lot"],
+				"prix_1_lot" => $r["prix_1_lot"],
+				"prix_2_lot" => $r["prix_2_lot"],
+				"prix_3_lot" => $r["prix_3_lot"],
+				"date_debut_lot" => $r["date_debut_lot"],
+				
+				"commentaire_lot" => $r["commentaire_lot"],
+				"prix_minerais" => $minerai,
+				"prix_parties_plantes" => $partiesPlantes,
+				"equipements" => null,
+		);
+		
+		if ($r["date_fin_lot"] != null) {
+			$tab["date_fin_lot"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $r["date_fin_lot"]);
+		}
+
+		return $tab;
+	}
 
 }

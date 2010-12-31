@@ -14,30 +14,30 @@ class Bral_Helper_DetailPrix {
 
 		$suffixe2 = $suffixe;
 		if ($suffixe2 == "") {
-			$suffixe2 = "_vente_prix"; // pour les tables vente_prix_minerai et vente_prix_partieplante
+			$suffixe2 = "_lot_prix"; // pour les tables lot_prix_minerai et lot_prix_partieplante
 		}
 
-		if ($e["prix_1_vente".$suffixe] >= 0 && $e["unite_1_vente".$suffixe] > 0) {
-			$retour .= $e["prix_1_vente".$suffixe]. " ";
-			$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_vente".$suffixe], false, $e["prix_1_vente".$suffixe]);
+		if ($e["prix_1_lot".$suffixe] >= 0 && $e["unite_1_lot".$suffixe] > 0) {
+			$retour .= $e["prix_1_lot".$suffixe]. " ";
+			$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_lot".$suffixe], false, $e["prix_1_lot".$suffixe]);
 			$firstOu = false;
 		}
 		 
-		if ($e["prix_2_vente".$suffixe] >= 0 && $e["unite_2_vente".$suffixe] > 0) {
+		if ($e["prix_2_lot".$suffixe] >= 0 && $e["unite_2_lot".$suffixe] > 0) {
 			if (!$firstOu) {
 				$retour .= $ou;
 			}
-			$retour .= $e["prix_2_vente".$suffixe]. " ";
-			$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_vente".$suffixe], false, $e["prix_2_vente".$suffixe]);
+			$retour .= $e["prix_2_lot".$suffixe]. " ";
+			$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_lot".$suffixe], false, $e["prix_2_lot".$suffixe]);
 			$firstOu = false;
 		}
 	  
-		if ($e["prix_3_vente".$suffixe] >= 0 && $e["unite_3_vente".$suffixe] > 0) {
+		if ($e["prix_3_lot".$suffixe] >= 0 && $e["unite_3_lot".$suffixe] > 0) {
 			if (!$firstOu) {
 				$retour .= $ou;
 			}
-			$retour .= $e["prix_3_vente".$suffixe]. " ";
-			$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_vente".$suffixe], false, $e["prix_3_vente".$suffixe]);
+			$retour .= $e["prix_3_lot".$suffixe]. " ";
+			$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_lot".$suffixe], false, $e["prix_3_lot".$suffixe]);
 			$firstOu = false;
 		}
 		 

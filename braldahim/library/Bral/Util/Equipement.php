@@ -354,9 +354,14 @@ class Bral_Util_Equipement {
 					"etat_initial" => $e["etat_initial_equipement"],
 					"ingredient" => $e["nom_type_ingredient"],
 					"poids" => $e["poids_equipement"],
+					"id_lot" => null,
 					"runes" => array(),
 					"bonus" => array(),
 				);
+
+				if (array_key_exists("id_fk_lot_lot_equipement", $e)) {
+					$equipement["id_lot"] = $e["id_fk_lot_lot_equipement"];
+				}
 
 				$idEquipements[] = $e["id_equipement"];
 				$tabEquipements[$e["id_equipement"]] = $equipement;

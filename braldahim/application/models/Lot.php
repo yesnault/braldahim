@@ -13,7 +13,7 @@ class Lot extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
-		->where('id_fk_communaute_lot = ?', intval(idEchoppe));
+		->where('id_fk_echoppe_lot = ?', intval($idEchoppe));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

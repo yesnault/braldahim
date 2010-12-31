@@ -1,0 +1,39 @@
+	
+	<?php if ($this->nb_runes > 0) : ?>
+		<?php include("poches/poche_rune.phtml") ?>
+	<?php endif;?>
+	<?php if ($this->nb_materiels > 0) : ?>
+		<?php include("poches/poche_materiel.phtml") ?>
+	<?php endif;?>
+	<?php if (count($lot["equipements"]) > 0) : ?>
+		<?php 
+			$this->equipements = $lot["equipements"];
+			$this->nb_equipements = count($lot["equipements"]);
+		?>
+		<?php include("poches/poche_equipement.phtml") ?>
+	<?php endif;?>
+	<?php if ($this->nb_munitions > 0) : ?>
+		<?php include("poches/poche_munition.phtml") ?>
+	<?php endif;?>
+	<?php if ($this->nb_potions > 0) : ?>
+		<?php include("poches/poche_potion.phtml") ?>
+	<?php endif;?>
+	<?php if ($this->nb_aliments > 0) : ?>
+		<?php include("poches/poche_aliment.phtml") ?>
+	<?php endif;?>
+	<?php if ($this->nb_graines > 0) : ?>
+		<?php include("poches/poche_graine.phtml") ?>
+	<?php endif;?>
+	<?php if (count($this->tabac) > 0) : ?>
+	<?php include("poches/poche_tabac.phtml") ?>
+	<?php endif;?>
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
