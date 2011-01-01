@@ -53,7 +53,7 @@ class Bral_Util_Commun {
 				$r = 6;
 				break;
 			default :
-				throw new Exception("getVueBase Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
+				throw new Exception("getVueBase Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y, " z:".$z);
 		}
 		unset($zone);
 		return $r;
