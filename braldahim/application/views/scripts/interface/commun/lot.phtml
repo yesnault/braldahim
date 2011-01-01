@@ -2,7 +2,10 @@
 	<?php if ($this->nb_runes > 0) : ?>
 		<?php include("poches/poche_rune.phtml") ?>
 	<?php endif;?>
-	<?php if ($this->nb_materiels > 0) : ?>
+	<?php if (count($lot["materiels"]) > 0) : 
+			$this->materiels = $lot["materiels"];
+			$this->nb_materiels = count($lot["materiels"]);
+		?>
 		<?php include("poches/poche_materiel.phtml") ?>
 	<?php endif;?>
 	<?php if (count($lot["equipements"]) > 0) : ?>

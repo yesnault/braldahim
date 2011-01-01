@@ -1,35 +1,38 @@
 
-    
-<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
-<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
-   
-<?php echo $poches = null; ?>
-<ul id="navigation" style="width:99%;text-align:left">
+<?php if (count($this->lots) > 0) : ?>
+	<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 	
-	<?php foreach($this->lots as $numero => $lot) : ?>
-	<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
-		<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
-      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head" onclick="maccordion(this);">
-			Lot n&deg;<?php echo $numero;?>
-			<br /> Prix : 
-			<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
-		</h3>
-		<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:block">
-			<li>
-				<?php include("lot.phtml") ?>
-			</li>
-		</ul>
-	</li>
-	<?php endforeach;?>
-</ul>
-<?php 
-$jsFermer = "";
-$jsOuvrir = "";
-foreach ($poches as $p) :
-	$jsFermer .= "maccordion_fermer($('$p'));";
-	$jsOuvrir .= "maccordion_ouvrir($('$p'));";
-endforeach; ?>
-   
-<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
-<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
-   	
+	<?php echo $poches = null; ?>
+	<ul id="navigation" style="width:99%;text-align:left">
+		
+		<?php foreach($this->lots as $numero => $lot) : ?>
+		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
+			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
+	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head" onclick="maccordion(this);">
+				Lot n&deg;<?php echo $numero;?>
+				<br /> Prix : 
+				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+			</h3>
+			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:block">
+				<li>
+					<?php include("lot.phtml") ?>
+				</li>
+			</ul>
+		</li>
+		<?php endforeach;?>
+	</ul>
+	<?php 
+	$jsFermer = "";
+	$jsOuvrir = "";
+	foreach ($poches as $p) :
+		$jsFermer .= "maccordion_fermer($('$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+	endforeach; ?>
+	   
+	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
+	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
+
+<?php else: ?>
+	<i>Rien en vente</i>
+<?php endif;?>

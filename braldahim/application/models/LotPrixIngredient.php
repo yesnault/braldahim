@@ -14,7 +14,7 @@ class LotPrixIngredient extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lot_prix_ingredient', '*')
 		->from('type_ingredient', '*')
-		->where('id_fk_lot_prix_ingredient', (int)$idLot)
+		->where('id_fk_lot_prix_ingredient = ?', (int)$idLot)
 		->where('lot_prix_ingredient.id_fk_type_lot_prix_ingredient = type_ingredient.id_type_ingredient');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

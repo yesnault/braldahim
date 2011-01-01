@@ -14,7 +14,7 @@ class LotPrixGraine extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lot_prix_graine', '*')
 		->from('type_graine', '*')
-		->where('id_fk_lot_prix_graine', (int)$idlot)
+		->where('id_fk_lot_prix_graine = ?', (int)$idlot)
 		->where('lot_prix_graine.id_fk_type_lot_prix_graine = type_graine.id_type_graine');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

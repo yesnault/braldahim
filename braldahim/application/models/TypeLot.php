@@ -9,10 +9,9 @@ class TypeLot extends Zend_Db_Table {
 	protected $_name = 'type_lot';
 	protected $_primary = "id_type_lot";
 
-	const ID_TYPE_RESERVATION_COMMUNAUTE_BRALDUN = 1;
-	const ID_TYPE_RESERVATION_COMMUNAUTE_TOUS = 2;
-	const ID_TYPE_VENTE_ECHOPPE_BRALDUN = 3;
-	const ID_TYPE_VENTE_ECHOPPE_TOUS = 4;
-	const ID_TYPE_VENTE_HOTEL = 5;
-
+	const ID_TYPE_VENTE_ECHOPPE_TOUS = 1;
+	const ID_TYPE_VENTE_ECHOPPE_BRALDUN = 2;
+	const ID_TYPE_VENTE_HOTEL = 3;
+	const ID_TYPE_RESERVATION_COMMUNAUTE_TOUS = 4;
+	const ID_TYPE_RESERVATION_COMMUNAUTE_BRALDUN = 5;
 }

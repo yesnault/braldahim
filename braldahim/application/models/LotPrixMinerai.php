@@ -14,7 +14,7 @@ class LotPrixMinerai extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lot_prix_minerai', '*')
 		->from('type_minerai', '*')
-		->where('id_fk_lot_prix_minerai', (int)$idLot)
+		->where('id_fk_lot_prix_minerai = ? ', (int)$idLot)
 		->where('lot_prix_minerai.id_fk_type_lot_prix_minerai = type_minerai.id_type_minerai');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
