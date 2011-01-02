@@ -9,19 +9,19 @@
 	Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante 
 	<?php endif; ?>
 	<?php if ($this->arrivee == 1) : ?>
-		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre charrette.
+		déposé<?php echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre charrette.
 		<?php if ($this->nbCueilletteTerre > 0) : ?> 
 			Mais, faute de place, certains éléments sont tombés à terre (<?php echo $this->nbCueilletteTerre ?>).
 		<?php endif;?>
 	<?php endif;?>
 	<?php if ($this->arrivee == 2) : ?>
-		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre laban.
+		déposé<?php echo ($this->nbCueillette > 1) ? "s" : "" ?> dans votre laban.
 		<?php if ($this->nbCueilletteTerre > 0) : ?> 
 			Mais, faute de place, certains éléments sont tombés à terre (<?php echo $this->nbCueilletteTerre ?>).
 		<?php endif;?>
 	<?php endif;?>
 	<?php if ($this->arrivee == 3) : ?>
-		déposé<?echo ($this->nbCueillette > 1) ? "s" : "" ?> au sol.
+		déposé<?php echo ($this->nbCueillette > 1) ? "s" : "" ?> au sol.
 	<?php endif;?>
 	<br /><br />
 	<?php echo htmlspecialchars($this->plante["categorie"])?> - <?php echo htmlspecialchars($this->plante["nom_type"])?> (<?php echo $this->plante["id_plante"]?>)

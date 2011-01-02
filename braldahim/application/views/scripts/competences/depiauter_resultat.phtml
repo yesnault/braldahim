@@ -10,13 +10,13 @@
 		Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbPeauCharrette?> dans votre charrette.<br />
 	<?php endif;?>
 	<?php if ($this->limitationCharrette == true) : ?>
-		Faute de place, <?echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
+		Faute de place, <?php echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
 	<?php endif;?>
 	<?php if ($this->nbPeauLaban >= 1) :?>
 		Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbPeauLaban?> dans votre laban.<br />
 	<?php endif;?>
 	<?php if ($this->limitationLaban == true) : ?>
-		Faute de place, <?echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
+		Faute de place, <?php echo ($this->nbPeauSol > 1) ? "$this->nbPeauSol sont tombées" : "$this->nbPeauSol est tombée" ?> au sol.<br />
 	<?php endif;?>
 	<?php if ($this->arrivee == 3) :?>
 		Vous en avez laiss&eacute; <?php echo $this->nbPeauSol?> au sol.<br />
@@ -29,13 +29,13 @@
 			Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbViandeCharrette?> dans votre charrette.<br />
 		<?php endif;?>
 		<?php if ($this->limitationCharrette == true) : ?>
-			Faute de place, <?echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
+			Faute de place, <?php echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
 		<?php endif;?>
 		<?php if ($this->nbViandeLaban >= 1) :?>
 			Vous en avez r&eacute;cup&eacute;r&eacute; <?php echo $this->nbViandeLaban?> dans votre laban.<br />
 		<?php endif;?>
 		<?php if ($this->limitationLaban == true) : ?>
-			Faute de place, <?echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
+			Faute de place, <?php echo ($this->nbViandeSol > 1) ? "$this->nbViandeSol sont tombées" : "$this->nbViandeSol est tombée" ?> au sol.<br />
 		<?php endif;?>
 		<?php if ($this->arrivee == 3) :?>
 			Vous en avez laiss&eacute; <?php echo $this->nbViandeSol?> au sol.<br />
