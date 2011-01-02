@@ -9,6 +9,10 @@ class LotPrixIngredient extends Zend_Db_Table {
 	protected $_name = 'lot_prix_ingredient';
 	protected $_primary = array("id_fk_type_lot_prix_ingredient","id_fk_lot_prix_ingredient");
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 			
 		$liste = "";

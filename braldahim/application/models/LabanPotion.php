@@ -9,6 +9,14 @@ class LabanPotion extends Zend_Db_Table {
 	protected $_name = 'laban_potion';
 	protected $_primary = array('id_laban_potion');
 
+	function findByIdConteneur($idBraldun) {
+		return $this->findByIdBraldun($idBraldun);
+	}
+
+	function countByIdConteneur($idBraldun) {
+		return $this->countByIdBraldun($idBraldun);
+	}
+	
 	function findByIdBraldun($idBraldun, $idTypePotion = null, $idPotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -32,6 +40,7 @@ class LabanPotion extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	
 	function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();

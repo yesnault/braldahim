@@ -7,12 +7,12 @@
  */
 class Bral_Util_Lot {
 
-	public static function getLotsByIdEchoppe($idEchoppe, &$view, $visiteur) {
+	public static function getLotsByIdEchoppe($idEchoppe, $visiteur) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 
 		$lots = $lotTable->findByIdEchoppe($idEchoppe);
-		$retourLots["lots"] = self::prepareLots($lots, $view);
+		$retourLots["lots"] = self::prepareLots($lots, true);
 
 		if ($visiteur) {
 			$retourLots["visiteur"] = true;
@@ -23,7 +23,20 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	private static function prepareLots($lots, &$view) {
+	public static function getLotByIdLot($idLot) {
+		Zend_Loader::loadClass("Lot");
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByIdLot($idLot);
+		$lots = self::prepareLots($lots, false);
+		if (count($lots) != 1) {
+			throw new Zend_Exception("getLotByIdLot - Lot invalide:".$idLot);
+		}
+
+		return $lots[0];
+	}
+
+	private static function prepareLots($lots, $contenuAPreparer) {
 
 		if (count($lots) == 0 || $lots == null) {
 			return null;
@@ -68,7 +81,9 @@ class Bral_Util_Lot {
 			$tabLots[$l["id_lot"]] = self::prepareRowLot($l, $minerai, $partiesPlantes);
 		}
 
-		self::prepareLotsContenus($idsLot, $tabLots, $view);
+		if ($contenuAPreparer) {
+			self::prepareLotsContenus($idsLot, $tabLots);
+		}
 
 		return $tabLots;
 	}
@@ -977,7 +992,7 @@ class Bral_Util_Lot {
 				'quantite_castar_'.$suffixe => $lot["quantite_castar_lot"],
 				'quantite_rondin_'.$suffixe => $lot["quantite_rondin_lot"],
 			);
-				
+
 			$elementTable->insert($data);
 		}
 	}

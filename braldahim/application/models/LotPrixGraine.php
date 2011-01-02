@@ -9,8 +9,12 @@ class LotPrixGraine extends Zend_Db_Table {
 	protected $_name = 'lot_prix_graine';
 	protected $_primary = array("id_fk_type_lot_prix_graine","id_fk_lot_prix_graine");
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdlot($idlot) {
-		
+
 		$liste = "";
 		$nomChamp = "id_fk_lot_prix_graine";
 

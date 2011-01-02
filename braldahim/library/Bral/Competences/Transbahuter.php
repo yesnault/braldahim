@@ -119,7 +119,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-				
+
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
@@ -530,6 +530,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypeIngredients($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
 		$this->deposeTypeTabac($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
 		$this->deposeTypeMateriel($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+
+		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			$this->updatePoidsLot();
+		}
 	}
 
 	private function deposeTypeLot() {
@@ -562,10 +566,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Lot");
 		Zend_Loader::loadClass("TypeLot");
 
+		$poidsLot = 10000;
+
 		$lotTable = new Lot();
 		$data = array(
 			"id_fk_echoppe_lot" => $this->view->id_echoppe_depart,
 			"id_fk_type_lot" => TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS,
+			"poids_lot" => $poidsLot,
 		);
 		$idLot = $lotTable->insert($data);
 
@@ -576,6 +583,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 
 		return $idLot;
+	}
+
+	private function updatePoidsLot() {
+		$poids = Bral_Util_Poids::calculPoidsLot($this->idLot);
+		$lotTable = new Lot();
+		$data = array("poids_lot" => $poids);
+		$lotTable->insert($data);
 	}
 
 	private function calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
@@ -644,7 +658,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} else {
 					$keyTexte = "texte_forme_pluriel";
 				}
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1." ".$u[$keyTexte]);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1." ".$u[$keyTexte]);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 7) == "minerai") {
 				$data = array("prix_lot_prix_minerai" => $prix_2,
@@ -657,7 +671,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} else {
 					$keyTexte = "texte_forme_pluriel";
 				}
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2." ".$u[$keyTexte]);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2." ".$u[$keyTexte]);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 7) == "minerai") {
 				$data = array("prix_lot_prix_minerai" => $prix_3,
@@ -670,7 +684,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} else {
 					$keyTexte = "texte_forme_pluriel";
 				}
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3." ".$u[$keyTexte]);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3." ".$u[$keyTexte]);
 			}
 		}
 	}
@@ -687,7 +701,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$lotPrixPartiePlanteTable->insert($data);
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) == "plante") {
 				$data = array("prix_lot_prix_partieplante" => $prix_2,
@@ -696,7 +710,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$lotPrixPartiePlanteTable->insert($data);
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) == "plante") {
 				$data = array("prix_lot_prix_partieplante" => $prix_3,
@@ -705,7 +719,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							  "id_fk_lot_prix_partieplante" => $idLot,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$lotPrixPartiePlanteTable->insert($data);
-//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3);
+				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3);
 			}
 		}
 	}
@@ -3238,7 +3252,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if (($depart == "Echoppe" || $arrivee == "Echoppe") && ($nom_systeme == "viande" || $nom_systeme == "viande_preparee")) {
 				$nb = 0;
 			}
-				
+
 			if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE && $nom_systeme == "castar") {
 				$nb = 0;
 			}
@@ -3260,7 +3274,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($poidsOk != true || $this->view->panneau == false) {
 				continue;
 			}
-				
+
 			$this->view->nbelement = $this->view->nbelement + 1;
 			$data = array(
 						"quantite_".$nom_systeme."_".strtolower($depart) => -$nb,

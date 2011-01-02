@@ -9,6 +9,10 @@ class LotPrixPartiePlante extends Zend_Db_Table {
 	protected $_name = 'lot_prix_partieplante';
 	protected $_primary = array("id_fk_type_lot_prix_partieplante","id_fk_type_plante_lot_prix_partieplante", "id_fk_lot_prix_partieplante");
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

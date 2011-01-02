@@ -9,6 +9,10 @@ class LotTabac extends Zend_Db_Table {
 	protected $_name = 'lot_tabac';
 	protected $_primary = array('id_fk_lot_lot_tabac', 'id_fk_type_lot_tabac');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

@@ -9,6 +9,10 @@ class LotMunition extends Zend_Db_Table {
 	protected $_name = 'lot_munition';
 	protected $_primary = array('id_fk_lot_lot_munition', 'id_fk_type_lot_munition');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

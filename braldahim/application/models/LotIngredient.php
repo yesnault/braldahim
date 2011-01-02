@@ -9,6 +9,10 @@ class LotIngredient extends Zend_Db_Table {
 	protected $_name = 'lot_ingredient';
 	protected $_primary = array('id_fk_lot_lot_ingredient', 'id_fk_type_lot_ingredient');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -44,14 +48,14 @@ class LotIngredient extends Zend_Db_Table {
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
 			$dataUpdate['quantite_lot_ingredient']  = $quantite;
-				
+
 			if (isset($data["quantite_lot_ingredient"])) {
 				$dataUpdate['quantite_lot_ingredient'] = $quantite + $data["quantite_lot_ingredient"];
 			}
-				
+
 			$where = ' id_fk_type_lot_ingredient = '.$data["id_fk_type_lot_ingredient"];
 			$where .= ' AND id_fk_lot_lot_ingredient = '.$data["id_fk_lot_lot_ingredient"];
-				
+
 			if ($dataUpdate['quantite_lot_ingredient'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

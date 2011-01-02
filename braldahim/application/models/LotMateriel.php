@@ -9,6 +9,10 @@ class LotMateriel extends Zend_Db_Table {
 	protected $_name = 'lot_materiel';
 	protected $_primary = array('id_lot_materiel');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

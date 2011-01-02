@@ -9,6 +9,14 @@ class LabanRune extends Zend_Db_Table {
 	protected $_name = 'laban_rune';
 	protected $_primary = array('id_rune_laban_rune', 'id_fk_braldun_laban_rune');
 
+	function findByIdConteneur($id_braldun) {
+		return $this->findByIdBraldun($id_braldun);
+	}
+
+	function countByIdConteneur($idBraldun) {
+		return $this->countByIdBraldun($idBraldun);
+	}
+
 	function findByIdBraldun($idBraldun, $identifiee = null, $ordre = null, $avecIdentifieur = false, $idRune = null) {
 		$whereIdentifiee = "";
 		if ($identifiee != null) {
@@ -25,15 +33,15 @@ class LabanRune extends Zend_Db_Table {
 		if ($ordre != null) {
 			$select->order($ordre);
 		}
-		
+
 		if ($avecIdentifieur) {
 			$select->joinLeft('braldun','id_fk_braldun_identification_laban_rune = id_braldun');
 		}
-		
+
 		if ($idRune != null) {
 			$select->where('id_rune_laban_rune = ?', intval($idRune));
 		}
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -53,11 +61,11 @@ class LabanRune extends Zend_Db_Table {
 		->where('y_braldun = ?', intval($y))
 		->where('z_braldun = ?', intval($z))
 		->where('est_identifiee_rune like ?', 'non');
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function countByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();

@@ -1,15 +1,19 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class CharrettePartieplante extends Zend_Db_Table {
 	protected $_name = 'charrette_partieplante';
 	protected $_primary = array('id_fk_type_charrette_partieplante', 'id_fk_braldun_charrette_partieplante');
-	
-    function findByIdCharrette($idCharrette) {
+
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
+
+	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_partieplante', '*')
@@ -22,8 +26,8 @@ class CharrettePartieplante extends Zend_Db_Table {
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
-    }
-    
+	}
+
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -41,27 +45,27 @@ class CharrettePartieplante extends Zend_Db_Table {
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrute = $resultat[0]["quantiteBrute"];
 			$quantitePreparee = $resultat[0]["quantitePreparee"];
-			
+				
 			$dataUpdate['quantite_charrette_partieplante']  = $quantiteBrute;
 			$dataUpdate['quantite_preparee_charrette_partieplante']  = $quantitePreparee;
-			
+				
 			if (isset($data["quantite_charrette_partieplante"])) {
 				$quantiteBrute += $data["quantite_charrette_partieplante"];
 			}
-			
+				
 			if (isset($data["quantite_preparee_charrette_partieplante"])) {
 				$quantitePreparee += $data["quantite_preparee_charrette_partieplante"];
 			}
-			
+				
 			$dataUpdate = array(
 					'quantite_charrette_partieplante' => $quantiteBrute,
 					'quantite_preparee_charrette_partieplante' => $quantitePreparee,
 			);
-			
+				
 			$where = ' id_fk_type_charrette_partieplante = '.$data["id_fk_type_charrette_partieplante"];
 			$where .= ' AND id_fk_charrette_partieplante = '.$data["id_fk_charrette_partieplante"];
 			$where .= ' AND id_fk_type_plante_charrette_partieplante = '.$data["id_fk_type_plante_charrette_partieplante"];
-			
+				
 			$this->update($dataUpdate, $where);
 		}
 	}

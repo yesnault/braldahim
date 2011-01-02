@@ -9,12 +9,16 @@ class LabanMinerai extends Zend_Db_Table {
 	protected $_name = 'laban_minerai';
 	protected $_primary = array('id_fk_braldun_laban_minerai', 'id_fk_type_laban_minerai');
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdConteneur($idBraldun) {
+		return $this->findByIdBraldun($idBraldun);	
+	}
+	
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_minerai', '*')
 		->from('type_minerai', '*')
-		->where('id_fk_braldun_laban_minerai = '.intval($id_braldun))
+		->where('id_fk_braldun_laban_minerai = ?', intval($idBraldun))
 		->where('laban_minerai.id_fk_type_laban_minerai = type_minerai.id_type_minerai');
 		$sql = $select->__toString();
 
@@ -27,8 +31,8 @@ class LabanMinerai extends Zend_Db_Table {
 		$select->from('laban_minerai', 'count(*) as nombre, 
 		quantite_brut_laban_minerai as quantiteBrut, 
 		quantite_lingots_laban_minerai as quantiteLingots')
-		->where('id_fk_type_laban_minerai = ?',$data["id_fk_type_laban_minerai"])
-		->where('id_fk_braldun_laban_minerai = ?',$data["id_fk_braldun_laban_minerai"])
+		->where('id_fk_type_laban_minerai = ?', $data["id_fk_type_laban_minerai"])
+		->where('id_fk_braldun_laban_minerai = ?', $data["id_fk_braldun_laban_minerai"])
 		->group(array('quantiteBrut', 'quantiteLingots'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

@@ -9,6 +9,26 @@ class LotRune extends Zend_Db_Table {
 	protected $_name = 'lot_rune';
 	protected $_primary = array('id_rune_lot_rune');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
+	function countByIdConteneur($idLot) {
+		return $this->countByIdLot($idLot);
+	}
+	
+	function countByIdLot($idLot) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('laban_rune', 'count(*) as nombre')
+		->where('id_fk_lot_lot_rune = ?', intval($idLot));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
 	function findByIdLot($idLot, $identifiee = null) {
 
 		$liste = "";

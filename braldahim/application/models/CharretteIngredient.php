@@ -9,6 +9,10 @@ class CharretteIngredient extends Zend_Db_Table {
 	protected $_name = 'charrette_ingredient';
 	protected $_primary = array('id_fk_braldun_charrette_ingredient', 'id_fk_type_charrette_ingredient');
 
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
+
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -48,16 +52,16 @@ class CharretteIngredient extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
-				
+
 			$dataUpdate['quantite_charrette_ingredient'] = $quantite;
-				
+
 			if (isset($data["quantite_charrette_ingredient"])) {
 				$dataUpdate['quantite_charrette_ingredient'] = $quantite + $data["quantite_charrette_ingredient"];
 			}
-				
+
 			$where = ' id_fk_type_charrette_ingredient = '.$data["id_fk_type_charrette_ingredient"];
 			$where .= ' AND id_fk_charrette_ingredient = '.$data["id_fk_charrette_ingredient"];
-				
+
 			if ($dataUpdate['quantite_charrette_ingredient'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

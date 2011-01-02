@@ -9,6 +9,26 @@ class LotPotion extends Zend_Db_Table {
 	protected $_name = 'lot_potion';
 	protected $_primary = array('id_lot_potion');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
+	function countByIdConteneur($idLot) {
+		return $this->countByIdLot($idLot);
+	}
+
+	function countByIdLot($idLot) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lot_potion', 'count(*) as nombre')
+		->where('id_fk_lot_lot_potion = ?', intval($idLot));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

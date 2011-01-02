@@ -1,13 +1,17 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class CoffreMinerai extends Zend_Db_Table {
 	protected $_name = 'coffre_minerai';
 	protected $_primary = array('id_fk_coffre_coffre_minerai', 'id_fk_type_coffre_minerai');
+
+	function findByIdConteneur($idCoffre) {
+		return $this->findByIdCoffre($idCoffre);
+	}
 
 	function findByIdCoffre($idCoffre) {
 		$db = $this->getAdapter();
@@ -24,7 +28,7 @@ class CoffreMinerai extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('coffre_minerai', 'count(*) as nombre, 
+		$select->from('coffre_minerai', 'count(*) as nombre,
 		quantite_brut_coffre_minerai as quantiteBrut, 
 		quantite_lingots_coffre_minerai as quantiteLingots')
 		->where('id_fk_type_coffre_minerai = ?',$data["id_fk_type_coffre_minerai"])
@@ -39,20 +43,20 @@ class CoffreMinerai extends Zend_Db_Table {
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrut = $resultat[0]["quantiteBrut"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
-			
+				
 			$dataUpdate['quantite_brut_coffre_minerai']  = $quantiteBrut;
 			$dataUpdate['quantite_lingots_coffre_minerai']  = $quantiteLingots;
-			
+				
 			if (isset($data["quantite_brut_coffre_minerai"])) {
 				$dataUpdate['quantite_brut_coffre_minerai'] = $quantiteBrut + $data["quantite_brut_coffre_minerai"];
 			}
 			if (isset($data["quantite_lingots_coffre_minerai"])) {
 				$dataUpdate['quantite_lingots_coffre_minerai'] = $quantiteLingots + $data["quantite_lingots_coffre_minerai"];
 			}
-			
+				
 			$where = ' id_fk_type_coffre_minerai = '.$data["id_fk_type_coffre_minerai"];
 			$where .= ' AND id_fk_coffre_coffre_minerai = '.$data["id_fk_coffre_coffre_minerai"];
-			
+				
 			if ($dataUpdate['quantite_brut_coffre_minerai'] <= 0 && $dataUpdate['quantite_lingots_coffre_minerai'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

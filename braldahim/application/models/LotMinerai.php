@@ -9,6 +9,10 @@ class LotMinerai extends Zend_Db_Table {
 	protected $_name = 'lot_minerai';
 	protected $_primary = array('id_fk_lot_lot_minerai', 'id_fk_type_lot_minerai');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
 	function findByIdLot($idLot) {
 
 		$liste = "";

@@ -1,13 +1,17 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class LabanTabac extends Zend_Db_Table {
 	protected $_name = 'laban_tabac';
 	protected $_primary = array('id_fk_braldun_laban_tabac', 'id_fk_type_laban_tabac');
+
+	function findByIdConteneur($id_braldun) {
+		return $this->findByIdBraldun($id_braldun);
+	}
 
 	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
@@ -24,7 +28,7 @@ class LabanTabac extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('laban_tabac', 'count(*) as nombre, 
+		$select->from('laban_tabac', 'count(*) as nombre,
 		quantite_feuille_laban_tabac as quantiteFeuille')
 		->where('id_fk_type_laban_tabac = ?',$data["id_fk_type_laban_tabac"])
 		->where('id_fk_braldun_laban_tabac = ?',$data["id_fk_braldun_laban_tabac"])
@@ -37,16 +41,16 @@ class LabanTabac extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteFeuille = $resultat[0]["quantiteFeuille"];
-			
+				
 			$dataUpdate['quantite_feuille_laban_tabac']  = $quantiteFeuille;
-			
+				
 			if (isset($data["quantite_feuille_laban_tabac"])) {
 				$dataUpdate['quantite_feuille_laban_tabac'] = $quantiteFeuille + $data["quantite_feuille_laban_tabac"];
 			}
-			
+				
 			$where = ' id_fk_type_laban_tabac = '.$data["id_fk_type_laban_tabac"];
 			$where .= ' AND id_fk_braldun_laban_tabac = '.$data["id_fk_braldun_laban_tabac"];
-			
+				
 			if ($dataUpdate['quantite_feuille_laban_tabac'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

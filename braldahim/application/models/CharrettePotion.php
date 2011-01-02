@@ -9,6 +9,14 @@ class CharrettePotion extends Zend_Db_Table {
 	protected $_name = 'charrette_potion';
 	protected $_primary = array('id_charrette_potion');
 
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
+
+	function countByIdConteneur($idCharrette) {
+		return $this->countByIdCharrette($idCharrette);
+	}
+	
 	function findByIdCharrette($idCharrette, $idTypePotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

@@ -9,6 +9,10 @@ class Lot extends Zend_Db_Table {
 	protected $_name = 'lot';
 	protected $_primary = array('id_lot');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+	
 	function findByIdEchoppe($idEchoppe, $idLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -20,7 +24,6 @@ class Lot extends Zend_Db_Table {
 		}
 		
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 	

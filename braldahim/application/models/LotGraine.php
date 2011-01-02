@@ -9,6 +9,26 @@ class LotGraine extends Zend_Db_Table {
 	protected $_name = 'lot_graine';
 	protected $_primary = array('id_fk_lot_lot_graine', 'id_fk_type_lot_graine');
 
+	function findByIdConteneur($idLot) {
+		return $this->findByIdLot($idLot);
+	}
+
+	function countByIdConteneur($idLot) {
+		return $this->countByIdLot($idLot);
+	}
+	
+	function countByIdLot($idLot) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lot_graine', 'sum(quantite_lot_graine) as nombre')
+		->where('id_fk_lot_lot_graine = ?', intval($idLot));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+	
 	function findByIdLot($idLot) {
 
 		$liste = "";
