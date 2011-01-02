@@ -16,7 +16,7 @@
 				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
 				
 				<?php if ($this->lots["visiteur"]):?>
-					<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_acheterlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="1 PA - Acheter le lot" class="button1">
+					<input type="button" onclick="Javascript:_get_('/echoppe/doaction?caction=ask_echoppe_acheterlot&amp;idLot=<?php echo $numero;?>')" value="1 PA - Acheter le lot" class="button1">
 				<?php else:?>
 					<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
 				<?php endif;?>

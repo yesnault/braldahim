@@ -22,7 +22,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("Bral_Util_Lot");
 		Zend_Loader::loadClass("Lot");
 
-		$this->idLot = Bral_Util_Controle::getValeurIntVerif($this->request->get("idLot"));
+		$this->view->idLot = Bral_Util_Controle::getValeurIntVerif($this->request->get("idLot"));
 
 		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false, "possible_force" => false);
@@ -47,11 +47,11 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 	private function prepareLot() {
 
 		$lotTable = new Lot();
-		$lots = $lotTable->findByIdEchoppe($this->idEchoppe, $this->idLot);
+		$lots = $lotTable->findByIdEchoppe($this->idEchoppe, $this->view->idLot);
 
 		$trouve = false;
 		foreach ($lots as $p) {
-			if ($this->idLot = $p["id_lot"]) {
+			if ($this->view->idLot = $p["id_lot"]) {
 				$trouve = true;
 				$this->lot = $p;
 				break;
@@ -59,15 +59,15 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		}
 
 		if ($trouve == false) {
-			throw new Zend_Exception(get_class($this)."::lot invalide:".$this->idLot);
+			throw new Zend_Exception(get_class($this)."::lot invalide:".$this->view->idLot);
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Lot");
-		$lot = Bral_Util_Lot::getLotByIdLot($this->idLot);
+		$lot = Bral_Util_Lot::getLotByIdLot($this->view->idLot);
 		if ($lots == null) {
-			throw new Zend_Exception(get_class($this)."::lot invalide 2 :".$this->idLot);
+			throw new Zend_Exception(get_class($this)."::lot invalide 2 :".$this->view->idLot);
 		}
-		
+
 		$this->view->lot = $lot;
 	}
 
@@ -88,99 +88,106 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			$i++;
 		}
 
-		if ($this->view->lot["prix_1_lot"] >= 0 && $this->view->lot["unite_1_lot"] > 0) {
-			$prix = $this->view->lot["prix_1_lot"];
-			$nom = Bral_Util_Registre::getNomUnite($this->view->lot["unite_1_lot"], false, $this->view->lot["prix_1_lot"]);
-			$nomSystemeUnite = Bral_Util_Registre::getNomUnite($this->view->lot["unite_1_lot"], true);
-			$poidsPrix = $prix * Bral_Util_Poids::getPoidsUnite($nomSystemeUnite);
-			$type = "echoppe";
-			$i = 0;
-			foreach($this->view->destinationTransfert as $d) {
-				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->lot["poids_lot"] - $poidsPrix) {
-					$placeDispo = true;
-					$this->view->destinationTransfert[$i]["possible_force"] = true;
+		for ($k = 1; $k <= 3; $k++) {
+			if ($this->view->lot["prix_".$k."_lot"] >= 0 && $this->view->lot["unite_".$k."_lot"] > 0) {
+				$prix = $this->view->lot["prix_".$k."_lot"];
+				$nom = Bral_Util_Registre::getNomUnite($this->view->lot["unite_".$k."_lot"], false, $this->view->lot["prix_".$k."_lot"]);
+				$nomSystemeUnite = Bral_Util_Registre::getNomUnite($this->view->lot["unite_".$k."_lot"], true);
+				$poidsPrix = $prix * Bral_Util_Poids::getPoidsUnite($nomSystemeUnite);
+				$type = "echoppe";
+				$i = 0;
+				foreach($this->view->destinationTransfert as $d) {
+					$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
+					if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->lot["poids_lot"] - $poidsPrix) {
+						$placeDispo = true;
+						$this->view->destinationTransfert[$i]["possible_force"] = true;
+					}
+					$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $this->view->lot["unite_".$k."_lot"], "id_destination" => $d["id_destination"]);
+					$i++;
 				}
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $this->view->lot["unite_1_lot"], "id_destination" => $d["id_destination"]);
-				$i++;
-			}
-		}
-
-		if ($this->view->lot["prix_2_lot"] >= 0 && $this->view->lot["unite_2_lot"] > 0) {
-			$prix = $this->view->lot["prix_2_lot"];
-			$nom = Bral_Util_Registre::getNomUnite($this->view->lot["unite_2_lot"], false, $this->view->lot["prix_2_lot"]);
-			$nomSystemeUnite = Bral_Util_Registre::getNomUnite($this->view->lot["unite_2_lot"], true);
-			$poidsPrix = $prix * Bral_Util_Poids::getPoidsUnite($nomSystemeUnite);
-			$type = "echoppe";
-			$i = 0;
-			foreach($this->view->destinationTransfert as $d) {
-				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $this->view->lot["unite_2_lot"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->lot["poids_lot"] - $poidsPrix) {
-					$placeDispo = true;
-					$this->view->destinationTransfert[$i]["possible_force"] = true;
-				}
-				$i++;
-			}
-		}
-
-		if ($this->view->lot["prix_3_lot"] >= 0 && $this->view->lot["unite_3_lot"] > 0) {
-			$prix = $this->view->lot["prix_3_lot"];
-			$nom = Bral_Util_Registre::getNomUnite($this->view->lot["unite_3_lot"], false, $this->view->lot["prix_3_lot"]);
-			$nomSystemeUnite = Bral_Util_Registre::getNomUnite($this->view->lot["unite_3_lot"], true);
-			$poidsPrix = $prix * Bral_Util_Poids::getPoidsUnite($nomSystemeUnite);
-			$type = "echoppe";
-			$i = 0;
-			foreach($this->view->destinationTransfert as $d) {
-				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $this->view->lot["unite_3_lot"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->lot["poids_lot"] - $poidsPrix) {
-					$placeDispo = true;
-					$this->view->destinationTransfert[$i]["possible_force"] = true;
-				}
-				$i++;
 			}
 		}
 
 		if (count($this->view->lot["prix_minerais"]) > 0) {
 			foreach($this->view->lot["prix_minerais"] as $m) {
-				/*if ($m["possible"] === true) {
-					$acheterOk = true;
-				}*/
-				
-				//TODO possible
-				
-				$prix = $m["prix_lot_prix_minerai"];
-				$nom = htmlspecialchars($m["nom_type_minerai"]);
-				$type = "minerais";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"], "id_destination" => $m["id_destination"]);
-				if ($m["place_dispo_force"] == true) {
-					$placeDispo = true;
+
+				foreach($this->view->destinationTransfert as $destination) {
+					$possible = false;
+
+					if ($d["id_destination"] == "laban") {
+						Zend_Loader::loadClass("LabanMinerai");
+						$table = new LabanMinerai();
+						$minerais = $table->findByIdBraldun($this->view->user->id_braldun);
+					} else {
+						Zend_Loader::loadClass("CharretteMinerai");
+						$table = new CharretteMinerai();
+						$minerais = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
+					}
+
+					foreach ($minerais as $m) {
+
+						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"]
+						&& $r["prix_lot_prix_minerai"] <= $m["quantite_brut_".$destination["id_destination"]."_minerai"]) {
+							$acheterOk = true;
+							$possible = true;
+							break;
+						}
+					}
+
+					$prix = $m["prix_lot_prix_minerai"];
+					$nom = htmlspecialchars($m["nom_type_minerai"]);
+					$type = "minerais";
+					$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $possible, "id_destination" => $destination["id_destination"]);
+
 				}
+					
+				/*if ($m["place_dispo_force"] == true) {
+					$placeDispo = true;
+					}*/
 			}
 		}
 
 		if (count($this->view->lot["prix_parties_plantes"]) > 0) {
 			foreach($this->view->lot["prix_parties_plantes"] as $p) {
-				/*if ($p["possible"] === true) {
-					$acheterOk = true;
-				}*/
-				
-				//TODO possible
-				
-				$prix = $p["prix_lot_prix_partieplante"]. " ";
-				$s = "";
-				if ($p["prix_lot_prix_partieplante"] > 1) {
-					$s = "s";
+				foreach($this->view->destinationTransfert as $destination) {
+					$possible = false;
+					if ($destination["id_destination"] == "laban") {
+						Zend_Loader::loadClass("LabanPartieplante");
+						$labanPartiePlanteTable = new LabanPartieplante();
+						$partiePlantes = $labanPartiePlanteTable->findByIdBraldun($this->view->user->id_braldun);
+						$i = 0;
+					} else {
+						Zend_Loader::loadClass("CharrettePartieplante");
+						$table = new CharrettePartieplante();
+						$partiePlantes = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
+						$i = 1;
+					}
+
+					foreach ($partiePlantes as $a) {
+						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"]
+						&& $p["nom_systeme_type_plante"] == $a["nom_systeme_type_plante"]
+						&& $a["prix_lot_prix_partieplante"] <= $p["quantite_".$destination["id_destination"]."_partieplante"] ) {
+							$acheterOk = true;
+							$possible = true;
+							break;
+						}
+					}
+
+					$prix = $p["prix_lot_prix_partieplante"]. " ";
+					$s = "";
+					if ($p["prix_lot_prix_partieplante"] > 1) {
+						$s = "s";
+					}
+					$nom = htmlspecialchars($p["nom_type_partieplante"]). "$s ";
+					$nom .= htmlspecialchars($p["prefix_type_plante"]);
+					$nom .= htmlspecialchars($p["nom_type_plante"]);
+					$type = "parties_plantes";
+					$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $possible, "id_destination" => $destination["id_destination"]);
 				}
-				$nom = htmlspecialchars($p["nom_type_partieplante"]). "$s ";
-				$nom .= htmlspecialchars($p["prefix_type_plante"]);
-				$nom .= htmlspecialchars($p["nom_type_plante"]);
-				$type = "parties_plantes";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"], "id_destination" => $p["id_destination"]);
-				if ($p["place_dispo_force"] == true) {
+
+				/*if ($p["place_dispo_force"] == true) {
 					$placeDispo = true;
-				}
+					}*/
 			}
 		}
 
@@ -193,6 +200,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		$retour = false;
 
 		if ($destination["id_destination"] == "laban") {
+			Zend_Loader::loadClass("Laban");
 			$table = new Laban();
 			$conteneur = $table->findByIdBraldun($this->view->user->id_braldun);
 			$suffixe = "laban";
@@ -264,8 +272,8 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 
 		Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 
-		if (intval($this->idLot) != intval($this->request->getPost("valeur_1"))) {
-			throw new Zend_Exception("Lot invalide : ".$this->idLot. " - ".$this->request->getPost("valeur_1"));
+		if (intval($this->view->idLot) != intval($this->request->getPost("valeur_1"))) {
+			throw new Zend_Exception("Lot invalide : ".$this->view->idLot. " - ".$this->request->getPost("valeur_1"));
 		}
 
 		// on regarde si l'on connait la destination
@@ -283,7 +291,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
 		}
 
-		if ($destination["possible"] == false && $destination["possible_force"] == false) {
+		if ($destination["possible"] == false) {// && $destination["possible_force"] == false) {
 			throw new Zend_Exception(get_class($this)." destination invalide 3");
 		}
 
@@ -304,8 +312,8 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[b".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->lot["id_lot"]. " dans l'échoppe";
-		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
+//TODO		$details = "[b".$this->view->user->id_braldun."] a acheté le lot d'équipement n°".$this->view->lot["id_lot"]. " dans l'échoppe";
+//		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
 	}
 
 	private function calculAchat($prix) {
@@ -436,54 +444,12 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 
 	private function calculTransfert($idDestination) {
 
-		if ($this->lot["nom_systeme_type_emplacement"] == 'laban') {
-			if ($idDestination == "charrette") {
-				Zend_Loader::loadClass("CharretteMunition");
-				$table = new CharretteMunition();
-				$suffixe = "charrette";
-			} else {
-				Zend_Loader::loadClass("LabanMunition");
-				$table = new LabanMunition();
-				$suffixe = "laban";
-			}
-
-			$data = array(
-				"id_fk_type_".$suffixe."_munition" => $this->lot["id_fk_type_munition_type_lot"],
-				"quantite_".$suffixe."_munition" => $this->lot["nb_munition_type_lot"],
-			);
-
-			if ($idDestination == "charrette") {
-				$data["id_fk_charrette_munition"] = $this->view->charrette["id_charrette"];
-			} else {
-				$data["id_fk_braldun_laban_munition"] = $this->view->user->id_braldun;
-			}
-			$table->insertOrUpdate($data);
+		Zend_Loader::loadClass("Bral_Util_Lot");
+		if ($this->view->charrette != null) {
+			Bral_Util_Lot::transfertLot($this->lot["id_lot"], "charrette", $this->view->charrette["id_charrette"]);
 		} else {
-			if ($idDestination == "charrette") {
-				Zend_Loader::loadClass("CharretteLot");
-				$table = new CharretteLot();
-				$suffixe = "charrette";
-			} else {
-				Zend_Loader::loadClass("LabanLot");
-				$table = new LabanLot();
-				$suffixe = "laban";
-			}
-
-			$data = array(
-				"id_".$suffixe."_lot" => $this->lot["id_echoppe_lot"],
-			);
-
-			if ($idDestination == "charrette") {
-				$data["id_fk_charrette_lot"] = $this->view->charrette["id_charrette"];
-			} else {
-				$data["id_fk_braldun_laban_lot"] = $this->view->user->id_braldun;
-			}
-			$table->insert($data);
+			Bral_Util_Lot::transfertLot($this->lot["id_lot"], "laban", $this->view->user->id_braldun);
 		}
-
-		$echoppeLotTable = new EchoppeLot();
-		$where = "id_echoppe_lot=".$this->lot["id_echoppe_lot"];
-		$echoppeLotTable->delete($where);
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
@@ -491,6 +457,6 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_lot", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
 	}
 }
