@@ -49,7 +49,8 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$nom .= " ".htmlspecialchars($echoppe["nom_braldun"]);
 		$nom .= " n°".$echoppe["id_braldun"];
 
-		//TODO Prepare Lots 
+		Zend_Loader::loadClass("Bral_Util_Lot");
+		$this->view->lots = Bral_Util_Lot::getLotsByIdEchoppe($echoppe["id_echoppe"], $this->view, true);
 		
 		$this->view->nomEchoppe = $nom;
 

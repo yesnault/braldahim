@@ -7,12 +7,18 @@
  */
 class Bral_Util_Lot {
 
-	public static function getLotsByIdEchoppe($idEchoppe, &$view) {
+	public static function getLotsByIdEchoppe($idEchoppe, &$view, $visiteur) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 
 		$lots = $lotTable->findByIdEchoppe($idEchoppe);
-		$retourLots = self::prepareLots($lots, $view);
+		$retourLots["lots"] = self::prepareLots($lots, $view);
+
+		if ($visiteur) {
+			$retourLots["visiteur"] = true;
+		} else {
+			$retourLots["visiteur"] = false;
+		}
 
 		return $retourLots;
 	}
@@ -861,6 +867,7 @@ class Bral_Util_Lot {
 		self::transfertLotIngredient($idLot, $nomTable, $suffixe, $idDestination);
 
 		self::transfertLotMunition($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotMinerai($idLot, $nomTable, $suffixe, $idDestination);
 		self::transfertLotPartieplante($idLot, $nomTable, $suffixe, $idDestination);
 		self::transfertLotPotion($idLot, $nomTable, $suffixe, $idDestination);
 		self::transfertLotRune($idLot, $nomTable, $suffixe, $idDestination);
@@ -868,7 +875,7 @@ class Bral_Util_Lot {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 		$where = "id_lot = ".intval($idLot);
-		//$lot->delete($where);
+		$lotTable->delete($where);
 	}
 
 
@@ -888,26 +895,266 @@ class Bral_Util_Lot {
 
 		foreach($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe.'_equipement' => $lot["id_fk_lot_lot_equipement"], //idEquipement,
+				'id_'.$suffixe.'_equipement' => $lot["id_lot_equipement"], //idEquipement,
 				'id_fk_'.$suffixe.'_'.$suffixe.'_equipement' => $idDestination, //idDestination
 			);
 
 			$equipementTable->insert($data);
 		}
-
 	}
+
 	private static function transfertLotMateriel($idLot, $nomTable, $suffixe, $idDestination) {
 
+		Zend_Loader::loadClass("LotMateriel");
+
+		$lotMaterielTable = new LotMateriel();
+		$lots = $lotMaterielTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Materiel";
+		Zend_Loader::loadClass($table);
+		$materielTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe.'_materiel' => $lot["id_lot_materiel"], //idMateriel,
+				'id_fk_'.$suffixe.'_'.$suffixe.'_materiel' => $idDestination, //idDestination
+			);
+
+			$materielTable->insert($data);
+		}
+
 	}
 
-	private static function transfertLotAliment($idLot, $nomTable, $suffixe, $idDestination) { }
-	private static function transfertLotElement($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotAliment($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotAliment");
 
-	private static function transfertLotGraine($idLot, $nomTable, $suffixe, $idDestination) { }
-	private static function transfertLotIngredient($idLot, $nomTable, $suffixe, $idDestination) { }
+		$lotAlimentTable = new LotAliment();
+		$lots = $lotAlimentTable->findByIdLot($idLot);
 
-	private static function transfertLotMunition($idLot, $nomTable, $suffixe, $idDestination) { }
-	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe, $idDestination) { }
-	private static function transfertLotPotion($idLot, $nomTable, $suffixe, $idDestination) { }
-	private static function transfertLotRune($idLot, $nomTable, $suffixe, $idDestination) { }
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Aliment";
+		Zend_Loader::loadClass($table);
+		$alimentTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe.'_aliment' => $lot["id_lot_aliment"], //idAliment,
+				'id_fk_'.$suffixe.'_'.$suffixe.'_aliment' => $idDestination, //idDestination
+			);
+
+			$alimentTable->insert($data);
+		}
+	}
+
+	private static function transfertLotElement($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("Lot");
+
+		$lotTable = new Lot();
+		$lots = $lotTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable;
+		Zend_Loader::loadClass($table);
+		$elementTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe => $lot["id_lot"],
+				'quantite_peau_'.$suffixe => $lot["quantite_peau_lot"],
+				'quantite_cuir_'.$suffixe => $lot["quantite_cuir_lot"],
+				'quantite_fourrure_'.$suffixe => $lot["quantite_fourrure_lot"],
+				'quantite_planche_'.$suffixe => $lot["quantite_planche_lot"],
+				'quantite_castar_'.$suffixe => $lot["quantite_castar_lot"],
+				'quantite_rondin_'.$suffixe => $lot["quantite_rondin_lot"],
+			);
+				
+			$elementTable->insert($data);
+		}
+	}
+
+	private static function transfertLotGraine($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotGraine");
+
+		$lotGraineTable = new LotGraine();
+		$lots = $lotGraineTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Graine";
+		Zend_Loader::loadClass($table);
+		$graineTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'quantite_'.$suffixe.'_graine' => $lot["quantite_lot_graine"],
+				'id_fk_type_'.$suffixe.'_graine' => $lot["id_fk_type_lot_graine"], 
+				'id_fk_'.$suffixe.'_'.$suffixe.'_graine' => $idDestination, 
+			);
+
+			$graineTable->insertOrUpdate($data);
+		}
+	}
+
+	private static function transfertLotIngredient($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotIngredient");
+
+		$lotIngredientTable = new LotIngredient();
+		$lots = $lotIngredientTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Ingredient";
+		Zend_Loader::loadClass($table);
+		$ingredientTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'quantite_'.$suffixe.'_ingredient' => $lot["quantite_lot_ingredient"],
+				'id_fk_type_'.$suffixe.'_ingredient' => $lot["id_fk_type_lot_ingredient"], 
+				'id_fk_'.$suffixe.'_'.$suffixe.'_ingredient' => $idDestination, 
+			);
+
+			$ingredientTable->insertOrUpdate($data);
+		}
+	}
+
+	private static function transfertLotMunition($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotMunition");
+
+		$lotMunitionTable = new LotMunition();
+		$lots = $lotMunitionTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Munition";
+		Zend_Loader::loadClass($table);
+		$munitionTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'quantite_'.$suffixe.'_munition' => $lot["quantite_lot_munition"],
+				'id_fk_type_'.$suffixe.'_munition' => $lot["id_fk_type_lot_munition"], 
+				'id_fk_'.$suffixe.'_'.$suffixe.'_munition' => $idDestination, 
+			);
+
+			$munitionTable->insertOrUpdate($data);
+		}
+	}
+
+	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotPartieplante");
+
+		$lotPartieplanteTable = new LotPartieplante();
+		$lots = $lotPartieplanteTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Partieplante";
+		Zend_Loader::loadClass($table);
+		$partieplanteTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'quantite_'.$suffixe.'_partieplante' => $lot["quantite_lot_partieplante"],
+				'quantite_preparee_'.$suffixe.'_partieplante' => $lot["quantite_preparee_lot_partieplante"],
+				'id_fk_type_plante_'.$suffixe.'_partieplante' => $lot["id_fk_type_plante_lot_partieplante"],
+				'id_fk_type_'.$suffixe.'_partieplante' => $lot["id_fk_type_lot_partieplante"], 
+				'id_fk_'.$suffixe.'_'.$suffixe.'_partieplante' => $idDestination, 
+			);
+
+			$partieplanteTable->insertOrUpdate($data);
+		}
+	}
+
+	private static function transfertLotMinerai($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotMinerai");
+
+		$lotMineraiTable = new LotMinerai();
+		$lots = $lotMineraiTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Minerai";
+		Zend_Loader::loadClass($table);
+		$mineraiTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'quantite_brut_'.$suffixe.'_minerai' => $lot["quantite_brut_lot_minerai"],
+				'quantite_lingots_'.$suffixe.'_minerai' => $lot["quantite_lingots_lot_minerai"],
+				'id_fk_type_'.$suffixe.'_minerai' => $lot["id_fk_type_lot_minerai"], 
+				'id_fk_'.$suffixe.'_'.$suffixe.'_minerai' => $idDestination, 
+			);
+
+			$mineraiTable->insertOrUpdate($data);
+		}
+	}
+
+	private static function transfertLotPotion($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotPotion");
+
+		$lotPotionTable = new LotPotion();
+		$lots = $lotPotionTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Potion";
+		Zend_Loader::loadClass($table);
+		$potionTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe.'_potion' => $lot["id_lot_potion"], //idPotion,
+				'id_fk_'.$suffixe.'_'.$suffixe.'_potion' => $idDestination, //idDestination
+			);
+
+			$potionTable->insert($data);
+		}
+	}
+
+	private static function transfertLotRune($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotRune");
+
+		$lotRuneTable = new LotRune();
+		$lots = $lotRuneTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Rune";
+		Zend_Loader::loadClass($table);
+		$runeTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe.'_rune' => $lot["id_lot_rune"], //idRune,
+				'id_fk_'.$suffixe.'_'.$suffixe.'_rune' => $idDestination, //idDestination
+			);
+
+			$runeTable->insert($data);
+		}
+	}
 }

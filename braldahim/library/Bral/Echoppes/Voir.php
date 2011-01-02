@@ -175,7 +175,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->prepareCommunAliments($tabEchoppe["id_echoppe"]);
 
 		Zend_Loader::loadClass("Bral_Util_Lot");
-		$this->view->lots = Bral_Util_Lot::getLotsByIdEchoppe($tabEchoppe["id_echoppe"], $this->view);
+		$this->view->lots = Bral_Util_Lot::getLotsByIdEchoppe($tabEchoppe["id_echoppe"], $this->view, false);
 
 		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
 		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
