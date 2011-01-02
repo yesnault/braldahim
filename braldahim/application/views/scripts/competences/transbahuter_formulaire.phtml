@@ -39,33 +39,37 @@
 				
 				$jsFermer = "";
 				$jsOuvrir = "";
-				foreach ($poches as $p) :
-					$jsFermer .= "maccordion_fermer($('$p'));";
-					$jsOuvrir .= "maccordion_ouvrir($('$p'));";
-				endforeach; 
+				if ($poches != null) :
+					foreach ($poches as $p) :
+						$jsFermer .= "maccordion_fermer($('$p'));";
+						$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+					endforeach; 
+				endif;
 				?>
 				<br/>
-				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"/> 
-				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>"/>
-				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>"/>
+				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"/>
+				<?php if ($poches != null): ?> 
+					<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>"/>
+					<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>"/>
+				<?php endif;?>
 				<br/><br/>
 				Transbahuter vers :<br />
-					<?php 
-						$option = "";
-						$poids = "";
-						$charrette = "";
-						foreach($this->typeArrivee as $t){ 
-							$option .="<option value='".$t["id_type_arrivee"]."'";
-					 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
-					 			$option .=" selected='selected' ";
-					 		}
-					 		$option .= ">".$t["nom_type_arrivee"]."</option>";
-					 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";
-					 		if ($t["nom_systeme"] == "Charrette") {
-					 			$charrette .= "<input type='hidden' name='id_charrette_".$t["id_type_arrivee"]."' id='id_charrette_".$t["id_type_arrivee"]."' value='".$t["id_charrette"]."' />";
-					 		}
-					   	}
-					?>
+				<?php 
+					$option = "";
+					$poids = "";
+					$charrette = "";
+					foreach($this->typeArrivee as $t){ 
+						$option .="<option value='".$t["id_type_arrivee"]."'";
+				 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
+				 			$option .=" selected='selected' ";
+				 		}
+				 		$option .= ">".$t["nom_type_arrivee"]."</option>";
+				 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";
+				 		if ($t["nom_systeme"] == "Charrette") {
+				 			$charrette .= "<input type='hidden' name='id_charrette_".$t["id_type_arrivee"]."' id='id_charrette_".$t["id_type_arrivee"]."' value='".$t["id_charrette"]."' />";
+				 		}
+				   	}
+				?>
 				<select name="valeur_2" id="valeur_2" onchange="<?php echo $jsVente.$jsBtn.$jsCoffre?>">
 					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
 					<?php echo $option ?>

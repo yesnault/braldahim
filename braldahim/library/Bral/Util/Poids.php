@@ -146,7 +146,7 @@ class Bral_Util_Poids {
 			$retour = $retour + self::calculPoidsTransporteElementGraine($idBraldun, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementIngredient($idBraldun, $nomTable, $suffixe);
 			
-			$retour = $retour + self::calculPoidsTransporteEquipement($idBraldun);
+			
 		}
 		return $retour;
 	}
@@ -158,16 +158,16 @@ class Bral_Util_Poids {
 		$nomTable = Bral_Util_String::firstToUpper($suffixe);
 
 		$retour = $retour + self::calculPoidsTransporteElement(null, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementMinerais($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementEquipement($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementPotion($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementAliment($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementRune($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementMunitions($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementMateriel($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementGraine($idBraldun, $nomTable, $suffixe);
-		$retour = $retour + self::calculPoidsTransporteElementIngredient($idBraldun, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementMinerais($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementEquipement($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementPotion($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementAliment($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementRune($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementMunitions($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementMateriel($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementGraine($idLot, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElementIngredient($idLot, $nomTable, $suffixe);
 		return $retour;
 	}
 

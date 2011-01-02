@@ -20,7 +20,7 @@ class LotRune extends Zend_Db_Table {
 	function countByIdLot($idLot) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('laban_rune', 'count(*) as nombre')
+		$select->from('lot_rune', 'count(*) as nombre')
 		->where('id_fk_lot_lot_rune = ?', intval($idLot));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

@@ -118,7 +118,7 @@ class Echoppe extends Zend_Db_Table {
 		$resultat = $db->fetchAll($sql);
 
 		if (count($resultat) == 0) { // insert
-			$this->insert($data);
+			throw new Zend_Exception("Erreur Appel Echoppe::insertOrUpdate");
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteRondinArriere = $resultat[0]["quantiteRondinArriere"];

@@ -20,6 +20,21 @@ class LotIngredient extends Zend_Db_Table {
 		->from('type_ingredient', '*')
 		->where('lot_ingredient.id_fk_type_lot_ingredient = type_ingredient.id_type_ingredient');
 
+		$liste = "";
+		$nomChamp = "id_fk_lot_lot_ingredient";
+
+		if (is_array($idLot)) {
+			foreach($idLot as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
 		if ($liste != "") {
 			$select->where($nomChamp .'='. $liste);
 		} else {

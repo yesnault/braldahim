@@ -589,7 +589,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$poids = Bral_Util_Poids::calculPoidsLot($this->idLot);
 		$lotTable = new Lot();
 		$data = array("poids_lot" => $poids);
-		$lotTable->insert($data);
+		$where = "id_lot=".$this->idLot;
+		$lotTable->update($data, $where);
 	}
 
 	private function calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
