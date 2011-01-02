@@ -221,7 +221,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				'y_champ' => $this->view->y_construction,
 				'z_champ' => 0,
 				'date_creation_champ' => date("Y-m-d H:i:s"),
-				'date_utilisation_champ'  => date("Y-m-d H:i:s"),
+				'date_utilisation_champ'  => date("Y-m-d 00:00:00"),
 		);
 		$champTable->insert($data);
 		$this->view->constructionChampOk = true;

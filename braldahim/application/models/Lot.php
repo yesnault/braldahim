@@ -9,11 +9,16 @@ class Lot extends Zend_Db_Table {
 	protected $_name = 'lot';
 	protected $_primary = array('id_lot');
 
-	function findByIdEchoppe($idEchoppe) {
+	function findByIdEchoppe($idEchoppe, $idLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
 		->where('id_fk_echoppe_lot = ?', intval($idEchoppe));
+		
+		if ($idLot != null) {
+			$select->where('id_lot = ?', intval($idLot));	
+		}
+		
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

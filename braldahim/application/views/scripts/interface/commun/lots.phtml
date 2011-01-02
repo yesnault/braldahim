@@ -13,6 +13,9 @@
 				Lot n&deg;<?php echo $numero;?>
 				<br /> Prix : 
 				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				
+				<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
+				
 			</h3>
 			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:block">
 				<li>

@@ -841,4 +841,73 @@ class Bral_Util_Lot {
 		return $tab;
 	}
 
+	public static function transfertLot($idLot, $destination, $idDestination) {
+
+		//TODO à compléter avec la destination coffre pour fin vente de l'HV
+		if ($destination != "echoppe") {
+			throw new Zend_exception("Erreur Appel Bral_Util_Lot::transfertLot : idLot:".$idLot." destination".$destination);
+		}
+
+		$suffixe = strtolower($destination);
+		$nomTable = Bral_Util_String::firstToUpper($destination);
+
+		self::transfertLotEquipement($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotMateriel($idLot, $nomTable, $suffixe, $idDestination);
+
+		self::transfertLotAliment($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotElement($idLot, $nomTable, $suffixe, $idDestination);
+
+		self::transfertLotGraine($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotIngredient($idLot, $nomTable, $suffixe, $idDestination);
+
+		self::transfertLotMunition($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotPartieplante($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotPotion($idLot, $nomTable, $suffixe, $idDestination);
+		self::transfertLotRune($idLot, $nomTable, $suffixe, $idDestination);
+
+		Zend_Loader::loadClass("Lot");
+		$lotTable = new Lot();
+		$where = "id_lot = ".intval($idLot);
+		//$lot->delete($where);
+	}
+
+
+	private static function transfertLotEquipement($idLot, $nomTable, $suffixe, $idDestination) {
+		Zend_Loader::loadClass("LotEquipement");
+
+		$lotEquipementTable = new LotEquipement();
+		$lots = $lotEquipementTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable."Equipement";
+		Zend_Loader::loadClass($table);
+		$equipementTable = new $table();
+
+		foreach($lots as $lot) {
+			$data = array(
+				'id_'.$suffixe.'_equipement' => $lot["id_fk_lot_lot_equipement"], //idEquipement,
+				'id_fk_'.$suffixe.'_'.$suffixe.'_equipement' => $idDestination, //idDestination
+			);
+
+			$equipementTable->insert($data);
+		}
+
+	}
+	private static function transfertLotMateriel($idLot, $nomTable, $suffixe, $idDestination) {
+
+	}
+
+	private static function transfertLotAliment($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotElement($idLot, $nomTable, $suffixe, $idDestination) { }
+
+	private static function transfertLotGraine($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotIngredient($idLot, $nomTable, $suffixe, $idDestination) { }
+
+	private static function transfertLotMunition($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotPotion($idLot, $nomTable, $suffixe, $idDestination) { }
+	private static function transfertLotRune($idLot, $nomTable, $suffixe, $idDestination) { }
 }
