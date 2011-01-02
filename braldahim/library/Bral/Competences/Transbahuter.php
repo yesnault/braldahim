@@ -32,22 +32,29 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Butin");
 
-		//liste des endroits
-		//On peut essayer de transbahuter pour le sol et le laban
-		$tabEndroit[self::ID_ENDROIT_ELEMENT] = array("id_type_endroit" => self::ID_ENDROIT_ELEMENT,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
-		$tabEndroit[self::ID_ENDROIT_LABAN] = array("id_type_endroit" => self::ID_ENDROIT_LABAN,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban", "est_depart" => true, "poids_restant" => $poidsRestantLaban, "panneau" => true);
+		$this->view->idCharretteEtal =  $this->request->get("idCharretteEtal");
+		$tabEndroit = array();
+		if ($this->view->idCharretteEtal != null) {
+			$this->prepareCommunEchoppe($tabEndroit);
+		} else {
+			//liste des endroits
+			//On peut essayer de transbahuter pour le sol et le laban
+			$tabEndroit[self::ID_ENDROIT_ELEMENT] = array("id_type_endroit" => self::ID_ENDROIT_ELEMENT,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+			$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
+			$tabEndroit[self::ID_ENDROIT_LABAN] = array("id_type_endroit" => self::ID_ENDROIT_LABAN,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban", "est_depart" => true, "poids_restant" => $poidsRestantLaban, "panneau" => true);
 
-		//Si on est sur une banque :
-		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-		if (count($banque) > 0 || $this->view->user->est_pnj_braldun == 'oui') {
-			$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array("id_type_endroit" => self::ID_ENDROIT_MON_COFFRE,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-			$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+			//Si on est sur une banque :
+			$lieu = new Lieu();
+			$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			if (count($banque) > 0 || $this->view->user->est_pnj_braldun == 'oui') {
+				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array("id_type_endroit" => self::ID_ENDROIT_MON_COFFRE,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+			}
+
+			$this->prepareCommunEchoppe($tabEndroit);
+			$this->prepareCommunCharrette($tabEndroit);
 		}
 
-		$this->prepareCommunEchoppe($tabEndroit);
-		$this->prepareCommunCharrette($tabEndroit);
 		$this->prepareCommunButins();
 
 		// On récupère la valeur du départ
@@ -225,7 +232,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 		if (count($echoppeCase) > 0) {
-			if ($echoppeCase[0]["id_braldun"] == $this->view->user->id_braldun) {
+			if ($this->view->idCharretteEtal != null && $echoppeCase[0]["id_braldun"] == $this->view->user->id_braldun) {
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ETAL] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ETAL, "nom_systeme" => "Lot", "nom_type_endroit" => "Votre échoppe : Étal", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ATELIER, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Atelier", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$this->view->id_echoppe_depart = $echoppeCase[0]["id_echoppe"];
+			} elseif ($echoppeCase[0]["id_braldun"] == $this->view->user->id_braldun) {
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_CAISSE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_CAISSE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Caisse", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Matières Premières", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array("id_type_endroit" => self::ID_ENDROIT_ECHOPPE_ATELIER, "nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe : Atelier", "id_braldun_echoppe" => $echoppeCase[0]["id_braldun"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
@@ -497,6 +508,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareType($depart, $idTypeDepart) {
+		if ($this->view->idCharretteEtal != null) {
+			$this->prepareTypeMateriel($depart, $idTypeDepart);
+			return;
+		}
+		
 		$this->prepareTypeAutres($depart, $idTypeDepart);
 		$this->prepareTypeEquipements($depart, $idTypeDepart);
 		$this->prepareTypeRunes($depart, $idTypeDepart);
@@ -516,6 +532,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$this->idLot = $this->deposeTypeLot();
+		}
+
+		if ($this->view->idCharretteEtal != null) {
+			$this->deposeTypeMateriel($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
+			return;
 		}
 
 		$this->deposeTypeAutres($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
@@ -2501,12 +2522,24 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if (count($materiels) > 0) {
 			foreach ($materiels as $e) {
-				$tabMateriels[$e["id_".strtolower($depart)."_materiel"]] = array(
-						"id_materiel" => $e["id_".strtolower($depart)."_materiel"],
-						"id_fk_type_materiel" => $e["id_fk_type_materiel"],
-						"nom" => $e["nom_type_materiel"],
-						"poids" => $e["poids_type_materiel"],
-				);
+				$possible = true;
+
+				if (substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette") {
+					if ($this->view->idCharretteEtal != null && $e["id_".strtolower($depart)."_materiel"] == $this->view->idCharretteEtal) {
+						$possible = true;
+					} else {
+						$possible = false;
+					}
+				}
+
+				if ($possible) {
+					$tabMateriels[$e["id_".strtolower($depart)."_materiel"]] = array(
+							"id_materiel" => $e["id_".strtolower($depart)."_materiel"],
+							"id_fk_type_materiel" => $e["id_fk_type_materiel"],
+							"nom" => $e["nom_type_materiel"],
+							"poids" => $e["poids_type_materiel"],
+					);
+				}
 			}
 			$this->view->deposerOk = true;
 		}
