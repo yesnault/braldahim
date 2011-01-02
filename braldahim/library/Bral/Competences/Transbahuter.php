@@ -1735,7 +1735,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Laban" :
 							$arriveePartiePlanteTable = new LabanPartieplante();
 							$data = array (
-								"id_fk_braldun_laban_partieplante" => $this->view->id_braldun_coffre,
+								"id_fk_braldun_laban_partieplante" => $this->view->user->id_braldun,
 								"id_fk_type_laban_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								"id_fk_type_plante_laban_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 								"quantite_laban_partieplante" => $nbBrutes,
