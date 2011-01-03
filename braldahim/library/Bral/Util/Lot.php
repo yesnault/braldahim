@@ -12,7 +12,7 @@ class Bral_Util_Lot {
 		$lotTable = new Lot();
 
 		$lots = $lotTable->findByIdEchoppe($idEchoppe);
-		$retourLots["lots"] = self::prepareLots($lots, true);
+		$retourLots["lots"] = self::prepareLots($lots);
 
 		if ($visiteur) {
 			$retourLots["visiteur"] = true;
@@ -28,15 +28,15 @@ class Bral_Util_Lot {
 		$lotTable = new Lot();
 
 		$lots = $lotTable->findByIdLot($idLot);
-		$lots = self::prepareLots($lots, false);
-		if (count($lots) != 1) {
+		$tabLots = self::prepareLots($lots);
+		if (count($tabLots) != 1) {
 			throw new Zend_Exception("getLotByIdLot - Lot invalide:".$idLot);
 		}
 
-		return $lots[$idLot];
+		return $tabLots[$idLot];
 	}
 
-	private static function prepareLots($lots, $contenuAPreparer) {
+	private static function prepareLots($lots) {
 
 		if (count($lots) == 0 || $lots == null) {
 			return null;
@@ -81,9 +81,7 @@ class Bral_Util_Lot {
 			$tabLots[$l["id_lot"]] = self::prepareRowLot($l, $minerai, $partiesPlantes);
 		}
 
-		if ($contenuAPreparer) {
-			self::prepareLotsContenus($idsLot, $tabLots);
-		}
+		self::prepareLotsContenus($idsLot, $tabLots);
 
 		return $tabLots;
 	}
@@ -655,6 +653,9 @@ class Bral_Util_Lot {
 
 		if (count($materiels) > 0) {
 			foreach($materiels as $e) {
+				if (substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette") {
+					$lots[$e["id_fk_lot_lot_materiel"]]["estLotCharrette"] = true;
+				}
 				$tabMateriel = array(
 					"id_lot_materiel" => $e["id_lot_materiel"],
 					"id_type_materiel" => $e["id_type_materiel"],
@@ -666,6 +667,10 @@ class Bral_Util_Lot {
 					'durabilite' => $e["durabilite_type_materiel"],
 					'usure' => $e["usure_type_materiel"],
 					'poids' => $e["poids_type_materiel"],
+					'force_base_min_type_materiel' => $e["force_base_min_type_materiel"],
+					'agilite_base_min_type_materiel' => $e["agilite_base_min_type_materiel"],
+					'sagesse_base_min_type_materiel' => $e["sagesse_base_min_type_materiel"],
+					'vigueur_base_min_type_materiel' => $e["vigueur_base_min_type_materiel"],
 				);
 				$lots[$e["id_fk_lot_lot_materiel"]]["materiels"][] = $tabMateriel;
 			}
@@ -851,6 +856,7 @@ class Bral_Util_Lot {
 				"commentaire_lot" => $r["commentaire_lot"],
 				"prix_minerais" => $minerai,
 				"prix_parties_plantes" => $partiesPlantes,
+				"estLotCharrette" => false,
 				"equipements" => null,
 				"materiels" => null,
 		);

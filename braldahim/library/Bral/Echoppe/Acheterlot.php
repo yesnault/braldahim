@@ -64,9 +64,35 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 
 		Zend_Loader::loadClass("Bral_Util_Lot");
 		$lot = Bral_Util_Lot::getLotByIdLot($this->view->idLot);
-		if ($lots == null) {
+		if ($lot == null) {
 			throw new Zend_Exception(get_class($this)."::lot invalide 2 :".$this->view->idLot);
 		}
+
+		$tabCharrette["possible"] = true;
+		$tabCharrette["detail"] = "";
+
+		if ($lot["estLotCharrette"] === true) {
+			Zend_Loader::loadClass("Bral_Util_Metier");
+			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_braldun, $this->view->user->sexe_braldun);
+			$estMenuisierOuBucheron = false;
+			if ($tab["tabMetierCourant"]["nom_systeme"] == "bucheron" || $tab["tabMetierCourant"]["nom_systeme"] == "menuisier") {
+				$estMenuisierOuBucheron = true;
+			}
+			Zend_Loader::loadClass("Bral_Util_Charrette");
+			$tab = Bral_Util_Charrette::calculAttraperPossible($lot["materiels"][0], $this->view->user, $estMenuisierOuBucheron);
+
+			$charretteTable = new Charrette();
+			$nombre = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
+
+			if ($nombre > 0) {
+				$tabCharrette["possible"] = false;
+				$tabCharrette["detail"] = "Vous possédez déjà une charrette";
+			}
+
+		}
+		
+		$lot["charrette_possible"] = $tabCharrette["possible"];
+		$lot["charrette_detail"] = $tabCharrette["detail"];
 
 		$this->view->lot = $lot;
 	}
@@ -312,8 +338,8 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-//TODO		$details = "[b".$this->view->user->id_braldun."] a acheté le lot d'équipement n°".$this->view->lot["id_lot"]. " dans l'échoppe";
-//		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
+		//TODO		$details = "[b".$this->view->user->id_braldun."] a acheté le lot d'équipement n°".$this->view->lot["id_lot"]. " dans l'échoppe";
+		//		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
 	}
 
 	private function calculAchat($prix) {
