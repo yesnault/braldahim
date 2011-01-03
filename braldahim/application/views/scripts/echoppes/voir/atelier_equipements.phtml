@@ -4,16 +4,6 @@
 	<?php $this->idEquipementsTable = $this->idEquipementsArriereBoutiqueTable; ?>
 	<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
-	<?php if ($this->estSurEchoppe === true): 
-  		$disabled = "";
-	   else: 
-  		$disabled = "disabled" ;
-  	   endif;
-  	?>
-  	
-	<input type="button" class='button1' value="0 PA - Transf&eacute;rer un &eacute;quipement"
-       		  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_transferequipement&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled ?>/>
-
 <?php else: ?>
 	Vous n'avez aucun &eacute;quipement en r&eacute;serve
 <?php endif; ?>

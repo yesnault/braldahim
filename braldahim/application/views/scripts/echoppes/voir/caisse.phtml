@@ -20,20 +20,4 @@
 		</td>
 	</tr>
 </table>
-    
-<?php if ($this->estSurEchoppe === true && $this->user->activation == true): 
-  $disabled = "";
-  ?>
-  <?php else: 
-  $disabled = "disabled" ;
-  ?>
-  <?php if ($this->user->activation == true) : ?>
-  	Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
-  <?php else :?>
-  	Tour non activé à la connexion, vous n'avez pas acc&egrave;s aux actions...<br />
-  <?php endif; ?>
-  <?php endif; ?>
-  
-<input type="button" class='button1' value="0 PA - Retirer des &eacute;l&eacute;ments"
-       onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=5')"  <?php echo $disabled ?> />
 <br />
