@@ -1012,7 +1012,6 @@ class Bral_Util_Lot {
 
 		foreach($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1 => $idDestination,
 				'quantite_peau_'.$preSuffixe.$suffixe1 => $lot["quantite_peau_lot"],
 				'quantite_cuir_'.$preSuffixe.$suffixe1 => $lot["quantite_cuir_lot"],
 				'quantite_fourrure_'.$preSuffixe.$suffixe1 => $lot["quantite_fourrure_lot"],
@@ -1022,6 +1021,12 @@ class Bral_Util_Lot {
 
 			if ($preSuffixe != "arriere_") {
 				$data['quantite_castar_'.$preSuffixe.$suffixe1] = $lot["quantite_castar_lot"];
+			}
+			
+			if ($suffixe1 == "laban") {
+				$data['id_fk_braldun_laban'] = $idDestination;
+			} else {
+				$data['id_'.$suffixe1] = $idDestination;
 			}
 
 			$elementTable->insertOrUpdate($data);

@@ -499,9 +499,9 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		$details = "[b".$this->view->user->id_braldun."] a acheté une charrette";
 		//$this->setDetailsEvenement($details, $id_type);
 
-		$details = "[b".$this->view->user->id_braldun."] a acheté la charrette n°".$charrette["id_charrette"];
+		$details = "[b".$this->view->user->id_braldun."] a acheté la charrette n°".$charrette["id_materiel"];
 		Zend_Loader::loadClass("Bral_Util_Materiel");
-		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_materiel"], $details);
 	}
 
 	private function calculAttrapperCharrette($charrette) {
@@ -515,7 +515,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			"z_charrette" => null,
 		);
 
-		$where = "id_charrette = ".$charrette["id_charrette"];
+		$where = "id_charrette = ".$charrette["id_materiel"];
 		$charretteTable->update($data, $where);
 			
 		Bral_Util_Lot::supprimeLot($this->view->idLot);
