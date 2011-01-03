@@ -804,23 +804,35 @@ function controleEchoppe(i) {
 
 function afficheAutreCoffre(){
 	if ($('valeur_2').value == 4){ // constante definie dans Transbahuter.php
-		document.getElementById('div_braldun').style.visibility='visible';
-		document.getElementById('div_braldun').style.display='block';
+		$('div_braldun').style.visibility='visible';
+		$('div_braldun').style.display='block';
 	} else{
-		document.getElementById('div_braldun').style.visibility='hidden';
-		document.getElementById('div_braldun').style.display='none';
+		$('div_braldun').style.visibility='hidden';
+		$('div_braldun').style.display='none';
 		$('valeur_3').value=-1;
 	}
 }
 
 function afficheTransbahuterVente() {
 	if ($('valeur_2').value == 8){ // constante definie dans Transbahuter.php
-		document.getElementById('div_vente_transbahuter').style.visibility='visible';
-		document.getElementById('div_vente_transbahuter').style.display='block';
+		$('div_vente_transbahuter').style.visibility='visible';
+		$('div_vente_transbahuter').style.display='block';
 	} else{
-		document.getElementById('div_vente_transbahuter').style.visibility='hidden';
-		document.getElementById('div_vente_transbahuter').style.display='none';
+		$('div_vente_transbahuter').style.visibility='hidden';
+		$('div_vente_transbahuter').style.display='none';
 	}
+}
+
+function controlePrixVenteBoutonDeposer() {
+	if ($('valeur_2').value == 8) { // constante definie dans Transbahuter.php
+		if ($('valeur_4').value >= 0 && $('valeur_4').value != '' && $('valeur_5').value !=-1 ) {
+			return true;
+		} else {
+			alert('Il faut rentrer un prix valide');
+			return false;
+		}
+	}
+	return true;
 }
 
 function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
@@ -1015,7 +1027,7 @@ function ajouterAuContenu(idsource, iddestination) {
 /** *********************** UDDEIM TOOLS ************************ */
 /** ***************************************************************** */
 function uddeidswap(id) {
-	bb = document.getElementById(id);
+	bb = $(id);
 	if (bb.style.visibility == 'visible') {
 		bb.style.visibility = 'hidden';
 	} else {

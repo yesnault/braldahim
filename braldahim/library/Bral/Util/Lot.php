@@ -911,13 +911,17 @@ class Bral_Util_Lot {
 		self::transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
+		
+		self::supprimeLot($idLot);
+	}
 
+	public static function supprimeLot($idLot) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 		$where = "id_lot = ".intval($idLot);
 		$lotTable->delete($where);
 	}
-
+	
 	private static function transfertLotEquipement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
 		Zend_Loader::loadClass("LotEquipement");
 

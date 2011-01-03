@@ -32,7 +32,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == $metier &&
 			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun && 
+			$e["y_echoppe"] == $this->view->user->y_braldun &&
 			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->produireEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
@@ -71,6 +71,10 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 				'usure' => $t["usure_type_materiel"], 
 				'poids' => $t["poids_type_materiel"], 
 				'selected' => $selected,
+				'nom_systeme_type_materiel' => $t["nom_systeme_type_materiel"],
+				'durabilite_type_materiel' => $t["durabilite_type_materiel"],
+				'durabilite_type_materiel' => $t["durabilite_type_materiel"],
+				'capacite_type_materiel' => $t["capacite_type_materiel"],
 			);
 			if ($id_type_courant == $t["id_type_materiel"]) {
 				$typeMaterielCourant = $t;
@@ -281,7 +285,20 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			'id_fk_type_materiel' => $this->view->typeMaterielCourant["id_type_materiel"],
 		);
 		$materielTable->insert($data);
-		
+
+		if (substr($this->view->typeMaterielCourant["nom_systeme_type_materiel"], 0, 9) == "charrette") {
+			$data = array(
+				"id_charrette" => $idMateriel,
+				"durabilite_max_charrette" => $this->view->typeMaterielCourant["durabilite_type_materiel"],
+				"durabilite_actuelle_charrette" => $this->view->typeMaterielCourant["durabilite_type_materiel"],
+				"poids_transportable_charrette" => $this->view->typeMaterielCourant["capacite_type_materiel"],
+				"poids_transporte_charrette" => 0,
+			);
+			Zend_Loader::loadClass("Charrette");
+			$charretteTable = new Charrette();
+			$charretteTable->insert($data);
+		}
+
 		Zend_Loader::loadClass("EchoppeMateriel");
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$dataEchoppe = array(
@@ -290,11 +307,11 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			'type_vente_echoppe_materiel' => 'aucune',
 		);
 		$echoppeMaterielTable->insert($dataEchoppe);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		$details = "[b".$this->view->user->id_braldun."] a produit le matériel n°".$idMateriel;
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_CREATION_ID, $idMateriel, $details);
-		
+
 		$this->view->id_materiel_cree = $idMateriel;
 	}
 

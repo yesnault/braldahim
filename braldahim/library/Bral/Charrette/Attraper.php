@@ -96,7 +96,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 					"durabilite_type_materiel" => $c["durabilite_type_materiel"],
 					"capacite_type_materiel" => $c["capacite_type_materiel"]
 				);
-			
+					
 				if ($typeProvenance == "sol") {
 					$charrette["sabot_1_charrette"] = $c["sabot_1_charrette"];
 					$charrette["sabot_2_charrette"] = $c["sabot_2_charrette"];
@@ -108,7 +108,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 					$charrette["sabot_3_charrette"] = 0;
 					$charrette["sabot_4_charrette"] = 0;
 				}
-				
+
 				$tabCharrettes[] = $charrette;
 			}
 		}
@@ -157,7 +157,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$chiffre_2 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
 			$chiffre_3 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
 			$chiffre_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
-				
+
 			if ($charrette["sabot_1_charrette"] == $chiffre_1 &&
 			$charrette["sabot_2_charrette"] == $chiffre_2 &&
 			$charrette["sabot_3_charrette"] == $chiffre_3 &&
@@ -182,7 +182,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		} else {
 			$this->setEstEvenementAuto(false);
 		}
-		
+
 		$this->view->sabotOk = $sabotOk;
 	}
 
@@ -197,20 +197,10 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			"z_charrette" => null,
 		);
 			
-		if ($charrette["provenance"] == "sol") {
-			$where = "id_charrette = ".$charrette["id_charrette"];
-			$charretteTable->update($dataUpdate, $where);
-		} else if ($this->view->provenance == "echoppe") {
-			$dataUpdate["id_charrette"] = $charrette["id_charrette"];
-
-			$dataUpdate["durabilite_max_charrette"] = $charrette["durabilite_type_materiel"];
-			$dataUpdate["durabilite_actuelle_charrette"] = $charrette["durabilite_type_materiel"];
-			$dataUpdate["poids_transportable_charrette"] = $charrette["capacite_type_materiel"];
-			$dataUpdate["poids_transporte_charrette"] = 0;
-
-			$where = "id_charrette = ".$charrette["id_charrette"];
-			$charretteTable->insert($dataUpdate);
-
+		$where = "id_charrette = ".$charrette["id_charrette"];
+		$charretteTable->update($dataUpdate, $where);
+			
+		if ($this->view->provenance == "echoppe") {
 			$echoppeMaterielTable = new EchoppeMateriel();
 			$where = "id_echoppe_materiel=".$charrette["id_charrette"];
 			$echoppeMaterielTable->delete($where);

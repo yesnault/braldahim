@@ -90,7 +90,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			}
 
 		}
-		
+
 		$lot["charrette_possible"] = $tabCharrette["possible"];
 		$lot["charrette_detail"] = $tabCharrette["detail"];
 
@@ -151,7 +151,6 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 					}
 
 					foreach ($minerais as $m) {
-
 						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"]
 						&& $r["prix_lot_prix_minerai"] <= $m["quantite_brut_".$destination["id_destination"]."_minerai"]) {
 							$acheterOk = true;
@@ -217,6 +216,9 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			}
 		}
 
+		if ($this->view->lot["estLotCharrette"] && $this->view->lot["charrette_possible"]) {
+			$placeDispo = true;
+		}
 		$this->view->acheterOk = $acheterOk;
 		$this->view->prix = $tabPrix;
 		$this->view->lot["place_dispo"] = $placeDispo;
@@ -302,23 +304,26 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception("Lot invalide : ".$this->view->idLot. " - ".$this->request->getPost("valeur_1"));
 		}
 
-		// on regarde si l'on connait la destination
-		$flag = false;
 		$destination = null;
-		foreach($this->view->destinationTransfert as $d) {
-			if ($d["id_destination"] == $idDestination) {
-				$destination = $d;
-				$flag = true;
-				break;
+
+		if ($this->view->lot["estLotCharrette"] == false) {
+			// on regarde si l'on connait la destination
+			$flag = false;
+			foreach($this->view->destinationTransfert as $d) {
+				if ($d["id_destination"] == $idDestination) {
+					$destination = $d;
+					$flag = true;
+					break;
+				}
 			}
-		}
 
-		if ($flag == false) {
-			throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
-		}
+			if ($flag == false) {
+				throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
+			}
 
-		if ($destination["possible"] == false) {// && $destination["possible_force"] == false) {
-			throw new Zend_Exception(get_class($this)." destination invalide 3");
+			if ($destination["possible"] == false) {// && $destination["possible_force"] == false) {
+				throw new Zend_Exception(get_class($this)." destination invalide 3");
+			}
 		}
 
 		$this->view->detailPrix = "";
@@ -471,10 +476,14 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 	private function calculTransfert($idDestination) {
 
 		Zend_Loader::loadClass("Bral_Util_Lot");
-		if ($this->view->charrette != null) {
+		if ($idDestination == -1 && $this->view->lot["estLotCharrette"] === true) {
+			$this->calculTransfertCharrette();
+		} elseif ($idDestination == "charrette") {
 			Bral_Util_Lot::transfertLot($this->lot["id_lot"], "charrette", $this->view->charrette["id_charrette"]);
-		} else {
+		} elseif ($idDestination == "laban") {
 			Bral_Util_Lot::transfertLot($this->lot["id_lot"], "laban", $this->view->user->id_braldun);
+		} else {
+			throw new Zend_Exception(get_class($this)." calculTransfert destination invalide:".$idDestination);
 		}
 
 		if ($idDestination == "charrette") {
@@ -482,7 +491,44 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		}
 	}
 
+	private function calculTransfertCharrette() {
+		$charrette = $this->view->lot["materiels"][0];
+		$this->calculAttrapperCharrette($charrette);
+
+		$id_type = $this->view->config->game->evenements->type->ramasser;
+		$details = "[b".$this->view->user->id_braldun."] a acheté une charrette";
+		//$this->setDetailsEvenement($details, $id_type);
+
+		$details = "[b".$this->view->user->id_braldun."] a acheté la charrette n°".$charrette["id_charrette"];
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
+	}
+
+	private function calculAttrapperCharrette($charrette) {
+
+		$charretteTable = new Charrette();
+
+		$data = array (
+			"id_fk_braldun_charrette" => $this->view->user->id_braldun,
+			"x_charrette" => null,
+			"y_charrette" => null,
+			"z_charrette" => null,
+		);
+
+		$where = "id_charrette = ".$charrette["id_charrette"];
+		$charretteTable->update($data, $where);
+			
+		Bral_Util_Lot::supprimeLot($this->view->idLot);
+
+		Zend_Loader::loadClass("Bral_Util_Charrette");
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
+	}
+
 	function getListBoxRefresh() {
-		return array("box_profil", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		$tab = array("box_profil", "box_echoppe",  "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		if ($this->view->lot["estLotCharrette"] === true) {
+			$tab[] = "box_charrette";
+		}
+		return $tab;
 	}
 }

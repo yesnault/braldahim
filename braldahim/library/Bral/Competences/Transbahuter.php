@@ -100,6 +100,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
+		$this->view->ID_ENDROIT_ECHOPPE_ETAL = self::ID_ENDROIT_ECHOPPE_ETAL;
 	}
 
 	private function prepareCommunChoixArrivee($tabEndroit, $id_type_courant_depart) {
