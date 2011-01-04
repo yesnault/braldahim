@@ -7,6 +7,17 @@
  */
 class Bral_Util_Lot {
 
+	public static function getLotsByHotel() {
+		Zend_Loader::loadClass("Lot");
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByHotel();
+		$retourLots["lots"] = self::prepareLots($lots);
+		$retourLots["visiteur"] = true;
+
+		return $retourLots;
+	}
+
 	public static function getLotsByIdEchoppe($idEchoppe, $visiteur) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
@@ -93,15 +104,15 @@ class Bral_Util_Lot {
 		self::prepareLotMateriel($idsLot, $lots);
 		self::prepareLotAliment($idsLot, $lots);
 		self::prepareLotPotion($idsLot, $lots);
-		
-		/* self::prepareLotElement($idsLot, $lots);
-		self::prepareLotGraine($idsLot, $lots);
-		self::prepareLotIngredient($idsLot, $lots);
-		self::prepareLotMunition($idsLot, $lots);
-		self::prepareLotPartieplante($idsLot, $lots);
-		self::prepareLotRune($idsLot, $lots);
 
-		*/
+		/* self::prepareLotElement($idsLot, $lots);
+		 self::prepareLotGraine($idsLot, $lots);
+		 self::prepareLotIngredient($idsLot, $lots);
+		 self::prepareLotMunition($idsLot, $lots);
+		 self::prepareLotPartieplante($idsLot, $lots);
+		 self::prepareLotRune($idsLot, $lots);
+
+		 */
 	}
 
 	private static function prepareLotEquipement($idsLot, &$lots) {

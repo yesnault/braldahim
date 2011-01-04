@@ -814,7 +814,7 @@ function afficheAutreCoffre(){
 }
 
 function afficheTransbahuterVente() {
-	if ($('valeur_2').value == 8){ // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 8 || $('valeur_2').value == 9) { // constante definie dans Transbahuter.php
 		$('div_vente_transbahuter').style.visibility='visible';
 		$('div_vente_transbahuter').style.display='block';
 	} else{
@@ -824,7 +824,7 @@ function afficheTransbahuterVente() {
 }
 
 function controlePrixVenteBoutonDeposer() {
-	if ($('valeur_2').value == 8) { // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 8 || $('valeur_2').value == 9) { // constante definie dans Transbahuter.php
 		if ($('valeur_4').value >= 0 && $('valeur_4').value != '' && $('valeur_5').value !=-1 ) {
 			return true;
 		} else {

@@ -19,6 +19,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	const ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE = 6;
 	const ID_ENDROIT_ECHOPPE_ATELIER = 7;
 	const ID_ENDROIT_ECHOPPE_ETAL = 8;
+	const ID_ENDROIT_HOTEL = 9;
 	const ID_ENDROIT_CHARRETTE = 10;
 
 	const NB_VALEURS = 23;
@@ -45,10 +46,21 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			//Si on est sur une banque :
 			$lieu = new Lieu();
-			$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			$banque = $lieu->findByCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			if (count($banque) > 0 || $this->view->user->est_pnj_braldun == 'oui') {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array("id_type_endroit" => self::ID_ENDROIT_MON_COFFRE,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+			}
+
+			$lieux = $lieu->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+			if (count($lieux) == 1) {
+				if ($lieux[0]["id_type_lieu"] == TypeLieu::ID_TYPE_HOTEL) {
+					$tabEndroit[self::ID_ENDROIT_HOTEL] = array("id_type_endroit" => self::ID_ENDROIT_HOTEL, "nom_systeme" => "Lot", "nom_type_endroit" => "Hôtel des Ventes", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				} elseif ($lieux[0]["id_type_lieu"] == TypeLieu::ID_TYPE_BANQUE ||$this->view->user->est_pnj_braldun == 'oui') {
+					$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array("id_type_endroit" => self::ID_ENDROIT_MON_COFFRE,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+					$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				}
 			}
 
 			$this->prepareCommunEchoppe($tabEndroit);
@@ -141,7 +153,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e["nom_systeme"] == "Charrette") {
 				$tabTypeArrivee[$i]["id_charrette"] = $e["id_charrette"];
 			}
-			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			if ($e["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL || $e["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
 				$uniteAPreparer = true;
 			}
 			$i++;
@@ -484,17 +496,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
-		if (count($banque) > 0) {
+
+		if (array_key_exists(self::ID_ENDROIT_MON_COFFRE, $this->view->tabEndroit)) {
 			$tab = array("box_vue", "box_laban", "box_coffre", "box_charrette", "box_banque");
-		}
-		elseif (count($echoppeCase) > 0) {
+		} elseif (array_key_exists(self::ID_ENDROIT_HOTEL, $this->view->tabEndroit)) {
+			$tab = array("box_vue", "box_laban", "box_hotel", "box_charrette");
+		} elseif (count($echoppeCase) > 0) {
 			$tab = array("box_vue", "box_laban", "box_charrette", "box_echoppes");
-		}
-		else {
+		} else {
 			$tab = array("box_vue", "box_laban", "box_charrette");
 		}
 		return $this->constructListBoxRefresh($tab);
@@ -513,7 +524,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->prepareTypeMateriel($depart, $idTypeDepart);
 			return;
 		}
-		
+
 		$this->prepareTypeAutres($depart, $idTypeDepart);
 		$this->prepareTypeEquipements($depart, $idTypeDepart);
 		$this->prepareTypeRunes($depart, $idTypeDepart);
@@ -531,8 +542,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	private function deposeType($depart, $arrivee) {
 		$this->idLot = null;
 
-		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
-			$this->idLot = $this->deposeTypeLot();
+		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL || $arrivee["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
+			$this->idLot = $this->deposeTypeLot($arrivee);
 		}
 
 		if ($this->view->idCharretteEtal != null) {
@@ -553,12 +564,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypeTabac($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
 		$this->deposeTypeMateriel($depart["nom_systeme"], $arrivee["nom_systeme"], $depart["id_type_endroit"], $arrivee["id_type_endroit"]);
 
-		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
+		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL || $arrivee["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
 			$this->updatePoidsLot();
 		}
 	}
 
-	private function deposeTypeLot() {
+	private function deposeTypeLot($arrivee) {
 
 		$prix_1 = $this->request->get("valeur_4");
 		$unite_1 = $this->request->get("valeur_5");
@@ -592,10 +603,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$lotTable = new Lot();
 		$data = array(
-			"id_fk_echoppe_lot" => $this->view->id_echoppe_depart,
-			"id_fk_type_lot" => TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS,
 			"poids_lot" => $poidsLot,
 		);
+		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
+			$data["id_fk_echoppe_lot"] = $this->view->id_echoppe_depart;
+			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
+		} elseif ($arrivee["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
+			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_HOTEL;
+		}
+
 		$idLot = $lotTable->insert($data);
 
 		$this->view->textePrixVente = array();
@@ -933,6 +949,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						$arriveeEquipementTable->insert($data);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeEquipementTable = new LotEquipement();
 						$data = array (
@@ -1142,6 +1159,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_coffre_coffre_rune" => $this->view->id_coffre_arrivee,
 						);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeRuneTable = new LotRune();
 						$data = array (
@@ -1328,6 +1346,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										"id_fk_coffre_coffre_potion" => $this->view->id_coffre_arrivee,
 						);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveePotionTable = new LotPotion();
 						$data = array (
@@ -1519,6 +1538,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										"id_fk_coffre_coffre_aliment" => $this->view->id_coffre_arrivee,
 						);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeAlimentTable = new LotAliment();
 						$data = array (
@@ -1739,6 +1759,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"id_fk_coffre_coffre_munition" => $this->view->id_coffre_arrivee,
 					);
 					break;
+				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
 					$arriveeMunitionTable = new LotMunition();
 					$data = array(
@@ -1979,6 +2000,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_lingots_coffre_minerai" => $nbLingot,
 							);
 							break;
+						case self::ID_ENDROIT_HOTEL :
 						case self::ID_ENDROIT_ECHOPPE_ETAL :
 							$arriveeMineraiTable = new LotMinerai();
 							$data = array (
@@ -2244,6 +2266,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_preparee_coffre_partieplante" => $nbPreparees,
 							);
 							break;
+						case self::ID_ENDROIT_HOTEL :
 						case self::ID_ENDROIT_ECHOPPE_ETAL :
 							$arriveePartiePlanteTable = new LotPartieplante();
 							$data = array (
@@ -2462,6 +2485,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_coffre_coffre_tabac" => $this->view->id_coffre_arrivee,
 						);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeTabacTable = new LotTabac();
 						$data = array(
@@ -2650,6 +2674,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										"id_fk_coffre_coffre_materiel" => $this->view->id_coffre_arrivee,
 						);
 						break;
+					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeMaterielTable = new LotMateriel();
 						$data = array (
@@ -2864,6 +2889,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_coffre_graine" => $nb,
 					);
 					break;
+				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
 					$arriveeGraineTable = new LotGraine();
 					$data = array (
@@ -3085,6 +3111,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_coffre_ingredient" => $nb,
 					);
 					break;
+				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
 					$arriveeIngredientTable = new LotIngredient();
 					$data = array (
@@ -3438,6 +3465,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					$arriveeTable = new Coffre();
 					break;
+				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
 					$data = array(
 								"quantite_".$nom_systeme."_lot" => $nb,

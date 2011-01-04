@@ -12,21 +12,32 @@ class Lot extends Zend_Db_Table {
 	function findByIdConteneur($idLot) {
 		return $this->findByIdLot($idLot);
 	}
-	
+
 	function findByIdEchoppe($idEchoppe, $idLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
 		->where('id_fk_echoppe_lot = ?', intval($idEchoppe));
-		
+
 		if ($idLot != null) {
-			$select->where('id_lot = ?', intval($idLot));	
+			$select->where('id_lot = ?', intval($idLot));
 		}
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
+	function findByHotel() {
+		Zend_Loader::loadClass("TypeLot");
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lot', '*')
+		->where('id_fk_type_lot = ?', TypeLot::ID_TYPE_VENTE_HOTEL);
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
 	function findByIdCommunaute($idCommunaute) {
 		$db = $this->getAdapter();
 		$select = $db->select();

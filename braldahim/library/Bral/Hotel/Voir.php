@@ -16,11 +16,6 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 	}
 
 	function render() {
-		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
-		Zend_Loader::loadClass("Bral_Helper_DetailHotel");
-		Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
-		Zend_Loader::loadClass("Bral_Helper_DetailRune");
-
 		if ($this->box_lieu == "box_hotel_resultats") {
 			return $this->view->render("hotel/voir/resultats.phtml");
 		} else {
@@ -29,7 +24,11 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 	}
 
 	function prepareCommun() {
-		$this->prepare();
+		Zend_Loader::loadClass("Bral_Util_Lot");
+		$this->view->lots = Bral_Util_Lot::getLotsByHotel();
+		$this->box_lieu = "box_lieu";
+		
+		//$this->prepare();
 	}
 
 	function prepareFormulaire() {

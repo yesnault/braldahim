@@ -380,6 +380,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		//		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
 	}
 
+	// TODO Achat dans Hotel des Ventes
 	private function calculAchat($prix) {
 
 		if ($prix["id_destination"] == "charrette") {
@@ -390,6 +391,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			$suffixe = "laban";
 		}
 
+		Zend_Loader::loadClass("Echoppe");
 		$echoppeTable = new Echoppe();
 
 		$nomSysteme = Bral_Util_Registre::getNomUnite($prix["unite"], true);
@@ -558,7 +560,11 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_echoppe",  "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		$tab = array("box_profil", "box_laban", "box_charrette", "box_evenements");
+		if ($this->view->idEchoppe != null) {
+			$tab[] = "box_echoppe";
+			$tab[] = "box_echoppes";
+		}
 		if ($this->view->lot["estLotCharrette"] === true) {
 			$tab[] = "box_charrette";
 		}
