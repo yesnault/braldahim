@@ -5,7 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
+class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 	private $lot = null;
 
@@ -23,6 +23,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("Lot");
 
 		$this->view->idLot = Bral_Util_Controle::getValeurIntVerif($this->request->get("idLot"));
+		$this->view->idEchoppe = Bral_Util_Controle::getValeurIntVerifSansException($this->request->get("idEchoppe"), false);
 
 		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false, "possible_force" => false);
@@ -47,7 +48,39 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 	private function prepareLot() {
 
 		$lotTable = new Lot();
-		$lots = $lotTable->findByIdEchoppe($this->idEchoppe, $this->view->idLot);
+
+		if ($this->view->idEchoppe != null) {
+			Zend_Loader::loadClass("Echoppe");
+			$echoppesTable = new Echoppe();
+			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			if (count($echoppeRowset) > 1) {
+				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
+			} else if (count($echoppeRowset) == 0) {
+				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide = 0 !");
+			}
+
+			if ($echoppeRowset[0]["id_echoppe"] != $this->view->idEchoppe) {
+				throw new Zend_Exception(get_class($this).":: echoppe invalide:".$this->view->idEchoppe. ' x:'.$this->view->user->x_braldun. " y:".$this->view->user->y_braldun);
+			}
+
+			$lots = $lotTable->findByIdEchoppe($this->view->idEchoppe, $this->view->idLot);
+		} else { // HV
+			Zend_Loader::loadClass("Lieu");
+			Zend_Loader::loadClass("TypeLieu");
+			Zend_Loader::loadClass("TypeLot");
+			$lieuxTable = new Lieu();
+			$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			unset($lieuxTable);
+
+			$this->view->idEchoppe = null;
+			$this->view->estSurEchoppe = false;
+
+			if (count($lieuRowset) <= 0) {
+				throw new Zend_Exception(get_class($this).":: lieu invalide:".$this->view->idEchoppe. ' x:'.$this->view->user->x_braldun. " y:".$this->view->user->y_braldun);
+			}
+			
+			$lots = $lotTable->findByIdLot($this->view->idLot, TypeLot::ID_TYPE_VENTE_HOTEL);
+		}
 
 		$trouve = false;
 		foreach ($lots as $p) {
@@ -369,7 +402,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_echoppe' => $this->idEchoppe,
+					'id_echoppe' => $this->view->idEchoppe,
 					"quantite_".$nomSysteme."_caisse_echoppe" => $prix["prix"],
 				);
 				$echoppeTable->insertOrUpdate($data);
@@ -390,7 +423,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 
 			if ($prix["prix"] > 0) {
 				$data = array(
-					'id_echoppe' => $this->idEchoppe,
+					'id_echoppe' => $this->view->idEchoppe,
 					'quantite_castar_caisse_echoppe' => $prix["prix"],
 				);
 				$echoppeTable->insertOrUpdate($data);
@@ -427,7 +460,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 		if ($prix["prix"] > 0) {
 			$data = array(
 				'id_fk_type_echoppe_minerai' => $prix["minerais"]["id_fk_type_minerai"],
-				'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
+				'id_fk_echoppe_echoppe_minerai' => $this->view->idEchoppe,
 				'quantite_brut_caisse_echoppe_minerai' => $prix["prix"],
 			);
 			$echoppeMineraiTable->insertOrUpdate($data);
@@ -465,7 +498,7 @@ class Bral_Echoppe_Acheterlot extends Bral_Echoppe_Echoppe {
 			$data = array('quantite_caisse_echoppe_partieplante' => $prix["prix"],
 						  'id_fk_type_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
 						  'id_fk_type_plante_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
+						  'id_fk_echoppe_echoppe_partieplante' => $this->view->idEchoppe,
 			);
 			$echoppePartiePlanteTable->insertOrUpdate($data);
 		}

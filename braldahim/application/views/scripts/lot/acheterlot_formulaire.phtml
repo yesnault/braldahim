@@ -68,7 +68,7 @@
 				<br /><?php echo $this->lot["charrette_detail"]?><br />
 			<?php elseif ($p["possible"] === true && $this->lot["place_dispo"] === true) : ?>
 				<input type='button' class='button1' id='bouton_acheterelot<?php echo $k?>' value='Acheter !' 
-				onclick='this.disabled=true;$("valeur_2").value=<?php echo $k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheterlot&idLot=<?php echo $this->lot["id_lot"] ?>");' 
+				onclick='this.disabled=true;$("valeur_2").value=<?php echo $k ?>; _get_("/lot/doaction?caction=do_lot_acheterlot&idLot=<?php echo $this->lot["id_lot"] ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
 				<?php if ($this->lot["estLotCharrette"] !== true) : echo "disabled"; endif;?>>
 			<?php elseif ($this->lot["place_dispo"] !== true): ?>
 			: Pas assez de place disponible

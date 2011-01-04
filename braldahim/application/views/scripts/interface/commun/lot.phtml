@@ -8,8 +8,7 @@
 		?>
 		<?php include("poches/poche_materiel.phtml") ?>
 	<?php endif;?>
-	<?php if (count($lot["equipements"]) > 0) : ?>
-		<?php 
+	<?php if (count($lot["equipements"]) > 0) :
 			$this->equipements = $lot["equipements"];
 			$this->nb_equipements = count($lot["equipements"]);
 		?>
@@ -18,10 +17,16 @@
 	<?php if ($this->nb_munitions > 0) : ?>
 		<?php include("poches/poche_munition.phtml") ?>
 	<?php endif;?>
-	<?php if ($this->nb_potions > 0) : ?>
+	<?php if (count($lot["potions"]) > 0) :
+			$this->potions = $lot["potions"];
+			$this->nb_potions = count($lot["potions"]);
+		?>
 		<?php include("poches/poche_potion.phtml") ?>
 	<?php endif;?>
-	<?php if ($this->nb_aliments > 0) : ?>
+	<?php if (count($lot["aliments"]) > 0) : 
+			$this->aliments = $lot["aliments"];
+			$this->nb_aliments = count($lot["aliments"]);
+		?>
 		<?php include("poches/poche_aliment.phtml") ?>
 	<?php endif;?>
 	<?php if ($this->nb_graines > 0) : ?>

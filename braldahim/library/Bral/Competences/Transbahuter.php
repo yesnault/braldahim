@@ -1297,7 +1297,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$departPotionTable->delete($where);
 				unset($departPotionTable);
 
-				switch($arrivee) {
+				switch($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
 						$arriveePotionTable = new LabanPotion();
 						$data = array (
@@ -1396,7 +1396,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case self::ID_ENDROIT_ECHOPPE_ATELIER :
 					$echoppeAlimentTable = new EchoppeAliment();
-					$potions = $echoppeAlimentTable->findByIdEchoppe($this->view->id_echoppe_depart);
+					$aliments = $echoppeAlimentTable->findByIdEchoppe($this->view->id_echoppe_depart);
 					unset($echoppeAlimentTable);
 					break;
 			}

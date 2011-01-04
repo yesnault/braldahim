@@ -37,11 +37,14 @@ class Lot extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdLot($idLot) {
+	function findByIdLot($idLot, $typeLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
 		->where('id_lot = ?', intval($idLot));
+		if ($typeLot != null) {
+			$select->where('id_fk_type_lot = ?', $typeLot);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

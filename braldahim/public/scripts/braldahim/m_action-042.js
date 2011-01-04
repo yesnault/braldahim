@@ -43,8 +43,8 @@ function _get_(url, encode) {
 			if ((url.substring(8, 10) == "do") && (url.substring(25, 27) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 8) == "/echoppe") { // /echoppe/doaction?caction=ask/do
-			if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do")) {
+		} else if (url.substring(0, 4) == "/lot") { // /lot/doaction?caction=ask/do
+			if ((url.substring(5, 7) == "do") && (url.substring(22, 24) == "do")) {
 				action = "do";
 			}
 		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule" || url.substring(0, 6) == "/butin") { // /lieux/doaction?caction=ask/do
