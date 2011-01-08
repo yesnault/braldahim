@@ -49,6 +49,7 @@ class Bral_Util_Attaque {
 			'id_cible' => $braldunCible->id_braldun, 
 			'x_cible' => $braldunCible->x_braldun, 
 			'y_cible' => $braldunCible->y_braldun,
+			'z_cible' => $braldunCible->z_braldun,
 			'niveau_cible' => $braldunCible->niveau_braldun,
 			'armure_naturelle_braldun' => $braldunCible->armure_naturelle_braldun,
 			'armure_equipement_braldun' => $braldunCible->armure_equipement_braldun,

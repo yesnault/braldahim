@@ -274,7 +274,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			Bral_Monstres_Util::marqueAJouer($this->braldun->x_braldun, $this->braldun->y_braldun);
 
 			Zend_Loader::loadClass("Bral_Util_Charrette");
-			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->braldun->id_braldun, $this->braldun->niveau_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
+			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->braldun->id_braldun, $this->braldun->niveau_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun, $this->braldun->z_braldun);
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
