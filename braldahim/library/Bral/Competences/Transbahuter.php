@@ -2745,6 +2745,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							if ($this->autresButin != null) {
 								foreach($this->autresButin as $b) {
 
+									if ($b["quantite_".$nom_systeme."_element"] < $nbAEnlever) {
+										continue;
+									}
 									$data = array(
 											"quantite_".$nom_systeme."_element" => -$nbAEnlever,
 											"x_element" => $this->view->user->x_braldun,

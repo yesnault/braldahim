@@ -59,9 +59,10 @@ class Element extends Zend_Db_Table {
 				id_fk_butin_element as idButin')
 		->where('x_element = ?',$data["x_element"])
 		->where('y_element = ?',$data["y_element"])
+		->where('z_element = ?',$data["z_element"])
 		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
-		if (isset($data['id_fk_butin_element'])) {
-			$select->where('id_fk_butin_element = ?',$data["id_fk_butin_element"]);
+		if (isset($data['id_fk_butin_element']) && $data['id_fk_butin_element'] != null) {
+			$select->where('id_fk_butin_element = ?', $data["id_fk_butin_element"]);
 		} else {
 			$select->where('id_fk_butin_element is null');
 		}
@@ -109,6 +110,7 @@ class Element extends Zend_Db_Table {
 
 			$where = ' x_element = '.$data["x_element"];
 			$where .= ' AND y_element = '.$data["y_element"];
+			$where .= ' AND z_element = '.$data["z_element"];
 			if ($idButin != null) {
 				$where .= ' AND id_fk_butin_element = '.$idButin;
 			} else {
@@ -125,6 +127,6 @@ class Element extends Zend_Db_Table {
 			} else { // update
 				$this->update($dataUpdate, $where);
 			}
-			}
 		}
 	}
+}
