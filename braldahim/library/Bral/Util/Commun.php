@@ -297,6 +297,7 @@ class Bral_Util_Commun {
 					"quantite_castar_element" => $nbCastars,
 					"x_element" => $cible->x_braldun,
 					"y_element" => $cible->y_braldun,
+					"z_element" => $cible->z_braldun,
 					"id_fk_butin_element" => $idButin,
 				);
 				$elementTable->insertOrUpdate($data);

@@ -158,7 +158,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	public static function calculNouvelleDlaCharrette($idBraldun, $niveauBraldun, $x, $y) {
+	public static function calculNouvelleDlaCharrette($idBraldun, $niveauBraldun, $x, $y, $z) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 		Zend_Loader::loadClass("Bral_Util_Poids");
@@ -195,7 +195,7 @@ class Bral_Util_Charrette {
 			$charretteTable->update($data, $where);
 
 			if ($durabiliteActuelle <= 0) {
-				self::destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y);
+				self::destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y, $z);
 				$estDetruite = true;
 			}
 		} else if ($nb > 1) {
@@ -205,20 +205,20 @@ class Bral_Util_Charrette {
 		return $estDetruite;
 	}
 
-	private static function destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y) {
+	private static function destructionCharrette($idBraldun, $niveauBraldun, $charrette, $x, $y, $z) {
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
-		self::destructionCharretteElement($charrette, $x, $y, $dateFin);
-		self::destructionCharretteAliment($charrette, $x, $y, $dateFin);
-		self::destructionCharretteMateriel($charrette, $x, $y, $dateFin);
-		self::destructionCharretteMinerai($charrette, $x, $y, $dateFin);
-		self::destructionCharretteMunition($charrette, $x, $y, $dateFin);
-		self::destructionCharrettePartieplante($charrette, $x, $y, $dateFin);
-		self::destructionCharrettePotion($charrette, $x, $y, $dateFin);
-		self::destructionCharretteRune($charrette, $x, $y, $dateFin);
-		self::destructionCharretteTabac($charrette, $x, $y, $dateFin);
+		self::destructionCharretteElement($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteAliment($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteMateriel($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteMinerai($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteMunition($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharrettePartieplante($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharrettePotion($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteRune($charrette, $x, $y, $z, $dateFin);
+		self::destructionCharretteTabac($charrette, $x, $y, $z, $dateFin);
 
 		Zend_Loader::loadClass("Charrette");
 		$where = "id_charrette = ".$charrette["id_charrette"];
@@ -238,7 +238,7 @@ class Bral_Util_Charrette {
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_DETRUIRE_ID, $charrette["id_charrette"], $detailEvenement);
 	}
 
-	private static function destructionCharretteElement($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteElement($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("Element");
 		$data = array(
 			"quantite_peau_element" => $charrette["quantite_peau_charrette"],
@@ -249,12 +249,13 @@ class Bral_Util_Charrette {
 			"quantite_rondin_element" => $charrette["quantite_rondin_charrette"],
 			"x_element" => $x,
 			"y_element" => $y,
+			"z_element" => $z,
 		);
 		$elementTable = new Element();
 		$elementTable->insertOrUpdate($data);
 	}
 
-	private static function destructionCharretteAliment($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteAliment($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteAliment");
 		Zend_Loader::loadClass("ElementAliment");
 
@@ -267,6 +268,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_aliment" => $x,
 				"y_element_aliment" => $y,
+				"z_element_aliment" => $z,
 				"id_element_aliment" => $a["id_charrette_aliment"],
 				"date_fin_element_aliment" => $dateFin,
 			);
@@ -274,7 +276,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteEquipement($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteEquipement($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteEquipement");
 		Zend_Loader::loadClass("ElementEquipement");
 
@@ -287,6 +289,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_equipement" => $x,
 				"y_element_equipement" => $y,
+				"z_element_equipement" => $z,
 				"id_element_equipement" => $a["id_charrette_equipement"],
 				"date_fin_element_equipement" => $dateFin,
 			);
@@ -294,7 +297,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteMateriel($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteMateriel($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteMateriel");
 		Zend_Loader::loadClass("ElementMateriel");
 
@@ -307,6 +310,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_materiel" => $x,
 				"y_element_materiel" => $y,
+				"z_element_materiel" => $z,
 				"id_element_materiel" => $a["id_charrette_materiel"],
 				"date_fin_element_materiel" => $dateFin,
 			);
@@ -314,7 +318,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteMinerai($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteMinerai($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("ElementMinerai");
 
@@ -327,6 +331,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_minerai" => $x,
 				"y_element_minerai" => $y,
+				"z_element_minerai" => $z,
 				"id_fk_type_element_minerai" => $a["id_fk_type_charrette_minerai"],
 				"quantite_brut_element_minerai" => $a["quantite_brut_charrette_minerai"],
 				"quantite_lingots_element_minerai" => $a["quantite_lingots_charrette_minerai"],
@@ -336,7 +341,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteMunition($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteMunition($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteMunition");
 		Zend_Loader::loadClass("ElementMunition");
 
@@ -349,6 +354,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_munition" => $x,
 				"y_element_munition" => $y,
+				"z_element_munition" => $z,
 				"id_fk_type_element_munition" => $a["id_fk_type_charrette_munition"],
 				"quantite_feuille_element_munition" => $a["quantite_feuille_charrette_munition"],
 				"date_fin_element_munition" => $dateFin,
@@ -357,7 +363,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharrettePartieplante($charrette, $x, $y, $dateFin) {
+	private static function destructionCharrettePartieplante($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharrettePartieplante");
 		Zend_Loader::loadClass("ElementPartieplante");
 
@@ -370,6 +376,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_partieplante" => $x,
 				"y_element_partieplante" => $y,
+				"z_element_partieplante" => $z,
 				"id_fk_type_element_partieplante" => $a["id_fk_type_charrette_partieplante"],
 				"id_fk_type_plante_element_partieplante" => $a["id_fk_type_plante_charrette_partieplante"],
 				"quantite_element_partieplante" => $a["quantite_charrette_partieplante"],
@@ -380,7 +387,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharrettePotion($charrette, $x, $y, $dateFin) {
+	private static function destructionCharrettePotion($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("ElementPotion");
 
@@ -393,6 +400,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_potion" => $x,
 				"y_element_potion" => $y,
+				"z_element_potion" => $z,
 				"id_element_potion" => $a["id_charrette_potion"],
 				"date_fin_element_potion" => $dateFin,
 			);
@@ -400,7 +408,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteRune($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteRune($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteRune");
 		Zend_Loader::loadClass("ElementRune");
 
@@ -413,6 +421,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_rune" => $x,
 				"y_element_rune" => $y,
+				"z_element_rune" => $z,
 				"id_rune_element_rune" => $a["id_rune_charrette_rune"],
 				"date_fin_element_rune" => $dateFin,
 			);
@@ -420,7 +429,7 @@ class Bral_Util_Charrette {
 		}
 	}
 
-	private static function destructionCharretteTabac($charrette, $x, $y, $dateFin) {
+	private static function destructionCharretteTabac($charrette, $x, $y, $z, $dateFin) {
 		Zend_Loader::loadClass("CharretteTabac");
 		Zend_Loader::loadClass("ElementTabac");
 
@@ -433,6 +442,7 @@ class Bral_Util_Charrette {
 			$data = array(
 				"x_element_tabac" => $x,
 				"y_element_tabac" => $y,
+				"z_element_tabac" => $z,
 				"id_fk_type_element_tabac" => $a["id_fk_type_charrette_tabac"],
 				"quantite_feuille_element_tabac" => $a["quantite_feuille_charrette_tabac"],
 				"date_fin_element_tabac" => $dateFin,
