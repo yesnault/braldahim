@@ -28,10 +28,32 @@
 		<?php include("poches/poche_cuisinier.phtml") ?>
 	<?php endif;?>
 	
-	<?php if ($this->nb_runes > 0) : ?>
-		<?php include("poches/poche_rune.phtml") ?>
+	<?php if ($lot["minerais_bruts"] != null) :
+		$this->mineraisBruts = $lot["minerais_bruts"]; ?>
+		<?php include("poches/poche_mineur.phtml") ?><br />
+	<?php endif;?>
+	<?php if ($lot["minerais_lingots"] > 0) :
+		$this->lingots = $lot["minerais_lingots"]; ?>
+		<?php include("poches/poche_forgeron.phtml") ?><br />
 	<?php endif;?>
 	
+	<?php if ($lot["partiesplantes_brutes"] != null) :
+		$this->typePlantesBruts = $lot["partiesplantes_brutes"]; ?>
+		<?php include("poches/poche_herboriste.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if ($lot["partiesplantes_preparees"] != null) :
+		$this->typePlantesPrepares = $lot["partiesplantes_preparees"]; ?>
+		<?php include("poches/poche_apothicaire.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["runes_non_identifiees"]) > 0 || count($lot["runes_identifiees"]) > 0) :
+		$this->runesNonIdentifiees = $lot["runes_non_identifiees"];
+		$this->runesIdentifiees = $lot["runes_identifiees"];
+		$this->nb_runes = count($lot["runes_non_identifiees"]) + count($lot["runes_identifiees"]);
+		?>
+		<?php include("poches/poche_rune.phtml") ?>
+	<?php endif;?>
 	
 	<?php if (count($lot["materiels"]) > 0) : 
 			$this->materiels = $lot["materiels"];
@@ -47,8 +69,11 @@
 		<?php include("poches/poche_equipement.phtml") ?><br />
 	<?php endif;?>
 	
-	<?php if ($this->nb_munitions > 0) : ?>
-		<?php include("poches/poche_munition.phtml") ?>
+	<?php if (count($lot["munitions"]) > 0) :
+			$this->munitions = $lot["munitions"];
+			$this->nb_munitions = count($lot["munitions"]);
+		?>
+		<?php include("poches/poche_munition.phtml") ?><br />
 	<?php endif;?>
 	
 	<?php if (count($lot["potions"]) > 0) :
@@ -65,8 +90,11 @@
 		<?php include("poches/poche_aliment.phtml") ?><br />
 	<?php endif;?>
 	
-	<?php if ($this->nb_graines > 0) : ?>
-		<?php include("poches/poche_graine.phtml") ?>
+	<?php if (count($lot["graines"]) > 0) : 
+			$this->graines = $lot["graines"];
+			$this->nb_graines = count($lot["graines"]);
+		?>
+		<?php include("poches/poche_graine.phtml") ?><br />
 	<?php endif;?>
 	
 	<?php if (count($this->tabac) > 0) : ?>

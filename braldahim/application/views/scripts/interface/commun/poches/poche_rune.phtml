@@ -1,6 +1,7 @@
 <?php if ($this->nb_runes == 0) : ?>
    <center><i>Vide</i></center>
 <?php else : ?>
+	<?php Zend_Loader::loadClass("Bral_Helper_DetailRune"); ?>
 	<div class="textalic textsizee">Poids d'une rune : <?php echo Bral_Util_Poids:: POIDS_RUNE?> Kg, 
 	Poids total de la poche : <?php echo ($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?> Kg</div><br />
 	

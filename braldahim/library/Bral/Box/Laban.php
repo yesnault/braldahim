@@ -318,17 +318,10 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
-				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t["id_fk_partieplante".$i."_type_plante"] == $p["id_type_partieplante"]) {
+						$val = true;
+					}
 				}
 
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {

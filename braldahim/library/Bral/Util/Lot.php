@@ -80,6 +80,7 @@ class Bral_Util_Lot {
 		self::prepareLotIngredient($idsLot, $lots);
 		self::prepareLotGraine($idsLot, $lots);
 		self::prepareLotMunition($idsLot, $lots);
+		self::prepareLotMinerai($idsLot, $lots);
 		self::prepareLotPartieplante($idsLot, $lots);
 		self::prepareLotRune($idsLot, $lots);
 	}
@@ -125,7 +126,7 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotMinerai($idsLot) {
+	private static function prepareLotMinerai($idsLot, &$lots) {
 		Zend_Loader::loadClass("LotMinerai");
 
 		$lotMineraiTable = new LotMinerai();
@@ -133,29 +134,109 @@ class Bral_Util_Lot {
 
 		$tabReturn = array();
 
-		if (count($minerais) > 0) {
+		if (count($minerais) <= 0) {
 			return;
 		}
 
-		foreach($minerais as $e) {
-			//TODO
+		foreach ($minerais as $m) {
+
+			if ($m["quantite_brut_lot_minerai"] > 0) {
+				$tabMineraisBruts = array (
+					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => false,
+					"quantite" => $m["quantite_brut_lot_minerai"],
+					"poids" => $m["quantite_brut_lot_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+				);
+				$lots[$m["id_fk_lot_lot_minerai"]]["minerais_bruts"][] = $tabMineraisBruts;
+			}
+			if ($m["quantite_lingots_lot_minerai"] > 0) {
+				$tabLingots = array (
+					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => true,
+					"quantite" => $m["quantite_lingots_lot_minerai"],
+					"poids" => $m["quantite_lingots_lot_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
+				);
+				$lots[$m["id_fk_lot_lot_minerai"]]["minerais_lingots"][] = $tabLingots;
+			}
 		}
 	}
 
 	private static function prepareLotPartieplante($idsLot, &$lots) {
-		Zend_Loader::loadClass("LotPartieplante");
-
-		$lotPartieplanteTable = new LotPartieplante();
-		$elements = $lotPartieplanteTable->findByIdLot($idsLot);
 
 		$tabReturn = array();
 
-		if (count($elements) <= 0)  {
+		Zend_Loader::loadClass("TypePlante");
+		$typePlantesTable = new TypePlante();
+		$typePlantesRowset = $typePlantesTable->findAll();
+
+		Zend_Loader::loadClass("TypePartieplante");
+		$typePartiePlantesTable = new TypePartieplante();
+		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
+		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
+
+
+		$tabTypePlantes = null;
+		Zend_Loader::loadClass("LotPartieplante");
+		$lotPartieplanteTable = new LotPartieplante();
+		$partiePlantes = $lotPartieplanteTable->findByIdLot($idsLot);
+
+		if (count($partiePlantes) <= 0)  {
 			return;
 		}
 
-		foreach($elements as $e) {
-			//TODO
+		foreach($typePartiePlantesRowset as $p) {
+			foreach($typePlantesRowset as $t) {
+				$val = false;
+				for($i = 1; $i<= 4; $i++) {
+					if ($t["id_fk_partieplante".$i."_type_plante"] == $p["id_type_partieplante"]) {
+						$val = true;
+					}
+				}
+
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
+					$tab = array(
+						'nom_type_plante' => $t["nom_type_plante"],
+						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+						'id_type_plante' => $t["id_type_plante"],
+					);
+					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
+				}
+
+				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
+			}
+		}
+
+		foreach($lots as $lot) {
+			$tabTypePlantesBrutes = $tabTypePlantes;
+			$tabTypePlantesPreparees = $tabTypePlantes;
+			foreach ($partiePlantes as $p) {
+				if ($p["id_fk_lot_lot_partieplante"] != $lot["id_lot"]) continue;
+
+				if ($p["quantite_lot_partieplante"] > 0) {
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["a_afficher"] = true;
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_lot_partieplante"];
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
+					$tabTypePlantesBrutes[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_lot_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
+				}
+
+				if ($p["quantite_preparee_lot_partieplante"] > 0) {
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["a_afficher"] = true;
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_lot_partieplante"];
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
+					$tabTypePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_lot_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+				}
+			}
+			$lots[$p["id_fk_lot_lot_partieplante"]]["partiesplantes_brutes"] = $tabTypePlantesBrutes;
+			$lots[$p["id_fk_lot_lot_partieplante"]]["partiesplantes_preparees"] = $tabTypePlantesPreparees;
 		}
 	}
 
@@ -172,8 +253,16 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		foreach($graines as $e) {
-			//TODO
+		foreach ($graines as $g) {
+			if ($g["quantite_lot_graine"] > 0) {
+				$tabGraines = array(
+					"type" => $g["nom_type_graine"],
+					"id_type_graine" => $g["id_type_graine"],
+					"quantite" => $g["quantite_lot_graine"],
+					"poids" => $g["quantite_lot_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
+				);
+				$lots[$g["id_fk_lot_lot_graine"]]["graines"][] = $tabGraines;
+			}
 		}
 	}
 
@@ -235,8 +324,13 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		foreach($munitions as $e) {
-			//TODO
+		foreach ($munitions as $m) {
+			$tabMunitions = array(
+				"type" => $m["nom_type_munition"],
+				"quantite" => $m["quantite_lot_munition"],
+				"poids" =>  $m["quantite_lot_munition"] * Bral_Util_Poids::POIDS_MUNITION,
+			);
+			$lots[$m["id_fk_lot_lot_munition"]]["munitions"][] = $tabMunitions;
 		}
 	}
 
@@ -320,8 +414,26 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		foreach($runes as $e) {
-			//TODO
+		foreach ($runes as $r) {
+			if ($r["est_identifiee_rune"] == "oui") {
+				$tabRunesIdentifiees = array(
+					"id_rune" => $r["id_rune_lot_rune"],
+					"type" => $r["nom_type_rune"],
+					"image" => $r["image_type_rune"],
+					"est_identifiee" => $r["est_identifiee_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
+				);
+				$lots[$r["id_fk_lot_lot_rune"]]["runes_identifiees"][$r["id_rune_lot_rune"]] = $tabRunesIdentifiees;
+			} else {
+				$tabRunesNonIdentifiees = array(
+					"id_rune" => $r["id_rune_lot_rune"],
+					"type" => $r["nom_type_rune"],
+					"image" => "rune_inconnue.png",
+					"est_identifiee" => $r["est_identifiee_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
+				);
+				$lots[$r["id_fk_lot_lot_rune"]]["runes_non_identifiees"][$r["id_rune_lot_rune"]] = $tabRunesNonIdentifiees;
+			}
 		}
 	}
 
@@ -342,7 +454,7 @@ class Bral_Util_Lot {
 		if (count($potions) <= 0) {
 			return;
 		}
-		
+
 		foreach($potions as $e) {
 			$tabPotion = array(
 				"id_lot_potion" => $e["id_lot_potion"],
@@ -377,6 +489,14 @@ class Bral_Util_Lot {
 				"elements" => self::prepareLotElement($r),
 				"potions" => null,
 				"ingredients" => null,
+				"runes_non_identifiees" => null,
+				"runes_identifiees" => null,	
+				"munitions" => null,
+				"graines" => null,
+				"minerais_bruts" => null,
+				"minerais_lingots" => null,
+				"partiesplantes_brutes" => null,
+				"partiesplantes_preparees" => null,
 		);
 
 		if ($r["date_fin_lot"] != null) {

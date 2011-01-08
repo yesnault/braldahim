@@ -17,6 +17,7 @@
 		<br >
 	<?php endif;?>
 	<?php echo $poches = null; ?>
+	<div id="cadre_lots" style="height:530px;overflow: auto; min-height: 80px;">
 	<ul id="navigation" style="width:99%;text-align:left">
 		
 		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
@@ -41,6 +42,7 @@
 		</li>
 		<?php endforeach;?>
 	</ul>
+	
 	<?php 
 	$jsFermer = "";
 	$jsOuvrir = "";
@@ -54,6 +56,8 @@
 	<?php if ($this->lots["visiteur"]):?>
 		<?php echo $boutonAcheter;?>
 	<?php endif;?>
+	
+	</div>
 
 <?php else: ?>
 	<i>Rien en vente</i>

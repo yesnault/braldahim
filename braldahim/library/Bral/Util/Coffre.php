@@ -36,7 +36,7 @@ class Bral_Util_Coffre {
 		self::renderIngredient($tabMetiers, $tabCoffre, $view);
 		self::renderTabac($tabCoffre["id_coffre"], $view);
 		self::renderMateriel($tabCoffre["id_coffre"], $view);
-		
+
 		$view->coffre = $tabCoffre;
 		$view->laban = $tabCoffre; // pour les poches
 
@@ -93,7 +93,7 @@ class Bral_Util_Coffre {
 			}
 		}
 		unset($coffre);
-		
+
 		return $tabCoffre;
 	}
 
@@ -207,17 +207,10 @@ class Bral_Util_Coffre {
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
-				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t["id_fk_partieplante".$i."_type_plante"] == $p["id_type_partieplante"]) {
+						$val = true;
+					}
 				}
 
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {

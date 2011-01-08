@@ -46,7 +46,7 @@ class Bral_Helper_Contenu {
 				if ($tab["quantite"] > 0) {
 					$poids = $tab["poids"]/$tab["quantite"];
 				}
-				$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".$poids." Kg, Poids total : ".$tab["poids"]." Kg'>";
+				$retour .= " <span style='cursor:pointer' title='Poids unitaire : ".$poids." Kg, Poids total : ".$tab["poids"]." Kg'>";
 			}
 			$retour .= $tab["quantite"];
 			$p = "";
@@ -55,7 +55,7 @@ class Bral_Helper_Contenu {
 					$p = "_p";
 				}
 			}
-			$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
+			$retour .= " <img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
 			if (array_key_exists("poids", $tab)) {
 				$retour .= "</span>";
 			}
