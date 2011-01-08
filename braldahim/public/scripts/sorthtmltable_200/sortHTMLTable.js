@@ -70,7 +70,7 @@ HTMLTableTools.prototype = {
 
 		Object.extend( this.options = {
 			// sort options
-			pathToImgs: '/public/images/',
+			pathToImgs: '/images/',
 			imgUp: 'fleche_haut.png',
 			imgUpActive: 'fleche_haut_active.png',
 			imgDown: 'fleche_bas.png',
