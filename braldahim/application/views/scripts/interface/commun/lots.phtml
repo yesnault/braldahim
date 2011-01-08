@@ -4,8 +4,9 @@
 	<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
 	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 
-	<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
-	
+	<?php if ($this->lots["visiteur"]):?>
+		<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
+	<?php endif;?>
 	<?php echo $poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		
@@ -41,7 +42,9 @@
 	   
 	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
 	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
-	<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
+	<?php if ($this->lots["visiteur"]):?>
+		<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
+	<?php endif;?>
 
 <?php else: ?>
 	<i>Rien en vente</i>

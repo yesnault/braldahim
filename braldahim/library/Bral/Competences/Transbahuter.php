@@ -168,61 +168,71 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareCommunUnites() {
+
 		Zend_Loader::loadClass("TypeUnite");
-		$typeUniteTable = new TypeUnite();
-		$typeUniteRowset = $typeUniteTable->fetchall(null, "nom_type_unite");
-		$typeUniteRowset = $typeUniteRowset->toArray();
 
-		foreach($typeUniteRowset as $t) {
+		$unites[TypeUnite::NOM_SYSTEME_TYPE_CASTARS] = array(
+							"id_type_unite" => TypeUnite::ID_TYPE_CASTARS,
+							"nom_type_unite" => TypeUnite::NOM_TYPE_CASTARS,
+							"nom_pluriel_type_unite" => TypeUnite::NOM_TYPE_PLURIEL_CASTARS,
+		);
+			
+		/*Zend_Loader::loadClass("TypeUnite");
+		 $typeUniteTable = new TypeUnite();
+		 $typeUniteRowset = $typeUniteTable->fetchall(null, "nom_type_unite");
+		 $typeUniteRowset = $typeUniteRowset->toArray();
+
+		 foreach($typeUniteRowset as $t) {
 			$unites[$t["nom_systeme_type_unite"]] = array(
-							"id_type_unite" => $t["id_type_unite"] ,
-							"nom_type_unite" => $t["nom_type_unite"],
-							"nom_pluriel_type_unite" => $t["nom_pluriel_type_unite"],
+			"id_type_unite" => $t["id_type_unite"] ,
+			"nom_type_unite" => $t["nom_type_unite"],
+			"nom_pluriel_type_unite" => $t["nom_pluriel_type_unite"],
 			);
-		}
+			}
 
-		Zend_Loader::loadClass("TypeMinerai");
-		$typeMineraiTable = new TypeMinerai();
-		$typeMineraiRowset = $typeMineraiTable->fetchall(null, "nom_type_minerai");
-		$typeMineraiRowset = $typeMineraiRowset->toArray();
+			Zend_Loader::loadClass("TypeMinerai");
+			$typeMineraiTable = new TypeMinerai();
+			$typeMineraiRowset = $typeMineraiTable->fetchall(null, "nom_type_minerai");
+			$typeMineraiRowset = $typeMineraiRowset->toArray();
 
-		foreach($typeMineraiRowset as $t) {
+			foreach($typeMineraiRowset as $t) {
 			$unites["mineraibrut:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Minerai Brut: ".$t["nom_type_minerai"], "type_forme" => "brut", "texte_forme_singulier" => "Minerai Brut", "texte_forme_pluriel" => "Minerais Bruts");
 			//	$unites["minerailingot:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Lingot: ".$t["nom_type_minerai"], "type_forme" => "lingot", "texte_forme_singulier" => "Lingot", "texte_forme_pluriel" => "Lingots");
-		}
+			}
 
-		Zend_Loader::loadClass("TypePartieplante");
-		$typePartiePlanteTable = new TypePartieplante();
-		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall(null, "nom_type_partieplante");
-		$typePartiePlanteRowset = $typePartiePlanteRowset->toArray();
-		foreach($typePartiePlanteRowset as $t) {
+			Zend_Loader::loadClass("TypePartieplante");
+			$typePartiePlanteTable = new TypePartieplante();
+			$typePartiePlanteRowset = $typePartiePlanteTable->fetchall(null, "nom_type_partieplante");
+			$typePartiePlanteRowset = $typePartiePlanteRowset->toArray();
+			foreach($typePartiePlanteRowset as $t) {
 			$partiePlante[$t["id_type_partieplante"]] = array("nom_partieplante" => $t["nom_type_partieplante"], "nom_systeme_partieplante" => $t["nom_systeme_type_partieplante"]);
-		}
+			}
 
-		Zend_Loader::loadClass("TypePlante");
-		$typePlanteTable = new TypePlante();
-		$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
-		$typePlanteRowset = $typePlanteRowset->toArray();
+			Zend_Loader::loadClass("TypePlante");
+			$typePlanteTable = new TypePlante();
+			$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
+			$typePlanteRowset = $typePlanteRowset->toArray();
 
-		foreach($typePlanteRowset as $t) {
+			foreach($typePlanteRowset as $t) {
 			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante1_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
 			//	$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante1_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
 
 			if ($t["id_fk_partieplante2_type_plante"] != "") {
-				$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "brute");
-				//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "preparee");
+			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "brute");
+			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "preparee");
 			}
 
 			if ($t["id_fk_partieplante3_type_plante"] != "") {
-				$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "brute");
-				//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "preparee");
+			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "brute");
+			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "preparee");
 			}
 
 			if ($t["id_fk_partieplante4_type_plante"] != "") {
-				$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "brute");
-				//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "preparee");
+			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "brute");
+			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "preparee");
 			}
-		}
+			}
+			*/
 
 		$this->view->unites = $unites;
 	}
@@ -499,7 +509,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun,$this->view->user->y_braldun, $this->view->user->z_braldun);
 
-		if (array_key_exists(self::ID_ENDROIT_MON_COFFRE, $this->view->tabEndroit)) {
+		if (array_key_exists(self::ID_ENDROIT_MON_COFFRE, $this->view->tabEndroit) && $this->view->user->est_pnj_braldun == 'non') {
 			$tab = array("box_vue", "box_laban", "box_coffre", "box_charrette", "box_banque");
 		} elseif (array_key_exists(self::ID_ENDROIT_HOTEL, $this->view->tabEndroit)) {
 			$tab = array("box_vue", "box_laban", "box_hotel", "box_charrette");
@@ -573,28 +583,46 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$prix_1 = $this->request->get("valeur_4");
 		$unite_1 = $this->request->get("valeur_5");
-		$prix_2 = $this->request->get("valeur_6");
-		$unite_2 = $this->request->get("valeur_7");
-		$prix_3 = $this->request->get("valeur_8");
-		$unite_3 = $this->request->get("valeur_9");
 
 		if ((int) $prix_1."" != $this->request->get("valeur_4")."") {
 			throw new Zend_Exception(get_class($this)." prix 1 invalide");
 		} else {
 			$prix_1 = (int)$prix_1;
 		}
-		if ((int) $prix_2."" != $this->request->get("valeur_6")."") {
+
+		if ((int) $unite_1."" != $this->request->get("valeur_5")."") {
+			throw new Zend_Exception(get_class($this)." unite 1 invalide");
+		} else {
+			$unite_1 = (int)$unite_1;
+		}
+
+		if ($unite_1 != TypeUnite::ID_TYPE_CASTARS) {
+			throw new Zend_Exception(get_class($this)." Type 1 invalide");
+		}
+			
+		/*$prix_2 = $this->request->get("valeur_6");
+		 $unite_2 = $this->request->get("valeur_7");
+		 $prix_3 = $this->request->get("valeur_8");
+		 $unite_3 = $this->request->get("valeur_9");
+
+		 if ((int) $prix_1."" != $this->request->get("valeur_4")."") {
+			throw new Zend_Exception(get_class($this)." prix 1 invalide");
+			} else {
+			$prix_1 = (int)$prix_1;
+			}
+			if ((int) $prix_2."" != $this->request->get("valeur_6")."") {
 			$prix_2 = null;
 			$unite_2 = null;
-		} else {
+			} else {
 			$prix_2 = (int)$prix_2;
-		}
-		if ((int) $prix_3."" != $this->request->get("valeur_8")."") {
+			}
+			if ((int) $prix_3."" != $this->request->get("valeur_8")."") {
 			$prix_3 = null;
 			$unite_3 = null;
-		} else {
+			} else {
 			$prix_3 = (int)$prix_3;
-		}
+			}
+		*/
 
 		Zend_Loader::loadClass("Lot");
 		Zend_Loader::loadClass("TypeLot");
@@ -616,9 +644,24 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$this->view->textePrixVente = array();
 
-		$this->calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
-		$this->calculPrixLotMinerai($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
-		$this->calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+		//$this->calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+		//$this->calculPrixLotMinerai($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+		//$this->calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+
+		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_10')));
+		$dateDebut = date("Y-m-d H:0:0");
+		$dateFin = null;
+
+		$data = array(
+			"date_debut_lot" => $dateDebut,
+			"date_fin_lot" => $dateFin, 
+			"commentaire_lot" => $commentaire,
+			"unite_1_lot" => $unite_1,
+			"prix_1_lot" => $prix_1,
+		);
+
+		$where = "id_lot=".$idLot;
+		$lotTable->update($data, $where);
 
 		return $idLot;
 	}
@@ -3366,7 +3409,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							if ($b["quantite_".$nom_systeme."_element"] < $nbAEnlever) {
 								continue;
 							}
-							
+
 							$data = array(
 									"quantite_".$nom_systeme."_element" => -$nbAEnlever,
 									"x_element" => $this->view->user->x_braldun,
