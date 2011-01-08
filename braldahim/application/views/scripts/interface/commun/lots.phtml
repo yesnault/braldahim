@@ -5,7 +5,16 @@
 	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 
 	<?php if ($this->lots["visiteur"]):?>
-		<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('tabLotsSelectionnes').value=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=".$this->echoppe["id_echoppe"]."&amp;idsLots='+$('tabLotsSelectionnes').value)}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php echo $boutonAcheter;?>
+		<br >
+		<span style="float:right" id="selectionLotsTexte">
+		Lots sélectionnés : aucun
+		</span>
+		<input type='hidden' value='' id='tabLotsSelectionnes'>
+		
+		<br >
+		<br >
 	<?php endif;?>
 	<?php echo $poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
@@ -19,7 +28,7 @@
 				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
 				
 				<?php if ($this->lots["visiteur"]):?>
-					<span style="float:right">Sélectionner</span>
+					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot(this, '<?php echo $numero;?>')">Sélectionner</span>
 				<?php else:?>
 					<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
 				<?php endif;?>
@@ -43,7 +52,7 @@
 	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
 	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
 	<?php if ($this->lots["visiteur"]):?>
-		<input type="button" style="float:right" onclick="Javascript:_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idLot=<?php echo $numero;?>&amp;idEchoppe=<?php echo $this->echoppe["id_echoppe"] ?>')" value="1 PA - Acheter les lots sélectionnés" class="button1">
+		<?php echo $boutonAcheter;?>
 	<?php endif;?>
 
 <?php else: ?>

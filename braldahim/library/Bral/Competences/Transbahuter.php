@@ -600,30 +600,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Type 1 invalide");
 		}
 			
-		/*$prix_2 = $this->request->get("valeur_6");
-		 $unite_2 = $this->request->get("valeur_7");
-		 $prix_3 = $this->request->get("valeur_8");
-		 $unite_3 = $this->request->get("valeur_9");
-
-		 if ((int) $prix_1."" != $this->request->get("valeur_4")."") {
-			throw new Zend_Exception(get_class($this)." prix 1 invalide");
-			} else {
-			$prix_1 = (int)$prix_1;
-			}
-			if ((int) $prix_2."" != $this->request->get("valeur_6")."") {
-			$prix_2 = null;
-			$unite_2 = null;
-			} else {
-			$prix_2 = (int)$prix_2;
-			}
-			if ((int) $prix_3."" != $this->request->get("valeur_8")."") {
-			$prix_3 = null;
-			$unite_3 = null;
-			} else {
-			$prix_3 = (int)$prix_3;
-			}
-		*/
-
 		Zend_Loader::loadClass("Lot");
 		Zend_Loader::loadClass("TypeLot");
 
@@ -643,10 +619,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idLot = $lotTable->insert($data);
 
 		$this->view->textePrixVente = array();
-
-		//$this->calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
-		//$this->calculPrixLotMinerai($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
-		//$this->calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 
 		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_10')));
 		$dateDebut = date("Y-m-d H:0:0");
@@ -672,138 +644,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$data = array("poids_lot" => $poids);
 		$where = "id_lot=".$this->idLot;
 		$lotTable->update($data, $where);
-	}
-
-	private function calculPrixLot($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
-		$unite_1_ok = false;
-		$unite_2_ok = false;
-		$unite_3_ok = false;
-		$unite_1_lot = null;
-		$unite_2_lot = null;
-		$unite_3_lot = null;
-		$prix_1_lot = null;
-		$prix_2_lot = null;
-		$prix_3_lot = null;
-		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && mb_substr($unite_1, 0, 6) != "plante" && mb_substr($unite_1, 0, 7) != "minerai") {
-				$prix_1_lot = $prix_1;
-				$unite_1_lot = $u["id_type_unite"];
-				$unite_1_ok = true;
-			}
-			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) != "plante" && mb_substr($unite_2, 0, 7) != "minerai") {
-				$prix_2_lot = $prix_2;
-				$unite_2_lot = $u["id_type_unite"];
-				$unite_2_ok = true;
-			}
-			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) != "plante" && mb_substr($unite_3, 0, 7) != "minerai") {
-				$prix_3_lot = $prix_3;
-				$unite_3_lot = $u["id_type_unite"];
-				$unite_3_ok = true;
-			}
-		}
-
-		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_10')));
-
-		$dateDebut = date("Y-m-d H:0:0");
-		$dateFin = null;
-
-		$data = array(
-			"date_debut_lot" => $dateDebut,
-			"date_fin_lot" => $dateFin, 
-			"commentaire_lot" => $commentaire,
-			"unite_1_lot" => $unite_1_lot,
-			"unite_2_lot" => $unite_2_lot,
-			"unite_3_lot" => $unite_3_lot,
-			"prix_1_lot" => $prix_1_lot,
-			"prix_2_lot" => $prix_2_lot,
-			"prix_3_lot" => $prix_3_lot,
-		);
-
-		$where = "id_lot=".$idLot;
-		$lotTable = new Lot();
-		$lotTable->update($data, $where);
-	}
-
-	private function calculPrixLotMinerai($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
-		Zend_Loader::loadClass("LotPrixMinerai");
-		$lotPrixMineraiTable = new LotPrixMinerai();
-
-		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && mb_substr($unite_1, 0, 7) == "minerai") {
-				$data = array("prix_lot_prix_minerai" => $prix_1,
-							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_lot_prix_minerai" => $idLot,
-							  "type_prix_minerai" => $u["type_forme"]);
-				$lotPrixMineraiTable->insert($data);
-				if ($prix_1 > 1) {
-					$keyTexte = "texte_forme_singulier";
-				} else {
-					$keyTexte = "texte_forme_pluriel";
-				}
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1." ".$u[$keyTexte]);
-			}
-			if ($unite_2 == $k && mb_substr($unite_2, 0, 7) == "minerai") {
-				$data = array("prix_lot_prix_minerai" => $prix_2,
-							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_lot_prix_minerai" => $idLot,
-							  "type_prix_minerai" => $u["type_forme"]);
-				$lotPrixMineraiTable->insert($data);
-				if ($prix_2 > 1) {
-					$keyTexte = "texte_forme_singulier";
-				} else {
-					$keyTexte = "texte_forme_pluriel";
-				}
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2." ".$u[$keyTexte]);
-			}
-			if ($unite_3 == $k && mb_substr($unite_3, 0, 7) == "minerai") {
-				$data = array("prix_lot_prix_minerai" => $prix_3,
-							  "id_fk_type_lot_prix_minerai" => $u["id_type_minerai"],
-							  "id_fk_lot_prix_minerai" => $idLot,
-							  "type_prix_minerai" => $u["type_forme"]);
-				$lotPrixMineraiTable->insert($data);
-				if ($prix_3 > 1) {
-					$keyTexte = "texte_forme_singulier";
-				} else {
-					$keyTexte = "texte_forme_pluriel";
-				}
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3." ".$u[$keyTexte]);
-			}
-		}
-	}
-
-	private function calculPrixLotPartiePlante($idLot, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {
-		Zend_Loader::loadClass("LotPrixPartiePlante");
-		$lotPrixPartiePlanteTable = new LotPrixPartiePlante();
-
-		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && mb_substr($unite_1, 0, 6) == "plante") {
-				$data = array("prix_lot_prix_partieplante" => $prix_1,
-							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_lot_prix_partieplante" => $idLot,
-							  "type_prix_partieplante" => $u["type_forme"]);
-				$lotPrixPartiePlanteTable->insert($data);
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1);
-			}
-			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) == "plante") {
-				$data = array("prix_lot_prix_partieplante" => $prix_2,
-							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_lot_prix_partieplante" => $idLot,
-							  "type_prix_partieplante" => $u["type_forme"]);
-				$lotPrixPartiePlanteTable->insert($data);
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2);
-			}
-			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) == "plante") {
-				$data = array("prix_lot_prix_partieplante" => $prix_3,
-							  "id_fk_type_lot_prix_partieplante" => $u["id_type_partieplante"],
-							  "id_fk_type_plante_lot_prix_partieplante" => $u["id_type_plante"],
-							  "id_fk_lot_prix_partieplante" => $idLot,
-							  "type_prix_partieplante" => $u["type_forme"]);
-				$lotPrixPartiePlanteTable->insert($data);
-				//				$this->view->textePrixLot[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3);
-			}
-		}
 	}
 
 	private function prepareTypeEquipements($depart, $idTypeDepart) {

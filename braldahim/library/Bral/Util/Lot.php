@@ -34,17 +34,17 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	public static function getLotByIdLot($idLot) {
+	public static function getLotByIdsLots($idsLots) {
 		Zend_Loader::loadClass("Lot");
 		$lotTable = new Lot();
 
-		$lots = $lotTable->findByIdLot($idLot);
+		$lots = $lotTable->findByIdLot($idsLots);
 		$tabLots = self::prepareLots($lots);
-		if (count($tabLots) != 1) {
-			throw new Zend_Exception("getLotByIdLot - Lot invalide:".$idLot);
+		if (count($tabLots) != count($idsLots)) {
+			throw new Zend_Exception("getLotByIdLot - Lot invalide:".$idsLots);
 		}
 
-		return $tabLots[$idLot];
+		return $tabLots;
 	}
 
 	private static function prepareLots($lots) {
@@ -59,37 +59,10 @@ class Bral_Util_Lot {
 			$idsLot[] = $l["id_lot"];
 		}
 
-		Zend_Loader::loadClass("LotPrixMinerai");
-		$lotPrixMineraiTable = new LotPrixMinerai();
-		$lotPrixMinerai = $lotPrixMineraiTable->findByIdLot($idsLot);
-
-		Zend_Loader::loadClass("LotPrixPartiePlante");
-		$lotPrixPartiePlanteTable = new LotPrixPartiePlante();
-		$lotPrixPartiePlante = $lotPrixPartiePlanteTable->findByIdLot($idsLot);
-
 		$tabLots = null;
 
 		foreach ($lots as $l) {
-			$minerai = null;
-			$partiesPlantes = null;
-
-			if ($lotPrixMinerai != null) {
-				foreach($lotPrixMinerai as $m) {
-					if ($m["id_fk_lot_prix_minerai"] == $l["id_lot"]) {
-						$minerai[] = self::recuperePrixMineraiAvecIdLot($m, $l["id_lot"]);
-					}
-				}
-			}
-
-			if ($lotPrixPartiePlante != null) {
-				foreach($lotPrixPartiePlante as $p) {
-					if ($p["id_fk_lot_prix_partieplante"] == $l["id_lot"]) {
-						$partiesPlantes[] = self::recuperePrixPartiePlantesAvecIdLot($p, $l["id_lot"]);
-					}
-				}
-			}
-
-			$tabLots[$l["id_lot"]] = self::prepareRowLot($l, $minerai, $partiesPlantes);
+			$tabLots[$l["id_lot"]] = self::prepareRowLot($l);
 		}
 
 		self::prepareLotsContenus($idsLot, $tabLots);
@@ -794,19 +767,14 @@ class Bral_Util_Lot {
 		return $partiesPlantes;
 	}
 
-	private static function prepareRowLot($r, $minerai, $partiesPlantes) {
+	private static function prepareRowLot($r) {
 
 		$tab = array("id_lot" => $r["id_lot"],
 				"unite_1_lot" => $r["unite_1_lot"],
-				"unite_2_lot" => $r["unite_2_lot"],
-				"unite_3_lot" => $r["unite_3_lot"],
 				"prix_1_lot" => $r["prix_1_lot"],
-				"prix_2_lot" => $r["prix_2_lot"],
-				"prix_3_lot" => $r["prix_3_lot"],
 				"date_debut_lot" => $r["date_debut_lot"],
 				"commentaire_lot" => $r["commentaire_lot"],
-				"prix_minerais" => $minerai,
-				"prix_parties_plantes" => $partiesPlantes,
+				"poids_lot" => $r["poids_lot"],
 				"estLotCharrette" => false,
 				"equipements" => null,
 				"materiels" => null,

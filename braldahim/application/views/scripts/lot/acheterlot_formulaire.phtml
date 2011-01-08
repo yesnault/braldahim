@@ -1,48 +1,32 @@
 <div class='comp_titre'><?php echo htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
- <input type='hidden' id='valeur_1' name='valeur_1' value='<?php echo $this->lot["id_lot"] ?>'>
- <input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?php echo $this->idsLots ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
 	
+	<b>Lot<?php if (count($this->tabIdsLots) > 1): echo 's'; endif;?> <?php echo $this->idsLots?></b> <br />
 	Co&ucirc;t du service : <?php echo $this->nb_pa ?> PA<br />
 	
-	<?php if ($this->lot["estLotCharrette"] == false && $this->lot["place_dispo"] === false) : ?>
+	<?php if ($this->lotCharrette == null && $this->detailsLots["place_dispo"] === false) : ?>
 		<br /><br />
 		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br />
 	<?php endif; ?>
 	
 	<br />
-	
-	<?php if (count($this->prix) > 0) : ?>
 		
-		<?php if ($this->lot["estLotCharrette"] === true) : ?>
+		<?php if ($this->lotCharrette != null && $this->detailsLots["charrette_possible"] == false) : ?>
+				<?php echo $this->detailsLots["charrette_detail"]?><br />
+		<?php elseif ($this->lotCharrette != null) : ?>
 			<br />Vous êtes sur le point d'acheter une charrette.<br />
-			<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
+			<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+			
 		<?php else : ?>
 	
 			<?php foreach($this->destinationTransfert as $d) :?>
 				<input type="hidden" id="possible_<?php echo $d["id_destination"] ?>" value="<?php if ($d["possible"] == true): echo 1; endif;?>"/>
 				<input type="hidden" id="possible_<?php echo $d["id_destination"] ?>_force" value="<?php if ($d["possible_force"] == true): echo 1; endif;?>"/>
 			<?php endforeach; ?>
-			
-			<?php
-			$jsTrue = "";
-			$jsFalse = "";
-			$js = "";
-			foreach($this->prix as $k => $p) {
-				if ($p["possible"] === true) {
-					$jsTrue .= "$('bouton_acheterelot".$k."').disabled = true;";
-					$jsFalse .= "if ($('possible_'+this.value+'_force').value == 1 && ('".$p["id_destination"]."' != this.value)) {  $('bouton_acheterelot".$k."').disabled = true } else { $('bouton_acheterelot".$k."').disabled = false};";
-				}
-			}
-			if ($jsTrue != "" && $jsFalse != "") {
-				$jsTrue = substr($jsTrue, 0, strlen($jsTrue)-1);
-				$jsFalse = substr($jsFalse, 0, strlen($jsFalse)-1);
-				$js = " if (this.value == -1) {".$jsTrue."} else {".$jsFalse."}";
-			}
-			?>
 			
 			Destination du lot : <br />
 			<select name="valeur_3" id="valeur_3" onchange="<?php if ($js!= ""): echo $js; endif;?>">
@@ -53,33 +37,33 @@
 			</select>
 		
 		<?php endif; ?>
-		
-		<br /><br />
-		<div class="titre textalic textsizec">Prix</div>
-		<br />
+
+		<?php if ($this->lotCharrette == null || $this->detailsLots["charrette_possible"] == true) : ?>		
+			<br /><br />
+			<?php if ($this->lotCharrette == null) : ?>
+			<div class="titre textalic textsizec">Poids : <?php echo $this->detailsLots["poids_total"]?> </div>
+			<?php endif;?>
 			
-		<?php foreach($this->prix as $k => $p) : ?>
-			<?php echo $p["id_destination"] ?> : <?php echo $p["prix"] ?> <?php echo $p["nom"] ?>
-			<?php if ($this->assezDePa !== true): ?>
-				: Pas assez de PA
-			<?php elseif ($this->lot["charrette_possible"] === false) : ?>
-				<br />
-				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : 
-				<br /><?php echo $this->lot["charrette_detail"]?><br />
-			<?php elseif ($p["possible"] === true && $this->lot["place_dispo"] === true) : ?>
-				<input type='button' class='button1' id='bouton_acheterelot<?php echo $k?>' value='Acheter !' 
-				onclick='this.disabled=true;$("valeur_2").value=<?php echo $k ?>; _get_("/lot/doaction?caction=do_lot_acheterlot&idLot=<?php echo $this->lot["id_lot"] ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
-				<?php if ($this->lot["estLotCharrette"] !== true) : echo "disabled"; endif;?>>
-			<?php elseif ($this->lot["place_dispo"] !== true): ?>
-			: Pas assez de place disponible
-			<?php else: ?>
-			: Pas assez de ressources
-			<?php endif; ?>
+			<div class="titre textalic textsizec">Prix en castars : <?php echo $this->detailsLots["prix_total"]?> </div>
 			<br />
-		<?php endforeach; ?>
+			
+			<?php if ($this->assezDePa !== true): ?>
+				Vous n'avez pas assez de PA
+				
+			<?php elseif ($this->detailsLots["place_dispo"] === true) : ?>
+			
+				<input type='button' class='button1' id='bouton_acheterelot<?php echo $k?>' value='Acheter !' 
+				onclick='this.disabled=true; _get_("/lot/doaction?caction=do_lot_acheterlot&idsLots=<?php echo $this->idsLots ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
+				<?php if ($this->lotCharrette == null) : echo "disabled"; endif;?>>
+				
+			<?php elseif ($this->detailsLots["place_dispo"] !== true): ?>
+				Vous n'avez pas assez de place disponible.
+			<?php else: ?>
+				Vous n'avez pas assez de castars dans votre laban
+			<?php endif; ?>
+		<?php endif;?>
+		<br />
 		
-	<?php endif; ?>
-	
  </div>
 
 </form>

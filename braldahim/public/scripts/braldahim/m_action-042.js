@@ -447,6 +447,49 @@ function maccordion(el) {
 	}
 }
 
+function selectionnerLot(element, idLot) {
+	var texteSelectionne = "Sélectionné, Cliquez pour désélectionner";
+	var texteSelectionner = "Sélectionner";
+	
+	var idChamp = 'tabLotsSelectionnes';
+	var idChampTexte = 'selectionLotsTexte';
+	var tabValeur = $(idChamp).value.split(',');
+	var nouvelleValeur = '';
+	
+	if ($(element).innerHTML == texteSelectionne) {
+		$(element).innerHTML = texteSelectionner;
+		
+		for (i = 0; i < tabValeur.length; i++) {
+			if (tabValeur[i] != idLot && tabValeur[i] != "") {
+				if (nouvelleValeur == "") {
+					nouvelleValeur = tabValeur[i];
+				} else {
+					nouvelleValeur = nouvelleValeur + ',' + tabValeur[i];
+				}
+			}
+		}
+		
+	} else {
+		$(element).innerHTML=texteSelectionne;
+		if ($(idChamp).value != "") {
+			nouvelleValeur = $(idChamp).value + ',' + idLot;
+		} else {
+			nouvelleValeur = idLot;
+		}
+	}
+	
+	$(idChamp).value = nouvelleValeur;
+	
+	var s='';
+	if (nouvelleValeur.indexOf(',') > 0) s = 's';
+	if (nouvelleValeur == "") {
+		nouvelleValeur = "Lot" + s + " sélectionné" + s + " : aucun";
+	} else {
+		nouvelleValeur = "Lot" + s + " sélectionné" + s + " : " + nouvelleValeur;
+	}
+	$(idChampTexte).innerHTML = nouvelleValeur;
+}
+
 function limiteTailleTextarea(textarea, max, iddesc) {
 	if (textarea.value.length >= max) {
 		textarea.value = textarea.value.substring(0, max);

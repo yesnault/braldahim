@@ -49,12 +49,33 @@ class Lot extends Zend_Db_Table {
 	}
 
 	function findByIdLot($idLot, $typeLot = null) {
+
+		$liste = "";
+		$nomChamp = "id_lot";
+
+		if (is_array($idLot)) {
+			foreach($idLot as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('lot', '*')
-		->where('id_lot = ?', intval($idLot));
+		$select->from('lot', '*');
+		
 		if ($typeLot != null) {
 			$select->where('id_fk_type_lot = ?', $typeLot);
+		}
+		if ($liste != "") {
+			$select->where($nomChamp .'='. $liste);
+		} else {
+			$select->where('id_lot = ?', intval($idLot));
 		}
 		$sql = $select->__toString();
 
