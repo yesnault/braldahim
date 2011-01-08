@@ -23,16 +23,11 @@
 			
 		<?php else : ?>
 	
-			<?php foreach($this->destinationTransfert as $d) :?>
-				<input type="hidden" id="possible_<?php echo $d["id_destination"] ?>" value="<?php if ($d["possible"] == true): echo 1; endif;?>"/>
-				<input type="hidden" id="possible_<?php echo $d["id_destination"] ?>_force" value="<?php if ($d["possible_force"] == true): echo 1; endif;?>"/>
-			<?php endforeach; ?>
-			
 			Destination du lot : <br />
-			<select name="valeur_3" id="valeur_3" onchange="<?php if ($js!= ""): echo $js; endif;?>">
+			<select name="valeur_2" id="valeur_2" onchange="if (this.value != 1) {$('bouton_acheterelot').disabled = false} else {$('bouton_acheterelot').disabled = true}">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<?php foreach($this->destinationTransfert as $d) :?>
-					<option value="<?php echo $d["id_destination"] ?>" <?php if ($d["possible"] == false && $d["possible_force"] == false): echo "disabled"; endif;?>><?php echo $d["texte"] ?> <?php if ($d["possible"] == false && $d["possible_force"] == false): echo " : pas assez de place"; endif;?></option>
+					<option value="<?php echo $d["id_destination"] ?>" <?php if ($d["possible"] == false): echo "disabled"; endif;?>><?php echo $d["texte"] ?> (<?php echo $d["poids_restant"]?> Kg dispo)<?php if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>
 				<?php endforeach; ?>
 			</select>
 		
@@ -41,7 +36,7 @@
 		<?php if ($this->lotCharrette == null || $this->detailsLots["charrette_possible"] == true) : ?>		
 			<br /><br />
 			<?php if ($this->lotCharrette == null) : ?>
-			<div class="titre textalic textsizec">Poids : <?php echo $this->detailsLots["poids_total"]?> </div>
+			<div class="titre textalic textsizec">Poids : <?php echo $this->detailsLots["poids_total"]?> Kg </div>
 			<?php endif;?>
 			
 			<div class="titre textalic textsizec">Prix en castars : <?php echo $this->detailsLots["prix_total"]?> </div>
@@ -52,8 +47,8 @@
 				
 			<?php elseif ($this->detailsLots["place_dispo"] === true) : ?>
 			
-				<input type='button' class='button1' id='bouton_acheterelot<?php echo $k?>' value='Acheter !' 
-				onclick='this.disabled=true; _get_("/lot/doaction?caction=do_lot_acheterlot&idsLots=<?php echo $this->idsLots ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
+				<input type='button' class='button1' id='bouton_acheterelot' value='Acheter !' 
+				onclick='this.disabled=true;_get_("/lot/doaction?caction=do_lot_acheterlot&amp;idsLots=<?php echo $this->idsLots ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
 				<?php if ($this->lotCharrette == null) : echo "disabled"; endif;?>>
 				
 			<?php elseif ($this->detailsLots["place_dispo"] !== true): ?>

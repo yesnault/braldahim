@@ -49,7 +49,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$banque = $lieu->findByCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			if (count($banque) > 0 || $this->view->user->est_pnj_braldun == 'oui') {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array("id_type_endroit" => self::ID_ENDROIT_MON_COFFRE,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
-				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldun", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array("id_type_endroit" => self::ID_ENDROIT_COFFRE_BRALDUN, "nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Braldûn", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 			}
 
 			$lieux = $lieu->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
@@ -113,6 +113,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 		$this->view->ID_ENDROIT_ECHOPPE_ETAL = self::ID_ENDROIT_ECHOPPE_ETAL;
+		$this->view->ID_ENDROIT_HOTEL = self::ID_ENDROIT_HOTEL;
 	}
 
 	private function prepareCommunChoixArrivee($tabEndroit, $id_type_courant_depart) {
@@ -614,6 +615,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
 		} elseif ($arrivee["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
 			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_HOTEL;
+			$data["id_fk_vendeur_braldun_lot"] = $this->view->user->id_braldun;
 		}
 
 		$idLot = $lotTable->insert($data);
@@ -3172,6 +3174,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$nbFourrure = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_14"));
 		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_15"));
 		$nbRondin = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_16"));
+		
+		if ($idTypeArrivee == self::ID_ENDROIT_HOTEL || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
+			$nbCastar = 0;
+		}
 
 		$tabElement[1] = array("nom_systeme" => "castar", "nb" => $nbCastar, "poids" => Bral_Util_Poids::POIDS_CASTARS);
 		$tabElement[2] = array("nom_systeme" => "peau", "nb" => $nbPeau, "poids" => Bral_Util_Poids::POIDS_PEAU);

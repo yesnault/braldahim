@@ -24,7 +24,7 @@
 			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
 	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
 				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?></span>
-				<br /> Prix : 
+				- Prix : 
 				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
 				
 				<?php if ($this->lots["visiteur"]):?>

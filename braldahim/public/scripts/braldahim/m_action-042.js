@@ -448,7 +448,7 @@ function maccordion(el) {
 }
 
 function selectionnerLot(element, idLot) {
-	var texteSelectionne = "Sélectionné, Cliquez pour désélectionner";
+	var texteSelectionne = "Sélectionné, cliquer pour désélectionner";
 	var texteSelectionner = "Sélectionner";
 	
 	var idChamp = 'tabLotsSelectionnes';

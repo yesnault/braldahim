@@ -1,5 +1,5 @@
 <?php if (count($this->lots) > 1) : ?>
-Vous avez achet&eacute; les lots n&deg; <?php echo $this->tabIdsLots?> pour <?php echo $this->detailsLots["prix_total"] ?> castar<?php if ($this->detailsLots["prix_total"] > 1) : echo 's'; endif;?>.<br />
+Vous avez achet&eacute; les lots n&deg; <?php echo $this->idsLots?> pour <?php echo $this->detailsLots["prix_total"] ?> castar<?php if ($this->detailsLots["prix_total"] > 1) : echo 's'; endif;?>.<br />
 <?php else:?>
-Vous avez achet&eacute; le lot n&deg; <?php echo $this->tabIdsLots?> pour <?php echo $this->detailsLots["prix_total"] ?> castar<?php if ($this->detailsLots["prix_total"] > 1) : echo 's'; endif;?>.<br />
+Vous avez achet&eacute; le lot n&deg; <?php echo $this->idsLots?> pour <?php echo $this->detailsLots["prix_total"] ?> castar<?php if ($this->detailsLots["prix_total"] > 1) : echo 's'; endif;?>.<br />
 <?php endif;?>
