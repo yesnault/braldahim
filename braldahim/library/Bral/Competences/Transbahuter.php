@@ -789,8 +789,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						else {
 							$arriveeEquipementTable = new LabanEquipement();
 							$data = array (
-											"id_laban_equipement" => $equipement["id_equipement"],
-											"id_fk_braldun_laban_equipement" => $this->view->user->id_braldun,
+										"id_laban_equipement" => $equipement["id_equipement"],
+										"id_fk_braldun_laban_equipement" => $this->view->user->id_braldun,
 							);
 							$arriveeEquipementTable->insert($data);
 						}
@@ -816,11 +816,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						} else {
 							$arriveeEquipementTable = new ElementEquipement();
 							$data = array (
-											"id_element_equipement" => $equipement["id_equipement"],
-											"x_element_equipement" => $this->view->user->x_braldun,
-											"y_element_equipement" => $this->view->user->y_braldun,
-											"z_element_equipement" => $this->view->user->z_braldun,
-											"date_fin_element_equipement" => $dateFin,
+										"id_element_equipement" => $equipement["id_equipement"],
+										"x_element_equipement" => $this->view->user->x_braldun,
+										"y_element_equipement" => $this->view->user->y_braldun,
+										"z_element_equipement" => $this->view->user->z_braldun,
+										"date_fin_element_equipement" => $dateFin,
 							);
 							$arriveeEquipementTable->insert($data);
 						}
@@ -829,8 +829,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeEquipementTable = new CoffreEquipement();
 						$data = array (
-										"id_coffre_equipement" => $equipement["id_equipement"],
-										"id_fk_coffre_coffre_equipement" => $this->view->id_coffre_arrivee,
+									"id_coffre_equipement" => $equipement["id_equipement"],
+									"id_fk_coffre_coffre_equipement" => $this->view->id_coffre_arrivee,
 						);
 						$arriveeEquipementTable->insert($data);
 						break;
@@ -857,8 +857,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						else {
 							$arriveeEquipementTable = new CharretteEquipement();
 							$data = array (
-											"id_charrette_equipement" => $equipement["id_equipement"],
-											"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
+										"id_charrette_equipement" => $equipement["id_equipement"],
+										"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
 							);
 							$arriveeEquipementTable->insert($data);
 						}
@@ -1017,8 +1017,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_LABAN :
 						$arriveeRuneTable = new LabanRune();
 						$data = array (
-										"id_rune_laban_rune" => $rune["id_rune"],
-										"id_fk_braldun_laban_rune" => $this->view->user->id_braldun,
+									"id_rune_laban_rune" => $rune["id_rune"],
+									"id_fk_braldun_laban_rune" => $this->view->user->id_braldun,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
 						break;
@@ -1029,11 +1029,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 						$arriveeRuneTable = new ElementRune();
 						$data = array (
-										"id_rune_element_rune" => $rune["id_rune"],
-										"x_element_rune" => $this->view->user->x_braldun,
-										"y_element_rune" => $this->view->user->y_braldun,
-										"z_element_rune" => $this->view->user->z_braldun,
-										"date_fin_element_rune" => $dateFin,
+									"id_rune_element_rune" => $rune["id_rune"],
+									"x_element_rune" => $this->view->user->x_braldun,
+									"y_element_rune" => $this->view->user->y_braldun,
+									"z_element_rune" => $this->view->user->z_braldun,
+									"date_fin_element_rune" => $dateFin,
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
@@ -1204,8 +1204,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_LABAN :
 						$arriveePotionTable = new LabanPotion();
 						$data = array (
-										"id_laban_potion" => $potion["id_potion"],
-										"id_fk_braldun_laban_potion" => $this->view->user->id_braldun,
+									"id_laban_potion" => $potion["id_potion"],
+									"id_fk_braldun_laban_potion" => $this->view->user->id_braldun,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
 						break;
@@ -1216,34 +1216,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 						$arriveePotionTable = new ElementPotion();
 						$data = array (
-										"id_element_potion" => $potion["id_potion"],
-										"x_element_potion" => $this->view->user->x_braldun,
-										"y_element_potion" => $this->view->user->y_braldun,
-										"z_element_potion" => $this->view->user->z_braldun,
-										"date_fin_element_potion" => $dateFin,
+									"id_element_potion" => $potion["id_potion"],
+									"x_element_potion" => $this->view->user->x_braldun,
+									"y_element_potion" => $this->view->user->y_braldun,
+									"z_element_potion" => $this->view->user->z_braldun,
+									"date_fin_element_potion" => $dateFin,
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveePotionTable = new CoffrePotion();
 						$data = array (
-										"id_coffre_potion" => $potion["id_potion"],
-										"id_fk_coffre_coffre_potion" => $this->view->id_coffre_arrivee,
+									"id_coffre_potion" => $potion["id_potion"],
+									"id_fk_coffre_coffre_potion" => $this->view->id_coffre_arrivee,
 						);
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveePotionTable = new LotPotion();
 						$data = array (
-										"id_lot_potion" => $potion["id_potion"],
-										"id_fk_lot_lot_potion" => $this->idLot,
+									"id_lot_potion" => $potion["id_potion"],
+									"id_fk_lot_lot_potion" => $this->idLot,
 						);
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
 						$arriveePotionTable = new CharrettePotion();
 						$data = array (
-										"id_charrette_potion" => $potion["id_potion"],
-										"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
+									"id_charrette_potion" => $potion["id_potion"],
+									"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
 						);
 						break;
 					case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
@@ -1396,8 +1396,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_LABAN :
 						$arriveeAlimentTable = new LabanAliment();
 						$data = array (
-										"id_laban_aliment" => $aliment["id_aliment"],
-										"id_fk_braldun_laban_aliment" => $this->view->user->id_braldun,
+								"id_laban_aliment" => $aliment["id_aliment"],
+								"id_fk_braldun_laban_aliment" => $this->view->user->id_braldun,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
 						break;
@@ -1408,34 +1408,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 						$arriveeAlimentTable = new ElementAliment();
 						$data = array (
-												"id_element_aliment" => $aliment["id_aliment"],
-												"x_element_aliment" => $this->view->user->x_braldun,
-												"y_element_aliment" => $this->view->user->y_braldun,
-												"z_element_aliment" => $this->view->user->z_braldun,
-												"date_fin_element_aliment" => $dateFin,
+									"id_element_aliment" => $aliment["id_aliment"],
+									"x_element_aliment" => $this->view->user->x_braldun,
+									"y_element_aliment" => $this->view->user->y_braldun,
+									"z_element_aliment" => $this->view->user->z_braldun,
+									"date_fin_element_aliment" => $dateFin,
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeAlimentTable = new CoffreAliment();
 						$data = array (
-										"id_coffre_aliment" => $aliment["id_aliment"],
-										"id_fk_coffre_coffre_aliment" => $this->view->id_coffre_arrivee,
+									"id_coffre_aliment" => $aliment["id_aliment"],
+									"id_fk_coffre_coffre_aliment" => $this->view->id_coffre_arrivee,
 						);
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeAlimentTable = new LotAliment();
 						$data = array (
-										"id_lot_aliment" => $aliment["id_aliment"],
-										"id_fk_lot_lot_aliment" => $this->idLot,
+									"id_lot_aliment" => $aliment["id_aliment"],
+									"id_fk_lot_lot_aliment" => $this->idLot,
 						);
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
 						$arriveeAlimentTable = new CharretteAliment();
 						$data = array (
-										"id_charrette_aliment" => $aliment["id_aliment"],
-										"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
+									"id_charrette_aliment" => $aliment["id_aliment"],
+									"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
 						);
 						break;
 				}
@@ -1540,7 +1540,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 			}
-
 
 			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 0 ) {
 				$this->view->panneau = false;
@@ -2532,8 +2531,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_LABAN :
 						$arriveeMaterielTable = new LabanMateriel();
 						$data = array (
-										"id_laban_materiel" => $materiel["id_materiel"],
-										"id_fk_braldun_laban_materiel" => $this->view->user->id_braldun,
+									"id_laban_materiel" => $materiel["id_materiel"],
+									"id_fk_braldun_laban_materiel" => $this->view->user->id_braldun,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - $materiel["poids"];
 						break;
@@ -2544,34 +2543,34 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 						$arriveeMaterielTable = new ElementMateriel();
 						$data = array (
-										"id_element_materiel" => $materiel["id_materiel"],
-										"x_element_materiel" => $this->view->user->x_braldun,
-										"y_element_materiel" => $this->view->user->y_braldun,
-										"z_element_materiel" => $this->view->user->z_braldun,
-										"date_fin_element_materiel" => $dateFin,
+									"id_element_materiel" => $materiel["id_materiel"],
+									"x_element_materiel" => $this->view->user->x_braldun,
+									"y_element_materiel" => $this->view->user->y_braldun,
+									"z_element_materiel" => $this->view->user->z_braldun,
+									"date_fin_element_materiel" => $dateFin,
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeMaterielTable = new CoffreMateriel();
 						$data = array (
-										"id_coffre_materiel" => $materiel["id_materiel"],
-										"id_fk_coffre_coffre_materiel" => $this->view->id_coffre_arrivee,
+									"id_coffre_materiel" => $materiel["id_materiel"],
+									"id_fk_coffre_coffre_materiel" => $this->view->id_coffre_arrivee,
 						);
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
 						$arriveeMaterielTable = new LotMateriel();
 						$data = array (
-										"id_lot_materiel" => $materiel["id_materiel"],
-										"id_fk_lot_lot_materiel" => $this->idLot,
+									"id_lot_materiel" => $materiel["id_materiel"],
+									"id_fk_lot_lot_materiel" => $this->idLot,
 						);
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
 						$arriveeMaterielTable = new CharretteMateriel();
 						$data = array (
-										"id_charrette_materiel" => $materiel["id_materiel"],
-										"id_fk_charrette_materiel" => $this->view->id_charrette_arrivee,
+									"id_charrette_materiel" => $materiel["id_materiel"],
+									"id_fk_charrette_materiel" => $this->view->id_charrette_arrivee,
 						);
 						break;
 						/* On ne remet pas de piece dans l'echoppe*/

@@ -24,9 +24,10 @@
 		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
 			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
 	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
-				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?></span>
-				- Prix : 
-				<?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
+				- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				- <?php echo $lot["resume"]; ?>
+				</span>
 				
 				<?php if ($this->lots["visiteur"]):?>
 					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot(this, '<?php echo $numero;?>')">Sélectionner</span>
@@ -34,7 +35,7 @@
 					<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
 				<?php endif;?>
 			</h3>
-			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:block">
+			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
 				<li>
 					<?php include("lot.phtml") ?>
 				</li>

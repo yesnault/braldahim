@@ -5,7 +5,11 @@
  <div class='comp_contenu'>
 	<br />
 	
-	<b>Lot<?php if (count($this->tabIdsLots) > 1): echo 's'; endif;?> <?php echo $this->idsLots?></b> <br />
+	<?php foreach($this->lots as $lot) : ?>
+		Lot <b>n&deg;<?php echo $lot["id_lot"]?></b> : <?php echo $lot["details"]?><br />
+	<?php endforeach;?>
+	
+	<br />
 	Co&ucirc;t du service : <?php echo $this->nb_pa ?> PA<br />
 	
 	<?php if ($this->lotCharrette == null && $this->detailsLots["place_dispo"] === false) : ?>
@@ -16,7 +20,7 @@
 	<br />
 		
 		<?php if ($this->lotCharrette != null && $this->detailsLots["charrette_possible"] == false) : ?>
-				<?php echo $this->detailsLots["charrette_detail"]?><br />
+			<?php echo $this->detailsLots["charrette_detail"]?><br />
 		<?php elseif ($this->lotCharrette != null) : ?>
 			<br />Vous êtes sur le point d'acheter une charrette.<br />
 			<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
@@ -39,7 +43,7 @@
 			<div class="titre textalic textsizec">Poids : <?php echo $this->detailsLots["poids_total"]?> Kg </div>
 			<?php endif;?>
 			
-			<div class="titre textalic textsizec">Prix en castars : <?php echo $this->detailsLots["prix_total"]?> </div>
+			<div class="titre textalic textsizec">Prix : <?php echo $this->detailsLots["prix_total"]?> castar<?php if ($this->detailsLots["prix_total"] > 1): echo "s"; endif?></div>
 			<br />
 			
 			<?php if ($this->assezDePa !== true): ?>

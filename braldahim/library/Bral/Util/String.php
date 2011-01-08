@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
@@ -9,7 +9,7 @@ class Bral_Util_String {
 
 	private function __construct() {
 	}
-	
+
 	public static function firstToUpper($m) {
 		if ($m != null && $m != "") {
 			return mb_strtoupper($m{0}) . mb_substr($m, 1);
@@ -17,9 +17,9 @@ class Bral_Util_String {
 			return $m;
 		}
 	}
-	
+
 	/*
-	 * Retourne un caractère en majuscule, y compris la majuscule 
+	 * Retourne un caractère en majuscule, y compris la majuscule
 	 * des caractères accentués.
 	 */
 	public static function toUpper($c) {
@@ -43,16 +43,16 @@ class Bral_Util_String {
                         'ç' => 'Ç', 
                         'ñ' => 'Ñ', 
                         'ã' => 'Ã',
-                );
-		
-		
+		);
+
+
 		if (array_key_exists($c, $tab)) {
 			return $tab[$c];
 		} else {
 			return $c;
 		}
 	}
-	
+
 	public static function isChaineValide($chaine) {
 		$valid = true;
 		for ($i = 0; $i< mb_strlen($chaine); $i++) {
@@ -63,7 +63,7 @@ class Bral_Util_String {
 		}
 		return $valid;
 	}
-	
+
 	public static function isCaractereValid($c) {
 		if (in_array($c, self::getTabCaractereValid())) {
 			return true;
@@ -71,7 +71,7 @@ class Bral_Util_String {
 			return false;
 		}
 	}
-	
+
 	public static function isCaractereValidStrict($c) {
 		if (in_array($c, self::getTabCaractereValidStrict())) {
 			return true;
@@ -79,7 +79,7 @@ class Bral_Util_String {
 			return false;
 		}
 	}
-	
+
 	public static function stripNonValideStrict($chaine) {
 		$retour = "";
 		for ($i = 0; $i< mb_strlen($chaine); $i++) {
@@ -89,7 +89,7 @@ class Bral_Util_String {
 		}
 		return $retour;
 	}
-	
+
 	public static function getTabCaractereValid() {
 		return array(
 					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -103,28 +103,40 @@ class Bral_Util_String {
                     'ç', 'Ç', 'æ', 'Æ', '°', '-',
                     'ñ', 'Ñ', 'ã', 'Ã',
                     ' ', 
-				);
+		);
 	}
-	
+
 	public static function getTabCaractereValidStrict() {
 		return array(
 					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 			        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 					'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
-				);
+					);
 	}
-	
+
 	public static function getTabLettres() {
 		return array(
 					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-				);
+		);
 	}
-	
+
 	public static function getSigneValeur($valeur) {
 		if ($valeur >= 0) {
 			return '+'.$valeur;
 		} else {
 			return $valeur;
+		}
+	}
+
+	public static function getPluriel($nombre, $signe = null) {
+		if ($nombre > 1) {
+			if ($signe != null) {
+				return $signe;
+			} else {
+				return 's';
+			}
+		} else {
+			return '';
 		}
 	}
 }

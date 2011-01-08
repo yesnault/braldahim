@@ -14,7 +14,11 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 	}
 
 	function getTitreAction() {
-		return "Acheter un lot";
+		if (count($this->view->lots) > 1) {
+			return "Acheter des lots";
+		} else {
+			return "Acheter un lot";
+		}
 	}
 
 	function prepareCommun() {
@@ -334,6 +338,8 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		if ($this->view->idEchoppe != null) {
 			$tab[] = "box_echoppe";
 			$tab[] = "box_echoppes";
+		} else {
+			$tab[] = "box_hotel";
 		}
 		if ($this->view->lotCharrette != null) {
 			$tab[] = "box_charrette";
