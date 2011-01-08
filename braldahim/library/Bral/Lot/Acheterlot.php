@@ -239,7 +239,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 	}
 
 	private function calculDepotCastars($lot) {
-		if ($this->estSurEchoppe) {
+		if ($this->view->estSurEchoppe) {
 			$data = array(
 				'id_echoppe' => intval($this->view->idEchoppe),
 				"quantite_castar_caisse_echoppe" => $lot["prix_1_lot"],

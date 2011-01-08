@@ -535,11 +535,12 @@ class Bral_Util_Lot {
 			$suffixe2 = "";
 		}
 
+		self::transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
+		
 		self::transfertLotEquipement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotMateriel($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 
 		self::transfertLotAliment($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-		self::transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 
 		self::transfertLotGraine($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotIngredient($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
@@ -548,6 +549,7 @@ class Bral_Util_Lot {
 		self::transfertLotMinerai($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
+		
 		self::transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 
 		self::supprimeLot($idLot);
@@ -839,7 +841,7 @@ class Bral_Util_Lot {
 
 		foreach($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1.'_rune' => $lot["id_lot_rune"], //idRune,
+				'id_rune_'.$suffixe1.'_rune' => $lot["id_rune_lot_rune"], //idRune,
 				'id_fk_'.$suffixe2.$suffixe1.'_rune' => $idDestination, //idDestination
 			);
 
