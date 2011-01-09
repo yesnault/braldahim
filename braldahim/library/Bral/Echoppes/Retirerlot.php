@@ -49,7 +49,6 @@ class Bral_Echoppes_Retirerlot extends Bral_Echoppes_Echoppe {
 		
 		$this->lot = $lots[0];
 		$this->idEchoppe = $id_echoppe;
-
 	}
 	
 	function prepareFormulaire() {
@@ -59,10 +58,6 @@ class Bral_Echoppes_Retirerlot extends Bral_Echoppes_Echoppe {
 	function prepareResultat() {
 		Zend_Loader::loadClass("Bral_Util_Lot");
 		Bral_Util_Lot::transfertLot($this->lot["id_lot"], "arriere_echoppe", $this->idEchoppe);
-	}
-
-	private function calculRetirer($idLot) {
-
 	}
 
 	public function getIdEchoppeCourante() {

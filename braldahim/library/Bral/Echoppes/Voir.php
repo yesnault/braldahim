@@ -520,7 +520,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					
 				$munition = array(
 					'type' => $e['nom_type_munition'],
-					'id_type' => $e['id_type_munition'],
+					'id_type_munition' => $e['id_type_munition'],
 					'nom_systeme_type_munition' => $e['nom_systeme_type_munition'],
 					'nom' => $e['nom_type_munition'],
 					'quantite' => $e['quantite_echoppe_munition'],
