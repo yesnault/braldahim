@@ -9,7 +9,7 @@ class EchoppePotion extends Zend_Db_Table {
 	protected $_name = 'echoppe_potion';
 	protected $_primary = "id_echoppe_potion";
 
-	public function findByIdEchoppe($idEchoppe, $idTypePotion = null, $typeVente = null, $idPotion = null) {
+	public function findByIdEchoppe($idEchoppe, $idTypePotion = null, $idPotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_potion', '*')
@@ -23,9 +23,6 @@ class EchoppePotion extends Zend_Db_Table {
 		->order(array('type_potion ASC', 'nom_type_potion ASC', 'niveau_potion ASC', 'id_type_qualite ASC', 'id_echoppe_potion ASC'));
 		if ($idTypePotion != null) {
 			$select->where('id_type_potion = ?', intval($idTypePotion));
-		}
-		if ($typeVente != null) {
-			$select->where('type_vente_echoppe_potion like ?', $typeVente);
 		}
 		if ($idPotion != null) {
 			$select->where('id_potion = ?', intval($idPotion));

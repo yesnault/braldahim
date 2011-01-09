@@ -50,7 +50,7 @@ class Bral_Util_Materiel {
 		}
 
 		$table = new EchoppeMateriel();
-		$materiel = $table->findByIdEchoppe($idBraldun, null, $idMateriel);
+		$materiel = $table->findByIdEchoppe($idBraldun, $idMateriel);
 		if ($materiel != null) {
 			return true;
 		}

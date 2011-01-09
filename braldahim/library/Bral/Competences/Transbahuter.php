@@ -321,7 +321,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$this->view->id_braldun_destinataire_etal = $idBraldunDestinataire;
 				}
 			}
-				
+
 		}
 
 		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN) {
@@ -1637,6 +1637,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabMinerais = null;
 		$minerais = null;
 
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		switch ($idTypeDepart) {
 			case self::ID_ENDROIT_LABAN :
 				$labanMineraiTable = new labanMinerai();
@@ -1659,7 +1663,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				unset($charretteMineraiTable);
 				break;
 			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
-			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppeMineraiTable = new EchoppeMinerai();
 				$minerais = $echoppeMineraiTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeMineraiTable);
@@ -1702,6 +1705,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	private function deposeTypeMinerais($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 		Zend_Loader::loadClass($depart.'Minerai');
 		Zend_Loader::loadClass($arrivee.'Minerai');
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
 
 		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->valeur_fin_minerais; $i = $i + 2) {
 			$indice = $i;
@@ -1795,7 +1802,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_lingots_charrette_minerai' => -$nbLingot,
 							);
 							break;
-						case self::ID_ENDROIT_ECHOPPE_CAISSE :
 						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$departMineraiTable = new EchoppeMinerai();
 							$data = array (
@@ -1888,6 +1894,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabPartiePlantes = null;
 		$partiePlantes = null;
 
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		switch ($idTypeDepart) {
 			case self::ID_ENDROIT_LABAN :
 				$labanPartiePlanteTable = new LabanPartieplante();
@@ -1910,7 +1920,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				unset($charrettePartiePlanteTable);
 				break;
 			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
-			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppePartiePlanteTable = new EchoppePartiePlante();
 				$partiePlantes = $echoppePartiePlanteTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppePartiePlanteTable);
@@ -1923,8 +1932,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($partiePlantes != null) {
 			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = 'arriere_echoppe';
-			} else if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
-				$strqte = 'caisse_echoppe';
 			} else {
 				$strqte = $depart;
 			}
@@ -1953,6 +1960,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function deposeTypePartiesPlantes($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart.'Partieplante');
 		Zend_Loader::loadClass($arrivee.'Partieplante');
 
@@ -2056,7 +2068,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_preparee_charrette_partieplante' => -$nbPreparees
 							);
 							break;
-						case self::ID_ENDROIT_ECHOPPE_CAISSE :
 						case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 							$departPartiePlanteTable = new EchoppePartieplante();
 							$data = array(
@@ -2548,6 +2559,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareTypeGraines($depart, $idTypeDepart) {
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart.'Graine');
 		$tabGraines = null;
 		$graines = null;
@@ -2607,6 +2623,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function deposeTypeGraines($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart.'Graine');
 		Zend_Loader::loadClass($arrivee.'Graine');
 
@@ -2679,14 +2700,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'id_fk_charrette_graine' => $this->view->id_charrette_depart,
 								'id_fk_type_charrette_graine' => $this->view->graines[$indice]['id_fk_type_graine'],
 								'quantite_charrette_graine' => -$nb,
-					);
-					break;
-				case self::ID_ENDROIT_ECHOPPE_CAISSE :
-					$departGraineTable = new EchoppeGraine();
-					$data = array (
-								'id_fk_echoppe_echoppe_graine' => $this->view->id_echoppe_depart,
-								'id_fk_type_echoppe_graine' => $this->view->graines[$indice]['id_fk_type_graine'],
-								'quantite_caisse_echoppe_graine' => -$nb,
 					);
 					break;
 				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
@@ -2762,6 +2775,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareTypeIngredients($depart, $idTypeDepart) {
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+			return;
+		}
+
 		Zend_Loader::loadClass($depart.'Ingredient');
 		$tabIngredients = null;
 		$ingredients = null;
@@ -2788,7 +2806,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				unset($charretteIngredientTable);
 				break;
 			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
-			case self::ID_ENDROIT_ECHOPPE_CAISSE :
 				$echoppeIngredientTable = new EchoppeIngredient();
 				$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->id_echoppe_depart);
 				unset($echoppeIngredientTable);
@@ -2800,8 +2817,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($ingredients != null) {
 			if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 				$strqte = 'arriere_echoppe';
-			} elseif ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE) {
-				$strqte = 'caisse_echoppe';
 			} else {
 				$strqte = $depart;
 			}
@@ -2825,7 +2840,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function deposeTypeIngredients($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
-		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
 			return;
 		}
 
@@ -2901,14 +2917,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'id_fk_charrette_ingredient' => $this->view->id_charrette_depart,
 								'id_fk_type_charrette_ingredient' => $this->view->ingredients[$indice]['id_fk_type_ingredient'],
 								'quantite_charrette_ingredient' => -$nb,
-					);
-					break;
-				case self::ID_ENDROIT_ECHOPPE_CAISSE :
-					$departIngredientTable = new EchoppeIngredient();
-					$data = array (
-								'id_fk_echoppe_echoppe_ingredient' => $this->view->id_echoppe_depart,
-								'id_fk_type_echoppe_ingredient' => $this->view->ingredients[$indice]['id_fk_type_ingredient'],
-								'quantite_caisse_echoppe_ingredient' => -$nb,
 					);
 					break;
 				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
@@ -3080,19 +3088,23 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$tabAutres['nb_castar'] = $tabAutres['nb_castar'] + $p['quantite_castar_'.strtolower($strqte)];
 				}
 				$tabAutres['nb_peau'] = $tabAutres['nb_peau'] + $p['quantite_peau_'.strtolower($strqte)];
-				$tabAutres['nb_cuir'] = $tabAutres['nb_cuir'] + $p['quantite_cuir_'.strtolower($strqte)];
-				$tabAutres['nb_fourrure'] = $tabAutres['nb_fourrure'] + $p['quantite_fourrure_'.strtolower($strqte)];
-				$tabAutres['nb_planche'] = $tabAutres['nb_planche'] + $p['quantite_planche_'.strtolower($strqte)];
-				$tabAutres['nb_rondin'] = $tabAutres['nb_rondin'] + $p['quantite_rondin_'.strtolower($strqte)];
+				if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE) {
+					$tabAutres['nb_cuir'] = $tabAutres['nb_cuir'] + $p['quantite_cuir_'.strtolower($strqte)];
+					$tabAutres['nb_fourrure'] = $tabAutres['nb_fourrure'] + $p['quantite_fourrure_'.strtolower($strqte)];
+					$tabAutres['nb_planche'] = $tabAutres['nb_planche'] + $p['quantite_planche_'.strtolower($strqte)];
+					$tabAutres['nb_rondin'] = $tabAutres['nb_rondin'] + $p['quantite_rondin_'.strtolower($strqte)];
+				}
 				if ($depart == 'Element') {
 					if ($p['id_fk_butin_element'] != null) {
 						$autresButin[] = $p;
 						if ($p['quantite_castar_'.strtolower($strqte)] > 0) $tabAutres['info_castar'] .= ' Butin n°'.$p['id_fk_butin_element'];
-						if ($p['quantite_peau_'.strtolower($strqte)] > 0) $tabAutres['info_peau'] .= ' Butin n°'.$p['id_fk_butin_element'];
-						if ($p['quantite_cuir_'.strtolower($strqte)] > 0) $tabAutres['info_cuir'] .= ' Butin n°'.$p['id_fk_butin_element'];
-						if ($p['quantite_fourrure_'.strtolower($strqte)] > 0) $tabAutres['info_fourrure'] .= ' Butin n°'.$p['id_fk_butin_element'];
-						if ($p['quantite_planche_'.strtolower($strqte)] > 0) $tabAutres['info_planche'] .= ' Butin n°'.$p['id_fk_butin_element'];
-						if ($p['quantite_rondin_'.strtolower($strqte)] > 0) $tabAutres['info_rondin'] .= ' Butin n°'.$p['id_fk_butin_element'];
+						if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE) {
+							if ($p['quantite_peau_'.strtolower($strqte)] > 0) $tabAutres['info_peau'] .= ' Butin n°'.$p['id_fk_butin_element'];
+							if ($p['quantite_cuir_'.strtolower($strqte)] > 0) $tabAutres['info_cuir'] .= ' Butin n°'.$p['id_fk_butin_element'];
+							if ($p['quantite_fourrure_'.strtolower($strqte)] > 0) $tabAutres['info_fourrure'] .= ' Butin n°'.$p['id_fk_butin_element'];
+							if ($p['quantite_planche_'.strtolower($strqte)] > 0) $tabAutres['info_planche'] .= ' Butin n°'.$p['id_fk_butin_element'];
+							if ($p['quantite_rondin_'.strtolower($strqte)] > 0) $tabAutres['info_rondin'] .= ' Butin n°'.$p['id_fk_butin_element'];
+						}
 					}
 
 

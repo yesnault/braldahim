@@ -104,16 +104,14 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', 'count(*) as nombre, 
-		quantite_rondin_caisse_echoppe as quantiteRondinCaisse, 
 		quantite_castar_caisse_echoppe as quantiteCastarCaisse, 
-		quantite_peau_caisse_echoppe as quantitePeauCaisse, 
 		quantite_rondin_arriere_echoppe as quantiteRondinArriere, 
 		quantite_planche_arriere_echoppe as quantitePlancheArriere, 
 		quantite_peau_arriere_echoppe as quantitePeauArriere, 
 		quantite_cuir_arriere_echoppe as quantiteCuirArriere,
 		quantite_fourrure_arriere_echoppe as quantiteFourrureArriere')
 		->where('id_echoppe = ?',$data["id_echoppe"])
-		->group(array('quantiteRondinArriere', 'quantitePlancheArriere', 'quantitePeauArriere', 'quantiteCuirArriere', 'quantiteFourrureArriere'));
+		->group(array('quantiteCastarCaisse', 'quantiteRondinArriere', 'quantitePlancheArriere', 'quantitePeauArriere', 'quantiteCuirArriere', 'quantiteFourrureArriere'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -127,20 +125,12 @@ class Echoppe extends Zend_Db_Table {
 			$quantiteCuirArriere = $resultat[0]["quantiteCuirArriere"];
 			$quantiteFourrureArriere = $resultat[0]["quantiteFourrureArriere"];
 			
-			$quantiteRondinCaisse = $resultat[0]["quantiteRondinCaisse"];
 			$quantiteCastarCaisse = $resultat[0]["quantiteCastarCaisse"];
-			$quantitePeauCaisse = $resultat[0]["quantitePeauCaisse"];
 			
 			$dataUpdate = null;
 			
-			if (isset($data["quantite_rondin_caisse_echoppe"])) {
-				$dataUpdate['quantite_rondin_caisse_echoppe'] = $quantiteRondinCaisse + $data["quantite_rondin_caisse_echoppe"];
-			}
 			if (isset($data["quantite_castar_caisse_echoppe"])) {
 				$dataUpdate['quantite_castar_caisse_echoppe'] = $quantiteCastarCaisse + $data["quantite_castar_caisse_echoppe"];
-			}
-			if (isset($data["quantite_peau_caisse_echoppe"])) {
-				$dataUpdate['quantite_peau_caisse_echoppe'] = $quantitePeauCaisse + $data["quantite_peau_caisse_echoppe"];
 			}
 			if (isset($data["quantite_rondin_arriere_echoppe"])) {
 				$dataUpdate['quantite_rondin_arriere_echoppe'] = $quantiteRondinArriere + $data["quantite_rondin_arriere_echoppe"];
@@ -157,7 +147,6 @@ class Echoppe extends Zend_Db_Table {
 			if (isset($data["quantite_fourrure_arriere_echoppe"])) {
 				$dataUpdate['quantite_fourrure_arriere_echoppe'] = $quantiteFourrureArriere + $data["quantite_fourrure_arriere_echoppe"];
 			}
-
 			
 			if ($dataUpdate != null) {
 				$where = 'id_echoppe = '.$data["id_echoppe"];

@@ -93,7 +93,7 @@ class Bral_Util_Potion {
 		}
 
 		$table = new EchoppePotion();
-		$potion = $table->findByIdEchoppe($idBraldun, null, null, $idPotion);
+		$potion = $table->findByIdEchoppe($idBraldun, null, $idPotion);
 		if ($potion != null) {
 			return true;
 		}

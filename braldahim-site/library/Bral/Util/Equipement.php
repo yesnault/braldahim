@@ -409,7 +409,7 @@ class Bral_Util_Equipement {
 		}
 
 		$table = new EchoppeEquipement();
-		$equipement = $table->findByIdEchoppe($idBraldun, null, $idEquipement);
+		$equipement = $table->findByIdEchoppe($idBraldun, $idEquipement);
 		if ($equipement != null) {
 			return true;
 		}

@@ -14,12 +14,12 @@ class EchoppeIngredient extends Zend_Db_Table {
 	protected $_name = 'echoppe_ingredient';
 	protected $_primary = array('id_fk_echoppe_echoppe_ingredient', 'id_fk_type_echoppe_ingredient');
 
-	function findByIdEchoppe($id_echoppe) {
+	function findByIdEchoppe($idEchoppe) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_ingredient', '*')
 		->from('type_ingredient', '*')
-		->where('id_fk_echoppe_echoppe_ingredient = '.intval($id_echoppe))
+		->where('id_fk_echoppe_echoppe_ingredient = ?', intval($idEchoppe))
 		->where('echoppe_ingredient.id_fk_type_echoppe_ingredient = type_ingredient.id_type_ingredient');
 		$sql = $select->__toString();
 

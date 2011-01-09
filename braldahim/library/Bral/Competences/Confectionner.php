@@ -365,7 +365,6 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$data = array(
 				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'type_vente_echoppe_equipement' => 'aucune',
 			);
 			$echoppeEquipementTable->insert($data);
 

@@ -401,7 +401,6 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$dataEchoppe = array(
 				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'type_vente_echoppe_equipement' => 'aucune',
 			);
 			$echoppeEquipementTable->insert($dataEchoppe);
 

@@ -304,7 +304,6 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$dataEchoppe = array(
 			'id_echoppe_materiel' => $idMateriel,
 			'id_fk_echoppe_echoppe_materiel' => $this->idEchoppe,
-			'type_vente_echoppe_materiel' => 'aucune',
 		);
 		$echoppeMaterielTable->insert($dataEchoppe);
 

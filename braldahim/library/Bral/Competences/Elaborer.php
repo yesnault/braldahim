@@ -499,7 +499,6 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$echoppePotionTable = new EchoppePotion();
 		$dataPotionLaban = array(
 			'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
-			'type_vente_echoppe_potion' => 'aucune',
 		);
 		$dataPotion = array(
 			'id_fk_type_potion' => $idTypePotion,

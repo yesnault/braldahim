@@ -435,7 +435,6 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 
-		$tabPartiePlantesCaisse = null;
 		$tabPartiePlantesPreparees = null;
 		$tabPartiePlantesBruts = null;
 

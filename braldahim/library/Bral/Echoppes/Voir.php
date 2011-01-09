@@ -49,11 +49,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->arBoutiqueTransformes['potions'] = array('nom_systeme' => 'potions', 'nom' => 'Potions', 'a_afficher' => false);
 
 		$this->arBoutiqueCaisse['castars']  = array('nom_systeme' => 'castars', 'nom' => 'Castars', 'a_afficher' => true);
-		$this->arBoutiqueCaisse['minerais'] = array('nom_systeme' => 'minerais', 'nom' => 'Minerais Bruts', 'a_afficher' => false);
-		$this->arBoutiqueCaisse['rondins']  = array('nom_systeme' => 'rondins', 'nom' => 'Rondins', 'a_afficher' => false);
-		$this->arBoutiqueCaisse['plantes_bruts'] = array('nom_systeme' => 'plantes_bruts', 'nom' => 'Plantes Brutes', 'a_afficher' => false);
-		$this->arBoutiqueCaisse['peaux']  = array('nom_systeme' => 'peaux', 'nom' => 'Peaux', 'a_afficher' => false);
-		$this->arBoutiqueCaisse['ingredients']  = array('nom_systeme' => 'ingredients', 'nom' => 'Ingrédients', 'a_afficher' => false);
 
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
@@ -81,8 +76,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'nom_echoppe' => $e['nom_echoppe'],
 					'commentaire_echoppe' => $e['commentaire_echoppe'],
 					'quantite_castar_caisse_echoppe' => $e['quantite_castar_caisse_echoppe'],
-					'quantite_rondin_caisse_echoppe' => $e['quantite_rondin_caisse_echoppe'],
-					'quantite_peau_caisse_echoppe' => $e['quantite_peau_caisse_echoppe'],
 					'quantite_rondin_arriere_echoppe' => $e['quantite_rondin_arriere_echoppe'],
 					'quantite_peau_arriere_echoppe' => $e['quantite_peau_arriere_echoppe'],
 					'quantite_cuir_arriere_echoppe' => $e['quantite_cuir_arriere_echoppe'],
@@ -108,14 +101,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 				if ($e['quantite_castar_caisse_echoppe'] > 0) {
 					$this->arBoutiqueCaisse['castars']['a_afficher'] = true;
-				}
-
-				if ($e['quantite_rondin_caisse_echoppe'] > 0) {
-					$this->arBoutiqueCaisse['rondins']['a_afficher'] = true;
-				}
-
-				if ($e['quantite_peau_caisse_echoppe'] > 0) {
-					$this->arBoutiqueCaisse['peaux']['a_afficher'] = true;
 				}
 
 				if ($this->view->user->x_braldun == $e['x_echoppe'] &&
@@ -215,7 +200,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 
-		$tabPartiePlantesCaisse = null;
 		$tabPartiePlantesPreparees = null;
 		$tabPartiePlantesBruts = null;
 
@@ -250,7 +234,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			}
 		}
 
-		$tabPartiePlantesCaisse = $tabTypePlantes;
 		$tabPartiePlantesPreparees = $tabTypePlantes;
 		$tabPartiePlantesBruts = $tabTypePlantes;
 
@@ -259,16 +242,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
-				if ($p['quantite_caisse_echoppe_partieplante'] > 0) {
-					$this->arBoutiqueCaisse['plantes_bruts']['a_afficher'] = true;
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['a_afficher'] = true;
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['a_afficher'] = true;
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['quantite'] = $p['quantite_caisse_echoppe_partieplante'];
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['id_type_partieplante'] = $p['id_type_partieplante'];
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['estPreparee'] = false;
-					$tabPartiePlantesCaisse[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['poids'] = $p['quantite_caisse_echoppe_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
-				}
-
 				if ($p['quantite_arriere_echoppe_partieplante'] > 0) {
 					$this->arBoutiqueBruts['plantes_bruts']['a_afficher'] = true;
 					$tabPartiePlantesBruts[$p['categorie_type_plante']]['a_afficher'] = true;
@@ -289,24 +262,19 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesPreparees[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['poids'] = $p['quantite_preparee_echoppe_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				}
 
-				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p['quantite_caisse_echoppe_partieplante'];
 				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p['quantite_arriere_echoppe_partieplante'];
 				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p['quantite_preparee_echoppe_partieplante'];
 			}
 		}
 
-		$this->view->typePlantesCaisse = $tabPartiePlantesCaisse;
 		$this->view->typePlantesBruts = $tabPartiePlantesBruts;
 		$this->view->typePlantesPrepares = $tabPartiePlantesPreparees;
 
 		$tabMineraisArriere = null;
-		$tabMineraisCaisse = null;
 		$tabLingots = null;
 
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$minerais = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
-
-		$this->view->nb_caisseMinerai = 0;
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
@@ -324,13 +292,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'quantite' => $m['quantite_lingots_echoppe_minerai'],
 					'poids' => $m['quantite_lingots_echoppe_minerai'] * Bral_Util_Poids::POIDS_LINGOT,
 				);
-				$tabMineraisCaisse[] = array(
-					'type' => $m['nom_type_minerai'],
-					'id_type_minerai' => $m['id_type_minerai'],
-					'estLingot' => false,
-					'quantite' => $m['quantite_brut_caisse_echoppe_minerai'],
-					'poids' => $m['quantite_brut_caisse_echoppe_minerai'] * Bral_Util_Poids::POIDS_MINERAI,
-				);
 
 				if ($m['quantite_brut_arriere_echoppe_minerai'] > 0) {
 					$this->arBoutiqueBruts['minerais']['a_afficher'] = true;
@@ -339,26 +300,16 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				if ($m['quantite_lingots_echoppe_minerai'] > 0) {
 					$this->arBoutiqueTransformes['lingots']['a_afficher'] = true;
 				}
-
-				if ($m['quantite_brut_caisse_echoppe_minerai'] > 0) {
-					$this->arBoutiqueCaisse['minerais']['a_afficher'] = true;
-				}
-
-				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m['quantite_brut_caisse_echoppe_minerai'];
 			}
 		}
 
 		$this->view->mineraisArriere = $tabMineraisArriere;
-		$this->view->mineraisCaisse = $tabMineraisCaisse;
 		$this->view->lingots = $tabLingots;
 
 		$tabIngredientsArriere = null;
-		$tabIngredientsCaisse = null;
 
 		$echoppeIngredientTable = new EchoppeIngredient();
 		$ingredients = $echoppeIngredientTable->findByIdEchoppe($idEchoppe);
-
-		$this->view->nb_caisseIngredient = 0;
 
 		if ($ingredients != null) {
 			foreach ($ingredients as $m) {
@@ -368,27 +319,14 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'quantite' => $m['quantite_arriere_echoppe_ingredient'],
 					'poids' => $m['quantite_arriere_echoppe_ingredient'] * $m['poids_unitaire_type_ingredient'],
 				);
-				$tabIngredientsCaisse[] = array(
-					'type' => $m['nom_type_ingredient'],
-					'id_type_ingredient' => $m['id_type_ingredient'],
-					'quantite' => $m['quantite_caisse_echoppe_ingredient'],
-					'poids' => $m['quantite_caisse_echoppe_ingredient'] * $m['poids_unitaire_type_ingredient'],
-				);
 
 				if ($m['quantite_arriere_echoppe_ingredient'] > 0) {
 					$this->arBoutiqueTransformes['ingredients']['a_afficher'] = true;
 				}
-
-				if ($m['quantite_caisse_echoppe_ingredient'] > 0) {
-					$this->arBoutiqueCaisse['ingredients']['a_afficher'] = true;
-				}
-
-				$this->view->nb_caisseIngredient = $this->view->nb_caisseIngredient + $m['quantite_caisse_echoppe_ingredient'];
 			}
 		}
 
 		$this->view->ingredientsArriere = $tabIngredientsArriere;
-		$this->view->ingredientsCaisse = $tabIngredientsCaisse;
 
 		$tabPotionsArriere = null;
 

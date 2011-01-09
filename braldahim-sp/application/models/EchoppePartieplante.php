@@ -14,13 +14,13 @@ class EchoppePartieplante extends Zend_Db_Table {
 	protected $_name = 'echoppe_partieplante';
 	protected $_primary = array('id_fk_type_echoppe_partieplante', 'id_echoppe_echoppe_partieplantefk_fk_');
 	
-    function findByIdEchoppe($id_echoppe) {
+    function findByIdEchoppe($idEchoppe) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_partieplante', '*')
 		->from('type_partieplante', '*')
 		->from('type_plante', '*')
-		->where('id_fk_echoppe_echoppe_partieplante = '.intval($id_echoppe))
+		->where('id_fk_echoppe_echoppe_partieplante = ?', intval($idEchoppe))
 		->where('echoppe_partieplante.id_fk_type_echoppe_partieplante = type_partieplante.id_type_partieplante')
 		->where('echoppe_partieplante.id_fk_type_plante_echoppe_partieplante = type_plante.id_type_plante');
 		$sql = $select->__toString();

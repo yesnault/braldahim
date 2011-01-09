@@ -14,7 +14,7 @@ class EchoppeMunition extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe_munition', '*')
 		->from('type_munition', '*')
-		->where('id_fk_echoppe_echoppe_munition = ? ', intval($idEchoppe))
+		->where('id_fk_echoppe_echoppe_munition = ?', intval($idEchoppe))
 		->where('echoppe_munition.id_fk_type_echoppe_munition = type_munition.id_type_munition');
 		$sql = $select->__toString();
 
