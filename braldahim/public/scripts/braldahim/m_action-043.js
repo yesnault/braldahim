@@ -691,10 +691,10 @@ function controlePoids(){
 		poidsRestant = $('poids_' + $('valeur_2').value).value;
 		if (poidsRestant != -1){
 		 	for (i=11; i<=$('nb_valeurs').value; i++) {
-				if ( $('valeur_' + i).type == 'select-multiple' ){
-					for (j=0; j<$('valeur_' + i).options.length; j++){
+				if ($('valeur_' + i).type == 'select-multiple' ) {
+					for (j=0; j< $('valeur_' + i).options.length; j++){
 						if ($('valeur_' + i).options[j].selected == true) {
-							if ( i==17 || i==23 ){
+							if ( i==19 || i==25 ) {
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
 							}
 							else{
@@ -705,7 +705,6 @@ function controlePoids(){
 				}
 				else {
 					poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
-					
 				}
 			}
 			if (poids > poidsRestant){
@@ -727,8 +726,8 @@ function controlePoids(){
 }
 
 function controlePanneau (i) {
-	if ( $('valeur_' + i).type == 'select-multiple' ){
-		for (j=0; j<$('valeur_' + i).options.length; j++){
+	if ($('valeur_' + i).type == 'select-multiple' ){
+		for (j=0; j< $('valeur_' + i).options.length; j++){
 			if ($('valeur_' + i).options[j].value != -1) {
 				$('valeur_' + i).options[j].selected = false;
 				cacher = false;
@@ -755,6 +754,7 @@ function controleQte(){
 			v=true;
 		}
 	 }
+	 
 	 cacher = true;
 	 if (ctrlEchoppe == true ) {
 		 alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
@@ -763,7 +763,7 @@ function controleQte(){
 	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true){
 		cacher = false;
 	 }
-	 if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
+	 if ($('valeur_2').value == 4 && $('valeur_3').value == -1){
 		cacher = true;
 	 }
 	 $('bouton_deposer').disabled=cacher;
@@ -778,9 +778,9 @@ function selectAll(){
 			controlePanneau (i);
 			break;
 	 	}
-		if ( $('valeur_' + i + '_echoppe').value == 'oui' || $('valeur_2').value != 5) {
-			if ( $('valeur_' + i).type == 'select-multiple' ){
-				for (j=0; j<$('valeur_' + i).options.length; j++){
+		if ($('valeur_' + i + '_echoppe').value == 'oui' || $('valeur_2').value != 5) {
+			if ($('valeur_' + i).type == 'select-multiple' ){
+				for (j=0; j< $('valeur_' + i).options.length; j++){
 					if ($('valeur_' + i).options[j].value != -1) {
 						$('valeur_' + i).options[j].selected = true;
 						cacher = false;
@@ -804,11 +804,11 @@ function selectAll(){
 		alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
 	}
 	poidsOk = controlePoids();
-	if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false){
+	if ($('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false) {
 		cacher = true;
 	}
 	/* Coffre */
-	if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
+	if ($('valeur_2').value == 4 && $('valeur_3').value == -1) {
 		cacher = true;
 	}
 	$('bouton_deposer').disabled=cacher;
@@ -823,8 +823,8 @@ function charrette() {
 function controleEchoppe(i) {
 	if($('valeur_2').value == 5){
 		if ( ($('valeur_' + i + '_echoppe').value == 'non') && $('valeur_' + i).value > 0) {
-			if ( $('valeur_' + i).type == 'select-multiple' ) {
-				for (j=0; j<$('valeur_' + i).options.length; j++) {
+			if ($('valeur_' + i).type == 'select-multiple' ) {
+				for (j=0; j< $('valeur_' + i).options.length; j++) {
 					$('valeur_' + i).options[j].selected = false;
 				}
 			}

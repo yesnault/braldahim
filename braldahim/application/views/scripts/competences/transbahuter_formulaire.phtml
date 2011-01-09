@@ -55,15 +55,15 @@
 				<br/><br/>
 				Transbahuter vers :<br />
 				<?php 
-					$option = "";
+					$options = "";
 					$poids = "";
 					$charrette = "";
 					$venteSelectionne = false;
 					$venteEtalSelectionne = false;
 					foreach($this->typeArrivee as $t) { 
-						$option .="<option value='".$t["id_type_arrivee"]."'";
+						$options .="<option value='".$t["id_type_arrivee"]."'";
 				 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
-				 			$option .=" selected='selected' ";
+				 			$options .=" selected='selected' ";
 				 			if ($this->ID_ENDROIT_ECHOPPE_ETAL == $t["id_type_arrivee"] || $this->ID_ENDROIT_HOTEL == $t["id_type_arrivee"]) {
 				 				$venteSelectionne = true;
 				 			}
@@ -71,7 +71,7 @@
 					 			$venteEtalSelectionne = true;
 				 			}
 				 		}
-				 		$option .= ">".$t["nom_type_arrivee"]."</option>";
+				 		$options .= ">".$t["nom_type_arrivee"]."</option>";
 				 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";
 				 		if ($t["nom_systeme"] == "Charrette") {
 				 			$charrette .= "<input type='hidden' name='id_charrette_".$t["id_type_arrivee"]."' id='id_charrette_".$t["id_type_arrivee"]."' value='".$t["id_charrette"]."' />";
@@ -80,7 +80,7 @@
 				?>
 				<select name="valeur_2" id="valeur_2" onchange="<?php echo $jsVente.$jsBtn.$jsRechercheBraldun?>">
 					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
-					<?php echo $option ?>
+					<?php echo $options ?>
 				</select>
 				<?php echo $poids ?><br/>
 				<?php echo $charrette ?>

@@ -87,7 +87,10 @@ class Lot extends Zend_Db_Table {
 
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('lot', '*');
+		$select->from('lot', '*')
+		->from('braldun as braldun_vendeur', array('braldun_vendeur.nom_braldun as nom_braldun_vendeur','braldun_vendeur.prenom_braldun as prenom_braldun_vendeur'))
+		->where('braldun_vendeur.id_braldun = id_fk_vendeur_braldun_lot')
+		->joinLeft('braldun as braldun_destinataire','id_fk_braldun_lot = braldun_destinataire.id_braldun', array('braldun_destinataire.nom_braldun as nom_braldun_destinataire','braldun_destinataire.prenom_braldun as prenom_braldun_destinataire'));
 
 		if ($typeLot != null) {
 			$select->where('id_fk_type_lot = ?', $typeLot);
