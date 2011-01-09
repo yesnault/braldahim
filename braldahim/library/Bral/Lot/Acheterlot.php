@@ -94,7 +94,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		foreach($this->view->tabIdsLots as $idLot) {
 			$trouve = false;
 			foreach ($lots as $p) {
-				if ($idLot == $p["id_lot"]) {
+				if ($idLot == $p["id_lot"] && ($p["id_fk_braldun_lot"] == null || $p["id_fk_braldun_lot"] == $this->view->user->id_braldun)) {
 					$trouve = true;
 					break;
 				}

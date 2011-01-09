@@ -845,14 +845,20 @@ function controleEchoppe(i) {
  * premières !"); } } }
  */
 
-function afficheAutreCoffre(){
-	if ($('valeur_2').value == 4){ // constante definie dans Transbahuter.php
+function afficheTransbahuterRechercheBraldun(){
+	if ($('valeur_2').value == 4 || $('valeur_2').value == 8) { // constante definie dans Transbahuter.php
 		$('div_braldun').style.visibility='visible';
 		$('div_braldun').style.display='block';
 	} else{
 		$('div_braldun').style.visibility='hidden';
 		$('div_braldun').style.display='none';
 		$('valeur_3').value=-1;
+	}
+	
+	if ($('valeur_2').value == 8) { // constante definie dans Transbahuter.php
+		$('texte_transbahuter_braldun').innerHTML = 'Vous pouvez réserver cette vente à un unique Braldûn:'
+	} else if ($('valeur_2').value == 4) {
+		$('texte_transbahuter_braldun').innerHTML = 'Entrez le Braldûn destinataire:'
 	}
 }
 
@@ -892,15 +898,15 @@ function getUniqueBraldunId(text, li) {
 	}
 }
 
-function activerRechercheCoffreBraldun(id) {
+function activerRechercheTransbahuterBraldun(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getCoffreBraldunId, parameters : { champ :'value' } });
+		afterUpdateElement :getTransbahuterBraldunId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
 }
 
-function getCoffreBraldunId(text, li) {
+function getTransbahuterBraldunId(text, li) {
 	if (controleSession(li) == true) {
 		$('valeur_3').value = li.getAttribute('id_braldun');
 		controleQte("");

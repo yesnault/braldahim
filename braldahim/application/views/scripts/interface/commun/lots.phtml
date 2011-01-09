@@ -21,6 +21,7 @@
 	<ul id="navigation" style="width:99%;text-align:left">
 		
 		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
+		<?php if ($lot["id_fk_braldun_lot"] == null || ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun))):?>
 		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
 			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
 	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
@@ -36,7 +37,12 @@
 				<?php endif;?>
 			</h3>
 			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
-				<li> Commentaire : 
+				<?php if ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun)):?>
+					<li> <b>Ce lot est réservé à  : <a class="aclass" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot["id_fk_braldun_lot"] ?>');" title="Cliquez pour voir son profil"><?php echo $lot["prenom_braldun_destinataire"] ?> <?php echo $lot["nom_braldun_destinataire"] ?> <?php echo $lot["id_fk_braldun_lot"] ?></a></b>
+					<hr style="width:50%"/><br />
+					</li>
+				<?php endif;?>
+				<li> Commentaire du vendeur : 
 					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
 					<hr style="width:50%"/><br />
 				</li>
@@ -45,16 +51,19 @@
 				</li>
 			</ul>
 		</li>
+		<?php endif;?>
 		<?php endforeach;?>
 	</ul>
 	
 	<?php 
 	$jsFermer = "";
 	$jsOuvrir = "";
+	if ($poches != null) :
 	foreach ($poches as $p) :
 		$jsFermer .= "maccordion_fermer($('$p'));";
 		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
-	endforeach; ?>
+	endforeach; 
+	endif;?>
 	   
 	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
 	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">

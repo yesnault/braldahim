@@ -8,7 +8,6 @@
 // bouton transfert equipement, potion et materiel dans echoppe ==> edit Boule. On ne remet pas quelque chose dans l'échoppe si c'est déjà sorti.
 //@TODO afficher poids restant dans formulaire
 // On ne transbahute pas depuis l'etal
-// TODO cout en PA en fonction du départ
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	const ID_ENDROIT_ELEMENT = 1;
@@ -74,7 +73,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$choixDepart = false;
 		if ($this->request->get('valeur_1') != '' && $this->request->get('valeur_1') != -1) {
 			$id_type_courant_depart = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_1'));
-			$choixDepart = true;
 			if ($id_type_courant_depart < 1 && $id_type_courant_depart > count($tabEndroit)) {
 				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_depart='.$id_type_courant_depart);
 			}
@@ -94,6 +92,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$this->prepareType($e['nom_systeme'], $e['id_type_endroit']);
 				if ($this->view->deposerOk == true) {
+					if ($id_type_courant_depart == $e['id_type_endroit']) {
+						$choixDepart = true;
+					}
 					$tabTypeDepart[$i] = array('id_type_depart' => $e['id_type_endroit'], 'selected' => $id_type_courant_depart, 'nom_systeme' => $e['nom_systeme'], 'nom_type_depart' => $e['nom_type_endroit'], 'panneau' => $e['panneau']);
 					$i++;
 				}
@@ -308,20 +309,22 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this).' Endroit arrivee invalide = '.$idArrivee);
 		}
 
-		if ($this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre') {
-			$idBraldunCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
-			$this->view->id_braldun_coffre = null;
-			if ($idBraldunCoffre == -1) {
-				$this->view->id_braldun_coffre = $this->view->user->id_braldun;
+		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee >= self::ID_ENDROIT_ECHOPPE_ETAL) {
+			$idBraldunDestinataire = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
+			$this->view->id_braldun_destinataire = null;
+			if ($idBraldunDestinataire == -1) {
+				$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
 			} else{
-				$this->view->id_braldun_coffre = $idBraldunCoffre;
+				$this->view->id_braldun_destinataire = $idBraldunDestinataire;
 			}
+		}
 
-			if ($this->view->id_braldun_coffre != null) {
+		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN) {
+			if ($this->view->id_braldun_destinataire != null) {
 				$coffreTable = new Coffre();
-				$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_coffre);
+				$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_destinataire);
 				if (count($coffre) != 1) {
-					throw new Zend_Exception(get_class($this).' Coffre arrivee invalide = '.$this->view->id_braldun_coffre);
+					throw new Zend_Exception(get_class($this).' Coffre arrivee invalide = '.$this->view->id_braldun_destinataire);
 				}
 				$this->view->id_coffre_arrivee = $coffre[0]['id_coffre'];
 			}
@@ -343,7 +346,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($idArrivee == 4) {
 			Zend_Loader::loadClass('Braldun');
 			$braldun = new Braldun();
-			$nomBraldun = $braldun->findNomById($this->view->id_braldun_coffre);
+			$nomBraldun = $braldun->findNomById($this->view->id_braldun_destinataire);
 			$this->view->arrivee = 'le coffre de '.$nomBraldun;
 		}
 		else {
@@ -386,16 +389,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		if ($this->view->tabEndroit[$idDepart]['nom_systeme'] == 'Coffre' || $this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre' ) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
-			if ($this->view->id_braldun_coffre != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre') {
+			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre') {
 				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
 				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_coffre, $message, $this->view);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_destinataire, $message, $this->view);
 
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
-				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans le coffre de [b'.$this->view->id_braldun_coffre.']';
-				$this->setDetailsEvenementCible($this->view->id_braldun_coffre, 'braldun', 0, $messageCible);
+				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans le coffre de [b'.$this->view->id_braldun_destinataire.']';
+				$this->setDetailsEvenementCible($this->view->id_braldun_destinataire, 'braldun', 0, $messageCible);
 			}
 			else {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a utilisé les services de la banque ';
@@ -555,16 +558,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$data = array(
 			'poids_lot' => $poidsLot,
 		);
-		
+
 		$dateDebut = date('Y-m-d H:0:0');
 		$dateFin = null;
+
+		$data['id_fk_vendeur_braldun_lot'] = $this->view->user->id_braldun;
 		
 		if ($arrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$data['id_fk_echoppe_lot'] = $this->view->id_echoppe_depart;
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
+			$data['id_fk_braldun_lot'] = $this->view->id_braldun_destinataire;
 		} elseif ($arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL) {
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_VENTE_HOTEL;
-			$data['id_fk_vendeur_braldun_lot'] = $this->view->user->id_braldun;
 			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 60);
 		}
 
@@ -586,7 +591,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$where = 'id_lot='.$idLot;
 		$lotTable->update($data, $where);
-		
+
 		$this->view->idLot = $idLot;
 		return $idLot;
 	}
@@ -3124,7 +3129,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$nbFourrure = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_14'));
 		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_15'));
 		$nbRondin = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_16'));
-		
+
 		if ($idTypeArrivee == self::ID_ENDROIT_HOTEL || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) {
 			$nbCastar = 0;
 		}

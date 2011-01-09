@@ -18,13 +18,16 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	public static function getLotsByIdEchoppe($idEchoppe, $visiteur) {
+	public static function getLotsByIdEchoppe($idEchoppe, $visiteur, $idBraldunVisiteur = null) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
-		$lots = $lotTable->findByIdEchoppe($idEchoppe);
+		$lots = $lotTable->findByIdEchoppe($idEchoppe, null, $idBraldunVisiteur);
 		$retourLots['lots'] = self::prepareLots($lots);
 
+		if ($visiteur && $idBraldunVisiteur == null) {
+			throw new Zend_Exception('Erreur appel getLotsByIdEchoppe');
+		}
 		if ($visiteur) {
 			$retourLots['visiteur'] = true;
 		} else {
@@ -640,6 +643,11 @@ class Bral_Util_Lot {
 				'prix_1_lot' => $r['prix_1_lot'],
 				'date_debut_lot' => $r['date_debut_lot'],
 				'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
+				'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
+				'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+				'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
+				'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
+				'id_fk_braldun_lot' => $r['id_fk_braldun_lot'],
 				'commentaire_lot' => $r['commentaire_lot'],
 				'poids_lot' => $r['poids_lot'],
 				'estLotCharrette' => false,
