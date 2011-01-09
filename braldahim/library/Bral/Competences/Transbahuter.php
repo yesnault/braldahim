@@ -309,14 +309,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this).' Endroit arrivee invalide = '.$idArrivee);
 		}
 
-		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee >= self::ID_ENDROIT_ECHOPPE_ETAL) {
+		if ($idArrivee == self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee == self::ID_ENDROIT_MON_COFFRE || $idArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$idBraldunDestinataire = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
 			$this->view->id_braldun_destinataire = null;
+			$this->view->id_braldun_destinataire_etal = null;
 			if ($idBraldunDestinataire == -1) {
 				$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
+				if ($idArrivee >= self::ID_ENDROIT_ECHOPPE_ETAL) {
+					$this->view->id_braldun_destinataire_etal = $idBraldunDestinataire;
+				}
 			} else{
 				$this->view->id_braldun_destinataire = $idBraldunDestinataire;
 			}
+				
+				
 		}
 
 		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN) {
@@ -563,11 +569,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$dateFin = null;
 
 		$data['id_fk_vendeur_braldun_lot'] = $this->view->user->id_braldun;
-		
+
 		if ($arrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$data['id_fk_echoppe_lot'] = $this->view->id_echoppe_depart;
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
-			$data['id_fk_braldun_lot'] = $this->view->id_braldun_destinataire;
+			$data['id_fk_braldun_lot'] = $this->view->id_braldun_destinataire_etal;
 		} elseif ($arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL) {
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_VENTE_HOTEL;
 			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 60);

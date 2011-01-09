@@ -1,9 +1,7 @@
 <?php if (count($this->equipementsArriereBoutique) > 0): ?>
-
 	<?php $this->equipements = $this->equipementsArriereBoutique; ?>
 	<?php $this->idEquipementsTable = $this->idEquipementsArriereBoutiqueTable; ?>
 	<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
-	
 <?php else: ?>
 	Vous n'avez aucun &eacute;quipement en r&eacute;serve
 <?php endif; ?>
