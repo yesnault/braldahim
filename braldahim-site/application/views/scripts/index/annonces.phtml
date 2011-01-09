@@ -18,8 +18,8 @@
 				
 				<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 					<br/>
-					<?php echo stripslashes($info["titre_info_jeu"])?>
-					<br/>
+					<p class="titre textalic textsized center textdark"><?php echo stripslashes($info["titre_info_jeu"])?></p>
+					<br />
 				<?php endif;?>
 				
 				<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
