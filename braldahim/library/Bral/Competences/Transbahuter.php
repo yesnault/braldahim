@@ -114,6 +114,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->tabEndroit = $tabEndroit;
 		$this->view->ID_ENDROIT_ECHOPPE_ETAL = self::ID_ENDROIT_ECHOPPE_ETAL;
 		$this->view->ID_ENDROIT_HOTEL = self::ID_ENDROIT_HOTEL;
+		$this->view->textePrixVente = null;
 	}
 
 	private function prepareCommunChoixArrivee($tabEndroit, $id_type_courant_depart) {
@@ -178,63 +179,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"nom_pluriel_type_unite" => TypeUnite::NOM_TYPE_PLURIEL_CASTARS,
 		);
 			
-		/*Zend_Loader::loadClass("TypeUnite");
-		 $typeUniteTable = new TypeUnite();
-		 $typeUniteRowset = $typeUniteTable->fetchall(null, "nom_type_unite");
-		 $typeUniteRowset = $typeUniteRowset->toArray();
-
-		 foreach($typeUniteRowset as $t) {
-			$unites[$t["nom_systeme_type_unite"]] = array(
-			"id_type_unite" => $t["id_type_unite"] ,
-			"nom_type_unite" => $t["nom_type_unite"],
-			"nom_pluriel_type_unite" => $t["nom_pluriel_type_unite"],
-			);
-			}
-
-			Zend_Loader::loadClass("TypeMinerai");
-			$typeMineraiTable = new TypeMinerai();
-			$typeMineraiRowset = $typeMineraiTable->fetchall(null, "nom_type_minerai");
-			$typeMineraiRowset = $typeMineraiRowset->toArray();
-
-			foreach($typeMineraiRowset as $t) {
-			$unites["mineraibrut:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Minerai Brut: ".$t["nom_type_minerai"], "type_forme" => "brut", "texte_forme_singulier" => "Minerai Brut", "texte_forme_pluriel" => "Minerais Bruts");
-			//	$unites["minerailingot:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Lingot: ".$t["nom_type_minerai"], "type_forme" => "lingot", "texte_forme_singulier" => "Lingot", "texte_forme_pluriel" => "Lingots");
-			}
-
-			Zend_Loader::loadClass("TypePartieplante");
-			$typePartiePlanteTable = new TypePartieplante();
-			$typePartiePlanteRowset = $typePartiePlanteTable->fetchall(null, "nom_type_partieplante");
-			$typePartiePlanteRowset = $typePartiePlanteRowset->toArray();
-			foreach($typePartiePlanteRowset as $t) {
-			$partiePlante[$t["id_type_partieplante"]] = array("nom_partieplante" => $t["nom_type_partieplante"], "nom_systeme_partieplante" => $t["nom_systeme_type_partieplante"]);
-			}
-
-			Zend_Loader::loadClass("TypePlante");
-			$typePlanteTable = new TypePlante();
-			$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
-			$typePlanteRowset = $typePlanteRowset->toArray();
-
-			foreach($typePlanteRowset as $t) {
-			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante1_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
-			//	$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante1_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
-
-			if ($t["id_fk_partieplante2_type_plante"] != "") {
-			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "brute");
-			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 2, "preparee");
-			}
-
-			if ($t["id_fk_partieplante3_type_plante"] != "") {
-			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "brute");
-			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 3, "preparee");
-			}
-
-			if ($t["id_fk_partieplante4_type_plante"] != "") {
-			$unites["plantebrute:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "brute");
-			//		$unites["plantepreparee:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = $this->prepareUnitesRowPlante($t, $partiePlante, 4, "preparee");
-			}
-			}
-			*/
-
 		$this->view->unites = $unites;
 	}
 
@@ -610,17 +554,24 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$data = array(
 			"poids_lot" => $poidsLot,
 		);
+		
+		$dateDebut = date("Y-m-d H:0:0");
+		$dateFin = null;
+		
 		if ($arrivee["id_type_endroit"] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$data["id_fk_echoppe_lot"] = $this->view->id_echoppe_depart;
 			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
 		} elseif ($arrivee["id_type_endroit"] == self::ID_ENDROIT_HOTEL) {
 			$data["id_fk_type_lot"] = TypeLot::ID_TYPE_VENTE_HOTEL;
 			$data["id_fk_vendeur_braldun_lot"] = $this->view->user->id_braldun;
+			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 60);
 		}
 
 		$idLot = $lotTable->insert($data);
 
-		$this->view->textePrixVente = array();
+		$s = '';
+		if ($prix_1 > 1) $s= 's';
+		$this->view->textePrixVente = $prix_1. ' castar'.$s;
 
 		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_10')));
 		$dateDebut = date("Y-m-d H:0:0");
@@ -636,7 +587,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$where = "id_lot=".$idLot;
 		$lotTable->update($data, $where);
-
+		
+		$this->view->idLot = $idLot;
 		return $idLot;
 	}
 

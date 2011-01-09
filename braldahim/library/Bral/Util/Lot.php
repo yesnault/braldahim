@@ -7,11 +7,11 @@
  */
 class Bral_Util_Lot {
 
-	public static function getLotsByHotel() {
+	public static function getLotsByHotel($perimes = false) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
-		$lots = $lotTable->findByHotel();
+		$lots = $lotTable->findByHotel($perimes);
 		$retourLots['lots'] = self::prepareLots($lots);
 		$retourLots['visiteur'] = true;
 

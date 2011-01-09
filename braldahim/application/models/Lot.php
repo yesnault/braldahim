@@ -27,12 +27,17 @@ class Lot extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByHotel() {
+	function findByHotel($perime = false) {
 		Zend_Loader::loadClass("TypeLot");
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
 		->where('id_fk_type_lot = ?', TypeLot::ID_TYPE_VENTE_HOTEL);
+
+		if ($perime === true) {
+			$dateFin = date('Y-m-d H:i:s');
+			$select->where('date_fin_lot <= ?', $dateFin);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -68,7 +73,7 @@ class Lot extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*');
-		
+
 		if ($typeLot != null) {
 			$select->where('id_fk_type_lot = ?', $typeLot);
 		}

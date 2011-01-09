@@ -16,6 +16,12 @@
 		Certains &eacute;l&eacute;ments n'ont pu &ecirc;tre transbahut&eacute; car votre charrette ne poss&egrave;de pas de panneau amovible :<br />
 		<?php echo $this->elementsNonRetiresPanneau;?><br />
 	<?php endif; ?>
+	
+	<?php if ($this->textePrixVente != null) : ?>
+		<br />
+		Création du lot n°<?php echo $this->idLot ?>.<br />
+		Prix de vente : <?php echo $this->textePrixVente ?>. <br />
+	<?php endif;?>
 <?php else :?>
 	<br />
 	Aucun &eacute;l&eacute;ment n'a pu &ecirc;tre transbahut&eacute; !<br /><br />
