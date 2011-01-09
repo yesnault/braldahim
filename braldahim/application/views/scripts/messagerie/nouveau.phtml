@@ -57,13 +57,13 @@
 	
 <br /><br />
 
-	<?php echo Bral_Helper_BBBoutons::affiche('valeur_message', 2500)?>
+	<?php echo Bral_Helper_BBBoutons::affiche('valeur_message', 4500)?>
 	
 	<span>Message</span><br />
-	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?php echo strip_tags($this->message["contenu"]);?></textarea>
+	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),4500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?php echo strip_tags($this->message["contenu"]);?></textarea>
 	
 	<br />
-	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br />
+	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="4500" type="text"> Caract&egrave;res restants<br />
 	<input type="button" class='button1' name="Envoyer" value="Envoyer" onclick="Javascript:$('nb_valeurs').value=4;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value);$('valeur_4').value = $('valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message', true);" /> 
 </form>
 

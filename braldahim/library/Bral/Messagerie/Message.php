@@ -210,7 +210,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$avecContacts = false;
 		}
 
-		$validateurContenu = new Bral_Validate_StringLength(1, 2500);
+		$validateurContenu = new Bral_Validate_StringLength(1, 4500);
 		$validDestinataires = $validateurDestinataires->isValid($this->view->message["destinataires"]);
 		$validContenu = $validateurContenu->isValid($this->view->message["contenu"]);
 
