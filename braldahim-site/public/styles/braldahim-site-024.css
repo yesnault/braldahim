@@ -261,6 +261,8 @@ span.id_braldun {
 	list-style-image: none;
 	list-style-position: outside;
 	list-style-type: none;
+	background-color: #C3E691;
+	color: #000000;
 }
 
 #navigation li li h3 {
@@ -275,6 +277,67 @@ span.id_braldun {
 	color: #FF0000;
 }
 
+
+#navigation {
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
+	width: 200px;
+}
+
+#navigation h3.head {
+	background: #497621 url('/images/collapsed.gif') no-repeat scroll
+		3px 4px;
+	border: 1px solid #2A5911;
+	color: #232323;
+	cursor: pointer;
+	display: block;
+	font-size:11px;
+	margin: 2px;
+	padding: 2px;
+	text-decoration: none;
+	text-indent: 14px;
+}
+
+#navigation h3.head:hover {
+	color: #003b00;
+}
+
+
+#navigation h3.head.selected {
+	background: #497621 url('/images/expanded.gif') no-repeat scroll
+		3px 4px;
+}
+
+#navigation h3.current {
+	background-color: #FFFF99;
+}
+
+#navigation ul {
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
+}
+
+#navigation li {
+	display: block;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+#navigation li li h3 {
+	color: #000000;
+	display: block;
+	text-decoration: none;
+	text-indent: 10px;
+}
+
+#navigation li li h3:hover {
+	background-color: #FFFF99;
+	color: #FF0000;
+}
 /* ************************************************ */
 /* ********************** Onglets ***************** */
 /* ************************************************ */

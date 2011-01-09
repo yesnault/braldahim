@@ -52,7 +52,7 @@
 		$this->runesIdentifiees = $lot["runes_identifiees"];
 		$this->nb_runes = count($lot["runes_non_identifiees"]) + count($lot["runes_identifiees"]);
 		?>
-		<?php include("poches/poche_rune.phtml") ?>
+		<?php include("poches/poche_rune.phtml") ?><br />
 	<?php endif;?>
 	
 	<?php if (count($lot["materiels"]) > 0) : 

@@ -7,6 +7,17 @@
  */
 class Bral_Util_Lot {
 
+	public static function getLotsByEtals($idRegion = null) {
+		Zend_Loader::loadClass('Lot');
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByEtals($idRegion);
+		$retourLots['lots'] = self::prepareLots($lots);
+		$retourLots['visiteur'] = true;
+
+		return $retourLots;
+	}
+
 	public static function getLotsByHotel($perimes = false) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
@@ -467,11 +478,12 @@ class Bral_Util_Lot {
 
 		foreach ($munitions as $m) {
 			$tabMunitions = array(
+				'id_type_munition' => $m['id_type_munition'],
 				'type' => $m['nom_type_munition'],
 				'quantite' => $m['quantite_lot_munition'],
 				'poids' =>  $m['quantite_lot_munition'] * Bral_Util_Poids::POIDS_MUNITION,
-				'type' => $tabMunitions['type'],
-				'type_pluriel' => $tabMunitions['type_pluriel'],
+				'type' => $m['nom_type_munition'],
+				'type_pluriel' => $m['nom_pluriel_type_munition'],
 			);
 			$lots[$m['id_fk_lot_lot_munition']]['munitions'][] = $tabMunitions;
 			if ($tabMunitions['quantite'] > 1) {

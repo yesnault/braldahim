@@ -18,7 +18,7 @@ class EtalsController extends Zend_Controller_Action {
 		
 		$f = new Zend_Filter_StripTags();
 
-		$regionSelect = intval($f->filter($this->_request->get("regionselect")));
+		$regionSelect = intval($f->filter($this->_request->get('regionselect')));
 		if ($regionSelect <= 0) {
 			$regionSelect = -1;
 		}
@@ -28,13 +28,17 @@ class EtalsController extends Zend_Controller_Action {
 	function indexAction() {
 		Zend_Loader::loadClass('Region');
 		$regionTable = new Region();
-		$rowset = $regionTable->fetchAll(null, "nom_region");
-		$regions[-1] = "Toutes";
+		$rowset = $regionTable->fetchAll(null, 'nom_region');
+		$regions[-1] = 'Toutes';
 		foreach ($rowset as $r) {
-			$regions[$r["id_region"]] = $r["nom_region"];
+			$regions[$r['id_region']] = $r['nom_region'];
 		}
 		$this->view->regions = $regions;
 		
+		Zend_Loader::loadClass('Bral_Util_Lot');
+		Zend_Loader::loadClass('Bral_Util_Poids');
+		Zend_Loader::loadClass('Bral_Util_String');
+		$this->view->lots = Bral_Util_Lot::getLotsByEtals($this->view->regionSelect);
 		
 		$this->render();
 	}

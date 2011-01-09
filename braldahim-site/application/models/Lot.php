@@ -13,6 +13,29 @@ class Lot extends Zend_Db_Table {
 		return $this->findByIdLot($idLot);
 	}
 
+	function findByEtals($idRegion = null) {
+		Zend_Loader::loadClass('TypeLot');
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lot', '*')
+		->from('echoppe')
+		->where('id_fk_echoppe_lot is not null')
+		->where('id_fk_type_lot = ?', TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS)
+		->where('id_fk_echoppe_lot = id_echoppe');
+		
+		if ($idRegion != -1 && $idRegion != null) {
+			$select->from('region');
+			$select->where('region.x_min_region <= echoppe.x_echoppe');
+			$select->where('region.x_max_region >= echoppe.x_echoppe');
+			$select->where('region.y_min_region <= echoppe.y_echoppe');
+			$select->where('region.y_max_region >= echoppe.y_echoppe');
+			$select->where('region.id_region = ?', $idRegion);
+		}
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findByIdEchoppe($idEchoppe, $idLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

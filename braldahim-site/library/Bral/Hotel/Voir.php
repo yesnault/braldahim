@@ -17,13 +17,13 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 	}
 
 	function render() {
-		$this->prepare();
 		return $this->view->render("hotel/voir/resultats.phtml");
 	}
 
 	public function getPreparedView() {
 		Zend_Loader::loadClass("Bral_Util_Lot");
 		$this->view->lots = Bral_Util_Lot::getLotsByHotel();
+		
 		return $this->view;
 	}
 }

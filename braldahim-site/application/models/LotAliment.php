@@ -28,4 +28,41 @@ class LotAliment extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
+
+	function findByIdLot($idLot) {
+
+		$liste = "";
+		$nomChamp = "id_fk_lot_lot_aliment";
+
+		if (is_array($idLot)) {
+			foreach($idLot as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lot_aliment', '*')
+		->from('type_aliment')
+		->from('type_qualite')
+		->from('aliment', '*')
+		->where('id_aliment = id_lot_aliment')
+		->where('id_fk_type_aliment = id_type_aliment')
+		->where('id_fk_type_qualite_aliment = id_type_qualite');
+
+		if ($liste != "") {
+			$select->where($nomChamp .'='. $liste);
+		} else {
+			$select->where('id_fk_lot_lot_aliment = ?', intval($idLot));
+		}
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

@@ -315,6 +315,7 @@ class Bral_Util_Coffre {
 
 		foreach ($munitions as $m) {
 			$tabMunitions[] = array(
+				'id_type_munition' => $m['id_type_munition'],
 				"type" => $m["nom_type_munition"],
 				"quantite" => $m["quantite_coffre_munition"],
 				"poids" =>  $m["quantite_coffre_munition"] * Bral_Util_Poids::POIDS_MUNITION,

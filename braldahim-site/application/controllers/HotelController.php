@@ -21,6 +21,8 @@ class HotelController extends Zend_Controller_Action {
 
 	function indexAction() {
 		Zend_Loader::loadClass("Bral_Hotel_Factory");
+		Zend_Loader::loadClass("Bral_Util_Poids");
+		
 		$box = Bral_Hotel_Factory::getBox($this->_request, $this->view);
 
 		$this->view = $box->getPreparedView();
