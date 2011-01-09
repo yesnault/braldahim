@@ -315,13 +315,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->view->id_braldun_destinataire_etal = null;
 			if ($idBraldunDestinataire == -1) {
 				$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
-				if ($idArrivee >= self::ID_ENDROIT_ECHOPPE_ETAL) {
-					$this->view->id_braldun_destinataire_etal = $idBraldunDestinataire;
-				}
 			} else{
 				$this->view->id_braldun_destinataire = $idBraldunDestinataire;
+				if ($idArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+					$this->view->id_braldun_destinataire_etal = $idBraldunDestinataire;
+				}
 			}
-				
 				
 		}
 
