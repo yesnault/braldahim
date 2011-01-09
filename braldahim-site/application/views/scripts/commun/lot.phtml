@@ -1,0 +1,104 @@
+	
+	<?php if ($lot["elements"] != null) : ?>
+		<?php $this->laban = $lot["elements"];?>
+		
+		<?php if ($lot["elements"]["nb_rondin"] > 0) : ?>
+			<?php include("poches/poche_bucheron.phtml") ?><br />
+		<?php endif;?>
+		
+		<?php if ($lot["elements"]["nb_peau"] > 0 || $lot["elements"]["nb_viande"] > 0) : ?>
+			<?php include("poches/poche_chasseur.phtml") ?><br />
+		<?php endif;?>
+		
+		
+		<?php if ($lot["elements"]["nb_planche"] > 0) : ?>
+			<?php include("poches/poche_menuisier.phtml") ?><br />
+		<?php endif;?>
+		
+		<?php if ($lot["elements"]["nb_cuir"] > 0 || $lot["elements"]["nb_fourrure"] > 0) : ?>
+			<?php include("poches/poche_tanneur.phtml") ?><br />
+		<?php endif;?>
+		
+		<?php $this->laban = null;?>
+	<?php endif;?>
+	
+	<?php if (count($lot["ingredients"]) > 0) : 
+		$this->ingredients = $lot["ingredients"]; 
+		?>
+		<?php include("poches/poche_cuisinier.phtml") ?>
+	<?php endif;?>
+	
+	<?php if ($lot["minerais_bruts"] != null) :
+		$this->mineraisBruts = $lot["minerais_bruts"]; ?>
+		<?php include("poches/poche_mineur.phtml") ?><br />
+	<?php endif;?>
+	<?php if ($lot["minerais_lingots"] > 0) :
+		$this->lingots = $lot["minerais_lingots"]; ?>
+		<?php include("poches/poche_forgeron.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if ($lot["partiesplantes_brutes"] != null) :
+		$this->typePlantesBruts = $lot["partiesplantes_brutes"]; ?>
+		<?php include("poches/poche_herboriste.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if ($lot["partiesplantes_preparees"] != null) :
+		$this->typePlantesPrepares = $lot["partiesplantes_preparees"]; ?>
+		<?php include("poches/poche_apothicaire.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["runes_non_identifiees"]) > 0 || count($lot["runes_identifiees"]) > 0) :
+		$this->runesNonIdentifiees = $lot["runes_non_identifiees"];
+		$this->runesIdentifiees = $lot["runes_identifiees"];
+		$this->nb_runes = count($lot["runes_non_identifiees"]) + count($lot["runes_identifiees"]);
+		?>
+		<?php include("poches/poche_rune.phtml") ?>
+	<?php endif;?>
+	
+	<?php if (count($lot["materiels"]) > 0) : 
+			$this->materiels = $lot["materiels"];
+			$this->nb_materiels = count($lot["materiels"]);
+		?>
+		<?php include("poches/poche_materiel.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["equipements"]) > 0) :
+			$this->equipements = $lot["equipements"];
+			$this->nb_equipements = count($lot["equipements"]);
+		?>
+		<?php include("poches/poche_equipement.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["munitions"]) > 0) :
+			$this->munitions = $lot["munitions"];
+			$this->nb_munitions = count($lot["munitions"]);
+		?>
+		<?php include("poches/poche_munition.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["potions"]) > 0) :
+			$this->potions = $lot["potions"];
+			$this->nb_potions = count($lot["potions"]);
+		?>
+		<?php include("poches/poche_potion.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["aliments"]) > 0) : 
+			$this->aliments = $lot["aliments"];
+			$this->nb_aliments = count($lot["aliments"]);
+		?>
+		<?php include("poches/poche_aliment.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($lot["graines"]) > 0) : 
+			$this->graines = $lot["graines"];
+			$this->nb_graines = count($lot["graines"]);
+		?>
+		<?php include("poches/poche_graine.phtml") ?><br />
+	<?php endif;?>
+	
+	<?php if (count($this->tabac) > 0) : ?>
+		<?php include("poches/poche_tabac.phtml") ?>
+	<?php endif;?>
+   	
+   	

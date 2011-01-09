@@ -1,0 +1,45 @@
+<?php Zend_Loader::loadClass("Bral_Helper_DetailAliment"); ?>
+
+<table class="table_liste" style="width:90%"  <?php if ($this->idAlimentsTable != false) : ?> id="<?php echo $this->idAlimentsTable?>"<?php endif; ?>>
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
+		<th>Nom</th>
+		<th>Qualit&eacute;</th>
+		<th>Type de Recette</th>
+		<th>Bonus sur la Balance de Faim</th>
+		<th>Poids</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<?php if (count($this->aliments) > 0) :?>
+			<?php $i = 0;
+			   foreach($this->aliments as $a) :?>
+				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+			  		<td class="table_liste"><?php echo $a["id_aliment"] ?></td>
+			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_aliment/type_aliment_<?php echo $a["id_type_aliment"]?>.png' alt="<?php echo htmlspecialchars($a["nom"])?>"/></td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($a["nom"]) ?></td>
+			  		<td class="table_liste">
+				  		<?php if ($a["bbdf"] > 0): ?>
+				   		<?php echo htmlspecialchars($a["qualite"]) ?>
+				   		<?php else:?>
+				   			n.a
+				   		<?php endif;?>
+			   		</td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($a["recette"]) ?></td>
+			  		<td class="table_liste">
+			  		
+			   		<?php if ($a["bbdf"] > 0): ?>
+			  			<?php echo $a["bbdf"] ?> %
+			  		<?php else: ?>
+			  			n.a
+			  		<?php endif; ?> </td>
+			  		<td class="table_liste"><?php echo Bral_Util_Poids::POIDS_ALIMENT ?> Kg</td>
+				  </tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucun aliment</i></td></tr>
+		<?php endif; ?>
+	</tbody>
+</table>

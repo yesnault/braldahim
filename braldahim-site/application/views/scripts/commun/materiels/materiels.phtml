@@ -1,0 +1,39 @@
+<?php Zend_Loader::loadClass("Bral_Helper_DetailMateriel"); ?>
+
+<table class="table_liste" style="width:90%" <?php if ($this->idMaterielsTable != false) : ?> id="<?php echo $this->idMaterielsTable?>"<?php endif; ?>>
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
+		<th>Nom</th>
+		<th>Caract&eacute;ristiques</th>
+		<th>&nbsp;</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<?php if (count($this->materiels) > 0) :?>
+			<?php $i = 0;
+			   foreach($this->materiels as $e) :?>
+					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+				  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
+				  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
+				  		<td class="table_liste"><?php echo $e["nom"] ?></td>
+				  		<td class="table_liste">
+				  			<div class='braltip'>
+				  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+				  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
+				  			</div>
+				  		</td>
+						<td class="table_liste">
+						<?php if ($this->estElementsAchat == false && $this->estElementsEtalAchat == false && substr($e["nom_systeme_type_materiel"], 0, 9) == "charrette"):?>
+							<input type="button" class='button1' value="1 PA - Mettre en vente sur l'étal" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&idCharretteEtal=<?php echo $e["id_materiel"] ?>&valeur_1=7')"/>
+							<input type="button" class='button1' value="1 PA - Attraper une charrette" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper&provenance=echoppe')" />
+						<?php endif;?>
+						</td>
+				  	</tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucun mat&eacute;riel</i></td></tr>
+		<?php endif; ?>
+	</tbody>
+</table>

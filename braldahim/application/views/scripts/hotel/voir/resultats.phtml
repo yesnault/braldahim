@@ -1,14 +1,6 @@
 
-<?php if ($this->venteDefaut == true) : ?>
-	<div class="titre textalic">
-	Affichage des 50 dernières ventes inscrites
-	</div>
-	Vous pouvez affiner votre recherche avec les listes à choix présentes ci-dessus.
-	<br /><br />
-<?php endif;?>
-
-  	<?php $this->estElementsEtalAchat = false;?>
-  	<?php echo $this->render("/interface/commun/lots.phtml"); ?>
+<?php $this->estElementsEtalAchat = false;?>
+<?php echo $this->render("/interface/commun/lots.phtml"); ?>
 
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 

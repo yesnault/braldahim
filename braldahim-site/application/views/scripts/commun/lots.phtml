@@ -1,0 +1,69 @@
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPrix");?>
+
+<?php if (count($this->lots["lots"]) > 0) : ?>
+	<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
+
+	<?php if ($this->lots["visiteur"]):?>
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('tabLotsSelectionnes').value=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=".$this->echoppe["id_echoppe"]."&amp;idsLots='+$('tabLotsSelectionnes').value)}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php echo $boutonAcheter;?>
+		<br >
+		<span style="float:right" id="selectionLotsTexte">
+		Lots sélectionnés : aucun
+		</span>
+		<input type='hidden' value='' id='tabLotsSelectionnes'>
+		
+		<br >
+		<br >
+	<?php endif;?>
+	<?php echo $poches = null; ?>
+	<div id="cadre_lots" style="height:530px;overflow: auto; min-height: 80px;">
+	<ul id="navigation" style="width:99%;text-align:left">
+		
+		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
+		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
+			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
+	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
+				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
+				- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				- <?php echo $lot["resume"]; ?>
+				</span>
+				
+				<?php if ($this->lots["visiteur"]):?>
+					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot(this, '<?php echo $numero;?>')">Sélectionner</span>
+				<?php else:?>
+					<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
+				<?php endif;?>
+			</h3>
+			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
+				<li> Commentaire : 
+					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
+					<hr style="width:50%"/><br />
+				</li>
+				<li>
+					<?php include("lot.phtml") ?>
+				</li>
+			</ul>
+		</li>
+		<?php endforeach;?>
+	</ul>
+	
+	<?php 
+	$jsFermer = "";
+	$jsOuvrir = "";
+	foreach ($poches as $p) :
+		$jsFermer .= "maccordion_fermer($('$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+	endforeach; ?>
+	   
+	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
+	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
+	<?php if ($this->lots["visiteur"]):?>
+		<?php echo $boutonAcheter;?>
+	<?php endif;?>
+	
+	</div>
+
+<?php else: ?>
+	<i>Rien en vente</i>
+<?php endif;?>

@@ -1,0 +1,26 @@
+<?php 
+Zend_Loader::loadClass('Bral_Helper_Contenu');
+?>
+<?php if (count($this->graines) == 0) : ?>
+   <center><i>vide</i></center>
+<?php else : ?>
+    <table class="table_liste" style="width:auto; padding:5px;" >
+		<thead class="table_liste">
+		  <tr class="table_liste">
+		  	<?php foreach ($this->graines as $g) :  ?>
+			<th style="width:auto; padding:5px;" ><?php echo htmlspecialchars($g["type"])?></th>
+			<?php endforeach; ?>
+		  </tr>
+		</thead>
+		<tbody>
+			<tr class="table_liste">
+			<?php foreach ($this->graines as $g) : ?>
+			 	<td class="table_liste">
+			 		<?php echo Bral_Helper_Contenu::afficheGraine($g)?>
+			 	</td>
+			<?php endforeach; ?>
+			</tr>
+		</tbody>
+	</table>
+<?php endif; ?>
+<br />

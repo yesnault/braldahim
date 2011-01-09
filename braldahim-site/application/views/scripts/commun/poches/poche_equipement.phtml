@@ -1,0 +1,7 @@
+<div class="laban">
+<?php if ($this->nb_equipements == 0) : ?>
+	<center><i>Vide</i></center>
+<?php else : ?>
+	<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
+<?php endif; ?>
+</div>

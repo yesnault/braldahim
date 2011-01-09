@@ -1,0 +1,19 @@
+<br />
+<div class="box_contenu textalic">
+	<div class="titre textalic textsizea">Étals</div><br />
+	
+<table width='100%'>
+<tr>
+	<td>
+		Filtre par comté: 
+		<br />
+		<select id="region" name="region" onchange="document.location.href = '/etals/?regionselect='+this.value+'&emplacementselect=<?php echo $this->emplacementSelect?>&equipementselect=<?php echo $this->equipementSelect?>&uid='+(new Date()).valueOf()">
+		<?php foreach($this->regions as $k => $e): ?>
+			<option value="<?php echo $k?>" <?php if ($this->regionSelect == $k): echo "selected" ; endif;?>><?php echo $e?></option>
+		<?php endforeach;?>
+		</select>
+	</td>
+</tr>
+</table>
+
+</div>

@@ -1,0 +1,7 @@
+<div class="laban">
+<?php if ($this->nb_materiels == 0) : ?>
+	<center><i>Vide</i></center>
+<?php else : ?>
+	<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
+<?php endif; ?>
+</div>

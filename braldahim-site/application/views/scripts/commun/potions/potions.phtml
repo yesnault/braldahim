@@ -1,0 +1,51 @@
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
+ 
+<table class="table_liste" style="width:90%" <?php if ($this->idPotionsTable != false) : ?> id="<?php echo $this->idPotionsTable?>"<?php endif; ?>>
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
+		<th>Nom</th>
+		<th>Qualit&eacute;</th>
+		<th>Niveau</th>
+		<th>Type</th>
+		<th>Effet sur</th>
+		<th>Caract&eacute;ristiques</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<?php if (count($this->potions) > 0) :?>
+			<?php $i = 0;
+			   foreach($this->potions as $p) :?>
+				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+			  		<td class="table_liste"><?php echo $p["id_potion"] ?></td>
+			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_potion/type_potion_<?php echo $p["id_type_potion"]?>.png' alt="<?php echo htmlspecialchars($p["nom"])?>"/></td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($p["nom"]) ?></td>
+			  		<td class="table_liste"><?php echo htmlspecialchars($p["qualite"]) ?></td>
+			  		<td class="table_liste"><?php echo $p["niveau"] ?></td>
+			  		<td class="table_liste">
+			  		<?php echo $p["nom_type"] ?>
+			   		</td>
+			  		<td class="table_liste">
+			  		<?php if ($p["bm_type"] == null) : ?>
+			  			État équipement
+			  		<?php else :?>
+				  		<?php echo $p["bm_type"] ?> <?php echo $p["caracteristique"] ?>
+				  		<?php if ($p["bm2_type"] != null) : ?>
+				  			<br /><?php echo $p["bm2_type"] ?> <?php echo $p["caracteristique2"] ?>
+				  		<?php endif;?>
+			  		<?php endif;?>
+			  		</td>
+			  		<td class="table_liste">
+			  			<div class='braltip'>
+			  			<?php echo Bral_Helper_DetailPotion::afficherTooltip($p);?>
+						<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
+						</div>
+					</td>
+				  </tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune potion ou vernis</i></td></tr>
+		<?php endif; ?>
+	</tbody>
+</table>
