@@ -25,8 +25,8 @@ class EchoppeIngredient extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from(
-		'echoppe_ingredient', 
-		'quantite_arriere_echoppe_ingredient as quantiteArriere')
+		'echoppe_ingredient',  'count(*) as nombre,
+		quantite_arriere_echoppe_ingredient as quantiteArriere')
 		->where('id_fk_type_echoppe_ingredient = ?',$data["id_fk_type_echoppe_ingredient"])
 		->where('id_fk_echoppe_echoppe_ingredient = ?',$data["id_fk_echoppe_echoppe_ingredient"])
 		->group(array('quantiteArriere'));

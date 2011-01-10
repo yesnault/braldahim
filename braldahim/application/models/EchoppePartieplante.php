@@ -26,9 +26,9 @@ class EchoppePartieplante extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('echoppe_partieplante', 
-		'quantite_arriere_echoppe_partieplante as quantiteArriere'
-		.', quantite_preparee_echoppe_partieplante as quantitePreparee')
+		$select->from('echoppe_partieplante',  'count(*) as nombre,
+		quantite_arriere_echoppe_partieplante as quantiteArriere, 
+		quantite_preparee_echoppe_partieplante as quantitePreparee')
 		->where('id_fk_type_echoppe_partieplante = ?',$data["id_fk_type_echoppe_partieplante"])
 		->where('id_fk_echoppe_echoppe_partieplante = ?',$data["id_fk_echoppe_echoppe_partieplante"])
 		->where('id_fk_type_plante_echoppe_partieplante = ?', $data["id_fk_type_plante_echoppe_partieplante"])

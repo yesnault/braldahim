@@ -25,9 +25,8 @@ class EchoppeMinerai extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from(
-		'echoppe_minerai', 
-		'quantite_brut_arriere_echoppe_minerai as quantiteArriere'
-		.', quantite_lingots_echoppe_minerai as quantiteLingots')
+		'echoppe_minerai',  'count(*) as nombre, quantite_brut_arriere_echoppe_minerai as quantiteArriere, 
+		quantite_lingots_echoppe_minerai as quantiteLingots')
 		->where('id_fk_type_echoppe_minerai = ?',$data["id_fk_type_echoppe_minerai"])
 		->where('id_fk_echoppe_echoppe_minerai = ?',$data["id_fk_echoppe_echoppe_minerai"])
 		->group(array('quantiteArriere', 'quantiteLingots'));

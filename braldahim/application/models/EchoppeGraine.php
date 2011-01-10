@@ -25,8 +25,8 @@ class EchoppeGraine extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from(
-		'echoppe_graine', 
-		'quantite_arriere_echoppe_graine as quantiteArriere')
+		'echoppe_graine',  'count(*) as nombre,
+		quantite_arriere_echoppe_graine as quantiteArriere')
 		->where('id_fk_type_echoppe_graine = ?',$data["id_fk_type_echoppe_graine"])
 		->where('id_fk_echoppe_echoppe_graine = ?',$data["id_fk_echoppe_echoppe_graine"])
 		->group(array('quantiteArriere'));
