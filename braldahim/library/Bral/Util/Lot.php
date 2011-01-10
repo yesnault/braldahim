@@ -50,6 +50,16 @@ class Bral_Util_Lot {
 		return $tabLots;
 	}
 
+	public static function getLotsForCsv() {
+		Zend_Loader::loadClass('Lot');
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByVentePublique();
+		$retourLots['lots'] = self::prepareLots($lots);
+
+		return $retourLots['lots'];
+	}
+	
 	private static function prepareLots($lots) {
 
 		if (count($lots) == 0 || $lots == null) {
@@ -648,9 +658,13 @@ class Bral_Util_Lot {
 				'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
 				'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
 				'id_fk_braldun_lot' => $r['id_fk_braldun_lot'],
-				'commentaire_lot' => $r['commentaire_lot'],
+				'id_fk_communaute_lot' => $r['id_fk_communaute_lot'],
+				'id_fk_echoppe_lot' => $r['id_fk_echoppe_lot'],
 				'poids_lot' => $r['poids_lot'],
 				'estLotCharrette' => false,
+				'resume' => '',
+				'details' => '',
+				'commentaire_lot' => $r['commentaire_lot'],
 				'equipements' => null,
 				'materiels' => null,
 				'aliments' => null,
@@ -665,8 +679,6 @@ class Bral_Util_Lot {
 				'minerais_lingots' => null,
 				'partiesplantes_brutes' => null,
 				'partiesplantes_preparees' => null,
-				'details' => '',
-				'resume' => '',
 		);
 
 		if ($r['date_fin_lot'] != null) {
