@@ -101,7 +101,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		}
 	}
 
-
 	private function renderEquipements(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("EchoppeEquipement");
@@ -126,9 +125,7 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 				$retour .= $e["id_echoppe_equipement"].PHP_EOL;
 			}
 		}
-
 	}
-
 
 	private function renderMateriels(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("EchoppeMateriel");
