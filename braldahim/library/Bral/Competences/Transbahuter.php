@@ -207,6 +207,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_ATELIER, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Atelier', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$this->view->id_echoppe_depart = $echoppeCase[0]['id_echoppe'];
 			} elseif ($echoppeCase[0]['id_braldun'] == $this->view->user->id_braldun) {
+				$tabEndroit[self::ID_ENDROIT_HOTEL] = array('id_type_endroit' => self::ID_ENDROIT_HOTEL, 'nom_systeme' => 'Lot', 'nom_type_endroit' => 'Hôtel des Ventes', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_CAISSE] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_CAISSE, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Caisse', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Matières Premières', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_ATELIER, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Atelier', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
@@ -3087,8 +3088,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} else {
 					$tabAutres['nb_castar'] = $tabAutres['nb_castar'] + $p['quantite_castar_'.strtolower($strqte)];
 				}
-				$tabAutres['nb_peau'] = $tabAutres['nb_peau'] + $p['quantite_peau_'.strtolower($strqte)];
+				
 				if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE) {
+					$tabAutres['nb_peau'] = $tabAutres['nb_peau'] + $p['quantite_peau_'.strtolower($strqte)];
 					$tabAutres['nb_cuir'] = $tabAutres['nb_cuir'] + $p['quantite_cuir_'.strtolower($strqte)];
 					$tabAutres['nb_fourrure'] = $tabAutres['nb_fourrure'] + $p['quantite_fourrure_'.strtolower($strqte)];
 					$tabAutres['nb_planche'] = $tabAutres['nb_planche'] + $p['quantite_planche_'.strtolower($strqte)];
