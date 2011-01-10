@@ -324,7 +324,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		}
 
-		if ($idArrivee >= self::ID_ENDROIT_COFFRE_BRALDUN) {
+		if ($idArrivee == self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee == self::ID_ENDROIT_MON_COFFRE) {
 			if ($this->view->id_braldun_destinataire != null) {
 				$coffreTable = new Coffre();
 				$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_destinataire);
