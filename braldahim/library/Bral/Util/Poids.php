@@ -128,12 +128,11 @@ class Bral_Util_Poids {
 			Zend_Loader::loadClass("Laban");
 			$labanTable = new Laban();
 			$laban = $labanTable->findByIdBraldun($idBraldun);
-			if (count($laban) != 1) {
-				return $retour; // pour les PNJ
+			if (count($laban) == 1) {
+				$laban = $laban[0];
+				$retour = $retour + self::calculPoidsTransporteElement($laban, $nomTable, $suffixe);
 			}
-			$laban = $laban[0];
 			
-			$retour = $retour + self::calculPoidsTransporteElement($laban, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementMinerais($idBraldun, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idBraldun, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementEquipement($idBraldun, $nomTable, $suffixe);

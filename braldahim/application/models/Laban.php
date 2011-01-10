@@ -9,13 +9,12 @@ class Laban extends Zend_Db_Table {
 	protected $_name = 'laban';
 	protected $_primary = array('id_fk_braldun_laban');
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban', '*')
-		->where('id_fk_braldun_laban = '.intval($id_braldun));
+		->where('id_fk_braldun_laban = ?', intval($idBraldun));
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 
