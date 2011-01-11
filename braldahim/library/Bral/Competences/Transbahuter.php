@@ -293,6 +293,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->poidsRestant = $e['poids_restant'];
 			}
 			if ($idArrivee >= self::ID_ENDROIT_CHARRETTE) {
+				$idArrivee = self::ID_ENDROIT_CHARRETTE;
 				if ($e['nom_systeme'] == 'Charrette') {
 					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
 					if ($id_charrette == $e['id_charrette']) {
@@ -974,6 +975,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				$departRuneTable->delete($where);
 				unset($departRuneTable);
+				
+				
+				$arriveeRuneTable = null;
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
