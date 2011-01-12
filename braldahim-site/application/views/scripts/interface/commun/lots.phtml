@@ -17,11 +17,21 @@
 				</span>
 			</h3>
 			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
+				
+				<li> 
 				<?php if ($lot['echoppe'] != null) : ?>
-				<li> Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe'] ?>
+				Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe'] ?> -
+				<?php else: ?> 
+				<?php if ($lot['sexe_braldun_vendeur'] == 'masculin') : ?>
+					Vendeur : 
+				<?php else: ?>
+					Vendeuse : 
+				<?php endif;?>
+				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
 					<hr style="width:50%"/><br />
+				<?php endif; ?>	
 				</li>
-				<?php endif; ?>
+				
 				<li> Commentaire du vendeur :
 					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
 					<hr style="width:50%"/><br />

@@ -651,6 +651,11 @@ class Bral_Util_Lot {
 				'prix_1_lot' => $r['prix_1_lot'],
 				'date_debut_lot' => $r['date_debut_lot'],
 				'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
+				'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
+				'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+				'sexe_braldun_vendeur' => $r['sexe_braldun_vendeur'],
+				'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
+				'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
 				'commentaire_lot' => $r['commentaire_lot'],
 				'poids_lot' => $r['poids_lot'],
 				'estLotCharrette' => false,
@@ -671,6 +676,7 @@ class Bral_Util_Lot {
 				'details' => '',
 				'resume' => '',
 				'echoppe' => null,
+				'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
 		);
 
 		if ($r['date_fin_lot'] != null) {
@@ -682,7 +688,7 @@ class Bral_Util_Lot {
 			$tab['echoppe']['y_echoppe'] = $r['y_echoppe'];
 			$tab['echoppe']['z_echoppe'] = $r['z_echoppe'];
 		}
-
+		
 		return $tab;
 	}
 
