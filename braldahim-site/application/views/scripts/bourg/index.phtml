@@ -1,41 +1,4 @@
-<div class="titre textalic textsizea">Le Bourg</div>
-
-<div class="box_contenu textalic">
-<br/>
-	<table style="width:100%" cellspacing="0">
-	<tr>
-		<td style="width:300px" valign="top">
-			<div class="titre textalic textsizec">L'office des Palmarès</div>
-			
-			<input type="button" class='button1' value="Rentrer dans l'office" onclick='document.location.href="/palmares"'/>
-			
-			<br/><br/>
-			<div class="titre textalic textsizec">La brasserie des sports</div>
-			
-			<input type="button" class='button1' value="Rentrer dans la brasserie" onclick='document.location.href="/brasserie"'/>
-			
-			<br/><br/>
-			<div class="titre textalic textsizec">La chambre des m&eacute;tiers</div>
-			<input type="button" class='button1' value="Rentrer dans la chambre" onclick='document.location.href="/chambre"'/>
-			
-			<br/><br/>
-			<div class="titre textalic textsizec">Tableaux des Recherchés</div>
-			
-			<input type="button" class='button1' value="Voir les Tableaux" onclick='document.location.href="/tableaurecherches"'/>
-			<br/><br/>
-		</td>
-		<td style="width:300px;" valign="top" colspan='2'>
-			<div class="titre textalic textsizec">Les Marchés</div>
-			<input type="button" class='button1' value="Hôtel des Ventes" onclick='document.location.href="/hotel"'/>
-			<br/><br/>
-			<input type="button" class='button1' value="Étals " onclick='document.location.href="/etals"'/>
-			<br/><br/>
-			<input type="button" class='button1' value="Marché au tabac " onclick='document.location.href="/marchetabac"'/>
-			<br/><br/>
-		</td>
-	</tr>
-	</table>
-</div>
+<?php echo $this->render('/commun/menu_bourg.phtml')?>
 <br/>
 <div class="box_contenu textalic">
 	<i>Pour relater un fait, choisissez la compétence "<a href="http://wiki.braldahim.com/wiki/Relater_un_fait" class="aWhite">Relater un fait</a>" dans le jeu.</i><br/>

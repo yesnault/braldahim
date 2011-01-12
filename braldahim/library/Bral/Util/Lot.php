@@ -59,7 +59,7 @@ class Bral_Util_Lot {
 
 		return $retourLots['lots'];
 	}
-	
+
 	private static function prepareLots($lots) {
 
 		if (count($lots) == 0 || $lots == null) {
@@ -683,6 +683,12 @@ class Bral_Util_Lot {
 
 		if ($r['date_fin_lot'] != null) {
 			$tab['date_fin_lot'] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $r['date_fin_lot']);
+		}
+
+		if (array_key_exists('id_echoppe', $r)) {
+			$tab['echoppe']['x_echoppe'] = $r['x_echoppe'];
+			$tab['echoppe']['y_echoppe'] = $r['y_echoppe'];
+			$tab['echoppe']['z_echoppe'] = $r['z_echoppe'];
 		}
 
 		return $tab;
