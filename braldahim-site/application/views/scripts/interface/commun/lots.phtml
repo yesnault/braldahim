@@ -4,7 +4,7 @@
 	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 
 	<?php echo $poches = null; ?>
-	<div id="cadre_lots" style="height:530px;overflow: auto; min-height: 80px;">
+	<div id="cadre_lots">
 	<ul id="navigation" style="width:99%;text-align:left">
 		
 		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
@@ -20,16 +20,16 @@
 				
 				<li> 
 				<?php if ($lot['echoppe'] != null) : ?>
-				Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe'] ?> -
-				<?php else: ?> 
+				Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe'] ?><br />
+				<?php endif;?> 
 				<?php if ($lot['sexe_braldun_vendeur'] == 'masculin') : ?>
 					Vendeur : 
 				<?php else: ?>
 					Vendeuse : 
 				<?php endif;?>
+				
 				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
 					<hr style="width:50%"/><br />
-				<?php endif; ?>	
 				</li>
 				
 				<li> Commentaire du vendeur :

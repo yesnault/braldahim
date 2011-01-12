@@ -23,7 +23,8 @@ class Lot extends Zend_Db_Table {
 		->where('id_fk_type_lot = ?', TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS)
 		->where('id_fk_echoppe_lot = id_echoppe')
 		->from('braldun as braldun_vendeur', array('braldun_vendeur.nom_braldun as nom_braldun_vendeur','braldun_vendeur.prenom_braldun as prenom_braldun_vendeur', 'braldun_vendeur.sexe_braldun as sexe_braldun_vendeur'))
-		->where('braldun_vendeur.id_braldun = id_fk_vendeur_braldun_lot');
+		->where('braldun_vendeur.id_braldun = id_fk_vendeur_braldun_lot')
+		->joinLeft('braldun as braldun_destinataire','id_fk_braldun_lot = braldun_destinataire.id_braldun', array('braldun_destinataire.nom_braldun as nom_braldun_destinataire','braldun_destinataire.prenom_braldun as prenom_braldun_destinataire'));
 		
 		if ($idRegion != -1 && $idRegion != null) {
 			$select->from('region');
