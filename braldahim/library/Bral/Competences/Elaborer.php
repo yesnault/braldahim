@@ -497,9 +497,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
-		$dataPotionLaban = array(
+		$dataPotionEchoppe = array(
 			'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
 		);
+		
 		$dataPotion = array(
 			'id_fk_type_potion' => $idTypePotion,
 			'id_fk_type_qualite_potion' => $qualite,
@@ -511,18 +512,19 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$potionTable = new Potion();
 
 		for ($i = 1; $i <= $this->view->nbPotions; $i++) {
-			$dataPotionLaban['id_echoppe_potion'] = $idsPotionTable->prepareNext();
-			$echoppePotionTable->insert($dataPotionLaban);
-			$dataPotion['id_potion'] = $dataPotionLaban['id_echoppe_potion'];
+			$idPotion = $idsPotionTable->prepareNext();
+			$dataPotionEchoppe['id_echoppe_potion'] = $idPotion;
+			$dataPotion['id_potion'] = $idPotion;
 			$potionTable->insert($dataPotion);
+			$echoppePotionTable->insert($dataPotionEchoppe);
 
 			if ($this->view->typePotionCourante["type_potion"] == "potion") {
 				$type = "la potion";
 			} else {
 				$type = "le vernis";
 			}
-			$details = "[b".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
-			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionLaban['id_echoppe_potion'], $details);
+			$details = "[b".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionEchoppe['id_echoppe_potion'];
+			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionEchoppe['id_echoppe_potion'], $details);
 		}
 
 		Zend_Loader::loadClass("StatsFabricants");
