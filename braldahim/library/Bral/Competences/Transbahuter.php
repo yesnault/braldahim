@@ -469,11 +469,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tab = array('box_vue', 'box_laban', 'box_coffre', 'box_charrette', 'box_banque');
 		} elseif (array_key_exists(self::ID_ENDROIT_HOTEL, $this->view->tabEndroit)) {
 			$tab = array('box_vue', 'box_laban', 'box_hotel', 'box_charrette');
-		} elseif (count($echoppeCase) > 0) {
-			$tab = array('box_vue', 'box_laban', 'box_charrette', 'box_echoppes');
 		} else {
 			$tab = array('box_vue', 'box_laban', 'box_charrette');
 		}
+		
+		if (count($echoppeCase) > 0) {
+			$tab[] = 'box_echoppes';
+			$tab[] = 'box_echoppe';
+		}
+		
 		return $this->constructListBoxRefresh($tab);
 	}
 
