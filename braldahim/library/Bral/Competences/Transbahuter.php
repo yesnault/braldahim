@@ -72,18 +72,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		// On récupère la valeur du départ
 		$choixDepart = false;
 		if ($this->request->get('valeur_1') != '' && $this->request->get('valeur_1') != -1) {
-			$id_type_courant_depart = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_1'));
-			if ($id_type_courant_depart < 1 && $id_type_courant_depart > count($tabEndroit)) {
-				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_depart='.$id_type_courant_depart);
+			$id_courant_depart = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_1'));
+			if ($id_courant_depart < 1 || !array_key_exists($id_courant_depart, $tabEndroit)) {
+				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_depart='.$id_courant_depart);
 			}
 		} else {
-			$id_type_courant_depart = -1;
+			$id_courant_depart = -1;
 		}
 
 		//Construction du tableau des départs
 		$tabTypeDepart = null;
-		$i=1;
-		foreach ($tabEndroit as $e) {
+		foreach ($tabEndroit as $k => $e) {
 			//On ne prend que ce qui peut être dans les départs
 			if ($e['est_depart'] == true) {
 				$this->view->deposerOk = false;
@@ -92,25 +91,25 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$this->prepareType($e['nom_systeme'], $e['id_type_endroit']);
 				if ($this->view->deposerOk == true) {
-					if ($id_type_courant_depart == $e['id_type_endroit']) {
+					if ($id_courant_depart == $k) {
 						$choixDepart = true;
 					}
-					$tabTypeDepart[$i] = array('id_type_depart' => $e['id_type_endroit'], 'selected' => $id_type_courant_depart, 'nom_systeme' => $e['nom_systeme'], 'nom_type_depart' => $e['nom_type_endroit'], 'panneau' => $e['panneau']);
-					$i++;
+					$tabTypeDepart[$k] = array('id_type_depart' => $e['id_type_endroit'], 'selected' => $id_courant_depart, 'nom_systeme' => $e['nom_systeme'], 'nom_type_depart' => $e['nom_type_endroit'], 'panneau' => $e['panneau']);
 				}
 			}
 		}
 
+		$this->view->typeDepart = $tabTypeDepart;
+
 		if (count($tabTypeDepart) == 1) {
-			$id_type_courant_depart = $tabTypeDepart[1]['id_type_depart'];
+			$keys = array_keys($tabTypeDepart);
+			$id_courant_depart = $keys[0];
 			$choixDepart = true;
 		}
 
-		$this->view->typeDepart = $tabTypeDepart;
-
 		//Si on a choisi le départ, on peut choisir l'arrivée
 		if ($choixDepart === true) {
-			$this->prepareCommunChoixArrivee($tabEndroit, $id_type_courant_depart);
+			$this->prepareCommunChoixArrivee($tabEndroit, $id_courant_depart);
 		}
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
@@ -119,26 +118,28 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->textePrixVente = null;
 	}
 
-	private function prepareCommunChoixArrivee($tabEndroit, $id_type_courant_depart) {
-		if ($tabEndroit[$id_type_courant_depart]['nom_systeme'] == 'Charrette') { // positionnement de la charrette choisie
-			$this->view->id_charrette_depart = $tabEndroit[$id_type_courant_depart]['id_charrette'];
+	private function prepareCommunChoixArrivee($tabEndroit, $id_courant_depart) {
+		if ($tabEndroit[$id_courant_depart]['nom_systeme'] == 'Charrette') { // positionnement de la charrette choisie
+			$this->view->id_charrette_depart = $tabEndroit[$id_courant_depart]['id_charrette'];
+			$id_type_courant_depart = self::ID_ENDROIT_CHARRETTE;
+		} else {
+			$id_type_courant_depart = self::ID_ENDROIT_ECHOPPE_CAISSE;
 		}
 
 		$tabTypeArrivee = null;
 		//Si l'arrivée est déjà choisie on récupère la valeur
 		if ($this->request->get('valeur_2') != '') {
-			$id_type_courant_arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
+			$id_courant_arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 			$choixArrivee = true;
-			if ($id_type_courant_arrivee < 1 && $id_type_courant_arrivee > count($tabEndroit) && $id_type_courant_arrivee == $id_type_courant_depart) {
-				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_arrivee='.$id_type_courant_arrivee);
+			if ($id_courant_arrivee < 1 || !array_key_exists($id_courant_arrivee, $tabEndroit) || $id_courant_arrivee == $id_type_courant_depart) {
+				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_arrivee='.$id_courant_arrivee);
 			}
 		} else {
-			$id_type_courant_arrivee = -1;
+			$id_courant_arrivee = -1;
 		}
 
-		$i = 1;
 		$uniteAPreparer = false;
-		foreach ($tabEndroit as $e) {
+		foreach ($tabEndroit as $k => $e) {
 			// la caisse n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
@@ -150,17 +151,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 
-			if ($e['id_type_endroit'] == $id_type_courant_depart) continue;
+			if ($k == $id_courant_depart) continue;
 			if ($e['poids_restant'] != -1 && $e['poids_restant'] <= 0) continue;
 
-			$tabTypeArrivee[$i] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_type_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
+			$tabTypeArrivee[$k] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
 			if ($e['nom_systeme'] == 'Charrette') {
-				$tabTypeArrivee[$i]['id_charrette'] = $e['id_charrette'];
+				$tabTypeArrivee[$k]['id_charrette'] = $e['id_charrette'];
 			}
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL || $e['id_type_endroit'] == self::ID_ENDROIT_HOTEL) {
 				$uniteAPreparer = true;
 			}
-			$i++;
 		}
 
 		if ($uniteAPreparer) {
@@ -168,7 +168,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		$this->view->typeArrivee = $tabTypeArrivee;
 		$this->view->nb_valeurs = self::NB_VALEURS;
-		$this->prepareType($tabEndroit[$id_type_courant_depart]['nom_systeme'], $tabEndroit[$id_type_courant_depart]['id_type_endroit']);
+		$this->prepareType($tabEndroit[$id_courant_depart]['nom_systeme'], $tabEndroit[$id_courant_depart]['id_type_endroit']);
 	}
 
 	private function prepareCommunUnites() {
@@ -237,7 +237,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c['id_braldun']);
 			if ($c['id_braldun'] == $this->view->user->id_braldun) {
 				$panneau = Bral_Util_Charrette::possedePanneauAmovible($c['id_charrette']);
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => $nbendroit,'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 				//$this->view->id_charrette_depart = $c['id_charrette'];
 			} else {
 				$estDepart = false;
@@ -264,7 +264,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$panneau = false;
 				}
 
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => $nbendroit,'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de '.$c['prenom_braldun'].' '.$c['nom_braldun'].' (n°'.$c['id_braldun'].')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de '.$c['prenom_braldun'].' '.$c['nom_braldun'].' (n°'.$c['id_braldun'].')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 			}
 			$nbendroit++;
 		}
@@ -281,37 +281,36 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$idDepart = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_1'));
 		$idArrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
-		$endroitDepart = false;
-		$endroitArrivee = false;
-		foreach ($this->view->tabEndroit as $e) {
-			if ($e['id_type_endroit'] == $idDepart) {
-				$endroitDepart = true;
+		$endroitDepart = null;
+		$endroitArrivee = null;
+		$idCharrette = null;
+		foreach ($this->view->tabEndroit as $k => $e) {
+			if ($idDepart == $k) {
+				$endroitDepart = $e;
 				$this->view->a_panneau = $e['panneau'];
 			}
-			if ($e['id_type_endroit'] == $idArrivee && $idArrivee < self::ID_ENDROIT_CHARRETTE) {
-				$endroitArrivee = true;
+			if ($k == $idArrivee && $idArrivee < self::ID_ENDROIT_CHARRETTE) {
+				$endroitArrivee = $e;
 				$this->view->poidsRestant = $e['poids_restant'];
-			}
-			if ($idArrivee >= self::ID_ENDROIT_CHARRETTE) {
-				$idArrivee = self::ID_ENDROIT_CHARRETTE;
+			} elseif ($k == $idArrivee && $idArrivee >= self::ID_ENDROIT_CHARRETTE) {
 				if ($e['nom_systeme'] == 'Charrette') {
-					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
-					if ($id_charrette == $e['id_charrette']) {
-						$endroitArrivee = true;
-						$this->view->id_charrette_arrivee = $id_charrette;
+					$idCharrette = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
+					if ($idCharrette == $e['id_charrette']) {
+						$endroitArrivee = $e;
+						$this->view->id_charrette_arrivee = $idCharrette;
 						$this->view->poidsRestant = $e['poids_restant'];
 					}
 				}
 			}
 		}
-		if ($endroitDepart === false) {
+		if ($endroitDepart === null) {
 			throw new Zend_Exception(get_class($this).' Endroit depart invalide = '.$idDepart);
 		}
-		if ($endroitArrivee === false) {
-			throw new Zend_Exception(get_class($this).' Endroit arrivee invalide = '.$idArrivee);
+		if ($endroitArrivee === null) {
+			throw new Zend_Exception(get_class($this).' Endroit arrivee invalide = '.$idArrivee. ' idCharrette='.$idCharrette);
 		}
 
-		if ($idArrivee == self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee == self::ID_ENDROIT_MON_COFFRE || $idArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			$idBraldunDestinataire = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
 			$this->view->id_braldun_destinataire = null;
 			$this->view->id_braldun_destinataire_etal = null;
@@ -319,14 +318,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
 			} else{
 				$this->view->id_braldun_destinataire = $idBraldunDestinataire;
-				if ($idArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+				if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) {
 					$this->view->id_braldun_destinataire_etal = $idBraldunDestinataire;
 				}
 			}
 
 		}
 
-		if ($idArrivee == self::ID_ENDROIT_COFFRE_BRALDUN || $idArrivee == self::ID_ENDROIT_MON_COFFRE) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE) {
 			if ($this->view->id_braldun_destinataire != null) {
 				$coffreTable = new Coffre();
 				$coffre = $coffreTable->findByIdBraldun($this->view->id_braldun_destinataire);
@@ -343,21 +342,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->elementsRetires = '';
 		$this->view->elementsNonRetiresPoids = '';
 		$this->view->elementsNonRetiresPanneau = '';
-		$this->deposeType($this->view->tabEndroit[$idDepart], $this->view->tabEndroit[$idArrivee]);
-		$this->view->depart = $this->view->tabEndroit[$idDepart]['nom_type_endroit'];
+		$this->deposeType($endroitDepart, $endroitArrivee);
+		$this->view->depart = $endroitDepart['nom_type_endroit'];
 
 		if ($this->view->nbelement <= 0) {
 			return;
 		}
 
-		if ($idArrivee == 4) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN) {
 			Zend_Loader::loadClass('Braldun');
 			$braldun = new Braldun();
 			$nomBraldun = $braldun->findNomById($this->view->id_braldun_destinataire);
 			$this->view->arrivee = 'le coffre de '.$nomBraldun;
-		}
-		else {
-			$this->view->arrivee = $this->view->tabEndroit[$idArrivee]['nom_type_endroit'];
+		} else {
+			$this->view->arrivee = $endroitArrivee['nom_type_endroit'];
 		}
 
 		if ($this->view->elementsRetires != '') {
@@ -366,37 +364,35 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 
 		// Historique
-		if ($this->view->tabEndroit[$idDepart]['nom_systeme'] == 'Charrette') {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idDepart]['id_braldun_charrette'], true);
-
-			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]['nom_systeme'], $this->view->tabEndroit[$idArrivee]['nom_systeme']);
-			$details = '[b'.$this->view->user->id_braldun.'] a transbahuté des choses depuis la [t'.$this->view->tabEndroit[$idDepart]['id_charrette']. '] ('.$texte['departTexte'].' vers '.$texte['arriveeTexte'].')';
+		if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
+			Bral_Util_Poids::calculPoidsCharrette($endroitDepart['id_braldun_charrette'], true);
+			$texte = $this->calculTexte($endroitDepart['nom_systeme'], $endroitArrivee['nom_systeme']);
+			$details = '[b'.$this->view->user->id_braldun.'] a transbahuté des choses depuis la [t'.$endroitDepart['id_charrette']. '] ('.$texte['departTexte'].' vers '.$texte['arriveeTexte'].')';
 			Zend_Loader::loadClass('Bral_Util_Materiel');
-			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]['id_charrette'], $details);
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitDepart['id_charrette'], $details);
 		}
 
-		if ($this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Charrette') {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]['id_braldun_charrette'], true);
-
-			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]['nom_systeme'], $this->view->tabEndroit[$idArrivee]['nom_systeme']);
-			$details = '[b'.$this->view->user->id_braldun.'] a transbahuté des choses dans la [t'.$this->view->tabEndroit[$idArrivee]['id_charrette']. '] ('.$texte['departTexte'].' vers '.$texte['arriveeTexte'].')';
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
+			Bral_Util_Poids::calculPoidsCharrette($endroitArrivee['id_braldun_charrette'], true);
+			$texte = $this->calculTexte($endroitDepart['nom_systeme'], $endroitArrivee['nom_systeme']);
+			$details = '[b'.$this->view->user->id_braldun.'] a transbahuté des choses dans la [t'.$endroitArrivee['id_charrette']. '] ('.$texte['departTexte'].' vers '.$texte['arriveeTexte'].')';
 			Zend_Loader::loadClass('Bral_Util_Materiel');
-			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]['id_charrette'], $details);
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitArrivee['id_charrette'], $details);
 		}
 
 		// événements
 		$this->detailEvenement = '';
-		if ($this->view->tabEndroit[$idDepart]['nom_systeme'] == 'Element') {
+		if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_ELEMENT) {
 			$idEvenement = $this->view->config->game->evenements->type->ramasser;
 			$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a ramassé des éléments à terre ';
 		}
-		if ($this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Element') {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ELEMENT) {
 			$idEvenement = $this->view->config->game->evenements->type->deposer;
 			$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a déposé des éléments à terre ';
 		}
-		if ($this->view->tabEndroit[$idDepart]['nom_systeme'] == 'Coffre' || $this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre' ) {
+		if ($endroitDepart['nom_systeme'] == 'Coffre' || $endroitArrivee['nom_systeme'] == 'Coffre' ) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
-			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun && $this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Coffre') {
+			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun && $endroitArrivee['nom_systeme'] == 'Coffre') {
 				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
 				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
 				$message .= $this->view->elementsRetires;
@@ -411,37 +407,35 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a utilisé les services de la banque ';
 			}
 		}
-		if ($this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Charrette' ) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-			if ($this->view->tabEndroit[$idArrivee]['id_braldun_charrette'] != $this->view->user->id_braldun) {
+			if ($endroitArrivee['id_braldun_charrette'] != $this->view->user->id_braldun) {
 				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
 				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre charrette : '.PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]['id_braldun_charrette'], $message, $this->view);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $endroitArrivee['id_braldun_charrette'], $message, $this->view);
 
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre charrette : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
-				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans la charrette de [b'.$this->view->tabEndroit[$idArrivee]['id_braldun_charrette'].']';
-				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]['id_braldun_charrette'], 'braldun', 0, $messageCible);
-			}
-			else {
+				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans la charrette de [b'.$endroitArrivee['id_braldun_charrette'].']';
+				$this->setDetailsEvenementCible($endroitArrivee['id_braldun_charrette'], 'braldun', 0, $messageCible);
+			} else {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans sa charrette ';
 			}
 		}
-		if ($this->view->tabEndroit[$idArrivee]['nom_systeme'] == 'Echoppe') {
+		if ($endroitArrivee['nom_systeme'] == 'Echoppe') {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-			if ($this->view->tabEndroit[$idArrivee]['id_braldun_echoppe'] != $this->view->user->id_braldun) {
+			if ($endroitArrivee['id_braldun_echoppe'] != $this->view->user->id_braldun) {
 				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
 				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre échoppe : '.PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->tabEndroit[$idArrivee]['id_braldun_echoppe'], $message, $this->view);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $endroitArrivee['id_braldun_echoppe'], $message, $this->view);
 
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre échoppe : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
-				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans l\'échoppe de [b'.$this->view->tabEndroit[$idArrivee]['id_braldun_echoppe'].']';
-				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]['id_braldun_echoppe'], 'braldun', 0, $messageCible);
-			}
-			else {
+				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans l\'échoppe de [b'.$endroitArrivee['id_braldun_echoppe'].']';
+				$this->setDetailsEvenementCible($endroitArrivee['id_braldun_echoppe'], 'braldun', 0, $messageCible);
+			} else {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans son échoppe ';
 			}
 		}
@@ -472,12 +466,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		} else {
 			$tab = array('box_vue', 'box_laban', 'box_charrette');
 		}
-		
+
 		if (count($echoppeCase) > 0) {
 			$tab[] = 'box_echoppes';
 			$tab[] = 'box_echoppe';
 		}
-		
+
 		return $this->constructListBoxRefresh($tab);
 	}
 
@@ -979,8 +973,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				$departRuneTable->delete($where);
 				unset($departRuneTable);
-				
-				
+
+
 				$arriveeRuneTable = null;
 
 				switch ($idTypeArrivee) {
@@ -1029,6 +1023,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									'id_fk_charrette_rune' => $this->view->id_charrette_arrivee,
 						);
 						break;
+					default:
+						throw new Zend_Exception('Erreur idTypeArrivee:'.$idTypeArrivee);
 				}
 				$arriveeRuneTable->insert($data);
 				unset($arriveeRuneTable);
@@ -1408,6 +1404,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									'id_fk_charrette_aliment' => $this->view->id_charrette_arrivee,
 						);
 						break;
+					default:
+						throw new Zend_Exception('Erreur idTypeArrivee:'.$idTypeArrivee);
 				}
 				$arriveeAlimentTable->insert($data);
 				unset($arriveeAlimentTable);
@@ -3096,7 +3094,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} else {
 					$tabAutres['nb_castar'] = $tabAutres['nb_castar'] + $p['quantite_castar_'.strtolower($strqte)];
 				}
-				
+
 				if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE) {
 					$tabAutres['nb_peau'] = $tabAutres['nb_peau'] + $p['quantite_peau_'.strtolower($strqte)];
 					$tabAutres['nb_cuir'] = $tabAutres['nb_cuir'] + $p['quantite_cuir_'.strtolower($strqte)];

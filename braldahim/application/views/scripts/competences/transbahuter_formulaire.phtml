@@ -9,8 +9,8 @@
 		Transbahuter à partir de :<br />
 		<select name="valeur_1" id="valeur_1"  onchange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
 			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
-			<?php foreach($this->typeDepart as $t) : ?>
-			 	<option value="<?php echo $t["id_type_depart"]?>" <?php if ($t["selected"] == $t["id_type_depart"] || count($this->typeDepart)==1): echo " selected='selected' "; $panneau=$t["panneau"]; endif;?>><?php echo $t["nom_type_depart"]?></option>
+			<?php foreach($this->typeDepart as $k => $t) : ?>
+			 	<option value="<?php echo $k ?>" <?php if ($t["selected"] == $k || count($this->typeDepart)==1): echo " selected='selected' "; $panneau=$t["panneau"]; endif;?>><?php echo $t["nom_type_depart"]?></option>
 			<?php endforeach; ?>
 		 </select>
 		 <input type="hidden" name="valeur_panneau" id="valeur_panneau" value="<?php echo $panneau ?>"/>
@@ -61,9 +61,9 @@
 					$venteSelectionne = false;
 					$venteEtalSelectionne = false;
 					$coffreSelectionne = false;
-					foreach($this->typeArrivee as $t) { 
-						$options .="<option value='".$t["id_type_arrivee"]."'";
-				 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
+					foreach($this->typeArrivee as $idTypeArrivee => $t) { 
+						$options .="<option value='".$idTypeArrivee."'";
+				 		if ($t["selected"] == $idTypeArrivee || count($this->typeArrivee) == 1) {
 				 			$options .=" selected='selected' ";
 				 			if ($this->ID_ENDROIT_ECHOPPE_ETAL == $t["id_type_arrivee"] || $this->ID_ENDROIT_HOTEL == $t["id_type_arrivee"]) {
 				 				$venteSelectionne = true;
@@ -76,9 +76,9 @@
 				 			}
 				 		}
 				 		$options .= ">".$t["nom_type_arrivee"]."</option>";
-				 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";
+				 		$poids .= "<input type='hidden' name='poids_".$idTypeArrivee."' id='poids_".$idTypeArrivee."' value='".$t["poids_restant"]."' />";
 				 		if ($t["nom_systeme"] == "Charrette") {
-				 			$charrette .= "<input type='hidden' name='id_charrette_".$t["id_type_arrivee"]."' id='id_charrette_".$t["id_type_arrivee"]."' value='".$t["id_charrette"]."' />";
+				 			$charrette .= "<input type='hidden' name='id_charrette_".$idTypeArrivee."' id='id_charrette_".$idTypeArrivee."' value='".$t["id_charrette"]."' />";
 				 		}
 				   	}
 				?>

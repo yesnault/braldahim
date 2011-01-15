@@ -79,8 +79,8 @@ function _get_(url, encode) {
 				}
 			} 
 			else if (elem.type == "select-multiple") {
-				for (j = 0; j<=elem.options.length-1; j++){
-					if (elem.options[j].selected){
+				for (j = 0; j<=elem.options.length-1; j++) {
+					if (elem.options[j].selected) {
 						valeurs = valeurs + sep + "valeur_" + i + "[]=" + elem.options[j].value;
 					}
 				}
@@ -685,62 +685,56 @@ function wiglwogl(uddeElement) {
 /** *********************** Transbahuter ******************* */
 /** ***************************************************************** */
 
-function controlePoids(){
+function controlePoids() {
 	var poids=0;
-	if ($('valeur_2').value != -1 ){
+	if ($('valeur_2').value != -1 ) {
 		poidsRestant = $('poids_' + $('valeur_2').value).value;
-		if (poidsRestant != -1){
+		if (poidsRestant != -1) {
 		 	for (i=11; i<=$('nb_valeurs').value; i++) {
 				if ($('valeur_' + i).type == 'select-multiple' ) {
-					for (j=0; j< $('valeur_' + i).options.length; j++){
+					for (j=0; j< $('valeur_' + i).options.length; j++) {
 						if ($('valeur_' + i).options[j].selected == true) {
 							if ( i==19 || i==25 ) {
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
-							}
-							else{
+							} else {
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
 				}
 			}
-			if (poids > poidsRestant){
+			if (poids > poidsRestant) {
 				poidsDep = Math.round((poids - poidsRestant)*100)/100;
 				alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
 				return false;
-			}
-			else{
+			} else {
 				return true;
 			}
-		}
-		else{
+		} else {
 			return true;
 		}
-	}
-	else{
+	} else {
 		return true;
 	}
 }
 
 function controlePanneau (i) {
-	if ($('valeur_' + i).type == 'select-multiple' ){
-		for (j=0; j< $('valeur_' + i).options.length; j++){
+	if ($('valeur_' + i).type == 'select-multiple' ) {
+		for (j=0; j< $('valeur_' + i).options.length; j++) {
 			if ($('valeur_' + i).options[j].value != -1) {
 				$('valeur_' + i).options[j].selected = false;
 				cacher = false;
 			}
 		}
-	}
-	else {
+	} else {
 		$('valeur_'+i).value = 0;
 	}		
 	alert ("Cette charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
 }
 
-function controleQte(){
+function controleQte() {
 	 v=false;
 	 ctrlEchoppe = false;
 	 for (i=11;i<=$('nb_valeurs').value;i++) {
@@ -760,16 +754,16 @@ function controleQte(){
 		 alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
 	 }
 	 poidsOk = controlePoids();
-	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true){
+	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true) {
 		cacher = false;
 	 }
-	 if ($('valeur_2').value == 4 && $('valeur_3').value == -1){
+	 if ($('valeur_2').value == 4 && $('valeur_3').value == -1) {
 		cacher = true;
 	 }
 	 $('bouton_deposer').disabled=cacher;
 }
 
-function selectAll(){
+function selectAll() {
 	cacher = true;
 	v = false;
 	ctrlEchoppe = false;
@@ -779,24 +773,22 @@ function selectAll(){
 			break;
 	 	}
 		if ($('valeur_' + i + '_echoppe').value == 'oui' || $('valeur_2').value != 5) {
-			if ($('valeur_' + i).type == 'select-multiple' ){
-				for (j=0; j< $('valeur_' + i).options.length; j++){
+			if ($('valeur_' + i).type == 'select-multiple' ) {
+				for (j=0; j< $('valeur_' + i).options.length; j++) {
 					if ($('valeur_' + i).options[j].value != -1) {
 						$('valeur_' + i).options[j].selected = true;
 						cacher = false;
 						v = true;
 					}
 				}
-			}
-			else {
+			} else {
 				$('valeur_' + i).value = $('valeur_' + i + '_max').value;
 				if (cacher == true && $('valeur_' + i + '_max').value > 0) {
 					cacher = false;
 					v = true;
 				}
 			}
-		}
-		else {
+		} else {
 			ctrlEchoppe = true;
 		}
 	}
@@ -815,20 +807,19 @@ function selectAll(){
 }
 
 function charrette() {
-	if ($('valeur_2').value >= 10){
+	if ($('valeur_2').value >= 10) {
 		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
 	}
 }
 
 function controleEchoppe(i) {
-	if($('valeur_2').value == 5){
+	if($('valeur_2').value == 5) {
 		if ( ($('valeur_' + i + '_echoppe').value == 'non') && $('valeur_' + i).value > 0) {
 			if ($('valeur_' + i).type == 'select-multiple' ) {
 				for (j=0; j< $('valeur_' + i).options.length; j++) {
 					$('valeur_' + i).options[j].selected = false;
 				}
-			}
-			else {
+			} else {
 				$('valeur_' + i).value = 0;
 			}
 			return false;
@@ -837,19 +828,11 @@ function controleEchoppe(i) {
 	return true;
 }
 
-/*
- * function echoppe() { if($('valeur_2').value == 5){ ctrlEchoppe = false; for
- * (i=4; i<=$('nb_valeurs').value; i++) { if (controleEchoppe(i) == false &&
- * ctrlEchoppe == false) { ctrlEchoppe = true; } } if (ctrlEchoppe == true) {
- * alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières
- * premières !"); } } }
- */
-
-function afficheTransbahuterRechercheBraldun(){
+function afficheTransbahuterRechercheBraldun() {
 	if ($('valeur_2').value == 4 || $('valeur_2').value == 8) { // constante definie dans Transbahuter.php
 		$('div_braldun').style.visibility='visible';
 		$('div_braldun').style.display='block';
-	} else{
+	} else {
 		$('div_braldun').style.visibility='hidden';
 		$('div_braldun').style.display='none';
 		$('valeur_3').value=-1;
@@ -866,7 +849,7 @@ function afficheTransbahuterVente() {
 	if ($('valeur_2').value == 8 || $('valeur_2').value == 9) { // constante definie dans Transbahuter.php
 		$('div_vente_transbahuter').style.visibility='visible';
 		$('div_vente_transbahuter').style.display='block';
-	} else{
+	} else {
 		$('div_vente_transbahuter').style.visibility='hidden';
 		$('div_vente_transbahuter').style.display='none';
 	}
@@ -924,7 +907,7 @@ function activerRechercheBraldunIdentificationRune(id) {
 function getBraldunIdentificationRune(text, li) {
 	if (controleSession(li) == true) {
 		$('valeur_2').value = li.getAttribute('id_braldun');
-		if ($("valeur_1").value==-1){
+		if ($("valeur_1").value==-1) {
 			$("bouton_demanderidentificationrune").disabled=true;
 		} else {
 			$("bouton_demanderidentificationrune").disabled=false;
