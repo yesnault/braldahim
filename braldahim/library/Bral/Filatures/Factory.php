@@ -14,7 +14,7 @@ class Bral_Filatures_Factory {
 		$nomSystemeAction = $matches[2];
 		$construct = null;
 
-		if ($view->user->activation == false && $nomSystemeAction != 'voir') {
+		if ($view->user->activation == false && $nomSystemeAction != 'liste') {
 			throw new Zend_Exception("Tour non activé");
 		}
 
