@@ -39,7 +39,7 @@ class GestionController extends Zend_Controller_Action {
 		$lieux = $lieuTable->fetchAll("id_fk_type_lieu <>".TypeLieu::ID_TYPE_RUINE, "id_fk_type_lieu asc");
 		$this->view->administrationLieux = $lieux;
 
-		$lieuxSansDescription = $lieuTable->fetchAll("description_lieu is null or description_lieu like ''", "id_fk_type_lieu asc");
+		$lieuxSansDescription = $lieuTable->fetchAll("id_fk_type_lieu <>".TypeLieu::ID_TYPE_RUINE." and (description_lieu is null or description_lieu like '')", "id_fk_type_lieu asc");
 		$this->view->administrationSansDescriptionLieux = $lieuxSansDescription;
 		
 		$lieuxAvecDescription = $lieuTable->fetchAll("description_lieu is not null and description_lieu not like ''", "id_fk_type_lieu asc");
