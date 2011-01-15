@@ -651,6 +651,7 @@ class Bral_Util_Lot {
 		$tab = array('id_lot' => $r['id_lot'],
 				'unite_1_lot' => $r['unite_1_lot'],
 				'prix_1_lot' => $r['prix_1_lot'],
+				'id_fk_type_lot' => $r['id_fk_type_lot'],
 				'date_debut_lot' => $r['date_debut_lot'],
 				'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
 				'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
@@ -694,7 +695,7 @@ class Bral_Util_Lot {
 		return $tab;
 	}
 
-	public static function transfertLot($idLot, $destination, $idDestination) {
+	public static function transfertLot($idLot, $destination, $idDestination, $idBraldunAcheteur = null) {
 
 		if ($destination != 'caisse_echoppe'
 		&& $destination != 'arriere_echoppe'
@@ -724,23 +725,47 @@ class Bral_Util_Lot {
 		}
 
 		self::transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
-
 		self::transfertLotEquipement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotMateriel($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-
 		self::transfertLotAliment($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-
 		self::transfertLotGraine($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotIngredient($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-
 		self::transfertLotMunition($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotMinerai($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-
 		self::transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
-
+		self::calculHistorique($idLot, $destination, $idBraldunAcheteur);
+		
 		self::supprimeLot($idLot);
+	}
+
+	private static function calculHistorique($idLot, $idDestination, $idBraldunAcheteur) {
+		$lots = self::getLotByIdsLots($idLot);
+		$lot = array_pop($lots);
+		
+		Zend_Loader::loadClass("LotHistorique");
+		$lotHistoriqueTable = new LotHistorique();
+
+		$data = array(
+			'id_lot_historique'  => $lot['id_lot'],
+			'id_fk_type_lot_historique'   => $lot['id_fk_type_lot'],
+			'id_fk_braldun_lot_historique'   => $lot['id_fk_braldun_lot'],
+			'id_fk_vendeur_braldun_lot_historique'   => $lot['id_fk_vendeur_braldun_lot'],
+			'id_fk_acheteur_braldun_lot_historique'   => $idBraldunAcheteur,
+			'id_fk_communaute_lot_historique'   => $lot['id_fk_communaute_lot'],
+			'id_fk_echoppe_lot_historique'   => $lot['id_fk_echoppe_lot'],
+			'poids_lot_historique'   => $lot['poids_lot'],
+			'date_debut_lot_historique'   => $lot['date_debut_lot'],
+			'date_fin_lot_historique'   => date("Y-m-d H:i:s"),
+			'commentaire_lot_historique'   => $lot['commentaire_lot'],
+			'prix_1_lot_historique'   => $lot['prix_1_lot'],
+			'resume_lot_historique'   => $lot['resume'],
+			'details_lot_historique'   => $lot['details'],
+			'destination_lot_historique'   => $idDestination,
+		);
+
+		$lotHistoriqueTable->insert($data);
 	}
 
 	public static function supprimeLot($idLot) {

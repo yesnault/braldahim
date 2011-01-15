@@ -269,9 +269,9 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			if ($idDestination == -1 && $lot["estLotCharrette"] === true) {
 				$this->calculTransfertCharrette($lot);
 			} elseif ($idDestination == "charrette") {
-				Bral_Util_Lot::transfertLot($lot["id_lot"], "charrette", $this->view->charrette["id_charrette"]);
+				Bral_Util_Lot::transfertLot($lot["id_lot"], "charrette", $this->view->charrette["id_charrette"], $this->view->user->id_braldun);
 			} elseif ($idDestination == "laban") {
-				Bral_Util_Lot::transfertLot($lot["id_lot"], "laban", $this->view->user->id_braldun);
+				Bral_Util_Lot::transfertLot($lot["id_lot"], "laban", $this->view->user->id_braldun, $this->view->user->id_braldun);
 			} else {
 				throw new Zend_Exception(get_class($this)." calculTransfert destination invalide:".$idDestination);
 			}
