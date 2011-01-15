@@ -529,7 +529,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 	private function dessineBralduns(&$image) {
 		Zend_Loader::loadClass('Braldun');
 		$braldunsTable = new Braldun();
-		$bralduns = $braldunsTable->fetchall();
+		$bralduns = $braldunsTable->fetchall('est_pnj_braldun = \'non\'');
 
 		$nbBralduns = 0;
 		foreach ($bralduns as $h) {

@@ -378,6 +378,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		// recalcul de la position
 		$lieuTable = new Lieu();
+		$lieuRetour = null;
 		if ($this->braldun->est_soule_braldun == "oui" && $this->braldun->id_fk_soule_match_braldun != null) { // match de Soule
 			Zend_Loader::loadClass("SouleMatch");
 			$souleMatchTable = new SouleMatch();
@@ -392,15 +393,26 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			}
 
 			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $x, $y);
+			$lieuRetour = $lieuRowset[0];
 		} elseif ($this->braldun->est_donjon_braldun == "oui") { // Donjon
 			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_POSTEDEGARDE, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
 			$lieuRowset[0]["z_lieu"] = $lieuRowset[0]["z_lieu"] - 1; // 1 case en dessous le poste de garde
+			$lieuRetour = $lieuRowset[0];
 		} else {
 			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
+			foreach($lieuRowset as $lieu) {
+				if (!array_key_exists('est_reliee_ville', $lieu) || (array_key_exists('est_reliee_ville', $lieu) && $lieu['est_reliee_ville'] == 'oui')) {
+					$lieuRetour = $lieu;
+					break;
+				}
+			}
+			if ($lieuRetour == null) {
+				$lieuRetour = $lieuRowset[0];
+			}
 		}
-		$this->braldun->x_braldun = $lieuRowset[0]["x_lieu"];
-		$this->braldun->y_braldun = $lieuRowset[0]["y_lieu"];
-		$this->braldun->z_braldun = $lieuRowset[0]["z_lieu"];
+		$this->braldun->x_braldun = $lieuRetour["x_lieu"];
+		$this->braldun->y_braldun = $lieuRetour["y_lieu"];
+		$this->braldun->z_braldun = $lieuRetour["z_lieu"];
 	}
 
 	private function calculBMEquipement() {
