@@ -1502,7 +1502,7 @@ divfrise {
 
 #chronologie {
 	z-index:1000;
-	background:transparent url(/images/chronologie.png) no-repeat scroll 0 0;
+	background:transparent url('/images/chronologie.png') no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:44px;
