@@ -1434,43 +1434,43 @@ divfrise {
 .bande_0 {
     background-color: #000000;
     width: 3%;
-     background: -moz-linear-gradient(0deg,#FFFF88,#6B8E23);
-     background: -webkit-gradient(linear, left bottom, right top, from(#FFFF88), to(#6B8E23));
+    background: -moz-linear-gradient(0deg,#FFFF88,#6B8E23);
+    background:  -webkit-gradient(linear, left top, right top, color-stop(0, #FFFF88), color-stop(1, #6B8E23))
 }
 
 .bande_1 {
     background-color: #FFFF88;
     width: 34.8%;
-     background: -moz-linear-gradient(0deg,#FFFF66,#FFFF88);
-     background: -webkit-gradient(linear, left bottom, right top, from(#FFFF66), to(#FFFF88));
+    background: -moz-linear-gradient(0deg,#FFFF66,#FFFF88);
+    background:  -webkit-gradient(linear, left top, right top, color-stop(0, #FFFF66), color-stop(1, #FFFF88));
 }
 
 .bande_2 {
     background-color: #FFFF66;
 	width: 33%;    	
 	background: -moz-linear-gradient(0deg,#C3E691,#FFFF66);
-    background: -webkit-gradient(linear, left bottom, right top, from(#C3E691), to(#FFFF66));
+	background:  -webkit-gradient(linear, left top, right top, color-stop(0, #C3E691), color-stop(1, #FFFF66));
 }
 
 .bande_3 {
     background-color: #C3E691;
     width: 9.2%;
      background: -moz-linear-gradient(0deg,#5d8035,#C3E691);
-     background: -webkit-gradient(linear, left bottom, right top, from(#5d8035), to(#C3E691));
+     background:  -webkit-gradient(linear, left top, right top, color-stop(0, #5d8035), color-stop(1, #C3E691));
 }
 
 .bande_4 {
     background-color: #9ACD32;
     width: 17%;
-     background: -moz-linear-gradient(0deg,#9ACD32,#5d8035);
-     background: -webkit-gradient(linear, left bottom, right top, from(#9ACD32), to(#5d8035));
+    background: -moz-linear-gradient(0deg,#9ACD32,#5d8035);
+    background:  -webkit-gradient(linear, left top, right top, color-stop(0, #9ACD32), color-stop(1, #5d8035));
 }
 
 .bande_5 {
     background-color: #9ACD32;
     width: 3%;
-     background: -moz-linear-gradient(0deg,#6B8E23,#9ACD32);
-     background: -webkit-gradient(linear, left bottom, right top, from(#6B8E23), to(#9ACD32));
+	background: -moz-linear-gradient(0deg,#6B8E23,#9ACD32);
+	background:  -webkit-gradient(linear, left top, right top, color-stop(0, #6B8E23), color-stop(1, #9ACD32));
 }
 
 .bande_trait {

@@ -3,7 +3,9 @@
 <div id="wrapper">
 
 <br/><br/>
+<?php if (!Zend_Registry::get("estWork")) : ?>
 <?php include("chronologie.phtml")?>
+<?php endif;?>
 
 <br/><br/>
 <table width="100%">
