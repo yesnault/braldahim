@@ -329,9 +329,9 @@ span.resultat_cache {
 	-webkit-border-radius: 60px 60px 10px 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 60px 60px 10px 10px; /* pour Khtml : Konqueror… */
 	
-	-webkit-box-shadow: #000 -5px 5px 20px 10px;
-    -moz-box-shadow: #000 -5px 5px 20px 10px;
-    box-shadow: #000 -5px 5px 20px 10px;
+	-webkit-box-shadow: #000 -5px 5px 10px 10px;
+    -moz-box-shadow: #000 -5px 5px 10px 10px;
+    box-shadow: #000 -5px 5px 10px 5px;
 }
 
 .gazette_histoire {
@@ -1407,3 +1407,110 @@ border-collapse:collapse;
   clear: both;
 }
 
+divfrise {
+	background-color:#F0BA00;
+}
+
+
+#frise {
+    background-color: #6B8E23;
+    height: 120px;
+    left: 3em;
+    position: relative;
+    width: 96%;
+    
+    -webkit-box-shadow: #000 -5px 5px 5px 5px;
+    -moz-box-shadow: #000 -5px 5px 5px 5px;
+    box-shadow: #000 -5px 5px 5px 5px;
+}
+
+
+.bande {
+    height: 70px;
+    float: right;
+    margin-top:15px;
+}
+
+.bande_0 {
+    background-color: #000000;
+    width: 3%;
+     background: -moz-linear-gradient(0deg,#FFFF88,#6B8E23);
+     background: -webkit-gradient(linear, left bottom, right top, from(#FFFF88), to(#6B8E23));
+}
+
+.bande_1 {
+    background-color: #FFFF88;
+    width: 34.8%;
+     background: -moz-linear-gradient(0deg,#FFFF66,#FFFF88);
+     background: -webkit-gradient(linear, left bottom, right top, from(#FFFF66), to(#FFFF88));
+}
+
+.bande_2 {
+    background-color: #FFFF66;
+	width: 33%;    	
+	background: -moz-linear-gradient(0deg,#C3E691,#FFFF66);
+    background: -webkit-gradient(linear, left bottom, right top, from(#C3E691), to(#FFFF66));
+}
+
+.bande_3 {
+    background-color: #C3E691;
+    width: 9.2%;
+     background: -moz-linear-gradient(0deg,#5d8035,#C3E691);
+     background: -webkit-gradient(linear, left bottom, right top, from(#5d8035), to(#C3E691));
+}
+
+.bande_4 {
+    background-color: #9ACD32;
+    width: 17%;
+     background: -moz-linear-gradient(0deg,#9ACD32,#5d8035);
+     background: -webkit-gradient(linear, left bottom, right top, from(#9ACD32), to(#5d8035));
+}
+
+.bande_5 {
+    background-color: #9ACD32;
+    width: 3%;
+     background: -moz-linear-gradient(0deg,#6B8E23,#9ACD32);
+     background: -webkit-gradient(linear, left bottom, right top, from(#6B8E23), to(#9ACD32));
+}
+
+.bande_trait {
+    width: 2px;
+    height: 20px;
+    position: absolute;
+    top:10px;
+    width: 50px;
+}
+
+.bande_texte {
+	position: relative;
+	top:0px;
+}
+
+.bande_date {
+	position: relative;
+	top:-8px;
+}
+
+.bande_titre {
+	#background-color: transparent;
+	position: relative;
+	height:30px;
+	text-align:center;
+	top:-25px;
+	font-weight:bold;
+}
+
+#chronologie {
+	z-index:1000;
+	background:transparent url(/images/chronologie.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:44px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:200px;
+	position:absolute;
+	margin-top:-20px;
+	margin-left:-10px;
+}
