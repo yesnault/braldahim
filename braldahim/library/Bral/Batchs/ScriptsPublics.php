@@ -593,7 +593,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 
 			foreach($lots as $lot) {
 				if (!$init) { // entête
-						
+
 					foreach($lot as $champ => $valeur) {
 						if (!in_array($champ, $excludes))  {
 							$contenu .= $champ.';';
@@ -605,7 +605,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 
 				foreach($lot as $champ => $valeur) {
 					if (!in_array($champ, $excludes))  {
-						$contenu .= $valeur.';';
+						$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
 					} else {
 						$this->genereFichierContenuLots($lot, $lot["id_lot"], $champ, $this->config->fichier->liste_lots.'_'.$champ.'.csv', $initFichiers);
 					}
@@ -628,14 +628,25 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		}
 
 		$contenu = '';
-		if (!in_array($fichier, $initFichiers))  {
+		if (!in_array($fichier, $initFichiers))  { // entête
 			$contenu = 'id_lot;';
 			foreach($lignes as $k => $ligne) {
 				if ($type == 'elements') {
 					$contenu .= $k.';';
 				} else {
-					foreach($ligne as $champ => $valeur) {
-						$contenu .= $champ.';';
+					if ($type == "equipements") {
+						$equipementTitres = $ligne[$type][0];
+						foreach($equipementTitres as $champ => $valeur) {
+							if (!is_array($valeur)) {
+								$contenu .= $champ.';';
+							}
+						}
+					} else if ($type == "partiesplantes_brutes" || $type == "partiesplantes_preparees") {
+						//TODO
+					} else {
+						foreach($ligne as $champ => $valeur) {
+							$contenu .= $champ.';';
+						}
 					}
 					break;
 				}
@@ -651,11 +662,24 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		foreach($lignes as $k => $ligne) {
 
 			if ($type == 'elements') {
-				$contenu .= $ligne.';';
+				$contenu .= nl2br($ligne).';';
 			} else {
 				$contenu .= $idLot.';';
 				foreach($ligne as $champ => $valeur) {
-					$contenu .= $valeur.';';
+					if (!is_array($valeur) && $champ != "nom_type_emplacement") {
+						$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
+					} else {
+						if ($champ == "equipements") {
+							$equipementValeurs = $ligne[$champ][0];
+							foreach($equipementValeurs as $champ => $valeur) {
+								if (!is_array($valeur)) {
+									$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
+								}
+							}
+						} else if ($type == "partiesplantes_brutes" || $type == "partiesplantes_preparees") {
+						//TODO
+						}
+					}
 				}
 				$contenu .= PHP_EOL;
 			}
