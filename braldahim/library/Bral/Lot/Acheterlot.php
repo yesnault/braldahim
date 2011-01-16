@@ -277,7 +277,11 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			}
 
 			$this->calculDepotCastars($lot);
-			$this->calculDepotMessage($lot);
+			if ($this->view->estSurEchoppe) {
+				$this->calculDepotMessageHotel($lot);
+			} else {
+				$this->calculDepotMessageEtal($lot);
+			}
 		}
 
 		if ($idDestination == "charrette") {
@@ -285,7 +289,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		}
 	}
 
-	private function calculDepotMessage($lot) {
+	private function calculDepotMessageHotel($lot) {
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$s = "";
 		if ($lot["prix_1_lot"] > 1) {
@@ -298,6 +302,20 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
 		$message .= "Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_braldun, $lot["id_fk_vendeur_braldun_lot"], $message, $this->view);
+	}
+	
+	private function calculDepotMessageEtal($lot) {
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+		$s = "";
+		if ($lot["prix_1_lot"] > 1) {
+			$s = "s";
+		}
+		$message = "[Étal]".PHP_EOL.PHP_EOL;
+		$message .=  $this->view->user->prenom_braldun. " ".$this->view->user->nom_braldun;
+		$message .= " (".$this->view->user->id_braldun.") a achet&eacute; le lot n°".$lot["id_lot"].PHP_EOL;
+		$message .= $lot['details']. PHP_EOL. "pour ".$lot["prix_1_lot"]." castar".$s." (gain placé dans votre caisse).".PHP_EOL.PHP_EOL;
+		$message .= "Message Automatique.";
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $lot["id_fk_vendeur_braldun_lot"], $message, $this->view);
 	}
 
 	private function calculTransfertCharrette($lot) {
