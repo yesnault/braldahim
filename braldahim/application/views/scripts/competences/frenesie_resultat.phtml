@@ -45,16 +45,16 @@
 		 			<?php echo htmlspecialchars($retourAttaque["cible"]["nom_cible"])?> (<?php echo $retourAttaque["cible"]["id_cible"]?>)<br />
 		 			
 		 			<?php if ($retourAttaque["gains"] != null) :?>
-			 			<?php if (isset($this->retourAttaque["gains"]["butin"])) :?>
+			 			<?php if (isset($retourAttaque["gains"]["butin"])) :?>
 			 				Le butin suivant est tombé à terre : 
-			 				<?php echo $this->retourAttaque["gains"]["butin"];?><br /><br />
+			 				<?php echo $retourAttaque["gains"]["butin"];?><br /><br />
 			 			<?php elseif (isset($retourAttaque["gains"]["gainRune"]) && $retourAttaque["gains"]["gainRune"] != false) :?>
 			 				Une rune est tomb&eacute;e &agrave; terre <?php if ($retourAttaque["gains"]["gainCastars"] > 0) : ?>
 			 				ainsi que <?php echo $retourAttaque["gains"]["gainCastars"]?> castar<?php if ($retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?>
 			 				<?php endif;?>.
 			 				<br />
 			 			<?php elseif ($retourAttaque["gains"]["gainCastars"] > 0) : ?>
-			 				<?php echo $this->retourAttaque["gains"]["gainCastars"]?> castar<?php if ($this->retourAttaque["gains"]["gainCastars"] > 1) : 
+			 				<?php echo $retourAttaque["gains"]["gainCastars"]?> castar<?php if ($retourAttaque["gains"]["gainCastars"] > 1) : 
  								echo "s sont tomb&eacute;s"; 
 		 					else:	
 		 						echo " est tomb&eacute;";
