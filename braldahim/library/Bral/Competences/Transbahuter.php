@@ -3233,12 +3233,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					if ($this->autresButin != null) {
 						foreach($this->autresButin as $b) {
 
-							if ($b['quantite_'.$nom_systeme.'_element'] < $nbAEnlever) {
-								continue;
+							$nbAEnleverCourant = $nbAEnlever;
+							if ($b['quantite_'.$nom_systeme.'_element'] <= $nbAEnlever) {
+								$nbAEnleverCourant = $b['quantite_'.$nom_systeme.'_element'];
 							}
-
+							
 							$data = array(
-									'quantite_'.$nom_systeme.'_element' => -$nbAEnlever,
+									'quantite_'.$nom_systeme.'_element' => -$nbAEnleverCourant,
 									'x_element' => $this->view->user->x_braldun,
 									'y_element' => $this->view->user->y_braldun,
 									'z_element' => $this->view->user->z_braldun,
@@ -3246,12 +3247,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 
 							$departTable->insertOrUpdate($data);
-
-							if ($b['quantite_'.$nom_systeme.'_element'] >= $nbAEnlever) {
-								$nbAEnlever = 0;
-							} else {
-								$nbAEnlever = $nbAEnlever - $b['quantite_'.$nom_systeme.'_element'];
-							}
+							
+							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant; 
 
 							if ($nbAEnlever <= 0) {
 								break;
