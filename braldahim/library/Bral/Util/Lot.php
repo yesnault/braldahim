@@ -343,6 +343,9 @@ class Bral_Util_Lot {
 			}
 		}
 
+		$tabTypePlantesBrutesCsv = null;
+		$tabTypePlantesPrepareesCsv = null;
+		
 		foreach($lots as $lot) {
 			$tabTypePlantesBrutes = $tabTypePlantes;
 			$tabTypePlantesPreparees = $tabTypePlantes;
@@ -362,6 +365,17 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante']. ' : ';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['quantite_lot_partieplante']. ' '.$p['nom_type_plante']. ' brute'.$sbrute;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
+					
+					$tab = null;
+					$tab['id_type_plante'] = $p['id_type_plante'];
+					$tab['id_type_partieplante'] = $p['id_type_partieplante'];
+					$tab['nom_type_plante'] = $p['categorie_type_plante'];
+					$tab['nom_type_partieplante'] = $p['nom_type_partieplante'];
+					$tab['nom_systeme_type_plante'] = $p['nom_systeme_type_plante'];
+					$tab['nom_systeme_type_partieplante'] = $p['nom_systeme_type_partieplante'];
+					$tab['quantite_lot_partieplante'] = $p['quantite_lot_partieplante'];
+					$tab['poids'] = $p['quantite_lot_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
+					$tabTypePlantesBrutesCsv[] = $tab;
 				}
 
 				if ($p['quantite_preparee_lot_partieplante'] > 0) {
@@ -372,6 +386,16 @@ class Bral_Util_Lot {
 					$tabTypePlantesPreparees[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['estPreparee'] = true;
 					$tabTypePlantesPreparees[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['poids'] = $p['quantite_preparee_lot_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 
+					$tab = null;
+					$tab['id_type_plante'] = $p['id_type_plante'];
+					$tab['id_type_partieplante'] = $p['id_type_partieplante'];
+					$tab['nom_type_plante'] = $p['categorie_type_plante'];
+					$tab['nom_type_partieplante'] = $p['nom_type_partieplante'];
+					$tab['nom_systeme_type_plante'] = $p['nom_systeme_type_plante'];
+					$tab['nom_systeme_type_partieplante'] = $p['nom_systeme_type_partieplante'];
+					$tab['quantite_lot_partieplante'] = $p['quantite_preparee_lot_partieplante'];
+					$tab['poids'] = $p['quantite_preparee_lot_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+					$tabTypePlantesPrepareesCsv[] = $tab;
 					$spreparee = '';
 					if ($p['quantite_preparee_lot_partieplante'] > 1) $spreparee = 's';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante']. ' : ';
@@ -381,6 +405,9 @@ class Bral_Util_Lot {
 			}
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
+			
+			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
+			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
 		}
 	}
 
@@ -648,6 +675,10 @@ class Bral_Util_Lot {
 
 	private static function prepareRowLot($r) {
 
+		/*
+		 * Attention. Chaque nouvelle clé modifiée ici se automatiquement
+		 * présente dans les cvs
+		 */
 		$tab = array('id_lot' => $r['id_lot'],
 				'unite_1_lot' => $r['unite_1_lot'],
 				'prix_1_lot' => $r['prix_1_lot'],
@@ -680,7 +711,13 @@ class Bral_Util_Lot {
 				'minerais_lingots' => null,
 				'partiesplantes_brutes' => null,
 				'partiesplantes_preparees' => null,
+				'partiesplantes_brutes_csv' => null,
+				'partiesplantes_preparees_csv' => null,
 		);
+		/*
+		 * Attention. Chaque nouvelle clé modifiée ici se automatiquement
+		 * présente dans les cvs
+		 */
 
 		if ($r['date_fin_lot'] != null) {
 			$tab['date_fin_lot'] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $r['date_fin_lot']);

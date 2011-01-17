@@ -574,13 +574,15 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 			'minerais_lingots',
 			'partiesplantes_brutes',
 			'partiesplantes_preparees',
+			'partiesplantes_brutes_csv',
+			'partiesplantes_preparees_csv',
 		//'commentaire_lot',
 		);
 
 		$initFichiers = array();
 
 		foreach($excludes as $champ) {
-			Bral_Util_Fichier::ecrire($this->config->fichier->liste_lots.'_'.$champ.'.csv', '');
+			Bral_Util_Fichier::ecrire($this->config->fichier->liste_lots.'_'.str_replace('_csv', '', $champ).'.csv', '');
 		}
 
 		$contenu = '';
@@ -592,8 +594,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 			$init = false;
 
 			foreach($lots as $lot) {
-				if (!$init) { // entête
-
+				if (!$init) { // entête du fichier lots.csv
 					foreach($lot as $champ => $valeur) {
 						if (!in_array($champ, $excludes))  {
 							$contenu .= $champ.';';
@@ -607,7 +608,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 					if (!in_array($champ, $excludes))  {
 						$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
 					} else {
-						$this->genereFichierContenuLots($lot, $lot["id_lot"], $champ, $this->config->fichier->liste_lots.'_'.$champ.'.csv', $initFichiers);
+						if ($champ == "partiesplantes_brutes" || $champ == "partiesplantes_preparees") continue;
+						$this->genereFichierContenuLots($lot, $lot["id_lot"], $champ, $this->config->fichier->liste_lots.'_'.str_replace('_csv', '', $champ).'.csv', $initFichiers);
 					}
 				}
 				$contenu .= PHP_EOL;
@@ -621,13 +623,14 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 	}
 
 	private function genereFichierContenuLots($lot, $idLot, $type, $fichier, &$initFichiers) {
-
+		
 		$lignes = $lot[$type];
 		if (count($lignes) <= 0) {
 			return;
 		}
 
 		$contenu = '';
+					
 		if (!in_array($fichier, $initFichiers))  { // entête
 			$contenu = 'id_lot;';
 			foreach($lignes as $k => $ligne) {
@@ -641,8 +644,6 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 								$contenu .= $champ.';';
 							}
 						}
-					} else if ($type == "partiesplantes_brutes" || $type == "partiesplantes_preparees") {
-						//TODO
 					} else {
 						foreach($ligne as $champ => $valeur) {
 							$contenu .= $champ.';';
@@ -662,22 +663,18 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		foreach($lignes as $k => $ligne) {
 
 			if ($type == 'elements') {
-				$contenu .= nl2br($ligne).';';
+				$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($ligne))).';';
 			} else {
 				$contenu .= $idLot.';';
 				foreach($ligne as $champ => $valeur) {
 					if (!is_array($valeur) && $champ != "nom_type_emplacement") {
-						$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
-					} else {
-						if ($champ == "equipements") {
-							$equipementValeurs = $ligne[$champ][0];
-							foreach($equipementValeurs as $champ => $valeur) {
-								if (!is_array($valeur)) {
-									$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
-								}
+						$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($valeur))).';';
+					} else if ($champ == "equipements") {
+						$equipementValeurs = $ligne[$champ][0];
+						foreach($equipementValeurs as $champ => $valeur) {
+							if (!is_array($valeur)) {
+								$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($valeur))).';';
 							}
-						} else if ($type == "partiesplantes_brutes" || $type == "partiesplantes_preparees") {
-						//TODO
 						}
 					}
 				}

@@ -123,7 +123,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->view->id_charrette_depart = $tabEndroit[$id_courant_depart]['id_charrette'];
 			$id_type_courant_depart = self::ID_ENDROIT_CHARRETTE;
 		} else {
-			$id_type_courant_depart = self::ID_ENDROIT_ECHOPPE_CAISSE;
+			$id_type_courant_depart = $id_courant_depart;
 		}
 
 		$tabTypeArrivee = null;
@@ -144,16 +144,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-
+			
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
-
+			
 			if ($k == $id_courant_depart) continue;
 			if ($e['poids_restant'] != -1 && $e['poids_restant'] <= 0) continue;
-
+			
 			$tabTypeArrivee[$k] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
 			if ($e['nom_systeme'] == 'Charrette') {
 				$tabTypeArrivee[$k]['id_charrette'] = $e['id_charrette'];
@@ -1075,7 +1075,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 		}
 
-		$this->calculEchoppe('cuisinier');
+		$retour = $this->calculEchoppe('cuisinier');
+		
 		if (count($potions) > 0) {
 			foreach ($potions as $p) {
 				$tabPotions[$p['id_'.strtolower($depart).'_potion']] = array(
