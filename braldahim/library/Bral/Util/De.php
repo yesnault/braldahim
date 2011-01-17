@@ -12,7 +12,7 @@ class Bral_Util_De {
 	}
 
 	public static function get_1ouMoins1() {
-		srand(self::make_seed());
+		self::initRand();
 		$tmp =  rand(1, 2);
 		if ($tmp == 1) {
 			return -1;
@@ -22,52 +22,52 @@ class Bral_Util_De {
 	}
 
 	public static function get_1d2() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 2);
 	}
 
 	public static function get_1d3() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 3);
 	}
 
 	public static function get_1d4() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 4);
 	}
 
 	public static function get_1d5() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 5);
 	}
 
 	public static function get_1d6() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 6);
 	}
 
 	public static function get_1d10() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 10);
 	}
 
 	public static function get_1d12() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 12);
 	}
 
 	public static function get_1d20() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 20);
 	}
 
 	public static function get_1d30() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 30);
 	}
 
 	public static function get_1d100() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 100);
 	}
 
@@ -88,12 +88,12 @@ class Bral_Util_De {
 	}
 
 	public static function get_1d7() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 7);
 	}
 
 	public static function get_1d8() {
-		srand(self::make_seed());
+		self::initRand();
 		return rand(1, 8);
 	}
 
@@ -152,7 +152,7 @@ class Bral_Util_De {
 			throw new Exception("De::get_de_specifique : parametre invalides : a(".$a.") > b(".$b.")");
 		}
 
-		srand(self::make_seed());
+		self::initRand();
 		return rand($a, $b);
 	}
 
@@ -173,7 +173,7 @@ class Bral_Util_De {
 	}
 
 	public static function get_chaine_aleatoire($longueur) {
-		srand(self::make_seed());
+		self::initRand();
 		// 10 + 26 + 26 = 62
 		$tab = array(
 		0,1,2,3,4,5,6,7,8,9,
@@ -193,5 +193,15 @@ class Bral_Util_De {
 	private static function make_seed() {
 		list ($usec, $sec) = explode(' ', microtime());
 		return (float) $sec + ((float) $usec * 100000);
+	}
+	
+	function initRand() {
+	    /*static $randCalled = false;
+	    if (!$randCalled) {
+	        srand((double) microtime() * 1000000);
+	        $randCalled = true;
+	    }*/
+	    //srand(self::make_seed());
+	    // deplacement dans Zend_Application_Bootstrap_Bootstrap
 	}
 }
