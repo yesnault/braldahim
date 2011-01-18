@@ -38,7 +38,7 @@ endif;?>
   		$attr = "disabled" ; ?>
 <?php endif; ?>
   	
-<?php if ($this->user->activation == true) :
+<?php if ($this->user->activation !== true) :
   		$attr = "disabled" ; ?>
 <?php endif; ?>
   	

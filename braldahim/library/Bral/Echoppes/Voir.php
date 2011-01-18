@@ -104,7 +104,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				}
 
 				if ($this->view->user->x_braldun == $e['x_echoppe'] &&
-				$this->view->user->y_braldun == $e['y_echoppe']) {
+				$this->view->user->y_braldun == $e['y_echoppe'] && 
+				$this->view->user->z_braldun == $e['z_echoppe']) {
 					$this->view->estSurEchoppe = true;
 				}
 				if ($e['nom_systeme_metier'] == 'apothicaire') {
