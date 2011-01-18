@@ -175,6 +175,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Contacts");
 		Zend_Loader::loadClass("Zend_Filter_StripTags");
+		Zend_Loader::loadClass("Bral_Util_BBParser");
 
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun);
 
