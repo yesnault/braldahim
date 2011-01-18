@@ -8,20 +8,35 @@
 <?php endif; ?>
 &Eacute;choppe <?php if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?> <?php echo htmlspecialchars($this->echoppe["nom_metier"])?><br /></div>
 <div class="titre textalic textsizec"><?php echo htmlspecialchars($this->echoppe["nom_region"])?>, x:<?php echo $this->echoppe["x_echoppe"]?>, y:<?php echo $this->echoppe["y_echoppe"]?></div>
-<br />
 
-    <?php if ($this->estSurEchoppe === true && $this->user->activation == true): 
+    <?php if ($this->user->activation == true): 
   		$disabled = "";
   	   else:
   		$disabled = "disabled" ;
   	?>
-  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
   	<?php endif; ?>
+
+<div style="text-align:left; position:Absolute; padding: 0px; ">
 
  <input type="button" class='button1' value="0 PA - Modifier le nom" 
  onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifiernom&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled?> />
+ <br />
  <input type="button" class='button1' value="0 PA - Modifier la description"
   onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled?>/>
+ <br /> 
+<input id='bouton_voir_description_echoppe' type="button" class='button1' value="Voir la description"
+  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('bouton_cacher_description_echoppe').style.display='block'"/>
+ 
+<input id='bouton_cacher_description_echoppe' type="button" class='button1' style='display:none' value="Cacher la description"
+  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('echoppe_commentaire_voir').style.display='none'; $('bouton_voir_description_echoppe').style.display='block'"/>
+
+</div>
+  
+<div id='echoppe_commentaire_voir' style="text-align:left;padding:50px; display:none" >
+<br /><br />
+	<?php echo Bral_Util_BBParser::bbcodeReplace($this->echoppe["commentaire_echoppe"]); ?><br /><br />
+</div>
+
  
 <hr> <br />
 <?php include("voir/arriere_boutique.phtml") ?>

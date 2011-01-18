@@ -25,9 +25,7 @@ class Bral_Echoppes_Modifiernom extends Bral_Echoppes_Echoppe {
 		
 		$tabEchoppe = null;
 		foreach ($echoppes as $e) {
-			if ($e["id_echoppe"] == $id_echoppe && 
-				$e["x_echoppe"] == $this->view->user->x_braldun && 
-				$e["y_echoppe"] == $this->view->user->y_braldun) {
+			if ($e["id_echoppe"] == $id_echoppe) { 
 				$tabEchoppe = array(
 					'id_echoppe' => $e["id_echoppe"],
 					'nom_echoppe' => $e["nom_echoppe"],
