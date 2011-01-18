@@ -185,7 +185,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$texte = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3')));
 		$texte = str_replace("<br>", PHP_EOL, $texte);
 
-		$tabMessage = array(
+		$tabMessage = array (
 			'contenu' => $texte,
 			'destinataires' => $tabBraldun["destinataires"],
 			'aff_js_destinataires' => $tabBraldun["aff_js_destinataires"],
@@ -254,7 +254,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 						$messageTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $idBraldun;
 						if ($tabBralduns[$idBraldun]["envoi_mail_message_braldun"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+							$texte = $debutContenuMail;
+							$texte .= Bral_Util_BBParser(bbcodeStrip($tabMessage["contenu"]));
+							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $texte, $this->view);
 						}
 					}
 				}
