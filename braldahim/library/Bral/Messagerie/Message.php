@@ -256,7 +256,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 						$tabIdDestinatairesDejaEnvoye[] = $idBraldun;
 						if ($tabBralduns[$idBraldun]["envoi_mail_message_braldun"] == "oui") {
 							$texte = $debutContenuMail;
-							$texte .= Bral_Util_BBParser(bbcodeStrip($tabMessage["contenu"]));
+							$texte .= Bral_Util_BBParser::bbcodeStrip($tabMessage["contenu"]);
 							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $texte, $this->view);
 						}
 					}
