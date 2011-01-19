@@ -86,7 +86,7 @@ class Bral_Monstres_Competences_Charger extends Bral_Monstres_Competences_Attaqu
 
 		$jetAttaquant = 0;
 
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
+		$jetAttaquant = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
 		$jetAttaquant = floor(0.5 * $jetAttaquant + $this->monstre["agilite_bm_monstre"] + $this->monstre["bm_attaque_monstre"]);
 
 		if ($jetAttaquant < 0) {
