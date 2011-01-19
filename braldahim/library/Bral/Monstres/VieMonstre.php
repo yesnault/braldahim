@@ -147,7 +147,7 @@ class Bral_Monstres_VieMonstre {
 		}
 			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " position_actuelle: x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"]." destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
@@ -184,12 +184,15 @@ class Bral_Monstres_VieMonstre {
 			if ($this->tabValidation[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement A");
 			} elseif ($this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement B");
 			} elseif ($this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement C");
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
