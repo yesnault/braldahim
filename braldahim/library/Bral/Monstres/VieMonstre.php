@@ -220,7 +220,7 @@ class Bral_Monstres_VieMonstre {
 	 * @return boolean : le monstre a bougé (true) ou non (false)
 	 */
 	private function deplacementDijkstraMonstre($x_destination, $y_destination) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
 
 		$modif = self::DEPLACEMENT_PAS_BOUGE;
 
@@ -315,8 +315,9 @@ class Bral_Monstres_VieMonstre {
 
 			$nb_pa_joues = $nb_pa_joues + $coutPA;
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - numeroCase=".$numeroCase." coutPA:".$coutPA." nouveauX:".$this->monstre["x_monstre"]." nouveauY:".$this->monstre["y_monstre"]);
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
 		return $modif;
 	}
 
