@@ -195,8 +195,9 @@ class Bral_Monstres_VieMonstre {
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]." y_offset:".$y_offset." deplacement C");
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
-					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
+					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade. Modif=DEPLACEMENT_ENV_KO");
 					$modif = self::DEPLACEMENT_ENV_KO;
+					break;
 				}
 			}
 
