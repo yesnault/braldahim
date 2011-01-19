@@ -27,6 +27,7 @@ class Bral_Competences_Dissuader extends Bral_Competences_Competence {
 			return;	
 		}
 
+		$bralduns = null;
 		if ($estRegionPvp) {
 			// recuperation des bralduns qui sont presents dans un rayon de 1
 			$braldunTable = new Braldun();
