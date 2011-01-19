@@ -185,14 +185,14 @@ class Bral_Monstres_VieMonstre {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement A");
-			} elseif ($this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+			} elseif ($x_offset != 0 && $this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement B");
-			} elseif ($this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  x_offset:".$x_offset." deplacement B");
+			} elseif ($y_offset != 0 && $this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement C");
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]." y_offset:".$y_offset." deplacement C");
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
