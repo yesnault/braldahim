@@ -71,7 +71,7 @@ class Bral_Monstres_VieMonstre {
 		} else {
 			$modif = $this->deplacementNormalMonstre($x_destination, $y_destination);
 			if ($modif === self::DEPLACEMENT_ENV_KO) { // pas de deplacement reussi en mode normal
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].")pas de deplacement reussi en mode normal, on tente Dijkstra");
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") pas de deplacement reussi en mode normal, on tente Dijkstra");
 				$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
 			}
 		}
