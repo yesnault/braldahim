@@ -204,6 +204,8 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			$alimentTable = new Aliment();
 			$where = 'id_aliment = '.(int)$idAliment;
 			$alimentTable->delete($where);
+			
+			$this->view->okJet1 = true;
 
 		} else { // Si 2 jets ou moins sont supérieurs : échec, le Braldûn ne se réveille pas.
 			// rien à faire
