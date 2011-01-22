@@ -1275,7 +1275,7 @@ lightbox
     font-family: "PerryGothic";
     font-style: normal;
     font-weight: normal;
-    src: local("☺"), url("/fonts/PERRYGOT.ttf") format("truetype");
+    src: local("☺"), url("/fonts/PERRYGOT.TTF") format("truetype");
 }
 
 @font-face {
