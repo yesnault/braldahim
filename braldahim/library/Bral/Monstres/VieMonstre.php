@@ -71,7 +71,7 @@ class Bral_Monstres_VieMonstre {
 		} else {
 			$modif = $this->deplacementNormalMonstre($x_destination, $y_destination);
 			if ($modif === self::DEPLACEMENT_ENV_KO) { // pas de deplacement reussi en mode normal
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].")pas de deplacement reussi en mode normal, on tente Dijkstra");
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") pas de deplacement reussi en mode normal, on tente Dijkstra");
 				$modif = $this->deplacementDijkstraMonstre($x_destination, $y_destination);
 			}
 		}
@@ -147,7 +147,7 @@ class Bral_Monstres_VieMonstre {
 		}
 			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " position_actuelle: x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"]." destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
@@ -184,16 +184,20 @@ class Bral_Monstres_VieMonstre {
 			if ($this->tabValidation[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
-			} elseif ($this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  deplacement A");
+			} elseif ($x_offset != 0 && $this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
-			} elseif ($this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  x_offset:".$x_offset." deplacement B");
+			} elseif ($y_offset != 0 && $this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]." y_offset:".$y_offset." deplacement C");
 			} else {
 				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
-					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
+					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade. Modif=DEPLACEMENT_ENV_KO");
 					$modif = self::DEPLACEMENT_ENV_KO;
+					break;
 				}
 			}
 
@@ -216,7 +220,7 @@ class Bral_Monstres_VieMonstre {
 	 * @return boolean : le monstre a bougé (true) ou non (false)
 	 */
 	private function deplacementDijkstraMonstre($x_destination, $y_destination) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre (idm:".$this->monstre["id_monstre"].")  - enter");
 
 		$modif = self::DEPLACEMENT_PAS_BOUGE;
 
@@ -311,8 +315,9 @@ class Bral_Monstres_VieMonstre {
 
 			$nb_pa_joues = $nb_pa_joues + $coutPA;
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $coutPA;
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - numeroCase=".$numeroCase." coutPA:".$coutPA." nouveauX:".$this->monstre["x_monstre"]." nouveauY:".$this->monstre["y_monstre"]);
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - deplacementDijkstraMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".var_export($modif, true).")");
 		return $modif;
 	}
 

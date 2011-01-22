@@ -20,6 +20,7 @@
 			</ul>
 		</td>
 		<td width="50%" valign="top">
+			<?php if ($this->afficheType != "aliments") :?>
 			<div class="titre textalic textsizee">Mat&eacute;riaux Transform&eacute;s</div>
 			<ul id="navigation" style="width:99%;text-align:left">
 				<?php foreach($this->arBoutiqueTransformes as $k => $v) : ?>
@@ -37,6 +38,7 @@
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 		</td>
 	</tr>
 </table>

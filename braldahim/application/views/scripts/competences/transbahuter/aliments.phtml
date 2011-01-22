@@ -8,7 +8,7 @@
 			<ul id="deposer_aliments-body" style="display:none">
 				<li>
 					Choississez un aliment (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
-					<select multiple size="5" name="valeur_13" id="valeur_13" onchange="<?php echo $jsBtn?>">
+					<select multiple size="5" name="valeur_20" id="valeur_20" onchange="<?php echo $jsBtn?>">
 						 <?php foreach($this->aliments as $a) :?>
 						 	<option value="<?php echo $a["id_aliment"]?>"><?php echo $a["nom"] ?> 
 						 	<?php if ($a["bbdf"] > 0): ?>
@@ -23,8 +23,8 @@
 		</li>
 	</ul>
 <?php else : ?>
-	<input type='hidden' maxlength='4' size='4' name='valeur_13' id='valeur_13' value='0' />
-	<input type='hidden' maxlength='4' size='4' name='valeur_13_max' id='valeur_13_max' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_20' id='valeur_20' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_20_max' id='valeur_20_max' value='0' />
 <?php endif; ?>
-<input type='hidden' maxlength='4' size='4' name='valeur_13_poids' id='valeur_13_poids' value='<?php echo Bral_Util_Poids::POIDS_ALIMENT ?>' />
-<input type='hidden' maxlength='4' size='4' name='valeur_13_echoppe' id='valeur_13_echoppe' value='non' />
+<input type='hidden' maxlength='4' size='4' name='valeur_20_poids' id='valeur_20_poids' value='<?php echo Bral_Util_Poids::POIDS_ALIMENT ?>' />
+<input type='hidden' maxlength='4' size='4' name='valeur_20_echoppe' id='valeur_20_echoppe' value='non' />

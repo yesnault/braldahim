@@ -1,9 +1,0 @@
-<?php foreach($e["objet"] as $a) : ?>
-<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_aliment/type_aliment_<?php echo $a["id_type_aliment"]?>.png'>
-<br />
-n°<?php echo $a["id_vente_aliment"] ?> <?php echo $a["nom"] ?> 
-	<?php if ($a["bbdf"] > 0): ?>
- 		de qualit&eacute; <?php echo $a["qualite"] ?> 
- 	<?php endif;?> 
- 	<?php if ($a["bbdf"] > 0): ?> +<?php echo $a["bbdf"]?> % (recette <?php echo htmlspecialchars($a["recette"]) ?>)<?php endif;?> <br />
-<?php endforeach;?>

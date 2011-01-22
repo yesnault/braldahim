@@ -9,6 +9,10 @@ class Coffre extends Zend_Db_Table {
 	protected $_name = 'coffre';
 	protected $_primary = array('id_coffre');
 
+	function findByIdConteneur($idCoffre) {
+		return $this->findByIdCoffre($idCoffre);
+	}
+
 	function findByIdCommunaute($id_communaute) {
 		$db = $this->getAdapter();
 		$select = $db->select();

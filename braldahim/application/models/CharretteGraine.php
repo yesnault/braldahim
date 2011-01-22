@@ -9,6 +9,14 @@ class CharretteGraine extends Zend_Db_Table {
 	protected $_name = 'charrette_graine';
 	protected $_primary = array('id_fk_braldun_charrette_graine', 'id_fk_type_charrette_graine');
 
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
+
+	function countByIdConteneur($idCharrette) {
+		return $this->countByIdCharrette($idCharrette);
+	}
+
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -48,16 +56,16 @@ class CharretteGraine extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
-				
+
 			$dataUpdate['quantite_charrette_graine'] = $quantite;
-				
+
 			if (isset($data["quantite_charrette_graine"])) {
 				$dataUpdate['quantite_charrette_graine'] = $quantite + $data["quantite_charrette_graine"];
 			}
-				
+
 			$where = ' id_fk_type_charrette_graine = '.$data["id_fk_type_charrette_graine"];
 			$where .= ' AND id_fk_charrette_graine = '.$data["id_fk_charrette_graine"];
-				
+
 			if ($dataUpdate['quantite_charrette_graine'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

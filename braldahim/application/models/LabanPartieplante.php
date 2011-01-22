@@ -1,15 +1,19 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class LabanPartieplante extends Zend_Db_Table {
 	protected $_name = 'laban_partieplante';
 	protected $_primary = array('id_fk_type_laban_partieplante', 'id_fk_braldun_laban_partieplante');
-	
-    function findByIdBraldun($id_braldun) {
+
+	function findByIdConteneur($id_braldun) {
+		return $this->findByIdBraldun($id_braldun);
+	}
+
+	function findByIdBraldun($id_braldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_partieplante', '*')
@@ -22,8 +26,8 @@ class LabanPartieplante extends Zend_Db_Table {
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
-    }
-    
+	}
+
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -41,23 +45,23 @@ class LabanPartieplante extends Zend_Db_Table {
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrute = $resultat[0]["quantiteBrute"];
 			$quantitePreparee = $resultat[0]["quantitePreparee"];
-			
+				
 			$dataUpdate['quantite_laban_partieplante']  = $quantiteBrute;
 			$dataUpdate['quantite_preparee_laban_partieplante']  = $quantitePreparee;
-			
+				
 			if (isset($data["quantite_laban_partieplante"])) {
 				$quantiteBrute += $data["quantite_laban_partieplante"];
 			};
-			
+				
 			if (isset($data["quantite_preparee_laban_partieplante"])) {
 				$quantitePreparee += $data["quantite_preparee_laban_partieplante"];
 			};
-			
+				
 			$dataUpdate = array(
 					'quantite_laban_partieplante' => $quantiteBrute,
 					'quantite_preparee_laban_partieplante' => $quantitePreparee,
 			);
-			
+				
 			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
 			$where .= ' AND id_fk_braldun_laban_partieplante = '.$data["id_fk_braldun_laban_partieplante"];
 			$where .= ' AND id_fk_type_plante_laban_partieplante = '.$data["id_fk_type_plante_laban_partieplante"];

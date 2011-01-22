@@ -7,11 +7,11 @@
  */
 class Bral_Util_Fichier {
 
-	public static function ecrire($fichier, $contenu) {
+	public static function ecrire($fichier, $contenu, $mode = 'w') {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Fichier - ecrire - enter -");
 
 		if (is_writable($fichier)) {
-			if (!$handle = fopen($fichier, 'w')) {
+			if (!$handle = fopen($fichier, $mode)) {
 				throw new Zend_Exception("Impossible d'ouvrir le fichier ($fichier)");
 			}
 			if (fwrite($handle, $contenu) === FALSE) {

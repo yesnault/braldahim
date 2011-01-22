@@ -8,11 +8,11 @@
 class Bral_Box_Laban extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "Laban";
+		return 'Laban';
 	}
 
 	function getNomInterne() {
-		return "box_laban";
+		return 'box_laban';
 	}
 
 	function getChargementInBoxes() {
@@ -27,16 +27,16 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		if ($this->view->affichageInterne) {
 			$this->data();
 			$this->preparePartage();
-			$this->view->pocheNom = "Poche";
-			$this->view->pocheNomSysteme = "Laban";
+			$this->view->pocheNom = 'Poche';
+			$this->view->pocheNomSysteme = 'Laban';
 			$this->view->nb_castars = $this->view->user->castars_braldun;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/laban.phtml");
+		return $this->view->render('interface/laban.phtml');
 	}
 
 	private function preparePartage() {
-		Zend_Loader::loadClass("ButinPartage");
+		Zend_Loader::loadClass('ButinPartage');
 
 		$butinPartageTable = new ButinPartage();
 		$partages = $butinPartageTable->findByIdBraldun($this->view->user->id_braldun, true);
@@ -58,31 +58,31 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 	function data() {
 
-		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("LabanEquipement");
-		Zend_Loader::loadClass("LabanGraine");
-		Zend_Loader::loadClass("LabanIngredient");
-		Zend_Loader::loadClass("LabanMinerai");
-		Zend_Loader::loadClass("LabanMunition");
-		Zend_Loader::loadClass("LabanPartieplante");
-		Zend_Loader::loadClass("LabanAliment");
-		Zend_Loader::loadClass("LabanPotion");
-		Zend_Loader::loadClass("LabanMateriel");
-		Zend_Loader::loadClass("LabanRune");
-		Zend_Loader::loadClass("LabanTabac");
-		Zend_Loader::loadClass("BraldunsMetiers");
-		Zend_Loader::loadClass("Metier");
-		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartieplante");
+		Zend_Loader::loadClass('Laban');
+		Zend_Loader::loadClass('LabanEquipement');
+		Zend_Loader::loadClass('LabanGraine');
+		Zend_Loader::loadClass('LabanIngredient');
+		Zend_Loader::loadClass('LabanMinerai');
+		Zend_Loader::loadClass('LabanMunition');
+		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass('LabanAliment');
+		Zend_Loader::loadClass('LabanPotion');
+		Zend_Loader::loadClass('LabanMateriel');
+		Zend_Loader::loadClass('LabanRune');
+		Zend_Loader::loadClass('LabanTabac');
+		Zend_Loader::loadClass('BraldunsMetiers');
+		Zend_Loader::loadClass('Metier');
+		Zend_Loader::loadClass('TypePlante');
+		Zend_Loader::loadClass('TypePartieplante');
 
-		Zend_Loader::loadClass("Bral_Helper_DetailRune");
+		Zend_Loader::loadClass('Bral_Helper_DetailRune');
 
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
 		unset($braldunsMetiersTable);
 
 		$metiersTable = new Metier();
-		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
+		$metiersRowset = $metiersTable->fetchall(null, 'nom_masculin_metier');
 		unset($metiersTable);
 		$metiersRowset = $metiersRowset->toArray();
 		$tabBraldunMetiers = null;
@@ -90,32 +90,32 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		foreach($metiersRowset as $m) {
 			if ($this->view->user->sexe_braldun == 'feminin') {
-				$nom_metier = $m["nom_feminin_metier"];
+				$nom_metier = $m['nom_feminin_metier'];
 			} else {
-				$nom_metier = $m["nom_masculin_metier"];
+				$nom_metier = $m['nom_masculin_metier'];
 			}
 
 			$possedeMetier = false;
 			foreach($braldunsMetierRowset as $h) {
-				if ($h["id_metier"] == $m["id_metier"]) {
+				if ($h['id_metier'] == $m['id_metier']) {
 					$possedeMetier = true;
 					break;
 				}
 			}
 
 			if ($possedeMetier == true) {
-				$tabBraldunMetiers[$m["nom_systeme_metier"]] = array(
-						"id_metier" => $m["id_metier"],
-						"nom" => $nom_metier,
-						"nom_systeme" => $m["nom_systeme_metier"],
-						"a_afficher" => true,
+				$tabBraldunMetiers[$m['nom_systeme_metier']] = array(
+						'id_metier' => $m['id_metier'],
+						'nom' => $nom_metier,
+						'nom_systeme' => $m['nom_systeme_metier'],
+						'a_afficher' => true,
 				);
 			} else {
-				$tabMetiers[$m["nom_systeme_metier"]] = array(
-					"id_metier" => $m["id_metier"],
-					"nom" => $m["nom_masculin_metier"],
-					"nom_systeme" => $m["nom_systeme_metier"],
-					"a_afficher" => false,
+				$tabMetiers[$m['nom_systeme_metier']] = array(
+					'id_metier' => $m['id_metier'],
+					'nom' => $m['nom_masculin_metier'],
+					'nom_systeme' => $m['nom_systeme_metier'],
+					'a_afficher' => false,
 				);
 			}
 		}
@@ -128,30 +128,30 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanMineraiTable);
 
 		foreach ($minerais as $m) {
-			if ($m["quantite_brut_laban_minerai"] > 0) {
+			if ($m['quantite_brut_laban_minerai'] > 0) {
 				$tabMineraisBruts[] = array(
-					"type" => $m["nom_type_minerai"],
-					"id_type_minerai" => $m["id_type_minerai"],
-					"estLingot" => false,
-					"quantite" => $m["quantite_brut_laban_minerai"],
-					"poids" => $m["quantite_brut_laban_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+					'type' => $m['nom_type_minerai'],
+					'id_type_minerai' => $m['id_type_minerai'],
+					'estLingot' => false,
+					'quantite' => $m['quantite_brut_laban_minerai'],
+					'poids' => $m['quantite_brut_laban_minerai'] * Bral_Util_Poids::POIDS_MINERAI,
 				);
 					
-				if (isset($tabMetiers["mineur"])) {
-					$tabMetiers["mineur"]["a_afficher"] = true;
+				if (isset($tabMetiers['mineur'])) {
+					$tabMetiers['mineur']['a_afficher'] = true;
 				}
 			}
-			if ($m["quantite_lingots_laban_minerai"] > 0) {
+			if ($m['quantite_lingots_laban_minerai'] > 0) {
 				$tabLingots[] = array(
-					"type" => $m["nom_type_minerai"],
-					"id_type_minerai" => $m["id_type_minerai"],
-					"estLingot" => true,
-					"quantite" => $m["quantite_lingots_laban_minerai"],
-					"poids" => $m["quantite_lingots_laban_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
+					'type' => $m['nom_type_minerai'],
+					'id_type_minerai' => $m['id_type_minerai'],
+					'estLingot' => true,
+					'quantite' => $m['quantite_lingots_laban_minerai'],
+					'poids' => $m['quantite_lingots_laban_minerai'] * Bral_Util_Poids::POIDS_LINGOT,
 				);
 					
-				if (isset($tabMetiers["forgeron"])) {
-					$tabMetiers["forgeron"]["a_afficher"] = true;
+				if (isset($tabMetiers['forgeron'])) {
+					$tabMetiers['forgeron']['a_afficher'] = true;
 				}
 			}
 		}
@@ -164,36 +164,36 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		foreach ($laban as $p) {
 			$tabLaban = array(
-				"nb_peau" => $p["quantite_peau_laban"],
-				"nb_cuir" => $p["quantite_cuir_laban"],
-				"nb_fourrure" => $p["quantite_fourrure_laban"],
-				"nb_planche" => $p["quantite_planche_laban"],
-				"nb_rondin" => $p["quantite_rondin_laban"],
-				"nb_viande" => 0, // remplit dans renderIngredient
-				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
+				'nb_peau' => $p['quantite_peau_laban'],
+				'nb_cuir' => $p['quantite_cuir_laban'],
+				'nb_fourrure' => $p['quantite_fourrure_laban'],
+				'nb_planche' => $p['quantite_planche_laban'],
+				'nb_rondin' => $p['quantite_rondin_laban'],
+				'nb_viande' => 0, // remplit dans renderIngredient
+				'nb_viande_poids_unitaire' => 0, // remplit dans renderIngredient
 			);
 
-			if ($p["quantite_peau_laban"] > 0) {
-				if (isset($tabMetiers["chasseur"])) {
-					$tabMetiers["chasseur"]["a_afficher"] = true;
+			if ($p['quantite_peau_laban'] > 0) {
+				if (isset($tabMetiers['chasseur'])) {
+					$tabMetiers['chasseur']['a_afficher'] = true;
 				}
 			}
 
-			if ($p["quantite_cuir_laban"] > 0 || $p["quantite_fourrure_laban"] > 0) {
-				if (isset($tabMetiers["tanneur"])) {
-					$tabMetiers["tanneur"]["a_afficher"] = true;
+			if ($p['quantite_cuir_laban'] > 0 || $p['quantite_fourrure_laban'] > 0) {
+				if (isset($tabMetiers['tanneur'])) {
+					$tabMetiers['tanneur']['a_afficher'] = true;
 				}
 			}
 
-			if ($p["quantite_planche_laban"] > 0) {
-				if (isset($tabMetiers["menuisier"])) {
-					$tabMetiers["menuisier"]["a_afficher"] = true;
+			if ($p['quantite_planche_laban'] > 0) {
+				if (isset($tabMetiers['menuisier'])) {
+					$tabMetiers['menuisier']['a_afficher'] = true;
 				}
 			}
 
-			if ($p["quantite_rondin_laban"] > 0) {
-				if (isset($tabMetiers["bucheron"])) {
-					$tabMetiers["bucheron"]["a_afficher"] = true;
+			if ($p['quantite_rondin_laban'] > 0) {
+				if (isset($tabMetiers['bucheron'])) {
+					$tabMetiers['bucheron']['a_afficher'] = true;
 				}
 			}
 		}
@@ -201,41 +201,41 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		if ($tabLaban == null) {
 			$tabLaban = array(
-				"nb_peau" => 0,
-				"nb_cuir" => 0,
-				"nb_fourrure" => 0,
-				"nb_planche" => 0,
-				"nb_rondin" => 0,
-				"nb_viande" => 0, // remplit dans renderIngredient
-				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
+				'nb_peau' => 0,
+				'nb_cuir' => 0,
+				'nb_fourrure' => 0,
+				'nb_planche' => 0,
+				'nb_rondin' => 0,
+				'nb_viande' => 0, // remplit dans renderIngredient
+				'nb_viande_poids_unitaire' => 0, // remplit dans renderIngredient
 			);
 		}
 
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
-		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, array("niveau_type_rune", "nom_type_rune"), true);
+		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, array('niveau_type_rune', 'nom_type_rune'), true);
 		unset($labanRuneTable);
 
 		foreach ($runes as $r) {
-			if ($r["est_identifiee_rune"] == "oui") {
-				$tabRunesIdentifiees[$r["id_rune_laban_rune"]] = array(
-					"id_rune" => $r["id_rune_laban_rune"],
-					"type" => $r["nom_type_rune"],
-					"image" => $r["image_type_rune"],
-					"est_identifiee" => $r["est_identifiee_rune"],
-					"effet_type_rune" => $r["effet_type_rune"],
+			if ($r['est_identifiee_rune'] == 'oui') {
+				$tabRunesIdentifiees[$r['id_rune_laban_rune']] = array(
+					'id_rune' => $r['id_rune_laban_rune'],
+					'type' => $r['nom_type_rune'],
+					'image' => $r['image_type_rune'],
+					'est_identifiee' => $r['est_identifiee_rune'],
+					'effet_type_rune' => $r['effet_type_rune'],
 				);
 			} else {
-				$tabRunesNonIdentifiees[$r["id_rune_laban_rune"]] = array(
-					"id_rune" => $r["id_rune_laban_rune"],
-					"type" => $r["nom_type_rune"],
-					"image" => "rune_inconnue.png",
-					"est_identifiee" => $r["est_identifiee_rune"],
-					"effet_type_rune" => $r["effet_type_rune"],
-					"id_identification_braldun" => $r["id_braldun"],
-					"prenom_identification_braldun" => $r["prenom_braldun"],
-					"nom_identification_braldun" => $r["nom_braldun"],
+				$tabRunesNonIdentifiees[$r['id_rune_laban_rune']] = array(
+					'id_rune' => $r['id_rune_laban_rune'],
+					'type' => $r['nom_type_rune'],
+					'image' => 'rune_inconnue.png',
+					'est_identifiee' => $r['est_identifiee_rune'],
+					'effet_type_rune' => $r['effet_type_rune'],
+					'id_identification_braldun' => $r['id_braldun'],
+					'prenom_identification_braldun' => $r['prenom_braldun'],
+					'nom_identification_braldun' => $r['nom_braldun'],
 				);
 			}
 		}
@@ -288,11 +288,11 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanTabacTable);
 
 		foreach ($tabacs as $m) {
-			if ($m["quantite_feuille_laban_tabac"] > 0) {
+			if ($m['quantite_feuille_laban_tabac'] > 0) {
 				$tabTabac[] = array(
-					"type" => $m["nom_type_tabac"],
-					"id_type_tabac" => $m["id_type_tabac"],
-					"quantite" => $m["quantite_feuille_laban_tabac"],
+					'type' => $m['nom_type_tabac'],
+					'id_type_tabac' => $m['id_type_tabac'],
+					'quantite' => $m['quantite_feuille_laban_tabac'],
 				);
 			}
 		}
@@ -318,32 +318,25 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
-				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t['id_fk_partieplante'.$i.'_type_plante'] == $p['id_type_partieplante']) {
+						$val = true;
+					}
 				}
 
-				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
+				if (!isset($tabTypePlantes[$t['categorie_type_plante']][$t['nom_type_plante']])) {
 					$tab = array(
-						'nom_type_plante' => $t["nom_type_plante"],
-						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
-						'id_type_plante' => $t["id_type_plante"],
+						'nom_type_plante' => $t['nom_type_plante'],
+						'nom_systeme_type_plante' => $t['nom_systeme_type_plante'],
+						'id_type_plante' => $t['id_type_plante'],
 					);
-					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
+					$tabTypePlantes[$t['categorie_type_plante']][$t['nom_type_plante']] = $tab;
 				}
 
-				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
-				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
-				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
-				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
+				$tabTypePlantes[$t['categorie_type_plante']]['a_afficher'] = false;
+				$tabTypePlantes[$t['categorie_type_plante']]['type_plante'][$t['nom_type_plante']]['a_afficher'] = false;
+				$tabTypePlantes[$t['categorie_type_plante']]['type_plante'][$t['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['possible'] = $val;
+				$tabTypePlantes[$t['categorie_type_plante']]['type_plante'][$t['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['quantite'] = 0;
 			}
 		}
 		unset($typePartiePlantesRowset);
@@ -353,27 +346,27 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$tabTypePlantesPrepares = $tabTypePlantes;
 
 		foreach ($partiePlantes as $p) {
-			if ($p["quantite_laban_partieplante"] > 0) {
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_laban_partieplante"];
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
-				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
-				if (isset($tabMetiers["herboriste"])) {
-					$tabMetiers["herboriste"]["a_afficher"] = true;
+			if ($p['quantite_laban_partieplante'] > 0) {
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['a_afficher'] = true;
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['a_afficher'] = true;
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['quantite'] = $p['quantite_laban_partieplante'];
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['id_type_partieplante'] = $p['id_type_partieplante'];
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['estPreparee'] = false;
+				$tabTypePlantesBruts[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['poids'] = $p['quantite_laban_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
+				if (isset($tabMetiers['herboriste'])) {
+					$tabMetiers['herboriste']['a_afficher'] = true;
 				}
 			}
 
-			if ($p["quantite_preparee_laban_partieplante"] > 0) {
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_laban_partieplante"];
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
-				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
-				if (isset($tabMetiers["apothicaire"])) {
-					$tabMetiers["apothicaire"]["a_afficher"] = true;
+			if ($p['quantite_preparee_laban_partieplante'] > 0) {
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['a_afficher'] = true;
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['a_afficher'] = true;
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['quantite'] = $p['quantite_preparee_laban_partieplante'];
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['id_type_partieplante'] = $p['id_type_partieplante'];
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['estPreparee'] = true;
+				$tabTypePlantesPrepares[$p['categorie_type_plante']]['type_plante'][$p['nom_type_plante']]['parties'][$p['nom_systeme_type_partieplante']]['poids'] = $p['quantite_preparee_laban_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+				if (isset($tabMetiers['apothicaire'])) {
+					$tabMetiers['apothicaire']['a_afficher'] = true;
 				}
 			}
 		}
@@ -389,14 +382,14 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanEquipementTable);
 
-		Zend_Loader::loadClass("Bral_Util_Equipement");
+		Zend_Loader::loadClass('Bral_Util_Equipement');
 		$tabEquipements = Bral_Util_Equipement::prepareTabEquipements($equipements);
 
 		$tabRetour = null;
 		if ($tabEquipements != null) {
 			foreach($tabEquipements as $e) {
-				$tabRetour[$e["id_type_emplacement"]]["equipements"][] = $e;
-				$tabRetour[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["emplacement"];
+				$tabRetour[$e['id_type_emplacement']]['equipements'][] = $e;
+				$tabRetour[$e['id_type_emplacement']]['nom_type_emplacement'] = $e['emplacement'];
 			}
 		}
 
@@ -412,17 +405,17 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		$tabWhere = null;
 		foreach ($materiels as $e) {
-			$tabMateriels[$e["id_laban_materiel"]] = array(
-					"id_materiel" => $e["id_laban_materiel"],
-					'id_type_materiel' => $e["id_type_materiel"],
-					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
-					'nom' =>$e["nom_type_materiel"],
-					'capacite' => $e["capacite_type_materiel"], 
-					'durabilite' => $e["durabilite_type_materiel"], 
-					'usure' => $e["usure_type_materiel"], 
-					'poids' => $e["poids_type_materiel"], 
+			$tabMateriels[$e['id_laban_materiel']] = array(
+					'id_materiel' => $e['id_laban_materiel'],
+					'id_type_materiel' => $e['id_type_materiel'],
+					'nom_systeme_type_materiel' => $e['nom_systeme_type_materiel'],
+					'nom' =>$e['nom_type_materiel'],
+					'capacite' => $e['capacite_type_materiel'], 
+					'durabilite' => $e['durabilite_type_materiel'], 
+					'usure' => $e['usure_type_materiel'], 
+					'poids' => $e['poids_type_materiel'], 
 			);
-			$tabWhere[] = $e["id_laban_materiel"];
+			$tabWhere[] = $e['id_laban_materiel'];
 		}
 		unset($materiels);
 
@@ -438,9 +431,10 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		foreach ($munitions as $m) {
 			$tabMunitions[] = array(
-				"type" => $m["nom_type_munition"],
-				"quantite" => $m["quantite_laban_munition"],
-				"poids" =>  $m["quantite_laban_munition"] * Bral_Util_Poids::POIDS_MUNITION,
+				'id_type_munition' => $m['id_type_munition'],
+				'type' => $m['nom_type_munition'],
+				'quantite' => $m['quantite_laban_munition'],
+				'poids' =>  $m['quantite_laban_munition'] * Bral_Util_Poids::POIDS_MUNITION,
 			);
 		}
 		unset($munitions);
@@ -450,24 +444,24 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	}
 
 	private function renderPotion() {
-		Zend_Loader::loadClass("Bral_Util_Potion");
+		Zend_Loader::loadClass('Bral_Util_Potion');
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanPotionTable);
 
 		foreach ($potions as $p) {
-			$tabPotions[$p["id_laban_potion"]] = array(
-					"id_potion" => $p["id_laban_potion"],
-					"id_type_potion" => $p["id_type_potion"],
-					"nom" => $p["nom_type_potion"],
-					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_potion"],
-					"caracteristique" => $p["caract_type_potion"],
-					"bm_type" => $p["bm_type_potion"],
-					"caracteristique2" => $p["caract2_type_potion"],
-					"bm2_type" => $p["bm2_type_potion"],
-					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
+			$tabPotions[$p['id_laban_potion']] = array(
+					'id_potion' => $p['id_laban_potion'],
+					'id_type_potion' => $p['id_type_potion'],
+					'nom' => $p['nom_type_potion'],
+					'qualite' => $p['nom_type_qualite'],
+					'niveau' => $p['niveau_potion'],
+					'caracteristique' => $p['caract_type_potion'],
+					'bm_type' => $p['bm_type_potion'],
+					'caracteristique2' => $p['caract2_type_potion'],
+					'bm2_type' => $p['bm2_type_potion'],
+					'nom_type' => Bral_Util_Potion::getNomType($p['type_potion']),
 			);
 		}
 		unset($potions);
@@ -482,15 +476,15 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$aliments = $labanAlimentTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanAlimentTable);
 
-		Zend_Loader::loadClass("Bral_Util_Aliment");
+		Zend_Loader::loadClass('Bral_Util_Aliment');
 		foreach ($aliments as $p) {
-			$tabAliments[$p["id_laban_aliment"]] = array(
-					"id_aliment" => $p["id_laban_aliment"],
-					"id_type_aliment" => $p["id_type_aliment"],
-					"nom" => $p["nom_type_aliment"],
-					"qualite" => $p["nom_aliment_type_qualite"],
-					"bbdf" => $p["bbdf_aliment"],
-					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
+			$tabAliments[$p['id_laban_aliment']] = array(
+					'id_aliment' => $p['id_laban_aliment'],
+					'id_type_aliment' => $p['id_type_aliment'],
+					'nom' => $p['nom_type_aliment'],
+					'qualite' => $p['nom_aliment_type_qualite'],
+					'bbdf' => $p['bbdf_aliment'],
+					'recette' => Bral_Util_Aliment::getNomType($p['type_bbdf_type_aliment']),
 			);
 		}
 		unset($aliments);
@@ -506,12 +500,12 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanGraineTable);
 
 		foreach ($graines as $g) {
-			if ($g["quantite_laban_graine"] > 0) {
+			if ($g['quantite_laban_graine'] > 0) {
 				$tabGraines[] = array(
-					"type" => $g["nom_type_graine"],
-					"id_type_graine" => $g["id_type_graine"],
-					"quantite" => $g["quantite_laban_graine"],
-					"poids" => $g["quantite_laban_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
+					'type' => $g['nom_type_graine'],
+					'id_type_graine' => $g['id_type_graine'],
+					'quantite' => $g['quantite_laban_graine'],
+					'poids' => $g['quantite_laban_graine'] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
 				);
 			}
 		}
@@ -527,26 +521,26 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$ingredients = $labanIngredientTable->findByIdBraldun($this->view->user->id_braldun);
 		unset($labanIngredientTable);
 
-		Zend_Loader::loadClass("TypeIngredient");
+		Zend_Loader::loadClass('TypeIngredient');
 
 		foreach ($ingredients as $g) {
-			if ($g["quantite_laban_ingredient"] > 0) {
+			if ($g['quantite_laban_ingredient'] > 0) {
 
-				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
-					if (isset($tabMetiers["chasseur"])) {
-						$tabMetiers["chasseur"]["a_afficher"] = true;
+				if ($g['id_type_ingredient'] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
+					if (isset($tabMetiers['chasseur'])) {
+						$tabMetiers['chasseur']['a_afficher'] = true;
 					}
-					$tabLaban["nb_viande"] = $g["quantite_laban_ingredient"];
-					$tabLaban["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
+					$tabLaban['nb_viande'] = $g['quantite_laban_ingredient'];
+					$tabLaban['nb_viande_poids_unitaire'] = $g['poids_unitaire_type_ingredient'];
 				} else {
 					$tabIngredients[] = array(
-						"type" => $g["nom_type_ingredient"],
-						"id_type_ingredient" => $g["id_type_ingredient"],
-						"quantite" => $g["quantite_laban_ingredient"],
-						"poids" => $g["quantite_laban_ingredient"] * $g["poids_unitaire_type_ingredient"],
+						'type' => $g['nom_type_ingredient'],
+						'id_type_ingredient' => $g['id_type_ingredient'],
+						'quantite' => $g['quantite_laban_ingredient'],
+						'poids' => $g['quantite_laban_ingredient'] * $g['poids_unitaire_type_ingredient'],
 					);
-					if (isset($tabMetiers["cuisinier"])) {
-						$tabMetiers["cuisinier"]["a_afficher"] = true;
+					if (isset($tabMetiers['cuisinier'])) {
+						$tabMetiers['cuisinier']['a_afficher'] = true;
 					}
 				}
 			}

@@ -142,7 +142,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 		$champTable = new Champ();
 		$data = array(
-			'date_utilisation_champ' => date("Y-m-d H:i:s"),
+			'date_utilisation_champ' => date("Y-m-d 00:00:00"),
 		);
 
 		$where = 'id_champ='.$this->champ["id_champ"];

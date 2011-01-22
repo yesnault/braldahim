@@ -1,0 +1,61 @@
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPrix");?>
+<?php if (count($this->lots["lots"]) > 0) : ?>
+	<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
+
+	<?php echo $poches = null; ?>
+	<div id="cadre_lots">
+	<ul id="navigation" style="width:99%;text-align:left">
+		
+		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
+		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
+			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
+	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
+				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
+				- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				- <?php echo $lot["resume"]; ?>
+				</span>
+			</h3>
+			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
+				
+				<li> 
+				<?php if ($lot['echoppe'] != null) : ?>
+				Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe'] ?><br />
+				<?php endif;?> 
+				<?php if ($lot['sexe_braldun_vendeur'] == 'masculin') : ?>
+					Vendeur : 
+				<?php else: ?>
+					Vendeuse : 
+				<?php endif;?>
+				
+				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
+					<hr style="width:50%"/><br />
+				</li>
+				
+				<li> Commentaire du vendeur :
+					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
+					<hr style="width:50%"/><br />
+				</li>
+				<li>
+					<?php include("lot.phtml") ?><br />
+				</li>
+			</ul>
+		</li>
+		<?php endforeach;?>
+	</ul>
+	
+	<?php 
+	$jsFermer = "";
+	$jsOuvrir = "";
+	foreach ($poches as $p) :
+		$jsFermer .= "maccordion_fermer($('$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+	endforeach; ?>
+	   
+	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
+	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
+	</div>
+
+<?php else: ?>
+	<i>Rien en vente</i>
+<?php endif;?>

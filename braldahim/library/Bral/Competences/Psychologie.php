@@ -116,6 +116,8 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 				$where = "id_braldun = ".$braldun["id_braldun"];
 				$braldunTable->update($data, $where);
 			}
+			
+			$this->view->okJet1 = true;
 		}
 
 		$this->view->psychologieOk = $psychologieOk;

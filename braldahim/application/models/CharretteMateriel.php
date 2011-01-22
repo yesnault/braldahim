@@ -9,6 +9,10 @@ class CharretteMateriel extends Zend_Db_Table {
 	protected $_name = 'charrette_materiel';
 	protected $_primary = array('id_charrette_materiel');
 
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
+
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();

@@ -224,7 +224,7 @@ class Lieu extends Zend_Db_Table {
 		->order(array('distance ASC'));
 
 		if ($estSoule != null) {
-			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+			$select->where('lieu.est_soule_lieu = ?', $estSoule);
 		}
 
 		$sql = $select->__toString();

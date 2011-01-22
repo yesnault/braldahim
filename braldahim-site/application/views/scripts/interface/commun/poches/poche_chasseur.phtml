@@ -1,0 +1,31 @@
+<table class="table_liste" style="width:auto; padding:5px;" >
+	<thead class="table_liste">
+		<tr class="table_liste">
+			<th style="width:auto; padding:5px;">&nbsp;</th>
+			<th style="width:auto; padding:5px;">Peaux</th>
+			<th style="width:auto; padding:5px;">Viandes fra&icirc;ches</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Quantit&eacute;</td>
+			<td class="table_liste" valign="bottom">
+			<?php echo $this->laban["nb_peau"] ?>
+			<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/elements/peau.png' alt='peau'/>
+			</td>
+			<td class="table_liste" valign="bottom">
+			<?php echo $this->laban["nb_viande"] ?>
+			<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_ingredient/type_ingredient_8.png' alt='viande_fraiche'/>
+			</td>
+		</tr>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?php echo Bral_Util_Poids::POIDS_PEAU?> Kg">
+			<?php echo ($this->laban["nb_peau"] * Bral_Util_Poids::POIDS_PEAU) ?> Kg
+			</td>
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?php echo Bral_Util_Poids::POIDS_VIANDE?> Kg">
+			<?php echo ($this->laban["nb_viande"] * $this->laban["nb_viande_poids_unitaire"]) ?> Kg
+			</td>
+		</tr>
+	</tbody>
+</table>

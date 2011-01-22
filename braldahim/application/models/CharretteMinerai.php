@@ -1,13 +1,17 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class CharretteMinerai extends Zend_Db_Table {
 	protected $_name = 'charrette_minerai';
 	protected $_primary = array('id_fk_braldun_charrette_minerai', 'id_fk_type_charrette_minerai');
+
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
@@ -24,7 +28,7 @@ class CharretteMinerai extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('charrette_minerai', 'count(*) as nombre, 
+		$select->from('charrette_minerai', 'count(*) as nombre,
 		quantite_brut_charrette_minerai as quantiteBrut, 
 		quantite_lingots_charrette_minerai as quantiteLingots')
 		->where('id_fk_type_charrette_minerai = ?',$data["id_fk_type_charrette_minerai"])
@@ -39,20 +43,20 @@ class CharretteMinerai extends Zend_Db_Table {
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrut = $resultat[0]["quantiteBrut"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
-			
+				
 			$dataUpdate['quantite_brut_charrette_minerai']  = $quantiteBrut;
 			$dataUpdate['quantite_lingots_charrette_minerai']  = $quantiteLingots;
-			
+				
 			if (isset($data["quantite_brut_charrette_minerai"])) {
 				$dataUpdate['quantite_brut_charrette_minerai'] = $quantiteBrut + $data["quantite_brut_charrette_minerai"];
 			}
 			if (isset($data["quantite_lingots_charrette_minerai"])) {
 				$dataUpdate['quantite_lingots_charrette_minerai'] = $quantiteLingots + $data["quantite_lingots_charrette_minerai"];
 			}
-			
+				
 			$where = ' id_fk_type_charrette_minerai = '.$data["id_fk_type_charrette_minerai"];
 			$where .= ' AND id_fk_charrette_minerai = '.$data["id_fk_charrette_minerai"];
-			
+				
 			if ($dataUpdate['quantite_brut_charrette_minerai'] <= 0 && $dataUpdate['quantite_lingots_charrette_minerai'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

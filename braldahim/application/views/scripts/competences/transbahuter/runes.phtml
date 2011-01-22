@@ -8,7 +8,7 @@
 			<ul id="deposer_runes-body" style="display:none">
 				<li>
 					Choississez une rune (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
-					<select multiple size="5" name="valeur_14" id="valeur_14" onchange="<?php echo $jsBtn?>">
+					<select multiple size="5" name="valeur_21" id="valeur_21" onchange="<?php echo $jsBtn?>">
 						 <?php foreach($this->runes as $r) :?>
 						 	<option value="<?php echo $r["id_rune"]?>">Rune n&deg;<?php echo $r["id_rune"] ?>, 
 						 	<?php if ($r["est_identifiee"] == "oui") : ?>
@@ -25,8 +25,8 @@
 		</li>
 	</ul>
 <?php else : ?>
-	<input type='hidden' maxlength='4' size='4' name='valeur_14' id='valeur_14' value='0' />
-	<input type='hidden' maxlength='4' size='4' name='valeur_14_max' id='valeur_14_max' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_21' id='valeur_21' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_21_max' id='valeur_21_max' value='0' />
 <?php endif; ?>
-<input type='hidden' maxlength='4' size='4' name='valeur_14_poids' id='valeur_14_poids' value='<?php echo Bral_Util_Poids::POIDS_RUNE ?>' >
-<input type='hidden' maxlength='4' size='4' name='valeur_14_echoppe' id='valeur_14_echoppe' value='non' >
+<input type='hidden' maxlength='4' size='4' name='valeur_21_poids' id='valeur_21_poids' value='<?php echo Bral_Util_Poids::POIDS_RUNE ?>' >
+<input type='hidden' maxlength='4' size='4' name='valeur_21_echoppe' id='valeur_21_echoppe' value='non' >

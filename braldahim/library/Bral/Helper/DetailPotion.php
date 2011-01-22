@@ -45,7 +45,7 @@ class Bral_Helper_DetailPotion {
 			$text .= ".<br />";
 		}
 		if ($p["bm2_type"] != null || $p["bm_type"] == null) {
-			$text .= "<br />Ce vernis est à appliquer sur une pièce d\'équipement.";
+			$text .= "<br />Ce vernis est à appliquer sur une pièce d'équipement.";
 		}
 		$text .= "<br />";
 		 

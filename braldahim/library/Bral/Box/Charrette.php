@@ -423,6 +423,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		foreach ($munitions as $m) {
 			$tabMunitions[] = array(
+				'id_type_munition' => $m['id_type_munition'],
 				"type" => $m["nom_type_munition"],
 				"quantite" => $m["quantite_charrette_munition"],
 				"poids" =>  $m["quantite_charrette_munition"] * Bral_Util_Poids::POIDS_MUNITION,

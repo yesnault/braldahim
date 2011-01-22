@@ -14,7 +14,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 	protected $_name = 'echoppe_equipement';
 	protected $_primary = "id_echoppe_equipement";
 
-	public function findByIdEchoppe($idEchoppe, $typeVente = null, $idEquipement = null) {
+	public function findByIdEchoppe($idEchoppe, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_equipement', '*')
@@ -35,9 +35,6 @@ class EchoppeEquipement extends Zend_Db_Table {
 		->where('id_fk_echoppe_echoppe_equipement = ?', $idEchoppe)
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order(array('nom_type_emplacement ASC', 'nom_type_equipement ASC', 'niveau_recette_equipement ASC', 'id_type_qualite ASC'));
-		if ($typeVente != null) {
-			$select->where('type_vente_echoppe_equipement like ?', $typeVente);
-		}
 
 		if ($idEquipement != null) {
 			$select->where('id_equipement = ?', intval($idEquipement));

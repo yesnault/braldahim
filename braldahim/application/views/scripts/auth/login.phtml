@@ -1,7 +1,13 @@
 <?php echo $this->render('header.phtml'); ?> 
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
 <div id="wrapper">
-<br/><br/><br/>
+
+<br/><br/>
+<?php if (!Zend_Registry::get("estWork")) : ?>
+<?php include("chronologie.phtml")?>
+<?php endif;?>
+
+<br/><br/>
 <table width="100%">
 <tr>
 <td width="33%" valign="top" align="center"><?php include("gazette.phtml") ?><br/></td>

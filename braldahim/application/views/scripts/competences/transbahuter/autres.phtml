@@ -11,81 +11,81 @@
 				<?php if ($this->autres["nb_castar"] > 0): ?>
 					Castar : <?php echo $this->autres["nb_castar"] ?><?php echo $this->autres["info_castar"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_castar"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_4_max' id='valeur_4_max' value='<?php echo $this->autres["nb_castar"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_11' id='valeur_11' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_castar"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_11_max' id='valeur_11_max' value='<?php echo $this->autres["nb_castar"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_4_max' id='valeur_4_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_4' id='valeur_4' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_11_max' id='valeur_11_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_11' id='valeur_11' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_4_poids' id='valeur_4_poids' value='<?php echo Bral_Util_Poids::POIDS_CASTARS ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_4_echoppe' id='valeur_4_echoppe' value='non' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_11_poids' id='valeur_11_poids' value='<?php echo Bral_Util_Poids::POIDS_CASTARS ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_11_echoppe' id='valeur_11_echoppe' value='non' />
 				<?php if ($this->autres["nb_peau"] > 0): ?>
 					Peau : <?php echo $this->autres["nb_peau"] ?><?php echo $this->autres["info_peau"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_5_max' id='valeur_5_max' value='<?php echo $this->autres["nb_peau"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_12' id='valeur_12' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_12_max' id='valeur_12_max' value='<?php echo $this->autres["nb_peau"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_5_max' id='valeur_5_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_5' id='valeur_5' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_12_max' id='valeur_12_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_12' id='valeur_12' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_5_poids' id='valeur_5_poids' value='<?php echo Bral_Util_Poids::POIDS_PEAU ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_5_echoppe' id='valeur_5_echoppe' value='oui' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_12_poids' id='valeur_12_poids' value='<?php echo Bral_Util_Poids::POIDS_PEAU ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_12_echoppe' id='valeur_12_echoppe' value='oui' />
 				<?php if ($this->autres["nb_cuir"] > 0): ?>
 					Cuir : <?php echo $this->autres["nb_cuir"] ?><?php echo $this->autres["info_cuir"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_6_max' id='valeur_6_max' value='<?php echo $this->autres["nb_cuir"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_13' id='valeur_13' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0};<?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_13_max' id='valeur_13_max' value='<?php echo $this->autres["nb_cuir"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_6_max' id='valeur_6_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_6' id='valeur_6' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_13_max' id='valeur_13_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_13' id='valeur_13' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_6_poids' id='valeur_6_poids' value='<?php echo Bral_Util_Poids::POIDS_CUIR ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_6_echoppe' id='valeur_6_echoppe' value='oui' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_13_poids' id='valeur_13_poids' value='<?php echo Bral_Util_Poids::POIDS_CUIR ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_13_echoppe' id='valeur_13_echoppe' value='oui' />
 				<?php if ($this->autres["nb_fourrure"] > 0): ?>
 					Fourrure : <?php echo $this->autres["nb_fourrure"] ?><?php echo $this->autres["info_fourrure"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_7' id='valeur_7' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_7_max' id='valeur_7_max' value='<?php echo $this->autres["nb_fourrure"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_14' id='valeur_14' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_14_max' id='valeur_14_max' value='<?php echo $this->autres["nb_fourrure"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_7_max' id='valeur_7_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_7' id='valeur_7' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_14_max' id='valeur_14_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_14' id='valeur_14' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_7_poids' id='valeur_7_poids' value='<?php echo Bral_Util_Poids::POIDS_FOURRURE ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_7_echoppe' id='valeur_7_echoppe' value='oui' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_14_poids' id='valeur_14_poids' value='<?php echo Bral_Util_Poids::POIDS_FOURRURE ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_14_echoppe' id='valeur_14_echoppe' value='oui' />
 				<?php if ($this->autres["nb_planche"] > 0): ?>
 					Planche : <?php echo $this->autres["nb_planche"] ?><?php echo $this->autres["info_planche"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_8' id='valeur_8' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_8_max' id='valeur_8_max' value='<?php echo $this->autres["nb_planche"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_15' id='valeur_15' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_15_max' id='valeur_15_max' value='<?php echo $this->autres["nb_planche"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_8_max' id='valeur_8_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_8' id='valeur_8' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_15_max' id='valeur_15_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_15' id='valeur_15' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_8_poids' id='valeur_8_poids' value='<?php echo Bral_Util_Poids::POIDS_PLANCHE ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_8_echoppe' id='valeur_8_echoppe' value='oui' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_15_poids' id='valeur_15_poids' value='<?php echo Bral_Util_Poids::POIDS_PLANCHE ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_15_echoppe' id='valeur_15_echoppe' value='oui' />
 				<?php if ($this->autres["nb_rondin"] > 0): ?>
 					Rondin : <?php echo $this->autres["nb_rondin"] ?><?php echo $this->autres["info_rondin"]?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='5' size='5' name='valeur_9' id='valeur_9' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_rondin"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
-					<input type='hidden' maxlength='5' size='5' name='valeur_9_max' id='valeur_9_max' value='<?php echo $this->autres["nb_rondin"] ?>' />
+					<input type='text' maxlength='5' size='5' name='valeur_16' id='valeur_16' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $this->autres["nb_rondin"]?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+					<input type='hidden' maxlength='5' size='5' name='valeur_16_max' id='valeur_16_max' value='<?php echo $this->autres["nb_rondin"] ?>' />
 					<br />
 				<?php else : ?>
-					<input type='hidden' maxlength='5' size='5' name='valeur_9_max' id='valeur_9_max' value='0' />
-					<input type='hidden' maxlength='5' size='5' name='valeur_9' id='valeur_9' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_16_max' id='valeur_16_max' value='0' />
+					<input type='hidden' maxlength='5' size='5' name='valeur_16' id='valeur_16' value='0' />
 				<?php endif; ?>
-				<input type='hidden' maxlength='5' size='5' name='valeur_9_poids' id='valeur_9_poids' value='<?php echo Bral_Util_Poids::POIDS_RONDIN ?>' />
-				<input type='hidden' maxlength='5' size='5' name='valeur_9_echoppe' id='valeur_9_echoppe' value='oui' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_16_poids' id='valeur_16_poids' value='<?php echo Bral_Util_Poids::POIDS_RONDIN ?>' />
+				<input type='hidden' maxlength='5' size='5' name='valeur_16_echoppe' id='valeur_16_echoppe' value='oui' />
 				</li>
 			</ul>
 		</li>
 	</ul>
 <?php else : ?>
-	<?php for ($i=4 ; $i <= 9 ; $i++) : ?>
+	<?php for ($i=11 ; $i <= 16 ; $i++) : ?>
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>_max' id='valeur_<?php echo $i?>_max' value='0' />
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>_poids' id='valeur_<?php echo $i?>_poids' value='0' />
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>' id='valeur_<?php echo $i?>' value='0' />
@@ -94,7 +94,7 @@
 <?php endif; ?>
 <?php 
 //anciennement utilise par la viande et la viande preparee
-for ($i=10 ; $i <= 11 ; $i++) : ?>
+for ($i=17 ; $i <= 18 ; $i++) : ?>
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>_max' id='valeur_<?php echo $i?>_max' value='0' />
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>_poids' id='valeur_<?php echo $i?>_poids' value='0' />
 		<input type='hidden' maxlength='5' size='5' name='valeur_<?php echo $i?>' id='valeur_<?php echo $i?>' value='0' />

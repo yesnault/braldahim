@@ -21,7 +21,10 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		/*$this->correctionCoffre();
+		
+		/*
+		 * $this->jourYuleAction();
+		 * $this->correctionCoffre();
 		 $this->ajoutCompetence();
 		 $this->eauCreation(-10);
 		 $this->eauCreation(-11);
@@ -207,10 +210,10 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 		}
 
-		//$this->message();
+		$this->messageBiereDuMilieuAction();
 	}
 
-	private function message() {
+	private function messageBiereDuMilieuAction() {
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
@@ -226,6 +229,85 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
 			
+	}
+
+	// le 31 décembre
+	function jourYuleAction() {
+		
+		return;
+		
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+
+		Zend_Loader::loadClass("ElementAliment");
+		$elementAlimentTable = new ElementAliment();
+
+		Zend_Loader::loadClass("IdsAliment");
+		$idsAliment = new IdsAliment();
+
+		Zend_Loader::loadClass('Aliment');
+		$alimentTable = new Aliment();
+
+		Zend_Loader::loadClass("LabanAliment");
+		$labanTable = new LabanAliment();
+
+		Zend_Loader::loadClass("TypeAliment");
+		Zend_Loader::loadClass("Bral_Util_Effets");
+			
+		foreach ($bralduns as $h) {
+
+			$idAliment = $idsAliment->prepareNext();
+
+			$idEffetBraldun = null;
+
+			$idTypeAliment = TypeAliment::ID_TYPE_STOUT;
+			$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, Bral_Util_Effets::CARACT_STOUT, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), 0, 'Lovely day for a Special Yule Stout !');
+
+			$data = array(
+				"id_aliment" => $idAliment,
+				"id_fk_type_aliment" => $idTypeAliment,
+				"id_fk_type_qualite_aliment" => 2,
+				"bbdf_aliment" => 0,
+				"id_fk_effet_braldun_aliment" => $idEffetBraldun,
+			);
+			$alimentTable->insert($data);
+
+			$data = null;
+			$data["id_fk_braldun_laban_aliment"] = $h["id_braldun"];
+			$data['id_laban_aliment'] = $idAliment;
+			$labanTable->insert($data);
+
+			$data = null;
+			$data["balance_faim_braldun"] = 100;
+			$where = "id_braldun=".$h["id_braldun"];
+			$braldunTable->update($data, $where);
+
+		}
+
+		$this->messageJourYuleAction();
+		echo "FIN jourYuleAction";
+	}
+
+	private function messageJourYuleAction() {
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+
+		foreach ($bralduns as $h) {
+			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui Yule !";
+			$detailsBot .= PHP_EOL."Je vous invite à boire un coup pour fêter cette fin d'année et la nouvelle année qui commence.".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Hum, je vois que vous avez déjà mangé correctement. Jetez-donc un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			
+			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=588#p5859]Retrouvez plus d'informations sur le forum.[/url]".PHP_EOL.PHP_EOL;
+			
+			$detailsBot .= "A la votre,";
+
+			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
+
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
+		}
+			
+		echo "FIN messageJourYuleAction";
 	}
 
 	function md5Action() {

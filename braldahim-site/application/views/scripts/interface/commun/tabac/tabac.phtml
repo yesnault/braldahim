@@ -1,0 +1,27 @@
+<?php 
+Zend_Loader::loadClass('Bral_Helper_Contenu');
+Zend_Loader::loadClass('Bral_Helper_ChampBoutique');
+?>
+<?php if (count($this->tabac) == 0) : ?>
+   <center><i>vide</i></center>
+<?php else : ?>
+    <table class="table_liste" style="width:auto; padding:5px;" >
+		<thead class="table_liste">
+		  <tr class="table_liste">
+		  	<?php foreach ($this->tabac as $m) :  ?>
+			<th style="width:auto; padding:5px;" ><?php echo htmlspecialchars($m["type"])?></th>
+			<?php endforeach; ?>
+		  </tr>
+		</thead>
+		<tbody>
+			<tr class="table_liste">
+			<?php foreach ($this->tabac as $m) : ?>
+			 	<td class="table_liste">
+			 		<?php echo Bral_Helper_Contenu::afficheTabac($m)?>
+			 	</td>
+			<?php endforeach; ?>
+			</tr>
+		</tbody>
+	</table>
+<?php endif; ?>
+<br />

@@ -14,12 +14,12 @@ class EchoppeMinerai extends Zend_Db_Table {
 	protected $_name = 'echoppe_minerai';
 	protected $_primary = array('id_fk_echoppe_echoppe_minerai', 'id_fk_type_echoppe_minerai');
 
-	function findByIdEchoppe($id_echoppe) {
+	function findByIdEchoppe($idEchoppe) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_minerai', '*')
 		->from('type_minerai', '*')
-		->where('id_fk_echoppe_echoppe_minerai = '.intval($id_echoppe))
+		->where('id_fk_echoppe_echoppe_minerai = ?', intval($idEchoppe))
 		->where('echoppe_minerai.id_fk_type_echoppe_minerai = type_minerai.id_type_minerai');
 		$sql = $select->__toString();
 

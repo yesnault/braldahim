@@ -15,7 +15,7 @@ $disabled = "disabled" ;
 <?php endif; ?>
 <?php endif; ?>
 <?php foreach($this->competences as $c) : ?>
-	<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+	<?php if ($this->user->pa_braldun >= $c["pa_utilisation"] && $this->estSurEchoppe === true) : 
       $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
     else:
       $attr = " disabled ";
@@ -23,19 +23,30 @@ $disabled = "disabled" ;
     <input type="button" class='button1' value="<?php echo $c["pa_texte"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
 <?php endforeach; ?>
 
-<?php if ($this->estSurEchoppe === true): 
-  		$disabled = "";
-	   else: 
-  		$disabled = "disabled" ;
-  	   endif;
-  	?>
-<?php if ($this->user->pa_braldun >= 1) : 
-  $attr = "onclick='_get_(\"/hotel/doaction?caction=ask_hotel_vendre&valeur_1=1\");'";
-else:
+<?php 
+$attr = "";
+if ($this->user->pa_braldun <= 0) : 
   $attr = " disabled ";
+endif;
+
+if ($this->equipementsArriereBoutique == null && $this->potionsArriereBoutique == null
+		&& $this->munitionsArriereBoutique == null && $this->materielsArriereBoutique == null && $this->alimentsArriereBoutique == null) : 
+		$attr = " disabled ";
 endif;?>
 
-<input type="button" class='button1' value="1 PA - Mettre en vente à l'Hôtel des Ventes" <?php echo $attr?> <?php echo $disabled?>>
+<?php if ($this->estSurEchoppe !== true): 
+  		$attr = "disabled" ; ?>
+<?php endif; ?>
+  	
+<?php if ($this->user->activation !== true) :
+  		$attr = "disabled" ; ?>
+<?php endif; ?>
+  	
+<br />
+<input type="button" class='button1' value="1 PA - Transbahuter - Atelier" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=7')" <?php echo $attr?>/>
+
+<input type="button" class='button1' value="1 PA - Mettre en vente sur l'étal" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=7&valeur_2=8')" <?php echo $attr?>/>
+<input type="button" class='button1' value="1 PA - Mettre en vente à l'Hôtel des Ventes" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=7&valeur_2=9')" <?php echo $attr?>/>
 
 <br /><br />
 
@@ -45,6 +56,11 @@ endif;?>
   <br /><br />
 <?php endif?>
   	
+<?php if ($this->afficheTypeMunitions) :?>
+	<div class="titre textalic textsized">Munitions cr&eacute;&eacute;es</div>
+	<?php include("atelier_munitions.phtml") ?>
+<?php endif;?>
+
 <?php if ($this->afficheType == "equipements") :?>
 	<div class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</div>
 	<?php include("atelier_equipements.phtml") ?>

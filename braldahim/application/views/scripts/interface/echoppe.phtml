@@ -11,25 +11,7 @@
  		<div class="box_contenu1 textalic">
 			<br /><br /><br />
 			
-			<?php if ($this->afficheType == "equipements" || $this->afficheType == "potions") :?>
-				<?php $this->materiels = $this->materielsEtal; ?>
-				<?php $this->idMaterielsTable = false; ?>
-				<?php echo $this->render("/interface/commun/materiels/materiels.phtml"); ?>
-				<br /><br />
-			<?php endif;?>
-			<?php if ($this->afficheType == "equipements") :?>
-				<?php $this->equipements = $this->equipementsEtal; ?>
-				<?php $this->idEquipementsTable = false; ?>
-				<?php echo $this->render("/interface/commun/equipements/equipements.phtml"); ?>
-			<?php elseif ($this->afficheType == "potions") :?>
-				<?php $this->potions = $this->potionsEtal; ?>
-				<?php $this->idPotionsTable = $this->idPotionsEtalTable; ?>
-				<?php echo $this->render("/interface/commun/potions/potions.phtml"); ?>
-			<?php elseif ($this->afficheType == "aliments") :?>
-				<?php $this->aliments = $this->alimentsEtal; ?>
-				<?php $this->idAlimentsTable = false; ?>
-				<?php echo $this->render("/interface/commun/aliments/aliments.phtml"); ?>
-			<?php endif; ?>
+			<?php echo $this->render("/interface/commun/lots.phtml"); ?>
 			
 			<br />
  		</div>

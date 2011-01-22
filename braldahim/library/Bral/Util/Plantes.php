@@ -27,18 +27,10 @@ class Bral_Util_Plantes {
 			foreach($typePartiePlantesRowset as $p) {
 				$val = false;
 				$idChamp = "";
-
-				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
-				}
-				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
-					$val = true;
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t["id_fk_partieplante".$i."_type_plante"] == $p["id_type_partieplante"]) {
+						$val = true;
+					}
 				}
 
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]."-".$p["nom_type_partieplante"]]) && $val == true) {

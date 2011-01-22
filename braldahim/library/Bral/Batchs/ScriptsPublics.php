@@ -25,6 +25,7 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierPlantes();
 		$retour .= $this->genereFichierEnvironnements();
 		$retour .= $this->genereFichierZones();
+		$retour .= $this->genereFichierLots();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -435,7 +436,6 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 
-		$tabPartiePlantesCaisse = null;
 		$tabPartiePlantesPreparees = null;
 		$tabPartiePlantesBruts = null;
 
@@ -551,4 +551,141 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
+	private function genereFichierLots() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierLots - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+		Zend_Loader::loadClass("Bral_Util_Lot");
+
+		$lots = Bral_Util_Lot::getLotsForCsv();
+
+		$excludes = array(
+			'equipements',
+			'materiels',
+			'aliments',
+			'elements',
+			'potions',
+			'ingredients',
+			'runes_non_identifiees',
+			'runes_identifiees'	,
+			'munitions',
+			'graines',
+			'minerais_bruts',
+			'minerais_lingots',
+			'partiesplantes_brutes',
+			'partiesplantes_preparees',
+			'partiesplantes_brutes_csv',
+			'partiesplantes_preparees_csv',
+		//'commentaire_lot',
+		);
+
+		$initFichiers = array();
+
+		foreach($excludes as $champ) {
+			Bral_Util_Fichier::ecrire($this->config->fichier->liste_lots.'_'.str_replace('_csv', '', $champ).'.csv', '');
+		}
+
+		$contenu = '';
+
+		if (count($lots) == 0) {
+			$contenu .= 'AUCUN_LOT'.PHP_EOL;
+		} else {
+
+			$init = false;
+
+			foreach($lots as $lot) {
+				if (!$init) { // entête du fichier lots.csv
+					foreach($lot as $champ => $valeur) {
+						if (!in_array($champ, $excludes))  {
+							$contenu .= $champ.';';
+						}
+					}
+					$contenu .= PHP_EOL;
+					$init = true;
+				}
+
+				foreach($lot as $champ => $valeur) {
+					if (!in_array($champ, $excludes))  {
+						$contenu .= preg_replace('/\n/', '', nl2br($valeur)).';';
+					} else {
+						if ($champ == "partiesplantes_brutes" || $champ == "partiesplantes_preparees") continue;
+						$this->genereFichierContenuLots($lot, $lot["id_lot"], $champ, $this->config->fichier->liste_lots.'_'.str_replace('_csv', '', $champ).'.csv', $initFichiers);
+					}
+				}
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_lots.'.csv', $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierLots - exit -");
+		return $retour;
+	}
+
+	private function genereFichierContenuLots($lot, $idLot, $type, $fichier, &$initFichiers) {
+		
+		$lignes = $lot[$type];
+		if (count($lignes) <= 0) {
+			return;
+		}
+
+		$contenu = '';
+					
+		if (!in_array($fichier, $initFichiers))  { // entête
+			$contenu = 'id_lot;';
+			foreach($lignes as $k => $ligne) {
+				if ($type == 'elements') {
+					$contenu .= $k.';';
+				} else {
+					if ($type == "equipements") {
+						$equipementTitres = $ligne[$type][0];
+						foreach($equipementTitres as $champ => $valeur) {
+							if (!is_array($valeur)) {
+								$contenu .= $champ.';';
+							}
+						}
+					} else {
+						foreach($ligne as $champ => $valeur) {
+							$contenu .= $champ.';';
+						}
+					}
+					break;
+				}
+			}
+			$contenu .= PHP_EOL;
+			$initFichiers[] = $fichier;
+		}
+
+		if ($type == 'elements') {
+			$contenu .= $idLot.';';
+		}
+
+		foreach($lignes as $k => $ligne) {
+
+			if ($type == 'elements') {
+				$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($ligne))).';';
+			} else {
+				$contenu .= $idLot.';';
+				foreach($ligne as $champ => $valeur) {
+					if (!is_array($valeur) && $champ != "nom_type_emplacement") {
+						$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($valeur))).';';
+					} else if ($champ == "equipements") {
+						$equipementValeurs = $ligne[$champ][0];
+						foreach($equipementValeurs as $champ => $valeur) {
+							if (!is_array($valeur)) {
+								$contenu .= str_replace(';', '', preg_replace('/\n/', '', nl2br($valeur))).';';
+							}
+						}
+					}
+				}
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		if ($type == 'elements') {
+			$contenu .= PHP_EOL;
+		}
+
+		Bral_Util_Fichier::ecrire($fichier, $contenu, 'a+');
+	}
 }

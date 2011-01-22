@@ -1,13 +1,17 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class CoffrePotion extends Zend_Db_Table {
 	protected $_name = 'coffre_potion';
 	protected $_primary = array('id_coffre_potion');
+
+	function findByIdConteneur($idCoffre) {
+		return $this->findByIdCoffre($idCoffre);
+	}
 
 	function findByIdCoffre($idCoffre) {
 		$db = $this->getAdapter();

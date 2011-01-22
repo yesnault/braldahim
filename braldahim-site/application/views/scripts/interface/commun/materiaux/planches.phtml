@@ -1,0 +1,23 @@
+<table class="table_liste" style="width:auto; padding:5px;" >
+	<thead class="table_liste">
+		<tr class="table_liste">
+			<th style="width:auto; padding:5px;">&nbsp;</th>
+			<th style="width:auto; padding:5px;">Planches</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Quantit&eacute;</td>
+			<td class="table_liste" valign="bottom">
+			<?php echo $this->nb_planches ?>
+			<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/elements/planche.png' alt='planche'/>
+			</td>
+		</tr>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?php echo Bral_Util_Poids::POIDS_PLANCHE?> Kg">
+			<?php echo ($this->nb_planches*Bral_Util_Poids::POIDS_PLANCHE) ?> Kg
+			</td>
+		</tr>
+	</tbody>
+</table>

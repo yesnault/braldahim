@@ -1,7 +1,0 @@
-<?php foreach($e["objet"] as $a) : ?>
-<div class='braltip'>
-<?php echo Bral_Helper_DetailRune::afficherTooltip($a);?>
-<img src="<?php echo $this->config->static->url?>/images/runes/<?php echo $a["image"]?>" class="rune">n°<?php echo $a["id_rune"] ?> <?php echo $a["nom"] ?>
-</div>
-<br />
-<?php endforeach;?>

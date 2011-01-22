@@ -9,6 +9,10 @@ class LabanEquipement extends Zend_Db_Table {
 	protected $_name = 'laban_equipement';
 	protected $_primary = array('id_laban_equipement');
 
+	function findByIdConteneur($id_braldun) {
+		return $this->findByIdBraldun($id_braldun);
+	}
+
 	function findByIdBraldun($idBraldun, $idEquipement = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

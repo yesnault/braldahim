@@ -1,6 +1,0 @@
-<div class='braltip'>
-<?php echo Bral_Helper_DetailEquipement::afficherTooltip($e["objet"]);?>
-<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_equipement/type_equipement_<?php echo $e["objet"]["id_type_equipement"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"  />
-</div>
-<br />
-<?php echo $e["objet"]["nom"]." ".addslashes($e["objet"]["suffixe"])." de qualit&eacute; ".$e["objet"]["qualite"] ?>

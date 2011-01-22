@@ -9,6 +9,9 @@ class CharrettePartage extends Zend_Db_Table {
 	protected $_name = 'charrette_partage';
 	protected $_primary = array('id_fk_charrette_partage', 'id_fk_braldun_charrette_partage');
 
+	function findByIdConteneur($idCharrette) {
+		return $this->findByIdCharrette($idCharrette);
+	}
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
@@ -21,7 +24,7 @@ class CharrettePartage extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByIdCharretteAndIdBraldun($idCharrette, $idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -32,5 +35,5 @@ class CharrettePartage extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 }

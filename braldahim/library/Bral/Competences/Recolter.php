@@ -299,7 +299,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 				'deja_recolte_champ' => 'non',
 			//'id_fk_type_graine_champ' => null, ==> on ne vide pas, c'est utile pour le % quantité à la prochaine action semer
 				'quantite_champ' => 0,
-				'date_utilisation_champ' => date("Y-m-d H:i:s"),
+				'date_utilisation_champ' => date("Y-m-d 00:00:00"),
 			);
 
 			$where = 'id_champ='.$this->view->champ["id_champ"];
@@ -314,7 +314,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			$data = array(
 				'quantite_champ' => $this->view->champ["quantite_champ"],
 				'deja_recolte_champ' => 'oui',
-				'date_utilisation_champ' => date("Y-m-d H:i:s"),
+				'date_utilisation_champ' => date("Y-m-d 00:00:00"),
 			);
 
 			$where = 'id_champ='.$this->view->champ["id_champ"];

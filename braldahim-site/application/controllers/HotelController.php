@@ -21,31 +21,12 @@ class HotelController extends Zend_Controller_Action {
 
 	function indexAction() {
 		Zend_Loader::loadClass("Bral_Hotel_Factory");
-		$box = Bral_Hotel_Factory::getBox($this->_request, $this->view);
+		Zend_Loader::loadClass("Bral_Util_Poids");
 		
+		$box = Bral_Hotel_Factory::getBox($this->_request, $this->view);
+
 		$this->view = $box->getPreparedView();
+
 		$this->render();
 	}
-
-	function loadAction() {
-		Zend_Loader::loadClass("Bral_Xml_Response");
-		Zend_Loader::loadClass("Bral_Xml_Entry");
-		
-		Zend_Loader::loadClass("Bral_Hotel_Factory");
-
-		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
-		Zend_Layout::resetMvcInstance();
-
-		$this->xml_response = new Bral_Xml_Response();
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$box = Bral_Hotel_Factory::getBox($this->_request, $this->view);
-		$xml_entry->set_box($box);
-		$xml_entry->set_valeur($box->getNomInterne());
-		$this->xml_response->add_entry($xml_entry);
-		unset($xml_entry);
-		$this->xml_response->render();
-
-	}
-
 }

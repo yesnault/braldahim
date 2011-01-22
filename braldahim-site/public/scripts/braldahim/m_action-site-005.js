@@ -378,3 +378,29 @@ function destroyDraggable(id) {
       }
     }
 }
+
+
+function maccordion_fermer(el) {
+	var eldown = el.parentNode.id + '-body';
+	if ($(eldown).style.display != "none") {
+		new Effect.SlideUp(eldown, { duration :0.1 });
+		el.style.backgroundImage='url("'+$('urlStatique').value+'/images/collapsed.gif")';
+	}
+}
+
+function maccordion_ouvrir(el) {
+	var eldown = el.parentNode.id + '-body';
+	new Effect.SlideDown(eldown, { duration :0.1 });
+	el.style.backgroundImage='url("'+$('urlStatique').value+'/images/expanded.gif")';
+}
+
+function maccordion(el) {
+	var eldown = el.parentNode.id + '-body';
+	if ($(eldown)) {
+		if ($(eldown).style.display == "none") {
+			maccordion_ouvrir(el);
+		} else {
+			maccordion_fermer(el);
+		}
+	}
+}

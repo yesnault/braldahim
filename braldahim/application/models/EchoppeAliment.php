@@ -9,7 +9,7 @@ class EchoppeAliment extends Zend_Db_Table {
 	protected $_name = 'echoppe_aliment';
 	protected $_primary = "id_echoppe_aliment";
 
-	public function findByIdEchoppe($idEchoppe, $typeVente = null) {
+	public function findByIdEchoppe($idEchoppe) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_aliment', '*')
@@ -21,9 +21,6 @@ class EchoppeAliment extends Zend_Db_Table {
 		->where('id_fk_type_qualite_aliment = id_type_qualite')
 		->where('id_fk_echoppe_echoppe_aliment = ?', $idEchoppe)
 		->order(array('type_bbdf_type_aliment ASC', 'nom_type_aliment ASC', 'id_type_qualite ASC', 'bbdf_aliment ASC'));
-		if ($typeVente != null) {
-			$select->where('type_vente_echoppe_aliment like ?', $typeVente);
-		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

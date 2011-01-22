@@ -9,6 +9,14 @@ class LabanGraine extends Zend_Db_Table {
 	protected $_name = 'laban_graine';
 	protected $_primary = array('id_fk_braldun_laban_graine', 'id_fk_type_laban_graine');
 
+	function findByIdConteneur($idBraldun) {
+		return $this->findByIdBraldun($idBraldun);
+	}
+
+	function countByIdConteneur($idBraldun) {
+		return $this->countByIdBraldun($idBraldun);
+	}
+
 	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -48,16 +56,16 @@ class LabanGraine extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
-				
+
 			$dataUpdate['quantite_laban_graine']  = $quantite;
-				
+
 			if (isset($data["quantite_laban_graine"])) {
 				$dataUpdate['quantite_laban_graine'] = $quantite + $data["quantite_laban_graine"];
 			}
-				
+
 			$where = ' id_fk_type_laban_graine = '.$data["id_fk_type_laban_graine"];
 			$where .= ' AND id_fk_braldun_laban_graine = '.$data["id_fk_braldun_laban_graine"];
-				
+
 			if ($dataUpdate['quantite_laban_graine'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

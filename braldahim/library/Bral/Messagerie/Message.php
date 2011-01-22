@@ -175,6 +175,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Contacts");
 		Zend_Loader::loadClass("Zend_Filter_StripTags");
+		Zend_Loader::loadClass("Bral_Util_BBParser");
 
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_braldun);
 
@@ -185,7 +186,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$texte = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3')));
 		$texte = str_replace("<br>", PHP_EOL, $texte);
 
-		$tabMessage = array(
+		$tabMessage = array (
 			'contenu' => $texte,
 			'destinataires' => $tabBraldun["destinataires"],
 			'aff_js_destinataires' => $tabBraldun["aff_js_destinataires"],
@@ -210,7 +211,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$avecContacts = false;
 		}
 
-		$validateurContenu = new Bral_Validate_StringLength(1, 2500);
+		$validateurContenu = new Bral_Validate_StringLength(1, 4500);
 		$validDestinataires = $validateurDestinataires->isValid($this->view->message["destinataires"]);
 		$validContenu = $validateurContenu->isValid($this->view->message["contenu"]);
 
@@ -254,7 +255,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 						$messageTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $idBraldun;
 						if ($tabBralduns[$idBraldun]["envoi_mail_message_braldun"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+							$texte = $debutContenuMail;
+							$texte .= Bral_Util_BBParser::bbcodeStrip($tabMessage["contenu"]);
+							Bral_Util_Mail::envoiMailAutomatique($tabBralduns[$idBraldun], $this->view->config->mail->message->titre, $texte, $this->view);
 						}
 					}
 				}
