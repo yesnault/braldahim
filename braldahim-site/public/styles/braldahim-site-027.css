@@ -2,15 +2,28 @@
 /* ********************** SITE ******************** */
 /* ************************************************ */
 
+
 body {
-	font: 11px arial, verdana, sans-serif;
+	/*font: 11px arial, verdana, sans-serif;
 	background: #003b00;
 	letter-spacing: 0pt;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 0px;
 	margin-right: 0px;
-	color:#eeeeee;
+	color:#eeeeee;*/
+	
+	background: #003b00;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 0px;
+	margin-right: 0px;
+	
+	font-family: DroidSerif,Times,serif;
+    font-size: 13px;
+    text-align: justify;
+    word-spacing: 3px; 
+    color: #CCCCCC;  
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -181,7 +194,7 @@ a:hover,.alabel:hover {
 }
 
 .aWhite {
-	color: #eeeeee;
+	color: #CCCCCC;
 }
 
 span.id_braldun {
@@ -525,11 +538,10 @@ span.id_braldun {
 
 .titre {
 	padding: 5px;
-	font-weight: bolder;
 	margin: 0.0em;
 	color: #f0ae21;
-	font-variant: small-caps;
 	letter-spacing: 2pt;
+	font-family: PerryGothic,Times,serif;
 }
 
 .equipea {
@@ -541,7 +553,7 @@ span.id_braldun {
 }
 
 .textsizea {
-	font-size: 2em;
+	font-size: 1.8em;
 	text-shadow: rgba(0,0,0,0.7) 2px 3px;
 }
 
@@ -557,7 +569,9 @@ span.id_braldun {
 
 .textsized {
 	font-size: 1.1em;
+	font-weight: bolder;
 	letter-spacing: 1pt;
+	font-family: Harrington;
 }
 
 .textdark {
@@ -1224,3 +1238,50 @@ lightbox
 	font-variant: small-caps;
 	letter-spacing: 2pt;
 }
+
+.braltexte:first-letter {
+    float: left;
+    font-size: 30px;
+    margin: 7px 5px 0 0;
+    vertical-align: text-top;
+    font-family: PerryGothic;
+}
+
+.braltexte, .braltexte2 {
+	font-family: DroidSerif,Times,serif;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: justify;
+    word-spacing: 3px; 
+    color: #CCCCCC;  
+}
+
+.braltexte a {
+    color: #CCCCCC;  
+}
+
+.braltextefonce {
+	 color: #333333;  
+}
+
+@font-face {
+    font-family: "DroidSerif";
+    font-style: normal;
+    font-weight: normal;
+    src: local("☺"), url("/fonts/droidserif-webfont.woff") format("woff"), url("/fonts/droidserif-webfont.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PerryGothic";
+    font-style: normal;
+    font-weight: normal;
+    src: local("☺"), url("/fonts/PERRYGOT.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Harrington";
+    font-style: normal;
+    font-weight: normal;
+    src: local("☺"), url("/fonts/Harrington.ttf") format("truetype");
+}
+
