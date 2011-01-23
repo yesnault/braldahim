@@ -17,7 +17,7 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 	}
 
 	public function getEtatService() {
-		return self::SERVICE_DESACTIVE;
+		return self::SERVICE_ACTIVE;
 	}
 
 	public function getVersion() {
@@ -69,11 +69,19 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 			foreach($etapesRowset as $e) {
 				$retour .= "ETAPE;";
 				$retour .= $e["id_fk_quete_etape"].';';
-				$retour .= $e["libelle_etape"].';';
-				$retour .= $e["date_debut_etape"].';';
-				$retour .= $e["date_fin_etape"].';';
-				$retour .= $e["est_terminee_etape"].';';
-				$retour .= $e["objectif_etape"].';';
+				if ($e["date_debut_etape"] != '') {
+					$retour .= $e["libelle_etape"].';';
+					$retour .= $e["date_debut_etape"].';';
+					$retour .= $e["date_fin_etape"].';';
+					$retour .= $e["est_terminee_etape"].';';
+					$retour .= $e["objectif_etape"].';';
+				} else {
+					$retour .= ';';
+					$retour .= ';';
+					$retour .= ';';
+					$retour .= $e["est_terminee_etape"].';';
+					$retour .= ';';
+				}
 				$retour .= $e["ordre_etape"];
 				$retour .= PHP_EOL;
 			}
