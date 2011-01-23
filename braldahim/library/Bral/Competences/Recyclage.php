@@ -122,17 +122,16 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$jetSag = $jetSag + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
 		$perte = 0.20; // pour le niveau 0
-		 
-		if ($jetSag < $nivEquipement*10) {
+		
+		if ($nivEquipement == 0) {
+			$perte = 0.20; // pour le niveau 0
+		} elseif ($jetSag < $nivEquipement*10) {
 			$perte = 0.25;
-		}
-		elseif ($jetSag >= $nivEquipement*10 && $jetSag < $nivEquipement*20) {
+		} elseif ($jetSag >= $nivEquipement*10 && $jetSag < $nivEquipement*20) {
 			$perte = 0.5;
-		}
-		elseif ($jetSag >= $nivEquipement*20 && $jetSag < $nivEquipement*30) {
+		} elseif ($jetSag >= $nivEquipement*20 && $jetSag < $nivEquipement*30) {
 			$perte = 0.6;
-		}
-		elseif ($jetSag >= $nivEquipement*30) {
+		} elseif ($jetSag >= $nivEquipement*30) {
 			$perte = 0.8;
 		}
 
