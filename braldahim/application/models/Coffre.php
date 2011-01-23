@@ -13,11 +13,11 @@ class Coffre extends Zend_Db_Table {
 		return $this->findByIdCoffre($idCoffre);
 	}
 
-	function findByIdCommunaute($id_communaute) {
+	function findByIdCommunaute($idCommunaute) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_fk_communaute_coffre = ?', intval($id_communaute));
+		->where('id_fk_communaute_coffre = ?', intval($idCommunaute));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

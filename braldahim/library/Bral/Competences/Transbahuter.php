@@ -75,7 +75,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ($e['nom_systeme'] == 'Charrette') {
 					$this->view->id_charrette_depart = $e['id_charrette'];
 				}
-				$this->prepareType($e['nom_systeme'], $e['id_type_endroit']);
+				$this->prepareType($e);
 				if ($this->view->deposerOk == true) {
 					if ($id_courant_depart == $k) {
 						$choixDepart = true;
@@ -130,7 +130,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			// si l'on choisit ID_ENDROIT_COFFRE_COMMUNAUTE, seul ID_ENDROIT_RESERVATION_COMMUNAUTE est accessible
 			if ($id_type_courant_depart == self::ID_ENDROIT_COFFRE_COMMUNAUTE && $e['id_type_endroit'] != self::ID_ENDROIT_RESERVATION_COMMUNAUTE) continue;
-			if ($id_type_courant_depart != self::ID_ENDROIT_COFFRE_COMMUNAUTE && $e['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) continue;
+			if ($id_type_courant_depart != self::ID_ENDROIT_COFFRE_COMMUNAUTE && $id_type_courant_depart != self::ID_ENDROIT_HALL_LIEU && $e['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) continue;
 
 			// la caisse n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
@@ -160,7 +160,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		$this->view->typeArrivee = $tabTypeArrivee;
 		$this->view->nb_valeurs = self::NB_VALEURS;
-		$this->prepareType($tabEndroit[$id_courant_depart]['nom_systeme'], $tabEndroit[$id_courant_depart]['id_type_endroit']);
+		$this->prepareType($tabEndroit[$id_courant_depart]);
 	}
 
 	private function prepareCommunUnites() {
@@ -224,14 +224,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE,'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldun', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 			} elseif ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HALL) {
-
 				$estDepart = false;
 				if ($lieux[0]['id_fk_communaute_lieu'] == $this->view->user->id_fk_communaute_braldun) {
 					//TODO verifier les droits pour depart
 					$estDepart = true;
 				}
 				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Lieu)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $lieux[0]['id_fk_communaute_lieu']);
-				$this->id_fk_communaute_lieu = $lieux[0]['id_fk_communaute_lieu'];
 			}
 		}
 	}
@@ -532,13 +530,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareType($depart, $idTypeDepart) {
+	private function prepareType($endroit) {
+		
+		$depart = $endroit['nom_systeme'];
+		$idTypeDepart = $endroit['id_type_endroit'];
+		
 		if ($this->view->idCharretteEtal != null) {
 			$this->prepareTypeMateriel($depart, $idTypeDepart);
 			return;
 		}
 
-		$this->prepareTypeAutres($depart, $idTypeDepart);
+		$this->prepareTypeAutres($depart, $idTypeDepart, $endroit);
 		$this->prepareTypeEquipements($depart, $idTypeDepart);
 		$this->prepareTypeRunes($depart, $idTypeDepart);
 		$this->prepareTypePotions($depart, $idTypeDepart);
@@ -628,7 +630,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_VENTE_HOTEL;
 			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 60);
 		} elseif ($arrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) {
-			$data['id_fk_communaute_lot'] = $this->view->id_communaute_depart;
+			$data['id_fk_communaute_lot'] = $arrivee['id_communaute'];
 			$data['id_fk_type_lot'] = TypeLot::ID_TYPE_RESERVATION_COMMUNAUTE_TOUS;
 			$data['id_fk_braldun_lot'] = $this->view->id_braldun_destinataire_lot;
 		}
@@ -858,6 +860,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveeEquipementTable = new LotEquipement();
 						$data = array (
 										'id_lot_equipement' => $equipement['id_equipement'],
@@ -1077,6 +1080,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveeRuneTable = new LotRune();
 						$data = array (
 									'id_rune_lot_rune' => $rune['id_rune'],
@@ -1273,6 +1277,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveePotionTable = new LotPotion();
 						$data = array (
 									'id_lot_potion' => $potion['id_potion'],
@@ -1471,6 +1476,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveeAlimentTable = new LotAliment();
 						$data = array (
 									'id_lot_aliment' => $aliment['id_aliment'],
@@ -1699,6 +1705,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
+				case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 					$arriveeMunitionTable = new LotMunition();
 					$data = array(
 								'quantite_lot_munition' => $nbMunition,
@@ -1952,6 +1959,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 						case self::ID_ENDROIT_HOTEL :
 						case self::ID_ENDROIT_ECHOPPE_ETAL :
+						case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 							$arriveeMineraiTable = new LotMinerai();
 							$data = array (
 								'id_fk_lot_lot_minerai' => $this->idLot,
@@ -2229,6 +2237,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							break;
 						case self::ID_ENDROIT_HOTEL :
 						case self::ID_ENDROIT_ECHOPPE_ETAL :
+						case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 							$arriveePartiePlanteTable = new LotPartieplante();
 							$data = array (
 								'id_fk_lot_lot_partieplante' => $this->idLot,
@@ -2454,6 +2463,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveeTabacTable = new LotTabac();
 						$data = array(
 									'quantite_feuille_lot_tabac' => $nbTabac,
@@ -2649,6 +2659,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_HOTEL :
 					case self::ID_ENDROIT_ECHOPPE_ETAL :
+					case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 						$arriveeMaterielTable = new LotMateriel();
 						$data = array (
 									'id_lot_materiel' => $materiel['id_materiel'],
@@ -2872,6 +2883,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
+				case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 					$arriveeGraineTable = new LotGraine();
 					$data = array (
 								'id_fk_lot_lot_graine' => $this->idLot,
@@ -3095,6 +3107,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
+				case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 					$arriveeIngredientTable = new LotIngredient();
 					$data = array (
 								'id_fk_lot_lot_ingredient' => $this->idLot,
@@ -3127,7 +3140,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
-	private function prepareTypeAutres($depart, $idTypeDepart) {
+	private function prepareTypeAutres($depart, $idTypeDepart, $endroit) {
 		Zend_Loader::loadClass($depart);
 
 		$tabAutres['nb_castar'] = 0;
@@ -3174,7 +3187,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			case self::ID_ENDROIT_HALL_LIEU:
 			case self::ID_ENDROIT_COFFRE_COMMUNAUTE:
 				$coffreTable = new Coffre();
-				$autres = $coffreTable->findByIdCommunaute($depart['id_communaute']);
+				$autres = $coffreTable->findByIdCommunaute($endroit['id_communaute']);
 				if (count($autres) == 1) {
 					$this->view->id_coffre_depart = $autres[0]['id_coffre'];
 				}
@@ -3473,6 +3486,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case self::ID_ENDROIT_HOTEL :
 				case self::ID_ENDROIT_ECHOPPE_ETAL :
+				case self::ID_ENDROIT_RESERVATION_COMMUNAUTE :
 					$data = array(
 								'quantite_'.$nom_systeme.'_lot' => $nb,
 								'id_lot' => $this->idLot,
