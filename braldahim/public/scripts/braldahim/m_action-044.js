@@ -829,7 +829,7 @@ function controleEchoppe(i) {
 }
 
 function afficheTransbahuterRechercheBraldun() {
-	if ($('valeur_2').value == 4 || $('valeur_2').value == 8) { // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 4 || $('valeur_2').value == 8 || $('valeur_2').value == 12) { // constante definie dans Transbahuter.php
 		$('div_braldun').style.visibility='visible';
 		$('div_braldun').style.display='block';
 	} else {
@@ -840,6 +840,8 @@ function afficheTransbahuterRechercheBraldun() {
 	
 	if ($('valeur_2').value == 8) { // constante definie dans Transbahuter.php
 		$('texte_transbahuter_braldun').innerHTML = 'Vous pouvez réserver cette vente à un unique Braldûn:'
+	} else if ($('valeur_2').value == 12) { // constante definie dans Transbahuter.php
+		$('texte_transbahuter_braldun').innerHTML = 'Vous pouvez réserver ce lot à un unique Braldûn:'
 	} else if ($('valeur_2').value == 4) {
 		$('texte_transbahuter_braldun').innerHTML = 'Entrez le Braldûn destinataire:'
 	}

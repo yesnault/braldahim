@@ -14,6 +14,7 @@ class Bral_Util_Lot {
 		$lots = $lotTable->findByHotel($perimes);
 		$retourLots['lots'] = self::prepareLots($lots);
 		$retourLots['visiteur'] = true;
+		$retourLots['type'] = "hotel";
 
 		return $retourLots;
 	}
@@ -31,6 +32,7 @@ class Bral_Util_Lot {
 			$retourLots['visiteur'] = false;
 		}
 
+		$retourLots['type'] = "communaute";
 		return $retourLots;
 	}
 
@@ -50,6 +52,7 @@ class Bral_Util_Lot {
 			$retourLots['visiteur'] = false;
 		}
 
+		$retourLots['type'] = "echoppe";
 		return $retourLots;
 	}
 
