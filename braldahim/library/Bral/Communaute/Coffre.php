@@ -46,7 +46,7 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 
 		Zend_Loader::loadClass("Bral_Util_Coffre");
 		// passage par reference de tabMetiers et this->view
-		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, $this->view->user->id_braldun, $this->view->user->id_fk_communaute_braldun);
+		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, null, $this->view->user->id_fk_communaute_braldun);
 
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->tabBraldunMetiers = null;

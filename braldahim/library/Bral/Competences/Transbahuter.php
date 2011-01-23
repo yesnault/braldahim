@@ -127,10 +127,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		$uniteAPreparer = false;
 		foreach ($tabEndroit as $k => $e) {
-				
+
 			// si l'on choisit ID_ENDROIT_COFFRE_COMMUNAUTE, seul ID_ENDROIT_RESERVATION_COMMUNAUTE est accessible
 			if ($id_type_courant_depart == self::ID_ENDROIT_COFFRE_COMMUNAUTE && $e['id_type_endroit'] != self::ID_ENDROIT_RESERVATION_COMMUNAUTE) continue;
-				
+			if ($id_type_courant_depart != self::ID_ENDROIT_COFFRE_COMMUNAUTE && $e['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) continue;
+
 			// la caisse n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
@@ -231,7 +232,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Lieu)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $lieux[0]['id_fk_communaute_lieu']);
 				$this->id_fk_communaute_lieu = $lieux[0]['id_fk_communaute_lieu'];
-
 			}
 		}
 	}
@@ -366,7 +366,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$this->view->id_coffre_arrivee = $coffre[0]['id_coffre'];
 			}
-		} else if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE) {
+		} else if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_HALL_LIEU) {
 			$coffreTable = new Coffre();
 			$coffre = $coffreTable->findByIdCommunaute($endroitArrivee['id_communaute']);
 			if (count($coffre) != 1) {
@@ -429,9 +429,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$idEvenement = $this->view->config->game->evenements->type->deposer;
 			$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a déposé des éléments à terre ';
 		}
-		if ($endroitDepart['nom_systeme'] == 'Coffre' || $endroitArrivee['nom_systeme'] == 'Coffre' ) {
+
+		if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitDepart['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
+		|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
-			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun && $endroitArrivee['nom_systeme'] == 'Coffre') {
+			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun &&
+			($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE)) {
 				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
 				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
 				$message .= $this->view->elementsRetires;
@@ -510,6 +513,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if (count($echoppeCase) > 0) {
 			$tab[] = 'box_echoppes';
 			$tab[] = 'box_echoppe';
+		}
+		
+		if (array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit) 
+		|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
+		|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))) {
+			$tab[] = 'box_communaute';
 		}
 
 		return $this->constructListBoxRefresh($tab);
@@ -770,6 +779,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departEquipementTable = new ElementEquipement();
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departEquipementTable = new CoffreEquipement();
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
@@ -835,6 +846,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeEquipementTable = new CoffreEquipement();
 						$data = array (
@@ -1014,6 +1027,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departRuneTable = new ElementRune();
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departRuneTable = new CoffreRune();
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
@@ -1051,6 +1066,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeRuneTable = new CoffreRune();
 						$data = array (
@@ -1206,6 +1223,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departPotionTable = new ElementPotion();
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departPotionTable = new CoffrePotion();
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
@@ -1243,6 +1262,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveePotionTable = new CoffrePotion();
 						$data = array (
@@ -1401,6 +1422,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departAlimentTable = new ElementAliment();
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departAlimentTable = new CoffreAliment();
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
@@ -1437,6 +1460,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeAlimentTable = new CoffreAliment();
 						$data = array (
@@ -1606,6 +1631,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 					$departMunitionTable = new CoffreMunition();
 					$data = array(
 								'quantite_coffre_munition' => -$nbMunition,
@@ -1660,6 +1687,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 				case self::ID_ENDROIT_COFFRE_BRALDUN :
 					$arriveeMunitionTable = new CoffreMunition();
 					$data = array(
@@ -1851,6 +1880,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							break;
 						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+						case self::ID_ENDROIT_HALL_LIEU :
 							$departMineraiTable = new CoffreMinerai();
 							$data = array (
 								'id_fk_coffre_coffre_minerai' => $this->view->id_coffre_depart,
@@ -1908,6 +1939,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							break;
 						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+						case self::ID_ENDROIT_HALL_LIEU :
 						case self::ID_ENDROIT_COFFRE_BRALDUN :
 							$arriveeMineraiTable = new CoffreMinerai();
 							$data = array (
@@ -2117,6 +2150,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							break;
 						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+						case self::ID_ENDROIT_HALL_LIEU :
 							$departPartiePlanteTable = new CoffrePartieplante();
 							$data = array(
 								'id_fk_type_coffre_partieplante' => $this->view->partieplantes[$indice]['id_fk_type_partieplante'],
@@ -2180,6 +2215,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 							break;
 						case self::ID_ENDROIT_MON_COFFRE :
+						case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+						case self::ID_ENDROIT_HALL_LIEU :
 						case self::ID_ENDROIT_COFFRE_BRALDUN :
 							$arriveePartiePlanteTable = new CoffrePartieplante();
 							$data = array (
@@ -2362,6 +2399,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departTabacTable = new CoffreTabac();
 						$data = array(
 									'quantite_feuille_coffre_tabac' => -$nbTabac,
@@ -2403,6 +2442,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
 						$arriveeTabacTable = new CoffreTabac();
 						$data = array(
@@ -2558,6 +2599,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departMaterielTable = new ElementMateriel();
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$departMaterielTable = new CoffreMateriel();
 						break;
 					case self::ID_ENDROIT_CHARRETTE :
@@ -2596,6 +2639,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case self::ID_ENDROIT_MON_COFFRE :
 					case self::ID_ENDROIT_COFFRE_BRALDUN :
+					case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+					case self::ID_ENDROIT_HALL_LIEU :
 						$arriveeMaterielTable = new CoffreMateriel();
 						$data = array (
 									'id_coffre_materiel' => $materiel['id_materiel'],
@@ -2761,6 +2806,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 					$departGraineTable = new CoffreGraine();
 					$data = array (
 								'id_fk_coffre_coffre_graine' => $this->view->id_coffre_depart,
@@ -2813,6 +2860,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 				case self::ID_ENDROIT_COFFRE_BRALDUN :
 					$arriveeGraineTable = new CoffreGraine();
 					$data = array (
@@ -2980,6 +3029,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 					$departIngredientTable = new CoffreIngredient();
 					$data = array (
 								'id_fk_coffre_coffre_ingredient' => $this->view->id_coffre_depart,
@@ -3032,6 +3083,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 				case self::ID_ENDROIT_COFFRE_BRALDUN :
 					$arriveeIngredientTable = new CoffreIngredient();
 					$data = array (
@@ -3345,6 +3398,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					}
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 					$departTable = new Coffre();
 					$data = array (
 								'id_coffre' => $this->view->id_coffre_depart,
@@ -3407,6 +3462,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$arriveeTable = new Element();
 					break;
 				case self::ID_ENDROIT_MON_COFFRE :
+				case self::ID_ENDROIT_COFFRE_COMMUNAUTE :
+				case self::ID_ENDROIT_HALL_LIEU :
 				case self::ID_ENDROIT_COFFRE_BRALDUN :
 					$data = array(
 								'quantite_'.$nom_systeme.'_coffre' => $nb,
