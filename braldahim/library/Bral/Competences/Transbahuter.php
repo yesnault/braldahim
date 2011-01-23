@@ -2632,7 +2632,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function deposeTypeGraines($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 
-		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE || $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE) {
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE 
+		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
+		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE
+		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			return;
 		}
 
