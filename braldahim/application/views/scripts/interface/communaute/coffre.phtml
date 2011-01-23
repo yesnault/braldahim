@@ -2,3 +2,14 @@
 <div class="titre textalic textsizec">Coffre de Communauté</div><br />
 
 <?php echo $this->render('interface/commun/poches.phtml'); ?>
+
+<hr />
+
+<div class="titre textalic textsizec">Les réservations et mise en vente</div>
+<br />
+
+<?php 
+$this->estElementsEtalAchat = true;
+$this->pocheNomSysteme = "ReservationsCommunaute";
+?>
+<?php echo $this->render("/interface/commun/lots.phtml"); ?>

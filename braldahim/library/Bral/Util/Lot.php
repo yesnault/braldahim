@@ -18,6 +18,22 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
+	public static function getLotsByIdCommunaute($idCommunaute, $visiteur) {
+		Zend_Loader::loadClass('Lot');
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByIdCommunaute($idCommunaute);
+		$retourLots['lots'] = self::prepareLots($lots);
+
+		if ($visiteur) {
+			$retourLots['visiteur'] = true;
+		} else {
+			$retourLots['visiteur'] = false;
+		}
+
+		return $retourLots;
+	}
+
 	public static function getLotsByIdEchoppe($idEchoppe, $visiteur, $idBraldunVisiteur = null) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
@@ -345,7 +361,7 @@ class Bral_Util_Lot {
 
 		$tabTypePlantesBrutesCsv = null;
 		$tabTypePlantesPrepareesCsv = null;
-		
+
 		foreach($lots as $lot) {
 			$tabTypePlantesBrutes = $tabTypePlantes;
 			$tabTypePlantesPreparees = $tabTypePlantes;
@@ -365,7 +381,7 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante']. ' : ';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['quantite_lot_partieplante']. ' '.$p['nom_type_plante']. ' brute'.$sbrute;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
-					
+						
 					$tab = null;
 					$tab['id_type_plante'] = $p['id_type_plante'];
 					$tab['id_type_partieplante'] = $p['id_type_partieplante'];
@@ -405,7 +421,7 @@ class Bral_Util_Lot {
 			}
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
-			
+				
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
 			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
 		}
@@ -773,14 +789,14 @@ class Bral_Util_Lot {
 		self::transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::calculHistorique($idLot, $destination, $idBraldunAcheteur);
-		
+
 		self::supprimeLot($idLot);
 	}
 
 	private static function calculHistorique($idLot, $idDestination, $idBraldunAcheteur) {
 		$lots = self::getLotByIdsLots($idLot);
 		$lot = array_pop($lots);
-		
+
 		Zend_Loader::loadClass("LotHistorique");
 		$lotHistoriqueTable = new LotHistorique();
 

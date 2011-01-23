@@ -60,7 +60,8 @@
 					$charrette = "";
 					$venteSelectionne = false;
 					$venteEtalSelectionne = false;
-					$coffreSelectionne = false;
+					$coffreBraldunSelectionne = false;
+					$reservationCommunauteSelectionnee = false;
 					foreach($this->typeArrivee as $idTypeArrivee => $t) { 
 						$options .="<option value='".$idTypeArrivee."'";
 				 		if ($t["selected"] == $idTypeArrivee || count($this->typeArrivee) == 1) {
@@ -72,7 +73,10 @@
 					 			$venteEtalSelectionne = true;
 				 			}
 				 			if ($this->ID_ENDROIT_COFFRE_BRALDUN == $t["id_type_arrivee"]) {
-					 			$coffreSelectionne = true;
+					 			$coffreBraldunSelectionne = true;
+				 			}
+					 		if ($this->ID_ENDROIT_RESERVATION_COMMUNAUTE == $t["id_type_arrivee"]) {
+					 			$reservationCommunauteSelectionnee = true;
 				 			}
 				 		}
 				 		$options .= ">".$t["nom_type_arrivee"]."</option>";
@@ -90,13 +94,15 @@
 				<?php echo $charrette ?>
 				<br/><br/>
 				
-				<?php if ($venteEtalSelectionne || $coffreSelectionne) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
+				<?php if ($venteEtalSelectionne || $coffreBraldunSelectionne || $reservationCommunauteSelectionnee) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
 				<input type="hidden" name="valeur_3" id="valeur_3" value="-1"/>
 				<div id="div_braldun" style="visibility: <?php echo $visibility?>;display :<?php echo $display?>">
 					<span id="texte_transbahuter_braldun">
 					<?php if ($venteEtalSelectionne) :?>
 						<?php echo "Vous pouvez réserver cette vente à un unique Braldûn:"; ?>
-					<?php elseif ($coffreSelectionne): ?>
+					<?php elseif ($reservationCommunauteSelectionnee): ?>
+						<?php echo "Vous pouvez réserver ce lot à un unique Braldûn:"; ?>
+					<?php elseif ($coffreBraldunSelectionne): ?>
 						<?php echo "Entrez le Braldûn destinataire:"; ?>
 					<?php endif;?>
 					</span><br />

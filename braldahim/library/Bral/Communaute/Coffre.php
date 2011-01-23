@@ -23,8 +23,13 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 	}
 
 	function render() {
-		Zend_Loader::loadClass("Metier");
 
+		Zend_Loader::loadClass('Bral_Util_Lot');
+		Zend_Loader::loadClass('Bral_Util_Poids');
+		Zend_Loader::loadClass('Bral_Util_String');
+		$this->view->lots = Bral_Util_Lot::getLotsByIdCommunaute($this->view->user->id_fk_communaute_braldun, false);
+
+		Zend_Loader::loadClass("Metier");
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
 		$metiersRowset = $metiersRowset->toArray();
@@ -41,7 +46,7 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 
 		Zend_Loader::loadClass("Bral_Util_Coffre");
 		// passage par reference de tabMetiers et this->view
-		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, $this->view->user->id_braldun, null);
+		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, $this->view->user->id_braldun, $this->view->user->id_fk_communaute_braldun);
 
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->tabBraldunMetiers = null;
@@ -51,7 +56,7 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 		$this->view->estElementsAchat = false;
 
 		$this->view->pocheNom = "Tiroir";
-		$this->view->pocheNomSysteme = "Coffre";
+		$this->view->pocheNomSysteme = "CoffreCommunaute";
 		$this->view->nb_castars = $this->view->coffre["nb_castar"];
 
 		$this->view->nom_interne = $this->getNomInterne();

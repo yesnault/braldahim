@@ -691,10 +691,10 @@ function controlePoids() {
 		poidsRestant = $('poids_' + $('valeur_2').value).value;
 		if (poidsRestant != -1) {
 		 	for (i=11; i<=$('nb_valeurs').value; i++) {
-				if ($('valeur_' + i).type == 'select-multiple' ) {
+				if ($('valeur_' + i).type == 'select-multiple') {
 					for (j=0; j< $('valeur_' + i).options.length; j++) {
 						if ($('valeur_' + i).options[j].selected == true) {
-							if ( i==19 || i==25 ) {
+							if (i==19 || i==25) {
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
 							} else {
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
@@ -706,7 +706,7 @@ function controlePoids() {
 				}
 			}
 			if (poids > poidsRestant) {
-				poidsDep = Math.round((poids - poidsRestant)*100)/100;
+				poidsDep = Math.round((poids - poidsRestant) * 100) / 100;
 				alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
 				return false;
 			} else {
@@ -807,7 +807,7 @@ function selectAll() {
 }
 
 function charrette() {
-	if ($('valeur_2').value >= 10) {
+	if ($('valeur_2').value >= 12) {
 		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
 	}
 }
@@ -846,7 +846,7 @@ function afficheTransbahuterRechercheBraldun() {
 }
 
 function afficheTransbahuterVente() {
-	if ($('valeur_2').value == 8 || $('valeur_2').value == 9) { // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 8 || $('valeur_2').value == 9 || $('valeur_2').value == 11) { // constantes definies dans Transbahuter.php
 		$('div_vente_transbahuter').style.visibility='visible';
 		$('div_vente_transbahuter').style.display='block';
 	} else {
@@ -856,7 +856,7 @@ function afficheTransbahuterVente() {
 }
 
 function controlePrixVenteBoutonDeposer() {
-	if ($('valeur_2').value == 8 || $('valeur_2').value == 9) { // constante definie dans Transbahuter.php
+	if ($('valeur_2').value == 8 || $('valeur_2').value == 9 || $('valeur_2').value == 11) { // constantes definies dans Transbahuter.php
 		if ($('valeur_4').value >= 0 && $('valeur_4').value != '' && $('valeur_5').value !=-1 ) {
 			return true;
 		} else {

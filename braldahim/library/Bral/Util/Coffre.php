@@ -24,7 +24,7 @@ class Bral_Util_Coffre {
 		Zend_Loader::loadClass("TypePartieplante");
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
-		$tabCoffre = self::renderAutres(&$tabMetiers, $view, $idBraldun, null);
+		$tabCoffre = self::renderAutres(&$tabMetiers, $view, $idBraldun, $idCommunaute);
 		self::renderRune($tabCoffre["id_coffre"], $view);
 		self::renderMinerai($tabMetiers, $tabCoffre["id_coffre"], $view);
 		self::renderPlante($tabMetiers, $tabCoffre["id_coffre"], $view);
