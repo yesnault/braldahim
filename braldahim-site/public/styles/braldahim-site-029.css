@@ -541,7 +541,7 @@ span.id_braldun {
 	margin: 0.0em;
 	color: #f0ae21;
 	letter-spacing: 2pt;
-	font-family: PerryGothic,Times,serif;
+	/*font-family: PerryGothic,Times,serif;*/
 }
 
 .equipea {
@@ -569,9 +569,9 @@ span.id_braldun {
 
 .textsized {
 	font-size: 1.1em;
-	font-weight: bolder;
+	/*font-weight: bolder;*/
 	letter-spacing: 1pt;
-	font-family: Harrington;
+	/*font-family: Harrington;*/
 }
 
 .textdark {
