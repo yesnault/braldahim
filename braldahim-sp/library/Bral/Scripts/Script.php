@@ -31,7 +31,7 @@ abstract class Bral_Scripts_Script {
 	const VERIFICATION_OK = "OK";
 
 	const SERVICE_ACTIVE = true;
-	const SERVICE_DESACTIVE = true;
+	const SERVICE_DESACTIVE = false;
 
 	const ERREUR_01_EXCEPTION = "ERREUR-01. Erreur Technique, l'équipe est informée";
 	const ERREUR_02_PARAMETRES = "ERREUR-02. Paramètres incorrects";
