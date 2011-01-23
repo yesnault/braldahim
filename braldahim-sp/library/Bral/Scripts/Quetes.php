@@ -17,7 +17,7 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 	}
 
 	public function getEtatService() {
-		return self::SERVICE_ACTIVE;
+		return self::SERVICE_DESACTIVE;
 	}
 
 	public function getVersion() {
