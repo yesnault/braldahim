@@ -107,6 +107,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&palissades=1";
 		}
 
+		if (intval($this->_request->get("regions")) == 1) {
+			$parametres .= "&regions=1";
+		}
+
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$parametres .= "&lieuxmythiques=1";
 		}
@@ -141,6 +145,11 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		if (intval($this->_request->get("zones")) == 1) {
 			$this->dessineZones(&$image);
 		}
+
+		if (intval($this->_request->get("regions")) == 1) {
+			$this->dessineRegions(&$image);
+		}
+
 		if (intval($this->_request->get("zonesnids")) == 1) {
 			$this->dessineZonesNids(&$image);
 		}
@@ -317,6 +326,25 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			}
 
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->noir);
+		}
+	}
+
+	private function dessineRegions(&$image) {
+
+		Zend_Loader::loadClass('Region');
+		$regionsTable = new Region();
+		$regions = $regionsTable->fetchall($where);
+
+		foreach ($regions as $z) {
+			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_min_region"]) / $this->coefTaille;
+			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_max_region"]) / $this->coefTaille;
+			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_max_region"]) / $this->coefTaille;
+			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_region"]) / $this->coefTaille;
+
+			imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
+			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->noir);
+
+			ImageString($image, 3, $x_deb_map , $y_deb_map," ".$z["nom_region"]. " ".$texte, $this->noir);
 		}
 	}
 

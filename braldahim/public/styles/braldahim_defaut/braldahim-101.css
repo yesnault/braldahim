@@ -530,7 +530,7 @@ span.resultat_cache {
 	z-index: 9999;
 	
 	margin-left:auto !important;
-margin-right:auto !important;
+	margin-right:auto !important;
 }
 
 .box_erreur *{
@@ -540,6 +540,11 @@ margin-right:auto !important;
 	width: auto;
 	height: auto;
 	font: 11px arial, verdana, sans-serif;
+	margin-top:10px
+}
+
+#erreur_message_static {
+	height:100px;	
 }
 
 .inner { /* exterieur de boite */
