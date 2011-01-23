@@ -70,9 +70,8 @@ class Bral_Monstres_VieSolitaire {
 		$vieMonstre->setMonstre($monstre);
 
 		if ($cible != null) {
-			$koCible = false;
 			// on regarde si la cible demandée est bien la cible du monstre
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_braldun"]);
 			$koCible = $vieMonstre->attaqueCible($cible, $this->view);
 
 			if ($koCible == null) { // null => cible hors vue

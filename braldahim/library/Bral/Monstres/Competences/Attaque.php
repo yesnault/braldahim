@@ -104,7 +104,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 	public function attaque() {
 
-		$koCible = null;
+		$koCible = false;
 
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($this->cible);

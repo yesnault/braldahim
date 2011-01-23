@@ -430,7 +430,7 @@ class Bral_Monstres_VieMonstre {
 	}
 
 	public function attaqueCible(&$cible, $view) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") cible(".$cible["id_braldun"].") - enter");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") cible(".$cible["id_braldun"].") - enter");
 		$koCible = false;
 
 		if ($this->monstre == null) {
@@ -453,14 +453,14 @@ class Bral_Monstres_VieMonstre {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - nomCompetence:".$c["nom_systeme_mcompetence"]);
 				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
 				$koCible = $actionAttaque->action();
-				if ($koCible || $this->monstre["pv_restant_monstre"] <= 0 || $this->monstre["pa_monstre"] <= 0) {
+				if ($koCible === true || $this->monstre["pv_restant_monstre"] <= 0 || $this->monstre["pa_monstre"] <= 0) {
 					break;
 				}
 			}
 		}
 
 		$this->updateMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;
 	}
 
