@@ -257,6 +257,8 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$detailsBot .= "texte serait dans ce cas retiré du concours. Néanmoins, les participants, ainsi que les amateurs ";
 			$detailsBot .= "de lecture peuvent faire des commentaires au sujet du concours ou mentionner qu'ils participent.[/left]".PHP_EOL.PHP_EOL;
 			
+			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=619]Topic sur le forum.[/url]".PHP_EOL; 
+			
 			$detailsBot .= "[left]Bien à vous,[/left]".PHP_EOL;
 			
 			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
