@@ -730,6 +730,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_ECHOPPE_ATELIER :
 						$departEquipementTable = new EchoppeEquipement();
 						break;
+					default:
+						throw new Zend_Exception('Depart Equipement invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departEquipementTable->delete($where);
@@ -969,6 +971,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_CHARRETTE :
 						$departRuneTable = new CharretteRune();
 						break;
+					default:
+					throw new Zend_Exception('Depart Rune invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departRuneTable->delete($where);
@@ -1162,6 +1166,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_ECHOPPE_ATELIER :
 						$departPotionTable = new EchoppePotion();
 						break;
+					default:
+						throw new Zend_Exception('Depart Potion invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departPotionTable->delete($where);
@@ -1355,6 +1361,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_ECHOPPE_ATELIER :
 						$departAlimentTable = new EchoppeAliment();
 						break;
+					default:
+						throw new Zend_Exception('Depart Aliments invalide : '.$depart.' id:'.$idTypeDepart );
 				}
 				$departAlimentTable->delete($where);
 				unset($departAlimentTable);
@@ -1573,6 +1581,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'id_fk_echoppe_echoppe_munition' => $this->view->id_echoppe_depart,
 					);
 					break;
+				default:
+					throw new Zend_Exception('Depart Munition invalide : '.$depart.' id:'.$idTypeDepart);
 			}
 
 			$departMunitionTable->insertOrUpdate($data);
@@ -1819,6 +1829,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_lingots_echoppe_minerai' => -$nbLingot,
 							);
 							break;
+						default:
+							throw new Zend_Exception('Depart Minerai invalide : '.$depart.' id:'.$idTypeDepart);
 					}
 					$departMineraiTable->insertOrUpdate($data);
 					unset ($departMineraiTable);
@@ -2086,6 +2098,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_preparee_echoppe_partieplante' => -$nbPreparees
 							);
 							break;
+						default:
+							throw new Zend_Exception('Depart plante invalide : '.$depart.' id:'.$idTypeDepart);
 					}
 
 					$departPartiePlanteTable->insertOrUpdate($data);
@@ -2315,6 +2329,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									'id_fk_charrette_tabac' => $this->view->id_charrette_depart,
 						);
 						break;
+					default:
+						throw new Zend_Exception('Depart Tabac invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departTabacTable->insertOrUpdate($data);
@@ -2502,6 +2518,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case self::ID_ENDROIT_ECHOPPE_ATELIER :
 						$departMaterielTable = new EchoppeMateriel();
 						break;
+					default:
+						throw new Zend_Exception('Depart Materiel invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departMaterielTable->delete($where);
@@ -2722,6 +2740,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_arriere_echoppe_graine' => -$nb,
 					);
 					break;
+				default:
+					throw new Zend_Exception('Depart Graine invalide : '.$depart.' id:'.$idTypeDepart);
 			}
 			$departGraineTable->insertOrUpdate($data);
 			unset ($departGraineTable);
@@ -2939,6 +2959,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'quantite_arriere_echoppe_ingredient' => -$nb,
 					);
 					break;
+				default:
+					throw new Zend_Exception('Depart Ingredient invalide : '.$depart.' id:'.$idTypeDepart);
 			}
 			$departIngredientTable->insertOrUpdate($data);
 			unset ($departIngredientTable);
@@ -3286,6 +3308,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					);
 					break;
 				case self::ID_ENDROIT_ECHOPPE_ATELIER :
+				case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE :
 					$departTable = new Echoppe();
 					$data = array(
 								'quantite_'.$nom_systeme.'_arriere_'.strtolower($depart) => -$nb,
@@ -3299,6 +3322,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'id_'.strtolower($depart) => $this->view->id_echoppe_depart,
 					);
 					break;
+				default:
+					throw new Zend_Exception('Depart invalide : '.$depart.' id:'.$idTypeDepart );
 			}
 			if ($departTable) {
 				if ($depart != 'Element') {
