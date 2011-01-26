@@ -252,12 +252,20 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			$echoppeTable = new Echoppe();
 			$echoppeTable->insertOrUpdate($data);
 		} else { // HV
-			$data = array(
-				'id_coffre' => $lot["id_fk_vendeur_braldun_lot"],
-				'quantite_castar_coffre' => $lot["prix_1_lot"],
-			);
+				
 			Zend_Loader::loadClass("Coffre");
 			$coffreTable = new Coffre();
+			
+			$coffre = $coffreTable->findByIdBraldun($lot["id_fk_vendeur_braldun_lot"]);
+			if (count($coffre) != 1) {
+				throw new Zend_Exception(get_class($this).' Coffre arrivee invalide = '.$lot["id_fk_vendeur_braldun_lot"]);
+			}
+			$id_coffre_arrivee = $coffre[0]['id_coffre'];
+
+			$data = array(
+				'id_coffre' => $id_coffre_arrivee,
+				'quantite_castar_coffre' => $lot["prix_1_lot"],
+			);
 			$coffreTable->insertOrUpdate($data);
 		}
 	}
@@ -304,7 +312,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		$message .= "Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_braldun, $lot["id_fk_vendeur_braldun_lot"], $message, $this->view);
 	}
-	
+
 	private function calculDepotMessageEtal($lot) {
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$s = "";
