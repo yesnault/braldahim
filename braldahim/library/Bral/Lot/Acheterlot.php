@@ -72,6 +72,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			}
 
 			$lots = $lotTable->findByIdEchoppe($this->view->idEchoppe, $this->view->idLot);
+			$this->view->estSurEchoppe = true;
 		} else { // HV
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("TypeLieu");
