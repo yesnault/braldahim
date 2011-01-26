@@ -1490,8 +1490,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
 		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
 		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
-		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
+		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
 			return;
 		}
 
