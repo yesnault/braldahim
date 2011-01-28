@@ -238,9 +238,6 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 		$this->calculTransfert($idDestination);
 		$this->view->destination = $destination;
-
-		//TODO		$details = "[b".$this->view->user->id_braldun."] a acheté le lot d'équipement n°".$this->view->lot["id_lot"]. " dans l'échoppe";
-		//		Bral_Util_Lot::insertHistorique(Bral_Util_Lot::HISTORIQUE_ACHETER_ID, $this->view->lot["id_lot"], $details);
 	}
 
 	private function calculDepotCastars($lot) {
@@ -252,10 +249,10 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			$echoppeTable = new Echoppe();
 			$echoppeTable->insertOrUpdate($data);
 		} else { // HV
-				
+
 			Zend_Loader::loadClass("Coffre");
 			$coffreTable = new Coffre();
-			
+
 			$coffre = $coffreTable->findByIdBraldun($lot["id_fk_vendeur_braldun_lot"]);
 			if (count($coffre) != 1) {
 				throw new Zend_Exception(get_class($this).' Coffre arrivee invalide = '.$lot["id_fk_vendeur_braldun_lot"]);
@@ -274,6 +271,14 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 		Zend_Loader::loadClass("Bral_Util_Lot");
 
+		$detailsBot = "";
+		
+		$s = "";
+		if (count($this->view->lots) > 0) {
+			$s = "s";
+		}
+		$details = "[b".$this->view->user->id_braldun."] a acheté le".$s." lot".$s;
+		
 		foreach ($this->view->lots as $lot) {
 			if ($idDestination == -1 && $lot["estLotCharrette"] === true) {
 				$this->calculTransfertCharrette($lot);
@@ -291,7 +296,20 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			} else {
 				$this->calculDepotMessageEtal($lot);
 			}
+
+			$details .= " n°".$lot["id_lot"];
+			
+			$detailsBot .= PHP_EOL.PHP_EOL."Vous avez acheté le lot n°".$lot["id_lot"]. " pour ".$lot["prix_1_lot"]. " castar";
+			if ($lot["prix_1_lot"] >  0) {
+				$detailsBot .= "s";
+			}
+			$detailsBot .= ".".PHP_EOL."Contenu du lot n°".$lot["id_lot"].":".PHP_EOL;
+			$detailsBot .= $lot["details"];
 		}
+
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("TypeEvenement");
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, TypeEvenement::ID_TYPE_SERVICE, $details, $detailsBot, $this->view->user->niveau_braldun, "braldun", false, null, null);
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
