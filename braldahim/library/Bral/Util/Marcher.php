@@ -269,10 +269,10 @@ class Bral_Util_Marcher {
 
 		if ($braldun->est_engage_braldun == "oui") {
 			$this->nb_cases = 1;
-			if ($this->nb_pa < 2) {
-				$this->nb_pa = 2;
-			} else { // eau
+			if ($estSurEau) {
 				$this->nb_pa = $this->nb_pa + 1;
+			} else {
+				$this->nb_pa = 2;
 			}
 		}
 
