@@ -297,7 +297,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$zoneNidTable = new ZoneNid();
 		$zones = $zoneNidTable->findByCase($x, $y, $z);
 		if ($zones == null || count($zones) > 1) {
-			throw new Zend_Exception("Creuser: Erreur Parametrage zone nid: x:".$x." y:".$y." z:".$z);
+			throw new Zend_Exception("Creuser: Erreur Parametrage zone nid: x:".$x." y:".$y." z:".$z. " n:".count($zones));
 		}
 		$idZoneNid = $zones[0]["id_zone_nid"];
 
