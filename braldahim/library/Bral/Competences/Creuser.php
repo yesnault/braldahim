@@ -279,7 +279,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$distance =  $lieu["distance"];
 
 		//if ($distance < 11) { // 11: distance = 5 + niveauMin x 3, avec niveauMin=2, distanceMin : 11
-		if ($distance < 5) {
+		if ($distance < 11) {
 			return false; // pas de monstre à poper pour une distance < 11
 		}
 
