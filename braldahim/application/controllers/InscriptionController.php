@@ -42,7 +42,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		$email_braldun = $this->_request->get("e");
 		$md5_prenom_braldun = $this->_request->get("h");
-		$md5_password_braldun = $this->_request->get("p");
+		$hash_password_braldun = $this->_request->get("p");
 
 		$braldunTable = new Braldun();
 		$braldun = null;
@@ -53,9 +53,9 @@ class InscriptionController extends Zend_Controller_Action {
 			Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - B");
 		}
 
-		if ($braldun != null && $md5_prenom_braldun != null && $md5_prenom_braldun != "" && $md5_password_braldun != null && $md5_password_braldun != "") {
+		if ($braldun != null && $md5_prenom_braldun != null && $md5_prenom_braldun != "" && $hash_password_braldun != null && $hash_password_braldun != "") {
 			if ($braldun->est_compte_actif_braldun == 'non' && count($braldun) > 0) {
-				if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($md5_password_braldun == $braldun->password_braldun)) {
+				if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($hash_password_braldun == $braldun->password_braldun)) {
 					$this->view->validationOk = true;
 
 					$dataParents = $this->calculParent($braldun->id_braldun);
@@ -98,7 +98,7 @@ class InscriptionController extends Zend_Controller_Action {
 					$this->ajouterDistinctionTesteur($braldun->id_braldun, $email_braldun);
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_braldun);
 				} else {
-					Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - C MD5 invalides : ".$md5_prenom_braldun.":".md5($braldun->prenom_braldun)." PASS:".$md5_password_braldun.":".$braldun->password_braldun);
+					Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - C MD5 invalides : ".$md5_prenom_braldun.":".md5($braldun->prenom_braldun)." PASS:".$hash_password_braldun.":".$braldun->password_braldun);
 				}
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - validationAction - compte deja active");
@@ -209,7 +209,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->view->prenom_braldun = $this->prenom_braldun;
 				$this->view->email_braldun = $this->email_braldun;
 
-				$this->envoiEmail();
+				$this->envoiEmail($data["password_hash_braldun"]);
 				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_braldun);
 				echo $this->view->render("inscription/fin.phtml");
 
@@ -324,12 +324,17 @@ class InscriptionController extends Zend_Controller_Action {
 		$mdate = date("Y-m-d H:i:s");
 		$pv = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->view->config->game->inscription->vigueur_base);
 
+		Zend_Loader::loadClass('Bral_Util_Hash');
+		$salt = Bral_Util_Hash::getSalt();
+		$passwordHash = Bral_Util_Hash::getHashString($salt, $this->password_braldun);
+			
 		$data = array(
 			'nom_braldun' => $nom_braldun,
 			'prenom_braldun' => $this->prenom_braldun,
 			'id_fk_nom_initial_braldun' => $id_fk_nom_initial_braldun,
 			'email_braldun'  => $this->email_braldun,
-			'password_braldun'  => md5($this->password_braldun),
+			'password_salt_braldun'  => $salt,
+			'password_hash_braldun'  => $passwordHash,
 			'est_compte_actif_braldun'  => "non",
 			'castars_braldun' => $this->view->config->game->inscription->castars,
 			'sexe_braldun' => $this->sexe_braldun,
@@ -366,11 +371,11 @@ class InscriptionController extends Zend_Controller_Action {
 		return $data;
 	}
 
-	private function envoiEmail() {
+	private function envoiEmail($passwordHashBraldun) {
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Inscription");
-		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->id_braldun, $this->email_braldun, md5($this->prenom_braldun), md5($this->password_braldun));
+		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->id_braldun, $this->email_braldun, md5($this->prenom_braldun), $passwordHashBraldun);
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 
 		$contenuText = $this->view->render("inscription/mailText.phtml");

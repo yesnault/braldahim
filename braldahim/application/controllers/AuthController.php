@@ -34,7 +34,7 @@ class AuthController extends Zend_Controller_Action {
 			$this->_forward("loginmobile");
 		} else {
 			Zend_Loader::loadClass('Bral_Helper_Bougrie');
-			
+				
 			$this->loginWork();
 			$this->render();
 		}
@@ -57,6 +57,9 @@ class AuthController extends Zend_Controller_Action {
 		$password = $f->filter($this->_request->getPost('post_password_braldun'));
 			
 		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
+				
+			Zend_Loader::loadClass('Bral_Util_Hash');
+				
 			// setup Zend_Auth adapter for a database table
 			Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 			$dbAdapter = Zend_Registry::get('dbAdapter');
@@ -66,18 +69,23 @@ class AuthController extends Zend_Controller_Action {
 			$authAdapter->setTableName('braldun');
 
 			$authAdapter->setIdentityColumn('email_braldun');
-			$authAdapter->setCredentialColumn('password_braldun');
+			$authAdapter->setCredentialColumn('password_hash_braldun');
 
+			$braldunTable = new Braldun();
+			$salt = $braldunTable->getSaltByEmail($email);
+			$salt = $salt["password_salt_braldun"];
+				
 			// Set the input credential values to authenticate against
 			$authAdapter->setIdentity($email);
-			$authAdapter->setCredential(md5($password));
+			$passwordHash = Bral_Util_Hash::getHashString($salt, md5($password));
+			$authAdapter->setCredential($passwordHash);
 
 			// do the authentication
 			$auth = Zend_Auth::getInstance();
 			$result = $auth->authenticate($authAdapter);
 			if ($result->isValid()) {
 
-				$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
+				$braldun = $authAdapter->getResultRowObject(null, array('password_braldun'));
 
 				Zend_Loader::loadClass("Bral_Util_Admin");
 				Bral_Util_Admin::init($braldun);

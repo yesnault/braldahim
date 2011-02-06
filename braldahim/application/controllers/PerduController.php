@@ -64,7 +64,7 @@ class PerduController extends Zend_Controller_Action {
 					 $tabEmail[] = $message;
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux emails sont diff�rents";
+					$this->view->messagesEmailConfirm = "Les deux emails sont différents";
 				}
 				$this->view->messagesEmail = $tabEmail;
 			}
@@ -77,29 +77,33 @@ class PerduController extends Zend_Controller_Action {
 	}
 	
 	function generationAction() {
-		$this->view->title = "G�n�ration d'un nouveau mot de passe";
+		$this->view->title = "Génération d'un nouveau mot de passe";
 		$this->view->generationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
 		$this->generationOk = false;
 		
 		$this->email_braldun = $this->_request->get("e");
 		$md5_prenom_braldun = $this->_request->get("h");
-		$md5_password_braldun = $this->_request->get("p");
+		$password_hash_braldun = $this->_request->get("p");
 		
 		$braldunTable = new Braldun();
 		$braldun = $braldunTable->findByEmail($this->email_braldun);
 		if (count($braldun) > 0) {
-			if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($md5_password_braldun == $braldun->password_braldun)) {
+			if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($password_hash_braldun == $braldun->password_hash_braldun)) {
 				$this->view->generationOk = true;
 				$this->prenom_braldun = $braldun->prenom_braldun;
 				$this->nom_braldun = $braldun->nom_braldun;
 				$this->id_braldun = $braldun->id_braldun;
 				$this->view->email_braldun = $this->email_braldun;
 				
+				Zend_Loader::loadClass('Bral_Util_Hash');
+				$salt = Bral_Util_Hash::getSalt();
 				$this->password_braldun = Bral_Util_De::get_chaine_aleatoire(6);
+				$this->password_hash_braldun = Bral_Util_Hash::getHashString($salt, $this->password_braldun);
 				
 				$data = array(
-					'password_braldun' => md5($this->password_braldun),
+					'password_hash_braldun' => $this->password_hash_braldun,
+					'password_salt_braldun' => $salt,
 				);
 				$where = "id_braldun=".$braldun->id_braldun;
 				$braldunTable->update($data, $where);
@@ -115,7 +119,7 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlGeneration .= "/Perdu/generation?e=".$this->email_braldun;
 		$this->view->urlGeneration .= "&h=".md5($this->prenom_braldun);
-		$this->view->urlGeneration .= "&p=".$this->password_braldun;
+		$this->view->urlGeneration .= "&p=".$this->password_hash_braldun;
 		
 		$this->view->prenom_braldun = $this->prenom_braldun;
 		$this->view->nom_braldun = $this->nom_braldun;
@@ -141,7 +145,7 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlValidation .= "/Perdu/generation?e=".$this->email_braldun;
 		$this->view->urlValidation .= "&h=".md5($this->prenom_braldun);
-		$this->view->urlValidation .= "&p=".md5($this->password_braldun);
+		$this->view->urlValidation .= "&p=".$this->password_hash_braldun;
 		
 		$this->view->nom_braldun = $this->nom_braldun;
 		$this->view->prenom_braldun = $this->prenom_braldun;
