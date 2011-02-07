@@ -48,8 +48,8 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$passwordHash = Bral_Util_Hash::getHashString($salt, $b["password_braldun"]);
 			
 			$data = array(
-				'password_salt' => $salt, 
-				'password_hash' => $passwordHash
+				'password_salt_braldun' => $salt, 
+				'password_hash_braldun' => $passwordHash
 			);
 			
 			$where = 'id_braldun = '.$b['id_braldun'];
