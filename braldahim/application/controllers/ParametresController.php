@@ -39,6 +39,13 @@ class ParametresController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
+
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
+
+		$this->view->password_hash_braldun = $braldun->password_hash_braldun;
+			
 		$this->render();
 	}
 
@@ -146,7 +153,7 @@ class ParametresController extends Zend_Controller_Action {
 			$braldun = $braldunRowset->current();
 
 			$passwordHash = Bral_Util_Hash::getHashString($braldun->password_salt_braldun, md5($this->password_actuel_braldun));
-				
+
 			$validPasswordActuel = ($passwordHash == $braldun->password_hash_braldun);
 			$validPasswordNouveau = $validateurPasswordNouveau->isValid($this->password_nouveau_braldun);
 			$validPasswordConfirm = ($this->password_confirm_braldun == $this->password_nouveau_braldun);
@@ -208,7 +215,7 @@ class ParametresController extends Zend_Controller_Action {
 			$braldunTable = new Braldun();
 			$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 			$braldun = $braldunRowset->current();
-			
+
 			$passwordHash = Bral_Util_Hash::getHashString($braldun->password_salt_braldun, md5($this->password_actuel_braldun));
 			$validPassword = ($passwordHash == $braldun->password_hash_braldun);
 			$validEmailActuel = ($this->email_actuel_braldun == $braldun->email_braldun);
