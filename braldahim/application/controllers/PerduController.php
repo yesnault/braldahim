@@ -46,7 +46,7 @@ class PerduController extends Zend_Controller_Action {
 					$this->view->emailGenerationOk = true;
 					$this->prenom_braldun = $braldun->prenom_braldun;
 					$this->nom_braldun = $braldun->nom_braldun;
-					$this->password_braldun = $braldun->password_braldun;
+					$this->password_hash_braldun = $braldun->password_hash_braldun;
 					$this->id_braldun = $braldun->id_braldun;
 					
 					try {
@@ -99,7 +99,7 @@ class PerduController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Bral_Util_Hash');
 				$salt = Bral_Util_Hash::getSalt();
 				$this->password_braldun = Bral_Util_De::get_chaine_aleatoire(6);
-				$this->password_hash_braldun = Bral_Util_Hash::getHashString($salt, $this->password_braldun);
+				$this->password_hash_braldun = Bral_Util_Hash::getHashString($salt, md5($this->password_braldun));
 				
 				$data = array(
 					'password_hash_braldun' => $this->password_hash_braldun,

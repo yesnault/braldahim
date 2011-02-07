@@ -326,7 +326,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Bral_Util_Hash');
 		$salt = Bral_Util_Hash::getSalt();
-		$passwordHash = Bral_Util_Hash::getHashString($salt, $this->password_braldun);
+		$passwordHash = Bral_Util_Hash::getHashString($salt, md5($this->password_braldun));
 			
 		$data = array(
 			'nom_braldun' => $nom_braldun,

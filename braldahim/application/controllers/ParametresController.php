@@ -131,6 +131,7 @@ class ParametresController extends Zend_Controller_Action {
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass("Bral_Validate_StringLength");
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
+			Zend_Loader::loadClass('Bral_Util_Hash');
 
 			$validateurPasswordNouveau = new Bral_Validate_StringLength(5, 20);
 
@@ -144,14 +145,20 @@ class ParametresController extends Zend_Controller_Action {
 			$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 			$braldun = $braldunRowset->current();
 
-			$validPasswordActuel = (md5($this->password_actuel_braldun) == $braldun->password_braldun);
+			$passwordHash = Bral_Util_Hash::getHashString($braldun->password_salt_braldun, md5($this->password_actuel_braldun));
+				
+			$validPasswordActuel = ($passwordHash == $braldun->password_hash_braldun);
 			$validPasswordNouveau = $validateurPasswordNouveau->isValid($this->password_nouveau_braldun);
 			$validPasswordConfirm = ($this->password_confirm_braldun == $this->password_nouveau_braldun);
 
 			if (($validPasswordActuel) && ($validPasswordNouveau) && ($validPasswordConfirm)) {
 
+				$salt = Bral_Util_Hash::getSalt();
+				$passwordHash = Bral_Util_Hash::getHashString($salt, md5($this->password_nouveau_braldun));
+
 				$data = array(
-					'password_braldun' => md5($this->password_nouveau_braldun),
+					'password_hash_braldun' => $passwordHash,
+					'password_salt_braldun' => $salt,
 				);
 				$where = "id_braldun=".$braldun->id_braldun;
 				$braldunTable->update($data, $where);
@@ -187,11 +194,12 @@ class ParametresController extends Zend_Controller_Action {
 			Zend_Loader::loadClass("Bral_Validate_StringLength");
 			Zend_Loader::loadClass("Bral_Validate_Inscription_EmailBraldun");
 			Zend_Loader::loadClass("Zend_Validate_EmailAddress");
+			Zend_Loader::loadClass('Bral_Util_Hash');
 
 			$validateurEmailNouveau = new Bral_Validate_Inscription_EmailBraldun();
 
 			$filter = new Zend_Filter_StripTags();
-			$this->password_braldun = trim($filter->filter(trim($this->_request->getPost('email_password_actuel_braldun'))));
+			$this->password_actuel_braldun = trim($filter->filter(trim($this->_request->getPost('email_password_actuel_braldun'))));
 			$this->email_actuel_braldun = trim($filter->filter(trim($this->_request->getPost('email_actuel_braldun'))));
 			$this->email_nouveau_braldun = trim($filter->filter(trim($this->_request->getPost('email_nouveau_braldun'))));
 			$this->email_confirm_braldun = trim($filter->filter(trim($this->_request->getPost('email_confirm_braldun'))));
@@ -200,8 +208,9 @@ class ParametresController extends Zend_Controller_Action {
 			$braldunTable = new Braldun();
 			$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 			$braldun = $braldunRowset->current();
-
-			$validPassword = (md5($this->password_braldun) == $braldun->password_braldun);
+			
+			$passwordHash = Bral_Util_Hash::getHashString($braldun->password_salt_braldun, md5($this->password_actuel_braldun));
+			$validPassword = ($passwordHash == $braldun->password_hash_braldun);
 			$validEmailActuel = ($this->email_actuel_braldun == $braldun->email_braldun);
 			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_braldun, ($this->view->config->general->production == 1));
 			$validEmailConfirm = ($this->email_confirm_braldun == $this->email_nouveau_braldun);
@@ -257,7 +266,7 @@ class ParametresController extends Zend_Controller_Action {
 		$braldun = $braldunRowset->current();
 			
 		if ($this->_request->isPost()) {
-				
+
 			if ($envoi_mail_message != "oui" && $envoi_mail_message != "non") {
 				throw new Zend_Exception("Erreur envoi_mail_message:".$envoi_mail_message);
 			}
