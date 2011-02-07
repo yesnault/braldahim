@@ -114,7 +114,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            $auth = Zend_Auth::getInstance(); 
 	            $result = $auth->authenticate($authAdapter); 
 	            if ($result->isValid()) {
-	            	$braldun = $authAdapter->getResultRowObject(null,'password_braldun'); 
+	            	$braldun = $authAdapter->getResultRowObject(null, array('password_hash_braldun', 'password_salt_braldun')); 
 	            	if ($braldun->est_compte_actif_braldun == "oui" && $braldun->est_en_hibernation_braldun == "non") {
 		                $auth->getStorage()->write($braldun); 
 						// activation du tour

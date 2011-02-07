@@ -40,11 +40,16 @@ class AbusController extends Zend_Controller_Action {
 			$authAdapter->setTableName('braldun');
 
 			$authAdapter->setIdentityColumn('email_braldun');
-			$authAdapter->setCredentialColumn('password_braldun');
+			$authAdapter->setCredentialColumn('password_hash_braldun');
 
+			$braldunTable = new Braldun();
+			$salt = $braldunTable->getSaltByEmail($email);
+			$salt = $salt["password_salt_braldun"];
+				
 			// Set the input credential values to authenticate against
 			$authAdapter->setIdentity($email);
-			$authAdapter->setCredential(md5($password));
+			$passwordHash = Bral_Util_Hash::getHashString($salt, md5($password));
+			$authAdapter->setCredential($passwordHash);
 
 			// do the authentication
 			$auth = Zend_Auth::getInstance();
@@ -53,7 +58,7 @@ class AbusController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Abus');
 				Zend_Loader::loadClass('Zend_Filter');
 				
-				$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
+				$braldun = $authAdapter->getResultRowObject(null, array('password_hash_braldun', 'password_salt_braldun'));
 
 				$abusTable = new Abus();
 				

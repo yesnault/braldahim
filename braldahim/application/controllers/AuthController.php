@@ -85,7 +85,7 @@ class AuthController extends Zend_Controller_Action {
 			$result = $auth->authenticate($authAdapter);
 			if ($result->isValid()) {
 
-				$braldun = $authAdapter->getResultRowObject(null, array('password_braldun'));
+				$braldun = $authAdapter->getResultRowObject(null, array('password_hash_braldun', 'password_salt_braldun'));
 
 				Zend_Loader::loadClass("Bral_Util_Admin");
 				Bral_Util_Admin::init($braldun);

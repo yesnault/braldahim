@@ -125,7 +125,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		}
 		
 		Zend_Loader::loadClass("Bral_Util_Inscription");
-		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->braldun["id_braldun"], $this->view->braldun["email_braldun"], md5($this->view->braldun["prenom_braldun"]), $this->view->braldun["password_braldun"]);
+		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->braldun["id_braldun"], $this->view->braldun["email_braldun"], md5($this->view->braldun["prenom_braldun"]), $this->view->braldun["password_hash_braldun"]);
 		
 	}
 
@@ -153,7 +153,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		$auth = Zend_Auth::getInstance();
 		$result = $auth->authenticate($authAdapter);
 		if ($result->isValid()) {
-			$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
+			$braldun = $authAdapter->getResultRowObject(null,array('password_hash_braldun', 'password_salt_braldun'));
 			if ($braldun->est_compte_actif_braldun == "oui") {
 				$auth->getStorage()->write($braldun);
 				// activation du tour
