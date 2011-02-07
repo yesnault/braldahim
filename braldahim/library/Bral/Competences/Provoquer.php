@@ -106,7 +106,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_braldun);
 		$this->view->jetBraldun = $jetBraldun + $this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun;
 		
-		$jetMonstre = Bral_Util_De::getLanceDe6($monstre["sagesse_base_monstre"]);
+		$jetMonstre = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $monstre["sagesse_base_monstre"]);
 		$this->view->jetMonstre = $jetMonstre + $monstre["sagesse_bm_monstre"];
 		
 		if ($this->view->jetBraldun > $this->view->jetMonstre) {
