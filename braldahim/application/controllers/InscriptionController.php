@@ -55,7 +55,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		if ($braldun != null && $md5_prenom_braldun != null && $md5_prenom_braldun != "" && $hash_password_braldun != null && $hash_password_braldun != "") {
 			if ($braldun->est_compte_actif_braldun == 'non' && count($braldun) > 0) {
-				if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($hash_password_braldun == $braldun->password_braldun)) {
+				if ($md5_prenom_braldun == md5($braldun->prenom_braldun) && ($hash_password_braldun == $braldun->password_hash_braldun)) {
 					$this->view->validationOk = true;
 
 					$dataParents = $this->calculParent($braldun->id_braldun);
