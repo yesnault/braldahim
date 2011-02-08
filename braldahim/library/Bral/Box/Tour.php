@@ -262,7 +262,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				
 			if ($this->braldun->est_intangible_prochaine_braldun == "oui") {
 				$this->braldun->est_intangible_braldun = "oui";
-				$this->braldun->est_intangible_prochaine_braldun == "non";
+				$this->braldun->est_intangible_prochaine_braldun = "non";
 			}
 
 			Zend_Loader::loadClass("Bral_Util_Faim");

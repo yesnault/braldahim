@@ -50,7 +50,7 @@ class Bral_Scripts_Equipements extends Bral_Scripts_Script {
 
 		if ($equipementsRowset != null) {
 			foreach($equipementsRowset as $e) {
-				$retour .= "EQUIPEMENT;".$e["id_equipement"].PHP_EOL;
+				$retour .= "EQUIPEMENT;".$e["id_equipement_hequipement"].PHP_EOL;
 			}
 		} else {
 			$retour .= "AUCUN_EQUIPEMENT";

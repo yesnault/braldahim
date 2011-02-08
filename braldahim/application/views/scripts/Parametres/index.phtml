@@ -30,6 +30,18 @@
 			<span class="titre textalic textsizeb">Contacter les enquêteurs</span><br />
 			<input type="button" class='button1' value="Partage de connexion" onclick="javascript:document.location.href='/Parametres/partage'"/>
 			<input type="button" class='button1' value="Contacter un enqu&ecirc;teur" onclick="javascript:document.location.href='/Parametres/contacter'"/> 
+			 <br /><br /><br /><br />
+			
+			<span class="titre textalic textsizeb">Votre mot de passe restreint</span><br />
+			Les développeurs externes à l'équipe peuvent développer des outils (interface tactique par exemple)<br /> 
+			via les <a href="http://sp.braldahim.com">scripts publics</a>.
+			Ce mot de passe peut vous être demandé pour accéder à ces outils en toute sécurité. <br />
+			Il ne peut pas être déchiffré pour obtenir votre mot de passe de connexion au jeu.<br />
+			Il ne peut pas être utilisé pour s'identifier sur l'interface de jeu.<br />
+			
+			<pre>
+			 <?php echo $this->password_hash_braldun ?>
+			</pre>
 			 
 			<br /><br /><br /><br />
 			

@@ -13,6 +13,7 @@ body {
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
     background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
+    background: url('/images/fond1.jpg');
 }
 
 #frisebot, #frisetop {
@@ -530,7 +531,7 @@ span.resultat_cache {
 	z-index: 9999;
 	
 	margin-left:auto !important;
-	margin-right:auto !important;
+margin-right:auto !important;
 }
 
 .box_erreur *{
@@ -540,11 +541,6 @@ span.resultat_cache {
 	width: auto;
 	height: auto;
 	font: 11px arial, verdana, sans-serif;
-	margin-top:10px
-}
-
-#erreur_message_static {
-	height:100px;	
 }
 
 .inner { /* exterieur de boite */

@@ -367,7 +367,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				"quantite_echoppe_munition" => $nbMunitions,
 				"id_fk_echoppe_echoppe_munition" => $this->idEchoppe,
 			);
-			$echoppeMunitionTable->insert($data);
+			$echoppeMunitionTable->insertOrUpdate($data);
 
 		} else {
 

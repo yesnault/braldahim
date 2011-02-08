@@ -251,6 +251,15 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function getSaltByEmail($email) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('braldun', 'password_salt_braldun')
+		->where('lcase(email_braldun) = ?',(string)mb_strtolower(trim($email)));
+		$sql = $select->__toString();
+		return $db->fetchrow($sql);
+	}
 
 	function findBraldunsParNomPrenom($nom, $prenom) {
 		$db = $this->getAdapter();

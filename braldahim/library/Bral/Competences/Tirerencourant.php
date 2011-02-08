@@ -70,15 +70,23 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("Tunnel");
 			$tunnelTable = new Tunnel();
 			
+			Zend_Loader::loadClass("Eau");
+			$eauTable = new Eau();
+			$eaux = null;
+			
 			for ($x=$x_min;$x<=$x_max;$x++){
 				for ($y=$y_min;$y<=$y_max;$y++){
+					
 					if ( !($x == $this->view->user->x_braldun && $y == $this->view->user->y_braldun)){
 						if (($palissadeTable->findByCase($x, $y, $z) == null) && ($x <= $this->view->config->game->x_max) && ($x >= $this->view->config->game->x_min) && ($y <= $this->view->config->game->y_max) && ($y >= $this->view->config->game->y_min)){
 							if ($zone["est_mine_zone"] == 'non' || $tunnelTable->findByCase($x, $y, $z) != null) {
-								$tabCoord[]=array(
-									'x' => $x,
-									'y' => $y,
-								);
+								$eaux = $eauTable->findByCase($x, $y, $z);
+								if ( count ($eaux) == 0 || $eaux[0]["type_eau"] == "peuprofonde") {
+									$tabCoord[]=array(
+										'x' => $x,
+										'y' => $y,
+									);
+								}
 							}
 						}
 					}
