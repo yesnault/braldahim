@@ -7,12 +7,9 @@
  */
 class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
+	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
 		$this->preparePage();
 
 		$this->view->isUpdateDescription = false;
@@ -26,6 +23,8 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 			}
 		}
 	}
+	
+	function prepareFormulaire() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";

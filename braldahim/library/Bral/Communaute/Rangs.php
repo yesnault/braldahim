@@ -1,22 +1,20 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("RangCommunaute");
+	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
-
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
+		Zend_Loader::loadClass("RangCommunaute");
 		$this->preparePage();
 		$this->updateRang();
 	}
+
+	function prepareFormulaire() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
@@ -28,7 +26,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 
 	function preparePage() {
 		$estGestionnaire = false;
-		
+
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
@@ -37,7 +35,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 				$estGestionnaire = true;
 			}
 		}
-		
+
 		if ($estGestionnaire == false) {
 			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionnaire");
 		}
@@ -46,7 +44,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		}
 		$this->communaute = $communaute;
 	}
-	
+
 	function render() {
 		$rangCommunauteTable = new RangCommunaute();
 		$rangsCommunauteRowset = $rangCommunauteTable->findByIdCommunaute($this->communaute["id_communaute"]);
@@ -60,17 +58,17 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
-		
+
 		$this->view->tabRangs = $tabRangs;
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/communaute/gerer/rangs.phtml");
 	}
-	
+
 	private function updateRang() {
 		if (($this->_request->get("caction") == "ask_communaute_rangs") && ($this->_request->get("valeur_1") != "") && ($this->_request->get("valeur_2") != "")) {
 			$champ = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_1"));
 			$idRang = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
-			
+				
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
@@ -80,7 +78,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		} else {
 			return;
 		}
-		
+
 		if ($champ == 1) {
 			if (mb_strlen($valeur) > 40) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : valeur=".$valeur);
@@ -98,9 +96,9 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		} else {
 			throw new Zend_Exception(get_class($this)." Champ invalide : champ=".$champ);
 		}
-		
+
 		$rangCommunauteTable = new RangCommunaute();
-		
+
 		$data = array($champSql => $valeurSql);
 		$where = " id_rang_communaute=".intval($idRang);
 		$where .= " AND id_fk_communaute_rang_communaute=".$this->communaute["id_communaute"];

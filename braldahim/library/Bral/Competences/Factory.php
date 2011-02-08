@@ -6,6 +6,7 @@
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Competences_Factory {
+	
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");

@@ -1,25 +1,24 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
+	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
-
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
+		
 		$this->preparePage();
 	}
 
 	function getNomInterne() {
 		return "box_communaute_action";
 	}
+
+	function prepareFormulaire() {}
 
 	function setDisplay($display) {
 		$this->view->display = $display;
@@ -32,20 +31,20 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		$this->view->page = "";
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
-		
+
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
 		}
-		
+
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
-		
+
 		$braldunTable = new Braldun();
 		$nbMembresTotal = $braldunTable->countByIdCommunaute($communaute["id_communaute"]);
-		
+
 		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
@@ -61,7 +60,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
 			);
 		}
-		
+
 		$rangCommunauteTable = new RangCommunaute();
 		$rangsCommunauteRowset = $rangCommunauteTable->findByIdCommunaute($communaute["id_communaute"]);
 		$tabRangs = null;
@@ -73,7 +72,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
-		
+
 		if ($this->_page == 1) {
 			$this->view->precedentOk = false;
 		} else {
@@ -85,7 +84,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		} else {
 			$this->view->suivantOk = true;
 		}
-		
+
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
 		$this->view->ordre = $this->_ordre;
@@ -96,10 +95,10 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/communaute/membres.phtml");
 	}
-	
+
 	private function preparePage() {
 		$this->_page = 1;
-		
+
 		if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "f")) {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
@@ -124,19 +123,19 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 			$ordre = -1;
 			$sensOrdre = 1;
 		}
-		
+
 		$this->_ordre = $ordre;
 		$this->_sensOrdre = $sensOrdre;
-		
+
 		$this->_ordreSql = $this->getChampOrdre($ordre);
 		$this->_sensOrdreSql = $this->getSensOrdre($sensOrdre);
-		
+
 		if ($this->_page < 1) {
 			$this->_page = 1;
 		}
 		$this->_nbMax = $this->view->config->communaute->membres->nb_affiche;
 	}
-	
+
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
@@ -156,7 +155,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		}
 		return $retour;
 	}
-	
+
 	private function getSensOrdre($sensOrdre) {
 		$sens = " ASC ";
 		if ($sensOrdre % 2 == 0) {

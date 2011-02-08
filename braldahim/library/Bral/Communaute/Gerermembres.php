@@ -1,25 +1,23 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
+	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
 
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		
 		$this->view->message = null;
 		$this->preparePage();
 		$this->updateRangBraldun();
 		$this->updateExclureBraldun();
 	}
+
+	function prepareFormulaire() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
@@ -28,7 +26,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
-	
+
 	function anotherXmlEntry() {
 		if ($this->view->message != null) {
 			$xml_entry = new Bral_Xml_Entry();
@@ -39,8 +37,8 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		} else {
 			return null;
 		}
-	}			
-	
+	}
+
 	private function prepareRender() {
 		$communaute = null;
 		$this->view->tri = "";
@@ -48,20 +46,20 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->view->page = "";
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
-		
+
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
 		}
-		
+
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
-		
+
 		$braldunTable = new Braldun();
 		$nbMembresTotal = $braldunTable->countByIdCommunaute($communaute["id_communaute"]);
-		
+
 		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
@@ -77,7 +75,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
 			);
 		}
-		
+
 		$rangCommunauteTable = new RangCommunaute();
 		$rangsCommunauteRowset = $rangCommunauteTable->findByIdCommunaute($communaute["id_communaute"]);
 		$tabRangs = null;
@@ -89,7 +87,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
-		
+
 		if ($this->_page == 1) {
 			$this->view->precedentOk = false;
 		} else {
@@ -101,7 +99,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		} else {
 			$this->view->suivantOk = true;
 		}
-		
+
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
 		$this->view->ordre = $this->_ordre;
@@ -111,15 +109,15 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->view->nbMembresTotal = $nbMembresTotal;
 		$this->view->nom_interne = $this->getNomInterne();
 	}
-	
+
 	public function render() {
 		$this->prepareRender();
 		return $this->view->render("interface/communaute/gerer/membres.phtml");
 	}
-	
+
 	private function preparePage() {
 		$this->_page = 1;
-		
+
 		if ($this->_request->get("valeur_1") == "f") {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
@@ -149,19 +147,19 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$ordre = -1;
 			$sensOrdre = 1;
 		}
-		
+
 		$this->_ordre = $ordre;
 		$this->_sensOrdre = $sensOrdre;
-		
+
 		$this->_ordreSql = $this->getChampOrdre($ordre);
 		$this->_sensOrdreSql = $this->getSensOrdre($sensOrdre);
-		
+
 		if ($this->_page < 1) {
 			$this->_page = 1;
 		}
 		$this->_nbMax = $this->view->config->communaute->membres->nb_affiche;
 	}
-	
+
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
@@ -181,7 +179,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		}
 		return $retour;
 	}
-	
+
 	private function getSensOrdre($sensOrdre) {
 		$sens = " ASC ";
 		if ($sensOrdre % 2 == 0) {
@@ -191,14 +189,14 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		}
 		return $sens;
 	}
-	
+
 	private function updateRangBraldun() {
 		if ($this->_request->get("valeur_1") == "r") {
 			$this->prepareRender();
-			
+				
 			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$idRangBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_8"));
-			
+				
 			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
 				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
@@ -209,10 +207,10 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($braldunTrouve == false) {
 				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
-			
+				
 			$rangTrouve = false;
 			foreach($this->view->tabRangs as $r) {
-			if ($r["id_rang"] == $idRangBraldun) {
+				if ($r["id_rang"] == $idRangBraldun) {
 					$rangTrouve = true;
 					break;
 				}
@@ -220,22 +218,22 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($rangTrouve == false) {
 				throw new Zend_Exception(get_class($this)." rang invalide : val=".$idRangBraldun);
 			}
-			
+				
 			$braldunTable = new Braldun();
 			$data = array('id_fk_rang_communaute_braldun' => $idRangBraldun);
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
-			
+				
 			$this->view->message = "Modification du Braldûn ".$idBraldun. " effectuée";
 		}
 	}
-	
+
 	private function updateExclureBraldun() {
 		if ($this->_request->get("valeur_1") == "e") {
 			$this->prepareRender();
-			
+				
 			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_9"));
-			
+				
 			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
 				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre exclu
@@ -246,7 +244,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($braldunTrouve == false) {
 				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
-			
+				
 			$braldunTable = new Braldun();
 			$data = array(
 				'id_fk_communaute_braldun' => null,
@@ -255,7 +253,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			);
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
-			
+				
 			$this->view->message = "Exclusion du Braldûn ".$idBraldun. " effectuée";
 		}
 	}

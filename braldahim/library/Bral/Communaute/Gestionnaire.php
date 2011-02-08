@@ -1,27 +1,26 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
+	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
-		
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
+
 		$this->preparePage();
 
 		$this->view->isUpdateGestionnaire = false;
-		
+
 		if ($this->_request->get("caction") == "do_communaute_gestionnaire") {
 			$this->updateGestionnaire();
 		}
 	}
+
+	function prepareFormulaire() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
@@ -30,10 +29,10 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
-	
+
 	function preparePage() {
 		$estGestionnaire = false;
-		
+
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
@@ -42,17 +41,17 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 				$estGestionnaire = true;
 			}
 		}
-		
+
 		if ($estGestionnaire == false) {
 			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionaire");
 		}
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
-		
+
 		$this->communaute = $communaute;
 	}
-	
+
 	private function prepareRender() {
 		$c = array(
 			"prenom_braldun" => $this->communaute["prenom_braldun"], 
@@ -60,7 +59,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 			"id_braldun" => $this->communaute["id_braldun"], 
 		);
 		$this->view->communaute = $c;
-		
+
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->findByIdCommunaute($this->communaute["id_communaute"]);
 		$tabMembres = null;
@@ -79,7 +78,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
 		$this->view->tabMembres = $tabMembres;
 	}
-		
+
 	public function render() {
 		$this->prepareRender();
 		$this->view->nom_interne = $this->getNomInterne();
@@ -88,9 +87,9 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
 	private function updateGestionnaire() {
 		$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost("valeur_1"));
-		
+
 		$this->prepareRender();
-		
+
 		$braldunTrouve = false;
 		foreach($this->view->tabMembres as $m) {
 			if ($m["id_braldun"] == $idBraldun) {
@@ -98,31 +97,31 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 				break;
 			}
 		}
-		
+
 		if ($braldunTrouve == false) {
 			throw new Zend_Exception(get_class($this)." Braldûn Invalide:".$idBraldun);
 		}
-		
+
 		$communauteTable = new Communaute();
 		$data = array("id_fk_braldun_gestionnaire_communaute" => $idBraldun);
 		$where = " id_communaute=".$this->communaute["id_communaute"];
 		$communauteTable->update($data, $where);
-		
+
 		$braldunTable = new Braldun();
 		$rangCommunauteTable = new RangCommunaute();
 		$rowSet = $rangCommunauteTable->findRangCreateur($this->communaute["id_communaute"]);
-		
+
 		$data = array('id_fk_rang_communaute_braldun' => $rowSet["id_rang_communaute"]);
 		$where = 'id_braldun = '.$idBraldun;
 		$braldunTable->update($data, $where);
-		
+
 		$rowSet = $rangCommunauteTable->findRangSecond($this->communaute["id_communaute"]);
 		$this->view->user->id_fk_rang_communaute_braldun = $rowSet["id_rang_communaute"];
 		$data = array('id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun);
 		$where = 'id_braldun = '.$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
-		
+
 		$this->view->isUpdateGestionnaire = true;
 	}
-	
+
 }

@@ -7,12 +7,8 @@
  */
 class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 
-	function __construct($request, $view, $interne) {
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-
-	}
+	function prepareCommun() {}
+	function prepareFormulaire() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";

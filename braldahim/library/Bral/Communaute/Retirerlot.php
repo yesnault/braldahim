@@ -5,17 +5,17 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Retirerlot extends Bral_Commuanute_Communaute {
+class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 
 	function getNomInterne() {
-		return "box_message_communaute";
+		return "box_action";
 	}
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Lot");
 
-		$id_lot = $this->request->get("valeur_1");
+		$id_lot = $this->_request->get("valeur_1");
 		
 		//TODO verifier les droits du braldûn
 
@@ -41,4 +41,5 @@ class Bral_Communaute_Retirerlot extends Bral_Commuanute_Communaute {
 	function getListBoxRefresh() {
 		return array("box_profil", "box_lieu", "box_communaute", "box_evenements");
 	}
+	
 }

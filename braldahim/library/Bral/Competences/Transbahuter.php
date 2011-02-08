@@ -485,6 +485,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments ';
 		}
 
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) {
+			$this->setNbPaSurcharge(0);
+			$this->view->assezDePa = true;
+		}
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -512,8 +516,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tab[] = 'box_echoppes';
 			$tab[] = 'box_echoppe';
 		}
-		
-		if (array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit) 
+
+		if (array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
 		|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
 		|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))) {
 			$tab[] = 'box_communaute';
@@ -531,10 +535,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function prepareType($endroit) {
-		
+
 		$depart = $endroit['nom_systeme'];
 		$idTypeDepart = $endroit['id_type_endroit'];
-		
+
 		if ($this->view->idCharretteEtal != null) {
 			$this->prepareTypeMateriel($depart, $idTypeDepart);
 			return;
@@ -1040,7 +1044,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departRuneTable = new CharretteRune();
 						break;
 					default:
-					throw new Zend_Exception('Depart Rune invalide : '.$depart.' id:'.$idTypeDepart);
+						throw new Zend_Exception('Depart Rune invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departRuneTable->delete($where);
@@ -2771,7 +2775,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function deposeTypeGraines($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 
-		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE 
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL

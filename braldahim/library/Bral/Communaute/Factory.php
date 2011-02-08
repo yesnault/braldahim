@@ -6,6 +6,7 @@
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Communaute_Factory {
+	
 	static function getAction($request, $view) {
 		
 		Zend_Loader::loadClass("Bral_Communaute_Communaute");  
@@ -13,10 +14,10 @@ class Bral_Communaute_Factory {
 		$matches = null;
 		preg_match('/(.*)_communaute_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"
-		$section = $matches[2];
+		$nomSystemeAction = $matches[2];
 		$construct = null;
 
-		$construct = "Bral_Communaute_".Bral_Util_String::firstToUpper($section);
+		$construct = "Bral_Communaute_".Bral_Util_String::firstToUpper($nomSystemeAction);
 		// verification que la classe existe.
 		try {
 			Zend_Loader::loadClass($construct);  
@@ -24,8 +25,8 @@ class Bral_Communaute_Factory {
 	  	  	throw new Zend_Exception("Bral_Communaute_Factory Action invalide (classe): ".$construct);
 	    }
 	    
-		if (class_exists($construct)) {
-			return new $construct ($request, $view, $action);
+		if (($construct != null) && class_exists($construct)) {
+			return new $construct ($nomSystemeAction, $request, $view, $action);
 		} else {
 			throw new Zend_Exception("Bral_Communaute_Factory Classe invalide: ".$construct);
 		}

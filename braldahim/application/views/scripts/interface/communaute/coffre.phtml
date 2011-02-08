@@ -1,6 +1,14 @@
 <br />
 <div class="titre textalic textsizec">Coffre de Communauté</div><br />
 
+<?php  
+      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=11&valeur_2=12')\"";
+    /*else:
+      $attr = "disabled";
+    endif;*/?>
+    
+<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">
+
 <?php echo $this->render('interface/commun/poches.phtml'); ?>
 
 <hr />
