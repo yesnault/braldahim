@@ -15,7 +15,7 @@ Pour modifier un nom ou une description, cliquez dessus.<br />
 <?php $i = 0;
    foreach($this->tabRangs as $r) :?>
 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-	  <td class="table_liste"><?php echo htmlspecialchars($r["id_rang"]) ?></td>
+	  <td class="table_liste"><?php echo htmlspecialchars($r["ordre_rang_communaute"]) ?></td>
 	  <td class="table_liste" > 
 	  	<label id="label_nom<?php echo $r["id_rang"] ?>" onclick="this.style.display='none'; $('value_nom<?php echo $r["id_rang"] ?>').style.display='block' ; $('bouton_nom<?php echo $r["id_rang"] ?>').style.display='block'">
 	  		<?php echo htmlspecialchars($r["nom"]) ?><?php if (mb_strlen(trim($r["nom"])) == 0 || $r["nom"] == null) :?> [vide]<?php endif; ?>
