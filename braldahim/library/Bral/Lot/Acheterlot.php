@@ -292,9 +292,9 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 			$this->calculDepotCastars($lot);
 			if ($this->view->estSurEchoppe) {
-				$this->calculDepotMessageHotel($lot);
-			} else {
 				$this->calculDepotMessageEtal($lot);
+			} else {
+				$this->calculDepotMessageHotel($lot);
 			}
 
 			$details .= " n°".$lot["id_lot"];

@@ -194,7 +194,7 @@ abstract class Bral_Scripts_Script {
 			return self::ERREUR_03_BRALDUN_INCONNU;
 		}
 
-		if ($braldunRow->password_braldun != $mdpRestreintRecu) {
+		if ($braldunRow->password_hash_braldun != $mdpRestreintRecu) {
 			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (".$idBraldun.", ".$mdpRestreintRecu.") - exit -");
 			return self::ERREUR_04_MDP_INVALIDE;
 		}

@@ -32,7 +32,7 @@ class Bral_Util_BralSession {
 		$authAdapter->setIdentity($user->id_braldun);
 		$authAdapter->setCredential($user->email_braldun);
 		$result = $auth->authenticate($authAdapter);
-		$braldun = $authAdapter->getResultRowObject(null,'password_braldun');
+		$braldun = $authAdapter->getResultRowObject(null, array('password_braldun', 'password_salt_braldun'));
 		
 		$sessionTable = new Session();
 		$sessionTable->purge();

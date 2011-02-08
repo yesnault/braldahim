@@ -189,7 +189,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .= "Vous n'avez peut-être pas reçu le mail de validation d'inscription à Braldahim. Le voici ci-dessous :".PHP_EOL.PHP_EOL;
 				$this->view->prenom_braldun = $h["prenom_braldun"];
 				$this->view->id_braldun = $h["id_braldun"];
-				$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_braldun"]);
+				$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_hash_braldun"]);
 				$this->view->adresseSupport = $this->config->general->adresseSupport;
 				
 				$contenuText = $this->view->render("inscription/mailText.phtml");
