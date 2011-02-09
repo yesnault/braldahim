@@ -75,8 +75,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			$eaux = null;
 			
 			for ($x=$x_min;$x<=$x_max;$x++){
-				for ($y=$y_min;$y<=$y_max;$y++){
-					
+				for ($y=$y_min;$y<=$y_max;$y++){				
 					if ( !($x == $this->view->user->x_braldun && $y == $this->view->user->y_braldun)){
 						if (($palissadeTable->findByCase($x, $y, $z) == null) && ($x <= $this->view->config->game->x_max) && ($x >= $this->view->config->game->x_min) && ($y <= $this->view->config->game->y_max) && ($y >= $this->view->config->game->y_min)){
 							if ($zone["est_mine_zone"] == 'non' || $tunnelTable->findByCase($x, $y, $z) != null) {
@@ -105,7 +104,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
 					// recuperation des bralduns qui sont presents sur la case
 					$braldunTable = new Braldun();
-					$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->id_braldun, false);
+					$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
 					foreach($bralduns as $h) {
 						$tab = array(
 							'id_braldun' => $h["id_braldun"],
