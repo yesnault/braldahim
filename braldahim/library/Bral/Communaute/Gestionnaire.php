@@ -31,19 +31,16 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	}
 
 	function preparePage() {
-		$estGestionnaire = false;
-
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
-			if ($communaute["id_fk_braldun_gestionnaire_communaute"] == $this->view->user->id_braldun) {
-				$estGestionnaire = true;
-			}
 		}
 
-		if ($estGestionnaire == false) {
-			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionaire");
+		if (!$this->view->user->rangCommunaute == Bral_Util_Communaute::ID_RANG_GESTIONNAIRE) {
+			throw new Zend_Exception(get_class($this)." Vous n'êtes pas gestionaire de la communauté");
 		}
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");

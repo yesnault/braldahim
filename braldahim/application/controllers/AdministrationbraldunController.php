@@ -94,7 +94,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 			if ($this->view->id_braldun != $this->view->user->id_braldun) {
 				throw new Zend_Exception("Braldun Invalide : (demande)".$this->view->id_braldun ."!= (courant)". $this->view->user->id_braldun);
 			}
-		} 
+		}
 
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->findById($this->view->id_braldun);
@@ -123,10 +123,10 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 			Bral_Util_Securite::controlAdmin(); // uniquement pour les admin
 			$this->view->mode = "complexe";
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Inscription");
 		$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($this->view->braldun["id_braldun"], $this->view->braldun["email_braldun"], md5($this->view->braldun["prenom_braldun"]), $this->view->braldun["password_hash_braldun"]);
-		
+
 	}
 
 	public function usurpationAction() {
@@ -168,6 +168,17 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 				Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = true;
 				Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
 				Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
+
+				Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
+					
+				if ($braldun->id_fk_communaute_braldun != null) {
+					Zend_Loader::loadClass("RangCommunaute");
+					$rangCommunauteTable = new RangCommunaute();
+					$rang = $rangCommunauteTable->findByIdRang($braldun->id_fk_rang_communaute_braldun);
+					if ($rang != null) {
+						Zend_Auth::getInstance()->getIdentity()->rangCommunaute = $rang[0]["ordre_rang_communaute"];
+					}
+				}
 
 				$sessionTable = new Session();
 				$where = "id_php_session = '".session_id()."'";

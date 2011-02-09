@@ -25,19 +25,16 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 	}
 
 	function preparePage() {
-		$estGestionnaire = false;
+		Zend_Loader::loadClass('Bral_Util_Communaute');
 
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
 			$communaute = $communauteRowset[0];
-			if ($communaute["id_fk_braldun_gestionnaire_communaute"] == $this->view->user->id_braldun) {
-				$estGestionnaire = true;
-			}
 		}
 
-		if ($estGestionnaire == false) {
-			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionnaire");
+		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_ADJOINT) {
+			throw new Zend_Exception(get_class($this)." Vos n'etes pas gestionnaire ou adjoint de la communauté");
 		}
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
@@ -68,7 +65,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		if (($this->_request->get("caction") == "ask_communaute_rangs") && ($this->_request->get("valeur_1") != "") && ($this->_request->get("valeur_2") != "")) {
 			$champ = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_1"));
 			$idRang = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
-				
+
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');

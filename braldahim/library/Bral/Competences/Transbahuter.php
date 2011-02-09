@@ -225,8 +225,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldun', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 			} elseif ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HALL) {
 				$estDepart = false;
-				if ($lieux[0]['id_fk_communaute_lieu'] == $this->view->user->id_fk_communaute_braldun) {
-					//TODO verifier les droits pour depart
+				if ($lieux[0]['id_fk_communaute_lieu'] == $this->view->user->id_fk_communaute_braldun
+				&& $this->view->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) {
 					$estDepart = true;
 				}
 				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Lieu)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $lieux[0]['id_fk_communaute_lieu']);
@@ -239,8 +239,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			return;
 		}
 
+		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
+			return;
+		}
+
 		if (!array_key_exists(self::ID_ENDROIT_HALL_LIEU, $tabEndroit)) {
-			//TODO verifier les droits pour depart
 			$estDepart = true;
 			$tabEndroit[self::ID_ENDROIT_COFFRE_COMMUNAUTE] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_COMMUNAUTE, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de ma Communauté (pour réservations)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
 		}
@@ -610,7 +613,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($unite_1 != TypeUnite::ID_TYPE_CASTARS) {
 			throw new Zend_Exception(get_class($this).' Type 1 invalide');
 		}
-			
+
 		Zend_Loader::loadClass('Lot');
 		Zend_Loader::loadClass('TypeLot');
 
@@ -735,7 +738,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
 			return;
 		}
-			
+
 		Zend_Loader::loadClass($depart.'Equipement');
 		Zend_Loader::loadClass($arrivee.'Equipement');
 
@@ -976,8 +979,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL) {
 			return;
 		}
-			
-			
+
+
 		Zend_Loader::loadClass($depart.'Rune');
 		Zend_Loader::loadClass($arrivee.'Rune');
 		Zend_Loader::loadClass('Bral_Util_Rune');
@@ -1390,7 +1393,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER) {
 			return;
 		}
-			
+
 		Zend_Loader::loadClass($depart.'Aliment');
 		Zend_Loader::loadClass($arrivee.'Aliment');
 

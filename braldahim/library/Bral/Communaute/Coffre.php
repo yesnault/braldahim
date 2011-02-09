@@ -23,6 +23,12 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 		Zend_Loader::loadClass('Bral_Util_Lot');
 		Zend_Loader::loadClass('Bral_Util_Poids');
 		Zend_Loader::loadClass('Bral_Util_String');
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		
+		if ($this->view->user->rangCommunaute == Bral_Util_Communaute::ID_RANG_NOUVEAU) {
+			throw new Zend_Exception("Vous n'avez pas accès au coffre, vous êtes nouveau");
+		}
+		
 		$this->view->lots = Bral_Util_Lot::getLotsByIdCommunaute($this->view->user->id_fk_communaute_braldun, false);
 
 		Zend_Loader::loadClass("Metier");

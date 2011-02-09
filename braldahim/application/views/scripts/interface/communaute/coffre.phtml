@@ -6,8 +6,10 @@
     /*else:
       $attr = "disabled";
     endif;*/?>
-    
-<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">
+
+<?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
+	<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">
+<?php endif;?>
 
 <?php echo $this->render('interface/commun/poches.phtml'); ?>
 
