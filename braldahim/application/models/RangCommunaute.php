@@ -20,6 +20,16 @@ class RangCommunaute extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findByIdRang($idRang) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('rang_communaute', '*')
+		->where('id_rang_communaute = ?', intval($idRang));
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findRangCreateur($idCommunaute) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -41,7 +51,7 @@ class RangCommunaute extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
-	
+
 	function findAll() {
 		$db = $this->getAdapter();
 		$select = $db->select();

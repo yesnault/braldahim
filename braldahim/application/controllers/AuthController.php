@@ -34,7 +34,7 @@ class AuthController extends Zend_Controller_Action {
 			$this->_forward("loginmobile");
 		} else {
 			Zend_Loader::loadClass('Bral_Helper_Bougrie');
-				
+
 			$this->loginWork();
 			$this->render();
 		}
@@ -57,9 +57,9 @@ class AuthController extends Zend_Controller_Action {
 		$password = $f->filter($this->_request->getPost('post_password_braldun'));
 			
 		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
-				
+
 			Zend_Loader::loadClass('Bral_Util_Hash');
-				
+
 			// setup Zend_Auth adapter for a database table
 			Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 			$dbAdapter = Zend_Registry::get('dbAdapter');
@@ -74,7 +74,7 @@ class AuthController extends Zend_Controller_Action {
 			$braldunTable = new Braldun();
 			$salt = $braldunTable->getSaltByEmail($email);
 			$salt = $salt["password_salt_braldun"];
-				
+
 			// Set the input credential values to authenticate against
 			$authAdapter->setIdentity($email);
 			$passwordHash = Bral_Util_Hash::getHashString($salt, md5($password));
@@ -115,12 +115,23 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
 					Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
 					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == 'gestion');
+					Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
+					
+					if ($braldun->id_fk_communaute_braldun != null) {
+						Zend_Loader::loadClass("RangCommunaute");
+						$rangCommunauteTable = new RangCommunaute();
+						$rang = $rangCommunauteTable->findByIdRang($braldun->id_fk_rang_communaute_braldun);
+						if ($rang != null) {
+							Zend_Auth::getInstance()->getIdentity()->rangCommunaute = $rang[0]["ordre_rang_communaute"];
+						}
+					}
 
 					$sessionTable = new Session();
 					$data = array("id_fk_braldun_session" => $braldun->id_braldun, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s"));
 					$sessionTable->insertOrUpdate($data);
 
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
+						Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/Gardiennage/');
 					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_braldun == 'non') {

@@ -22,6 +22,7 @@ class Bral_Util_BralSession {
 		$gestion = $user->gestion;
 		$administrationvue = $user->administrationvue;
 		$administrationvueDonnees = $user->administrationvueDonnees;
+		$rangCommunaute = $user->rangCommunaute;
 
 		$dbAdapter = Zend_Registry::get('dbAdapter');
 			
@@ -49,6 +50,7 @@ class Bral_Util_BralSession {
 			Zend_Auth::getInstance()->getIdentity()->gestion = $gestion;
 			Zend_Auth::getInstance()->getIdentity()->administrationvue = $administrationvue;
 			Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = $administrationvueDonnees;
+			Zend_Auth::getInstance()->getIdentity()->rangCommunaute = $rangCommunaute;
 			
 			$data = array("id_fk_braldun_session" => $braldun->id_braldun, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
 			$sessionTable->insertOrUpdate($data);
