@@ -21,7 +21,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 	}
 
 	public function getVersion() {
-		return 1;
+		return 2;
 	}
 
 	public function calculScriptImpl() {
