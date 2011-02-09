@@ -489,7 +489,12 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($palissades != null) {
 						foreach($palissades as $p) {
 							if ($display_x == $p["x_palissade"] && $display_y == $p["y_palissade"]) {
-								$retour .= 'PALISSADE;'.$pos.';'.$p["id_palissade"].';'.$p["est_destructible_palissade"].$fin;
+								if ($p["est_portail_palissade"] == 'oui') {
+									$retour .= 'PORTAIL;'.$pos.';'.$p["id_palissade"].';'.$p["est_destructible_palissade"].$fin;
+								} else {
+									$retour .= 'PALISSADE;'.$pos.';'.$p["id_palissade"].';'.$p["est_destructible_palissade"].$fin;	
+								}
+								
 							}
 						}
 					}
