@@ -147,7 +147,12 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 
 		if (!$this->view->codeOk) {
 			$id_type = $this->view->config->game->evenements->type->deplacement;
-			$details = "[b".$this->view->user->id_braldun."] a reste bloqué devant portail";
+			if ($this->view->user->sexe_braldun == "feminin") {
+				$e = "e";
+			} else {
+				$e = "";
+			}
+			$details = "[b".$this->view->user->id_braldun."] reste bloqué".$e." devant un portail";
 			$this->setDetailsEvenement($details, $id_type);
 			$this->setEvenementQueSurOkJet1(false);
 
