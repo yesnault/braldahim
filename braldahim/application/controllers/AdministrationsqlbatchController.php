@@ -22,10 +22,9 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 	function indexAction() {
 
-		$this->messageJeanBernardRappel();
-
 		/* $this->prepareHashPassword();
 		 * $this->messageJeanBernard();
+		 * $this->messageJeanBernardRappel();
 		 * $this->jourYuleAction();
 		 * $this->correctionCoffre();
 		 $this->ajoutCompetence();
