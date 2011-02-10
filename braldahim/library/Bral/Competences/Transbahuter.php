@@ -35,6 +35,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Echoppe');
 		Zend_Loader::loadClass('Butin');
 		Zend_Loader::loadClass('TypeUnite');
+		Zend_Loader::loadClass('Bral_Util_Communaute');
 
 		$this->view->idCharretteEtal =  $this->request->get('idCharretteEtal');
 		$tabEndroit = array();
@@ -261,6 +262,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if (count($tabCharrette) < 0) {
 			return ;
 		}
+		
 		foreach ($tabCharrette as $c) {
 			Zend_Loader::loadClass('Bral_Util_Charrette');
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c['id_braldun']);
@@ -275,7 +277,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$estDepart = true;
 				} else {
 					if ($c['est_partage_communaute_charrette'] == 'oui' &&
-					$c['id_fk_communaute_braldun']  == $this->view->user->id_fk_communaute_braldun) { // bralduns de la comunaute
+					$c['id_fk_communaute_braldun']  == $this->view->user->id_fk_communaute_braldun &&
+					$this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) { // bralduns de la communaute
 						$estDepart = true;
 					}
 
@@ -3584,7 +3587,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabButinsATerreAutorises[$b['id_butin']] = $b['id_butin'];
 		}
 
-		if ($this->view->user->id_fk_communaute_braldun != null) {
+		if ($this->view->user->id_fk_communaute_braldun != null && $this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) {
 			$butinsCommunaute = $butinTable->findByCaseAndIdCommunaute($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_fk_communaute_braldun);
 			if ($butinsCommunaute != null) {
 				foreach($butinsCommunaute as $b) {

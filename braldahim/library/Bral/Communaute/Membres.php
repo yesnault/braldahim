@@ -10,7 +10,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
-		
+
 		$this->preparePage();
 	}
 
@@ -19,6 +19,7 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 	}
 
 	function prepareFormulaire() {}
+	function prepareResultat() {}
 
 	function setDisplay($display) {
 		$this->view->display = $display;

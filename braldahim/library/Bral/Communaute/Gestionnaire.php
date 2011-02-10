@@ -21,6 +21,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	}
 
 	function prepareFormulaire() {}
+	function prepareResultat() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
@@ -32,7 +33,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
 	function preparePage() {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
-		
+
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communauteRowset) == 1) {
@@ -114,7 +115,10 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
 		$rowSet = $rangCommunauteTable->findRangSecond($this->communaute["id_communaute"]);
 		$this->view->user->id_fk_rang_communaute_braldun = $rowSet["id_rang_communaute"];
-		$data = array('id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun);
+		$this->view->user->rangCommunaute = null;
+		$data = array(
+			'id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun
+		);
 		$where = 'id_braldun = '.$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
 

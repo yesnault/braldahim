@@ -15,6 +15,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
 		Zend_Loader::loadClass("TypeRangCommunaute");
+		Zend_Loader::loadClass('Bral_Util_Communaute');
 
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
@@ -56,6 +57,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$this->view->entrerCommunaute = false;
 		$this->view->sortirCommunaute = false;
 		$this->view->supprimerCommunaute = false;
+		$this->view->nouveauGestionnaire = null;
 		$this->view->communaute = null;
 
 		$communaute = null;
@@ -170,6 +172,8 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$this->view->user->id_fk_communaute_braldun = $communaute["id_communaute"];
 		$this->view->user->date_entree_communaute_braldun = date("Y-m-d H:i:s");
 		$this->view->user->id_fk_rang_communaute_braldun = $idRangCreateur;
+		$this->view->user->rangCommunaute = Bral_Util_Communaute::ID_RANG_GESTIONNAIRE;
+
 		$data = array('id_fk_communaute_braldun' => $this->view->user->id_fk_communaute_braldun,
 			'date_entree_communaute_braldun' => $this->view->user->date_entree_communaute_braldun,
 			'id_fk_rang_communaute_braldun' => $this->view->user->id_fk_rang_communaute_braldun,
@@ -191,6 +195,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$rowSet = $rangCommunauteTable->findRangNouveau($communaute["id_communaute"]);
 
 		$this->view->user->id_fk_rang_communaute_braldun = $rowSet["id_rang_communaute"];
+		$this->view->user->rangCommunaute = Bral_Util_Communaute::ID_RANG_NOUVEAU;
 
 		$data = array('id_fk_communaute_braldun' => $this->view->user->id_fk_communaute_braldun,
 			'date_entree_communaute_braldun' => $this->view->user->date_entree_communaute_braldun,
@@ -218,7 +223,11 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$braldunTable = new Braldun();
 		$this->view->user->id_fk_communaute_braldun = null;
 		$this->view->user->date_entree_communaute_braldun = null;
+
+		$idFkRangCommunauteBraldun = $this->view->user->id_fk_rang_communaute_braldun;
+
 		$this->view->user->id_fk_rang_communaute_braldun = null;
+		$this->view->user->rangCommunaute = null;
 
 		$data = array('id_fk_communaute_braldun' => null,
 			'date_entree_communaute_braldun' => null,
@@ -228,9 +237,8 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$braldunTable->update($data, $where);
 
 		if ($this->view->gestionnaireCommunaute === true) {
-			$this->supprimerCommunaute($idCommunaute);
+			$this->calculNouveauGestionnaire($idCommunaute, $idFkRangCommunauteBraldun);
 		} else {
-
 			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
 			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
 			$e = "";
@@ -243,6 +251,16 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		}
 
 		return $communaute;
+	}
+
+	private function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire) {
+		
+		$this->view->nouveauGestionnaire = Bral_Util_Communaute::calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $this->view->user->prenom_braldun, $this->view->user->nom_braldun, $this->view->user->sexe_braldun, $this->view->user->id_braldun, $this->view);
+
+		// pas de gestionnaire trouve, on supprime la communauté
+		if ($this->view->nouveauGestionnaire == null) {
+			$this->supprimerCommunaute($idCommunaute);
+		}
 	}
 
 	private function supprimerCommunaute($idCommunaute) {

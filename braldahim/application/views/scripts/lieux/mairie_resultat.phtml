@@ -8,4 +8,7 @@
  	<?php if ($this->supprimerCommunaute === true) : ?>
  		Vous avez supprim&eacute; cette communaut&eacute;.
  	<?php endif; ?>
+ 	<?php if ($this->nouveauGestionnaire != null) : ?>
+ 		Le nouveau gestionnaire de la Communauté est : <?php echo $this->nouveauGestionnaire?>.
+ 	<?php endif; ?>
  <?php endif; ?>

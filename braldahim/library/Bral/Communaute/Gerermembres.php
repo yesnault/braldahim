@@ -18,6 +18,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	}
 
 	function prepareFormulaire() {}
+	function prepareResultat() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
@@ -175,7 +176,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		} elseif ($ordre == 6) {
 			$retour = "id_rang_communaute";
 		} else {
-			$retour = "prenom_braldun";
+			$retour = "id_rang_communaute";
 		}
 		return $retour;
 	}
@@ -193,10 +194,10 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	private function updateRangBraldun() {
 		if ($this->_request->get("valeur_1") == "r") {
 			$this->prepareRender();
-				
+
 			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$idRangBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_8"));
-				
+
 			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
 				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
@@ -207,7 +208,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($braldunTrouve == false) {
 				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
-				
+
 			$rangTrouve = false;
 			foreach($this->view->tabRangs as $r) {
 				if ($r["id_rang"] == $idRangBraldun) {
@@ -218,12 +219,12 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($rangTrouve == false) {
 				throw new Zend_Exception(get_class($this)." rang invalide : val=".$idRangBraldun);
 			}
-				
+
 			$braldunTable = new Braldun();
 			$data = array('id_fk_rang_communaute_braldun' => $idRangBraldun);
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
-				
+
 			$this->view->message = "Modification du Braldûn ".$idBraldun. " effectuée";
 		}
 	}
@@ -231,9 +232,9 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	private function updateExclureBraldun() {
 		if ($this->_request->get("valeur_1") == "e") {
 			$this->prepareRender();
-				
+
 			$idBraldun = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_9"));
-				
+
 			$braldunTrouve = false;
 			foreach($this->view->tabMembres as $m) {
 				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre exclu
@@ -244,7 +245,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($braldunTrouve == false) {
 				throw new Zend_Exception(get_class($this)." Braldûn invalide : val=".$idBraldun);
 			}
-				
+
 			$braldunTable = new Braldun();
 			$data = array(
 				'id_fk_communaute_braldun' => null,
@@ -253,7 +254,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			);
 			$where = 'id_braldun = '.$idBraldun;
 			$braldunTable->update($data, $where);
-				
+
 			$this->view->message = "Exclusion du Braldûn ".$idBraldun. " effectuée";
 		}
 	}

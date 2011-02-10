@@ -25,6 +25,7 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 	}
 
 	function prepareFormulaire() {}
+	function prepareResultat() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";

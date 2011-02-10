@@ -410,7 +410,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$bralduns = $braldunTable->findAllBatchByDateFin($dateFin);
 		$retour .= $this->calculSuppressionBralduns($bralduns);
 		$nb = $nb + $braldunTable->deleteAllBatchByDateFin($dateFin);
-
+		
 		$bralduns = $braldunTable->findAllCompteInactif($dateFin);
 		$retour .= $this->calculSuppressionBralduns($bralduns);
 		$nb = $nb + $braldunTable->deleteAllCompteInactif($dateFin);
@@ -432,6 +432,18 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 	private function copieVersAncien($braldun) {
 
+		// s'il est dans une communaute		
+		if ($braldun['id_fk_communaute_braldun'] != null) {
+			// S'il est le gestionnaire de la communauté
+			Zend_Loader::loadClass('Communaute');
+			Zend_Loader::loadClass('Bral_Util_Communaute');
+			$communauteTable = new Communaute();
+			$communaute = $communauteTable->findById($braldun['id_fk_communaute_braldun']);
+			if ($communaute != null && $communaute[0]['id_fk_braldun_gestionnaire_communaute'] == $braldun['id_braldun']) {
+				Bral_Util_Communaute::calculNouveauGestionnaire($braldun['id_fk_communaute_braldun'], $braldun['id_fk_rang_communaute_braldun'], $braldun['prenom_braldun'], $braldun['nom_braldun'], $braldun['sexe_braldun'], $braldun['id_braldun'], $this->view);
+			}
+		}
+		
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($braldun["id_braldun"]);
 		$metiers = "";
