@@ -21,10 +21,10 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		
-		$this->prepareHashPassword();
 
-		/*$this->messageJeanBernard();
+		/* $this->prepareHashPassword();
+		 * $this->messageJeanBernard();
+		 * $this->messageJeanBernardRappel();
 		 * $this->jourYuleAction();
 		 * $this->correctionCoffre();
 		 $this->ajoutCompetence();
@@ -43,15 +43,15 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$bralduns = $braldunTable->fetchall();
 
 		foreach($bralduns as $b) {
-			
+				
 			$salt = Bral_Util_Hash::getSalt();
 			$passwordHash = Bral_Util_Hash::getHashString($salt, $b["password_braldun"]);
-			
+				
 			$data = array(
 				'password_salt_braldun' => $salt, 
 				'password_hash_braldun' => $passwordHash
 			);
-			
+				
 			$where = 'id_braldun = '.$b['id_braldun'];
 			$braldunTable->update($data, $where);
 		}
@@ -263,12 +263,12 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		foreach ($bralduns as $h) {
 			$detailsBot = "";
 			$detailsBot .= "Bien le bonjour à Tous, Amis Braldûns !".PHP_EOL.PHP_EOL;
-				
+
 			$detailsBot .= "[justify]Deux semaines après son lancement, mon grand concours des Troubadours peut s'enorgueillir de ";
 			$detailsBot .= " compter trois participants déclarés. Afin de relancer votre imagination, et pour encourager ";
 			$detailsBot .= " votre esprit créatif, je reviens vers vous. ".PHP_EOL;
 			$detailsBot .= "Merci aux personnes désireuses de participer de se manifester, publiquement ou par message privé, et de me communiquer leurs écrits via MP, avec un titre. [/justify]".PHP_EOL;
-				
+
 			$detailsBot .= "[left]Je vous rappelle les règles : ".PHP_EOL;
 			$detailsBot .= "  -  4500 caractères maximum (espaces compris).".PHP_EOL;
 			$detailsBot .= "  -  Délai : 1 mois, du 10 janvier au 10 février".PHP_EOL;
@@ -278,16 +278,38 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$detailsBot .= "publier sur le forum. Pas de pub ni d'indice de la part d'un auteur (ie : 'Votez pour moi'), le ";
 			$detailsBot .= "texte serait dans ce cas retiré du concours. Néanmoins, les participants, ainsi que les amateurs ";
 			$detailsBot .= "de lecture peuvent faire des commentaires au sujet du concours ou mentionner qu'ils participent.[/left]".PHP_EOL.PHP_EOL;
-				
+
 			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=619]Topic sur le forum.[/url]".PHP_EOL;
-				
+
 			$detailsBot .= "[left]Bien à vous,[/left]".PHP_EOL;
-				
+
 			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
-			
+	}
+
+	private function messageJeanBernardRappel() {
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+
+		foreach ($bralduns as $h) {
+			$detailsBot = "";
+			$detailsBot .= "Bonsoir à tous !          ".PHP_EOL.PHP_EOL;
+
+			$detailsBot .= "[justify]Il ne vous reste plus qu'une journée pour me faire parvenir vos textes pour le Concours des Troubadours. [/justify]";
+			$detailsBot .= PHP_EOL;
+
+			$detailsBot .= "[justify]Merci à ceux qui ont fait acte de candidature de m'envoyer leurs œuvres, si d'autres Braldûns souhaitent participer, leurs textes seront les bienvenus.[/justify]";
+			$detailsBot .= PHP_EOL;
+
+			$detailsBot .= "[left]Très cordialement,[/left]".PHP_EOL;
+
+			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
+
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
+		}
 	}
 
 	// le 31 décembre
