@@ -51,8 +51,8 @@ class Bral_Util_Communaute {
 				}
 
 				Bral_Util_Messagerie::envoiMessageAutomatique($idGestionnaire, $b['id_braldun'], $message, $view);
-
 				$nouveauGestionnaire = $b['prenom_braldun'].' '.$b['nom_braldun']. ' ('.$b['id_braldun'].')';
+				
 				break;
 			}
 		}
