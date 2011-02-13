@@ -18,6 +18,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 
 		$retour .= $this->calculCreation();
 		$retour .= $this->suppressionSurEau();
+		$retour .= $this->suppressionSurPalissade();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculBatchImpl - exit -");
 		return $retour;
@@ -65,6 +66,51 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$planteTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurEau - exit -");
+		return $retour;
+	}
+
+	private function suppressionSurPalissade() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurPalissade - enter -");
+		$retour = "";
+
+		// Suppression des filons partout où il y a une palissade 
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		$planteTable = new Plante();
+
+		$nbPalissades = $palissadeTable->countAll();
+		$limit = 1000;
+
+		$where = "";
+
+		for ($offset = 0; $offset <= $nbPalissades + $limit; $offset =  $offset + $limit) {
+			$palissades = $palissadeTable->fetchall(null, null, $limit, $offset);
+			$nb = 0;
+			$where = "";
+			foreach($palissades as $r) {
+				$or = "";
+				if ($where != "") {
+					$or = " OR ";
+				}
+
+				$where .= $or." (x_plante = ".$r["x_palissade"]. " AND y_plante = ".$r["y_palissade"]." AND z_plante = ".$r["z_palissade"].") ";
+				$nb++;
+				if ($nb == $limit) {
+					$planteTable->delete($where);
+					$nb = 0;
+					$where = "";
+				}
+			}
+
+			if ($where != "") {
+				$planteTable->delete($where);
+			}
+		}
+
+		if ($where != "") {
+			$planteTable->delete($where);
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurPalissade - exit -");
 		return $retour;
 	}
 
