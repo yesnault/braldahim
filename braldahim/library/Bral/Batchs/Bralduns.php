@@ -312,14 +312,14 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				}
 					
 				$data = null;
-				
+
 				if ($pointsGredinActuels < 0) {
 					$pointsGredinActuels = 0;
 				}
 				if ($pointsRedresseurActuels < 0) {
 					$pointsRedresseurActuels = 0;
 				}
-				
+
 				$data["points_gredin_stats_reputation"] = $pointsGredinActuels;
 				$data["points_redresseur_stats_reputation"] = $pointsRedresseurActuels;
 				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
@@ -424,10 +424,86 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		if (count($bralduns) > 0) {
 			foreach ($bralduns as $h) {
 				$retour .= $this->envoiMailSuppression($h);
+				$this->forceSuppression($h);
 				$this->copieVersAncien($h);
 			}
 		}
 		return $retour;
+	}
+
+	// Pour éviter SQLSTATE[HY000]: General error: 1030 Got error -1 from storage engine
+	private function forceSuppression($braldun) {
+
+		Zend_Loader::loadClass('BraldunsCompetences');
+		$braldunsCompetencesTable = new BraldunsCompetences();
+		$where = 'id_fk_competence_hcomp = '.$braldun['id_braldun'];
+		$braldunsCompetencesTable->delete($where);
+
+		Zend_Loader::loadClass('Charrette');
+		$charretteTable = new Charrette();
+		$where = 'id_fk_braldun_charrette = '.$braldun['id_braldun'];
+		$charretteTable->delete($where);
+
+		Zend_Loader::loadClass('Champ');
+		$champTable = new Champ();
+		$where = 'id_fk_braldun_champ = '.$braldun['id_braldun'];
+		$champTable->delete($where);
+
+		Zend_Loader::loadClass('Coffre');
+		$coffreTable = new Coffre();
+		$where = 'id_fk_braldun_coffre = '.$braldun['id_braldun'];
+		$coffreTable->delete($where);
+
+		Zend_Loader::loadClass('Echoppe');
+		$echoppeTable = new Echoppe();
+		$where = 'id_fk_braldun_echoppe = '.$braldun['id_braldun'];
+		$echoppeTable->delete($where);
+
+		Zend_Loader::loadClass('Message');
+		$messageTable = new Message();
+		$where = 'fromid = '.$braldun['id_braldun']. ' OR toid='.$braldun['id_braldun'];
+		$messageTable->delete($where);
+
+		Zend_Loader::loadClass('Contrat');
+		$contratTable = new Contrat();
+		$where = 'id_fk_braldun_contrat  = '.$braldun['id_braldun']. ' OR id_fk_cible_braldun_contrat ='.$braldun['id_braldun'];
+		$contratTable->delete($where);
+
+		Zend_Loader::loadClass('BraldunsDistinction');
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$where = 'id_fk_braldun_hdistinction = '.$braldun['id_braldun'];
+		$braldunsDistinctionTable->delete($where);
+
+		Zend_Loader::loadClass('BraldunsEquipement');
+		$baldunsEquipementTable = new BraldunsEquipement();
+		$where = 'id_fk_braldun_hequipement = '.$braldun['id_braldun'];
+		$baldunsEquipementTable->delete($where);
+		
+		Zend_Loader::loadClass('BraldunsMetiers');
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$where = 'id_fk_braldun_hmetier = '.$braldun['id_braldun'];
+		$braldunsMetiersTable->delete($where);
+		
+		Zend_Loader::loadClass('Communaute');
+		$communauteTable = new Communaute();
+		$where = 'id_fk_braldun_gestionnaire_communaute = '.$braldun['id_braldun'];
+		$communauteTable->delete($where);
+		
+		Zend_Loader::loadClass('Butin');
+		$butinTable = new Butin();
+		$where = 'id_fk_braldun_butin = '.$braldun['id_braldun'];
+		$butinTable->delete($where);
+		
+		Zend_Loader::loadClass('Laban');
+		$labanTable = new Laban();
+		$where = 'id_fk_braldun_laban  = '.$braldun['id_braldun'];
+		$labanTable->delete($where);
+		
+		Zend_Loader::loadClass('Evenement');
+		$evenementTable = new Evenement();
+		$where = 'id_fk_braldun_evenement  = '.$braldun['id_braldun'];
+		$evenementTable->delete($where);
+		
 	}
 
 	private function copieVersAncien($braldun) {

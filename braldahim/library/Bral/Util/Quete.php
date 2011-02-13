@@ -451,6 +451,7 @@ class Bral_Util_Quete {
 		} else {
 			return self::calculGainStandard($braldun, $idCoffre, $nbEtape);
 		}
+		Bral_Util_Log::quete()->trace("Braldun ".$braldun->id_braldun." - Bral_Util_Quete::calculGain - exit");
 	}
 
 	private static function getIdCoffre($braldun) {
