@@ -1,0 +1,16 @@
+<div class='comp_titre'><?php echo $this->nomAction ?></div>
+<br/>
+<form name='myForm' id='myForm'>
+<?php if ($this->assezDePa == false) : ?>
+	<div class='comp_contenu'>
+	Vous n'avez pas assez de PA.
+	<br /><br/>
+	</div>
+<?php else : ?>
+	
+	<?php echo $this->texte ?>
+	
+<?php endif ?>
+
+<?php echo Bral_Helper_Fermer::affiche(); ?>
+</form>

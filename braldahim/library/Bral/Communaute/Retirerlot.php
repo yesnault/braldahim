@@ -16,8 +16,10 @@ class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 		Zend_Loader::loadClass("Lot");
 
 		$id_lot = $this->_request->get("valeur_1");
-		
-		//TODO verifier les droits du braldûn
+
+		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
+			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté");
+		}
 
 		$lotTable = new Lot();
 		$lots = $lotTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, $id_lot);
@@ -25,10 +27,10 @@ class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 		if ($lots == null || count($lots) != 1) {
 			throw new Zend_Exception(get_class($this)." Lot invalide=".$id_lot." idCommunaute:".$this->view->user->id_fk_communaute_braldun);
 		}
-		
+
 		$this->lot = $lots[0];
 	}
-	
+
 	function prepareFormulaire() {
 		throw new Zend_Exception(get_class($this)." Erreur appel");
 	}
@@ -41,5 +43,5 @@ class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 	function getListBoxRefresh() {
 		return array("box_profil", "box_lieu", "box_communaute", "box_evenements");
 	}
-	
+
 }

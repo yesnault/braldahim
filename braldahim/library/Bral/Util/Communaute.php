@@ -21,7 +21,7 @@ class Bral_Util_Communaute {
 		$bralduns = $braldunTable->findByIdCommunaute($idCommunaute, -1, null, null, 'ordre_rang_communaute', ' ASC');
 
 		foreach($bralduns as $b) {
-			if ($b["ordre_rang_communaute"] < Bral_Util_Communaute::ID_RANG_NOUVEAU) {
+			if ($b["ordre_rang_communaute"] < Bral_Util_Communaute::ID_RANG_NOUVEAU && $b["ordre_rang_communaute"] != Bral_Util_Communaute::ID_RANG_GESTIONNAIRE) {
 				$data = array('id_fk_communaute_braldun' => $idCommunaute,
 					'date_entree_communaute_braldun' => date("Y-m-d H:i:s"),
 					'id_fk_rang_communaute_braldun' => $idRangGestionnaire,
@@ -50,7 +50,7 @@ class Bral_Util_Communaute {
 					$message .= " Vous êtes devenu le nouveau gestionnaire !".PHP_EOL;
 				}
 
-				Bral_Util_Messagerie::envoiMessageAutomatique($idGestionnaire, $b['id_braldun'], $message, $view);
+				Bral_Util_Messagerie::envoiMessageAutomatique($b['id_braldun'], $b['id_braldun'], $message, $view);
 				$nouveauGestionnaire = $b['prenom_braldun'].' '.$b['nom_braldun']. ' ('.$b['id_braldun'].')';
 				
 				break;

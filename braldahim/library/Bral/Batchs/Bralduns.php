@@ -424,8 +424,8 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		if (count($bralduns) > 0) {
 			foreach ($bralduns as $h) {
 				$retour .= $this->envoiMailSuppression($h);
-				$this->forceSuppression($h);
 				$this->copieVersAncien($h);
+				$this->forceSuppression($h);
 			}
 		}
 		return $retour;

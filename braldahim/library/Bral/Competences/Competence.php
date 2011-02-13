@@ -15,7 +15,6 @@ abstract class Bral_Competences_Competence {
 	private $idTypeEvenement = null;
 	private $idCible = null;
 	private $typeCible = null;
-	private $nbPaSurcharge = null;
 
 	function __construct($competence, $braldunCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");

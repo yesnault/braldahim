@@ -8,13 +8,18 @@
 abstract class Bral_Communaute_Communaute {
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+
 		$this->view = $view;
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
 		$this->_request = $request;
+		
+		$this->view->nb_pa = 0;
 
 		$this->prepareCommun();
-		
+		$this->calculNbPa();
+
 		switch($this->action) {
 			case "ask" :
 				$this->prepareFormulaire();
@@ -24,6 +29,14 @@ abstract class Bral_Communaute_Communaute {
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
+		}
+	}
+
+	protected function calculNbPa() {
+		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
+			$this->view->assezDePa = false;
+		} else {
+			$this->view->assezDePa = true;
 		}
 	}
 
@@ -37,7 +50,7 @@ abstract class Bral_Communaute_Communaute {
 				$texte = $this->view->render("communaute/".$this->nom_systeme."_formulaire.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				return $this->view->render("communaute/commun_formulaire.phtml");
+				return $this->view->render("commun/commun_formulaire.phtml");
 				break;
 			case "do":
 				$texte = $this->view->render("communaute/".$this->nom_systeme."_resultat.phtml");
