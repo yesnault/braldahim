@@ -45,12 +45,21 @@ class Bral_Util_Contrat {
 		}
 
 		Zend_Loader::loadClass("Coffre");
-		$tableCoffre = new Coffre();
+		$coffreTable = new Coffre();
+
+		$coffre = $coffreTable->findByIdBraldun($braldunSource->id_braldun);
+		if ($coffre == null || count($coffre) != 1) {
+			throw new Zend_Eception("Erreur  Contrat::prepareGains idb:".$braldunSource->id_braldun);
+		}
+
+		$idCoffre = $coffre[0]["id_coffre"];
+
 		$data = array(
 			"quantite_castar_coffre" => $castars,
 			"id_fk_braldun_coffre" => $braldunSource->id_braldun,
+			"id_coffre" => $idCoffre,
 		);
-		$tableCoffre->insertOrUpdate($data);
+		$coffreTable->insertOrUpdate($data);
 
 		$nbRunes = Bral_Util_De::get_1d3() + 1;
 
