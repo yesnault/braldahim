@@ -7,6 +7,10 @@
  */
 class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 
+	function getTitre() {
+		return null;
+	}
+
 	function getNomInterne() {
 		return "box_action";
 	}

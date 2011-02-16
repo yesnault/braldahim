@@ -7,6 +7,10 @@
  */
 class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
+	function getTitre() {
+		return null;
+	}
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");

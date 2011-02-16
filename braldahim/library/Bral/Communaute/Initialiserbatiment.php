@@ -5,10 +5,14 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
+class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 
 	function getNomInterne() {
 		return "box_action";
+	}
+
+	function getTitre() {
+		return "Initialiser un bâtiment de communauté";
 	}
 
 	function prepareCommun() {
@@ -24,6 +28,7 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 		$this->view->x_max = $this->view->user->x_braldun + $this->distance;
 		$this->view->y_min = $this->view->user->y_braldun - $this->distance;
 		$this->view->y_max = $this->view->user->y_braldun + $this->distance;
+		$this->view->nb_cases = 3;
 
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
@@ -101,8 +106,9 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 		$tabTypesLieux = null;
 		foreach($typesLieux as $t) {
 			$display = true;
-			foreach($lieux as $l) {
+			foreach($lieux as $l) { // si dans les lieux, il y a déjà un lieu de même type
 				if ($t["id_type_lieu"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
+					// on ne pourra pas construire un bâtiment du même type une seconde fois
 					$display = false;
 				}
 			}
@@ -123,6 +129,75 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 	}
 
 	function prepareResultat() {
+		if ($this->view->assezDePa == false) {
+			return;
+		}
+
+
+		if (((int)$this->_request->get("valeur_1").""!=$this->_request->get("valeur_1")."")) {
+			throw new Zend_Exception(get_class($this)." Type invalide : ".$this->_request->get("valeur_1"));
+		} else {
+			$idTypeLieu = (int)$this->_request->get("valeur_1");
+		}
+
+		if (!array_key_exists($idTypeLieu, $this->view->typeLieux)) {
+			throw new Zend_Exception(get_class($this)." Type invalide 2 : ".$idTypeLieu);
+		}
+
+		$x_y = $this->_request->get("valeur_2");
+		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
+
+		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
+			throw new Zend_Exception(get_class($this)." Position X impossible : ".$offset_x);
+		}
+
+		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
+			throw new Zend_Exception(get_class($this)." Position Y impossible : ".$offset_y);
+		}
+
+		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
+			throw new Zend_Exception(get_class($this)." Position XY impossible : ".$offset_x.$offset_y);
+		}
+
+		$x = $this->view->user->x_braldun + $offset_x;
+		$y = $this->view->user->y_braldun + $offset_y;
+
+		$this->initialiser($idTypeLieu, $x, $y);
+	}
+
+	private function initialiser($idTypeLieu, $x, $y) {
+
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		Zend_Loader::loadClass('Communaute');
+
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
+		if (count($communauteRowset) == 1) {
+			$communaute = $communauteRowset[0];
+		}
+
+		$lieuTable = new Lieu();
+
+		$nomLieu = $this->view->typeLieux[$idTypeLieu]["type"]["nom_type_lieu"]." de la communauté ".$communaute["nom_communaute"];
+		
+		$data = array(
+			'nom_lieu' => $nomLieu,
+			'description_lieu' => "",
+			'x_lieu' => $x,
+			'y_lieu' => $y,
+			'z_lieu' => 0,
+			'etat_lieu' => 100,
+			'id_fk_type_lieu' => $idTypeLieu,
+			'id_fk_communaute_lieu' => $this->view->user->id_fk_communaute_braldun,
+			'date_creation_lieu' => date("Y-m-d H:i:s"),
+			'date_creation_lieu' => date("Y-m-d H:i:s"),
+			'niveau_lieu' => 0,
+			'niveau_prochain_lieu' => 1,
+		);
+		
+		$lieuTable->insert($data);
+		
+		$this->view->nomLieu = $nomLieu;
 	}
 
 	function getListBoxRefresh() {

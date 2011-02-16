@@ -16,6 +16,7 @@ abstract class Bral_Communaute_Communaute {
 		$this->_request = $request;
 		
 		$this->view->nb_pa = 0;
+		$this->view->titreAction = $this->getTitre();
 
 		$this->prepareCommun();
 		$this->calculNbPa();
@@ -31,6 +32,8 @@ abstract class Bral_Communaute_Communaute {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
+	
+	abstract function getTitre();
 
 	protected function calculNbPa() {
 		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
