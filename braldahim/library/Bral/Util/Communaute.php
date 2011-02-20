@@ -58,4 +58,14 @@ class Bral_Util_Communaute {
 		}
 		return $nouveauGestionnaire;
 	}
+	
+	/**
+	 * Il faut dépenser 50xle niveau à atteindre en PA et 100xle niveau à atteindre en castar.
+	 */
+	public static function getCoutsAmeliorationBatiment($niveauAAtteindre) {
+		$tabRetour["cout_pa"] = $niveauAAtteindre * 50;
+		$tabRetour["cout_castar"] = $niveauAAtteindre * 100;
+		return $tabRetour;
+	}
+	
 }

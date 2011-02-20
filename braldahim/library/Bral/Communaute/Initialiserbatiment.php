@@ -16,6 +16,9 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 	}
 
 	function prepareCommun() {
+		
+		$this->view->nomLieu = null;
+		
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
 		}
@@ -133,7 +136,6 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			return;
 		}
 
-
 		if (((int)$this->_request->get("valeur_1").""!=$this->_request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Type invalide : ".$this->_request->get("valeur_1"));
 		} else {
@@ -193,6 +195,8 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			'date_creation_lieu' => date("Y-m-d H:i:s"),
 			'niveau_lieu' => 0,
 			'niveau_prochain_lieu' => 1,
+			'nb_pa_depenses_lieu' => 0,
+			'nb_castars_depenses_lieu' => 0,
 		);
 		
 		$lieuTable->insert($data);
@@ -201,7 +205,11 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_lieu", "box_communaute", "box_evenements");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements");
+		if ($this->view->nomLieu != null) {
+			$tab[] = "box_vue";
+		}
+		return $tab;
 	}
 
 }

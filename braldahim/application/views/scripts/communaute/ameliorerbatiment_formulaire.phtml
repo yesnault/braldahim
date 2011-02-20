@@ -1,1 +1,30 @@
-TODO
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+
+<b>Informations :</b> Seuls les tenanciers, adjoints et gestionnaire peuvent construire un nouveau bâtiment. <br /><br />
+
+<b>Coût en PA de lancer l'amélioration d'un bâtiment vers le niveau suivant</b> : <?php echo $this->nb_pa?>. <br />
+
+<br />
+Une fois l'amélioration lancée, chaque Braldûn de la communauté pourra aller sur le bâtiment et
+utiliser l'action "Construire un bâtiment" pour faire progresser la construction.<br />
+
+La progression de chaque construction est visible dans l'onglet "Communauté". <br />
+
+<?php if ($this->lieuxCommunaute == null || count($this->lieuxCommunaute) <= 0) :?>
+<br /><br />
+	Vous ne pouvez améliorer aucun bâtiment.
+<?php else : ?>
+
+Choisissez un bâtiment : <br />
+<select name='valeur_1' id="valeur_1">
+	<?php foreach ($this->lieuxCommunaute as $t) : ?>
+		<option value="<?php echo $t["lieu"]["id_lieu"]?>"><?php echo $t["lieu"]["nom_type_lieu"]?> (niv actuel:<?php echo $t['lieu']['niveau_lieu']?>), Coûts de construction niveau suivant : <?php echo $t["couts"]["cout_pa"]?> PA et <?php echo $t["couts"]["cout_castar"]?> castars</option>
+	<?php endforeach; ?>
+</select>
+
+<br /><br />
+<input type='button' class='button1' value='Améliorer un bâtiment !' onclick='this.disabled=true;_get_("/communaute/doaction?caction=do_communaute_ameliorerbatiment");'>
+  
+ <?php endif;?>
+ 
+ <br /><br />
