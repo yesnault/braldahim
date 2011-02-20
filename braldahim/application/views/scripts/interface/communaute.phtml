@@ -9,6 +9,7 @@
 			n&deg; <?php echo $this->communaute["id_communaute"] ?>
 		<?php endif; ?>
 	 </div>
+	 
 	 <div class="contenuC">
      <div class="box_contenu1 textalic">
   	<?php if ($this->communaute != null) : ?>
@@ -20,11 +21,15 @@
   		<br /><br />
   		<input type='button' class='button1' value='Voir le profil public' onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>
   		<input type='button' class='button1' value='Voir les membres' onclick='_get_("/communaute/doaction?caction=ask_communaute_membres");'>
+  		<hr />
   		
-  		<?php if ($this->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
+  		<?php if ($this->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
+  			<?php include("communaute/batiments.phtml") ?>
+  			<hr />
   			<input type='button' class='button1' value='Coffre et Réservations' onclick='_get_("/communaute/doaction?caction=ask_communaute_coffre");'>
+  		<?php else: ?>
+  			En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
   		<?php endif; ?>
-  		
   		<?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_ADJOINT) : ?>
   			<br /><br />
   			Vous avez des droits de gestion : <br />
@@ -39,7 +44,6 @@
   		<?php endif; ?>
   	<?php else : ?>
   		Vous ne faites pas partie d'une communaut&eacute;. <br /><br />
-  		
   		Vous pouvez vous rendre dans une mairie pour rentrer dans une communaut&eacute;.
   	<?php endif; ?>
   	

@@ -14,6 +14,10 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 	function getNomInterne() {
 		return "box_communaute_action";
 	}
+	
+	function getTitre() {
+		return "";
+	}
 
 	function setDisplay($display) {
 		$this->view->display = $display;
