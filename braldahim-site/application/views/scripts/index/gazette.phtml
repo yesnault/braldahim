@@ -5,7 +5,7 @@
 	foreach ($this->histoires as $info) : ?>
 		<table style="width:300px">    
 		<tr>
-			<td style="height:200px;text-align: justify; vertical-align:top">
+			<td style="text-align: justify; vertical-align:top">
 			
 			<div class="box_contenu<?php echo ($i % 2);$i++; ?>" style="height:200px;text-align: justify; vertical-align:top">
 			Parution le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
