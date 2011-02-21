@@ -218,8 +218,10 @@ class Lieu extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lieu', '*')
 		->from('type_lieu', '*')
+		->from('type_lieu_communaute', '*')
 		->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('type_lieu.id_fk_type_lieu_communaute_type_lieu = type_lieu_communaute.id_type_lieu_communaute')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
 
 		$sql = $select->__toString();

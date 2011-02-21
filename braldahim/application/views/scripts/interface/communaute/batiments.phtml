@@ -1,1 +1,47 @@
-BATIMENTS
+
+
+<?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
+
+	<table class="table_liste">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th>Type</th>
+			<th>Nom</th>
+			<th>Amélioration en cours ?</th>
+			<th>Niveau actuel</th>
+			<th>Niveau à atteindre</th>
+			<th>Progression</th>
+		  </tr>
+		</thead>
+	<?php foreach($this->batiments as $b) : 
+		$batiment = $b['batiment'];
+		$couts = $b['couts'];
+	?>
+		<tbody>
+		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu_communaute"] ?></td>
+		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu"] ?></td>
+		  		<td class="table_liste">
+			  		<?php if ($batiment["niveau_lieu"] != $batiment["niveau_prochain_lieu"]) : ?>
+			  			oui
+			  		<?php else:?>
+			  			non
+			  		<?php endif;?>
+		  		</td>
+		  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?></td>
+		  		<td class="table_liste"><?php echo $batiment["niveau_prochain_lieu"] ?></td>
+		  		<td class="table_liste">
+		  		PA : <?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"], $batiment["nb_pa_depenses_lieu"]."/". $couts['cout_pa']); ?>
+				<br />
+				Castars : <?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"], $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']); ?>
+				</td>
+	  		</tr>
+		</tbody>	
+	<?php endforeach;?>
+	</table>
+
+<?php else: ?>
+	Vous n'avez aucun bâtiment de communauté. Vous pouvez en construire un en 
+	allant sur le Hall de votre Communauté. Seuls les tenanciers, adjoints 
+	et gestionnaire peuvent construire un nouveau bâtiment.
+<?php endif;?>

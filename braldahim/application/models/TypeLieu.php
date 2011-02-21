@@ -39,5 +39,16 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_MINE = 28;
 	const ID_TYPE_PUIT = 29;
 	const ID_TYPE_HALL = 30;
-	
+
+	public function findByTypeCommunaute() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_lieu', '*')
+		->from('type_lieu_communaute', '*')
+		->where('type_lieu_communaute.id_type_lieu_communaute = type_lieu.id_fk_type_lieu_communaute_type_lieu')
+		->order('nom_type_lieu_communaute');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }

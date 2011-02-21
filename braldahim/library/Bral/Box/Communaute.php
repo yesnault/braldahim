@@ -24,6 +24,14 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->prepareData();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/communaute.phtml");
+	}
+	
+	private function prepareData() {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
 		
 		$communaute = null;
@@ -40,8 +48,24 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 			$estDansCommunaute = true;
 		}
 		
+		$this->prepareBatiments($communaute);
+		
 		$this->view->communaute = $communaute;
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute.phtml");
+	}
+	
+	private function prepareBatiments($communaute) {
+		Zend_Loader::loadClass('Lieu');
+		Zend_Loader::loadClass('Bral_Helper_Communaute');
+		
+		$lieuTable = new Lieu();
+		$batiments = $lieuTable->findByIdCommunaute($communaute['id_communaute']);
+		$tabBatiments = null;
+		foreach($batiments as $b) {
+			$tabBatiments[] = array(
+				'batiment' => $b,
+				'couts' => Bral_Util_Communaute::getCoutsAmeliorationBatiment($b["niveau_prochain_lieu"]),
+			);
+		}
+		$this->view->batiments = $tabBatiments;
 	}
 }

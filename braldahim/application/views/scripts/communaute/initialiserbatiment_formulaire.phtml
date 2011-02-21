@@ -23,7 +23,7 @@ Une fois la construction terminée, le bâtiment offrira de nouvelles possibilit
 Choisissez un type de bâtiment : <br />
 <select name='valeur_1' id="valeur_1">
 	<?php foreach ($this->typeLieux as $t) : ?>
-		<option value="<?php echo $t["type"]["id_type_lieu"]?>" <?php echo $t["selected"]?>><?php echo $t["type"]["nom_type_lieu"]?></option>
+		<option value="<?php echo $t["type"]["id_type_lieu"]?>" <?php echo $t["selected"]?>><?php echo $t["type"]["nom_type_lieu_communaute"]?> : <?php echo $t["type"]["nom_type_lieu"]?></option>
 	<?php endforeach; ?>
 </select>
 

@@ -104,7 +104,7 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 
 		Zend_Loader::loadClass('TypeLieu');
 		$typeLieuTable = new TypeLieu();
-		$typesLieux = $typeLieuTable->fetchAll("est_communaute_type_lieu = 'oui'", "nom_type_lieu");
+		$typesLieux = $typeLieuTable->findByTypeCommunaute();
 
 		$tabTypesLieux = null;
 		foreach($typesLieux as $t) {
