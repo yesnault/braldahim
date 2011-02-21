@@ -20,7 +20,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 
 		$this->view->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
-		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_ALIMENT);
+		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_RATION);
 
 		$castarsRestants = $this->view->user->castars_braldun -  $this->_coutCastars;
 		$nbPossibleAvecCastars = floor($this->view->user->castars_braldun / $this->_coutCastars);

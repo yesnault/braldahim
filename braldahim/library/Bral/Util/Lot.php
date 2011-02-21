@@ -543,6 +543,7 @@ class Bral_Util_Lot {
 					'bbdf' => $e['bbdf_aliment'],
 					'qualite' => $e['nom_aliment_type_qualite'],
 					'recette' => Bral_Util_Aliment::getNomType($e['type_bbdf_type_aliment']),
+					'poids' => $e['poids_unitaire_type_aliment'],
 				);
 				$lots[$e['id_fk_lot_lot_aliment']]['aliments'][] = $tabAliment;
 				$lots[$e['id_fk_lot_lot_aliment']]['details'] .= 'Aliment n°'.$tabAliment['id_aliment'].' : '.$tabAliment['nom'].' +'.$tabAliment['bbdf'].'%, ';
