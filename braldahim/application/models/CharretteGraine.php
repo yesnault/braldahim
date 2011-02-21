@@ -32,7 +32,7 @@ class CharretteGraine extends Zend_Db_Table {
 	function countByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('charrette_graine', 'count(*) as nombre')
+		$select->from('charrette_graine', 'sum(quantite_charrette_graine) as nombre')
 		->where('id_fk_charrette_graine = '.intval($idCharrette));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
