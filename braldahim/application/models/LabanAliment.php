@@ -13,8 +13,8 @@ class LabanAliment extends Zend_Db_Table {
 		return $this->findByIdBraldun($idBraldun);
 	}
 
-	function countByIdConteneur($idCharrette) {
-		return $this->countByIdBraldun($idCharrette);
+	function countByIdConteneur($idBraldun) {
+		return $this->countByIdBraldun($idBraldun);
 	}
 
 	function findByIdBraldun($idBraldun, $typeAliment = null) {

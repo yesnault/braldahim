@@ -773,7 +773,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$equipement = $this->view->equipements[$idEquipement];
 			$poidsOk = true;
 			if ($arrivee == 'Laban' || $arrivee == 'Charrette') {
-				$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement['poids']);
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, $equipement['poids']);
 				if ($poidsOk == false) {
 					$this->view->poidsOk = false;
 					$this->view->elementsNonRetiresPoids .= 'Equipement n°'.$equipement['id_equipement'].' : '.$equipement['nom'].', ';
@@ -1376,7 +1376,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'qualite' => $p['nom_type_qualite'],
 								'bbdf' => $p['bbdf_aliment'],
 								'id_fk_type_qualite' => $p['id_fk_type_qualite_aliment'],
-								'id_fk_type' => $p['id_fk_type_aliment']
+								'id_fk_type' => $p['id_fk_type_aliment'],
+								'poids' => $p['poids_unitaire_type_aliment'],
 					);
 				}
 				$this->view->deposerOk = true;
@@ -1426,7 +1427,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$aliment = $this->view->aliments[$idAliment];
 			$poidsOk = true;
 			if ($arrivee == 'Laban' || $arrivee == 'Charrette') {
-				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
+				$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, $aliment['poids']);
 				if ($poidsOk == false) {
 					$this->view->poidsOk = false;
 					$this->view->elementsNonRetiresPoids .= 'Aliment n°'.$aliment['id_aliment'].' : '.$aliment['nom'].' +'.$aliment['bbdf'].'%, ';
@@ -1466,7 +1467,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								'id_laban_aliment' => $aliment['id_aliment'],
 								'id_fk_braldun_laban_aliment' => $this->view->user->id_braldun,
 						);
-						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
+						$this->view->poidsRestant = $this->view->poidsRestant - $aliment['poids'];
 						break;
 					case self::ID_ENDROIT_ELEMENT :
 						$dateCreation = date('Y-m-d H:i:s');

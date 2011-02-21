@@ -13,8 +13,7 @@ class Bral_Util_Poids {
 	const POIDS_PEAU = 0.3;
 	const POIDS_VIANDE = 0.3;
 
-	const POIDS_RATION = 0.4;
-	const POIDS_ALIMENT = 0.4;
+	const POIDS_RATION = 0.25;
 	const POIDS_CUIR = 0.4;
 	const POIDS_FOURRURE = 0.4;
 	const POIDS_PLANCHE = 2;
@@ -132,7 +131,7 @@ class Bral_Util_Poids {
 				return $retour; // pour les PNJ
 			}
 			$laban = $laban[0];
-			
+				
 			$retour = $retour + self::calculPoidsTransporteElement($laban, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementMinerais($idBraldun, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idBraldun, $nomTable, $suffixe);
@@ -294,11 +293,16 @@ class Bral_Util_Poids {
 	}
 
 	private static function calculPoidsTransporteElementAliment($idConteneur, $nomTable, $suffixe) {
+		$poids = 0;
 		$nomTable = $nomTable."Aliment";
 		Zend_Loader::loadClass($nomTable);
 		$table = new $nomTable();
-		$nbAliments = $table->countByIdConteneur($idConteneur);
-		return self::ajoute(0, $nbAliments, self::POIDS_ALIMENT);
+		$aliments = $table->findByIdConteneur($idConteneur);
+
+		foreach ($aliments as $a) {
+			$poids = self::ajoute($poids, 1, $e["poids_unitaire_type_aliment"]);
+		}
+		return $poids;
 	}
 
 	private static function calculPoidsTransporteElementGraine($idConteneur, $nomTable, $suffixe) {
@@ -331,24 +335,5 @@ class Bral_Util_Poids {
 		unset($equipements);
 
 		return $poids;
-	}
-
-	public static function getPoidsUnite($nomSystemeUnite) {
-		$retour = null;
-		switch($nomSystemeUnite) {
-			case "rondin":
-				$retour = self::POIDS_RONDIN;
-				break;
-			case "peau":
-				$retour = self::POIDS_PEAU;
-				break;
-			case "castar":
-				$retour = self::POIDS_CASTARS;
-				break;
-			default:
-				throw new Zend_Exception("Unite invalide:".$nomSystemeUnite);
-				break;
-		}
-		return $retour;
 	}
 }
