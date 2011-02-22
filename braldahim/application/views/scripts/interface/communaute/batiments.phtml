@@ -1,24 +1,29 @@
-
+<div class="titre textalia textsizec">Bâtiments de Communauté</div><br />
 
 <?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
 
-	<table class="table_liste">
+	<table class="table_liste" style='width:100%'>
 		<thead class="table_liste">
 		  <tr class="table_liste">
+		  	<th>&nbsp;</th>
 			<th>Type</th>
 			<th>Nom</th>
 			<th>Amélioration en cours ?</th>
 			<th>Niveau actuel</th>
 			<th>Niveau à atteindre</th>
-			<th>Progression</th>
+			<th colspan='2'>Progression</th>
+			<th>Coût d'entretien</th>
+			<th>Coût niveau suivant</th>
 		  </tr>
 		</thead>
 	<?php foreach($this->batiments as $b) : 
 		$batiment = $b['batiment'];
 		$couts = $b['couts'];
+		$coutsNivSuivant = $b['couts_niveau_suivant'];
 	?>
 		<tbody>
 		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+				<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/batiments/<?php echo $batiment["nom_systeme_type_lieu"] ?>.png' /></td>
 		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu_communaute"] ?></td>
 		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu"] ?></td>
 		  		<td class="table_liste">
@@ -30,10 +35,21 @@
 		  		</td>
 		  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?></td>
 		  		<td class="table_liste"><?php echo $batiment["niveau_prochain_lieu"] ?></td>
-		  		<td class="table_liste">
-		  		PA : <?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"], $batiment["nb_pa_depenses_lieu"]."/". $couts['cout_pa']); ?>
+				<td class="table_liste">
+				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"]); ?>
+				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"]); ?>
+				</td>
+				<td class="table_liste" nowrap>
+		  		<?php echo $batiment["nb_pa_depenses_lieu"]." / ". $couts['cout_pa'] ?> PA
 				<br />
-				Castars : <?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"], $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']); ?>
+				<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars
+				</td>
+				<td class="table_liste">TODO</td>
+				<td class="table_liste">
+				Niveau <?php echo $batiment["niveau_prochain_lieu"] + 1 ?> : 
+				<?php echo $coutsNivSuivant['cout_pa'] ?> PA
+				et
+				<?php echo $coutsNivSuivant['cout_castar']?> Castars
 				</td>
 	  		</tr>
 		</tbody>	

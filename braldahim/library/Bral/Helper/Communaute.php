@@ -10,7 +10,7 @@ class Bral_Helper_Communaute {
 	const COEF_TAILLE = 2;
 	const COEF_TAILLE_MOBILE = 1.5;
 
-	public static function afficheBarreConstruction($total, $enCours, $texte) {
+	public static function afficheBarreConstruction($total, $enCours) {
 		
 		$largeur = (($enCours * 100) / $total);
 
@@ -24,7 +24,7 @@ class Bral_Helper_Communaute {
 			$largeur = $largeur * self::COEF_TAILLE;
 		}
 
-		$retour = "<div class='barre_poids'><div class='barre_img img_barre_poids' style='width:".$largeur."px'><span>$texte</span>";
+		$retour = "<div class='barre_poids'><div class='barre_img img_barre_poids' style='width:".$largeur."px'>";
 		$retour .= "</div></div>";
 
 		return $retour;
