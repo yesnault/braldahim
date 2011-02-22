@@ -142,7 +142,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			$prixTotal = $prixTotal + $lot["prix_1_lot"];
 		}
 
-		$poidsPrix = $prixTotal * self::POIDS_CASTARS;
+		$poidsPrix = $prixTotal * Bral_Util_Poids::POIDS_CASTARS;
 
 		$placeDispo = false;
 		$tabPrix = $this->view->destinationTransfert;
