@@ -38,6 +38,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Eau");
 
 		$charretteTable = new Charrette();
 		$nombreCharrette = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
@@ -80,6 +81,12 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
 			} elseif ($nombreBosquets > 1) {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
+			} 
+
+			$eauTable = new Eau();
+			$eaux = $eauTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+			if ( count ($eaux) >= 1 ) {
+				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 3;
 			}
 
 			//minimum de distance de charge à 1 case dans tous les cas
