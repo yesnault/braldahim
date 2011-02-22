@@ -14,9 +14,9 @@ class Bral_Util_Communaute {
 
 
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
-		
+
 		$nouveauGestionnaire = null;
-		
+
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->findByIdCommunaute($idCommunaute, -1, null, null, 'ordre_rang_communaute', ' ASC');
 
@@ -52,7 +52,7 @@ class Bral_Util_Communaute {
 
 				Bral_Util_Messagerie::envoiMessageAutomatique($b['id_braldun'], $b['id_braldun'], $message, $view);
 				$nouveauGestionnaire = $b['prenom_braldun'].' '.$b['nom_braldun']. ' ('.$b['id_braldun'].')';
-				
+
 				break;
 			}
 		}
@@ -67,5 +67,16 @@ class Bral_Util_Communaute {
 		$tabRetour["cout_castar"] = $niveauAAtteindre * 100;
 		return $tabRetour;
 	}
-	
+
+	/**
+	 * Niveau du bâtiment * 10 castars.
+	 */
+	public static function getCoutsEntretienBatiment($niveau) {
+		if ($niveau < 1) {
+			$niveau = 1;
+		}
+		$tabRetour["cout_castar"] = $niveau * 10;
+		return $tabRetour;
+	}
+
 }

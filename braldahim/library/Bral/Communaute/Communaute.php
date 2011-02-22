@@ -14,7 +14,7 @@ abstract class Bral_Communaute_Communaute {
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
 		$this->_request = $request;
-		
+
 		$this->view->nb_pa = 0;
 		$this->view->titreAction = $this->getTitre();
 
@@ -32,8 +32,17 @@ abstract class Bral_Communaute_Communaute {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	abstract function getTitre();
+	abstract function getListBoxRefresh();
+	
+	public function getIdEchoppeCourante() {
+		return false;
+	}
+
+	public function getIdChampCourant() {
+		return false;
+	}
 
 	protected function calculNbPa() {
 		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
@@ -64,5 +73,21 @@ abstract class Bral_Communaute_Communaute {
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
+	}
+
+	public function majBraldun() {
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
+
+		$this->view->user->pa_braldun = $this->view->user->pa_braldun - $this->view->nb_pa;
+		$this->view->user->poids_transporte_braldun = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_braldun, $this->view->user->castars_braldun);
+
+		$data = array(
+			'pa_braldun' => $this->view->user->pa_braldun,
+			'castars_braldun' => $this->view->user->castars_braldun,
+		);
+		$where = "id_braldun=".$this->view->user->id_braldun;
+		$braldunTable->update($data, $where);
 	}
 }

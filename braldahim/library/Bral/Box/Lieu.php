@@ -26,7 +26,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/lieu.phtml");
 	}
-	
+
 	function data() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Lieu");
@@ -54,9 +54,13 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
 			$this->view->idCommunauteLieu = $lieu["id_fk_communaute_lieu"];
-			
+			$this->view->nbPaDepensesLieu = $lieu["nb_pa_depenses_lieu"];
+			$this->view->nbCastarsDepensesLieu = $lieu["nb_castars_depenses_lieu"];
+			$this->view->niveauLieu = $lieu["niveau_lieu"];
+			$this->view->niveauProchainLieu = $lieu["niveau_prochain_lieu"];
+
 			if ($this->view->idCommunauteLieu != null) {
-				$this->prepareCommunaute();
+				$this->prepareCommunaute($lieu);
 			}
 
 			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");
@@ -151,16 +155,24 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			return false;
 		}
 	}
-	
-	private function prepareCommunaute() {
+
+	private function prepareCommunaute($lieu) {
 		Zend_Loader::loadClass("Communaute");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+
 		$communauteTable = new Communaute();
 		$communautes = $communauteTable->findById($this->view->idCommunauteLieu);
-		
+
 		if ($communautes != null && count($communautes) == 1) {
 			$communaute = $communautes[0];
 			$this->view->nomCommunauteLieu = $communaute["nom_communaute"];
 			$this->view->descriptionCommunauteLieu = $communaute["description_communaute"];
+
+			if ($lieu["id_type_lieu"] != TypeLieu::ID_TYPE_HALL) {
+				$this->view->coutsConstruction = Bral_Util_Communaute::getCoutsAmeliorationBatiment($lieu["niveau_prochain_lieu"]);
+			}
 		}
 	}
 

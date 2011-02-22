@@ -1,0 +1,41 @@
+
+<div class="titre textalic textsizec">Bâtiment de Communauté</div><br />
+
+Niveau du bâtiment : <?php echo $this->niveauLieu?> <br />
+
+<table class="table_liste" style='width:200px'>
+		<thead class="table_liste">
+		  <tr class="table_liste">
+		  	<th colspan='3'>État de la construction
+		  	<?php if ($this->niveauLieu != $this->niveauProchainLieu) : ?>
+		  		vers le niveau <?php echo $this->batiment['lieu']['niveau_prochain_lieu']?>
+		  	<?php endif;?>
+		  	</th>
+		  </tr>
+		</thead>
+		
+		<tbody>
+		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+			<td class="table_liste" nowrap>
+				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($this->coutsConstruction['cout_pa'], $this->nbPaDepensesLieu); ?>
+				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($this->coutsConstruction['cout_castar'], $this->nbCastarsDepensesLieu); ?>
+			</td>
+			<td class="table_liste" nowrap>
+				<?php echo $this->nbPaDepensesLieu." / ". $this->coutsConstruction['cout_pa'] ?> PA
+				<br />
+				<?php echo $this->nbCastarsDepensesLieu." / ".$this->coutsConstruction['cout_castar'] ?> Castars
+			</td>
+		</tr>
+	</tbody>
+</table>
+		
+<br />
+
+<?php if ($this->niveauLieu != $this->niveauProchainLieu) : ?>
+	Le bâtiment est en cours de construction. Vous pouvez participer à la construction. <br /><br />
+	<input type='button' class='button1' value='1 PA - Construire le bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_construirebatiment");'>
+	<br />
+<?php else: ?>
+	La construction du bâtiment est terminée.
+<?php endif;?>
+

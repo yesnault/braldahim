@@ -76,6 +76,7 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		}
 
 		$this->calculAmeliorer($lieu);
+		$this->majBraldun();
 		$this->view->nomLieu = $lieu['nom_lieu'];
 	}
 

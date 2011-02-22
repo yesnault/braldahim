@@ -65,6 +65,7 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 				'batiment' => $b,
 				'couts' => Bral_Util_Communaute::getCoutsAmeliorationBatiment($b["niveau_prochain_lieu"]),
 				'couts_niveau_suivant' => Bral_Util_Communaute::getCoutsAmeliorationBatiment($b["niveau_prochain_lieu"] + 1),
+				'couts_entretien' => Bral_Util_Communaute::getCoutsEntretienBatiment($b["niveau_lieu"]),
 			);
 		}
 		$this->view->batiments = $tabBatiments;

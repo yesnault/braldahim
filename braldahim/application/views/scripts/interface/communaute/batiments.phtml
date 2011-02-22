@@ -20,6 +20,7 @@
 		$batiment = $b['batiment'];
 		$couts = $b['couts'];
 		$coutsNivSuivant = $b['couts_niveau_suivant'];
+		$coutsEntretien = $b['couts_entretien'];
 	?>
 		<tbody>
 		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
@@ -44,7 +45,7 @@
 				<br />
 				<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars
 				</td>
-				<td class="table_liste">TODO</td>
+				<td class="table_liste"><?php echo $coutsEntretien['cout_castar']?> Castars</td>
 				<td class="table_liste">
 				Niveau <?php echo $batiment["niveau_prochain_lieu"] + 1 ?> : 
 				<?php echo $coutsNivSuivant['cout_pa'] ?> PA

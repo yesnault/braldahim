@@ -165,6 +165,7 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		$y = $this->view->user->y_braldun + $offset_y;
 
 		$this->initialiser($idTypeLieu, $x, $y);
+		$this->majBraldun();
 	}
 
 	private function initialiser($idTypeLieu, $x, $y) {
