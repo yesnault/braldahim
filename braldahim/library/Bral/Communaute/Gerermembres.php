@@ -23,7 +23,8 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 	function prepareFormulaire() {}
 	function prepareResultat() {}
-
+	function getListBoxRefresh() {}
+	
 	function getNomInterne() {
 		return "box_communaute_action";
 	}
@@ -217,6 +218,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			foreach($this->view->tabRangs as $r) {
 				if ($r["id_rang"] == $idRangBraldun) {
 					$rangTrouve = true;
+					$nouveauRang = $r;
 					break;
 				}
 			}
@@ -230,6 +232,11 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$braldunTable->update($data, $where);
 
 			$this->view->message = "Modification du Braldûn ".$idBraldun. " effectuée";
+				
+			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
+			$message .= " Votre rang de communauté a été modifié !".PHP_EOL;
+			$message .= " Nouveau rang : ".$nouveauRang['nom'];
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idBraldun, $message, $this->view);
 		}
 	}
 

@@ -16,9 +16,9 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 	}
 
 	function prepareCommun() {
-		
+
 		$this->view->nomLieu = null;
-		
+
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
 		}
@@ -182,7 +182,7 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		$lieuTable = new Lieu();
 
 		$nomLieu = $this->view->typeLieux[$idTypeLieu]["type"]["nom_type_lieu"]." de la communauté ".$communaute["nom_communaute"];
-		
+
 		$data = array(
 			'nom_lieu' => $nomLieu,
 			'description_lieu' => "",
@@ -199,9 +199,9 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			'nb_pa_depenses_lieu' => 0,
 			'nb_castars_depenses_lieu' => 0,
 		);
-		
+
 		$lieuTable->insert($data);
-		
+
 		$this->view->nomLieu = $nomLieu;
 	}
 

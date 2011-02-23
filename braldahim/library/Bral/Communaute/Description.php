@@ -10,7 +10,9 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 	function getTitre() {
 		return null;
 	}
-	
+
+	function getListBoxRefresh() {}
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 

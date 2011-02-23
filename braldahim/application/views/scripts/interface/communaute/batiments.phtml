@@ -1,5 +1,10 @@
 <div class="titre textalia textsizec">Bâtiments de Communauté</div><br />
 
+L'initialisation ou l'amélioration d'un bâtiment s'effectue dans l'onglet Lieu, en étant positionné sur votre Hall de Communauté. <br />
+Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
+Une fois initialisé ou amélioré, chaque Braldûn de la communauté peut participer à la construction en allant sur le bâtiment
+et utiliser l'action Construire (onglet Lieu).<br />
+	
 <?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
 
 	<table class="table_liste" style='width:100%'>
@@ -56,7 +61,7 @@
 		</tbody>	
 	<?php endforeach;?>
 	</table>
-
+	
 <?php else: ?>
 	Vous n'avez aucun bâtiment de communauté. Vous pouvez en construire un en 
 	allant sur le Hall de votre Communauté. Seuls les tenanciers, adjoints 

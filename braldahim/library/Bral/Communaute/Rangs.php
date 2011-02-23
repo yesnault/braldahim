@@ -11,6 +11,8 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		return null;
 	}
 
+	function getListBoxRefresh() {}
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");

@@ -10,11 +10,12 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 	function prepareCommun() {}
 	function prepareFormulaire() {}
 	function prepareResultat() {}
+	function getListBoxRefresh() {}
 
 	function getNomInterne() {
 		return "box_communaute_action";
 	}
-	
+
 	function getTitre() {
 		return "";
 	}

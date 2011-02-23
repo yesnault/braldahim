@@ -11,6 +11,8 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		return null;
 	}
 
+	function getListBoxRefresh() {}
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
@@ -74,6 +76,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 					"prenom_braldun" => $m["prenom_braldun"],
 					"id_rang_communaute" => $m["id_rang_communaute"],
 					"nom_rang_communaute" => $m["nom_rang_communaute"],
+					"sexe_braldun" => $m["sexe_braldun"],
 				);
 			}
 		}
@@ -95,6 +98,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		$braldunTrouve = false;
 		foreach($this->view->tabMembres as $m) {
 			if ($m["id_braldun"] == $idBraldun) {
+				$nouveauGestionnaire = $m;
 				$braldunTrouve = true;
 				break;
 			}
@@ -125,6 +129,15 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		);
 		$where = 'id_braldun = '.$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
+
+		$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
+		if ($nouveauGestionnaire['sexe_braldun'] == "feminin") {
+			$message .= " Vous êtes devenue la nouvelle gestionnaire !".PHP_EOL;
+		} else {
+			$message .= " Vous êtes devenu le nouveau gestionnaire de la communauté !".PHP_EOL;
+		}
+
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $nouveauGestionnaire['id_braldun'], $message, $this->view);
 
 		$this->view->isUpdateGestionnaire = true;
 	}
