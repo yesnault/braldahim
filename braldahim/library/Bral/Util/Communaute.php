@@ -75,7 +75,7 @@ class Bral_Util_Communaute {
 		if ($niveau < 1) {
 			$niveau = 1;
 		}
-		$tabRetour["cout_castar"] = $niveau * 10;
+		$tabRetour["cout_castar"] = $niveau * 100;
 		return $tabRetour;
 	}
 

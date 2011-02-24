@@ -213,7 +213,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null) {
+	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -230,6 +230,12 @@ class Lieu extends Zend_Db_Table {
 			$select->where('z_lieu = ?',$z);
 		}
 
+		if ($pourEntretien) {
+			// 15 jours
+			// Si le batiment est de niveau 0, construit il y a moins de 15j => pas d'entretien
+			$select->where("date_entretien_lieu <= ?", Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), -15));
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

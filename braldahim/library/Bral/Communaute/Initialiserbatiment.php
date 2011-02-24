@@ -198,6 +198,7 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			'niveau_prochain_lieu' => 1,
 			'nb_pa_depenses_lieu' => 0,
 			'nb_castars_depenses_lieu' => 0,
+			'date_entretien_lieu' => date("Y-m-d H:i:s"),
 		);
 
 		$lieuTable->insert($data);

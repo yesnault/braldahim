@@ -14,8 +14,28 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Coffre');
+		Zend_Loader::loadClass('Bral_Util_Lune');
 
 		$retour = null;
+
+		$annee = date('Y');
+		$mois = date('m');
+		$jour = date('d');
+		$heure = date('H');
+		$mine = date('i');
+		$seconde = date('s');
+
+		list($moonPhase, $moonAge, $moonDist, $moonAng, $sunDist, $sunAng, $mpfrac) = Bral_Util_Lune::calculPhase($annee, $mois, $jour, $heure, $mine, $seconde);
+		// coef lune : $mpfrac
+		$coefLune = floor($mpfrac * 100);
+
+		// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
+		// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
+		if ($moonAge > 2) { // Lune > 2 jours
+			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
+			return $retour;
+		}
+
 		$retour .= $this->calculCommunautes();
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculBatchImpl - exit -");
@@ -41,7 +61,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		$retour = "";
 
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByIdCommunaute($communaute['id_communaute']);
+		$lieux = $lieuTable->findByIdCommunaute($communaute['id_communaute'], null, null, null, true);
 
 		$coffreTable = new Coffre();
 		$coffre = $coffreTable->findByIdCommunaute($communaute['id_communaute']);
@@ -83,9 +103,9 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 	private function calculEntretienOk($lieu, $communaute, $coutsCastars, $nbCastarsDansCoffre) {
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienOk - enter -");
 		$retour = "";
-		
+
 		//TODO Message
-		
+
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienOk - exit -");
 		return $retour;
 	}
@@ -102,28 +122,29 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 		$lieuTable = new Lieu();
 		$where = 'id_lieu = '.$lieu['id_lieu'];
-		
-		if ($lieu['niveau_lieu'] <= 1) { 
-			// Suppression du bâtiment et des dépendances	
+
+		if ($lieu['niveau_lieu'] <= 1) {
+			// Suppression du bâtiment et des dépendances
 			$lieuTable->delete($where);
-			
+
 			$retour = "suppression du lieu ".$lieu['id_lieu'];
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
-			
+
 			//TODO Message
 		} else { // descente d'un niveau
-			
+
 			$data = array(
 				'niveau_lieu' => $lieu['niveau_lieu'] - 1,
 				'niveau_prochain_lieu' => $lieu['niveau_prochain_lieu'] - 1,
+				'date_entretien_lieu' => date("Y-m-d H:i:s"),
 			);
 			$lieuTable->update($data, $where);
 			$retour = "descente d'un niveau du lieu ".$lieu['id_lieu'];
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
 			//TODO Message
 		}
-		
-		
+
+
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - exit -");
 		return $retour;
 	}

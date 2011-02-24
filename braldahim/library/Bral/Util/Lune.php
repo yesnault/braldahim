@@ -11,10 +11,9 @@ class Bral_Util_Lune {
 	 Adaptation en php du fameux et excellent scripte Astro-MoonPhase de Brett Hamilton écrit en Perl.
 	 http://search.cpan.org/~brett/Astro-MoonPhase-0.60/
 
-	 Ce Scripte vous permettra de connaître, à une date donnée, l'illumination de la Lune, son age,
+	 Ce Script vous permettra de connaître, à une date donnée, l'illumination de la Lune, son age,
 	 sa distance en km par rapport à la Terre, son angle en degrés, sa distance par rapport au soleil,
 	 et son angle par rapport au soleil.
-
 	 */
 	public static function calculPhase($Year, $Month, $Day, $Hour, $Minutes, $Seconds) {
 
