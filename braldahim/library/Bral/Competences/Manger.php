@@ -104,7 +104,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
 
 		$this->calculManger($aliment, $boisson);
-
+		
 		$idType = $this->view->config->game->evenements->type->competence;
 		$details = "[b".$this->view->user->id_braldun."] a mangé";
 		$this->setDetailsEvenement($details, $idType);
@@ -113,7 +113,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
 		$this->calculPx();
-		$this->calculBalanceFaim();
 		$this->calculPoids();
 		$this->majBraldun();
 	}
@@ -174,6 +173,9 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$braldunTable->update($data, $where);
 
 		$this->view->aliment = $aliment;
+		$this->view->boisson = $boisson;
+		$this->view->coef = $coef;
+		$this->view->gainBdf = $gain;
 
 		$this->view->avecEffet = false;
 		Zend_Loader::loadClass("Bral_Util_Effets");

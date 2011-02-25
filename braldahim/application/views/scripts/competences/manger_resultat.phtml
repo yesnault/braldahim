@@ -1,7 +1,14 @@
 <?php include("commun_text_resultat.phtml") ?>
-Vous avez mang&eacute; 1 <?php echo $this->aliment["nom"]?> de qualit&eacute; <?php echo $this->aliment["qualite"]?>,<br />
- avec pour effet sur la balance de +<?php echo $this->aliment["bbdf"]?> %.<br /> 
-Votre balance de faim est maintenant de <?php echo $this->user->balance_faim_braldun ?> %<br />
+<?php if ($this->boisson != null) : ?>
+	Vous avez mang&eacute; 1 <?php echo $this->aliment["nom"]?> de qualit&eacute; <?php echo $this->aliment["qualite"]?> (+ <?php echo $this->aliment["bbdf"]?>%)
+	<br />et bu une <?php echo $this->boisson["nom"]?> (*<?php echo $this->coef?>)
+	pour un effet total sur la balance de +<?php echo $this->gainBdf?> %.<br /> 
+<?php else :?>
+	Vous avez mang&eacute; 1 <?php echo $this->aliment["nom"]?> de qualit&eacute; <?php echo $this->aliment["qualite"]?>
+	avec pour effet sur la balance de +<?php echo $this->gainBdf?> %.<br /> 
+<?php endif;?>
+<br />
+Votre balance de faim est maintenant de <?php echo $this->user->balance_faim_braldun ?> %.<br />
 <br />
 
 <?php if ($this->gainPv > 0) : ?>
