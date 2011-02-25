@@ -1,7 +1,10 @@
 <br />
 <div class="titre textalic textsized">Terminez toutes les quêtes d'une comté pour accéder à un Donjon</div>
-<br /> 
-  
+<br />
+<?php if ($this->user->niveau_braldun < 10) : ?>
+	<b> Attention : les qu&ecirc;tes ne sont accessibles qu'&agrave; partir du niveau 10 !</b>
+	<br /><br /> 
+<?php endif;?>
  <table width="100%">
  	<tr>
  		<td width="40%" valign="top">
