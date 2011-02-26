@@ -5,7 +5,8 @@
 	<?php echo $this->nomPotionVernis?> : 
 	<br />
 	<?php echo htmlspecialchars($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?php echo $this->qualite ?>
-	et de niveau <?php echo $this->niveau ?>.
+	et de niveau <?php echo $this->niveau ?>
+	<br /> (n&deg; <?php echo $this->idPotions;?>).
 	<br /><br />
 	<?php if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de la pr&eacute;paration.
