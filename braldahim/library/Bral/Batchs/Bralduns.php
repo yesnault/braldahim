@@ -55,7 +55,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("BraldunsDistinction");
 		$braldunsDistinctionsTable = new BraldunsDistinction();
 
-		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1,   date("Y"));
+		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1, date("Y"));
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$moisSuivant  = mktime(0, 0, 0, date("m") + 1, 1, date("Y"));
 
@@ -301,27 +301,30 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 				if ($reputation != null) { // Si le Braldûn avait des points avant, on fait le delta
 					$reputation = $reputation[0];
-					$pointsGredinAvant = $reputation["points_gredin_stats_reputation"];
-					$pointsRedresseurAvant = $reputation["points_redresseur_stats_reputation"];
+					$pointsGredinAvant = $reputation["points_gredin_total_stats_reputation"];
+					$pointsRedresseurAvant = $reputation["points_redresseur_total_stats_reputation"];
 
-					$pointsGredinActuels = $h["points_gredin_braldun"] - $reputation["points_gredin_stats_reputation"];
-					$pointsRedresseurActuels = $h["points_redresseur_braldun"] - $reputation["points_redresseur_stats_reputation"];
+					$pointsGredinDelta = $h["points_gredin_braldun"] - $pointsGredinAvant;
+					$pointsRedresseurDelta = $h["points_redresseur_braldun"] - $pointsRedresseurAvant;
 				} else { // S'il n'y a pas de Stats, on prend les points actuels
-					$pointsGredinActuels = $h["points_gredin_braldun"];
-					$pointsRedresseurActuels = $h["points_redresseur_braldun"];
+					$pointsGredinDelta = $h["points_gredin_braldun"];
+					$pointsRedresseurDelta = $h["points_redresseur_braldun"];
 				}
 					
 				$data = null;
 
-				if ($pointsGredinActuels < 0) {
-					$pointsGredinActuels = 0;
+				if ($pointsGredinDelta < 0) {
+					$pointsGredinDelta = 0;
 				}
-				if ($pointsRedresseurActuels < 0) {
-					$pointsRedresseurActuels = 0;
+				if ($pointsRedresseurDelta < 0) {
+					$pointsRedresseurDelta = 0;
 				}
 
-				$data["points_gredin_stats_reputation"] = $pointsGredinActuels;
-				$data["points_redresseur_stats_reputation"] = $pointsRedresseurActuels;
+				$data["points_gredin_stats_reputation"] = $pointsGredinDelta;
+				$data["points_redresseur_stats_reputation"] = $pointsRedresseurDelta;
+				$data["points_gredin_total_stats_reputation"] = $h["points_gredin_braldun"];
+				$data["points_redresseur_total_stats_reputation"] = $h["points_redresseur_braldun"];
+				
 				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
 				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
 				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
