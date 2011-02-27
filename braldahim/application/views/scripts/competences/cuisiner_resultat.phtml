@@ -20,7 +20,8 @@
 		<?php endforeach;?>
 	<?php else: ?>
 		Vous avez préparé <?php echo $this->nbAliment ?> part<?php echo $s?> de 
-		<?php echo $this->typeAlimentCourant["nom_type_aliment"]?> de qualit&eacute; <?php echo $this->qualite?> avec pour effet sur la balance de +<?php echo $this->bbdfAliment?> %.
+		<?php echo $this->typeAlimentCourant["nom_type_aliment"]?> de qualit&eacute; <?php echo $this->qualite?> avec pour effet sur la balance de +<?php echo $this->bbdfAliment?> %
+		<br /> (n&deg; <?php echo $this->idAliments;?>).
 		<br />
 		<?php if ($this->nbAlimentATerre > 0): ?>
 			Faute de place, <?php echo $this->nbAlimentATerre ?> part<?php if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;s à terre"; else: " est tomb&eacute; à terre"; endif?>.
