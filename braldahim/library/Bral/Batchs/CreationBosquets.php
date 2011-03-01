@@ -217,10 +217,20 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
 			$nbCasesAutour = Bral_Util_De::get_de_specifique(2, 9);
+			$numeroBosquet = null;
+			
 			for($j=0; $j<=$nbCasesAutour; $j++) {
 				for($k=0; $k<=$nbCasesAutour; $k++) {
 					$i = $i + 1;
-					$this->insertDb($bosquetTable, $idTypeBosquet, $x + $j, $y + $k, 0, Bral_Util_De::get_de_specifique(5, 15));
+					$idBosquet = $this->insertDb($bosquetTable, $idTypeBosquet, $x + $j, $y + $k, 0, Bral_Util_De::get_de_specifique(5, 15), $numeroBosquet);
+					
+					if ($numeroBosquet == null && $idBosquet != null) {
+						$numeroBosquet = $idBosquet;
+						$where = 'id_bosquet = '.$idBosquet;
+						$data['numero_bosquet'] = $numeroBosquet;
+						$bosquetTable->update($data, $where);
+					}
+						
 				}
 			}
 		}
@@ -228,7 +238,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function insertDb($bosquetTable, $idTypeBosquet, $x, $y, $z, $quantite) {
+	private function insertDb($bosquetTable, $idTypeBosquet, $x, $y, $z, $quantite, $numeroBosquet) {
 		if ($bosquetTable->countByCase($x, $y, $z) == 0) {
 			$data = array(
 				'id_fk_type_bosquet_bosquet' => $idTypeBosquet, 
@@ -236,9 +246,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 				'y_bosquet' => $y, 
 				'z_bosquet' => $z, 
 				'quantite_restante_bosquet' => $quantite, 
-				'quantite_max_bosquet' => $quantite
+				'quantite_max_bosquet' => $quantite,
+				'numero_bosquet' => $numeroBosquet,
 			);
-			$bosquetTable->insert($data);
+			return $bosquetTable->insert($data);
 		}
 	}
 }

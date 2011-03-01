@@ -179,6 +179,13 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			}
 		}
 			
+		if ($buissonTable->countByCase($x, $y, 0) > 0) {
+			$x = $x - 1;
+			if ($buissonTable->countByCase($x, $y, 0) > 0) {
+				return;
+			}
+		}
+
 		$data = array(
 			'id_fk_type_buisson_buisson' => $this->view->buissonCourant['id_fk_type_buisson_buisson'], 
 			'x_buisson' => $x, 
