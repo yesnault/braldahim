@@ -206,6 +206,10 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 
 		$monstreTable = new Monstre();
 		$id_monstre = $monstreTable->insert($data);
+		$id_type = $this->view->config->game->evenements->type->competence;
+		$details = "[b".$this->view->user->id_braldun."] a débusqué [m".$id_monstre."]";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $details, "", 0,"braldun");
+		Bral_Util_Evenement::majEvenements($id_monstre, $id_type, $details, "", 0,"monstre");
 	}
 
 	/*

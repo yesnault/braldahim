@@ -370,7 +370,8 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($id_equipement, $niveau, $this->region["id_region"]);
 			$this->view->typePiece = $this->recetteEquipementACreer["nom_systeme_type_piece"];
-
+			$this->view->idEquipement = $id_equipement;
+			
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeFabriquer($this->view->user, $idTypeEquipement, $qualite);
 
 			Zend_Loader::loadClass("StatsFabricants");

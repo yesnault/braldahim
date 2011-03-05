@@ -39,9 +39,9 @@ class Bral_Util_Contrat {
 
 		$retour = "";
 		if ($contrat["type_contrat"] == 'gredin') {
-			$castars = 100 * $braldunCible->points_redresseur_braldun;
+			$castars = 10 * $braldunCible->points_redresseur_braldun;
 		} else {
-			$castars = 100 * $braldunCible->points_gredin_braldun;
+			$castars = 10 * $braldunCible->points_gredin_braldun;
 		}
 
 		Zend_Loader::loadClass("Coffre");
@@ -61,7 +61,7 @@ class Bral_Util_Contrat {
 		);
 		$coffreTable->insertOrUpdate($data);
 
-		$nbRunes = Bral_Util_De::get_1d3() + 1;
+		$nbRunes = Bral_Util_De::get_1d3();
 
 		Zend_Loader::loadClass("TypeRune");
 		Zend_Loader::loadClass("IdsRune");

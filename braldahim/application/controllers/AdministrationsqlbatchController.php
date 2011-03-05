@@ -21,10 +21,11 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-
+ 
 		/* $this->prepareHashPassword();
 		 * $this->messageJeanBernard();
 		 * $this->messageJeanBernardRappel();
+		 * $this->messageJeanBernardRappel2();
 		 * $this->jourYuleAction();
 		 * $this->correctionCoffre();
 		 $this->ajoutCompetence();
@@ -43,15 +44,15 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$bralduns = $braldunTable->fetchall();
 
 		foreach($bralduns as $b) {
-				
+
 			$salt = Bral_Util_Hash::getSalt();
 			$passwordHash = Bral_Util_Hash::getHashString($salt, $b["password_braldun"]);
-				
+
 			$data = array(
 				'password_salt_braldun' => $salt, 
 				'password_hash_braldun' => $passwordHash
 			);
-				
+
 			$where = 'id_braldun = '.$b['id_braldun'];
 			$braldunTable->update($data, $where);
 		}
@@ -302,6 +303,29 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$detailsBot .= PHP_EOL;
 
 			$detailsBot .= "[justify]Merci à ceux qui ont fait acte de candidature de m'envoyer leurs œuvres, si d'autres Braldûns souhaitent participer, leurs textes seront les bienvenus.[/justify]";
+			$detailsBot .= PHP_EOL;
+
+			$detailsBot .= "[left]Très cordialement,[/left]".PHP_EOL;
+
+			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
+
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
+		}
+	}
+
+	private function messageJeanBernardRappel2() {
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+
+		foreach ($bralduns as $h) {
+			$detailsBot = "";
+			$detailsBot .= "Chers amis Braldûns,          ".PHP_EOL.PHP_EOL;
+
+			$detailsBot .= "[justify]Il vous reste une semaine pour vous délecter des doux écrits de nos prétendants troubadours. Je compte sur vous pour faire honneur aux belles histoires qu'ils ont partagées avec nous, et surtout pour les départager dans cette lutte âpre mais pacifique qui les oppose pour l'obtention du titre de Troubadour de l'année.[/justify]";
+			$detailsBot .= PHP_EOL;
+
+			$detailsBot .= "[justify]Merci donc de faire un petit tour sur le forum afin de bouquiner quelques minutes, tous les votes sont importants ![/justify]";
 			$detailsBot .= PHP_EOL;
 
 			$detailsBot .= "[left]Très cordialement,[/left]".PHP_EOL;

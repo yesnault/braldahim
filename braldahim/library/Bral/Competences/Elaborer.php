@@ -510,6 +510,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Potion");
 		$potionTable = new Potion();
+		$listPotions = "";
 
 		for ($i = 1; $i <= $this->view->nbPotions; $i++) {
 			$idPotion = $idsPotionTable->prepareNext();
@@ -517,7 +518,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$dataPotion['id_potion'] = $idPotion;
 			$potionTable->insert($dataPotion);
 			$echoppePotionTable->insert($dataPotionEchoppe);
-
+			
+			$listPotions .= $idPotion.", "; 
+			
 			if ($this->view->typePotionCourante["type_potion"] == "potion") {
 				$type = "la potion";
 			} else {
@@ -526,6 +529,8 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$details = "[b".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionEchoppe['id_echoppe_potion'];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionEchoppe['id_echoppe_potion'], $details);
 		}
+		
+		$this->view->idPotions = mb_substr($listPotions, 0, -2);
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();

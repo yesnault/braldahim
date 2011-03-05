@@ -570,10 +570,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				}
 			}
 		}
-			
+
+		$listAliments = "";
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$idAliment = $idsAliment->prepareNext();
-
+			$listAliments .= $idAliment.", "; 
 			$idEffetBraldun = null;
 			if ($potion != null) {
 				$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
@@ -609,6 +610,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$table->insert($data);
 			}
 		}
+		$this->view->idAliments = mb_substr($listAliments, 0, -2);
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
@@ -652,6 +654,15 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$details = "[b".$h["id_braldun"]."] s'empresse de manger une bonne assiette de pot au feu offert par [b".$this->view->user->id_braldun."]";
 				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
 				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
+			} else {
+				$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $this->view->bbdfAliment;
+				if ($this->view->user->balance_faim_braldun > 100) {
+					$this->view->user->balance_faim_braldun = 100;
+				}
+				$details = "[b".$h["id_braldun"]."] s'empresse de manger une bonne assiette de son pot au feu";
+				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
+				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
+				$this->view->balanceFaimUtilisee = false;
 			}
 			$tabBraldun[] = $h;
 

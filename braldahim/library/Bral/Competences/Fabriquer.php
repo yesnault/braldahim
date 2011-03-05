@@ -405,6 +405,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$echoppeEquipementTable->insert($dataEchoppe);
 
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($id_equipement, $niveau, $this->region["id_region"]);
+			$this->view->idEquipement = $id_equipement;
 				
 			Zend_Loader::loadClass("StatsFabricants");
 			$statsFabricants = new StatsFabricants();

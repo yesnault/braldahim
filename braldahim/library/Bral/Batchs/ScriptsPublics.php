@@ -19,7 +19,6 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierVilles();
 		$retour .= $this->genereFichierLieuxVille();
 		$retour .= $this->genereFichierRegions();
-		$retour .= $this->genereFichierEquipement();
 		$retour .= $this->genereFichierTitres();
 		$retour .= $this->genereFichierDistinctions();
 		$retour .= $this->genereFichierPlantes();
@@ -294,60 +293,6 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_regions, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierRegions - exit -");
-		return $retour;
-	}
-
-	private function genereFichierEquipement() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEquipement - enter -");
-		$retour = "";
-		Zend_Loader::loadClass("Bral_Util_Fichier");
-		Zend_Loader::loadClass("Bral_Util_Equipement");
-
-		Zend_Loader::loadClass("Equipement");
-		$equipementTable = new Equipement();
-		$equipements = $equipementTable->findByIdEquipementWithDetails("all");
-
-		$contenu = "id_equipement;";
-		$contenu .= "nom;qualite;emplacement;niveau;id_type_equipement;id_type_emplacement;";
-		$contenu .= "nom_type_emplacement;nom_systeme_type_emplacement;nb_runes;armure;force;agilite;vigueur;sagesse;vue;attaque;degat;defense;suffixe;poids;etat_courant;etat_initial;ingredient;nom_systeme_type_ingredient";
-		$contenu .= PHP_EOL;
-
-		if (count($equipements) > 0) {
-			foreach ($equipements as $e) {
-				$contenu .= $e["id_equipement"].';';
-
-				$contenu .= Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]).';';
-				$contenu .= $e["nom_type_qualite"].';';
-				$contenu .= $e["nom_type_emplacement"].';';
-				$contenu .= $e["niveau_recette_equipement"].';';
-				$contenu .= $e["id_type_equipement"].';';
-				$contenu .= $e["id_type_emplacement"].';';
-				$contenu .= $e["nom_type_emplacement"].';';
-				$contenu .= $e["nom_systeme_type_emplacement"].';';
-				$contenu .= $e["nb_runes_equipement"].';';
-				$contenu .= $e["armure_equipement"].';';
-				$contenu .= $e["force_equipement"].';';
-				$contenu .= $e["agilite_equipement"].';';
-				$contenu .= $e["vigueur_equipement"].';';
-				$contenu .= $e["sagesse_equipement"].';';
-				$contenu .= $e["vue_recette_equipement"].';';
-				$contenu .= $e["attaque_equipement"].';';
-				$contenu .= $e["degat_equipement"].';';
-				$contenu .= $e["defense_equipement"].';';
-				$contenu .= $e["suffixe_mot_runique"].';';
-				$contenu .= $e["poids_equipement"].';';
-				$contenu .= $e["etat_courant_equipement"].';';
-				$contenu .= $e["etat_initial_equipement"].';';
-				$contenu .= $e["nom_type_ingredient"].';';
-				$contenu .= $e["nom_systeme_type_ingredient"];
-
-				$contenu .= PHP_EOL;
-			}
-		}
-
-		Bral_Util_Fichier::ecrire($this->config->fichier->liste_equipements, $contenu);
-
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierEquipement - exit -");
 		return $retour;
 	}
 

@@ -7,7 +7,7 @@
  */
 class Bral_Helper_ProfilEquipement {
 	
- 	public static function afficher($typesEmplacement) {
+ 	public static function afficher($typesEmplacement, $avecDetail) {
  		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
     	$retour = "";
     	
@@ -27,7 +27,7 @@ class Bral_Helper_ProfilEquipement {
 				$retour .= $e["nom_type_emplacement"]."<br />";
 				if (count($e["equipementPorte"]) > 0) {
 					foreach($e["equipementPorte"] as $p) {
-						$retour .= Bral_Helper_DetailEquipement::afficher($p);
+						$retour .= Bral_Helper_DetailEquipement::afficher($p, $avecDetail);
 					}
 				} else {
 					$retour .= "Libre";
@@ -54,7 +54,7 @@ class Bral_Helper_ProfilEquipement {
  				$retour .= $e["nom_type_emplacement"]."<br />";
  				if (count($e["equipementPorte"]) > 0) {
 					foreach($e["equipementPorte"] as $p) {
- 						$retour .= Bral_Helper_DetailEquipement::afficher($p);
+ 						$retour .= Bral_Helper_DetailEquipement::afficher($p, $avecDetail);
  					}
 				}
 				$retour .= "</td>";
