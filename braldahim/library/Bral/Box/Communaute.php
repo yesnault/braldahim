@@ -42,13 +42,12 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 			$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 			if (count($communaute) == 1) {
 				$communaute = $communaute[0];
+				$this->prepareBatiments($communaute);
 			} else {
 				$communaute = null;
 			}
 			$estDansCommunaute = true;
 		}
-		
-		$this->prepareBatiments($communaute);
 		
 		$this->view->communaute = $communaute;
 	}
