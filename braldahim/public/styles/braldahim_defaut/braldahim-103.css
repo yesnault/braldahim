@@ -370,9 +370,12 @@ span.resultat_cache {
 }
 
 .textsizea {
-	text-shadow: rgba(0,0,0,0.7) 2px 3px;
+	font-family: "Essays 1743",Times,serif;
 	font-size: 2em;
-	color: #f0ae21;
+	font-weight: normal;
+    text-transform: uppercase;
+    color: #f0ae21;
+    text-shadow: 0 0 4px black, 0 -5px 4px black;
 }
 
 .textsizeb {
@@ -1489,16 +1492,18 @@ divfrise {
 
 .bande_date {
 	position: relative;
-	top:-8px;
+	top:-13px;
+	font-family: "Essays 1743",Times,serif;
+	font-size: 1.1em;
 }
 
 .bande_titre {
-	#background-color: transparent;
 	position: relative;
 	height:30px;
 	text-align:center;
 	top:-25px;
-	font-weight:bold;
+	font-family: "Essays 1743",Times,serif;
+	font-size: 1.1em;
 }
 
 #chronologie {
@@ -1514,4 +1519,11 @@ divfrise {
 	position:absolute;
 	margin-top:-20px;
 	margin-left:-10px;
+}
+
+@font-face {
+    font-family: "Essays 1743";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Essays 1743"), url("/fonts/Essays1743.ttf") format("truetype");
 }
