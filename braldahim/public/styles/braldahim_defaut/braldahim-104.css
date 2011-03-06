@@ -1525,5 +1525,5 @@ divfrise {
     font-family: "Essays 1743";
     font-style: normal;
     font-weight: normal;
-    src: local("Essays 1743"), url("/fonts/Essays1743.ttf") format("truetype");
+    src: local("Essays 1743"), url("http://jeu.braldahim.com/fonts/Essays1743.ttf") format("truetype");
 }
