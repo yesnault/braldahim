@@ -230,7 +230,7 @@ class InterfaceController extends Zend_Controller_Action {
 		if ($this->view->estMobile) {
 			$r = $this->getDataList("boite_m");
 		} else {
-			$r = "<table width='99%'><tr valign='top'><td width='365px'>";
+			$r = "<table width='99%'><tr valign='top'><td width='375px'>";
 			$r .= $this->getDataList("boite_a");
 			$r .= $this->getDataList("boite_b");
 			$r .= "</td><td width='auto'>";

@@ -1,32 +1,31 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
-  <div class="titre textalia textsizec">
-  	<a class="titre textalia textsizec" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
-  		Mon Profil
-  	</a>, n&deg;<?php echo $this->user->id_braldun;?></div>
-  <div class="titre textalib textsizec"><?php echo $this->escape($this->user->prenom_braldun);?> 
-  <?php echo $this->escape($this->user->nom_braldun);?><?php if ($this->user->titre_courant_braldun != null) :?>,
-  	<?php echo $this->user->titre_courant_braldun?>
-  <?php endif;?>
+  <div class="titre">
+  <a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
+  <span class="textalia textsizeb"><?php echo $this->escape($this->user->prenom_braldun);?> 
+  <?php echo $this->escape($this->user->nom_braldun);?></span>
+  <span class="textalia textsized"><?php if ($this->user->titre_courant_braldun != null) :?>
+  <?php echo $this->user->titre_courant_braldun?>,
+  <?php endif;?> n&deg;<?php echo $this->user->id_braldun;?></span>
+  </a>
   </div>
   <div class="contenuA">
 	  <div class="box_contenu1 textalic">
 	  
 	  <?php if ($this->affichageInterne == true) : ?>
-  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
-		PA <?php echo $this->user->pa_braldun ?>&nbsp;&nbsp;
+  		<p style="float: right; width: 100px; margin: 0px;text-align:right;">
+		PA <b><?php echo $this->user->pa_braldun ?></b>&nbsp;&nbsp;
 		</p>
 			
  		<div class="titre textalia textsized" >Informations tour</div>
 
-		<table class="table_liste" style="width:98%; border:0" >
+		<table class="table_liste" style="width:99%; border:0" >
 		<tbody>
 			<tr class="table_liste" valign="top">
 				<td align="left" >Dur&eacute;e de ce tour</td>
 				<td align="left" ><?php echo $this->escape($this->user->duree_courant_tour_braldun) ?></td>
-				<td>&nbsp;&nbsp;</td>
-				<td style="font-weight: bolder;" align="right" >DLA &nbsp;&nbsp;
-					<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
+				<td colspan="2" align="right">DLA 
+					<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b> \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
 				</td>
 			</tr>
 			<tr>
@@ -225,8 +224,7 @@
 				<td colspan="2">Nb. KO Braldûn : <?php echo $this->user->nb_braldun_ko_braldun ?></td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">
-				<td colspan="2">Engag&eacute; : <?php echo $this->user->est_engage_braldun ?></td>
-				<td colspan="2">Engag&eacute; au prochain tour : <?php echo $this->user->est_engage_next_dla_braldun ?></td>
+				<td colspan="4">Engag&eacute; : <?php echo $this->user->est_engage_braldun ?>, au prochain tour : <?php echo $this->user->est_engage_next_dla_braldun ?></td>
 				<td colspan="2">Intangible : <?php echo $this->user->est_intangible_braldun ?></td>
 			</tr>
 			<tr class="table_liste" align="left" valign="middle">

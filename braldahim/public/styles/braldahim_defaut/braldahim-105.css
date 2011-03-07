@@ -1,14 +1,17 @@
 body {
-	font: 11px arial, verdana, sans-serif;
 	background: #003b00;
 	letter-spacing: 0pt;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 0px;
 	margin-right: 0px;
-	color:#000000;
+	color: #333333;
 	
 	min-height:500px;
+	
+	font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	word-spacing: 0.1em;
+    font-size : 13.5px; 
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -62,7 +65,6 @@ input {
 	margin: 2px 2pt;
 	background: #C3E691 none repeat-x scroll center top;
 	color: #791E1E;
-	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	padding-bottom: 1px;
 	padding-top: 2px;
 	width: auto !important;
@@ -86,12 +88,14 @@ input:hover {
 
 input.button1 {
 	background-color: #FAFAFA;
-	color: #000000;
+	color: #333333;
 	border-color: #666666;
-	font-size: 11px;
+	font-size: 1em;
 	border: 1px solid #666666;
 	background-image:
 		url('/styles/braldahim_defaut/images/layout/bg_button.gif');
+		font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	
 }
 
 input.button1:hover {
@@ -187,10 +191,9 @@ span.resultat_cache {
 	background: #497621 url('/images/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
-	color: #232323;
 	cursor: pointer;
 	display: block;
-	font-size:11px;
+	font-size:0.9em;
 	margin: 2px;
 	padding: 2px;
 	text-decoration: none;
@@ -255,10 +258,11 @@ span.resultat_cache {
 	border-color: #000000;
 	border-width: 1px;
 	margin: 1px;
-	margin-left: 3px;
+	margin-left: 1px;
 	color:#000000;
 	text-align:center;
-	padding-left:3px;
+	padding-left:1px;
+	font-size: 0.9em;
 	
 	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
 	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
@@ -363,13 +367,12 @@ span.resultat_cache {
 
 .titre {
 	padding: 0px;
-	font-weight: bolder;
 	margin: 0.0em;
 	letter-spacing: 2pt;
+	font-family: "Essays 1743",Times,serif;
 }
 
 .textsizea {
-	font-family: "Essays 1743",Times,serif;
 	font-size: 2.1em;
 	font-weight: normal;
     text-transform: uppercase;
@@ -379,18 +382,15 @@ span.resultat_cache {
 
 .textsizeb {
 	font-size: 1.4em;
-	color: #0E0E0E;
 }
 
 .textsizec {
 	font-size: 1.2em;
-	color: #0E0E0E;
 }
 
 .textsized {
-	font-size: 1.1em;
+	font-size: 0.9em;
 	letter-spacing: 1pt;
-	color: #791E1E;
 }
 
 .textalia {
@@ -412,7 +412,6 @@ span.resultat_cache {
 	text-align: left;
 	color: #000000;
 	font-size: 1.4em;
-	font-variant: small-caps;
 	letter-spacing: 2pt;
 	text-decoration: none;
 }
@@ -747,7 +746,6 @@ tr.table_liste0.hhover:hover, tr.table_liste1.hhover:hover {
 }
 
 thead.table_liste,tfoot.table_liste {
-	color: #232323;
 	background-color: #5d8231;
 	border: 1px solid #000000;
 	text-align: center;
@@ -757,6 +755,7 @@ td.table_liste_th {
 	color: #f0ae21;
 	background-color: #2a5911;
 	border: 1px solid #000000;
+	font-weight: normal;
 }
 
 th.table_liste {
@@ -1353,7 +1352,6 @@ border:1px solid #555555;
 color:#505050;
 display:block!important;
 font-size:1em;
-font:1em arial,verdana,sans-serif;
 letter-spacing: 0pt;
 left:2px;
 padding:4px;
@@ -1492,7 +1490,7 @@ divfrise {
 	position: relative;
 	top:-13px;
 	font-family: "Essays 1743",Times,serif;
-	font-size: 1.1em;
+	font-size: 1em;
 }
 
 .bande_titre {
@@ -1501,7 +1499,7 @@ divfrise {
 	text-align:center;
 	top:-25px;
 	font-family: "Essays 1743",Times,serif;
-	font-size: 1.1em;
+	font-size: 0.9em;
 }
 
 #chronologie {
@@ -1521,7 +1519,17 @@ divfrise {
 
 @font-face {
     font-family: "Essays 1743";
-    font-style: normal;
+    src: url("http://jeu.braldahim.com/fonts/essays1743-webfont.woff") format('woff'),
+         url("http://jeu.braldahim.com/fonts/essays1743-webfont.ttf") format('truetype');
     font-weight: normal;
-    src: local("Essays 1743"), url("http://jeu.braldahim.com/fonts/Essays1743.ttf") format("truetype");
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'LinuxLibertineRegular';
+    src: url("http://jeu.braldahim.com/fonts/linlibertine_re-4.7.5-webfont.woff") format('woff'),
+         url("http://jeu.braldahim.com/fonts/linlibertine_re-4.7.5-webfont.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
