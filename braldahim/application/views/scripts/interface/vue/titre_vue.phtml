@@ -2,7 +2,7 @@
   <table width="100%">
   <tr>
   	<td width="20%">
-	  	<div class="box_contenu1 textalia textsizec braltip">
+	  	<div class="box_contenu1 textalia braltip">
 	  	<?php if ($this->centre_nom_region != null) : ?><?php echo Bral_Helper_Tooltip::render($this->centre_description_region)?><?php endif;?>
 	  	
 	    <?php echo $this->centre_nom_region ?>&nbsp;
@@ -23,7 +23,7 @@
   		<?php include('boussole.phtml'); ?>
   	</td>
   	<td width="35%">
-	  	<div class="box_contenu1 textalib textsizec">
+	  	<div class="box_contenu1 textalib">
 	    Ma Position : <b><?php echo $this->user->x_braldun ?>, <?php echo $this->user->y_braldun ?></b>, 
 	    
 	    <?php if ($this->user->z_braldun != 0):?>

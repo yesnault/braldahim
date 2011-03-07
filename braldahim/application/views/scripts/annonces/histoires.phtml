@@ -20,7 +20,9 @@
 			<br />
 		<?php endif;?>
 		
+		<div class="braltexte">
 		<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+		</div>
 		<?php if ($info["lien_wiki_info_jeu"] != null) :?>
 			<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
 		<?php endif;?>

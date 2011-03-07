@@ -1,7 +1,7 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
-  <div class="titre textalia textsizec">Lieu actuel</div>
-  <div class="titre textalib textsizeb"><?php echo $this->nomTypeLieu; ?></div>
+  <div class="titre textalia textsizeb">Lieu actuel</div>
+  <div class="titre textalib textsizeab"><?php echo $this->nomTypeLieu; ?></div>
   <div class="contenuC">
     <div class="box_contenu1 textalic">
     
@@ -21,11 +21,11 @@
  		<?php endif; ?>
  		
  		 <br /><br />
- 		<div class="titre textalic textsizec"><?php echo $this->nomLieu ?></div>
+ 		<div class="titre textalic textsizeb"><?php echo $this->nomLieu ?></div>
  		<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/<?php echo $this->nomImageLieu?>.png' />
  		<br /><br />
  		<table width='80%' align='center'>
- 		<tr><td style='text-align:justify'><?php echo nl2br($this->descriptionLieu); ?>
+ 		<tr><td class="braltexte"><?php echo nl2br($this->descriptionLieu); ?>
  		</td></tr>
  		</table>
  		

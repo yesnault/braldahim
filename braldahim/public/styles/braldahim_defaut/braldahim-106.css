@@ -1,6 +1,5 @@
 body {
 	background: #003b00;
-	letter-spacing: 0pt;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 0px;
@@ -9,9 +8,8 @@ body {
 	
 	min-height:500px;
 	
-	font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
-	word-spacing: 0.1em;
-    font-size : 13.5px; 
+	font: 0.74em/1.1  arial,verdana,sans-serif;
+	word-spacing: .1em;
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -94,8 +92,7 @@ input.button1 {
 	border: 1px solid #666666;
 	background-image:
 		url('/styles/braldahim_defaut/images/layout/bg_button.gif');
-		font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
-	
+	font: small/1 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
 }
 
 input.button1:hover {
@@ -257,13 +254,14 @@ span.resultat_cache {
 	border-style: solid;
 	border-color: #000000;
 	border-width: 1px;
-	margin: 1px;
+	margin: 0px;
 	margin-left: 1px;
 	color:#000000;
 	text-align:center;
 	padding-left:1px;
-	font-size: 0.9em;
 	
+	font: 0.9em/.0 arial,verdana,sans-serif;
+	 
 	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
 	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
@@ -339,8 +337,10 @@ span.resultat_cache {
     box-shadow: #000 -5px 5px 10px 5px;
 }
 
-.gazette_histoire {
+.braltexte, .bougrie_text{
 	padding : 10px;
+	font: small/1.556 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	text-align:justify;
 }
 
 .contenu {
@@ -372,7 +372,7 @@ span.resultat_cache {
 	font-family: "Essays 1743",Times,serif;
 }
 
-.textsizea {
+.textsizea, .textsizeab, .textsizeac {
 	font-size: 2.1em;
 	font-weight: normal;
     text-transform: uppercase;
@@ -380,16 +380,24 @@ span.resultat_cache {
     text-shadow: 0 0 4px black, 0 -5px 4px black;
 }
 
+.textsizeab {
+	font-size: 1.4em;
+}
+
+.textsizeac {
+	font-size: 1.2em;
+}
+
 .textsizeb {
 	font-size: 1.4em;
 }
 
 .textsizec {
-	font-size: 1.2em;
+	font-size: 1.3em;
 }
 
 .textsized {
-	font-size: 0.9em;
+	font-size: 1.2em;
 	letter-spacing: 1pt;
 }
 
@@ -414,6 +422,7 @@ span.resultat_cache {
 	font-size: 1.4em;
 	letter-spacing: 2pt;
 	text-decoration: none;
+	font-family: "Essays 1743",Times,serif;
 }
 
 .box_chargement {
@@ -1517,19 +1526,8 @@ divfrise {
 	margin-left:-10px;
 }
 
-@font-face {
-    font-family: "Essays 1743";
-    src: url("http://jeu.braldahim.com/fonts/essays1743-webfont.woff") format('woff'),
-         url("http://jeu.braldahim.com/fonts/essays1743-webfont.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'LinuxLibertineRegular';
-    src: url("http://jeu.braldahim.com/fonts/linlibertine_re-4.7.5-webfont.woff") format('woff'),
-         url("http://jeu.braldahim.com/fonts/linlibertine_re-4.7.5-webfont.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
+@media screen and (max-device-width:480px) {
+	body {
+		font: normal 12px/18px sans-serif
+	}
 }
