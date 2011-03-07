@@ -365,13 +365,12 @@ span.resultat_cache {
 	padding: 0px;
 	font-weight: bolder;
 	margin: 0.0em;
-	font-variant: small-caps;
 	letter-spacing: 2pt;
 }
 
 .textsizea {
 	font-family: "Essays 1743",Times,serif;
-	font-size: 2em;
+	font-size: 2.1em;
 	font-weight: normal;
     text-transform: uppercase;
     color: #f0ae21;
@@ -1427,7 +1426,6 @@ divfrise {
     -moz-box-shadow: #000 -5px 5px 5px 5px;
     box-shadow: #000 -5px 5px 5px 5px;
 }
-
 
 .bande {
     height: 75px;

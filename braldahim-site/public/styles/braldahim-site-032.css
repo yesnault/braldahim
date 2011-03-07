@@ -9,11 +9,11 @@ body {
 	margin-left: 0px;
 	margin-right: 0px;
 	
-	font-family: DroidSerif,Times,serif;
-    font-size: 14px;
+	font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	word-spacing: 0.1em;
     text-align: justify;
-    word-spacing: 3px; 
-    color: #CCCCCC;  
+    color: #CCCCCC;
+    font-size : 14px;  
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -1253,13 +1253,6 @@ lightbox
 }
 
 @font-face {
-    font-family: "DroidSerif";
-    font-style: normal;
-    font-weight: normal;
-    src: local("☺"), url("/fonts/droidserif-webfont.woff") format("woff"), url("/fonts/droidserif-webfont.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "PerryGothic";
     font-style: normal;
     font-weight: normal;
@@ -1268,7 +1261,19 @@ lightbox
 
 @font-face {
     font-family: "Essays 1743";
-    font-style: normal;
+    src: url('/fonts/essays1743-webfont.woff') format('woff'),
+         url('/fonts/essays1743-webfont.ttf') format('truetype');
     font-weight: normal;
-    src: local("Essays 1743"), url("/fonts/Essays1743.ttf") format("truetype");
+    font-style: normal;
 }
+
+
+@font-face {
+    font-family: 'LinuxLibertineRegular';
+    src: url("/fonts/linlibertine_re-4.7.5-webfont.woff") format('woff'),
+         url("/fonts/linlibertine_re-4.7.5-webfont.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
