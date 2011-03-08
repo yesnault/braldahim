@@ -66,9 +66,12 @@ class Bral_Util_Contrat {
 		Zend_Loader::loadClass("TypeRune");
 		Zend_Loader::loadClass("IdsRune");
 		Zend_Loader::loadClass("Rune");
+		Zend_Loader::loadClass("CoffreRune");
+		
 		$idsRuneTable = new IdsRune();
 		$runeTable = new Rune();
 		$typeRuneTable = new TypeRune();
+		$coffreRuneTable = new CoffreRune();
 
 		for($i = 1; $i <= $nbRunes; $i++) {
 			$tirage = Bral_Util_De::get_1d100();
@@ -96,9 +99,15 @@ class Bral_Util_Contrat {
 				"est_identifiee_rune" => "non",
 			);
 			$runeTable->insert($dataRune);
+				
+			$data = array (
+				"id_rune_coffre_rune" => $idRune,
+				"id_fk_coffre_coffre_rune" => $idCoffre,
+			);
+			$coffreRuneTable->insert($data);
 		}
 
-		$retour .= $castars. " castars et ".$nbRunes. " runes à identifier.";
+		$retour .= $castars. " castars et ".$nbRunes. " runes à identifier, le tout placé dans votre coffre.";
 
 		return $retour;
 
