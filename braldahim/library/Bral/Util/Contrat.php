@@ -61,7 +61,8 @@ class Bral_Util_Contrat {
 		);
 		$coffreTable->insertOrUpdate($data);
 
-		$nbRunes = Bral_Util_De::get_1d3();
+		//$nbRunes = Bral_Util_De::get_1d3();
+		$nbRunes = 5;
 
 		Zend_Loader::loadClass("TypeRune");
 		Zend_Loader::loadClass("IdsRune");
