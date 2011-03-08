@@ -74,8 +74,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 
 	private function renderAliments(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("EchoppeAliment");
-		Zend_Loader::loadClass("EchoppeAlimentMinerai");
-		Zend_Loader::loadClass("EchoppeAlimentPartiePlante");
 		Zend_Loader::loadClass("Bral_Util_Aliment");
 
 		$tabAlimentsArriereBoutique = null;
