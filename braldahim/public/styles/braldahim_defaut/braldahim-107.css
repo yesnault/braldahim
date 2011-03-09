@@ -8,7 +8,7 @@ body {
 	
 	min-height:500px;
 	
-	font: 0.74em/1.1  arial,verdana,sans-serif;
+	font: 0.72em/1.05  arial,verdana,sans-serif;
 	word-spacing: .1em;
 	
 	 /* Degrade */
@@ -92,7 +92,6 @@ input.button1 {
 	border: 1px solid #666666;
 	background-image:
 		url('/styles/braldahim_defaut/images/layout/bg_button.gif');
-	font: small/1 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
 }
 
 input.button1:hover {
@@ -339,7 +338,7 @@ span.resultat_cache {
 
 .braltexte, .bougrie_text{
 	padding : 10px;
-	font: small/1.556 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+	font: small/1.456 'Linux Libertine',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
 	text-align:justify;
 }
 
@@ -369,7 +368,6 @@ span.resultat_cache {
 	padding: 0px;
 	margin: 0.0em;
 	letter-spacing: 2pt;
-	font-family: "Essays 1743",Times,serif;
 }
 
 .textsizea, .textsizeab, .textsizeac {
@@ -378,6 +376,7 @@ span.resultat_cache {
     text-transform: uppercase;
     color: #f0ae21;
     text-shadow: 0 0 4px black, 0 -5px 4px black;
+    font-family: "Essays 1743",Times,serif;
 }
 
 .textsizeab {
@@ -390,15 +389,18 @@ span.resultat_cache {
 
 .textsizeb {
 	font-size: 1.4em;
+	font-variant: small-caps;
 }
 
 .textsizec {
 	font-size: 1.3em;
+	font-variant: small-caps;
 }
 
 .textsized {
 	font-size: 1.2em;
 	letter-spacing: 1pt;
+	font-variant: small-caps;
 }
 
 .textalia {
