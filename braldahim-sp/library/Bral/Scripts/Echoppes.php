@@ -102,8 +102,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 	private function renderEquipements(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("EchoppeEquipement");
-		Zend_Loader::loadClass("EchoppeEquipementMinerai");
-		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("EquipementBonus");
 
@@ -127,8 +125,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 
 	private function renderMateriels(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("EchoppeMateriel");
-		Zend_Loader::loadClass("EchoppeMaterielMinerai");
-		Zend_Loader::loadClass("EchoppeMaterielPartiePlante");
 
 		$tabMaterielsArriereBoutique = null;
 		$tabMaterielsEtal = null;
@@ -158,8 +154,6 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 
 	private function renderPotions(&$retour, $idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
-		Zend_Loader::loadClass("EchoppePotionMinerai");
-		Zend_Loader::loadClass("EchoppePotionPartiePlante");
 		Zend_Loader::loadClass("Bral_Util_Potion");
 
 		$tabPotionsArriereBoutique = null;
