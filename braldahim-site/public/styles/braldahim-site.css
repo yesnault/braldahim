@@ -540,14 +540,6 @@ span.id_braldun {
 	letter-spacing: 2pt;
 }
 
-.equipea {
-	color: red;
-}
-
-.equipeb {
-	color: blue;
-}
-
 .textsize0 {
 	font-size: 1.6em;
 }
@@ -565,14 +557,17 @@ span.id_braldun {
 }
 
 .textsized {
-	font-size: 1.1em;
+	font-size: 1.0em;
 	letter-spacing: 1pt;
 }
 
-.textsized_noshadow {
-	font-size: 1.0em;
-	letter-spacing: 1pt;
-	text-shadow: none;
+
+.equipea {
+	color: red;
+}
+
+.equipeb {
+	color: blue;
 }
 
 .texttitre {

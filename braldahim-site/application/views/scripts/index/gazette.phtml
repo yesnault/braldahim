@@ -10,7 +10,7 @@
 			<div class="box_contenu<?php echo ($i % 2);$i++; ?> braltexte2 braltextefonce" style="text-align: justify;">
 			<p class="titre texttitre textdark">Parution le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?></p>
 			<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
-				<div class="titre textalic textsized_noshadow textdark"><?php echo stripslashes($info["titre_info_jeu"])?></div>
+				<div class="titre textalic textsized textdark"><?php echo stripslashes($info["titre_info_jeu"])?></div>
 			<?php endif;?>
 			
 			<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
