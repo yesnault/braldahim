@@ -9,11 +9,9 @@ body {
 	margin-left: 0px;
 	margin-right: 0px;
 	
-	font-family: 'LinuxLibertineRegular',Palatino,'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
-	word-spacing: 0.1em;
+	font: 13px arial, verdana, sans-serif;
     text-align: justify;
     color: #CCCCCC;
-    font-size : 14.5px;  
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -526,12 +524,20 @@ span.id_braldun {
 	text-align: left;
 }
 
-.titre {
+.titrea {
 	font-family: "Essays 1743",Times,serif;
 	font-weight: normal;
     text-transform: uppercase;
     color: #f0ae21;
     text-shadow: 0 0 4px black, 0 -5px 4px black;
+}
+
+.titre {
+	padding: 0px;
+	font-weight: bolder;
+	margin: 0.0em;
+	font-variant: small-caps;
+	letter-spacing: 2pt;
 }
 
 .equipea {
@@ -542,25 +548,29 @@ span.id_braldun {
 	color: blue;
 }
 
+.textsize0 {
+	font-size: 1.6em;
+}
+
 .textsizea {
 	font-size: 1.4em;
 }
 
 .textsizeb {
-	font-size: 1.2em;
+	font-size: 1.3em;
 }
 
 .textsizec {
-	font-size: 0.9em;
+	font-size: 1.2em;
 }
 
 .textsized {
-	font-size: 0.8em;
+	font-size: 1.1em;
 	letter-spacing: 1pt;
 }
 
 .textsized_noshadow {
-	font-size: 0.8em;
+	font-size: 1.0em;
 	letter-spacing: 1pt;
 	text-shadow: none;
 }
