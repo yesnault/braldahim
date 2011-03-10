@@ -1283,8 +1283,8 @@ td.cases.actuelle {
 	text-indent:-999em;
 	width:190px;
 	position:absolute;
-	margin-top:100px;
-	margin-left:-110px;
+	margin-top:0px;
+	margin-left:-130px;
 }
 
 #header-logo h1 a {
