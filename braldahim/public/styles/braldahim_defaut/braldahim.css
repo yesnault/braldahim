@@ -9,7 +9,6 @@ body {
 	min-height:500px;
 	
 	font: 12px arial, verdana, sans-serif;
-    text-align: justify;
 	
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
@@ -1284,7 +1283,7 @@ td.cases.actuelle {
 	text-indent:-999em;
 	width:190px;
 	position:absolute;
-	margin-top:70px;
+	margin-top:100px;
 	margin-left:-110px;
 }
 
@@ -1392,8 +1391,8 @@ height: 1px;
 }
 
 .bougrie {
-width:100%;
-
+  width:90%;
+  float: right;
 }
 	
 .bougrie_text {
