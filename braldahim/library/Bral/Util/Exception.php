@@ -13,7 +13,7 @@ class Bral_Util_Exception {
 		if ($afficheEcho) {
 			echo "Une erreur est survenue. L'equipe Braldahim est prevenue.";
 			echo " Si le probleme persiste, merci de prendre contact via le forum Anomalies ";
-			echo " en indiquant cette heure ".date("Y-m-d H:m:s");
+			echo " en indiquant cette heure ".date("Y-m-d H:i:s");
 		}
 
 		$user = "braldun:inconnu";
@@ -32,7 +32,7 @@ class Bral_Util_Exception {
 			$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
 			$mail->setSubject("[Braldahim-Exception] Exception rencontrée");
 
-			$formatTexte = 'Heure: '.date("Y-m-d H:m:s").PHP_EOL;
+			$formatTexte = 'Heure: '.date("Y-m-d H:i:s").PHP_EOL;
 			$formatTexte .= 'REMOTE_ADDR: '. $_SERVER['REMOTE_ADDR'].PHP_EOL;
 			$formatTexte .=  'SERVER_NAME / REQUEST_METHOD: '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'].PHP_EOL;
 			$formatTexte .= 'REQUEST_URI: '. $_SERVER['REQUEST_URI'].PHP_EOL;
