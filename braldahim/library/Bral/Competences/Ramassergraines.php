@@ -108,6 +108,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			$this->view->nbGraines = $this->view->buissonCourant["quantite_restante_buisson"];
 			$buissonTable->delete($where);
 			$buissonDetruit = true;
+			$this->recreation();
 		} else {
 			$data = array(
 				'quantite_restante_buisson' => $this->view->buissonCourant["quantite_restante_buisson"] - $this->view->nbGraines,
@@ -149,6 +150,51 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 
 		$this->view->buissonDetruit = $buissonDetruit;
+	}
+
+	private function recreation() {
+		// s'il y a une ville à moins de 25 cases
+		Zend_Loader::loadClass('Bral_Util_Ville');
+
+		$buissonTable = new Buisson();
+
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
+		$quantite = 1;
+		$delta = 15;
+		$x = Bral_Util_De::get_de_specifique($x - $delta, $x + $delta);
+		$y = Bral_Util_De::get_de_specifique($y - $delta, $y + $delta);
+
+		$ville = Bral_Util_Ville::trouveVilleProche($x, $y, 25);
+		if ($ville != null) {
+			$delta = 20;
+			$xMin = $ville['x_min_ville'] - $delta;
+			$yMin = $ville['y_min_ville'] - $delta;
+			$xMax = $ville['x_max_ville'] + $delta;
+			$yMax = $ville['y_max_ville'] + $delta;
+			$nbActuel = $buissonTable->countVue($xMin, $yMin, $xMax, $yMax, 0);
+			if ($nbActuel < 100) {
+				$x = Bral_Util_De::get_de_specifique($xMin, $xMax);
+				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
+			}
+		}
+			
+		if ($buissonTable->countByCase($x, $y, 0) > 0) {
+			$x = $x - 1;
+			if ($buissonTable->countByCase($x, $y, 0) > 0) {
+				return;
+			}
+		}
+
+		$data = array(
+			'id_fk_type_buisson_buisson' => $this->view->buissonCourant['id_fk_type_buisson_buisson'], 
+			'x_buisson' => $x, 
+			'y_buisson' => $y, 
+			'z_buisson' => 0, 
+			'quantite_restante_buisson' => $quantite, 
+			'quantite_max_buisson' => $quantite
+		);
+		$buissonTable->insert($data);
 	}
 
 	function getListBoxRefresh() {

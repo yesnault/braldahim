@@ -59,30 +59,30 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
-		
+
 		// Verification abattre arbre
 		if ($this->view->abattreArbreEnvironnementOk == false ) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
-		
+
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 		if ($arrivee < 1 || $arrivee > 3) {
 			throw new Zend_Exception(get_class($this)." Destination impossible ");
 		}
-		
+
 		if ($this->view->charettePleine == true && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
-		
+
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Pas de charrette !");
 		}
-		
+
 		if ($this->view->labanPlein == true && $arrivee == 2) {
 			throw new Zend_Exception(get_class($this)." Laban plein !");
 		}
-		
+
 		// calcul des jets
 		$this->calculJets();
 
@@ -122,7 +122,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_braldun + $this->view->user->vigueur_bbdf_braldun) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
-		
+
 		if ($this->view->nbRondins <= 0) {
 			$this->view->nbRondins  = 1;
 		}
@@ -134,6 +134,13 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$this->view->nbRondins = $this->view->bosquetCourant["quantite_restante_bosquet"];
 			$bosquetTable->delete($where);
 			$bosquetDetruit = true;
+			if ($this->view->bosquetCourant['numero_bosquet'] != null) {
+				$bosquetDansNumero = $bosquetTable->findByNumero($this->view->bosquetCourant['numero_bosquet']);
+				if ($bosquetDansNumero == null || count($bosquetDansNumero) == 0) {
+					// recreation si l'on a supprimé tout le bosquet
+					$this->recreation($this->view->bosquetCourant['id_fk_type_bosquet_bosquet']);
+				}
+			}
 		} else {
 			$data = array(
 				'quantite_restante_bosquet' => $this->view->bosquetCourant["quantite_restante_bosquet"] - $this->view->nbRondins,
@@ -141,20 +148,20 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$bosquetTable->update($data, $where);
 			$bosquetDetruit = false;
 		}
-		
+
 		$aTerre = 0;
-		
+
 		//Charrette
 		if ($arrivee == 1) {
 			Zend_Loader::loadClass("Charrette");
-		
+
 			$dansCharrette = $this->view->nbRondins;
-	
+
 			if ($dansCharrette > $this->view->nbPossibleDansCharretteMax) {
 				$dansCharrette = $this->view->nbPossibleDansCharretteMax;
 				$aTerre = $this->view->nbRondins - $dansCharrette;
 			}
-	
+
 			$charretteTable = new Charrette();
 			$data = array(
 				'quantite_rondin_charrette' => $dansCharrette,
@@ -162,10 +169,10 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			);
 			$charretteTable->updateCharrette($data);
 			unset($charretteTable);
-	
+
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 		}
-		
+
 		//Laban
 		if ($arrivee == 2 ) {
 			Zend_Loader::loadClass("Laban");
@@ -174,7 +181,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 				$dansLaban = $this->view->nbPossibleDansLabanMax;
 				$aTerre = $this->view->nbRondins - $dansLaban;
 			}
-			
+
 			$labanTable = new Laban();
 			$data = array(
 				'quantite_rondin_laban' => $dansLaban,
@@ -183,12 +190,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$labanTable->insertOrUpdate($data);
 			unset($labanTable);
 		}
-		
+
 		//sol
 		if ($arrivee == 3 ) {
 			$aTerre = $this->view->nbRondins;
 		}
-		
+
 		if ($aTerre > 0) {
 			Zend_Loader::loadClass("Element");
 			$elementTable = new Element();
@@ -219,4 +226,62 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_vue", "box_competences_metiers", "box_laban", "box_charrette"));
 	}
+
+	private function recreation($idTypeBosquet) {
+		// s'il y a une ville à moins de 25 cases
+		Zend_Loader::loadClass('Bral_Util_Ville');
+		$bosquetTable = new Bosquet();
+
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
+		$delta = 15;
+		$x = Bral_Util_De::get_de_specifique($x - $delta, $x + $delta);
+		$y = Bral_Util_De::get_de_specifique($y - $delta, $y + $delta);
+
+		$ville = Bral_Util_Ville::trouveVilleProche($x, $y, 25);
+		if ($ville != null) {
+			$delta = 20;
+			$xMin = $ville['x_min_ville'] - $delta;
+			$yMin = $ville['y_min_ville'] - $delta;
+			$xMax = $ville['x_max_ville'] + $delta;
+			$yMax = $ville['y_max_ville'] + $delta;
+			$nbActuel = $bosquetTable->countVue($xMin, $yMin, $xMax, $yMax, 0);
+			if ($nbActuel < 50) {
+				$x = Bral_Util_De::get_de_specifique($xMin, $xMax);
+				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
+			}
+		}
+			
+		$quantite = Bral_Util_De::get_de_specifique(5, 15);
+
+		$numeroBosquet = null;
+
+		$nbCasesAutour = Bral_Util_De::get_de_specifique(2, 9);
+		for($j=0; $j<=$nbCasesAutour; $j++) {
+			for($k=0; $k<=$nbCasesAutour; $k++) {
+				if ($bosquetTable->countByCase($x + $j, $y + $k, 0) == 0) {
+					$data = array(
+						'id_fk_type_bosquet_bosquet' => $idTypeBosquet, 
+						'x_bosquet' => $x + $j, 
+						'y_bosquet' => $y + $k, 
+						'z_bosquet' => $this->view->user->z_braldun, 
+						'quantite_restante_bosquet' => $quantite, 
+						'quantite_max_bosquet' => $quantite,
+						'numero_bosquet' => $numeroBosquet,
+					);
+
+					$idBosquet = $bosquetTable->insert($data);
+					if ($numeroBosquet == null) {
+						$numeroBosquet = $idBosquet;
+						$where = 'id_bosquet = '.$idBosquet;
+						$data['numero_bosquet'] = $numeroBosquet;
+						$bosquetTable->update($data, $where);
+					}
+				}
+			}
+		}
+			
+
+	}
+
 }

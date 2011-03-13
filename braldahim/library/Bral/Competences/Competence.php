@@ -519,7 +519,7 @@ abstract class Bral_Competences_Competence {
 		$retour = false;
 		if ($this->competence["id_fk_metier_competence"] != null && $this->competence["id_fk_metier_competence"] > 0) {
 			if ($this->view->user->date_debut_tour_braldun == $this->braldun_competence["date_debut_tour_hcomp"]) {
-				if ($this->braldun_competence["nb_action_tour_hcomp"] >= 2) {
+				if ($this->braldun_competence["nb_action_tour_hcomp"] >= 20) {
 					$retour = false;
 				} else { // < 2
 					$retour = true;

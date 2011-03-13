@@ -74,7 +74,18 @@ class Bosquet extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-
+	
+	function findByNumero($numeroBosquet) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('bosquet', '*')
+		->from('type_bosquet', '*')
+		->where('numero_bosquet = ?', $numeroBosquet)
+		->where('bosquet.id_fk_type_bosquet_bosquet = type_bosquet.id_type_bosquet');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findLePlusProche($x, $y, $z, $rayon, $idTypeMinerai = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
