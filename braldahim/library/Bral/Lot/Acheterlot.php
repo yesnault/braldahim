@@ -139,6 +139,9 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 				$lotCharrette = $lot;
 			}
 			$poidsTotal = $poidsTotal + $lot["poids_lot"];
+			if ($this->view->user->id_braldun == $lot["id_fk_vendeur_braldun_lot"]) {
+				$lot["prix_1_lot"] = 0;
+			}
 			$prixTotal = $prixTotal + $lot["prix_1_lot"];
 		}
 
@@ -289,7 +292,9 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			} else {
 				throw new Zend_Exception(get_class($this)." calculTransfert destination invalide:".$idDestination);
 			}
-
+			if ($this->view->user->id_braldun == $lot["id_fk_vendeur_braldun_lot"]) {
+				$lot["prix_1_lot"] = 0;
+			}
 			$this->calculDepotCastars($lot);
 			if ($this->view->estSurEchoppe) {
 				$this->calculDepotMessageEtal($lot);
