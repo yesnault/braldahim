@@ -365,7 +365,7 @@ span.resultat_cache {
 }
 
 .titrea {
-	font-family: "Essays 1743",Times,serif;
+	font-family: Times,serif;
 	font-weight: normal;
     text-transform: uppercase;
     color: #f0ae21;
@@ -423,7 +423,7 @@ span.resultat_cache {
 	font-size: 1.4em;
 	letter-spacing: 2pt;
 	text-decoration: none;
-	font-family: "Essays 1743",Times,serif;
+	font-family: Times,serif;
 }
 
 .box_chargement {
@@ -1499,8 +1499,8 @@ divfrise {
 
 .bande_date {
 	position: relative;
-	top:-13px;
-	font-family: "Essays 1743",Times,serif;
+	top:-10px;
+	font-family: Times,serif;
 	font-size: 1em;
 }
 

@@ -14,7 +14,7 @@
 
 <title>Braldahim</title>
 <link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<?php $versionCss = "108"; ?>
+<?php $versionCss = "109"; ?>
 <?php if ($this->config->general->production == 1) : ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
@@ -27,18 +27,6 @@
 <?php elseif (Zend_Registry::get("estMobile")) : ?>
 <link  href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
 <?php endif;?>
-
-<?php if (!Zend_Registry::get("estMobile") || Zend_Registry::get("estIphone")) : ?>
-<style>
-@font-face {
-    font-family: "Essays 1743";
-    src: local('Essays 1743'), url("/fonts/essays1743-webfont.woff") format('woff'),
-         url("/fonts/essays1743-webfont.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-</style>
-<?php endif; ?>
 
 <?php $versionJs = "045"; ?>
 <?php if ($this->config->general->production == 1) : ?>
