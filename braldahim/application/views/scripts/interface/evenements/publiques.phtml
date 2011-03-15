@@ -1,7 +1,12 @@
-<div class="titre textalic textsizec">&Eacute;v&eacute;nements Publics </div>
+<?php if ($this->estCommunaute) : ?>
+<div class="titre textalic textsizec">Événements de Communauté</div>
+<?php else: ?>
+<div class="titre textalic textsizec">Événements Publics </div>
+<?php endif;?>
   <div class="box_contenu1 textalic">
   	Type : 
-  	<select name='valeur_2'  onchange="Javascript:_get_('/interface/load/?box=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<?php if (!$this->estCommunaute) : $suffixe = ""; else: $suffixe = "_communaute"?><?php endif;?>
+  		<select name='valeur_2'  onchange="Javascript:_get_('/interface/load/?box=box_evenements<?php echo $suffixe?>&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<?php foreach ($this->typeEvenements as $t) : ?>
   	<option value='<?php echo $t["id_type_evenement"]?>' <?php if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?php echo $t["nom"]?></option>
   	<?php endforeach; ?>
@@ -42,13 +47,15 @@
    <?php else: ?>
    		<tr class="table_liste">
    			<td colspan="5">
-	   			Aucun &eacute;v&eacute;nement
+	   			Aucun Événement
 	   		</td>
    		</tr>
    <?php endif; ?>
    </table>
    <br /><br />
- Les événements de type déplacement sont supprimés au bout de 30 jours.<br />
- Les événements de type service, compétence, transbahuter sont supprimés au bout de 90 jours.<br />
+   <?php if (!$this->estCommunaute) : ?>
+	Les événements de type déplacement sont supprimés au bout de 30 jours.<br />
+	Les événements de type service, compétence, transbahuter sont supprimés au bout de 90 jours.<br />
+	<?php endif;?>
 
   </div>

@@ -1,11 +1,11 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
-<div class="titre textalia textsizeb">Mes &Eacute;v&eacute;nements</div>
+<div class="titre textalia textsizeb">Événements de ma Communauté</div>
  <div class="contenuC">
  
  <?php if ($this->affichageInterne == true) : ?>
 	 <?php 
-	 $this->estCommunaute = false;
+	 $this->estCommunaute = true;
 	 include("evenements/publiques.phtml") ?>
 	<br />
 	 <?php include("evenements/bot.phtml") ?>

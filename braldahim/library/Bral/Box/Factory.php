@@ -78,6 +78,9 @@ class Bral_Box_Factory {
 			case "box_evenements" :
 				return self::getEvenements($request, $view, $interne);
 				break;
+			case "box_evenements_communaute" :
+				return self::getEvenementsCommunaute($request, $view, $interne);
+				break;
 			case "box_famille" :
 				return self::getFamille($request, $view, $interne);
 				break;
@@ -214,12 +217,12 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Carnet");
 		return new Bral_Box_Carnet($request, $view, $interne);
 	}
-	
+
 	public static function getBlabla($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Blabla");
 		return new Bral_Box_Blabla($request, $view, $interne);
 	}
-	
+
 	public static function getContrats($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Contrats_Contrats");
 		Zend_Loader::loadClass("Bral_Contrats_Liste");
@@ -245,6 +248,11 @@ class Bral_Box_Factory {
 	public static function getEvenements($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Evenements");
 		return new Bral_Box_Evenements($request, $view, $interne);
+	}
+
+	public static function getEvenementsCommunaute($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_EvenementsCommunaute");
+		return new Bral_Box_EvenementsCommunaute($request, $view, $interne);
 	}
 
 	public static function getErreur($request, $view, $interne, $message) {
