@@ -439,7 +439,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 		Zend_Loader::loadClass('BraldunsCompetences');
 		$braldunsCompetencesTable = new BraldunsCompetences();
-		$where = 'id_fk_competence_hcomp = '.$braldun['id_braldun'];
+		$where = 'id_fk_braldun_hcomp = '.$braldun['id_braldun'];
 		$braldunsCompetencesTable->delete($where);
 
 		Zend_Loader::loadClass('Charrette');
