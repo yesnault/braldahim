@@ -34,8 +34,8 @@
 		 <?php if ($this->user->gardeEnCours === true) : ?>
 		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?php echo htmlspecialchars($this->user->prenom_braldun) ?> <?php echo htmlspecialchars($this->user->nom_braldun) ?> (<?php echo $this->user->id_braldun?>) en cours</a>
 		 <?php endif; ?>
-		 <div style="line-height: 9px;">&nbsp;</div>
-		 <div>
+		 <div style="line-height: 22px;">&nbsp;</div>
+		 <div style="line-height: 18px; margin-top:-18px;">&nbsp;
 		 	<?php if ($this->controleur == "interface") : ?>
 				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
 				 	<img id="img_message_ancien" src="<?php echo $this->config->static->url?>/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
@@ -47,7 +47,7 @@
 				</span>
 				<?php endif; ?>
 				<?php if (!Zend_Registry::get("estMobile")):?>
-				<div>&nbsp;&nbsp;&nbsp;<?php echo Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<div style="margin-top:-18px;">&nbsp;&nbsp;&nbsp;<?php echo Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 				<?php endif;?>
 			<?php endif; ?>
 		 </div>

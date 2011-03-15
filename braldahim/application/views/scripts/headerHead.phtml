@@ -14,11 +14,11 @@
 
 <title>Braldahim</title>
 <link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<?php $versionCss = "102"; ?>
+<?php $versionCss = "109"; ?>
 <?php if ($this->config->general->production == 1) : ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/mini-<?php echo $versionCss?>.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/braldahim-<?php echo $versionCss?>.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/braldahim.css?<?php echo $versionCss?>" />
 <?php endif;?>
 <link rel="apple-touch-icon" href="<?php echo $this->config->static->url?>/images/mobile/icone-braldahim.png"/>
 <link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />

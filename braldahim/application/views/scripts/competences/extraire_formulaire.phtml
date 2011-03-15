@@ -9,7 +9,7 @@
 	<select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_extraire').disabled=true } else {$('bouton_extraire').disabled=false }">
 	 	<option value="-1">(Choisissez un minerai)</option>
 	 		<?php foreach($this->filons as $f) : ?>
- 		<option value="<?php echo $f["id_filon"]?>"><?php echo $f["nom_type_minerai"]?> (<?php echo $f["id_filon"]?>)</option>
+ 		<option value="<?php echo $f["id_filon"]?>"><?php echo $f["nom_type_minerai"]?></option>
 	 	<?php endforeach; ?>
 	 </select>
 	 <br /><br />

@@ -10,7 +10,7 @@
 			<br/>
 			<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 				<br/>
-				<p class="titre textalic textsized center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
+				<p class="titre textalic textsizec center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
 			<?php endif;?>
 			
 			<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
@@ -19,7 +19,7 @@
 				&nbsp;
 			<?php endif;?>
 			
-			<div class="gazette_histoire">
+			<div class="braltexte">
 				<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 				<?php if ($info["lien_wiki_info_jeu"] != null) :?>
 					<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">...Lire la suite.</a>

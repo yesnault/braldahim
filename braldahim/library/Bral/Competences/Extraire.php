@@ -44,7 +44,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 				$this->view->idCharrette = $charetteBraldun[0]["id_charrette"];
 				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun);
 				$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_MINERAI);
-	
+
 				if ($nbPossibleDansCharretteMaximum > 0) {
 					$this->view->charettePleine = false;
 				}
@@ -73,7 +73,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 
 		$idFilonRecu = intval($this->request->get("valeur_1"));
-		
+
 		//verification de la présence du filon
 		$valid = false;
 		foreach($this->view->filons as $f) {
@@ -90,25 +90,25 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		if ($valid===false) {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid id=".$idFilonRecu);
 		}
-		
+
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		if ($arrivee < 1 || $arrivee > 3) {
 			throw new Zend_Exception(get_class($this)." Destination impossible ");
 		}
-		
+
 		if ($this->view->charettePleine == true && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
-		
+
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Pas de charrette !");
 		}
-		
+
 		if ($this->view->labanPlein == true && $arrivee == 2) {
 			throw new Zend_Exception(get_class($this)." Laban plein !");
 		}
-		
+
 		// calcul des jets
 		if ($this->view->filonOk == true) {
 			$this->calculJets();
@@ -132,7 +132,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 					$nbDansCharrette = $this->view->nbPossibleDansCharretteMax;
 					$nbATerre = $quantiteExtraite - $nbDansCharrette;
 				}
-	
+
 				if ($nbDansCharrette > 0) {
 					$charretteMineraiTable = new CharretteMinerai();
 					$data = array(
@@ -145,7 +145,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 					Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 				}
 			}
-			
+
 			//Laban
 			if ($arrivee == 2) {
 				Zend_Loader::loadClass('LabanMinerai');
@@ -154,7 +154,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 					$nbDansLaban = $this->view->nbPossibleDansLabanMax;
 					$nbATerre = $quantiteExtraite - $nbDansLaban;
 				}
-	
+
 				if ($nbDansLaban > 0) {
 					$labanMineraiTable = new LabanMinerai();
 					$data = array(
@@ -165,12 +165,12 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 					$labanMineraiTable->insertOrUpdate($data);
 				}
 			}
-			
+
 			//sol
 			if ($arrivee == 3) {
 				$nbATerre = $quantiteExtraite;
 			}
-			
+
 			if ($nbATerre > 0) {
 				Zend_Loader::loadClass("ElementMinerai");
 				$elementMineraiTable = new ElementMinerai();
@@ -183,7 +183,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 				);
 				$elementMineraiTable->insertOrUpdate($data);
 			}
-			
+
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
@@ -201,6 +201,10 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$where = "id_filon=".$idFilon;
 			$filonTable->delete($where);
 			$filonDetruit = true;
+			if ($this->view->user->z_braldun == 0) {
+				$this->recreation($id_fk_type_minerai_filon);
+			}
+
 		} else {
 			$filonTable = new Filon();
 			$data = array(
@@ -213,7 +217,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		unset($filonTable);
 
 		$minerai = array("nom_type" => $nom_type_minerai, "quantite_extraite" => $quantiteExtraite);
-		
+
 		$this->view->nbATerre = $nbATerre;
 		$this->view->minerai = $minerai;
 		$this->view->filonDetruit = $filonDetruit;
@@ -270,5 +274,67 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$this->view->nb_px_perso = 0;
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
+
+	private function recreation($idTypeMinerai) {
+
+		// s'il y a une ville à moins de 25 cases
+		Zend_Loader::loadClass('Bral_Util_Ville');
+
+		$filonTable = new Filon();
+
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
+		$quantite = 1;
+		$delta = 15;
+		$x = Bral_Util_De::get_de_specifique($x - $delta, $x + $delta);
+		$y = Bral_Util_De::get_de_specifique($y - $delta, $y + $delta);
+
+		$ville = Bral_Util_Ville::trouveVilleProche($x, $y, 25);
+		if ($ville != null) {
+			$delta = 20;
+			$xMin = $ville['x_min_ville'] - $delta;
+			$yMin = $ville['y_min_ville'] - $delta;
+			$xMax = $ville['x_max_ville'] + $delta;
+			$yMax = $ville['y_max_ville'] + $delta;
+			$nbActuel = $filonTable->countVue($xMin, $yMin, $xMax, $yMax, 0);
+			if ($nbActuel < 300) {
+				$x = Bral_Util_De::get_de_specifique($xMin, $xMax);
+				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
+			}
+		}
+
+		Zend_Loader::loadClass('Bral_Batchs_Batch');
+		Zend_Loader::loadClass('Bral_Batchs_CreationMinerais');
+		$quantite = Bral_Util_De::get_de_specifique(Bral_Batchs_CreationMinerais::MIN_SOL, Bral_Batchs_CreationMinerais::MAX_SOL);
+
+		Zend_Loader::loadClass('Zone');
+		$zoneTable = new Zone();
+		$zone = $zoneTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, 0);
+
+		// La requete ne doit renvoyer qu'une seule case
+		if (count($zone) == 1) {
+			$case = $zone[0];
+		} else {
+			throw new Zend_Exception(get_class($this)."::recreation : Nombre de case invalide");
+		}
+
+		// On verifie que la case est bien de type montagne
+		Zend_Loader::loadClass('Environnement');
+		if ($case['nom_systeme_environnement'] != Environnement::NOM_SYSTEME_MONTAGNE) {
+			// si non, on prend la position du braldun
+			$x = $this->view->user->x_braldun;
+			$y = $this->view->user->y_braldun;
+		}
+
+		$data = array(
+			'id_fk_type_minerai_filon' => $idTypeMinerai, 
+			'x_filon' => $x, 
+			'y_filon' => $y, 
+			'z_filon' => 0, 
+			'quantite_restante_filon' => $quantite, 
+			'quantite_max_filon' => $quantite
+		);
+		$filonTable->insert($data);
 	}
 }

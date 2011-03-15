@@ -38,7 +38,7 @@ class Bral_Helper_Tooltip {
 			$retour .= "<hr />";
 		}
 		
-		$retour .= '<span id="'.$id.'texte">';
+		$retour .= '<span id="'.$id.'texte" class="braltexte">';
 		$retour .= $texte;
 		$retour .= '</span>';
 		

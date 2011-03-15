@@ -31,6 +31,9 @@
 	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
 				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
 				- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+				<?php if ($this->user->id_braldun == $lot['id_fk_vendeur_braldun_lot']) : ?>
+				(le rachat est gratuit)
+				<?php endif;?>
 				- <?php echo $lot["resume"]; ?>
 				</span>
 				
@@ -52,6 +55,11 @@
 					<hr style="width:50%"/><br />
 					</li>
 				<?php endif;?>
+				<li>
+				Vendeur : 
+				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
+					<hr style="width:50%"/><br />
+				</li>
 				<li> Commentaire du vendeur : 
 					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
 					<hr style="width:50%"/><br />

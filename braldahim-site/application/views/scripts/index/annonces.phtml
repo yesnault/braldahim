@@ -1,14 +1,14 @@
-<div class="titre textalic textsizeb">Les Annonces</div><br/>
+<div class="titrea textalic textsizeb">Les Annonces</div><br/>
 <?php if (count($this->annonces) > 0) : ?>
     <table class="table_liste" style="width:300px; border: 0px">
 		<?php 
-			$i = 0; 
+			$i = 1; 
 			foreach ($this->annonces as $info) : ?>
-			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-				<td class="table_liste">
+			<tr>
+				<td style="text-align: justify; vertical-align:top">
 				
-				Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
-				<br/>
+				<div class="box_contenu<?php echo ($i % 2);$i++; ?> braltexte2 braltextefonce" style="text-align: justify;">
+				<p class="titre texttitre textdark">Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?></p>
 				<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
 					<img src="<?php echo $this->config->static->url?>/images/new.gif" alt="information de moins de 36 heures" style="cursor:pointer"/>
 					<br/>
@@ -17,18 +17,23 @@
 				<?php endif;?>
 				
 				<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
-					<br/>
-					<p class="titre textalic textsized center textdark"><?php echo stripslashes($info["titre_info_jeu"])?></p>
+					<div class="titre textalic textsized textdark"><?php echo stripslashes($info["titre_info_jeu"])?></div>
 					<br />
 				<?php endif;?>
 				
+				<div class="gazette_histoire">
 				<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 				<?php if ($info["lien_wiki_info_jeu"] != null) :?>
 					<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
 				<?php endif;?>
+				</div>
+				
 				<?php if ($info["lien_info_jeu"] != null) :?>
-					<br/><a href="<?php echo htmlspecialchars($info["lien_info_jeu"])?>">Discussions.</a>
+					<br/>Les Braldûns en discutent
+					<a href="<?php echo htmlspecialchars($info["lien_info_jeu"])?>">sur le forum.</a>
 				<?php endif;?>
+				
+				</div>
 				</td>
 			</tr>
 		<?php endforeach; ?>

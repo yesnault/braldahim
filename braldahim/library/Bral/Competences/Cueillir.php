@@ -56,9 +56,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				"nom_partie_4" => $nom_partie_4
 			);
 		}
-		
+
 		$this->view->plantes = $this->_tabPlantes;
-		
+
 		$this->view->labanPlein = true;
 		$poidsRestantLaban = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$nbPossibleDansLabanMaximum = floor($poidsRestantLaban / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
@@ -66,7 +66,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$this->view->labanPlein = false;
 		}
 		$this->view->nbPossibleDansLabanMax = $nbPossibleDansLabanMaximum;
-		
+
 		$charretteTable = new Charrette();
 		$charetteBraldun = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 		$this->view->charettePleine = true;
@@ -100,25 +100,25 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
 		}
-		
+
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		if ($arrivee < 1 || $arrivee > 3) {
 			throw new Zend_Exception(get_class($this)." Destination impossible ");
 		}
-		
+
 		if ($this->view->charettePleine == true && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
-		
+
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
 			throw new Zend_Exception(get_class($this)." Pas de charrette !");
 		}
-		
+
 		if ($this->view->labanPlein == true && $arrivee == 2) {
 			throw new Zend_Exception(get_class($this)." Laban plein !");
 		}
-		
+
 		// Verification de la plante
 		$planteOk = false;
 		if ($this->_tabPlantes != null) {
@@ -190,12 +190,12 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			// reussite, on met dans le laban
 			if ($arrivee == 2) {
 				Zend_Loader::loadClass('LabanPartieplante');
-				$labanPartiePlanteTable = new LabanPartieplante();	
+				$labanPartiePlanteTable = new LabanPartieplante();
 				for ($i=1; $i<=4; $i++) {
 					if ($cueillette[$i]["quantite"] > 0) {
 						$dansLaban = 0;
 						$aTerre = 0;
-	
+
 						if ($nbCueilletteLaban + $cueillette[$i]["quantite"] > $this->view->nbPossibleDansLabanMax) {
 							$dansLaban = $this->view->nbPossibleDansLabanMax - $nbCueilletteLaban;
 							if ($dansLaban > $cueillette[$i]["quantite"]) $dansLaban = $cueillette[$i]["quantite"];
@@ -205,7 +205,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 						} else { // tout passe dans le laban
 							$dansLaban = $cueillette[$i]["quantite"];
 						}
-	
+
 						if ($dansLaban > 0) {
 							$nbCueilletteLaban = $nbCueilletteLaban + $dansLaban;
 							$data = array(
@@ -236,12 +236,12 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			// reussite, on met dans la charrette
 			if ($arrivee == 1) {
 				Zend_Loader::loadClass('CharrettePartieplante');
-				$charrettePartiePlanteTable = new CharrettePartieplante();	
+				$charrettePartiePlanteTable = new CharrettePartieplante();
 				for ($i=1; $i<=4; $i++) {
 					if ($cueillette[$i]["quantite"] > 0) {
 						$dansCharrette = 0;
 						$aTerre = 0;
-	
+
 						if ($nbCueilletteCharrette + $cueillette[$i]["quantite"] > $this->view->nbPossibleDansCharretteMax) {
 							$dansCharrette = $this->view->nbPossibleDansCharretteMax - $nbCueilletteCharrette;
 							if ($dansCharrette > $cueillette[$i]["quantite"]) $dansCharrette = $cueillette[$i]["quantite"];
@@ -251,7 +251,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 						} else { // tout passe dans le charrette
 							$dansCharrette = $cueillette[$i]["quantite"];
 						}
-	
+
 						if ($dansCharrette > 0) {
 							$nbCueilletteCharrette = $nbCueilletteCharrette + $dansCharrette;
 							$data = array(
@@ -315,6 +315,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$planteTable = new Plante();
 			$where = "id_plante=".$idPlante;
 			$planteTable->delete($where);
+			$this->recreation($plante);
 		} else { // sinon, il faut la mettre à jour
 			$data = array(
 				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
@@ -378,6 +379,62 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		return $n;
+	}
+
+	private function recreation($plante) {
+		// s'il y a une ville à moins de 25 cases
+		Zend_Loader::loadClass('Bral_Util_Ville');
+
+		$planteTable = new Plante();
+
+		$x = $this->view->user->x_braldun;
+		$y = $this->view->user->y_braldun;
+		$quantite = 1;
+		$delta = 15;
+		$x = Bral_Util_De::get_de_specifique($x - $delta, $x + $delta);
+		$y = Bral_Util_De::get_de_specifique($y - $delta, $y + $delta);
+
+		$ville = Bral_Util_Ville::trouveVilleProche($x, $y, 25);
+		if ($ville != null) {
+			$delta = 20;
+			$xMin = $ville['x_min_ville'] - $delta;
+			$yMin = $ville['y_min_ville'] - $delta;
+			$xMax = $ville['x_max_ville'] + $delta;
+			$yMax = $ville['y_max_ville'] + $delta;
+			$nbActuel = $planteTable->countVue($xMin, $yMin, $xMax, $yMax, 0);
+			if ($nbActuel < 100) {
+				$x = Bral_Util_De::get_de_specifique($xMin, $xMax);
+				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
+			}
+		}
+			
+		$min = 5;
+		$max = 10;
+		$partie_1 = Bral_Util_De::get_de_specifique($min, $max);
+		$partie_2 = null;
+		$partie_3 = null;
+		$partie_4 = null;
+
+		if ($plante["id_fk_partie_2"] != null) {
+			$partie_2 = Bral_Util_De::get_de_specifique($min, $max);
+		}
+		if ($plante["id_fk_partie_3"] != null) {
+			$partie_3 = Bral_Util_De::get_de_specifique($min, $max);
+		}
+		if ($plante["id_fk_partie_4"] != null) {
+			$partie_4 = Bral_Util_De::get_de_specifique($min, $max);
+		}
+		$data = array(
+			'id_fk_type_plante' => $plante["id_fk_type_plante"],
+			'x_plante' => $x,
+			'y_plante' => $y,
+			'partie_1_plante' => $partie_1,
+			'partie_2_plante' => $partie_2,
+			'partie_3_plante' => $partie_3,
+			'partie_4_plante' => $partie_4,
+		);
+
+		$planteTable->insert($data);
 	}
 
 }

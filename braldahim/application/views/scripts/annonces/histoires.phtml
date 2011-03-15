@@ -16,11 +16,13 @@
 		
 		<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 			<br/>
-			<p class="titre textalic textsized center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
+			<p class="titre textalic textsizec center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
 			<br />
 		<?php endif;?>
 		
+		<div class="braltexte">
 		<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+		</div>
 		<?php if ($info["lien_wiki_info_jeu"] != null) :?>
 			<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles.</a> 
 		<?php endif;?>

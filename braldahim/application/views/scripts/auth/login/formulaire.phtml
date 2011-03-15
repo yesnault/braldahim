@@ -1,7 +1,7 @@
 <div class="box_authentification">
 <div class="inner">
 <p class="titre textalic textsizee" style="font-style: italic ;"><?php echo Bral_Helper_Calendrier::affiche(true);?></p>
-<p class="titre textalia textsizea">Braldahim<?php if ($this->estMobile) : ?> Mobile<?php endif;?></p>
+<p class="titrea textalia textsize0">Braldahim<?php if ($this->estMobile) : ?> Mobile<?php endif;?></p>
 <?php if (!$this->estMobile) : ?><p class="titre textalib textsizeb">Connexion</p><?php endif;?>
 <?php if(!empty($this->message)) :?> 
 <div class="message_erreur" id="message_erreur"> 
@@ -27,7 +27,7 @@
 	<?php endif;?>
 
 	    Adresse email du Joueur : <br/><input type="email" required placeholder="Entrez votre adresse email" autofocus name="post_email_braldun" id='post_email_braldun' size='30' maxlength='100'/> <br />
-	    Mot de passe : <br/><input type="password" name="post_password_braldun"  size='30'  maxlength='50' required /> <br />
+	    Mot de passe : <br/><input type="password" name="post_password_braldun"  size='30'  maxlength='50' required placeholder="Et votre mot de passe..." /> <br />
 	    Activation :
 	    oui <input type="radio" id="auth_activation_oui" name="auth_activation" value="oui" checked="checked"/>
 	    non <input type="radio" id="auth_activation_non" name="auth_activation" value="non"/> <br />

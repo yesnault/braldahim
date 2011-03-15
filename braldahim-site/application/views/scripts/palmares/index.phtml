@@ -1,11 +1,11 @@
 <?php echo $this->render('/commun/menu_bourg.phtml')?>
 <br/>
-<div class="titre textalic textsizea">L'Office des Palmarès</div>
+<div class="titrea textalic textsizea">L'Office des Palmarès</div>
 <table style="width:100%">
 <tr>
 	<td style="width:30px" valign="top" nowrap="nowrap">
 		<div class="box_contenu textalic">
-			<div class="titre textalic textsizec">
+			<div class="titrea textalic textsizec">
 			Général
 			</div>
 			<?php foreach($this->selection as $s) : ?>
@@ -13,7 +13,7 @@
 			<?php endforeach;?>
 			<br/>
 			
-			<div class="titre textalic textsizec">
+			<div class="titrea textalic textsizec">
 			Réputation
 			</div>
 			<?php if (count($this->selectionReputation) > 0): ?>
@@ -23,7 +23,7 @@
 			<?php endif; ?>
 			<br/>
 			
-			<div class="titre textalic textsizec">
+			<div class="titrea textalic textsizec">
 			Récolteurs
 			</div>
 			<?php if (count($this->selectionRecolteurs) > 0): ?>
@@ -32,7 +32,7 @@
 				<?php endforeach;?>
 			<?php endif; ?>
 			<br/>
-			<div class="titre textalic textsizec">
+			<div class="titrea textalic textsizec">
 			Fabricants
 			</div>
 			<?php if (count($this->selectionFabricants) > 0): ?>
@@ -41,7 +41,7 @@
 				<?php endforeach;?>
 			<?php endif; ?>
 			<br/>
-			<div class="titre textalic textsizec">
+			<div class="titrea textalic textsizec">
 			Runes
 			</div>
 			<?php if (count($this->selectionRunes) > 0): ?>
@@ -53,8 +53,8 @@
 		</div>
 	</td>
 	<td style="width:400px; border: 0px solid #791E1E;" valign="top">
-		<div class="titre textalic textsizec">
-			<?php echo $this->titre?><br/><br/>
+		<div class="titrea textalic textsizec">
+			<?php echo $this->titrea?><br/><br/>
 		</div>
 		<?php echo $this->render("commun/box_onglets.phtml"); ?>
 	</td>
