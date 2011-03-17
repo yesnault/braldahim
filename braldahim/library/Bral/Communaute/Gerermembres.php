@@ -23,8 +23,10 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 	function prepareFormulaire() {}
 	function prepareResultat() {}
-	function getListBoxRefresh() {}
-	
+	function getListBoxRefresh() {
+		return array("box_evenements_communaute");
+	}
+
 	function getNomInterne() {
 		return "box_communaute_action";
 	}
@@ -87,11 +89,13 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$tabRangs = null;
 
 		foreach($rangsCommunauteRowset as $r) {
-			$tabRangs[] = array(
+			if ($r["ordre_rang_communaute"] > Bral_Util_Communaute::ID_RANG_GESTIONNAIRE) {
+				$tabRangs[] = array(
 				"id_rang" => $r["id_rang_communaute"],
 				"nom" => $r["nom_rang_communaute"],
 				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
-			);
+				);
+			}
 		}
 
 		if ($this->_page == 1) {
@@ -232,11 +236,28 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$braldunTable->update($data, $where);
 
 			$this->view->message = "Modification du Braldûn ".$idBraldun. " effectuée";
-				
+
 			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
 			$message .= " Votre rang de communauté a été modifié !".PHP_EOL;
 			$message .= " Nouveau rang : ".$nouveauRang['nom'];
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idBraldun, $message, $this->view);
+
+			Zend_Loader::loadClass("TypeEvenementCommunaute");
+			Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+			$details = "[b".$idBraldun."]";
+			$detailsBot = "[b".$idBraldun."] a changé de rang.".PHP_EOL.PHP_EOL;
+
+			if ($this->view->user->sexe_braldun == "feminin") {
+				$detailsBot .= "Elle";
+			} else {
+				$detailsBot .= "Il";
+			}
+
+			$detailsBot .= " occupe le rang : ".$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
+			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_RANG_MEMBRE, $details, $detailsBot, $this->view);
+
 		}
 	}
 
@@ -267,6 +288,21 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$braldunTable->update($data, $where);
 
 			$this->view->message = "Exclusion du Braldûn ".$idBraldun. " effectuée";
+
+			Zend_Loader::loadClass("TypeEvenementCommunaute");
+			Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+			$details = "Exclusion : [b".$idBraldun."]";
+			$detailsBot = "[b".$idBraldun."] a été exclu";
+
+			if ($this->view->user->sexe_braldun == "feminin") {
+				$detailsBot .= "e";
+			}
+				
+			$detailsBot .= " de la communauté.".PHP_EOL.PHP_EOL;
+
+			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
+			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_DEPART_MEMBRE, $details, $detailsBot, $this->view);
 		}
 	}
 }

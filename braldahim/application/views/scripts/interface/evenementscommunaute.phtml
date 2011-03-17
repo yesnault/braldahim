@@ -3,7 +3,11 @@
 <div class="titre textalia textsizeb">Événements de ma Communauté</div>
  <div class="contenuC">
  
- <?php if ($this->affichageInterne == true) : ?>
+ <?php if ($this->user->rangCommunaute == Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
+ 	<div class="box_contenu1 textalic">
+ 	En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
+ 	</div>
+ <?php elseif ($this->affichageInterne == true) : ?>
 	 <?php 
 	 $this->estCommunaute = true;
 	 include("evenements/publiques.phtml") ?>

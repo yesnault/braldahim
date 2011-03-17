@@ -150,6 +150,8 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 
 		Zend_Loader::loadClass('BraldunsMetiers');
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		
 		$tabTables = false;
 
 		if ($this->view->estMobile) {

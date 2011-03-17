@@ -141,7 +141,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban", "box_competences_metiers", "box_communaute"));
+		return $this->constructListBoxRefresh(array("box_laban", "box_competences_metiers", "box_communaute",  "box_evenements_communaute"));
 	}
 
 	private function calculCoutCastars() {
@@ -214,6 +214,22 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $communaute["id_fk_braldun_gestionnaire_communaute"], $message, $this->view);
 
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+		$details = "[b".$this->view->user->id_braldun."]";
+		$detailsBot = "[b".$this->view->user->id_braldun."]";
+
+		if ($this->view->user->sexe_braldun == "feminin") {
+			$detailsBot .= " s'est inscrite dans la communauté. ".PHP_EOL.PHP_EOL."Elle";
+		} else {
+			$detailsBot .= " s'est inscrit dans la communauté. ".PHP_EOL.PHP_EOL."Il";
+		}
+
+		$detailsBot .= " occupe le rang n°20, rang des nouveaux arrivants en attente d'acceptation.";
+
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_ARRIVEE_MEMBRE, $details, $detailsBot, $this->view);
+
 		return $communaute;
 	}
 
@@ -236,25 +252,33 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$where = "id_braldun=".$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
 
+		$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
+		$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
+		$e = "";
+		if ($this->view->user->sexe_braldun == "feminin") {
+			$e = "e";
+		}
+		$message .= " (".$this->view->user->id_braldun.") est sorti".$e." de votre communauté.".PHP_EOL;
+			
 		if ($this->view->gestionnaireCommunaute === true) {
 			$this->calculNouveauGestionnaire($idCommunaute, $idFkRangCommunauteBraldun);
 		} else {
-			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
-			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
-			$e = "";
-			if ($this->view->user->sexe_braldun == "feminin") {
-				$e = "e";
-			}
-			$message .= " (".$this->view->user->id_braldun.") est sorti".$e." de votre communauté.".PHP_EOL;
-
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $communaute["id_fk_braldun_gestionnaire_communaute"], $message, $this->view);
 		}
+
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+		$details = "[b".$this->view->user->id_braldun."]";
+		$detailsBot = $message;
+
+		Bral_Util_EvenementCommunaute::ajoutEvenements($idCommunaute, TypeEvenementCommunaute::ID_TYPE_DEPART_MEMBRE, $details, $detailsBot, $this->view);
 
 		return $communaute;
 	}
 
 	private function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire) {
-		
+
 		$this->view->nouveauGestionnaire = Bral_Util_Communaute::calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $this->view->user->prenom_braldun, $this->view->user->nom_braldun, $this->view->user->sexe_braldun, $this->view->user->id_braldun, $this->view);
 
 		// pas de gestionnaire trouve, on supprime la communauté

@@ -24,7 +24,8 @@ class Bral_Box_EvenementsCommunaute extends Bral_Box_Box {
 	}
 
 	function render() {
-		if ($this->view->affichageInterne) {
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		if ($this->view->affichageInterne && $this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) {
 			Zend_Loader::loadClass('EvenementCommunaute');
 			Zend_Loader::loadClass('TypeEvenementCommunaute');
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
@@ -107,7 +108,7 @@ class Bral_Box_EvenementsCommunaute extends Bral_Box_Box {
 		
 		$trouve = false;
 		foreach ($this->view->evenements as $t) {
-			if ($t["id_evenement_communaute"] == $idEvenementCommunaute) {
+			if ($t["id_evenement"] == $idEvenementCommunaute) {
 				$this->view->evenement = $t;
 				$trouve = true;
 			}

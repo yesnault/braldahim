@@ -9,8 +9,8 @@ class TypeEvenementCommunaute extends Zend_Db_Table {
 	protected $_name = 'type_evenement_communaute';
 	protected $_primary = 'id_type_evenement_communaute';
 
-	const ID_TYPE_ARRIVEE_MEMBRE = 1;
-	const ID_TYPE_DEPART_MEMBRE = 2;
+	const ID_TYPE_ARRIVEE_MEMBRE = 1; // ok
+	const ID_TYPE_DEPART_MEMBRE = 2;  // ok
 	const ID_TYPE_DEPOT = 3;
 	const ID_TYPE_RETRAIT_LOT = 4;
 	const ID_TYPE_CREATION_LOT = 5;
@@ -19,8 +19,8 @@ class TypeEvenementCommunaute extends Zend_Db_Table {
 	const ID_TYPE_INITIALISATION_DEPENDANCE = 8;
 	const ID_TYPE_ENTRETIEN = 9;
 	const ID_TYPE_AMELIORATION = 10;
-	const ID_TYPE_GESTIONNAIRE = 11;
+	const ID_TYPE_GESTIONNAIRE = 11; // ok
 	const ID_TYPE_ACCEPTATION_MEMBRE = 12;
-	const ID_TYPE_RANG_MEMBRE = 13;
+	const ID_TYPE_RANG_MEMBRE = 13; // ok
 	const ID_TYPE_RANG_LIBELLE = 14;
 }

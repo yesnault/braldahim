@@ -53,12 +53,27 @@ class Bral_Util_Communaute {
 				Bral_Util_Messagerie::envoiMessageAutomatique($b['id_braldun'], $b['id_braldun'], $message, $view);
 				$nouveauGestionnaire = $b['prenom_braldun'].' '.$b['nom_braldun']. ' ('.$b['id_braldun'].')';
 
+				Zend_Loader::loadClass("TypeEvenementCommunaute");
+				Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+				$details = "[b".$b['id_braldun']."]";
+				$detailsBot = "[b".$b['id_braldun']."] est ";
+
+				if ($nouveauGestionnaire['sexe_braldun'] == "feminin") {
+					$detailsBot .= " devenue la nouvelle gestionnaire.".PHP_EOL;
+				} else {
+					$detailsBot .= " devenu le nouveau gestionnaire.".PHP_EOL;
+				}
+
+				$detailsBot .= PHP_EOL."Action réalisée automatiquement par la sortie de [b".$idGestionnaire."] de votre communauté.";
+				Bral_Util_EvenementCommunaute::ajoutEvenements($idCommunaute, TypeEvenementCommunaute::ID_TYPE_GESTIONNAIRE, $details, $detailsBot, $view);
+
 				break;
 			}
 		}
 		return $nouveauGestionnaire;
 	}
-	
+
 	/**
 	 * Il faut dépenser 50xle niveau à atteindre en PA et 100xle niveau à atteindre en castar.
 	 */
