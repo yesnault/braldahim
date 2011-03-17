@@ -15,6 +15,8 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Coffre');
 		Zend_Loader::loadClass('Bral_Util_Lune');
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
 		$retour = null;
 
@@ -31,10 +33,10 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 		// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
 		// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
-		if ($moonAge > 2) { // Lune > 2 jours
+		//if ($moonAge > 2) { // Lune > 2 jours
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
-			return $retour;
-		}
+		//	return $retour;
+		//}
 
 		$retour .= $this->calculCommunautes();
 
@@ -104,7 +106,18 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienOk - enter -");
 		$retour = "";
 
-		//TODO Message
+		$details = $lieu['nom_lieu']." (ok)";
+		$detailsBot = "Le bâtiment -".$lieu['nom_lieu']."- a été correctement entretenu. ".PHP_EOL;
+		$detailsBot .= "Coût en castars: ".$coutsCastars.".".PHP_EOL;
+
+		$s = '';
+		if ($nbCastarsDansCoffre > 1) {
+			$s = 's';
+		}
+
+		$detailsBot .= "Il reste ".$nbCastarsDansCoffre." castar".$s." dans le coffre de la Communauté.".PHP_EOL;
+		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée automatiquement.";
+		Bral_Util_EvenementCommunaute::ajoutEvenements($communaute['id_communaute'], TypeEvenementCommunaute::ID_TYPE_ENTRETIEN, $details, $detailsBot, $this->view);
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienOk - exit -");
 		return $retour;
@@ -123,6 +136,9 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		$lieuTable = new Lieu();
 		$where = 'id_lieu = '.$lieu['id_lieu'];
 
+		$detailsBot = "Coût en castars de l'entretien: ".$coutsCastars.".".PHP_EOL;
+		$detailsBot .= "Il n'y a pas assez de castars dans le coffre de la Communauté.".PHP_EOL.PHP_EOL;
+		
 		if ($lieu['niveau_lieu'] <= 1) {
 			// Suppression du bâtiment et des dépendances
 			$lieuTable->delete($where);
@@ -130,7 +146,8 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 			$retour = "suppression du lieu ".$lieu['id_lieu'];
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
 
-			//TODO Message
+			$details = $lieu['nom_lieu']." (détruit)";
+			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu. Étant de niveau ".$lieu['niveau_lieu'].", il a été détruit. ".PHP_EOL;
 		} else { // descente d'un niveau
 
 			$data = array(
@@ -141,9 +158,15 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 			$lieuTable->update($data, $where);
 			$retour = "descente d'un niveau du lieu ".$lieu['id_lieu'];
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
-			//TODO Message
+			
+			$details = $lieu['nom_lieu']." (ko)";
+			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu et a perdu un niveau.".PHP_EOL;
+			$detailsBot .= "Son niveau obtenu :".($lieu['niveau_lieu'] - 1).PHP_EOL.PHP_EOL;
+			$detailsBot .= "S'il n'est pas entretenu au niveau 0 ou 1, il sera automatiquement détruit.".PHP_EOL;
 		}
-
+		
+		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée automatiquement.";
+		Bral_Util_EvenementCommunaute::ajoutEvenements($communaute['id_communaute'], TypeEvenementCommunaute::ID_TYPE_ENTRETIEN, $details, $detailsBot, $this->view);
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - exit -");
 		return $retour;

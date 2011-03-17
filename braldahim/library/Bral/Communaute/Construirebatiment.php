@@ -134,9 +134,34 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 		$this->view->niveauAtteint = $niveauAtteint;
 		$this->view->participationPA = $participationNbPA;
 		$this->view->participationCastars = $paticipationNbCastars;
-		
+
 		$this->view->nb_pa = $participationNbPA;
 		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $paticipationNbCastars;
+
+		$details = $this->view->batiment['lieu']['nom_lieu'];
+		if ($niveauAtteint) {
+			$detailsBot = "La construction du bâtiment -".$this->view->batiment['lieu']['nom_lieu']."- est terminée".PHP_EOL.PHP_EOL;
+		} else {
+			$detailsBot = "La construction du bâtiment -".$this->view->batiment['lieu']['nom_lieu']."- a avancé. ".PHP_EOL.PHP_EOL;
+		}
+
+		$s = '';
+		if ($paticipationNbCastars > 1) {
+			$s = 's';
+		}
+		$detailsBot .= "Dépense : ".$paticipationNbCastars." castar".$s." et ".$participationNbPA." PA".PHP_EOL;
+
+		if ($niveauAtteint) {
+			$detailsBot .= "Le bâtiment est entièrement construit !";
+		} else {
+			$detailsBot .= "Le bâtiment est toujours en construction vers le niveau ".$this->view->batiment['lieu']['niveau_prochain_lieu'].".";
+		}
+
+		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
+		Zend_Loader::loadClass('Bral_Util_EvenementCommunaute');
+		Zend_Loader::loadClass('TypeEvenementCommunaute');
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_CONSTRUCTION_BATIMENT, $details, $detailsBot, $this->view);
+
 	}
 
 	function getListBoxRefresh() {

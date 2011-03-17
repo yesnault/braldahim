@@ -21,7 +21,7 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		}
 
 		$this->view->nomLieu = null;
-		
+
 		$this->view->nb_pa = 1;
 
 		Zend_Loader::loadClass('Bral_Util_Communaute');
@@ -83,7 +83,7 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 	private function calculAmeliorer($lieu) {
 
 		$niveauSuivant = $lieu['niveau_lieu'] + 1;
-		
+
 		$lieuTable = new Lieu();
 		$data = array(
 			'niveau_prochain_lieu' => $niveauSuivant,
@@ -92,12 +92,26 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		);
 		$where = 'id_lieu = '.intval($lieu['id_lieu']);
 		$lieuTable->update($data, $where);
-		
-		$this->view->niveauSuivant = $niveauSuivant; 
+
+		$this->view->niveauSuivant = $niveauSuivant;
+
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+		$details = $lieu['nom_lieu'];
+		$detailsBot = "Le bâtiment -".$lieu['nom_lieu']."- a été amélioré. ".PHP_EOL;
+		$detailsBot .= "Le bâtiment est maintenant en construction vers le niveau ".$niveauSuivant.".".PHP_EOL;
+		$detailsBot .= "Pour le construire complètement, chaque Braldûn de la communauté peut aller sur le bâtiment et ";
+		$detailsBot .= "utiliser l'action -Construire un bâtiment- pour faire progresser la construction".PHP_EOL.PHP_EOL;
+		$detailsBot .= "La progression de chaque construction est visible dans l'onglet Communauté".PHP_EOL;
+
+		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_AMELIORATION, $details, $detailsBot, $this->view);
+
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_evenements_communaute");
 		if ($this->view->nomLieu != null) {
 			$tab[] = "box_vue";
 		}

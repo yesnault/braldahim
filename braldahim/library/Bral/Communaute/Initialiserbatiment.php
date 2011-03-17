@@ -204,10 +204,25 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		$lieuTable->insert($data);
 
 		$this->view->nomLieu = $nomLieu;
+
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+
+		$details = $nomLieu;
+		$detailsBot = "Le bâtiment -".$nomLieu."- a été initialisé. ".PHP_EOL;
+		$detailsBot .= "Le bâtiment est automatiquement en construction vers le niveau 1.".PHP_EOL.PHP_EOL;
+		$detailsBot .= "Pour le construire complètement, chaque Braldûn de la communauté peut aller sur le bâtiment et ";
+		$detailsBot .= "utiliser l'action -Construire un bâtiment- pour faire progresser la construction.".PHP_EOL.PHP_EOL;
+		$detailsBot .= "La progression de chaque construction est visible dans l'onglet Communauté.".PHP_EOL.PHP_EOL;
+		$detailsBot .= "Une fois la construction niveau 1 terminée, le bâtiment offrira de nouvelles possibilités pour la communauté, ainsi que des points d'influence.";
+
+		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_INITIALISATION_BATIMENT, $details, $detailsBot, $this->view);
+
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_evenements_communaute");
 		if ($this->view->nomLieu != null) {
 			$tab[] = "box_vue";
 		}

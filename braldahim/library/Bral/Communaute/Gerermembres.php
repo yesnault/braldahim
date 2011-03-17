@@ -211,6 +211,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			foreach($this->view->tabMembres as $m) {
 				if ($m["id_braldun"] == $idBraldun && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
 					$braldunTrouve = true;
+					$ordreAncienRang = $m["ordre_rang_communaute"];
 					break;
 				}
 			}
@@ -246,17 +247,28 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
 			$details = "[b".$idBraldun."]";
-			$detailsBot = "[b".$idBraldun."] a changé de rang.".PHP_EOL.PHP_EOL;
-
+			$detailsBot = "";
+				
 			if ($this->view->user->sexe_braldun == "feminin") {
-				$detailsBot .= "Elle";
+				$pronom = "Elle";
+				$e = "e";
 			} else {
-				$detailsBot .= "Il";
+				$pronom = "Il";
+				$e = "";
 			}
 
-			$detailsBot .= " occupe le rang : ".$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
+			if ($ordreAncienRang == Bral_Util_Communaute::ID_RANG_NOUVEAU) {
+				$type = TypeEvenementCommunaute::ID_TYPE_ACCEPTATION_MEMBRE;
+				$detailsBot .= "[b".$idBraldun."] est accepté".$e." dans la communauté.".PHP_EOL.PHP_EOL;
+			} else {
+				$type = TypeEvenementCommunaute::ID_TYPE_RANG_MEMBRE;
+				$detailsBot .= "[b".$idBraldun."] a changé de rang.".PHP_EOL.PHP_EOL;
+			}
+				
+			$detailsBot .= $pronom." occupe le rang : ".$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
 			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
-			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_RANG_MEMBRE, $details, $detailsBot, $this->view);
+
+			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, $type, $details, $detailsBot, $this->view);
 
 		}
 	}
@@ -298,7 +310,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			if ($this->view->user->sexe_braldun == "feminin") {
 				$detailsBot .= "e";
 			}
-				
+
 			$detailsBot .= " de la communauté.".PHP_EOL.PHP_EOL;
 
 			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
