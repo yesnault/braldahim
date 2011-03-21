@@ -337,7 +337,7 @@ class Bral_Util_Charrette {
 				"quantite_lingots_element_minerai" => $a["quantite_lingots_charrette_minerai"],
 				"date_fin_element_minerai" => $dateFin,
 			);
-			$elementMineraiTable->insert($data);
+			$elementMineraiTable->insertOrUpdate($data);
 		}
 	}
 
@@ -359,7 +359,7 @@ class Bral_Util_Charrette {
 				"quantite_element_munition" => $a["quantite_charrette_munition"],
 				"date_fin_element_munition" => $dateFin,
 			);
-			$elementMunitionTable->insert($data);
+			$elementMunitionTable->insertOrUpdate($data);
 		}
 	}
 
@@ -383,7 +383,7 @@ class Bral_Util_Charrette {
 				"quantite_preparee_element_partieplante" => $a["quantite_preparee_charrette_partieplante"],
 				"date_fin_element_partieplante" => $dateFin,
 			);
-			$elementPartieplanteTable->insert($data);
+			$elementPartieplanteTable->insertOrUpdate($data);
 		}
 	}
 
@@ -447,7 +447,7 @@ class Bral_Util_Charrette {
 				"quantite_feuille_element_tabac" => $a["quantite_feuille_charrette_tabac"],
 				"date_fin_element_tabac" => $dateFin,
 			);
-			$elementTabacTable->insert($data);
+			$elementTabacTable->insertOrUpdate($data);
 		}
 	}
 
