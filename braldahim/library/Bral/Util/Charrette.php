@@ -356,7 +356,7 @@ class Bral_Util_Charrette {
 				"y_element_munition" => $y,
 				"z_element_munition" => $z,
 				"id_fk_type_element_munition" => $a["id_fk_type_charrette_munition"],
-				"quantite_feuille_element_munition" => $a["quantite_feuille_charrette_munition"],
+				"quantite_element_munition" => $a["quantite_charrette_munition"],
 				"date_fin_element_munition" => $dateFin,
 			);
 			$elementMunitionTable->insert($data);
