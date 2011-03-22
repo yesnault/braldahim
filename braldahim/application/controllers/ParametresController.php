@@ -218,7 +218,7 @@ class ParametresController extends Zend_Controller_Action {
 
 			$passwordHash = Bral_Util_Hash::getHashString($braldun->password_salt_braldun, md5($this->password_actuel_braldun));
 			$validPassword = ($passwordHash == $braldun->password_hash_braldun);
-			$validEmailActuel = ($this->email_actuel_braldun == $braldun->email_braldun);
+			$validEmailActuel = (strtolower($this->email_actuel_braldun) == strtolower($braldun->email_braldun));
 			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_braldun, ($this->view->config->general->production == 1));
 			$validEmailConfirm = ($this->email_confirm_braldun == $this->email_nouveau_braldun);
 
