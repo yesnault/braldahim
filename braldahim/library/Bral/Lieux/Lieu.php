@@ -29,7 +29,7 @@ abstract class Bral_Lieux_Lieu {
 			if (strlen($nomSystemeLieu) == 13 && substr($nomSystemeLieu, 0, 6) == "banque") { // banque pour banquedeposer / banqueretirer
 				$estBanque = true;
 			}
-
+				
 			$lieu = $lieuRowset[0];
 			if ($nomSystemeLieu == $lieu["nom_systeme_type_lieu"] || ($estBanque && $lieu["nom_systeme_type_lieu"] == "banque")) {
 				$this->view->estLieuCourant = true;
@@ -44,6 +44,7 @@ abstract class Bral_Lieux_Lieu {
 				$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 				$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
 				$this->view->idCommunauteLieu = $lieu["id_fk_communaute_lieu"];
+
 				if (array_key_exists("nom_ville", $lieu)) {
 					$this->view->nomVille = $lieu["nom_ville"];
 				}
@@ -109,7 +110,7 @@ abstract class Bral_Lieux_Lieu {
 	function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function getIdChampCourant() {
 		return false;
 	}

@@ -44,7 +44,7 @@ class Lot extends Zend_Db_Table {
 		->from('braldun as braldun_vendeur', array('braldun_vendeur.nom_braldun as nom_braldun_vendeur','braldun_vendeur.prenom_braldun as prenom_braldun_vendeur'))
 		->where('braldun_vendeur.id_braldun = id_fk_vendeur_braldun_lot')
 		->joinLeft('braldun as braldun_destinataire','id_fk_braldun_lot = braldun_destinataire.id_braldun', array('braldun_destinataire.nom_braldun as nom_braldun_destinataire','braldun_destinataire.prenom_braldun as prenom_braldun_destinataire'));
-		
+
 		$where = 'id_fk_type_lot = '.TypeLot::ID_TYPE_VENTE_HOTEL.' OR id_fk_type_lot = '.TypeLot::ID_TYPE_VENTE_ECHOPPE_TOUS;
 		$select->where($where);
 		$sql = $select->__toString();
@@ -69,7 +69,7 @@ class Lot extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdCommunaute($idCommunaute) {
+	function findByIdCommunaute($idCommunaute, $idLot = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lot', '*')
@@ -77,8 +77,11 @@ class Lot extends Zend_Db_Table {
 		->where('braldun_vendeur.id_braldun = id_fk_vendeur_braldun_lot')
 		->joinLeft('braldun as braldun_destinataire','id_fk_braldun_lot = braldun_destinataire.id_braldun', array('braldun_destinataire.nom_braldun as nom_braldun_destinataire','braldun_destinataire.prenom_braldun as prenom_braldun_destinataire'))
 		->where('id_fk_communaute_lot = ?', intval($idCommunaute));
-		$sql = $select->__toString();
 
+		if ($idLot != null) {
+			$select->where('id_lot = ?', $idLot);
+		}
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 

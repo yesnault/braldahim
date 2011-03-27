@@ -34,6 +34,8 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 		$this->view->idEchoppe = Bral_Util_Controle::getValeurIntVerifSansException($this->request->get("idEchoppe"), false);
 
+		$this->idCommunaute = null;
+		
 		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[0] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
 
@@ -73,35 +75,47 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 			$lots = $lotTable->findByIdEchoppe($this->view->idEchoppe, $this->view->idLot);
 			$this->view->estSurEchoppe = true;
-		} else { // HV
+		} else { // HV ou Hall
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("TypeLot");
 			$lieuxTable = new Lieu();
-			$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-			unset($lieuxTable);
+
+			$lieuRowset = $lieuxTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+			if (count($lieuRowset) > 1) {
+				throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
+			} elseif (count($lieuRowset) <= 0) {
+				throw new Zend_Exception(get_class($this).":: lieu invalide 1 : x:".$this->view->user->x_braldun. " y:".$this->view->user->y_braldun);
+			}
+
+			$lieu = $lieuRowset[0];
+			if ($lieu["id_type_lieu"] == TypeLieu::ID_TYPE_HALL && $lieu["id_fk_communaute_lieu"] != null) {
+				$lots = $lotTable->findByIdCommunaute($lieu["id_fk_communaute_lieu"]);
+				$this->idCommunaute = $lieu["id_fk_communaute_lieu"];
+			} elseif ($lieu["id_type_lieu"] == TypeLieu::ID_TYPE_HOTEL) {
+				$lots = $lotTable->findByIdLot($this->view->tabIdsLots, TypeLot::ID_TYPE_VENTE_HOTEL);
+			} else {
+				throw new Zend_Exception(get_class($this).":: lieu invalide 2 :".$this->view->idEchoppe. ' x:'.$this->view->user->x_braldun. " y:".$this->view->user->y_braldun);
+			}
 
 			$this->view->idEchoppe = null;
 			$this->view->estSurEchoppe = false;
 
-			if (count($lieuRowset) <= 0) {
-				throw new Zend_Exception(get_class($this).":: lieu invalide:".$this->view->idEchoppe. ' x:'.$this->view->user->x_braldun. " y:".$this->view->user->y_braldun);
-			}
-
-			$lots = $lotTable->findByIdLot($this->view->tabIdsLots, TypeLot::ID_TYPE_VENTE_HOTEL);
+				
 		}
 
 		$tabLots = null;
 		foreach($this->view->tabIdsLots as $idLot) {
 			$trouve = false;
 			foreach ($lots as $p) {
-				if ($idLot == $p["id_lot"] && ($p["id_fk_braldun_lot"] == null || $p["id_fk_braldun_lot"] == $this->view->user->id_braldun)) {
+				if ($idLot == $p["id_lot"] && ($p["id_fk_braldun_lot"] == null || $p["id_fk_braldun_lot"] == $this->view->user->id_braldun || $p["id_fk_vendeur_braldun_lot"] == $this->view->user->id_braldun)) {
 					$trouve = true;
 					break;
 				}
 			}
 			if ($trouve == false) {
-				throw new Zend_Exception(get_class($this)."::lot invalide:".$idLot);
+				throw new Zend_Exception(get_class($this)."::lot invalide:".$idLot. " idb:".$this->view->user->id_braldun." idc:".$this->idCommunaute. " n:".count($lots));
 			}
 		}
 
@@ -275,13 +289,13 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		Zend_Loader::loadClass("Bral_Util_Lot");
 
 		$detailsBot = "";
-		
+
 		$s = "";
-		if (count($this->view->lots) > 0) {
+		if (count($this->view->lots) > 1) {
 			$s = "s";
 		}
 		$details = "[b".$this->view->user->id_braldun."] a acheté le".$s." lot".$s;
-		
+
 		foreach ($this->view->lots as $lot) {
 			if ($idDestination == -1 && $lot["estLotCharrette"] === true) {
 				$this->calculTransfertCharrette($lot);
@@ -303,7 +317,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			}
 
 			$details .= " n°".$lot["id_lot"];
-			
+
 			$detailsBot .= PHP_EOL.PHP_EOL."Vous avez acheté le lot n°".$lot["id_lot"]. " pour ".$lot["prix_1_lot"]. " castar";
 			if ($lot["prix_1_lot"] >  0) {
 				$detailsBot .= "s";
@@ -315,6 +329,10 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("TypeEvenement");
 		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, TypeEvenement::ID_TYPE_SERVICE, $details, $detailsBot, $this->view->user->niveau_braldun, "braldun", false, null, null);
+
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->idCommunaute, TypeEvenementCommunaute::ID_TYPE_ACHAT_LOT, $details, $detailsBot, $this->view);
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
@@ -393,6 +411,10 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		}
 		if ($this->view->lotCharrette != null) {
 			$tab[] = "box_charrette";
+		}
+
+		if ($this->view->user->id_fk_communaute_braldun != null) {
+			$tab[] = "box_evenements_communaute";
 		}
 		return $tab;
 	}

@@ -11,10 +11,10 @@ class TypeEvenementCommunaute extends Zend_Db_Table {
 
 	const ID_TYPE_ARRIVEE_MEMBRE = 1; // ok
 	const ID_TYPE_DEPART_MEMBRE = 2;  // ok
-	const ID_TYPE_DEPOT = 3;
-	const ID_TYPE_RETRAIT_LOT = 4;
-	const ID_TYPE_CREATION_LOT = 5;
-	const ID_TYPE_ACHAT_LOT = 6;
+	const ID_TYPE_DEPOT = 3; // ok
+	const ID_TYPE_RETRAIT_LOT = 4; // ok
+	const ID_TYPE_CREATION_LOT = 5; // ok
+	const ID_TYPE_ACHAT_LOT = 6; // ok
 	const ID_TYPE_INITIALISATION_BATIMENT = 7; // OK
 	const ID_TYPE_INITIALISATION_DEPENDANCE = 8;
 	const ID_TYPE_ENTRETIEN = 9; // ok
@@ -24,4 +24,5 @@ class TypeEvenementCommunaute extends Zend_Db_Table {
 	const ID_TYPE_RANG_MEMBRE = 13; // ok
 	const ID_TYPE_RANG_LIBELLE = 14; // ok
 	const ID_TYPE_CONSTRUCTION_BATIMENT = 15; // ok
+	const ID_TYPE_RETRAIT = 16; // ok
 }

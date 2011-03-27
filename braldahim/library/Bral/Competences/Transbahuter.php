@@ -36,6 +36,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Butin');
 		Zend_Loader::loadClass('TypeUnite');
 		Zend_Loader::loadClass('Bral_Util_Communaute');
+		Zend_Loader::loadClass("TypeEvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
 		$this->view->idCharretteEtal =  $this->request->get('idCharretteEtal');
 		$tabEndroit = array();
@@ -262,7 +264,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if (count($tabCharrette) < 0) {
 			return ;
 		}
-		
+
 		foreach ($tabCharrette as $c) {
 			Zend_Loader::loadClass('Bral_Util_Charrette');
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c['id_braldun']);
@@ -453,6 +455,32 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a utilisé les services de la banque ';
 			}
 		}
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_HALL_LIEU) {
+			$details = "[b".$this->view->user->id_braldun."] a transbahuté des éléments";
+			$detailsBot = "[b".$this->view->user->id_braldun."] a transbahuté ces éléments dans le coffre de la communauté : ".PHP_EOL;
+			$detailsBot .= $this->view->elementsRetires;
+			Bral_Util_EvenementCommunaute::ajoutEvenements($endroitArrivee['id_communaute'], TypeEvenementCommunaute::ID_TYPE_DEPOT, $details, $detailsBot, $this->view);
+		}
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) {
+			$details = "[b".$this->view->user->id_braldun."] a créé une réservation (Lot)";
+			$detailsBot = "[b".$this->view->user->id_braldun."] a créé une réservation (Lot) : ".PHP_EOL;
+			$detailsBot .= "Création du lot n°".$this->view->idLot.PHP_EOL;
+			$detailsBot .= "Prix de vente : ".$this->view->textePrixVente.PHP_EOL;
+			if ($this->view->id_braldun_destinataire_lot != null) {
+				$detailsBot .= "Destinataire : [b".$this->view->id_braldun_destinataire_lot."]".PHP_EOL;
+			} else {
+				$detailsBot .= "Destinataire : non renseigné.".PHP_EOL;
+			}
+			$detailsBot .= "Contenu : ".$this->view->elementsRetires.PHP_EOL;
+				
+			Bral_Util_EvenementCommunaute::ajoutEvenements($endroitArrivee['id_communaute'], TypeEvenementCommunaute::ID_TYPE_CREATION_LOT, $details, $detailsBot, $this->view);
+		} else  if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE || $endroitDepart['id_type_endroit'] == self::ID_ENDROIT_HALL_LIEU) {
+			$details = "[b".$this->view->user->id_braldun."] a retiré des éléments";
+			$detailsBot = "[b".$this->view->user->id_braldun."] a retiré ces éléments depuis le coffre de la communauté : ".PHP_EOL;
+			$detailsBot .= $this->view->elementsRetires;
+			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_RETRAIT, $details, $detailsBot, $this->view);
+		}
+
 		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($endroitArrivee['id_braldun_charrette'] != $this->view->user->id_braldun) {
@@ -485,7 +513,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans son échoppe ';
 			}
 		}
-		// TODO messages ev. communaute
+
 		if ($this->detailEvenement == '') {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments ';
@@ -527,6 +555,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
 		|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))) {
 			$tab[] = 'box_communaute';
+			$tab[] = 'box_evenements_communaute';
 		}
 
 		return $this->constructListBoxRefresh($tab);

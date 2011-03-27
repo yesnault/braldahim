@@ -169,6 +169,8 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			$communaute = $communautes[0];
 			$this->view->nomCommunauteLieu = $communaute["nom_communaute"];
 			$this->view->descriptionCommunauteLieu = $communaute["description_communaute"];
+			Zend_Loader::loadClass("Bral_Util_Lot");
+			$this->view->lots = Bral_Util_Lot::getLotsByIdCommunaute($this->view->idCommunauteLieu, true);
 
 			if ($lieu["id_type_lieu"] != TypeLieu::ID_TYPE_HALL) {
 				$this->view->coutsConstruction = Bral_Util_Communaute::getCoutsAmeliorationBatiment($lieu["niveau_prochain_lieu"]);
