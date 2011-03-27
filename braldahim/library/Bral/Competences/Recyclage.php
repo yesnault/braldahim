@@ -112,27 +112,27 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 		/*
 		 * Soit Ni le niveau de la pièce d'équipement. Soit Js un jet de SAG + BM.
-		 * Si Js < Ni*10 alors 25% de chacun des composants arrondis à l'inférieur sont récupérés
-		 * Si Ni*10 < Js < Ni*20 alors 50 % des ...
-		 * Si Ni*20 < Js < Ni*30 alors 60 % des ...
-		 * Si Ni*30 < Js  alors 80 % des ...
+		 * Si Js < Ni*20 alors 20% de chacun des composants arrondis à l'inférieur sont récupérés
+		 * Si Ni*20 <= Js < Ni*30 alors 40 % des ...
+		 * Si Ni*30 <= Js < Ni*40 alors 50 % des ...
+		 * Si Ni*40 <= Js alors 50 % des ...
 		 */
 
 		$jetSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 		$jetSag = $jetSag + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
-		$perte = 0.20; // pour le niveau 0
-		
+		$perte = 0.10; // pour le niveau 0
+
 		if ($nivEquipement == 0) {
-			$perte = 0.20; // pour le niveau 0
-		} elseif ($jetSag < $nivEquipement*10) {
-			$perte = 0.25;
-		} elseif ($jetSag >= $nivEquipement*10 && $jetSag < $nivEquipement*20) {
-			$perte = 0.5;
+			$perte = 0.10; // pour le niveau 0
+		} elseif ($jetSag < $nivEquipement*20) {
+			$perte = 0.20;
 		} elseif ($jetSag >= $nivEquipement*20 && $jetSag < $nivEquipement*30) {
-			$perte = 0.6;
-		} elseif ($jetSag >= $nivEquipement*30) {
-			$perte = 0.8;
+			$perte = 0.4;
+		} elseif ($jetSag >= $nivEquipement*30 && $jetSag < $nivEquipement*40) {
+			$perte = 0.5;
+		} elseif ($jetSag >= $nivEquipement*40) {
+			$perte = 0.5;
 		}
 
 		foreach($recetteCout as $r) {

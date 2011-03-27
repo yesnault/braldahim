@@ -1146,7 +1146,7 @@ class Bral_Util_Attaque {
 		}
 
 		if ($retourAttaque["attaquantDeltaPointsRedresseur"] != null) {
-			$retour .= PHP_EOL."Influence sur les points de Redreseur de Torts de l'attaquant: ".$retourAttaque["attaquantDeltaPointsRedresseur"];
+			$retour .= PHP_EOL."Influence sur les points de Redresseur de Torts de l'attaquant: ".$retourAttaque["attaquantDeltaPointsRedresseur"];
 		}
 
 		if ($retourAttaque["cibleDeltaPointsGredin"] != null) {
