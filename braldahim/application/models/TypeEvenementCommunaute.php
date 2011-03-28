@@ -15,7 +15,7 @@ class TypeEvenementCommunaute extends Zend_Db_Table {
 	const ID_TYPE_RETRAIT_LOT = 4; // ok
 	const ID_TYPE_CREATION_LOT = 5; // ok
 	const ID_TYPE_ACHAT_LOT = 6; // ok
-	const ID_TYPE_INITIALISATION_BATIMENT = 7; // OK
+	const ID_TYPE_INITIALISATION_BATIMENT = 7; // ok
 	const ID_TYPE_INITIALISATION_DEPENDANCE = 8;
 	const ID_TYPE_ENTRETIEN = 9; // ok
 	const ID_TYPE_AMELIORATION = 10; // ok

@@ -620,7 +620,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypeTabac($depart['nom_systeme'], $arrivee['nom_systeme'], $depart['id_type_endroit'], $arrivee['id_type_endroit']);
 		$this->deposeTypeMateriel($depart['nom_systeme'], $arrivee['nom_systeme'], $depart['id_type_endroit'], $arrivee['id_type_endroit']);
 
-		if ($arrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL || $arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL) {
+		if ($arrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL || $arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL || $arrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) {
 			$this->updatePoidsLot();
 		}
 	}
