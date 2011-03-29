@@ -874,7 +874,6 @@ class Bral_Util_Lot {
 		}
 
 		$table = $nomTable.'Aliment';
-		echo "nomTable=".$table;
 		Zend_Loader::loadClass($table);
 		$alimentTable = new $table();
 
