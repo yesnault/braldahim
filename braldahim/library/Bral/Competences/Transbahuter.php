@@ -144,16 +144,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-			
+				
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
-			
+				
 			if ($k == $id_courant_depart) continue;
 			if ($e['poids_restant'] != -1 && $e['poids_restant'] <= 0) continue;
-			
+				
 			$tabTypeArrivee[$k] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
 			if ($e['nom_systeme'] == 'Charrette') {
 				$tabTypeArrivee[$k]['id_charrette'] = $e['id_charrette'];
@@ -578,7 +578,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 60);
 		}
 
-		$idLot = $lotTable->insert($data);
+		Zend_Loader::loadClass("IdsLot");
+		$idsLot = new IdsLot();
+		$idLot = $idsLot->prepareNext();
+		$data['id_lot'] = $idLot;
+		$lotTable->insert($data);
 
 		$s = '';
 		if ($prix_1 > 1) $s= 's';
@@ -972,7 +976,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$departRuneTable = new CharretteRune();
 						break;
 					default:
-					throw new Zend_Exception('Depart Rune invalide : '.$depart.' id:'.$idTypeDepart);
+						throw new Zend_Exception('Depart Rune invalide : '.$depart.' id:'.$idTypeDepart);
 				}
 
 				$departRuneTable->delete($where);
@@ -1080,7 +1084,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 
 		$retour = $this->calculEchoppe('cuisinier');
-		
+
 		if (count($potions) > 0) {
 			foreach ($potions as $p) {
 				$tabPotions[$p['id_'.strtolower($depart).'_potion']] = array(
@@ -2650,7 +2654,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function deposeTypeGraines($depart, $arrivee, $idTypeDepart, $idTypeArrivee) {
 
-		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE 
+		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE
 		|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
@@ -3263,7 +3267,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							if ($b['quantite_'.$nom_systeme.'_element'] <= $nbAEnlever) {
 								$nbAEnleverCourant = $b['quantite_'.$nom_systeme.'_element'];
 							}
-							
+								
 							$data = array(
 									'quantite_'.$nom_systeme.'_element' => -$nbAEnleverCourant,
 									'x_element' => $this->view->user->x_braldun,
@@ -3273,8 +3277,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 
 							$departTable->insertOrUpdate($data);
-							
-							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant; 
+								
+							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant;
 
 							if ($nbAEnlever <= 0) {
 								break;
