@@ -882,7 +882,6 @@ class Bral_Util_Lot {
 				'id_'.$suffixe1.'_aliment' => $lot['id_lot_aliment'], //idAliment,
 				'id_fk_'.$suffixe2.$suffixe1.'_aliment' => $idDestination, //idDestination
 			);
-
 			$alimentTable->insert($data);
 		}
 	}
