@@ -139,7 +139,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
@@ -674,7 +673,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$data['id_fk_braldun_lot'] = $this->view->id_braldun_destinataire_lot;
 		}
 
-		$idLot = $lotTable->insert($data);
+		Zend_Loader::loadClass("IdsLot");
+		$idsLot = new IdsLot();
+		$idLot = $idsLot->prepareNext();
+		$data['id_lot'] = $idLot;
+		$lotTable->insert($data);
 
 		$s = '';
 		if ($prix_1 > 1) $s= 's';
@@ -3455,7 +3458,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 
 							$departTable->insertOrUpdate($data);
-
 							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant;
 
 							if ($nbAEnlever <= 0) {
