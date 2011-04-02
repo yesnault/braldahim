@@ -139,6 +139,7 @@ class Bral_Util_Lot {
 
 			if (count($lot['graines']) > 0) {
 				$resume .= count($lot['graines']). ' graine'.Bral_Util_String::getPluriel(count($lot['graines']));
+				$resume .= ', ';
 			}
 
 			if (count($lot['minerais_bruts']) > 0) {
