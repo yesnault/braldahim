@@ -148,11 +148,23 @@ class Bral_Util_Poids {
 
 	public static function calculPoidsLot($idLot) {
 		$retour = 0;
+		
+		Zend_Loader::loadClass("Lot");
+		$lotTable = new Lot();
+		$lotRowset = $lotTable->findByIdLot($idLot);
 
+		if ($lotRowset == null || count($lotRowset) == 0) {
+			return null;
+		} else if (count($lotRowset) > 1) {
+			throw new Zend_Exception("calculPoidsLot Nb lot invalide idl:".$idLot. " n:".count($lotRowset));
+		} else {
+			$lot = $lotRowset[0];
+		}
+		
 		$suffixe = "lot";
 		$nomTable = Bral_Util_String::firstToUpper($suffixe);
 
-		$retour = $retour + self::calculPoidsTransporteElement(null, $nomTable, $suffixe);
+		$retour = $retour + self::calculPoidsTransporteElement($lot, $nomTable, $suffixe);
 		$retour = $retour + self::calculPoidsTransporteElementMinerais($idLot, $nomTable, $suffixe);
 		$retour = $retour + self::calculPoidsTransporteElementPartiesPlantes($idLot, $nomTable, $suffixe);
 		$retour = $retour + self::calculPoidsTransporteElementEquipement($idLot, $nomTable, $suffixe);
