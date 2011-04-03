@@ -144,16 +144,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
-				
+
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE  && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
-				
+
 			if ($k == $id_courant_depart) continue;
 			if ($e['poids_restant'] != -1 && $e['poids_restant'] <= 0) continue;
-				
+
 			$tabTypeArrivee[$k] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
 			if ($e['nom_systeme'] == 'Charrette') {
 				$tabTypeArrivee[$k]['id_charrette'] = $e['id_charrette'];
@@ -2889,7 +2889,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$nb = $this->request->get('valeur_'.$indice);
 
 			if ((int) $nb.'' != $this->request->get('valeur_'.$indice).'') {
-				throw new Zend_Exception(get_class($this).' NB Ingredient invalide='.$nb. ' indice='.$indice);
+				throw new Zend_Exception(get_class($this).' NB Ingredient invalide='.$nb. ' indice='.$indice. ' valeur_fin_graines:'.$this->view->valeur_fin_graines. ' valeur_fin_ingredients:'.$this->view->valeur_fin_ingredients);
 			} else {
 				$nb = (int)$nb;
 			}
@@ -3267,7 +3267,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							if ($b['quantite_'.$nom_systeme.'_element'] <= $nbAEnlever) {
 								$nbAEnleverCourant = $b['quantite_'.$nom_systeme.'_element'];
 							}
-								
+
 							$data = array(
 									'quantite_'.$nom_systeme.'_element' => -$nbAEnleverCourant,
 									'x_element' => $this->view->user->x_braldun,
@@ -3277,7 +3277,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 
 							$departTable->insertOrUpdate($data);
-								
+
 							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant;
 
 							if ($nbAEnlever <= 0) {
