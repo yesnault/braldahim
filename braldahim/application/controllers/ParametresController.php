@@ -267,6 +267,7 @@ class ParametresController extends Zend_Controller_Action {
 		$envoi_mail_message = $this->_request->getPost("valeur_1");
 		$envoi_mail_evenement = $this->_request->getPost("valeur_2");
 		$position_messagerie_braldun = $this->_request->getPost("valeur_3");
+		$envoi_mail_soule = $this->_request->getPost("valeur_4");
 
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
@@ -281,6 +282,10 @@ class ParametresController extends Zend_Controller_Action {
 			if ($envoi_mail_evenement != "oui" && $envoi_mail_evenement != "non") {
 				throw new Zend_Exception("Erreur envoi_mail_evenement:".$envoi_mail_evenement);
 			}
+			
+			if ($envoi_mail_soule != "oui" && $envoi_mail_soule != "non") {
+				throw new Zend_Exception("Erreur envoi_mail_soule:".$envoi_mail_soule);
+			}
 
 			if ($position_messagerie_braldun != "d" && $position_messagerie_braldun != "b") {
 				throw new Zend_Exception("Erreur position_messagerie_braldun:".$position_messagerie_braldun);
@@ -288,11 +293,13 @@ class ParametresController extends Zend_Controller_Action {
 
 			$this->view->user->envoi_mail_message_braldun = $envoi_mail_message;
 			$this->view->user->envoi_mail_evenement_braldun = $envoi_mail_evenement;
+			$this->view->user->envoi_mail_soule_braldun = $envoi_mail_soule;
 			$this->view->user->position_messagerie_braldun = $position_messagerie_braldun;
 
 			$data = array(
 				'envoi_mail_message_braldun' => $this->view->user->envoi_mail_message_braldun,
 				'envoi_mail_evenement_braldun' => $this->view->user->envoi_mail_evenement_braldun,
+				'envoi_mail_soule_braldun' => $this->view->user->envoi_mail_soule_braldun,
 				'position_messagerie_braldun' => $this->view->user->position_messagerie_braldun,
 			);
 			$where = "id_braldun=".$this->view->user->id_braldun;
