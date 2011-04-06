@@ -5,14 +5,14 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
+class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 	function getNomInterne() {
 		return "box_action";
 	}
 
 	function getTitre() {
-		return "Initialiser un bâtiment de communauté";
+		return "Construire une dépendance";
 	}
 
 	function prepareCommun() {
@@ -104,15 +104,17 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 
 		Zend_Loader::loadClass('TypeLieu');
 		$typeLieuTable = new TypeLieu();
-		$typesLieux = $typeLieuTable->findByTypeCommunaute();
+		$typesLieux = $typeLieuTable->findByTypeDependance();
 
 		$tabTypesLieux = null;
 		foreach($typesLieux as $t) {
-			$display = true;
+			$display = false;
 			foreach($lieux as $l) { // si dans les lieux, il y a déjà un lieu de même type
-				if ($t["id_type_lieu"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
+				if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
 					// on ne pourra pas construire un bâtiment du même type une seconde fois
-					$display = false;
+					continue;
+				} else if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["niveau_lieu"] >= $t["niveau_type_dependance"]) {
+					$display = true;
 				}
 			}
 			if ($display) {
@@ -193,11 +195,6 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			'id_fk_type_lieu' => $idTypeLieu,
 			'id_fk_communaute_lieu' => $this->view->user->id_fk_communaute_braldun,
 			'date_creation_lieu' => date("Y-m-d H:i:s"),
-			'niveau_lieu' => 0,
-			'niveau_prochain_lieu' => 1,
-			'nb_pa_depenses_lieu' => 0,
-			'nb_castars_depenses_lieu' => 0,
-			'date_entretien_lieu' => date("Y-m-d H:i:s"),
 		);
 
 		$lieuTable->insert($data);
@@ -208,15 +205,12 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
 		$details = $nomLieu;
-		$detailsBot = "Le bâtiment -".$nomLieu."- a été initialisé. ".PHP_EOL;
-		$detailsBot .= "Le bâtiment est automatiquement en construction vers le niveau 1.".PHP_EOL.PHP_EOL;
-		$detailsBot .= "Pour le construire complètement, chaque Braldûn de la communauté peut aller sur le bâtiment et ";
-		$detailsBot .= "utiliser l'action -Construire un bâtiment- pour faire progresser la construction.".PHP_EOL.PHP_EOL;
-		$detailsBot .= "La progression de chaque construction est visible dans l'onglet Communauté.".PHP_EOL.PHP_EOL;
-		$detailsBot .= "Une fois la construction niveau 1 terminée, le bâtiment offrira de nouvelles possibilités pour la communauté, ainsi que des points d'influence.";
+		$detailsBot = "La dépendance -".$nomLieu."- a été construite. ".PHP_EOL;
+		$detailsBot = "Attention, la perte d'un niveau d'un Bâtiment dans un domaine peut faire perdre une dépendance. ".PHP_EOL;
+		$detailsBot = "Consultez l'arbre des Communautés pour plus d'informations. ".PHP_EOL;
 
 		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
-		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_INITIALISATION_BATIMENT, $details, $detailsBot, $this->view);
+		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_INITIALISATION_DEPENDANCE, $details, $detailsBot, $this->view);
 
 	}
 

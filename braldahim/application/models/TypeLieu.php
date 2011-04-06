@@ -51,4 +51,15 @@ class TypeLieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	public function findByTypeDependance() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_lieu', '*')
+		->from('type_dependance', '*')
+		->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = type_lieu.id_type_lieu')
+		->order('nom_type_lieu');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }
