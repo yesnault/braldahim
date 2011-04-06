@@ -6,7 +6,9 @@
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Util_Soule {
-
+	
+	const MAIL_SOULE_TITRE = "Braldahim - Message de soule";
+	
 	public static function majPlaquage($braldunAttaquant, $braldunCible) {
 		Zend_Loader::loadClass("SouleEquipe");
 		$souleEquipeTable = new SouleEquipe();

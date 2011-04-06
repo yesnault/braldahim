@@ -53,6 +53,19 @@ class Bral_Soule_Message extends Bral_Soule_Soule {
 			'message_soule_message' => $message, 
 		);
 		$souleMessageTable->insert($data);
+		
+		//Envoi du mail
+		Zend_Loader::loadClass("SouleEquipe");
+		Zend_Loader::loadClass("Bral_Util_Mail");
+		Zend_Loader::loadClass("Bral_Util_Soule");
+		$souleEquipeTable = new SouleEquipe();
+		$braldunsEquipe = $souleEquipeTable->findByIdMatchAndCamp($this->view->user->id_fk_soule_match_braldun, $this->view->user->soule_camp_braldun);
+		$message = "Message de ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun." (".$this->view->user->id_braldun.") : ".PHP_EOL.$message;
+		foreach ($braldunsEquipe as $braldun) {
+			if ($braldun['envoi_mail_soule_braldun'] == 'oui' && $braldun['id_braldun'] != $this->view->user->id_braldun) {
+				Bral_Util_Mail::envoiMailAutomatique($braldun, Bral_Util_Soule::MAIL_SOULE_TITRE, $message, $this->view);
+			}
+		}
 	}
 
 	function getListBoxRefresh() {

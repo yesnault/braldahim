@@ -139,6 +139,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
+
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;
 			if ($id_type_courant_depart == self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE) continue;
@@ -3056,7 +3057,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$nb = $this->request->get('valeur_'.$indice);
 
 			if ((int) $nb.'' != $this->request->get('valeur_'.$indice).'') {
-				throw new Zend_Exception(get_class($this).' NB Ingredient invalide='.$nb. ' indice='.$indice);
+				throw new Zend_Exception(get_class($this).' NB Ingredient invalide='.$nb. ' indice='.$indice. ' valeur_fin_graines:'.$this->view->valeur_fin_graines. ' valeur_fin_ingredients:'.$this->view->valeur_fin_ingredients);
 			} else {
 				$nb = (int)$nb;
 			}
@@ -3458,6 +3459,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							);
 
 							$departTable->insertOrUpdate($data);
+
 							$nbAEnlever = $nbAEnlever - $nbAEnleverCourant;
 
 							if ($nbAEnlever <= 0) {

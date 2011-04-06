@@ -138,6 +138,21 @@ class SouleEquipe extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
+	
+	public function findByIdMatchAndCamp($idMatch, $camp) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+
+		$select->from('soule_equipe', '*')
+		->from('braldun', '*')
+		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
+		->where('camp_soule_equipe = ?', $camp)
+		->where('id_fk_braldun_soule_equipe = id_braldun');
+
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
 
 	public function findByIdBraldunAndIdMatch($idBraldun, $idMatch) {
 		$db = $this->getAdapter();

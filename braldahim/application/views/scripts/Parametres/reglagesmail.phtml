@@ -13,11 +13,16 @@
 		
 		<input type="radio" id="valeur_1" name="valeur_1" value="oui" <?php if ($this->user->envoi_mail_message_braldun == "oui"):echo "checked"; endif; ?>>Oui
 		<input type="radio" id="valeur_1" name="valeur_1" value="non" <?php if ($this->user->envoi_mail_message_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
-	    <br /><br />
+	    <br />
 	    
 	    <label for="title">&Ecirc;tre pr&eacute;venu d'un &eacute;v&eacute;nement me concernant</label><br />
 		<input type="radio" id="valeur_2" name="valeur_2" value="oui" <?php if ($this->user->envoi_mail_evenement_braldun == "oui"):echo "checked"; endif; ?>>Oui
 		<input type="radio" id="valeur_2" name="valeur_2" value="non" <?php if ($this->user->envoi_mail_evenement_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
+		<br />
+		
+	    <label for="title">&Ecirc;tre pr&eacute;venu des messages de votre &eacute;quipe lors d'un match de soule</label><br />
+		<input type="radio" id="valeur_4" name="valeur_4" value="oui" <?php if ($this->user->envoi_mail_soule_braldun == "oui"):echo "checked"; endif; ?>>Oui
+		<input type="radio" id="valeur_4" name="valeur_4" value="non" <?php if ($this->user->envoi_mail_soule_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
 		<br />
 		
 		<label for="title">Position de lecture d'un message dans la messagerie du jeu</label><br />
