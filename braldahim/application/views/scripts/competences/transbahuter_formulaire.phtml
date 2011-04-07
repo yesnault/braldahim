@@ -32,7 +32,7 @@
 				<?php include("transbahuter/materiels.phtml")?>
 			
 				<?php 
-				$js = "selectAll();";
+				$js = "selectAll(11,$('nb_valeurs').value);";
 				
 				$jsRechercheBraldun = "afficheTransbahuterRechercheBraldun();";
 				$jsVente = "afficheTransbahuterVente();";
@@ -48,6 +48,7 @@
 				?>
 				<br/>
 				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"/>
+				<input type='reset' class='button1' id='bouton_selectionnertout' value='Réinitialiser !' onclick="$('bouton_deposer').disabled=true;"/>
 				<?php if ($poches != null): ?> 
 					<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>"/>
 					<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>"/>

@@ -13,7 +13,7 @@ class CoffreRune extends Zend_Db_Table {
 		return $this->findByIdCoffre($idCoffre);
 	}
 
-	function findByIdCoffre($idCoffre, $identifiee = null) {
+	function findByIdCoffre($idCoffre, $identifiee = null, $ordre = null) {
 		$whereIdentifiee = "";
 		if ($identifiee != null) {
 			$whereIdentifiee = " AND est_identifiee_rune = '".$identifiee."'";
@@ -26,6 +26,9 @@ class CoffreRune extends Zend_Db_Table {
 		->where('id_rune_coffre_rune = id_rune')
 		->where('id_fk_coffre_coffre_rune = ? ', intval($idCoffre))
 		->where('id_fk_type_rune = id_type_rune'.$whereIdentifiee);
+		if ($ordre != null) {
+			$select->order($ordre);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

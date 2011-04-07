@@ -30,6 +30,12 @@
 				$i = 1;
 				$nb = count($this->partieplantes);
 				foreach ($this->partieplantes as $k => $p) : 
+					if ($i == 1) {
+						$valmin = $k;
+					}
+					if ($i == $nb) {
+						$valmax = $k;
+					}
 					if ($p["quantite_partieplante"] > 0 || $p["quantite_preparee_partieplante"] > 0) :
 						?>
 						<tr>
@@ -79,7 +85,12 @@
 					endif;
 				endforeach;
 				?>
-				</table>	
+					<tr>
+						<td colspan="3" align="center">
+						<input type="button" class='button1' value="Sélectionner toutes les plantes" onclick="selectAll(<?php echo $valmin;?>, <?php echo $valmax;?> );"></input>
+						</td>
+					</tr>
+				</table>			
 				</li>
 			</ul>
 		</li>

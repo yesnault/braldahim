@@ -18,8 +18,16 @@
 					</td>
 				</tr>
 				<?php if (count($this->graines) > 0): ?>
-					<?php $i = 1;
+					<?php
+					$i = 1;
+					$nb = count($this->graines);
 					foreach ($this->graines as $k => $m) :  
+						if ($i == 1) {
+							$valmin = $k;
+						}
+						if ($i == $nb) {
+							$valmax = $k;
+						}
 					?>
 						<tr>
 							<td>
@@ -36,6 +44,11 @@
 						$i++; 
 					endforeach;
 						 ?>
+					<tr>
+						<td colspan="3" align="center">
+						<input type="button" class='button1' value="S&eacute;lectionner toutes les graines" onclick="selectAll(<?php echo $valmin;?>, <?php echo $valmax;?> );"></input>
+						</td>
+					</tr>
 				</table> 
 				<?php endif;?>
 			  	</li>
