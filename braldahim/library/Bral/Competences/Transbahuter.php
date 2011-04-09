@@ -958,7 +958,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($idTypeDepart) {
 				case self::ID_ENDROIT_LABAN :
 					$labanRuneTable = new LabanRune();
-					$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun);
+					$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, null, "est_identifiee_rune");
 					unset($labanRuneTable);
 					break;
 				case self::ID_ENDROIT_ELEMENT :
@@ -970,12 +970,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				case self::ID_ENDROIT_HALL_LIEU:
 				case self::ID_ENDROIT_COFFRE_COMMUNAUTE:
 					$coffreRuneTable = new CoffreRune();
-					$runes = $coffreRuneTable->findByIdCoffre($this->view->id_coffre_depart);
+					$runes = $coffreRuneTable->findByIdCoffre($this->view->id_coffre_depart, null, "est_identifiee_rune");
 					unset($coffreRuneTable);
 					break;
 				case self::ID_ENDROIT_CHARRETTE :
 					$charretteRuneTable = new CharretteRune();
-					$runes = $charretteRuneTable->findByIdCharrette($this->view->id_charrette_depart);
+					$runes = $charretteRuneTable->findByIdCharrette($this->view->id_charrette_depart, null, "est_identifiee_rune");
 					unset($charretteRuneTable);
 					break;
 			}

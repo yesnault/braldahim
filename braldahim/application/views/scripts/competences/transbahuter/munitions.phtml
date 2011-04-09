@@ -7,15 +7,46 @@
 			</h3>
 			<ul id="deposer_munitions-body" style="display:none">
 				<li>
-				<?php foreach($this->munitions as $k => $m) :?>
+				<table width='100%'>
+				<tr>
+					<td>
+						Munitions
+					</td>
+					<td align="center">
+					Quantit&eacute; &agrave; transbahuter :
+					</td>
+				</tr>
+				<?php 
+				$i = 1;
+				$nb = count($this->munitions);
+				foreach($this->munitions as $k => $m) :
+					if ($i == 1) {
+						$valmin = $k;
+					}
+					if ($i == $nb) {
+						$valmax = $k;
+					}
+				?>
+					<tr>
+					<td>
 					<?php echo $m["type"]?> : <?php echo $m["quantite"]?>
-					Quantit&eacute; &agrave; transbahuter : 
+					</td>
+					<td align="center">
 					<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k?>' id='valeur_<?php echo $k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
 					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite"]?>' />
 					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_MUNITION ?>' />
 					<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='non' />
-					<br />
-				<?php endforeach; ?>
+					</td>
+					</tr>
+				<?php 
+				$i++;
+				endforeach; ?>
+				<tr>
+					<td colspan="3" align="center">
+					<input type="button" class='button1' value="S&eacute;lectionner toutes les munitions" onclick="selectAll(<?php echo $valmin;?>, <?php echo $valmax;?> );"></input>
+					</td>
+				</tr>
+				</table>
 			  	</li>
 			</ul>
 		</li>

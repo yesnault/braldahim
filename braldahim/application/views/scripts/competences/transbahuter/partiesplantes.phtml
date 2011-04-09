@@ -7,41 +7,58 @@
 			</h3>
 			<ul id="deposer_plantes-body" style="display:none">
 				<li>
-				<?php if ($this->nb_partiePlantes==1):$s=''; else:$s='s';endif; ?>
-				<?php echo $this->nb_partiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes brute<?php echo $s?>: <br />
-					 et 
-				<?php if ($this->nb_prepareesPartiePlantes==1):$s=''; else:$s='s';endif; ?>
-				<?php echo $this->nb_prepareesPartiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes pr&eacute;par&eacute;e<?php echo $s?>. <br />
 				<table width='100%'>
-				<?php $i = 0;
-				$lignes = 0;
-				$enter = false;
+				<tr>
+					<td>
+					<?php if ($this->nb_partiePlantes==1):$s=''; else:$s='s';endif; ?>
+					<?php echo $this->nb_partiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes brute<?php echo $s?> 
+					</td>
+					<td colspan="2" align="center">
+						Quantit&eacute; &agrave; transbahuter
+					</td>
+				</tr>
+				<tr>
+					<td>
+					et 
+					<?php if ($this->nb_prepareesPartiePlantes==1):$s=''; else:$s='s';endif; ?>
+					<?php echo $this->nb_prepareesPartiePlantes?> &eacute;l&eacute;ment<?php echo $s?> de plantes pr&eacute;par&eacute;e<?php echo $s?>.
+					</td>
+					<td align="center">Brute :</td>
+					<td align="center">Pr&eacute;par&eacute;e :</td>
+				</tr>
+				<?php 
+				$i = 1;
 				$nb = count($this->partieplantes);
 				foreach ($this->partieplantes as $k => $p) : 
+					if ($i == 1) {
+						$valmin = $k;
+					}
+					if ($i == $nb) {
+						$valmax = $k;
+					}
 					if ($p["quantite_partieplante"] > 0 || $p["quantite_preparee_partieplante"] > 0) :
-						$enter = true;
-						if ($i % 3 == 0) echo "<tr>"; 
 						?>
-						<td>
-						<?php if ($p["quantite_partieplante"] > 1) : $s="s" ; else: $s=""; endif; ?>
-						<?php if ($p["quantite_preparee_partieplante"] > 1) : $s2="s" ; else: $s2="";endif;?>
-						<?php echo htmlspecialchars($p["nom_plante"])?> : <?php echo $p["quantite_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s ?> brute<?php echo $s ?> et <?php echo $p["quantite_preparee_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s2 ?> pr&eacute;par&eacute;<?php echo $s2 ?>.
-						<br />Quantit&eacute; &agrave; transbahuter : 
-						<br />Brute : <input type='text' maxlength='4' size='4' name='valeur_<?php echo $k?>' id='valeur_<?php echo $k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
-						<br />Pr&eacute;par&eacute;e : <input type='text' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>' id='valeur_<?php echo ($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_preparee_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $p["quantite_partieplante"]?>' >
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE ?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='oui' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_max' id='valeur_<?php echo ($k+1)?>_max' value='<?php echo $p["quantite_preparee_partieplante"]?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_poids' id='valeur_<?php echo ($k+1)?>_poids' value='<?php echo Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE ?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_echoppe' id='valeur_<?php echo ($k+1)?>_echoppe' value='oui' />
-						<br />
-						</td>
-						<?php if ($i % 3 == 2) {
-							echo "</tr>";
-							$lignes++;
-							if ($lignes == 2 && $i+1 < $nb) {
-								$lignes = 0;
+						<tr>
+							<td>
+							<?php if ($p["quantite_partieplante"] > 1) : $s="s" ; else: $s=""; endif; ?>
+							<?php if ($p["quantite_preparee_partieplante"] > 1) : $s2="s" ; else: $s2="";endif;?>
+							<?php echo htmlspecialchars($p["nom_plante"])?> : <?php echo $p["quantite_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s ?> brute<?php echo $s ?> et <?php echo $p["quantite_preparee_partieplante"]?> <?php echo htmlspecialchars($p["nom_type"])?><?php echo $s2 ?> pr&eacute;par&eacute;<?php echo $s2 ?>.
+							</td>
+							<td align="center">
+							<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k?>' id='valeur_<?php echo $k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+							</td>
+							<td align="center">
+							<input type='text' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>' id='valeur_<?php echo ($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $p["quantite_preparee_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; <?php echo $jsBtn?>"/>
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $p["quantite_partieplante"]?>' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE ?>' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='oui' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_max' id='valeur_<?php echo ($k+1)?>_max' value='<?php echo $p["quantite_preparee_partieplante"]?>' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_poids' id='valeur_<?php echo ($k+1)?>_poids' value='<?php echo Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE ?>' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo ($k+1)?>_echoppe' id='valeur_<?php echo ($k+1)?>_echoppe' value='oui' />
+							</td>
+						</tr>
+						<?php 
+						if ($i % 8 == 0 && $i < $nb) {
 								echo "
 									</table>
 						    		</li>
@@ -56,17 +73,24 @@
 									</h3>
 									<ul id='deposer_plantes_suite".$i."-body' style='display:none'>
 									<li>
-									<table width='100%'>";
-							}
+									<table width='100%'>
+									<tr>
+										<td>&nbsp;</td>
+										<td align='center'>Brute :</td>
+										<td align='center'>Pr&eacute;par&eacute;e :</td>
+									</tr>
+									";
 						}
-								    	$i++;
+						$i++;
 					endif;
 				endforeach;
-				if ($enter == true && $i % 3 != 0) :
-					echo "</tr>"; 
-				endif;
 				?>
-				</table>	
+					<tr>
+						<td colspan="3" align="center">
+						<input type="button" class='button1' value="Sélectionner toutes les plantes" onclick="selectAll(<?php echo $valmin;?>, <?php echo $valmax;?> );"></input>
+						</td>
+					</tr>
+				</table>			
 				</li>
 			</ul>
 		</li>

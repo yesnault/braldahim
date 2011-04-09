@@ -7,35 +7,48 @@
 			</h3>
 			<ul id="deposer_graines-body" style="display:none">
 				<li>
-				<?php if ($this->nb_graine == 1):$s=''; else:$s='s';endif; ?>
-				<?php echo $this->nb_graine?> poignée<?php echo $s?> de graine<?php echo $s?>
-				<br /> 
-				
-				<?php if (count($this->graines) > 0): ?>
 				<table width='100%'>
-					<?php $i = 0;
-					$enter = false;
-					foreach ($this->graines as $k => $m) : 
-						$enter = true;
-						if ($i % 3 == 0) echo "<tr>"; 
+				<tr>
+					<td>
+					<?php if ($this->nb_graine == 1):$s=''; else:$s='s';endif; ?>
+					<?php echo $this->nb_graine?> poignée<?php echo $s?> de graine<?php echo $s?>
+					</td>
+					<td align="center">
+					Quantit&eacute; &agrave; transbahuter :
+					</td>
+				</tr>
+				<?php if (count($this->graines) > 0): ?>
+					<?php
+					$i = 1;
+					$nb = count($this->graines);
+					foreach ($this->graines as $k => $m) :  
+						if ($i == 1) {
+							$valmin = $k;
+						}
+						if ($i == $nb) {
+							$valmax = $k;
+						}
 					?>
-						<td>
-						<?php echo htmlspecialchars($m["type"])?>  : <?php echo $m["quantite_graine"]?> poignée<?php if ($m["quantite_graine"] > 1) echo "s" ?>
-						<br />
-						Quantit&eacute; &agrave; transbahuter : <br />
-						<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k ?>' id='valeur_<?php echo $k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite_graine"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?php echo $jsBtn?>" />
-						<br />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite_graine"]?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_POIGNEE_GRAINES ?>' />
-						<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='non' />
-						</td>
-						<?php if ($i % 3 == 2) echo "</tr>"; 
-						    $i++; 
+						<tr>
+							<td>
+							<?php echo htmlspecialchars($m["type"])?>  : <?php echo $m["quantite_graine"]?> poignée<?php if ($m["quantite_graine"] > 1) echo "s" ?>
+							</td>
+							<td align="center">
+							<input type='text' maxlength='4' size='4' name='valeur_<?php echo $k ?>' id='valeur_<?php echo $k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?php echo $m["quantite_graine"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?php echo $jsBtn?>" />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_max' id='valeur_<?php echo $k?>_max' value='<?php echo $m["quantite_graine"]?>' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_poids' id='valeur_<?php echo $k?>_poids' value='<?php echo Bral_Util_Poids::POIDS_POIGNEE_GRAINES ?>' />
+							<input type='hidden' maxlength='4' size='4' name='valeur_<?php echo $k?>_echoppe' id='valeur_<?php echo $k?>_echoppe' value='non' />
+							</td>
+						</tr>
+						<?php
+						$i++; 
 					endforeach;
-					if ($enter == true && $i % 3 != 0) :
-						echo "</tr>"; 
-					endif;
 						 ?>
+					<tr>
+						<td colspan="3" align="center">
+						<input type="button" class='button1' value="S&eacute;lectionner toutes les graines" onclick="selectAll(<?php echo $valmin;?>, <?php echo $valmax;?> );"></input>
+						</td>
+					</tr>
 				</table> 
 				<?php endif;?>
 			  	</li>

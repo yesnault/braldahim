@@ -763,11 +763,11 @@ function controleQte() {
 	 $('bouton_deposer').disabled=cacher;
 }
 
-function selectAll() {
+function selectAll(valmin, valmax) {
 	cacher = true;
 	v = false;
 	ctrlEchoppe = false;
-	for (i=11; i<=$('nb_valeurs').value; i++) {
+	for (i=valmin; i<=valmax; i++) {
 		if ($('valeur_panneau').value != true && v==true) {
 			controlePanneau (i);
 			break;
