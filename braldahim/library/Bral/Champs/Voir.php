@@ -33,13 +33,21 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		}
 
 		$champTable = new Champ();
-		$champs = $champTable->findByIdBraldun($this->view->user->id_braldun);
+
+		if ($this->view->user->id_fk_communaute_braldun != null) {
+			Zend_Loader::loadClass('Bral_Util_Communaute');
+			Zend_Loader::loadClass('TypeLieuCommunaute');
+			Bral_Util_Communaute::possedeNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE, 1);
+			$champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
+		} else {
+			$champsRowset = $champTable->findByIdBraldun($this->view->user->id_braldun);
+		}
 
 		$this->view->estSurChamp == false;
 
 		$tabChamp = null;
 		$id_metier = null;
-		foreach ($champs as $e) {
+		foreach ($champsRowset as $e) {
 			if ($e["id_champ"] == $id_champ) {
 				$tabChamp = array(
 					'id_champ' => $e["id_champ"],

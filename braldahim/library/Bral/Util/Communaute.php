@@ -94,4 +94,46 @@ class Bral_Util_Communaute {
 		return $tabRetour;
 	}
 
+	/**
+	 * Verifie que la position x,y,z correspond au hall de la communaute idCommunaute.
+	 * 
+	 * @param int $x Position x
+	 * @param int $y Position y
+	 * @param int $z Position z
+	 * @param int $idCommunaute Identifiant de la communaute
+	 */
+	public static function estSurHall($x, $y, $z, $idCommunaute) {
+		$retour = false;
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communaute = $communauteTable->findById($idCommunaute);
+		if ($communaute != null && count($communaute) == 1) {
+			$communaute = $communaute[0];
+			if ($communaute["x_communaute"] == $x 
+			&& $communaute["y_communaute"] == $y 
+			&& $communaute["z_communaute"] == $z) {
+				$retour = true;
+			}
+		}
+		return $retour;
+	}
+	
+	/**
+	 * Pour une communauté (idCommunauté), recherche si un type de 
+	 * Bâtiment d'un certain niveau est possédé. (niveau Min)
+	 * @param int $idCommunaute
+	 * @param int $idTypeLieuCommunaute
+	 * @param int $niveauMin
+	 */
+	public static function possedeNiveauDuLieu($idCommunaute, $idTypeLieuCommunaute, $niveauMin) {
+		$retour = false;
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieuCommunaute, $niveauMin);
+		if ($lieux != null && count($lieux) > 0) {
+			$retour = true;
+		}
+		return $retour;
+	}
+
 }

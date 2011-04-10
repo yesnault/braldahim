@@ -33,8 +33,6 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 		if ($lieux != null && count($lieux) == 1) {
 			$lieu = $lieux[0];
 			if ($lieu["niveau_lieu"] != $lieu["niveau_prochain_lieu"]) {
-				// && $couts["cout_pa"] > $m['nb_pa_depenses_lieu']
-				// && $couts["cout_castar"] > $m['nb_castars_depenses_lieu']) {
 				$tab["lieu"] = $lieu;
 				$tab["couts"] = Bral_Util_Communaute::getCoutsAmeliorationBatiment($lieu["niveau_prochain_lieu"]);
 				$tabBatiment = $tab;

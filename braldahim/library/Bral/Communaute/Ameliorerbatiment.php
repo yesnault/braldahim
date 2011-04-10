@@ -20,6 +20,10 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
 		}
 
+		if (!Bral_Util_Communaute::estSurHall((int)$this->view->user->x_braldun, (int)$this->view->user->y_braldun, (int)$this->view->user->z_braldun, (int)$this->view->user->id_fk_communaute_braldun)) {
+			throw new Zend_Exception(get_class($this)." Vous n'êtes pas sur le hall de la Communauté");
+		}
+
 		$this->view->nomLieu = null;
 
 		$this->view->nb_pa = 1;
@@ -35,8 +39,6 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		if ($lieux != null && count($lieux) > 0) {
 			foreach($lieux as $l) {
 				if ($l["niveau_lieu"] == $l["niveau_prochain_lieu"] && $l["id_type_lieu"] != TypeLieu::ID_TYPE_HALL) {
-					//&& $couts["cout_pa"] > $m['nb_pa_depenses_lieu']
-					//&& $couts["cout_castar"] > $m['nb_castars_depenses_lieu']) {
 					$tab["lieu"] = $l;
 					$tab["couts"] = Bral_Util_Communaute::getCoutsAmeliorationBatiment($l["niveau_prochain_lieu"]);
 					$tabLieux[] = $tab;

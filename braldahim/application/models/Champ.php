@@ -95,6 +95,23 @@ class Champ extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByIdCommunaute($idCommunaute) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ', '*')
+		->from('region', '*')
+		->from('braldun', '*')
+		->where('id_fk_communaute_braldun = ?', intval($idCommunaute))
+		->where('id_fk_braldun_champ = id_braldun')
+		->where('region.x_min_region <= champ.x_champ')
+		->where('region.x_max_region >= champ.x_champ')
+		->where('region.y_min_region <= champ.y_champ')
+		->where('region.y_max_region >= champ.y_champ');
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 
 	function findById($id) {
 		$db = $this->getAdapter();
