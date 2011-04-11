@@ -1,11 +1,12 @@
 <br />
 <div class="titre textalic textsizec">Coffre de Communauté</div><br />
 
-<?php  
+<?php
+	if ($this->estSurHall) :
       $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=11&valeur_2=12')\"";
-    /*else:
+    else:
       $attr = "disabled";
-    endif;*/?>
+    endif;?>
 
 <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
 	<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">

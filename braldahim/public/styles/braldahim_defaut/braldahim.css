@@ -640,7 +640,7 @@ margin-right:auto !important;
 	background-color: #eeeeee;
 }
 
-.barre_faim,.barre_vie, .barre_niveau, .barre_poids {
+.barre_faim,.barre_vie, .barre_niveau, .barre_poids, .barre_entretien {
 	background-color: #FFFFFF;
 	width: 200px;
 	height: 10px;
@@ -664,6 +664,14 @@ margin-right:auto !important;
 }
 
 .img_barre_poids {
+	background-image: url('/images/barre_poids.gif');
+}
+
+.barre_entretien {
+	width: 100px;
+}
+
+.img_barre_entretien {
 	background-image: url('/images/barre_poids.gif');
 }
 

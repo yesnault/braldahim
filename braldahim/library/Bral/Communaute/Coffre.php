@@ -37,6 +37,8 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 
 		$this->view->lots = Bral_Util_Lot::getLotsByIdCommunaute($this->view->user->id_fk_communaute_braldun, false);
 
+		$estSurHall = Bral_Util_Communaute::estSurHall($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_fk_communaute_braldun);
+
 		Zend_Loader::loadClass("Metier");
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
@@ -56,6 +58,9 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 		// passage par reference de tabMetiers et this->view
 		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, null, $this->view->user->id_fk_communaute_braldun);
 
+		
+		$this->view->estSurHall = $estSurHall;
+		
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->tabBraldunMetiers = null;
 
