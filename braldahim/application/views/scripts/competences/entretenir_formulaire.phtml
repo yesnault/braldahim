@@ -1,13 +1,13 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez entretenir un de vos champs.<br /><br />
+ 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez entretenir un champ.<br /><br />
  	
 	 <?php if ($this->entretenirChampOk !== true) : ?>
-	 	Vous ne pouvez entretenir un de vos champs quand étant dessus et il faut qu'il soit semé au préalable.
-	 
+	 	Vous ne pouvez entretenir un champ quand étant dessus et il faut qu'il soit semé au préalable.
+	 	Ce champ doit vous appartenir, ou appartenir à un Braldûn de votre communauté (en ayant un grenier de niveau <?php echo Bral_Util_Communaute::NIVEAU_GRENIER_ENTRETENIR?> minimum).
 	 <?php else: ?>
 	 	
-	 	Vous pouvez directement cliquer sur la case de votre champ à entretenir.<br /><br />
+	 	Vous pouvez directement cliquer sur la case du champ à entretenir.<br /><br />
 	 	
 	 	Choisissez la case à entretenir : <br />  
 	 	<select name="valeur_1" id="valeur_1" onchange="if (this.value == -1) {$('bouton_entretenir').disabled = true;}else {$('bouton_entretenir').disabled = false;}">

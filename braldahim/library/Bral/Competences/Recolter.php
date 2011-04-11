@@ -28,7 +28,6 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->view->recolterChampOk = false;
 
 		$champTable = new Champ();
-
 		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
 
 		if ($niveauGrenier != null && $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER) {
@@ -106,7 +105,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		//message pour le braldûn propriétaire
 		if ($this->idProprietaire != $this->view->user->id_braldun) {
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = "[Ceci est un message automatique de récolte]".PHP_EOL;
+			$message = "[Ceci est un message automatique d'agriculture]".PHP_EOL;
 			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a récolté dans votre champ en x:".$this->view->champ["x_champ"].", y:".$this->view->champ["y_champ"].PHP_EOL;
 			$message .= "Récolte : ".$this->view->recolte.PHP_EOL;
 			if ($this->view->taupesVivantes != null) {

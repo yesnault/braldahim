@@ -1,6 +1,6 @@
 <?php include("commun_text_resultat.phtml") ?>
 
-Vous avez récolté votre champ situé en x:<?php echo $this->champ["x_champ"]?>, y:<?php echo $this->champ["y_champ"]?>. <br /><br />
+Vous avez récolté le champ situé en x:<?php echo $this->champ["x_champ"]?>, y:<?php echo $this->champ["y_champ"]?>. <br /><br />
 
 Vous avez récupéré <?php echo $this->recolte?>.<br /><br />
 
@@ -19,9 +19,9 @@ Vous avez récupéré <?php echo $this->recolte?>.<br /><br />
 
 <br />
 <?php if ($this->champDetruit) : ?>
-	Il n'y a plus rien à récolter dans le champ, il est passé en jachère.
+	Il n'y a plus rien à récolter dans ce champ, il est passé en jachère.
 	<br />
-	Vous pouvez maitenant re-semer votre champ si vous le souhaitez.
+	Vous pouvez maitenant re-semer le champ si vous le souhaitez.
 <?php else: ?>
 	Il reste encore des éléments à récolter dans le champ.		
 <?php endif;?>

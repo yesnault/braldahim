@@ -1,10 +1,11 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  
-	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez semer des graines sur un de vos champs. <br /><br />
+	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez semer des graines dans un champ. <br /><br />
 	
 	<?php if ($this->semerChampOk == false) : ?>
-		Vous ne pouvez semer que sur l'un de vos champs en jachère.
+		Vous ne pouvez semer que sur un champ en jachère.<br />
+		Ce champ doit vous appartenir, ou appartenir à un Braldûn de votre communauté (en ayant un grenier de niveau <?php echo Bral_Util_Communaute::NIVEAU_GRENIER_SEMER?> minimum).
 	<?php else : ?>
 		Vous devez au minimum avoir 2 poignées d'une même type de graine pour pouvoir semer.<br /><br />
 		Veuillez sélectionner le type de graines à semer : <br />

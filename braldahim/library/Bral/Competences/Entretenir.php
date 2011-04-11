@@ -9,6 +9,9 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Champ");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("TypeLieuCommunaute");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		if ($this->verificationChamp() == false) {
 			return null;
@@ -22,13 +25,21 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->view->entretenirChampOk = false;
 
 		$champTable = new Champ();
-		$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
+
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+
+		if ($niveauGrenier != null && $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER) {
+			$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, null, $this->view->user->id_fk_communaute_braldun);
+		} else {
+			$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
+		}
 
 		$retour = false;
 		if (count($champs) == 1) {
-			$this->champ = $champs[0];
-			if ($this->champ["phase_champ"] == "seme") {
+			$this->view->champ = $champs[0];
+			if ($this->view->champ["phase_champ"] == "seme") {
 				$this->view->entretenirChampOk = true;
+				$this->idProprietaire = $this->view->champ["id_braldun"];
 				$retour = true;
 			}
 		}
@@ -58,10 +69,10 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("ChampTaupe");
 		$champTaupeTable = new ChampTaupe();
-		$taupes = $champTaupeTable->findByIdChamp($this->champ["id_champ"]);
+		$taupes = $champTaupeTable->findByIdChamp($this->view->champ["id_champ"]);
 
 		$tabTaupes = array();
-		if ($this->champ["phase_champ"] == 'seme') {
+		if ($this->view->champ["phase_champ"] == 'seme') {
 			if ($taupes != null) {
 				foreach($taupes as $t) {
 					if ($t["etat_champ_taupe"] != 'vivant') {
@@ -110,6 +121,25 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
+		//message pour le braldûn propriétaire
+		if ($this->idProprietaire != $this->view->user->id_braldun) {
+			Zend_Loader::loadClass("Bral_Util_Messagerie");
+			$message = "[Ceci est un message automatique d'agriculture]".PHP_EOL;
+			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a entretenu votre champ en x:".$this->view->champ["x_champ"].", y:".$this->view->champ["y_champ"].PHP_EOL;
+			$message .= "Zone entretenue : x: ".$this->view->etatZone["x"]." y:".$this->view->etatZone["y"].".".PHP_EOL;
+			if ($this->view->etatZone["etat"] == ChampTaupe::ETAT_ENTRETENU) {
+				$message .= "Aucun taupe n'a été trouvée à cet endroit.".PHP_EOL;
+			} else {
+				$message .= "Une partie de taupe de taille ".$this->view->etatZone["taille"]." a été trouvée !".PHP_EOL;
+				if ($this->view->taupeDetruite) {
+					$message .= "La taupe est occise.".PHP_EOL;
+				} else {
+					$message .= "Consultez le champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement.".PHP_EOL;
+				}
+			}
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->idProprietaire, $message, $this->view);
+		}
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majBraldun();
@@ -122,7 +152,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$data = array(
 			'x_champ_taupe' => $x,
 			'y_champ_taupe' => $y,
-			'id_fk_champ_taupe' => $this->champ["id_champ"],
+			'id_fk_champ_taupe' => $this->view->champ["id_champ"],
 			'date_entretien_champ_taupe' => date('Y-m-d H:i:s'),
 		);
 
@@ -134,7 +164,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->view->taupeDetruite = false;
 
 		if ($etatZone["etat"] == ChampTaupe::ETAT_DETRUIT) {
-			$taupe = $champTaupeTable->findByIdChampNumeroTaupeVivant($this->champ["id_champ"], $etatZone["numero"]);
+			$taupe = $champTaupeTable->findByIdChampNumeroTaupeVivant($this->view->champ["id_champ"], $etatZone["numero"]);
 			if ($taupe == null || count($taupe) < 1) {
 				$this->view->taupeDetruite = true;
 			}
@@ -145,9 +175,9 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 			'date_utilisation_champ' => date("Y-m-d 00:00:00"),
 		);
 
-		$where = 'id_champ='.$this->champ["id_champ"];
+		$where = 'id_champ='.$this->view->champ["id_champ"];
 		$champTable->update($data, $where);
-			
+
 		$this->view->etatZone = $etatZone;
 	}
 
