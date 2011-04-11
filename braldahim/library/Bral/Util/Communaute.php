@@ -12,6 +12,10 @@ class Bral_Util_Communaute {
 	const ID_RANG_TENANCIER = 3;
 	const ID_RANG_NOUVEAU = 20;
 
+	
+	const NIVEAU_GRENIER_RECOLTER = 1;
+	const NIVEAU_GRENIER_ENTRETENIR = 2;
+	const NIVEAU_GRENIER_SEMER = 3;
 
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
 
@@ -96,7 +100,7 @@ class Bral_Util_Communaute {
 
 	/**
 	 * Verifie que la position x,y,z correspond au hall de la communaute idCommunaute.
-	 * 
+	 *
 	 * @param int $x Position x
 	 * @param int $y Position y
 	 * @param int $z Position z
@@ -109,17 +113,39 @@ class Bral_Util_Communaute {
 		$communaute = $communauteTable->findById($idCommunaute);
 		if ($communaute != null && count($communaute) == 1) {
 			$communaute = $communaute[0];
-			if ($communaute["x_communaute"] == $x 
-			&& $communaute["y_communaute"] == $y 
+			if ($communaute["x_communaute"] == $x
+			&& $communaute["y_communaute"] == $y
 			&& $communaute["z_communaute"] == $z) {
 				$retour = true;
 			}
 		}
 		return $retour;
 	}
-	
+
 	/**
-	 * Pour une communauté (idCommunauté), recherche si un type de 
+	 * Pour une communauté (idCommunauté), recherche si un type de
+	 * Bâtiment d'un certain niveau est possédé et retourne son niveau.
+	 * @param int $idCommunaute
+	 * @param int $idTypeLieuCommunaute
+	 */
+	public static function getNiveauDuLieu($idCommunaute, $idTypeLieuCommunaute) {
+		$retour = null;
+		
+		if ($idCommunaute == null) {
+			return $retour;
+		}
+		
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieuCommunaute);
+		if ($lieux != null && count($lieux) > 0) {
+			$retour = $lieux[0]['niveau_lieu'];
+		}
+		return $retour;
+	}
+
+	/**
+	 * Pour une communauté (idCommunauté), recherche si un type de
 	 * Bâtiment d'un certain niveau est possédé. (niveau Min)
 	 * @param int $idCommunaute
 	 * @param int $idTypeLieuCommunaute

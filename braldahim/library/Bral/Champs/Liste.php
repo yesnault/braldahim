@@ -15,8 +15,10 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 	}
 	function prepareCommun() {
 		Zend_Loader::loadClass("Champ");
-
 		Zend_Loader::loadClass("Region");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		Zend_Loader::loadClass('TypeLieuCommunaute');
 
 		$this->idChampCourant = null;
 
@@ -26,65 +28,49 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 
 		$regionCourante = null;
 
-		$champsTable = new Champ();
+		$champTable = new Champ();
 
-		// Si le joueur appartient à une communauté
-		if ($this->view->user->id_fk_communaute_braldun != null) {
-			Zend_Loader::loadClass('Bral_Util_Communaute');
-			Zend_Loader::loadClass('TypeLieuCommunaute');
-			Bral_Util_Communaute::possedeNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE, 1);
-			$champsRowset = $champsTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+
+		if ($niveauGrenier != null && $niveauGrenier > 0) {
+			$champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
 		} else {
-			$champsRowset = $champsTable->findByIdBraldun($this->view->user->id_braldun);
+			$champsRowset = $champTable->findByIdBraldun($this->view->user->id_braldun);
 		}
 
 		$tabChamps = null;
 		$tabRegions = null;
 
-		foreach ($regionsRowset as $r) {
-				
-			$region = $r;
-			$region["champs"] = null;
-			if ($r["x_min_region"] <= $this->view->user->x_braldun &&
-			$r["x_max_region"] >= $this->view->user->x_braldun &&
-			$r["y_min_region"] <= $this->view->user->y_braldun &&
-			$r["y_max_region"] >= $this->view->user->y_braldun) {
-				$regionCourante = $r;
-			}
-
-			if ($champsRowset > 0) {
-				foreach($champsRowset as $c) {
-					$champ = array(
-						"id_champ" => $c["id_champ"],
-						"nom_champ" => $c["nom_champ"],
-						"x_champ" => $c["x_champ"],
-						"y_champ" => $c["y_champ"],
-						"z_champ" => $c["z_champ"],
-						"id_region" => $c["id_region"],
-						"nom_region" => $c["nom_region"]
-					);
-					if ($this->view->user->x_braldun == $c["x_champ"] &&
-					$this->view->user->y_braldun == $c["y_champ"] &&
-					$this->view->user->z_braldun == $c["z_champ"]) {
-						$this->idChampCourant = $c["id_champ"];
-					}
-					if ($c["id_region"] == $r["id_region"]) {
-						$region["champs"][] = $champ;
-					}
-					$tabChamps[] = $champ;
+		if ($champsRowset > 0) {
+			foreach($champsRowset as $c) {
+				$champ = array(
+					"id_champ" => $c["id_champ"],
+					"nom_champ" => $c["nom_champ"],
+					"x_champ" => $c["x_champ"],
+					"y_champ" => $c["y_champ"],
+					"z_champ" => $c["z_champ"],
+					"id_region" => $c["id_region"],
+					"nom_region" => $c["nom_region"],
+					'braldun' => $c['prenom_braldun'].' '.$c['nom_braldun'].' ('.$c['id_braldun'].')',
+					'phase_champ' => $c["phase_champ"],
+					'date_seme_champ' => $c["date_seme_champ"],
+					'date_fin_recolte_champ' => $c["date_fin_recolte_champ"],
+					'date_fin_seme_champ' => $c["date_fin_seme_champ"],
+					'nom_type_graine' => $c["nom_type_graine"],
+				);
+				if ($this->view->user->x_braldun == $c["x_champ"] &&
+				$this->view->user->y_braldun == $c["y_champ"] &&
+				$this->view->user->z_braldun == $c["z_champ"]) {
+					$this->idChampCourant = $c["id_champ"];
 				}
+				$tabChamps[] = $champ;
 			}
-				
-			$tabRegions[] = $region;
 		}
 
-		$this->view->tabRegions = $tabRegions;
-		$this->view->tabRegionCourante = $regionCourante;
 		$this->view->champs = $tabChamps;
 		$this->view->nChamps = count($tabChamps);
-
 		$this->view->nom_interne = $this->getNomInterne();
-
+		$this->view->niveauGrenier = $niveauGrenier;
 		return $this->idChampCourant; // utilise dans Bral_Box_Champs
 	}
 
@@ -100,5 +86,4 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 
 	function getListBoxRefresh() {
 	}
-
 }

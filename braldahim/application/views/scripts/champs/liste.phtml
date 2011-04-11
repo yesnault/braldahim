@@ -7,38 +7,51 @@
   	Vous ne pourrez obtenir de champ que dans la Comt&eacute; o&ugrave; vous 
   	serez. <br />
  	
+ 	<?php if ($this->niveauGrenier != null) : ?>
+ 		<?php echo Bral_Helper_Communaute::afficheNiveauGrenier($this->niveauGrenier);?>
+ 	<?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
+ 		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauGrenier(null, "grenier")?>.
+ 	<?php endif;?>
+ 	
  	<br />
 	<?php if ($this->nChamps < 1) : ?>
-  		Vous n'avez aucun champ.<br /><br />
+  		Aucun champ.<br /><br />
    	<?php else: ?>
-	   	<table class="table_liste">
+   	
+   	<table class="table_liste" style='width:100%'>
 		<thead class="table_liste">
 		  <tr class="table_liste">
-		  	<?php $i = 0;
-			   $champ = false;
-			   foreach($this->tabRegions as $r) : ?>
-					<th><?php echo htmlspecialchars($r["nom_region"]); ?></th>
-			<?php endforeach; ?>
+		  <th>Champ</th>
+		  <th>Propriétaire</th>
+		  <th>Comté</th>
+		  <th>État</th>
 		  </tr>
-		</thead>
-		<tbody>
-		   <tr>
-	   		<?php foreach($this->tabRegions as $r) : ?>
-	   			<td class="table_liste">
-	   			<?php if ($r["champs"] != null) :?>
-			   		<?php foreach($r["champs"] as $c) :?>
-		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onclick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?php echo $c["id_champ"]?>')">
-		   					<?php echo $c["nom_champ"] ?> [<?php echo $c["x_champ"] ?> ; <?php echo $c["y_champ"] ?>]
-		   				</span><br />
-			   		<?php endforeach; ?>
-		   		<?php endif; ?>
-		   		</td>
-	   		<?php endforeach;?>
-		   </tr>
-		</tbody>
-		</table>
-	<?php endif; ?>
-	
+	  </thead>
+	  <tbody>
+	  
+	  	<?php foreach($this->champs as $c) :?>
+	  		<tr class='alabel'  style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onclick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?php echo $c["id_champ"]?>')">
+	  			<td class="table_liste">
+	  				<?php echo $c["nom_champ"] ?> [<?php echo $c["x_champ"] ?> ; <?php echo $c["y_champ"] ?>]
+	  			</td>
+	  			<td class="table_liste"><?php echo $c["braldun"] ?></td>
+	  			<td class="table_liste"><?php echo $c["nom_region"] ?></td>
+	  			<td class="table_liste">
+	  			<?php echo $c["nom_type_graine"] ?> 
+	  			<?php if ($c["phase_champ"] == "seme") : ?>
+					en pleine croissance !
+				<?php elseif ($this->champ["phase_champ"] == "a_recolter") : ?>
+					À récolter
+				<?php else : ?>
+					en friche
+				<?php endif; ?>
+  				</td>
+	  			</tr>	  			
+   		<?php endforeach; ?>
+	   </tbody>
+	   </table>
+   	<?php endif; ?>
+   	
 	<br /><br />
    </div>
 </div>

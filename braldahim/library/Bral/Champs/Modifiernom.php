@@ -25,10 +25,7 @@ class Bral_Champs_Modifiernom extends Bral_Champs_Champ {
 		
 		$tabChamp = null;
 		foreach ($champs as $e) {
-			if ($e["id_champ"] == $idChamp && 
-				$e["x_champ"] == $this->view->user->x_braldun && 
-				$e["y_champ"] == $this->view->user->y_braldun && 
-				$e["z_champ"] == $this->view->user->z_braldun) {
+			if ($e["id_champ"] == $idChamp) {
 				$tabChamp = array(
 					'id_champ' => $e["id_champ"],
 					'nom_champ' => $e["nom_champ"],

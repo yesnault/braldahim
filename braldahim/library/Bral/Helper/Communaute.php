@@ -11,7 +11,7 @@ class Bral_Helper_Communaute {
 	const COEF_TAILLE_MOBILE = 1.5;
 
 	public static function afficheBarreConstruction($total, $enCours) {
-		
+
 		$largeur = (($enCours * 100) / $total);
 
 		if ($largeur > 100) {
@@ -29,4 +29,27 @@ class Bral_Helper_Communaute {
 
 		return $retour;
 	}
+
+	public static function afficheNiveauGrenier($niveau, $texte = null) {
+		$retour = "";
+
+		$details = 'Niveau 1 : Permet de récolter dans les champs des autres Braldûns de la communauté<br />';
+		$details .= 'Niveau 2 : Permet d\'entretenir les champs des autres Braldûns de la communauté<br />';
+		$details .= 'Niveau 3 : Permet de semer dans les champs des autres Braldûns de la communauté<br />';
+
+		if ($texte == null) {
+			$retour .= "<div >";
+			$retour .= "Votre communauté possède un grenier de <div class='braltip alabel' style='display:inline'>niveau ".$niveau.'.';
+			$retour .= Bral_Helper_Tooltip::render($details, 'Grenier');
+			$retour .= '</div></div>';
+		} else {
+			$retour .= "<div class='braltip alabel' style='display:inline'>";
+			$retour .= $texte;
+			$retour .= Bral_Helper_Tooltip::render($details, 'Grenier');
+			$retour .= '</div>';
+		}
+
+		return $retour;
+	}
+
 }

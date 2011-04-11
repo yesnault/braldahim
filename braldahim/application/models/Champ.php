@@ -86,7 +86,11 @@ class Champ extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('champ', '*')
 		->from('region', '*')
+		->from('braldun', '*')
+		->from('type_graine', '*')
+		->where('id_fk_braldun_champ = id_braldun')
 		->where('id_fk_braldun_champ = ?', $idBraldun)
+		->where('id_fk_type_graine_champ = id_type_graine')
 		->where('region.x_min_region <= champ.x_champ')
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
@@ -102,12 +106,15 @@ class Champ extends Zend_Db_Table {
 		$select->from('champ', '*')
 		->from('region', '*')
 		->from('braldun', '*')
+		->from('type_graine', '*')
 		->where('id_fk_communaute_braldun = ?', intval($idCommunaute))
 		->where('id_fk_braldun_champ = id_braldun')
+		->where('id_fk_type_graine_champ = id_type_graine')
 		->where('region.x_min_region <= champ.x_champ')
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
-		->where('region.y_max_region >= champ.y_champ');
+		->where('region.y_max_region >= champ.y_champ')
+		->order(array('nom_region', 'prenom_braldun', 'nom_braldun'));
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

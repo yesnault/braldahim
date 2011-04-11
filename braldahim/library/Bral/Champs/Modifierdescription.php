@@ -25,9 +25,7 @@ class Bral_Champs_Modifierdescription extends Bral_Champs_Champ {
 		
 		$tabChamp = null;
 		foreach ($champs as $e) {
-			if ($e["id_champ"] == $id_champ && 
-				$e["x_champ"] == $this->view->user->x_braldun && 
-				$e["y_champ"] == $this->view->user->y_braldun) {
+			if ($e["id_champ"] == $id_champ) {
 				$tabChamp = array(
 					'id_champ' => $e["id_champ"],
 					'commentaire_champ' => stripslashes($e["commentaire_champ"]),

@@ -26,6 +26,10 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 	}
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
+		Zend_Loader::loadClass('Bral_Util_Communaute');
+		Zend_Loader::loadClass('TypeLieuCommunaute');
+
 		if (!isset($this->idChamp)) {
 			$id_champ = (int)$this->request->get("valeur_1");
 		} else {
@@ -34,16 +38,15 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 
 		$champTable = new Champ();
 
-		if ($this->view->user->id_fk_communaute_braldun != null) {
-			Zend_Loader::loadClass('Bral_Util_Communaute');
-			Zend_Loader::loadClass('TypeLieuCommunaute');
-			Bral_Util_Communaute::possedeNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE, 1);
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+
+		if ($niveauGrenier != null && $niveauGrenier > 0) {
 			$champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
 		} else {
 			$champsRowset = $champTable->findByIdBraldun($this->view->user->id_braldun);
 		}
 
-		$this->view->estSurChamp == false;
+		$this->view->possedeChamp == false;
 
 		$tabChamp = null;
 		$id_metier = null;
@@ -61,12 +64,12 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					'date_fin_recolte_champ' => $e["date_fin_recolte_champ"],
 					'date_fin_seme_champ' => $e["date_fin_seme_champ"],
 					'quantite_champ' => $e["quantite_champ"],
+					'braldun' => $e['prenom_braldun'].' '.$e['nom_braldun'].' ('.$e['id_braldun'].')',
+					'nom_type_graine' => $e['nom_type_graine'],
 				);
 
-				if ($this->view->user->x_braldun == $e["x_champ"] &&
-				$this->view->user->y_braldun == $e["y_champ"] &&
-				$this->view->user->z_braldun == $e["z_champ"]) {
-					$this->view->estSurChamp = true;
+				if ($this->view->user->id_braldun == $e["id_braldun"]) {
+					$this->view->possedeChamp = true;
 				}
 				$this->prepareChamp($e);
 				break;
@@ -77,11 +80,12 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_braldun." ide:".$id_champ);
 		}
 
-		$this->prepareCompetences();
+		$this->prepareCompetences($niveauGrenier);
 		$this->view->champ = $tabChamp;
+		$this->view->niveauGrenier = $niveauGrenier;
 	}
 
-	private function prepareCompetences() {
+	private function prepareCompetences($niveauGrenier) {
 		Zend_Loader::loadClass("BraldunsCompetences");
 		$braldunsCompetencesTables = new BraldunsCompetences();
 		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
@@ -89,10 +93,11 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		$competence = null;
 		$tabCompetences = null;
 		$possedeEntretenir = false;
+		
 		foreach($braldunCompetences as $c) {
-			if ($c["nom_systeme_competence"] == "semer" ||
-			$c["nom_systeme_competence"] == "entretenir" ||
-			$c["nom_systeme_competence"] == "recolter") {
+			if (($c["nom_systeme_competence"] == "semer" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_SEMER)) ||
+			($c["nom_systeme_competence"] == "entretenir" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_ENTRETENIR)) ||
+			($c["nom_systeme_competence"] == "recolter" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER))) {
 				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
@@ -100,11 +105,12 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"pourcentage_init" => $c["pourcentage_init_competence"],
 				);
-			}
 
-			if ($c["nom_systeme_competence"] == "entretenir") {
-				$possedeEntretenir = true;
+				if ($c["nom_systeme_competence"] == "entretenir") {
+					$possedeEntretenir = true;
+				}
 			}
+				
 		}
 		$this->view->competences = $tabCompetences;
 		$this->view->possedeEntretenir = $possedeEntretenir;
@@ -157,7 +163,6 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		}
 		$this->view->tableau = $tableau;
 		$this->prepareTaupes($taupes);
-		$this->prepareRecolte($champ);
 	}
 
 	private function prepareTaupes($taupes) {
@@ -185,18 +190,6 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 			$toutes[$t["numero_champ_taupe"]][] = $t;
 		}
 		$this->view->toutes = $toutes;
-	}
-
-	private function prepareRecolte($champ) {
-		if ($champ["phase_champ"] != 'jachere') {
-			Zend_Loader::loadClass("TypeGraine");
-			$typeGraineTable = new TypeGraine();
-			$types = $typeGraineTable->findById($champ["id_fk_type_graine_champ"]);
-			if ($types == null) {
-				throw new Zend_Exception("Erreur Type Graine:".$champ["id_fk_type_graine_champ"]);
-			}
-			$this->view->typeGraine = $types->nom_type_graine;
-		}
 	}
 
 	function prepareFormulaire() {
