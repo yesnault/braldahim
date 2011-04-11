@@ -2,10 +2,11 @@
  <div class='comp_contenu'>
  	
  	<?php if ($this->user->balance_faim_braldun >= 2): ?>
- 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez récolter jusqu'à <?php echo $this->user->balance_faim_braldun ?> éléments dans votre champ.<br /><br />
+ 	Pour <?php echo $this->nb_pa ?> PA, vous pouvez récolter jusqu'à <?php echo $this->user->balance_faim_braldun ?> éléments dans le champ.<br /><br />
  	
 	 	<?php if ($this->recolterChampOk !== true) : ?>
-			Vous ne pouvez récolter un de vos champs qu'en étant dessus et il faut qu'il soit à l'état récoltable au préalable.
+			Vous ne pouvez récolter un champ qu'en étant dessus et il faut qu'il soit à l'état récoltable au préalable.
+			Ce champ doit vous appartenir, ou appartenir à un Braldûn de votre communauté (en ayant un grenier de niveau <?php echo Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER?> minimum).
 		<?php else: ?>
 			<select name="valeur_1" id="valeur_1" onchange="if (this.value != -1) { $('bouton_recolter').disabled=false; } else { $('bouton_recolter').disabled=true;}">
 		 		<option value="-1">(Choisissez une destination)</option>

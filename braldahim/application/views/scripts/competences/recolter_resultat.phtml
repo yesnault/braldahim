@@ -10,9 +10,7 @@ Vous avez récupéré <?php echo $this->recolte?>.<br /><br />
 
 <?php if ($this->taupesVivantes != null) : ?>
 	La récolte a été affectée par : <br />
-	
 	<?php foreach($this->taupesVivantes as $taille => $numero) : ?>
-	
 		<?php foreach($numero as $num => $foo) : ?>
 			1 taupe de taille <?php echo $taille?> (n°<?php echo $num?>)<br />
 		<?php endforeach;?>

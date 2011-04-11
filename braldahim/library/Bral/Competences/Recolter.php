@@ -9,6 +9,9 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Champ");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("TypeLieuCommunaute");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		if ($this->verificationChamp() == false) {
 			return null;
@@ -25,7 +28,14 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->view->recolterChampOk = false;
 
 		$champTable = new Champ();
-		$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
+
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+
+		if ($niveauGrenier != null && $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER) {
+			$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, null, $this->view->user->id_fk_communaute_braldun);
+		} else {
+			$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun);
+		}
 
 		$retour = false;
 		if (count($champs) == 1) {
@@ -33,6 +43,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			if ($this->view->champ["phase_champ"] == "a_recolter") {
 				$this->view->recolterChampOk = true;
 				$this->idChamp = $this->view->champ["id_champ"];
+				$this->idProprietaire = $this->view->champ["id_braldun"];
 				$retour = true;
 			}
 		}
@@ -92,6 +103,27 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
+		//message pour le braldûn propriétaire
+		if ($this->idProprietaire != $this->view->user->id_braldun) {
+			Zend_Loader::loadClass("Bral_Util_Messagerie");
+			$message = "[Ceci est un message automatique de récolte]".PHP_EOL;
+			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a récolté dans votre champ en x:".$this->view->champ["x_champ"].", y:".$this->view->champ["y_champ"].PHP_EOL;
+			$message .= "Récolte : ".$this->view->recolte.PHP_EOL;
+			if ($this->view->taupesVivantes != null) {
+				$message .= "La récolte a été affectée par : ".PHP_EOL;
+				foreach($this->view->taupesVivantes as $taille => $numero) {
+					foreach($numero as $num => $foo) {
+						$message .= "1 taupe de taille ".$taille." (n°".$num.")".PHP_EOL;
+					}
+				}
+			}
+			if ($this->view->champDetruit) {
+				$message .= "Il n'y a plus rien à récolter dans le champ, il est passé en jachère.".PHP_EOL;
+				$message .= "Vous pouvez maitenant re-semer votre champ si vous le souhaitez.".PHP_EOL;
+			}
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->idProprietaire, $message, $this->view);
+		}
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
@@ -115,7 +147,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			$typeTabacTable = new TypeTabac();
 			$quantiteFeuille = floor($quantiteKg);
 			$typeTabac = $typeTabacTable->findById($typeGraine->id_fk_type_tabac_type_graine);
-			
+
 			$this->view->placeDispo = true;
 
 			$this->view->recolte = $quantiteFeuille. " feuilles ".$typeTabac->nom_court_type_tabac;
@@ -261,7 +293,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_ingredient"] = $this->view->charrette["id_charrette"];
 		} elseif ($idDestination == "sol") {
-			$data["x_element_ingredient"] = $this->view->user->x_braldun; 
+			$data["x_element_ingredient"] = $this->view->user->x_braldun;
 			$data["y_element_ingredient"] = $this->view->user->y_braldun;
 		} else {
 			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
@@ -276,7 +308,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 				"id_fk_type_".$suffixe."_ingredient" => $idTypeIngredient,
 				"quantite_".$suffixe."_ingredient" => $quantiteSol,
 			);
-			$data["x_element_ingredient"] = $this->view->user->x_braldun; 
+			$data["x_element_ingredient"] = $this->view->user->x_braldun;
 			$data["y_element_ingredient"] = $this->view->user->y_braldun;
 			$table->insertOrUpdate($data);
 		}

@@ -54,7 +54,7 @@ class Champ extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z, $idBraldun = null, $phaseChamp = null) {
+	function findByCase($x, $y, $z, $idBraldun = null, $phaseChamp = null, $idCommunaute = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
@@ -75,6 +75,10 @@ class Champ extends Zend_Db_Table {
 
 		if ($phaseChamp != null) {
 			$select->where("phase_champ = ?", $phaseChamp);
+		}
+
+		if ($idCommunaute != null) {
+			$select->where("id_fk_communaute_braldun = ?", $idCommunaute);
 		}
 
 		$sql = $select->__toString();
@@ -99,7 +103,7 @@ class Champ extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByIdCommunaute($idCommunaute) {
 		$db = $this->getAdapter();
 		$select = $db->select();
