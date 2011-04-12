@@ -7,6 +7,9 @@
  */
 class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function getTitre() {
 		return null;
 	}
@@ -248,7 +251,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 			$details = "[b".$idBraldun."]";
 			$detailsBot = "";
-				
+
 			if ($this->view->user->sexe_braldun == "feminin") {
 				$pronom = "Elle";
 				$e = "e";
@@ -264,7 +267,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				$type = TypeEvenementCommunaute::ID_TYPE_RANG_MEMBRE;
 				$detailsBot .= "[b".$idBraldun."] a changé de rang.".PHP_EOL.PHP_EOL;
 			}
-				
+
 			$detailsBot .= $pronom." occupe le rang : ".$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
 			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
 

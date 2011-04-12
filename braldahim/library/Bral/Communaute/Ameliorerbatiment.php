@@ -15,6 +15,9 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		return "Améliorer un bâtiment";
 	}
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function prepareCommun() {
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);

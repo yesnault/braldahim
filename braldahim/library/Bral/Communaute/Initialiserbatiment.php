@@ -7,6 +7,9 @@
  */
 class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function getNomInterne() {
 		return "box_action";
 	}
@@ -23,11 +26,11 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la Communauté ". $this->view->user->rangCommunaute);
 		}
-		
+
 		if (!Bral_Util_Communaute::estSurHall((int)$this->view->user->x_braldun, (int)$this->view->user->y_braldun, (int)$this->view->user->z_braldun, (int)$this->view->user->id_fk_communaute_braldun)) {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas sur le hall de la Communauté");
 		}
-		
+
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Palissade');
 

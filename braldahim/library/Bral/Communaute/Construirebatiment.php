@@ -7,6 +7,9 @@
  */
 class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function getNomInterne() {
 		return "box_action";
 	}

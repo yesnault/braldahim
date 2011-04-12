@@ -7,6 +7,9 @@
  */
 class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function getTitre() {
 		return null;
 	}
@@ -108,7 +111,7 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		$rangCommunauteTable = new RangCommunaute();
 		$rang = $rangCommunauteTable->findByIdRang($idRang);
 		$rang = $rang[0];
-		
+
 		$titreAvant = $rang["nom_rang_communaute"];
 		$descriptionAvant = $rang["description_rang_communaute"];
 		$ordre = $rang["ordre_rang_communaute"];
@@ -117,32 +120,32 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		$where = " id_rang_communaute=".intval($idRang);
 		$where .= " AND id_fk_communaute_rang_communaute=".$this->communaute["id_communaute"];
 		$rangCommunauteTable->update($data, $where);
-		
+
 		$rang = $rangCommunauteTable->findByIdRang($idRang);
 		$rang = $rang[0];
 		$titreApres = $rang["nom_rang_communaute"];
 		$descriptionApres = $rang["description_rang_communaute"];
-		
+
 		Zend_Loader::loadClass("TypeEvenementCommunaute");
 		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
-		
+
 		$details = "Rang n°".$ordre. " (".$titre.")";
 		$detailsBot = "Rang n°".$ordre.PHP_EOL;
-		
+
 		if ($titre == "Description") {
 			$detailsBot .= "Modification de la description du rang.".PHP_EOL;
 		} else {
 			$detailsBot .= "Modification du titre du rang.".PHP_EOL;
 		}
-		
+
 		$detailsBot .= "Anciennes valeurs : ".PHP_EOL."Titre:".$titreAvant.PHP_EOL;
 		$detailsBot .= "Description:".$descriptionAvant.PHP_EOL.PHP_EOL;
-		
+
 		$detailsBot .= "Nouvelles valeurs : ".PHP_EOL."Titre:".$titreApres.PHP_EOL;
 		$detailsBot .= "Description:".$descriptionApres.PHP_EOL.PHP_EOL;
-		
+
 		$detailsBot .= PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
 		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_RANG_LIBELLE, $details, $detailsBot, $this->view);
-		
+
 	}
 }

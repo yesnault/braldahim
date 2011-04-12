@@ -7,6 +7,11 @@
  */
 class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {
+		$this->view->display = $display;
+	}
+
 	function getTitre() {
 		return null;
 	}
@@ -35,9 +40,6 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		return "box_communaute_action";
 	}
 
-	function setDisplay($display) {
-		$this->view->display = $display;
-	}
 
 	function preparePage() {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
@@ -140,19 +142,19 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 		}
 
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $nouveauGestionnaire['id_braldun'], $message, $this->view);
-		
+
 		Zend_Loader::loadClass("TypeEvenementCommunaute");
 		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
-		
+
 		$details = "[b".$nouveauGestionnaire['id_braldun']."]";
 		$detailsBot = "[b".$nouveauGestionnaire['id_braldun']."] est ";
-		
+
 		if ($nouveauGestionnaire['sexe_braldun'] == "feminin") {
 			$detailsBot .= " devenue la nouvelle gestionnaire.".PHP_EOL;
 		} else {
 			$detailsBot .= " devenu le nouveau gestionnaire.".PHP_EOL;
 		}
-		
+
 		$detailsBot .= PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
 		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_GESTIONNAIRE, $details, $detailsBot, $this->view);
 

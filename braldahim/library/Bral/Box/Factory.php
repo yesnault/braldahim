@@ -45,6 +45,15 @@ class Bral_Box_Factory {
 			case "box_communaute" :
 				return self::getCommunaute($request, $view, $interne);
 				break;
+			case "box_communaute_batiments" :
+				return self::getCommunauteBatiments($request, $view, $interne);
+				break;
+			case "box_communaute_coffre" :
+				return self::getCommunauteCoffre($request, $view, $interne);
+				break;
+			case "box_communaute_membres" :
+				return self::getCommunauteMembres($request, $view, $interne);
+				break;
 			case "box_competences_basiques" :
 				return self::getCompetencesBasic($request, $view, $interne);
 				break;
@@ -143,18 +152,6 @@ class Bral_Box_Factory {
 		return new Bral_Box_Champs($request, $view, $interne);
 	}
 
-	static function getBbois($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Boutique");
-		Zend_Loader::loadClass("Bral_Box_Bbois");
-		return new Bral_Box_Bbois($request, $view, $interne);
-	}
-
-	static function getBminerais($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Boutique");
-		Zend_Loader::loadClass("Bral_Box_Bminerais");
-		return new Bral_Box_Bminerais($request, $view, $interne);
-	}
-
 	static function getBtabac($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Btabac");
@@ -176,6 +173,21 @@ class Bral_Box_Factory {
 	static function getCommunaute($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute");
 		return new Bral_Box_Communaute($request, $view, $interne);
+	}
+
+	static function getCommunauteBatiments($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Batiments");
+		return new Bral_Box_Communaute_Batiments($request, $view, $interne);
+	}
+
+	static function getCommunauteCoffre($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Coffre");
+		return new Bral_Box_Communaute_Coffre($request, $view, $interne);
+	}
+
+	static function getCommunauteMembres($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Membres");
+		return new Bral_Box_Communaute_Membres($request, $view, $interne);
 	}
 
 	static function getCompetencesBasic($request, $view, $interne) {

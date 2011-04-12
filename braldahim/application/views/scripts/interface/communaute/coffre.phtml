@@ -1,26 +1,38 @@
+<?php echo $this->render("/interface/box_header.phtml") ?>
 <br />
 <div class="titre textalic textsizec">Coffre de Communauté</div><br />
 
-<?php
-	if ($this->estSurHall) :
-      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=11&valeur_2=12')\"";
-    else:
-      $attr = "disabled";
-    endif;?>
+<?php if ($this->affichageInterne == true) : ?>
+	
+	<?php
+		if ($this->estSurHall) :
+	      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=11&valeur_2=12')\"";
+	    else:
+	      $attr = "disabled";
+	    endif;?>
+	
+	<?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
+		<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">
+	<?php endif;?>
+	
+	<?php echo $this->render('interface/commun/poches.phtml'); ?>
+	
+	<hr />
+	
+	<div class="titre textalic textsizec">Les réservations et mise en vente</div>
+	<br />
+	
+	<?php 
+	$this->estElementsEtalAchat = true;
+	$this->pocheNomSysteme = "ReservationsCommunaute";
+	?>
+	<?php echo $this->render("/interface/commun/lots.phtml"); ?>
 
-<?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
-	<input type="button" class='button1' <?php echo $attr?> value="0 PA - Créer une réservation">
-<?php endif;?>
 
-<?php echo $this->render('interface/commun/poches.phtml'); ?>
+<?php else: ?>
+	Chargement en cours
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
 
-<hr />
 
-<div class="titre textalic textsizec">Les réservations et mise en vente</div>
-<br />
-
-<?php 
-$this->estElementsEtalAchat = true;
-$this->pocheNomSysteme = "ReservationsCommunaute";
-?>
-<?php echo $this->render("/interface/commun/lots.phtml"); ?>
+<?php echo $this->render("/interface/box_bottom.phtml") ?>

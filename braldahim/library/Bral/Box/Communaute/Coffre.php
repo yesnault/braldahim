@@ -5,19 +5,18 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
+class Bral_Box_Communaute_Coffre extends Bral_Box_Box {
 
-	function prepareCommun() {}
-	function prepareFormulaire() {}
-	function prepareResultat() {}
-	function getListBoxRefresh() {}
-
-	function getNomInterne() {
-		return "box_communaute_action";
+	function getTitreOnglet() {
+		return "Coffre";
 	}
 
-	function getTitre() {
-		return "";
+	function getNomInterne() {
+		return "box_communaute_coffre";
+	}
+
+	function getChargementInBoxes() {
+		return false;
 	}
 
 	function setDisplay($display) {
@@ -25,7 +24,14 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->prepareData();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/communaute/coffre.phtml");
+	}
 
+	function prepareData() {
 		Zend_Loader::loadClass('Bral_Util_Lot');
 		Zend_Loader::loadClass('Bral_Util_Poids');
 		Zend_Loader::loadClass('Bral_Util_String');
@@ -58,9 +64,9 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 		// passage par reference de tabMetiers et this->view
 		Bral_Util_Coffre::prepareData($tabMetiers, $this->view, null, $this->view->user->id_fk_communaute_braldun);
 
-		
+
 		$this->view->estSurHall = $estSurHall;
-		
+
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->tabBraldunMetiers = null;
 
@@ -73,6 +79,5 @@ class Bral_Communaute_Coffre extends Bral_Communaute_Communaute {
 		$this->view->nb_castars = $this->view->coffre["nb_castar"];
 
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute/coffre.phtml");
 	}
 }

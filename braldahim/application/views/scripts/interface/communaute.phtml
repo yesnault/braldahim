@@ -24,9 +24,8 @@
   		<hr />
   		
   		<?php if ($this->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
-  			<?php include("communaute/batiments.phtml") ?>
+  			<?php include("box_onglets.phtml") ?>
   			<hr />
-  			<input type='button' class='button1' value='Coffre et Réservations' onclick='_get_("/communaute/doaction?caction=ask_communaute_coffre");'>
   		<?php else: ?>
   			En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
   		<?php endif; ?>

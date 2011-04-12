@@ -5,33 +5,45 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
+class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 
-	function getTitre() {
-		return null;
-	}
-
-	function getListBoxRefresh() {}
-
-	function prepareCommun() {
-		Zend_Loader::loadClass("Communaute");
-		Zend_Loader::loadClass("RangCommunaute");
-
-		$this->preparePage();
+	function getTitreOnglet() {
+		return "Membres";
 	}
 
 	function getNomInterne() {
-		return "box_communaute_action";
+		return "box_communaute_membres";
 	}
 
-	function prepareFormulaire() {}
-	function prepareResultat() {}
+	function getChargementInBoxes() {
+		return false;
+	}
 
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
 
+	function getListBoxRefresh() {}
+
+	function prepareCommun() {
+	}
+
+	function prepareFormulaire() {}
+	function prepareResultat() {}
+
 	function render() {
+		Zend_Loader::loadClass("Communaute");
+		Zend_Loader::loadClass("RangCommunaute");
+
+		if ($this->view->affichageInterne) {
+			$this->preparePage();
+			$this->prepareData();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/communaute/membres.phtml");
+	}
+
+	function prepareData() {
 		$communaute = null;
 		$this->view->tri = "";
 		$this->view->filtre = "";
@@ -100,7 +112,6 @@ class Bral_Communaute_Membres extends Bral_Communaute_Communaute {
 		$this->view->tabMembres = $tabMembres;
 		$this->view->nbMembresTotal = $nbMembresTotal;
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute/membres.phtml");
 	}
 
 	private function preparePage() {

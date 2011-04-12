@@ -7,6 +7,9 @@
  */
 class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 
+	function getTitreOnglet() {}
+	function setDisplay($display) {}
+
 	function getTitre() {
 		return null;
 	}

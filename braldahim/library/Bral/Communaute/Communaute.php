@@ -7,7 +7,7 @@
  */
 abstract class Bral_Communaute_Communaute {
 
-	function __construct($nomSystemeAction, $request, $view, $action) {
+	function __construct($nomSystemeAction, $request, $view, $action, $interne = null) {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
 
 		$this->view = $view;
@@ -22,6 +22,8 @@ abstract class Bral_Communaute_Communaute {
 		$this->calculNbPa();
 
 		switch($this->action) {
+			case "box" :
+				break;
 			case "ask" :
 				$this->prepareFormulaire();
 				break;
@@ -35,7 +37,10 @@ abstract class Bral_Communaute_Communaute {
 
 	abstract function getTitre();
 	abstract function getListBoxRefresh();
-	
+	abstract function getTitreOnglet();
+	abstract function setDisplay($display) ;
+	abstract function getNomInterne();
+
 	public function getIdEchoppeCourante() {
 		return false;
 	}

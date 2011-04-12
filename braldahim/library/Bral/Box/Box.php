@@ -19,6 +19,7 @@ abstract class Bral_Box_Box {
 	}
 
 	abstract function getTitreOnglet();
+	abstract function setDisplay($display) ;
 	abstract function getNomInterne();
 
 	function getChargementInBoxes() {
@@ -29,6 +30,5 @@ abstract class Bral_Box_Box {
 		return $this->tablesHtmlTri;
 	}
 
-	abstract function setDisplay($display) ;
 	abstract function render() ;
 }
