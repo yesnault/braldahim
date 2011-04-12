@@ -213,7 +213,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false, $idTypeLieuCommunaute = null, $niveauMin = null) {
+	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false, $idTypeLieu = null, $niveauMin = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -230,8 +230,8 @@ class Lieu extends Zend_Db_Table {
 			$select->where('z_lieu = ?',$z);
 		}
 
-		if ($idTypeLieuCommunaute != null) {
-			$select->where('type_lieu.id_fk_type_lieu_communaute_type_lieu = ?', intval($idTypeLieuCommunaute));
+		if ($idTypeLieu != null) {
+			$select->where('type_lieu.id_type_lieu = ?', intval($idTypeLieu));
 		}
 
 		if ($niveauMin != null) {

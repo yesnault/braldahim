@@ -61,6 +61,8 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 		$tabBox[] = Bral_Box_Factory::getCommunauteBatiments($this->_request, $this->view, true);
 		$tabBox[] = Bral_Box_Factory::getCommunauteCoffre($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getCommunauteMembres($this->_request, $this->view, false);
+		$tabBox[] = Bral_Box_Factory::getCommunauteEvenements($this->_request, $this->view, false);
+		$tabBox[] = Bral_Box_Factory::getCommunauteGestion($this->_request, $this->view, false);
 
 		$liste = "";
 		$data = "";

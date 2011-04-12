@@ -1,5 +1,6 @@
 <?php echo $this->render("/interface/box_header.phtml") ?>
-<div class="titre textalia textsizec">Bâtiments de Communauté</div><br />
+<br />
+<div class="titre textalic textsizec">Bâtiments de Communauté</div><br />
 
 L'initialisation ou l'amélioration d'un bâtiment s'effectue dans l'onglet Lieu, en étant positionné sur votre Hall de Communauté. <br />
 Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
@@ -12,12 +13,10 @@ et utiliser l'action Construire (onglet Lieu).<br />
 		<thead class="table_liste">
 		  <tr class="table_liste">
 		  	<th>&nbsp;</th>
-			<th>Type</th>
-			<th>Nom</th>
-			<th>Amélioration en cours ?</th>
-			<th>Niveau actuel</th>
-			<th>Niveau à atteindre</th>
-			<th colspan='2'>Progression</th>
+			<th>Type : Nom</th>
+			<th>Amélioration<br/>en cours ?</th>
+			<th nowrap>Niveau <br />actuel =&gt; <br />à atteindre</th>
+			<th>Progression</th>
 			<th>Coût d'entretien</th>
 			<th>Coût niveau suivant</th>
 		  </tr>
@@ -31,8 +30,7 @@ et utiliser l'action Construire (onglet Lieu).<br />
 		<tbody>
 		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 				<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/batiments/<?php echo $batiment["nom_systeme_type_lieu"] ?>.png' /></td>
-		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu_communaute"] ?></td>
-		  		<td class="table_liste"><?php echo $batiment["nom_type_lieu"] ?></td>
+		  		<td class="table_liste" style="text-align:left" nowrap><?php echo $batiment["nom_type_lieu_communaute"] ?> : <?php echo $batiment["nom_type_lieu"] ?></td>
 		  		<td class="table_liste">
 			  		<?php if ($batiment["niveau_lieu"] != $batiment["niveau_prochain_lieu"]) : ?>
 			  			oui
@@ -40,16 +38,13 @@ et utiliser l'action Construire (onglet Lieu).<br />
 			  			non
 			  		<?php endif;?>
 		  		</td>
-		  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?></td>
-		  		<td class="table_liste"><?php echo $batiment["niveau_prochain_lieu"] ?></td>
+		  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?> =&gt; <?php echo $batiment["niveau_prochain_lieu"] ?></td>
 				<td class="table_liste">
+				<?php echo $batiment["nb_pa_depenses_lieu"]." / ". $couts['cout_pa'] ?> PA <br />
 				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"]); ?>
+				
+				<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars <br />
 				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"]); ?>
-				</td>
-				<td class="table_liste" nowrap>
-		  		<?php echo $batiment["nb_pa_depenses_lieu"]." / ". $couts['cout_pa'] ?> PA
-				<br />
-				<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars
 				</td>
 				<td class="table_liste"><?php echo $coutsEntretien['cout_castar']?> Castars</td>
 				<td class="table_liste">

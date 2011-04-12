@@ -34,6 +34,9 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 	function render() {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("Bral_Helper_Profil");
 
 		if ($this->view->affichageInterne) {
 			$this->preparePage();
@@ -67,16 +70,54 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
+		$niveauBarraquement = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_BARAQUEMENT);
+
 		foreach($braldunRowset as $m) {
 			$tabMembres[] = array(
 				"id_braldun" => $m["id_braldun"],
 				"nom_braldun" => $m["nom_braldun"],
 				"prenom_braldun" => $m["prenom_braldun"],
 				"niveau_braldun" => $m["niveau_braldun"],
+				"x_braldun" => $m["x_braldun"],
+				"y_braldun" => $m["y_braldun"],
+				"z_braldun" => $m["z_braldun"],
+				
+				"pa_braldun" => $m["pa_braldun"],
+				"date_fin_tour_braldun" => $m["date_fin_tour_braldun"],
+				
+				"pv_restant_braldun" => $m["pv_restant_braldun"],
+				"vigueur_base_braldun" => $m["vigueur_base_braldun"],
+				"pv_max_bm_braldun" => $m["pv_max_bm_braldun"],
+				
+				"duree_prochain_tour_braldun" => $m["duree_prochain_tour_braldun"],
+				"duree_courant_tour_braldun" => $m["duree_courant_tour_braldun"],
+				"date_debut_tour_braldun" => $m["date_debut_tour_braldun"],
+				"date_fin_latence_braldun" => $m["date_fin_latence_braldun"],
+				"date_debut_cumul_braldun" => $m["date_debut_cumul_braldun"],
+				"date_fin_tour_braldun" => $m["date_fin_tour_braldun"],
+				
+
 				"date_entree" => $m["date_entree_communaute_braldun"],
 				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
+				
+				"force_base_braldun" => $m["force_base_braldun"],
+				"agilite_base_braldun" => $m["agilite_base_braldun"],
+				"vigueur_base_braldun" => $m["vigueur_base_braldun"],
+				"sagesse_base_braldun" => $m["sagesse_base_braldun"],
+				
+				"force_bm_braldun" => $m["force_bm_braldun"],
+				"agilite_bm_braldun" => $m["agilite_bm_braldun"],
+				"vigueur_bm_braldun" => $m["vigueur_bm_braldun"],
+				"sagesse_bm_braldun" => $m["sagesse_bm_braldun"],
+				
+				"force_bbdf_braldun" => $m["force_bbdf_braldun"],
+				"agilite_bbdf_braldun" => $m["agilite_bbdf_braldun"],
+				"vigueur_bbdf_braldun" => $m["vigueur_bbdf_braldun"],
+				"sagesse_bbdf_braldun" => $m["sagesse_bbdf_braldun"],
+				
+				"vue_bm_braldun" => $m["vue_bm_braldun"],
 			);
 		}
 
@@ -117,21 +158,21 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 	private function preparePage() {
 		$this->_page = 1;
 
-		if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "f")) {
+		if (($this->_request->get("box") == "box_communaute_membres") && ($this->_request->get("valeur_1") == "f")) {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "p")) {
+		} else if (($this->_request->get("box") == "box_communaute_membres") && ($this->_request->get("valeur_1") == "p")) {
 			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "s")) {
+		} else if (($this->_request->get("box") == "box_communaute_membres") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "o")) {
+		} else if (($this->_request->get("box") == "box_communaute_membres") && ($this->_request->get("valeur_1") == "o")) {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6")) + 1;

@@ -57,7 +57,7 @@ class Bral_Communaute_Retirerlot extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_evenements_communaute");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements");
 		return $tab;
 	}
 

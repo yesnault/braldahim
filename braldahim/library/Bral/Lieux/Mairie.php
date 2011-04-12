@@ -141,7 +141,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban", "box_competences_metiers", "box_communaute",  "box_evenements_communaute"));
+		return $this->constructListBoxRefresh(array("box_laban", "box_competences_metiers", "box_communaute",  "box_communaute_evenements"));
 	}
 
 	private function calculCoutCastars() {

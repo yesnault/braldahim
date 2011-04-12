@@ -1,0 +1,30 @@
+<?php echo $this->render("/interface/box_header.phtml") ?>
+<br />
+<?php if ($this->affichageInterne == true) : ?>
+
+	<div class="titre textalic textsizec">Gestion</div>
+	
+	<?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_ADJOINT) : ?>
+  		Vous avez des droits de gestion : <br />
+  		<input type='button' class='button1' value='G&eacute;rer les membres' onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres");'>
+  		<input type='button' class='button1' value='G&eacute;rer les rangs' onclick='_get_("/communaute/doaction?caction=ask_communaute_rangs");'>
+  		<input type='button' class='button1' value='Modifier la description / site web' onclick='_get_("/communaute/doaction?caction=ask_communaute_description");'>
+  		<?php if ($this->user->rangCommunaute == Bral_Util_Communaute::ID_RANG_GESTIONNAIRE) : ?>
+  			<br />
+  			Vous &ecirc;tes le gestionnaire  de cette communaut&eacute;, vous avez accès aux actions suivantes : <br />
+			<input type='button' class='button1' value='Modifier le Gestionnaire' onclick='_get_("/communaute/doaction?caction=ask_communaute_gestionnaire");'>
+  		<?php endif; ?>
+  		
+  		<div id="box_communaute_gestion"></div>
+  	
+  	<?php else: ?>
+  		Vous n'avez aucun droit de gestion.
+	<?php endif; ?>
+  		
+<?php else: ?>
+	Chargement en cours
+	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+<?php endif; ?>
+
+
+<?php echo $this->render("/interface/box_bottom.phtml") ?>

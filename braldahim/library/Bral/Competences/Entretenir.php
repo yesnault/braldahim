@@ -10,7 +10,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Champ");
 		Zend_Loader::loadClass("Bral_Util_Communaute");
-		Zend_Loader::loadClass("TypeLieuCommunaute");
+		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		if ($this->verificationChamp() == false) {
@@ -26,7 +26,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 		$champTable = new Champ();
 
-		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_GRENIER);
 
 		if ($niveauGrenier != null && $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER) {
 			$champs = $champTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, null, null, $this->view->user->id_fk_communaute_braldun);

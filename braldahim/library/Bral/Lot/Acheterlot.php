@@ -414,7 +414,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		}
 
 		if ($this->view->user->id_fk_communaute_braldun != null) {
-			$tab[] = "box_evenements_communaute";
+			$tab[] = "box_communaute_evenements";
 		}
 		return $tab;
 	}

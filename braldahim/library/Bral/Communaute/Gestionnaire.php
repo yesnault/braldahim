@@ -8,6 +8,7 @@
 class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 
 	function getTitreOnglet() {}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
@@ -17,7 +18,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_evenements_communaute");
+		return array("box_communaute_evenements");
 	}
 
 	function prepareCommun() {
@@ -37,9 +38,8 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	function prepareResultat() {}
 
 	function getNomInterne() {
-		return "box_communaute_action";
+		return "box_communaute_gestion";
 	}
-
 
 	function preparePage() {
 		Zend_Loader::loadClass('Bral_Util_Communaute');

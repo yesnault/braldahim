@@ -115,13 +115,15 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 		$tabTypesLieux = null;
 		foreach($typesLieux as $t) {
-			$display = false;
+			$display = null;
 			foreach($lieux as $l) { // si dans les lieux, il y a déjà un lieu de même type
-				if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
+				if ($t["id_type_lieu"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
 					// on ne pourra pas construire un bâtiment du même type une seconde fois
-					continue;
+					$display = false;
 				} else if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["niveau_lieu"] >= $t["niveau_type_dependance"]) {
-					$display = true;
+					if ($display !== false) {
+						$display = true;
+					}
 				}
 			}
 			if ($display) {
@@ -222,7 +224,7 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_evenements_communaute");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements");
 		if ($this->view->nomLieu != null) {
 			$tab[] = "box_vue";
 		}

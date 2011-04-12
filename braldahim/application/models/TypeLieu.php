@@ -39,6 +39,13 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_MINE = 28;
 	const ID_TYPE_PUIT = 29;
 	const ID_TYPE_HALL = 30;
+	const ID_TYPE_GRENIER = 31;
+	const ID_TYPE_TEMPLE = 32;
+	const ID_TYPE_MARCHE = 33;
+	const ID_TYPE_INFIRMERIE = 34;
+	const ID_TYPE_BARAQUEMENT = 35;
+	const ID_TYPE_TRIBUNE = 36;
+	const ID_TYPE_ATELIER = 37;
 
 	public function findByTypeCommunaute() {
 		$db = $this->getAdapter();

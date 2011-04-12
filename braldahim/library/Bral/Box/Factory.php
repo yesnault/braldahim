@@ -15,15 +15,6 @@ class Bral_Box_Factory {
 			case "box_blabla" :
 				return self::getBlabla($request, $view, $interne);
 				break;
-			case "box_bbois" :
-				return self::getBbois($request, $view, $interne);
-				break;
-			case "box_bminerais" :
-				return self::getBminerais($request, $view, $interne);
-				break;
-			case "box_bpartieplantes" :
-				return self::getBpartieplantes($request, $view, $interne);
-				break;
 			case "box_bpeaux" :
 				return self::getBpeaux($request, $view, $interne);
 				break;
@@ -50,6 +41,12 @@ class Bral_Box_Factory {
 				break;
 			case "box_communaute_coffre" :
 				return self::getCommunauteCoffre($request, $view, $interne);
+				break;
+			case "box_communaute_evenements" :
+				return self::getCommunauteEvenements($request, $view, $interne);
+				break;
+			case "box_communaute_gestion" :
+				return self::getCommunauteGestion($request, $view, $interne);
 				break;
 			case "box_communaute_membres" :
 				return self::getCommunauteMembres($request, $view, $interne);
@@ -86,9 +83,6 @@ class Bral_Box_Factory {
 				break;
 			case "box_evenements" :
 				return self::getEvenements($request, $view, $interne);
-				break;
-			case "box_evenements_communaute" :
-				return self::getEvenementsCommunaute($request, $view, $interne);
 				break;
 			case "box_famille" :
 				return self::getFamille($request, $view, $interne);
@@ -158,18 +152,6 @@ class Bral_Box_Factory {
 		return new Bral_Box_Btabac($request, $view, $interne);
 	}
 
-	static function getBpartieplantes($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Boutique");
-		Zend_Loader::loadClass("Bral_Box_Bpartieplantes");
-		return new Bral_Box_Bpartieplantes($request, $view, $interne);
-	}
-
-	static function getBpeaux($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Boutique");
-		Zend_Loader::loadClass("Bral_Box_Bpeaux");
-		return new Bral_Box_Bpeaux($request, $view, $interne);
-	}
-
 	static function getCommunaute($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute");
 		return new Bral_Box_Communaute($request, $view, $interne);
@@ -183,6 +165,16 @@ class Bral_Box_Factory {
 	static function getCommunauteCoffre($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute_Coffre");
 		return new Bral_Box_Communaute_Coffre($request, $view, $interne);
+	}
+
+	static function getCommunauteEvenements($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Evenements");
+		return new Bral_Box_Communaute_Evenements($request, $view, $interne);
+	}
+
+	static function getCommunauteGestion($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Gestion");
+		return new Bral_Box_Communaute_Gestion($request, $view, $interne);
 	}
 
 	static function getCommunauteMembres($request, $view, $interne) {
@@ -260,11 +252,6 @@ class Bral_Box_Factory {
 	public static function getEvenements($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Evenements");
 		return new Bral_Box_Evenements($request, $view, $interne);
-	}
-
-	public static function getEvenementsCommunaute($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_EvenementsCommunaute");
-		return new Bral_Box_EvenementsCommunaute($request, $view, $interne);
 	}
 
 	public static function getErreur($request, $view, $interne, $message) {

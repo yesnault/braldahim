@@ -36,7 +36,7 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 	function prepareResultat() {}
 
 	function getNomInterne() {
-		return "box_communaute_action";
+		return "box_communaute_gestion";
 	}
 
 	function setDisplay($display) {

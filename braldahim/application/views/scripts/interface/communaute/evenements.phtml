@@ -1,8 +1,5 @@
-<?php include("box_header.phtml") ?>
-<div class="inner">
-<div class="titre textalia textsizeb">Événements de ma Communauté</div>
- <div class="contenuC">
- 
+<?php echo $this->render("/interface/box_header.phtml") ?>
+ <br />
  <?php if ($this->user->rangCommunaute == Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
  	<div class="box_contenu1 textalic">
  	En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
@@ -10,9 +7,9 @@
  <?php elseif ($this->affichageInterne == true) : ?>
 	 <?php 
 	 $this->estCommunaute = true;
-	 include("evenements/publiques.phtml") ?>
+	 echo $this->render("/interface/evenements/publiques.phtml") ?>
 	<br />
-	 <?php include("evenements/bot.phtml") ?>
+	 <?php echo $this->render("/interface/evenements/bot.phtml") ?>
 <?php else: ?>
 	<div class="box_contenu1 textalic">
 	Chargement en cours
@@ -20,6 +17,4 @@
 	</div>
 <?php endif; ?>
 
- </div>
-</div>
-<?php include("box_bottom.phtml") ?>
+<?php echo $this->render("/interface/box_bottom.phtml") ?>

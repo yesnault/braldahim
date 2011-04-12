@@ -128,7 +128,7 @@ class Bral_Util_Communaute {
 	 * @param int $idCommunaute
 	 * @param int $idTypeLieuCommunaute
 	 */
-	public static function getNiveauDuLieu($idCommunaute, $idTypeLieuCommunaute) {
+	public static function getNiveauDuLieu($idCommunaute, $idTypeLieu) {
 		$retour = null;
 		
 		if ($idCommunaute == null) {
@@ -137,7 +137,7 @@ class Bral_Util_Communaute {
 		
 		Zend_Loader::loadClass("Lieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieuCommunaute);
+		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieu);
 		if ($lieux != null && count($lieux) > 0) {
 			$retour = $lieux[0]['niveau_lieu'];
 		}

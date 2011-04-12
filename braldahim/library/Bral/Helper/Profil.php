@@ -124,7 +124,7 @@ class Bral_Helper_Profil {
 		return $retour;
 	}
 
-	public static function afficheBarreVie($pv_restant_braldun, $pv_base, $vigueur_base_braldun, $pv_max_coef, $pv_max_bm_braldun, $duree_prochain_tour_braldun) {
+	public static function afficheBarreVie($pv_restant_braldun, $pv_base, $vigueur_base_braldun, $pv_max_coef, $pv_max_bm_braldun, $duree_prochain_tour_braldun, $pourCommunaute = false) {
 
 		$totalPvSansBm = $pv_base + $vigueur_base_braldun * $pv_max_coef;
 		$totalPv = $totalPvSansBm + $pv_max_bm_braldun;
@@ -134,7 +134,12 @@ class Bral_Helper_Profil {
 		if ($pv_max_bm_braldun >= 0) {
 			$plus = "+";
 		}
-		$texte = "Vous avez ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br /><br />";
+
+		if ($pourCommunaute) {
+			$texte = "Reste : ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br /><br />";
+		} else {
+			$texte = "Vous avez ".$pv_restant_braldun." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_braldun.") PV.<br /><br />";
+		}
 
 		$pourcentage = $pv_restant_braldun * 100 / $totalPv;
 
@@ -158,6 +163,10 @@ class Bral_Helper_Profil {
 			$info = "Mais pourquoi vous prenez ma taille ? et c'est quoi toutes ces planches ?";
 		}
 
+		if ($pourCommunaute) {
+			$info = "Sa petite pensée : <br />".$info;
+		}
+
 		if ($pourcentage < 100) {
 			$minutesCourant = Bral_Util_ConvertDate::getMinuteFromHeure($duree_prochain_tour_braldun);// - 10 * $this->braldun->sagesse_base_braldun;
 			$minutesAAjouter = floor($minutesCourant / (4 * $totalPvSansBm)) * ($totalPvSansBm - $pv_restant_braldun);
@@ -174,7 +183,13 @@ class Bral_Helper_Profil {
 			$largeur = self::COEF_TAILLE * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
 		}
 
-		$retour = "<div class='barre_vie braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$suffixe = "";
+		if ($pourCommunaute) {
+			$largeur = $largeur * 0.25;
+			$suffixe = "_communaute";
+		}
+
+		$retour = "<div class='barre_vie".$suffixe." braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "</div></div>";
 
 		return $retour;
@@ -186,15 +201,36 @@ class Bral_Helper_Profil {
 
 		$texte = "";
 		$titre = "Avancement et informations";
+		$suffixeCss = "";
+		$coefBase = 1;
 
-		$texte .= " Position tour courant : ".$braldun->nom_tour."<br /><br />";
-		$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br />";
-		$texte .= " Position dans le tour : ".$braldun->nom_tour."<br /><br />";
+		$c = "stdClass";
+		if ($braldun instanceof $c) {
 
-		$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_tour_braldun)."<br />";
-		$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_latence_braldun)."<br />";
-		$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_debut_cumul_braldun)."<br />";
-		$texte .= " Date limite d'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$braldun->date_fin_tour_braldun)."<br /><br />";
+			$texte .= " Position tour courant : ".$braldun->nom_tour."<br /><br />";
+			$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br />";
+			$texte .= " Position dans le tour : ".$braldun->nom_tour."<br /><br />";
+
+			$dateDebutTourBraldun = $braldun->date_debut_tour_braldun;
+			$dateFinLatenceBraldun = $braldun->date_fin_latence_braldun;
+			$dateDebutCumulBraldun = $braldun->date_debut_cumul_braldun;
+			$dateFinTourBraldun = $braldun->date_fin_tour_braldun;
+		} else {
+			$texte .= " Dur&eacute;e du tour : ".$braldun["duree_courant_tour_braldun"]."<br />";
+				
+			$dateDebutTourBraldun = $braldun["date_debut_tour_braldun"];
+			$dateFinLatenceBraldun = $braldun["date_fin_latence_braldun"];
+			$dateDebutCumulBraldun = $braldun["date_debut_cumul_braldun"];
+			$dateFinTourBraldun = $braldun["date_fin_tour_braldun"];
+			
+			$suffixeCss = "_communaute";
+			$coefBase = 0.25;
+		}
+
+		$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', $dateDebutTourBraldun)."<br />";
+		$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', $dateFinLatenceBraldun)."<br />";
+		$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', $dateDebutCumulBraldun)."<br />";
+		$texte .= " Date limite d'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', $dateFinTourBraldun)."<br /><br />";
 
 		$date_courante = date("Y-m-d H:i:s");
 		$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
@@ -212,21 +248,23 @@ class Bral_Helper_Profil {
 		} else {
 			$coef = self::COEF_TAILLE;
 		}
+		
+		$coef = $coef * $coefBase;
 
-		if ($date_courante <= $braldun->date_fin_latence_braldun) {
-			$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_tour_braldun);
-			$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_latence_braldun);
+		if ($date_courante <= $dateFinLatenceBraldun) {
+			$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateDebutTourBraldun);
+			$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateFinLatenceBraldun);
 			$ecartTotal = $time_fin_latence - $time_debut_tour;
 			$ecart = $time_fin_latence - $time_date_courante;
 
 			$pourcent = 100 - ($ecart * 100 / $ecartTotal);
 			$width_latence = ($pourcent * 25 / 100 ) * $coef; // latence : 25% du total , x2 pour la taille css
 			$pourcent_latence = substr($pourcent, 0, 5);
-		} else if ($date_courante <= $braldun->date_debut_cumul_braldun) {
+		} else if ($date_courante <= $dateDebutCumulBraldun) {
 			$width_latence = 25 * $coef;
 
-			$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_latence_braldun);
-			$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_cumul_braldun);
+			$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateFinLatenceBraldun);
+			$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateDebutCumulBraldun);
 			$ecartTotal = $time_debut_cumul - $time_fin_latence;
 			$ecart = $time_debut_cumul - $time_date_courante;
 
@@ -240,16 +278,16 @@ class Bral_Helper_Profil {
 			$width_latence = 25 * $coef;
 			$width_milieu = 25 * $coef;
 
-			$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_fin_tour_braldun);
-			$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($braldun->date_debut_cumul_braldun);
+			$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateFinTourBraldun);
+			$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($dateDebutCumulBraldun);
 			$ecartTotal = $time_fin_tour - $time_debut_cumul;
 			$ecart = $time_fin_tour - $time_date_courante;
 
 			$pourcent = 100 - ($ecart * 100 / $ecartTotal);
 			$width_cumul = ($pourcent * 50 / 100) * $coef; // cumul, 50 % du total, x2 pour la taille css
 			$pourcent_cumul = substr($pourcent, 0, 5);
-			if ($width_cumul > 100) {
-				$width_cumul = 100;
+			if ($width_cumul > 100 * $coefBase) {
+				$width_cumul = 100 * $coefBase;
 			}
 		}
 
@@ -258,15 +296,15 @@ class Bral_Helper_Profil {
 		$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br /><br />";
 
 		$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center'><tr>";
-		$retour .= "<td class='barre_tour_sommeil'>";
+		$retour .= "<td class='barre_tour_sommeil".$suffixeCss."'>";
 		$retour .= "<div class='braltip'><div class='barre_img img_tour_sommeil' style='width:".$width_latence."px'>".Bral_Helper_Tooltip::render($section_latence.$texte, $titre);
 		$retour .= "</div></div>";
 		$retour .= "</td>";
-		$retour .= "<td class='barre_tour_eveil'>";
+		$retour .= "<td class='barre_tour_eveil".$suffixeCss."'>";
 		$retour .= "<div class='braltip'><div class='barre_img img_tour_eveil' style='width:".$width_milieu."px'>".Bral_Helper_Tooltip::render($section_milieu.$texte, $titre);
 		$retour .= "</div></div>";
 		$retour .= "</td>";
-		$retour .= "<td class='barre_tour_activite'>";
+		$retour .= "<td class='barre_tour_activite".$suffixeCss."'>";
 		$retour .= "<div class='braltip'><div class='barre_img img_tour_activite' style='width:".$width_cumul."px'>".Bral_Helper_Tooltip::render($section_cumul.$texte, $titre);
 		$retour .= "</div></div>";
 		$retour .= "</td>";

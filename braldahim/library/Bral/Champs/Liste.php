@@ -18,7 +18,7 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("Bral_Helper_Communaute");
 		Zend_Loader::loadClass('Bral_Util_Communaute');
-		Zend_Loader::loadClass('TypeLieuCommunaute');
+		Zend_Loader::loadClass('TypeLieu');
 
 		$this->idChampCourant = null;
 
@@ -30,7 +30,7 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 
 		$champTable = new Champ();
 
-		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieuCommunaute::ID_TYPE_AGRICULTURE);
+		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_GRENIER);
 
 		if ($niveauGrenier != null && $niveauGrenier > 0) {
 			$champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);

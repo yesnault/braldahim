@@ -183,10 +183,6 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_d);
 			
-			if ($this->view->user->id_fk_communaute_braldun != null) {
-				$this->addBox(Bral_Box_Factory::getEvenementsCommunaute($this->_request, $this->view, false), $boite_d);
-			}
-
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
 			$possibleEchoppe = $braldunsMetiers->peutPossederEchoppeIdBraldun($this->view->user->id_braldun);

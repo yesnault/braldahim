@@ -472,7 +472,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$detailsBot .= "Destinataire : non renseigné.".PHP_EOL;
 			}
 			$detailsBot .= "Contenu : ".$this->view->elementsRetires.PHP_EOL;
-				
+
 			Bral_Util_EvenementCommunaute::ajoutEvenements($endroitArrivee['id_communaute'], TypeEvenementCommunaute::ID_TYPE_CREATION_LOT, $details, $detailsBot, $this->view);
 		} else  if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE || $endroitDepart['id_type_endroit'] == self::ID_ENDROIT_HALL_LIEU) {
 			$details = "[b".$this->view->user->id_braldun."] a retiré des éléments";
@@ -555,7 +555,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
 		|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))) {
 			$tab[] = 'box_communaute';
-			$tab[] = 'box_evenements_communaute';
+			$tab[] = 'box_communaute_evenements';
 		}
 
 		return $this->constructListBoxRefresh($tab);

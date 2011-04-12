@@ -640,7 +640,7 @@ margin-right:auto !important;
 	background-color: #eeeeee;
 }
 
-.barre_faim,.barre_vie, .barre_niveau, .barre_poids, .barre_entretien {
+.barre_faim, .barre_vie, .barre_niveau, .barre_poids, .barre_entretien, .barre_vie_communaute {
 	background-color: #FFFFFF;
 	width: 200px;
 	height: 10px;
@@ -659,6 +659,10 @@ margin-right:auto !important;
 	background-image: url('/images/barre_vie.gif');
 }
 
+.barre_vie_communaute {
+	width: 50px;
+}
+
 .img_barre_niveau {
 	background-image: url('/images/barre_niveau.gif');
 }
@@ -675,7 +679,8 @@ margin-right:auto !important;
 	background-image: url('/images/barre_poids.gif');
 }
 
-.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite {
+.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite,
+.barre_tour_sommeil_communaute,.barre_tour_eveil_communaute,.barre_tour_activite_communaute {
 	background-color: #FFFFFF;
 	height: 10px;
 	text-align: left;
@@ -701,12 +706,20 @@ margin-right:auto !important;
 	background-image: url('/images/barre_tour_activite.gif');
 }
 
-.barre_tour_sommeil, .barre_tour_eveil  {
+.barre_tour_sommeil, .barre_tour_eveil {
 	width:50px;
+}
+
+.barre_tour_sommeil_communaute, .barre_tour_eveil_communaute {
+	width:12.5px;
 }
 
 .barre_tour_activite {
 	width: 100px;
+}
+
+.barre_tour_activite_communaute {
+	width: 25px;
 }
 
 .ligne_espace {

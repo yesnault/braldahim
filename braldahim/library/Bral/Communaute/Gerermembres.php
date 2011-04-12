@@ -8,7 +8,10 @@
 class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 	function getTitreOnglet() {}
-	function setDisplay($display) {}
+
+	function setDisplay($display) {
+		$this->view->display = $display;
+	}
 
 	function getTitre() {
 		return null;
@@ -26,16 +29,13 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 	function prepareFormulaire() {}
 	function prepareResultat() {}
+	
 	function getListBoxRefresh() {
-		return array("box_evenements_communaute");
+		return array("box_communaute_evenements");
 	}
 
 	function getNomInterne() {
-		return "box_communaute_action";
-	}
-
-	function setDisplay($display) {
-		$this->view->display = $display;
+		return "box_communaute_gestion";
 	}
 
 	function anotherXmlEntry() {

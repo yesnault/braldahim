@@ -1,27 +1,35 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Box_EvenementsCommunaute extends Bral_Box_Box {
+class Bral_Box_Communaute_Evenements extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "Événements de Communauté";
+		return "Événements";
 	}
 
 	function getNomInterne() {
-		return "box_evenements_communaute";
+		return "box_communaute_evenements";
 	}
 
 	function getChargementInBoxes() {
 		return false;
 	}
-	
+
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
+
+	function getListBoxRefresh() {}
+
+	function prepareCommun() {
+	}
+
+	function prepareFormulaire() {}
+	function prepareResultat() {}
 
 	function render() {
 		Zend_Loader::loadClass("Bral_Util_Communaute");
@@ -32,12 +40,12 @@ class Bral_Box_EvenementsCommunaute extends Bral_Box_Box {
 		
 			$this->preparePage();
 			$this->prepareRender();
-			if ($this->_request->get("box") == "box_evenements_communaute") {
+			if ($this->_request->get("box") == "box_communaute_evenements") {
 				$this->prepareDetails();
 			}
 		}
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/evenementscommunaute.phtml");
+		return $this->view->render("interface/communaute/evenements.phtml");
 	}
 	
 	private function prepareRender() {
@@ -121,15 +129,15 @@ class Bral_Box_EvenementsCommunaute extends Bral_Box_Box {
 	
 	private function preparePage() {
 		$this->_page = 1;
-		if (($this->_request->get("box") == "box_evenements_communaute") && ($this->_request->get("valeur_1") == "f")) {
+		if (($this->_request->get("box") == "box_communaute_evenements") && ($this->_request->get("valeur_1") == "f")) {
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
-		} else if (($this->_request->get("box") == "box_evenements_communaute") && ($this->_request->get("valeur_1") == "p")) { 
+		} else if (($this->_request->get("box") == "box_communaute_evenements") && ($this->_request->get("valeur_1") == "p")) { 
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-		} else if (($this->_request->get("box") == "box_evenements_communaute") && ($this->_request->get("valeur_1") == "s")) {
+		} else if (($this->_request->get("box") == "box_communaute_evenements") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-		} else if (($this->_request->get("box") == "box_evenements_communaute") && ($this->_request->get("valeur_1") == "d")) {
+		} else if (($this->_request->get("box") == "box_communaute_evenements") && ($this->_request->get("valeur_1") == "d")) {
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else {
