@@ -81,7 +81,7 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 				"prenom_braldun" => $m["prenom_braldun"],
 				"niveau_braldun" => $m["niveau_braldun"],
 				"sexe_braldun" => $m["sexe_braldun"],
-				
+
 				"x_braldun" => $m["x_braldun"],
 				"y_braldun" => $m["y_braldun"],
 				"z_braldun" => $m["z_braldun"],
@@ -130,26 +130,28 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunIdList($idList);
 		$tabMetiersBralduns = array();
 
-		foreach($braldunsMetierRowset as $m) {
-			if ($tabMembres[$m["id_fk_braldun_hmetier"]]["sexe_braldun"] == 'feminin') {
-				$nom_metier = $m["nom_feminin_metier"];
-			} else {
-				$nom_metier = $m["nom_masculin_metier"];
-			}
+		if ($braldunsMetierRowset != null && count($braldunsMetierRowset) > 0) {
+			foreach($braldunsMetierRowset as $m) {
+				if ($tabMembres[$m["id_fk_braldun_hmetier"]]["sexe_braldun"] == 'feminin') {
+					$nom_metier = $m["nom_feminin_metier"];
+				} else {
+					$nom_metier = $m["nom_masculin_metier"];
+				}
 
-			$t = array("id_metier" => $m["id_metier"],
+				$t = array("id_metier" => $m["id_metier"],
 				"nom" => $nom_metier,
 				"nom_systeme" => $m["nom_systeme_metier"],
 				"est_actif" => $m["est_actif_hmetier"],
 				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
-			);
+				);
 
-			if ($m["est_actif_hmetier"] == "oui") {
-				$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetierCourant"] = $t;
-			}
+				if ($m["est_actif_hmetier"] == "oui") {
+					$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetierCourant"] = $t;
+				}
 
-			if ($m["est_actif_hmetier"] == "non") {
-				$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetiers"][] = $t;
+				if ($m["est_actif_hmetier"] == "non") {
+					$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetiers"][] = $t;
+				}
 			}
 		}
 

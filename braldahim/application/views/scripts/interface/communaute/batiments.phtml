@@ -2,10 +2,21 @@
 <br />
 <div class="titre textalic textsizec">Bâtiments de Communauté</div><br />
 
-L'initialisation ou l'amélioration d'un bâtiment s'effectue dans l'onglet Lieu, en étant positionné sur votre Hall de Communauté. <br />
 Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
 Une fois initialisé ou amélioré, chaque Braldûn de la communauté peut participer à la construction en allant sur le bâtiment
 et utiliser l'action Construire (onglet Lieu).<br />
+
+ <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
+ Vous avez les droits de Tenancier. Depuis ce hall, vous pouvez construire
+ des bâtiments de communautés ou augmenter le niveau d'un bâtiment existant.<br />
+ Les ressources nécessaires doivent être présentes dans le coffre de la communauté.<br />
+ 
+ <input type='button' class='button1' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
+ <input type='button' class='button1' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
+ <input type='button' class='button1' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
+ <br />
+ <hr />
+ <?php endif; ?>
 	
 <?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
 

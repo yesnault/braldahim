@@ -7,18 +7,6 @@ Vous vous trouvez sur un Hall de Communauté.
 	n&deg; <?php echo $this->idCommunauteLieu ?>
  </div>
  
- <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
- Vous avez les droits de Tenancier. Depuis ce hall, vous pouvez construire
- des bâtiments de communautés ou augmenter le niveau d'un bâtiment existant.<br />
- Les ressources nécessaires doivent être présentes dans le coffre de la communauté.<br />
- 
- <input type='button' class='button1' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
- <input type='button' class='button1' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
- <input type='button' class='button1' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
- <br />
- <hr />
- <?php endif; ?>
- 
 <div class="titre textalic textsizec">Les réservations et mise en vente</div>
 <br />
 

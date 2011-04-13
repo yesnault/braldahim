@@ -36,6 +36,10 @@ class BraldunsMetiers extends Zend_Db_Table
 
 	public function findMetiersByBraldunIdList($listIdBraldun) {
 
+		if ($listIdBraldun == null) {
+			return null;
+		}
+		
 		$nomChamp = "bralduns_metiers.id_fk_braldun_hmetier";
 		$liste = "";
 		

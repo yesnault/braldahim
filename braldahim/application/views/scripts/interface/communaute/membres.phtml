@@ -62,7 +62,7 @@
 	</thead>
 	<tfoot class="table_liste">
 	  <tr class="table_liste">
-	    <th colspan='13'>
+	    <th colspan='14'>
 	    	Affichage de <?php echo count($this->tabMembres) ?> Braldûn<?php if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?php echo $this->nbMembresTotal ?> dans la communaut&eacute;<br />
 	       <?php if ($this->precedentOk === true) : ?>
 		   <input type="button" class='button1' onclick="Javascript:_get_('/interface/load/?box=box_communaute_membres&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
@@ -162,7 +162,7 @@
 	<?php endforeach; ?>
 	<?php else: ?>
 		<tr class="table_liste0">
-		  <td class="table_liste" colspan="13">Pas d'autre membre</td>
+		  <td class="table_liste" colspan="14">Pas d'autre membre</td>
 		</tr>
 	<?php endif; ?>
 	</tbody>
