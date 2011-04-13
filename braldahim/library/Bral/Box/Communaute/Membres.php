@@ -37,6 +37,7 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Bral_Util_Communaute");
 		Zend_Loader::loadClass("Bral_Helper_Profil");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
 
 		if ($this->view->affichageInterne) {
 			$this->preparePage();
@@ -70,55 +71,86 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 		$braldunRowset = $braldunTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
-		$niveauBarraquement = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_BARAQUEMENT);
+		$niveauBaraquements = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_BARAQUEMENT);
+		$idList = null;
 
 		foreach($braldunRowset as $m) {
-			$tabMembres[] = array(
+			$tabMembres[$m["id_braldun"]] = array(
 				"id_braldun" => $m["id_braldun"],
 				"nom_braldun" => $m["nom_braldun"],
 				"prenom_braldun" => $m["prenom_braldun"],
 				"niveau_braldun" => $m["niveau_braldun"],
+				"sexe_braldun" => $m["sexe_braldun"],
+				
 				"x_braldun" => $m["x_braldun"],
 				"y_braldun" => $m["y_braldun"],
 				"z_braldun" => $m["z_braldun"],
-				
+
 				"pa_braldun" => $m["pa_braldun"],
 				"date_fin_tour_braldun" => $m["date_fin_tour_braldun"],
-				
+
 				"pv_restant_braldun" => $m["pv_restant_braldun"],
 				"vigueur_base_braldun" => $m["vigueur_base_braldun"],
 				"pv_max_bm_braldun" => $m["pv_max_bm_braldun"],
-				
+
 				"duree_prochain_tour_braldun" => $m["duree_prochain_tour_braldun"],
 				"duree_courant_tour_braldun" => $m["duree_courant_tour_braldun"],
 				"date_debut_tour_braldun" => $m["date_debut_tour_braldun"],
 				"date_fin_latence_braldun" => $m["date_fin_latence_braldun"],
 				"date_debut_cumul_braldun" => $m["date_debut_cumul_braldun"],
 				"date_fin_tour_braldun" => $m["date_fin_tour_braldun"],
-				
 
 				"date_entree" => $m["date_entree_communaute_braldun"],
 				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
-				
+
 				"force_base_braldun" => $m["force_base_braldun"],
 				"agilite_base_braldun" => $m["agilite_base_braldun"],
 				"vigueur_base_braldun" => $m["vigueur_base_braldun"],
 				"sagesse_base_braldun" => $m["sagesse_base_braldun"],
-				
+
 				"force_bm_braldun" => $m["force_bm_braldun"],
 				"agilite_bm_braldun" => $m["agilite_bm_braldun"],
 				"vigueur_bm_braldun" => $m["vigueur_bm_braldun"],
 				"sagesse_bm_braldun" => $m["sagesse_bm_braldun"],
-				
+
 				"force_bbdf_braldun" => $m["force_bbdf_braldun"],
 				"agilite_bbdf_braldun" => $m["agilite_bbdf_braldun"],
 				"vigueur_bbdf_braldun" => $m["vigueur_bbdf_braldun"],
 				"sagesse_bbdf_braldun" => $m["sagesse_bbdf_braldun"],
-				
+
 				"vue_bm_braldun" => $m["vue_bm_braldun"],
 			);
+			$idList[] = $m["id_braldun"];
+		}
+
+		Zend_Loader::loadClass('BraldunsMetiers');
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunIdList($idList);
+		$tabMetiersBralduns = array();
+
+		foreach($braldunsMetierRowset as $m) {
+			if ($tabMembres[$m["id_fk_braldun_hmetier"]]["sexe_braldun"] == 'feminin') {
+				$nom_metier = $m["nom_feminin_metier"];
+			} else {
+				$nom_metier = $m["nom_masculin_metier"];
+			}
+
+			$t = array("id_metier" => $m["id_metier"],
+				"nom" => $nom_metier,
+				"nom_systeme" => $m["nom_systeme_metier"],
+				"est_actif" => $m["est_actif_hmetier"],
+				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+			);
+
+			if ($m["est_actif_hmetier"] == "oui") {
+				$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetierCourant"] = $t;
+			}
+
+			if ($m["est_actif_hmetier"] == "non") {
+				$tabMetiersBralduns[$m["id_fk_braldun_hmetier"]]["tabMetiers"][] = $t;
+			}
 		}
 
 		$rangCommunauteTable = new RangCommunaute();
@@ -145,6 +177,8 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 			$this->view->suivantOk = true;
 		}
 
+		$this->view->tabMetiersBralduns = $tabMetiersBralduns;
+		$this->view->niveauBaraquements = $niveauBaraquements;
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
 		$this->view->ordre = $this->_ordre;

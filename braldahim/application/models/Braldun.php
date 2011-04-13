@@ -380,7 +380,7 @@ class Braldun extends Zend_Db_Table {
 		->where('id_fk_rang_communaute_braldun = id_rang_communaute')
 		->where('id_rang_communaute = id_fk_rang_communaute_braldun')
 		->where("id_communaute = id_fk_communaute_braldun".$and);
-
+		
 		if ($ordre != null && $sens != null) {
 			$select->order($ordre.$sens);
 		} else {

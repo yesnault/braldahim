@@ -11,11 +11,15 @@ class Bral_Util_Communaute {
 	const ID_RANG_ADJOINT = 2;
 	const ID_RANG_TENANCIER = 3;
 	const ID_RANG_NOUVEAU = 20;
-
 	
 	const NIVEAU_GRENIER_RECOLTER = 1;
 	const NIVEAU_GRENIER_ENTRETENIR = 2;
 	const NIVEAU_GRENIER_SEMER = 3;
+	
+	const NIVEAU_BARAQUEMENT_ACADEMIE = 1;
+	const NIVEAU_BARAQUEMENT_POSITION_NIV_METIER = 2;
+	const NIVEAU_BARAQUEMENT_PV_DLA = 3;
+	const NIVEAU_BARAQUEMENT_PA_BM = 4;
 
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
 

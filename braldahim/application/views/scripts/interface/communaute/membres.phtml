@@ -10,7 +10,15 @@
   		
 	<?php Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
 	<div class="titre textalic textsizec">Liste des Membres</div><br />
-	
+
+	<?php if ($this->niveauBaraquements != null) : ?>
+		<?php echo Bral_Helper_Communaute::afficheNiveauBaraquement($this->niveauBaraquements);?>
+ 	<?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
+ 		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauBaraquement(null, "baraquements")?>.
+ 	<?php endif;?>
+ 	
+ 	<br /><br />
+ 	
 	Filtrer par rang : 
 	<select name='valeur_2'  onchange="Javascript:_get_('/interface/load/?box=box_communaute_membres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')">
 	    <option value="-1">Tous les rangs</option>
@@ -30,16 +38,26 @@
 		</th>
 		<th style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=5&valeur_6=<?php echo $this->sensOrdre ?>");'>Entr&eacute;e <?php echo Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
 		<th style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=6&valeur_6=<?php echo $this->sensOrdre ?>");'>Rang <?php echo Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
-		<th style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>");'>Niveau <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-		<th>Position<br />x, y, z</th>
-		<th>PV</th>
-		<th>DLA</th>
-		<th>PA</th>
-		<th>FOR</th>
-		<th>AGI</th>
-		<th>VIG</th>
-		<th>SAG</th>
-		<th>VUE<br />BM</th>
+		
+		<?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_POSITION_NIV_METIER) : ?>
+			<th style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>");'>Niveau <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+			<th>Position<br />x, y, z</th>
+			<th>Metiers</th>
+		<?php endif;?>
+		
+		<?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PV_DLA) : ?>
+			<th>PV</th>
+			<th>DLA</th>
+		<?php endif; ?>
+		
+		<?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PA_BM) : ?>
+			<th>PA</th>
+			<th>FOR</th>
+			<th>AGI</th>
+			<th>VIG</th>
+			<th>SAG</th>
+			<th>VUE<br />BM</th>
+		<?php endif;?>
 	  </tr>
 	</thead>
 	<tfoot class="table_liste">
@@ -68,18 +86,45 @@
 		  <td class="table_liste"><span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?>"><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('Y',$m["date_entree"]); ?></span></td>
 		  <td class="table_liste">Rang n&deg;<?php echo $m["ordre_rang_communaute"] ?> : <br /><?php echo htmlspecialchars($m["nom_rang_communaute"]) ?></td>
 		  
-		  <td class="table_liste"><?php echo htmlspecialchars($m["niveau_braldun"]) ?></td>
-		  <td class="table_liste">
-		  	<span style="cursor:pointer" title="Position X"><?php echo $m["x_braldun"] ?></span><br />
-		  	<span style="cursor:pointer" title="Position Y"><?php echo $m["y_braldun"] ?></span><br />
-		  	<span style="cursor:pointer" title="Position Z"><?php echo $m["z_braldun"] ?></span>
-		  </td>
+		  <?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_POSITION_NIV_METIER) : ?>
+			  <td class="table_liste"><?php echo htmlspecialchars($m["niveau_braldun"]) ?></td>
+			  <td class="table_liste">
+			  	<span style="cursor:pointer" title="Position X"><?php echo $m["x_braldun"] ?></span><br />
+			  	<span style="cursor:pointer" title="Position Y"><?php echo $m["y_braldun"] ?></span><br />
+			  	<span style="cursor:pointer" title="Position Z"><?php echo $m["z_braldun"] ?></span>
+			  </td>
+			  
+			  <td class="table_liste">
+			  
+			  <?php if (array_key_exists($m["id_braldun"], $this->tabMetiersBralduns)) : ?>
+			  	
+			  	<?php if (array_key_exists("tabMetierCourant", $this->tabMetiersBralduns[$m["id_braldun"]])) : ?>
+		  	 	<span style="cursor:pointer" title="appris le <?php $this->tabMetiersBralduns[$m["id_braldun"]]["tabMetierCourant"]["date_apprentissage"];?>">
+		  	 	<?php echo $this->tabMetiersBralduns[$m["id_braldun"]]["tabMetierCourant"]["nom"] ?> (actif)</span>  <br />
+		  	 	<?php else: ?>
+			 	 Aucun métier actif
+		  	 	<?php endif;?>
+		    
+			   	<?php if (array_key_exists("tabMetiers", $this->tabMetiersBralduns[$m["id_braldun"]])): ?>
+					<?php foreach ($this->tabMetiersBralduns[$m["id_braldun"]]["tabMetiers"] as $metier) : ?>
+						<span style="cursor:pointer" title="appris le <?php echo $metier["date_apprentissage"];?>"><?php echo $metier["nom"];?></span>
+					<?php endforeach; ?>
+			    <?php endif; ?>
+			  <?php else: ?>
+			 	 Aucun métier
+			  <?php endif;?>
+			  
+			  </td>
+		  <?php endif;?>
 		  
-		  <td class="table_liste">
-		  <?php echo Bral_Helper_Profil::afficheBarreVie($m["pv_restant_braldun"], $this->config->game->pv_base, $m["vigueur_base_braldun"], $this->config->game->pv_max_coef, $m["pv_max_bm_braldun"], $m["duree_prochain_tour_braldun"], true)?>
-		  </td>
-		  <td class="table_liste"><?php echo Bral_Helper_Profil::afficheBarreTour($m)?><?php //echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b> \l\e d/m/y',$m["date_fin_tour_braldun"]);?></td>
+		  <?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PV_DLA) : ?>
+			  <td class="table_liste">
+			  <?php echo Bral_Helper_Profil::afficheBarreVie($m["pv_restant_braldun"], $this->config->game->pv_base, $m["vigueur_base_braldun"], $this->config->game->pv_max_coef, $m["pv_max_bm_braldun"], $m["duree_prochain_tour_braldun"], true)?>
+			  </td>
+			  <td class="table_liste"><?php echo Bral_Helper_Profil::afficheBarreTour($m)?><?php //echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b> \l\e d/m/y',$m["date_fin_tour_braldun"]);?></td>
+		  <?php endif;?>
 		  
+		  <?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PA_BM) : ?>
 		  <td class="table_liste"><?php echo $m["pa_braldun"] ?></td>
 		  <td class="table_liste" nowrap>
 		  	Niv.<span title="Niveau de la caract&eacute;ristique" style="cursor:pointer"><?php echo $m["force_base_braldun"]; ?></span><br />
@@ -112,6 +157,7 @@
 		  <td class="table_liste" nowrap>
 		  	<?php if ($m["vue_bm_braldun"] >= 0): echo "+"; endif;?> <?php echo $m["vue_bm_braldun"] ?>
 		  </td>
+		  <?php endif; ?>
 		</tr>
 	<?php endforeach; ?>
 	<?php else: ?>

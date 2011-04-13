@@ -52,4 +52,27 @@ class Bral_Helper_Communaute {
 		return $retour;
 	}
 
+	public static function afficheNiveauBaraquement($niveau, $texte = null) {
+		$retour = "";
+
+		$details = 'Niveau 1 : Permet de placer une Académie<br />';
+		$details .= 'Niveau 2 : Permet d\'avoir un état des Braldûns (position / Niv. / métier)<br />';
+		$details .= 'Niveau 3 : Permet d\'avoir un état des Braldûns (PV / DLA)<br />';
+		$details .= 'Niveau 4 : Permet d\'avoir un état des Braldûns (PA / BM)<br />';
+
+		if ($texte == null) {
+			$retour .= "<div >";
+			$retour .= "Votre communauté possède des baraquements de <div class='braltip alabel' style='display:inline'>niveau ".$niveau.'.';
+			$retour .= Bral_Helper_Tooltip::render($details, 'Baraquements');
+			$retour .= '</div></div>';
+		} else {
+			$retour .= "<div class='braltip alabel' style='display:inline'>";
+			$retour .= $texte;
+			$retour .= Bral_Helper_Tooltip::render($details, 'Baraquements');
+			$retour .= '</div>';
+		}
+
+		return $retour;
+	}
+
 }
