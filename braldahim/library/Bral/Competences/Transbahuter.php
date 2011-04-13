@@ -38,7 +38,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Communaute');
 		Zend_Loader::loadClass("TypeEvenementCommunaute");
 		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
 
+		$this->view->niveauMarcheCommunaute = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_MARCHE);
+		
 		$this->view->idCharretteEtal =  $this->request->get('idCharretteEtal');
 		$tabEndroit = array();
 		if ($this->view->idCharretteEtal != null) {

@@ -63,6 +63,16 @@ class Bral_Helper_Communaute {
 		return $retour;
 	}
 
+	public static function afficheNiveauMarche($niveau, $texte = null) {
+		$details = 'Niveau 1 : Permet de placer une banque autour du Hall<br />';
+		$details .= 'Niveau 2 : Permet de placer un Hôtel des Ventes autour du Hall<br />';
+		$details .= 'Niveau 3 : Permet d\'effectuer des ordres Coffre perso <-> Coffre commun à distance<br />';
+		$details .= 'Niveau 4 : Permet d\'effectuer des ordres Coffre perso -> autres coffres de Braldûns<br />';
+		$details .= 'Niveau 5 : Permet d\'effecter des ordres Coffre commun -> Hôtel des Ventes<br />';
+		$retour = self::getNiveauTexte($texte, "un marché couvert", "Marché couvert", $niveau, $details);
+		return $retour;
+	}
+
 	private static function getNiveauTexte($texte, $mot, $titre, $niveau, $details) {
 		$retour = "";
 		if ($texte == null) {

@@ -31,6 +31,12 @@ class Bral_Util_Communaute {
 	const NIVEAU_TRIBUNE_GARE = 1;
 	const NIVEAU_TRIBUNE_OFFICE_NOTARIAL = 2;
 	const NIVEAU_TRIBUNE_CSS = 3;
+	
+	const NIVEAU_MARCHE_BANQUE = 1;
+	const NIVEAU_MARCHE_HOTEL = 2;
+	const NIVEAU_MARCHE_COFFRE_PERSO_COMMUN = 3;
+	const NIVEAU_MARCHE_COFFRE_PERSO_VERS_AUTRE = 4;
+	const NIVEAU_MARCHE_COFFRE_COMMUN_VERS_HOTEL = 5;
 
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
 

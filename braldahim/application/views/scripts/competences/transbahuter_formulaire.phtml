@@ -1,3 +1,10 @@
+<?php if ($this->niveauMarcheCommunaute >= 0) : ?>
+	<?php echo Bral_Helper_Communaute::afficheNiveauMarche($this->niveauMarcheCommunaute);?>
+<?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
+ 		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauMarche(null)?>.
+<?php endif;?>
+<br />
+
 <?php if (count($this->typeDepart) > 0) : ?>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?php echo $this->nb_valeurs ?>'/>
 	<div class='comp_contenu'>
