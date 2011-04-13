@@ -1,1 +1,10 @@
 <?php include('communaute/commun.phtml')?>
+
+<?php if (Bral_Util_Communaute::getNiveauDuLieu($this->idCommunauteLieu, TypeLieu::ID_TYPE_INFIRMERIE) >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_SOIGNER) : ?>
+
+L'Infirmière vous souhaite un prompt r&eacute;tablissement (si vous en avez besoin...)<br /><br />
+
+<br />
+<input type="button" class='button1' value="Rentrer dans l'infirmerie" onclick='_get_("/lieux/doaction?caction=ask_lieu_infirmerie");'>
+
+<?php endif; ?>

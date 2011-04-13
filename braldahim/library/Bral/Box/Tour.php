@@ -150,7 +150,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		if ($this->braldun->date_fin_tour_braldun < $dateFin && $this->braldun->pa_braldun > 0) {
 			$retour = "Votre tour se termine bientôt et il vous reste ".$this->braldun->pa_braldun." PA à jouer ! ";
 		}
-		
+
 		return $retour;
 	}
 
@@ -259,7 +259,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if ($this->est_ko == false) {
 				$this->braldun->est_intangible_braldun = "non";
 			}
-				
+
 			if ($this->braldun->est_intangible_prochaine_braldun == "oui") {
 				$this->braldun->est_intangible_braldun = "oui";
 				$this->braldun->est_intangible_prochaine_braldun = "non";
@@ -278,7 +278,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->braldun->id_braldun, $this->braldun->x_braldun, $this->braldun->y_braldun);
-				
+
 			Zend_Loader::loadClass("Bral_Util_Soule");
 			$this->view->sortieSoule = Bral_Util_Soule::calculSortieSoule($this->braldun);
 		}
@@ -348,7 +348,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			// statut engage
 			$this->braldun->est_engage_braldun = "non";
 			$this->braldun->est_engage_next_dla_braldun = "non";
-				
+
 			// reputation
 			$this->braldun->nb_ko_redresseurs_suite_braldun = 0;
 			$this->braldun->nb_ko_gredins_suite_braldun = 0;
@@ -399,15 +399,26 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$lieuRowset[0]["z_lieu"] = $lieuRowset[0]["z_lieu"] - 1; // 1 case en dessous le poste de garde
 			$lieuRetour = $lieuRowset[0];
 		} else {
-			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
-			foreach($lieuRowset as $lieu) {
-				if (!array_key_exists('est_reliee_ville', $lieu) || (array_key_exists('est_reliee_ville', $lieu) && $lieu['est_reliee_ville'] == 'oui')) {
-					$lieuRetour = $lieu;
-					break;
+			// Communaute avec infirmerie
+			Zend_Loader::loadClass("Bral_Util_Communaute");
+			Zend_Loader::loadClass("TypeLieu");
+			if (Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE) >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) {
+				$lieux = $lieuTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, null, null, null, false, TypeLieu::ID_TYPE_INFIRMERIE);
+				if ($lieux != null && count($lieux) > 0) {
+					$lieuRetour = $lieux[0];
 				}
-			}
-			if ($lieuRetour == null) {
-				$lieuRetour = $lieuRowset[0];
+			} else {
+				// Normal
+				$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
+				foreach($lieuRowset as $lieu) {
+					if (!array_key_exists('est_reliee_ville', $lieu) || (array_key_exists('est_reliee_ville', $lieu) && $lieu['est_reliee_ville'] == 'oui')) {
+						$lieuRetour = $lieu;
+						break;
+					}
+				}
+				if ($lieuRetour == null) {
+					$lieuRetour = $lieuRowset[0];
+				}
 			}
 		}
 		$this->braldun->x_braldun = $lieuRetour["x_lieu"];

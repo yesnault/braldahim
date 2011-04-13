@@ -30,7 +30,7 @@
 	  	
 	<table class="table_liste" style="width:100%">
 	<thead class="table_liste">
-	  <tr class="table_liste" title="Cliquer pour Trier">
+	  <tr class="table_liste" title="Cliquer pour trier">
 		<th>
 		<span style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>");'>Pr&eacute;nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></span>
 		<span style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>");'>Nom <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></span>
@@ -46,17 +46,17 @@
 		<?php endif;?>
 		
 		<?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PV_DLA) : ?>
-			<th>PV</th>
-			<th>DLA</th>
+			<th style="cursor:pointer" title="Cliquer pour trier par points de vie restants" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=14&valeur_6=<?php echo $this->sensOrdre ?>");'>PV <?php echo Bral_Helper_Tri::sens(14, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par date limite d'action"  onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=13&valeur_6=<?php echo $this->sensOrdre ?>");'>DLA <?php echo Bral_Helper_Tri::sens(13, $this->ordre, $this->sensOrdre); ?></th>
 		<?php endif; ?>
 		
 		<?php if ($this->niveauBaraquements >= Bral_Util_Communaute::NIVEAU_BARAQUEMENT_PA_BM) : ?>
-			<th>PA</th>
-			<th>FOR</th>
-			<th>AGI</th>
-			<th>VIG</th>
-			<th>SAG</th>
-			<th>VUE<br />BM</th>
+			<th style="cursor:pointer" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=12&valeur_6=<?php echo $this->sensOrdre ?>");'>PA <?php echo Bral_Helper_Tri::sens(12, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par niveau" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=7&valeur_6=<?php echo $this->sensOrdre ?>");'>FOR <?php echo Bral_Helper_Tri::sens(7, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par niveau" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=8&valeur_6=<?php echo $this->sensOrdre ?>");'>AGI <?php echo Bral_Helper_Tri::sens(8, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par niveau" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=9&valeur_6=<?php echo $this->sensOrdre ?>");'>VIG <?php echo Bral_Helper_Tri::sens(9, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par niveau" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=10&valeur_6=<?php echo $this->sensOrdre ?>");'>SAG <?php echo Bral_Helper_Tri::sens(10, $this->ordre, $this->sensOrdre); ?></th>
+			<th style="cursor:pointer" title="Cliquer pour trier par BM Vue" onclick='_get_("/interface/load/?box=box_communaute_membres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=11&valeur_6=<?php echo $this->sensOrdre ?>");'>VUE<br />BM <?php echo Bral_Helper_Tri::sens(11, $this->ordre, $this->sensOrdre); ?></th>
 		<?php endif;?>
 	  </tr>
 	</thead>

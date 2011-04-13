@@ -245,6 +245,22 @@ class Bral_Box_Communaute_Membres extends Bral_Box_Box {
 			$retour = "date_entree_communaute_braldun";
 		} elseif ($ordre == 6) {
 			$retour = "id_rang_communaute";
+		} elseif ($ordre == 7) {
+			$retour = "force_base_braldun";
+		} elseif ($ordre == 8) {
+			$retour = "agilite_base_braldun";
+		} elseif ($ordre == 9) {
+			$retour = "vigueur_base_braldun";
+		} elseif ($ordre == 10) {
+			$retour = "sagesse_base_braldun";
+		} elseif ($ordre == 11) {
+			$retour = "vue_bm_braldun";
+		} elseif ($ordre == 12) {
+			$retour = "pa_braldun";
+		} elseif ($ordre == 13) {
+			$retour = "date_fin_tour_braldun";
+		} elseif ($ordre == 14) {
+			$retour = "pv_restant_braldun";
 		} else {
 			$retour = "prenom_braldun";
 		}

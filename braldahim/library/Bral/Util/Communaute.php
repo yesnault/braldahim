@@ -21,6 +21,9 @@ class Bral_Util_Communaute {
 	const NIVEAU_BARAQUEMENT_PV_DLA = 3;
 	const NIVEAU_BARAQUEMENT_PA_BM = 4;
 
+	const NIVEAU_INFIRMERIE_SOIGNER = 1;
+	const NIVEAU_INFIRMERIE_REVENIR = 2;
+	
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
 
 		$nouveauGestionnaire = null;
@@ -133,7 +136,7 @@ class Bral_Util_Communaute {
 	 * @param int $idTypeLieuCommunaute
 	 */
 	public static function getNiveauDuLieu($idCommunaute, $idTypeLieu) {
-		$retour = null;
+		$retour = -1;
 		
 		if ($idCommunaute == null) {
 			return $retour;
