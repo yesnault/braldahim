@@ -31,6 +31,8 @@ class Bral_Voir_Communaute {
 		$communauteRowset = $communauteTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("communaute")));
 		if (count($communauteRowset) == 1) {
 			$this->view->communaute = $communauteRowset[0];
+			$this->view->cssCommunaute = $this->view->communaute["css_communaute"];
+			
 			$this->view->connue = true;
 			
 			$braldunTable = new Braldun();

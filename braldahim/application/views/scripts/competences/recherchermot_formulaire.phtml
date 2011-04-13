@@ -1,6 +1,12 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
+ 
+ 	<?php if ($this->niveauAtelier != null) : ?>
+  	 <?php echo Bral_Helper_Communaute::afficheNiveauAtelier($this->niveauAtelier); ?>
+  	<?php endif;?>
+  	 
   <?php if (count($this->motsRuniques) > 0) : ?>
+  
 	 <?php if ($this->rechercherMotOk === true) : ?>
 	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez rechercher un mot runique ...<br /><br />
 	 Ne sont affich&eacute;s que les mots disponibles suivant votre niveau de sagesse.<br /><br />
@@ -54,7 +60,7 @@
 				Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', scroll:'group1'});
 				Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 			
-			<?php if (count($this->labanRunes) > 0) : ?>
+			<?php if (count($this->runes) > 0) : ?>
 				<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('choix_runes_recherche').style.display='block';this.style.display='none';">
 			
 				<div id="choix_runes_recherche" style="display:none">
@@ -71,7 +77,7 @@
 					<div id="group1" class="liste_runes" style="height:130px ;overflow:auto">
 						<?php 
 						$i = 0;
-							foreach($this->labanRunes as $k => $v) : ?>
+							foreach($this->runes as $k => $v) : ?>
 								<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?> : <?php echo $v["effet_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>" style="cursor:pointer;"/>
 							<?php endforeach; ?>
 					</div>

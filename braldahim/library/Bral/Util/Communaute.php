@@ -11,11 +11,11 @@ class Bral_Util_Communaute {
 	const ID_RANG_ADJOINT = 2;
 	const ID_RANG_TENANCIER = 3;
 	const ID_RANG_NOUVEAU = 20;
-	
+
 	const NIVEAU_GRENIER_RECOLTER = 1;
 	const NIVEAU_GRENIER_ENTRETENIR = 2;
 	const NIVEAU_GRENIER_SEMER = 3;
-	
+
 	const NIVEAU_BARAQUEMENT_ACADEMIE = 1;
 	const NIVEAU_BARAQUEMENT_POSITION_NIV_METIER = 2;
 	const NIVEAU_BARAQUEMENT_PV_DLA = 3;
@@ -23,7 +23,15 @@ class Bral_Util_Communaute {
 
 	const NIVEAU_INFIRMERIE_SOIGNER = 1;
 	const NIVEAU_INFIRMERIE_REVENIR = 2;
+
+	const NIVEAU_ATELIER_ASSEMBLEUR = 1;
+	const NIVEAU_ATELIER_JOAILLIER = 2;
+	const NIVEAU_ATELIER_RECHERCHE = 3;
 	
+	const NIVEAU_TRIBUNE_GARE = 1;
+	const NIVEAU_TRIBUNE_OFFICE_NOTARIAL = 2;
+	const NIVEAU_TRIBUNE_CSS = 3;
+
 	public static function calculNouveauGestionnaire($idCommunaute, $idRangGestionnaire, $prenomGestionnaire, $nomGestionnaire, $sexeGestionnaire, $idGestionnaire, &$view) {
 
 		$nouveauGestionnaire = null;
@@ -137,11 +145,11 @@ class Bral_Util_Communaute {
 	 */
 	public static function getNiveauDuLieu($idCommunaute, $idTypeLieu) {
 		$retour = -1;
-		
+
 		if ($idCommunaute == null) {
 			return $retour;
 		}
-		
+
 		Zend_Loader::loadClass("Lieu");
 		$lieuTable = new Lieu();
 		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieu);

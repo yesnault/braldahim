@@ -35,11 +35,16 @@ class Bral_Box_Communaute_Gestion extends Bral_Box_Box {
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
 		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
 
 		if ($this->view->affichageInterne) {
 			$this->prepareData();
 		}
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		$this->view->niveauTribune = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_TRIBUNE);
+		
 		return $this->view->render("interface/communaute/gestion.phtml");
 	}
 

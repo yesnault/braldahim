@@ -1,0 +1,61 @@
+<br />
+
+<?php if ($this->isUpdateCss == true) :?>
+	Css mise &agrave; jour.
+<?php else : ?>
+
+<center>
+	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+	<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+	<input type='hidden' id='valeur_2' name='valeur_2' value=''>
+	
+	<div class="titre textalic textsizee">CSS</div><br />
+	
+	L'écriture d'une CSS est réservée à un utilisateur averti. Pour de plus amples informations sur le fonctionnement des CSS, passez
+	donc sur le <a href="http://forum.braldahim.com">forum de Braldahim, dans la section Questions.</a><br /><br />
+	Tout abus de mise en page visant à dissimuler le profil public sera sanctionné. <br /><br />
+	
+	<input type="button" class='button1' id="bouton_editer" value="Editer la CSS" 
+	onclick="$('label_css').style.display='none'; 
+		$('edition').style.display='block' ; 
+		$('bouton_css').style.display='block'; 
+		 this.style.display='none' ;
+		"/>
+	</center>
+		
+  <div id="label_css" style="text-align:left; padding-left:30px">
+<br /><br />  
+  <pre><?php echo $this->communaute["css_communaute"] ?><?php if (mb_strlen(trim($this->communaute["css_communaute"])) == 0 || $this->communaute["css_communaute"] == null) :?> [vide]<?php endif; ?></pre>
+  </div>
+  
+  <div id="edition" style="display:none">
+	  <textarea rows='10' cols='80' name="valeur_css"  id="valeur_css"><?php echo stripslashes($this->communaute["css_communaute"]) ?></textarea>
+	  <input type="button" class='button1' id="bouton_css" 
+	  onclick="
+		  $('label_css').style.display='block'; 
+		  $('edition').style.display='none'; 
+		  this.style.display='none' ;
+		  $('valeur_1').value=1;
+		  $('valeur_2').value = encodePlus($('valeur_css').value);
+		   _get_('/communaute/doaction?caction=do_communaute_modifiercss', false)" value="Valider" style="display:none" />
+	</div>
+
+<br /><br />
+Exemple de CSS : <br />
+
+<div style="text-align:left; padding-left:30px">
+Affiche un fond noir sur le premier cadre : 
+<pre>.inner {
+  background: #000000 repeat-x scroll 0pt 0%;
+}
+</pre>
+
+Affiche un fond gris sur le second cadre : 
+<pre>
+.box_contenu1 {
+    background: none repeat-x scroll 0 0 #eeeeee;
+}
+</pre>
+</div>
+
+<?php endif; ?>

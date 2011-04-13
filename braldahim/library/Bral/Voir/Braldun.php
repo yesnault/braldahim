@@ -67,6 +67,7 @@ class Bral_Voir_Braldun {
 				$communaute = $communauteTable->findById($this->view->braldun["id_fk_communaute_braldun"]);
 				if (count($communaute) == 1) {
 					$this->view->communaute = $communaute[0];
+					$this->view->cssCommunaute = $this->view->communaute["css_communaute"];
 				}
 			}
 			$tabMetier = Bral_Util_Metier::prepareMetier($this->view->braldun["id_braldun"], $this->view->braldun["sexe_braldun"]);

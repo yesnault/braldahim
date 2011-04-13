@@ -5,7 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Description extends Bral_Communaute_Communaute {
+class Bral_Communaute_Modifiercss extends Bral_Communaute_Communaute {
 
 	function getTitreOnglet() {}
 	function getListBoxRefresh() {}
@@ -26,11 +26,9 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 		$this->view->isUpdateDescription = false;
 		$this->view->isUpdateSiteWeb = false;
 
-		if ($this->_request->get("caction") == "do_communaute_description") {
+		if ($this->_request->get("caction") == "do_communaute_modifiercss") {
 			if ($this->_request->getPost("valeur_1") == "1") {
-				$this->updateSiteWeb();
-			} elseif ($this->_request->getPost("valeur_1") == "2") {
-				$this->updateDescription();
+				$this->updateCss();
 			}
 		}
 	}
@@ -63,27 +61,14 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 
 	function render() {
 		$c = array(
-			"description" => $this->communaute["description_communaute"], 
-			"site_web" => $this->communaute["site_web_communaute"]
+			"css_communaute" => $this->communaute["css_communaute"], 
 		);
 		$this->view->communaute = $c;
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute/gerer/description.phtml");
+		return $this->view->render("interface/communaute/gerer/modifiercss.phtml");
 	}
 
-	private function updateSiteWeb() {
-		$champ = $this->_request->getPost("valeur_2");
-
-		$communauteTable = new Communaute();
-		$data = array("site_web_communaute" => $champ);
-
-		$where = " id_communaute=".$this->communaute["id_communaute"];
-		$communauteTable->update($data, $where);
-
-		$this->view->isUpdateSiteWeb = true;
-	}
-
-	private function updateDescription() {
+	private function updateCss() {
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
@@ -92,16 +77,16 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 		$filter->addFilter(new Zend_Filter_StringTrim())
 		->addFilter(new Zend_Filter_StripTags());
 
-		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_3")));
+		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_2")));
 
-		$champ = Bral_Util_BBParser::bbcodeStripPlus($valeur);
+		$champ = $valeur;
 
 		$communauteTable = new Communaute();
-		$data = array("description_communaute" => $champ);
+		$data = array("css_communaute" => $champ);
 
 		$where = " id_communaute=".$this->communaute["id_communaute"];
 		$communauteTable->update($data, $where);
 
-		$this->view->isUpdateDescription = true;
+		$this->view->isUpdateCss = true;
 	}
 }

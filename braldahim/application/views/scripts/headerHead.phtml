@@ -35,4 +35,9 @@
 <script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/protoaculous/protoaculous.js"></script>
 <script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_action-<?php echo $versionJs?>.js"></script>
 <?php endif;?>
+
+<?php if (isset($this->cssCommunaute)) : ?>
+<style type="text/css"><?php echo $this->cssCommunaute?></style>
+<?php endif;?>
+  
 </head>

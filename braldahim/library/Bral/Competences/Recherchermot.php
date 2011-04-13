@@ -9,6 +9,8 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('LabanRune');
+		Zend_Loader::loadClass('Bral_Helper_Communaute');
+		
 		// on verifie que le Braldûn possede au moins une rune
 
 		$this->view->rechercherMotOk = false;
@@ -50,25 +52,68 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 			}
 		}
 
-		Zend_Loader::loadClass("LabanRune");
-		$tabLabanRune = null;
-		$labanRuneTable = new LabanRune();
-		$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
+		$tabRunes = null;
+		$niveauAtelier = null;
+		
+		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		
+		$lieuxTable = new Lieu();
+		$lieuRowset = $lieuxTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, false, TypeLieu::ID_TYPE_ATELIER, Bral_Util_Communaute::NIVEAU_ATELIER_RECHERCHE);
+		if ($lieuRowset != null && count($lieuRowset) == 1) {
 			
-		foreach($labanRunes as $l) {
-			$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-					"id_fk_type_rune" => $l["id_fk_type_rune"],
-					"nom_type_rune" => $l["nom_type_rune"],
-					"image_type_rune" => $l["image_type_rune"],
-					"effet_type_rune" => $l["effet_type_rune"],
-					"id_rune_laban_rune" => $l["id_rune_laban_rune"],
-			);
-			$this->view->rechercherMotOk = true;
+			$niveauAtelier = $lieuRowset[0]["niveau_lieu"]; 
+			 
+			Zend_Loader::loadClass("Coffre");
+			Zend_Loader::loadClass("CoffreRune");
+			
+			$coffreTable = new Coffre();
+			$coffre = $coffreTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
+			if ($coffre == null || count($coffre) != 1) {
+				throw new Zend_Exception("Erreur Coffre Communaute : ".$this->view->user->id_fk_communaute_braldun);
+			} else {
+				$coffre = $coffre[0];
+			}
+			
+			$coffreRuneTable = new CoffreRune();
+			$coffreRunes = $coffreRuneTable->findByIdCoffre($coffre["id_coffre"], "oui");
+
+			foreach($coffreRunes as $l) {
+				$tabRunes[$l["id_rune_coffre_rune"]] = array(
+						"id_fk_type_rune" => $l["id_fk_type_rune"],
+						"nom_type_rune" => $l["nom_type_rune"],
+						"image_type_rune" => $l["image_type_rune"],
+						"effet_type_rune" => $l["effet_type_rune"],
+						"id_rune_coffre_rune" => $l["id_rune_coffre_rune"],
+				);
+				$this->view->rechercherMotOk = true;
+			}
+		} else { // Rune dans le laban uniquement
+
+			Zend_Loader::loadClass("LabanRune");
+			$labanRuneTable = new LabanRune();
+			$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
+
+			foreach($labanRunes as $l) {
+				$tabRunes[$l["id_rune_laban_rune"]] = array(
+						"id_fk_type_rune" => $l["id_fk_type_rune"],
+						"nom_type_rune" => $l["nom_type_rune"],
+						"image_type_rune" => $l["image_type_rune"],
+						"effet_type_rune" => $l["effet_type_rune"],
+						"id_rune_laban_rune" => $l["id_rune_laban_rune"],
+				);
+				$this->view->rechercherMotOk = true;
+			}
 		}
-		$this->view->nbLabanRune = count($tabLabanRune);
-		$this->view->labanRunes = $tabLabanRune;
+
+
+		$this->view->nbRune = count($tabRunes);
+		$this->view->runes = $tabRunes;
+
 		$this->view->motsRuniques = $tabMotsRuniques;
 		$this->view->motCourant = $motCourant;
+		$this->view->niveauAtelier = $niveauAtelier;
 	}
 
 	private function calculLongeurMot($mot) {
@@ -126,7 +171,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		if ($this->view->motCourant["id_mot_runique"] != $idMot) {
 			throw new Zend_Exception(get_class($this)." mot courant invalide:a:".$this->view->motCourant["id_mot_runique"]. "m:".$idMot);
 		}
-		
+
 		$motRecherche = $this->view->motsRuniques[$idMot];
 
 		if ((int) $nbRunes."" != $this->request->get("valeur_2")."") {
@@ -143,7 +188,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		$tabRunes = null;
 
 		// on regarde si les runes sont présentes dans le laban
-		$tmp = $this->view->labanRunes;
+		$tmp = $this->view->runes;
 		$nb = 0;
 		foreach($tabRunesJs as $u) {
 			$trouve = false;
@@ -167,7 +212,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		if ($nb != $motRecherche["nb_runes"]) {
 			throw new Zend_Exception(get_class($this)." Nombre de runes invalides B n1=".$nb. " n2=".$motRecherche["nb_runes"]);
 		}
-		
+
 		// calcul des jets
 		$this->calculJets();
 
@@ -181,7 +226,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 	}
 
 	private function calculRecherchermot($motRecherche, $tabRunes) {
-		
+
 		$ordre = 0;
 		$nbPositionOk = 0;
 		$nbOkMalPlace = 0;
@@ -190,7 +235,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 			if ($motRecherche["id_fk_type_rune_".$ordre."_mot_runique"] == null) {
 				break;
 			}
-			
+
 			if ($motRecherche["id_fk_type_rune_".$ordre."_mot_runique"] == $v["id_fk_type_rune"]) {
 				$nbPositionOk++;
 			} else {
@@ -201,10 +246,10 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 				}
 			}
 		}
-		
+
 		$this->view->nbPositionOk = $nbPositionOk;
 		$this->view->nbOkMalPlace = $nbOkMalPlace;
-		
+
 		$this->view->tabRunes = $tabRunes;
 		$this->view->nbRunes = count($this->view->tabRunes);
 	}

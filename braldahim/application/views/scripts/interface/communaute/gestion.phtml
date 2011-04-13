@@ -15,7 +15,20 @@
 			<input type='button' class='button1' value='Modifier le Gestionnaire' onclick='_get_("/communaute/doaction?caction=ask_communaute_gestionnaire");'>
   		<?php endif; ?>
   		
-  		<div id="box_communaute_gestion"></div>
+  		<br /><br />
+  		<div class="titre textalic textsizec">Tribune</div>
+  		
+  		<?php if ($this->niveauTribune >= 0) : ?>
+			<?php echo Bral_Helper_Communaute::afficheNiveauTribune($this->niveauTribune);?>
+				<?php if ($this->niveauTribune >= Bral_Util_Communaute::NIVEAU_TRIBUNE_CSS) : ?>
+					<input type='button' class='button1' value='Modifier la CSS de la Communauté' onclick='_get_("/communaute/doaction?caction=ask_communaute_modifiercss");'>
+		  		<?php endif;?>
+		<?php else:?>
+			Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauTribune(null)?>.
+		<?php endif;?>
+  		
+  		<div id="box_communaute_gestion_interne">
+  		</div>
   	
   	<?php else: ?>
   		Vous n'avez aucun droit de gestion.

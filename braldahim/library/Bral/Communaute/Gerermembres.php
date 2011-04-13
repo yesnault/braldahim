@@ -35,7 +35,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	}
 
 	function getNomInterne() {
-		return "box_communaute_gestion";
+		return "box_communaute_gestion_interne";
 	}
 
 	function anotherXmlEntry() {

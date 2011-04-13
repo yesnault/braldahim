@@ -38,7 +38,7 @@ class Bral_Communaute_Gestionnaire extends Bral_Communaute_Communaute {
 	function prepareResultat() {}
 
 	function getNomInterne() {
-		return "box_communaute_gestion";
+		return "box_communaute_gestion_interne";
 	}
 
 	function preparePage() {
