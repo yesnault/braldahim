@@ -18,7 +18,7 @@ Champ appartenant à <?php echo $this->champ["braldun"]?><br /></div>
  <?php endif; ?>
  
 <hr> 
-<?php if ($this->niveauGrenier != null) : ?>
+<?php if ($this->niveauGrenier != null && ($this->niveauGrenier == Bral_Util_Communaute::NIVEAU_EN_CONSTRUCTION || $this->niveauGrenier >= 0)) : ?>
  		<?php echo Bral_Helper_Communaute::afficheNiveauGrenier($this->niveauGrenier);?><br />
 <?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
  		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauGrenier(null, "grenier")?>.<br />

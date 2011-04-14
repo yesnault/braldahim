@@ -69,6 +69,7 @@ class Bral_Helper_Communaute {
 		$details .= 'Niveau 3 : Permet d\'effectuer des ordres Coffre perso <-> Coffre commun à distance<br />';
 		$details .= 'Niveau 4 : Permet d\'effectuer des ordres Coffre perso -> autres coffres de Braldûns<br />';
 		$details .= 'Niveau 5 : Permet d\'effecter des ordres Coffre commun -> Hôtel des Ventes<br />';
+		$details .= "<br />Les effets sur les Bâtiments en construction ne sont pas actifs.";
 		$retour = self::getNiveauTexte($texte, "un marché couvert", "Marché couvert", $niveau, $details);
 		return $retour;
 	}
@@ -77,15 +78,19 @@ class Bral_Helper_Communaute {
 		$retour = "";
 		if ($texte == null) {
 			$retour .= "<div >";
-			$retour .= "Votre communauté possède ".$mot." de <div class='braltip alabel' style='display:inline'>niveau ".$niveau.'.';
+			if ($niveau == Bral_Util_Communaute::NIVEAU_EN_CONSTRUCTION) {
+				$retour .= "Votre communauté possède ".$mot." <div class='braltip alabel' style='display:inline'>en construction.";
+			} else {
+				$retour .= "Votre communauté possède ".$mot." de <div class='braltip alabel' style='display:inline'>niveau ".$niveau.'.';
+			}
 			$retour .= Bral_Helper_Tooltip::render($details, $titre);
-			$retour .= '</div></div>';
+			$retour .= '</div>';
 		} else {
 			$retour .= "<div class='braltip alabel' style='display:inline'>";
 			$retour .= $texte;
 			$retour .= Bral_Helper_Tooltip::render($details, $titre);
-			$retour .= '</div>';
 		}
+		$retour .= '</div>';
 		return $retour;
 	}
 

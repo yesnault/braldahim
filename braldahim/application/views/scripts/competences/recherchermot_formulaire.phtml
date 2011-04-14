@@ -1,8 +1,10 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
  
- 	<?php if ($this->niveauAtelier != null) : ?>
+ 	<?php if ($this->niveauAtelier != null && ($this->niveauAtelier == Bral_Util_Communaute::NIVEAU_EN_CONSTRUCTION || $this->niveauAtelier >= 0)) : ?>
   	 <?php echo Bral_Helper_Communaute::afficheNiveauAtelier($this->niveauAtelier); ?>
+  	<?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
+ 		Votre communauté ne possède pas d'<?php echo Bral_Helper_Communaute::afficheNiveauAtelier(null, "atelier")?>.<br />
   	<?php endif;?>
   	 
   <?php if (count($this->motsRuniques) > 0) : ?>

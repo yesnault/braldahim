@@ -46,6 +46,7 @@ class Bral_Box_Communaute_Batiments extends Bral_Box_Box {
 			}
 			$estDansCommunaute = true;
 		}
+		$this->view->communaute = $communaute;
 	}
 
 	private function prepareBatiments($communaute) {

@@ -12,6 +12,8 @@ class Bral_Util_Communaute {
 	const ID_RANG_TENANCIER = 3;
 	const ID_RANG_NOUVEAU = 20;
 
+	const NIVEAU_EN_CONSTRUCTION = -2;
+	
 	const NIVEAU_GRENIER_RECOLTER = 1;
 	const NIVEAU_GRENIER_ENTRETENIR = 2;
 	const NIVEAU_GRENIER_SEMER = 3;
@@ -160,7 +162,12 @@ class Bral_Util_Communaute {
 		$lieuTable = new Lieu();
 		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieu);
 		if ($lieux != null && count($lieux) > 0) {
-			$retour = $lieux[0]['niveau_lieu'];
+			if ($lieux[0]["niveau_lieu"] != $lieux[0]["niveau_prochain_lieu"]) {
+				$retour = self::NIVEAU_EN_CONSTRUCTION;
+			} else {
+				$retour = $lieux[0]['niveau_lieu'];
+			}
+			
 		}
 		return $retour;
 	}

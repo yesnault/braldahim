@@ -11,7 +11,7 @@
 	<?php Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
 	<div class="titre textalic textsizec">Liste des Membres</div><br />
 
-	<?php if ($this->niveauBaraquements != null && $this->niveauBaraquements >= 0) : ?>
+	<?php if ($this->niveauBaraquements != null && ($this->niveauBaraquements == Bral_Util_Communaute::NIVEAU_EN_CONSTRUCTION || $this->niveauBaraquements >= 0)) : ?>
 		<?php echo Bral_Helper_Communaute::afficheNiveauBaraquement($this->niveauBaraquements);?>
  	<?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
  		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauBaraquement(null, "baraquements")?>.

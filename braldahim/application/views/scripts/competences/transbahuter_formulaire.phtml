@@ -1,7 +1,7 @@
-<?php if ($this->niveauMarcheCommunaute >= 0) : ?>
+<?php if ($this->niveauMarcheCommunaute >= 0 && ($this->niveauMarcheCommunaute == Bral_Util_Communaute::NIVEAU_EN_CONSTRUCTION || $this->niveauMarcheCommunaute >= 0)) : ?>
 	<?php echo Bral_Helper_Communaute::afficheNiveauMarche($this->niveauMarcheCommunaute);?>
 <?php elseif ($this->user->id_fk_communaute_braldun != null) : ?>
- 		Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauMarche(null)?>.
+ 	Votre communauté ne possède pas de <?php echo Bral_Helper_Communaute::afficheNiveauMarche(null, "marché couvert")?>.
 <?php endif;?>
 <br />
 

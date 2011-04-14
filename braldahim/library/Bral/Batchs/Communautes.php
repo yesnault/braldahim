@@ -31,30 +31,55 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		// coef lune : $mpfrac
 		$coefLune = floor($mpfrac * 100);
 
-		// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
-		// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
-		//if ($moonAge > 2) { // Lune > 2 jours
-			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
-		//	return $retour;
-		//}
-
-		$retour .= $this->calculCommunautes();
+		$retour .= $this->calculCommunautes($moonAge);
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculBatchImpl - exit -");
 		return $retour;
 	}
 
-	private function calculCommunautes() {
+	private function calculCommunautes($moonAge) {
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculCommunautes - enter -");
 		$retour = "";
 
 		$communauteTable = new Communaute();
 		$communautes = $communauteTable->fetchAll();
 		foreach($communautes as $communaute) {
+			// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
+			// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
+			//if ($moonAge > 2) { // Lune > 2 jours
+			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
+			//	return $retour;
+			//}
 			$retour .= $this->calculEntretien($communaute);
+			$retour .= $this->calculPointsInfluence($communaute);
 		}
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculCommunautes - exit -");
+		return $retour;
+	}
+
+	private function calculPointsInfluence($communaute) {
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculPointsInfluence - enter - communaute id:".$communaute['id_communaute']);
+		$retour = "";
+
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findByIdCommunaute($communaute['id_communaute']);
+
+		if (count($lieux) == 0) {
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Communaute - calculPointsInfluence - aucun bâtiment pour la communaute ".$communaute['id_communaute']);
+		}
+		
+		$points = 0;
+		foreach($lieux as $lieu) {
+			$points = $points + $lieu['niveau_lieu'];
+		}
+
+		$communauteTable = new Communaute();
+		$data['points_communaute'] = $points;
+		$where = "id_communaute = ".$communaute['id_communaute'];
+		$communauteTable->update($data, $where);
+
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculPointsInfluence - exit -");
 		return $retour;
 	}
 
@@ -138,7 +163,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 		$detailsBot = "Coût en castars de l'entretien: ".$coutsCastars.".".PHP_EOL;
 		$detailsBot .= "Il n'y a pas assez de castars dans le coffre de la Communauté.".PHP_EOL.PHP_EOL;
-		
+
 		if ($lieu['niveau_lieu'] <= 1) {
 			// Suppression du bâtiment et des dépendances
 			$lieuTable->delete($where);
@@ -148,7 +173,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 			$details = $lieu['nom_lieu']." (détruit)";
 			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu. Étant de niveau ".$lieu['niveau_lieu'].", il a été détruit. ".PHP_EOL;
-		} else { // descente d'un niveau
+		} else { // descente d'un niveau, suppression des dépendances
 
 			$data = array(
 				'niveau_lieu' => $lieu['niveau_lieu'] - 1,
@@ -158,13 +183,13 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 			$lieuTable->update($data, $where);
 			$retour = "descente d'un niveau du lieu ".$lieu['id_lieu'];
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
-			
+
 			$details = $lieu['nom_lieu']." (ko)";
 			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu et a perdu un niveau.".PHP_EOL;
 			$detailsBot .= "Son niveau obtenu :".($lieu['niveau_lieu'] - 1).PHP_EOL.PHP_EOL;
 			$detailsBot .= "S'il n'est pas entretenu au niveau 0 ou 1, il sera automatiquement détruit.".PHP_EOL;
 		}
-		
+
 		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée automatiquement.";
 		Bral_Util_EvenementCommunaute::ajoutEvenements($communaute['id_communaute'], TypeEvenementCommunaute::ID_TYPE_ENTRETIEN, $details, $detailsBot, $this->view);
 

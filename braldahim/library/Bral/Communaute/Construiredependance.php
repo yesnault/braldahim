@@ -116,7 +116,7 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 				if ($t["id_type_lieu"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
 					// on ne pourra pas construire un bâtiment du même type une seconde fois
 					$display = false;
-				} else if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["niveau_lieu"] >= $t["niveau_type_dependance"]) {
+				} else if ($t["id_fk_type_lieu_type_dependance"] == $l["id_fk_type_lieu"] && $l["niveau_lieu"] >= $t["niveau_type_dependance"] && $l["niveau_lieu"] == $l["niveau_prochain_lieu"]) {
 					if ($display !== false) {
 						$display = true;
 					}
