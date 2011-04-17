@@ -6,6 +6,7 @@
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
+  	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=5&valeur_6=<?php echo $this->sensOrdre ?>");'>Points d'influence <?php echo Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>");'>Nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>");'>Date de cr&eacute;ation <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_communautes&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>");'>Site Web <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
@@ -29,6 +30,7 @@
 <?php $i = 0;
    foreach($this->tabCommunautes as $m) :?>
 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>" onclick='document.location.href="/voir/communaute/?communaute=<?php echo $m["id_communaute"] ?>";' style="cursor:pointer" title="Cliquez pour accéder au profil">
+	  <td class="table_liste"><?php echo htmlspecialchars($m["points_communaute"]) ?></td>
 	  <td class="table_liste"><?php echo htmlspecialchars($m["nom_communaute"]) ?></td>	
 	  <td class="table_liste"><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_creation_communaute"]); ?></td>
 	  <td class="table_liste"><?php echo htmlspecialchars($m["site_web_communaute"]) ?></td>

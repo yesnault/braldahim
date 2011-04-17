@@ -43,6 +43,7 @@ class Bral_Voir_Communautes {
 				"date_creation_communaute" => $m["date_creation_communaute"],
 				"site_web_communaute" => $m["site_web_communaute"],
 				"nb_membres" => $m["nb_membres"],
+				"points_communaute" => $m["points_communaute"],
 			);
 		}
 		
@@ -101,7 +102,7 @@ class Bral_Voir_Communautes {
 			$this->_page = 1;
 			$this->_filtre = -1;
 			$ordre = -1;
-			$sensOrdre = 1;
+			$sensOrdre = 0;
 		}
 		
 		$this->_ordre = $ordre;
@@ -126,8 +127,10 @@ class Bral_Voir_Communautes {
 			$retour = "site_web_communaute";
 		} elseif ($ordre == 4) {
 			$retour = "nb_membres";
+		} elseif ($ordre == 5) {
+			$retour = "points_communaute";
 		} else {
-			$retour = "nom_communaute";
+			$retour = "points_communaute";
 		}
 		return $retour;
 	}

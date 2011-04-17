@@ -6,6 +6,7 @@
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
+    <th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=6&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Points de distinctions <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Pr&eacute;nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Nom <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>N&deg; <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
@@ -30,6 +31,7 @@
 <?php $i = 0;
    foreach($this->tabBralduns as $m) :?>
 	<tr class="table_liste<?php echo ($i % 2);$i++; ?>" onclick='document.location.href="/voir/braldun/?braldun=<?php echo $m["id_braldun"] ?>";' style="cursor:pointer" title="Cliquez pour accéder au profil">
+	  <td class="table_liste"><?php echo htmlspecialchars($m["points_distinctions"]) ?></td>
 	  <td class="table_liste"><?php echo htmlspecialchars($m["prenom_braldun"]) ?></td>	
 	  <td class="table_liste"><?php echo htmlspecialchars($m["nom_braldun"]) ?></td>
 	  <td class="table_liste"><?php echo $m["id_braldun"] ?></td>

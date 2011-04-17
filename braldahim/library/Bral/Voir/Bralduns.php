@@ -43,6 +43,7 @@ class Bral_Voir_Bralduns {
 				"prenom_braldun" => $m["prenom_braldun"],
 				"niveau_braldun" => $m["niveau_braldun"],
 				"date_creation" => $m["date_creation_braldun"],
+				"points_distinctions" => $m["points_distinctions_braldun"],
 			);
 		}
 		
@@ -109,7 +110,7 @@ class Bral_Voir_Bralduns {
 			$this->_filtre = -1;
 			$this->_filtrePrenom = -1;
 			$ordre = -1;
-			$sensOrdre = 1;
+			$sensOrdre = 0;
 		}
 		
 		$this->_ordre = $ordre;
@@ -137,8 +138,10 @@ class Bral_Voir_Bralduns {
 			$retour = "niveau_braldun";
 		} elseif ($ordre == 5) {
 			$retour = "date_creation_braldun";
+		} elseif ($ordre == 6) {
+			$retour = "points_distinctions_braldun";
 		} else {
-			$retour = "prenom_braldun";
+			$retour = "points_distinctions_braldun";
 		}
 		return $retour;
 	}

@@ -68,7 +68,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		if (count($lieux) == 0) {
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_Communaute - calculPointsInfluence - aucun bâtiment pour la communaute ".$communaute['id_communaute']);
 		}
-		
+
 		$points = 0;
 		foreach($lieux as $lieu) {
 			$points = $points + $lieu['niveau_lieu'];
@@ -102,6 +102,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		if (count($lieux) == 0) {
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_Communaute - calculEntretien - aucun bâtiment pour la communaute ".$communaute['id_communaute']);
 		}
+		
 		foreach($lieux as $lieu) {
 			$coutsEntretien = Bral_Util_Communaute::getCoutsEntretienBatiment($lieu['niveau_lieu']);
 			$coutsCastars = $coutsEntretien['cout_castar'];
@@ -164,7 +165,9 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		$detailsBot = "Coût en castars de l'entretien: ".$coutsCastars.".".PHP_EOL;
 		$detailsBot .= "Il n'y a pas assez de castars dans le coffre de la Communauté.".PHP_EOL.PHP_EOL;
 
-		if ($lieu['niveau_lieu'] <= 1) {
+		$lieu['niveau_lieu'] = $lieu['niveau_lieu'] - 1;
+		
+		if ($lieu['niveau_lieu'] < 1) {
 			// Suppression du bâtiment et des dépendances
 			$lieuTable->delete($where);
 
@@ -172,11 +175,12 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - ".$retour);
 
 			$details = $lieu['nom_lieu']." (détruit)";
-			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu. Étant de niveau ".$lieu['niveau_lieu'].", il a été détruit. ".PHP_EOL;
+			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu. Étant de niveau ".($lieu['niveau_lieu'] + 1).", il a été détruit. ".PHP_EOL;
+			$detailsBot .= self::calculSuppressionDependances($lieu);
 		} else { // descente d'un niveau, suppression des dépendances
 
 			$data = array(
-				'niveau_lieu' => $lieu['niveau_lieu'] - 1,
+				'niveau_lieu' => $lieu['niveau_lieu'],
 				'niveau_prochain_lieu' => $lieu['niveau_prochain_lieu'] - 1,
 				'date_entretien_lieu' => date("Y-m-d H:i:s"),
 			);
@@ -186,14 +190,43 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 			$details = $lieu['nom_lieu']." (ko)";
 			$detailsBot .= "Le bâtiment -".$lieu['nom_lieu']."- a été n'a pas été entretenu et a perdu un niveau.".PHP_EOL;
-			$detailsBot .= "Son niveau obtenu :".($lieu['niveau_lieu'] - 1).PHP_EOL.PHP_EOL;
+			$detailsBot .= "Nouveau niveau obtenu :".$lieu['niveau_lieu'].PHP_EOL.PHP_EOL;
 			$detailsBot .= "S'il n'est pas entretenu au niveau 0 ou 1, il sera automatiquement détruit.".PHP_EOL;
+			$detailsBot .= self::calculSuppressionDependances($lieu);
 		}
 
 		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée automatiquement.";
 		Bral_Util_EvenementCommunaute::ajoutEvenements($communaute['id_communaute'], TypeEvenementCommunaute::ID_TYPE_ENTRETIEN, $details, $detailsBot, $this->view);
 
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretienKo - exit -");
+		return $retour;
+	}
+
+	private function calculSuppressionDependances($lieu) {
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculSuppressionDependances - enter -");
+		$retour = "";
+
+		$lieuTable = new Lieu();
+		$dependances = $lieuTable->findDependanceByIdTypeAndIdCommunaute($lieu["id_fk_type_lieu"], $lieu["id_fk_communaute_lieu"]);
+		
+		if ($dependances == null || count($dependances) <= 0) {
+			return null;
+		}
+
+		foreach($dependances as $dependance) {
+			// si le niveau du lieu est strictement inferieur à la dépendance
+			if ($dependance["niveau_type_dependance"] > $lieu["niveau_lieu"]) {
+				$retour .= "La dépendance -".$dependance['nom_lieu']."- est détruite.".PHP_EOL;
+				$where = "id_lieu=".$dependance["id_lieu"];
+				$lieuTable->delete($where);
+			}
+		}
+		
+		if ($retour != "") {
+			$retour = PHP_EOL.$retour;
+		}
+		
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculSuppressionDependances - exit -");
 		return $retour;
 	}
 

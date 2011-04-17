@@ -248,6 +248,22 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findDependanceByIdTypeAndIdCommunaute($idTypeLieu, $idCommunaute) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->from('type_dependance', '*')
+		->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = id_type_lieu')
+		->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('type_dependance.id_fk_type_lieu_type_dependance = ?', intval($idTypeLieu));
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+
 	public function findByTypeAndPosition($type, $x, $y, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
