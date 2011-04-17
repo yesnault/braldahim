@@ -46,10 +46,10 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		foreach($communautes as $communaute) {
 			// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
 			// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
-			//if ($moonAge > 2) { // Lune > 2 jours
-			Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
-			//	return $retour;
-			//}
+			if ($moonAge > 2) { // Lune > 2 jours
+				Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
+				return $retour;
+			}
 			$retour .= $this->calculEntretien($communaute);
 			$retour .= $this->calculPointsInfluence($communaute);
 		}
@@ -102,7 +102,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		if (count($lieux) == 0) {
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_Communaute - calculEntretien - aucun bâtiment pour la communaute ".$communaute['id_communaute']);
 		}
-		
+
 		foreach($lieux as $lieu) {
 			$coutsEntretien = Bral_Util_Communaute::getCoutsEntretienBatiment($lieu['niveau_lieu']);
 			$coutsCastars = $coutsEntretien['cout_castar'];
@@ -166,7 +166,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 		$detailsBot .= "Il n'y a pas assez de castars dans le coffre de la Communauté.".PHP_EOL.PHP_EOL;
 
 		$lieu['niveau_lieu'] = $lieu['niveau_lieu'] - 1;
-		
+
 		if ($lieu['niveau_lieu'] < 1) {
 			// Suppression du bâtiment et des dépendances
 			$lieuTable->delete($where);
@@ -208,7 +208,7 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 
 		$lieuTable = new Lieu();
 		$dependances = $lieuTable->findDependanceByIdTypeAndIdCommunaute($lieu["id_fk_type_lieu"], $lieu["id_fk_communaute_lieu"]);
-		
+
 		if ($dependances == null || count($dependances) <= 0) {
 			return null;
 		}
@@ -221,11 +221,11 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 				$lieuTable->delete($where);
 			}
 		}
-		
+
 		if ($retour != "") {
 			$retour = PHP_EOL.$retour;
 		}
-		
+
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculSuppressionDependances - exit -");
 		return $retour;
 	}
