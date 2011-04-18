@@ -101,7 +101,6 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 	}
 
 	private function calculCDM($idBraldun,$dist_braldun) {
-		Zend_Loader::loadClass("Bral_Util_Connaissance");
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->findById($idBraldun);
 		$braldun = $braldunRowset->toArray();
@@ -109,86 +108,36 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 		$tabCDM["prenom_braldun"] = $braldun["prenom_braldun"];
 		$tabCDM["nom_braldun"] = $braldun["nom_braldun"];
 		$tabCDM["niveau_braldun"] = $braldun["niveau_braldun"];
-			
-		/* Calculs suivant la distance :
-		 *
-		 * Pour les carac : FOR, AGI, SAG, VIG, REG, ARM (ARM nat + portée dans le cas des braldun) on applique le schéma suivant :
-		 * Si distance = 0 : +/- nD3-1
-		 * Si distance = 1 : +/- nD3
-		 * Si distance = 2 : +/- nD3+1
-		 * Si distance = 3 : +/- nD3+2
-		 * Si distance = 4 ou +  : +/- nD3+3
-		 *
-		 * Ensuite on a n qui varie suivant la différence de niveau entre les 2 bralduns :
-		 * de négatif à 4 : n=1
-		 * de 5-9 : n=2
-		 * de 10-14 : n=3
-		 * etc ..
-		 *
-		 * Au minimum on borne à 0 (pas de négatif).
-		 *
-		 * Ensuite pour la DLA, les PV actuels et max on fait un % tout simple (et on affiche en HH:MM pour la DLA) :
-		 * Si distance = 0 : +/- [0;6]%
-		 * Si distance = 1 : +/- [0;9]%
-		 * Si distance = 2 : +/- [0;12]%
-		 * Si distance = 3 : +/- [0;15]%
-		 * Si distance = 4 ou +  : +/- [0;18]%
-		 *
-		 * Attention pour les PV : il faut que cela reste cohérent : pas de PV actuels max supérieur au PV min.
-		 * Genre :
-		 * PV actuel : de 25 à 36
-		 * PV max : de 30 à 42
-		 *
-		 * et pour terminer le niveau :
-		 * Si distance = 0 : +/- 1D2
-		 * Si distance = 1 : +/- 1D2+1
-		 * Si distance = 2 : +/- 1D2+2
-		 * Si distance = 3 : +/- 1D2+3
-		 * Si distance = 4 ou +  : +/- 1D2+4
-		 *
-		 */
+		
+		$tabCDM["max_vue_braldun"] = Bral_Util_Commun::getVueBase($braldun["x_braldun"], $braldun["y_braldun"], $braldun["z_braldun"]) + $braldun["vue_bm_braldun"] ;
+		
+		$tabCDM["max_deg_braldun"] = ($braldun["force_base_braldun"] + $this->view->config->game->base_force) * 6 + $braldun["force_bm_braldun"] + $braldun["force_bbdf_braldun"] + $braldun["bm_degat_braldun"];
+		
+		$tabCDM["max_att_braldun"] = ($braldun["agilite_base_braldun"] + $this->view->config->game->base_agilite) * 6 + $braldun["agilite_bm_braldun"] + $braldun["agilite_bbdf_braldun"] + $braldun["bm_attaque_braldun"];
+		
+		$tabCDM["max_def_braldun"] = ($braldun["agilite_base_braldun"] + $this->view->config->game->base_agilite) * 6 + $braldun["agilite_bm_braldun"] + $braldun["agilite_bbdf_braldun"] + $braldun["bm_defense_braldun"];
 
-		$n = $braldun["niveau_braldun"] - $this->view->user->niveau_braldun;
-		if ($n < 0){
-			$n = 1;
-		}
-		else {
-			$n = intval ($n/5) + 1;
-		}
+		$tabCDM["max_sag_braldun"] = ($braldun["sagesse_base_braldun"] + $this->view->config->game->base_sagesse) * 6 + $braldun["sagesse_bm_braldun"] + $braldun["sagesse_bbdf_braldun"];
 
-		$dist = $dist_braldun;
+		$tabCDM["max_vig_braldun"] = ($braldun["vigueur_base_braldun"] + $this->view->config->game->base_vigueur) * 6 + $braldun["vigueur_bm_braldun"] + $braldun["vigueur_bbdf_braldun"];
 
-		if ($dist > 4) {
-			$dist=4;
-		}
-
-		$tabCDM["min_for_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($braldun["force_base_braldun"], $n, $dist) + $this->view->config->game->base_force;
-		$tabCDM["max_for_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($braldun["force_base_braldun"], $n, $dist) + $this->view->config->game->base_force;
-
-		$tabCDM["min_agi_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($braldun["agilite_base_braldun"], $n, $dist) + $this->view->config->game->base_agilite;
-		$tabCDM["max_agi_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($braldun["agilite_base_braldun"], $n, $dist) + $this->view->config->game->base_agilite;
-
-		$tabCDM["min_sag_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($braldun["sagesse_base_braldun"], $n, $dist) + $this->view->config->game->base_sagesse;
-		$tabCDM["max_sag_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($braldun["sagesse_base_braldun"], $n, $dist) + $this->view->config->game->base_sagesse;
-
-		$tabCDM["min_vig_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($braldun["vigueur_base_braldun"], $n, $dist) + $this->view->config->game->base_vigueur;
-		$tabCDM["max_vig_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($braldun["vigueur_base_braldun"], $n, $dist) + $this->view->config->game->base_vigueur;
-
-		$tabCDM["min_reg_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($braldun["regeneration_braldun"], $n, $dist);
-		$tabCDM["max_reg_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($braldun["regeneration_braldun"], $n, $dist);
+		$tabCDM["max_reg_braldun"] = $braldun["regeneration_braldun"] * 10 + $braldun["regeneration_bm_braldun"] ;
 
 		$armureTotale = $braldun["armure_naturelle_braldun"] + $braldun["armure_equipement_braldun"] + $braldun["armure_bm_braldun"];
 		if ($armureTotale < 0) {
 			$armureTotale = 0;
 		}
-		$tabCDM["min_arm_braldun"] = Bral_Util_Connaissance::calculConnaissanceMin ($armureTotale, $n, $dist);
-		$tabCDM["max_arm_braldun"] = Bral_Util_Connaissance::calculConnaissanceMax ($armureTotale, $n, $dist);
+		$tabCDM["min_arm_braldun"] = floor($armureTotale - $armureTotale * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_arm_braldun"] = ceil($armureTotale + $armureTotale * (Bral_Util_De::get_1D10())/100);
+		if ( $tabCDM["max_arm_braldun"] == 0 ){
+			$tabCDM["max_arm_braldun"] = 1;
+		}
+		
+		$tabCDM["min_pvmax_braldun"] = floor($braldun["pv_max_braldun"] - $braldun["pv_max_braldun"] * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_pvmax_braldun"] = ceil($braldun["pv_max_braldun"] + $braldun["pv_max_braldun"] * (Bral_Util_De::get_1D10())/100);
 
-		$tabCDM["min_pvmax_braldun"] = floor(floor($braldun["pv_max_braldun"] - $braldun["pv_max_braldun"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100)/5)*5;
-		$tabCDM["max_pvmax_braldun"] = ceil(ceil($braldun["pv_max_braldun"] + $braldun["pv_max_braldun"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100)/5)*5;
-
-		$tabCDM["min_pvact_braldun"] = floor($braldun["pv_restant_braldun"] - $braldun["pv_restant_braldun"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
-		$tabCDM["max_pvact_braldun"] = ceil($braldun["pv_restant_braldun"] + $braldun["pv_restant_braldun"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["min_pvact_braldun"] = floor($braldun["pv_restant_braldun"] - $braldun["pv_restant_braldun"] * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_pvact_braldun"] = ceil($braldun["pv_restant_braldun"] + $braldun["pv_restant_braldun"] * (Bral_Util_De::get_1D10())/100);
 		if ($tabCDM["max_pvact_braldun"] > $tabCDM["max_pvmax_braldun"]) {
 			$tabCDM["max_pvact_braldun"] = $tabCDM["max_pvmax_braldun"];
 		}
@@ -197,8 +146,8 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 		}
 
 		$duree_base_tour_minute = Bral_Util_ConvertDate::getMinuteFromHeure($braldun["duree_courant_tour_braldun"]);
-		$tabCDM["min_dla_braldun"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - floor($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
-		$tabCDM["max_dla_braldun"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
+		$tabCDM["min_dla_braldun"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - floor($duree_base_tour_minute * (Bral_Util_De::get_1D10())/100));
+		$tabCDM["max_dla_braldun"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::get_1D10())/100));
 
 		$this->view->tabCDM = $tabCDM;
 

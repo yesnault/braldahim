@@ -9,17 +9,16 @@
 	Niveau : entre <?php echo $this->tabCDM['min_niveau_monstre'] ?> et <?php echo $this->tabCDM['max_niveau_monstre'] ?><br />
 	Point de vie max : entre <?php echo $this->tabCDM['min_pvmax_monstre'] ?> et <?php echo $this->tabCDM['max_pvmax_monstre'] ?><br />
 	Point de vie actuels : entre <?php echo $this->tabCDM['min_pvact_monstre'] ?> et <?php echo $this->tabCDM['max_pvact_monstre'] ?><br />
-	Vue : entre <?php echo $this->tabCDM['min_vue_monstre'] ?> et <?php echo $this->tabCDM['max_vue_monstre'] ?><br />
-	Force : entre <?php echo $this->tabCDM['min_for_monstre'] ?> et <?php echo $this->tabCDM['max_for_monstre'] ?> D<?php echo $this->config->game->de_force?><br />
-	Agilit&eacute; : entre <?php echo $this->tabCDM['min_agi_monstre'] ?> et <?php echo $this->tabCDM['max_agi_monstre'] ?> D<?php echo $this->config->game->de_agilite?><br />
-	Sagesse : entre <?php echo $this->tabCDM['min_sag_monstre'] ?> et <?php echo $this->tabCDM['max_sag_monstre'] ?> D<?php echo $this->config->game->de_sagesse?><br />
-	Vigueur : entre <?php echo $this->tabCDM['min_vig_monstre'] ?> et <?php echo $this->tabCDM['max_vig_monstre'] ?> D<?php echo $this->config->game->de_vigueur?><br />
-	R&eacute;g&eacute;n&eacute;ration : entre <?php echo $this->tabCDM['min_reg_monstre'] ?> et <?php echo $this->tabCDM['max_reg_monstre'] ?><br />
+	Vue : <?php echo $this->tabCDM['max_vue_monstre'] ?> case<?php echo Bral_Util_String::getPluriel($this->tabCDM['max_vue_monstre'])?><br />
+	D&eacute;g&acirc;ts : pas plus de <?php echo $this->tabCDM['max_deg_monstre'] ?><br />
+	Attaque : pas plus de <?php echo $this->tabCDM['max_att_monstre'] ?><br />
+	D&eacute;fense : pas plus de <?php echo $this->tabCDM['max_def_monstre'] ?><br />
+	Sagesse : pas plus de <?php echo $this->tabCDM['max_sag_monstre'] ?><br />
+	Vigueur : pas plus de <?php echo $this->tabCDM['max_vig_monstre'] ?><br />
+	R&eacute;g&eacute;n&eacute;ration : pas plus de <?php echo $this->tabCDM['max_reg_monstre'] ?><br />
 	Armure : entre <?php echo $this->tabCDM['min_arm_monstre'] ?> et <?php echo $this->tabCDM['max_arm_monstre'] ?><br />
 	Dur&eacute;e du tour : entre <?php echo $this->tabCDM['min_dla_monstre'] ?> et <?php echo $this->tabCDM['max_dla_monstre'] ?><br />
 	
-	<br />
-	Vous avez effectué cette compétence à une distance de <?php echo $this->distance?> de la cible.
 	<br />
 	<?php if ($this->tabCDM["id_taille_monstre"] != TailleMonstre::ID_TAILLE_BOSS) : ?>
 		<?php if (count ($this->pister) == 0): ?>

@@ -5,16 +5,15 @@
 	Niveau : <?php echo $this->tabCDM['niveau_braldun'] ?> <br />
 	Point de vie max : entre <?php echo $this->tabCDM['min_pvmax_braldun'] ?> et <?php echo $this->tabCDM['max_pvmax_braldun'] ?><br />
 	Point de vie actuels : entre <?php echo $this->tabCDM['min_pvact_braldun'] ?> et <?php echo $this->tabCDM['max_pvact_braldun'] ?><br />
-	Force : entre <?php echo $this->tabCDM['min_for_braldun'] ?> et <?php echo $this->tabCDM['max_for_braldun'] ?> D<?php echo $this->config->game->de_force?><br />
-	Agilit&eacute; : entre <?php echo $this->tabCDM['min_agi_braldun'] ?> et <?php echo $this->tabCDM['max_agi_braldun'] ?> D<?php echo $this->config->game->de_agilite?><br />
-	Sagesse : entre <?php echo $this->tabCDM['min_sag_braldun'] ?> et <?php echo $this->tabCDM['max_sag_braldun'] ?> D<?php echo $this->config->game->de_sagesse?><br />
-	Vigueur : entre <?php echo $this->tabCDM['min_vig_braldun'] ?> et <?php echo $this->tabCDM['max_vig_braldun'] ?> D<?php echo $this->config->game->de_vigueur?><br />
-	R&eacute;g&eacute;n&eacute;ration : entre <?php echo $this->tabCDM['min_reg_braldun'] ?> et <?php echo $this->tabCDM['max_reg_braldun'] ?> D<?php echo $this->config->game->de_regeneration?><br />
+	Vue : <?php echo $this->tabCDM['max_vue_braldun'] ?> case<?php echo Bral_Util_String::getPluriel($this->tabCDM['max_vue_braldun'])?><br />
+	D&eacute;g&acirc;ts : pas plus de <?php echo $this->tabCDM['max_deg_braldun'] ?><br />
+	Attaque : pas plus de <?php echo $this->tabCDM['max_att_braldun'] ?><br />
+	D&eacute;fense : pas plus de <?php echo $this->tabCDM['max_def_braldun'] ?><br />
+	Sagesse : pas plus de <?php echo $this->tabCDM['max_sag_braldun'] ?><br />
+	Vigueur : pas plus de <?php echo $this->tabCDM['max_vig_braldun'] ?><br />
+	R&eacute;g&eacute;n&eacute;ration : pas plus de <?php echo $this->tabCDM['max_reg_braldun'] ?><br />
 	Armure : entre <?php echo $this->tabCDM['min_arm_braldun'] ?> et <?php echo $this->tabCDM['max_arm_braldun'] ?><br />
 	Dur&eacute;e du tour : entre <?php echo $this->tabCDM['min_dla_braldun'] ?> et <?php echo $this->tabCDM['max_dla_braldun'] ?><br />
-	
-	<br />
-	Vous avez effectué cette compétence à une distance de <?php echo $this->distance?> de la cible.
 	
 <?php else: ?>
 	Vous avez manqu&eacute; votre reconnaissance.<br />
