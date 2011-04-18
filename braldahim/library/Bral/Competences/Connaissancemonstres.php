@@ -109,7 +109,6 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 	}
 
 	private function calculCDM($idMonstre, $dist_monstre) {
-		Zend_Loader::loadClass("Bral_Util_Connaissance");
 		Zend_Loader::loadClass("BraldunsCdm");
 		Zend_Loader::loadClass("BraldunsCompetences");
 
@@ -128,85 +127,37 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 			$article = "un";
 		}
 
-		/* Calculs suivant la distance :
-		 *
-		 * Pour les carac : FOR, AGI, SAG, VIG, REG, ARM (ARM nat + portée dans le cas des braldun) on applique le schéma suivant :
-		 * Si distance = 0 : +/- nD3-1
-		 * Si distance = 1 : +/- nD3
-		 * Si distance = 2 : +/- nD3+1
-		 * Si distance = 3 : +/- nD3+2
-		 * Si distance = 4 ou +  : +/- nD3+3
-		 *
-		 * Ensuite on a n qui varie suivant le level du monstre
-		 * cible niveau 1-9 : n=1
-		 * cible niveau 10-19 : n=2
-		 * cible niveau 20-29 : n=3
-		 * cible niveau 21-39 : n=4
-		 * etc ..
-		 *
-		 * Au minimum on borne à 0 (pas de négatif).
-		 *
-		 * Ensuite pour la DLA, les PV actuels et max on fait un % tout simple (et on affiche en HH:MM pour la DLA) :
-		 * Si distance = 0 : +/- [0;6]%
-		 * Si distance = 1 : +/- [0;9]%
-		 * Si distance = 2 : +/- [0;12]%
-		 * Si distance = 3 : +/- [0;15]%
-		 * Si distance = 4 ou +  : +/- [0;18]%
-		 *
-		 * Attention pour les PV : il faut que cela reste cohérent : pas de PV actuels max supérieur au PV min.
-		 * Genre :
-		 * PV actuel : de 25 à 36
-		 * PV max : de 30 à 42
-		 *
-		 * et pour terminer le niveau :
-		 * Si distance = 0 : +/- 1D2
-		 * Si distance = 1 : +/- 1D2+1
-		 * Si distance = 2 : +/- 1D2+2
-		 * Si distance = 3 : +/- 1D2+3
-		 * Si distance = 4 ou +  : +/- 1D2+4
-		 *
-		 */
-
-		$n = intval ($monstre["niveau_monstre"]/10) + 1;
-
-		$dist = $dist_monstre;
-
-		if ($dist > 4) {
-			$dist=4;
-		}
-
-		$tabCDM["min_niveau_monstre"] = $monstre["niveau_monstre"] - (Bral_Util_De::get_1d2() + $dist);
-		$tabCDM["max_niveau_monstre"] = $monstre["niveau_monstre"] + (Bral_Util_De::get_1d2() + $dist);
+		$tabCDM["min_niveau_monstre"] = $monstre["niveau_monstre"] - (Bral_Util_De::get_1d3());
+		$tabCDM["max_niveau_monstre"] = $monstre["niveau_monstre"] + (Bral_Util_De::get_1d3());
 		if ( $tabCDM["min_niveau_monstre"] < 0 ){
 			$tabCDM["min_niveau_monstre"] = 0;
 		}
 
-		$tabCDM["min_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vue_monstre"], $n, $dist);
-		$tabCDM["max_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vue_monstre"], $n, $dist);
+		$tabCDM["max_vue_monstre"] = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
 
-		$tabCDM["min_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["force_base_monstre"], $n, $dist) + $this->view->config->game->base_force;
-		$tabCDM["max_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["force_base_monstre"], $n, $dist) + $this->view->config->game->base_force;
+		$tabCDM["max_deg_monstre"] = ($monstre["force_base_monstre"] + $this->view->config->game->base_force)*6 + $monstre["force_bm_monstre"] + $monstre["bm_degat_monstre"];
 
-		$tabCDM["min_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["agilite_base_monstre"], $n, $dist) + $this->view->config->game->base_agilite;
-		$tabCDM["max_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["agilite_base_monstre"], $n, $dist) + $this->view->config->game->base_agilite;
+		$tabCDM["max_att_monstre"] = ($monstre["agilite_base_monstre"] + $this->view->config->game->base_agilite)*6 + $monstre["agilite_bm_monstre"] + $monstre["bm_attaque_monstre"];
+		
+		$tabCDM["max_def_monstre"] = ($monstre["agilite_base_monstre"] + $this->view->config->game->base_agilite)*6 + $monstre["agilite_bm_monstre"] + $monstre["bm_defense_monstre"];
+		
+		$tabCDM["max_sag_monstre"] = ($monstre["sagesse_base_monstre"] + $this->view->config->game->base_sagesse)*6 + $monstre["sagesse_bm_monstre"];
 
-		$tabCDM["min_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["sagesse_base_monstre"], $n, $dist) + $this->view->config->game->base_sagesse;
-		$tabCDM["max_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["sagesse_base_monstre"], $n, $dist) + $this->view->config->game->base_sagesse;
+		$tabCDM["max_vig_monstre"] = ($monstre["vigueur_base_monstre"] + $this->view->config->game->base_vigueur)*6 + $monstre["vigueur_bm_monstre"];
 
-		$tabCDM["min_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vigueur_base_monstre"], $n, $dist) + $this->view->config->game->base_vigueur;
-		$tabCDM["max_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vigueur_base_monstre"], $n, $dist) + $this->view->config->game->base_vigueur;
+		$tabCDM["max_reg_monstre"] = $monstre["regeneration_monstre"] * 10 + $monstre["regeneration_malus_monstre"];
 
-		$tabCDM["min_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["regeneration_monstre"], $n, $dist);
-		$tabCDM["max_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["regeneration_monstre"], $n, $dist);
+		$tabCDM["min_arm_monstre"] = floor($monstre["armure_naturelle_monstre"] - $monstre["armure_naturelle_monstre"] * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_arm_monstre"] = ceil($monstre["armure_naturelle_monstre"] + $monstre["armure_naturelle_monstre"] * (Bral_Util_De::get_1D10())/100);
+		if ( $tabCDM["max_arm_monstre"] == 0 ){
+			$tabCDM["max_arm_monstre"] = 1;
+		}
 
-		$tabCDM["min_arm_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["armure_naturelle_monstre"], $n, $dist);
-		$tabCDM["max_arm_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["armure_naturelle_monstre"], $n, $dist);
+		$tabCDM["min_pvmax_monstre"] = floor($monstre["pv_max_monstre"] - $monstre["pv_max_monstre"] * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_pvmax_monstre"] = ceil($monstre["pv_max_monstre"] + $monstre["pv_max_monstre"] * (Bral_Util_De::get_1D10())/100);
 
-		$tabCDM["min_pvmax_monstre"] = floor($monstre["pv_max_monstre"] - $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
-		$tabCDM["max_pvmax_monstre"] = ceil($monstre["pv_max_monstre"] + $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
-
-		$tabCDM["min_pvact_monstre"] = floor($monstre["pv_restant_monstre"] - $monstre["pv_restant_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
-		$tabCDM["max_pvact_monstre"] = ceil($monstre["pv_restant_monstre"] + $monstre["pv_restant_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["min_pvact_monstre"] = floor($monstre["pv_restant_monstre"] - $monstre["pv_restant_monstre"] * (Bral_Util_De::get_1D10())/100);
+		$tabCDM["max_pvact_monstre"] = ceil($monstre["pv_restant_monstre"] + $monstre["pv_restant_monstre"] * (Bral_Util_De::get_1D10())/100);
 		if ($tabCDM["max_pvact_monstre"] > $tabCDM["max_pvmax_monstre"]) {
 			$tabCDM["max_pvact_monstre"] = $tabCDM["max_pvmax_monstre"];
 		}
@@ -214,9 +165,9 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 			$tabCDM["min_pvact_monstre"] = $tabCDM["min_pvmax_monstre"];
 		}
 
-		$duree_base_tour_minute = Bral_Util_ConvertDate::getMinuteFromHeure($monstre["duree_base_tour_monstre"]);
-		$tabCDM["min_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - floor($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
-		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
+		$duree_tour_minute = Bral_Util_ConvertDate::getMinuteFromHeure($monstre["duree_prochain_tour_monstre"]);
+		$tabCDM["min_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_tour_minute - floor($duree_tour_minute * (Bral_Util_De::get_1D10())/100));
+		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_tour_minute + ceil($duree_tour_minute * (Bral_Util_De::get_1D10())/100));
 
 		$this->view->tabCDM = $tabCDM;
 
