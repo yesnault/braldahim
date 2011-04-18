@@ -122,6 +122,27 @@ class Bral_Util_Communaute {
 	}
 
 	/**
+	 * Verifie que la communaute possède un hall.
+	 *
+	 * @param int $idCommunaute Identifiant de la communaute
+	 */
+	public static function possedeSurHall($idCommunaute) {
+		$retour = false;
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communaute = $communauteTable->findById($idCommunaute);
+		if ($communaute != null && count($communaute) == 1) {
+			$communaute = $communaute[0];
+			if ($communaute["x_communaute"] != null
+			&& $communaute["y_communaute"] != null
+			&& $communaute["z_communaute"] != null) {
+				$retour = true;
+			}
+		}
+		return $retour;
+	}
+	
+	/**
 	 * Verifie que la position x,y,z correspond au hall de la communaute idCommunaute.
 	 *
 	 * @param int $x Position x

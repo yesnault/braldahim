@@ -18,7 +18,13 @@ class Bral_Lieux_Ruine extends Bral_Lieux_Lieu {
 		if ($this->view->user->id_fk_communaute_braldun == null || $this->view->user->id_fk_rang_communaute_braldun == null) {
 			return;
 		}
-
+		
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		$this->view->possedeHall = Bral_Util_Communaute::possedeSurHall($this->view->user->id_fk_communaute_braldun);
+		if ($this->view->possedeHall) {
+			return;
+		}
+		
 		Zend_Loader::loadClass("RangCommunaute");
 		$rangCommunauteTable = new RangCommunaute();
 		$rang = $rangCommunauteTable->findRangCreateur($this->view->user->id_fk_communaute_braldun);

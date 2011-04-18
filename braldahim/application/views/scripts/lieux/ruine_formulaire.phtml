@@ -3,14 +3,18 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  	<br />
- 	Pour <?php echo $this->paUtilisationLieu ?> PA, 
- 	vous pouvez transformer cette ruine en Hall de Communauté.<br />
-   	
-   	<?php if ($this->utilisationPaPossible === false) :?>
-   		Vous n'avez pas assez de PA !<br />
-   	<?php elseif ($this->transformerOk == false): ?>
-   	<br />
-   		Il faut être Gestionnaire de communauté pour transformer ce lieu en Hall de Communauté
+ 	<?php if ($this->possedeHall == false) : ?>
+	 	Pour <?php echo $this->paUtilisationLieu ?> PA, 
+	 	vous pouvez transformer cette ruine en Hall de Communauté.<br />
+	   	
+	   	<?php if ($this->utilisationPaPossible === false) :?>
+	   		Vous n'avez pas assez de PA !<br />
+	   	<?php elseif ($this->transformerOk == false): ?>
+	   	<br />
+	   		Il faut être Gestionnaire de communauté pour transformer ce lieu en Hall de Communauté
+	   	<?php endif; ?>
+   	<?php else:?>
+   		Votre communauté possède déjà un Hall... Consultez votre onglet Communauté.
    	<?php endif; ?>
  </div> 
 </form>

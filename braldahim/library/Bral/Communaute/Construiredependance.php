@@ -20,6 +20,11 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 	function prepareCommun() {
 
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		if (!Bral_Util_Communaute::possedeSurHall($this->view->user->id_fk_communaute_braldun)) {
+			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
+		}
+
 		$this->view->nomLieu = null;
 
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {

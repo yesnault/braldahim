@@ -23,6 +23,11 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
 		}
 
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		if (!Bral_Util_Communaute::possedeSurHall($this->view->user->id_fk_communaute_braldun)) {
+			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
+		}
+
 		$this->view->nomLieu = null;
 
 		$this->view->nb_pa = 1;
