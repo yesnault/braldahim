@@ -7,8 +7,10 @@
 		<?php if ($this->communaute != null) : ?>
 			: 
 		<label class='alabel' onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>	
-		<?php echo $this->communaute["nom_communaute"] ?>, 
-			n&deg; <?php echo $this->communaute["id_communaute"] ?>
+		<?php echo $this->communaute["nom_communaute"] ?>,
+			<?php if ($this->communaute["x_communaute"] != null && $this->communaute["y_communaute"] != null) :?>
+			Hall en <?php echo $this->communaute["x_communaute"] ?>, <?php echo $this->communaute["y_communaute"] ?>
+		<?php endif; ?>
 		<?php endif; ?>
 		</label>
 	 </div>

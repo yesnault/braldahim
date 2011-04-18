@@ -569,7 +569,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if (array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
 		|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
 		|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))) {
-			$tab[] = 'box_communaute';
+			$tab[] = 'box_communaute_coffre';
 			$tab[] = 'box_communaute_evenements';
 		}
 

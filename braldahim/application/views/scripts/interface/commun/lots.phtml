@@ -42,9 +42,7 @@
 				<?php else:?>
 					<?php if ($this->lots["type"] == "echoppe"):?>
 						<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
-					<?php elseif ($this->lots["type"] == "communaute"):
-					//TODO Droit retirer
-					?>
+					<?php elseif ($this->lots["type"] == "communaute" && $this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER): ?>
 						<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=do_communaute_retirerlot&amp;valeur_1=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
 					<?php endif;?>
 				<?php endif;?>

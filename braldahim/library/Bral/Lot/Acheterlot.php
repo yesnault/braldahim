@@ -35,7 +35,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		$this->view->idEchoppe = Bral_Util_Controle::getValeurIntVerifSansException($this->request->get("idEchoppe"), false);
 
 		$this->idCommunaute = null;
-		
+
 		$poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun;
 		$tabDestinationTransfert[0] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
 
@@ -102,7 +102,6 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 			$this->view->idEchoppe = null;
 			$this->view->estSurEchoppe = false;
 
-				
 		}
 
 		$tabLots = null;
@@ -330,9 +329,11 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 		Zend_Loader::loadClass("TypeEvenement");
 		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, TypeEvenement::ID_TYPE_SERVICE, $details, $detailsBot, $this->view->user->niveau_braldun, "braldun", false, null, null);
 
-		Zend_Loader::loadClass("TypeEvenementCommunaute");
-		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
-		Bral_Util_EvenementCommunaute::ajoutEvenements($this->idCommunaute, TypeEvenementCommunaute::ID_TYPE_ACHAT_LOT, $details, $detailsBot, $this->view);
+		if ($this->idCommunaute != null) {
+			Zend_Loader::loadClass("TypeEvenementCommunaute");
+			Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+			Bral_Util_EvenementCommunaute::ajoutEvenements($this->idCommunaute, TypeEvenementCommunaute::ID_TYPE_ACHAT_LOT, $details, $detailsBot, $this->view);
+		}
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
@@ -403,18 +404,20 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 
 	function getListBoxRefresh() {
 		$tab = array("box_profil", "box_laban", "box_charrette", "box_evenements");
+
+
 		if ($this->view->idEchoppe != null) {
 			$tab[] = "box_echoppe";
 			$tab[] = "box_echoppes";
+		} else if ($this->idCommunaute != null) {
+			$tab[] = "box_communaute_evenements";
+			$tab[] = "box_communaute_coffre";
+			$tab[] = "box_lieu";
 		} else {
 			$tab[] = "box_hotel";
 		}
 		if ($this->view->lotCharrette != null) {
 			$tab[] = "box_charrette";
-		}
-
-		if ($this->view->user->id_fk_communaute_braldun != null) {
-			$tab[] = "box_communaute_evenements";
 		}
 		return $tab;
 	}
