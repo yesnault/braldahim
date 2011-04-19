@@ -91,6 +91,7 @@ abstract class Bral_Communaute_Communaute {
 		$data = array(
 			'pa_braldun' => $this->view->user->pa_braldun,
 			'castars_braldun' => $this->view->user->castars_braldun,
+			'id_fk_lieu_resurrection_braldun' => $this->view->user->id_fk_lieu_resurrection_braldun,
 		);
 		$where = "id_braldun=".$this->view->user->id_braldun;
 		$braldunTable->update($data, $where);

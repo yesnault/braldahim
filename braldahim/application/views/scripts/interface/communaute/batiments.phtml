@@ -45,7 +45,19 @@ et utiliser l'action Construire (onglet Lieu).<br />
 		<tbody>
 		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 				<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/batiments/<?php echo $batiment["nom_systeme_type_lieu"] ?>.png' /></td>
-		  		<td class="table_liste" style="text-align:left" nowrap><?php echo $batiment["nom_type_lieu_communaute"] ?> : <?php echo $batiment["nom_type_lieu"] ?></td>
+		  		<td class="table_liste" style="text-align:left" nowrap><?php echo $batiment["nom_type_lieu_communaute"] ?> : <?php echo $batiment["nom_type_lieu"] ?>
+		  		<?php if ($batiment["nom_systeme_type_lieu"] == "infirmerie" && $batiment["niveau_lieu"] >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) : ?>
+		  			<br />
+		  			<?php if ($this->user->id_fk_lieu_resurrection_braldun == $batiment["id_lieu"]) : ?>
+		  				Ceci est votre lieu de résurrection
+		  			<?php else: ?>
+		  				Ceci n'est pas votre lieu de résurrection
+		  			<?php endif;?>
+		  			<br />
+		  			<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_infirmerie')" value="0 PA - Définir point de résurrection" class="button1">
+		  		<?php endif;?>
+		  		
+		  		</td>
 		  		<td class="table_liste">
 			  		<?php if ($batiment["niveau_lieu"] != $batiment["niveau_prochain_lieu"]) : ?>
 			  			oui

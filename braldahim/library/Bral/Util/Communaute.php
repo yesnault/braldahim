@@ -13,7 +13,7 @@ class Bral_Util_Communaute {
 	const ID_RANG_NOUVEAU = 20;
 
 	const NIVEAU_EN_CONSTRUCTION = -2;
-	
+
 	const NIVEAU_GRENIER_RECOLTER = 1;
 	const NIVEAU_GRENIER_ENTRETENIR = 2;
 	const NIVEAU_GRENIER_SEMER = 3;
@@ -29,11 +29,11 @@ class Bral_Util_Communaute {
 	const NIVEAU_ATELIER_ASSEMBLEUR = 1;
 	const NIVEAU_ATELIER_JOAILLIER = 2;
 	const NIVEAU_ATELIER_RECHERCHE = 3;
-	
+
 	const NIVEAU_TRIBUNE_GARE = 1;
 	const NIVEAU_TRIBUNE_OFFICE_NOTARIAL = 2;
 	const NIVEAU_TRIBUNE_CSS = 3;
-	
+
 	const NIVEAU_MARCHE_BANQUE = 1;
 	const NIVEAU_MARCHE_HOTEL = 2;
 	const NIVEAU_MARCHE_COFFRE_PERSO_COMMUN = 3;
@@ -126,7 +126,7 @@ class Bral_Util_Communaute {
 	 *
 	 * @param int $idCommunaute Identifiant de la communaute
 	 */
-	public static function possedeSurHall($idCommunaute) {
+	public static function possedeUnHall($idCommunaute) {
 		$retour = false;
 		Zend_Loader::loadClass("Communaute");
 		$communauteTable = new Communaute();
@@ -141,7 +141,7 @@ class Bral_Util_Communaute {
 		}
 		return $retour;
 	}
-	
+
 	/**
 	 * Verifie que la position x,y,z correspond au hall de la communaute idCommunaute.
 	 *
@@ -188,7 +188,7 @@ class Bral_Util_Communaute {
 			} else {
 				$retour = $lieux[0]['niveau_lieu'];
 			}
-			
+				
 		}
 		return $retour;
 	}
@@ -211,4 +211,21 @@ class Bral_Util_Communaute {
 		return $retour;
 	}
 
+	/**
+	 * Pour une communauté (idCommunauté), recherche si un type de
+	 * Bâtiment est possédé. (niveau Min)
+	 * @param int $idCommunaute
+	 * @param int $idTypeLieuCommunaute
+	 * @param int $niveauMin
+	 */
+	public static function recupereLieu($idCommunaute, $idTypeLieuCommunaute, $niveauMin) {
+		$retour = null;
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findByIdCommunaute($idCommunaute, null, null, null, false, $idTypeLieuCommunaute, $niveauMin);
+		if ($lieux != null && count($lieux) > 0) {
+			$retour = $lieux[0];
+		}
+		return $retour;
+	}
 }

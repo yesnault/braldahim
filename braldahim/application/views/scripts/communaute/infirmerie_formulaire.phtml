@@ -1,0 +1,13 @@
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+
+Définir cette infirmerie comme point de résurrection : 
+
+	<select id='valeur_1' name='valeur_1' onchange="javascript:if ($('valeur_1').value==-1){$('bouton_infirmerie').disabled=true } else { $('bouton_infirmerie').disabled=false }">
+		<option value='-1'>(Choisissez)</option>
+		<option value='oui'>Oui</option>
+		<option value='non'>Non</option>
+	</select>
+<br /><br />
+<input type='button' class='button1' id='bouton_infirmerie'  value='Définir le point de résurrection' onclick='this.disabled=true;_get_("/communaute/doaction?caction=do_communaute_infirmerie");' disabled>
+  
+ <br /><br />

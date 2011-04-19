@@ -20,7 +20,7 @@ class Bral_Lieux_Ruine extends Bral_Lieux_Lieu {
 		}
 		
 		Zend_Loader::loadClass("Bral_Util_Communaute");
-		$this->view->possedeHall = Bral_Util_Communaute::possedeSurHall($this->view->user->id_fk_communaute_braldun);
+		$this->view->possedeHall = Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun);
 		if ($this->view->possedeHall) {
 			return;
 		}

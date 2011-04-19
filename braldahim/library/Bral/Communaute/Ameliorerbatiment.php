@@ -24,7 +24,7 @@ class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Communaute");
-		if (!Bral_Util_Communaute::possedeSurHall($this->view->user->id_fk_communaute_braldun)) {
+		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
 			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
 		}
 

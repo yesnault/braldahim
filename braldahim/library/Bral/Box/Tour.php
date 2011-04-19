@@ -404,7 +404,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			Zend_Loader::loadClass("TypeLieu");
 			if (Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE) >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) {
 				$lieux = $lieuTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, null, null, null, false, TypeLieu::ID_TYPE_INFIRMERIE);
-				if ($lieux != null && count($lieux) > 0) {
+				if ($lieux != null && count($lieux) > 0 && $this->view->user->id_fk_lieu_resurrection_braldun == $lieux[0]["id_lieu"]) {
 					$lieuRetour = $lieux[0];
 				}
 			} else {
