@@ -143,6 +143,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_CAISSE) continue;
 			// l'atelier n'est pas accessible en depot
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ATELIER) continue;
+			// le coffre (pour réservation) n'est pas accessible en depot
+			if ($e['id_type_endroit'] == self::ID_ENDROIT_COFFRE_COMMUNAUTE) continue;
 
 			// l'étal est accessible uniquement depuis l'atelier
 			if ($id_type_courant_depart != self::ID_ENDROIT_ECHOPPE_ATELIER && $e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL) continue;

@@ -1,6 +1,10 @@
 
 <?php if ($this->user->pa_braldun >= 1) : 
-      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
+	  if (isset($this->estSurHall) && $this->estSurHall) :
+      	$attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2&valeur_2=11')\"";
+      else:
+      	$attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
+      endif;
     else:
       $attr = "disabled";
     endif;?>

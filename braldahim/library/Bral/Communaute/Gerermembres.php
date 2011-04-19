@@ -243,7 +243,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
 			$message .= " Votre rang de communauté a été modifié !".PHP_EOL;
-			$message .= " Nouveau rang : ".$nouveauRang['nom'];
+			$message .= " Nouveau rang : ".$nouveauRang['nom'].' n°'.$nouveauRang['ordre_rang_communaute'];
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idBraldun, $message, $this->view);
 
 			Zend_Loader::loadClass("TypeEvenementCommunaute");
@@ -268,7 +268,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				$detailsBot .= "[b".$idBraldun."] a changé de rang.".PHP_EOL.PHP_EOL;
 			}
 
-			$detailsBot .= $pronom." occupe le rang : ".$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
+			$detailsBot .= $pronom." occupe le rang  n°".$nouveauRang['ordre_rang_communaute'].' : '.$nouveauRang['nom'].".".PHP_EOL.PHP_EOL;
 			$detailsBot .= "Action réalisée par [b".$this->view->user->id_braldun."]";
 
 			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, $type, $details, $detailsBot, $this->view);
