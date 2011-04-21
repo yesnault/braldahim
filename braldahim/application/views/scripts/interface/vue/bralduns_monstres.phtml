@@ -135,7 +135,7 @@ endif;
 	} else {
 		$suffixe = "b";
 	}
-	if ($idTypeMonstre == 1 || $idTypeMonstre == 5 || 
+	if ($idTypeMonstre == 1 || $idTypeMonstre == 4 || $idTypeMonstre == 5 || 
         $idTypeMonstre == 6 || $idTypeMonstre == 7 || 
         $idTypeMonstre == 8 || $idTypeMonstre == 11 ||
         $idTypeMonstre == 13 || $idTypeMonstre == 14 ||
@@ -143,6 +143,8 @@ endif;
         $idTypeMonstre == 17 || 
         $idTypeMonstre == 9 || $idTypeMonstre == 10 ||
         $idTypeMonstre == 23 || $idTypeMonstre == 24 ||
+        $idTypeMonstre == 25 || $idTypeMonstre == 26 ||
+        $idTypeMonstre == 27 || $idTypeMonstre == 28 ||
         $idTypeMonstre == 21 || $idTypeMonstre == 37) {
     	?> <img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_monstre/<?php echo $idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px;left:0px;"/> <?php
     } else if ($idTypeMonstre == -1) {
