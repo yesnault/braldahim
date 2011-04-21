@@ -1,3 +1,143 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, menu, time, mark, audio, video {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+
+#wrapper {
+	padding-top:30px;
+}
+#menuhead {
+   /* background: none repeat scroll 0 0 rgba(66, 48, 68, 0.98);
+    border-top: 4px solid #FF632C;*/
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    align:left;
+}
+#menuhead > div {
+    margin: 0 auto;
+    padding-bottom: 2.5em;
+    position: relative;
+    width: 960px;
+}
+#menuhead nav ul {
+    margin: 0;
+    padding: 0;
+    float: center;
+}
+#menuhead nav li {
+    float: left;
+    margin: 0;
+}
+
+ul.menu {
+    list-style: none outside none;
+    text-align: left;
+}
+
+#nav-main {
+    margin: 3px 0 0 10px;
+    position: relative;
+    top: 2px;
+    margin: 0 auto;
+    text-align:center;
+    width: 575px;
+}
+#nav-main li {
+    position: relative;
+    text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+#nav-main > ul > li {
+    border-radius: 3px 3px 0 0;
+    font-family: PerryGothic,'Arial Narrow',Arial,sans-serif;
+    font-size: 16px;
+    line-height: 17px;
+}
+#nav-main a {
+    color: #414141;
+    display: block;
+    padding: 0.4117em 0.7em 0.5883em;
+    text-shadow: 1px 1px 0 rgba(253, 254, 217, 0.5);
+}
+#nav-main > ul > li:hover {
+    background: none repeat scroll 0 0 #FF632C;
+}
+#nav-main a:hover, #nav-main a:focus, #nav-main > ul > li:hover a {
+    color: #dddddd;
+}
+#nav-main > ul > li {
+    -moz-transition: background-color 0.3s ease 0s;
+}
+#nav-main li li a {
+    -moz-transition: all 0.3s ease 0s;
+}
+#nav-main li ul {
+    -moz-transition: opacity 0.3s ease 0s;
+}
+#nav-main li ul {
+    margin-left: -9999px;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    width: 220px;
+}
+#nav-main li:hover ul {
+    margin-left: 0;
+    opacity: 1;
+}
+#nav-main li li {
+    float: none;
+    font-family: BentonSans,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+}
+#nav-main li li a {
+    background: none repeat scroll 0 0 #C3E691;
+    border-bottom: 1px solid #EE320F;
+    border-top: 1px solid #FF7A4B;
+    color: #CCCCCC;
+    display: block;
+    padding: 0.5em 1.25em;
+    width: 100px;
+}
+#nav-main li li a:hover {
+    background: none repeat scroll 0 0 #003B00;
+    color: #661B01;
+    text-shadow: none;
+}
+#nav-main li ul li:first-child a {
+    border-radius: 0 3px 0 0;
+    border-top: 0 none;
+}
+#nav-main li ul li:last-child a {
+    border-bottom: 0 none;
+    border-radius: 0 0 3px 3px;
+}
+
+ul.menu {
+    margin: 0;
+}
+ul.menu li {
+    margin: 0;
+}
+li.leaf, li.expanded, li.collapsed {
+    list-style-image: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.block ul {
+    padding: 0;
+}
+
+
+
 /* ************************************************ */
 /* ********************** SITE ******************** */
 /* ************************************************ */
@@ -16,7 +156,7 @@ body {
 	 /* Degrade */
     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
     background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
-    background: url(/images/fond1.jpg);
+    background: url("/images/paper.jpg") repeat-x scroll 50% 0 #4b712d;
 }
 
 #frisebot, #frisetop {
