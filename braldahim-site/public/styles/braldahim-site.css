@@ -10,11 +10,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 
 #wrapper {
-	padding-top:30px;
 }
 #menuhead {
-   /* background: none repeat scroll 0 0 rgba(66, 48, 68, 0.98);
-    border-top: 4px solid #FF632C;*/
     position: absolute;
     width: 100%;
     z-index: 10;
@@ -41,6 +38,10 @@ ul.menu {
     text-align: left;
 }
 
+nav ul {
+    list-style: none outside none;
+}
+
 #nav-main {
     margin: 3px 0 0 10px;
     position: relative;
@@ -60,18 +61,24 @@ ul.menu {
     line-height: 17px;
 }
 #nav-main a {
-    color: #414141;
+    color: #F2F2F2;
     display: block;
     padding: 0.4117em 0.7em 0.5883em;
-    text-shadow: 1px 1px 0 rgba(253, 254, 217, 0.5);
+    text-shadow: 1px 1px 0 #000000;
+    -moz-transition: all 0.5s ease 0s;
 }
 #nav-main > ul > li:hover {
-    background: none repeat scroll 0 0 #FF632C;
+    background: none repeat scroll 0 0 #1F2614;
 }
 #nav-main a:hover, #nav-main a:focus, #nav-main > ul > li:hover a {
-    color: #dddddd;
+    color: #F2F2F2;
+    text-shadow: 0 0 15px #FFFFFF;
 }
 #nav-main > ul > li {
+	border-radius: 3px; /* en css3 lui même */
+	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
     -moz-transition: background-color 0.3s ease 0s;
 }
 #nav-main li li a {
@@ -98,17 +105,17 @@ ul.menu {
     line-height: 14px;
 }
 #nav-main li li a {
-    background: none repeat scroll 0 0 #C3E691;
-    border-bottom: 1px solid #EE320F;
-    border-top: 1px solid #FF7A4B;
-    color: #CCCCCC;
+    background: none repeat scroll 0 0 #31401A;
+    border-bottom: 1px solid #1F2614;
+    border-top: 1px solid #1F2614;
+    color: #F2F2F2;
     display: block;
     padding: 0.5em 1.25em;
     width: 100px;
 }
 #nav-main li li a:hover {
-    background: none repeat scroll 0 0 #003B00;
-    color: #661B01;
+    background: none repeat scroll 0 0 #41591C;
+    color: #F2F2F2;
     text-shadow: none;
 }
 #nav-main li ul li:first-child a {
@@ -137,13 +144,53 @@ li.leaf, li.expanded, li.collapsed {
 }
 
 
+#footer {
+    background: #1F2614 repeat-x scroll 0pt 0%;
+    overflow: hidden;
+    padding: 63px 0 30px;
+}
+
+#links {
+    float: right;
+    width: 80%;
+}
+#links div {
+    float: left;
+    margin-left: 1.81%;
+    width: 15%;
+}
+#links div:first-child {
+    margin-left: 0;
+}
+#links ul {
+    margin: 0;
+    padding: 0;
+}
+#links ul ul {
+    margin: 8px 0 1.5em;
+}
+#links li {
+    color: #F2F2F2;
+    font-family: BentonSansCond,'Arial Narrow',Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    text-align: left;
+}
+#links li li a {
+    font-family: BentonSans,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 4px 0;
+    color: #F2F2F2;
+}
 
 /* ************************************************ */
 /* ********************** SITE ******************** */
 /* ************************************************ */
 
 body {
-	background: #003b00;
+	background: #1F2614;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 0px;
@@ -154,39 +201,43 @@ body {
     color: #CCCCCC;
 	
 	 /* Degrade */
-    background: -moz-linear-gradient(45deg,#003b00,#5d8035);
-    background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
-    background: url("/images/paper.jpg") repeat-x scroll 50% 0 #4b712d;
+    background: -moz-linear-gradient(45deg,#1F2614,#5d8035);
+    background: -webkit-gradient(linear, left bottom, right top, from(#1F2614), to(#5d8035));
+    background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #1F2614;
 }
 
 #frisebot, #frisetop {
-	background:transparent url(/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
-	height:50px;
-	padding:0px;
-	margin-left: -10px;
 }
 
+#frisetopa {
+	height:40px;
+	#background:transparent url(/layout/friseecriture.png) repeat-x scroll 0 0;
+	background: #31401A;
+}
 #frisetop {
-	margin-top: 5px;
+	height:40px;
+	#background:transparent url(/layout/frise.png) repeat-x scroll 0 0;
+	background: #31401A;
 }
 
 #frisebot {
+	height:0px;
 	margin-top: -10px;
+	#background:transparent url(/layout/frisebas.png) repeat-x scroll 0 0;
+	background: #31401A;
 }
 
 #braldunsite {
 	z-index:1000;
-	background:transparent url(/images/braldun-site.png) no-repeat scroll 0 0;
+	background:transparent url(/layout/comte.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
-	height:340px;
-	margin:0;
+	height:540px;
+	margin-left: auto ;
+	margin-right: auto ;
 	padding:0;
-	text-indent:-999em;
-	width:330px;
-	position:absolute;
-	margin-top:-140px;
-	margin-left:-150px;
+	width:1024px;;
+	margin-top:0px;
 }
 
 #logo {
@@ -211,7 +262,7 @@ body {
 
 input {
 	margin: 2px 2pt;
-	background: #C3E691 none repeat-x scroll center top;
+	background: #6A8C20 none repeat-x scroll center top;
 	color: #000000;
 	padding-bottom: 1px;
 	padding-top: 2px;
@@ -312,7 +363,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #003b00;
+	color: #1F2614;
 	text-align: center;
 }
 
@@ -356,8 +407,8 @@ span.id_braldun {
 }
 
 #navigation {
-	background-color: #003b00;
-	border: 3px solid #003b00;
+	background-color: #1F2614;
+	border: 3px solid #1F2614;
 	margin: 0px;
 	padding: 0px;
 	text-indent: 0px;
@@ -365,9 +416,9 @@ span.id_braldun {
 }
 
 #navigation h3.head {
-	background: #003b00 url(/images/collapsed.gif) no-repeat scroll
+	background: #1F2614 url(/images/collapsed.gif) no-repeat scroll
 		3px 4px;
-	border: 1px solid #003b00;
+	border: 1px solid #1F2614;
 	color: #000000;
 	cursor: pointer;
 	display: block;
@@ -402,7 +453,7 @@ span.id_braldun {
 	list-style-image: none;
 	list-style-position: outside;
 	list-style-type: none;
-	background-color: #C3E691;
+	background-color: #6A8C20;
 	color: #000000;
 }
 
@@ -441,7 +492,7 @@ span.id_braldun {
 }
 
 #navigation h3.head:hover {
-	color: #003b00;
+	color: #1F2614;
 }
 
 
@@ -501,12 +552,12 @@ span.id_braldun {
 }
 
 .onglet.actif {
-	background-color: #003b00;
+	background-color: #1F2614;
 	border-bottom-color: transparent;
 }
 
 .onglet.inactif {
-	background-color: #003b00;
+	background-color: #1F2614;
 }
 
 .onglet:hover {
@@ -621,11 +672,11 @@ span.id_braldun {
 	min-height:289px;
 	padding:1px 0 0;
 	position:relative;
-	width:775px;
+	width:100%;
 }
 
 .box_contenu1 { /* interieur de la boite */
-	background: #C3E691 repeat-x scroll 0pt 0%;
+	background: #6A8C20 repeat-x scroll 0pt 0%;
 	padding: 3px;
 	margin: 0px;
 	border-radius: 10px; /* en css3 lui même */
@@ -765,7 +816,7 @@ span.id_braldun {
 	border-style: solid;
 	border-width: 1pt 1px;
 	display: block;
-	background: #003b00 repeat-x scroll 0pt 0%;
+	background: #1F2614 repeat-x scroll 0pt 0%;
 	
 	 -webkit-box-shadow: 0px 10px 16px -1px #000000;
     -moz-box-shadow:0px 10px 16px -1px #000000;
@@ -779,7 +830,7 @@ span.id_braldun {
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #003b00 repeat-x scroll 0pt 0%;
+	background: #1F2614 repeat-x scroll 0pt 0%;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
@@ -789,22 +840,16 @@ span.id_braldun {
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #003b00 repeat-x scroll 0pt 0%;
+	background: #1F2614 repeat-x scroll 0pt 0%;
 	text-align: center;
 }
 
 .inner_footer {
-	height: 30px;
 	padding: 1pt 10px;
 	display: block;
 	color: #eeeeee;
 	text-align: center;
-	
-	 /* Ombre portee */
-    -webkit-box-shadow: #000 0px 0 16px -1px;
-    -moz-box-shadow: #000 0px 0 16px -1px;
-    box-shadow: #000 0px 0 16px -1px;
-    width:97%;
+    width:100%;
 }
 	
 .box_contenu {
@@ -812,7 +857,7 @@ span.id_braldun {
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-	background: #003b00 repeat-x scroll 0pt 0%;
+	background: #1F2614 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
 	border: 1px solid #000000;
@@ -823,11 +868,11 @@ span.id_braldun {
 }
 
 #header {
-	height:50px;
+	height:80px;
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim3.png) no-repeat scroll 0 0;
+	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim4.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:75px;
@@ -874,7 +919,7 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #C3E691;
+	background: #6A8C20;
 }
 
 tr.table_liste1 {
@@ -1227,7 +1272,7 @@ div.gridbox table.hdr td.columnTargetL div.hdrcell {
 
 /*braldahim*/
 div.gridbox_braldahim .objbox {
-	background-color: #003b00;
+	background-color: #1F2614;
 	color: #000000;
 }
 
@@ -1285,7 +1330,7 @@ div.gridbox_braldahim table.obj td {
 
 div.gridbox_braldahim table.obj {
 	border: 1px solid #000000;
-	background-color: #C3E691;
+	background-color: #6A8C20;
 }
 
 div.gridbox_braldahim table.row20px tr td {
@@ -1349,8 +1394,8 @@ lightbox
 
 .bralbutton {
     /*background: -moz-linear-gradient(center top , #F4F4F4, #ECECEC) repeat scroll 0 0 transparent;*/
-     background: -moz-linear-gradient(45deg,#003b00,#5d8035);
-    background: -webkit-gradient(linear, left bottom, right top, from(#003b00), to(#5d8035));
+     background: -moz-linear-gradient(45deg,#1F2614,#5d8035);
+    background: -webkit-gradient(linear, left bottom, right top, from(#1F2614), to(#5d8035));
     
     border: 1px solid #D4D4D4;
     border-radius: 3px 3px 3px 3px;

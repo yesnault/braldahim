@@ -23,10 +23,31 @@
 	<input type="hidden" name="urlStatique" id="urlStatique" value="<?php echo $this->config->static->url?>"/>
 	<?php include("headerDiv.phtml")?>
 	<div id="header">
+	<div id="frisetopa">
+	<h1><a href="/">Braldahim - Site</a></h1>
+	</div>
 	<div id="frisetop">
-		<h1><a href="/">Braldahim - Site</a></h1>
+		<?php echo $this->render("menu.phtml"); ?>
+	</div>
+	<div id="frisebot">
+	</div>
+	</div>
+	
+	<div id="page">
+		
+		<div id="wrapper">
+		<div class="contenu">
+			<br/>
+			<?php echo  $this->layout()->contenu ?>
+			<br/><br/>
+		</div>
 		</div>
 	</div>
+	<?php echo $this->render("footer.phtml"); ?>
+	
+	
+	<?php 
+	/* 
 	<div id="page">
 		<?php echo $this->render("menu.phtml"); ?>
 		<div id="wrapper">
@@ -37,6 +58,8 @@
 		</div>
 		</div>
 		<?php echo $this->render("footer.phtml"); ?>
-	</div>
+	</div>*/
+	
+	?>
 </body>
 </html>
