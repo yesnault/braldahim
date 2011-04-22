@@ -11,11 +11,40 @@
 	<link href="<?php echo $this->config->static->url?>/styles/braldahim-site.css?33" media="screen" rel="Stylesheet" type="text/css" />
 	<link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	
-	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/protoaculous_183/protoaculous.1.8.3.min.js"></script> 
-	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/lightbox_204/lightbox.js"></script>
 	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_action-site-005.js"></script>
 	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/allDhtmlx_001.js"></script>
 	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.74.js"></script>
+	
+	<script>
+	$('#main-cycle').cycle({ 
+		fx: 'scrollHorz',
+	    speed: $('body.lte8').length ? 0 : 1000,
+	    		timeout: 0,
+	    		timeout: 8000,
+	    next:   '#c-next', 
+	    prev:   '#c-prev' ,
+	    	cleartype: true,
+			cleartypeNoBg: true
+	});
+
+	/*$('#main-cycle').cycle({
+		fx: 'scrollLeftCustom',
+		easing: 'easeInOutExpo',
+		speed: $('body.lte8').length ? 0 : 1000,
+		timeout: 0,
+		timeout: 8000,
+		width: 840,
+		next: '#c-next',
+		prev: '#c-prev',
+		cleartype: true,
+		cleartypeNoBg: true
+		}); */
+	
+	</script>
+
 	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
 	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 </head>
@@ -46,20 +75,5 @@
 	<?php echo $this->render("footer.phtml"); ?>
 	
 	
-	<?php 
-	/* 
-	<div id="page">
-		<?php echo $this->render("menu.phtml"); ?>
-		<div id="wrapper">
-		<div class="contenu">
-			<br/>
-			<?php echo  $this->layout()->contenu ?>
-			<br/><br/>
-		</div>
-		</div>
-		<?php echo $this->render("footer.phtml"); ?>
-	</div>*/
-	
-	?>
 </body>
 </html>
