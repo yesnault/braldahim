@@ -1,26 +1,16 @@
-<?php echo $this->render('/commun/menu_bourg.phtml')?>
 <br />
-<div class="titrea textalic textsizea">
- Le Tableau des Recherchés
-</div>
+<div class="titrea textalic textsizea">Le Tableau des Recherchés</div>
 
-<table style="width:100%">
-<tr>
-	<td style="width:500px; border: 0px solid #791E1E;" valign="top">
-			<div class="inner">
-					<br /><br />
-					<?php $contrats = $this->tabGredins;
-					$titre = "Contrats de type Gredins";
-					$sousTitre = "mettre KO un Redresseur de Torts"?>
-					<?php include("contrats.phtml"); ?>
-					<br /><br /><br />
-					<?php $contrats = $this->tabRedresseurs;
-					$titre = "Contrats de type Redresseurs de Torts";
-					$sousTitre = "mettre KO un Gredin"?>
-					<?php include("contrats.phtml"); ?>
-			</div>
-	</td>
-</tr>
-</table>
-		
+<div class="inner">
+	<br /> <br />
+	<?php $contrats = $this->tabGredins;
+	$titre = "Contrats de type Gredins";
+	$sousTitre = "mettre KO un Redresseur de Torts"?>
+	<?php include("contrats.phtml"); ?>
+	<br /> <br /> <br />
+	<?php $contrats = $this->tabRedresseurs;
+	$titre = "Contrats de type Redresseurs de Torts";
+	$sousTitre = "mettre KO un Gredin"?>
+	<?php include("contrats.phtml"); ?>
+</div>
 

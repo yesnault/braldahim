@@ -1,12 +1,11 @@
-<?php echo $this->render('/commun/menu_bourg.phtml')?>
 <br/>
-<div class="titrea textalic textsizea">L'Office des Palmarès</div>
+<div class="titrea textalic textsizea">L'Office des Palmares</div>
 <table style="width:100%">
 <tr>
 	<td style="width:30px" valign="top" nowrap="nowrap">
 		<div class="box_contenu textalic">
 			<div class="titrea textalic textsizec">
-			Général
+			General
 			</div>
 			<?php foreach($this->selection as $s) : ?>
 				<a href="/palmares/<?php echo $s["url"]?>" class="aWhite"><?php echo $s["nom"]?></a><br/>
@@ -14,7 +13,7 @@
 			<br/>
 			
 			<div class="titrea textalic textsizec">
-			Réputation
+			Reputation
 			</div>
 			<?php if (count($this->selectionReputation) > 0): ?>
 				<?php foreach($this->selectionReputation as $s) : ?>
@@ -24,7 +23,7 @@
 			<br/>
 			
 			<div class="titrea textalic textsizec">
-			Récolteurs
+			Recolteurs
 			</div>
 			<?php if (count($this->selectionRecolteurs) > 0): ?>
 				<?php foreach($this->selectionRecolteurs as $s) : ?>

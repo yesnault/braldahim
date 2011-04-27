@@ -8,7 +8,6 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     vertical-align: baseline;
 }
 
-
 .pics {  
 	 display: block;
     left: 50%;
@@ -37,9 +36,9 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 #main-cycle-container {
     background: url("../images/bg_cycle.jpg") no-repeat scroll 50% 0 transparent;
-    height: 490px;
+    height: auto;
     position: absolute;
-    z-index: 1000;
+    z-index: 200;
     top: -50px;
     width: 500px;
     left: 50%;
@@ -68,7 +67,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     position: absolute;
     top: 105px;
     width: 440px;
-  	 z-index: 1000;
+    cursor: pointer;
+  	 z-index: 100;
 }
 #c-nav li {
     background: url("/layout/fleche_droite.png") no-repeat scroll 50% 50% #6A8C20;
@@ -90,11 +90,12 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 
 #wrapper {
+	min-height:550px;
 }
 #menuhead {
     position: absolute;
     width: 100%;
-    z-index: 10;
+    z-index: 1000;
     align:left;
 }
 #menuhead > div {
@@ -132,7 +133,6 @@ nav ul {
 }
 #nav-main li {
     position: relative;
-    text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 #nav-main > ul > li {
     border-radius: 3px 3px 0 0;
@@ -183,6 +183,7 @@ nav ul {
     font-family: BentonSans,Arial,sans-serif;
     font-size: 12px;
     line-height: 14px;
+    text-shadow: none;
 }
 #nav-main li li a {
     background: none repeat scroll 0 0 #31401A;
@@ -196,7 +197,7 @@ nav ul {
 #nav-main li li a:hover {
     background: none repeat scroll 0 0 #41591C;
     color: #F2F2F2;
-    text-shadow: none;
+    text-shadow: 0 0 15px #FFFFFF;
 }
 #nav-main li ul li:first-child a {
     border-radius: 0 3px 0 0;
@@ -265,6 +266,23 @@ li.leaf, li.expanded, li.collapsed {
     color: #F2F2F2;
 }
 
+
+hr {
+    margin: 0px 0;
+    height: 1px;
+    border: 0;
+    
+    background: -moz-linear-gradient(black, white); /* FF 3.6+ */  
+    background: -ms-linear-gradient(black, white); /* IE10 */  
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000000), color-stop(100%, #ffffff)); /* Safari 4+, Chrome 2+ */  
+    background: -webkit-linear-gradient(black, white); /* Safari 5.1+, Chrome 10+ */  
+    background: -o-linear-gradient(black, white); /* Opera 11.10 */  
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#ffffff')"; /* IE8+ */  
+    background: linear-gradient(black, white); /* the standard */  
+}
+
+
 /* ************************************************ */
 /* ********************** SITE ******************** */
 /* ************************************************ */
@@ -281,9 +299,7 @@ body {
     color: #CCCCCC;
 	
 	 /* Degrade */
-    background: -moz-linear-gradient(45deg,#1F2614,#5d8035);
-    background: -webkit-gradient(linear, left bottom, right top, from(#1F2614), to(#5d8035));
-    background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #1F2614;
+    background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #4c712c;
 }
 
 #frisebot, #frisetop {
@@ -443,7 +459,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #1F2614;
+	color: #F2F2F2;
 	text-align: center;
 }
 
@@ -641,7 +657,7 @@ span.id_braldun {
 }
 
 .onglet:hover {
-	background-color: #ffd363;
+	background-color: #41591C;
 	cursor: pointer;
 }
 
@@ -756,20 +772,13 @@ span.id_braldun {
 }
 
 .box_contenu1 { /* interieur de la boite */
-	background: #6A8C20 repeat-x scroll 0pt 0%;
-	background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #1F2614;
 	padding: 3px;
 	margin: 0px;
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-	margin-bottom:2px;
-	color:#000000;
+	color: #CCCCCC;
 }
 
 .box_contenu0 { /* interieur de la boite */
-	background: #628b28 repeat-x scroll 0pt 0%;
+	background: #41591C repeat-x scroll 0pt 0%;
 	padding: 3px;
 	margin: 0px;
 	border-radius: 10px; /* en css3 lui même */
@@ -887,20 +896,7 @@ span.id_braldun {
 }
 
 .inner { /* exterieur de boite */
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	padding: 5pt 10px;
-	border-color: #000000;
-	border-style: solid;
-	border-width: 1pt 1px;
-	display: block;
-	background: #1F2614 repeat-x scroll 0pt 0%;
-	
-	 -webkit-box-shadow: 0px 10px 16px -1px #000000;
-    -moz-box-shadow:0px 10px 16px -1px #000000;
-     box-shadow: 0px 10px 16px -1px #000000;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
@@ -976,12 +972,12 @@ table.table_liste {
 	width: 70%;
 	margin: auto;
 	align: center;
-	color: #232323;
+	color: #F2F2F2;
 }
 
 thead.table_liste,tfoot.table_liste {
-	color: #232323;
-	background-color: #497621;
+	color: #F2F2F2;
+	background-color: #1F2614;
 	border: 1px solid #000000;
 	text-align: center;
 }
@@ -999,11 +995,11 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #6A8C20;
+	background: #31401A;
 }
 
 tr.table_liste1 {
-	background: #628b28;/*2a5911;*/
+	background: #41591C;/*2a5911;*/
 }
 
 td.table_liste_border {
@@ -1424,7 +1420,7 @@ div.gridbox_braldahim .dhx_combo_edit {
 
 
 div.gridbox_braldahim .odd_braldahim {
-	background-color: #628b28;
+	background-color: #41591C;
 	white-space: normal;
 }
 
