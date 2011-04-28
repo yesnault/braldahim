@@ -385,28 +385,118 @@ function destroyDraggable(id) {
 
 
 function maccordion_fermer(el) {
-	var eldown = el.parentNode.id + '-body';
-	if ($(eldown).style.display != "none") {
-		new Effect.SlideUp(eldown, { duration :0.1 });
-		el.style.backgroundImage='url("'+$('#urlStatique').value+'/images/collapsed.gif")';
-	}
+	var eldown = el.parents().attr("id") + '-body';
+	$("#"+eldown).hide("fast");
 }
 
 function maccordion_ouvrir(el) {
-	var eldown = el.parentNode.id + '-body';
-	new Effect.SlideDown(eldown, { duration :0.1 });
-	el.style.backgroundImage='url("'+$('#urlStatique').value+'/images/expanded.gif")';
+	var eldown = el.parents().attr("id") + '-body';
+	$("#"+eldown).show("fast");
 }
 
 function maccordion(el) {
 	var eldown = el.parentNode.id + '-body';
-	//if ($("#"+el)) {
-		$("#"+eldown).hide("slow");
-		$("#"+eldown).show("slow");
-		/*if ($("#"+eldown).style.display == "none") {
-			maccordion_ouvrir(el);
-		} else {
-			maccordion_fermer(el);
-		}*/
-	//}
+	$("#"+eldown).toggle("fast");
 }
+
+
+/**************//**************/
+/***** splashScreen *****/
+/**************//**************/
+
+
+//A self-executing anonymous function,
+//standard technique for developing jQuery plugins.
+
+(function($){
+
+	$.fn.splashScreen = function(settings){
+
+		// Providing default options:
+
+		settings = $.extend({
+			textLayers		: [],
+			textShowTime	: 1500,
+			textTopOffset	: 00
+		},settings);
+
+		var promoIMG = this;
+
+		// Creating the splashScreen div.
+		// The rest of the styling is in splashscreen.css
+
+		var splashScreen = $('<div>',{
+			id	: 'splashScreen',
+			css:{
+				backgroundImage		: promoIMG.css('backgroundImage'),
+				backgroundPosition	: 'center '+promoIMG.offset().top+'px',
+				height				: $(document).height()
+			}
+		});
+
+		$('body').append(splashScreen);
+
+		splashScreen.click(function(){
+			splashScreen.fadeOut('slow');
+		});
+
+		// Binding a custom event for changing the current visible text according
+		// to the contents of the textLayers array (passed as a parameter)
+
+		splashScreen.bind('changeText',function(e,newID){
+
+			// If the image that we want to show is
+			// within the boundaries of the array:
+
+			if(settings.textLayers[newID]){
+				showText(newID);
+			}
+			else {
+				splashScreen.click();
+			}
+		});	
+
+		splashScreen.trigger('changeText',0);
+
+		// Extracting the functionality into a
+		// separate function for convenience.
+
+		function showText(id){
+			var text = $('<img>',{
+				src:settings.textLayers[id],
+				css: {
+					marginTop : promoIMG.offset().top+settings.textTopOffset
+				}
+			}).hide();
+
+			text.load(function(){
+				text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
+					text.remove();
+					splashScreen.trigger('changeText',[id+1]);
+				});
+			});
+
+			splashScreen.append(text);
+		}
+
+		return this;
+	}
+
+})(jQuery);
+
+
+jQuery.fn.exists = function(){return jQuery(this).length>0;}
+
+$(document).ready(function(){
+
+	// Calling our splashScreen plugin and
+	// passing an array with images to be shown
+	if ($('#promoIMG').exists()) {
+		$('#promoIMG').splashScreen({
+			textLayers : [
+				'/layout/comte.png',
+			]
+		});
+	}
+
+});

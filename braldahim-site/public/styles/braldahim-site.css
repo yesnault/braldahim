@@ -8,45 +8,19 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     vertical-align: baseline;
 }
 
-.pics {  
-	 display: block;
-    left: 50%;
-    list-style: none outside none;
-    margin: 0 0 0 -480px;
-    padding: 0;
-    position: absolute;
-    top: 105px;
-    width: 690px;
-    z-index: 100;
-    
-    padding: 0;  
-    margin:  0;  
-} 
- 
-.pics img {  
-    padding: 15px;  
-    border:  1px solid #ccc;  
-    background-color: #eee;  
-    width:  200px; 
-    height: 200px; 
-    top:  0; 
-    left: 0 
-}
-
-
 #main-cycle-container {
     background: url("../images/bg_cycle.jpg") no-repeat scroll 50% 0 transparent;
     height: auto;
     position: absolute;
     z-index: 200;
-    top: -50px;
+    top: 40px;
     width: 500px;
     left: 50%;
 }
 #main-cycle {
     margin: 0 auto;
     width: 300px;
-    left: 0%;
+    left: -100px;
 }
 #main-cycle div {
     width: 300px;
@@ -65,7 +39,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     margin: 0 0 0 -400px;
     padding: 0;
     position: absolute;
-    top: 105px;
+    top: 0px;
     width: 440px;
     cursor: pointer;
   	 z-index: 100;
@@ -296,7 +270,7 @@ body {
 	
 	font: 13px arial, verdana, sans-serif;
     text-align: justify;
-    color: #CCCCCC;
+    color: #F2F2F2;
 	
 	 /* Degrade */
     background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #4c712c;
@@ -464,12 +438,12 @@ a,.alabel {
 }
 
 a:hover,.alabel:hover {
-	color: #cc0000;
+	color: #6A8C20;
 	cursor: pointer;
 }
 
 .aWhite {
-	color: #CCCCCC;
+	color: #F2F2F2;
 }
 
 span.id_braldun {
@@ -503,8 +477,6 @@ span.id_braldun {
 }
 
 #navigation {
-	background-color: #1F2614;
-	border: 3px solid #1F2614;
 	margin: 0px;
 	padding: 0px;
 	text-indent: 0px;
@@ -549,8 +521,6 @@ span.id_braldun {
 	list-style-image: none;
 	list-style-position: outside;
 	list-style-type: none;
-	background-color: #6A8C20;
-	color: #000000;
 }
 
 #navigation li li h3 {
@@ -574,7 +544,7 @@ span.id_braldun {
 }
 
 #navigation h3.head {
-	background: #497621 url('/images/collapsed.gif') no-repeat scroll
+	background: #6A8C20 url('/images/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	color: #232323;
@@ -774,19 +744,19 @@ span.id_braldun {
 .box_contenu1 { /* interieur de la boite */
 	padding: 3px;
 	margin: 0px;
-	color: #CCCCCC;
+	color: #F2F2F2;
 }
 
 .box_contenu0 { /* interieur de la boite */
 	background: #41591C repeat-x scroll 0pt 0%;
 	padding: 3px;
 	margin: 0px;
+	margin-bottom:2px;
+	color:#F2F2F2;
 	border-radius: 10px; /* en css3 lui même */
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-	margin-bottom:2px;
-	color:#000000;
 }
 
 .contenuA,.contenuB {
@@ -861,9 +831,7 @@ span.id_braldun {
     font-size: xx-large;
     line-height: 0.875;
     text-shadow: 0 0 2px #666677;
-    text-shadow: 0 0 4px 666677,
-      0 -5px 4px 666677;
-      
+    text-shadow: 0 0 4px 666677, 0 -5px 4px 666677;
     text-align: center;
 }
 
@@ -995,7 +963,7 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #31401A;
+	background: #6A8C20;
 }
 
 tr.table_liste1 {
@@ -1432,31 +1400,110 @@ div.gridbox_braldahim div.ftr td {
 lightbox
 */
 
-#lightbox{	position: absolute;	left: 0; width: 100%; z-index: 1100; text-align: center; line-height: 0;}
-#lightbox img{ width: auto; height: auto;}
-#lightbox a img{ border: none; }
+/**
+ * jQuery lightBox plugin
+ * This jQuery plugin was inspired and based on Lightbox 2 by Lokesh Dhakar (http://www.huddletogether.com/projects/lightbox2/)
+ * and adapted to me for use like a plugin from jQuery.
+ * @name jquery-lightbox-0.5.css
+ * @author Leandro Vieira Pinho - http://leandrovieira.com
+ * @version 0.5
+ * @date April 11, 2008
+ * @category jQuery plugin
+ * @copyright (c) 2008 Leandro Vieira Pinho (leandrovieira.com)
+ * @license CCAttribution-ShareAlike 2.5 Brazil - http://creativecommons.org/licenses/by-sa/2.5/br/deed.en_US
+ * @example Visit http://leandrovieira.com/projects/jquery/lightbox/ for more informations about this jQuery plugin
+ */
+#jquery-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 90;
+	width: 100%;
+	height: 500px;
+	z-index: 3000;
+}
+#jquery-lightbox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 3001;
+	text-align: center;
+	line-height: 0;
+}
+#jquery-lightbox a img { border: none; }
+#lightbox-container-image-box {
+	position: relative;
+	background-color: #fff;
+	#width: 250px;
+	#height: 250px;
+	margin: 0 auto;
+}
+#lightbox-container-image { padding: 10px; }
+#lightbox-loading {
+	position: absolute;
+	top: 40%;
+	left: 0%;
+	height: 25%;
+	width: 100%;
+	text-align: center;
+	line-height: 0;
+}
+#lightbox-nav {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+}
+#lightbox-container-image-box > #lightbox-nav { left: 0; }
+#lightbox-nav a { outline: none;}
+#lightbox-nav-btnPrev, #lightbox-nav-btnNext {
+	width: 49%;
+	height: 100%;
+	zoom: 1;
+	display: block;
+}
+#lightbox-nav-btnPrev { 
+	left: 0; 
+	float: left;
+}
+#lightbox-nav-btnNext { 
+	right: 0; 
+	float: right;
+}
+#lightbox-container-image-data-box {
+	font: 10px Verdana, Helvetica, sans-serif;
+	background-color: #fff;
+	margin: 0 auto;
+	line-height: 1.4em;
+	overflow: auto;
+	width: 100%;
+	padding: 0 10px 0;
+}
+#lightbox-container-image-data {
+	padding: 0 10px; 
+	color: #666; 
+}
+#lightbox-container-image-data #lightbox-image-details { 
+	width: 70%; 
+	float: left; 
+	text-align: left; 
+}	
+#lightbox-image-details-caption { font-weight: bold; }
+#lightbox-image-details-currentNumber {
+	display: block; 
+	clear: left; 
+	padding-bottom: 1.0em;	
+}			
+#lightbox-secNav-btnClose {
+	width: 66px; 
+	float: right;
+	padding-bottom: 0.7em;	
+}
 
-#outerImageContainer{ position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
-#imageContainer{ padding: 10px; }
 
-#loading{ position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0; }
-#hoverNav{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 10; }
-#imageContainer>#hoverNav{ left: 0;}
-#hoverNav a{ outline: none;}
-
-#prevLink, #nextLink{ width: 49%; height: 100%; background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */ display: block; }
-#prevLink { left: 0; float: left;}
-#nextLink { right: 0; float: right;}
-#prevLink:hover, #prevLink:visited:hover { background: url(/images/lightbox/prevlabel.png) left 15% no-repeat; }
-#nextLink:hover, #nextLink:visited:hover { background: url(/images/lightbox/nextlabel.png) right 15% no-repeat; }
-
-#imageDataContainer{ font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%	; }
-
-#imageData{	padding:0 10px; color: #666; }
-#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
-#imageData #caption{ font-weight: bold;	}
-#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}			
-#imageData #bottomNavClose{ width: 66px; float: right;  padding-bottom: 0.7em; outline: none;}	 	
 
 #overlay{ position: absolute; top: 0; left: 0; z-index: 90; width: 100%; height: 500px; background-color: #000; }
 
@@ -1507,11 +1554,11 @@ lightbox
     line-height: 20px;
     text-align: justify;
     word-spacing: 3px; 
-    color: #CCCCCC;  
+    color: #F2F2F2;  
 }
 
 .braltexte a {
-    color: #CCCCCC;  
+    color: #F2F2F2;  
 }
 
 .braltextefonce {
@@ -1542,3 +1589,21 @@ lightbox
     font-style: normal;
 }
 
+
+#splashScreen img{
+	margin:0 auto;
+	z-index : 3001;
+	top:-100px;
+}
+
+#splashScreen{
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background-color:#1F2614;
+	background-repeat:no-repeat;
+	text-align:center;
+	z-index : 3000;
+}

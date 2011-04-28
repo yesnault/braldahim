@@ -10,11 +10,11 @@
 	Si toutefois vous constatez
 	un abus et que vous n'êtes pas joueur, merci d'envoyer un mail à : abus AT braldahim.com<br/>
 <br/>	
-	Adresse email du Joueur : <input type="text" name="email_abus" id='email_abus' size='23' maxlength='100'/> <br />
-	Mot de passe : <input type="password" name="password_abus"  size='23'  maxlength='50' /> <br />
+	Adresse email du Joueur : <input required type="text" name="email_abus" id='email_abus' size='23' maxlength='100'/> <br />
+	Mot de passe : <input required type="password" name="password_abus"  size='23'  maxlength='50' /> <br />
 		
 	Message à transmettre à l'équipe :<br/>
-	<textarea name="texte_abus" id="texte_abus" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_abus'),$('characterstyped'),2500);" onkeyup="textCount($('texte_abus'),$('characterstyped'),2500);"></textarea>
+	<textarea required name="texte_abus" id="texte_abus" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_abus'),$('characterstyped'),2500);" onkeyup="textCount($('texte_abus'),$('characterstyped'),2500);"></textarea>
 	
 	<br/>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"/> Caract&egrave;res restants<br/>

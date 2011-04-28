@@ -13,6 +13,7 @@
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.74.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/jquery.lightbox-0.5.min.js"></script>
 		
 	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_action-site-005.js"></script>
 	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/allDhtmlx_001.js"></script>
@@ -22,13 +23,18 @@
 		fx: 'scrollHorz',
 	    speed: $('body.lte8').length ? 0 : 1000,
     	timeout: 0,
-    	timeout: 8000,
+    	timeout: 10000,
 		next:   '#c-next', 
 		prev:   '#c-prev' ,
 	    cleartype: true,
 		cleartypeNoBg: true
 	});
 
+	$(function() {
+	    // Use this example, or...
+	    $('a[rel*=lightbox]').lightBox(); // Select all links that contains lightbox in the attribute rel
+	});
+	
 	/*$('#main-cycle').cycle({
 		fx: 'scrollLeftCustom',
 		easing: 'easeInOutExpo',

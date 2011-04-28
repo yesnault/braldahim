@@ -1,7 +1,7 @@
 <?php Zend_Loader::loadClass("Bral_Helper_DetailPrix");?>
 <?php if (count($this->lots["lots"]) > 0) : ?>
-	<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
-	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Fermer Tout' onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 
 	<?php echo $poches = null; ?>
 	<div id="cadre_lots">
@@ -48,8 +48,8 @@
 	$jsFermer = "";
 	$jsOuvrir = "";
 	foreach ($poches as $p) :
-		$jsFermer .= "maccordion_fermer($('$p'));";
-		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+		$jsFermer .= "maccordion_fermer($('#$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
 	endforeach; ?>
 	   
 	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
