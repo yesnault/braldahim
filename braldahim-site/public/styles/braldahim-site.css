@@ -1607,3 +1607,25 @@ lightbox
 	text-align:center;
 	z-index : 3000;
 }
+
+
+#pageflip {
+	position: relative;
+    top: -96px;
+}
+
+#pageflip img {
+	width: 50px; height: 52px;
+	z-index: 2001;
+	position: absolute;
+	right: 0; top: 0;
+	-ms-interpolation-mode: bicubic;
+}
+#pageflip .msg_block {
+	width: 50px; height: 50px;
+	position: absolute;
+	z-index: 2000;
+	right: 0; top: 0;
+	background: url(/layout/inscription.png) no-repeat right top;
+	text-indent: -9999px;
+}
