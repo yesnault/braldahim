@@ -37,7 +37,7 @@ class MotRunique extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('mot_runique', '*')
 		->where("coef_lune_changement_mot_runique <= ?", $coefLune)
-		->where("date_generation_mot_runique <= ?", Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), -3));
+		->where("date_generation_mot_runique <= ?", Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), -30));
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
