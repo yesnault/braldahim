@@ -15,7 +15,7 @@ $textPalissade = "";
 				$textPalissade .= "une palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
 			}
       		if ($p["est_destructible_palissade"] == "oui") {
-      			$textPalissade .= " destructible";
+      			$textPalissade .= " destructible (".htmlspecialchars($p["date_fin_palissade"]).")";
       		} else {
       			$textPalissade .= " indestructible";
       		}
