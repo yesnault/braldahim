@@ -85,7 +85,7 @@ class Bral_Util_Effets {
 		}
 	}
 
-	public static function calculEffetBraldun($braldunCible, $appliqueEffet, $idEffet = null) {
+	public static function calculEffetBraldun(&$braldunCible, $appliqueEffet, $idEffet = null) {
 		Bral_Util_Log::potion()->trace("Bral_Util_Effets - calculEffetBraldun - enter - appliqueEffet:".$appliqueEffet. " idH:".$braldunCible->id_braldun. " idE:".$idEffet);
 		Zend_Loader::loadClass("EffetBraldun");
 		$effetBraldunTable = new EffetBraldun();
@@ -146,7 +146,7 @@ class Bral_Util_Effets {
 		return $effets;
 	}
 
-	private static function appliqueEffetSurBraldun($effet, $braldunCible, $majTableEffetBraldun = true, $majTableBraldun = true) {
+	private static function appliqueEffetSurBraldun($effet, &$braldunCible, $majTableEffetBraldun = true, $majTableBraldun = true) {
 		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurBraldun - enter");
 		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurBraldun - braldunCible->id_braldun = ".$braldunCible->id_braldun);
 		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurBraldun - majTableEffetBraldun = ".$majTableEffetBraldun);
@@ -321,19 +321,19 @@ class Bral_Util_Effets {
 		}
 
 		$data = array(
-				'force_bm_braldun' => $braldunCible->force_bm_braldun,
-				'agilite_bm_braldun' => $braldunCible->agilite_bm_braldun,
-				'vigueur_bm_braldun' => $braldunCible->vigueur_bm_braldun,
-				'sagesse_bm_braldun' => $braldunCible->sagesse_bm_braldun,
-				'pv_restant_braldun' => $braldunCible->pv_restant_braldun,
-				'balance_faim_braldun' => $braldunCible->balance_faim_braldun,
-				'bm_attaque_braldun' => $braldunCible->bm_attaque_braldun,
-				'bm_degat_braldun' => $braldunCible->bm_degat_braldun,
-				'bm_defense_braldun' => $braldunCible->bm_defense_braldun,
-				'vue_bm_braldun' => $braldunCible->vue_bm_braldun,
-				'bm_marcher_braldun' => $braldunCible->bm_marcher_braldun,
-				'duree_bm_tour_braldun' => $braldunCible->duree_bm_tour_braldun,
-				'armure_bm_braldun' => $braldunCible->armure_bm_braldun,
+			'force_bm_braldun' => $braldunCible->force_bm_braldun,
+			'agilite_bm_braldun' => $braldunCible->agilite_bm_braldun,
+			'vigueur_bm_braldun' => $braldunCible->vigueur_bm_braldun,
+			'sagesse_bm_braldun' => $braldunCible->sagesse_bm_braldun,
+			'pv_restant_braldun' => $braldunCible->pv_restant_braldun,
+			'balance_faim_braldun' => $braldunCible->balance_faim_braldun,
+			'bm_attaque_braldun' => $braldunCible->bm_attaque_braldun,
+			'bm_degat_braldun' => $braldunCible->bm_degat_braldun,
+			'bm_defense_braldun' => $braldunCible->bm_defense_braldun,
+			'vue_bm_braldun' => $braldunCible->vue_bm_braldun,
+			'bm_marcher_braldun' => $braldunCible->bm_marcher_braldun,
+			'duree_bm_tour_braldun' => $braldunCible->duree_bm_tour_braldun,
+			'armure_bm_braldun' => $braldunCible->armure_bm_braldun,
 		);
 		$where = "id_braldun=".$braldunCible->id_braldun;
 
