@@ -36,7 +36,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
 			$e["nom_systeme_metier"] == $metier &&
 			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun && 
+			$e["y_echoppe"] == $this->view->user->y_braldun &&
 			$e["z_echoppe"] == $this->view->user->z_braldun) {
 				$this->view->reparermenuisierEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
@@ -74,45 +74,53 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
 		$charrettesRowset = $charretteTable->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+		$this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
 
-		if ($charrettesRowset != null && count($charrettesRowset) > 0) {
+		$charrettesRowset = $charretteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+		$this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
+		return $tabCharrettes;
+	}
 
-			foreach($charrettesRowset as $c) {
-				$cout = $this->calculCoutPlanche($c);
+	private function ajouteCharrettes(&$tabCharrettes, $charrettesRowset) {
+		if ($charrettesRowset == null || count($charrettesRowset) == 0) {
+			return;
+		}
+		foreach($charrettesRowset as $c) {
+			$cout = $this->calculCoutPlanche($c);
 
-				$possiblePlanche = false;
-				if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] >= $cout) {
-					$possiblePlanche = true;
-				}
+			$possiblePlanche = false;
+			if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] >= $cout) {
+				$possiblePlanche = true;
+			}
 
-				$possibleCout = false;
-				if ($cout > 0) {
-					$possibleCout = true;
-				}
+			$possibleCout = false;
+			if ($cout > 0) {
+				$possibleCout = true;
+			}
 
-				$possible = false;
-				if ($possibleCout == true && $possiblePlanche == true) {
-					$possible = true;
-				}
+			$possible = false;
+			if ($possibleCout == true && $possiblePlanche == true) {
+				$possible = true;
+			}
 
-				$tabCharrettes[] = array(
-					"id_charrette" => $c["id_charrette"],
-					"nom_type_materiel" => $c["nom_type_materiel"],
-					"id_braldun" => $c["id_braldun"],
-					"nom_braldun" => $c["nom_braldun"],
-					"prenom_braldun" => $c["prenom_braldun"],
-					"durabilite_max_charrette" => $c["durabilite_max_charrette"],
-					"durabilite_actuelle_charrette" => $c["durabilite_actuelle_charrette"],
-					"poids_transportable_charrette" => $c["poids_transportable_charrette"],
-					"cout_reparation_planche" => $cout,
-					"possible_planche" => $possiblePlanche,
-					"possible_cout" => $possibleCout,
-					"possible" => $possible,
-				);
+			$tabCharrettes[$c["id_charrette"]] = array(
+				"id_charrette" => $c["id_charrette"],
+				"nom_type_materiel" => $c["nom_type_materiel"],
+				"durabilite_max_charrette" => $c["durabilite_max_charrette"],
+				"durabilite_actuelle_charrette" => $c["durabilite_actuelle_charrette"],
+				"poids_transportable_charrette" => $c["poids_transportable_charrette"],
+				"cout_reparation_planche" => $cout,
+				"possible_planche" => $possiblePlanche,
+				"possible_cout" => $possibleCout,
+				"possible" => $possible,
+			);
+			
+			if (array_key_exists("nom_braldun", $c)) {
+				$tabCharrettes[$c["id_charrette"]]["id_braldun"] = $c["id_braldun"];
+				$tabCharrettes[$c["id_charrette"]]["nom_braldun"] = $c["nom_braldun"];
+				$tabCharrettes[$c["id_charrette"]]["prenom_braldun"] = $c["prenom_braldun"];
 			}
 		}
-
-		return $tabCharrettes;
 	}
 
 	private function calculCoutPlanche($charrette) {

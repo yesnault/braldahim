@@ -1,9 +1,14 @@
 <?php include("commun_text_resultat.phtml") ?>
 
 <?php if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; r&eacute;parer la charrette appartenant &agrave; <br />
+	Vous avez r&eacute;ussi &agrave; r&eacute;parer la charrette n°<?php echo $this->charrette["id_charrette"]?> 
 	
-	<?php echo $this->charrette["prenom_braldun"]?> <?php echo $this->charrette["nom_braldun"]?> (<?php echo $this->charrette["id_braldun"]?>) pour <br />
+	<?php if (array_key_exists("prenom_braldun", $this->charrette)) : ?>	
+		appartenant &agrave; <br />
+		<?php echo $this->charrette["prenom_braldun"]?> <?php echo $this->charrette["nom_braldun"]?> (<?php echo $this->charrette["id_braldun"]?>)
+	<?php endif;?> 
+	
+	pour <br />
 	<?php echo $this->charrette["cout_reparation_planche"]?> planche<?php if ($this->charrette["cout_reparation_planche"] > 1): echo "s"; endif;?>.
 	
 <?php else: ?>
