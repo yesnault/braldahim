@@ -110,8 +110,8 @@ nav ul {
 }
 #nav-main > ul > li {
     border-radius: 3px 3px 0 0;
-    font-family: PerryGothic,'Arial Narrow',Arial,sans-serif;
-    font-size: 16px;
+    font-family: Cardinal,'Arial Narrow',Arial,sans-serif;
+    font-size: 22px;
     line-height: 17px;
 }
 #nav-main a {
@@ -776,7 +776,7 @@ span.id_braldun {
 }
 
 .titrea {
-	font-family: "PerryGothic",Times,serif;
+	font-family: "Cardinal",Times,serif;
 	font-weight: normal;
     color: #f0ae21;
     text-shadow: 0 0 4px black, 0 -5px 4px black;
@@ -791,26 +791,30 @@ span.id_braldun {
 }
 
 .textsize0 {
-	font-size: 1.6em;
+	font-size: 2.6em;
 }
 
 .textsizea {
-	font-size: 1.4em;
+	font-size: 2.4em;
 }
 
 .textsizeb {
-	font-size: 1.3em;
+	font-size: 2.3em;
 }
 
 .textsizec {
-	font-size: 1.2em;
+	font-size: 2.2em;
 }
 
 .textsized {
-	font-size: 1.0em;
+	font-size: 2.0em;
 	letter-spacing: 1pt;
 }
 
+.textsizee {
+	font-size: 1.5em;
+	letter-spacing: 1pt;
+}
 
 .equipea {
 	color: red;
@@ -916,7 +920,7 @@ span.id_braldun {
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/styles/braldahim_defaut/images/layout/braldahim4.png) no-repeat scroll 0 0;
+	background:transparent url(/styles/braldahim_defaut/images/layout/test2.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:75px;
@@ -1551,7 +1555,7 @@ lightbox
     font-size: 30px;
     margin: 7px 5px 0 0;
     vertical-align: text-top;
-    font-family: PerryGothic;
+    font-family: Cardinal;
 }
 
 .braltexte, .braltexte2 {
@@ -1574,6 +1578,13 @@ lightbox
     font-style: normal;
     font-weight: normal;
     src: local("☺"), url("/fonts/PERRYGOT.TTF") format("truetype");
+}
+
+@font-face {
+    font-family: "Cardinal";
+    font-style: normal;
+    font-weight: normal;
+    src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
 }
 
 @font-face {
