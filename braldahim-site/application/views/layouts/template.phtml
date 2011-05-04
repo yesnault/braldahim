@@ -8,15 +8,15 @@
 	<meta name="description" content="Braldahim - Jeu Web - Bralduns" />
 	<meta name="keywords" content="jeu web, Semi-Homme, Braldûns, MMO, rôle, aventure" />
 	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
-	<link href="<?php echo $this->config->static->url?>/styles/braldahim-site.css?33" media="screen" rel="Stylesheet" type="text/css" />
+	<link href="<?php echo $this->config->static->url?>/css/braldahim.css?1" media="screen" rel="Stylesheet" type="text/css" />
 	<link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-	<script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.74.js"></script>
-	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/jquery.lightbox-0.5.min.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/jquery.cycle.all-2.99.min.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/jquery.lightbox-0.5.min.js"></script>
 		
-	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_action-site-005.js"></script>
-	<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/dhtmlxGrid-2.0.0/codebase/allDhtmlx_001.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/braldahim.js?1"></script>
+	<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/allDhtmlx_001.js"></script>
 	
 	<script>
 	$('#main-cycle').cycle({ 
@@ -62,7 +62,7 @@
 	<h1><a href="/">Braldahim - Site</a></h1>
 	</div>
 	<div id="frisetop">
-		<?php echo $this->render("menu.phtml"); ?>
+	<script language="Javascript" src="<?php echo $this->config->static->url?>/index/menu"></script>
 	</div>
 	<div id="frisebot">
 	</div>
@@ -78,8 +78,7 @@
 		</div>
 		</div>
 	</div>
+	<script language="Javascript" src="<?php echo $this->config->static->url?>/index/footer"></script>
 	<?php echo $this->render("footer.phtml"); ?>
-	
-	
 </body>
 </html>

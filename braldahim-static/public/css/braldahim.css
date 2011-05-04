@@ -45,7 +45,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
   	 z-index: 100;
 }
 #c-nav li {
-    background: url("/layout/fleche_droite.png") no-repeat scroll 50% 50% #6A8C20;
+    background: url("/images/layout/fleche_droite.png") no-repeat scroll 50% 50% #6A8C20;
     border-radius: 50px 50px 50px 50px;
     cursor: pointer;
     float: right;
@@ -55,7 +55,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     width: 38px;
 }
 #c-nav #c-prev {
-    background-image: url("/layout/fleche_gauche.png");
+    background-image: url("/images/layout/fleche_gauche.png");
     float: left;
 }
 
@@ -273,7 +273,7 @@ body {
     color: #F2F2F2;
 	
 	 /* Degrade */
-    background: url("/layout/fond.jpg") repeat-x scroll 50% 0 #4c712c;
+    background: url("/images/layout/fond.jpg") repeat-x scroll 50% 0 #4c712c;
 }
 
 #frisebot, #frisetop {
@@ -281,25 +281,25 @@ body {
 
 #frisetopa {
 	height:40px;
-	#background:transparent url(/layout/friseecriture.png) repeat-x scroll 0 0;
+	#background:transparent url(/images/layout/friseecriture.png) repeat-x scroll 0 0;
 	background: #31401A;
 }
 #frisetop {
 	height:40px;
-	#background:transparent url(/layout/frise.png) repeat-x scroll 0 0;
+	#background:transparent url(/images/layout/frise.png) repeat-x scroll 0 0;
 	background: #31401A;
 }
 
 #frisebot {
 	height:0px;
 	margin-top: -10px;
-	#background:transparent url(/layout/frisebas.png) repeat-x scroll 0 0;
+	#background:transparent url(/images/layout/frisebas.png) repeat-x scroll 0 0;
 	background: #31401A;
 }
 
 #braldunsite {
 	z-index:1000;
-	background:transparent url(/layout/comte.png) no-repeat scroll 0 0;
+	background:transparent url(/images/layout/comte.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:540px;
@@ -390,7 +390,7 @@ border-radius: 10px; /* en css3 lui même */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	
 background: #FFFFFF
-		url(/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		url(/images/layout/gris.png) repeat-x
 		scroll 0pt 100%;
 }
 
@@ -676,57 +676,57 @@ span.id_braldun {
 	height:46px;
 }
 #menu li.accueil a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position: 0 0;
 	width:120px;
 }
 #menu li.accueil a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position: 0 -45px;
 }
 #menu li.jouer a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-120px 0;
 	width:70px;
 }
 #menu li.jouer a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-120px -45px;
 }
 #menu li.bourg a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-190px 0;
 	width:110px;
 }
 #menu li.bourg a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-190px -45px;
 }
 #menu li.forums a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-300px 0;
 	width:95px;
 }
 #menu li.forums a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-300px -45px;
 }
 #menu li.regles a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-395px 0;
 	width:75px;
 }
 #menu li.regles a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-395px -45px;
 }
 #menu li.projet a {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-480px 0;
 	width:115px;
 }
 #menu li.projet a:hover {
-	background-image:url(/styles/braldahim_defaut/images/layout/menub.gif);
+	background-image:url(/images/layout/menub.gif);
 	background-position:-480px -45px;
 }
 
@@ -920,7 +920,7 @@ span.id_braldun {
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/styles/braldahim_defaut/images/layout/test2.png) no-repeat scroll 0 0;
+	background:transparent url(/images/logo/braldahim4.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:75px;
@@ -1043,79 +1043,10 @@ td.table_liste {
     padding: 10px;
 }
 
-/* (C) 2007 YOOtheme.com */
-div.yoo-tooltip-toggler {
-	cursor: pointer;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tl {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_tl.png)
-		0 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-tr {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_tr.png)
-		100% 7pt no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-t {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_t.png)
-		0 7pt repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-l {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_l.png)
-		0 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-r {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_r.png)
-		100% 7pt repeat-y;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-m {
-	background: #ffffff;
-	padding: 10px 0px 0px 0px;
-	overflow: hidden;
-	color:#000000;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-bl {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_bl.png)
-		0 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-br {
-	padding: 0px 15px 0px 15px;
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_br.png)
-		100% 0 no-repeat;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-b {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_b.png)
-		0 0 repeat-x;
-}
-
-div.yoo-tooltip div.yoodefault .tooltip-arrow {
-	background:
-		url(/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
-		50% 0 no-repeat;
-}
-
 .feed {
   margin-left: 3px;
   padding: 0 0 0 15px;
-  background: url("/images/rss.png") no-repeat 0 50%;
+  background: url("/images/logo/rss.png") no-repeat 0 50%;
   color: #eeeeee;
 } 
 
@@ -1574,44 +1505,19 @@ lightbox
 }
 
 @font-face {
-    font-family: "PerryGothic";
-    font-style: normal;
-    font-weight: normal;
-    src: local("☺"), url("/fonts/PERRYGOT.TTF") format("truetype");
-}
-
-@font-face {
     font-family: "Cardinal";
     font-style: normal;
     font-weight: normal;
     src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
 }
 
-@font-face {
-    font-family: "Essays 1743";
-    src: url("/fonts/essays1743-webfont.woff") format('woff'),
-         url("/fonts/essays1743-webfont.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'LinuxLibertineRegular';
-    src: url("/fonts/linlibertine_re-4.7.5-webfont.woff") format('woff'),
-         url("/fonts/linlibertine_re-4.7.5-webfont.ttf") format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-#splashScreen img{
+#splashScreen img {
 	margin:0 auto;
 	z-index : 3001;
 	top:-100px;
 }
 
-#splashScreen{
+#splashScreen {
 	position:absolute;
 	top:0;
 	left:0;
@@ -1642,6 +1548,6 @@ lightbox
 	position: absolute;
 	z-index: 2000;
 	right: 0; top: 0;
-	background: url(/layout/inscription.png) no-repeat right top;
+	background: url(/images/layout/inscription.png) no-repeat right top;
 	text-indent: -9999px;
 }
