@@ -232,12 +232,12 @@ function my_switch(box, conteneur) {
 
 // Switch pour afficher un div et en cacher un autre
 function switch2div(div1, div2) {
-	if ($(div1).style.display == "none") {
-		$(div1).show();
-		$(div2).hide();
+	if ($("#"+div1).css('display') == "none") {
+		$("#"+div1).show();
+		$("#"+div2).hide();
 	} else {
-		$(div1).hide();
-		$(div2).show();
+		$("#"+div1).hide();
+		$("#"+div2).show();
 	}
 }
 

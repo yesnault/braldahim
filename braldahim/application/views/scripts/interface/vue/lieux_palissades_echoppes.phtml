@@ -111,21 +111,21 @@ endif; ?>
 <?php if ($textLieu != '' ) :?>
 	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
 	<?php if ($type_lieu != '') : ?>
-		<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/batiments/<?php echo $type_lieu?>.png' />
+		<img src='<?php echo $this->config->static->url?>/images/vue/batiments/<?php echo $type_lieu?>.png' />
 	<?php else: ?>
-		<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/batiment.png' />
+		<img src='<?php echo $this->config->static->url?>/images/vue/batiment.png' />
 	<?php endif; ?>
 <?php elseif ($textChamp != '') : ?>
 	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
-	<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/champ.png' />
+	<img src='<?php echo $this->config->static->url?>/images/vue/champ.png' />
 <?php elseif ($textEchoppe != '') : ?>
 	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
-	<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/echoppes/<?php echo $nomSystemeEchoppe?>.png' />
+	<img src='<?php echo $this->config->static->url?>/images/vue/echoppes/<?php echo $nomSystemeEchoppe?>.png' />
 <?php else: ?>
 	<br />
 <?php endif;?>  
 
 <?php if ($textBallon != '') : ?>
-<img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/vue/ballon.png'/>
+<img src='<?php echo $this->config->static->url?>/images/vue/ballon.png'/>
 <?php endif;?>
 </div>

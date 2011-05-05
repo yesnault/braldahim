@@ -1,20 +1,4 @@
-<div id="footer">
-  <div style="height:10px">&nbsp;</div>
-	 <div class="inner_footer">
-	 	<span id='date_heure' class=''>&nbsp;</span>
-	 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
-	 	<?php if (isset($this->user) && isset($this->user->email_braldun)) : ?> 
-	 		<span id='nb_connectes' class=''>&nbsp;</span><br />
-	 	<?php endif;?>
-		<a href="http://www.jeuxweb.org">Braldahim est hébergé par l'Association JeuxWeb.org ASBL</a>
-		 	
-	 	<br />
- 		<a href="http://www.braldahim.com/abus/">Signaler un abus</a> | 
- 		<a href="http://feeds.braldahim.com/braldahim-chronique" class="feed">Flux RSS</a>
-	 	<br />
-	 </div>
-	
-	<?php if ($this->config->tracker->enabled == "1") : ?>
+<?php if ($this->config->tracker->enabled == "1") : ?>
 	<script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -24,5 +8,4 @@
 	pageTracker._initData();
 	pageTracker._trackPageview();
 	</script>
-	<?php endif; ?>
-</div>
+<?php endif; ?>

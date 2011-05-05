@@ -18,7 +18,7 @@
 			   foreach($this->aliments as $a) :?>
 				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste"><?php echo $a["id_aliment"] ?></td>
-			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/styles/braldahim_defaut/images/type_aliment/type_aliment_<?php echo $a["id_type_aliment"]?>.png' alt="<?php echo htmlspecialchars($a["nom"])?>"/></td>
+			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/images/type_aliment/type_aliment_<?php echo $a["id_type_aliment"]?>.png' alt="<?php echo htmlspecialchars($a["nom"])?>"/></td>
 			  		<td class="table_liste"><?php echo htmlspecialchars($a["nom"]) ?></td>
 			  		<td class="table_liste">
 				  		<?php if ($a["bbdf"] > 0): ?>
