@@ -1,23 +1,21 @@
 <div id="header">
-<div id="frisetop">
+	<div id="frisetopa">
+	<?php if (Zend_Registry::get("estWork")) : ?>
+		<h1><a href="/">Work</a></h1>
+	<?php else:?>
+		<h1><a href="/">Braldahim - Jeu</a></h1>
+	<?php endif;?>
+	</div>
+	<div id="frisetop">
+	
+	<?php if (Zend_Registry::get("estWork")) : ?>
+		<center><input type='button' class='button1' value='Afficher / Cacher les liens' onclick="switch2div('menuFoo', 'menu');"></center>
+		<div id='menuFoo'></div>
+	<?php endif;?>
 
-<?php if (Zend_Registry::get("estWork")) : ?>
-	<center><input type='button' class='button1' value='Afficher / Cacher les liens' onclick="switch2div('menuFoo', 'menu');"></center>
-	<div id='menuFoo'></div>
-	<h1><a href="/">Braldahim - Work</a></h1>
-<?php else:?>
-	<h1><a href="/">Braldahim - Jeu</a></h1>
-<?php endif;?>
-
-</div>
-</div>
-<div id="menu">
-<ul>
-	<li class="accueil"><a href="http://www.braldahim.com">Accueil</a></li>
-	<li class="jouer"><a href="http://jeu.braldahim.com/auth/login">Jouer</a></li>
-	<li class="bourg"><a href="http://www.braldahim.com/bourg">Palmarès</a></li>
-	<li class="forums"><a href="http://forum.braldahim.com">Forums</a></li>
-	<li class="regles"><a href="http://regles.braldahim.com">Règles</a></li>
-	<li class="projet"><a href="http://www.braldahim.com/projet">Le Projet</a></li>
-</ul>
+	<script language="Javascript" src="<?php echo $this->config->static->url?>/index/menu"></script>
+	
+	</div>
+	<div id="frisebot">
+	</div>
 </div>

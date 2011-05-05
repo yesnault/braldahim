@@ -14,11 +14,12 @@
 
 <title>Braldahim</title>
 <link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<?php $versionCss = "109"; ?>
+
+<?php $versionCss = "1"; ?>
 <?php if ($this->config->general->production == 1) : ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/braldahim.css?<?php echo $versionCss?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/css/braldahim.css?<?php echo $versionCss?>" />
 <?php endif;?>
 <link rel="apple-touch-icon" href="<?php echo $this->config->static->url?>/images/mobile/icone-braldahim.png"/>
 <link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
@@ -29,12 +30,9 @@
 <?php endif;?>
 
 <?php $versionJs = "047"; ?>
-<?php if ($this->config->general->production == 1) : ?>
-<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/all-<?php echo $versionJs?>.js"></script>
-<?php else: ?>
-<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/protoaculous/protoaculous.js"></script>
-<script type="text/javascript" src="<?php echo $this->config->static->url?>/scripts/braldahim/m_action-<?php echo $versionJs?>.js"></script>
-<?php endif;?>
+
+<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/braldahim.js?<?php echo $versionJs?>"></script>
 
 <?php if (isset($this->cssCommunaute)) : ?>
 <style type="text/css"><?php echo $this->cssCommunaute?></style>
