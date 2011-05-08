@@ -158,12 +158,12 @@ class InterfaceController extends Zend_Controller_Action {
 			$boite_a = "boite_m";
 			$boite_b = "boite_m";
 			$boite_c = "boite_m";
-			$boite_d = "boite_m";
+//			$boite_d = "boite_m";
 		} else {
 			$boite_a = "boite_a";
 			$boite_b = "boite_b";
 			$boite_c = "boite_c";
-			$boite_d = "boite_d";
+//			$boite_d = "boite_d";
 		}
 
 		try {
@@ -181,7 +181,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_d);
+//			$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_d);
 			
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
@@ -232,14 +232,15 @@ class InterfaceController extends Zend_Controller_Action {
 		if ($this->view->estMobile) {
 			$r = $this->getDataList("boite_m");
 		} else {
-			$r = "<table width='99%'><tr valign='top'><td width='375px'>";
+			$r = '';
+			/*$r = "<table width='99%'><tr valign='top'><td width='375px'>";*/
 			$r .= $this->getDataList("boite_a");
 			$r .= $this->getDataList("boite_b");
-			$r .= "</td><td width='auto'>";
+			/*$r .= "</td><td width='auto'>";*/
 			$r .= $this->getDataList("boite_c");
 			$r .= "<br />";
-			$r .= $this->getDataList("boite_d");
-			$r .= "</td></tr></table>";
+//			$r .= $this->getDataList("boite_d");
+			/*$r .= "</td></tr></table>";*/
 		}
 		return $r;
 	}
@@ -267,7 +268,11 @@ class InterfaceController extends Zend_Controller_Action {
 
 			for ($i = 0; $i < count($l); $i ++) {
 				if ($i == 0 && !$this->view->estMobile) {
-					$display = "block";
+					if ($l[$i]->getNomInterne() == "box_vue") {
+						$display = "block";
+					} else {
+						$display = "none";
+					}
 				} else {
 					$display = "none";
 				}

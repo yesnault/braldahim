@@ -5,7 +5,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     margin: 0;
     outline: 0 none;
     padding: 0;
-    vertical-align: baseline;
+    #vertical-align: baseline;
 }
 
 #main-cycle-container {
@@ -281,8 +281,8 @@ body {
 
 #frisetopa {
 	height:40px;
-	#background:transparent url(/images/layout/friseecriture.png) repeat-x scroll 0 0;
 	background: #31401A;
+	text-align:right;
 }
 #frisetop {
 	height:40px;
@@ -367,13 +367,12 @@ display:none;
 text-align:left;
 }
 div.braltip:hover div.tip, div.tipf {
-background-color:#FFFFFF;
+background-color:#31401A;
 text-align:left;
 border:1px solid #555555;
-color:#505050;
+color:#F2F2F2;
 display:block!important;
 font-size:1em;
-font:1em arial,verdana,sans-serif;
 letter-spacing: 0pt;
 left:2px;
 padding:4px;
@@ -389,8 +388,10 @@ border-radius: 10px; /* en css3 lui même */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	
-background: #FFFFFF
-		url(/images/layout/gris.png) repeat-x
+opacity:0.9;
+
+background: #31401A
+         /*url('/images/layout/gris.png') repeat-x*/
 		scroll 0pt 100%;
 }
 
@@ -409,7 +410,7 @@ height: 1px;
 input.button1 {
 	background-color: #FAFAFA;
 	background-image:
-		url(/images/bg_button.gif);
+		url(/images/divers/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
 	font-size: 1em;
@@ -461,6 +462,37 @@ span.id_braldun {
 	color: black;
 	font-weight: bold;
 	z-index: 1000;
+}
+
+.box_action {
+	width: 30%;
+	
+	height: auto;
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #990000;
+	background: #FFFFFF
+		url('/images/layout/gris.png') repeat-x
+		scroll 0pt 100%;
+	color: black;
+	padding: 5pt 5px;
+	
+	position:absolute;
+	min-width:500px;
+	z-index: 9999;
+	
+	margin-left:auto !important;
+	margin-right:auto !important;
+}
+
+.box_erreur *{
+	background-color: #FF3300;
+	color: black;
+	text-align: center;
+	width: auto;
+	height: auto;
+	font: 11px arial, verdana, sans-serif;
 }
 
 .box_gazette {
@@ -544,7 +576,7 @@ span.id_braldun {
 }
 
 #navigation h3.head {
-	background: #6A8C20 url('/images/collapsed.gif') no-repeat scroll
+	background: #41591C url('/images/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	color: #232323;
@@ -599,18 +631,28 @@ span.id_braldun {
 /* ************************************************ */
 /* ********************** Onglets ***************** */
 /* ************************************************ */
-.boite_a {
+.boite_a,.boite_b,.boite_c {
 	margin-top: 10px;
 	width: auto;
+}
+
+.boite_a,.boite_b {
+	margin-top: 10px;
+	width: 100%;
 }
 
 .onglet {
 	border-style: solid;
 	border-color: #000000;
 	border-width: 1px;
-	margin: 2px;
-	margin-left: 10px;
+	margin: 0px;
+	margin-left: 1px;
+	color:#F2F2F2;
+	text-align:center;
+	padding-left:1px;
 	
+	font: 0.9em/.0 arial,verdana,sans-serif;
+	 
 	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
 	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
@@ -787,32 +829,48 @@ span.id_braldun {
 	font-weight: bolder;
 	margin: 0.0em;
 	font-variant: small-caps;
-	letter-spacing: 2pt;
+	letter-spacing: 1.5pt;
 }
 
-.textsize0 {
+.titreasize0 {
 	font-size: 2.6em;
 }
 
-.textsizea {
+.titreasizea {
 	font-size: 2.4em;
 }
 
-.textsizeb {
+.titreasizeb {
 	font-size: 2.3em;
 }
 
-.textsizec {
+.titreasizec {
 	font-size: 2.2em;
 }
 
-.textsized {
+.titreasized {
 	font-size: 2.0em;
+}
+
+.titreasizee {
+	font-size: 1.5em;
 	letter-spacing: 1pt;
 }
 
-.textsizee {
-	font-size: 1.5em;
+.textsizea {
+	font-size: 1.4em;
+}
+
+.textsizeb {
+	font-size: 1.3em;
+}
+
+.textsizec {
+	font-size: 1.2em;
+}
+
+.textsized {
+	font-size: 1.1em;
 	letter-spacing: 1pt;
 }
 
@@ -869,6 +927,17 @@ span.id_braldun {
 
 .inner { /* exterieur de boite */
 	padding: 5pt 10px;
+	/**AJOUT**/
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	padding: 1pt 10px;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 1pt 1px;
+	display: block;
+	background: transparent	 repeat-x scroll 0pt 0%;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
@@ -890,6 +959,17 @@ span.id_braldun {
 	display: block;
 	background: #1F2614 repeat-x scroll 0pt 0%;
 	text-align: center;
+}
+
+.innerBox {
+    background: none repeat-x scroll 0 0 #628B28;
+    border-color: #000000;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 1pt 1px;
+    box-shadow: 0 10px 16px -1px #000000;
+    display: block;
+    padding: 1pt 10px;
 }
 
 .inner_footer {
@@ -1712,4 +1792,362 @@ divfrise {
 .lune.lune28 { background:transparent url('/images/lune/moon28.png') no-repeat scroll 0 0; }
 .lune.lune29 { background:transparent url('/images/lune/moon29.png') no-repeat scroll 0 0; }
 
+/* ************************************************ */
 /******** FIN LUNE *******/
+/* ************************************************ */
+
+
+/* ************************************************ */
+/* ************************* Vue ****************** */
+/* ************************************************ */
+	
+table.vue2d {
+	background-color: #31401A;
+	text-align: center;
+	border-spacing: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	
+}
+
+td.vue2d {
+	border-collapse: collapse; 
+	vertical-align: top;
+	horizontal-align: center;
+	width: 64px;
+	height: 64px;
+	border-top:1px solid #628B28;
+	border-left:1px solid #628B28;
+	background-color:#F1D499;
+}
+
+td.vue2d.actuelle {
+	border-width: 1px; 
+	border-style: solid;
+	border-color:#ff6666;
+	width: 60px;
+	height: 60px;
+}
+
+td.vue2d.plaine { background: url('/images/vue/environnement/plaine.png') repeat; }
+td.vue2d.plaine-gr { background: url('/images/vue/environnement/plaine-gr.png') repeat; }
+td.vue2d.gazon { background: url('/images/vue/environnement/gazon.png') repeat; }
+td.vue2d.gazon-gr { background: url('/images/vue/environnement/gazon-gr.png') repeat;}
+td.vue2d.marais { background: url('/images/vue/environnement/marais.png') repeat; }
+td.vue2d.marais-gr { background: url('/images/vue/environnement/marais-gr.png') repeat; }
+td.vue2d.montagne { background: url('/images/vue/environnement/montagne.png') repeat; }
+td.vue2d.montagne-gr { background: url('/images/vue/environnement/montagne-gr.png') repeat;}
+td.vue2d.caverne { background: url('/images/vue/environnement/caverne.png') repeat;}
+td.vue2d.caverne-gr { background: url('/images/vue/environnement/caverne-gr.png') repeat;}
+td.vue2d.caverne-crevasse { background: url('/images/vue/environnement/caverne-crevasse.png') repeat;}
+td.vue2d.caverne-gr-crevasse { background: url('/images/vue/environnement/caverne-gr-crevasse.png') repeat;}
+td.vue2d.mine { background: url('/images/vue/environnement/mine.png') repeat;}
+td.vue2d.mine-gr { background: url('/images/vue/environnement/mine-gr.png') repeat;}
+td.vue2d.tunnel { background: url('/images/vue/environnement/tunnel.png') repeat;}
+td.vue2d.tunnel-gr { background: url('/images/vue/environnement/tunnel-gr.png') repeat;}
+
+td.vue2d.route { background: url('/images/vue/route.png') repeat; }
+td.vue2d.pave { background: url('/images/vue/pave.png') repeat; }
+
+
+td.vue2d.palissade {
+	background: url('/images/vue/palissade.png') repeat;
+}
+
+td.vue2d.portail {
+	background: url('/images/vue/portail.png') repeat;
+}
+
+td.vue2d.inconnu {
+	background: url('/images/vue/inconnu.png') repeat;
+}
+
+td.vue2d.erables { background: url('/images/vue/bosquets/erables.png') repeat; }
+td.vue2d.erables-gr { background: url('/images/vue/bosquets/erables-gr.png') repeat; }
+td.vue2d.chenes { background: url('/images/vue/bosquets/chenes.png') repeat; }
+td.vue2d.chenes-gr { background: url('/images/vue/bosquets/chenes-gr.png') repeat; }
+td.vue2d.peupliers { background: url('/images/vue/bosquets/peupliers.png') repeat; }
+td.vue2d.peupliers-gr { background: url('/images/vue/bosquets/peupliers-gr.png') repeat; }
+td.vue2d.hetres { background: url('/images/vue/bosquets/hetres.png') repeat; }
+td.vue2d.hetres-gr { background: url('/images/vue/bosquets/hetres-gr.png') repeat; }
+
+td.vue2d.peuprofonde { background: url('/images/vue/eaux/peuprofonde.png') repeat; }
+td.vue2d.profonde { background: url('/images/vue/eaux/profonde.png') repeat; }
+td.vue2d.lac { background: url('/images/vue/eaux/lac.png') repeat; }
+td.vue2d.mer { background: url('/images/vue/eaux/mer.png') repeat; }
+
+.vue2d_case_num {
+	text-align: right;
+	color: #e0ffe0;
+	height:0.5px;
+	position:relative;
+	top : -7px;
+	z-index: 100;
+}
+
+div.cases { width:64px; padding: 0px;}
+div.cases.actuelle { width:30px; padding: 0px;}
+
+table.cases {
+	padding: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse; 
+	width:64px;
+}
+
+table.cases.actuelle {
+	width:60px;
+}
+
+td.cases {
+	width: 32px;
+#	height: 32px;
+	padding:0px;
+}
+
+td.cases.actuelle {
+	width: 30px;
+	height: 30px;
+}
+
+/* ************************************************ */
+/* ********************* FIN Vue ****************** */
+/* ************************************************ */
+
+
+
+/* ************************************************ */
+/* ********************* Message ****************** */
+/* ************************************************ */
+.message_erreur {
+	background-color: #FF6666;
+	color: black;
+	text-align: center;
+}
+
+
+/* ************************************************ */
+/* ********************BralBox ****************** */
+/* ************************************************ */
+
+#BB_overlay {
+	position: absolute;
+	margin: auto;
+	top: 0; left: 0;
+	width: 100%; height: 100%;
+	z-index: 9999;
+	border: 0;
+	background-color: #000!important;
+	opacity: 0.5;
+	filter: Alpha(Opacity=40);
+	-moz-opacity:0.0;
+}
+#BB_overlay[id] { position: fixed; }
+
+#BB_windowwrapper {
+	position:absolute;
+	top:0;
+	width:100%;
+}
+
+#BB_window {
+	position:relative !important;
+	margin-left:auto !important;
+	margin-right:auto !important;
+	top:0 !important;
+	left:0 !important;
+	border: 0 solid;
+	text-align: left;
+	z-index: 10000;
+	width: 512px;
+}
+#BB_window[id] { position: relative!important; }
+
+#BB_frame {
+	position: relative;
+	background-color: #EFEFEF;
+	height: 100%;
+}
+
+#BB_header {
+	margin: 0;
+	padding: 0;
+	background-color:#628B28;
+	color:#DDDDDD;
+}
+
+#BB_titre {
+	padding: .5em 2em .5em .75em;
+	margin: 0;
+	text-align: left;
+}
+
+#BB_close {
+	display: block;
+	position: absolute;
+	right: 5px; top: 4px;
+	padding: 2px 3px;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 13px;
+}
+#BB_close:hover {
+	background: transparent;
+}
+
+
+#boite_a {
+    left: 0;
+    top: 80px;
+    width: auto;
+    
+    color: #FFFFFF;
+    cursor: pointer;
+    position: absolute;
+    top: 9%;
+    width: 420px;
+    z-index: 1000;
+}
+
+#boite_b {
+    right: 0;
+    top: 80px;
+    width: auto;
+    
+    color: #FFFFFF;
+    cursor: pointer;
+    position: absolute;
+    top: 9%;
+    width: 420px;
+    z-index: 1000;
+}
+
+#boite_a .inner, #boite_b .inner {
+	background-color: #31401A;	
+}
+
+#boite_c {
+	margin-top: 30px;
+}
+
+body > #boite_b {
+    border-radius: 0 15px 15px 0;
+    position: fixed;
+}
+
+
+/******************************/
+
+
+.laban_plante {
+	background-color: #eeeeee;
+}
+
+.barre_faim, .barre_vie, .barre_niveau, .barre_poids, .barre_entretien, .barre_vie_communaute {
+	background-color: #FFFFFF;
+	width: 200px;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 10px;
+	border-color: #6f5f6f;
+}
+
+.img_barre_faim {
+	background-image: url('/images/barres/barre_faim.gif');
+}
+
+.img_barre_vie {
+	background-image: url('/images/barres/barre_vie.gif');
+}
+
+.barre_vie_communaute {
+	width: 50px;
+}
+
+.img_barre_niveau {
+	background-image: url('/images/barres/barre_niveau.gif');
+}
+
+.img_barre_poids {
+	background-image: url('/images/barres/barre_poids.gif');
+}
+
+.barre_entretien {
+	width: 100px;
+}
+
+.img_barre_entretien {
+	background-image: url('/images/barres/barre_poids.gif');
+}
+
+.barre_tour_sommeil,.barre_tour_eveil,.barre_tour_activite,
+.barre_tour_sommeil_communaute,.barre_tour_eveil_communaute,.barre_tour_activite_communaute {
+	background-color: #FFFFFF;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 0px;
+	border-color: #6f5f6f;
+}
+
+.barre_img {
+	height: 10px;
+}
+
+.img_tour_sommeil {
+	background-image: url('/images/barres/barre_tour_sommeil.gif');
+}
+
+.img_tour_eveil {
+	background-image: url('/images/barres/barre_tour_eveil.gif');
+}
+
+.img_tour_activite {
+	background-image: url('/images/barres/barre_tour_activite.gif');
+}
+
+.barre_tour_sommeil, .barre_tour_eveil {
+	width:50px;
+}
+
+.barre_tour_sommeil_communaute, .barre_tour_eveil_communaute {
+	width:12.5px;
+}
+
+.barre_tour_activite {
+	width: 100px;
+}
+
+.barre_tour_activite_communaute {
+	width: 25px;
+}
+
+.ligne_espace {
+	padding: 2px 0pt;
+}
+
+.action_ok {
+	background-color: #99FFCC;
+}
+
+.action_ko {
+	background-color: #FF9966;
+}
+
+.rune {
+	width: 40px;
+}
+
+.liste_runes {
+	border: 1px solid #000;
+	color: #000;
+	background-color: #eeeeee;
+	height: auto;
+	vertical-align: center;
+}
+
+/*******************************/

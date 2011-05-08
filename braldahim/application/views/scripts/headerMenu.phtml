@@ -1,10 +1,11 @@
 <?php if (isset($this->user) && isset($this->user->email_braldun) && $this->controleur != "voir") : ?> 
 
 <div id="header">
-	<div id="frisetopvide<?php if (Zend_Registry::get("estMobile")): echo "mobile"; endif;?>">
-		<?php if (!Zend_Registry::get("estMobile")):?><h1><a href="/">Braldahim - Site</a></h1><?php endif;?>
-		<div class="inner_top">
-		 <?php if (!Zend_Registry::get("estMobile")):?>
+	<div id="frisetopa">
+		<?php if (!Zend_Registry::get("estMobile")):?><h1>&nbsp;</h1><?php endif;?>
+		
+		
+		<?php if (!Zend_Registry::get("estMobile")):?>
 		 <?php if ($this->user->administrateur === true) : ?>
 			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
 			  <?php endif; ?>
@@ -22,10 +23,6 @@
 		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
 		 <?php endif; ?>
 		 <?php if (!Zend_Registry::get("estMobile")):?>
-			 <a href="http://www.braldahim.com">Site</a> | 
-			 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
-			 <a href="http://forum.braldahim.com">Forums</a> | 
-			 <a href="http://regles.braldahim.com">R&egrave;gles</a> | 
 			 <a href="http://regles.braldahim.com/wiki/Charte">Charte</a> | 
 			 <label class="alabel" style="text-decoration:underline" onclick="javascript:ouvrirWin('/voir/');">Voir</label> |
 		 <?php endif;?> 
@@ -35,6 +32,7 @@
 		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?php echo htmlspecialchars($this->user->prenom_braldun) ?> <?php echo htmlspecialchars($this->user->nom_braldun) ?> (<?php echo $this->user->id_braldun?>) en cours</a>
 		 <?php endif; ?>
 		 <div style="line-height: 22px;">&nbsp;</div>
+		 
 		 <div style="line-height: 18px; margin-top:-18px;">&nbsp;
 		 	<?php if ($this->controleur == "interface") : ?>
 				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
@@ -43,7 +41,7 @@
 				</span>
 				<?php if (!Zend_Registry::get("estMobile")):?>
 				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
-					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c", "interface");	'></label>
 				</span>
 				<?php endif; ?>
 				<?php if (!Zend_Registry::get("estMobile")):?>
@@ -51,12 +49,19 @@
 				<?php endif;?>
 			<?php endif; ?>
 		 </div>
-		 <div class='braltip lune' >
+		 
+		<div class='braltip lune' >
 		  <?php if (!Zend_Registry::get("estMobile")):?>
 		  	  <?php Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
 		  <?php endif;?>
-		 </div>
-	 	</div>
+		 </div>		 
+		
+	</div>
+	<div id="frisetop">
+	<script language="Javascript" src="<?php echo $this->config->static->url?>/index/menu"></script>
+	</div>
+	<div id="frisebot">
 	</div>
 </div>
+	
 <?php endif; ?>

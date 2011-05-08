@@ -11,8 +11,8 @@
     
 <input type="button" class='button1' <?php echo $attr?> value="1 PA - Transbahuter">
 	
-<input type='button' class='button1' value='Fermer Tout' onclick="$('fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
-<input type='button' class='button1' value='Ouvrir Tout' onclick="$('ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
+<input type='button' class='button1' value='Fermer Tout' onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+<input type='button' class='button1' value='Ouvrir Tout' onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
    
 <?php echo $poches = null; ?>
 <ul id="navigation" style="width:99%;text-align:left">
@@ -165,8 +165,8 @@
 $jsFermer = "";
 $jsOuvrir = "";
 foreach ($poches as $p) :
-	$jsFermer .= "maccordion_fermer($('$p'));";
-	$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+	$jsFermer .= "maccordion_fermer($('#$p'));";
+	$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
 endforeach; ?>
    
 <input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">

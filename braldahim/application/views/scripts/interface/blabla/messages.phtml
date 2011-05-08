@@ -1,10 +1,14 @@
-<div class="titre textalic textsizec">Messages publics autour de vous</div>
+Informations
+<div id="infoBlabla" style="display:none">
+	<div class="titre textalic textsizec">Messages publics autour de vous</div>
+	
+	Les messages affichés ci-dessous sont des messages envoyés jusqu'à <?php echo $this->nb_cases_max?> cases aux alentours de votre position.<br />
+	Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?php echo $this->nb_messages_max?> messages par tour de jeu.<br />
+	<br />
+	Le blabla est destiné à l'échange de messages "Role Play" ou tactiques, merci de <a href="/Parametres/contacter">contacter un enquêteur</a> pour tout abus constaté.<br />
+	Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.<br />
+</div>
 
-Les messages affichés ci-dessous sont des messages envoyés jusqu'à <?php echo $this->nb_cases_max?> cases aux alentours de votre position.<br />
-Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?php echo $this->nb_messages_max?> messages par tour de jeu.<br />
-<br />
-Le blabla est destiné à l'échange de messages "Role Play" ou tactiques, merci de <a href="/Parametres/contacter">contacter un enquêteur</a> pour tout abus constaté.<br />
-Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.<br />
 <input type="button" class='button1' name="rafraichir_blabla" id="rafraichir_blabla" value="Rafraîchir" onclick="Javascript:_get_('/interface/load/?box=box_blabla');"/>
 
 <table class="table_liste" style="width:100%;text-align:center">

@@ -3,7 +3,7 @@
 
   <?php foreach($this->onglets as $onglet) : ?>
   	<input type='hidden' id='loaded_<?php echo $onglet["nom"] ?>' value='<?php echo $onglet["chargementInBoxes"] ?>'/>
-    <span id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?>' onclick='Javascript:my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>"); '>
+    <span id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?>' onclick='Javascript:my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>", "palmares"); '>
       &nbsp;<?php echo $onglet["titre"] ?>&nbsp;
     </span>
   <?php endforeach; ?>

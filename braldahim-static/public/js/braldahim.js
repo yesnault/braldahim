@@ -28,6 +28,38 @@ function _get_(url, encode) {
 			if ((url.substring(7, 9) == "do") && (url.substring(24, 28) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
+			if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 10) == "/charrette") { // /charrette/doaction?caction=ask/do
+			if ((url.substring(11, 13) == "do") && (url.substring(28, 30) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 9) == "/boutique" || url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
+			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 7) == "/carnet" || url.substring(0, 7) == "/champs" || url.substring(0, 7) == "/blabla") { // /carnet/doaction?caction=ask/do
+			if ((url.substring(8, 10) == "do") && (url.substring(25, 27) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 4) == "/lot") { // /lot/doaction?caction=ask/do
+			if ((url.substring(5, 7) == "do") && (url.substring(22, 24) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule" || url.substring(0, 6) == "/butin") { // /lieux/doaction?caction=ask/do
+			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 11) == "/messagerie" || url.substring(0, 11) == "/communaute") { // /messagerie/doaction?caction=ask/do
+			if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 19) == "/administrationajax") { // /administrationajax/doaction?caction=ask/do
+			if ((url.substring(20, 22) == "do") && (url.substring(37, 39) == "do")) {
+				action = "do";
+			}
 		}
 	}
 
@@ -60,19 +92,16 @@ function _get_(url, encode) {
 	}
 	
 	if ($('#dateAuth')) {
-		valeurs = valeurs + sep + "dateAuth=" + $('#dateAuth').value;
+		valeurs = valeurs + sep + "dateAuth=" + $('#dateAuth').val();
 	} else {
 		valeurs = valeurs + sep + "dateAuth=-1" ;
 	}
-	var pars = valeurs;
-	// $("#box_action").innerHTML = "";
-	//var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
 	
 	 $.ajax({
 		   type: "POST",
 		   url: url,
 		   processData: false,
-		   data: pars,
+		   data: valeurs,
 		   success: showResponse
 		 });
 }
@@ -88,11 +117,31 @@ function showResponse(reponse) {
 
 	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
 
-	//if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
+	// if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
 	if ((xmldoc == null)) {
 		if (textdoc == "") {
 			return;
 		}
+	} else if (xmldoc == "logout") {
+		if ($('valeur_message').value != '') {
+			alert("Votre session a expiré, veuillez vous reconnecter. " +
+					"\n\n Attention, vous avez un message en cours de rédaction. Pour le récupérer : " +
+					"\n 1 : selectionnez tout (Ctrl+A)" +
+					"\n 2 : copiez dans votre presse papier (Ctrl+C)" +
+					"\n 3 : appuyez sur la touche Entrée pour fermer cette fenêtre" +
+					"\n 4 : coller le texte quelque part (bloc note par ex.) (Ctrl+V)" +
+					"\n Le message :\n\n"
+					+ $('valeur_message').value);
+		} else {
+			alert("Votre session a expiré, veuillez vous reconnecter.");
+		}
+		document.location.href = "/";
+	/*
+	 * } else if (xmldoc != "clear") { _display_("erreur_catch", textdoc);
+	 * display_erreur_catch = true;
+	 */
+	} else if (xmldoc == "clear") {
+		$("box_action").innerHTML = "";
 	} else {
 		estInternetExplorer = false;
 		if (navigator.appName == "Microsoft Internet Explorer") {
@@ -119,8 +168,24 @@ function showResponse(reponse) {
 							display_erreur = true; // affichage de la boite
 													// d'erreur
 						}
+						
 						if (m_type == "display") {
 							_display_(m_type_valeur, m_data);
+						} else if (m_type == "action") {
+							if (m_type_valeur == "goto" && m_data != "") {
+								redirection = true;
+								redirection_url = m_data;
+							} else if (m_type_valeur == "effect.appear" && m_data != "") {
+								Effect.Appear(m_data, { duration :2.0 });
+							} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
+								new HTMLTableTools(m_data);
+							} else if (m_type_valeur == "messagerie" && m_data != "") {
+								messagerie(m_data);
+							} else if (m_type_valeur == "warning") {
+								box_warning(m_data);
+							}
+						} else if (m_type == "load_box") {
+							loadBox(m_type_valeur);
 						}
 					}
 				} else {
@@ -130,10 +195,12 @@ function showResponse(reponse) {
 						if (i == 5) m_data = node.childNodes.item(5).childNodes.item(0).data;
 						if (i == 5) {
 
-							// alert('Fin entrie \n m_type='+m_type+' \n
-							// m_type_valeur='+m_type_valeur);
 							if (m_type_valeur == "box_action") {
 								display_action = true;
+							} else if (m_type_valeur == "box_informations" && m_data != "") {
+								display_informations = true; // affichage de
+																// la boite
+																// d'informations
 							} else if (m_type_valeur == "erreur" && m_data != "") {
 								display_erreur = true; // affichage de la boite
 														// d'erreur
@@ -141,6 +208,24 @@ function showResponse(reponse) {
 
 							if (m_type == "display") {
 								_display_(m_type_valeur, m_data);
+							} else if (m_type == "action") {
+								if (m_type_valeur == "goto" && m_data != "") {
+									redirection = true;
+									redirection_url = m_data;
+								} else if (m_type_valeur == "effect.disappear" && m_data != "") {
+									Effect.Appear(m_data, { duration :4.0, from :1.0, to :0.0 });
+								} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
+									// alert('Fin entrie \n m_type='+m_type+' \n
+									// m_type_valeur='+m_type_valeur + '
+									// m_data='+m_data);
+									new HTMLTableTools(m_data);
+								} else if (m_type_valeur == "messagerie" && m_data != "") {
+									messagerie(m_data);
+								} else if (m_type_valeur == "warning") {
+									box_warning(m_data);
+								}
+							} else if (m_type == "load_box") {
+								loadBox(m_type_valeur);
 							}
 						}
 					}
@@ -149,9 +234,19 @@ function showResponse(reponse) {
 		}
 	}
 
+	// Box action
+	if (display_action) {
+		ouvreBralBox("box_action");
+	}
+	
+	// Box informations
+	if (display_informations) {
+		ouvreBralBox("box_informations");
+	}
+	
 	// Box erreur
 	if (display_erreur) {
-		$("#erreur").show();
+		ouvreBralBox("erreur");
 	} else {
 		if ($("#erreur")) {
 			$("#erreur").hide();
@@ -160,7 +255,7 @@ function showResponse(reponse) {
 	
 	// Box erreur catch
 	if (display_erreur_catch) {
-		$("#erreur_catch").show();
+		ouvreBralBox("erreur_catch");
 	} else {
 		if ($("#erreur_catch")) {
 			$("#erreur_catch").hide();
@@ -192,10 +287,20 @@ function _display_box(box, data) {
 	if ($('#'+box)) {
 		$('#'+box).html(data);
 	}
+	
+	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue
+		// ensuite
+		_get_('/interface/load/?box=box_profil');
+		_get_('/interface/load/?box=box_competences_basiques');
+		_get_('/interface/load/?box=box_vue');
+		_get_('/interface/load/?box=box_blabla');
+	}
+	
 }
 
 function revealModal(divID) {
-    window.onscroll = function () { $(divID).style.top = document.body.scrollTop; };
+    // window.onscroll = function () { $(divID).style.top =
+	// document.body.scrollTop; };
     $(divID).show();
 }
 
@@ -203,30 +308,72 @@ function hideModal(divID) {
     $(divID).hide();
 }
 
+function ouvreBralBox(element) {
+	
+	if (element == "box_action") {
+		titre = "Action";
+		boutonClose = "block";
+	} else if (element == "box_informations") {
+		titre = "Informations";
+		boutonClose = "none";
+	} else if (element == "erreur") {
+		titre = "Une erreur est survenue";
+		boutonClose = "none";
+	} else if (element == "erreur_catch") {
+		titre = "Une erreur est survenue (catch)";
+		boutonClose = "none";
+	} else {
+		titre = "Une erreur est survenue (js)";
+		boutonClose = "none";
+	}
+	
+	if (boutonClose == "none") {
+		$('#BB_close').hide();
+	} else {
+		$('#BB_close').show();
+	}
+	
+	$('#BB_overlay').show();
+	$('#BB_titre').innerHTML = titre;
+	$('#BB_windowwrapper').show();
+	$('#'+element).show();
+}
+
+function fermeBralBox() {
+	$('#BB_overlay').hide();
+	$('#BB_windowwrapper').hide();
+	$("#erreur").hide();
+	$("#erreur_catch").hide();
+	$("#box_informations").hide();
+	$("#box_action").hide();
+}
+
 // Switch pour les onglets sur les box
-function my_switch(box, conteneur) {
+function my_switch(box, conteneur, controleur) {
 	val = $('#switch_' + conteneur).val().split(',');
+	
+	var dejaAffiche = false;
+	
+	if ($('#'+box) && $("#"+box).css('display') == "block") {
+		dejaAffiche = true;
+		$('#'+box).hide();
+		return;
+	}
+	
+	$('#'+box).show();
+	$("#onglet_" + box).className = "onglet actif";
+	
+	
 	for (i = 0; i < val.length; i++) {
-		if ($('#'+val[i])) {
+		if ($('#'+val[i]) && val[i] != box) {
 			$('#'+val[i]).hide();
 		}
 		$("#onglet_" + val[i]).className = "onglet inactif";
 	}
-	if ($('#'+box)) {
-		$('#'+box).show();
-	}
-	$("#onglet_" + box).className = "onglet actif";
-	
-	try {
-		cClick(); // fermeture popup
-	} catch (e) {
-		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur
-		// l'interface
-	}
 	
 	if ($("#loaded_" + box).val() != "1") {
 		$("#loaded_" + box).val(1);
-		_get_('/palmares/load/?box='+ box);
+		_get_('/'+controleur+'/load/?box='+ box);
 	}
 }
 
@@ -305,6 +452,36 @@ function ouvrirWin(url, titre) {
 		url = "http://jeu.braldahim.com" + url;
 	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
+}
+
+
+function box_warning(data) {
+	$('#box_warning').show();
+	$('#box_warning').innerHTML = data;
+}
+
+function messagerie(nbMessageNonLu) {
+	if ($('#message_nb_label')) {
+		$('#message_nb').show();
+		$('#message_nb_img').show();
+		$('#img_message_nouveau').hide();
+		$('#img_message_ancien').hide();
+		
+		if (nbMessageNonLu == 1) {
+			$('#message_nb_label').innerHTML = " 1 nouveau message&nbsp;";
+			$('#img_message_nouveau').show();
+		} else if (nbMessageNonLu > 1) {
+			$('#message_nb_label').innerHTML = nbMessageNonLu + " nouveaux messages&nbsp;";
+			$('#img_message_nouveau').show();
+		} else { // 0
+			$('#message_nb_label').innerHTML = " Pas de nouveau message&nbsp;";
+			$('#img_message_ancien').show();
+		}
+	}
+}
+
+function loadBox(nomSysteme) {
+	_get_('/interface/load/?box=' + nomSysteme);
 }
 
 function sortGridOnServerRelate(ind, gridObj, direct) {
@@ -400,13 +577,13 @@ function maccordion(el) {
 }
 
 
-/**************//**************/
-/***** splashScreen *****/
-/**************//**************/
+/** *********** *//** *********** */
+/** *** splashScreen **** */
+/** *********** *//** *********** */
 
 
-//A self-executing anonymous function,
-//standard technique for developing jQuery plugins.
+// A self-executing anonymous function,
+// standard technique for developing jQuery plugins.
 
 (function($){
 
@@ -440,7 +617,8 @@ function maccordion(el) {
 			splashScreen.fadeOut('slow');
 		});
 
-		// Binding a custom event for changing the current visible text according
+		// Binding a custom event for changing the current visible text
+		// according
 		// to the contents of the textLayers array (passed as a parameter)
 
 		splashScreen.bind('changeText',function(e,newID){
@@ -470,14 +648,13 @@ function maccordion(el) {
 			}).hide();
 
 			text.load(function(){
-				//text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
+				// text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
 				text.fadeIn('slow');
 				splashScreen.delay(settings.textShowTime).click();
-				/*.fadeOut('slow',function(){
-					text.remove();
-					splashScreen.trigger('changeText',[id+1]);
-				});
-				*/
+				/*
+				 * .fadeOut('slow',function(){ text.remove();
+				 * splashScreen.trigger('changeText',[id+1]); });
+				 */
 			});
 
 			splashScreen.append(text);
@@ -504,23 +681,27 @@ $(document).ready(function(){
 	}
 	
 	if ($('#pageflip').exists()) {
-		$("#pageflip").hover(function() { //On hover...
+		$("#pageflip").hover(function() { // On hover...
 			$("#pageflip img , .msg_block").stop()
-				.animate({ //Animate and expand the image and the msg_block (Width + height)
+				.animate({ // Animate and expand the image and the msg_block
+							// (Width + height)
 					width: '307px',
 					height: '319px'
 				}, 500);
 			} , function() {
-			$("#pageflip img").stop() //On hover out, go back to original size 50x52
+			$("#pageflip img").stop() // On hover out, go back to original
+										// size 50x52
 				.animate({
 					width: '50px',
 					height: '52px'
 				}, 220);
-			$(".msg_block").stop() //On hover out, go back to original size 50x50
+			$(".msg_block").stop() // On hover out, go back to original size
+									// 50x50
 				.animate({
 					width: '50px',
 					height: '50px'
-				}, 200); //Note this one retracts a bit faster (to prevent glitching in IE)
+				}, 200); // Note this one retracts a bit faster (to prevent
+							// glitching in IE)
 		});
 	}
 

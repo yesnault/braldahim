@@ -1427,7 +1427,7 @@ display:none;
 text-align:left;
 }
 div.braltip:hover div.tip, div.tipf {
-background-color:#FFFFFF;
+background-color:#31401A;
 text-align:left;
 border:1px solid #555555;
 color:#505050;
@@ -1450,9 +1450,9 @@ border-radius: 10px; /* en css3 lui même */
 	
 opacity:0.9;
 
-background: #FFFFFF
-		url('/styles/braldahim_defaut/images/layout/gris.png') repeat-x
-		scroll 0pt 100%;
+background: #31401A;
+		/*url('/styles/braldahim_defaut/images/layout/gris.png') repeat-x*/
+		/*scroll 0pt 100%;*/
 }
 
 div.tip hr, div.tipf hr {
@@ -1604,3 +1604,4 @@ divfrise {
 		font: normal 12px/18px sans-serif
 	}
 }
+

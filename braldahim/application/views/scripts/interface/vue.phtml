@@ -16,7 +16,7 @@
 	<input type='button' class='button1' value='Afficher / Cacher la vue et ses images' onclick="switch2div('vueFoo', 'vueTableWrapper');">
 	<div id='vueFoo'>Vue Cachée</div>
 <?php endif;?>
-  <table align="center" id="vueTableWrapper" class="vueTableWrapper">
+  <table align="center" id="vueTableWrapper" class="vueTableWrapper" width='100%'>
   	<tr>
   		<td valign="top">
 		<?php if ($this->user->z_braldun != 0) : ?>
@@ -27,7 +27,9 @@
 		<?php include('vue/damier.phtml'); ?>
 		</td>
 		<?php if (!$this->estMobile && !$this->estVueEtendue) : ?>
-  		<?php //<td valign="top" style="padding-top:18px"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>?>
+  			<td valign="top">
+			<?php echo $this->htmlBlabla?>
+			</td>
   		<?php endif;?>
   	</tr>
   </table>

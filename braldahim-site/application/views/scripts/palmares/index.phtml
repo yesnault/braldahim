@@ -1,10 +1,10 @@
 <br/>
-<div class="titrea textalic textsizea">L'Office des Palmares</div>
+<div class="titrea textalic titreasizea">L'Office des Palmares</div>
 <table style="width:100%">
 <tr>
 	<td style="width:30px" valign="top" nowrap="nowrap">
 		<div class="box_contenu textalic">
-			<div class="titrea textalic textsizec">
+			<div class="titrea textalic titreasizec">
 			Général
 			</div>
 			<?php foreach($this->selection as $s) : ?>
@@ -12,7 +12,7 @@
 			<?php endforeach;?>
 			<br/>
 			
-			<div class="titrea textalic textsizec">
+			<div class="titrea textalic titreasizec">
 			Réputation
 			</div>
 			<?php if (count($this->selectionReputation) > 0): ?>
@@ -22,7 +22,7 @@
 			<?php endif; ?>
 			<br/>
 			
-			<div class="titrea textalic textsizec">
+			<div class="titrea textalic titreasizec">
 			Récolteurs
 			</div>
 			<?php if (count($this->selectionRecolteurs) > 0): ?>
@@ -31,7 +31,7 @@
 				<?php endforeach;?>
 			<?php endif; ?>
 			<br/>
-			<div class="titrea textalic textsizec">
+			<div class="titrea textalic titreasizec">
 			Fabricants
 			</div>
 			<?php if (count($this->selectionFabricants) > 0): ?>
@@ -40,7 +40,7 @@
 				<?php endforeach;?>
 			<?php endif; ?>
 			<br/>
-			<div class="titrea textalic textsizec">
+			<div class="titrea textalic titreasizec">
 			Runes
 			</div>
 			<?php if (count($this->selectionRunes) > 0): ?>
@@ -52,7 +52,7 @@
 		</div>
 	</td>
 	<td style="width:400px; border: 0px solid #791E1E;" valign="top">
-		<div class="titrea textalic textsizec">
+		<div class="titrea textalic titreasizec">
 			<?php echo $this->titrea?><br/><br/>
 		</div>
 		<?php echo $this->render("commun/box_onglets.phtml"); ?>

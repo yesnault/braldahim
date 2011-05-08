@@ -116,7 +116,7 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
 					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == 'gestion');
 					Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
-					
+						
 					if ($braldun->id_fk_communaute_braldun != null) {
 						Zend_Loader::loadClass("RangCommunaute");
 						$rangCommunauteTable = new RangCommunaute();

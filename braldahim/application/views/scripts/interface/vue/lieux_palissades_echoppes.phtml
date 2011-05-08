@@ -38,7 +38,7 @@ if ($case['n_lieux'] > 0) :
       	
 	    if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
 			$textLieu .= ' <span title="Cliquer pour acc&eacute;der directement au lieu"';
-			$textLieu .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" class="alabel">[Entrer dans le lieu]</span>';
+			$textLieu .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" class="alabel">[Entrer dans le lieu]</span>';
 		}
 	}
 	 
@@ -66,7 +66,7 @@ if ($case['n_echoppes'] > 0) :
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
 			$textEchoppe .= ' <span title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe"';
-			$textEchoppe .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" style="alabel">[Enter dans l\'échoppe]</span>';
+			$textEchoppe .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" style="alabel">[Enter dans l\'échoppe]</span>';
 		}
 		
       	$textEchoppe .= '<br />';
@@ -96,7 +96,7 @@ if ($case['n_champs'] > 0) :
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
 			$textChamp .= ' <span title="Cliquer pour acc&eacute;der directement au champ"';
-			$textChamp .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\');" style="alabel">[Enter dans le lieu]</span>';
+			$textChamp .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" style="alabel">[Enter dans le lieu]</span>';
 		}
 	
       	$textChamp .= '<br />';

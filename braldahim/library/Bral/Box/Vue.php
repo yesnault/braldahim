@@ -62,6 +62,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$this->data();
 		}
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		$this->view->nom_interne = $this->getNomInterne();
+		Bral_Util_Blabla::render($this->view);
+		$this->view->htmlBlabla = $this->view->render("interface/blabla.phtml");
+		
+		
 		return $this->view->render('interface/vue.phtml');
 	}
 

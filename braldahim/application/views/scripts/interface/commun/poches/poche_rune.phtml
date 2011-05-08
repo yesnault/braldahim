@@ -21,7 +21,7 @@
 		    			identifiable par <br />
 						<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $j["id_braldun"]?>');" title="Cliquez pour voir le profil">
 		    				<?php echo $r["prenom_identification_braldun"]?> <?php echo $r["nom_identification_braldun"]?> (<?php echo $r["id_identification_braldun"]?>)
-		    				<img src='<?php echo $this->config->static->url?>/images/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $r["id_identification_braldun"]?>');" style='cursor:pointer'/>
+		    				<img src='<?php echo $this->config->static->url?>/images/vue/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $r["id_identification_braldun"]?>');" style='cursor:pointer'/>
 			  				<img src='<?php echo $this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?php echo $r["id_identification_braldun"]?>');" style='cursor:pointer'/>
 		    			</a>
 		    		<?php endif;?>
