@@ -11,7 +11,7 @@ niveau <?php echo $this->equipementCourant["niveau"] ?><br /><br />
 <?php endif; ?>
 <br />
 <?php foreach($this->tabRunes as $k => $v) : ?>
-	<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>"/>
+	<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->url->static?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>"/>
 <?php endforeach ?>
 <br /><br />
 <?php if ($this->suffixe != "") :?>

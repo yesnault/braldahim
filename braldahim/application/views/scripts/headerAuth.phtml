@@ -1,6 +1,6 @@
 <?php if ($this->user): ?>
 <form id='formAuth' name='formAuth' action="POST">
 <input type="hidden" name="dateAuth" id="dateAuth" value="<?php echo $this->user->dateAuth ?>"/>
-<input type="hidden" name="urlStatique" id="urlStatique" value="<?php echo $this->config->static->url?>"/>
+<input type="hidden" name="urlStatique" id="urlStatique" value="<?php echo $this->config->url->static?>"/>
 </form>
 <?php endif; ?>

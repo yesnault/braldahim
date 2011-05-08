@@ -44,7 +44,7 @@ class Bral_Util_Messagerie {
 			$afficheLien = true;
 		}
 
-		$url = Zend_Registry::get('config')->static->url;
+		$url = Zend_Registry::get('config')->url->static;
 		
 		foreach($bralduns as $h) {
 			if (in_array($h["id_braldun"],$idDestinatairesTab) && ($sansIdBraldun == -1 || $sansIdBraldun != $h["id_braldun"])) {
@@ -97,7 +97,7 @@ class Bral_Util_Messagerie {
 		$bralduns = "";
 		$tabBralduns = null;
 		
-		$url = Zend_Registry::get('config')->static->url;
+		$url = Zend_Registry::get('config')->url->static;
 
 		foreach($contactsTab as $c) {
 			if (in_array($c["id"], $idContactsTab)) {

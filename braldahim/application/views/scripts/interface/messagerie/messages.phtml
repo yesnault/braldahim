@@ -59,8 +59,8 @@
 	  					   endif;
 	  					 ?>
 						
-						<img id='imgMsgALire<?php echo $message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->static->url?>/images/uddeim/new_im.gif" border="0" style='<?php echo $displayAlire?>'/>
-						<img id='imgMsgLu<?php echo $message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="<?php echo $this->config->static->url?>/images/uddeim/nonew_im.gif" border="0" style='<?php echo $displayLu?>' />
+						<img id='imgMsgALire<?php echo $message["id_message"]?>' alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->url->static?>/images/uddeim/new_im.gif" border="0" style='<?php echo $displayAlire?>'/>
+						<img id='imgMsgLu<?php echo $message["id_message"]?>'alt="D&eacute;j&agrave; lu" title="D&eacute;j&agrave; lu" src="<?php echo $this->config->url->static?>/images/uddeim/nonew_im.gif" border="0" style='<?php echo $displayLu?>' />
 					</td>
 					<?php if (mb_strlen($message["titre"]) > 25) $texte= Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else $texte= Bral_Util_BBParser::bbcodeStrip($message["titre"]);?>
 	  				<td class="table_liste" style="padding:2px;" <?php echo $js ?>>

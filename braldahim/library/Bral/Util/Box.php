@@ -15,17 +15,8 @@ class Bral_Util_Box {
 		if (!in_array("box_vue", $tab)) {
 			$tab[] = "box_vue";
 		}
-		if (!in_array("box_competences_communes", $tab)) {
-			$tab[] = "box_competences_communes";
-		}
-		if (!in_array("box_competences_basiques", $tab)) {
-			$tab[] = "box_competences_basiques";
-		}
-		if (!in_array("box_competences_metiers", $tab)) {
-			$tab[] = "box_competences_metiers";
-		}
-		if (!in_array("box_competences_soule", $tab)) {
-			$tab[] = "box_competences_soule";
+		if (!in_array("box_competences", $tab)) {
+			$tab[] = "box_competences";
 		}
 		if (!in_array("box_charrette", $tab)) {
 			$tab[] = "box_charrette";

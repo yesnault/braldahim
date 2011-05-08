@@ -29,9 +29,9 @@ if ($case["n_bralduns"] > 0) :
 		$textTmp .= htmlspecialchars($h["prenom_braldun"])." ".htmlspecialchars($h["nom_braldun"]);
 		$textTmp .= " (n&deg;".$h["id_braldun"].")</label>, niv.".$h["niveau_braldun"];
 		
-		$textTmp .= ' <img src=\''.$this->config->static->url.'/images/vue/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
+		$textTmp .= ' <img src=\''.$this->config->url->static.'/images/vue/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsH('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		if ($this->estVueEtendue == false) {
-			$textTmp .= ' <img src=\''.$this->config->static->url.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
+			$textTmp .= ' <img src=\''.$this->config->url->static.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$h["id_braldun"].'); style=\'cursor:pointer\'/> ';
 		}
 		if ($h["id_communaute"] != null) {
 			$textTmp .= '- <label class=alabel onclick=ouvrirCommunaute('.$h["id_communaute"].');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
@@ -96,7 +96,7 @@ if ($case["n_monstres"] > 0) :
 			$textMonstre .= "Gibier : ";
 		}
 		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." ".htmlspecialchars($m["taille_monstre"])." (n&deg;".$m["id_monstre"].")</label> ";
-		$textMonstre .= ' <img src=\''.$this->config->static->url.'/images/vue/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\'cursor:pointer\'/> ';
+		$textMonstre .= ' <img src=\''.$this->config->url->static.'/images/vue/puce_event.gif\' title=\'Voir les événements\' border=\'0\' onclick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\'cursor:pointer\'/> ';
 		$textMonstre .= "<br />";
 		
 		if ($idTypeMonstre == "") {
@@ -126,7 +126,7 @@ endif;
 <?php echo Bral_Helper_Tooltip::render($textBraldun.$textMonstre.$textNid, $titre);?>
 
 <?php if ($case["n_nids"] > 0) : ?>
-    <img src='<?php echo $this->config->static->url?>/images/vue/nid.png' style="position: absolute; top:-8px; left:0px;"/>
+    <img src='<?php echo $this->config->url->static?>/images/vue/nid.png' style="position: absolute; top:-8px; left:0px;"/>
 <?php endif;?>
 
 <?php if ($case["n_monstres"] > 0) : 
@@ -147,19 +147,19 @@ endif;
         $idTypeMonstre == 27 || $idTypeMonstre == 28 ||
         $idTypeMonstre == 21 || $idTypeMonstre == 37 || 
         $idTypeMonstre == 38) {
-    	?> <img src='<?php echo $this->config->static->url?>/images/type_monstre/<?php echo $idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px;left:0px;"/> <?php
+    	?> <img src='<?php echo $this->config->url->static?>/images/type_monstre/<?php echo $idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px;left:0px;"/> <?php
     } else if ($idTypeMonstre == -1) {
-        ?> <img src='<?php echo $this->config->static->url?>/images/vue/monstres.png' style="position: absolute;top:-17px"/> <?php
+        ?> <img src='<?php echo $this->config->url->static?>/images/vue/monstres.png' style="position: absolute;top:-17px"/> <?php
     } else {
-    	?> <img src='<?php echo $this->config->static->url?>/images/vue/monstre.png' style="position: absolute;top:-17px"/> <?php
+    	?> <img src='<?php echo $this->config->url->static?>/images/vue/monstre.png' style="position: absolute;top:-17px"/> <?php
     }
    endif;
 ?>
 
 <?php if ($case["n_bralduns"] > 1) : ?>
-    <img src='<?php echo $this->config->static->url?>/images/vue/bralduns_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;top:-6px;left:0px;" />
+    <img src='<?php echo $this->config->url->static?>/images/vue/bralduns_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;top:-6px;left:0px;" />
 <?php elseif ($case["n_bralduns"] > 0) : ?>
-    <img src='<?php echo $this->config->static->url?>/images/vue/braldun_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;left:5px;top:-6px"/>
+    <img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;left:5px;top:-6px"/>
 <?php endif; ?>
     
 </div>

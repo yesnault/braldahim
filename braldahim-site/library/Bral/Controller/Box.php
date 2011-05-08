@@ -33,7 +33,7 @@ abstract class Bral_Controller_Box extends Zend_Controller_Action {
 	}
 
 	protected function getBoxesData() {
-		return $this->getDataList("boite_a");
+		return $this->getDataList("boite_e");
 	}
 
 	protected function getDataList($nom) {

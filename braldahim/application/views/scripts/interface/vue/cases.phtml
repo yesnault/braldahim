@@ -19,7 +19,7 @@
 	
 	?>
 	
-<img src='<?php echo $this->config->static->url?>/images/vue/<?php echo $pas; ?>' 
+<img src='<?php echo $this->config->url->static?>/images/vue/<?php echo $pas; ?>' 
 	<?php if (!Zend_Registry::get("estMobile")) : ?>
 		alt='Cliquez pour Marcher' title="Cliquez pour Marcher : <?php echo $texte?>"
 		onclick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?php echo $case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;"

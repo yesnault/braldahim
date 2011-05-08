@@ -10,7 +10,7 @@
 	   foreach($this->messages as $message): ?>
   			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
   				<td class="table_liste">
-  					<img alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->static->url?>/images/uddeim/new_im.gif" border="0" />
+  					<img alt="&Agrave; lire" title="&Agrave; lire" src="<?php echo $this->config->url->static?>/images/uddeim/new_im.gif" border="0" />
 				</td>
   				<td class="table_liste">
   					<?php if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
@@ -60,5 +60,5 @@
 	</thead>
 </table>
 <?php else :?>
-<img src="<?php echo $this->config->static->url?>/images/uddeim/nonew_im.gif"> Messagerie : vous n'avez aucun nouveau message.
+<img src="<?php echo $this->config->url->static?>/images/uddeim/nonew_im.gif"> Messagerie : vous n'avez aucun nouveau message.
 <?php endif; ?>

@@ -158,12 +158,10 @@ class InterfaceController extends Zend_Controller_Action {
 			$boite_a = "boite_m";
 			$boite_b = "boite_m";
 			$boite_c = "boite_m";
-//			$boite_d = "boite_m";
 		} else {
 			$boite_a = "boite_a";
 			$boite_b = "boite_b";
 			$boite_c = "boite_c";
-//			$boite_d = "boite_d";
 		}
 
 		try {
@@ -174,14 +172,10 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), $boite_a);
 			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), $boite_a);
 
-			$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), $boite_b);
-			$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), $boite_b);
-			$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), $boite_b);
-			$this->addBox(Bral_Box_Factory::getCompetencesSoule($this->_request, $this->view, false), $boite_b);
+			$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, false), $boite_b);
 
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
-//			$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_d);
 			
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
@@ -298,7 +292,7 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function refreshAll() {
-		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_coffre", "box_charrette", "box_soule", "box_quete", "box_messagerie");
+		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences", "box_laban", "box_coffre", "box_charrette", "box_soule", "box_quete", "box_messagerie");
 		for ($i=0; $i<count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
 

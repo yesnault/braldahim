@@ -7,52 +7,20 @@
  */
 class Bral_Box_Competences extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne, $type) {
+	function __construct($request, $view, $interne) {
 		$this->_request = $request;
 		$this->view = $view;
-		$this->type = $type;
 		$this->view->affichageInterne = $interne;
 
-		// chargement des competences
-		switch($this->type) {
-			case "basic":
-				if (!$this->view->estMobile) {
-					$this->chargementInBoxes = true;
-				} else {
-					$this->chargementInBoxes = false;
-				}
-				$this->titreOnglet = "Basiques";
-				$this->nomInterne = "box_competences_basiques";
-				$this->render = "interface/competences_basiques.phtml";
-				break;
-			case "commun":
-				$this->chargementInBoxes = false;
-				$this->titreOnglet = "Communes";
-				$this->nomInterne = "box_competences_communes";
-				$this->render = "interface/competences_communes.phtml";
-				break;
-			case "metier":
-				$this->chargementInBoxes = false;
-				$this->titreOnglet = "M&eacute;tiers";
-				$this->nomInterne = "box_competences_metiers";
-				$this->render = "interface/competences_metiers.phtml";
-				break;
-			case "soule":
-				$this->chargementInBoxes = false;
-				$this->titreOnglet = "Soule";
-				if ($this->view->estMobile) {
-					$this->titreOnglet = "de ".$this->titreOnglet;
-				}
-				$this->nomInterne = "box_competences_soule";
-				$this->render = "interface/competences_soule.phtml";
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)." type inconnu=" + $this->type);
-		}
-		
-		if ($this->view->estMobile) {
-			$this->titreOnglet = "Compétences ".$this->titreOnglet;
-		}
+		$this->chargementInBoxes = false;
+		$this->nomInterne = "box_competences";
+		$this->render = "interface/competences.phtml";
+		$this->titreOnglet = "<span class='titrea titreasized'>Action ! </span>";
+		$this->titreOnglet .= "<span class='couleurTitre' title=\"PA : Point d'Action\">PA ".$this->view->user->pa_braldun."</span> ";
+		$this->titreOnglet .= " - <span class='couleurTitre' title=\"DLA : Date Limite d'Action\">DLA ";
+		$this->titreOnglet .= Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b>',$this->view->user->date_fin_tour_braldun);
+		$this->titreOnglet .= "</span>";
+		$this->titreOnglet .= " - Mes Compétences";
 	}
 
 	function getTitreOnglet() {
@@ -83,82 +51,86 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		$tabCompetences = null;
 		$this->view->nom_interne = $this->getNomInterne();
 
-		if ($this->type == 'basic') {
-			$tabCompetences = Bral_Util_Registre::get('competencesBasiques');
-		} else if ($this->type == 'soule') {
-			$tabCompetences = Bral_Util_Registre::get('competencesSoule');
-		} else if ($this->type == 'metier') {
-			Zend_Loader::loadClass("BraldunsCompetences");
-			Zend_Loader::loadClass("BraldunsMetiers");
-			$braldunsMetiersTable = new BraldunsMetiers();
-			$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
-			$braldunsCompetencesTables = new BraldunsCompetences();
-			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
-
-			foreach($braldunsMetierRowset as $m) {
-				if ($this->view->user->sexe_braldun == 'feminin') {
-					$nom_metier = $m["nom_feminin_metier"];
-				} else {
-					$nom_metier = $m["nom_masculin_metier"];
-				}
-				$competence = null;
-				foreach($braldunCompetences as $c) {
-					if ($c["type_competence"] == $this->type && $m["id_metier"] == $c["id_fk_metier_competence"]) {
-
-						$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
-							
-						$pa_texte = $c["pa_utilisation_competence"];
-						if ($c["nom_systeme_competence"] == "cuisiner") {
-							$pa_texte = "2 ou 4";
-						}
-							
-						$pa = $c["pa_utilisation_competence"];
-
-						$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],
-							"nom" => $c["nom_competence"],
-							"pa_utilisation" => $pa,
-							"pa_texte" => $pa_texte,
-							"pourcentage" => $pourcentage,
-							"nom_systeme" => $c["nom_systeme_competence"],
-							"pourcentage_init" => $c["pourcentage_init_competence"],
-						);
-					}
+		$tabCompetences["basiques"] = array(
+				"nom_onglet" => "Compétences Basiques",
+				"nom_systeme_onglet" => "basiques",
+				"competences" => Bral_Util_Registre::get('competencesBasiques')
+		);
+			
+		Zend_Loader::loadClass("BraldunsCompetences");
+		Zend_Loader::loadClass("BraldunsMetiers");
+		
+		$braldunsCompetencesTables = new BraldunsCompetences();
+		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
+		$competence = null;
+		foreach($braldunCompetences as $c) {
+			if ($c["type_competence"] == "commun") {
+				$pa_texte = $c["pa_utilisation_competence"];
+				if ($c["nom_systeme_competence"] == "marcher") {
+					$pa_texte = "1 ou 2";
 				}
 
-				$tabCompetences[] = array("id_metier" => $m["id_metier"],
-					"nom_metier" => $nom_metier,
-					"nom_systeme_metier" => $m["nom_systeme_metier"],
-					"competences" => $competence
+				$competence[] = array(
+					"id_competence" => $c["id_fk_competence_hcomp"],
+					"nom" => $c["nom_competence"],
+					"pa_utilisation" => $c["pa_utilisation_competence"],
+					"pa_texte" => $pa_texte,
+					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
+					"nom_systeme" => $c["nom_systeme_competence"],
+					"pourcentage_init" => $c["pourcentage_init_competence"],
 				);
 			}
-
-		} else {
-			Zend_Loader::loadClass("BraldunsCompetences");
-			$braldunsCompetencesTables = new BraldunsCompetences();
-			$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
-
+			if ($competence != null) {
+				$tabCompetences["communes"] = array(
+					"nom_onglet" => "Compétences communes",
+					"nom_systeme_onglet" => "communes",
+					"competences" => $competence,
+				);
+			}
+		}
+		
+		$tabCompetences["soule"] = array(
+				"nom_onglet" => "Match de Soule",
+				"nom_systeme_onglet" => "soule",
+				"competences" => Bral_Util_Registre::get('competencesSoule')
+		);
+		
+		$braldunsMetiersTable = new BraldunsMetiers();
+		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
+		
+		foreach($braldunsMetierRowset as $m) {
+			if ($this->view->user->sexe_braldun == 'feminin') {
+				$nom_metier = $m["nom_feminin_metier"];
+			} else {
+				$nom_metier = $m["nom_masculin_metier"];
+			}
+			$competence = null;
 			foreach($braldunCompetences as $c) {
-				if ($c["type_competence"] == $this->type) {
+				if ($c["type_competence"] == "metier" && $m["id_metier"] == $c["id_fk_metier_competence"]) {
+
 					$pa_texte = $c["pa_utilisation_competence"];
-					if ($c["nom_systeme_competence"] == "marcher") {
-						$pa_texte = "1 ou 2";
+					if ($c["nom_systeme_competence"] == "cuisiner") {
+						$pa_texte = "2 ou 4";
 					}
-					$pa =  $c["pa_utilisation_competence"];
 
-					$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
-
-					$tabCompetences[] = array(
-						"id_competence" => $c["id_fk_competence_hcomp"],
+					$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 						"nom" => $c["nom_competence"],
-						"pa_utilisation" => $pa,
+						"pa_utilisation" => $c["pa_utilisation_competence"],
 						"pa_texte" => $pa_texte,
-						"pourcentage" => $pourcentage,
+						"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
 						"nom_systeme" => $c["nom_systeme_competence"],
 						"pourcentage_init" => $c["pourcentage_init_competence"],
 					);
 				}
 			}
+
+			$tabCompetences[$m["nom_systeme_metier"]] = array(
+				"nom_onglet" => $nom_metier,
+				"nom_systeme_onglet" => $m["nom_systeme_metier"],
+				"competences" => $competence
+			);
 		}
+
 		$this->view->competences = $tabCompetences;
 	}
 }

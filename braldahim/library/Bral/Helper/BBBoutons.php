@@ -9,7 +9,7 @@ class Bral_Helper_BBBoutons {
 
 	public static function affiche($champ, $nbMax = 2500) {
 		
-		$url = Zend_Registry::get('config')->static->url;
+		$url = Zend_Registry::get('config')->url->static;
 	
 		$retour ='		<div id="uddeim-bbemobox">';
 		$retour .='				<table border="0" cellpadding="0" cellspacing="4" align="center">';

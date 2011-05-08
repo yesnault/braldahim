@@ -67,10 +67,13 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	min-height:550px;
 }
 #menuhead {
-    position: absolute;
-    width: 100%;
+    position: relative;
+    
     z-index: 1000;
     align:left;
+	margin-left: auto; 
+  	margin-right: auto;
+  	width: 460px;     
 }
 #menuhead > div {
     margin: 0 auto;
@@ -486,6 +489,29 @@ span.id_braldun {
 	margin-right:auto !important;
 }
 
+.box_informations {
+	width: auto;
+	height: auto;
+	text-align: center;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #eeeeee;
+	background-color: #d9ffd6;
+	color: black;
+	padding: 5pt 5px;
+	min-width:500px;
+}
+
+.box_warning {
+	width: auto;
+	height: 22px;
+	text-align: center;
+	border-width: 0px;
+	background-color: #FFCC99;
+	color: black;
+	padding: 5pt 0px;
+}
+
 .box_erreur *{
 	background-color: #FF3300;
 	color: black;
@@ -822,6 +848,10 @@ span.id_braldun {
 	font-weight: normal;
     color: #f0ae21;
     text-shadow: 0 0 4px black, 0 -5px 4px black;
+}
+
+.couleurTitre {
+	 color: #f0ae21;	
 }
 
 .titre {
@@ -2151,3 +2181,34 @@ body > #boite_b {
 }
 
 /*******************************/
+
+.pointsdistinctions {
+ font-family: "Cardinal",Times,serif;
+ font-weight: normal;
+ color: #f0ae21;
+ text-shadow: 0 0 4px black, 0 -5px 4px black;
+ font-size: 1.4em;
+ cursor:pointer;
+}
+
+.box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration
+	{
+	width: 70%;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	text-align: center;
+	position: relative;
+}
+
+.admin_flottante {
+  border: 1px solid #000000;
+  margin: 20px;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+}

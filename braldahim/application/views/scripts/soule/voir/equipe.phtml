@@ -40,8 +40,8 @@
 				  		Actuellement plaqué
 				  		<?php endif;?>
 			  		<?php endif;?>
-			  		<img src='<?php echo $this->config->static->url?>/images/vue/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $j["id_braldun"]?>');" style='cursor:pointer'/>
-			  		<img src='<?php echo $this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?php echo $j["id_braldun"]?>');" style='cursor:pointer'/>
+			  		<img src='<?php echo $this->config->url->static?>/images/vue/puce_event.gif' title='Voir les événements' border='0' onclick="ouvrirEvenementsH('<?php echo $j["id_braldun"]?>');" style='cursor:pointer'/>
+			  		<img src='<?php echo $this->config->url->static?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick="ecrireMessage('<?php echo $j["id_braldun"]?>');" style='cursor:pointer'/>
 		  		</tr>
 		  	<?php endforeach; ?>
 		<?php else: ?>

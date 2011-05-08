@@ -14,7 +14,7 @@
 			<?php endif;?>
 			
 			<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
-				<img src="<?php echo $this->config->static->url?>/images/new.gif" alt="information de moins de 36 heures" style="cursor:pointer"/>
+				<img src="<?php echo $this->config->url->static?>/images/new.gif" alt="information de moins de 36 heures" style="cursor:pointer"/>
 			<?php else:?>
 				&nbsp;
 			<?php endif;?>

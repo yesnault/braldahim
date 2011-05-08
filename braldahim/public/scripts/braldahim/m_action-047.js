@@ -342,10 +342,7 @@ function _display_box(box, data) {
 
 	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue
 							// ensuite
-		_get_('/interface/load/?box=box_profil');
-		_get_('/interface/load/?box=box_competences_basiques');
 		_get_('/interface/load/?box=box_vue');
-		_get_('/interface/load/?box=box_blabla');
 	}
 }
 

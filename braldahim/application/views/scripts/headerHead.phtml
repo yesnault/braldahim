@@ -13,26 +13,26 @@
 <meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
 
 <title>Braldahim</title>
-<link href="<?php echo $this->config->static->url?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="<?php echo $this->config->url->static?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 <?php $versionCss = "1"; ?>
 <?php if ($this->config->general->production == 1) : ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/mini.css?<?php echo $versionCss?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/styles/braldahim_defaut/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->static->url?>/css/braldahim.css?<?php echo $versionCss?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/css/braldahim.css?<?php echo $versionCss?>" />
 <?php endif;?>
-<link rel="apple-touch-icon" href="<?php echo $this->config->static->url?>/images/mobile/icone-braldahim.png"/>
+<link rel="apple-touch-icon" href="<?php echo $this->config->url->static?>/images/mobile/icone-braldahim.png"/>
 <link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 <?php if (Zend_Registry::get("estWork")) : ?>
-<link  href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/work-005.css" type="text/css" rel="stylesheet" />
+<link  href="<?php echo $this->config->url->static?>/styles/braldahim_defaut/work-005.css" type="text/css" rel="stylesheet" />
 <?php elseif (Zend_Registry::get("estMobile")) : ?>
-<link  href="<?php echo $this->config->static->url?>/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
+<link  href="<?php echo $this->config->url->static?>/styles/braldahim_defaut/iphone-010.css" type="text/css" rel="stylesheet" />
 <?php endif;?>
 
 <?php $versionJs = "047"; ?>
 
-<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/jquery-1.6.min.js"></script>
-<script type="text/javascript" src="<?php echo $this->config->static->url?>/js/braldahim.js?<?php echo $versionJs?>"></script>
+<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldahim.js?<?php echo $versionJs?>"></script>
 
 <?php if (isset($this->cssCommunaute)) : ?>
 <style type="text/css"><?php echo $this->cssCommunaute?></style>

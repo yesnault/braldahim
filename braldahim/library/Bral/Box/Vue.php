@@ -687,7 +687,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($palissades != null) {
 						foreach($palissades as $p) {
 							if ($display_x == $p['x_palissade'] && $display_y == $p['y_palissade']) {
-								$tabPalissades[] = array('id_palissade' => $p['id_palissade'], 'est_destructible_palissade' => $p['est_destructible_palissade'], 'est_portail_palissade' => $p['est_portail_palissade']);
+								$tabPalissades[] = array('id_palissade' => $p['id_palissade'], 'est_destructible_palissade' => $p['est_destructible_palissade'], 'est_portail_palissade' => $p['est_portail_palissade'], 'date_fin_palissade' => $p["date_fin_palissade"]);
 							}
 						}
 					}

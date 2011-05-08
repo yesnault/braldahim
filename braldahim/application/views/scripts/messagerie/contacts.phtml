@@ -29,11 +29,11 @@
 					</td>
 					<td>
 						<label class='alabel' onclick="Javascript:ecrireMessageListeContact(<?php echo $listesContacts["id"] ?>)">Écrire à la liste
-	  					<img src='<?php echo $this->config->static->url?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
+	  					<img src='<?php echo $this->config->url->static?>/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' style='cursor:pointer'/></label>
 					</td>
 	  				<td class="table_liste">
-						<img src="<?php echo $this->config->static->url?>/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?php echo $listesContacts["id"];?>");' style="cursor:pointer"> <br />
-						<img src="<?php echo $this->config->static->url?>/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?php echo $listesContacts["id"];?>");' style="cursor:pointer">
+						<img src="<?php echo $this->config->url->static?>/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?php echo $listesContacts["id"];?>");' style="cursor:pointer"> <br />
+						<img src="<?php echo $this->config->url->static?>/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onclick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?php echo $listesContacts["id"];?>");' style="cursor:pointer">
 					</td>
 	  			</tr>
 		  	<?php endforeach; ?>

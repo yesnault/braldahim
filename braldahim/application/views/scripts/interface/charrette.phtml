@@ -70,12 +70,12 @@
 				   		foreach($this->materielsAssembles as $e) :?>
 						<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 					  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
-					  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
+					  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
 					  		<td class="table_liste"><?php echo $e["nom"] ?></td>
 					  		<td class="table_liste">
 					  			<div class='braltip'>
 					  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-					  			<img src="<?php echo $this->config->static->url?>/images/info_icon.gif" />
+					  			<img src="<?php echo $this->config->url->static?>/images/info_icon.gif" />
 					  			</div>
 					  		</td>
 					  	</tr>
@@ -100,7 +100,7 @@
 	   <?php endif;?>
   <?php else: ?>
 	Chargement en cours
-	<br /><img src="<?php echo $this->config->static->url?>/images/wait.gif" />
+	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />
   <?php endif; ?>
   
    <br />

@@ -22,175 +22,175 @@ class PalmaresController extends Bral_Controller_Box {
 
 	function indexAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render();
 	}
 	
 	function naissanceAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 
 	function chasseursgibierAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesChasseursgibier($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesChasseursgibier($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function combattantspveAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function combattantspvpAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function koAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesKo($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesKo($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function distinctionAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesDistinction($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesDistinction($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function experienceAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function gredinsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesGredins($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesGredins($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function redresseursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRedresseurs($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRedresseurs($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 
 	function superbraldunsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperbralduns($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperbralduns($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function monstresAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function mineursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "mineurs"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "mineurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function herboristesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "herboristes"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "herboristes"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function bucheronsrecolteursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "bucherons"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "bucherons"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function chasseursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "chasseurs"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "chasseurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function apothicairesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "apothicaires"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "apothicaires"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function menuisiersAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "menuisiers"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "menuisiers"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function forgeronsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "forgerons"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "forgerons"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function tanneursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "tanneurs"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "tanneurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function bucheronsfabriquantspalissadesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronspalissades"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronspalissades"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function bucheronsfabriquantsroutesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronsroutes"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronsroutes"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function cuisiniersAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "cuisiniers"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "cuisiniers"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function runesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesRunes($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRunes($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function motsruniquesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMotsRuniques($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMotsRuniques($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}

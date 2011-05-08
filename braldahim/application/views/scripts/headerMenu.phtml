@@ -36,8 +36,8 @@
 		 <div style="line-height: 18px; margin-top:-18px;">&nbsp;
 		 	<?php if ($this->controleur == "interface") : ?>
 				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
-				 	<img id="img_message_ancien" src="<?php echo $this->config->static->url?>/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-					<img id="img_message_nouveau" src="<?php echo $this->config->static->url?>/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+				 	<img id="img_message_ancien" src="<?php echo $this->config->url->static?>/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+					<img id="img_message_nouveau" src="<?php echo $this->config->url->static?>/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
 				</span>
 				<?php if (!Zend_Registry::get("estMobile")):?>
 				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
@@ -55,10 +55,13 @@
 		  	  <?php Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
 		  <?php endif;?>
 		 </div>		 
+		<br />
 		
+		<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
+	   	<span title="Points actualisés une fois par jour. Consultez l'onglet Réputation pour plus d'informations" class="pointsdistinctions"><?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?> de distinction</span>
 	</div>
 	<div id="frisetop">
-	<script language="Javascript" src="<?php echo $this->config->static->url?>/index/menu"></script>
+	<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>
 	</div>
 	<div id="frisebot">
 	</div>

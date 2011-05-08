@@ -51,17 +51,8 @@ class Bral_Box_Factory {
 			case "box_communaute_membres" :
 				return self::getCommunauteMembres($request, $view, $interne);
 				break;
-			case "box_competences_basiques" :
-				return self::getCompetencesBasic($request, $view, $interne);
-				break;
-			case "box_competences_communes" :
-				return self::getCompetencesCommun($request, $view, $interne);
-				break;
-			case "box_competences_metiers":
-				return self::getCompetencesMetier($request, $view, $interne);
-				break;
-			case "box_competences_soule":
-				return self::getCompetencesSoule($request, $view, $interne);
+			case "box_competences" :
+				return self::getCompetences($request, $view, $interne);
 				break;
 			case "box_contrats" :
 				return self::getContrats($request, $view, $interne);
@@ -182,29 +173,9 @@ class Bral_Box_Factory {
 		return new Bral_Box_Communaute_Membres($request, $view, $interne);
 	}
 
-	static function getCompetencesBasic($request, $view, $interne) {
+	static function getCompetences($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Competences");
-		return self::getCompetences($request, $view, $interne, "basic");
-	}
-
-	static function getCompetencesCommun($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Competences");
-		return self::getCompetences($request, $view, $interne, "commun");
-	}
-
-	static function getCompetencesMetier($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Competences");
-		return self::getCompetences($request, $view, $interne, "metier");
-	}
-
-	static function getCompetencesSoule($request, $view, $interne) {
-		Zend_Loader::loadClass("Bral_Box_Competences");
-		return self::getCompetences($request, $view, $interne, "soule");
-	}
-
-	private static function getCompetences($request, $view, $interne, $type) {
-		Zend_Loader::loadClass("Bral_Box_Competences");
-		return new Bral_Box_Competences($request, $view, $interne, $type);
+		return new Bral_Box_Competences($request, $view, $interne);
 	}
 
 	public static function getEchoppe($request, $view, $interne) {

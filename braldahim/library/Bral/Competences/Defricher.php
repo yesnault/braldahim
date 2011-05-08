@@ -67,7 +67,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		$tab = array("box_competences");
 		if ($this->view->routeTrouvee === true) {
 			$tab[] = "box_vue";
 		}

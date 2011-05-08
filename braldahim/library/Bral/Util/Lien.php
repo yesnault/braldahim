@@ -76,7 +76,7 @@ class Bral_Util_Lien {
 	
 	public static function getJsBraldun($id, $texte, $afficheMessage = false) {
 		$msg = "";
-		if ($afficheMessage) $msg = " <img src='".Zend_Registry::get('config')->static->url."/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick=ecrireMessage('$id'); style='cursor:pointer'/> ";
+		if ($afficheMessage) $msg = " <img src='".Zend_Registry::get('config')->url->static."/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onclick=ecrireMessage('$id'); style='cursor:pointer'/> ";
 		$lien = "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/braldun/?braldun=".$id."');\">".$texte."</label>".$msg;
 		return $lien;
 	}

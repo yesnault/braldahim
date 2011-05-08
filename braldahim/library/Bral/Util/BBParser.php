@@ -127,7 +127,7 @@ class Bral_Util_BBParser {
 
 		$config = Zend_Registry::get('config');
 
-		$url = $config->static->url;
+		$url = $config->url->static;
 
 		$message_emoticons=array(
 	      ":))"        => '<img src="'.$url.'/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',		

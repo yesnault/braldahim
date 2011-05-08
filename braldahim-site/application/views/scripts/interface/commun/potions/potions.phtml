@@ -19,7 +19,7 @@
 			   foreach($this->potions as $p) :?>
 				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste"><?php echo $p["id_potion"] ?></td>
-			  		<td class="table_liste"><img src='<?php echo $this->config->static->url?>/images/type_potion/type_potion_<?php echo $p["id_type_potion"]?>.png' alt="<?php echo htmlspecialchars($p["nom"])?>"/></td>
+			  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_potion/type_potion_<?php echo $p["id_type_potion"]?>.png' alt="<?php echo htmlspecialchars($p["nom"])?>"/></td>
 			  		<td class="table_liste"><?php echo htmlspecialchars($p["nom"]) ?></td>
 			  		<td class="table_liste"><?php echo htmlspecialchars($p["qualite"]) ?></td>
 			  		<td class="table_liste"><?php echo $p["niveau"] ?></td>
@@ -39,7 +39,7 @@
 			  		<td class="table_liste">
 			  			<div class='braltip'>
 			  			<?php echo Bral_Helper_DetailPotion::afficherTooltip($p);?>
-						<img src="<?php echo $this->config->static->url?>/images/info_icon.gif"/>
+						<img src="<?php echo $this->config->url->static?>/images/info_icon.gif"/>
 						</div>
 					</td>
 				  </tr>

@@ -80,7 +80,7 @@
 						<?php 
 						$i = 0;
 							foreach($this->runes as $k => $v) : ?>
-								<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->static->url?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?> : <?php echo $v["effet_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>" style="cursor:pointer;"/>
+								<img id="item_<?php echo $k ?>" class="rune" src="<?php echo $this->config->url->static?>/images/runes/<?php echo $v["image_type_rune"]?>" title="<?php echo $v["nom_type_rune"]?> : <?php echo $v["effet_type_rune"]?>" alt="<?php echo $v["nom_type_rune"] ?>" style="cursor:pointer;"/>
 							<?php endforeach; ?>
 					</div>
 						

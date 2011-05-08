@@ -58,6 +58,7 @@ class Bral_Util_Registre {
 					"id_fk_metier_competence" => null,
 					"balance_faim" => $c->balance_faim_competence,
 					"px_gain" => $c->px_gain_competence,
+					"pourcentage_init" => 100,
 				);
 				if ($c->type_competence == 'basic') {
 					$tabBasiques[] = $tabCompetence;

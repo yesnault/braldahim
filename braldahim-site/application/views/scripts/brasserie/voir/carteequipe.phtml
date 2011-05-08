@@ -33,7 +33,7 @@ foreach($joueurs as $j):
 	  
   	  $eqini = $nomEquipe;
   	  $textBraldun .= "<label class='alabel profil' onclick=\"ouvrirProfilH(".$j["id_braldun"].");\" title='Voir le profil' >".addslashes($j["prenom_braldun"])." ".addslashes($j["nom_braldun"])." (".$j["id_braldun"].")</label>, niv.".$j["niveau_braldun"];
-  	  $textBraldun .= " <img src='".$this->config->static->url."/images/vue/puce_event.gif' title='Voir les événements' border='0' onclick=\"ouvrirEvenementsH(".$j["id_braldun"].");\" style='cursor:pointer'/><br />";
+  	  $textBraldun .= " <img src='".$this->config->url->static."/images/vue/puce_event.gif' title='Voir les événements' border='0' onclick=\"ouvrirEvenementsH(".$j["id_braldun"].");\" style='cursor:pointer'/><br />";
 	  $title = "Position : x=".$j['x_braldun'].", y=".$j['y_braldun'];
   	  $xini = $j["x_braldun"];
   	  $yini = $j["y_braldun"];

@@ -1,31 +1,31 @@
 <div id="menuhead">
 	<nav id="nav-main">
 	<ul class="menu">
-		<li class="leaf first"><a title="" href="/">Accueil</a>
+		<li class="leaf first"><a title="" href="<?php echo Zend_Registry::get("config")->url->site?>/">Accueil</a>
 		</li>
 		<li class="leaf"><a title=""
-			href="http://jeu.braldahim.com/auth/login">Jouer</a>
+			href="<?php echo Zend_Registry::get("config")->url->jeu?>/">Jouer</a>
 		</li>
-		<li class="expanded"><a title="" href="/bourg">Le
+		<li class="expanded"><a title="" href="<?php echo Zend_Registry::get("config")->url->site?>/bourg">Le
 				Bourg</a>
 			<ul class="menu">
 				<li class="leaf first"><a title=""
-					href="/palmares">Palmarès</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/palmares">Palmarès</a>
 				</li>
 				<li class="leaf first"><a title=""
-					href="/brasserie">La Brasserie des Sports</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/brasserie">La Brasserie des Sports</a>
 				</li>
 				<li class="leaf first"><a title=""
-					href="/chambre">La Chambre des métiers</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/chambre">La Chambre des métiers</a>
 				</li>
 				<li class="leaf first"><a title=""
-					href="/tableaurecherches">Tableaux des Recherchés</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/tableaurecherches">Tableaux des Recherchés</a>
 				</li>
 				<li class="leaf first"><a title=""
-					href="/hotel">Hôtel des Ventes</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/hotel">Hôtel des Ventes</a>
 				</li>
 				<li class="leaf last"><a title=""
-					href="/etals">Étals</a>
+					href="<?php echo Zend_Registry::get("config")->url->site?>/etals">Étals</a>
 				</li>
 			</ul>
 		</li>
@@ -33,7 +33,7 @@
 			href="http://forum.braldahim.com">Forum</a>
 		</li>
 		<li class="leaf last"><a title=""
-			href="http://regles.braldahim.com">Règles</a>
+			href="<?php echo Zend_Registry::get("config")->url->regles?>">Règles</a>
 		</li>
 	</ul>
 	</nav>

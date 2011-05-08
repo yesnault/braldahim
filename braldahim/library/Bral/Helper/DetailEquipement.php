@@ -14,7 +14,7 @@ class Bral_Helper_DetailEquipement {
 
 	public static function afficher($e, $avecDetail = false) {
 		$retour = "<div class='braltip'>".self::afficherTooltip($e, $avecDetail);
-		$retour .= "<img src='".Zend_Registry::get('config')->static->url."/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
+		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
 		$retour .= "</div>";
 		return $retour;
 	}
@@ -88,7 +88,7 @@ class Bral_Helper_DetailEquipement {
 				$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
 				if (count($e["runes"]) > 0) {
 					foreach($e["runes"] as $r) {
-						$text .= "<img src='".Zend_Registry::get('config')->static->url."/images/runes/".$r["image_type_rune"]."'  class='rune' title='".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars($r["effet_type_rune"]))."' n&deg;".$r["id_rune_equipement_rune"]." alt='".$r["nom_type_rune"]."' n&deg;".$r["id_rune_equipement_rune"]."  />";
+						$text .= "<img src='".Zend_Registry::get('config')->url->static."/images/runes/".$r["image_type_rune"]."'  class='rune' title='".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars($r["effet_type_rune"]))."' n&deg;".$r["id_rune_equipement_rune"]." alt='".$r["nom_type_rune"]."' n&deg;".$r["id_rune_equipement_rune"]."  />";
 					}
 					if ($e["suffixe"] != null && $e["suffixe"] != "") {
 						$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars($e["suffixe"]);
