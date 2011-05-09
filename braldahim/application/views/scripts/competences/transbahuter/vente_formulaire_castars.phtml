@@ -13,4 +13,4 @@
 <?php echo Bral_Helper_BBBoutons::affiche('valeur_commentaire', 300)?>
 <input type='hidden' id='valeur_10' name='valeur_10' value='' />
 <input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="300" type="text"> Caract&egrave;res restants<br />
-<textarea name="valeur_commentaire" id="valeur_commentaire" class="inputbox" rows="10" cols="60" onkeydown="textCount($('#valeur_commentaire'),$('characterstyped'),300);" onkeyup="textCount($('#valeur_commentaire'),$('characterstyped'),300);"><?php echo $this->commentaire?></textarea>
+<textarea name="valeur_commentaire" id="valeur_commentaire" class="inputbox" rows="10" cols="60" onkeydown="textCount($('#valeur_commentaire'),$('#characterstyped'),300);" onkeyup="textCount($('#valeur_commentaire'),$('#characterstyped'),300);"><?php echo $this->commentaire?></textarea>

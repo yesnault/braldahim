@@ -17,7 +17,7 @@
 			<?php echo Bral_Helper_BBBoutons::affiche('message_blabla', 200)?>
 	
 			<span>Message</span><br />
-			<textarea name="message_blabla" id="message_blabla" class="inputbox" rows="10" cols="60" onkeydown="textCount($('message_blabla'),$('characterstyped'),200);" onkeyup="textCount($('message_blabla'),$('characterstyped'),200);"><?php echo stripslashes($this->blabla["message_blabla"])?></textarea>
+			<textarea name="message_blabla" id="message_blabla" class="inputbox" rows="10" cols="60" onkeydown="textCount($('#message_blabla'), $('#characterstyped'),200);" onkeyup="textCount($('#message_blabla'), $('#characterstyped'), 200);"><?php echo stripslashes($this->blabla["message_blabla"])?></textarea>
 			
 			<br />
 			<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="200" type="text"> Caract&egrave;res restants<br /><br />

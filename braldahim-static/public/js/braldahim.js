@@ -265,7 +265,7 @@ function showResponse(reponse) {
 	return;
 }
 
-function textCount(field,counterfield,max) {
+function textCount(field, counterfield, max) {
 	if (field.val().length > max) {
 		field.val(field.val().substring(0, max));
 	} else {
@@ -765,16 +765,21 @@ function controleEchoppe(i) {
 }
 
 function afficheTransbahuterRechercheBraldun() {
-	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { // constante definie dans Transbahuter.php
+	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { // constante
+																								// definie
+																								// dans
+																								// Transbahuter.php
 		$('#div_braldun').show()
 	} else {
 		$('#div_braldun').hide()
 		$('#valeur_3').val(-1);
 	}
 	
-	if ($('#valeur_2').val() == 8) { // constante definie dans Transbahuter.php
+	if ($('#valeur_2').val() == 8) { // constante definie dans
+										// Transbahuter.php
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver cette vente à un unique Braldûn:');
-	} else if ($('#valeur_2').val() == 12) { // constante definie dans Transbahuter.php
+	} else if ($('#valeur_2').val() == 12) { // constante definie dans
+												// Transbahuter.php
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver ce lot à un unique Braldûn:');
 	} else if ($('#valeur_2').val() == 4) {
 		$('#texte_transbahuter_braldun').html('Entrez le Braldûn destinataire:');
@@ -782,7 +787,10 @@ function afficheTransbahuterRechercheBraldun() {
 }
 
 function afficheTransbahuterVente() {
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes definies dans Transbahuter.php
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes
+																								// definies
+																								// dans
+																								// Transbahuter.php
 		$('#div_vente_transbahuter').show();
 	} else {
 		$('div_vente_transbahuter').hide();
@@ -790,7 +798,10 @@ function afficheTransbahuterVente() {
 }
 
 function controlePrixVenteBoutonDeposer() {
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes definies dans Transbahuter.php
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes
+																								// definies
+																								// dans
+																								// Transbahuter.php
 		if ($('#valeur_4').value >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
 			return true;
 		} else {
@@ -805,7 +816,7 @@ function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
 	if ($('#recherche_' + id + '_actif').val() == 0) {
 		new Ajax.Autocompleter('#recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
 		afterUpdateElement :getUniqueBraldunId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').value = 1;
+		$('#recherche_' + id + '_actif').val(1);
 	}
 }
 
@@ -819,7 +830,7 @@ function activerRechercheTransbahuterBraldun(id) {
 	if ($('#recherche_' + id + '_actif').val() == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
 		afterUpdateElement :getTransbahuterBraldunId, parameters : { champ :'value' } });
-		$('recherche_' + id + '_actif').val(1);
+		$('#recherche_' + id + '_actif').val(1);
 	}
 }
 
@@ -834,7 +845,7 @@ function activerRechercheBraldunIdentificationRune(id) {
 	if ($('#recherche_' + id + '_actif').val() == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
 		afterUpdateElement :getBraldunIdentificationRune, parameters : { champ :'value' } });
-		$('recherche_' + id + '_actif').val(1);
+		$('#recherche_' + id + '_actif').val(1);
 	}
 }
 
@@ -849,6 +860,371 @@ function getBraldunIdentificationRune(text, li) {
 	}
 }
 
+
+
+/** ***************************************************************** */
+/** *********************** RECHERCHE ******************* */
+/** ***************************************************************** */
+
+function activerRechercheBraldun(id) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
+		$('#recherche_' + id + '_actif').val(1);
+	}
+}
+
+function activerRechercheBourlingueur(id, idTypeDistinction) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/bourlingueur/champ/' + id + '/type/' + idTypeDistinction , { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
+		$('#recherche_' + id + '_actif').val(1);
+	}
+}
+
+function activerRechercheAdminBraldun(id) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getAdminBraldunId, parameters : { champ :'value' } });
+		$('#recherche_' + id + '_actif').val(1);
+	}
+}
+
+function activerRechercheVoirBraldun(id) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getVoirId, parameters : { champ :'value' } });
+		$('#recherche_' + id + '_actif').val(1);
+	}
+}
+
+function controleSession(li) {
+	if (li.getAttribute('champ') == null) { // aucun ou trop de résultats
+		return false;
+	} else if (li.getAttribute('champ') == 'logout') {
+		alert("Votre session a expiré, veuillez vous reconnecter.");
+		document.location.href = "/";
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function getVoirId(text, li) {
+	if (controleSession(li) == true) {
+		document.location.href = "/voir/braldun/?braldun=" + li.getAttribute('id_braldun');
+		$('#recherche_' + li.getAttribute('champ')).val('Chargement en cours...');
+	}
+}
+
+function getAdminBraldunId(text, li) {
+	if (controleSession(li) == true) {
+		$('id_braldun').value = li.getAttribute('id_braldun');
+	}
+}
+
+function getSelectionId(text, li) {
+	if (controleSession(li) == true) {
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_braldun'), li.getAttribute('id_braldun'));
+		$('#recherche_' + li.getAttribute('champ')).val('');
+	}
+}
+
+function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
+	if ($("#"+champ).val() == '') {
+		$("#"+champ).val(idJos);
+	} else {
+		var reg=new RegExp("[,]+", "g");
+		var tableau=$("#"+champ).value.split(reg);
+		var trouve = false;
+		for (var i=0; i<tableau.length; i++) {
+			 if (tableau[i] == idJos) {
+				 trouve = true;
+			 }
+		}
+		if (trouve == false) {
+			$("#"+champ).value = $("#"+champ).value + ',' + idJos;
+		} else {
+			return;
+		}
+	}	
+	var contenu = window.document.createElement('span');
+	contenu.name = 'm_' + champ + '_' + idJos;
+	
+	var texte = valeur;
+	if (idBraldun != null) {
+		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/braldun/?braldun='+idBraldun+'\');">' + texte + '(' + idBraldun + ')</label> ';
+	}
+	texte = texte + ' <img src="'+$('urlStatique').value+'/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
+	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
+	
+	if ($('#cpt_' + champ)) {
+		$('#cpt_' + champ).val(parseInt($('#cpt_' + champ).val() *1) + parseInt(1));
+	}
+	if ($('#onChange_' + champ)) {
+		eval($('#onChange_' + champ).val());
+	}
+	
+	contenu.id = contenu.name;
+	contenu.html(texte);
+	$('#aff_' + champ).appendChild(contenu);
+}
+
+function supprimerElement(idConteneur, idContenu, idChamp, valeur) {
+	$("#"+idConteneur).removeChild($(idContenu));
+	var tabValeur = $("#"+idChamp).val().split(',');
+	var nouvelleValeur = '';
+
+	for (i = 0; i < tabValeur.length; i++) {
+		if (tabValeur[i] != valeur) {
+			if (tabValeur[i] != "") {
+				if (nouvelleValeur == "") {
+					nouvelleValeur = tabValeur[i];
+				} else {
+					nouvelleValeur = nouvelleValeur + ',' + tabValeur[i];
+				}
+			}
+		}
+	}
+	$("#"+idChamp).val(nouvelleValeur);
+	if ($('#cpt_' + idChamp)) {
+		$('#cpt_' + idChamp).val(parseInt($('#cpt_' + idChamp).val()) - parseInt(1));
+	}
+	if ($('#onChange_' + idChamp)) {
+		eval($('#onChange_' + idChamp).val());
+	}
+}
+
+function ajouterAuContenu(idsource, iddestination) {
+	if ($("#"+iddestination).val() == "") {
+		$("#"+iddestination).val($(idsource).val());
+	} else {
+		$("#"+iddestination).val($(iddestination).val() + ', ' + $(idsource).val());
+	}
+}
+
+
+/** ***************************************************************** */
+/** ************************* BB Display ************************** */
+/** ***************************************************************** */
+// bbCode control by
+// subBlue design
+// www.subBlue.com
+// Changed by/for uddeIM
+// Changed by/for braldahim
+
+// Startup variables
+var imageTag = false;
+var theSelection = false;
+
+// Check for Browser & Platform for PC & IE specific bits
+// More details from:
+// http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html
+var clientPC = navigator.userAgent.toLowerCase(); // Get client info
+var clientVer = parseInt(navigator.appVersion); // Get browser version
+
+var is_ie = ((clientPC.indexOf("msie") != -1) && (clientPC.indexOf("opera") == -1));
+var is_nav = ((clientPC.indexOf('mozilla')!=-1) && (clientPC.indexOf('spoofer')==-1)
+             && (clientPC.indexOf('compatible') == -1) && (clientPC.indexOf('opera')==-1)
+             && (clientPC.indexOf('webtv')==-1) && (clientPC.indexOf('hotjava')==-1));
+var is_moz = 0;
+
+var is_win = ((clientPC.indexOf("win")!=-1) || (clientPC.indexOf("16bit") != -1));
+var is_mac = (clientPC.indexOf("mac")!=-1);
+
+// Define the bbCode tags
+bbcode = new Array();
+bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[color=#ff4040]','[/color]','[color=#40ff40]','[/color]','[color=#4040ff]','[/color]','[size=1]','[/size]','[size=2]','[/size]','[size=3]','[/size]','[size=4]','[/size]','[size=5]','[/size]','[ul]','[/ul]','[ol]','[/ol]','[img]','[/img]','[url]','[/url]','[li]','[/li]','[left]','[/left]','[center]','[/center]','[right]','[/right]','[justify]','[/justify]');
+imageTag = false;
+
+// Replacement for arrayname.length property
+function getarraysize(thearray) {
+	for (i = 0; i < thearray.length; i++) {
+		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null)) {
+			return i;
+		}
+	}
+	return thearray.length;
+}
+
+// Replacement for arrayname.push(value) not implemented in IE until version 5.5
+// Appends element to the array
+function arraypush(thearray,value) {
+	thearray[ getarraysize(thearray) ] = value;
+}
+
+// Replacement for arrayname.pop() not implemented in IE until version 5.5
+// Removes and returns the last element of an array
+function arraypop(thearray) {
+	thearraysize = getarraysize(thearray);
+	retval = thearray[thearraysize - 1];
+	delete thearray[thearraysize - 1];
+	return retval;
+}
+
+function bbstyle(bbnumber, field) {
+	var txtarea = field;
+
+	txtarea.focus();
+	donotinsert = false;
+	theSelection = false;
+	bblast = 0;
+
+	if (bbnumber == -1) { // Close all open tags & default button names
+		while (bbcode[0]) {
+			butnumber = arraypop(bbcode) - 1;
+			txtarea.value += bbtags[butnumber + 1];
+			buttext = eval('$("#addbbcode' + butnumber + '").attr("src")');
+			eval('$("#addbbcode' + butnumber + '").attr("src", "' + buttext.substr(0, (buttext.length - 10)) + '.gif")');
+		}
+		imageTag = false; // All tags are closed including image tags :D
+		txtarea.focus();
+		return;
+	}
+
+	if ((clientVer >= 4) && is_ie && is_win) {
+		theSelection = document.selection.createRange().text; // Get text
+																// selection
+		if (theSelection) {
+			var sluss;
+			var theGuy = bbtags[bbnumber] + theSelection + bbtags[bbnumber+1];
+			// Add tags around selection
+			document.selection.createRange().text = theGuy;
+			sluss = sel.text.length;
+			sel.Text = theGuy;
+			if (theGuy.length > 0) {
+				sel.moveStart('character', -theGuy.length + sluss);
+			}	
+			txtarea.focus();
+			theSelection = '';
+			return;
+		}
+	} else if (txtarea[0].selectionEnd && (txtarea[0].selectionEnd - txtarea[0].selectionStart > 0)) {
+		mozWrap(txtarea, bbtags[bbnumber], bbtags[bbnumber+1]);
+		return;
+	}
+	
+	// Find last occurance of an open tag the same as the one just clicked
+	for (i = 0; i < bbcode.length; i++) {
+		if (bbcode[i] == bbnumber + 1) {
+			bblast = i;
+			donotinsert = true;
+		}
+	}
+
+	if (donotinsert) {		// Close all open tags up to the one just clicked &
+							// default button names
+		while (bbcode[bblast]) {
+				butnumber = arraypop(bbcode) - 1;
+				// txtarea.value += bbtags[butnumber + 1];
+				pasteAtCursor(txtarea, bbtags[butnumber+1]);
+				buttext = eval('$("#addbbcode' + butnumber + '").attr("src")');
+				eval('$("#addbbcode' + butnumber + '").attr("src", "' + buttext.substr(0, (buttext.length - 10)) + '.gif")');
+				imageTag = false;
+			}
+			txtarea.focus();
+			return;
+	} else { // Open tags
+	
+		if (imageTag && (bbnumber != 24)) {		// Close image tag before adding
+												// another
+			// txtarea.value += bbtags[25];
+			pasteAtCursor(txtarea, bbtags[25]);
+			lastValue = arraypop(bbcode) - 1;	// Remove the close image tag
+												// from the list
+			var jubla = $('#addbbcode24').attr("src");
+			var juble = jubla.substr(0, (jubla.length - 10));
+			var jubli = juble+".gif";
+			$('#addbbcode24').attr("src",jubli);
+			// Return button back to normal state
+			imageTag = false;
+		}
+		
+		// Open tag
+		// txtarea.value += bbtags[bbnumber];
+		pasteAtCursor(txtarea, bbtags[bbnumber]);
+		// Check to stop additional tags after an unclosed image tag
+		if ((bbnumber == 24) && (imageTag == false)) {
+			imageTag = 1; 
+		}
+		arraypush(bbcode,bbnumber+1);
+		// eval('$('myForm').addbbcode'+bbnumber+'.value += "*"');
+		var imgsrcori = eval('$("#addbbcode'+bbnumber+'").attr("src")');
+		var imgsrcnew = imgsrcori.substr(0, (imgsrcori.length - 4));
+		imgsrcnew += "_close.gif";
+		eval('$("#addbbcode'+bbnumber+'").attr("src", "' + imgsrcnew + '")');	
+		txtarea.focus();
+		return;
+	}
+	storeCaret(txtarea);
+}
+
+// From http://www.massless.org/mozedit/
+function mozWrap(txtarea, open, close) {
+	var selLength = txtarea[0].textLength;
+	var selStart = txtarea[0].selectionStart;
+	var selEnd = txtarea[0].selectionEnd;
+	if (selEnd == 1 || selEnd == 2) {
+		selEnd = selLength;
+	}
+
+	var s1 = txtarea.val().substring(0, selStart);
+	var s2 = txtarea.val().substring(selStart, selEnd)
+	var s3 = txtarea.val().substring(selEnd, selLength);
+	txtarea.val(s1 + open + s2 + close + s3);
+	
+	var anfangs = s1;
+	var endes = s1 + open + s2 + close;
+	var anfang = anfangs.length;
+	var ende= endes.length;
+
+	txtarea[0].selectionStart = anfang;
+	txtarea[0].selectionEnd = ende;	
+	
+	return;
+}
+
+// Insert at Claret position. Code from
+// http://www.faqts.com/knowledge_base/view.phtml/aid/1052/fid/130
+function storeCaret(textEl) {
+	if (textEl.createTextRange) {
+		textEl.caretPos = document.selection.createRange().duplicate();
+	}
+}
+
+// Insert emoticons
+function emo(e, field) {
+	// $('myForm').pmessage.value=$('myForm').pmessage.value+$e;
+	pasteAtCursor(field, e);
+	field.focus();
+}
+
+function pasteAtCursor(theGirl, theGuy) {
+	/* This function is based upon a function in PHPMyAdmin */
+	/* (C) www.phpmyadmin.net. Changed by/for uddeIM */
+	/* See http://www.gnu.org/copyleft/gpl.html for license */
+	if (document.selection) {
+		// IE support
+		var sluss;
+		theGirl.focus();
+		sel = document.selection.createRange();
+		sluss = sel.text.length;
+		sel.text = theGuy;
+		if (theGuy.length > 0) {
+			sel.moveStart('character', -theGuy.length + sluss);
+		}		
+	} else if (theGirl[0].selectionStart || theGirl[0].selectionStart == '0') {
+		// MOZILLA/NETSCAPE support
+		var startPos = theGirl[0].selectionStart;
+		var endPos = theGirl[0].selectionEnd;
+		theGirl.val(theGirl.val().substring(0, startPos) + theGuy + theGirl.val().substring(endPos, theGirl.val().length));
+		theGirl[0].selectionStart = startPos + theGuy.length;
+		theGirl[0].selectionEnd = startPos + theGuy.length;
+	} else {
+		theGirl.val(theGirl.val() + theGuy);
+	}
+}
+
 /** *********** *//** *********** */
 /** *** splashScreen **** */
 /** *********** *//** *********** */
@@ -859,7 +1235,7 @@ function getBraldunIdentificationRune(text, li) {
 
 (function($){
 
-	$.fn.splashScreen = function(settings){
+	$.fn.splashScreen = function(settings) {
 
 		// Providing default options:
 

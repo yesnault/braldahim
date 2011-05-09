@@ -19,7 +19,7 @@
 			<?php echo Bral_Helper_BBBoutons::affiche('texte_bougrie', 500)?>
 	
 			<span>Message</span><br />
-			<textarea name="texte_bougrie" id="texte_bougrie" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_bougrie'),$('characterstyped'),500);" onkeyup="textCount($('texte_bougrie'),$('characterstyped'),500);"><?php echo stripslashes($this->bougrie["texte_bougrie"])?></textarea>
+			<textarea name="texte_bougrie" id="texte_bougrie" class="inputbox" rows="10" cols="60" onkeydown="textCount($('#texte_bougrie'),$('#characterstyped'),500);" onkeyup="textCount($('#texte_bougrie'),$('#characterstyped'),500);"><?php echo stripslashes($this->bougrie["texte_bougrie"])?></textarea>
 			<br />
 			Lien vers les règles (facultatif) : <input type="text" name="regle_bougrie" id="regle_bougrie" size="50" maxlength="500" class="inputbox" value="<?php echo $this->bougrie["regle_bougrie"]?>"/>
 			<br />
