@@ -18,7 +18,7 @@
 	<input type="button" class='button1' id="bouton_editer" value="Editer la CSS" 
 	onclick="$('label_css').style.display='none'; 
 		$('edition').style.display='block' ; 
-		$('bouton_css').style.display='block'; 
+		$('#bouton_css').style.display='block'; 
 		 this.style.display='none' ;
 		"/>
 	</center>
@@ -35,8 +35,8 @@
 		  $('label_css').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;
-		  $('valeur_1').value=1;
-		  $('valeur_2').value = encodePlus($('valeur_css').value);
+		  $('#valeur_1').value=1;
+		  $('#valeur_2').value = encodePlus($('#valeur_css').value);
 		   _get_('/communaute/doaction?caction=do_communaute_modifiercss', false)" value="Valider" style="display:none" />
 	</div>
 

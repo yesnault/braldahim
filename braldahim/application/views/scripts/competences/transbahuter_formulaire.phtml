@@ -55,7 +55,7 @@
 				?>
 				<br/>
 				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"/>
-				<input type='reset' class='button1' id='bouton_selectionnertout' value='Réinitialiser !' onclick="$('bouton_deposer').disabled=true;"/>
+				<input type='reset' class='button1' id='bouton_selectionnertout' value='Réinitialiser !' onclick="$('#bouton_deposer.attr('disabled', true);"/>
 				<?php if ($poches != null): ?> 
 					<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>"/>
 					<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>"/>
@@ -128,7 +128,7 @@
    				</div>
    				
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();if (controlePrixVenteBoutonDeposer()) {this.disabled=true;$('valeur_10').value=encodePlus($('valeur_commentaire').value);_get_('/competences/doaction?caction=do_competence_transbahuter&idCharretteEtal=<?php echo $this->idCharretteEtal?>')};" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();if (controlePrixVenteBoutonDeposer()) {this.disabled=true;$('#valeur_10').value=encodePlus($('#valeur_commentaire').value);_get_('/competences/doaction?caction=do_competence_transbahuter&idCharretteEtal=<?php echo $this->idCharretteEtal?>')};" disabled>
 		<?php else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?php endif; ?>

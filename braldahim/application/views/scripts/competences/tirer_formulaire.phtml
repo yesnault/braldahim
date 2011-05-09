@@ -20,7 +20,7 @@
 	 		 <br />
 			<?php if ($this->nMonstres > 0): ?>
 				Tirer sur un monstre<br />
-				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">
+				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value==-1 && $('#valeur_2').value==-1){$('#bouton_tirer.attr('disabled', true) } else {$('#valeur_2').value=-1; $('#bouton_tirer').attr('disabled',false) }">
 				<option value='-1'>(Choisissez un monstre)</option>
 				<?php $dist=-1; ?>
 				<?php foreach ($this->tabMonstres as $m) : ?>
@@ -49,7 +49,7 @@
 			
 	 		<?php if ($this->nBralduns > 0): ?>
 	 		 	Tirer sur un Braldûn<br />
-	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
+	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').value==-1 && $('#valeur_2').value==-1){$('#bouton_tirer.attr('disabled', true) } else {$('#valeur_1').value=-1; $('#bouton_tirer').attr('disabled',false) }">
 				<option value='-1'>(Choisissez un Braldûn)</option>
 				<?php $dist=-1; ?>
 	 			<?php foreach ($this->tabBralduns as $h) : ?>

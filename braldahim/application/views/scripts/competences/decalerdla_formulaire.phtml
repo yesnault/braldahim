@@ -2,9 +2,9 @@
  <div class='comp_contenu'>
  	
  	<?php $js="
- 	if ($('valeur_2').value != -1 && $('valeur_1').value != -1) {
-		var min = ".$this->dlaActuelle["min"]." + parseInt($('valeur_2').value);
-		var heure = ".$this->dlaActuelle["heure"]." + parseInt($('valeur_1').value);
+ 	if ($('#valeur_2').value != -1 && $('#valeur_1').value != -1) {
+		var min = ".$this->dlaActuelle["min"]." + parseInt($('#valeur_2').value);
+		var heure = ".$this->dlaActuelle["heure"]." + parseInt($('#valeur_1').value);
 	 	var d = new Date(".$this->dlaActuelle["annee"].", ".$this->dlaActuelle["mois"]." -1 , ".$this->dlaActuelle["jour"].", heure, min, ".$this->dlaActuelle["seconde"].");
  		$('dla_choisie').innerHTML='Date Limite Choisie : ' + d.getHours() +  ' h ' + d.getMinutes() +' et ' + d.getSeconds() + 's le ' + d.getDate() + '/' + d.getMonth() + '/' + d.getYear();
  	} else {
@@ -26,7 +26,7 @@
     </tr>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?php echo $js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?php echo $js?> if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1 || ($('#valeur_1').value==0 && $('#valeur_2').value==0)){$('#bouton_decalerdla.attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
 			<option value='-1'>(Choisis)</option>
 			<?php foreach ($this->tabHeures as $h): ?>
 			<option value='<?php echo $h?>'><?php echo $h?></option>
@@ -34,7 +34,7 @@
 			</select>
    		</td>
    		<td>
-   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?php echo $js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?php echo $js?> if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1 || ($('#valeur_1').value==0 && $('#valeur_2').value==0)){$('#bouton_decalerdla.attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
 			<option value='-1'>(Choisis)</option>
 			<?php foreach ($this->tabMinutes as $m): ?>
 			<option value='<?php echo $m?>'><?php echo $m?></option>

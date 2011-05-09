@@ -25,10 +25,10 @@
   onclick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>')" <?php echo $disabled?>/>
  <br /> 
 <input id='bouton_voir_description_echoppe' type="button" class='button1' value="Voir la description"
-  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('bouton_cacher_description_echoppe').style.display='block'"/>
+  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('#bouton_cacher_description_echoppe').style.display='block'"/>
  
 <input id='bouton_cacher_description_echoppe' type="button" class='button1' style='display:none' value="Cacher la description"
-  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('echoppe_commentaire_voir').style.display='none'; $('bouton_voir_description_echoppe').style.display='block'"/>
+  onclick="Javascript:$('echoppe_commentaire_voir').style.display='block'; this.style.display='none'; $('echoppe_commentaire_voir').style.display='none'; $('#bouton_voir_description_echoppe').style.display='block'"/>
 
 </div>
   

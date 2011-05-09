@@ -15,7 +15,7 @@
  	<br /><br />
  	Le verbe : <br />
  	
- 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value!=-1 && $('valeur_2').value!=''){ $('bouton_relater_verif').disabled=false; if ($('premiereVerif').value == 'true') {$('bouton_relater').disabled=false;} } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}">
+ 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value!=-1 && $('#valeur_2').value!=''){ $('#bouton_relater_verif').attr('disabled',false); if ($('premiereVerif').value == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater.attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}">
 		<option value='-1'>(Choisissez un verbe)</option>
 	 	<?php foreach($this->verbes as $k => $v): ?>
 	 		<option value='<?php echo $k?>' <?php if ($this->idVerbe == $k) :echo "selected"; endif;?>><?php echo $v?></option>
@@ -23,7 +23,7 @@
  	</select>
 	<br /><br />Le Texte : <br />
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br />
-	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('valeur_2'),$('characterstyped'),80);" onkeyup="textCount($('valeur_2'),$('characterstyped'),80); if ($('valeur_1').value!=-1 && this.value != '') { $('bouton_relater_verif').disabled=false; if ($('premiereVerif').value == 'true') {$('bouton_relater').disabled=false;} } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}"  maxlength="80" size="40" value="<?php echo htmlspecialchars($this->texte_original)?>"/>
+	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('#valeur_2'),$('characterstyped'),80);" onkeyup="textCount($('#valeur_2'),$('characterstyped'),80); if ($('#valeur_1').value!=-1 && this.value != '') { $('#bouton_relater_verif').attr('disabled',false); if ($('premiereVerif').value == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater.attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}"  maxlength="80" size="40" value="<?php echo htmlspecialchars($this->texte_original)?>"/>
 	
 	<input type="hidden" id="premiereVerif" name="premiereVerif" value="<?php if ($this->texte != null) : echo "true"; else: echo "false"; endif; ?>">
 	

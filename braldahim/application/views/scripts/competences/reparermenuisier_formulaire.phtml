@@ -6,7 +6,7 @@
 	 <br />
      
      Charrette &agrave; r&eacute;parer :<br />
-     <select name="valeur_1" id="valeur_1"  onchange="if (this.value == -1) {$('bouton_reparermenuisier').disabled = true} else {$('bouton_reparermenuisier').disabled = false}">
+     <select name="valeur_1" id="valeur_1"  onchange="if (this.value == -1) {$('#bouton_reparermenuisier').disabled = true} else {$('#bouton_reparermenuisier').disabled = false}">
 	 	<option value="-1">(Choisissez une charrette)</option>
 	 	<?php foreach($this->charrettes as $c) : ?>
 	 		<option value="<?php echo $c["id_charrette"]?>" <?php if ($c["possible"] == false) : echo "disabled"; endif; ?>><?php echo $c["nom_type_materiel"]?>, <?php echo $c["prenom_braldun"]?> <?php echo $c["nom_braldun"]?> (<?php echo $c["id_braldun"]?>) - Coût : <?php echo $c["cout_reparation_planche"]?> planche<?php if ($c["cout_reparation_planche"] > 1): echo "s"; endif; ?></option>

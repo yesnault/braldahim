@@ -44,7 +44,7 @@ Participation à la construction du bâtiment (1 PA minimum) :
     </tr>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onchange="javascript:if ($('valeur_1').value==-1){$('bouton_construirebatiment').disabled=true } else { $('bouton_construirebatiment').disabled=false }">
+	   		<select id='valeur_1' name='valeur_1' onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_construirebatiment.attr('disabled', true) } else { $('#bouton_construirebatiment').attr('disabled',false) }">
 			<option value='-1'>(Choisis)</option>
 			<?php foreach ($this->tabPA as $h): ?>
 			<option value='<?php echo $h?>'><?php echo $h?></option>

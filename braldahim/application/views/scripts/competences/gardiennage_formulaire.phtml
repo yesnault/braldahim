@@ -34,7 +34,7 @@
   <tr>
    <td>Gardien : </td>
    <td>
-   <select name='valeur_4' id='valeur_4' onchange="$('valeur_5').value=''">
+   <select name='valeur_4' id='valeur_4' onchange="$('#valeur_5').value=''">
      <option value='-1'>(Choisir)</option>
      <?php if ($this->tabGardiens != null) :?>
      <?php foreach($this->tabGardiens as $g) : ?>
@@ -47,7 +47,7 @@
   <tr>
    <td>ou Num&eacute;ro <br />du Braldûn Gardien : </td>
    <td>
-   <input type='text' maxlength='5' size='5' name='valeur_5' id='valeur_5' value='' onkeypress="chiffres(event); $('valeur_4').value=-1">
+   <input type='text' maxlength='5' size='5' name='valeur_5' id='valeur_5' value='' onkeypress="chiffres(event); $('#valeur_4').value=-1">
    </td>
   </tr>
   <tr>

@@ -71,7 +71,7 @@ Filtrer par rang :
 	  	  	Rang n&deg;<?php echo $m["ordre_rang_communaute"] ?> : <?php echo htmlspecialchars($m["nom_rang_communaute"]) ?><br />
 		  	<i>Non modifiable</i>
   	   <?php else : ?>
-		<label id="label_rang<?php echo $m["id_braldun"] ?>" onclick="javascript:this.style.display='none' ; $('valeur_rang<?php echo $m["id_braldun"] ?>').style.display='block'" style="display:block">
+		<label id="label_rang<?php echo $m["id_braldun"] ?>" onclick="javascript:this.style.display='none' ; $('#valeur_rang<?php echo $m["id_braldun"] ?>').style.display='block'" style="display:block">
 	  		Rang n&deg;<?php echo $m["ordre_rang_communaute"] ?> : <?php echo htmlspecialchars($m["nom_rang_communaute"]) ?>
 	  	</label>
 	  
@@ -81,7 +81,7 @@ Filtrer par rang :
 		  	<?php endforeach; ?>
 		</select>
 		
-		<input type="button" id="button_valider<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('valeur_1').value='r'; $('valeur_7').value=<?php echo $m["id_braldun"]?> ; $('valeur_8').value=$('valeur_rang<?php echo $m["id_braldun"] ?>').value; $('valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
+		<input type="button" id="button_valider<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').value='r'; $('#valeur_7').value=<?php echo $m["id_braldun"]?> ; $('#valeur_8').value=$('#valeur_rang<?php echo $m["id_braldun"] ?>').value; $('#valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
 	  <?php endif; ?>
 	  </td>
 	  <td class="table_liste">
@@ -90,7 +90,7 @@ Filtrer par rang :
 	  	
 	  	<div id="div_exclure<?php echo $m["id_braldun"] ?>"  style="display:none">
 	  		Veuillez-confirmer cette exclusion.<br />
-	  		<input type="button" id="button_confirmer<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('valeur_1').value='e'; $('valeur_7').value=-1; $('valeur_8').value=-1; $('valeur_9').value=<?php echo $m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
+	  		<input type="button" id="button_confirmer<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').value='e'; $('#valeur_7').value=-1; $('#valeur_8').value=-1; $('#valeur_9').value=<?php echo $m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
 	  	</div>
 	  	
 	  	<?php endif; ?>

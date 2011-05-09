@@ -34,13 +34,13 @@
 					} else { 
 						nbPlacees=0; 
 					} 
-					$('valeur_2').value=nbPlacees; 
+					$('#valeur_2').value=nbPlacees; 
 					nb = total - nbPlacees;
-					$('valeur_3').value=Sortable.sequence($('group2')); 
+					$('#valeur_3').value=Sortable.sequence($('group2')); 
 					if (nb != 0) { 
-						$('bouton_recherchermot').disabled=true; 
+						$('#bouton_recherchermot.attr('disabled', true); 
 					} else { 
-						$('bouton_recherchermot').disabled=false; 
+						$('#bouton_recherchermot').attr('disabled',false); 
 					}
 					text = '';
 					s = '';

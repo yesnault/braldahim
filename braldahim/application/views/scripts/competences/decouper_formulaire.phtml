@@ -4,7 +4,7 @@
 	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez decouper jusqu'&agrave;  <?php echo $this->nbRondinsMax ?> <?php if ($this->nbRondinsMax > 1) : $s = 's';  else: $s = ''; endif; ?> rondin<?php echo $s ?> en planche(s) ...<br />
 	<br />
 	Quantité de rondins à utiliser : <br />
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_decouper').disabled=true } else {$('bouton_decouper').disabled=false }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_decouper.attr('disabled', true) } else {$('#bouton_decouper').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez la quantité à découper)</option>
 	 	<?php for($i=1; $i <= $this->nbRondinsMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;

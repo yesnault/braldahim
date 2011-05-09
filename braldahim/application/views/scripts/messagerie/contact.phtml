@@ -64,11 +64,11 @@
 	<?php $libelle = "Modifier"; if ($this->contactsListe["id"] == "-1"): $libelle = "Cr&eacute;er"; endif; ?>
 	<input type="button" class='button1' name="<?php echo $libelle ?>" value="<?php echo $libelle ?>" onclick="
 	Javascript:$('nb_valeurs').value=5;
-	$('valeur_1').value='editer';
-	$('valeur_2').value=<?php echo $this->contactsListe["id"] ?>;
-	$('valeur_3').value=$('valeur_3_dest').value;
-	$('valeur_4').value=$('nom_liste_contact').value;
-	$('valeur_5').value=$('description_liste_contact').value;
+	$('#valeur_1').value='editer';
+	$('#valeur_2').value=<?php echo $this->contactsListe["id"] ?>;
+	$('#valeur_3').value=$('#valeur_3_dest').value;
+	$('#valeur_4').value=$('nom_liste_contact').value;
+	$('#valeur_5').value=$('description_liste_contact').value;
 	 _get_('/messagerie/doaction?caction=do_messagerie_contacts');this.disabled=true;" />
 	<input type="button" class='button1' name="Annuler" value="Annuler" onclick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=liste');" /> 
 </form>

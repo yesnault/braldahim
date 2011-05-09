@@ -26,7 +26,7 @@
  
 <?php if ($this->nCompetences > 0): ?>
  <?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
-  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('bouton_bibliotheque').disabled=true;" checked style="display:none">
+  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onchange="$('#bouton_bibliotheque.attr('disabled', true);" checked style="display:none">
  <?php endif; ?>
  <table>
  <?php foreach ($this->tabCompetences as $c):?>
@@ -36,7 +36,7 @@
      <td align='left'>
      <?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
      	<?php if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>
-       		<input type="radio" name="valeur_1" id="valeur_1" value="<?php echo $c["id_competence"]?>" onchange="$('bouton_bibliotheque').disabled=false;">
+       		<input type="radio" name="valeur_1" id="valeur_1" value="<?php echo $c["id_competence"]?>" onchange="$('#bouton_bibliotheque').attr('disabled',false);">
        	<?php else :?>
        		(N&eacute;cessite Connaissances des monstres !)
        	<?php endif; ?>

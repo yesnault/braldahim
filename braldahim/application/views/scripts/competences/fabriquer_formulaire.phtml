@@ -21,7 +21,7 @@
 	 	<?php $js = Bral_Helper_DetailEquipement::afficheRecetteJs($this->niveaux);?>
 	 
 		 Niveau de l'&eacute;quipement :<br />
-		 <select name="valeur_2" id="valeur_2" onchange="javascript:<?php echo $js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
+		 <select name="valeur_2" id="valeur_2" onchange="javascript:<?php echo $js?>; if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1 || $('#valeur_3').value==-1){$('#bouton_fabriquer.attr('disabled', true) } else {$('#bouton_fabriquer').attr('disabled',false) }">
 		 	<option value="-1">(Choisissez un niveau)</option>
 		 	<?php foreach($this->niveaux as $k => $v) : ?>
 		 		<?php if ($v["a_afficher"] == true) : ?>
@@ -40,7 +40,7 @@
 			Cet &eacute;quipement peut porter des runes.<br />
 			 <?php if ($this->runes != null) : ?>
 			 Nombre d'emplacements sur l'&eacute;quipement :<br />
-			 <select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
+			 <select name="valeur_3" id="valeur_3"  onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1 || $('#valeur_3').value==-1){$('#bouton_fabriquer.attr('disabled', true) } else {$('#bouton_fabriquer').attr('disabled',false) }">
 			 	<option value="-1">(Choisissez un nombre d'emplacements)</option>
 			 	<?php foreach($this->runes as $n) : ?>
 			 		<option value="<?php echo $n["nombre"]?>"><?php echo $n["nombre"]?> rune<?php if($n["nombre"]>1)echo "s";?></option>

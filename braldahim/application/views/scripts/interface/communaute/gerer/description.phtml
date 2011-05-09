@@ -19,16 +19,16 @@
 	
 	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
 		onclick="$('label_site').style.display='none'; 
-		$('valeur_2').style.display='block' ; 
-		$('bouton_site').style.display='block'; 
+		$('#valeur_2').style.display='block' ; 
+		$('#bouton_site').style.display='block'; 
 		this.style.display='none'"/>
 	
 	<input type="button" class='button1' id="bouton_site" name="bouton_site" 
  	 onclick="
 	  $('label_site').style.display='block'; 
-	  $('valeur_2').style.display='none'; 
+	  $('#valeur_2').style.display='none'; 
 	  this.style.display='none' ;
-	  $('valeur_1').value=1;
+	  $('#valeur_1').value=1;
 	   _get_('/communaute/doaction?caction=do_communaute_description')" value="Valider" style="display:none" />
 	
 	<br /><br /><br />
@@ -37,7 +37,7 @@
 	<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
 	onclick="$('label_description').style.display='none'; 
 		$('edition').style.display='block' ; 
-		$('bouton_description').style.display='block'; 
+		$('#bouton_description').style.display='block'; 
 		 this.style.display='none' ;
 		"/>
 	</center>
@@ -57,8 +57,8 @@
 		  $('label_description').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;
-		  $('valeur_1').value=2;
-		  $('valeur_3').value = encodePlus($('valeur_description').value);
+		  $('#valeur_1').value=2;
+		  $('#valeur_3').value = encodePlus($('#valeur_description').value);
 		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
 	</div>
 

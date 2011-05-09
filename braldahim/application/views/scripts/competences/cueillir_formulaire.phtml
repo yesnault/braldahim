@@ -4,7 +4,7 @@
  	<?php if ($this->planteOk === true) : ?>
 	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez cueillir des &eacute;l&eacute;ments d'une plante...<br /><br />
 	 
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_cueillir.attr('disabled', true) } else {$('#bouton_cueillir').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez une plante)</option>
 	 	<?php foreach($this->plantes as $p) : ?>
 	 		<option value="<?php echo $p["id_plante"]?>"><?php echo $p["categorie"]?> - <?php echo $p["nom_type"]?> (<?php echo $p["id_plante"]?>)</option>

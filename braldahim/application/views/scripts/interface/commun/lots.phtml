@@ -6,9 +6,9 @@
 
 	<?php if ($this->lots["visiteur"]):?>
 		<?php if ($this->lots["type"] == "echoppe"):?>
-			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('tabLotsSelectionnes').value=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=".$this->echoppe["id_echoppe"]."&amp;idsLots='+$('tabLotsSelectionnes').value)}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
-		<?php elseif ($this->lots["type"] == "communaute"): ?>
-			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('tabLotsSelectionnes').value=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;communaute=oui&amp;idsLots='+$('tabLotsSelectionnes').value)}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=".$this->echoppe["id_echoppe"]."&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php else: ?>
+			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
 		<?php endif;?>
 		<?php echo $boutonAcheter;?>
 		<br >

@@ -43,9 +43,9 @@
 			 vous pouvez acheter un champ.<br /><br />
 
 			Indiquez la position du champ : <br />
-			X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
+			X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('acheter_champ.attr('disabled', true)} else {$('acheter_champ').attr('disabled',false)};">
 			<br />
-			Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
+			Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('acheter_champ.attr('disabled', true)} else {$('acheter_champ').attr('disabled',false)};">
 			<br />
 	   	<?php endif; ?>
 	   	
@@ -79,9 +79,9 @@
 				<?php echo $this->nom_metier_courant ?>.<br /><br />
 	
 				Indiquez la position de l'&eacute;choppe : <br />
-				X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('construire_echoppe.attr('disabled', true)} else {$('construire_echoppe').attr('disabled',false)};">
 				<br />
-				Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('construire_echoppe.attr('disabled', true)} else {$('construire_echoppe').attr('disabled',false)};">
 				<br />
 			<?php else: ?>
 				<?php if ($this->aucuneEchoppe == false) : ?>
@@ -95,9 +95,9 @@
 	
 	<?php elseif ($this->idTypeCourant == "deplacerechoppe") : ?>
 		Indiquez la nouvelle position de l'&eacute;choppe : <br />
-		X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		X = <input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('construire_echoppe.attr('disabled', true)} else {$('construire_echoppe').attr('disabled',false)};">
 		<br />
-		Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		Y = <input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('#valeur_2').value=='' || $('#valeur_3').value=='') {$('construire_echoppe.attr('disabled', true)} else {$('construire_echoppe').attr('disabled',false)};">
 		<br />
 	<?php elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
 		Confirmer la suppression de cette échoppe ?<br /><br />

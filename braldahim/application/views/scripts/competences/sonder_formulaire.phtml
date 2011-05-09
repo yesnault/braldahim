@@ -12,7 +12,7 @@ if ($this->avecChoix) :
 $disabled = "disabled"
 ?>
 Vous ma&icirc;trisez assez cette comp&eacute;tence pour choisir ce que vous souhaitez rechercher.<br />
-	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_sonder').disabled=true } else {$('bouton_sonder').disabled=false }">
+	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_sonder.attr('disabled', true) } else {$('#bouton_sonder').attr('disabled',false) }">
 	<option value='-1'>(Choississez le type de recherche)</option>
 	<optgroup label="Recherche classique" style="font-weight:bold"></optgroup>
 	<option value="-2">Minerai le plus proche</option>

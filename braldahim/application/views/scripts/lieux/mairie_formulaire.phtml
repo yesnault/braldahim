@@ -28,7 +28,7 @@
    		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
    		
    	  	Vous pouvez demander votre entr&eacute;e dans une communaut&eacute; : <br />
-   	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('valeur_2').value=-1; $('valeur_3').value=''; $('bouton_mairie_creer').disabled=true; if ($('valeur_1').value!=-1) { $('bouton_mairie_rentrer').disabled=false; } else { $('bouton_mairie_rentrer').disabled=true; } ">
+   	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('#valeur_2').value=-1; $('#valeur_3').value=''; $('#bouton_mairie_creer.attr('disabled', true); if ($('#valeur_1').value!=-1) { $('#bouton_mairie_rentrer').attr('disabled',false); } else { $('#bouton_mairie_rentrer.attr('disabled', true); } ">
 			<option value='-1'>(Choisissez une communaut&eacute;)</option>
 			<?php foreach ($this->communautes as $c) : ?>
 				<option value="<?php echo $c["id_communaute"] ?>"><?php echo $c["nom_communaute"] ?> </option>
@@ -36,7 +36,7 @@
 		</select><br /><br />
    	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />
    	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onKeyup="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
+   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onKeyup="javascript:$('#valeur_1').value=-1 ; $('#valeur_2').value=1; $('#bouton_mairie_rentrer.attr('disabled', true); if ($('#valeur_3').value != '') { $('#bouton_mairie_creer').attr('disabled',false); } else { $('#bouton_mairie_creer.attr('disabled', true); }">
    	  		
    	<?php endif; ?>
  </div> 

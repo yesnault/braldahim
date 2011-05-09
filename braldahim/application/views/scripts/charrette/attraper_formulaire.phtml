@@ -9,7 +9,7 @@
 		Vous n'avez pas assez de PA.
 	 <?php else: ?>
 		 Pour <?php echo $this->nb_pa ?> PA, vous pouvez attraper une charrette. <br /><br />
-		 <select name='valeur_1' id="valeur_1" onchange="javascript:if ($('valeur_1').value==-1){$('bouton_attrapercharrette').disabled=true } else {$('bouton_attrapercharrette').disabled=false }">
+		 <select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_attrapercharrette.attr('disabled', true) } else {$('#bouton_attrapercharrette').attr('disabled',false) }">
 			<option value='-1'>(Choisissez une charrette)</option>
 			<?php foreach ($this->charrettes as $c) : ?>
 			<option value="<?php echo $c["id_charrette"]?>" <?php if ($c["possible"] == false):?> disabled<?php endif;?>><?php echo $c["nom"]?> n&deg; <?php echo $c["id_charrette"]?> 

@@ -17,6 +17,6 @@
    <?php endif; ?>
    <br /><br />
    <?php if (!$this->estCommunaute) : ?>
-   <input type="button" class='button1' name="Envoyer" value="Transf&eacute;rer dans un message" onclick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value =-1;$('valeur_3').value=$('detail_evenement_prive').value; _get_('/messagerie/doaction?caction=do_messagerie_message'); my_switch('box_messagerie','boite_c', 'interface');" />
+   <input type="button" class='button1' name="Envoyer" value="Transf&eacute;rer dans un message" onclick="Javascript:$('nb_valeurs').value=3;$('#valeur_1').value='envoi';$('#valeur_2').value =-1;$('#valeur_3').value=$('detail_evenement_prive').value; _get_('/messagerie/doaction?caction=do_messagerie_message'); my_switch('box_messagerie','boite_c', 'interface');" />
    <?php endif;?>
   </div>

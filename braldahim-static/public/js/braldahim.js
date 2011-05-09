@@ -66,29 +66,27 @@ function _get_(url, encode) {
 	var sep = '';
 	if ($('#nb_valeurs') && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
-		nb_valeurs = $('#nb_valeurs').value;
+		nb_valeurs = $('#nb_valeurs').val();
 		for (i = 1; i <= nb_valeurs; i++) {
-			var nom = 'valeur_' + i;
+			var nom = '#valeur_' + i;
 			var elem = $(nom);
 			if (elem.type == "radio") {
 				radioButton = findSelectedRadioButton(nom);
 				if (radioButton != null) {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).value;
+					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).val();
 				} else {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.value;
 				}
 			} else {
 				if (encode) {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + encodeURIComponent(elem.value);
+					valeurs = valeurs + sep + "valeur_" + i + "=" + encodeURIComponent(elem.val());
 				} else {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.value;
+					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
 				}
 			}
 			sep = "&";
 		}
 		$("#box_action").innerHTML = "Chargement...";
-	} else if ($('#nb_valeurs') && (action == "ask")) {
-		alert("Code A Supprimer ? m_action.js ligne 72");
 	}
 	
 	if ($('#dateAuth')) {
@@ -268,11 +266,30 @@ function showResponse(reponse) {
 }
 
 function textCount(field,counterfield,max) {
-	if (field.value.length > max) {
-		field.value = field.value.substring(0, max);
+	if (field.val().length > max) {
+		field.val(field.val().substring(0, max));
 	} else {
-		counterfield.value = max - field.value.length;
+		counterfield.val(max - field.val().length);
 	}
+}
+
+function ecrireMessage(idBraldun) {
+	chargeBoxMessagerie();
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idBraldun);
+	my_switch("box_messagerie","boite_c");
+}
+
+function ecrireMessageListeContact(idListe) {
+	if ($("loaded_box_messagerie").value != "1") {
+		$("loaded_box_messagerie").value = "1"; 
+	}
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
+	my_switch("box_messagerie","boite_c");
+}
+
+function encodePlus(chaine) {
+	var reg = new RegExp("(\\+)", "g");
+	return chaine.replace(reg,"[plus]");
 }
 
 function _display_(box, data) {
@@ -508,21 +525,47 @@ function sortGridOnServer(ind, gridObj, direct, url, grid) {
     return false;
 }
 
-function jsMenuHotel(id, valeur) {
+function selectionnerLot(element, idLot) {
+	var texteSelectionne = "Sélectionné, cliquer pour désélectionner";
+	var texteSelectionner = "Sélectionner";
 	
-	if (id != "hotel_menu_recherche_pratique") $("#hotel_menu_recherche_pratique").value = -1;
-	if (id != "hotel_menu_recherche_equipements") $("#hotel_menu_recherche_equipements").value = -1;
-	if (id != "hotel_menu_recherche_munitions") $("#hotel_menu_recherche_munitions").value = -1;
-	if (id != "hotel_menu_recherche_materiels") $("#hotel_menu_recherche_materiels").value = -1;
-	if (id != "hotel_menu_recherche_matieres_premieres") $("#hotel_menu_recherche_matieres_premieres").value = -1;
-	if (id != "hotel_menu_recherche_matieres_transformees") $("#hotel_menu_recherche_matieres_transformees").value = -1;
-	if (id != "hotel_menu_recherche_aliments_ingredients") $("#hotel_menu_recherche_aliments_ingredients").value = -1;
-	if (id != "hotel_menu_recherche_potions") $("#hotel_menu_recherche_potions").value = -1;
-	if (id != "hotel_menu_recherche_runes") $("#hotel_menu_recherche_runes").value = -1;
+	var idChamp = '#tabLotsSelectionnes';
+	var idChampTexte = '#selectionLotsTexte';
+	var tabValeur = $(idChamp).val().split(',');
+	var nouvelleValeur = '';
 	
-	if (valeur != -1) {
-		_get_('/hotel/load?caction=do_hotel_voir&'+id+'='+valeur);
+	if ($(element).innerHTML == texteSelectionne) {
+		$(element).innerHTML = texteSelectionner;
+		
+		for (i = 0; i < tabValeur.length; i++) {
+			if (tabValeur[i] != idLot && tabValeur[i] != "") {
+				if (nouvelleValeur == "") {
+					nouvelleValeur = tabValeur[i];
+				} else {
+					nouvelleValeur = nouvelleValeur + ',' + tabValeur[i];
+				}
+			}
+		}
+		
+	} else {
+		$(element).innerHTML=texteSelectionne;
+		if ($(idChamp).val() != "") {
+			nouvelleValeur = $(idChamp).val() + ',' + idLot;
+		} else {
+			nouvelleValeur = idLot;
+		}
 	}
+	
+	$(idChamp).val(nouvelleValeur);
+	
+	var s='';
+	if (nouvelleValeur.indexOf(',') > 0) s = 's';
+	if (nouvelleValeur == "") {
+		nouvelleValeur = "Lot" + s + " sélectionné" + s + " : aucun";
+	} else {
+		nouvelleValeur = "Lot" + s + " sélectionné" + s + " : " + nouvelleValeur;
+	}
+	$(idChampTexte).innerHTML = nouvelleValeur;
 }
 
 function braltipFixer(id) {
