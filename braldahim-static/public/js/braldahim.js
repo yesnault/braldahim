@@ -75,7 +75,7 @@ function _get_(url, encode) {
 				if (radioButton != null) {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).val();
 				} else {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.value;
+					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
 				}
 			} else {
 				if (encode) {
@@ -121,7 +121,7 @@ function showResponse(reponse) {
 			return;
 		}
 	} else if (xmldoc == "logout") {
-		if ($('valeur_message').value != '') {
+		if ($('#valeur_message').val() != '') {
 			alert("Votre session a expiré, veuillez vous reconnecter. " +
 					"\n\n Attention, vous avez un message en cours de rédaction. Pour le récupérer : " +
 					"\n 1 : selectionnez tout (Ctrl+A)" +
@@ -129,7 +129,7 @@ function showResponse(reponse) {
 					"\n 3 : appuyez sur la touche Entrée pour fermer cette fenêtre" +
 					"\n 4 : coller le texte quelque part (bloc note par ex.) (Ctrl+V)" +
 					"\n Le message :\n\n"
-					+ $('valeur_message').value);
+					+ $('#valeur_message').val());
 		} else {
 			alert("Votre session a expiré, veuillez vous reconnecter.");
 		}
@@ -502,7 +502,7 @@ function sortGridOnServerRelate(ind, gridObj, direct) {
 }
 
 function getGridQStringRelate() {
-	return '/bourg/relatexml?anneeselect='+$('#anneeRelate').value+'&typeselect='+$('#typeRelate').value;
+	return '/bourg/relatexml?anneeselect='+$('#anneeRelate').value+'&typeselect='+$('#typeRelate').val();
 }
 
 function goToRelate() {
@@ -616,6 +616,238 @@ function maccordion(el) {
 	$("#"+eldown).toggle("fast");
 }
 
+
+/** ***************************************************************** */
+/** *********************** Transbahuter ******************* */
+/** ***************************************************************** */
+
+function controlePoids() {
+	var poids=0;
+	if ($('#valeur_2').val() != -1 ) {
+		poidsRestant = $('#poids_' + $('#valeur_2').val()).val();
+		if (poidsRestant != -1) {
+		 	for (i=11; i<=$('#nb_valeurs').val(); i++) {
+				if ($('#valeur_' + i).type == 'select-multiple') {
+					for (j=0; j< $('#valeur_' + i).options.length; j++) {
+						if ($('#valeur_' + i).options[j].selected == true) {
+							if ( i==19 || i==20 || i==23 || i==25 ) {
+								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids_' + $('#valeur_' + i).options[j].val()).val());
+							} else {
+								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids').val());
+							}
+						}
+					}
+				} else {
+					poids = parseFloat(poids) + $('#valeur_' + i).val() * $('#valeur_' + i + '_poids').val();
+				}
+			}
+			if (poids > poidsRestant) {
+				poidsDep = Math.round((poids - poidsRestant) * 100) / 100;
+				alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	} else {
+		return true;
+	}
+}
+
+function controlePanneau (i) {
+	if ($('#valeur_' + i).type == 'select-multiple' ) {
+		for (j=0; j< $('#valeur_' + i).options.length; j++) {
+			if ($('#valeur_' + i).options[j].val() != -1) {
+				$('#valeur_' + i).options[j].selected = false;
+				cacher = false;
+			}
+		}
+	} else {
+		$('#valeur_'+i).val(0);
+	}		
+	alert ("Cette charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
+}
+
+function controleQte() {
+	 v=false;
+	 ctrlEchoppe = false;
+	 for (i=11;i<=$('#nb_valeurs').val();i++) {
+	 	if ($('#valeur_'+i).value > 0 && $('#valeur_panneau').val() != true && v==true) {
+			controlePanneau (i);
+	 	}
+	 	if (controleEchoppe(i) == false ) {
+	 		ctrlEchoppe = true;
+	 	}
+	 	else if ($('#valeur_'+i).val() > 0 ) {
+			v=true;
+		}
+	 }
+	 
+	 cacher = true;
+	 if (ctrlEchoppe == true ) {
+		 alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
+	 }
+	 poidsOk = controlePoids();
+	 if (v==true && $('#valeur_1').val() != -1 && $('#valeur_2').val() != -1 && poidsOk == true) {
+		cacher = false;
+	 }
+	 if ($('#valeur_2').val() == 4 && $('#valeur_3').val() == -1) {
+		cacher = true;
+	 }
+	 $('bouton_deposer').attr('disabled', cacher);
+}
+
+function selectAll(valmin, valmax) {
+	cacher = true;
+	v = false;
+	ctrlEchoppe = false;
+	for (i=valmin; i<=valmax; i++) {
+		if ($('#valeur_panneau').val() != true && v==true) {
+			controlePanneau (i);
+			break;
+	 	}
+		if ($('#valeur_' + i + '_echoppe').val() == 'oui' || $('#valeur_2').val() != 5) {
+			if ($('#valeur_' + i).type == 'select-multiple' ) {
+				for (j=0; j< $('#valeur_' + i).options.length; j++) {
+					if ($('#valeur_' + i).options[j].val() != -1) {
+						$('#valeur_' + i).options[j].selected = true;
+						cacher = false;
+						v = true;
+					}
+				}
+			} else {
+				$('#valeur_' + i).val($('#valeur_' + i + '_max').val());
+				if (cacher == true && $('#valeur_' + i + '_max').val() > 0) {
+					cacher = false;
+					v = true;
+				}
+			}
+		} else {
+			ctrlEchoppe = true;
+		}
+	}
+	if (ctrlEchoppe == true ) {
+		alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
+	}
+	poidsOk = controlePoids();
+	if ($('#valeur_1').val() == -1 || $('#valeur_2').val() == -1 || poidsOk == false) {
+		cacher = true;
+	}
+	/* Coffre */
+	if ($('#valeur_2').val() == 4 && $('#valeur_3').val() == -1) {
+		cacher = true;
+	}
+	$('#bouton_deposer').attr('disabled', cacher);
+}
+
+function charrette() {
+	if ($('#valeur_2').val() >= 13) {
+		$('#valeur_3').val($('#id_charrette_' + $('#valeur_2').val()).val());
+	}
+}
+
+function controleEchoppe(i) {
+	if ($('#valeur_2').val() == 5) {
+		if ( ($('#valeur_' + i + '_echoppe').val() == 'non') && $('#valeur_' + i).val() > 0) {
+			if ($('#valeur_' + i).type == 'select-multiple' ) {
+				for (j=0; j< $('#valeur_' + i).options.length; j++) {
+					$('#valeur_' + i).options[j].selected = false;
+				}
+			} else {
+				$('#valeur_' + i).val(0);
+			}
+			return false;
+		}
+	}
+	return true;
+}
+
+function afficheTransbahuterRechercheBraldun() {
+	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { // constante definie dans Transbahuter.php
+		$('#div_braldun').show()
+	} else {
+		$('#div_braldun').hide()
+		$('#valeur_3').val(-1);
+	}
+	
+	if ($('#valeur_2').val() == 8) { // constante definie dans Transbahuter.php
+		$('#texte_transbahuter_braldun').html('Vous pouvez réserver cette vente à un unique Braldûn:');
+	} else if ($('#valeur_2').val() == 12) { // constante definie dans Transbahuter.php
+		$('#texte_transbahuter_braldun').html('Vous pouvez réserver ce lot à un unique Braldûn:');
+	} else if ($('#valeur_2').val() == 4) {
+		$('#texte_transbahuter_braldun').html('Entrez le Braldûn destinataire:');
+	}
+}
+
+function afficheTransbahuterVente() {
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes definies dans Transbahuter.php
+		$('#div_vente_transbahuter').show();
+	} else {
+		$('div_vente_transbahuter').hide();
+	}
+}
+
+function controlePrixVenteBoutonDeposer() {
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes definies dans Transbahuter.php
+		if ($('#valeur_4').value >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
+			return true;
+		} else {
+			alert('Il faut rentrer un prix valide');
+			return false;
+		}
+	}
+	return true;
+}
+
+function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('#recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getUniqueBraldunId, parameters : { champ :'value' } });
+		$('#recherche_' + id + '_actif').value = 1;
+	}
+}
+
+function getUniqueBraldunId(text, li) {
+	if (controleSession(li) == true) {
+		$(li.getAttribute('champ')).val(li.getAttribute('id_braldun'));
+	}
+}
+
+function activerRechercheTransbahuterBraldun(id) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getTransbahuterBraldunId, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').val(1);
+	}
+}
+
+function getTransbahuterBraldunId(text, li) {
+	if (controleSession(li) == true) {
+		$('#valeur_3').val(li.getAttribute('id_braldun'));
+		controleQte("");
+	}
+}
+
+function activerRechercheBraldunIdentificationRune(id) {
+	if ($('#recherche_' + id + '_actif').val() == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getBraldunIdentificationRune, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').val(1);
+	}
+}
+
+function getBraldunIdentificationRune(text, li) {
+	if (controleSession(li) == true) {
+		$('#valeur_2').val(li.getAttribute('id_braldun'));
+		if ($("#valeur_1").val() == -1) {
+			$("#bouton_demanderidentificationrune").attr('disabled', true);
+		} else {
+			$("#bouton_demanderidentificationrune").attr('disabled', false);
+		}
+	}
+}
 
 /** *********** *//** *********** */
 /** *** splashScreen **** */
