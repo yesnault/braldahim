@@ -64,7 +64,7 @@
 	
 	<br />
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="4500" type="text"> Caract&egrave;res restants<br />
-	<input type="button" class='button1' name="Envoyer" value="Envoyer" onclick="Javascript:$('nb_valeurs').value=4;$('#valeur_1').value='envoi';$('#valeur_2').value = $('#valeur_2_dest').value;$('#valeur_3').value=encodePlus($('#valeur_message').value);$('#valeur_4').value = $('#valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message', true);" /> 
+	<input type="button" class='button1' name="Envoyer" value="Envoyer" onclick="Javascript:$('#nb_valeurs').val(4); $('#valeur_1').val('envoi'); $('#valeur_2').val($('#valeur_2_dest').val());$('#valeur_3').val(encodePlus($('#valeur_message').val()));$('#valeur_4').val($('#valeur_4_contacts').val()); _get_('/messagerie/doaction?caction=do_messagerie_message', true);" /> 
 </form>
 
 <?php endif; ?>

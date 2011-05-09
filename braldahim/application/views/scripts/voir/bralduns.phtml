@@ -21,7 +21,7 @@
 				<input type="hidden" name='valeur_9' id="valeur_9" value="-1" >
 				
 				Filtrer par niveau : 
-				<select name='select_valeur_2' id='select_valeur_2' onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+ $('select_valeur_7').value)">
+				<select name='select_valeur_2' id='select_valeur_2' onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+ $('select_valeur_7').val())">
 				    <option value="-1">Tous les niveaux</option>
 					<?php foreach ($this->tabNiveaux as $n) : ?>
 				  	<option value='<?php echo $n["niveau_braldun"]?>' <?php if ($this->filtre == $n["niveau_braldun"]){echo "selected";}?>>Niveau <?php echo $n["niveau_braldun"]?></option>
@@ -30,7 +30,7 @@
 			  	<br />
 			  	
 			  	Filtrer par la première lettre du prénom : 
-				<select name='select_valeur_7' id='select_valeur_7'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ $('select_valeur_2').value + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+this.value)">
+				<select name='select_valeur_7' id='select_valeur_7'  onchange="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=f&valeur_2='+ $('select_valeur_2').val() + '&valeur_3=0&valeur_4=-1&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7='+this.value)">
 				    <option value="-1">Tous les prénoms</option>
 					<?php foreach ($this->tabLettres as $k => $v) : ?>
 				  	<option value='<?php echo $k?>' <?php if ($this->filtrePrenom == $k){echo "selected";}?>><?php echo $v?></option>

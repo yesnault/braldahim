@@ -525,7 +525,7 @@ function sortGridOnServer(ind, gridObj, direct, url, grid) {
     return false;
 }
 
-function selectionnerLot(element, idLot) {
+function selectionnerLot(idLot) {
 	var texteSelectionne = "Sélectionné, cliquer pour désélectionner";
 	var texteSelectionner = "Sélectionner";
 	
@@ -533,9 +533,10 @@ function selectionnerLot(element, idLot) {
 	var idChampTexte = '#selectionLotsTexte';
 	var tabValeur = $(idChamp).val().split(',');
 	var nouvelleValeur = '';
+	element = "#selectionnerLot" + idLot;
 	
-	if ($(element).innerHTML == texteSelectionne) {
-		$(element).innerHTML = texteSelectionner;
+	if ($(element).html() == texteSelectionne) {
+		$(element).html(texteSelectionner);
 		
 		for (i = 0; i < tabValeur.length; i++) {
 			if (tabValeur[i] != idLot && tabValeur[i] != "") {
@@ -548,7 +549,7 @@ function selectionnerLot(element, idLot) {
 		}
 		
 	} else {
-		$(element).innerHTML=texteSelectionne;
+		$(element).html(texteSelectionne);
 		if ($(idChamp).val() != "") {
 			nouvelleValeur = $(idChamp).val() + ',' + idLot;
 		} else {
@@ -565,7 +566,7 @@ function selectionnerLot(element, idLot) {
 	} else {
 		nouvelleValeur = "Lot" + s + " sélectionné" + s + " : " + nouvelleValeur;
 	}
-	$(idChampTexte).innerHTML = nouvelleValeur;
+	$(idChampTexte).html(nouvelleValeur);
 }
 
 function braltipFixer(id) {

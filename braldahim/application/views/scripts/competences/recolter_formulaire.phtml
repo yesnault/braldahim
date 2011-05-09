@@ -8,7 +8,7 @@
 			Vous ne pouvez récolter un champ qu'en étant dessus et il faut qu'il soit à l'état récoltable au préalable.
 			Ce champ doit vous appartenir, ou appartenir à un Braldûn de votre communauté (en ayant un grenier de niveau <?php echo Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER?> minimum).
 		<?php else: ?>
-			<select name="valeur_1" id="valeur_1" onchange="if (this.value != -1) { $('#bouton_recolter').attr('disabled',false); } else { $('#bouton_recolter.attr('disabled', true);}">
+			<select name="valeur_1" id="valeur_1" onchange="if (this.value != -1) { $('#bouton_recolter').attr('disabled',false); } else { $('#bouton_recolter').attr('disabled', true);}">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<?php foreach($this->destinationTransfert as $d) :?>
 					<option value="<?php echo $d["id_destination"] ?>" <?php echo $d["selected"] ?>><?php echo $d["texte"] ?></option>

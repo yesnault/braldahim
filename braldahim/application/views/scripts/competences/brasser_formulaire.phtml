@@ -17,7 +17,7 @@
 	 	
 		<br /><br />
 		Source des ingrédients :<br />
-	     <select name="valeur_1" id="valeur_1" onchange="if ($('#valeur_1').value != -1 && $('#valeur_2').value != -1) { $('#bouton_brasser').attr('disabled',false); } else {$('#bouton_brasser.attr('disabled', true); }">
+	     <select name="valeur_1" id="valeur_1" onchange="if ($('#valeur_1').val() != -1 && $('#valeur_2').val() != -1) { $('#bouton_brasser').attr('disabled',false); } else {$('#bouton_brasser').attr('disabled', true); }">
 		 	<option value="-1">(Choisissez une source)</option>
 			 <?php foreach($this->sources as $k => $t) : ?>
 		 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; else: echo $t["selected"]; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
@@ -26,7 +26,7 @@
 		 
 		 <br /> <br />
 		Destination :<br />
-	     <select name="valeur_2" id="valeur_2" onchange="if ($('#valeur_2').value != -1 && $('#valeur_1').value != -1) { $('#bouton_brasser').attr('disabled',false); } else {$('#bouton_brasser.attr('disabled', true);}">
+	     <select name="valeur_2" id="valeur_2" onchange="if ($('#valeur_2').val() != -1 && $('#valeur_1').val() != -1) { $('#bouton_brasser').attr('disabled',false); } else {$('#bouton_brasser').attr('disabled', true);}">
 		 	<option value="-1">(Choisissez une destination)</option>
 		 	<?php foreach($this->destinations as $k => $t) : ?>
 		 		<option value="<?php echo $k?>" <?php if ($t["possible"] != true): echo "disabled"; endif; ?>><?php echo $t["nom"]?> <?php if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>

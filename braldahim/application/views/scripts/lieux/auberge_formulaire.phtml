@@ -32,7 +32,7 @@
 		<?php endforeach; ?>
 		
 	   	Choix : <br />
-	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').value=$('#bouton_'+this.value).value;if ($('#valeur_1').value==-1 && $('#valeur_2').value==0){$('#bouton_auberge.attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').value==2 || $('#valeur_1').value==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('#valeur_1').value==3 && $('#valeur_2').value==<?php echo $this->nbPossible  ?>){$('#valeur_2').value=<?php echo $this->nbPossible - $this->nbDeduction ?>}">
+	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').val($('#bouton_'+this.value).val());if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==0){$('#bouton_auberge.attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').val() ==2 || $('#valeur_1').val() ==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('#valeur_1').val() ==3 && $('#valeur_2').val() ==<?php echo $this->nbPossible  ?>){$('#valeur_2').val(<?php echo $this->nbPossible - $this->nbDeduction ?>)}">
 		<option value='-1'>(Choix &agrave; faire)</option>
 		<?php foreach ($this->tabChoix as $k => $t) : ?>
 		<option value="<?php echo $k?>" <?php if ($t["valid"] === false): echo "disabled"; endif;?>><?php echo $t["nom"]?> <?php if ($t["valid"] === false): echo " (impossible)"; endif;?></option>
@@ -43,7 +43,7 @@
 	   	<div id="nbAliment" style="display:none">
 	   	Nombre de ragoûts &agrave; acheter  :
 	 	 <br />
-		 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if ((this.value >= 0 && this.value <=<?php echo $this->nbPossible  ?> && ($('#valeur_1').value==2) || ($('#valeur_1').value==3) && this.value >= 0 && this.value <=<?php echo $this->nbPossible - $this->nbDeduction ?> )) {$('#bouton_auberge').attr('disabled',false)} else {$('#bouton_auberge.attr('disabled', true)} ">   		
+		 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if ((this.value >= 0 && this.value <=<?php echo $this->nbPossible  ?> && ($('#valeur_1').val() ==2) || ($('#valeur_1').val() ==3) && this.value >= 0 && this.value <=<?php echo $this->nbPossible - $this->nbDeduction ?> )) {$('#bouton_auberge').attr('disabled',false)} else {$('#bouton_auberge.attr('disabled', true)} ">   		
 	    </div>
 
 	<?php endif;?>
@@ -53,6 +53,6 @@
 <br /> 
 
 <?php if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_auberge" value='Faites un choix' onclick="if ($('#valeur_2').value <= 0 && ($('#valeur_1').value == 2 || $('#valeur_1').value == 3)) { alert('Entrez un nombre de ragoût > 0 ou sélectionnez \'Se restaurer uniquement\'')} else {this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');}"  disabled>
+<input type='button' class='button1' id="bouton_auberge" value='Faites un choix' onclick="if ($('#valeur_2').val() <= 0 && ($('#valeur_1').val() == 2 || $('#valeur_1').val() == 3)) { alert('Entrez un nombre de ragoût > 0 ou sélectionnez \'Se restaurer uniquement\'')} else {this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');}"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

@@ -2,7 +2,7 @@
 
 Définir cette infirmerie comme point de résurrection : 
 
-	<select id='valeur_1' name='valeur_1' onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_infirmerie.attr('disabled', true) } else { $('#bouton_infirmerie').attr('disabled',false) }">
+	<select id='valeur_1' name='valeur_1' onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_infirmerie.attr('disabled', true) } else { $('#bouton_infirmerie').attr('disabled',false) }">
 		<option value='-1'>(Choisissez)</option>
 		<option value='oui'>Oui</option>
 		<option value='non'>Non</option>

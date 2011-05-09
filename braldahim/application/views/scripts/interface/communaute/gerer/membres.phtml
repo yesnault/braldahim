@@ -81,7 +81,7 @@ Filtrer par rang :
 		  	<?php endforeach; ?>
 		</select>
 		
-		<input type="button" id="button_valider<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').value='r'; $('#valeur_7').value=<?php echo $m["id_braldun"]?> ; $('#valeur_8').value=$('#valeur_rang<?php echo $m["id_braldun"] ?>').value; $('#valeur_9').value=-1; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
+		<input type="button" id="button_valider<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').val('r'); $('#valeur_7').val(<?php echo $m["id_braldun"]?>) ; $('#valeur_8').val($('#valeur_rang<?php echo $m["id_braldun"] ?>').val()); $('#valeur_9').val(-1)); $('#nb_valeurs').val(9); _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Valider" style="display:none">
 	  <?php endif; ?>
 	  </td>
 	  <td class="table_liste">
@@ -90,7 +90,7 @@ Filtrer par rang :
 	  	
 	  	<div id="div_exclure<?php echo $m["id_braldun"] ?>"  style="display:none">
 	  		Veuillez-confirmer cette exclusion.<br />
-	  		<input type="button" id="button_confirmer<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').value='e'; $('#valeur_7').value=-1; $('#valeur_8').value=-1; $('#valeur_9').value=<?php echo $m["id_braldun"]?> ; $('nb_valeurs').value = 9; _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
+	  		<input type="button" id="button_confirmer<?php echo $m["id_braldun"] ?>" class='button1' onclick="Javascript:$('#valeur_1').val('e'); $('#valeur_7').val(-1)); $('#valeur_8').val(-1)); $('#valeur_9').val(<?php echo $m["id_braldun"]?>) ; $('#nb_valeurs').val(9); _get_('/communaute/doaction?caction=do_communaute_gerermembres')" value="Confirmer">
 	  	</div>
 	  	
 	  	<?php endif; ?>

@@ -9,7 +9,7 @@
 	<?php else : ?>
 		Vous devez au minimum avoir 2 poignées d'une même type de graine pour pouvoir semer.<br /><br />
 		Veuillez sélectionner le type de graines à semer : <br />
-		<select name="valeur_1" id="valeur_1" onchange="if (this.value == -1) {$('#bouton_semer').disabled = true;}else {$('#bouton_semer').disabled = false;}">
+		<select name="valeur_1" id="valeur_1" onchange="if (this.value == -1) {$('#bouton_semer').attr('disabled', true);}else {$('#bouton_semer').attr('disabled', false);}">
 	 		<option value="-1">(Choisissez un type)</option>
 			<?php foreach($this->conteneurs as $c) :?>
 				<optgroup label="<?php echo $c["texte_conteneur"] ?>" style="font-weight:bold"></optgroup>

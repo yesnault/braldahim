@@ -40,9 +40,9 @@
 				<td>
 				<?php if ($m["est_actif"]): ?>
 					m&eacute;tier courant <br />
-					<input type="radio" id="valeur_defaut" name="valeur_2" value="-1" checked onclick="javascript:$('changer_metier.attr('disabled', true);if ($('apprendre_metier')) $('apprendre_metier.attr('disabled', true);">
+					<input type="radio" id="valeur_defaut" name="valeur_2" value="-1" checked onclick="javascript:$('changer_metier').attr('disabled', true);if ($('apprendre_metier')) $('apprendre_metier').attr('disabled', true);">
 				<?php else: ?>
-					<input type="radio" id="valeur_2" name="valeur_2" value="<?php echo $m["id_metier"]?>" onclick="javascript:if ($('apprendre_metier')) $('apprendre_metier.attr('disabled', true);$('changer_metier').attr('disabled',false);$('#valeur_3').value='-1'"/>
+					<input type="radio" id="valeur_2" name="valeur_2" value="<?php echo $m["id_metier"]?>" onclick="javascript:if ($('apprendre_metier')) $('apprendre_metier').attr('disabled', true);$('changer_metier').attr('disabled',false);$('#valeur_3').val('-1')"/>
 				<?php endif; ?>
 	   			</td>
 			</tr>
@@ -59,7 +59,7 @@
     	    <?php if (count($this->tabNouveauMetiers) >= 1) : ?>
 	    	Pour <?php echo $this->coutCastars?> castars et <?php echo $this->paUtilisationLieu?> PA, <br />
 	    	vous pouvez apprendre un nouveau m&eacute;tier : <br />
-		    	<select id='valeur_3' name='valeur_3' onchange="javascript:$('changer_metier.attr('disabled', true);$('#valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').attr('disabled',false);} else { $('apprendre_metier.attr('disabled', true)}">
+		    	<select id='valeur_3' name='valeur_3' onchange="javascript:$('changer_metier').attr('disabled', true);$('#valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').attr('disabled',false);} else { $('apprendre_metier.attr('disabled', true)}">
 		    		<option value='-1'>(Choisissez un m&eacute;tier)</option>
 		    		<?php foreach ($this->tabNouveauMetiers as $t) : ?>
 		    			<option value='<?php echo $t["id_metier"]?>' <?php if ($this->user->niveau_braldun < $t["niveau_min_metier"]) :echo 'disabled'; endif;?>><?php echo $t["nom"]?> <?php if ($this->user->niveau_braldun < $t["niveau_min_metier"]) : echo "Niveau minimum requis pour apprendre ce métier: ".$t["niveau_min_metier"]; endif;?> </option>
@@ -75,10 +75,10 @@
 <br /> 
 
 <?php if (count($this->tabMetiers) > 1) : ?>
-<input type='button' class='button1' id="changer_metier" value='Changer de m&eacute;tier' onclick="javascript:this.disabled=true;$('#valeur_1').value='changer';_get_('/lieux/doaction?caction=do_lieu_centreformation');" disabled>
+<input type='button' class='button1' id="changer_metier" value='Changer de m&eacute;tier' onclick="javascript:this.disabled=true;$('#valeur_1').val('changer'); _get_('/lieux/doaction?caction=do_lieu_centreformation');" disabled>
 <?php endif; ?>
 <?php if ($this->achatPossible === true && count($this->tabNouveauMetiers) >= 1): ?>
-<input type='button' class='button1' id="apprendre_metier" value='Apprendre un m&eacute;tier' onclick="this.disabled=true;$('#valeur_1').value='apprendre';_get_('/lieux/doaction?caction=do_lieu_centreformation');"  disabled>
+<input type='button' class='button1' id="apprendre_metier" value='Apprendre un m&eacute;tier' onclick="this.disabled=true;$('#valeur_1').val('apprendre'); _get_('/lieux/doaction?caction=do_lieu_centreformation');"  disabled>
 <?php endif; ?>
 <br />
 <?php echo Bral_Helper_Fermer::affiche(); ?>

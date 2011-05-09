@@ -13,7 +13,7 @@
  		Seul les Braldûns de niveau inférieur à votre niveau de sagesse x 2 peuvent être réanimés.<br /><br />
  		<?php if ($this->nBralduns > 0): ?>
  		 Choississez un Braldûn KO: <br />
- 			<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1) { $('#bouton_reanimer.attr('disabled', true) } else { $('#bouton_reanimer').attr('disabled',false) }">
+ 			<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1) { $('#bouton_reanimer.attr('disabled', true) } else { $('#bouton_reanimer').attr('disabled',false) }">
 			<option value='-1'>(Choisissez un Braldûn KO)</option>
 			<?php foreach ($this->tabBralduns as $h) : ?>
 			<option value="<?php echo $h["id_braldun"]?>"><?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (<?php echo $h["id_braldun"]?>)</option>
@@ -23,7 +23,7 @@
 		
 		<?php if ($this->nAliments > 0): ?>
  		 Choississez un aliment: <br />
- 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1) { $('#bouton_reanimer.attr('disabled', true) } else { $('#bouton_reanimer').attr('disabled',false) }">
+ 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1) { $('#bouton_reanimer.attr('disabled', true) } else { $('#bouton_reanimer').attr('disabled',false) }">
 			<option value='-1'>(Choisissez un aliment)</option>
 			<?php foreach ($this->tabAliments as $k => $p) : ?>
 				<option value="<?php echo $p["id_aliment"] ?>"><?php echo htmlspecialchars($p["nom"]) ?> : + <?php echo $p["bbdf"]?> % (recette <?php echo $p["recette"]?>) dans votre <?php echo $p["type"]?></option>

@@ -24,11 +24,11 @@
  			<?php echo htmlspecialchars($h["prenom_braldun"])?> <?php echo htmlspecialchars($h["nom_braldun"])?> (<?php echo $h["id_braldun"]?>)
  			</td>
  			<td>
- 				<input type='text' id='valeur_<?php echo $i?>' name='valeur_<?php echo $i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {n=parseInt(n * 1)+parseInt($('#valeur_'+i).value * 1); } if ($('cagnotte_origine').value < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnotte').value=parseInt($('cagnotte_origine').value * 1) - parseInt(n * 1); ">
+ 				<input type='text' id='valeur_<?php echo $i?>' name='valeur_<?php echo $i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('#nb_valeurs').val() ; i=i+2) {n=parseInt(n * 1)+parseInt($('#valeur_'+i).value * 1); } if ($('cagnotte_origine').val() < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnotte').val(parseInt($('cagnotte_origine').val() * 1) - parseInt(n * 1)); ">
  			</td>
  		</tr>
  	<?php endforeach; ?>
  	</table>
  </div>
 <br />
-<input type='button' class='button1' id='bouton_distribuer' value='Distribuer !' onclick="if (parseInt($('cagnotte_origine').value * 1) > parseInt($('cagnotte').value * 1)) {this.disabled=true;_get_('/competences/doaction?caction=do_competence_distribuerpx');} else {alert('Il n\'y a rien &agrave; distribuer');}">
+<input type='button' class='button1' id='bouton_distribuer' value='Distribuer !' onclick="if (parseInt($('cagnotte_origine').val() * 1) > parseInt($('cagnotte').val() * 1)) {this.disabled=true;_get_('/competences/doaction?caction=do_competence_distribuerpx');} else {alert('Il n\'y a rien &agrave; distribuer');}">

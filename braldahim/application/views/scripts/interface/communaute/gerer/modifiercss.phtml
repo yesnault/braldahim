@@ -35,8 +35,8 @@
 		  $('label_css').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;
-		  $('#valeur_1').value=1;
-		  $('#valeur_2').value = encodePlus($('#valeur_css').value);
+		  $('#valeur_1').val(1);
+		  $('#valeur_2').val(encodePlus($('#valeur_css').val()));
 		   _get_('/communaute/doaction?caction=do_communaute_modifiercss', false)" value="Valider" style="display:none" />
 	</div>
 

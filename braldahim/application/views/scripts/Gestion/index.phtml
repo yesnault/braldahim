@@ -69,7 +69,7 @@
 	      <span class="titre textalia textsizec">Gestion de son Braldûn (Rôle Testeur)</span>
 		<br />
 	    Braldûn Id <?php echo $this->user->id_braldun?> <input type='hidden' name='id_braldun' id='id_braldun' value='<?php echo $this->user->id_braldun?>' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
+	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").val();'> 
 	   
 	    <?php endif;?>
 	    

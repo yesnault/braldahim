@@ -29,7 +29,7 @@
  <?php if (count($this->materielsAAssembler) > 0): ?>
  	<br /><br />
  	S&eacute;lectionner un mat&eacute;riel &agrave; assembler : <br />
-  	<select name="valeur_2" id="valeur_2"  onchange="if (this.value != -1) { $('#bouton_assembleur').attr('disabled',false); } else { $('#bouton_assembleur.attr('disabled', true);}">
+  	<select name="valeur_2" id="valeur_2"  onchange="if (this.value != -1) { $('#bouton_assembleur').attr('disabled',false); } else { $('#bouton_assembleur').attr('disabled', true);}">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 	 	<?php foreach ($this->materielsAAssembler as $m):?>
 	 		<option value="<?php echo $m["id_materiel"]?>" <?php echo $m["selected"]?>><?php echo $m["nom_type_materiel"]?>, n&deg;<?php echo $m["id_materiel"]?>

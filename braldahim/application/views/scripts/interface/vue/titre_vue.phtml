@@ -67,6 +67,6 @@
 	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?php echo $this->centre_x ?>">
 	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?php echo $this->centre_y ?>">
 	Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3" value="<?php echo $this->z_position ?>">
-	<input type="button" class='button1' value="Se Positionner" onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('administrationvue_x').value + 'h' + $('administrationvue_y').value + 'h' + $('administrationvue_z').value);"/>
+	<input type="button" class='button1' value="Se Positionner" onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('administrationvue_x').val() + 'h' + $('administrationvue_y').val() + 'h' + $('administrationvue_z').val());"/>
 
   <?php endif;?>

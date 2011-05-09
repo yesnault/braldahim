@@ -4,7 +4,7 @@
 
 <!-- Previous page link --> 
 <?php if (isset($this->previous)): ?> 
-  <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").value;_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $this->previous ?>&valeur_4="+filtre)'>
+  <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").val();_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $this->previous ?>&valeur_4="+filtre)'>
   &lt; <?php echo "précédent"; ?></label> | 
 <?php else: ?> 
   <span class="disabled">&lt; <?php echo "précédent"; ?></span> | 
@@ -13,7 +13,7 @@
 <!-- Numbered page links -->
 <?php foreach ($this->pagesInRange as $page): ?> 
   <?php if ($page != $this->current): ?>
-    <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").value;_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $page ?>&valeur_4="+filtre)'>
+    <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").val();_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $page ?>&valeur_4="+filtre)'>
     <?php echo $page; ?></label> |  
   <?php else: ?>
     <span class="current"><?php echo $page; ?></span> | 
@@ -22,7 +22,7 @@
 
 <!-- Next page link --> 
 <?php if (isset($this->next)): ?>
-  <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").value;_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $this->next ?>&valeur_4="+filtre)'>
+  <label class="alabel" onclick='Javascript:filtre=$("messagerie_filtre").val();_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_2="+filtre+"&valeur_3=<?php echo $this->next ?>&valeur_4="+filtre)'>
   	suivant &gt;</label>
 <?php else: ?> 
   <span class="disabled"><?php echo "suivant" ?> &gt;</span>

@@ -23,7 +23,7 @@
 		<?php else: ?>
 	 	&Eacute;quipe :<br />
 	 
-		<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
+		<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
 			<option value='-1'>(Choisissez une &eacute;quipe)</option>
 			<?php foreach ($this->tabEquipes as $k => $e) : ?>
 			<option value="<?php echo $k?>" <?php if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
@@ -36,7 +36,7 @@
 		
 		<input type="hidden" id="valeur_2" value="1"/>
 		Où voulez-vous que la roulotte vous dépose après le match ?<br />
-		<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
+		<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
 			<option value='-1'>(Choisissez le retour)</option>
 			<option value="1">&Agrave; la position X,Y d'avant match</option>
 			<option value="2">&Agrave; la ville la plus proche du terrain</option>

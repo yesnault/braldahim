@@ -4,7 +4,7 @@
 	 
 	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez concocter jusqu'&agrave; <?php echo $this->nbPlantes ?> <?php if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?php echo $s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <br />
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').value==-1 || $('#valeur_2').value==-1){$('#bouton_concocter.attr('disabled', true) } else {$('#bouton_concocter').attr('disabled',false) }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1){$('#bouton_concocter.attr('disabled', true) } else {$('#bouton_concocter').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez une plante)</option>
 	 	<?php foreach($this->partiesPlantes as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
@@ -16,7 +16,7 @@
 	 <br /><br />
 	 
 	 Quantité de plantes à utiliser : <br />
-	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('#valeur_2').value==-1 || $('#valeur_1').value==-1){$('#bouton_concocter.attr('disabled', true) } else {$('#bouton_concocter').attr('disabled',false) }">
+	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('#valeur_2').val() ==-1 || $('#valeur_1').val() ==-1){$('#bouton_concocter.attr('disabled', true) } else {$('#bouton_concocter').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez la quantité à concocter)</option>
 	 	<?php for($i=1; $i <= $this->nbPlantesMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;

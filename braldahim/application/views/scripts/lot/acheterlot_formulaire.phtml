@@ -28,7 +28,7 @@
 		<?php else : ?>
 	
 			Destination du lot : <br />
-			<select name="valeur_2" id="valeur_2" onchange="if (this.value != 1) {$('#bouton_acheterelot').disabled = false} else {$('#bouton_acheterelot').disabled = true}">
+			<select name="valeur_2" id="valeur_2" onchange="if (this.value != -1) {$('#bouton_acheterelot').attr('disabled', false)} else { $('#bouton_acheterelot').attr('disabled', 'disabled')}">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<?php foreach($this->destinationTransfert as $d) :?>
 					<option value="<?php echo $d["id_destination"] ?>" <?php if ($d["possible"] == false): echo "disabled"; endif;?>><?php echo $d["texte"] ?> (<?php echo $d["poids_restant"]?> Kg dispo)<?php if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>

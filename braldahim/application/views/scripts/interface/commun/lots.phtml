@@ -1,5 +1,4 @@
 <?php Zend_Loader::loadClass("Bral_Helper_DetailPrix");?>
-
 <?php if (count($this->lots["lots"]) > 0) : ?>
 	<input type='button' class='button1' value='Fermer Tout' onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
 	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
@@ -38,7 +37,7 @@
 				</span>
 				
 				<?php if ($this->lots["visiteur"]):?>
-					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot(this, '<?php echo $numero;?>')">Sélectionner</span>
+					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot('<?php echo $numero;?>')">Sélectionner</span>
 				<?php else:?>
 					<?php if ($this->lots["type"] == "echoppe"):?>
 						<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
@@ -76,8 +75,8 @@
 	$jsOuvrir = "";
 	if ($poches != null) :
 	foreach ($poches as $p) :
-		$jsFermer .= "maccordion_fermer($('$p'));";
-		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+		$jsFermer .= "maccordion_fermer($('#$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
 	endforeach; 
 	endif;?>
 	   

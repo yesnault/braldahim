@@ -6,7 +6,7 @@
  <?php else : ?>
  	Pour <?php echo $this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
  	
-	<select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').value==-1){$('#bouton_extraire.attr('disabled', true) } else {$('#bouton_extraire').attr('disabled',false) }">
+	<select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_extraire.attr('disabled', true) } else {$('#bouton_extraire').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez un minerai)</option>
 	 		<?php foreach($this->filons as $f) : ?>
  		<option value="<?php echo $f["id_filon"]?>"><?php echo $f["nom_type_minerai"]?></option>

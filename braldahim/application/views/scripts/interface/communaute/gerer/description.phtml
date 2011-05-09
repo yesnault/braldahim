@@ -28,7 +28,7 @@
 	  $('label_site').style.display='block'; 
 	  $('#valeur_2').style.display='none'; 
 	  this.style.display='none' ;
-	  $('#valeur_1').value=1;
+	  $('#valeur_1').val(1);
 	   _get_('/communaute/doaction?caction=do_communaute_description')" value="Valider" style="display:none" />
 	
 	<br /><br /><br />
@@ -57,8 +57,8 @@
 		  $('label_description').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;
-		  $('#valeur_1').value=2;
-		  $('#valeur_3').value = encodePlus($('#valeur_description').value);
+		  $('#valeur_1').val(2);
+		  $('#valeur_3').val(encodePlus($('#valeur_description').val()));
 		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
 	</div>
 
