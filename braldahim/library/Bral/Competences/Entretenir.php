@@ -182,7 +182,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes", "box_champs"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_champs"));
 	}
 
 	public function calculPx() {

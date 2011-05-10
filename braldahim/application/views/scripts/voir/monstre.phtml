@@ -4,9 +4,9 @@
 <div class="inner">
 
 <?php if ($this->connu == false) : ?>
-	<div class="titrea textalic textsizea">Monstre Inconnu</div>
+	<div class="titrea textalic titreasizea">Monstre Inconnu</div>
 <?php else : ?>
-    <div class="titrea textalic textsizea">
+    <div class="titrea textalic titreasizea">
     <?php echo $this->monstre["nom_type_monstre"] ?> 
     <?php if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
     	<?php echo $this->monstre["nom_taille_f_monstre"] ?>

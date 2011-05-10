@@ -346,7 +346,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_laban", "box_vue", "box_charrette"));
 	}
 
 	/*

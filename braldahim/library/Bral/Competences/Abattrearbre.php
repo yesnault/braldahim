@@ -224,7 +224,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_competences_metiers", "box_laban", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_competences", "box_laban", "box_charrette"));
 	}
 
 	private function recreation($idTypeBosquet) {

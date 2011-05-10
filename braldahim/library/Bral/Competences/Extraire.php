@@ -230,7 +230,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_vue", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_laban", "box_vue", "box_charrette"));
 	}
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai

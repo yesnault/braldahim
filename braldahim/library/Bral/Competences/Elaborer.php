@@ -569,6 +569,6 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_echoppes"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_echoppes"));
 	}
 }

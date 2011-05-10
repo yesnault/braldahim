@@ -392,6 +392,6 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_vue"));
 	}
 }

@@ -4,19 +4,19 @@
 <div class="inner">
 
 <?php if ($this->connu == false) : ?>
-	<div class="titrea textalic textsizea">Braldûn Inconnu</div>
+	<div class="titrea textalic titreasizea">Braldûn Inconnu</div>
 <?php else : ?>
-    <div class="titrea textalic textsizea"><?php echo $this->braldun["prenom_braldun"] ?> <?php echo $this->braldun["nom_braldun"] ?><?php 
+    <div class="titrea textalic titreasizea"><?php echo $this->braldun["prenom_braldun"] ?> <?php echo $this->braldun["nom_braldun"] ?><?php 
     if ($this->ancien === false && $this->braldun["titre_courant_braldun"] != null) : ?>, 
     <?php echo $this->braldun["titre_courant_braldun"] ?>
     <?php endif;?>
      </div>
-     <div class="titrea textalic textsized">
+     <div class="titrea textalic titreasized">
       Braldûn n&deg;<?php echo $this->braldun["id_braldun"] ?>
      </div>
      
     <?php if ($this->ancien) : ?>
-	    <div class="titre textalic textsized">
+	    <div class="titrea textalic titreasized">
 	    Ce Braldûn a disparu, il n'est plus joué.
 	    </div>
     <?php endif;?>

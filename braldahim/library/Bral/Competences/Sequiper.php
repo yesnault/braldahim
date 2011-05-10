@@ -431,6 +431,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_equipement", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_equipement", "box_laban"));
 	}
 }

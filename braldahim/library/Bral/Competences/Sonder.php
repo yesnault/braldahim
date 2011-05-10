@@ -94,6 +94,6 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 		}
 	}
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers"));
+		return $this->constructListBoxRefresh(array("box_competences"));
 	}
 }

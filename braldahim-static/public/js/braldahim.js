@@ -64,13 +64,14 @@ function _get_(url, encode) {
 	}
 
 	var sep = '';
+	
 	if ($('#nb_valeurs') && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
 		nb_valeurs = $('#nb_valeurs').val();
 		for (i = 1; i <= nb_valeurs; i++) {
 			var nom = '#valeur_' + i;
 			var elem = $(nom);
-			if (elem.type == "radio") {
+			if (elem.type() == "radio") {
 				radioButton = findSelectedRadioButton(nom);
 				if (radioButton != null) {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).val();
@@ -340,25 +341,19 @@ function ouvreBralBox(element) {
 		boutonClose = "none";
 	}
 	
-	if (boutonClose == "none") {
-		$('#BB_close').hide();
-	} else {
-		$('#BB_close').show();
-	}
-	
-	$('#BB_overlay').show();
-	$('#BB_titre').innerHTML = titre;
-	$('#BB_windowwrapper').show();
-	$('#'+element).show();
+	$( "#"+element ).dialog({
+		modal: true,
+		minWidth : 600,
+		closeText : "Fermer",
+		 show: 'slide'
+	});
 }
 
 function fermeBralBox() {
-	$('#BB_overlay').hide();
-	$('#BB_windowwrapper').hide();
-	$("#erreur").hide();
-	$("#erreur_catch").hide();
-	$("#box_informations").hide();
-	$("#box_action").hide();
+	$("#box_action").dialog("close");
+	$("#box_informations").dialog("close");
+	$("#erreur").dialog("close");
+	$("#erreur_catch").dialog("close");
 }
 
 // Switch pour les onglets sur les box
@@ -627,9 +622,10 @@ function controlePoids() {
 		poidsRestant = $('#poids_' + $('#valeur_2').val()).val();
 		if (poidsRestant != -1) {
 		 	for (i=11; i<=$('#nb_valeurs').val(); i++) {
-				if ($('#valeur_' + i).type == 'select-multiple') {
+				if ($('#valeur_' + i).get(0).tagName  == 'SELECT') {
 					for (j=0; j< $('#valeur_' + i).options.length; j++) {
 						if ($('#valeur_' + i).options[j].selected == true) {
+							//TODO CORRIGER OPTIONS
 							if ( i==19 || i==20 || i==23 || i==25 ) {
 								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids_' + $('#valeur_' + i).options[j].val()).val());
 							} else {
@@ -657,12 +653,10 @@ function controlePoids() {
 }
 
 function controlePanneau (i) {
-	if ($('#valeur_' + i).type == 'select-multiple' ) {
+	if ($('#valeur_' + i).get(0).tagName  == 'SELECT' ) {
 		for (j=0; j< $('#valeur_' + i).options.length; j++) {
-			if ($('#valeur_' + i).options[j].val() != -1) {
-				$('#valeur_' + i).options[j].selected = false;
-				cacher = false;
-			}
+			$('#valeur_' + i + ' option').attr("selected","false");
+			cacher = false;
 		}
 	} else {
 		$('#valeur_'+i).val(0);
@@ -709,14 +703,10 @@ function selectAll(valmin, valmax) {
 			break;
 	 	}
 		if ($('#valeur_' + i + '_echoppe').val() == 'oui' || $('#valeur_2').val() != 5) {
-			if ($('#valeur_' + i).type == 'select-multiple' ) {
-				for (j=0; j< $('#valeur_' + i).options.length; j++) {
-					if ($('#valeur_' + i).options[j].val() != -1) {
-						$('#valeur_' + i).options[j].selected = true;
-						cacher = false;
-						v = true;
-					}
-				}
+			if ($('#valeur_' + i).get(0).tagName == 'SELECT' ) {
+				$('#valeur_' + i + ' option').attr("selected","selected");
+				cacher = false;
+				v = true;
 			} else {
 				$('#valeur_' + i).val($('#valeur_' + i + '_max').val());
 				if (cacher == true && $('#valeur_' + i + '_max').val() > 0) {
@@ -751,10 +741,8 @@ function charrette() {
 function controleEchoppe(i) {
 	if ($('#valeur_2').val() == 5) {
 		if ( ($('#valeur_' + i + '_echoppe').val() == 'non') && $('#valeur_' + i).val() > 0) {
-			if ($('#valeur_' + i).type == 'select-multiple' ) {
-				for (j=0; j< $('#valeur_' + i).options.length; j++) {
-					$('#valeur_' + i).options[j].selected = false;
-				}
+			if ($('#valeur_' + i).get(0).tagName  == 'SELECT' ) {
+				$('#valeur_' + i + ' option').attr("selected","false");
 			} else {
 				$('#valeur_' + i).val(0);
 			}
@@ -765,21 +753,19 @@ function controleEchoppe(i) {
 }
 
 function afficheTransbahuterRechercheBraldun() {
-	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { // constante
-																								// definie
-																								// dans
-																								// Transbahuter.php
+	// constante definie dans Transbahuter.php
+	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { 
 		$('#div_braldun').show()
 	} else {
 		$('#div_braldun').hide()
 		$('#valeur_3').val(-1);
 	}
 	
-	if ($('#valeur_2').val() == 8) { // constante definie dans
-										// Transbahuter.php
+	// constante definie dans Transbahuter.php
+	if ($('#valeur_2').val() == 8) { 
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver cette vente à un unique Braldûn:');
-	} else if ($('#valeur_2').val() == 12) { // constante definie dans
-												// Transbahuter.php
+		// constante definie dans Transbahuter.php
+	} else if ($('#valeur_2').val() == 12) { 
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver ce lot à un unique Braldûn:');
 	} else if ($('#valeur_2').val() == 4) {
 		$('#texte_transbahuter_braldun').html('Entrez le Braldûn destinataire:');
@@ -787,10 +773,8 @@ function afficheTransbahuterRechercheBraldun() {
 }
 
 function afficheTransbahuterVente() {
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes
-																								// definies
-																								// dans
-																								// Transbahuter.php
+	// constantes definies dans Transbahuter.php
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
 		$('#div_vente_transbahuter').show();
 	} else {
 		$('div_vente_transbahuter').hide();
@@ -798,10 +782,8 @@ function afficheTransbahuterVente() {
 }
 
 function controlePrixVenteBoutonDeposer() {
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { // constantes
-																								// definies
-																								// dans
-																								// Transbahuter.php
+	// constantes definies dans Transbahuter.php
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
 		if ($('#valeur_4').value >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
 			return true;
 		} else {
@@ -878,35 +860,42 @@ function activerRechercheBraldun(id) {
 	});
 }
 
-function getSelectionId(text, li) {
-	if (controleSession(li) == true) {
-		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_braldun'), li.getAttribute('id_braldun'));
-		$('#recherche_' + li.getAttribute('champ')).val('');
-	}
-}
-
 function activerRechercheBourlingueur(id, idTypeDistinction) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/bourlingueur/champ/' + id + '/type/' + idTypeDistinction , { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/type/"+ idTypeDistinction,
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				makeJsListeAvecSupprimer(id, ui.item.value, ui.item.id, ui.item.id);
+			}
+		}
+	});
 }
 
 function activerRechercheAdminBraldun(id) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getAdminBraldunId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/",
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				$('#id_braldun').val(ui.item.id);
+			}
+		}
+	});
 }
 
 function activerRechercheVoirBraldun(id) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getVoirId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
+	
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/",
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				document.location.href = "/voir/braldun/?braldun=" + ui.item.id;
+				$('#recherche_' + id).val('Chargement en cours...');
+			}
+		}
+	});
 }
 
 function controleSession(li) {
@@ -918,19 +907,6 @@ function controleSession(li) {
 		return false;
 	} else {
 		return true;
-	}
-}
-
-function getVoirId(text, li) {
-	if (controleSession(li) == true) {
-		document.location.href = "/voir/braldun/?braldun=" + li.getAttribute('id_braldun');
-		$('#recherche_' + li.getAttribute('champ')).val('Chargement en cours...');
-	}
-}
-
-function getAdminBraldunId(text, li) {
-	if (controleSession(li) == true) {
-		$('id_braldun').value = li.getAttribute('id_braldun');
 	}
 }
 

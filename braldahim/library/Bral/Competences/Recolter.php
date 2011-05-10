@@ -362,7 +362,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_competences_communes", "box_champs", "box_laban", "box_charrette");
+		$tab = array("box_competences", "box_champs", "box_laban", "box_charrette");
 		if ($this->view->placeDispo == false || $this->idDestination == "sol") {
 			$tab[] = "box_vue";
 		}

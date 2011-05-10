@@ -198,6 +198,6 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_competences_communes", "box_laban", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_competences", "box_laban", "box_charrette"));
 	}
 }

@@ -382,7 +382,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$tab[] = 'box_competences_metiers';
+		$tab[] = 'box_competences';
 		if ($this->idDestination == 'echoppe' || $this->idSource == 'echoppe') {
 			$tab[] = 'box_echoppes';
 		}

@@ -245,6 +245,6 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes", "box_laban", "box_vue"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_laban", "box_vue"));
 	}
 }

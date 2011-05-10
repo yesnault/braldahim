@@ -255,6 +255,6 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes"));
+		return $this->constructListBoxRefresh(array("box_competences"));
 	}
 }

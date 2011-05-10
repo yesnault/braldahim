@@ -159,7 +159,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		$tab = array("box_competences_communes", "box_laban");
+		$tab = array("box_competences", "box_laban");
 		return $this->constructListBoxRefresh($tab);
 	}
 

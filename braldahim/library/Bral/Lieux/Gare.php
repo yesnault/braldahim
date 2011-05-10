@@ -109,7 +109,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban", "box_competences_metiers", "box_vue", "box_lieu", "box_blabla"));
+		return $this->constructListBoxRefresh(array("box_laban", "box_competences", "box_vue", "box_lieu", "box_blabla"));
 	}
 
 	private function calculCoutCastars() {

@@ -36,22 +36,10 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
 <?php include('headerMenu.phtml'); ?>
 
 <?php if ($this->user && ($this->controleur == "interface")) : ?>
-<div id="BB_overlay" style="display: none;" class="BBoverlay"></div>
-<div id="BB_windowwrapper" style="display: none">
-<div id="BB_window">
-<div id="BB_frame">
-	<div id="BB_header">
-		<div id="BB_titre"></div>
-		<a id="BB_close" title="Fermer" href="#" onclick="fermeBralBox()" style="display:none"><span>×</span></a>
-	</div>
-
-	<div id="box_action" class="box_action" style="display: none"></div>
-	<div id="box_informations" class="box_informations" style="display: none"></div>
-	<div id="erreur" class="box_erreur" style="display:none"></div>
-	<div id="erreur_catch" class="box_erreur" style="display:none">
-		<textarea id="erreur_catch_contenu" rows="15" cols="90"></textarea>
-	</div>
-</div>
-</div>
+<div id="box_action" class="box_action" style="display: none"></div>
+<div id="box_informations" class="box_informations" style="display: none"></div>
+<div id="erreur" class="box_erreur" style="display:none"></div>
+<div id="erreur_catch" class="box_erreur" style="display:none">
+	<textarea id="erreur_catch_contenu" rows="15" cols="90"></textarea>
 </div>
 <?php endif; ?> <?php include('headerRacine.phtml'); ?>

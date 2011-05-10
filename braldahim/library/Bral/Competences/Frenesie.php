@@ -152,7 +152,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_lieu", "box_titres"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_vue", "box_lieu", "box_titres"));
 	}
 
 	protected function calculJetAttaque($braldun) {

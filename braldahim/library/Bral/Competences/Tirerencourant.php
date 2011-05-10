@@ -304,7 +304,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_competences_communes", "box_lieu", "box_echoppes", "box_titres"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_competences", "box_lieu", "box_echoppes", "box_titres"));
 	}
 
 	public function calculPx() {

@@ -266,7 +266,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers");
+		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences");
 		return $this->constructListBoxRefresh($tab);
 	}
 

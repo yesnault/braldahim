@@ -258,6 +258,6 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban", "box_lieu"));
+		return $this->constructListBoxRefresh(array("box_competences", "box_vue", "box_laban", "box_lieu"));
 	}
 }

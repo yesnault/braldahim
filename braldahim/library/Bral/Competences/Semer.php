@@ -338,6 +338,6 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_competences_communes", "box_laban", "box_charrette", "box_champs"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_competences", "box_laban", "box_charrette", "box_champs"));
 	}
 }
