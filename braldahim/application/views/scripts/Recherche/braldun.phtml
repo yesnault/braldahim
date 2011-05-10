@@ -1,15 +1,11 @@
-<ul class="resultats">
-<?php if (count($this->tabBralduns) == 0): ?>
-	<li class="resultat">Aucun Braldûn</li>
-<?php elseif (count($this->tabBralduns) > 25): ?>
-	<li class="resultat">Trop de bralduns !</li>
-<?php else: ?>
-	<?php foreach ($this->tabBralduns as $h) : ?>
-		<li class="resultat" id_braldun="<?php echo $h["id_braldun"]?>" champ="<?php echo $this->champ?>" valeur="<?php echo $h["prenom"]?> <?php echo $h["nom"]?>"><?php
-			$pos = stripos($h["prenom"], $this->pattern);
-			$nom = mb_substr($h["prenom"], 0, $pos) . '<font color="red">'.mb_substr($h["prenom"], $pos , mb_strlen($this->pattern)) .'</font>'.mb_substr($h["prenom"], $pos + mb_strlen($this->pattern));
-			$nom .= " ".$h["nom"];
-			echo $nom ." (".$h["id_braldun"].")" ?></li>
-	<?php endforeach; ?>
-<?php endif; ?>
-</ul>
+<?php 
+echo "[";
+
+if (count($this->tabBralduns) == 0):
+	echo '{ "id": "-1", "label": "Pas de resultat", "value": "Pas de resultat" }';
+elseif (count($this->tabBralduns) > 25):
+	echo '{ "id": "-2", "label": "Trop de resultat", "value": "Trop de resultat" }';
+else:
+	echo $this->resultat;
+endif;
+echo ']';

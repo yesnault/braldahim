@@ -867,10 +867,21 @@ function getBraldunIdentificationRune(text, li) {
 /** ***************************************************************** */
 
 function activerRechercheBraldun(id) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/",
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				makeJsListeAvecSupprimer(id, ui.item.value, ui.item.id, ui.item.id);
+			}
+		}
+	});
+}
+
+function getSelectionId(text, li) {
+	if (controleSession(li) == true) {
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_braldun'), li.getAttribute('id_braldun'));
+		$('#recherche_' + li.getAttribute('champ')).val('');
 	}
 }
 
@@ -923,19 +934,12 @@ function getAdminBraldunId(text, li) {
 	}
 }
 
-function getSelectionId(text, li) {
-	if (controleSession(li) == true) {
-		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_braldun'), li.getAttribute('id_braldun'));
-		$('#recherche_' + li.getAttribute('champ')).val('');
-	}
-}
-
 function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 	if ($("#"+champ).val() == '') {
 		$("#"+champ).val(idJos);
 	} else {
-		var reg=new RegExp("[,]+", "g");
-		var tableau=$("#"+champ).value.split(reg);
+		var reg = new RegExp("[,]+", "g");
+		var tableau = $("#"+champ).val().split(reg);
 		var trouve = false;
 		for (var i=0; i<tableau.length; i++) {
 			 if (tableau[i] == idJos) {
@@ -943,7 +947,7 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 			 }
 		}
 		if (trouve == false) {
-			$("#"+champ).value = $("#"+champ).value + ',' + idJos;
+			$("#"+champ).val($("#"+champ).val() + ',' + idJos);
 		} else {
 			return;
 		}
@@ -955,7 +959,7 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 	if (idBraldun != null) {
 		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/braldun/?braldun='+idBraldun+'\');">' + texte + '(' + idBraldun + ')</label> ';
 	}
-	texte = texte + ' <img src="'+$('urlStatique').value+'/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
+	texte = texte + ' <img src="'+$('#urlStatique').val() + '/images/divers/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
 	
 	if ($('#cpt_' + champ)) {
@@ -966,12 +970,12 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 	}
 	
 	contenu.id = contenu.name;
-	contenu.html(texte);
-	$('#aff_' + champ).appendChild(contenu);
+	contenu.innerHTML = texte;
+	$('#aff_' + champ).append(contenu);
 }
 
 function supprimerElement(idConteneur, idContenu, idChamp, valeur) {
-	$("#"+idConteneur).removeChild($(idContenu));
+	$("#"+idContenu).remove();
 	var tabValeur = $("#"+idChamp).val().split(',');
 	var nouvelleValeur = '';
 

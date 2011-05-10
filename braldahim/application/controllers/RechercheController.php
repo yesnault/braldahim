@@ -43,13 +43,13 @@ class RechercheController extends Zend_Controller_Action {
 
 	private function rechercheBraldun($idTypeDistinction = null, $avecBraldunEnCours = null, $avecPnj = null) {
 
-		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("valeur")))) {
+		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("term")))) {
 			$tabBralduns = null;
 			$braldunTable = new Braldun();
 
 			if ($idTypeDistinction != null) {
 
-				$braldunRowset = $braldunTable->findBraldunsParPrenomAndIdTypeDistinction($this->_request->get("valeur").'%', $idTypeDistinction);
+				$braldunRowset = $braldunTable->findBraldunsParPrenomAndIdTypeDistinction($this->_request->get("term").'%', $idTypeDistinction);
 				$bralduns = array();
 				foreach ($braldunRowset as $h) {
 					$bralduns[] = $h["id_braldun"];
@@ -70,9 +70,8 @@ class RechercheController extends Zend_Controller_Action {
 				if ($avecBraldunEnCours === false) {
 					$idBraldun = $this->view->user->id_braldun;
 				}
-				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("valeur").'%', $idBraldun, $avecPnj);
+				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("term").'%', $idBraldun, $avecPnj);
 			}
-			$this->view->champ = $this->_request->get("champ");
 
 			foreach ($braldunRowset as $h) {
 				$braldun = array(
@@ -115,7 +114,18 @@ class RechercheController extends Zend_Controller_Action {
 				}
 			}
 			$this->view->pattern = $this->_request->get("valeur");
+				
+			$result = "";
+			if (count($tabBralduns) > 0) {
+				foreach($tabBralduns as $h) {
+					$result .= '{ "id": "'.$h["id_braldun"].'", "label": "'.$h["prenom"].' '.$h["nom"].'", "value": "'.$h["prenom"].' '.$h["nom"].'" }, ';
+				}
+			}
+			if ($result != "") {
+				$result = mb_substr($result, 0, -2);
+			}
 			$this->view->tabBralduns = $tabBralduns;
+			$this->view->resultat = $result;
 		}
 	}
 }
