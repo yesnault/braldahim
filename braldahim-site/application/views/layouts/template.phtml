@@ -23,7 +23,7 @@
 		fx: 'scrollHorz',
 	    speed: $('body.lte8').length ? 0 : 1000,
     	timeout: 0,
-    	timeout: 10000,
+    	timeout: 20000,
 		next:   '#c-next', 
 		prev:   '#c-prev' ,
 	    cleartype: true,
@@ -32,7 +32,8 @@
 
 	$(function() {
 	    // Use this example, or...
-	    $('a[rel*=lightbox]').lightBox(); // Select all links that contains lightbox in the attribute rel
+	    $('a[rel*=lightboxScreenshot]').lightBox(); // Select all links that contains lightbox in the attribute rel
+	    $('a[rel*=lightboxCarte]').lightBox(); // Select all links that contains lightbox in the attribute rel
 	});
 	
 	/*$('#main-cycle').cycle({

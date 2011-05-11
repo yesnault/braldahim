@@ -7,37 +7,37 @@
 <?php else : ?>
 
 <center>
-	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
-	<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-	<input type='hidden' id='valeur_3' name='valeur_3' value=''>
+	<input type='hidden' id='nb_valeurs-communaute_description' name='nb_valeurs-communaute_description' value='3'>
+	<input type='hidden' id='valeur_1-communaute_description' name='valeur_1-communaute_description' value='-1'>
+	<input type='hidden' id='valeur_3-communaute_description' name='valeur_3-communaute_description' value=''>
 	
 	<div class="titre textalic textsizec">Site Web</div><br />
 	<div id="label_site">
 		<a href="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>"><?php echo htmlspecialchars($this->communaute["site_web"]) ?></a>
 	</div>
-	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>" />
+	<input type="text" id="valeur_2-communaute_description" size="50" maxlength="250" style="display:none" value="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>" />
 	
 	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
-		onclick="$('label_site').style.display='none'; 
-		$('#valeur_2').style.display='block' ; 
-		$('#bouton_site').style.display='block'; 
+		onclick="$('#label_site').hide(); 
+		$('#valeur_2-communaute_description').show(); 
+		$('#bouton_site').show();  
 		this.style.display='none'"/>
 	
 	<input type="button" class='button1' id="bouton_site" name="bouton_site" 
  	 onclick="
-	  $('label_site').style.display='block'; 
-	  $('#valeur_2').style.display='none'; 
+	  $('#label_site').show();  
+	  $('#valeur_2-communaute_description').hide(); 
 	  this.style.display='none' ;
-	  $('#valeur_1').val(1);
-	   _get_('/communaute/doaction?caction=do_communaute_description')" value="Valider" style="display:none" />
+	  $('#valeur_1-communaute_description').val(1);
+	   _get_('/communaute/doaction?caction=do_communaute_description', 'communaute_description')" value="Valider" style="display:none" />
 	
 	<br /><br /><br />
 	
 	<div class="titre textalic textsizec">Description</div><br />
 	<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
-	onclick="$('label_description').style.display='none'; 
-		$('edition').style.display='block' ; 
-		$('#bouton_description').style.display='block'; 
+	onclick="$('#label_description').hide();
+		$('#edition').show(); 
+		$('#bouton_description').show();  
 		 this.style.display='none' ;
 		"/>
 	</center>
@@ -54,12 +54,12 @@
 	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?php echo stripslashes($this->communaute["description"]) ?></textarea>
 	  <input type="button" class='button1' id="bouton_description" 
 	  onclick="
-		  $('label_description').style.display='block'; 
-		  $('edition').style.display='none'; 
+		  $('#label_description').show();  
+		  $('#edition').hide();
 		  this.style.display='none' ;
-		  $('#valeur_1').val(2);
-		  $('#valeur_3').val(encodePlus($('#valeur_description').val()));
-		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
+		  $('#valeur_1-communaute_description').val(2);
+		  $('#valeur_3-communaute_description').val(encodePlus($('#valeur_description').val()));
+		   _get_('/communaute/doaction?caction=do_communaute_description', 'communaute_description', false)" value="Valider" style="display:none" />
 	</div>
 
 <?php endif; ?>

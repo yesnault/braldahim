@@ -13,9 +13,9 @@
 		
 		<div class="titre textalic textsizec">Description</div><br />
 			<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
-			onclick="$('label_description').style.display='none'; 
-				$('edition').style.display='block' ; 
-				$('#bouton_description').style.display='block'; 
+			onclick="$('#label_description').hide();
+				$('#edition').show() ; 
+				$('#bouton_description').show(); 
 				 this.style.display='none' ;"/>
 				
 			<input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
@@ -32,11 +32,11 @@
 			 
 				  <input type="button" class='button1' id="bouton_description" 
 				  	onclick="
-					  $('label_description').style.display='block'; 
-					  $('edition').style.display='none'; 
+					  $('#label_description').show();
+					  $('#edition').hide();
 					  this.style.display='none' ;
 					  $('#valeur_1').val(2);
-					  $('form_description').submit(); " value="Valider" style="display:none" />
+					  $('#form_description').submit(); " value="Valider" style="display:none" />
 				  
 			  </div>
 		  

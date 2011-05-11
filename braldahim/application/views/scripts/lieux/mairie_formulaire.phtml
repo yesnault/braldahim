@@ -1,16 +1,16 @@
 <div class='comp_titre'>Mairie</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='4'>
+ <input type='hidden' id='nb_valeurs-lieu_mairie' name='nb_valeurs-lieu_mairie' value='4'>
  <div class='comp_contenu'>
  
 	<br />
  	Pour utiliser les services de la mairie, il faut <?php echo $this->coutCastars?> castar et <?php echo $this->paUtilisationLieu?> PA.<br /><br />
    	<?php if ($this->utilisationPossible !== true || $this->utilisationPaPossible !== true): ?>
    		Vous n'avez pas assez de PA ou de castars <br />
-   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-   		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
-   		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
+   		<input type='hidden' id='valeur_1-lieu_mairie' name='valeur_1-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_2-lieu_mairie' name='valeur_2-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_3-lieu_mairie' name='valeur_3-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_4-lieu_mairie' name='valeur_4-lieu_mairie' value='-1'>
    	<?php elseif ($this->braldunAvecCommunaute == true) : ?>
    		Vous appartenez &agrave; une communaut&eacute;. Vous pouvez sortir de cette communaut&eacute;...
    		
@@ -20,23 +20,23 @@
    		Si vous en sortez, le premier Braldûn (par numéro de rang) deviendra gestionnaire.
    		S'il ne reste plus personne dans la communauté, en dehors du rang n°20 (Nouveaux), elle sera supprim&eacute;e.
    		<?php endif; ?>
-   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-   		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
-   		<input type='hidden' id='valeur_4' name='valeur_4' value='1'>
+   		<input type='hidden' id='valeur_1-lieu_mairie' name='valeur_1-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_2-lieu_mairie' name='valeur_2-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_3-lieu_mairie' name='valeur_3-lieu_mairie' value='-1'>
+   		<input type='hidden' id='valeur_4-lieu_mairie' name='valeur_4-lieu_mairie' value='1'>
    	<?php else : ?>
-   		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
+   		<input type='hidden' id='valeur_4-lieu_mairie' name='valeur_4-lieu_mairie' value='-1'>
    		
    	  	Vous pouvez demander votre entr&eacute;e dans une communaut&eacute; : <br />
-   	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('#valeur_2').val(-1)); $('#valeur_3').val(''); $('#bouton_mairie_creer').attr('disabled', true); if ($('#valeur_1').val() != -1) { $('#bouton_mairie_rentrer').attr('disabled',false); } else { $('#bouton_mairie_rentrer').attr('disabled', true); } ">
+   	  	 <select name='valeur_1' id="valeur_1" onchange="javascript:$('#valeur_2-lieu_mairie').val(-1)); $('#valeur_3-lieu_mairie').val(''); $('#bouton_mairie_creer').attr('disabled', true); if ($('#valeur_1-lieu_mairie').val() != -1) { $('#bouton_mairie_rentrer').attr('disabled',false); } else { $('#bouton_mairie_rentrer').attr('disabled', true); } ">
 			<option value='-1'>(Choisissez une communaut&eacute;)</option>
 			<?php foreach ($this->communautes as $c) : ?>
 				<option value="<?php echo $c["id_communaute"] ?>"><?php echo $c["nom_communaute"] ?> </option>
 			<?php endforeach; ?>
 		</select><br /><br />
    	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />
-   	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onKeyup="javascript:$('#valeur_1').val(-1)) ; $('#valeur_2').val(1); $('#bouton_mairie_rentrer').attr('disabled', true); if ($('#valeur_3').val() != '') { $('#bouton_mairie_creer').attr('disabled',false); } else { $('#bouton_mairie_creer').attr('disabled', true); }">
+   	  		<input type='hidden' id='valeur_2-lieu_mairie' name='valeur_2-lieu_mairie' value='-1'>
+   	  		<input type='text' id='valeur_3-lieu_mairie' name='valeur_3-lieu_mairie' value='' size='40' maxlength='40' onKeyup="javascript:$('#valeur_1-lieu_mairie').val(-1)) ; $('#valeur_2-lieu_mairie').val(1); $('#bouton_mairie_rentrer').attr('disabled', true); if ($('#valeur_3-lieu_mairie').val() != '') { $('#bouton_mairie_creer').attr('disabled',false); } else { $('#bouton_mairie_creer').attr('disabled', true); }">
    	  		
    	<?php endif; ?>
  </div> 
@@ -47,8 +47,8 @@
 	<?php if ($this->braldunAvecCommunaute == true) : ?>
 	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
 	<?php else : ?>
-	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
-	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', 'lieu_mairie', true);"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', 'lieu_mairie');"  disabled>
 	<?php endif; ?>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

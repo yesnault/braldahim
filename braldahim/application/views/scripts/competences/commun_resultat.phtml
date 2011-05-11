@@ -26,8 +26,8 @@
 	</div>
  </div>
 
-<input type='button' class='button1' id="copie_carnet_retour" value='Retour au résultat' style="display:none" onclick="javascript:this.style.display='none';$('copie_carnet').style.display='block';switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');"> 
-<input type='button' class='button1' id="copie_carnet" value='Copier dans le carnet' onclick="javascript:this.style.display='none';$('copie_carnet_retour').style.display='block';switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');">
+<input type='button' class='button1' id="copie_carnet_retour" value='Retour au résultat' style="display:none" onclick="javascript:this.style.display='none';$('#copie_carnet').show();switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');"> 
+<input type='button' class='button1' id="copie_carnet" value='Copier dans le carnet' onclick="javascript:this.style.display='none';$('#copie_carnet_retour').show();switch2div('<?php echo $this->competence["nom_systeme"]?>_text','<?php echo $this->competence["nom_systeme"]?>_copie');">
 
 <?php if ($this->reloadInterface == true || $this->finMatchSoule === true): ?>
 	<input type='button' class='button1' value='Fermer' onclick='_get_("/interface/reload");fermeBralBox();'>

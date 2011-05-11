@@ -8,7 +8,7 @@ function findSelectedRadioButton(groupname) {
 	return null;
 }
 
-function _get_(url, encode) {
+function _get_(url, nomAction, encode) {
 	var valeurs = "";
 	var nb_valeurs = 0;
 	var action = "";
@@ -65,13 +65,25 @@ function _get_(url, encode) {
 
 	var sep = '';
 	
-	if ($('#nb_valeurs') && (action == "do")) {
+	/*if (valeur1 || valeur2 || valeur3 || valeur4) {
+		for (i = 1; i <= 4; i++) {
+			valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
+		}
+		
+	} else 
+	*/
+	var suffixe = '';
+	if (nomAction) {
+		suffixe = '-' + nomAction;
+	}
+	
+	if ($('#nb_valeurs' + suffixe) && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
-		nb_valeurs = $('#nb_valeurs').val();
+		nb_valeurs = $('#nb_valeurs' + suffixe).val();
 		for (i = 1; i <= nb_valeurs; i++) {
-			var nom = '#valeur_' + i;
+			var nom = '#valeur_' + i + suffixe;
 			var elem = $(nom);
-			if (elem.type() == "radio") {
+			if (elem.get(0).tagName == "RADIO") {
 				radioButton = findSelectedRadioButton(nom);
 				if (radioButton != null) {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).val();
@@ -394,6 +406,15 @@ function switch2div(div1, div2) {
 		$("#"+div1).hide();
 		$("#"+div2).show();
 	}
+}
+
+function limiteTailleTextarea(textarea, max, iddesc) {
+	if (textarea.value.length >= max) {
+		textarea.value = textarea.value.substring(0, max);
+	}
+	var reste = max - textarea.value.length;
+	var affichage_reste = reste + ' caract&egrave;res restants';
+	$('#' + iddesc).html(affichage_reste);
 }
 
 function ouvrirProfilH(idBraldun) {

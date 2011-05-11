@@ -32,7 +32,7 @@
 		<?php endforeach; ?>
 		
 	   	Choix : <br />
-	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').val($('#bouton_'+this.value).val());if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==0){$('#bouton_auberge.attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').val() ==2 || $('#valeur_1').val() ==3) {$('nbAliment').style.display='block'} else { $('nbAliment').style.display='none' };if ($('#valeur_1').val() ==3 && $('#valeur_2').val() ==<?php echo $this->nbPossible  ?>){$('#valeur_2').val(<?php echo $this->nbPossible - $this->nbDeduction ?>)}">
+	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').val($('#bouton_'+this.value).val());if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==0){$('#bouton_auberge.attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').val() ==2 || $('#valeur_1').val() ==3) {$('#nbAliment').show()} else { $('#nbAliment').hide()};if ($('#valeur_1').val() ==3 && $('#valeur_2').val() ==<?php echo $this->nbPossible  ?>){$('#valeur_2').val(<?php echo $this->nbPossible - $this->nbDeduction ?>)}">
 		<option value='-1'>(Choix &agrave; faire)</option>
 		<?php foreach ($this->tabChoix as $k => $t) : ?>
 		<option value="<?php echo $k?>" <?php if ($t["valid"] === false): echo "disabled"; endif;?>><?php echo $t["nom"]?> <?php if ($t["valid"] === false): echo " (impossible)"; endif;?></option>

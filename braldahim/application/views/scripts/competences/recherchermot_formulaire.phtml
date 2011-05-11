@@ -63,7 +63,7 @@
 				Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 			
 			<?php if (count($this->runes) > 0) : ?>
-				<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('choix_runes_recherche').style.display='block';this.style.display='none';">
+				<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('#choix_runes_recherche').show();this.style.display='none';">
 			
 				<div id="choix_runes_recherche" style="display:none">
 				

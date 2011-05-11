@@ -9,7 +9,7 @@
 <?php else : ?>
 
 <center>
-	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+	<input type='hidden' id='nb_valeurs-gestionnaire' name='nb_valeurs-gestionnaire' value='1'>
 	
 	<div class="titre textalic textsizec">Changer de Gestionnaire</div><br />
 	
@@ -17,7 +17,7 @@
 		Vous pouvez choisir un autre gestionnaire parmi les membres de la communaut&eacute;. <br />
 		Apr&egrave;s le changement, vous serez au second rang dans la communaut&eacute;.
 		 <br /><br />
-		<select name='valeur_1' id='valeur_1' onchange="if (this.value != -1) {$('button_valider_gestionnaire').attr('disabled',false)} else {$('button_valider_gestionnaire.attr('disabled', true)}">
+		<select name='valeur_1-gestionnaire' id='valeur_1-gestionnaire' onchange="if (this.value != -1) {$('#button_valider_gestionnaire').attr('disabled',false)} else {$('#button_valider_gestionnaire').attr('disabled', true)}">
 		    <option value="-1">(Choississez un gestionnaire)</option>
 			<?php foreach ($this->tabMembres as $m) : ?>
 		  		<option value='<?php echo $m["id_braldun"]?>'><?php echo htmlspecialchars($m["prenom_braldun"])?> <?php echo htmlspecialchars($m["nom_braldun"])?>, n&deg;<?php echo $m["id_braldun"] ?></option>
@@ -25,7 +25,7 @@
   		</select>
   		<br />
   		
-  		<input type="button" id="button_valider_gestionnaire" class='button1' onclick="Javascript: _get_('/communaute/doaction?caction=do_communaute_gestionnaire')" value="Valider" disabled>
+  		<input type="button" id="button_valider_gestionnaire" class='button1' onclick="Javascript: _get_('/communaute/doaction?caction=do_communaute_gestionnaire', 'gestionnaire')" value="Valider" disabled>
 
 	<?php else: ?>
 		<img src="<?php echo $this->config->url->static?>/images/info_icon.gif"/> Vous ne pouvez pas changer de gestionnaire. <br />

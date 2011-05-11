@@ -21,11 +21,6 @@ class AdministrationController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->view->md5_value = "";
-		if ($this->_request->get("md5_source") != "") {
-			$this->view->md5_source = $this->_request->get("md5_source");
-			$this->view->md5_value = md5($this->_request->get("md5_source"));
-		}
 		$this->render();
 	}
 

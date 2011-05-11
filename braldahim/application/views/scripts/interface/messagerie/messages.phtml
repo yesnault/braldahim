@@ -44,7 +44,7 @@
 		   		$jsLu = "";
 		   		if ($this->filtre == $this->config->messagerie->message->type->reception):
 			   		if ($message["toread"] == "0") :
-			   			$jsLu = "$('imgMsgLu".$message["id_message"]."').style.display='block';$('imgMsgALire".$message["id_message"]."').style.display='none';";
+			   			$jsLu = "$('#imgMsgLu".$message["id_message"]."').show();$('imgMsgALire".$message["id_message"]."').style.display='none';";
 			   		endif;
 		   		endif;
 		   		$js="onclick=\"".$jsMobile.$jsLu."_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."&valeur_3=".$this->page."&valeur_4=".$this->filtre."');\"  title='Lire le message'"; ?>

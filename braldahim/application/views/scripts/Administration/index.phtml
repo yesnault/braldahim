@@ -37,18 +37,9 @@
 			<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="<?php echo $this->config->url->static?>/images/wait.gif" alt="Recherche..." /></span>
 			<br />
 		    Braldûn Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
-		    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").val();'> 
-		    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").val());'>
+		    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onclick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("#id_braldun").val();'> 
+		    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("#id_braldun").val());'>
 		    
-	    	<br /> 
-		    Transformation md5 - Chaine &agrave; encoder : 
-		     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
-		     <input type='button' value='MD5' class='button1'  onclick='document.location.href="/Administration/?md5_source="+$("md5_source").val();'> 
-			 <?php if ($this->md5_value != "") : ?>
-			 <br />
-			 Valeur MD5 de <?php echo $this->md5_source ?> = <?php echo $this->md5_value ?>
-			 <?php endif; ?>
-		  
 	    </div>
 	    
 	    <div class="admin_flottante">
@@ -60,8 +51,8 @@
 		    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
 		    <br /><br />
 		     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
-		    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").val();'> 
-		    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").val());'> 
+		    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("#id_monstre").val();'> 
+		    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("#id_monstre").val());'> 
 		</div>
 		
 	    <div class="admin_flottante">

@@ -815,12 +815,13 @@ span.id_braldun {
 	color: #F2F2F2;
 }
 
-.box_contenu0 { /* interieur de la boite */
+.box_contenuAccueil { /* interieur de la boite */
 	background: #41591C repeat-x scroll 0pt 0%;
 	padding: 3px;
 	margin: 0px;
 	margin-bottom:2px;
 	color:#F2F2F2;
+	padding : 20px;
 	border-radius: 10px; /* en css3 lui même */
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
