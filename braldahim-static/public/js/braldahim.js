@@ -8,6 +8,23 @@ function findSelectedRadioButton(groupname) {
 	return null;
 }
 
+function _get_specifique_(url, valeurs) {
+	var sep = '&';
+	if ($('#dateAuth')) {
+		valeurs = valeurs + sep + "dateAuth=" + $('#dateAuth').val();
+	} else {
+		valeurs = valeurs + sep + "dateAuth=-1" ;
+	}
+	var pars = valeurs;
+	$.ajax({
+		   type: "POST",
+		   url: url,
+		   processData: false,
+		   data: valeurs,
+		   success: showResponse
+		 });
+}
+
 function _get_(url, nomAction, encode) {
 	var valeurs = "";
 	var nb_valeurs = 0;
@@ -65,13 +82,6 @@ function _get_(url, nomAction, encode) {
 
 	var sep = '';
 	
-	/*if (valeur1 || valeur2 || valeur3 || valeur4) {
-		for (i = 1; i <= 4; i++) {
-			valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
-		}
-		
-	} else 
-	*/
 	var suffixe = '';
 	if (nomAction) {
 		suffixe = '-' + nomAction;
