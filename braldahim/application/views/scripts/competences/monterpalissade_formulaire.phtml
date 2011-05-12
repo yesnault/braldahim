@@ -12,12 +12,8 @@ Pour construire une palissade ou un portail, vous devez avoir dans votre charret
 <?php elseif ($this->monterPalissadeOk == false) : ?>
  Vous ne pouvez pas monter de palissade aux alentours de vous.
 <?php else : ?>
-  <table align='center'>
-   <tr>
-     <th>Position [x;y]</th>
-   </tr>
-   <tr>
-     <td>
+  	<br /><br />
+  	Position [x;y]
      <table class='comp_marcher_position'>
      	<?php $col=null ?>
 		<?php foreach ($this->tableau as $case) : ?>
@@ -41,9 +37,6 @@ Pour construire une palissade ou un portail, vous devez avoir dans votre charret
        <?php endforeach; ?>
        </tr>
      </table>
-     </td>
-    </tr>
-  </table>
   
   
   <br />

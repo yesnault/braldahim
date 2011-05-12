@@ -1033,7 +1033,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			return;
 		}
 
-
 		Zend_Loader::loadClass($depart.'Rune');
 		Zend_Loader::loadClass($arrivee.'Rune');
 		Zend_Loader::loadClass('Bral_Util_Rune');

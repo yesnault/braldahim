@@ -666,8 +666,8 @@ function controlePoids() {
 		if (poidsRestant != -1) {
 		 	for (i=11; i<=$('#nb_valeurs').val(); i++) {
 				if ($('#valeur_' + i).get(0).tagName  == 'SELECT') {
-					for (j=0; j< $('#valeur_' + i).options.length; j++) {
-						if ($('#valeur_' + i).options[j].selected == true) {
+					for (j=0; j< $('#valeur_' + i)[0].options.length; j++) {
+						if ($('#valeur_' + i)[0].options[j].selected == true) {
 							//TODO CORRIGER OPTIONS
 							if ( i==19 || i==20 || i==23 || i==25 ) {
 								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids_' + $('#valeur_' + i).options[j].val()).val());
