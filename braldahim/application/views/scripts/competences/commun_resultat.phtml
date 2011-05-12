@@ -21,7 +21,7 @@
 			<option value="<?php echo $i?>">note n&deg;<?php echo $i?></option>
 		<?php endfor;?>
 		</select>
-		<input type="button" class="button1" value="Enregistrer" onclick="this.disabled=true;_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$('numNoteCompetence').val()+'&texte_carnet='+encodeURIComponent($('competence_copie').val()))">				
+		<input type="button" class="button1" value="Enregistrer" onclick="this.disabled=true;_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$('#numNoteCompetence').val()+'&texte_carnet='+encodeURIComponent($('#competence_copie').val()))">				
 		<span id='competence_resultat'></span>
 	</div>
  </div>

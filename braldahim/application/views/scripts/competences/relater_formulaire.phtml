@@ -15,7 +15,7 @@
  	<br /><br />
  	Le verbe : <br />
  	
- 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() != -1 && $('#valeur_2').val() != ''){ $('#bouton_relater_verif').attr('disabled',false); if ($('premiereVerif').val() == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater').attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}">
+ 	<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() != -1 && $('#valeur_2').val() != ''){ $('#bouton_relater_verif').attr('disabled',false); if ($('#premiereVerif').val() == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater').attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}">
 		<option value='-1'>(Choisissez un verbe)</option>
 	 	<?php foreach($this->verbes as $k => $v): ?>
 	 		<option value='<?php echo $k?>' <?php if ($this->idVerbe == $k) :echo "selected"; endif;?>><?php echo $v?></option>
@@ -23,7 +23,7 @@
  	</select>
 	<br /><br />Le Texte : <br />
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br />
-	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('#valeur_2'),$('#characterstyped'),80);" onkeyup="textCount($('#valeur_2'),$('#characterstyped'),80); if ($('#valeur_1').val() != -1 && this.value != '') { $('#bouton_relater_verif').attr('disabled',false); if ($('premiereVerif').val() == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater').attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}"  maxlength="80" size="40" value="<?php echo htmlspecialchars($this->texte_original)?>"/>
+	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('#valeur_2'),$('#characterstyped'),80);" onkeyup="textCount($('#valeur_2'),$('#characterstyped'),80); if ($('#valeur_1').val() != -1 && this.value != '') { $('#bouton_relater_verif').attr('disabled',false); if ($('#premiereVerif').val() == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater').attr('disabled', true);$('#bouton_relater_verif.attr('disabled', true);}"  maxlength="80" size="40" value="<?php echo htmlspecialchars($this->texte_original)?>"/>
 	
 	<input type="hidden" id="premiereVerif" name="premiereVerif" value="<?php if ($this->texte != null) : echo "true"; else: echo "false"; endif; ?>">
 	
@@ -40,5 +40,5 @@ Cliquez sur le bouton V&eacute;rifier pour v&eacute;rifier le rendu final. <br /
 Une fois bien v&eacute;rifi&eacute; cliquez sur Relater.<br />
 Attention, le texte ne pourra pas &ecirc;tre supprim&eacute; ou modifi&eacute; par la suite.
 <br /><br />
-<input type='button' class='button1' id='bouton_relater_verif' value='Vérifier !' onclick='this.disabled=true;_get_("/competences/doaction?caction=ask_competence_relater&valeur_1="+$("valeur_1").val()+"&valeur_2="+$("valeur_2").val());' <?php if ($this->texte == null): echo "disabled"; endif;?>>
+<input type='button' class='button1' id='bouton_relater_verif' value='Vérifier !' onclick='this.disabled=true;_get_("/competences/doaction?caction=ask_competence_relater&valeur_1="+$("#valeur_1").val()+"&valeur_2="+$("#valeur_2").val());' <?php if ($this->texte == null): echo "disabled"; endif;?>>
 <input type='button' class='button1' id='bouton_relater' value='Relater !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_relater");' <?php if ($this->texte == null): echo "disabled"; endif;?>>

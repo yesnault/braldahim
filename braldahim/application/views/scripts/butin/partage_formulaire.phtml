@@ -31,5 +31,5 @@
 </div>
 
 <br />
-<input type='button' class='button1' id='bouton_partagebutin' value='Valider les partages' onclick='this.disabled=true;$("valeur_2").value=$("valeur_2_partage_dest").val();_get_("/butin/doaction?caction=do_butin_partage");'>
+<input type='button' class='button1' id='bouton_partagebutin' value='Valider les partages' onclick='this.disabled=true;$("#valeur_2").val($("#valeur_2_partage_dest").val());_get_("/butin/doaction?caction=do_butin_partage");'>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

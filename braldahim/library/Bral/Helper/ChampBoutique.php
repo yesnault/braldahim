@@ -11,22 +11,23 @@ class Bral_Helper_ChampBoutique {
 		$retour = "";
 		if (array_key_exists("id_champ", $tab)) {
 			
-			$js = " $('bouton_achetertabac').disabled = true;";
-			$js .= "if (this.value > ".$tab["nbStockRestant"]."){this.value=".$tab["nbStockRestant"]."} ;";
-			$js .= "for (i=1; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_achetertabac').disabled = false;}}";
+			$js = " $('#bouton_achetertabac').attr('disabled', true);";
+			$js .= "if (this.value > ".$tab["nbStockRestant"].") { this.value=".$tab["nbStockRestant"]."};";
+			$js .= "for (i=1; i<=$('#nb_valeurs-achetertabac').val(); i++) { if ($('#valeur_' + i + '-achetertabac').val() > 0) { $('#bouton_achetertabac').attr('disabled', false);}}";
 			
 			$s = "";
 			if ($tab["prixUnitaireVente"] > 1) $s = "s";
 			
-			$retour = "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar".$s."'>";
+			$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
+			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar".$s."'>";
 			$retour .= "Prix ".$tab["prixUnitaireVente"]."c</span>";
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
-			$retour .= "<br /><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
+			$retour .= "<br /><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."-achetertabac' id='".$tab["id_champ"]."-achetertabac' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
 			
 		} else {
-			$retour .= "<img src='".Zend_Registry::get('config')->url->static."/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
+			$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/><br />";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
 			$retour .= "<br /><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";

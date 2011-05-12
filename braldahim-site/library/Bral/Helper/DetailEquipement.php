@@ -19,7 +19,7 @@ class Bral_Helper_DetailEquipement {
 
 	public static function afficher($e) {
 		$retour = "<div class='braltip'>".self::afficherDetails($e);
-		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
+		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
 		$retour .= "</div>";
 		return $retour;
 	}
@@ -188,11 +188,11 @@ class Bral_Helper_DetailEquipement {
 
 	public static function afficheRecetteJs($niveaux) {
 		$retour = "
-	 	$('blanc').style.display='none';
+	 	$('#blanc').hide();
 		 for (i=0; i<".count($niveaux)."; i++) {
-		 	$('caracs_niveau_'+i).style.display='none';
+		 	$('#caracs_niveau_'+i).hide();
 		 }
-		 $('caracs_niveau_'+this.value).style.display = 'block';
+		 $('#caracs_niveau_'+this.value).show();
 	 ";
 		return $retour;
 	}

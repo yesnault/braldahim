@@ -10,7 +10,7 @@
 	 même case que vous.
 	 <br /><br />
 	 Choississez la rune : <br />
-	 <?php $js='if ($("valeur_1").val() ==-1){$("bouton_demanderidentificationrune.attr("disabled", true) } else {$("bouton_demanderidentificationrune").attr("disabled",false) }';?>
+	 <?php $js='if ($("#valeur_1").val() ==-1){$("#bouton_demanderidentificationrune.attr("disabled", true) } else {$("#bouton_demanderidentificationrune").attr("disabled",false) }';?>
 	 <select name="valeur_1" id="valeur_1"  onchange='javascript:<?php echo $js?>'>
 	 	<option value="-1">(Choisissez une rune)</option>
 	 	<?php foreach($this->runes as $r) : ?>

@@ -49,7 +49,7 @@
 						} 
 						$('#valeur_2').val(nbPlacees); 
 						nb = total - nbPlacees;
-						$('#valeur_3').val(Sortable.sequence($('group2'))); 
+						$('#valeur_3').val(Sortable.sequence($('#group2'))); 
 						if (nb != 0) { 
 							$('#bouton_joaillier').attr('disabled', true); 
 						} else { 
@@ -58,17 +58,17 @@
 						text = '';
 						s = '';
 						for (i=0; i<nbPlacees; i++) {
-							text = text + ' ' + $('item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
+							text = text + ' ' + $('#item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
 							if (i > 0) {
 								s = 's';
 							}
 						}
 						text = 'Rune' + s + ' : ' + text;
-						$('rune_text').innerHTML = text;
+						$('#rune_text').html(text);
 						return nb;
 					};
 					function upd() {
-						$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");
+						$('#dispo').html(calculNbRune(".$this->equipementCourant["nb_runes"]."));
 						
 					}
 					Position.includeScrollOffsets = true;

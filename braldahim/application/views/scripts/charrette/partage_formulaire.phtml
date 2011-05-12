@@ -43,6 +43,6 @@
 
 <br />
 <?php if ($this->possedeCharrette === true) : ?>
-<input type='button' class='button1' id='bouton_partagecharrette' value='Valider les partages' onclick='this.disabled=true;$("valeur_3").value=$("valeur_3_partage_dest").val();_get_("/charrette/doaction?caction=do_charrette_partage");'>
+<input type='button' class='button1' id='bouton_partagecharrette' value='Valider les partages' onclick='this.disabled=true;$("#valeur_3").val($("#valeur_3_partage_dest").val());_get_("/charrette/doaction?caction=do_charrette_partage");'>
 <?php endif ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

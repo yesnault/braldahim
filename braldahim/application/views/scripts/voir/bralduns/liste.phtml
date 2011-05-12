@@ -6,22 +6,22 @@
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-    <th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=6&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Points de distinctions <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Pr&eacute;nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Nom <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>N&deg; <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Niveau <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=5&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>");'>Date d'inscription <?php echo Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
+    <th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=6&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>Points de distinctions <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>Pr&eacute;nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>Nom <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>N&deg; <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>Niveau <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_bralduns&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=5&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>", "voir_bralduns");'>Date d'inscription <?php echo Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
   </tr>
 </thead>
 <tfoot class="table_liste">
   <tr class="table_liste">
     <th colspan='7'>
        <?php if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>', 'voir_bralduns')" value="Page pr&eacute;c&eacute;dente">
 	   <?php endif; ?>
 	   <?php if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>')" value="Page suivante">
+	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_bralduns&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>&valeur_7=<?php echo $this->filtrePrenom ?>', 'voir_bralduns')" value="Page suivante">
 	   <?php endif; ?>
     </th>
   </tr>

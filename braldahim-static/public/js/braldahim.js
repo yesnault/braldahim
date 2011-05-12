@@ -303,11 +303,23 @@ function ecrireMessage(idBraldun) {
 }
 
 function ecrireMessageListeContact(idListe) {
-	if ($("loaded_box_messagerie").value != "1") {
-		$("loaded_box_messagerie").value = "1"; 
+	if ($("#loaded_box_messagerie").val() != "1") {
+		$("#loaded_box_messagerie").val("1"); 
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
 	my_switch("box_messagerie","boite_c");
+}
+
+function checkboxCocher(liste, valeur, acacher, aafficher) {
+	val = liste.split(',');
+	retour = "";
+	
+	acacher.style.display="none";
+	aafficher.show();
+	
+	for (i = 0; i < val.length; i++) {
+		$($('#'+val[i]).attr('checked', valeur));
+	}
 }
 
 function encodePlus(chaine) {
@@ -606,15 +618,15 @@ function braltipFixer(id) {
 }
 
 function braltipDeFixer(id) {
-	$(id).className='tip';
-	(Position.offsetParent($(id))).style.zIndex='auto';
-	$(id + 'clos').style.display='none';
-	$(id + 'dep').style.display='none';
-	$(id + 'fix').style.display='inline';
+	$('#'+id).className='tip';
+	(Position.offsetParent($('#'+id))).style.zIndex='auto';
+	$('#'+id + 'clos').hide();
+	$('#'+id + 'dep').hide();
+	$('#'+id + 'fix').attr('display','inline');
 	
-	$(id).style.left='0px';
-	$(id).style.right='0px';
-	$(id).style.top='-3px'
+	$('#'+id).style.left='0px';
+	$('#'+id).style.right='0px';
+	$('#'+id).style.top='-3px'
 	destroyDraggable(id);
 }
 
@@ -1233,6 +1245,39 @@ function pasteAtCursor(theGirl, theGuy) {
 		theGirl[0].selectionEnd = startPos + theGuy.length;
 	} else {
 		theGirl.val(theGirl.val() + theGuy);
+	}
+}
+
+
+/** *********** *//** *********** */
+/** *** CHIFFRES  **** */
+/** *********** *//** *********** */
+//n'autorise que des chiffres.
+//exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
+function chiffres(event, negatif) {
+	// Compatibilité IE / Firefox
+	if (!event && window.event) {
+		event = window.event;
+	}
+
+	// IE tab, fleches deplacement
+	// backspace ou delete
+	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || 
+			event.keyCode == 46 || event.keyCode == 8) { 
+		return;
+	} else if (event.keyCode < 48 || event.keyCode > 57) {
+		event.returnValue = false;
+		event.cancelBubble = true;
+	}
+
+	// DOM backspace ou delete
+	if (event.which == 9 || event.which == 46 || event.which == 8) { 
+		return;
+	} else if (negatif != null && event.which == 45) { // signe -
+		return;
+	} else if (event.which < 48 || event.which > 57) {
+		event.preventDefault();
+		event.stopPropagation();
 	}
 }
 

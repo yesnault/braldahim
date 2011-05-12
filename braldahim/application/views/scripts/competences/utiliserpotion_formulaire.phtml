@@ -139,5 +139,5 @@
 		$nom = " le vernis !";
 	endif;
 ?>
-<input type='button' class='button1' value='Utiliser<?php echo $nom?>' id='bouton_utiliserpotion' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_utiliserpotion&potion="+$("valeur_1").val());' disabled>
+<input type='button' class='button1' value='Utiliser<?php echo $nom?>' id='bouton_utiliserpotion' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_utiliserpotion&potion="+$("#valeur_1").val());' disabled>
 <?php endif ?>

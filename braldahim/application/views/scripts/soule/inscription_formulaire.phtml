@@ -1,4 +1,4 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs-soule_inscription' name='nb_valeurs-soule_inscription' value='2'>
  <form name='myForm'>
  <div class='comp_contenu'>
  	
@@ -23,7 +23,7 @@
 		<?php else: ?>
 	 	&Eacute;quipe :<br />
 	 
-		<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
+		<select name='valeur_1-soule_inscription' id="valeur_1-soule_inscription" onchange="javascript:if ($('#valeur_1-soule_inscription').val() ==-1 || $('#valeur_2-soule_inscription').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
 			<option value='-1'>(Choisissez une &eacute;quipe)</option>
 			<?php foreach ($this->tabEquipes as $k => $e) : ?>
 			<option value="<?php echo $k?>" <?php if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
@@ -34,9 +34,8 @@
 		</select><br /><br />
 		<br />
 		
-		<input type="hidden" id="valeur_2" value="1"/>
 		Où voulez-vous que la roulotte vous dépose après le match ?<br />
-		<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
+		<select name='valeur_2-soule_inscription' id="valeur_2-soule_inscription" onchange="javascript:if ($('#valeur_1-soule_inscription').val() ==-1 || $('#valeur_2-soule_inscription').val() ==-1){$('#bouton_inscription.attr('disabled', true) } else {$('#bouton_inscription').attr('disabled',false) }">
 			<option value='-1'>(Choisissez le retour)</option>
 			<option value="1">&Agrave; la position X,Y d'avant match</option>
 			<option value="2">&Agrave; la ville la plus proche du terrain</option>
@@ -49,5 +48,5 @@
 </form>
 <br />
 <?php if ($this->inscriptionPossible === true): ?>
-<input type='button' class='button1' id='bouton_inscription' value='Inscription' onclick='this.disabled=true;_get_("/soule/doaction?caction=do_soule_inscription");' disabled>
+<input type='button' class='button1' id='bouton_inscription' value='Inscription' onclick='this.disabled=true;_get_("/soule/doaction?caction=do_soule_inscription", "soule_inscription");' disabled>
 <?php endif;?>

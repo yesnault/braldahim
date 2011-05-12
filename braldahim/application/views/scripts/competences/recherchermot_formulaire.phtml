@@ -36,7 +36,7 @@
 					} 
 					$('#valeur_2').val(nbPlacees); 
 					nb = total - nbPlacees;
-					$('#valeur_3').val(Sortable.sequence($('group2'))); 
+					$('#valeur_3').val(Sortable.sequence($('#group2'))); 
 					if (nb != 0) { 
 						$('#bouton_recherchermot').attr('disabled', true); 
 					} else { 
@@ -45,17 +45,17 @@
 					text = '';
 					s = '';
 					for (i=0; i<nbPlacees; i++) {
-						text = text + ' ' + $('item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
+						text = text + ' ' + $('#item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
 						if (i > 0) {
 							s = 's';
 						}
 					}
 					text = 'Rune' + s + ' : ' + text;
-					$('rune_text').innerHTML = text;
+					$('#rune_text').html(text);
 					return nb;
 				};
 				function upd() {
-					$('dispo').innerHTML=calculNbRuneRecherche(".$this->motCourant["nb_runes"].");
+					$('#dispo').html(calculNbRuneRecherche(".$this->motCourant["nb_runes"]."));
 				}
 				Position.includeScrollOffsets = true;
 				
@@ -103,5 +103,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->rechercherMotOk === true) : ?>
-<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("valeur_1").val());' disabled>
+<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("#valeur_1").val());' disabled>
 <?php endif ?>

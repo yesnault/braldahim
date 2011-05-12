@@ -6,9 +6,9 @@
 		var min = ".$this->dlaActuelle["min"]." + parseInt($('#valeur_2').val());
 		var heure = ".$this->dlaActuelle["heure"]." + parseInt($('#valeur_1').val());
 	 	var d = new Date(".$this->dlaActuelle["annee"].", ".$this->dlaActuelle["mois"]." -1 , ".$this->dlaActuelle["jour"].", heure, min, ".$this->dlaActuelle["seconde"].");
- 		$('dla_choisie').innerHTML='Date Limite Choisie : ' + d.getHours() +  ' h ' + d.getMinutes() +' et ' + d.getSeconds() + 's le ' + d.getDate() + '/' + d.getMonth() + '/' + d.getYear();
+ 		$('#dla_choisie').html('Date Limite Choisie : ' + d.getHours() +  ' h ' + d.getMinutes() +' et ' + d.getSeconds() + 's le ' + d.getDate() + '/' + d.getMonth() + '/' + d.getYear());
  	} else {
- 		$('dla_choisie').innerHTML='Choisissez les heures et les minutes';
+ 		$('#dla_choisie').html('Choisissez les heures et les minutes');
  	}
  	"
  	?>

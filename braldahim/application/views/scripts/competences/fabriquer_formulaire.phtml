@@ -79,5 +79,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->fabriquerEchoppeOk === true && $this->etape1 === true) : ?>
-<input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("valeur_1").val());' <?php if ($this->caracs[0][2][0]["nom_systeme_type_piece"] != "munition") : echo "disabled"; endif; ?>>
+<input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("#valeur_1").val());' <?php if ($this->caracs[0][2][0]["nom_systeme_type_piece"] != "munition") : echo "disabled"; endif; ?>>
 <?php endif ?>
