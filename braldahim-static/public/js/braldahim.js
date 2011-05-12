@@ -162,7 +162,7 @@ function showResponse(reponse) {
 	 * display_erreur_catch = true;
 	 */
 	} else if (xmldoc == "clear") {
-		$("box_action").innerHTML = "";
+		$("#box_action").innerHTML = "";
 	} else {
 		estInternetExplorer = false;
 		if (navigator.appName == "Microsoft Internet Explorer") {
@@ -721,7 +721,7 @@ function controleQte() {
 	 if ($('#valeur_2').val() == 4 && $('#valeur_3').val() == -1) {
 		cacher = true;
 	 }
-	 $('bouton_deposer').attr('disabled', cacher);
+	 $('#bouton_deposer').attr('disabled', cacher);
 }
 
 function selectAll(valmin, valmax) {
@@ -808,7 +808,7 @@ function afficheTransbahuterVente() {
 	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
 		$('#div_vente_transbahuter').show();
 	} else {
-		$('div_vente_transbahuter').hide();
+		$('#div_vente_transbahuter').hide();
 	}
 }
 
@@ -1159,7 +1159,7 @@ function bbstyle(bbnumber, field) {
 			imageTag = 1; 
 		}
 		arraypush(bbcode,bbnumber+1);
-		// eval('$('myForm').addbbcode'+bbnumber+'.value += "*"');
+		// eval('$('#myForm').addbbcode'+bbnumber+'.value += "*"');
 		var imgsrcori = eval('$("#addbbcode'+bbnumber+'").attr("src")');
 		var imgsrcnew = imgsrcori.substr(0, (imgsrcori.length - 4));
 		imgsrcnew += "_close.gif";
@@ -1205,7 +1205,7 @@ function storeCaret(textEl) {
 
 // Insert emoticons
 function emo(e, field) {
-	// $('myForm').pmessage.value=$('myForm').pmessage.value+$e;
+	// $('#myForm').pmessage.value=$('myForm').pmessage.value+$e;
 	pasteAtCursor(field, e);
 	field.focus();
 }
@@ -1240,86 +1240,82 @@ function pasteAtCursor(theGirl, theGuy) {
 /** *** splashScreen **** */
 /** *********** *//** *********** */
 
-
-// A self-executing anonymous function,
-// standard technique for developing jQuery plugins.
-
 (function($){
 
 	$.fn.splashScreen = function(settings) {
 
-		// Providing default options:
+	// Providing default options:
 
-		settings = $.extend({
-			textLayers		: [],
-			textShowTime	: 1500,
-			textTopOffset	: 00
-		},settings);
+	settings = $.extend({
+		textLayers : [],
+		textShowTime : 1500,
+		textTopOffset : 00
+	},settings);
 
-		var promoIMG = this;
+	var promoIMG = this;
 
-		// Creating the splashScreen div.
-		// The rest of the styling is in splashscreen.css
+	// Creating the splashScreen div.
+	// The rest of the styling is in splashscreen.css
 
-		var splashScreen = $('<div>',{
-			id	: 'splashScreen',
-			css:{
-				backgroundImage		: promoIMG.css('backgroundImage'),
-				backgroundPosition	: 'center '+promoIMG.offset().top+'px',
-				height				: $(document).height()
-			}
-		});
-
-		$('body').append(splashScreen);
-
-		splashScreen.click(function(){
-			splashScreen.fadeOut('slow');
-		});
-
-		// Binding a custom event for changing the current visible text
-		// according
-		// to the contents of the textLayers array (passed as a parameter)
-
-		splashScreen.bind('changeText',function(e,newID){
-
-			// If the image that we want to show is
-			// within the boundaries of the array:
-
-			if(settings.textLayers[newID]){
-				showText(newID);
-			}
-			else {
-				splashScreen.click();
-			}
-		});	
-
-		splashScreen.trigger('changeText',0);
-
-		// Extracting the functionality into a
-		// separate function for convenience.
-
-		function showText(id){
-			var text = $('<img>',{
-				src:settings.textLayers[id],
-				css: {
-					marginTop : promoIMG.offset().top+settings.textTopOffset
-				}
-			}).hide();
-
-			text.load(function(){
-				// text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
-				text.fadeIn('slow');
-				splashScreen.delay(settings.textShowTime).click();
-				/*
-				 * .fadeOut('slow',function(){ text.remove();
-				 * splashScreen.trigger('changeText',[id+1]); });
-				 */
-			});
-
-			splashScreen.append(text);
+	var splashScreen = $('<div>',{
+		id : 'splashScreen',
+		css:{
+			backgroundImage : promoIMG.css('backgroundImage'),
+			backgroundPosition : 'center '+promoIMG.offset().top+'px',
+			height : $(document).height()
 		}
+	});
+	
+	$('body').append(splashScreen);
+	
+	splashScreen.click(function(){
+		splashScreen.fadeOut('slow');
+	});
+	
+	// Binding a custom event for changing the current visible text
+	// according
+	// to the contents of the textLayers array (passed as a parameter)
 
-		return this;
+	splashScreen.bind('changeText',function(e,newID){
+	
+		// If the image that we want to show is
+		// within the boundaries of the array:
+	
+		if(settings.textLayers[newID]){
+			showText(newID);
+		}
+		else {
+			splashScreen.click();
+		}
+	});
+
+	splashScreen.trigger('changeText',0);
+
+	// Extracting the functionality into a
+	// separate function for convenience.
+
+	function showText(id){
+		var text = $('<img>',{
+		src:settings.textLayers[id],
+		css: {
+			marginTop : promoIMG.offset().top+settings.textTopOffset
+		}
+	}).hide();
+
+	text.load(function(){
+		// text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
+		text.fadeIn('slow');
+		splashScreen.delay(settings.textShowTime).click();
+		/*
+		* .fadeOut('slow',function(){ text.remove();
+		* splashScreen.trigger('changeText',[id+1]); });
+		*/
+	});
+
+	splashScreen.append(text);
+	}
+
+	return this;
 	}
 
 })(jQuery);
@@ -1327,17 +1323,50 @@ function pasteAtCursor(theGirl, theGuy) {
 
 jQuery.fn.exists = function(){return jQuery(this).length>0;}
 
-$(document).ready(function(){
+$(document).ready(function() {
 
 	// Calling our splashScreen plugin and
 	// passing an array with images to be shown
 	if ($('#promoIMG').exists()) {
 		$('#promoIMG').splashScreen({
 			textLayers : [
-				'/layout/comte.png',
+				$('#urlStatique').val() + '/images/layout/comte.png',
 			]
 		});
+		
+		$(function() {
+		    // Use this example, or...
+		    $('a[rel*=lightboxScreenshot]').lightBox(); // Select all links that contains lightbox in the attribute rel
+		    $('a[rel*=lightboxCarte]').lightBox(); // Select all links that contains lightbox in the attribute rel
+		});
 	}
+	
+	if ($('#main-cycle').exists()) {
+		$('#main-cycle').cycle({ 
+			fx: 'scrollHorz',
+		    speed: $('body.lte8').length ? 0 : 1000,
+			timeout: 0,
+			timeout: 20000,
+			next:   '#c-next', 
+			prev:   '#c-prev' ,
+		    cleartype: true,
+			cleartypeNoBg: true
+		});
+	}
+
+
+/*$('#main-cycle').cycle({
+	fx: 'scrollLeftCustom',
+	easing: 'easeInOutExpo',
+	speed: $('body.lte8').length ? 0 : 1000,
+	timeout: 0,
+	timeout: 8000,
+	width: 840,
+	next: '#c-next',
+	prev: '#c-prev',
+	cleartype: true,
+	cleartypeNoBg: true
+	}); */
 	
 	if ($('#pageflip').exists()) {
 		$("#pageflip").hover(function() { // On hover...
@@ -1363,5 +1392,5 @@ $(document).ready(function(){
 							// glitching in IE)
 		});
 	}
-
 });
+

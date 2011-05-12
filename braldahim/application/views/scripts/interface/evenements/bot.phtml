@@ -4,19 +4,19 @@
   	<?php if ($this->evenement != null) : ?>
   		<?php echo $this->evenement["date"]?> : <?php echo $this->evenement["type"]?> - <?php echo $this->evenement["details"]?><br />
   		<?php if (!$this->estCommunaute) : ?>
-  		<input type='hidden' id='nb_valeurs' name='nb_valeurs' value=''>
-  		<input type='hidden' name='valeur_1' id='valeur_1' value='envoi' />
-		<input type='hidden' name='valeur_2' id='valeur_2' value='' />
-		<input type='hidden' name='valeur_3' id='valeur_3' value='' />
-		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive" rows="10" cols="85" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
+  		<input type='hidden' id='nb_valeurs-transferer' name='nb_valeurs-transferer' value='3'>
+  		<input type='hidden' name='valeur_1-transferer' id='valeur_1-transferer' value='envoi' />
+		<input type='hidden' name='valeur_2-transferer' id='valeur_2-transferer' value='' />
+		<input type='hidden' name='valeur_3-transferer' id='valeur_3-transferer' value='' />
+		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive" rows="10" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
 		<?php else:?>
-		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive_communaute" rows="10" cols="85" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
+		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive_communaute" rows="10" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
 		<?php endif;?>
    <?php else: ?>
    		Aucun &eacute;v&eacute;nement s&eacute;lectionn&eacute;.
    <?php endif; ?>
    <br /><br />
    <?php if (!$this->estCommunaute) : ?>
-   <input type="button" class='button1' name="Envoyer" value="Transf&eacute;rer dans un message" onclick="Javascript:$('#nb_valeurs').val(3);$('#valeur_1').val('envoi'); $('#valeur_2').val() =-1;$('#valeur_3').val($('detail_evenement_prive').val()); _get_('/messagerie/doaction?caction=do_messagerie_message'); my_switch('box_messagerie','boite_c', 'interface');" />
+   <input type="button" class='button1' name="Envoyer" value="Transf&eacute;rer dans un message" onclick="Javascript:$('#valeur_1-transferer').val('envoi'); $('#valeur_2-transferer').val(-1);$('#valeur_3-transferer').val($('#detail_evenement_prive').val()); _get_('/messagerie/doaction?caction=do_messagerie_message', 'transferer'); my_switch('box_messagerie','boite_c', 'interface');" />
    <?php endif;?>
   </div>

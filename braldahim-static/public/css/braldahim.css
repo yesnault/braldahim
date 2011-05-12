@@ -1945,6 +1945,41 @@ td.cases.actuelle {
 /* ************************************************ */
 
 
+/* ************************************************ */
+/* ********************* Champ ****************** */
+/* ************************************************ */
+
+
+table.champ2d {
+	border: solid #777;
+	text-align: center;
+	border-spacing: 1;
+	border-width: 1pt;
+	background:#1F2614;
+}
+
+td.champ2d {
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 0;
+	border-width: 0.0pt;
+	font-size: 7pt;
+	vertical-align: top;
+	horizontal-align: center;
+	width: 32px;
+	height: 32px;
+}
+
+td.champ2d.seme { background: url('/images/champ/seme.png') no-repeat; }
+td.champ2d.a_recolter { background: url('/images/champ/a_recolter.png') no-repeat; }
+td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
+
+
+
+/* ************************************************ */
+/* ********************* FIN Champ ****************** */
+/* ************************************************ */
+
 
 /* ************************************************ */
 /* ********************* Message ****************** */

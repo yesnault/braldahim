@@ -1,14 +1,26 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
+
 <div class="titre textalia textsizeb">Mes &Eacute;v&eacute;nements</div>
- <div class="contenuC">
  
  <?php if ($this->affichageInterne == true) : ?>
 	 <?php 
 	 $this->estCommunaute = false;
-	 include("evenements/publiques.phtml") ?>
-	<br />
-	 <?php include("evenements/bot.phtml") ?>
+	 ?>
+	 
+	 <div class="contenuC">
+	 
+	<table style="padding:0px;border-spacing:0px;width:100%">
+		<tr>
+		<td width="50%" valign="top"> 
+			<?php include("evenements/publiques.phtml") ?>
+		</td>
+		<td width="50%" valign="top">
+			<?php include("evenements/bot.phtml") ?>
+		</td>
+		</tr>
+		</table>
+	</div>
 <?php else: ?>
 	<div class="box_contenu1 textalic">
 	Chargement en cours
@@ -16,6 +28,5 @@
 	</div>
 <?php endif; ?>
 
- </div>
 </div>
 <?php include("box_bottom.phtml") ?>
