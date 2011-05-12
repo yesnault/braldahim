@@ -1,13 +1,3 @@
-function findSelectedRadioButton(groupname) {
-	var radioButtons = $('#myForm').elements[groupname];
-	for ( var i = 0; i < radioButtons.length; i++) {
-		if (radioButtons[i].checked) {
-			return radioButtons[i];
-		}
-	}
-	return null;
-}
-
 function _get_specifique_(url, valeurs) {
 	var sep = '&';
 	if ($('#dateAuth')) {
@@ -93,13 +83,9 @@ function _get_(url, nomAction, encode) {
 		for (i = 1; i <= nb_valeurs; i++) {
 			var nom = '#valeur_' + i + suffixe;
 			var elem = $(nom);
-			if (elem.get(0).tagName == "RADIO") {
-				radioButton = findSelectedRadioButton(nom);
-				if (radioButton != null) {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + findSelectedRadioButton(nom).val();
-				} else {
-					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
-				}
+			if (elem[0].type == "radio") {
+				ajout = $("input[type=radio][name=valeur_" + i + suffixe + "]:checked").attr("value");
+				valeurs = valeurs + sep + "valeur_" + i + "=" + ajout;
 			} else if (elem[0].type == "select-multiple") {
 				for (j = 0; j<=elem[0].options.length-1; j++) {
 					if (elem[0].options[j].selected) {
@@ -385,7 +371,8 @@ function ouvreBralBox(element) {
 		modal: true,
 		minWidth : 600,
 		closeText : "Fermer",
-		 show: 'slide'
+		show: 'slide',
+	    position: 'top'
 	});
 }
 
@@ -618,7 +605,7 @@ function braltipFixer(id) {
 	(Position.offsetParent($(id))).style.zIndex=25;
 	$(id + 'clos').style.display='inline';
 	$(id + 'dep').style.display='inline';
-	$(id + 'fix').style.display='none';
+	$(id + 'fix').hide();
 	
 	new Draggable(id, { handle: id + 'dep' });
 }
@@ -843,53 +830,46 @@ function controlePrixVenteBoutonDeposer() {
 }
 
 function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('#recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getUniqueBraldunId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
-}
-
-function getUniqueBraldunId(text, li) {
-	if (controleSession(li) == true) {
-		$(li.getAttribute('champ')).val(li.getAttribute('id_braldun'));
-	}
+	$( "#recherche_" + id).autocomplete({
+		source: '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj,
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				$(li.getAttribute('champ')).val(ui.item.id);
+			}
+		}
+	});
 }
 
 function activerRechercheTransbahuterBraldun(id) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getTransbahuterBraldunId, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
-}
-
-function getTransbahuterBraldunId(text, li) {
-	if (controleSession(li) == true) {
-		$('#valeur_3').val(li.getAttribute('id_braldun'));
-		controleQte("");
-	}
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/",
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				$('#valeur_3').val(ui.item.id);
+				controleQte("");
+			}
+		}
+	});
 }
 
 function activerRechercheBraldunIdentificationRune(id) {
-	if ($('#recherche_' + id + '_actif').val() == 0) {
-		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/braldun/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-		afterUpdateElement :getBraldunIdentificationRune, parameters : { champ :'value' } });
-		$('#recherche_' + id + '_actif').val(1);
-	}
-}
-
-function getBraldunIdentificationRune(text, li) {
-	if (controleSession(li) == true) {
-		$('#valeur_2').val(li.getAttribute('id_braldun'));
-		if ($("#valeur_1").val() == -1) {
-			$("#bouton_demanderidentificationrune").attr('disabled', true);
-		} else {
-			$("#bouton_demanderidentificationrune").attr('disabled', false);
+	$( "#recherche_" + id).autocomplete({
+		source: "/Recherche/braldun/",
+		minLength: 2,
+		select: function( event, ui ) {
+			if (ui.item && ui.item.id > 0) {
+				$('#valeur_2').val(ui.item.id);
+				if ($("#valeur_1").val() == -1) {
+					$("#bouton_demanderidentificationrune").attr('disabled', true);
+				} else {
+					$("#bouton_demanderidentificationrune").attr('disabled', false);
+				}
+			}
 		}
-	}
+	});
 }
-
 
 
 /** ***************************************************************** */

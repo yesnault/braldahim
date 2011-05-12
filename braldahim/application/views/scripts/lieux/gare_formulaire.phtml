@@ -12,7 +12,7 @@
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    	<?php else : ?>
    	   Choisir une destination : <br />
-   	   <select id='valeur_1' name='valeur_1' onchange="javascript:if($('#valeur_1').val() ==-1){$('#bouton_gare.attr('disabled', true)} else {$('#bouton_gare').attr('disabled',false)}">
+   	   <select id='valeur_1' name='valeur_1' onchange="javascript:if($('#valeur_1').val() ==-1){$('#bouton_gare').attr('disabled', true)} else {$('#bouton_gare').attr('disabled',false)}">
    	     <option value='-1'>(Choisissez une destination)</option>
    	     <?php foreach($this->tabDestinations as $d) :?>
    	     <option value='<?php echo $d["id_lieu"]?>'><?php echo $d["nom"]?> (<?php echo $d["x"]?>,<?php echo $d["y"]?>) 

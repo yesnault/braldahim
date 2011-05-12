@@ -59,7 +59,7 @@
     	    <?php if (count($this->tabNouveauMetiers) >= 1) : ?>
 	    	Pour <?php echo $this->coutCastars?> castars et <?php echo $this->paUtilisationLieu?> PA, <br />
 	    	vous pouvez apprendre un nouveau m&eacute;tier : <br />
-		    	<select id='valeur_3' name='valeur_3' onchange="javascript:$('#changer_metier').attr('disabled', true);$('#valeur_defaut').checked=true;if(this.value!=-1){$('#apprendre_metier').attr('disabled',false);} else { $('#apprendre_metier.attr('disabled', true)}">
+		    	<select id='valeur_3' name='valeur_3' onchange="javascript:$('#changer_metier').attr('disabled', true);$('#valeur_defaut').checked=true;if(this.value!=-1){$('#apprendre_metier').attr('disabled',false);} else { $('#apprendre_metier').attr('disabled', true)}">
 		    		<option value='-1'>(Choisissez un m&eacute;tier)</option>
 		    		<?php foreach ($this->tabNouveauMetiers as $t) : ?>
 		    			<option value='<?php echo $t["id_metier"]?>' <?php if ($this->user->niveau_braldun < $t["niveau_min_metier"]) :echo 'disabled'; endif;?>><?php echo $t["nom"]?> <?php if ($this->user->niveau_braldun < $t["niveau_min_metier"]) : echo "Niveau minimum requis pour apprendre ce métier: ".$t["niveau_min_metier"]; endif;?> </option>

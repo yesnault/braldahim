@@ -19,14 +19,14 @@
  	
  	Le d&eacute;calage s'exprime en heures et en minutes. <br />
  	Choississez le nombre d'heures et / ou minutes de votre décalage.<br /><br />
-   <table width='300px' align='center'>
+   <table width='300px' align='center' style="margin-left: auto; margin-right: auto;">
     <tr>
     <th class='comp_titre'>Heures</th>
     <th class='comp_titre'>Minutes</th>
     </tr>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?php echo $js?> if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 || ($('#valeur_1').val() ==0 && $('#valeur_2').val() ==0)){$('#bouton_decalerdla.attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
+	   		<select id='valeur_1' name='valeur_1' onchange="javascript:<?php echo $js?> if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 || ($('#valeur_1').val() ==0 && $('#valeur_2').val() ==0)){$('#bouton_decalerdla').attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
 			<option value='-1'>(Choisis)</option>
 			<?php foreach ($this->tabHeures as $h): ?>
 			<option value='<?php echo $h?>'><?php echo $h?></option>
@@ -34,7 +34,7 @@
 			</select>
    		</td>
    		<td>
-   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?php echo $js?> if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 || ($('#valeur_1').val() ==0 && $('#valeur_2').val() ==0)){$('#bouton_decalerdla.attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
+   			<select id='valeur_2' name='valeur_2' onchange="javascript:<?php echo $js?> if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 || ($('#valeur_1').val() ==0 && $('#valeur_2').val() ==0)){$('#bouton_decalerdla').attr('disabled', true) } else {$('#bouton_decalerdla').attr('disabled',false) }">
 			<option value='-1'>(Choisis)</option>
 			<?php foreach ($this->tabMinutes as $m): ?>
 			<option value='<?php echo $m?>'><?php echo $m?></option>

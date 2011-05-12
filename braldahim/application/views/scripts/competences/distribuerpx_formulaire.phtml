@@ -24,7 +24,7 @@
  			<?php echo htmlspecialchars($h["prenom_braldun"])?> <?php echo htmlspecialchars($h["nom_braldun"])?> (<?php echo $h["id_braldun"]?>)
  			</td>
  			<td>
- 				<input type='text' id='valeur_<?php echo $i?>' name='valeur_<?php echo $i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('#nb_valeurs').val() ; i=i+2) {n=parseInt(n * 1)+parseInt($('#valeur_'+i).value * 1); } if ($('#cagnotte_origine').val() < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('#cagnotte').val(parseInt($('#cagnotte_origine').val() * 1) - parseInt(n * 1)); ">
+ 				<input type='text' id='valeur_<?php echo $i?>' name='valeur_<?php echo $i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('#nb_valeurs').val() ; i=i+2) {n=parseInt(n * 1)+parseInt($('#valeur_'+i).val() * 1); } if ($('#cagnotte_origine').val() < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('#cagnotte').val(parseInt($('#cagnotte_origine').val() * 1) - parseInt(n * 1)); ">
  			</td>
  		</tr>
  	<?php endforeach; ?>

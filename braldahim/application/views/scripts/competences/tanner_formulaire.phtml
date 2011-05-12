@@ -5,7 +5,7 @@
 	
 	<br />
 	Quantité de pièces à utiliser : <br />
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_tanner.attr('disabled', true) } else {$('#bouton_tanner').attr('disabled',false) }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_tanner').attr('disabled', true) } else {$('#bouton_tanner').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez la quantité à tanner)</option>
 	 	<?php for($i=1; $i <= $this->nbPeauMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;

@@ -15,7 +15,7 @@
 	 		 <br /><br />
 			<?php if ($this->nMonstres > 0): ?>
 			Charger un monstre<br />
-				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==-1){$('#bouton_charger.attr('disabled', true) } else {$('#valeur_2').val(-1)); $('#bouton_charger').attr('disabled',false) }">
+				<select name='valeur_1' id="valeur_1" onchange="javascript:if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==-1){$('#bouton_charger').attr('disabled', true) } else {$('#valeur_2').val(-1); $('#bouton_charger').attr('disabled',false) }">
 				<option value='-1'>(Choisissez un monstre)</option>
 				<?php foreach ($this->tabMonstres as $m) : ?>
 				<option value="<?php echo $m["id_monstre"]?>"><?php if ($m["est_gibier"]): ?> Gibier : <?php endif;?><?php echo $m["nom_monstre"]?> <?php echo $m["taille_monstre"]?>  (<?php echo $m["id_monstre"]?>) x:<?php echo $m["x_monstre"]?> , y:<?php echo $m["y_monstre"]?></option>
@@ -27,7 +27,7 @@
 			
 	 		<?php if ($this->nBralduns > 0): ?>
 	 		 Charger un Braldûn<br />
-	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==-1){$('#bouton_charger.attr('disabled', true) } else {$('#valeur_1').val(-1)); $('#bouton_charger').attr('disabled',false) }">
+	 			<select name='valeur_2' id="valeur_2" onchange="javascript:if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==-1){$('#bouton_charger').attr('disabled', true) } else {$('#valeur_1').val(-1); $('#bouton_charger').attr('disabled',false) }">
 				<option value='-1'>(Choisissez un Braldûn)</option>
 	 			<?php foreach ($this->tabBralduns as $h) : ?>
 				<option value="<?php echo $h["id_braldun"]?>"><?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (<?php echo $h["id_braldun"]?>) x:<?php echo $h["x_braldun"]?> , y:<?php echo $h["y_braldun"]?></option>

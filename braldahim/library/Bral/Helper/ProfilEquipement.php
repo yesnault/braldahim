@@ -15,7 +15,7 @@ class Bral_Helper_ProfilEquipement {
     		return "erreur";
     	}
     	
-		$retour .= "<table align='center' border='0'>";
+		$retour .= "<table align='center' border='0' sytle='margin-left: auto; margin-right: auto;'>";
 		$retour .= "<tr>";
 		$retour .= "<td>";
 		$retour .= "<table align='center' border='1'>";

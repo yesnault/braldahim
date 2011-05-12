@@ -9,7 +9,7 @@
 	 	<li>soit présente dans le laban d'un autre Braldûn présent sur votre case. Celui-ci doit vous avoir autorisé à identifier cette rune</li>
 	 </ul>
 	  
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_identifierrune.attr('disabled', true) } else {$('#bouton_identifierrune').attr('disabled',false) }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1){$('#bouton_identifierrune').attr('disabled', true) } else {$('#bouton_identifierrune').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez une rune)</option>
 	 	<?php foreach($this->runes as $r) : ?>
 	 		<option value="<?php echo $r["id_rune"]?>">Rune non identifi&eacute;e n&deg; <?php echo $r["id_rune"]?>

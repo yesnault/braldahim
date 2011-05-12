@@ -5,7 +5,7 @@
 	
 	 Pour <?php echo $this->nb_pa ?> PA, vous pouvez fondre jusqu'&agrave; <?php echo $this->nbMineraiMax ?> <?php if ($this->nbMineraiMax > 1) : $s='s'; else: $s=''; endif; ?> minerai<?php echo $s ?> en lingot(s) ...<br />
 	<br />
-	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 ){$('#bouton_fondre.attr('disabled', true) } else {$('#bouton_fondre').attr('disabled',false) }">
+	 <select name="valeur_1" id="valeur_1"  onchange="javascript:if ($('#valeur_1').val() ==-1 || $('#valeur_2').val() ==-1 ){$('#bouton_fondre').attr('disabled', true) } else {$('#bouton_fondre').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez un minerai)</option>
 	 	<?php foreach($this->minerais as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
@@ -17,7 +17,7 @@
 	 <br /><br />
 	 
 	 Quantité de minerais à fondre : <br />
-	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('#valeur_2').val() ==-1 || $('#valeur_1').val() ==-1){$('#bouton_fondre.attr('disabled', true) } else {$('#bouton_fondre').attr('disabled',false) }">
+	 <select name="valeur_2" id="valeur_2"  onchange="javascript:if ($('#valeur_2').val() ==-1 || $('#valeur_1').val() ==-1){$('#bouton_fondre').attr('disabled', true) } else {$('#bouton_fondre').attr('disabled',false) }">
 	 	<option value="-1">(Choisissez la quantité à fondre)</option>
 	 	<?php for($i=1; $i <= $this->nbMineraiMax; $i++) :
 	 		if ($i<=1): $s=''; else: $s='s'; endif;

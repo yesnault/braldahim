@@ -8,12 +8,7 @@
 	<?php if ($this->tableau == null || count($this->tableau) == 0) : ?>
 	 Vous ne pouvez attaquer une palissade qu'aux alentours de vous.
 	<?php else : ?>
-	  <table align='center'>
-	   <tr>
-	     <th>Position [x;y]</th>
-	   </tr>
-	   <tr>
-	     <td>
+	  Position [x;y]<br />
 	     <table class='comp_marcher_position'>
 	     	<?php $col=null ?>
 			<?php foreach ($this->tableau as $case) : ?>
@@ -40,9 +35,6 @@
 	       <?php endforeach; ?>
 	       </tr>
 	     </table>
-	     </td>
-	    </tr>
-	  </table>
 	<?php endif ?>
 <?php endif ?>
 </div>

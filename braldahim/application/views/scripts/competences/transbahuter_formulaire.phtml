@@ -48,8 +48,8 @@
 				$jsOuvrir = "";
 				if ($poches != null) :
 					foreach ($poches as $p) :
-						$jsFermer .= "maccordion_fermer($('$p'));";
-						$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+						$jsFermer .= "maccordion_fermer($('#$p'));";
+						$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
 					endforeach; 
 				endif;
 				?>

@@ -1004,7 +1004,7 @@ span.id_braldun {
 	background-color:#FFFFFF;
 	color:#9C947C;
 	margin-left:auto;
-   margin-right:auto;
+   	margin-right:auto;
 }
 
 .comp_marcher_position_td {
@@ -1067,6 +1067,22 @@ span.id_braldun {
 	height:100%;
 	text-decoration:none;
 	width:100%;
+}
+
+table.equipement {
+	border-style: solid;
+	border: solid #777;
+	border-spacing: 1;
+	border-width: 0.0pt;
+}
+
+td.equipement {
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 1;
+	border-width: 0.1pt;
+	vertical-align: top;
+	background: #31401A none repeat-x scroll 0pt;
 }
 
 table.table_liste {

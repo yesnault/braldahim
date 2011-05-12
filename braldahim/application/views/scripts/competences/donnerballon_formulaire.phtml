@@ -10,7 +10,7 @@
 			
 	 		<?php if ($this->nBralduns > 0): ?>
 	 		 Braldûn destinataire : <br />
-	 			<select name='valeur_1' id="valeur_1" onchange="javascript:if (this.value==-1){$('#bouton_donnerballon.attr('disabled', true) } else {$('#bouton_donnerballon').attr('disabled',false) }">
+	 			<select name='valeur_1' id="valeur_1" onchange="javascript:if (this.value==-1){$('#bouton_donnerballon').attr('disabled', true) } else {$('#bouton_donnerballon').attr('disabled',false) }">
 					<option value='-1'>(Choisissez un Braldûn)</option>
 	 				<?php foreach ($this->tabBralduns as $h) : ?>
 					<option value="<?php echo $h["id_braldun"]?>"><?php echo $h["prenom_braldun"]?> <?php echo $h["nom_braldun"]?> (<?php echo $h["id_braldun"]?>)</option>
