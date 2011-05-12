@@ -100,6 +100,12 @@ function _get_(url, nomAction, encode) {
 				} else {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.val();
 				}
+			} else if (elem[0].type == "select-multiple") {
+				for (j = 0; j<=elem[0].options.length-1; j++) {
+					if (elem[0].options[j].selected) {
+						valeurs = valeurs + sep + "valeur_" + i + "[]=" + elem[0].options[j].value;
+					}
+				}
 			} else {
 				if (encode) {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + encodeURIComponent(elem.val());
@@ -665,12 +671,11 @@ function controlePoids() {
 		poidsRestant = $('#poids_' + $('#valeur_2').val()).val();
 		if (poidsRestant != -1) {
 		 	for (i=11; i<=$('#nb_valeurs').val(); i++) {
-				if ($('#valeur_' + i).get(0).tagName  == 'SELECT') {
+				if ($('#valeur_' + i)[0].type  == 'select-multiple') {
 					for (j=0; j< $('#valeur_' + i)[0].options.length; j++) {
 						if ($('#valeur_' + i)[0].options[j].selected == true) {
-							//TODO CORRIGER OPTIONS
 							if ( i==19 || i==20 || i==23 || i==25 ) {
-								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids_' + $('#valeur_' + i).options[j].val()).val());
+								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids_' + $('#valeur_' + i)[0].options[j].value).val());
 							} else {
 								poids = parseFloat(poids) + parseFloat($('#valeur_' + i + '_poids').val());
 							}
@@ -696,8 +701,8 @@ function controlePoids() {
 }
 
 function controlePanneau (i) {
-	if ($('#valeur_' + i).get(0).tagName  == 'SELECT' ) {
-		for (j=0; j< $('#valeur_' + i).options.length; j++) {
+	if ($('#valeur_' + i)[0].type  == 'select-multiple' ) {
+		for (j=0; j< $('#valeur_' + i)[0].options.length; j++) {
 			$('#valeur_' + i + ' option').attr("selected","false");
 			cacher = false;
 		}
@@ -708,17 +713,17 @@ function controlePanneau (i) {
 }
 
 function controleQte() {
-	 v=false;
+	 v = false;
 	 ctrlEchoppe = false;
 	 for (i=11;i<=$('#nb_valeurs').val();i++) {
-	 	if ($('#valeur_'+i).value > 0 && $('#valeur_panneau').val() != true && v==true) {
+	 	if ($('#valeur_'+i)[0].value > 0 && $('#valeur_panneau').val() != true && v==true) {
 			controlePanneau (i);
 	 	}
 	 	if (controleEchoppe(i) == false ) {
 	 		ctrlEchoppe = true;
 	 	}
-	 	else if ($('#valeur_'+i).val() > 0 ) {
-			v=true;
+	 	else if ($('#valeur_'+i)[0].value > 0 ) {
+			v = true;
 		}
 	 }
 	 
@@ -746,7 +751,7 @@ function selectAll(valmin, valmax) {
 			break;
 	 	}
 		if ($('#valeur_' + i + '_echoppe').val() == 'oui' || $('#valeur_2').val() != 5) {
-			if ($('#valeur_' + i).get(0).tagName == 'SELECT' ) {
+			if ($('#valeur_' + i)[0].type == 'select-multiple' ) {
 				$('#valeur_' + i + ' option').attr("selected","selected");
 				cacher = false;
 				v = true;
@@ -784,7 +789,7 @@ function charrette() {
 function controleEchoppe(i) {
 	if ($('#valeur_2').val() == 5) {
 		if ( ($('#valeur_' + i + '_echoppe').val() == 'non') && $('#valeur_' + i).val() > 0) {
-			if ($('#valeur_' + i).get(0).tagName  == 'SELECT' ) {
+			if ($('#valeur_' + i)[0].type  == 'select-multiple' ) {
 				$('#valeur_' + i + ' option').attr("selected","false");
 			} else {
 				$('#valeur_' + i).val(0);
