@@ -295,7 +295,7 @@ class Bral_Helper_Profil {
 		$section_milieu = "Section survol&eacute;e : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br /><br />";
 		$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br /><br />";
 
-		$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center'><tr>";
+		$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center' style='margin-left: auto; margin-right: auto;'><tr>";
 		$retour .= "<td class='barre_tour_sommeil".$suffixeCss."'>";
 		$retour .= "<div class='braltip'><div class='barre_img img_tour_sommeil' style='width:".$width_latence."px'>".Bral_Helper_Tooltip::render($section_latence.$texte, $titre);
 		$retour .= "</div></div>";

@@ -90,6 +90,9 @@ class Bral_Box_Factory {
 			case "box_lieu" :
 				return self::getLieu($request, $view, $interne);
 				break;
+			case "box_personnage" :
+				return self::getPersonnage($request, $view, $interne);
+				break;
 			case "box_profil" :
 				return self::getProfil($request, $view, $interne);
 				break;
@@ -260,6 +263,11 @@ class Bral_Box_Factory {
 	public static function getLieu($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Lieu");
 		return new Bral_Box_Lieu($request, $view, $interne);
+	}
+
+	public static function getPersonnage($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Personnage");
+		return new Bral_Box_Personnage($request, $view, $interne);
 	}
 
 	public static function getProfil($request, $view, $interne) {

@@ -19,10 +19,14 @@ class Bral_Box_Profil extends Bral_Box_Box {
 		$this->view->display = $display;
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function render() {
-		if ($this->view->affichageInterne) {
+		//if ($this->view->affichageInterne) {
 			$this->data();
-		}
+		//}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/profil.phtml");
 	}

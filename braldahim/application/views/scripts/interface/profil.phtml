@@ -1,18 +1,7 @@
 <?php include("box_header.phtml") ?>
-<div class="inner">
-  <div class="titre">
-  <a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
-  <span class="titrea textalia textsizea"><?php echo $this->escape($this->user->prenom_braldun);?> 
-  <?php echo $this->escape($this->user->nom_braldun);?></span>
-  <span class="textalia textsized"><?php if ($this->user->titre_courant_braldun != null) :?>
-  <?php echo $this->user->titre_courant_braldun?>,
-  <?php endif;?> n&deg;<?php echo $this->user->id_braldun;?></span>
-  </a>
-  </div>
   <div class="contenuA">
 	  <div class="box_contenu1 textalic">
 	  
-	  <?php if ($this->affichageInterne == true) : ?>
  		<div class="titre textalia textsized" >Informations tour</div>
 
 		<table class="table_liste" style="width:99%; border:0" >
@@ -237,11 +226,6 @@
 			</tr>
 		</tbody>
 		</table>
-<?php else: ?>
-	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />
-<?php endif; ?>
 	  </div>
- </div>
 </div>
 <?php include("box_bottom.phtml") ?>

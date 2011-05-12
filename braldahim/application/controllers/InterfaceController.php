@@ -165,11 +165,12 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 
 		try {
-			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), $boite_a);
-			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), $boite_a);
-			$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), $boite_a);
-			$this->addBox(Bral_Box_Factory::getTitres($this->_request, $this->view, false), $boite_a);
-			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), $boite_a);
+			$this->addBox(Bral_Box_Factory::getPersonnage($this->_request, $this->view, false), $boite_a);
+			//$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), $boite_a);
+			//$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), $boite_a);
+			//$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), $boite_a);
+			//$this->addBox(Bral_Box_Factory::getTitres($this->_request, $this->view, false), $boite_a);
+			//$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), $boite_a);
 			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), $boite_a);
 
 			$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, false), $boite_b);
