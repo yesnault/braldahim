@@ -1,0 +1,23 @@
+<?php include("box_header.phtml") ?>
+<div class="inner">
+
+<?php if ($this->affichageInterne == true) : ?>
+
+	<table>
+		<tr>
+			<td>
+				<div id="box_vue"></div>
+			</td>
+			<td valign='top'>
+				<?php include("box_onglets.phtml") ?>		
+			</td>
+		</tr>
+	</table>
+	
+<?php else: ?>
+	Chargement en cours
+	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />
+<?php endif; ?>
+
+</div>
+<?php include("box_bottom.phtml") ?>
