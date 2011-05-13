@@ -2036,7 +2036,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     color: #FFFFFF;
     cursor: pointer;
     position: absolute;
-    top: 9%;
+    top: 80px;
     width: 420px;
     z-index: 1000;
 }
@@ -2049,7 +2049,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     color: #FFFFFF;
     cursor: pointer;
     position: absolute;
-    top: 9%;
+    top: 80px;
     width: 420px;
     z-index: 1000;
 }
@@ -2185,12 +2185,18 @@ body > #boite_b {
 /*******************************/
 
 .pointsdistinctions {
- font-family: "Cardinal",Times,serif;
- font-weight: normal;
- color: #f0ae21;
- text-shadow: 0 0 4px black, 0 -5px 4px black;
- font-size: 1.4em;
- cursor:pointer;
+	font-family: "Cardinal",Times,serif;
+	font-weight: normal;
+	color: #f0ae21;
+	text-shadow: 0 0 4px black, 0 -5px 4px black;
+	font-size: 1.4em;
+	cursor:pointer;
+ 
+ 	right: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 50px;
+    z-index: 1000;
 }
 
 .box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration

@@ -105,27 +105,34 @@ if ($case['n_champs'] > 0) :
 endif; ?>
 
 <div class='braltip'>
+<?php $detailsLieux = "";?>
 
 <?php if ($textPalissade != "") : 
-	echo Bral_Helper_Tooltip::render($textPalissade, $titre); endif; ?>
+	$detailsLieux .= $textPalissade; ?>
+<?php endif;?>
 <?php if ($textLieu != '' ) :?>
-	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
 	<?php if ($type_lieu != '') : ?>
 		<img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $type_lieu?>.png' />
 	<?php else: ?>
 		<img src='<?php echo $this->config->url->static?>/images/vue/batiment.png' />
 	<?php endif; ?>
 <?php elseif ($textChamp != '') : ?>
-	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
 	<img src='<?php echo $this->config->url->static?>/images/vue/champ.png' />
 <?php elseif ($textEchoppe != '') : ?>
-	<?php echo Bral_Helper_Tooltip::render($textLieu.$textEchoppe.$textChamp.$textBallon, $titre); ?>
+	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
 	<img src='<?php echo $this->config->url->static?>/images/vue/echoppes/<?php echo $nomSystemeEchoppe?>.png' />
 <?php else: ?>
 	<br />
 <?php endif;?>  
 
+<div id="vuedetails_hd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
+	<?php echo $detailsLieux; ?>
+</div>
+
 <?php if ($textBallon != '') : ?>
 <img src='<?php echo $this->config->url->static?>/images/vue/ballon.png'/>
 <?php endif;?>
+
 </div>

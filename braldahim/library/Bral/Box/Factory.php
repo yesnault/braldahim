@@ -117,6 +117,9 @@ class Bral_Box_Factory {
 			case "box_vue" :
 				return self::getVue($request, $view, $interne);
 				break;
+			case "box_vuedetails" :
+				return self::getVuedetails($request, $view, $interne);
+				break;
 			default :
 				throw new Zend_Exception("getBox::nom invalide :".$nom);
 		}
@@ -193,7 +196,7 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Interface");
 		return new Bral_Box_Interface($request, $view, $interne);
 	}
-	
+
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
 		return new Bral_Box_Echoppes($request, $view, $interne);
@@ -306,6 +309,11 @@ class Bral_Box_Factory {
 	public static function getVue($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Vue");
 		return new Bral_Box_Vue($request, $view, $interne);
+	}
+
+	public static function getVuedetails($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Vuedetails");
+		return new Bral_Box_Vuedetails($request, $view, $interne);
 	}
 
 	public static function getTour($request, $view, $interne) {

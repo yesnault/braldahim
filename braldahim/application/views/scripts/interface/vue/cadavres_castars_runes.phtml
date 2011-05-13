@@ -124,7 +124,13 @@ foreach($case["buissons"] as $b) {
 endif;
 
 ?>
-<div class="braltip"><?php echo Bral_Helper_Tooltip::render($textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute, $titre) ?>
+
+<div class="braltip">
+
+<div id="vuedetails_bd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
+<?php echo $textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute;?>
+</div>
+
 <?php
 if ($case["n_buissons"] > 0) :
 ?><img src='<?php echo $this->config->url->static?>/images/vue/buisson.png'
@@ -155,4 +161,5 @@ if ($case["n_buissons"] > 0) :
 	?> <img src='<?php echo $this->config->url->static?>/images/vue/braldunKo.png'
 	style="position: absolute; left: 10px; top: -2px" /> <?php
 	endif;
-	?></div>
+	?>
+</div>

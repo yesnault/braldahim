@@ -123,7 +123,10 @@ endif;
 ?>
 
 <div class="braltip">
-<?php echo Bral_Helper_Tooltip::render($textBraldun.$textMonstre.$textNid, $titre);?>
+
+<div id="vuedetails_bralduns-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
+<?php echo $textBraldun.$textMonstre.$textNid;?>
+</div>
 
 <?php if ($case["n_nids"] > 0) : ?>
     <img src='<?php echo $this->config->url->static?>/images/vue/nid.png' style="position: absolute; top:-8px; left:0px;"/>
@@ -162,4 +165,4 @@ endif;
     <img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;left:5px;top:-6px"/>
 <?php endif; ?>
     
-</div>
+</div> 

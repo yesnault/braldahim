@@ -288,10 +288,19 @@ function textCount(field, counterfield, max) {
 	}
 }
 
+function chargeBoxMessagerie() {
+	if ($("loaded_box_messagerie").value != "1") {
+		// pour eviter de recharger box_messagerie lors du my_switch en dessous
+		// si l'onglet n'a jamais été vu.
+	//	$("loaded_box_messagerie").value = "1";
+		_get_('/interface/load/?box=box_messagerie');
+	}
+}
+
 function ecrireMessage(idBraldun) {
 	chargeBoxMessagerie();
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idBraldun);
-	my_switch("box_messagerie","boite_c");
+	//my_switch("box_messagerie","boite_c");
 }
 
 function ecrireMessageListeContact(idListe) {
@@ -299,7 +308,7 @@ function ecrireMessageListeContact(idListe) {
 		$("#loaded_box_messagerie").val("1"); 
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
-	my_switch("box_messagerie","boite_c");
+	//my_switch("box_messagerie","boite_c");
 }
 
 function checkboxCocher(liste, valeur, acacher, aafficher) {
@@ -1277,6 +1286,16 @@ function chiffres(event, negatif) {
 		event.stopPropagation();
 	}
 }
+
+function affDetails(id) {
+	//switch2div('box_vuedetails', 'box_interface_boxes');
+	$('#vuedetails_interne').html('');
+	$('#vuedetails_interne').append($('#vuedetails_bralduns-' + id).html());
+	$('#vuedetails_interne').append($('#vuedetails_hd-' + id).html());
+	$('#vuedetails_interne').append($('#vuedetails_bd-' + id).html());
+	
+}
+
 
 /** *********** *//** *********** */
 /** *** splashScreen **** */
