@@ -174,9 +174,11 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), $boite_a);
 
 			$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, false), $boite_b);
+			
+			$this->addBox(Bral_Box_Factory::getInterface($this->_request, $this->view, true), $boite_c);
 
-			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
 			
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
@@ -185,17 +187,18 @@ class InterfaceController extends Zend_Controller_Action {
 				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), $boite_c);
 			}
 			unset($braldunsMetiers);
-
-			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
+			
 			$this->addBox(Bral_Box_Factory::getChamps($this->_request, $this->view, false), $boite_c);
+
+			//$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), $boite_c);
-			$this->addBox(Bral_Box_Factory::getCarnet($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);
+			//$this->addBox(Bral_Box_Factory::getCarnet($this->_request, $this->view, false), $boite_c);
 
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
@@ -263,7 +266,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 			for ($i = 0; $i < count($l); $i ++) {
 				if ($i == 0 && !$this->view->estMobile) {
-					if ($l[$i]->getNomInterne() == "box_vue") {
+					if ($l[$i]->getNomInterne() == "box_interface") {
 						$display = "block";
 					} else {
 						$display = "none";

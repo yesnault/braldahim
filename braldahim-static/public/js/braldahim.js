@@ -332,10 +332,20 @@ function _display_box(box, data) {
 		$('#'+box).html(data);
 	}
 	
-	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue
-		// ensuite
+	// si l'on fait appel a boxes, on appelle interface
+	if (box == 'racine') { 
+		_get_('/interface/load/?box=box_interface');
+	} else if (box == 'box_interface') { 
+		// si l'on fait appel a interface, on appelle la vue ensuite
 		_get_('/interface/load/?box=box_vue');
+	} else if (box == 'box_carnet') { 
+		// si l'on fait appel a interface, on appelle la vue ensuite
+		$( "#box_carnet" ).dialog({ width: 600 });
+	} else if (box == 'box_messagerie' || box == 'messagerie_contenu') { 
+		// si l'on fait appel a interface, on appelle la vue ensuite
+		$( "#box_messagerie" ).dialog({ width: 800 });
 	}
+		
 }
 
 function revealModal(divID) {
@@ -406,7 +416,9 @@ function my_switch(box, conteneur, controleur) {
 		$("#onglet_" + val[i]).className = "onglet inactif";
 	}
 	
-	if ($("#loaded_" + box).val() != "1") {
+	if (box == "box_carnet" || box == "box_messagerie") {
+		_get_('/'+controleur+'/load/?box='+ box);
+	} else if ($("#loaded_" + box).val() != "1") {
 		$("#loaded_" + box).val(1);
 		_get_('/'+controleur+'/load/?box='+ box);
 	}

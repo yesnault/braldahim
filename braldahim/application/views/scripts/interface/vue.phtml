@@ -1,7 +1,6 @@
 <?php include("box_header.phtml") ?>
-<div class="inner">
-<?php if ($this->affichageInterne == true) :
-	if ($this->estVueEtendue == false): 
+
+<?php if ($this->estVueEtendue == false): 
 		include('vue/titre_vue.phtml'); 
 	else :
 		?><div class="titre textalic textsizea">Ma Vue &Eacute;tendue</div>
@@ -26,17 +25,8 @@
 		<?php endif;?>  		
 		<?php include('vue/damier.phtml'); ?>
 		</td>
-		<?php if (!$this->estMobile && !$this->estVueEtendue) : ?>
-  			<td valign="top">
-			<?php echo $this->htmlBlabla?>
-			</td>
-  		<?php endif;?>
   	</tr>
   </table>
 </div>
-<?php else: ?>
-	Chargement de la vue en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />
-<?php endif; ?>
-</div>
+
 <?php include("box_bottom.phtml") ?>

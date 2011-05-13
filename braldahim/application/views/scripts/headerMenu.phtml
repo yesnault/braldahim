@@ -31,11 +31,14 @@
 		 <?php if ($this->user->gardeEnCours === true) : ?>
 		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?php echo htmlspecialchars($this->user->prenom_braldun) ?> <?php echo htmlspecialchars($this->user->nom_braldun) ?> (<?php echo $this->user->id_braldun?>) en cours</a>
 		 <?php endif; ?>
+		 
 		 <div style="line-height: 22px;">&nbsp;</div>
 		 
 		 <div style="line-height: 18px; margin-top:-18px;">&nbsp;
 		 	<?php if ($this->controleur == "interface") : ?>
 				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
+					<label id="labelcarnet" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_carnet");'>Carnet</label>
+					| <label id="labelcarnet" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");'>Messagerie</label>
 				 	<img id="img_message_ancien" src="<?php echo $this->config->url->static?>/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
 					<img id="img_message_nouveau" src="<?php echo $this->config->url->static?>/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
 				</span>
