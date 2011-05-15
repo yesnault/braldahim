@@ -12,11 +12,12 @@ class Bral_Helper_Tooltip {
 		
 		$id = 'n'.uniqid();
 		$retour = '<div class="tip" id="'.$id.'">';
-		$retour .= '<span id="'.$id.'fix" onclick="braltipFixer(\''.$id.'\')">[Fixer]</span>';
+		/*$retour .= '<span id="'.$id.'fix" onclick="braltipFixer(\''.$id.'\')">[Fixer]</span>';
 		if (!Zend_Registry::get("estMobile")) {
 			$retour .= '<span id="'.$id.'dep" style="display:none">[Déplacer]</span>';
 		}
 		$retour .= '<span id="'.$id.'clos" style="display:none" onclick="braltipDeFixer(\''.$id.'\')">[Ne plus fixer]</span>&nbsp;';
+		*/
 		
 		$retour .= '<span id="'.$id.'mes" style="display:inline" onclick="braltipMsg(\''.$id.'\')">[Message]</span>&nbsp;';
 		$retour .= '<span id="'.$id.'enr" style="display:inline" onclick="braltipDispEnr(\''.$id.'\')">[Enregistrer]</span>&nbsp;';

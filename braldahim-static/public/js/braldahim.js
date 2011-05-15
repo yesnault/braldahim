@@ -390,8 +390,8 @@ function ouvreBralBox(element) {
 		modal: true,
 		minWidth : 600,
 		closeText : "Fermer",
-		show: 'slide',
-	    position: 'top'
+		show: 'slideUp'
+	    //position: 'top'
 	});
 }
 
@@ -644,6 +644,27 @@ function braltipDeFixer(id) {
 	destroyDraggable(id);
 }
 
+
+function braltipDispEnr(id) {
+	if ($('#' + id + 'sel').css('display') == 'inline') {
+		$('#' + id + 'sel').hide();
+	} else {
+		$('#' + id + 'sel').show();
+		$('#' + id + 'btnEnr').attr('disabled',false);
+	}
+}
+
+function braltipEnr(el, id) {
+	el.disabled=true;
+	_get_specifique_('/carnet/doaction?caction=do_carnet_enregistre', 'mode=ajout&carnet='+$('#' + id + 'numNote').val()+'&msg='+id+'msg'+'&texte_carnet='+encodeURIComponent($('#'+id+'texte').html()))
+}
+
+function braltipMsg(id) {
+	chargeBoxMessagerie();
+	_get_("/messagerie/doaction?caction=do_messagerie_message&valeur_1=envoi&valeur_3="+encodeURIComponent($('#'+id+'texte').html()));
+	my_switch("box_messagerie","boite_c");
+}
+
 function destroyDraggable(id) {
     for(var i=0, size=Draggables.drags.length; i<size; i++) {
       if(Draggables.drags[i].element.id == id) {
@@ -651,7 +672,6 @@ function destroyDraggable(id) {
       }
     }
 }
-
 
 function maccordion_fermer(el) {
 	var eldown = el.parents().attr("id") + '-body';
@@ -1293,6 +1313,7 @@ function affDetails(x, y, z) {
 	$('#vuedetails_interne').html('');
 	$('#vuedetails_interne').append($('#vuedetails_bralduns-' + id).html());
 	$('#vuedetails_interne').append($('#vuedetails_hd-' + id).html());
+	$('#vuedetails_interne').append($('#vuedetails_bg-' + id).html());
 	$('#vuedetails_interne').append($('#vuedetails_bd-' + id).html());
 	
 	if ($('#vuedetails_interne').html().trim() == '') {
