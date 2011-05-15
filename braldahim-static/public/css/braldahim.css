@@ -1875,10 +1875,7 @@ table.vue2d {
 	background-color: #31401A;
 	text-align: center;
 	border-spacing: 0px;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #000000;
-	
+	border-width: 0px;
 }
 
 td.vue2d {
