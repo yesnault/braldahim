@@ -2062,7 +2062,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     position: absolute;
     top: 80px;
     width: 420px;
-    z-index: 1000;
+    z-index: 800;
 }
 
 #boite_a .inner, #boite_b .inner {
