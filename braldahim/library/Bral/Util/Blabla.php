@@ -49,5 +49,4 @@ class Bral_Util_Blabla {
 		$view->blablaMessages = $tab;
 	}
 
-
 }

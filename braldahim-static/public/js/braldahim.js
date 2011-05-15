@@ -514,7 +514,7 @@ function ouvHistoR(id) {
 
 function ouvrirWin(url, titre) {
 	if (url.substring(0, 6) == '/voir/') {
-		url = "http://jeu.braldahim.com" + url;
+		//url = "http://jeu.braldahim.com" + url;
 	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
@@ -1287,13 +1287,21 @@ function chiffres(event, negatif) {
 	}
 }
 
-function affDetails(id) {
+function affDetails(x, y, z) {
 	//switch2div('box_vuedetails', 'box_interface_boxes');
+	id = x + '_' + y;
 	$('#vuedetails_interne').html('');
 	$('#vuedetails_interne').append($('#vuedetails_bralduns-' + id).html());
 	$('#vuedetails_interne').append($('#vuedetails_hd-' + id).html());
 	$('#vuedetails_interne').append($('#vuedetails_bd-' + id).html());
 	
+	if ($('#vuedetails_interne').html().trim() == '') {
+		$('#vuedetails_interne').append('<br />Rien de particulier à cet endroit');
+	}
+	
+	$('#vuedetails_interne').prepend("Position " + x + ", " + y + ", " + z + " <br />");
+	
+	$('#vuedetails_interne').append('<br /><br />');
 }
 
 

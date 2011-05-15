@@ -24,11 +24,17 @@ class Bral_Box_Vuedetails extends Bral_Box_Box {
 	}
 	
 	function render() {
-		//$this->data();
+		$this->data();
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/vuedetails.phtml");
 	}
 
 	function data() {
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		
+		$backFlag = $this->view->affichageInterne;
+		$this->view->affichageInterne = true;
+		$this->view->blabla = Bral_Util_Blabla::render($this->view);
+		$this->view->affichageInterne = $backFlag;
 	}
 }

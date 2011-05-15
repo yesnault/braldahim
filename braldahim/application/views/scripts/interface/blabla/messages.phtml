@@ -20,15 +20,12 @@
 	</li>
 </ul>
 
-<span onclick="Javascript:_get_('/interface/load/?box=box_blabla');" class="alabel">Rafraîchir</span>
+<!-- <span onclick="Javascript:_get_('/interface/load/?box=box_blabla');" class="alabel">Rafraîchir</span> -->
 
-<table class="table_liste" style="width:100%;text-align:center">
+<table class="table_liste" style="width:100%;">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-	  	<th>Date</th>
-	  	<th>Braldûn</th>
-	  	<th>Position X/Y</th>
-		<th width='70%'>Message</th>
+	  	<th>Message</th>
 	  </tr>
 	</thead>
 	<tr class="table_liste">
@@ -61,10 +58,10 @@
   	<?php $i = 0; 
   	foreach($this->blablaMessages as $e): ?>
   		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-  			<td class="table_liste"><?php echo $e["date"]?>&nbsp;</td>
-  			<td class="table_liste"><?php echo $e["braldun"]?>&nbsp;</td>
-  			<td class="table_liste"><?php echo $e["x"]?> / <?php echo $e["y"]?></td>
-	  		<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;</td>
+  			<td class="table_liste" style='text-align:left'><i title='le <?php echo $e["date"]?> en <?php echo $e["x"]?> / <?php echo $e["y"]?>'><?php echo $e["braldun"]?></i><br />
+	  		<?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;
+	  		<p class="a">~</p>
+	  		</td>
   		</tr>
   	<?php endforeach; ?>
   	</tbody>

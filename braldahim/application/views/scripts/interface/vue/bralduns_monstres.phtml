@@ -7,14 +7,14 @@ $textNid = "";
 if ($case["n_bralduns"] > 0) :
 	$sexe_braldun = "";
 	$soule_braldun = "";
-	$textBraldun = "<br />Braldûn";
+	$s = "";
+	if ($case["n_bralduns"] > 1) {
+		$s .= "s";
+	}
+	$textBraldun = "<br /><div class='titre textalia textsizef'>Braldûn$s</div>";
 	$textEquipe["a"] = "";
 	$textEquipe["b"] = "";
 	
-	if ($case["n_bralduns"] > 1) {
-		$textBraldun .= "s";
-	}
-	$textBraldun .= ":<br />";
 	foreach($case["bralduns"] as $h) {
 		
 		$intangible = "";
@@ -79,6 +79,9 @@ if ($case["n_bralduns"] > 0) :
 		}
 		$textBraldun = $textEquipe["a"] .$textEquipe["b"] ;
 	}
+	if ($textBraldun != "") {
+		$textBraldun = $textBraldun.'<br /><hr/><br />';
+	}
 endif; 
 
 $idTypeMonstre = "";
@@ -88,8 +91,8 @@ if ($case["n_monstres"] > 0) :
 		$s = "s";
 	}
 	
-	$textMonstre = "<br />Monstre".$s. " ou Gibier".$s;
-	$textMonstre .= ":<br />";
+	$textMonstre = "<br /><div class='titre textalia textsizef'>Monstre$s ou Gibier$s</div>";
+	$textMonstre .= "<br />";
 	foreach($case["monstres"] as $m) {
 		$textMonstre .= '<label class=\'alabel\' onclick=ouvrirMonstre('.$m["id_monstre"].'); title=\'Voir le profil\' >';
 		if ($m["est_gibier"]) {
@@ -110,6 +113,9 @@ if ($case["n_monstres"] > 0) :
 	if ($case["n_monstres"] > 1) {
 		$s = "s";
 	}
+	if ($textMonstre != "") {
+		$textMonstre = $textMonstre.'<br /><hr/><br />';
+	}
 endif;
 
 if ($case["n_nids"] > 0) :
@@ -118,6 +124,9 @@ if ($case["n_nids"] > 0) :
 		$textNid .= '1 '.$n["nom_nid"].' ('.$n["id_nid"].') ';
 		$textNid .= "<br />";
 	} 
+	if ($textNid != "") {
+		$textNid = $textNid.'<br /><hr/><br />';
+	}
 endif;
 
 ?>

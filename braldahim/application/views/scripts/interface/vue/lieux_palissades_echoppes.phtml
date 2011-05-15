@@ -7,7 +7,7 @@ $textBallon = '';
 
 $textPalissade = "";
 	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br />Palissade / Portail : <br />";
+      	$textPalissade = "<br /><div class='titre textalia textsizef'><br />Palissade / Portail</div>";
       	foreach($case["palissades"] as $p) {
 		  	if ($p["est_portail_palissade"] == "oui") {
 				$textPalissade .= "un portail (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
@@ -27,8 +27,12 @@ $textPalissade = "";
 		}
 	endif;
 	
+	if ($textPalissade != "") {
+		$textPalissade = $textPalissade.'<br /><hr/><br />';
+	}
+	
 if ($case['n_lieux'] > 0) :
-	$textLieu = 'Lieu : <br />';
+	$textLieu = "<br /><div class='titre textalia textsizef'>Lieu</div>";
     foreach($case['lieux'] as $l) {
       	$textLieu .= htmlspecialchars($l['nom_lieu']);
       	$type_lieu = $l['nom_systeme_type_lieu'];
@@ -42,6 +46,9 @@ if ($case['n_lieux'] > 0) :
 		}
 	}
 	 
+	if ($textLieu != "") {
+		$textLieu = $textLieu.'<br /><hr/><br />';
+	}
 endif;
 
 if ($case['n_ballons'] > 0) :
@@ -77,10 +84,14 @@ if ($case['n_echoppes'] > 0) :
 		$s = 's';
 	}
 	
+	if ($textEchoppe != "") {
+		$textEchoppe = $textEchoppe.'<br /><hr/><br />';
+	}
+	
 endif; 
 
 if ($case['n_champs'] > 0) :
-	$textChamp = '<br />Champ : <br />';
+	$textChamp = "<br /><div class='titre textalia textsizef'>Champ</div>";
 	$nomSystemeChamp = '';
 	foreach($case['champs'] as $c) {
 		if ($c['nom_champ'] != null && $c['nom_champ'] != '') :
@@ -100,6 +111,10 @@ if ($case['n_champs'] > 0) :
 		}
 	
       	$textChamp .= '<br />';
+	}
+	
+	if ($textChamp != "") {
+		$textChamp = $textChamp.'<br /><hr/><br />';
 	}
 	
 endif; ?>
