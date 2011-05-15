@@ -75,10 +75,57 @@ foreach($this->tableau as $k => $case) :
 
 <?php if (Zend_Registry::get("estMobile")) : ?>
 	Version Mobile : pour marcher, choisissez Marcher dans vos compétences basiques.<br /><br />
-<?php 	else : ?>
-	Compétence Marcher accessible depuis la vue : 
-	Cliquez sur <img src='<?php echo $this->config->url->static?>/images/vue/pas2.png'> pour Marcher<br />
-	Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br />
+<?php else : ?>
+	<br />
+	<ul id="navigation" style="width:99%;text-align:left">
+	
+	<li id="pocheVueLegende">
+		<?php $poches[] = "pocheVueLegende-head" ?>
+      	<h3 id="pocheVueLegende-head" class="head" onclick="maccordion(this);">
+			Légende
+		</h3>
+		<ul id="pocheVueLegende-body" style="display:none">
+			<li>
+			
+			Compétence Marcher accessible depuis la vue : 
+			Cliquez sur <img src='<?php echo $this->config->url->static?>/images/vue/pas2.png'> pour Marcher<br />
+			Laissez votre souris sur les pas pour avoir plus d'informations sur le nombre de PA nécessaires.<br />
+			
+			<br />
+				<table class="">
+					<tr>
+						<td class="case vue2d plaine">Plaine</td>
+						<td class="case vue2d marais">Marais</td>
+						<td class="case vue2d montagne">Montage</td>
+						<td class="case vue2d caverne">Caverne</td>
+						<td class="case vue2d gazon">Gazon</td>
+						<td class="case vue2d mine">Mine</td>
+						<td class="case vue2d tunnel">Tunnel</td>
+						<td class="case vue2d inconnu">Inconnu</td>
+					</tr>
+					<tr>
+						<td class="case vue2d erables">Erables</td>
+						<td class="case vue2d chenes">Chênes</td>
+						<td class="case vue2d peupliers">Peupliers</td>
+						<td class="case vue2d hetres">Hêtres</td>
+						<td class="case vue2d peuprofonde">Eau peu<br />profonde</td>
+						<td class="case vue2d profonde">Eau<br /> profonde</td>
+						<td class="case vue2d mer">Mer</td>
+						<td class="case vue2d lac">Lac</td>
+					</tr>
+					<tr>
+						<td class="case vue2d route">Route</td>
+						<td class="case vue2d pave">Pavé</td>
+						<td class="case vue2d palissade">Palissade</td>
+						<td class="case vue2d portail">Portail</td>
+						<td class="case vue2d buisson">Buisson</td>
+					</tr>
+				</table>
+			</li>
+		</ul>
+	</li>
+</ul>
+
 <?php endif ?>
 
 &nbsp;

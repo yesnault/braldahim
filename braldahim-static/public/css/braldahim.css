@@ -1890,6 +1890,7 @@ td.vue2d {
 	border-top:1px solid #628B28;
 	border-left:1px solid #628B28;
 	background-color:#F1D499;
+	color:#1F2614;
 }
 
 td.vue2d.actuelle {
@@ -1928,6 +1929,12 @@ td.vue2d.pave { background: url('/images/vue/pave.png') repeat; }
 td.vue2d.palissade {
 	background: url('/images/vue/palissade.png') repeat;
 }
+
+td.vue2d.buisson {
+	background: url('/images/vue/buisson.png') repeat;
+}
+
+td.vue2d.buisson {	background: url('/images/vue/buisson.png') no-repeat;}
 
 td.vue2d.portail {
 	background: url('/images/vue/portail.png') repeat;

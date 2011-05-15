@@ -390,9 +390,18 @@ function ouvreBralBox(element) {
 		modal: true,
 		minWidth : 600,
 		closeText : "Fermer",
-		show: 'slideUp'
+		show: 'slideUp',
+		title: titre
 	    //position: 'top'
 	});
+	
+	if (element != "box_action") {
+		$( "#"+element ).bind( "dialogclose", function(event, ui) {
+			// rechargement de l'interface :
+			// soit erreur ou box informations.
+			document.location.href="/interface/";
+		});
+	}
 }
 
 function fermeBralBox() {
