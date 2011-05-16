@@ -1325,6 +1325,7 @@ function affDetailsClick() {
 	
 	if ($("#vueFixee").val() == 1) {
 		$("#vueFixee").val(-1);
+		$("#vueFixeeButton").hide();
 	} else {
 		$("#vueFixee").val(1);
 		
