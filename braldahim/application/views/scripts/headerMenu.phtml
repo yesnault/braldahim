@@ -34,30 +34,21 @@
 		 
 		 <div style="line-height: 22px;">&nbsp;</div>
 		 
+		 <div class='braltip lune' >
+		  <?php if (!Zend_Registry::get("estMobile")):?>
+		  	  <?php Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
+		  <?php endif;?>
+		 </div>		 
+		 
 		 <div style="line-height: 18px; margin-top:-18px;">&nbsp;
 		 	<?php if ($this->controleur == "interface") : ?>
-				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
-					<label id="labelcarnet" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_carnet");'>Carnet</label>
-					| <label id="labelcarnet" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");'>Messagerie</label>
-				 	<img id="img_message_ancien" src="<?php echo $this->config->url->static?>/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-					<img id="img_message_nouveau" src="<?php echo $this->config->url->static?>/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
-				</span>
-				<?php if (!Zend_Registry::get("estMobile")):?>
-				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
-					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c", "interface");	'></label>
-				</span>
-				<?php endif; ?>
 				<?php if (!Zend_Registry::get("estMobile")):?>
 				<div style="margin-top:-18px;">&nbsp;&nbsp;&nbsp;<?php echo Bral_Helper_Calendrier::affiche();?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 				<?php endif;?>
 			<?php endif; ?>
 		 </div>
 		 
-		<div class='braltip lune' >
-		  <?php if (!Zend_Registry::get("estMobile")):?>
-		  	  <?php Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
-		  <?php endif;?>
-		 </div>		 
+		
 		<br />
 		
 		<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
@@ -70,4 +61,11 @@
 	</div>
 </div>
 	
+	<?php if ($this->controleur == "interface") : ?>
+	<div id="boite_d">
+	<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
+	<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
+	</div>
+<?php endif; ?>
+
 <?php endif; ?>

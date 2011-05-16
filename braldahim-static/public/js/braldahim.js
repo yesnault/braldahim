@@ -538,23 +538,16 @@ function box_warning(data) {
 }
 
 function messagerie(nbMessageNonLu) {
-	if ($('#message_nb_label')) {
-		$('#message_nb').show();
-		$('#message_nb_img').show();
-		$('#img_message_nouveau').hide();
-		$('#img_message_ancien').hide();
-		
-		if (nbMessageNonLu == 1) {
-			$('#message_nb_label').innerHTML = " 1 nouveau message&nbsp;";
-			$('#img_message_nouveau').show();
-		} else if (nbMessageNonLu > 1) {
-			$('#message_nb_label').innerHTML = nbMessageNonLu + " nouveaux messages&nbsp;";
-			$('#img_message_nouveau').show();
-		} else { // 0
-			$('#message_nb_label').innerHTML = " Pas de nouveau message&nbsp;";
-			$('#img_message_ancien').show();
-		}
+	$(".butMessagerie").button( "destroy" );
+	if (nbMessageNonLu != null) {
+		$(".butMessagerie").html("("+nbMessageNonLu+")");
 	}
+    $( ".butMessagerie" ).button({
+        icons: {
+            primary: "ui-icon-mail-closed"
+        },
+    })
+    $(".butMessagerie").button( "refresh" );
 }
 
 function loadBox(nomSysteme) {
@@ -1350,6 +1343,7 @@ function affDetails(x, y, z) {
 	if ($("#vueFixee").val() == 1) {
 		return;
 	}
+	
 	//switch2div('box_vuedetails', 'box_interface_boxes');
 	id = x + '_' + y;
 	$('#vuedetails_interne').html('');
@@ -1365,6 +1359,13 @@ function affDetails(x, y, z) {
 	$('#vuedetails_interne').prepend("Position " + x + ", " + y + ", " + z + " <br />");
 	
 	$('#vuedetails_interne').append('<br /><br />');
+	
+	$('.butEntrer').button({
+        icons: {
+            primary: "ui-icon-arrowthickstop-1-e"
+        },
+        text: false
+    })
 }
 
 
@@ -1524,5 +1525,14 @@ $(document).ready(function() {
 							// glitching in IE)
 		});
 	}
+	
+	
+	$( ".butCarnet" ).button({
+        icons: {
+            primary: "ui-icon-note"
+        },
+        text: false
+    })
+    messagerie();
 });
 

@@ -6,8 +6,8 @@ $type_lieu = '';
 $textBallon = '';
 
 $textPalissade = "";
-	if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br /><div class='titre textalia textsizef'><br />Palissade / Portail</div>";
+if ($case["n_palissades"] > 0) :
+     	$textPalissade = "<br /><div class='titre textalia textsizef'><br />Palissade / Portail</div>";
       	foreach($case["palissades"] as $p) {
 		  	if ($p["est_portail_palissade"] == "oui") {
 				$textPalissade .= "un portail (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
@@ -25,11 +25,11 @@ $textPalissade = "";
 		if ($case["n_palissades"] > 1) {
 			$s = "s";
 		}
-	endif;
+endif;
 	
-	if ($textPalissade != "") {
-		$textPalissade = $textPalissade.'<br /><hr/><br />';
-	}
+if ($textPalissade != "") {
+	$textPalissade = $textPalissade.'<br /><hr/><br />';
+}
 	
 if ($case['n_lieux'] > 0) :
 	$textLieu = "<br /><div class='titre textalia textsizef'>Lieu</div>";
@@ -41,8 +41,7 @@ if ($case['n_lieux'] > 0) :
       	}
       	
 	    if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textLieu .= ' <span title="Cliquer pour acc&eacute;der directement au lieu"';
-			$textLieu .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" class="alabel">[Entrer dans le lieu]</span>';
+			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
 		}
 	}
 	 
@@ -56,7 +55,7 @@ if ($case['n_ballons'] > 0) :
 endif; 
 
 if ($case['n_echoppes'] > 0) :
-	$textEchoppe = '';
+	$textEchoppe = "<br /><div class='titre textalia textsizef'>Échoppe</div>";
 	$nomSystemeEchoppe = '';
 	foreach($case['echoppes'] as $c) {
 		if ($c['nom_metier']{0} == 'A') : $d='d\''; else: $d='de '; endif;
@@ -72,8 +71,7 @@ if ($case['n_echoppes'] > 0) :
 		}
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textEchoppe .= ' <span title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe"';
-			$textEchoppe .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" style="alabel">[Enter dans l\'échoppe]</span>';
+			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
 		}
 		
       	$textEchoppe .= '<br />';
@@ -95,7 +93,8 @@ if ($case['n_champs'] > 0) :
 	$nomSystemeChamp = '';
 	foreach($case['champs'] as $c) {
 		if ($c['nom_champ'] != null && $c['nom_champ'] != '') :
-			$textChamp .= htmlspecialchars($c['nom_champ']). ', ';
+			$textChamp .= htmlspecialchars($c['nom_champ']);
+			$textChamp .= '<br />';
 		endif; 
 		$textChamp .= 'Champ appartenant &agrave; <br />';
 		$textChamp .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
@@ -106,8 +105,7 @@ if ($case['n_champs'] > 0) :
 		}
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textChamp .= ' <span title="Cliquer pour acc&eacute;der directement au champ"';
-			$textChamp .= ' onclick="Javascript:my_switch(\'box_lieu\',\'boite_c\', \'interface\');" style="alabel">[Enter dans le lieu]</span>';
+			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
 		}
 	
       	$textChamp .= '<br />';

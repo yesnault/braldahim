@@ -362,14 +362,13 @@ input:hover {
 }
 .braltip:hover {
 	color:#000000;
-	z-index:25;
+	z-index:2100;
 }
 .braltip div.tip {
 	display:none;
 	text-align:left;
 }
 div.braltip:hover div.tip, div.tipf {
-	background-color:#31401A;
 	text-align:left;
 	border:1px solid #555555;
 	color:#F2F2F2;
@@ -383,15 +382,15 @@ div.braltip:hover div.tip, div.tipf {
 	min-width:250px;
 	width:auto;
 	min-height:100px;
-	z-index:300;
+	z-index:2100;
 	cursor:pointer;
 	border-radius: 10px; /* en css3 lui même */
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 		
-	opacity:0.9;
-	background: #31401A
+	opacity:1;
+	background: #41591C
 	         /*url('/images/layout/gris.png') repeat-x*/
 			scroll 0pt 100%;
 }
@@ -710,6 +709,27 @@ span.id_braldun {
 	background-color: #FF6666;
 	color: black;
 	text-align: center;
+}
+
+
+
+/* ************************************************ */
+/* ********************* BBCOde ****************** */
+/* ************************************************ */
+
+#uddeim-bbemobox table {
+	width: 300px;
+	margin-bottom: 8px;
+	margin-left:auto;
+   	margin-right:auto;
+}
+
+#uddeim-smileybox table {
+	width: 400px;
+	margin-bottom: 8px;
+	margin-left:auto;
+   	margin-right:auto;
+   	background: #eee;
 }
 
 /* ************************************************ */
@@ -1822,6 +1842,7 @@ divfrise {
 	line-height : 12px;
 	padding : 4px;
 	float:right;top:-23px;
+	right:400px;
 }
 
 .lune.lune0 { background:transparent url('/images/lune/moon0.png') no-repeat scroll 0 0; }
@@ -2069,6 +2090,15 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     top: 80px;
     width: 420px;
     z-index: 800;
+}
+
+#boite_d {
+	margin-top: 10px;
+	width: 100%;
+	margin-left:auto;
+   	margin-right:auto;
+   	text-align:right;
+   	position: absolute;
 }
 
 #boite_a .inner, #boite_b .inner {

@@ -1,5 +1,5 @@
 <?php if ($case["n_charrettes"] > 0) :
-	$textCharrette = "<br />Charrette:<br />";
+	$textCharrette = "<br /><div class='titre textalia textsizef'>Charrette</div>";
 	foreach($case["charrettes"] as $c) {
 		$textCharrette .= "<label class='alabel' onclick='ouvMateriel(".$c["id_charrette"].")'>";
 		$textCharrette .= $c["nom"]. " n&deg; ".$c["id_charrette"]. "</label><br />";
