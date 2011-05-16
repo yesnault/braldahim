@@ -13,7 +13,7 @@ class BraldunsEquipement extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('bralduns_equipement', '*')
 		->from('type_equipement', '*')
-		->where('bralduns_equipement.id_fk_braldun_hequipement = '.intval($id_braldun))
+		->where('bralduns_equipement.id_fk_braldun_hequipement = ?', intval($id_braldun))
 		->where('bralduns_equipement.id_fk_type_hequipement = type_equipement.id_type_equipement');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
