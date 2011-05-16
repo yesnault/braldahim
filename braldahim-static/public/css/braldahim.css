@@ -597,7 +597,7 @@ span.id_braldun {
 }
 
 #navigation h3.head {
-	background: #41591C url('/images/collapsed.gif') no-repeat scroll
+	background: #6A8C20 url('/images/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	color: #232323;
@@ -1864,6 +1864,16 @@ divfrise {
 /* ************************************************ */
 	
 #boussole {
+}
+
+#boussole div{
+cursor: pointer;
+    float: left;
+    list-style: none outside none;
+    margin: 2px;
+    padding: 4px 0;
+    position: relative;
+    height:14px;
 }
 
 table.vue2d {
