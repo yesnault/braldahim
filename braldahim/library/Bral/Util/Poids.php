@@ -143,6 +143,9 @@ class Bral_Util_Poids {
 			$retour = $retour + self::calculPoidsTransporteElementGraine($idBraldun, $nomTable, $suffixe);
 			$retour = $retour + self::calculPoidsTransporteElementIngredient($idBraldun, $nomTable, $suffixe);
 		}
+		
+		$retour = $retour + self::calculPoidsTransporteEquipement($idBraldun);
+		
 		return $retour;
 	}
 
