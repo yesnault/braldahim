@@ -1319,7 +1319,36 @@ function chiffres(event, negatif) {
 	}
 }
 
+function affDetailsClick() {
+	//-1 : non fixée
+	// 1 : fixée
+	
+	if ($("#vueFixee").val() == 1) {
+		$("#vueFixee").val(-1);
+	} else {
+		$("#vueFixee").val(1);
+		
+		$("#vueFixeeButton").button({
+            icons: {
+                primary: "ui-icon-locked"
+            },
+            text: false
+        })
+		
+		$("#vueFixeeButton").show();
+	}
+}
+
+function vueFixeeButton() {
+	$("#vueFixee").val(-1);
+	$("#vueFixeeButton").hide();
+}
+
 function affDetails(x, y, z) {
+	
+	if ($("#vueFixee").val() == 1) {
+		return;
+	}
 	//switch2div('box_vuedetails', 'box_interface_boxes');
 	id = x + '_' + y;
 	$('#vuedetails_interne').html('');
