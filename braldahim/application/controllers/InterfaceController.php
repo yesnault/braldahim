@@ -193,8 +193,8 @@ class InterfaceController extends Zend_Controller_Action {
 			//$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
 			//$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), $boite_c);
-			//$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
 			//$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), $boite_c);
 			//$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);

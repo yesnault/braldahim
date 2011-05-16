@@ -49,7 +49,7 @@ class Bral_Box_Interface extends Bral_Box_Box {
 		$tabBox[] = Bral_Box_Factory::getCharrette($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getCoffre($this->_request, $this->view, false);
 		//$tabBox[] = Bral_Box_Factory::getEvenements($this->_request, $this->view, false);
-		$tabBox[] = Bral_Box_Factory::getSoule($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getSoule($this->_request, $this->view, false);
 
 		$liste = "";
 		$data = "";

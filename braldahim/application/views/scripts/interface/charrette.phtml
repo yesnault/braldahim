@@ -21,7 +21,7 @@
 	    
 	     <?php if ($this->possedeCharrette) : ?>
 	     
-		   <table align="center" width="80%">
+		   <table align="center" width="100%">
 		   	<tr>
 		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized">Caract&eacute;ristiques</div>
@@ -35,58 +35,77 @@
 				   Durabilit&eacute; : <?php echo $this->charrette["durabilite_actuelle"]?> / <?php echo $this->charrette["durabilite_max"]?>.
 		   		</td>
 		   		<td align="center" valign="top">
-		   			<div class="titre textalic textsized braltip">Partage
-		   				<?php echo Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br /> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
-		   			</div>
-		   			Partage avec les Braldûns de la communauté : <?php echo $this->charrette["est_partage_communaute"]?><br />
-		   			Partage avec tous les Braldûns : <?php echo $this->charrette["est_partage_bralduns"]?><br />
-		   			<?php if ($this->partageBralduns == null) : ?>
-		   				Partage avec aucun autre Braldûn<br /><br />
-		   			<?php else: ?>
-		   				Partage avec : <?php echo $this->partageBralduns?><br /><br />
-		   			<?php endif;?>
-		   			
-		   			<input type="button" class='button1' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
-		   			<?php if ($this->possedeSabot) : ?>
-		   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
-		   			<?php endif;?>
-		   		</td>
-		   		<td align="left" valign="top">
-		   			<div class="titre textalic textsized">Am&eacute;liorations</div>
-		   			
-		   			<table class="table_liste" style="width:90%">
-					<thead class="table_liste">
-					  <tr class="table_liste">
-					  	<th>N&deg;</th>
-					  	<th>&nbsp;</th>
-						<th>Nom</th>
-						<th>Caract&eacute;ristiques</th>
-					  </tr>
-					</thead>
-					<tbody>
-		   			<?php if ($this->materielsAssembles != null && count($this->materielsAssembles) > 0): ?>
-		   			<?php $i = 0;
-		   				Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
-				   		foreach($this->materielsAssembles as $e) :?>
-						<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-					  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
-					  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
-					  		<td class="table_liste"><?php echo $e["nom"] ?></td>
-					  		<td class="table_liste">
-					  			<div class='braltip'>
-					  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
-					  			<img src="<?php echo $this->config->url->static?>/images/info_icon.gif" />
-					  			</div>
-					  		</td>
-					  	</tr>
-						<?php endforeach; ?>
-					<?php else: ?>
-						<tr class="table_liste0">
-							<td colspan="4">Aucun mat&eacute;riel assembl&eacute;</td>
-						</tr>
-		   			<?php endif;?>
-		   			</tbody>
-					</table>
+		   			<ul id="navigation" style="width:99%;text-align:left">
+	
+						<li id="pocheAmelioCharette">
+							<?php $poches[] = "pocheAmelioCharette-head" ?>
+					      	<h3 id="pocheAmelioCharette-head" class="head" onclick="maccordion(this);">
+								Améliorations
+							</h3>
+							<ul id="pocheAmelioCharette-body" style="display:none">
+								<li>
+									<table class="table_liste" style="width:90%">
+										<thead class="table_liste">
+										  <tr class="table_liste">
+										  	<th>N&deg;</th>
+										  	<th>&nbsp;</th>
+											<th>Nom</th>
+										  </tr>
+										</thead>
+										<tbody>
+							   			<?php if ($this->materielsAssembles != null && count($this->materielsAssembles) > 0): ?>
+							   			<?php $i = 0;
+							   				Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
+									   		foreach($this->materielsAssembles as $e) :?>
+											<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+										  		<td class="table_liste"><?php echo $e["id_materiel"] ?></td>
+										  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_materiel/type_materiel_<?php echo $e["id_type_materiel"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
+										  		<td class="table_liste">
+										  			<div class='braltip'>
+										  			<?php echo Bral_Helper_DetailMateriel::afficherTooltip($e);?>
+										  			<?php echo $e["nom"] ?>
+										  			</div>
+										  		</td>
+										  	</tr>
+											<?php endforeach; ?>
+										<?php else: ?>
+											<tr class="table_liste0">
+												<td colspan="4">Aucun mat&eacute;riel assembl&eacute;</td>
+											</tr>
+							   			<?php endif;?>
+							   			</tbody>
+									</table>
+								</li>
+							</ul>
+						</li>
+						
+						<li id="pochePartageCharette">
+							<?php $poches[] = "pochePartageCharette-head" ?>
+					      	<h3 id="pochePartageCharette-head" class="head" onclick="maccordion(this);">
+								Configurer Partage
+							</h3>
+							<ul id="pochePartageCharette-body" style="display:none">
+								<li>
+								
+							<div class="titre textalic textsized braltip">Partage
+				   				<?php echo Bral_Helper_Tooltip::render("Tous les Braldûns peuvent déposer des éléments dans n'importe quelle  charrette présente sur leur case.<br /> Par contre, pour autoriser des Braldûns à piocher dans votre charrette, il vous faut configurer les partages ci-dessous", "Gestion du partage de la Charrette");?>
+				   			</div>
+				   			Partage avec les Braldûns de la communauté : <?php echo $this->charrette["est_partage_communaute"]?><br />
+				   			Partage avec tous les Braldûns : <?php echo $this->charrette["est_partage_bralduns"]?><br />
+				   			<?php if ($this->partageBralduns == null) : ?>
+				   				Partage avec aucun autre Braldûn<br /><br />
+				   			<?php else: ?>
+				   				Partage avec : <?php echo $this->partageBralduns?><br /><br />
+				   			<?php endif;?>
+				   			
+				   			<input type="button" class='button1' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
+				   			<?php if ($this->possedeSabot) : ?>
+				   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
+				   			<?php endif;?>
+				   			</li>
+				   		</ul>
+				   		</li>
+					</ul>
 		   		</td>
 		   	</tr>
 		   </table>

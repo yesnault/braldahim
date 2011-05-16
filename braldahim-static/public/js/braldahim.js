@@ -350,6 +350,9 @@ function _display_box(box, data) {
 	} else if (box == 'box_carnet') { 
 		// si l'on fait appel a interface, on appelle la vue ensuite
 		$( "#box_carnet" ).dialog({ width: 600 });
+	} else if (box == 'box_titres') { 
+		// si l'on fait appel a interface, on appelle la vue ensuite
+		$( "#box_titres" ).dialog({ width: 600 });
 	} else if (box == 'box_messagerie' || box == 'messagerie_contenu') { 
 		// si l'on fait appel a interface, on appelle la vue ensuite
 		$( "#box_messagerie" ).dialog({ width: 800 });
@@ -434,7 +437,7 @@ function my_switch(box, conteneur, controleur) {
 		$("#onglet_" + val[i]).className = "onglet inactif";
 	}
 	
-	if (box == "box_carnet" || box == "box_messagerie") {
+	if (box == "box_carnet" || box == "box_messagerie" || box == "box_titres") {
 		_get_('/'+controleur+'/load/?box='+ box);
 	} else if ($("#loaded_" + box).val() != "1") {
 		$("#loaded_" + box).val(1);

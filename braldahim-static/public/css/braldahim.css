@@ -204,12 +204,13 @@ li.leaf, li.expanded, li.collapsed {
 #footer {
     background: #1F2614 repeat-x scroll 0pt 0%;
     overflow: hidden;
-    padding: 63px 0 30px;
+    padding: 43px 0 30px;
 }
 
 #links {
     float: right;
     width: 80%;
+    margin-top: 30px;
 }
 #links div {
     float: left;

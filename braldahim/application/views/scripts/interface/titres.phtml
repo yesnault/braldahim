@@ -1,14 +1,65 @@
 <?php include("box_header.phtml") ?>
-  <div class="titre textalia textsizec">Ma Réputation</div>
+  <div class="titrea textalia titreasizec">Ma Réputation</div>
   <div class="contenu">
 	  <div class="box_contenu1 textalic">
 
-<div class="titre textalic textsized">Mes Titres</div>
  <?php if ($this->affichageInterne == true) : ?>
 	   <?php if (!$this->possedeTitre): ?>
 	   	Vous n'avez aucun titre <br /><br />
 	   	
 	   <?php else : ?>
+	   <div class="titrea textalic titreasizec">Réputation</div>
+  		Vos points de Gredin : <?php echo $this->user->points_gredin_braldun?><br />
+		Vos points de Redresseur de Torts : <?php echo $this->user->points_redresseur_braldun?><br /><br />
+  
+  		<p class="a">❧</p>
+  
+		  <div class="titrea textalic titreasizec" title="Total actualisé une fois par jour"> 
+		  <?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
+		   <?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?>
+		   de distinction
+		   </div>
+		   <br />
+		   </center>
+		   	
+		  <table class="table_liste" style="width:90%">
+			<thead class="table_liste">
+			  <tr class="table_liste">
+				<th>Date</th>
+				<th>Distinction</th>
+				<th>Points</th>
+			  </tr>
+			</thead>
+		  <?php if (count($this->tabDistinctions) >= 1): ?>
+			<tbody>
+			
+			<?php foreach($this->tabDistinctions as $d): ?>
+				 <tr class="table_liste">
+				 	<td class="table_liste_th" colspan="3">Catégorie : <?php echo $d["nom"]?></td>
+				 </tr>
+			  	<?php $i = 0; 
+			  	foreach($d["distinctions"] as $t): ?>
+			  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+				  		<td class="table_liste"><?php echo $t["date_hdistinction"]?></td>
+				  		<td class="table_liste"><?php echo $t["nom"]?></td>
+				  		<td class="table_liste"><?php echo $t["points"]?></td>
+			  		</tr>
+			  	<?php endforeach; ?>
+		  	<?php endforeach; ?>
+		  	</tbody>
+		   <?php else: ?>
+		   <tr class="table_liste">
+		    <td colspan='5'>
+		   	Aucune distinction
+		    </td>
+		    </tr>
+		   <?php endif; ?>
+		   </table>
+		   
+		   <p class="a">❧</p>
+		   
+		   <div class="titrea textalic titreasized">Mes Titres</div>
+		   
 		   	<?php if (count($this->tabTitres) >= 1): ?>
 		   		<table class="table_liste">
 					<thead class="table_liste">
@@ -32,31 +83,9 @@
 				</table>
 		    <?php endif; ?>
 	   <?php endif; ?>
+	   <p class="a">❧</p>
 	   <br />
 	   
-	<div class="titre textalic textsized">Ma Réputation Gredin / Redresseur de Torts</div>
-		Vos points de Gredin : <?php echo $this->user->points_gredin_braldun?><br />
-		Vos points de Redresseur de Torts : <?php echo $this->user->points_redresseur_braldun?><br /><br />
-		
-	<div class="titre textalic textsized">Mes Distinctions</div>
-	   <?php if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
-	   	<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
-	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?> de distinction. (?)</span>
-	   	<br />
-	   	<?php foreach($this->tabDistinctions as $d): ?>
-	   		<br />
-			 Catégorie : <?php echo $d["nom"]?>
-			 <br />
-		  	<?php $i = 0; 
-		  	foreach($d["distinctions"] as $t): ?>
-			  	<?php echo $t["date_hdistinction"]?> : 
-			  	<?php echo $t["nom"]?> (<?php echo $t["points"]?> pt<?php if ($t["points"] > 1): echo "s"; endif;?>) <br />
-		  	<?php endforeach; ?>
-	  	<?php endforeach; ?>
-	  <?php else: ?>
-	  	Aucune distinction
-	  <?php endif;?>
-	   <br />
 <?php else: ?>
 	Chargement en cours
 	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />

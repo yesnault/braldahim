@@ -43,7 +43,7 @@ class Bral_Box_Personnage extends Bral_Box_Box {
 
 		$tabBox[] = Bral_Box_Factory::getProfil($this->_request, $this->view, true);
 		$tabBox[] = Bral_Box_Factory::getMetier($this->_request, $this->view, false);
-		$tabBox[] = Bral_Box_Factory::getTitres($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getTitres($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getEquipement($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getFamille($this->_request, $this->view, false);
 
