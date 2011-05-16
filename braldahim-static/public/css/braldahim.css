@@ -42,7 +42,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     top: 0px;
     width: 440px;
     cursor: pointer;
-  	 z-index: 100;
+	z-index: 100;
 }
 #c-nav li {
     background: url("/images/layout/fleche_droite.png") no-repeat scroll 50% 50% #6A8C20;
@@ -201,7 +201,6 @@ li.leaf, li.expanded, li.collapsed {
     padding: 0;
 }
 
-
 #footer {
     background: #1F2614 repeat-x scroll 0pt 0%;
     overflow: hidden;
@@ -242,7 +241,6 @@ li.leaf, li.expanded, li.collapsed {
     margin: 4px 0;
     color: #F2F2F2;
 }
-
 
 hr {
     margin: 0px 0;
@@ -335,67 +333,66 @@ body {
 
 input {
 	margin: 2px 2pt;
-	background: #6A8C20 none repeat-x scroll center top;
-	color: #000000;
+	background: #41591C none repeat-x scroll center top;
+	color: #F2F2F2;
 	padding-bottom: 1px;
 	padding-top: 2px;
 	width: auto !important;
-	border: 1px solid #666666;
+	border: 1px solid #000000;
 }
 
 input:focus {
-	border: 1px solid #000000;
-	color: #000000;
+	border: 1px solid #6A8C20;
+	color: #F2F2F2;
 }
 
 input:hover {
 	border: 1px solid #000000;
-	color: #cc0000;
+	color: #6A8C20;
 }
 
 .braltip {
-position:relative;
-z-index:24;
-cursor:pointer;
+	position:relative;
+	z-index:24;
+	cursor:pointer;
 }
 .braltipf {
-z-index:25;
+	z-index:25;
 }
 .braltip:hover {
-color:#000000;
-z-index:25;
+	color:#000000;
+	z-index:25;
 }
 .braltip div.tip {
-display:none;
-text-align:left;
+	display:none;
+	text-align:left;
 }
 div.braltip:hover div.tip, div.tipf {
-background-color:#31401A;
-text-align:left;
-border:1px solid #555555;
-color:#F2F2F2;
-display:block!important;
-font-size:1em;
-letter-spacing: 0pt;
-left:2px;
-padding:4px;
-position:absolute;
-top:3px;
-min-width:250px;
-width:auto;
-min-height:100px;
-z-index:300;
-cursor:pointer;
-border-radius: 10px; /* en css3 lui même */
+	background-color:#31401A;
+	text-align:left;
+	border:1px solid #555555;
+	color:#F2F2F2;
+	display:block!important;
+	font-size:1em;
+	letter-spacing: 0pt;
+	left:2px;
+	padding:4px;
+	position:absolute;
+	top:3px;
+	min-width:250px;
+	width:auto;
+	min-height:100px;
+	z-index:300;
+	cursor:pointer;
+	border-radius: 10px; /* en css3 lui même */
 	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-	
-opacity:0.9;
-
-background: #31401A
-         /*url('/images/layout/gris.png') repeat-x*/
-		scroll 0pt 100%;
+		
+	opacity:0.9;
+	background: #31401A
+	         /*url('/images/layout/gris.png') repeat-x*/
+			scroll 0pt 100%;
 }
 
 div.tip hr, div.tipf hr {
@@ -411,18 +408,16 @@ height: 1px;
 }
 
 input.button1 {
-	background-color: #FAFAFA;
-	background-image:
-		url(/images/divers/bg_button.gif);
-	color: #000000;
-	border-color: #666666;
+	/*background-image:
+		url(/images/divers/bg_button.gif);*/
+	background :url("/css/braldahim-theme/images/ui-bg_highlight-soft_60_41591c_1x100") repeat-x scroll 50% 50% #41591C;
+	color: #F2F2F2;
 	font-size: 1em;
-	border: 1px solid #666666;
+	border: 1px solid #31401A;
 }
 
 input.button1:hover {
-	border-color: #000000;
-	color: #000000;
+	border-color: #31401A;
 	cursor: pointer;
 }
 
