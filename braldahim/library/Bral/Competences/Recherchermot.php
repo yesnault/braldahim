@@ -183,7 +183,8 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		if ($runes == "" || $runes == null) {
 			throw new Zend_Exception(get_class($this)." Runes invalides=".$runes);
 		}
-
+		
+		$runes = substr($runes, 0, strlen($runes) - 1); // suppression de la virgule
 		$tabRunesJs = explode(",", $runes);
 		$tabRunes = null;
 
