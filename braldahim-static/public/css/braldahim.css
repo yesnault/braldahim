@@ -1472,16 +1472,14 @@ div.gridbox table.hdr td.columnTargetL div.hdrcell {
 
 /*braldahim*/
 div.gridbox_braldahim .objbox {
-	background-color: #1F2614;
-	color: #000000;
+	background-color: transparent;
 }
 
 div.gridbox_braldahim {
-	color: #232323;
 }
 
 div.gridbox_braldahim {
-	margin-left: 1px;
+	margin-left: 60px;
 }
 
 div.gridbox_braldahim .xhdr {
