@@ -204,7 +204,7 @@ li.leaf, li.expanded, li.collapsed {
 #footer {
     background: #1F2614 repeat-x scroll 0pt 0%;
     overflow: hidden;
-    padding: 43px 0 30px;
+    padding: 43px 0 85px;
 }
 
 #links {
@@ -287,7 +287,7 @@ body {
 	text-align:right;
 }
 #frisetop {
-	height:40px;
+	height:55px;
 	#background:transparent url(/images/layout/frise.png) repeat-x scroll 0 0;
 	background: #31401A;
 }
@@ -297,6 +297,21 @@ body {
 	margin-top: -10px;
 	#background:transparent url(/images/layout/frisebas.png) repeat-x scroll 0 0;
 	background: #31401A;
+}
+
+#braldunjeu {
+	z-index:-1;
+	background:transparent url('/images/layout/braldun-jeu-comte.png') no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:220px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:590px;
+	position:absolute;
+	margin-top:0px;
+	margin-left:00px;
 }
 
 #braldunsite {
@@ -448,6 +463,35 @@ a:hover,.alabel:hover {
 span.id_braldun {
 	color: red;
 }
+
+.box_authentification {
+    cursor: pointer;
+    height: 152px;
+    margin-left: 200px;
+    margin-right: auto;
+    overflow: hidden;
+    position: fixed;
+    text-indent: -100000px;
+    top: 87%;
+    width: 600px;
+    z-index: 100000;
+}
+
+.box_authentification .inner {
+	background: #31401A repeat-x scroll 0pt 0%;
+}
+
+table.authTable {
+	width: 100%;	
+}
+
+td.authTable {
+	width: 33%;
+	text-align: center;
+	padding:10px;
+	vertical-align:top;	
+}
+
 
 .box_chargement {
 	position: absolute;
@@ -1110,6 +1154,16 @@ table.table_liste {
 	color: #F2F2F2;
 }
 
+.cadre {
+	background-color: #1F2614;
+	border: 1px solid #000000;
+	text-align: center;
+}
+
+table.nocadre {
+		border:0px;
+}
+
 thead.table_liste,tfoot.table_liste {
 	color: #F2F2F2;
 	background-color: #1F2614;
@@ -1667,6 +1721,16 @@ lightbox
 	 color: #333333;  
 }
 
+.bralannonce, .bralannonce a {
+	color:#1F2614;
+	background: url(/images/layout/papierinfo.png) no-repeat right top;
+	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+    -moz-transition: background-color 0.3s ease 0s;	
+}
+
+
 @font-face {
     font-family: "Cardinal";
     font-style: normal;
@@ -1726,7 +1790,7 @@ divfrise {
 
 
 #frise {
-    background-color: #6B8E23;
+    background-color: #1F2614;
     height: 120px;
     left: 3em;
     position: relative;
@@ -1805,7 +1869,7 @@ divfrise {
 	position: relative;
 	top:-10px;
 	font-family: Times,serif;
-	color: #1F2614;
+	color: #F2F2F2;
 	font-size: 0.9em;
 }
 
@@ -1835,14 +1899,30 @@ divfrise {
 
 /******** FIN CHRONOLOGIE *******/
 
+/******** Calendrier *******/
+
+.calendrier {
+	font-style: italic ;
+	top:-10px;
+	
+    position: relative;
+    text-align: center;
+    width: 460px;
+    margin-top:auto;
+	margin-left:70px;;
+}
+
+/******** FIN CHRONOLOGIE *******/
+
 
 /******** LUNE *******/
 .lune {
 	cursor : pointer;
 	line-height : 12px;
 	padding : 4px;
-	float:right;top:-23px;
-	right:400px;
+	float:right;
+	top:-15px;
+	right:285px;
 }
 
 .lune.lune0 { background:transparent url('/images/lune/moon0.png') no-repeat scroll 0 0; }
@@ -2074,26 +2154,25 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     color: #FFFFFF;
     cursor: pointer;
     position: absolute;
-    top: 80px;
+    top: 110px;
     width: 420px;
     z-index: 1000;
 }
 
 #boite_b {
-    right: 0;
-    top: 80px;
+    right: 10px;
     width: auto;
     
     color: #FFFFFF;
     cursor: pointer;
     position: absolute;
-    top: 80px;
+    top: 110px;
     width: 420px;
     z-index: 800;
 }
 
 #boite_d {
-	margin-top: 10px;
+	margin-top: 30px;
 	width: 100%;
 	margin-left:auto;
    	margin-right:auto;
@@ -2106,7 +2185,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #boite_c {
-	margin-top: 40px;
+	margin-top: 70px;
 }
 
 body > #boite_b {
@@ -2307,9 +2386,6 @@ body > #boite_b {
     font-weight: normal;
     margin: -1px;
 }
-
-
-
 
 
 

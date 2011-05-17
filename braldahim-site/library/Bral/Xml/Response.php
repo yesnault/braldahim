@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -31,7 +31,7 @@ class Bral_Xml_Response {
 		echo new Zend_Date();
 		echo " | </data>\n";
 		echo "</entrie>\n";
-		
+
 		ob_flush();
 		foreach ($this->list as $k => $e) {
 			echo "<entrie>\n";
@@ -43,12 +43,23 @@ class Bral_Xml_Response {
 		unset($this->list);
 		echo "</root>\n";
 	}
-	
+
 	public function render() {
 		header("Content-Type: text/xml");
 		$this->echo_xml();
 	}
-	
+
+	public function renderJs() {
+		$content = "";
+		foreach ($this->list as $k => $e) {
+			$content = $e->getRender();
+		}
+		
+    	$content = preg_replace("/(\r\n|\n|\r)/", " ", $content);
+    	$content = str_replace("'","\'",$content);
+    	echo "document.write('".$content."')";
+	}
+
 	public function __construct() {
 	}
 }

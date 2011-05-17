@@ -1,4 +1,7 @@
 <div id="menuhead">
+	<?php Zend_Loader::loadClass("Bral_Helper_Calendrier");?>
+	<span class="text textalic textesizee calendrier"><?php echo Bral_Helper_Calendrier::affiche();?></span>
+	
 	<nav id="nav-main">
 	<ul class="menu">
 		<li class="leaf first"><a title="" href="<?php echo Zend_Registry::get("config")->url->site?>/">Accueil</a>

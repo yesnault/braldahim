@@ -12,11 +12,15 @@
  */
 class Bral_Palmares_Factory {
 
-	static function getBox($request, $view, $interne) {
+	static function getBox($request, $view, $interne, $caction = null) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 
 		$matches = null;
-		preg_match('/(.*)_palmares_(.*)_(.*)_(.*)/', $request->get("caction"), $matches);
+		if ($caction == null) {
+			preg_match('/(.*)_palmares_(.*)_(.*)_(.*)/', $request->get("caction"), $matches);
+		} else {
+			preg_match('/(.*)_palmares_(.*)_(.*)_(.*)/', $caction, $matches);
+		}
 		$action = $matches[1]; // "do" ou "ask"
 		$section = $matches[2]; // classe
 		$filtre = (int)$matches[3]; // filtre

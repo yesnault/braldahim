@@ -1,0 +1,58 @@
+<div class="box_authentification">
+<div class="inner">
+<p class="titre textalic textsizee" style="font-style: italic ;"><?php echo Bral_Helper_Calendrier::affiche(true);?></p>
+
+
+<p class="titrea textalia titreasize0"><?php if ($this->estMobile) : ?> Braldahim Mobile<?php endif;?></p>
+<?php if (!$this->estMobile) : ?><p class="titrea textalib titreasizeb">Connexion</p><?php endif;?>
+<?php if(!empty($this->message)) :?> 
+<div class="message_erreur" id="message_erreur"> 
+<?php echo $this->escape($this->message);?> 
+</div> 
+<?php endif; ?> 
+	
+<div class="contenu">
+    <div class="box_contenu3 textalib">
+    
+    <form action="/auth/login" method="post"> 
+    
+    <p class="titre textalic textsized">
+    <?php if ($this->config->general->production != 1) :?>
+		<br/>
+		Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
+	<?php endif;?>
+	</p>
+	<?php if (!$this->estMobile) : ?>
+		<div id="braldunjeu"></div>
+		<?php echo Bral_Helper_Bougrie::render();?>
+		<br/>
+	<?php endif;?>
+
+	    Adresse email du Joueur : <br/><input type="email" required placeholder="Entrez votre adresse email" autofocus name="post_email_braldun" id='post_email_braldun' size='30' maxlength='100'/> <br />
+	    Mot de passe : <br/><input type="password" name="post_password_braldun"  size='30'  maxlength='50' required placeholder="Et votre mot de passe..." /> <br />
+	    Activation :
+	    oui <input type="radio" id="auth_activation_oui" name="auth_activation" value="oui" checked="checked"/>
+	    non <input type="radio" id="auth_activation_non" name="auth_activation" value="non"/> <br />
+	    Gardiennage :
+	    oui <input type="radio" id="auth_gardiennage_oui" name="auth_gardiennage" value="oui"/>
+	    non <input type="radio" id="auth_gardiennage_non" name="auth_gardiennage" value="non" checked="checked"/> <br />
+		<p align="center">
+	    <input type="submit" class='button1' value="Connexion" />
+	    </p>
+	    <p align="center"><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
+	    <?php if (!$this->estMobile) : ?>
+	    <p align="center"><a href="http://mobile.braldahim.com">Version Mobile</a> 
+	    | <a href="http://iphone.braldahim.com">Version Iphone</a>
+	    | <a href="http://work.braldahim.com">Version Work</a>
+	    <br/>
+	    <?php endif;?>
+	    <p align="center">
+	    <?php echo new Zend_Date(); ?>
+    <?php $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
+    | Actuellement <?php echo $this->nbConnecte?> Braldûn<?php echo $s ?> connect&eacute;<?php echo $s?>
+    </p>
+    </form> 
+    </div>
+</div>
+</div>
+</div>

@@ -540,7 +540,7 @@ function box_warning(data) {
 function messagerie(nbMessageNonLu) {
 	$(".butMessagerie").button( "destroy" );
 	if (nbMessageNonLu != null) {
-		$(".butMessagerie").html("("+nbMessageNonLu+")");
+		$(".butMessagerie").html(""+nbMessageNonLu+"");
 	}
     $( ".butMessagerie" ).button({
         icons: {
@@ -1526,13 +1526,15 @@ $(document).ready(function() {
 		});
 	}
 	
-	
-	$( ".butCarnet" ).button({
+	if ($('.butCarnet').exists()) {
+		$( ".butCarnet" ).button({
         icons: {
             primary: "ui-icon-note"
         },
         text: false
-    })
-    messagerie();
+		})
+		messagerie();
+	}
+	
 });
 

@@ -8,19 +8,30 @@
 <?php endif;?>
 
 <br/><br/>
-<table width="100%">
+<table class="authTable">
 <tr>
-<td width="33%" valign="top" align="center"><?php include("gazette.phtml") ?><br/></td>
-<td width="33%" valign="top" align="center">
-	<?php include("login/formulaire.phtml")?>
-	<br/>
-	<?php if (!Zend_Registry::get("estWork")) : ?>
-	<?php include("login/pub.phtml")?>
-	<?php endif;?>
+<td class="authTable">
+<?php echo Bral_Helper_Bougrie::render(); ?>
+<br /><br />
+<?php include("palmares.phtml") ?><br/></td>
+<td class="authTable">
+
+	<div id="braldunjeu"></div>
+	
+	<p class="titrea textalic titreasizeb" style="margin-top:220px;">IRL 2011 !</p>
+	<a href="http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953">Toutes les infos sur le forum</a>
+	
+	<p class="titrea textalic titreasizeb cadre" style="margin-top:50px;">Hôtel des Ventes</p>
+	Émile Clacclac vous prépare des infos...
+	
 </td>
-<td width="33%" valign="top" align="center"><?php include("annonces.phtml") ?></td>
+<td class="authTable"><?php include("infos.phtml") ?><?php //include("annonces.phtml") ?></td>
 </tr>
 </table>
+
+	<?php include("login/formulaire.phtml")?>
+	<br/>
+	
 <br/>
 </div>
 <script type="text/javascript">

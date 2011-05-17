@@ -25,6 +25,7 @@ class Bral_Util_InfoJeu {
 		$infosRowset = $infoJeuTable->findAll($type, $dateDebut, $dateFin);
 		$annonces = null;
 		$histoires = null;
+		$toutes = null;
 		foreach ($infosRowset as $i) {
 			$tab = array(
 				"id_info_jeu" => $i["id_info_jeu"],
@@ -41,10 +42,12 @@ class Bral_Util_InfoJeu {
 			} elseif ($type == null || $type = "histoire") {
 				$histoires[] = $tab;
 			}
+			$toutes[] = $tab;
 		}
 
 		$retour["annonces"] = $annonces;
 		$retour["histoires"] = $histoires;
+		$retour["toutes"] = $histoires;
 		return $retour;
 	}
 

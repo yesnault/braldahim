@@ -1,30 +1,52 @@
 <?php echo $this->render("commun/box_header.phtml") ?>
-<div class="inner">
-<div class="box_contenu1 textalic">
-	<?php include("filtre.phtml")?>
+
+<?php if ($this->type != "jsVersion") : ?>
+	<div class="inner">
+	<?php $direct = "";?>
+	<?php $css = "";?>
+<?php else:?>
+	<?php $direct = "&direct=distinctions";?>
+	<?php $css = " nocadre";?>
+<?php endif;?>
 	
-	<br />
-	<table class="table_liste" style="width:90%">
+<div class="box_contenu1 textalic">
+	<?php if ($this->type != "jsVersion") : ?>
+		<?php include("filtre.phtml");?><br />
+	<?php endif;?>
+	
+	
+	<table class="table_liste <?php echo $css?>" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-		<th>Braldûn</th>
-		<th><?php echo $this->titreColonne2?></th>
-		<?php if ($this->afficheMoyenne === true) : ?>
-			<th><?php echo $this->titreColonne3?></th>
+	  
+	  	<?php if ($this->type != "jsVersion") : ?>
+			<th>Braldûn</th>
+			<th><?php echo $this->titreColonne2?></th>
+			<?php if ($this->afficheMoyenne === true) : ?>
+				<th><?php echo $this->titreColonne3?></th>
+			<?php endif;?>
+		<?php else: ?>
+			<th colspan="2"><p class="titrea textalic titreasizeb" >Top Distingués</p></th>
 		<?php endif;?>
 	  </tr>
 	</thead>
   	<?php if (count($this->top10) > 0): ?>
 		<tbody>
 	  	<?php $i = 0; 
+	  	$position = 0;
 	  	foreach($this->top10 as $e): 
+	  		$position++;
 	  		if ($e["nombre"] > 0) :
 	  		?>
 	  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onclick="javascript:ouvrirWin('<?php echo $this->config->url->game?>/voir/braldun/?braldun=<?php echo $e["id_braldun"]?>');" title="Cliquez pour voir le profil">
+		  			<a href="#" onclick="javascript:ouvrirWin('<?php echo $this->config->url->game?>/voir/braldun/?braldun=<?php echo $e["id_braldun"]?>&<?php echo $direct?>');" title="Cliquez pour voir le profil">
 		  				<?php echo $e["prenom_braldun"]?> <?php echo $e["nom_braldun"]?> (<?php echo $e["id_braldun"]?>)
 		  			</a>
+		  			
+		  			<?php if ($position == 1) :?> 
+		  				<img src="<?php echo $this->config->url->static?>/images/divers/couronne.png">
+		  			<?php endif;?>
 		  		</td>
 		  		<td class="table_liste">
 		  			<?php echo $e["nombre"]?>
@@ -45,6 +67,8 @@
 	<?php endif; ?>
 	</table>
 	<br />
-</div>
+<?php if ($this->type != "jsVersion") : ?>
+	</div>
+<?php endif;?>
 </div>
 <?php echo $this->render("commun/box_bottom.phtml") ?>

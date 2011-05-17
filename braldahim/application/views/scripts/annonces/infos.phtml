@@ -1,0 +1,44 @@
+<table class="table_liste nocadre" style="width:90%">
+<?php 
+	$i = 0; 
+	foreach ($this->nouvelles as $info) : ?>
+	<tr class="table_liste<?php echo ($i % 2);$i++;?>">
+		<td class="table_liste">
+		
+		<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
+			<img src="<?php echo $this->config->url->static?>/images/new.gif" alt="New" title="information de moins de 36 heures" style="cursor:pointer" />
+			<br/>
+		<?php else:?>
+			&nbsp;
+		<?php endif;?>
+		
+		<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
+			<br/>
+			<p class="titre textalic textsizec center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
+			<br />
+		<?php endif;?>
+		
+		<div class="bralannonce">
+			<?php echo Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+			<?php if ($info["lien_wiki_info_jeu"] != null) :?>
+				<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">...Lire la suite.</a>
+			<?php endif;?>
+		</div>
+			
+		<?php if ($info["lien_wiki_info_jeu"] != null) :?>
+			<a href="<?php echo htmlspecialchars($info["lien_wiki_info_jeu"])?>">Voir les règles</a> 
+		<?php endif;?>
+		<?php if ($info["lien_info_jeu"] != null) :?>
+			<a href="<?php echo htmlspecialchars($info["lien_info_jeu"])?>">Discussions</a>
+		<?php endif;?>
+		
+		- Parution le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$info["date_info_jeu"]) ?>
+		
+		<br /><br />
+		<p class="a">❧</p>
+		<br />
+		
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>
