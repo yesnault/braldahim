@@ -59,7 +59,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			
 		Zend_Loader::loadClass("BraldunsCompetences");
 		Zend_Loader::loadClass("BraldunsMetiers");
-		
+
 		$braldunsCompetencesTables = new BraldunsCompetences();
 		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 		$competence = null;
@@ -88,16 +88,16 @@ class Bral_Box_Competences extends Bral_Box_Box {
 				);
 			}
 		}
-		
+
 		$tabCompetences["soule"] = array(
 				"nom_onglet" => "Match de Soule",
 				"nom_systeme_onglet" => "soule",
 				"competences" => Bral_Util_Registre::get('competencesSoule')
 		);
-		
+
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
-		
+
 		foreach($braldunsMetierRowset as $m) {
 			if ($this->view->user->sexe_braldun == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
@@ -125,12 +125,17 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			}
 
 			$tabCompetences[$m["nom_systeme_metier"]] = array(
-				"nom_onglet" => $nom_metier,
+				"nom_onglet" => "Métier : ".$nom_metier,
 				"nom_systeme_onglet" => $m["nom_systeme_metier"],
 				"competences" => $competence
 			);
 		}
 
 		$this->view->competences = $tabCompetences;
+	}
+
+	public function getTablesHtmlTri() {
+		$tab[] = "idCompetencesTable";
+		return $tab;
 	}
 }

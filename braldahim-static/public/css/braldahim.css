@@ -1148,7 +1148,7 @@ td.equipement {
 table.table_liste {
 	border: 1px solid #000000;
 	border-collapse: collapse;
-	width: 70%;
+	width: 100%;
 	margin: auto;
 	align: center;
 	color: #F2F2F2;
@@ -2175,8 +2175,8 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 	margin-left:auto;
    	margin-right:auto;
    	text-align:right;
-   	position: absolute;
    	z-index: 801;
+   	float:right;
 }
 
 #boite_a .inner, #boite_b .inner {
@@ -2425,6 +2425,7 @@ body > #boite_b {
 	clear: both;
 	_height: 302px;
 	zoom: 1; /* Feeling sorry for IE */
+	width:90%;
 }
 
 .dataTables_processing {
@@ -2716,7 +2717,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #6A8C20;
+	#background-color: #6A8C20;
 }
 
 tr.odd td.sorting_2 {
@@ -2728,7 +2729,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #6A8C20;
+	#background-color: #6A8C20;
 }
 
 tr.even td.sorting_2 {

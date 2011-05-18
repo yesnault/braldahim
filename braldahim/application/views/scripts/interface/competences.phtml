@@ -4,36 +4,63 @@
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basiques')">Compétences Basiques</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Communes')">Compétences Communes</span> <br />
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Compétences Métiers</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Compétences de Soule</span>
+ 
+  <br /> <br />
+ 	
  <?php if ($this->user->activation == false) :
  	echo "Tour non activé à la connexion"; ?>
  <?php elseif ($this->affichageInterne == true) : ?>
-	 <?php  if (count($this->competences) > 0) :
-	 			foreach($this->competences as $m) : ?>
-				  <ul id="navigation" style="width:100%;">
-						<li id="menuCompetences<?php echo $m["nom_systeme_onglet"]?>">
-							<?php if (count($this->competences) > 2): $display = "none"; $css = "head"; else: $display = "block"; $css = "head selected"; endif;?>
-							<h3 id="menuCompetences<?php echo $m["nom_systeme_onglet"]?>-head" class="<?php echo $css?>" onclick="maccordion(this);"><?php echo $m["nom_onglet"]?></h3>
-							<?php if (count($this->competences) > 2): $display = "none"; else: $display = "block"; endif;?>
-							<ul id="menuCompetences<?php echo $m["nom_systeme_onglet"]?>-body" style="display:<?php echo $display?>">
-							<?php foreach($m["competences"] as $c) : ?>
-								<li>
-								<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
-							      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
-							    else:
-							      $attr = " disabled ";
-							    endif;?>
-							    <input type="button" class='button1' value="<?php echo $c["pa_texte"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
-								</li>
-							<?php endforeach; ?>
-							</ul>
-						</li>
-					</ul>
-					<?php endforeach; ?>
-				 <?php 
-			else :	
-				echo "Aucune comp&eacute;tence";
-			endif;
- 	?>
+ 
+ 	
+ 	<table class="table_liste" style="width:100%" id="idCompetencesTable">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Compétence</th>
+		<th>Nb.PA</th>
+		<th>Maîtrise</th>
+		<th>Type</th>
+		<th>&nbsp;</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<?php if (count($this->competences) > 0) :?>
+			<?php $i = 0;
+			   foreach($this->competences as $m) :?>
+			   	<?php foreach($m["competences"] as $c) : ?>
+			   		<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+				      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+				      $css = "alabel";
+				    else:
+				      $attr = "  ";
+				      $css = "";
+				    endif;?>
+							    
+					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+						<td class="table_liste"><?php echo $c["nom"]?></td>
+						<td class="table_liste"><?php echo $c["pa_texte"]?> PA</td>
+						<td class="table_liste"><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?></td>
+						<td class="table_liste"><?php echo $m["nom_onglet"]?></td>
+				  		<td class="table_liste">
+			  				<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
+						      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+						    else:
+						      $attr = " disabled ";
+						    endif;?>
+						    <input type="button" class='button1' value="Action" <?php echo $attr?>>
+				  		</td>
+				  	</tr>
+				 <?php endforeach; ?>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune compétence</i></td></tr>
+		<?php endif; ?>
+	</tbody>
+</table>
+
  <?php else: ?>
 	Chargement en cours
 	<br /><img src="<?php echo $this->config->url->static?>/images/wait.gif" />
