@@ -1,8 +1,4 @@
-<?php if (Zend_Registry::get("estMobile")) :?>
-Heure serveur : <span id='date_heure' class=''>&nbsp;</span>
-<?php elseif (!Zend_Registry::get("estMobile") && !Zend_Registry::get("estWork")) :?>
-<?php endif;?>
- 	
-
+<?php if (!Zend_Registry::get("estMobile")):?>
 <script language="Javascript" src="<?php echo $this->config->url->static?>/index/footer"></script>
+<?php endif;?>
 <?php echo $this->render('footer-scripts.phtml'); ?>  

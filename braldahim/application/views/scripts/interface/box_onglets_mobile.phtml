@@ -2,7 +2,7 @@
 <div class="<?php echo $this->conteneur; ?>" id="<?php echo $this->conteneur; ?>">
 <?php foreach($this->onglets as $onglet) : ?>
 	<input type='hidden' id='loaded_<?php echo $onglet["nom"] ?>' value='<?php echo $onglet["chargementInBoxes"] ?>'>
-	<div id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?>' onclick='Javascript:$("<?php echo $this->conteneur?>").style.display="none";my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>", "interface"); '>
+	<div id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?>' onclick='Javascript:$("#<?php echo $this->conteneur?>").hide();my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>", "interface"); '>
 	&nbsp;<?php echo $onglet["titre"] ?>&nbsp;
 	</div>
 <?php endforeach; ?>

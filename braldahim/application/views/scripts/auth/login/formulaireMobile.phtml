@@ -1,4 +1,4 @@
-<div class="box_authentification">
+<div class="box_authentification_mobile">
 <div class="inner">
 <p class="titre textalic textsizee" style="font-style: italic ;"><?php echo Bral_Helper_Calendrier::affiche(true);?></p>
 
@@ -39,13 +39,6 @@
 		<p align="center">
 	    <input type="submit" class='button1' value="Connexion" />
 	    </p>
-	    <p align="center"><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
-	    <?php if (!$this->estMobile) : ?>
-	    <p align="center"><a href="http://mobile.braldahim.com">Version Mobile</a> 
-	    | <a href="http://iphone.braldahim.com">Version Iphone</a>
-	    | <a href="http://work.braldahim.com">Version Work</a>
-	    <br/>
-	    <?php endif;?>
 	    <p align="center">
 	    <?php echo new Zend_Date(); ?>
     <?php $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>

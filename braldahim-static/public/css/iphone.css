@@ -1,6 +1,6 @@
 body {
 	font: 15px arial, verdana, sans-serif;
-	background: #003b00;
+	background: #41591C;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin: 0;
@@ -8,7 +8,7 @@ body {
 
 input {
 	margin: 2px 2pt;
-	background: #C3E691 none repeat-x scroll center top;
+	background: #6A8C20 none repeat-x scroll center top;
 	color: #791E1E;
 	font: 13px arial, verdana, sans-serif;
 	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
@@ -18,16 +18,21 @@ input {
 	border: 1px solid #666666;
 }
 
-.box_authentification {
+.box_authentification_mobile {
 	width: auto;
-	height: auto;
+	height: 400px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+	position:relative;
+	
+    margin-left: 0px;
+    margin-right: 0px;
+    top: 0%;
 }
 
 #wrappermobile {
-	background:#003b00;
+	background:#41591C;
 	height:auto;
 	min-height:480px;
 	margin-top: 0px;
@@ -35,7 +40,7 @@ input {
 }
 
 #frisetopvidemobile {
-	background:#003b00;
+	background:#41591C;
 }
 
 .onglet {
@@ -45,6 +50,15 @@ input {
     padding: 8px;
     font-weight: bold;
     list-style: none;
+}
+
+#boite_d {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -80px;
+    position: absolute;
+    text-align: left;
+    width: auto;
 }
 
 .boite_m {
@@ -85,4 +99,13 @@ input {
 
 .barre_tour_activite {
 	width: 75px;
+}
+
+.pointsdistinctions {
+	right: 200px;
+	top: 0;	
+}
+
+#navigation h3.head {
+	padding: 20px;	
 }

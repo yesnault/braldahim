@@ -40,14 +40,23 @@
 		  <?php endif;?>
 		 </div>		 
 		
+		<?php if (Zend_Registry::get("estMobile")):?>
 		<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
-	   	<span title="Points actualisés une fois par jour." onclick='Javascript:_get_("/interface/load/?box=box_titres");' class="pointsdistinctions"><?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?> de distinction</span>
+	   			<span title="Points actualisés une fois par jour." onclick='Javascript:_get_("/interface/load/?box=box_titres");' class="pointsdistinctions"><?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?></span>
+		<?php else: ?>
+			<?php $s=""; if ($this->user->points_distinctions_braldun > 1): $s='s'; endif; ?>
+	   		<span title="Points actualisés une fois par jour." onclick='Javascript:_get_("/interface/load/?box=box_titres");' class="pointsdistinctions"><?php echo $this->user->points_distinctions_braldun ?> point<?php echo $s?> de distinction</span>
+	   	<?php endif;?>
 	</div>
+	<?php if (!Zend_Registry::get("estMobile")):?>
 	<div id="frisetop">
 	<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>
 	</div>
 	<div id="frisebot">
 	</div>
+	<?php else:?>
+		Heure serveur : <span id='date_heure' class=''>&nbsp;</span>
+	<?php endif;?>
 </div>
 	
 	<?php if ($this->controleur == "interface") : ?>

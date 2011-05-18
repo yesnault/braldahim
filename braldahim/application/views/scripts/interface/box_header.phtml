@@ -2,7 +2,13 @@
 	echo '<div class="'.$this->nom_interne.'" id="'.$this->nom_interne.'" style="display:'.$this->display.'">';
 endif; ?>
 
-<?php if ($this->estMobile) : ?>
+<?php if ($this->estMobile && 
+	$this->nom_interne != "box_interface_boxes" 
+	&& $this->nom_interne != "box_vue" 
+	&& $this->nom_interne != "box_vuedetails"
+	&& $this->nom_interne != "box_titres"
+	
+	) : ?>
 <div id='onglet_menu' class='onglet actif' onclick='Javascript:switch2div("boite_m","<?php echo $this->nom_interne ?>"); '>
 Menu
 </div>

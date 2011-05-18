@@ -11,7 +11,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$config = new Zend_Config_Ini('../application/configs/config.ini', 'general');
 		$registry->set('config', $config);
 
-		if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
+		if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.local" || $_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
 			Zend_Registry::set('estMobile', true);
 		} else {
 			Zend_Registry::set('estMobile', false);
@@ -23,7 +23,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			Zend_Registry::set('estIphone', false);
 		}
 
-		if ($_SERVER['SERVER_NAME'] == "work.braldahim.com" || $_SERVER['SERVER_NAME'] == "85.17.183.147") {
+		if ($_SERVER['SERVER_NAME'] == "work.braldahim.local" || $_SERVER['SERVER_NAME'] == "work.braldahim.com" || $_SERVER['SERVER_NAME'] == "85.17.183.147") {
 			Zend_Registry::set('estWork', true);
 		} else {
 			Zend_Registry::set('estWork', false);

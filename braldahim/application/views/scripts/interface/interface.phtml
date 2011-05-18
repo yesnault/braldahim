@@ -3,6 +3,10 @@
 
 <?php if ($this->affichageInterne == true) : ?>
 
+	<?php if ($this->estMobile) : ?>
+		<div id="box_vue"></div>
+		<?php include("box_onglets.phtml") ?>
+	<?php else : ?>
 	<table>
 		<tr>
 			<td valign='top'>
@@ -13,6 +17,7 @@
 			</td>
 		</tr>
 	</table>
+	<?php endif;?>
 	
 <?php else: ?>
 	Chargement en cours
