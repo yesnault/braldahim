@@ -2431,7 +2431,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if (count($materiels) > 0) {
 			foreach ($materiels as $e) {
-				$possible = true;
+				$possible = false;
 
 				if (substr($e['nom_systeme_type_materiel'], 0, 9) == 'charrette') {
 					if ($this->view->idCharretteEtal != null && $e['id_'.strtolower($depart).'_materiel'] == $this->view->idCharretteEtal) {
@@ -2439,6 +2439,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					} else {
 						$possible = false;
 					}
+				} else if ($this->view->idCharretteEtal == null) {
+					$possible = true;
 				}
 
 				if ($possible) {
