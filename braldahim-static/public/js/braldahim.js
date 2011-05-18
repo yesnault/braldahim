@@ -191,7 +191,7 @@ function showResponse(reponse) {
 							} else if (m_type_valeur == "effect.appear" && m_data != "") {
 								Effect.Appear(m_data, { duration :2.0 });
 							} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
-								new HTMLTableTools(m_data);
+								tableauTriable(m_data);
 							} else if (m_type_valeur == "messagerie" && m_data != "") {
 								messagerie(m_data);
 							} else if (m_type_valeur == "warning") {
@@ -231,7 +231,7 @@ function showResponse(reponse) {
 									// alert('Fin entrie \n m_type='+m_type+' \n
 									// m_type_valeur='+m_type_valeur + '
 									// m_data='+m_data);
-									new HTMLTableTools(m_data);
+									tableauTriable(m_data);
 								} else if (m_type_valeur == "messagerie" && m_data != "") {
 									messagerie(m_data);
 								} else if (m_type_valeur == "warning") {
@@ -534,7 +534,7 @@ function ouvrirWin(url, titre) {
 
 function box_warning(data) {
 	$('#box_warning').show();
-	$('#box_warning').innerHTML = data;
+	$('#box_warning').html(data);
 }
 
 function messagerie(nbMessageNonLu) {
@@ -559,11 +559,11 @@ function sortGridOnServerRelate(ind, gridObj, direct) {
 }
 
 function getGridQStringRelate() {
-	return '/bourg/relatexml?anneeselect='+$('#anneeRelate').value+'&typeselect='+$('#typeRelate').val();
+	return '/bourg/relatexml?anneeselect='+$('#anneeRelate').val()+'&typeselect='+$('#typeRelate').val();
 }
 
 function goToRelate() {
-	document.location.href = '/bourg/?anneeselect='+$('#anneeRelate').value+'&typeselect='+$('#typeRelate').value + "&uid="+(new Date()).valueOf();
+	document.location.href = '/bourg/?anneeselect='+$('#anneeRelate').val()+'&typeselect='+$('#typeRelate').val() + "&uid="+(new Date()).valueOf();
 }
 
 function sortGridOnServerRecherche(ind, gridObj, direct) {
@@ -865,7 +865,7 @@ function afficheTransbahuterVente() {
 function controlePrixVenteBoutonDeposer() {
 	// constantes definies dans Transbahuter.php
 	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
-		if ($('#valeur_4').value >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
+		if ($('#valeur_4').val() >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
 			return true;
 		} else {
 			alert('Il faut rentrer un prix valide');
@@ -1366,6 +1366,23 @@ function affDetails(x, y, z) {
         },
         text: false
     })
+}
+
+
+function tableauTriable(id) {
+	$('#'+id).dataTable({
+		"bJQueryUI": true,
+		"oLanguage": {
+			"sLengthMenu": "Affichage de _MENU_ éléments par page",
+			"sZeroRecords": "Aucun résultat - désolé",
+			"sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+			"sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
+			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
+			"sSearch": "Filtre"
+		}
+		
+		
+	});
 }
 
 
