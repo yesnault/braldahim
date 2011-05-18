@@ -50,7 +50,15 @@
 	</div>
 	<?php if (!Zend_Registry::get("estMobile")):?>
 	<div id="frisetop">
-	<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>
+		<?php if (Zend_Registry::get("estWork")) : ?>
+		<center><input type='button' class='button1' value='Afficher / Cacher les liens' onclick="switch2div('menuWork', 'menuFoo');"></center>
+		<div id='menuFoo' style="display:none"></div>
+		<div id='menuWork' style="display:none">
+			<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>
+		</div>
+	<?php else: ?>
+		<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>	
+	<?php endif;?>
 	</div>
 	<div id="frisebot">
 	</div>

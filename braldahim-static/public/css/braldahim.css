@@ -2176,6 +2176,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
    	margin-right:auto;
    	text-align:right;
    	position: absolute;
+   	z-index: 801;
 }
 
 #boite_a .inner, #boite_b .inner {

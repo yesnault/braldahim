@@ -3,7 +3,25 @@ body {
 	color: #666666;
 }
 
-#frisebot,#frisetop {
+.titrea, .pointsdistinctions, #nav-main > ul > li, table.table_liste, thead.table_liste, tfoot.table_liste {
+	font: 13px arial, verdana, sans-serif;
+	font-weight: normal;
+    color: #666666;
+    text-shadow: none;
+}
+
+#nav-main > ul > li:hover, #nav-main a:hover, #nav-main a:focus, #nav-main > ul > li:hover a, div.braltip:hover div.tip, div.tipf, .braltexte, .braltexte2 {
+    text-shadow: none;
+	background: none;
+	color:#666666;
+}
+
+#nav-main li li a, #nav-main li li a:hover {
+	background: none;
+	color:#666666;
+}
+
+#frisetopa, #frisebot,#frisetop {
 	background: none;
 }
 
@@ -43,8 +61,14 @@ body {
     box-shadow: none;
 }
 
-.box_contenu1 {
+.box_contenu1, .onglet {
 	background: none;
+	color:#666666;	
+}
+
+.box_personnage, .box_effets, .box_competences {
+	background: #eeeeee;
+	color:#666666;	
 }
 
 .onglet.inactif {
@@ -72,9 +96,10 @@ td.table_liste_th {
 	color: #666666;
 }
 
-input {
+input, input:focus {
 	background: none;
 	border: 1px solid #666666;
+	color:#666666;
 }
 
 .textsizea {
@@ -135,6 +160,13 @@ thead.table_liste,tfoot.table_liste {
 
 input.button1 {
 	background-image: none;
+	background-color:transparent;
+	color: #666666;
+}
+
+input.button1:hover {
+	border-color: #31401A;
+	cursor: pointer;
 }
 
 div.braltip:hover span.tip{
@@ -151,4 +183,28 @@ div.braltip:hover span.tip{
 .bougrie_text {
 background: #FFFFFF;
 border:1px solid #666666;
+}
+
+.cadre {
+    background-color: transparent;
+    border: 1px solid #000000;
+}
+
+.bralannonce, .bralannonce a {
+    background: none;
+    border-radius: 3px 3px 3px 3px;
+    color: #666666;
+}
+
+tr.table_liste0:hover, tr.table_liste1:hover  {
+    background: none;
+}
+
+#boite_a .inner, #boite_b .inner, .box_authentification .inner {
+    background: none;
+}
+
+.ui-widget-content, .ui-widget-header, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default  {
+	background: #eeeeee;
+	color:#666666;
 }
