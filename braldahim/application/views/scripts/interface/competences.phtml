@@ -8,8 +8,19 @@
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> | 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> |  
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Métiers</span> | 
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span><br />
  
+ <?php foreach($this->metiers as $m) : 
+ 	if ($this->user->sexe_braldun == 'feminin') :
+		$nom_metier = $m["nom_feminin_metier"];
+	else:
+		$nom_metier = $m["nom_masculin_metier"];
+	endif;
+ ?>
+ 	<span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('<?php echo $nom_metier?>')"><?php echo $nom_metier?></span> 
+ <?php endforeach;?>
+ 
+  <input type='hidden' id='init-competencefavorie' name='init-competencefavorie' value='<?php if ($this->favories == null || count($this->favories) <= 0) : echo "false"; else: echo "true"; endif;?>'>
   <input type='hidden' id='nb_valeurs-competencefavorie' name='nb_valeurs-competencefavorie' value='1'>
   <input type='hidden' id='valeur_1-competencefavorie' name='valeur_1-competencefavorie' value='-1'><br />
 	 
@@ -24,10 +35,6 @@
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>&nbsp;</th>
-		<th>Compétence</th>
-		<th>Nb.PA</th>
-		<th>Maîtrise</th>
-		<th>Type</th>
 		<th>&nbsp;</th>
 	  </tr>
 	</thead>
@@ -53,18 +60,18 @@
 							<?php else: ?>
 								<img src="<?php echo $this->config->url->static?>/images/layout/etoile_vide.png"/>
 							<?php endif;?>
+							<span style="display:none"><?php echo $m["nom_onglet"]?></span>
+							<span style="display:none"><?php echo $c["pa_texte"]?> PA</span>
+							<span style="display:none"><?php echo $m["nom_onglet"]?></span>
 						</td>
-						<td class="table_liste"><?php echo $c["nom"]?></td>
-						<td class="table_liste"><?php echo $c["pa_texte"]?> PA</td>
-						<td class="table_liste"><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?></td>
-						<td class="table_liste"><?php echo $m["nom_onglet"]?></td>
-				  		<td class="table_liste">
+					  		<td class="table_liste">
+				  			<span style="display:none"><?php echo $c["nom"]?></span>
 			  				<?php if ($this->user->pa_braldun >=$c["pa_utilisation"]) : 
 						      $attr = "onclick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
 						    else:
 						      $attr = " disabled ";
 						    endif;?>
-						    <input type="button" class='button1' value="Action" <?php echo $attr?>>
+						    <input type="button" class='button1' value="<?php echo $c["pa_texte"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
 				  		</td>
 				  	</tr>
 				 <?php endforeach; ?>

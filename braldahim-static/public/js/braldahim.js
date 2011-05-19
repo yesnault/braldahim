@@ -1388,7 +1388,9 @@ function tableauTriable(id) {
 	});
 	
 	if (id == "idCompetencesTable") {
-		$('#'+id).dataTable().fnFilter('Favorie');
+		if ($('#init-competencefavorie').val() == "true") {
+			$('#'+id).dataTable().fnFilter('Favorie')	;
+		}
 	}
 }
 

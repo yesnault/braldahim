@@ -137,6 +137,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				}
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
+					$refreshHtmlTable = false;
 					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule" || $boxToRefresh[$i] == "box_quete") {
 						$xml_entry->set_type("load_box");
 						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
@@ -148,9 +149,16 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 						$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
 						$xml_entry->set_data($c->render());
 						$nomInterne = $c->getNomInterne();
+						$refreshHtmlTable = true;
 					}
 					$xml_entry->set_valeur($nomInterne);
 					$this->xml_response->add_entry($xml_entry);
+					if ($refreshHtmlTable) {
+						$tabTables = $c->getTablesHtmlTri();
+						if ($tabTables != false) {
+							Bral_Controller_Action::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
+						}
+					}
 				}
 				if ($action->getIdEchoppeCourante() !== false) {
 					$this->xml_response->add_entry($this->getXmlEntryVoirEchoppe($action));

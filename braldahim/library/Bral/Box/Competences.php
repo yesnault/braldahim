@@ -148,6 +148,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 
 		$this->view->competences = $tabCompetences;
 		$this->view->favories = $tabFavories;
+		$this->view->metiers = $braldunsMetierRowset;
 	}
 
 	public function getTablesHtmlTri() {

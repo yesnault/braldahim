@@ -27,7 +27,7 @@ class BraldunsMetiers extends Zend_Db_Table
 		$select->from('bralduns_metiers', '*')
 		->from('metier', '*')
 		->where('bralduns_metiers.id_fk_metier_hmetier = metier.id_metier')
-		->where('bralduns_metiers.id_fk_braldun_hmetier = '.intval($idBraldun))
+		->where('bralduns_metiers.id_fk_braldun_hmetier = ? ', intval($idBraldun))
 		->order('metier.nom_masculin_metier');
 		$sql = $select->__toString();
 
