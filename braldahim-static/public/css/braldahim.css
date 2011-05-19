@@ -1175,15 +1175,14 @@ thead.table_liste,tfoot.table_liste {
 }
 
 td.table_liste_th {
-	color: #000000;
-	background-color: #2a5911;
-	border: 1px solid #000000;
+	text-align: center;
+	color: #F2F2F2;
+	background-color: #31401A;
+	border: 1px solid #1F2614;
 }
 
 th.table_liste {
 	padding: 5px;
-	background-color: #000000;
-	width: 25%;
 	text-align: center;
 }
 tr.table_liste0 {
