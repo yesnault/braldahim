@@ -48,11 +48,25 @@ class Bral_Box_Competences extends Bral_Box_Box {
 	}
 
 	function data() {
+		
+		Zend_Loader::loadClass("BraldunsCompetencesFavories");
+		$favoriesTable = new BraldunsCompetencesFavories();
+		$favoriesRowset = $favoriesTable->findByIdBraldun($this->view->user->id_braldun);
+		
+		$tabFavories = array();
+		
+		if ($favoriesRowset != null) {
+			foreach($favoriesRowset as $f) {
+				$tabFavories[] = $f["id_competence"];
+			}	
+		}
+		
 		$tabCompetences = null;
 		$this->view->nom_interne = $this->getNomInterne();
 
 		$tabCompetences["basiques"] = array(
-				"nom_onglet" => "Compétences Basiques",
+				//"nom_onglet" => "Compétences Basiques",
+				"nom_onglet" => "Basique",
 				"nom_systeme_onglet" => "basiques",
 				"competences" => Bral_Util_Registre::get('competencesBasiques')
 		);
@@ -82,7 +96,8 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			}
 			if ($competence != null) {
 				$tabCompetences["communes"] = array(
-					"nom_onglet" => "Compétences communes",
+					//"nom_onglet" => "Compétences communes",
+					"nom_onglet" => "Commune",
 					"nom_systeme_onglet" => "communes",
 					"competences" => $competence,
 				);
@@ -132,6 +147,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		}
 
 		$this->view->competences = $tabCompetences;
+		$this->view->favories = $tabFavories;
 	}
 
 	public function getTablesHtmlTri() {

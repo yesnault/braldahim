@@ -110,6 +110,8 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$action = Bral_Filatures_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Hotel_Factory") {
 					$action = Bral_Hotel_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Interfaceaction_Factory") {
+					$action = Bral_Interfaceaction_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Lieux_Factory") {
 					$action = Bral_Lieux_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Lot_Factory") {

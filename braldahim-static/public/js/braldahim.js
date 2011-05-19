@@ -67,7 +67,12 @@ function _get_(url, nomAction, encode) {
 			if ((url.substring(20, 22) == "do") && (url.substring(37, 39) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 16) == "/interfaceaction") { // /interfaceaction/doaction?caction=do_interfaceaction_competencefavorie
+			if ((url.substring(17, 19) == "do") && (url.substring(34, 36) == "do")) {
+				action = "do";
+			}
 		}
+		
 	}
 
 	var sep = '';
@@ -1380,9 +1385,11 @@ function tableauTriable(id) {
 			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
 			"sSearch": "Filtre"
 		}
-		
-		
 	});
+	
+	if (id == "idCompetencesTable") {
+		$('#'+id).dataTable().fnFilter('Favorie');
+	}
 }
 
 

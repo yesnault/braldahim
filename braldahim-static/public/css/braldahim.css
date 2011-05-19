@@ -2425,7 +2425,7 @@ body > #boite_b {
 	clear: both;
 	_height: 302px;
 	zoom: 1; /* Feeling sorry for IE */
-	width:90%;
+	width:100%;
 }
 
 .dataTables_processing {

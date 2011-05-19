@@ -4,11 +4,15 @@
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basiques')">Compétences Basiques</span>
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Communes')">Compétences Communes</span> <br />
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Compétences Métiers</span>
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Compétences de Soule</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Favorie')">Favories</span>  | 
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> | 
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> |  
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Métiers</span> | 
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span>
  
+  <input type='hidden' id='nb_valeurs-competencefavorie' name='nb_valeurs-competencefavorie' value='1'>
+  <input type='hidden' id='valeur_1-competencefavorie' name='valeur_1-competencefavorie' value='-1'><br />
+	 
   <br /> <br />
  	
  <?php if ($this->user->activation == false) :
@@ -19,6 +23,7 @@
  	<table class="table_liste" style="width:100%" id="idCompetencesTable">
 	<thead class="table_liste">
 	  <tr class="table_liste">
+	  	<th>&nbsp;</th>
 		<th>Compétence</th>
 		<th>Nb.PA</th>
 		<th>Maîtrise</th>
@@ -40,6 +45,15 @@
 				    endif;?>
 							    
 					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+						<td class="table_liste" onClick="$('#valeur_1-competencefavorie').val('<?php echo $c["id_competence"]?>');_get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorie','competencefavorie')">
+						
+							<?php if (in_array($c["id_competence"], $this->favories)) : ?>
+								<img src="<?php echo $this->config->url->static?>/images/layout/etoile_pleine.png"/>
+								<span style="display:none">favorie</span>
+							<?php else: ?>
+								<img src="<?php echo $this->config->url->static?>/images/layout/etoile_vide.png"/>
+							<?php endif;?>
+						</td>
 						<td class="table_liste"><?php echo $c["nom"]?></td>
 						<td class="table_liste"><?php echo $c["pa_texte"]?> PA</td>
 						<td class="table_liste"><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?></td>
