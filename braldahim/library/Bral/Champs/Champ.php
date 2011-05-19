@@ -34,6 +34,10 @@ abstract class Bral_Champs_Champ {
 	abstract function getNomInterne();
 	abstract function getIdChampCourant();
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	function render() {
 		switch($this->action) {
 			case "ask":

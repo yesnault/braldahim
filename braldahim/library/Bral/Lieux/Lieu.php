@@ -95,6 +95,10 @@ abstract class Bral_Lieux_Lieu {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");

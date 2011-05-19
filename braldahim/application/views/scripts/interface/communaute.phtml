@@ -7,16 +7,25 @@
 		<?php if ($this->communaute != null) : ?>
 			: 
 		<label class='alabel' onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>	
-		<?php echo $this->communaute["nom_communaute"] ?>,
-			<?php if ($this->communaute["x_communaute"] != null && $this->communaute["y_communaute"] != null) :?>
-			Hall en <?php echo $this->communaute["x_communaute"] ?>, <?php echo $this->communaute["y_communaute"] ?>
-		<?php endif; ?>
+		<?php echo $this->communaute["nom_communaute"];
+			
+			if ($this->communaute["x_communaute"] != null && $this->communaute["y_communaute"] != null) :
+				echo ', ';
+				echo 'Hall en '.$this->communaute["x_communaute"].', '.$this->communaute["y_communaute"];
+			endif; ?>
 		<?php endif; ?>
 		</label>
 	 </div>
 	 
 	 <div class="contenuC">
      <div class="box_contenu1 textalic">
+     
+     <?php if ($this->communaute["x_communaute"] == null || $this->communaute["y_communaute"] == null) : ?>
+     	Vous n'avez pas de Hall de Communauté.
+     	Pour en construire un, cherchez donc ruine...<br /><br />
+     <?php endif; ?>
+     
+     
   	<?php if ($this->communaute != null) : ?>
   		<?php if ($this->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
   			<?php include("box_onglets.phtml") ?>

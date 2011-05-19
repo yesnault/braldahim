@@ -41,6 +41,10 @@ abstract class Bral_Communaute_Communaute {
 	abstract function setDisplay($display) ;
 	abstract function getNomInterne();
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	public function getIdEchoppeCourante() {
 		return false;
 	}

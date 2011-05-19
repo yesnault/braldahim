@@ -8,19 +8,9 @@
 <?php if ($this->affichageInterne == true) : ?>
     
  	<?php if ($this->estLieuCourant === true) : ?>
- 		Vous vous trouvez sur un lieu particulier !
+ 		<i>Vous vous trouvez sur un lieu particulier !</i>
  		
- 		<?php if ($this->estFranchissableLieu === true && $this->estAlterableLieu === true) : ?>
- 			Ce lieu est franchissable et alt&eacute;rable
- 		<?php elseif ($this->estFranchissableLieu === true && $this->estAlterableLieu === false) : ?>
- 			Ce lieu est franchissable mais n'est pas alt&eacute;rable
-		<?php elseif ($this->estFranchissableLieu === false && $this->estAlterableLieu === true) : ?>
- 			Ce lieu n'est pas franchissable et il est alt&eacute;rable
- 		<?php else: ?>
- 			Ce lieu n'est ni franchissable, ni alt&eacute;rable
- 		<?php endif; ?>
- 		
- 		 <br /><br />
+ 		<br /><br />
  		<div class="titre textalic textsizeb"><?php echo $this->nomLieu ?></div>
  		<img src='<?php echo $this->config->url->static?>/images/vue/<?php echo $this->nomImageLieu?>.png' />
  		<br /><br />

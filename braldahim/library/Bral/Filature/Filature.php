@@ -43,6 +43,10 @@ abstract class Bral_Filature_Filature {
 	public function getIdEchoppeCourante() {
 		return false;
 	}
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	public function getIdChampCourant() {
 		return false;

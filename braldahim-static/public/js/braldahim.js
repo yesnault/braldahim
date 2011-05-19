@@ -88,7 +88,7 @@ function _get_(url, nomAction, encode) {
 		for (i = 1; i <= nb_valeurs; i++) {
 			var nom = '#valeur_' + i + suffixe;
 			var elem = $(nom);
-			if (elem[0].type == "radio") {
+			if ($(nom) && elem[0].type == "radio") {
 				ajout = $("input[type=radio][name=valeur_" + i + suffixe + "]:checked").attr("value");
 				valeurs = valeurs + sep + "valeur_" + i + "=" + ajout;
 			} else if (elem[0].type == "select-multiple") {

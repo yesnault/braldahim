@@ -21,9 +21,6 @@
 	    
 	     <?php if ($this->possedeCharrette) : ?>
 	     
-		   <table align="center" width="100%">
-		   	<tr>
-		   		<td align="center" valign="top">
 		   			<div class="titre textalic textsized">Caract&eacute;ristiques</div>
 		   			
 		   			<?php echo $this->charrette["nom_charrette"]?> n&deg;<?php echo $this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?php echo $this->charrette["id_charrette"]?>")'>l'historique</label><br /><br />
@@ -33,8 +30,8 @@
 				   <br /><br />
 				   <?php echo Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
 				   Durabilit&eacute; : <?php echo $this->charrette["durabilite_actuelle"]?> / <?php echo $this->charrette["durabilite_max"]?>.
-		   		</td>
-		   		<td align="center" valign="top">
+				   
+				   <br />
 		   			<ul id="navigation" style="width:99%;text-align:left">
 	
 						<li id="pocheAmelioCharette">
@@ -106,9 +103,6 @@
 				   		</ul>
 				   		</li>
 					</ul>
-		   		</td>
-		   	</tr>
-		   </table>
 		   
 		   <br />
 			<div class="titre textalic textsized">Contenu de la charrette</div>	   

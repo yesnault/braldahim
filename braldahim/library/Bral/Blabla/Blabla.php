@@ -60,6 +60,10 @@ abstract class Bral_Blabla_Blabla {
 		return false;
 	}
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	protected function majBraldun() {
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);

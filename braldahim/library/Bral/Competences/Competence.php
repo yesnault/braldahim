@@ -76,6 +76,10 @@ abstract class Bral_Competences_Competence {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	protected function constructListBoxRefresh($tab = null) {
 		if ($this->view->user->niveau_braldun > 0 && $this->view->changeNiveau == true) {

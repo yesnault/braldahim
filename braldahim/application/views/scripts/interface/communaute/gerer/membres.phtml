@@ -29,31 +29,18 @@ Filtrer par rang :
  <?php endif; ?>
  <br />
  Pour modifier le rang d'un Braldûn, vous devez cliquer dessus.<br />
-<table class="table_liste">
+<table id="table-gerermembres" class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=1&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>Pr&eacute;nom <?php echo Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=2&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>Nom <?php echo Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=3&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>N&deg; <?php echo Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=4&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>Niveau <?php echo Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=5&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>Date d'entr&eacute;e <?php echo Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onclick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=o&valeur_2=<?php echo $this->filtre ?>&valeur_5=6&valeur_6=<?php echo $this->sensOrdre ?>", "gerermembres");'>Rang <?php echo Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
+	<th >Pr&eacute;nom</th>
+	<th >Nom</th>
+	<th >N&deg;</th>
+	<th >Niveau</th>
+	<th >Date d'entr&eacute;e</th>
+	<th >Rang</th>
 	<th>Action</th>
   </tr>
 </thead>
-<tfoot class="table_liste">
-  <tr class="table_liste">
-    <th colspan='7'>
-    	Affichage de <?php echo count($this->tabMembres) ?> braldun<?php if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?php echo $this->nbMembresTotal ?> dans la communaut&eacute;<br />
-       <?php if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>', 'gerermembres')" value="Page pr&eacute;c&eacute;dente">
-	   <?php endif; ?>
-	   <?php if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_gerermembres&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>', 'gerermembres')" value="Page suivante">
-	   <?php endif; ?>
-    </th>
-  </tr>
-</tfoot>
 <tbody>
 <?php if (count($this->tabMembres) > 0): ?>
 <?php $i = 0;

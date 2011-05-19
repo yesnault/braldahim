@@ -27,6 +27,10 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la Communauté ". $this->view->user->rangCommunaute);
 		}
 
+		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
+			throw new Zend_Exception("Bral_Communaute_Initialiserbatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
+		}
+
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Palissade');
 

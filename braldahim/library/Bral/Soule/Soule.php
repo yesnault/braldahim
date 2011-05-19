@@ -79,6 +79,10 @@ abstract class Bral_Soule_Soule {
 		return false;
 	}
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	function render() {
 		$this->view->nomAction = $this->getTitreAction();
 		$this->view->nomSysteme = $this->nom_systeme;

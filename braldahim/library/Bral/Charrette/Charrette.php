@@ -70,6 +70,10 @@ abstract class Bral_Charrette_Charrette {
 		return false;
 	}
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	protected function setEstAvecPa($flag) {
 		$this->estAvecPa = $flag;
 		if ($flag == false) {

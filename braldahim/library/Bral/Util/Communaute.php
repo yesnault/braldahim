@@ -126,17 +126,30 @@ class Bral_Util_Communaute {
 	 *
 	 * @param int $idCommunaute Identifiant de la communaute
 	 */
-	public static function possedeUnHall($idCommunaute) {
+	public static function possedeUnHall($idCommunaute, $communaute = null) {
 		$retour = false;
-		Zend_Loader::loadClass("Communaute");
-		$communauteTable = new Communaute();
-		$communaute = $communauteTable->findById($idCommunaute);
-		if ($communaute != null && count($communaute) == 1) {
-			$communaute = $communaute[0];
-			if ($communaute["x_communaute"] != null
-			&& $communaute["y_communaute"] != null
-			&& $communaute["z_communaute"] != null) {
-				$retour = true;
+
+		$c = "stdClass";
+
+		if ($communaute != null && $communaute instanceof $c && $communaute->x_communaute != null
+		&& $communaute->y_communaute != null
+		&& $communaute->z_communaute != null) {
+			$retour = true;
+		} else {
+				
+			if ($communaute == null) {
+				Zend_Loader::loadClass("Communaute");
+				$communauteTable = new Communaute();
+				$communaute = $communauteTable->findById($idCommunaute);
+				$communaute = $communaute[0];
+			}
+
+			if ($communaute != null) {
+				if ($communaute["x_communaute"] != null
+				&& $communaute["y_communaute"] != null
+				&& $communaute["z_communaute"] != null) {
+					$retour = true;
+				}
 			}
 		}
 		return $retour;
@@ -188,7 +201,7 @@ class Bral_Util_Communaute {
 			} else {
 				$retour = $lieux[0]['niveau_lieu'];
 			}
-				
+
 		}
 		return $retour;
 	}

@@ -43,6 +43,10 @@ abstract class Bral_Filatures_Filatures {
 		return false;
 	}
 	
+	public function getTablesHtmlTri() {
+		return false;
+	}
+	
 	abstract function render();
 		
 }

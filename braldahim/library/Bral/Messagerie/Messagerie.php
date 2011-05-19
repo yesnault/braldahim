@@ -32,6 +32,10 @@ abstract class Bral_Messagerie_Messagerie {
 		return false;
 	}
 
+	public function getTablesHtmlTri() {
+		return false;
+	}
+
 	public function getIdChampCourant() {
 		return false;
 	}
@@ -39,7 +43,7 @@ abstract class Bral_Messagerie_Messagerie {
 	public function getNomInterne() {
 		return $this->nomInterne;
 	}
-	
+
 	protected function setNomInterne($nomInterne) {
 		$this->nomInterne = $nomInterne;
 	}

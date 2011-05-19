@@ -125,10 +125,15 @@ endif; ?>
 <?php endif;?>
 <?php if ($textLieu != '' ) :?>
 	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
+	<?php $jsLieu = '';
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) :
+			$jsLieu = 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');"';
+		endif;
+	?>
 	<?php if ($type_lieu != '') : ?>
-		<img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $type_lieu?>.png' />
+		<img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $type_lieu?>.png' <?php echo $jsLieu?>/>
 	<?php else: ?>
-		<img src='<?php echo $this->config->url->static?>/images/vue/batiment.png' />
+		<img src='<?php echo $this->config->url->static?>/images/vue/batiment.png' <?php echo $jsLieu?>/>
 	<?php endif; ?>
 <?php elseif ($textChamp != '') : ?>
 	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>

@@ -159,11 +159,11 @@ endif;
         $idTypeMonstre == 27 || $idTypeMonstre == 28 ||
         $idTypeMonstre == 21 || $idTypeMonstre == 37 || 
         $idTypeMonstre == 38) {
-    	?> <img src='<?php echo $this->config->url->static?>/images/type_monstre/<?php echo $idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-20px;left:0px;"/> <?php
+    	?> <img src='<?php echo $this->config->url->static?>/images/type_monstre/<?php echo $idTypeMonstre.$suffixe?>.png' style="position: absolute;top:-5px;left:0px;"/> <?php
     } else if ($idTypeMonstre == -1) {
-        ?> <img src='<?php echo $this->config->url->static?>/images/vue/monstres.png' style="position: absolute;"/> <?php
+        ?> <img src='<?php echo $this->config->url->static?>/images/vue/monstres.png' style="position: absolute;top:-5px;"/> <?php
     } else {
-    	?> <img src='<?php echo $this->config->url->static?>/images/vue/monstre.png' style="position: absolute;"/> <?php
+    	?> <img src='<?php echo $this->config->url->static?>/images/vue/monstre.png' style="position: absolute;top:-5px;"/> <?php
     }
    endif;
 ?>

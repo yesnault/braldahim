@@ -167,7 +167,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$this->xml_response->add_entry($this->getXmlEntryVoirChamp($action));
 				}
 
-				if ($factory == "Bral_Echoppes_Factory") {
+				if ($factory == "Bral_Echoppes_Factory" || "Bral_Communaute_Factory") {
 					$tabTables = $action->getTablesHtmlTri();
 					if ($tabTables != false) {
 						self::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);

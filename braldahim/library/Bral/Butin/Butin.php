@@ -45,6 +45,10 @@ abstract class Bral_Butin_Butin {
 	public function getIdChampCourant() {
 		return false;
 	}
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	function render() {
 		$this->view->titreAction = $this->getTitreAction();

@@ -5,89 +5,93 @@
 <label style="cursor:pointer" title="Points d'influence = somme des niveaux des bâtiments de la communauté. Actualisés toutes les nuits">
 Points d'influence de la communauté : <?php echo $this->communaute["points_communaute"]?></label> 
 
-<br /><br /><br />
-Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
-Une fois initialisé ou amélioré, chaque Braldûn de la communauté peut participer à la construction en allant sur le bâtiment
-et utiliser l'action Construire (onglet Lieu).<br />
-
- <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
- Vous avez les droits de Tenancier. Depuis ce hall, vous pouvez construire
- des bâtiments de communautés ou augmenter le niveau d'un bâtiment existant.<br />
- Les ressources nécessaires doivent être présentes dans le coffre de la communauté.<br />
- 
- <input type='button' class='button1' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
- <input type='button' class='button1' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
- <input type='button' class='button1' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
- <br />
- <hr />
- <?php endif; ?>
+<?php if (!Bral_Util_Communaute::possedeUnHall($this->user->id_fk_communaute_braldun, $this->communaute)) : ?>
+	<br /><br />Vous n'avez pas de Hall de Communauté.
+<?php else:?>
+	<br /><br /><br />
+	Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
+	Une fois initialisé ou amélioré, chaque Braldûn de la communauté peut participer à la construction en allant sur le bâtiment
+	et utiliser l'action Construire (onglet Lieu).<br />
 	
-<?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
-	<table class="table_liste" style='width:100%'>
-		<thead class="table_liste">
-		  <tr class="table_liste">
-		  	<th>&nbsp;</th>
-			<th>Type : Nom</th>
-			<th>Amélioration<br/>en cours ?</th>
-			<th nowrap>Niveau <br />actuel =&gt; <br />à atteindre</th>
-			<th>Progression</th>
-			<th>Coût d'entretien</th>
-			<th>Coût niveau suivant</th>
-		  </tr>
-		</thead>
-	<?php foreach($this->batiments as $b) : 
-		$batiment = $b['batiment'];
-		$couts = $b['couts'];
-		$coutsNivSuivant = $b['couts_niveau_suivant'];
-		$coutsEntretien = $b['couts_entretien'];
-	?>
-		<tbody>
-		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-				<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $batiment["nom_systeme_type_lieu"] ?>.png' /></td>
-		  		<td class="table_liste" style="text-align:left" nowrap><?php echo $batiment["nom_type_lieu_communaute"] ?> : <?php echo $batiment["nom_type_lieu"] ?>
-		  		<?php if ($batiment["nom_systeme_type_lieu"] == "infirmerie" && $batiment["niveau_lieu"] >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) : ?>
-		  			<br />
-		  			<?php if ($this->user->id_fk_lieu_resurrection_braldun == $batiment["id_lieu"]) : ?>
-		  				Ceci est votre lieu de résurrection
-		  			<?php else: ?>
-		  				Ceci n'est pas votre lieu de résurrection
-		  			<?php endif;?>
-		  			<br />
-		  			<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_infirmerie')" value="0 PA - Définir point de résurrection" class="button1">
-		  		<?php endif;?>
-		  		
-		  		</td>
-		  		<td class="table_liste">
-			  		<?php if ($batiment["niveau_lieu"] != $batiment["niveau_prochain_lieu"]) : ?>
-			  			oui
-			  		<?php else:?>
-			  			non
+	 <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
+	 Vous avez les droits de Tenancier. Depuis ce hall, vous pouvez construire
+	 des bâtiments de communautés ou augmenter le niveau d'un bâtiment existant.<br />
+	 Les ressources nécessaires doivent être présentes dans le coffre de la communauté.<br />
+	 
+	 <input type='button' class='button1' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
+	 <input type='button' class='button1' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
+	 <input type='button' class='button1' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
+	 <br />
+	 <hr />
+	 <?php endif; ?>
+		
+	<?php if ($this->batiments != null && count($this->batiments) > 0) : ?>
+		<table class="table_liste" style='width:100%'>
+			<thead class="table_liste">
+			  <tr class="table_liste">
+			  	<th>&nbsp;</th>
+				<th>Type : Nom</th>
+				<th>Amélioration<br/>en cours ?</th>
+				<th nowrap>Niveau <br />actuel =&gt; <br />à atteindre</th>
+				<th>Progression</th>
+				<th>Coût d'entretien</th>
+				<th>Coût niveau suivant</th>
+			  </tr>
+			</thead>
+		<?php foreach($this->batiments as $b) : 
+			$batiment = $b['batiment'];
+			$couts = $b['couts'];
+			$coutsNivSuivant = $b['couts_niveau_suivant'];
+			$coutsEntretien = $b['couts_entretien'];
+		?>
+			<tbody>
+			<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+					<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $batiment["nom_systeme_type_lieu"] ?>.png' /></td>
+			  		<td class="table_liste" style="text-align:left" nowrap><?php echo $batiment["nom_type_lieu_communaute"] ?> : <?php echo $batiment["nom_type_lieu"] ?>
+			  		<?php if ($batiment["nom_systeme_type_lieu"] == "infirmerie" && $batiment["niveau_lieu"] >= Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) : ?>
+			  			<br />
+			  			<?php if ($this->user->id_fk_lieu_resurrection_braldun == $batiment["id_lieu"]) : ?>
+			  				Ceci est votre lieu de résurrection
+			  			<?php else: ?>
+			  				Ceci n'est pas votre lieu de résurrection
+			  			<?php endif;?>
+			  			<br />
+			  			<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_infirmerie')" value="0 PA - Définir point de résurrection" class="button1">
 			  		<?php endif;?>
-		  		</td>
-		  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?> =&gt; <?php echo $batiment["niveau_prochain_lieu"] ?></td>
-				<td class="table_liste">
-				<?php echo $batiment["nb_pa_depenses_lieu"]." / ". $couts['cout_pa'] ?> PA <br />
-				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"]); ?>
-				
-				<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars <br />
-				<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"]); ?>
-				</td>
-				<td class="table_liste"><?php echo $coutsEntretien['cout_castar']?> Castars</td>
-				<td class="table_liste">
-				Niveau <?php echo $batiment["niveau_prochain_lieu"] + 1 ?> : 
-				<?php echo $coutsNivSuivant['cout_pa'] ?> PA
-				et
-				<?php echo $coutsNivSuivant['cout_castar']?> Castars
-				</td>
-	  		</tr>
-		</tbody>	
-	<?php endforeach;?>
-	</table>
-	
-<?php else: ?>
-	Vous n'avez aucun bâtiment de communauté. Vous pouvez en construire un en 
-	allant sur le Hall de votre Communauté. Seuls les tenanciers, adjoints 
-	et gestionnaire peuvent construire un nouveau bâtiment.
-<?php endif;?>
+			  		
+			  		</td>
+			  		<td class="table_liste">
+				  		<?php if ($batiment["niveau_lieu"] != $batiment["niveau_prochain_lieu"]) : ?>
+				  			oui
+				  		<?php else:?>
+				  			non
+				  		<?php endif;?>
+			  		</td>
+			  		<td class="table_liste"><?php echo $batiment["niveau_lieu"] ?> =&gt; <?php echo $batiment["niveau_prochain_lieu"] ?></td>
+					<td class="table_liste">
+					<?php echo $batiment["nb_pa_depenses_lieu"]." / ". $couts['cout_pa'] ?> PA <br />
+					<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_pa'], $batiment["nb_pa_depenses_lieu"]); ?>
+					
+					<?php echo $batiment["nb_castars_depenses_lieu"]." / ".$couts['cout_castar']?> Castars <br />
+					<?php echo Bral_Helper_Communaute::afficheBarreConstruction($couts['cout_castar'], $batiment["nb_castars_depenses_lieu"]); ?>
+					</td>
+					<td class="table_liste"><?php echo $coutsEntretien['cout_castar']?> Castars</td>
+					<td class="table_liste">
+					Niveau <?php echo $batiment["niveau_prochain_lieu"] + 1 ?> : 
+					<?php echo $coutsNivSuivant['cout_pa'] ?> PA
+					et
+					<?php echo $coutsNivSuivant['cout_castar']?> Castars
+					</td>
+		  		</tr>
+			</tbody>	
+		<?php endforeach;?>
+		</table>
+		
+	<?php else: ?>
+		Vous n'avez aucun bâtiment de communauté. Vous pouvez en construire un en 
+		allant sur le Hall de votre Communauté. Seuls les tenanciers, adjoints 
+		et gestionnaire peuvent construire un nouveau bâtiment.
+	<?php endif;?>
 
+<?php endif;?>
 <?php echo $this->render("/interface/box_bottom.phtml") ?>
