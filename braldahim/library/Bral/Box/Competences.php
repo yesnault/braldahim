@@ -49,15 +49,15 @@ class Bral_Box_Competences extends Bral_Box_Box {
 
 	function data() {
 		
-		Zend_Loader::loadClass("BraldunsCompetencesFavories");
-		$favoriesTable = new BraldunsCompetencesFavories();
-		$favoriesRowset = $favoriesTable->findByIdBraldun($this->view->user->id_braldun);
+		Zend_Loader::loadClass("BraldunsCompetencesFavorites");
+		$favoritesTable = new BraldunsCompetencesFavorites();
+		$favoritesRowset = $favoritesTable->findByIdBraldun($this->view->user->id_braldun);
 		
-		$tabFavories = array();
+		$tabFavorites = array();
 		
-		if ($favoriesRowset != null) {
-			foreach($favoriesRowset as $f) {
-				$tabFavories[] = $f["id_competence"];
+		if ($favoritesRowset != null) {
+			foreach($favoritesRowset as $f) {
+				$tabFavorites[] = $f["id_competence"];
 			}	
 		}
 		
@@ -147,7 +147,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		}
 
 		$this->view->competences = $tabCompetences;
-		$this->view->favories = $tabFavories;
+		$this->view->favorites = $tabFavorites;
 		$this->view->metiers = $braldunsMetierRowset;
 	}
 

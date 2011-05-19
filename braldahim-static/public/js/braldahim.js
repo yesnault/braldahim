@@ -67,7 +67,7 @@ function _get_(url, nomAction, encode) {
 			if ((url.substring(20, 22) == "do") && (url.substring(37, 39) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 16) == "/interfaceaction") { // /interfaceaction/doaction?caction=do_interfaceaction_competencefavorie
+		} else if (url.substring(0, 16) == "/interfaceaction") { // /interfaceaction/doaction?caction=do_interfaceaction_competencefavorite
 			if ((url.substring(17, 19) == "do") && (url.substring(34, 36) == "do")) {
 				action = "do";
 			}
@@ -1388,8 +1388,8 @@ function tableauTriable(id) {
 	});
 	
 	if (id == "idCompetencesTable") {
-		if ($('#init-competencefavorie').val() == "true") {
-			$('#'+id).dataTable().fnFilter('Favorie')	;
+		if ($('#init-competencefavorite').val() == "true") {
+			$('#'+id).dataTable().fnFilter('Favorite')	;
 		}
 	}
 }

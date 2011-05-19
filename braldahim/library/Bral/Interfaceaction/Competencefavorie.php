@@ -5,14 +5,14 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Interfaceaction_Competencefavorie extends Bral_Interfaceaction_Interfaceaction {
+class Bral_Interfaceaction_Competencefavorite extends Bral_Interfaceaction_Interfaceaction {
 
 	function getNomInterne() {
 		return "box_action";
 	}
 
 	function getTitreAction() {
-		return "Compétence Favorie";
+		return "Compétence Favorite";
 	}
 
 	function prepareCommun() {
@@ -25,17 +25,17 @@ class Bral_Interfaceaction_Competencefavorie extends Bral_Interfaceaction_Interf
 	function prepareResultat() {
 		$idCompetence = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 		
-		Zend_Loader::loadClass("BraldunsCompetencesFavories");
-		$favoriesTable = new BraldunsCompetencesFavories();
-		$favoriesRowset = $favoriesTable->findByIdBraldunAndIdCompetence($this->view->user->id_braldun, $idCompetence);
+		Zend_Loader::loadClass("BraldunsCompetencesFavorites");
+		$favoritesTable = new BraldunsCompetencesFavorites();
+		$favoritesRowset = $favoritesTable->findByIdBraldunAndIdCompetence($this->view->user->id_braldun, $idCompetence);
 		
-		if ($favoriesRowset == null) {
+		if ($favoritesRowset == null) {
 			$data["id_fk_braldun_hcompf"] = $this->view->user->id_braldun;
 			$data["id_fk_competence_hcompf"] = $idCompetence;
-			$favoriesTable->insert($data);
+			$favoritesTable->insert($data);
 		} else {
 			$where = "id_fk_competence_hcompf = ".intval($idCompetence). " and id_fk_braldun_hcompf=".$this->view->user->id_braldun;
-			$favoriesTable->delete($where);
+			$favoritesTable->delete($where);
 		}
 		
 	}

@@ -4,25 +4,30 @@
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  
- <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Favorie')">Favories</span>  | 
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Favorite')">Favorites</span>  | 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> | 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> |  
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Métiers</span> | 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span><br />
  
- <?php foreach($this->metiers as $m) : 
- 	if ($this->user->sexe_braldun == 'feminin') :
-		$nom_metier = $m["nom_feminin_metier"];
-	else:
-		$nom_metier = $m["nom_masculin_metier"];
-	endif;
+ <?php
+	if ($this->metiers != null && count($this->metiers) > 0) :
+	 	foreach($this->metiers as $m) : 
+	 	if ($this->user->sexe_braldun == 'feminin') :
+			$nom_metier = $m["nom_feminin_metier"];
+		else:
+			$nom_metier = $m["nom_masculin_metier"];
+		endif;
  ?>
  	<span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('<?php echo $nom_metier?>')"><?php echo $nom_metier?></span> 
- <?php endforeach;?>
+ <?php 
+ endforeach;
+ endif;
+ ?>
  
-  <input type='hidden' id='init-competencefavorie' name='init-competencefavorie' value='<?php if ($this->favories == null || count($this->favories) <= 0) : echo "false"; else: echo "true"; endif;?>'>
-  <input type='hidden' id='nb_valeurs-competencefavorie' name='nb_valeurs-competencefavorie' value='1'>
-  <input type='hidden' id='valeur_1-competencefavorie' name='valeur_1-competencefavorie' value='-1'><br />
+  <input type='hidden' id='init-competencefavorite' name='init-competencefavorite' value='<?php if ($this->favorites == null || count($this->favorties) <= 0) : echo "false"; else: echo "true"; endif;?>'>
+  <input type='hidden' id='nb_valeurs-competencefavorite' name='nb_valeurs-competencefavorite' value='1'>
+  <input type='hidden' id='valeur_1-competencefavorite' name='valeur_1-competencefavorite' value='-1'><br />
 	 
   <br /> <br />
  	
@@ -52,11 +57,11 @@
 				    endif;?>
 							    
 					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-						<td class="table_liste" onClick="$('#valeur_1-competencefavorie').val('<?php echo $c["id_competence"]?>');_get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorie','competencefavorie')">
+						<td class="table_liste" onClick="$('#valeur_1-competencefavorite').val('<?php echo $c["id_competence"]?>');_get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorite','competencefavorite')">
 						
-							<?php if (in_array($c["id_competence"], $this->favories)) : ?>
+							<?php if (in_array($c["id_competence"], $this->favorites)) : ?>
 								<img src="<?php echo $this->config->url->static?>/images/layout/etoile_pleine.png"/>
-								<span style="display:none">favorie</span>
+								<span style="display:none">favorite</span>
 							<?php else: ?>
 								<img src="<?php echo $this->config->url->static?>/images/layout/etoile_vide.png"/>
 							<?php endif;?>

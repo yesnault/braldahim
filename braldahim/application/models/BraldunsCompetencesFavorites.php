@@ -5,8 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class BraldunsCompetencesFavories extends Zend_Db_Table {
-	protected $_name = 'bralduns_competences_favories';
+class BraldunsCompetencesFavorites extends Zend_Db_Table {
+	protected $_name = 'bralduns_competences_favorites';
 	protected $_referenceMap    = array(
         'Braldun' => array(
             'columns'           => array('id_fk_braldun_hcompf'),
@@ -23,10 +23,10 @@ class BraldunsCompetencesFavories extends Zend_Db_Table {
 	function findByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('bralduns_competences_favories', '*')
+		$select->from('bralduns_competences_favorites', '*')
 		->from('competence', '*')
-		->where('bralduns_competences_favories.id_fk_braldun_hcompf = '.intval($idBraldun))
-		->where('bralduns_competences_favories.id_fk_competence_hcompf = competence.id_competence')
+		->where('bralduns_competences_favorites.id_fk_braldun_hcompf = '.intval($idBraldun))
+		->where('bralduns_competences_favorites.id_fk_competence_hcompf = competence.id_competence')
 		->order('ordre_competence ASC');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -35,10 +35,10 @@ class BraldunsCompetencesFavories extends Zend_Db_Table {
 	function findByIdBraldunAndIdCompetence($idBraldun, $idCompetence) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('bralduns_competences_favories', '*')
+		$select->from('bralduns_competences_favorites', '*')
 		->from('competence', '*')
-		->where('bralduns_competences_favories.id_fk_braldun_hcompf = ?', intval($idBraldun))
-		->where('bralduns_competences_favories.id_fk_competence_hcompf = competence.id_competence')
+		->where('bralduns_competences_favorites.id_fk_braldun_hcompf = ?', intval($idBraldun))
+		->where('bralduns_competences_favorites.id_fk_competence_hcompf = competence.id_competence')
 		->where('competence.id_competence = ?', intval($idCompetence));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
