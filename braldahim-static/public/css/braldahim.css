@@ -494,14 +494,19 @@ td.authTable {
 .box_chargement {
 	position: absolute;
 	width: 200px;
-	height: 60px;
+	height: 40px;
 	margin-left: -110px;
 	margin-top: -100px;
 	text-align: center;
 	border-width: 0px;
-	color: black;
 	font-weight: bold;
 	z-index: 1000;
+	color: #F2F2F2;
+	background-color:#1F2614;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 }
 
 .box_action {
@@ -1020,7 +1025,7 @@ td.authTable {
 	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	padding: 1pt 10px;
-	border-color: #000000;
+	border-color: #1F2614;
 	border-style: solid;
 	border-width: 1pt 1px;
 	display: block;
