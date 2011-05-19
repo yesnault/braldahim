@@ -675,27 +675,28 @@ function braltipMsg(id) {
 	my_switch("box_messagerie","boite_c");
 }
 
-function destroyDraggable(id) {
-    for(var i=0, size=Draggables.drags.length; i<size; i++) {
-      if(Draggables.drags[i].element.id == id) {
-        Draggables.drags[i].destroy();
-      }
-    }
-}
-
 function maccordion_fermer(el) {
-	var eldown = el.parents().attr("id") + '-body';
+	var eldown = el.parentNode.id + '-body';
 	$("#"+eldown).hide("fast");
+	el.style.backgroundImage='url("'+$('#urlStatique').val()+'/images/divers/collapsed.gif")';
 }
 
 function maccordion_ouvrir(el) {
-	var eldown = el.parents().attr("id") + '-body';
+	var eldown = el.parentNode.id + '-body';
 	$("#"+eldown).show("fast");
+	el.style.backgroundImage='url("'+$('#urlStatique').val()+'/images/divers/expanded.gif")';
 }
 
 function maccordion(el) {
 	var eldown = el.parentNode.id + '-body';
-	$("#"+eldown).toggle("fast");
+	
+	if ($("#"+eldown)) {
+		if ($("#"+eldown)[0].style.display == "none") {
+			maccordion_ouvrir(el);
+		} else {
+			maccordion_fermer(el);
+		}
+	}
 }
 
 

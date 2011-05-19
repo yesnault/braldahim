@@ -423,14 +423,14 @@ function maccordion_fermer(el) {
 	var eldown = el.parentNode.id + '-body';
 	if ($(eldown).style.display != "none") {
 		new Effect.SlideUp(eldown, { duration :0.1 });
-		el.style.backgroundImage='url("'+$('urlStatique').value+'/images/collapsed.gif")';
+		el.style.backgroundImage='url("'+$('urlStatique').value+'/images/divers/collapsed.gif")';
 	}
 }
 
 function maccordion_ouvrir(el) {
 	var eldown = el.parentNode.id + '-body';
 	new Effect.SlideDown(eldown, { duration :0.1 });
-	el.style.backgroundImage='url("'+$('urlStatique').value+'/images/expanded.gif")';
+	el.style.backgroundImage='url("'+$('urlStatique').value+'/images/divers/expanded.gif")';
 }
 
 function maccordion(el) {

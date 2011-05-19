@@ -234,7 +234,7 @@ span.resultat_cache {
 }
 
 #navigation h3.head {
-	background: #497621 url('/images/collapsed.gif') no-repeat scroll
+	background: #497621 url('/images/divers/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	cursor: pointer;
@@ -252,7 +252,7 @@ span.resultat_cache {
 
 
 #navigation h3.head.selected {
-	background: #497621 url('/images/expanded.gif') no-repeat scroll
+	background: #497621 url('/images/divers/expanded.gif') no-repeat scroll
 		3px 4px;
 }
 

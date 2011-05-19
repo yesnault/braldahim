@@ -385,7 +385,7 @@ input:hover {
 }
 div.braltip:hover div.tip, div.tipf {
 	text-align:left;
-	border:1px solid #555555;
+	border:1px solid #1F2614;
 	color:#F2F2F2;
 	display:block!important;
 	font-size:1em;
@@ -405,9 +405,7 @@ div.braltip:hover div.tip, div.tipf {
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 		
 	opacity:1;
-	background: #41591C
-	         /*url('/images/layout/gris.png') repeat-x*/
-			scroll 0pt 100%;
+	background-color: #31401A;
 }
 
 div.tip hr, div.tipf hr {
@@ -581,7 +579,7 @@ td.authTable {
 }
 
 #navigation h3.head {
-	background: #1F2614 url(/images/collapsed.gif) no-repeat scroll
+	background: #1F2614 url(/images/divers/collapsed.gif) no-repeat scroll
 		3px 4px;
 	border: 1px solid #1F2614;
 	color: #000000;
@@ -599,7 +597,7 @@ td.authTable {
 }
 
 #navigation h3.selected {
-	background-image: url(/images/expanded.gif);
+	background-image: url(/images/divers/expanded.gif);
 }
 
 #navigation h3.current {
@@ -641,7 +639,7 @@ td.authTable {
 }
 
 #navigation h3.head {
-	background: #6A8C20 url('/images/collapsed.gif') no-repeat scroll
+	background: #6A8C20 url('/images/divers/collapsed.gif') no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
 	color: #232323;
@@ -660,7 +658,7 @@ td.authTable {
 
 
 #navigation h3.head.selected {
-	background: #497621 url('/images/expanded.gif') no-repeat scroll
+	background: #497621 url('/images/divers/expanded.gif') no-repeat scroll
 		3px 4px;
 }
 
@@ -2180,7 +2178,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #boite_a .inner, #boite_b .inner {
-	background-color: #31401A;	
+	background-color: #41591C;	
 }
 
 #boite_c {

@@ -1,7 +1,11 @@
 <?php include('voirHeader.phtml'); ?>
-<div class="box_vue" id="box_vue" style="display: block;">
+<div class="box_vue" id="box_vue" style="display: block;float:left">
 	<?php echo $this->render('interface/vue.phtml'); ?>
 	<?// js pour vue etendue ?>
 	<script language="Javascript">_get_('/interface/load/?box=box_vue&caction=voir');</script>
 </div>
-<?php echo $this->render('footer.phtml'); ?>
+
+<div class="titre textalia textsized">
+<br /><br />Détails vue</div>
+<button id="vueFixeeButton" onclick="Javascript:vueFixeeButton();" title="Débloquer" style="display:none;float:right;">Débloquer</button>
+<div id='vuedetails_interne'>Cliquer sur une case pour avoir le détails</div>

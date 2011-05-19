@@ -1,22 +1,26 @@
 <span class="texte textalia" >Cliquez sur une case pour fixer les informations à droite</span>
 <table class='vue2d' align='center'>
      <?php 
-     $col="";
      
-     echo "<tr><td>&nbsp;</td>";
-     foreach($this->tableau as $k => $case) :
-     
-    if ($case["change_level"] == 1 && $col == "ok") :
-    	break;
-    endif;
-    echo "<td>".$case["x"]."</td>";
-    if ($case["change_level"] == true) : 
-          $col="ok";
-        endif;
- endforeach;
+     if ($this->tableau != null) : 
+	     $col="";
+	     
+	     echo "<tr><td>&nbsp;</td>";
+	     foreach($this->tableau as $k => $case) :
+	     
+	    if ($case["change_level"] == 1 && $col == "ok") :
+	    	break;
+	    endif;
+	    echo "<td>".$case["x"]."</td>";
+	    if ($case["change_level"] == true) : 
+	          $col="ok";
+	    endif;
+	 	endforeach;
+	 endif;
  echo "</tr>";
 	 
 $col="";
+if ($this->tableau != null) : 
 foreach($this->tableau as $k => $case) :
 	$textVille = "";
 	if (!empty($case["ville"])) :
@@ -70,6 +74,7 @@ foreach($this->tableau as $k => $case) :
 	?>
 	</td>
 <?php endforeach; ?>
+<?php endif; ?>
 </tr>
 </table>
 
