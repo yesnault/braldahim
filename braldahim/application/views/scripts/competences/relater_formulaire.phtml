@@ -22,7 +22,7 @@
 	 	<?php endforeach;?>
  	</select>
 	<br /><br />Le Texte : <br />
-	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br />
+	<input style="background-color: #31401A;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br />
 	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('#valeur_2'),$('#characterstyped'),80);" onkeyup="textCount($('#valeur_2'),$('#characterstyped'),80); if ($('#valeur_1').val() != -1 && this.value != '') { $('#bouton_relater_verif').attr('disabled',false); if ($('#premiereVerif').val() == 'true') {$('#bouton_relater').attr('disabled',false);} } else {$('#bouton_relater').attr('disabled', true);$('#bouton_relater_verif').attr('disabled', true);}"  maxlength="80" size="40" value="<?php echo htmlspecialchars($this->texte_original)?>"/>
 	
 	<input type="hidden" id="premiereVerif" name="premiereVerif" value="<?php if ($this->texte != null) : echo "true"; else: echo "false"; endif; ?>">

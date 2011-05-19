@@ -31,18 +31,10 @@
 		
    		<td colspan="4">
    		<?php if ($this->nouveauPossible) : ?>
-		<ul id="navigation" style="width:100%;text-align:center" >
-			<li id="pocheBlablaMessage">
-			<h3 id="pocheBlablaMessage-head" class="" onclick="maccordion(this);">
-			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau"/> 
-			</h3>
-			<ul id="pocheBlablaMessage-body" style="display:none">
-				<li>
-					<?php include("nouveau.phtml")?>
-				</li>
-			</ul>
-			</li>
-		</ul>
+			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau" onClick="$('#divBlablaMessage-body').toggle()"/> 
+			<div id="divBlablaMessage-body" style="display:none">
+				<?php include("nouveau.phtml")?>
+			</div>
 		<?php else: ?>
 	   	Vous avez déjà envoyé <?php echo $this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
 	   	Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.

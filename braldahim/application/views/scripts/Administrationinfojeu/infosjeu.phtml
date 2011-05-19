@@ -20,7 +20,7 @@
 			<textarea name="texte_info" id="texte_info" class="inputbox" rows="10" cols="60" onkeydown="textCount($('#texte_info'),$('#characterstyped'),200);" onkeyup="textCount($('#texte_info'),$('#characterstyped'),200);"><?php echo stripslashes($this->infoJeu["text_info_jeu"])?></textarea>
 			
 			<br />
-			<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="200" type="text"> Caract&egrave;res restants<br />
+			<input style="background-color: #31401A;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="200" type="text"> Caract&egrave;res restants<br />
 			
 			<br />
 			Titre (facultatif) : <input type="text" name="titre_info" id="titre_info" size="50" maxlength="50" class="inputbox" value="<?php echo $this->infoJeu["titre_info_jeu"]?>"/>

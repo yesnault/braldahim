@@ -297,7 +297,7 @@ function chargeBoxMessagerie() {
 	if ($("loaded_box_messagerie").value != "1") {
 		// pour eviter de recharger box_messagerie lors du my_switch en dessous
 		// si l'onglet n'a jamais été vu.
-	//	$("loaded_box_messagerie").value = "1";
+	// $("loaded_box_messagerie").value = "1";
 		_get_('/interface/load/?box=box_messagerie');
 	}
 }
@@ -305,7 +305,7 @@ function chargeBoxMessagerie() {
 function ecrireMessage(idBraldun) {
 	chargeBoxMessagerie();
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idBraldun);
-	//my_switch("box_messagerie","boite_c");
+	// my_switch("box_messagerie","boite_c");
 }
 
 function ecrireMessageListeContact(idListe) {
@@ -313,7 +313,7 @@ function ecrireMessageListeContact(idListe) {
 		$("#loaded_box_messagerie").val("1"); 
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
-	//my_switch("box_messagerie","boite_c");
+	// my_switch("box_messagerie","boite_c");
 }
 
 function checkboxCocher(liste, valeur, acacher, aafficher) {
@@ -344,6 +344,7 @@ function _display_(box, data) {
 function _display_box(box, data) {
 	if ($('#'+box)) {
 		$('#'+box).html(data);
+		$("#loaded_"+box).val(1);
 	}
 	
 	// si l'on fait appel a boxes, on appelle interface
@@ -351,7 +352,9 @@ function _display_box(box, data) {
 		_get_('/interface/load/?box=box_interface');
 	} else if (box == 'box_interface') { 
 		// si l'on fait appel a interface, on appelle la vue ensuite
-		_get_('/interface/load/?box=box_vue');
+		if ($("#loaded_box_vue").val() != "1") {
+			_get_('/interface/load/?box=box_vue');
+		}
 	} else if (box == 'box_carnet') { 
 		// si l'on fait appel a interface, on appelle la vue ensuite
 		$( "#box_carnet" ).dialog({ width: 600 });
@@ -400,7 +403,7 @@ function ouvreBralBox(element) {
 		closeText : "Fermer",
 		show: 'slideUp',
 		title: titre
-	    //position: 'top'
+	    // position: 'top'
 	});
 	
 	if (element != "box_action") {
@@ -531,7 +534,7 @@ function ouvHistoR(id) {
 
 function ouvrirWin(url, titre) {
 	if (url.substring(0, 6) == '/voir/') {
-		//url = "http://jeu.braldahim.com" + url;
+		// url = "http://jeu.braldahim.com" + url;
 	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
@@ -1287,10 +1290,10 @@ function pasteAtCursor(theGirl, theGuy) {
 
 
 /** *********** *//** *********** */
-/** *** CHIFFRES  **** */
+/** *** CHIFFRES **** */
 /** *********** *//** *********** */
-//n'autorise que des chiffres.
-//exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
+// n'autorise que des chiffres.
+// exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
 function chiffres(event, negatif) {
 	// Compatibilité IE / Firefox
 	if (!event && window.event) {
@@ -1319,7 +1322,7 @@ function chiffres(event, negatif) {
 }
 
 function affDetailsClick() {
-	//-1 : non fixée
+	// -1 : non fixée
 	// 1 : fixée
 	
 	if ($("#vueFixee").val() == 1) {
@@ -1350,7 +1353,7 @@ function affDetails(x, y, z) {
 		return;
 	}
 	
-	//switch2div('box_vuedetails', 'box_interface_boxes');
+	// switch2div('box_vuedetails', 'box_interface_boxes');
 	id = x + '_' + y;
 	$('#vuedetails_interne').html('');
 	$('#vuedetails_interne').append($('#vuedetails_bralduns-' + id).html());
@@ -1467,9 +1470,9 @@ function tableauTriable(id) {
 		text.fadeIn('slow');
 		splashScreen.delay(settings.textShowTime).click();
 		/*
-		* .fadeOut('slow',function(){ text.remove();
-		* splashScreen.trigger('changeText',[id+1]); });
-		*/
+		 * .fadeOut('slow',function(){ text.remove();
+		 * splashScreen.trigger('changeText',[id+1]); });
+		 */
 	});
 
 	splashScreen.append(text);
@@ -1496,8 +1499,12 @@ $(document).ready(function() {
 		
 		$(function() {
 		    // Use this example, or...
-		    $('a[rel*=lightboxScreenshot]').lightBox(); // Select all links that contains lightbox in the attribute rel
-		    $('a[rel*=lightboxCarte]').lightBox(); // Select all links that contains lightbox in the attribute rel
+		    $('a[rel*=lightboxScreenshot]').lightBox(); // Select all links that
+														// contains lightbox in
+														// the attribute rel
+		    $('a[rel*=lightboxCarte]').lightBox(); // Select all links that
+													// contains lightbox in the
+													// attribute rel
 		});
 	}
 	
@@ -1515,18 +1522,12 @@ $(document).ready(function() {
 	}
 
 
-/*$('#main-cycle').cycle({
-	fx: 'scrollLeftCustom',
-	easing: 'easeInOutExpo',
-	speed: $('body.lte8').length ? 0 : 1000,
-	timeout: 0,
-	timeout: 8000,
-	width: 840,
-	next: '#c-next',
-	prev: '#c-prev',
-	cleartype: true,
-	cleartypeNoBg: true
-	}); */
+/*
+ * $('#main-cycle').cycle({ fx: 'scrollLeftCustom', easing: 'easeInOutExpo',
+ * speed: $('body.lte8').length ? 0 : 1000, timeout: 0, timeout: 8000, width:
+ * 840, next: '#c-next', prev: '#c-prev', cleartype: true, cleartypeNoBg: true
+ * });
+ */
 	
 	if ($('#pageflip').exists()) {
 		$("#pageflip").hover(function() { // On hover...
