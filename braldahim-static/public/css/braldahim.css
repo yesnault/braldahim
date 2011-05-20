@@ -349,7 +349,7 @@ body {
 
 input {
 	margin: 2px 2pt;
-	background: #41591C none repeat-x scroll center top;
+	background-color: #41591C;
 	color: #F2F2F2;
 	padding-bottom: 1px;
 	padding-top: 2px;
@@ -469,8 +469,7 @@ span.id_braldun {
     margin-right: auto;
     overflow: hidden;
     position: fixed;
-    text-indent: -100000px;
-    top: 84%;
+    bottom: 0%;
     width: 600px;
     z-index: 100000;
 }
