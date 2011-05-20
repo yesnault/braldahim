@@ -463,7 +463,6 @@ span.id_braldun {
 }
 
 .box_authentification {
-    cursor: pointer;
     height: 152px;
     margin-left: 200px;
     margin-right: auto;
@@ -2139,12 +2138,6 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 /* ************************************************ */
 /* ********************* Message ****************** */
 /* ************************************************ */
-.message_erreur {
-	background-color: #FF6666;
-	color: black;
-	text-align: center;
-}
-
 #boite_a {
     left: 0;
     top: 80px;
