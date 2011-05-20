@@ -1,4 +1,4 @@
-<ul id="navigation" style="width:99%;text-align:left">
+<ul id="navigation" style="width:220px;text-align:left">
 	
 	<li id="pocheBlabla">
 		<?php $poches[] = "pocheBlabla-head" ?>
@@ -21,15 +21,9 @@
 
 <!-- <span onclick="Javascript:_get_('/interface/load/?box=box_blabla');" class="alabel">Rafraîchir</span> -->
 
-<table class="table_liste" style="width:100%;">
-	<thead class="table_liste">
-	  <tr class="table_liste">
-	  	<th>Message</th>
-	  </tr>
-	</thead>
-	<tr class="table_liste">
-		
-   		<td colspan="4">
+<table style="width:100%;">
+	<tr >
+   		<td>
    		<?php if ($this->nouveauPossible) : ?>
 			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau" onClick="$('#divBlablaMessage-body').toggle()"/> 
 			<div id="divBlablaMessage-body" style="display:none">
@@ -40,16 +34,14 @@
 	   	Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.
 	   	<?php endif;?>
 		</td>
-		
    	</tr>
-   
 
   <?php if (count($this->blablaMessages) > 0): ?>
 	<tbody>
-  	<?php $i = 0; 
+  	<?php  
   	foreach($this->blablaMessages as $e): ?>
-  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
-  			<td class="table_liste" style='text-align:left'><i title='le <?php echo $e["date"]?> en <?php echo $e["x"]?> / <?php echo $e["y"]?>'><?php echo $e["braldun"]?></i><br />
+  		<tr>
+  			<td style='text-align:left'><i title='le <?php echo $e["date"]?> en <?php echo $e["x"]?> / <?php echo $e["y"]?>'><?php echo $e["braldun"]?></i><br />
 	  		<?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;
 	  		<p class="a">~</p>
 	  		</td>
@@ -58,9 +50,7 @@
   	</tbody>
    <?php else: ?>
    	<tr class="table_liste">
-   		<td colspan="4">
-   			Aucun message
-   		</td>
+   		<td>Aucun message</td>
    	</tr>
 <?php endif; ?>
 </table>
