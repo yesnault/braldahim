@@ -46,6 +46,10 @@ abstract class Bral_Contrat_Contrat {
 	public function getIdChampCourant() {
 		return false;
 	}
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	public function render() {
 		$this->view->titreAction = $this->getTitreAction();
