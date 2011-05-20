@@ -464,13 +464,10 @@ span.id_braldun {
 
 .box_authentification {
     height: 152px;
-    margin-left: 200px;
+    margin-left: auto;
     margin-right: auto;
-    overflow: hidden;
-    position: fixed;
     bottom: 0%;
     width: 600px;
-    z-index: 100000;
 }
 
 .box_authentification .inner {
