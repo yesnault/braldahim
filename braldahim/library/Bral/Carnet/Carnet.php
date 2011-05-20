@@ -40,8 +40,12 @@ abstract class Bral_Carnet_Carnet {
 	function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function getIdChampCourant() {
+		return false;
+	}
+
+	public function getTablesHtmlTri() {
 		return false;
 	}
 
