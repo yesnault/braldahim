@@ -54,7 +54,7 @@ class Bral_Communaute_Infirmerie extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_communaute_batiments");
+		return array("box_communaute_batiments", "box_cockpit");
 	}
 
 }

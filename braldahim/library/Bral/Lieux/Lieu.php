@@ -185,6 +185,7 @@ abstract class Bral_Lieux_Lieu {
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		$tab[] = "box_cockpit";
 		if ($this->view->estQueteEvenement) {
 			$tab[] = "box_quetes";
 		}

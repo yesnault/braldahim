@@ -130,6 +130,7 @@ abstract class Bral_Charrette_Charrette {
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		$tab[] = "box_cockpit";
 		$tab[] = "box_charrette";
 		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");

@@ -225,7 +225,7 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements");
+		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements", "box_cockpit");
 		if ($this->view->nomLieu != null) {
 			$tab[] = "box_vue";
 		}

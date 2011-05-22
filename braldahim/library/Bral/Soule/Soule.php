@@ -49,6 +49,7 @@ abstract class Bral_Soule_Soule {
 		}
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		$tab[] = "box_cockpit";
 		if ($this->view->user->pa_braldun < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
