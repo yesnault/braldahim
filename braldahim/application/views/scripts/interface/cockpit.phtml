@@ -1,0 +1,24 @@
+<table style="text-align:center">
+<tr>
+	<td>
+		<button class="butPersonnage" title="Personnage" onclick='Javascript:_get_("/interface/load/?box=box_personnage");' title="Personnage">
+		<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>.png'/>
+		</button>
+	</td>
+	<td>
+	<button class="butCompetences" title="Compétences" onclick='Javascript:_get_("/interface/load/?box=box_competences");' title="Action !">
+	
+	<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action</button>
+	<button class="butEffets" title="Effets" onclick='Javascript:_get_("/interface/load/?box=box_effets");' title="Effets">Effets</button>
+	<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
+	<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<?php 
+		Zend_Loader::loadClass('Bral_Helper_Profil');
+		echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
+	</td>
+</tr>
+</table>
