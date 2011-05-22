@@ -2165,14 +2165,19 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     z-index: 800;
 }
 
-#boite_d {
-	margin-top: 30px;
+#box_cockpit {
+	margin-top: 20px;
+	margin-bottom: 20px;
 	width: 100%;
 	margin-left:auto;
    	margin-right:auto;
-   	text-align:right;
+   	text-align:center;
    	z-index: 801;
    	float:right;
+}
+
+#box_cockpit table{
+	text-align:center;width:auto;align:center;margin-left:auto;margin-right:auto;	
 }
 
 #boite_a .inner, #boite_b .inner {

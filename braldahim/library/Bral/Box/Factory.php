@@ -21,6 +21,9 @@ class Bral_Box_Factory {
 			case "box_carnet" :
 				return self::getCarnet($request, $view, $interne);
 				break;
+			case "box_cockpit" :
+				return self::getCockpit($request, $view, $interne);
+				break;
 			case "box_charrette" :
 				return self::getCharrette($request, $view, $interne);
 				break;
@@ -205,6 +208,11 @@ class Bral_Box_Factory {
 	static function getCarnet($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Carnet");
 		return new Bral_Box_Carnet($request, $view, $interne);
+	}
+	
+	static function getCockpit($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Cockpit");
+		return new Bral_Box_Cockpit($request, $view, $interne);
 	}
 
 	public static function getBlabla($request, $view, $interne) {

@@ -67,11 +67,8 @@
 	<?php endif;?>
 </div>
 	
-	<?php if ($this->controleur == "interface") : ?>
-	<div id="boite_d">
-	<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
-	<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
-	</div>
+<?php if ($this->controleur == "interface") : ?>
+	<div id="box_cockpit"></div>
 <?php endif; ?>
 
 <?php endif; ?>

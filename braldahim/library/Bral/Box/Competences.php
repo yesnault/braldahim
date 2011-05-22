@@ -15,12 +15,12 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		$this->chargementInBoxes = false;
 		$this->nomInterne = "box_competences";
 		$this->render = "interface/competences.phtml";
-		$this->titreOnglet = "<span class='titrea titreasized'>Action ! </span>";
-		$this->titreOnglet .= "<span class='couleurTitre' title=\"PA : Point d'Action\">PA ".$this->view->user->pa_braldun."</span> ";
+		$this->titreOnglet = "Compétences";
+		/*$this->titreOnglet .= "<span class='couleurTitre' title=\"PA : Point d'Action\">PA ".$this->view->user->pa_braldun."</span> ";
 		$this->titreOnglet .= " - <span class='couleurTitre' title=\"DLA : Date Limite d'Action\">DLA ";
 		$this->titreOnglet .= Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b>',$this->view->user->date_fin_tour_braldun);
 		$this->titreOnglet .= "</span>";
-		$this->titreOnglet .= " - Mes Compétences";
+		$this->titreOnglet .= " - Mes Compétences";*/
 	}
 
 	function getTitreOnglet() {

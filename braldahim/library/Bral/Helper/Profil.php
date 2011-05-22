@@ -207,9 +207,11 @@ class Bral_Helper_Profil {
 		$c = "stdClass";
 		if ($braldun instanceof $c) {
 
-			$texte .= " Position tour courant : ".$braldun->nom_tour."<br /><br />";
+			$nomsTour = Zend_Registry::get('nomsTour');
+			$nom_tour = $nomsTour[$braldun->tour_position_braldun];
+
+			$texte .= " Position tour courant : ".$nom_tour."<br /><br />";
 			$texte .= " Dur&eacute;e du tour : ".$braldun->duree_courant_tour_braldun."<br />";
-			$texte .= " Position dans le tour : ".$braldun->nom_tour."<br /><br />";
 
 			$dateDebutTourBraldun = $braldun->date_debut_tour_braldun;
 			$dateFinLatenceBraldun = $braldun->date_fin_latence_braldun;
@@ -217,12 +219,12 @@ class Bral_Helper_Profil {
 			$dateFinTourBraldun = $braldun->date_fin_tour_braldun;
 		} else {
 			$texte .= " Dur&eacute;e du tour : ".$braldun["duree_courant_tour_braldun"]."<br />";
-				
+
 			$dateDebutTourBraldun = $braldun["date_debut_tour_braldun"];
 			$dateFinLatenceBraldun = $braldun["date_fin_latence_braldun"];
 			$dateDebutCumulBraldun = $braldun["date_debut_cumul_braldun"];
 			$dateFinTourBraldun = $braldun["date_fin_tour_braldun"];
-			
+				
 			$suffixeCss = "_communaute";
 			$coefBase = 0.25;
 		}
@@ -248,7 +250,7 @@ class Bral_Helper_Profil {
 		} else {
 			$coef = self::COEF_TAILLE;
 		}
-		
+
 		$coef = $coef * $coefBase;
 
 		if ($date_courante <= $dateFinLatenceBraldun) {

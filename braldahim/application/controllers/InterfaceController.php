@@ -165,9 +165,10 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 
 		try {
-			$this->addBox(Bral_Box_Factory::getPersonnage($this->_request, $this->view, false), $boite_a);
+			/*$this->addBox(Bral_Box_Factory::getPersonnage($this->_request, $this->view, false), $boite_a);
 			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), $boite_a);
 			$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, false), $boite_b);
+			*/
 			
 			$this->addBox(Bral_Box_Factory::getInterface($this->_request, $this->view, true), $boite_c);
 
@@ -226,8 +227,8 @@ class InterfaceController extends Zend_Controller_Action {
 		} else {
 			$r = '';
 			/*$r = "<table width='99%'><tr valign='top'><td width='375px'>";*/
-			$r .= $this->getDataList("boite_a");
-			$r .= $this->getDataList("boite_b");
+			//$r .= $this->getDataList("boite_a");
+			//$r .= $this->getDataList("boite_b");
 			/*$r .= "</td><td width='auto'>";*/
 			$r .= $this->getDataList("boite_c");
 			$r .= "<br />";
