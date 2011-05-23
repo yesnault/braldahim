@@ -66,7 +66,6 @@ class Bral_Champs_Liste extends Bral_Champs_Champ {
 				$tabChamps[] = $champ;
 			}
 		}
-
 		$this->view->champs = $tabChamps;
 		$this->view->nChamps = count($tabChamps);
 		$this->view->nom_interne = $this->getNomInterne();

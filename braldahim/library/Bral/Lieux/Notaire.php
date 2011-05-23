@@ -121,7 +121,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				"x_champ" => $e["x_champ"],
 				"y_champ" => $e["y_champ"],
 				"id_region" => $e["id_region"],
-				"nom_region" => $e["nom_region"]
+				"nom_region" => $e["nom_region"],
+				"id_fk_type_graine_champ" => 1, // pour clé étrangère.
 			);
 		}
 
