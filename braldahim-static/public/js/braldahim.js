@@ -141,7 +141,7 @@ function showResponse(reponse) {
 			return;
 		}
 	} else if (xmldoc == "logout") {
-		if ($('#valeur_message').val() != '') {
+		if ($('#valeur_message').exists() && $('#valeur_message').val() != '') {
 			alert("Votre session a expiré, veuillez vous reconnecter. " +
 					"\n\n Attention, vous avez un message en cours de rédaction. Pour le récupérer : " +
 					"\n 1 : selectionnez tout (Ctrl+A)" +

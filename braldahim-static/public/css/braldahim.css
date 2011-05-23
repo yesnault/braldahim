@@ -989,6 +989,7 @@ td.authTable {
     text-shadow: 0 0 2px #666677;
     text-shadow: 0 0 4px 666677, 0 -5px 4px 666677;
     text-align: center;
+    font-family: Cardinal,'Arial Narrow',Arial,sans-serif;
 }
 
 .textdark {
@@ -1089,7 +1090,7 @@ td.authTable {
 .inner_footer {
 	padding: 1pt 10px;
 	display: block;
-	color: #eeeeee;
+	color: #F2F2F2;
 	text-align: center;
     width:100%;
 }
@@ -2352,7 +2353,7 @@ body > #boite_b {
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 10px;
+	margin-top: 30px;
 	text-align: center;
 	position: relative;
 }
