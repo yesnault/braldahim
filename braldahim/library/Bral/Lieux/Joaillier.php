@@ -137,6 +137,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Runes invalides=".$runes);
 		}
 
+		$runes = substr($runes, 0, strlen($runes) - 1); // suppression de la virgule
 		$tabRunesJs = explode(",", $runes);
 		$tabRunes = null;
 		// on regarde si les runes sont présentes dans le laban

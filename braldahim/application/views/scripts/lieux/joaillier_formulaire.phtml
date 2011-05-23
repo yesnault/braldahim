@@ -1,6 +1,6 @@
 <div class='comp_titre'>Joaillier</div>
  <form name='myForm'  id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='nb_valeurs-joaillier' name='nb_valeurs-joaillier' value='3'>
  <div class='comp_contenu'>
  Pour <?php echo $this->paUtilisationLieu ?> PA et <?php echo $this->coutCastars?> castars, le joaillier <br />
   vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br /><br />
@@ -8,7 +8,7 @@
  <?php if ($this->achatPossibleCastars == true) :?>
  	<?php if ($this->nbEquipementsLaban > 0): ?>
  		&Eacute;quipement:<br />
-		<select name="valeur_1" id="valeur_1" onchange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
+		<select name="valeur_1-joaillier" id="valeur_1-joaillier" onchange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
 			<?php foreach($this->equipementsLaban as $e) :?>
 				<option value="<?php echo $e["id_laban_equipement"] ?>" <?php echo $e["selected"]?>><?php echo $e["nom"] ?> : n&deg;<?php echo $e["id_laban_equipement"] ?>,
@@ -37,49 +37,54 @@
 				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br /><br />
 				Tous les emplacements runiques doivent &ecirc;tre utilis&eacute;s.<br />
 				Tout objet serti, ne pourra pas faire l'objet d'un nouveau sertissage dans le futur.<br />
-				<br />
-				<?php $js="sections = ['group1','group2'];
-					function calculNbRune(total){ 
-						liste=Sortable.serialize('group2'); 
-						if (liste.length > 0) {
-							tliste=liste.split('&'); 
-							nbPlacees=tliste.length;
-						} else { 
-							nbPlacees=0; 
-						} 
-						$('#valeur_2').val(nbPlacees); 
-						nb = total - nbPlacees;
-						$('#valeur_3').val(Sortable.sequence($('#group2'))); 
-						if (nb != 0) { 
-							$('#bouton_joaillier').attr('disabled', true); 
-						} else { 
-							$('#bouton_joaillier').attr('disabled',false); 
-						}
-						text = '';
-						s = '';
-						for (i=0; i<nbPlacees; i++) {
-							text = text + ' ' + $('#item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
-							if (i > 0) {
-								s = 's';
+			<br />
+			<?php $js="
+				function calculNbRuneRecherche(total) { 
+					$( '#group1, #group2' ).sortable({
+							connectWith: '.liste_runes',
+							placeholder: 'ui-state-highlight-bral',
+							update: function(event, ui) { 
+							
+								liste = $('#group2').sortable('serialize');  
+								if (liste.length > 0) {
+									tliste = liste.split('&'); 
+									nbPlacees = tliste.length;
+								} else { 
+									nbPlacees = 0; 
+								}
+								$('#valeur_2-joaillier').val(nbPlacees); 
+								nb = total - nbPlacees;
+								$('#dispo').html(nb);
+								
+								if (nb != 0) { 
+									$('#bouton_joaillier').attr('disabled', true); 
+								} else { 
+									$('#bouton_joaillier').attr('disabled', false); 
+								}
+								text = '';
+								val3 = '';
+								s = '';
+								for (i = 0; i < nbPlacees; i++) {
+									text = text + ' ' + $('#item_'+tliste[i].substr(7, tliste[i].length-7))[0].alt;
+									if (i > 0) {
+										s = 's';
+									}
+									val3 = val3 + tliste[i].substr(7, tliste[i].length-7) + ',';
+								}
+								
+								$('#valeur_3-joaillier').val(val3);
+								text = 'Rune' + s + ' : ' + text;
+								$('#rune_text').html(text);
 							}
-						}
-						text = 'Rune' + s + ' : ' + text;
-						$('#rune_text').html(text);
-						return nb;
-					};
-					function upd() {
-						$('#dispo').html(calculNbRune(".$this->equipementCourant["nb_runes"]."));
-						
+						}).disableSelection();
 					}
-					Position.includeScrollOffsets = true;
-					
-					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', scroll:'group1'});
-					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
-				
-				<?php if (count($this->labanRunes) > 0) : ?>
-					<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('#choix_runes').show();this.style.display='none';">
-				
-					<div id="choix_runes" style="display:none">
+					calculNbRuneRecherche(".$this->equipementCourant["nb_runes"].");
+				" ?>
+			
+			<?php if (count($this->labanRunes) > 0) : ?>
+				<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('#choix_runes_joaillier').show();this.style.display='none';">
+			
+				<div id="choix_runes_joaillier" style="display:none">
 					
 					<br />
 						<?php if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?php echo $this->equipementCourant["nb_runes"]?> emplacement<?php echo $s?> au total, il en reste <label id="dispo"><?php echo $this->equipementCourant["nb_runes"]?></label>.
@@ -100,8 +105,8 @@
 						</div>
 							
 						<br />
-						<input type="hidden" id="valeur_2" name="valeur_2">
-						<input type="hidden" id="valeur_3" name="valeur_3">
+						<input type="hidden" id="valeur_2-joaillier" name="valeur_2-joaillier">
+						<input type="hidden" id="valeur_3-joaillier" name="valeur_3-joaillier">
 						
 					</div>
 				<?php else: ?>
@@ -126,6 +131,6 @@ Vous n'avez pas assez de PA.<br />
 
 
 <?php if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
-<input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_joaillier&id_equipement='+$('#valeur_1').val());"  disabled>
+<input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_joaillier&id_equipement='+$('#valeur_1-joaillier').val(), 'joaillier');"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>
