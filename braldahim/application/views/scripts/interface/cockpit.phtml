@@ -2,7 +2,9 @@
 <tr>
 	<td>
 		<button class="butPersonnage" title="Personnage" onclick='Javascript:_get_("/interface/load/?box=box_personnage");' title="Personnage">
-		<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>.png'/>
+		<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>.png'/><br />
+		<?php // echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
+		<?php // echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
 		</button>
 	</td>
 	<td>
@@ -25,10 +27,10 @@
 </tr>
 <tr>
 	<td>
-		<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun)?>
+		<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
 	</td>
 	<td>
-		<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun)?>
+		<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
 	</td>
 </tr>
 </table>

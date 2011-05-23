@@ -8,6 +8,7 @@
 class Bral_Helper_Profil {
 
 	const COEF_TAILLE = 2;
+	const COEF_TAILLE_COCKPIT = 1;
 	const COEF_TAILLE_MOBILE = 1.5;
 
 	public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun) {
@@ -61,7 +62,7 @@ class Bral_Helper_Profil {
 		return $retour;
 	}
 
-	public static function afficheBarreFaim($balance_faim_braldun, $force_bbdf_braldun) {
+	public static function afficheBarreFaim($balance_faim_braldun, $force_bbdf_braldun, $cockpit = false) {
 
 		/*
 		 [0] -N/2 -> Vous mourez de faim !!!
@@ -114,17 +115,24 @@ class Bral_Helper_Profil {
 
 		if (Zend_Registry::get("estMobile")) {
 			$largeur = $balance_faim_braldun * self::COEF_TAILLE_MOBILE;
+		} else if ($cockpit) {
+			$largeur = $balance_faim_braldun * self::COEF_TAILLE_COCKPIT;
 		} else {
 			$largeur = $balance_faim_braldun * self::COEF_TAILLE;
 		}
 
-		$retour = "<div class='barre_faim braltip'><div class='barre_img img_barre_faim' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$suffixe = "";
+		if ($cockpit) {
+			$suffixe = "_cockpit";
+		}
+
+		$retour = "<div class='barre_faim".$suffixe." braltip'><div class='barre_img img_barre_faim' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
 		$retour .= "</div></div>";
 
 		return $retour;
 	}
 
-	public static function afficheBarreVie($pv_restant_braldun, $pv_base, $vigueur_base_braldun, $pv_max_coef, $pv_max_bm_braldun, $duree_prochain_tour_braldun, $pourCommunaute = false) {
+	public static function afficheBarreVie($pv_restant_braldun, $pv_base, $vigueur_base_braldun, $pv_max_coef, $pv_max_bm_braldun, $duree_prochain_tour_braldun, $pourCommunaute = false, $cockpit = false) {
 
 		$totalPvSansBm = $pv_base + $vigueur_base_braldun * $pv_max_coef;
 		$totalPv = $totalPvSansBm + $pv_max_bm_braldun;
@@ -179,6 +187,8 @@ class Bral_Helper_Profil {
 
 		if (Zend_Registry::get("estMobile")) {
 			$largeur = self::COEF_TAILLE_MOBILE * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
+		} else if ($cockpit) {
+			$largeur = self::COEF_TAILLE_COCKPIT * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
 		} else {
 			$largeur = self::COEF_TAILLE * floor($pv_restant_braldun*100)/($pv_base + ($vigueur_base_braldun * $pv_max_coef) + $pv_max_bm_braldun);
 		}
@@ -187,6 +197,8 @@ class Bral_Helper_Profil {
 		if ($pourCommunaute) {
 			$largeur = $largeur * 0.25;
 			$suffixe = "_communaute";
+		} elseif ($cockpit) {
+			$suffixe = "_cockpit";
 		}
 
 		$retour = "<div class='barre_vie".$suffixe." braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
@@ -224,7 +236,7 @@ class Bral_Helper_Profil {
 			$dateFinLatenceBraldun = $braldun["date_fin_latence_braldun"];
 			$dateDebutCumulBraldun = $braldun["date_debut_cumul_braldun"];
 			$dateFinTourBraldun = $braldun["date_fin_tour_braldun"];
-				
+
 			$suffixeCss = "_communaute";
 			$coefBase = 0.25;
 		}
