@@ -1610,15 +1610,11 @@ $(document).ready(function() {
 		});
 	}
 	
-	if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0) {
-		$(window).load(function(){
-		    $('input:-webkit-autofill').each(function(){
-		        var text = $(this).val();
-		        var name = $(this).attr('name');
-		        $(this).after(this.outerHTML).remove();
-		        $('input[name=' + name + ']').val(text);
-		    });
-		});}
-	
+	if ($.browser.mozilla == true && $.browser.version < '2.0.1') {
+		alert("Firefox 3.x n'est plus supporté par Braldahim. Utilisez Firefox 4 minimum ou un autre navigateur ou vous aurez quelques problèmes d'affichage...");
+	} else if ($.browser.ie == true && $.browser.version < '9.0') {
+		alert("Internet Explorer n'est plus supporté par Braldahim. Utilisez un autre navigateur");
+	}
+
 });
 
