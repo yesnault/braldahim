@@ -1983,6 +1983,7 @@ table.vue2d {
 	text-align: center;
 	border-spacing: 0px;
 	border-width: 0px;
+	align:center;	
 }
 
 td.vue2d {
@@ -2180,6 +2181,10 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 	text-align:center;width:auto;align:center;margin-left:auto;margin-right:auto;	
 }
 
+#box_cockpit table td {
+	text-align:center;	
+}
+
 #boite_a .inner, #boite_b .inner {
 	background-color: #41591C;	
 }
@@ -2208,8 +2213,10 @@ body > #boite_b {
 	text-align: left;
 	border-style: solid;
 	border-width: 1px;
-	margin-left: 10px;
+	margin-left: auto;
+	margin-right: auto;
 	border-color: #6f5f6f;
+	
 }
 
 .img_barre_faim {

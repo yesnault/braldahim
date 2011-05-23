@@ -2,7 +2,7 @@
   <table width="100%">
   <tr>
   	<td width="20%">
-	  	<div class="box_contenu1 textalia braltip">
+	  	<div class="box_contenu1 textalia braltip" style="float:left">
 	  	<?php if ($this->centre_nom_region != null) : ?><?php echo Bral_Helper_Tooltip::render($this->centre_description_region)?><?php endif;?>
 	  	
 	    <?php if ($this->est_pvp_region == true) :?>
@@ -10,8 +10,7 @@
 	    <?php else: ?>
 	    	<img src='<?php echo $this->config->url->static?>/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
 	    <?php endif; ?>
-	    
-	    <?php echo $this->centre_nom_region ?>&nbsp;
+	     <?php echo $this->centre_nom_region ?>&nbsp;
 	    
 	    <?php if (!empty($this->centre_nom_ville)):?>
 	     <a class="titre textalia textsized" title="Cliquez pour voir <?php echo $this->centre_nom_ville ?> dans les règles" style="text-decoration: none" onclick="javascript:ouvrirWin('http://regles.braldahim.com/wiki/<?php echo $this->centre_nom_ville ?>')";><?php echo $this->centre_nom_ville ?></a>
@@ -19,8 +18,9 @@
 	    <?php if ($this->centre_est_capitale) : ?>
 	    	- Capitale
 	    <?php endif; ?>
-	  </div>
-  	</td>
+	    </div>
+		   Ma Position : <b><?php echo $this->user->x_braldun ?>, <?php echo $this->user->y_braldun ?></b> <br /><br />
+	  	</td>
   	<td width="10%">
   		<?php include('boussole.phtml'); ?>
   	</td>
