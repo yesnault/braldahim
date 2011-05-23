@@ -53,7 +53,7 @@ foreach($this->tableau as $k => $case) :
 		$col="ok"; ?>
 		<tr><td><?php echo $case["y"]?></td>
     <?php endif; ?>
-	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer" onClick="affDetailsClick();" onMouseover="affDetails(<?php echo $case["x"]?>, <?php echo $case["y"]?>, <?php echo $case["z"]?>);">
+	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer" onClick="affDetailsClick();" onMouseout="affDetailsOut()" onMouseover="affDetails(<?php echo $case["x"]?>, <?php echo $case["y"]?>, <?php echo $case["z"]?>);">
 	
 	<div class="cases <?php echo $case["css_actuelle"]?>">
 		<table class="cases <?php echo $case["css_actuelle"]?>">

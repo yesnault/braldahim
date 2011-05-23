@@ -1397,6 +1397,8 @@ function vueFixeeButton() {
 
 function affDetails(x, y, z) {
 	
+	$("#onglet_box_vuedetails").css('background-color', 'transparent');
+	
 	if ($("#vueFixee").val() == 1) {
 		return;
 	}
@@ -1423,8 +1425,12 @@ function affDetails(x, y, z) {
         },
         text: false
     })
+    
 }
 
+function affDetailsOut() {
+	$("#onglet_box_vuedetails").css('background-color', $('#onglet_box_lieu').css('background-color'));
+}
 
 function tableauTriable(id) {
 	$('#'+id).dataTable({

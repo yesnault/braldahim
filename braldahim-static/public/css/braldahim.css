@@ -2325,7 +2325,7 @@ body > #boite_b {
 	font-size: 1.4em;
 	cursor:pointer;
  
- 	right: 0;
+ 	right: 100px;
     cursor: pointer;
     position: absolute;
     top: 50px;
