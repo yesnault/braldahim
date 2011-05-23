@@ -187,8 +187,8 @@ function showResponse(reponse) {
 													// d'erreur
 						}
 						
-						if (m_type == "display") {
-							_display_(m_type_valeur, m_data);
+						if (m_type == "display" || m_type == "refresh") {
+							_display_(m_type, m_type_valeur, m_data);
 						} else if (m_type == "action") {
 							if (m_type_valeur == "goto" && m_data != "") {
 								redirection = true;
@@ -224,8 +224,8 @@ function showResponse(reponse) {
 														// d'erreur
 							}
 
-							if (m_type == "display") {
-								_display_(m_type_valeur, m_data);
+							if (m_type == "display" || m_type == "refresh") {
+								_display_(m_type, m_type_valeur, m_data);
 							} else if (m_type == "action") {
 								if (m_type_valeur == "goto" && m_data != "") {
 									redirection = true;
@@ -333,15 +333,15 @@ function encodePlus(chaine) {
 	return chaine.replace(reg,"[plus]");
 }
 
-function _display_(box, data) {
+function _display_(type, box, data) {
 	if (box == "erreur_catch") {
 		$("#erreur_catch_contenu").innerHTML = data;
 	} else {
-		_display_box(box, data);
+		_display_box(type, box, data);
 	}
 }
 
-function _display_box(box, data) {
+function _display_box(type, box, data) {
 	
 	var position = false;
 	// si l'on fait appel a boxes, on appelle interface et cockpit
@@ -356,12 +356,11 @@ function _display_box(box, data) {
 	} else if (box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
 		|| box == 'box_titres' || box == 'box_messagerie' || box == 'messagerie_contenu'
 			|| box == 'box_personnage' ) { 
-		// si l'on fait appel a interface, on appelle la vue ensuite
-		$('#'+box).html('');
-		if (box == 'box_personnage') {
+		
+		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est ouverte
+		if (type == "display" || (type == "refresh" && (!$('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == true))) {
+			$('#'+box).html('');
 			$('#'+box).dialog({ width: 600});
-		} else {
-			$('#'+box).dialog({ width: 600 });
 		}
 		
 		position = true;

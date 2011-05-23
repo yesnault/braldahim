@@ -5,9 +5,9 @@
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
 	  	<th>&nbsp;</th>
+	  	<th>Info</th>
 		<th>Nom</th>
 		<th>Niveau</th>
-		<th>Info</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -22,14 +22,14 @@
 					<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?php echo $e["id_equipement"] ?></td>
 				  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_equipement/type_equipement_<?php echo $e["id_type_equipement"]?>.png' alt="<?php echo htmlspecialchars($e["nom"]) ?>"/></td>
-				  		<td class="table_liste"><?php echo $e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
-				  		<td class="table_liste"><?php echo $e["niveau"] ?></td>
 				  		<td class="table_liste">
 				  			<div class='braltip'>
 				  			<?php echo Bral_Helper_DetailEquipement::afficherTooltip($e, true);?>
 				  			<img src="<?php echo $this->config->url->static?>/images/divers/info_icon.gif"/>
 				  			</div>
 				  		</td>
+				  		<td class="table_liste"><?php echo $e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
+				  		<td class="table_liste"><?php echo $e["niveau"] ?></td>
 				  	</tr>
 				  <?php endforeach; ?>
 			<?php endforeach; ?>
