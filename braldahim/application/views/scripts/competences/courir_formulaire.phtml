@@ -12,12 +12,7 @@
 	<?php if ($this->courirPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas courir !
   	<?php endif; ?>
-	  <table align='center'>
-	   <tr>
-	     <th>Position [x;y]</th>
-	   </tr>
-	   <tr>
-	     <td>
+	     Position [x;y]
 	     <table class='comp_marcher_position'>
 	     	<?php $col=null ?>
 			<?php foreach ($this->tableau as $case) : ?>
@@ -41,9 +36,6 @@
 	       <?php endforeach; ?>
 	       </tr>
 	     </table>
-	     </td>
-	    </tr>
-	  </table>
 	</div>
 <?php endif; ?>
 

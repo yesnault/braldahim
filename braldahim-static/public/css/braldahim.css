@@ -1063,16 +1063,16 @@ td.authTable {
 }
 
 .comp_marcher_position {
-	border: 1px solid #000000;
+	border: 1px solid #31401A;
 	width: 200px;
-	background-color:#FFFFFF;
-	color:#9C947C;
+	background-color:#31401A;
+	color:#6A8C20;
 	margin-left:auto;
    	margin-right:auto;
 }
 
 .comp_marcher_position_td {
-	border: 1px dashed #CCCC99;
+	border: 1px dashed #1F2614;
 }
 
 
@@ -1082,7 +1082,6 @@ td.authTable {
     border-radius: 10px 10px 10px 10px;
     border-style: solid;
     border-width: 1pt 1px;
-    box-shadow: 0 10px 16px -1px #000000;
     display: block;
     padding: 1pt 10px;
 }
