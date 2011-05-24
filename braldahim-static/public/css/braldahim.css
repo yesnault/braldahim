@@ -459,6 +459,10 @@ a:hover,.alabel:hover {
 	cursor: pointer;
 }
 
+.table_liste a:hover, .table_liste .alabel:hover {
+    color: #1F2614;
+}
+
 .aWhite {
 	color: #F2F2F2;
 }

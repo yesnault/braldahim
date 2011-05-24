@@ -8,9 +8,9 @@
   		<input type='hidden' name='valeur_1-transferer' id='valeur_1-transferer' value='envoi' />
 		<input type='hidden' name='valeur_2-transferer' id='valeur_2-transferer' value='' />
 		<input type='hidden' name='valeur_3-transferer' id='valeur_3-transferer' value='' />
-		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive" rows="10" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
+		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive" rows="20" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
 		<?php else:?>
-		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive_communaute" rows="10" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
+		<textarea style="background-color:#CCCC99;" id="detail_evenement_prive_communaute" rows="20" cols="55" readonly ><?php echo $this->evenement["details_bot"] ?></textarea>
 		<?php endif;?>
 		<br /><br />
 	   <?php if (!$this->estCommunaute) : ?>
