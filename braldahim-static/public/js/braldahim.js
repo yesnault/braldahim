@@ -963,12 +963,12 @@ function controlePrixVenteBoutonDeposer() {
 }
 
 function activerRechercheUniqueBraldun(id, avecBraldun, avecPnj) {
-	$( "#recherche_" + id).autocomplete({
+	$("#recherche_" + id).autocomplete({
 		source: '/Recherche/braldun/champ/' + id + '/avecBraldunEnCours/' + avecBraldun + '/avecPnj/' + avecPnj,
 		minLength: 2,
 		select: function( event, ui ) {
 			if (ui.item && ui.item.id > 0) {
-				$(li.getAttribute('champ')).val(ui.item.id);
+				$("#valeur_1").val(ui.item.id);
 			}
 		}
 	});
