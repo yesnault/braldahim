@@ -4,7 +4,6 @@
 
 <br/><br/>
 
-<br/><br/>
 <table class="authTable">
 <tr>
 <td class="authTable">
@@ -33,12 +32,17 @@
 </td>
 <td class="authTable"><?php include("infos.phtml") ?></td>
 </tr>
+
+<tr>
+<td colspan="3">
+	<?php if (!Zend_Registry::get("estWork")) : ?>
+		<?php include("chronologie.phtml")?>
+	<?php endif;?>
+</td>
+</tr>
 </table>
 
-	<br/>	<br/>	<br/>
-<?php if (!Zend_Registry::get("estWork")) : ?>
-<?php //include("chronologie.phtml")?>
-<?php endif;?>
+
 
 
 	

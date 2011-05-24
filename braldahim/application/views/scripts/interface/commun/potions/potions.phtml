@@ -5,12 +5,12 @@
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
 	  	<th>&nbsp;</th>
+	  	<th>Caract&eacute;ristiques</th>
 		<th>Nom</th>
 		<th>Qualit&eacute;</th>
 		<th>Niveau</th>
 		<th>Type</th>
 		<th>Effet sur</th>
-		<th>Caract&eacute;ristiques</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -20,6 +20,12 @@
 				  <tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste"><?php echo $p["id_potion"] ?></td>
 			  		<td class="table_liste"><img src='<?php echo $this->config->url->static?>/images/type_potion/type_potion_<?php echo $p["id_type_potion"]?>.png' alt="<?php echo htmlspecialchars($p["nom"])?>"/></td>
+			  		<td class="table_liste">
+			  			<div class='braltip'>
+			  			<?php echo Bral_Helper_DetailPotion::afficherTooltip($p);?>
+						<img src="<?php echo $this->config->url->static?>/images/divers/info_icon.gif"/>
+						</div>
+					</td>
 			  		<td class="table_liste"><?php echo htmlspecialchars($p["nom"]) ?></td>
 			  		<td class="table_liste"><?php echo htmlspecialchars($p["qualite"]) ?></td>
 			  		<td class="table_liste"><?php echo $p["niveau"] ?></td>
@@ -36,12 +42,6 @@
 				  		<?php endif;?>
 			  		<?php endif;?>
 			  		</td>
-			  		<td class="table_liste">
-			  			<div class='braltip'>
-			  			<?php echo Bral_Helper_DetailPotion::afficherTooltip($p);?>
-						<img src="<?php echo $this->config->url->static?>/images/divers/info_icon.gif"/>
-						</div>
-					</td>
 				  </tr>
 			<?php endforeach; ?>
 		<?php else: ?>

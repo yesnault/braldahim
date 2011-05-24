@@ -121,28 +121,22 @@ nav ul {
     color: #F2F2F2;
     display: block;
     padding: 0.4117em 0.7em 0.5883em;
-    text-shadow: 1px 1px 0 #000000;
-    -moz-transition: all 0.5s ease 0s;
 }
 #nav-main > ul > li:hover {
     background: none repeat scroll 0 0 #1F2614;
 }
 #nav-main a:hover, #nav-main a:focus, #nav-main > ul > li:hover a {
     color: #F2F2F2;
-    text-shadow: 0 0 15px #FFFFFF;
 }
 #nav-main > ul > li {
 	border-radius: 3px; /* en css3 lui même */
 	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-    -moz-transition: background-color 0.3s ease 0s;
 }
 #nav-main li li a {
-    -moz-transition: all 0.3s ease 0s;
 }
 #nav-main li ul {
-    -moz-transition: opacity 0.3s ease 0s;
 }
 #nav-main li ul {
     margin-left: -9999px;
@@ -174,7 +168,6 @@ nav ul {
 #nav-main li li a:hover {
     background: none repeat scroll 0 0 #41591C;
     color: #F2F2F2;
-    text-shadow: 0 0 15px #FFFFFF;
 }
 #nav-main li ul li:first-child a {
     border-radius: 0 3px 0 0;
@@ -471,7 +464,7 @@ span.id_braldun {
 }
 
 .box_authentification {
-    height: 152px;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
     bottom: 0%;

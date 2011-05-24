@@ -28,7 +28,7 @@ class Bral_Helper_DetailPotion {
 		$text = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br />";
 		 
 		if ($afficheLienHistorique) {
-			$text .= "<label class=\'alabel\' onclick=ouvHistoP(".$p["id_potion"].")>Voir l\'historique</label><br />";
+			$text .= "<label class=\'alabel\' onclick=ouvHistoP(".$p["id_potion"].")>Voir l'historique</label><br />";
 		}
 		
 		$text .= "<br />";
