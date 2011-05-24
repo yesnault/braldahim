@@ -2197,9 +2197,9 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 
 .butCompetences {
     float: right;
-    left: 70px;
+    left: 130px;
     top: -15px;
-    width: 200px;
+    width: 250px;
     z-index: 902;
 }
 
