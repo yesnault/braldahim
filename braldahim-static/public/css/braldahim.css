@@ -1157,6 +1157,11 @@ table.table_liste {
 	color: #F2F2F2;
 }
 
+tr.table_liste0.hhover:hover, tr.table_liste1.hhover:hover {
+	cursor:pointer;
+}
+
+
 .cadre {
 	background-color: #1F2614;
 	border: 1px solid #000000;

@@ -357,10 +357,16 @@ function _display_box(type, box, data) {
 		|| box == 'box_titres' || box == 'box_messagerie' || box == 'messagerie_contenu'
 			|| box == 'box_personnage' ) { 
 		
+		var largeur = 600;
+		
+		if (box == 'box_messagerie' || box == 'messagerie_contenu') {
+			largeur = 800;
+		}
+		
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est ouverte
 		if (type == "display" || (type == "refresh" && (!$('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == true))) {
 			$('#'+box).html('');
-			$('#'+box).dialog({ width: 600});
+			$('#'+box).dialog({ width: largeur});
 		}
 		
 		position = true;
