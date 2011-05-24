@@ -7,7 +7,6 @@
 
 <?php if (count($this->typeDepart) > 0) : ?>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?php echo $this->nb_valeurs ?>'/>
-	<div class='comp_contenu'>
 		<?php
 		$poches = null;
 		$jsBtn = "controleQte();";
@@ -133,7 +132,6 @@
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?php endif; ?>
 	<?php endif; ?>
-	</div> 	
 <?php else : ?>
 	Vous ne pouvez rien transbahuter !<br/><br/>
 <?php endif; ?>
