@@ -30,12 +30,7 @@ Choisissez un type de bâtiment : <br />
 <br /><br />
 Choisissez une position pour le bâtiment : 
 
-<table align='center'>
-   <tr>
-     <th>Position [x;y]</th>
-   </tr>
-   <tr>
-     <td>
+     Position [x;y]
      <table class='comp_marcher_position'>
      	<?php $col=null ?>
 		<?php foreach ($this->tableau as $case) : ?>
@@ -59,9 +54,6 @@ Choisissez une position pour le bâtiment :
        <?php endforeach; ?>
        </tr>
      </table>
-     </td>
-    </tr>
-  </table>
   
   <input type='button' class='button1' value='Initialiser un bâtiment !' onclick='this.disabled=true;_get_("/communaute/doaction?caction=do_communaute_initialiserbatiment");'>
   

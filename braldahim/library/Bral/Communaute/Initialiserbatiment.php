@@ -31,29 +31,38 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			throw new Zend_Exception("Bral_Communaute_Initialiserbatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
 		}
 
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
+		if (count($communaute) != 1) {
+			throw new Zend_Exception("Bral_Communaute_Initialiserbatiment :: Erreur Technique :".count($communaute));
+		} else {
+			$communaute = $communaute[0];
+		}
+
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Palissade');
 
 		$this->distance = 3;
-		$this->view->x_min = $this->view->user->x_braldun - $this->distance;
-		$this->view->x_max = $this->view->user->x_braldun + $this->distance;
-		$this->view->y_min = $this->view->user->y_braldun - $this->distance;
-		$this->view->y_max = $this->view->user->y_braldun + $this->distance;
+		$this->view->x_min = $communaute["x_communaute"] - $this->distance;
+		$this->view->x_max = $communaute["x_communaute"] + $this->distance;
+		$this->view->y_min = $communaute["y_communaute"] - $this->distance;
+		$this->view->y_max = $communaute["y_communaute"] + $this->distance;
 		$this->view->nb_cases = 3;
 
 		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $communaute["z_communaute"]);
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $communaute["z_communaute"]);
 
 		$defautChecked = false;
 
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
 			$change_level = true;
 			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
-				$x = $this->view->user->x_braldun + $i;
-				$y = $this->view->user->y_braldun + $j;
-				$z = $this->view->user->z_braldun;
+				$x = $communaute["x_communaute"] + $i;
+				$y = $communaute["y_communaute"] + $j;
+				$z = $communaute["z_communaute"];
 					
 				$display = $x;
 				$display .= " ; ";
@@ -134,6 +143,7 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 		$this->view->typeLieux = $tabTypesLieux;
 
 		$this->view->nb_pa = 1;
+		$this->communaute = $communaute;
 	}
 
 	function prepareFormulaire() {
@@ -169,8 +179,8 @@ class Bral_Communaute_Initialiserbatiment extends Bral_Communaute_Communaute {
 			throw new Zend_Exception(get_class($this)." Position XY impossible : ".$offset_x.$offset_y);
 		}
 
-		$x = $this->view->user->x_braldun + $offset_x;
-		$y = $this->view->user->y_braldun + $offset_y;
+		$x = $this->communaute["x_communaute"] + $offset_x;
+		$y = $this->communaute["y_communaute"] + $offset_y;
 
 		$this->initialiser($idTypeLieu, $x, $y);
 		$this->majBraldun();
