@@ -20,20 +20,12 @@
     <form action="/auth/login" method="post"> 
 		Email du joueur : 
 	    <input type="email" required autofocus name="post_email_braldun" id='post_email_braldun' size='25' maxlength='100'/>
+	    <br />
 	    Mot de passe : <input type="password" name="post_password_braldun"  size='10'  maxlength='50' required />
 	    
 	    <br /><br />
 	    
-	    <table width="100%">
-	    	<tr>
-	    	<td>
-			    <p align="center"><a href="http://mobile.braldahim.com">Version Mobile</a> 
-			    | <a href="http://iphone.braldahim.com">Version Iphone</a>
-			    | <a href="http://work.braldahim.com">Version Work</a>
-			    <br/>
-	    	</td>
-	    	<td>
-	    		Gardiennage :
+	    	Gardiennage :
 			    oui <input type="radio" id="auth_gardiennage_oui" name="auth_gardiennage" value="oui"/>
 			    non <input type="radio" id="auth_gardiennage_non" name="auth_gardiennage" value="non" checked="checked"/> 
 			    <br />
@@ -41,15 +33,13 @@
 			    Activation :
 			    oui <input type="radio" id="auth_activation_oui" name="auth_activation" value="oui" checked="checked"/>
 			    non <input type="radio" id="auth_activation_non" name="auth_activation" value="non"/>
-	    	</td>
-	    	<td>
-	    		 <input type="submit" class='button1' value="Connexion" />
-	    	</td>
-	    	</tr>
-	    	
-	    </table>
+			    <br />
+			     <input type="submit" class='button1' value="Connexion" />
+			     
+	     
+	    
 	    <br />
-	   <a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a> - 
+	   <a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a> -<br /> 
 	    <?php echo new Zend_Date(); ?>
     <?php $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
     -  Actuellement <?php echo $this->nbConnecte?> Braldûn<?php echo $s ?> connect&eacute;<?php echo $s?>

@@ -231,7 +231,6 @@ class InterfaceController extends Zend_Controller_Action {
 			//$r .= $this->getDataList("boite_b");
 			/*$r .= "</td><td width='auto'>";*/
 			$r .= $this->getDataList("boite_c");
-			$r .= "<br />";
 //			$r .= $this->getDataList("boite_d");
 			/*$r .= "</td></tr></table>";*/
 		}
