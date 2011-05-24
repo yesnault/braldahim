@@ -16,9 +16,8 @@ class Bral_Helper_Bougrie {
 		$bougrieTable = new Bougrie();
 		$bougrie = $bougrieTable->findAleatoire();
 		if ($bougrie != null) {
-			$retour .= '<p class="titrea textalic titreasizeb cadre" style="margin-left:5%;width:90%">Bougrie</p>';
-			$retour .= '<div class="bougrie" title="Bougrie n°'.$bougrie["id_bougrie"].'">';
-			
+			//$retour .= '<p class="titrea textalic titreasizeb cadre" style="margin-left:5%;width:90%">Bougrie</p>';
+			$retour .= '<div class="bralannonce" title="Bougrie n°'.$bougrie["id_bougrie"].'">';
 	
 			$retour .= '<p class="bougrie_text" >';
 			$retour .= Bral_Util_BBParser::bbcodeReplace($bougrie["texte_bougrie"]);
