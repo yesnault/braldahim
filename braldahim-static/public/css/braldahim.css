@@ -1736,9 +1736,13 @@ lightbox
 	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
 	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
-    -moz-transition: background-color 0.3s ease 0s;	
+    -moz-transition: background-color 0.3s ease 0s;
+    padding : 5px;	
 }
 
+.bougrie_text {
+	font-style: italic ;	
+}
 
 @font-face {
     font-family: "Cardinal";

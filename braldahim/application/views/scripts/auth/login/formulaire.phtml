@@ -15,17 +15,27 @@
 <?php endif; ?> 
 	
 <div class="contenu">
-    <div class="box_contenu3 textalib">
+    <div class="box_contenu3 textalic">
     
     <?php echo Bral_Helper_Bougrie::render(); ?>
     <br />
-    <form action="/auth/login" method="post"> 
-		Email du joueur : 
+    <form action="/auth/login" method="post">
+    <table width="100%"> 
+    <tr>
+    <td>
+		Email du joueur :
+		</td>
+		<td> 
 	    <input type="email" required autofocus name="post_email_braldun" id='post_email_braldun' size='25' maxlength='100'/>
+	    </td>
+	    </tr>
+	    <tr>
+	    <td>Mot de passe
+	    <td><input type="password" name="post_password_braldun"  size='25'  maxlength='50' required /></td>
+	    </td>
+	    </tr>
+	    </table>
 	    <br />
-	    Mot de passe : <input type="password" name="post_password_braldun"  size='25'  maxlength='50' required />
-	    
-	    <br /><br />
 	    
 	    	Gardiennage :
 			    oui <input type="radio" id="auth_gardiennage_oui" name="auth_gardiennage" value="oui"/>
@@ -40,7 +50,7 @@
 			     <input type="submit" class='button1' value="Connexion" />
 			     
 	    <br /><br />
-	   <a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a> -<br /><br /><br /> 
+	   <a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a> <br /><br /><br /> 
 	    <?php echo new Zend_Date(); ?>
 	    
     <?php $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
