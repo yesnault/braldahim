@@ -4,7 +4,6 @@
 	foreach ($this->nouvelles as $info) : ?>
 	<tr class="table_liste<?php echo ($i % 2);$i++;?>">
 		<td class="table_liste">
-		
 		<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
 			<img src="<?php echo $this->config->url->static?>/images/new.gif" alt="New" title="information de moins de 36 heures" style="cursor:pointer" />
 			<br/>
@@ -15,7 +14,6 @@
 		<?php if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 			<br/>
 			<p class="titre textalic textsizec center"><?php echo stripslashes($info["titre_info_jeu"])?></p>
-			<br />
 		<?php endif;?>
 		
 		<div class="bralannonce">
@@ -32,11 +30,9 @@
 			<a href="<?php echo htmlspecialchars($info["lien_info_jeu"])?>">Discussions</a>
 		<?php endif;?>
 		
-		- Parution le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$info["date_info_jeu"]) ?>
+		- <i><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$info["date_info_jeu"]) ?></i>
 		
-		<br /><br />
-		<p class="a">❧</p>
-		<br />
+			<br />
 		
 		</td>
 	</tr>
