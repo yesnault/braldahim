@@ -344,6 +344,8 @@ function _display_(type, box, data) {
 function _display_box(type, box, data) {
 	
 	var position = false;
+	var filtreCourant = null
+	
 	// si l'on fait appel a boxes, on appelle interface et cockpit
 	if (box == 'racine') {
 		_get_('/interface/load/?box=box_cockpit');
@@ -363,19 +365,32 @@ function _display_box(type, box, data) {
 			largeur = 800;
 		}
 		
-		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est ouverte
+		
+		
+		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est
+		// ouverte
 		if (type == "display" || (type == "refresh" && (!$('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == true))) {
+			
+			if (box == 'box_competences' && $('#idCompetencesTable_filter').exists()) {
+				var filtreCourant = $('#idCompetencesTable_filter input').val();
+			}
+			
 			$('#'+box).html('');
 			$('#'+box).dialog({ width: largeur});
+			
 		}
 		
 		position = true;
-	//	$('#'+box).html(data);
+	// $('#'+box).html(data);
 	}
 		
 	if ($('#'+box)) {
 		$('#'+box).html(data);
 		$("#loaded_"+box).val(1);
+	}
+	
+	if (filtreCourant != null) {
+		$('#filtre-competenceCourant').val(filtreCourant);
 	}
 	
 	if (position) {
@@ -1451,10 +1466,15 @@ function tableauTriable(id) {
 	});
 	
 	if (id == "idCompetencesTable") {
-		if ($('#init-competencefavorite').val() == "true") {
+		
+		if ($('#filtre-competenceCourant').val() != '') {
+			$('#'+id).dataTable().fnFilter($('#filtre-competenceCourant').val());
+		} else if ($('#init-competencefavorite').val() == "true") {
 			$('#'+id).dataTable().fnFilter('Favorite')	;
 		}
+		
 	}
+	
 }
 
 
