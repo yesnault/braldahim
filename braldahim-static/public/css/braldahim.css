@@ -307,9 +307,8 @@ body {
 	height:220px;
 	margin:0;
 	padding:0;
-	text-indent:-999em;
-	width:590px;
-	position:absolute;
+	width:auto;
+	position:relative;
 	margin-top:0px;
 	margin-left:25px;
 }
@@ -1150,6 +1149,7 @@ td.equipement {
 	border-width: 0.1pt;
 	vertical-align: top;
 	background: #31401A none repeat-x scroll 0pt;
+	padding:10px;
 }
 
 table.table_liste {
@@ -1730,7 +1730,7 @@ lightbox
 	 color: #333333;  
 }
 
-.bralannonce, .bralannonce a {
+.bralannonce {
 	color:#1F2614;
 	background: url(/images/layout/papierinfo.png) no-repeat right top;
 	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
@@ -1738,6 +1738,10 @@ lightbox
 	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
     -moz-transition: background-color 0.3s ease 0s;
     padding : 5px;	
+}
+
+.bralannonce a {
+	color:#1F2614;
 }
 
 .bougrie_text {
@@ -2482,6 +2486,7 @@ body > #boite_b {
 .dataTables_length {
 	width: 40%;
 	float: left;
+	font-weight: normal;
 }
 
 .dataTables_filter {

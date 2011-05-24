@@ -1,7 +1,9 @@
 <?php include('voirHeader.phtml'); ?>
-
+<br />
 <div class="box_public">
 <div class="inner">
+
+<br />
 
 <?php if ($this->connu == false) : ?>
 	<div class="titrea textalic titreasizea">Braldûn Inconnu</div>
@@ -11,7 +13,7 @@
     <?php echo $this->braldun["titre_courant_braldun"] ?>
     <?php endif;?>
      </div>
-     <div class="titrea textalic titreasized">
+     <div class="titre textalic textsized">
       Braldûn n&deg;<?php echo $this->braldun["id_braldun"] ?>
      </div>
      
@@ -21,20 +23,22 @@
 	    </div>
     <?php endif;?>
 	&nbsp;
+	
+	<center>
+	
+	
+	
+	
+	</center>
+	
 	<div class="contenu">
-	    <div class="box_contenu1">
-			<table class="table_liste" style="width:250px">
-			<thead class="table_liste">
-			  <tr class="table_liste">
-				<th style="cursor:pointer" onclick='document.location.href="/voir/braldun/?braldun=<?php echo $this->braldun["id_braldun"] ?>"' title="Voir le profil">Profil</th>
+	    <div class="box_contenu1 textalic">
+				<input type='button' class='button1' value='Profil' onclick='document.location.href="/voir/braldun/?braldun=<?php echo $this->braldun["id_braldun"] ?>"'>
 				 <?php if ($this->ancien === false) : ?>
-					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
-					<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=distinctions");' title="Voir les distinctions">Distinctions</th>
+					<input type='button' class='button1' value='&Eacute;v&eacute;nements' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=evenements");'>
+					<input type='button' class='button1' value='Distinctions' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=distinctions");'>
 				 <?php endif; ?>
-				<th style="cursor:pointer" onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=famille");' title="Voir la famille">Famille</th>
-			  </tr>
-			</thead>
-			</table>
+				<input type='button' class='button1' value='Famille' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=famille");'>
 			<div id="box_voir_braldun_inner">
 				<?php echo $this->flux; ?>
 			</div>

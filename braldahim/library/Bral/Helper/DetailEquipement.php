@@ -33,7 +33,10 @@ class Bral_Helper_DetailEquipement {
 		if ($avecDetail && $afficheLienHistorique) {
 			$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br />";
 		}
-		$text .= "<br />";
+		
+		if ($avecDetail) {
+			$text .= "<br />";
+		}
 		if ($avecDetail) {
 			$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 			$text .= "Niveau : ";
@@ -46,9 +49,9 @@ class Bral_Helper_DetailEquipement {
 			$text .= "Nom d'origine : ".$e["nom_standard"]."<br />";
 		}
 
-		$text .= "Emplacement : ".$e["emplacement"]."<br />".PHP_EOL;
-		$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
 		if ($avecDetail) {
+			$text .= "Emplacement : ".$e["emplacement"]."<br />".PHP_EOL;
+			$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
 			$text .= "Ingr&eacute;dient de base : ".$e["ingredient"]."<br /><br />";
 
 			$text .= "Caract&eacute;ristiques :<br />";
