@@ -209,7 +209,7 @@ li.leaf, li.expanded, li.collapsed {
 
 #links {
     float: right;
-    width: 80%;
+    width: 90%;
     margin-top: 30px;
 }
 #links div {
@@ -479,7 +479,7 @@ span.id_braldun {
     width: auto;
 }
 
-.box_authentification .inner {
+.box_authentification .inner, .box_speciale .inner {
 	background: #31401A repeat-x scroll 0pt 0%;
 }
 

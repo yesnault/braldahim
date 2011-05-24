@@ -23,7 +23,7 @@ class Bral_Helper_Bougrie {
 			$retour .= Bral_Util_BBParser::bbcodeReplace($bougrie["texte_bougrie"]);
 			
 			if ($bougrie["regle_bougrie"] != null && $bougrie["regle_bougrie"] != '') {
-				$retour .= '<br /><a href="'.$bougrie["regle_bougrie"].'">Voir Règles</a>.';	
+				$retour .= '<br /><br /><a href="'.$bougrie["regle_bougrie"].'">Voir Règles</a>.';	
 			}
 
 			$retour .= '</p>';
