@@ -1,8 +1,8 @@
 <div class="box_authentification">
 <div class="inner">
-<p class="titrea textalia titreasize0"><?php if ($this->estMobile) : ?> Braldahim Mobile<?php endif;?></p>
+<p class="titrea textalia titreasize0" style="margin-top:-15px;"><?php if ($this->estMobile) : ?> Braldahim Mobile<?php endif;?></p>
 
-<span class="titrea textalib titreasizeb" style="margin-top:-15px;">Connexion
+<span class="titrea textalib titreasizeb" >Connexion
 	<?php if ($this->config->general->production != 1) :?>
 		B&ecirc;ta
 	<?php endif;?>
@@ -16,7 +16,7 @@
 
 <div class="contenu">
     <div class="box_contenu3 textalic">
-    
+    <br />
     <?php echo Bral_Helper_Bougrie::render(); ?>
     <br />
     <form action="/auth/login" method="post">
