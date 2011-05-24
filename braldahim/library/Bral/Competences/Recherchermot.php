@@ -60,7 +60,10 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Communaute");
 		
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, false, TypeLieu::ID_TYPE_ATELIER, Bral_Util_Communaute::NIVEAU_ATELIER_RECHERCHE);
+		$lieuRowset = null;
+		if ($this->view->user->id_fk_communaute_braldun != null) {
+			$lieuRowset = $lieuxTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, false, TypeLieu::ID_TYPE_ATELIER, Bral_Util_Communaute::NIVEAU_ATELIER_RECHERCHE);
+		}
 		if ($lieuRowset != null && count($lieuRowset) == 1) {
 			
 			$niveauAtelier = $lieuRowset[0]["niveau_lieu"]; 

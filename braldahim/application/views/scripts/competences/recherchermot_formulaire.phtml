@@ -30,7 +30,7 @@
 					$( '#group1, #group2' ).sortable({
 							connectWith: '.liste_runes',
 							placeholder: 'ui-state-highlight-bral',
-							receive: function(event, ui) { 
+							update: function(event, ui) { 
 							
 								liste = $('#group2').sortable('serialize');  
 								if (liste.length > 0) {

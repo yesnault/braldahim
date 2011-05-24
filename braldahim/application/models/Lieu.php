@@ -214,6 +214,10 @@ class Lieu extends Zend_Db_Table {
 	}
 
 	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false, $idTypeLieu = null, $niveauMin = null) {
+		if ($idCommunaute == null) {
+			return $idCommunaute;
+		}
+		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
