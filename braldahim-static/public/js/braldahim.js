@@ -293,6 +293,12 @@ function textCount(field, counterfield, max) {
 	}
 }
 
+function chargeBoxCarnet() {
+	if ($("loaded_box_carnet").value != "1") {
+		_get_('/interface/load/?box=box_carnet');
+	}
+}
+
 function chargeBoxMessagerie() {
 	if ($("loaded_box_messagerie").value != "1") {
 		// pour eviter de recharger box_messagerie lors du my_switch en dessous
@@ -345,6 +351,7 @@ function _display_box(type, box, data) {
 	
 	var position = false;
 	var filtreCourant = null
+	var largeurMessagerie = 800;
 	
 	// si l'on fait appel a boxes, on appelle interface et cockpit
 	if (box == 'racine') {
@@ -356,16 +363,14 @@ function _display_box(type, box, data) {
 			_get_('/interface/load/?box=box_vue');
 		}
 	} else if (box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
-		|| box == 'box_titres' || box == 'box_messagerie' || box == 'messagerie_contenu'
+		|| box == 'box_titres' || box == 'box_messagerie' 
 			|| box == 'box_personnage' ) { 
 		
 		var largeur = 600;
 		
-		if (box == 'box_messagerie' || box == 'messagerie_contenu') {
-			largeur = 800;
+		if (box == 'box_messagerie') {
+			largeur = largeurMessagerie;
 		}
-		
-		
 		
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est
 		// ouverte
@@ -384,10 +389,15 @@ function _display_box(type, box, data) {
 	// $('#'+box).html(data);
 	}
 		
+	if (box == 'messagerie_contenu') {
+		$('#box_messagerie').dialog({ width: largeurMessagerie});
+	}
+	
 	if ($('#'+box)) {
 		$('#'+box).html(data);
 		$("#loaded_"+box).val(1);
 	}
+	
 	
 	if (filtreCourant != null) {
 		$('#filtre-competenceCourant').val(filtreCourant);
