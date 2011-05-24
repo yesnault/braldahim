@@ -103,7 +103,7 @@ class Bral_Communaute_Construirebatiment extends Bral_Communaute_Communaute {
 		$niveau = $this->view->batiment['lieu']['niveau_lieu'];
 
 		$nbPaManquants = $this->view->batiment['couts']['cout_pa']  - $this->view->batiment['lieu']['nb_pa_depenses_lieu'];
-		$nbCastarsManquants = $this->view->batiment['couts']['cout_castar'] - $this->view->batiment['lieu']['nb_pa_depenses_lieu'];
+		$nbCastarsManquants = $this->view->batiment['couts']['cout_castar'] - $this->view->batiment['lieu']['nb_castars_depenses_lieu'];
 
 		$nbPaDepenses = $this->view->batiment['lieu']['nb_pa_depenses_lieu'] + $participationNbPA;
 		$nbCastarsDepenses = $this->view->batiment['lieu']['nb_castars_depenses_lieu'] + $paticipationNbCastars;
