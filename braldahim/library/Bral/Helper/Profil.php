@@ -8,7 +8,7 @@
 class Bral_Helper_Profil {
 
 	const COEF_TAILLE = 2;
-	const COEF_TAILLE_COCKPIT = 1;
+	const COEF_TAILLE_COCKPIT = 0.75;
 	const COEF_TAILLE_MOBILE = 1.5;
 
 	public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun) {

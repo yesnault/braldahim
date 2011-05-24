@@ -61,11 +61,6 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 
 /************/
 
-
-
-#wrapper {
-	min-height:550px;
-}
 #menuhead {
     position: relative;
     
@@ -1981,6 +1976,7 @@ divfrise {
 
 
 #boussole {
+	float: right;
 }
 
 #boussole div{
@@ -2181,15 +2177,30 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
     z-index: 800;
 }
 
+#wrapper {
+	min-height:850px;
+}
+
+#racine {
+	display:inline;
+	float:left;		
+	width:89%;
+}
+
 #box_cockpit {
 	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 100%;
-	margin-left:auto;
-   	margin-right:auto;
-   	text-align:center;
-   	z-index: 801;
-   	float:right;
+	margin-left: 10px;
+	width:10%;
+ 	float:left;
+ 	text-align: center;
+}
+
+.butCompetences {
+    float: right;
+    left: 70px;
+    top: -15px;
+    width: 200px;
+    z-index: 902;
 }
 
 #box_cockpit table{
@@ -2248,11 +2259,11 @@ body > #boite_b {
 }
 
 .barre_vie_cockpit {
-	width: 100px;
+	width: 75px;
 }
 
 .barre_faim_cockpit {
-	width: 100px;
+	width: 75px;
 }
 
 .img_barre_niveau {

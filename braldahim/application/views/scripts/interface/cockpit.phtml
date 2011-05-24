@@ -1,36 +1,33 @@
-<table style="text-align:center">
-<tr>
-	<td>
-		<button class="butPersonnage" title="Personnage" onclick='Javascript:_get_("/interface/load/?box=box_personnage");' title="Personnage">
-		<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>.png'/><br />
-		<?php // echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
-		<?php // echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
-		</button>
-	</td>
-	<td>
-	<button class="butCompetences" title="Compétences" onclick='Javascript:_get_("/interface/load/?box=box_competences");' title="Action !">
-	
-	<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action</button>
-	<button class="butEffets" title="Effets" onclick='Javascript:_get_("/interface/load/?box=box_effets");' title="Effets">Effets</button>
-	<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
-	<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
-	</td>
-</tr>
-</table>
-<table style="text-align:center">
-<tr>
-	<td colspan="2">
-		<?php 
+<button class="butCompetences" title="Compétences" onclick='Javascript:_get_("/interface/load/?box=box_competences");' title="Action !">
+<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action
+
+<?php 
 		Zend_Loader::loadClass('Bral_Helper_Profil');
-		echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
-	</td>
-</tr>
-<tr>
-	<td>
-		<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
-	</td>
-	<td>
-		<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
-	</td>
-</tr>
-</table>
+		echo Bral_Helper_Profil::afficheBarreTour($this->user)?></button>
+
+<br /><br />
+
+<button class="butPersonnage" title="Personnage" onclick='Javascript:_get_("/interface/load/?box=box_personnage");' title="Personnage"><img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>_grand.png'/> <?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
+<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
+</button>
+
+<br /><br />
+
+<button class="butEffets" title="Effets" onclick='Javascript:_get_("/interface/load/?box=box_effets");' title="Effets">Effets</button>
+
+<br /><br />
+<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
+<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
+
+<br><br /><br />
+
+<div class="titrea textalic titreasized">Ressources</div>
+
+
+<br>
+<button class="butLaban" title="Laban" onclick='Javascript:_get_("/interface/load/?box=box_laban");' title="Laban"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>
+
+<br><br />
+<button class="butCharrette" title="Charrette" onclick='Javascript:_get_("/interface/load/?box=box_charrette");' title="Charrette"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>
+<br><br />
+<button class="butCoffre" title="Coffre" onclick='Javascript:_get_("/interface/load/?box=box_coffre");' title="Coffre"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>

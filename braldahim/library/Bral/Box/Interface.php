@@ -45,9 +45,9 @@ class Bral_Box_Interface extends Bral_Box_Box {
 		$tabBox[] = Bral_Box_Factory::getVuedetails($this->_request, $this->view, true);
 		//$tabBox[] = Bral_Box_Factory::getBlabla($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getLieu($this->_request, $this->view, false);
-		$tabBox[] = Bral_Box_Factory::getLaban($this->_request, $this->view, false);
-		$tabBox[] = Bral_Box_Factory::getCharrette($this->_request, $this->view, false);
-		$tabBox[] = Bral_Box_Factory::getCoffre($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getLaban($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getCharrette($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getCoffre($this->_request, $this->view, false);
 		//$tabBox[] = Bral_Box_Factory::getEvenements($this->_request, $this->view, false);
 		//$tabBox[] = Bral_Box_Factory::getSoule($this->_request, $this->view, false);
 

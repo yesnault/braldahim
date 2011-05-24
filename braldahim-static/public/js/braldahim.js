@@ -364,6 +364,7 @@ function _display_box(type, box, data) {
 		}
 	} else if (box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
 		|| box == 'box_titres' || box == 'box_messagerie' 
+			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre' 
 			|| box == 'box_personnage' ) { 
 		
 		var largeur = 600;
@@ -445,7 +446,25 @@ function prepareCockpit() {
 	
 	if ($('.butPersonnage').exists()) {
 		$( ".butPersonnage" ).button({
-        text: true
+			text: true
+		})
+	}
+	
+	if ($('.butLaban').exists()) {
+		$( ".butLaban" ).button({
+			text: true
+		})
+	}
+	
+	if ($('.butCharrette').exists()) {
+		$( ".butCharrette" ).button({
+			text: true
+		})
+	}
+	
+	if ($('.butCoffre').exists()) {
+		$( ".butCoffre" ).button({
+			text: true
 		})
 	}
 }
