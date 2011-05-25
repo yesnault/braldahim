@@ -479,6 +479,14 @@ function hideModal(divID) {
     $(divID).hide();
 }
 
+function boutonCockpit(box) {
+	if ($('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == false) {
+		_get_("/interface/load/?box="+box);
+	} else {
+		$("#"+box).dialog("close");
+	}
+}
+
 function ouvreBralBox(element) {
 	
 	if (element == "box_action") {

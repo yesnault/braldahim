@@ -1,4 +1,4 @@
-<button class="butCompetences" title="Compétences" onclick='Javascript:_get_("/interface/load/?box=box_competences");' title="Action !">
+<button class="butCompetences" title="Compétences" onclick='Javascript:boutonCockpit("box_competences");' title="Action !">
 <?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action. 
 DLA à <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H\hi', $this->user->date_fin_tour_braldun) ?>
 
@@ -8,7 +8,7 @@ DLA à <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H\hi', $th
 
 <br /><br />
 
-<button class="butPersonnage" title="Personnage" onclick='Javascript:_get_("/interface/load/?box=box_personnage");' title="Personnage">
+<button class="butPersonnage" title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");' title="Personnage">
 <?php if (Zend_Registry::get("estWork")) : ?>
 Perso
 <?php else:?>
@@ -19,11 +19,11 @@ Perso
 
 <br /><br />
 
-<button class="butEffets" title="Effets" onclick='Javascript:_get_("/interface/load/?box=box_effets");' title="Effets">Effets</button>
+<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">Effets</button>
 
 <br /><br />
-<button class="butCarnet" title="Carnet" onclick='Javascript:_get_("/interface/load/?box=box_carnet");' title="Carnet">Carnet</button>
-<button class="butMessagerie" title="Messagerie" onclick='Javascript:_get_("/interface/load/?box=box_messagerie");' title="Carnet">&nbsp;</button>
+<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">Carnet</button>
+<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");' title="Carnet">&nbsp;</button>
 
 <br /><br /><br />
 
@@ -31,9 +31,28 @@ Perso
 
 
 <br />
-<button class="butLaban" title="Laban" onclick='Javascript:_get_("/interface/load/?box=box_laban");' title="Laban"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>
+<button class="butLaban" title="Laban" onclick='Javascript:boutonCockpit("box_laban");' title="Laban">
+<?php if (Zend_Registry::get("estWork")) : ?>
+	Laban
+<?php else:?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/>
+<?php endif;?>
+</button>
 
 <br /><br />
-<button class="butCharrette" title="Charrette" onclick='Javascript:_get_("/interface/load/?box=box_charrette");' title="Charrette"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>
+<button class="butCharrette" title="Charrette" onclick='Javascript:boutonCockpit("box_charrette");' title="Charrette">
+<?php if (Zend_Registry::get("estWork")) : ?>
+	Charrette
+<?php else:?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/>
+<?php endif;?>
+</button>
 <br /><br />
-<button class="butCoffre" title="Coffre" onclick='Javascript:_get_("/interface/load/?box=box_coffre");' title="Coffre"><img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/></button>
+
+<button class="butCoffre" title="Coffre" onclick='Javascript:boutonCockpit("box_coffre");' title="Coffre">
+<?php if (Zend_Registry::get("estWork")) : ?>
+	Coffre
+<?php else:?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/>
+<?php endif;?>
+</button>
