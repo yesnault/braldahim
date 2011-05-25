@@ -200,7 +200,7 @@ tr.table_liste0:hover, tr.table_liste1:hover  {
     background: none;
 }
 
-#boite_a .inner, #boite_b .inner, .box_authentification .inner {
+#boite_a .inner, #boite_b .inner, .box_authentification .inner , .box_speciale .inner {
     background: none;
 }
 
@@ -208,3 +208,4 @@ tr.table_liste0:hover, tr.table_liste1:hover  {
 	background: #eeeeee;
 	color:#666666;
 }
+

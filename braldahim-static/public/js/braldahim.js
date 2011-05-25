@@ -362,10 +362,10 @@ function _display_box(type, box, data) {
 		if ($("#loaded_box_vue").val() != "1") {
 			_get_('/interface/load/?box=box_vue');
 		}
-	} else if (box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
+	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
 		|| box == 'box_titres' || box == 'box_messagerie' 
 			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre' 
-			|| box == 'box_personnage' ) { 
+			|| box == 'box_personnage' )) { 
 		
 		var largeur = 600;
 		

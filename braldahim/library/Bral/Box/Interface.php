@@ -8,7 +8,7 @@
 class Bral_Box_Interface extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "Interface";
+		return "Vue";
 	}
 
 	function getNomInterne() {
