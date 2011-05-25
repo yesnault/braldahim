@@ -79,7 +79,7 @@
 			<input type="text" name="recherche_valeur_1_coequiper" size='40' id="recherche_valeur_1_coequiper" value="Entrez un nom" onFocus='this.value=""; activerRechercheBourlingueur("valeur_1_coequiper", "<?php echo $this->idTypeDistinctionCourante?>");' />
 			<input type="hidden" name="recherche_valeur_1_coequiper_actif" id="recherche_valeur_1_coequiper_actif" value="0" />
 			<div class="recherche" id="recherche_valeur_1_coequiper_update" ></div> 
-		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="<?php echo $this->config->url->static?>/images/divers/loading.gif" alt="Recherche..." /></span>
+		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" alt="Recherche..." /></span>
 		    
 		    <br /><br />
 		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onclick="this.disabled=true;$('#valeur_1').val($('#valeur_1_coequiper').val());_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
