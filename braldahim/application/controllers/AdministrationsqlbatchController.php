@@ -88,7 +88,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 				$data = array(
 					"id_fk_braldun_coffre" => $idBraldun,
 				);
-				echo "Creation coffre pour le braldun $idBraldun <br>";
+				echo "Creation coffre pour le braldun $idBraldun <br />";
 				$coffreTable->insert($data);
 			}
 		}
@@ -104,7 +104,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 				$data = array(
 					"id_fk_communaute_coffre" => $idCommunaute,
 				);
-				echo "Creation coffre pour la communaute $idCommunaute <br>";
+				echo "Creation coffre pour la communaute $idCommunaute <br />";
 				$coffreTable->insert($data);
 			}
 		}
@@ -458,19 +458,19 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 				$yEau = 500 - $y;
 
 				if ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 0) { // rouge, fleuve
-					printf("fleuve : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("fleuve : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 					$typeEau = "profonde";
 				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 255) { // bleu, lac
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 					$typeEau = "lac";
 				} elseif ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 0) { // jaune, mer
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 					$typeEau = "mer";
 				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 255) { // peuprofonde
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 					$typeEau = "peuprofonde";
 				} else {
-					//printf("x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $x, $y, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					//printf("x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $x, $y, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 				}
 
 				if ($typeEau != null) {

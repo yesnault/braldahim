@@ -43,7 +43,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$filter->addFilter(new Zend_Filter_StripTags());
 
 			$texte = $this->request->get('texte_carnet');
-			$texte = str_replace("<br>", PHP_EOL, $texte);
+			$texte = str_replace("<br />", PHP_EOL, $texte);
 			$texte = stripslashes(htmlspecialchars($filter->filter($texte)));
 			
 			if ($this->request->get("mode") == "editer") {

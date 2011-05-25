@@ -4280,7 +4280,7 @@
 				nTmp.innerHTML = sSearch;
 				sSearch = nTmp.textContent ? nTmp.textContent : nTmp.innerText;
 				
-				/* IE and Opera appear to put an newline where there is a <br> tag - remove it */
+				/* IE and Opera appear to put an newline where there is a <br /> tag - remove it */
 				sSearch = sSearch.replace(/\n/g," ").replace(/\r/g,"");
 			}
 			

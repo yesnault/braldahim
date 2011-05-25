@@ -184,7 +184,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_braldun);
 
 		$texte = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3')));
-		$texte = str_replace("<br>", PHP_EOL, $texte);
+		$texte = str_replace("<br />", PHP_EOL, $texte);
 
 		$tabMessage = array (
 			'contenu' => $texte,

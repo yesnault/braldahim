@@ -56,7 +56,7 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 				
 			$detailsBots = str_replace(';','',$p["details_bot_evenement"]);
 			$detailsBots = str_replace("\r", '', $detailsBots);
-			$detailsBots = str_replace("\n", '<br>', $detailsBots);
+			$detailsBots = str_replace("\n", '<br />', $detailsBots);
 			$detailsBots = trim($detailsBots);
 				
 			$retour2 .= $this->braldun->id_braldun.';'.$p["id_evenement"].';'.$p["nom_type_evenement"].';'.$p["date_evenement"].';';
