@@ -59,6 +59,7 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 		Zend_Loader::loadClass('Bral_Box_Factory');
 
 		$tabBox[] = Bral_Box_Factory::getCommunauteBatiments($this->_request, $this->view, true);
+		$tabBox[] = Bral_Box_Factory::getCommunauteArbre($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getCommunauteCoffre($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getCommunauteMembres($this->_request, $this->view, false);
 		$tabBox[] = Bral_Box_Factory::getCommunauteEvenements($this->_request, $this->view, false);

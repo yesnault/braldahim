@@ -9,8 +9,10 @@
       $attr = "disabled";
     endif;?>
     
+<?php if ($this->nom_interne != "box_coffre") : ?>
 <input type="button" class='button1' <?php echo $attr?> value="1 PA - Transbahuter">
-	
+<?php endif;?>
+
 <input type='button' class='button1' value='Fermer Tout' onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
 <input type='button' class='button1' value='Ouvrir Tout' onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
    

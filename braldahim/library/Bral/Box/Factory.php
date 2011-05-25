@@ -39,6 +39,9 @@ class Bral_Box_Factory {
 			case "box_communaute" :
 				return self::getCommunaute($request, $view, $interne);
 				break;
+			case "box_communaute_arbre" :
+				return self::getCommunauteArbre($request, $view, $interne);
+				break;
 			case "box_communaute_batiments" :
 				return self::getCommunauteBatiments($request, $view, $interne);
 				break;
@@ -160,6 +163,11 @@ class Bral_Box_Factory {
 		return new Bral_Box_Communaute($request, $view, $interne);
 	}
 
+	static function getCommunauteArbre($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute_Arbre");
+		return new Bral_Box_Communaute_Arbre($request, $view, $interne);
+	}
+
 	static function getCommunauteBatiments($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute_Batiments");
 		return new Bral_Box_Communaute_Batiments($request, $view, $interne);
@@ -209,7 +217,7 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Carnet");
 		return new Bral_Box_Carnet($request, $view, $interne);
 	}
-	
+
 	static function getCockpit($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Cockpit");
 		return new Bral_Box_Cockpit($request, $view, $interne);

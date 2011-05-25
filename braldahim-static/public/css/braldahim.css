@@ -704,6 +704,10 @@ td.authTable {
 	width: 100%;
 }
 
+.onglet.premier {
+	margin-left: 7px;
+}
+
 .onglet {
 	border-style: solid;
 	border-color: #000000;
@@ -2183,6 +2187,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 
 #wrapper {
 	min-height:300px;
+	margin-top: 20px;
 }
 
 #racine {
