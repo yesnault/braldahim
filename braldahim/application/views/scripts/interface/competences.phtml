@@ -9,6 +9,10 @@
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  
+ <?php
+ Zend_Loader::loadClass("Bral_Helper_Profil") ;
+ echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
+ <br />
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Favorite')">Favorites</span>  -
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> - 
