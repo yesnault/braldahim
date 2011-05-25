@@ -2199,6 +2199,15 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
  	text-align: center;
 }
 
+.butPersonnage span  {
+    padding: 0 0.7em !important;
+    line-height: 1.4 ! important;
+}
+
+.butPersonnage table tr td {
+	font-size:0.8em;
+}
+
 .butCompetences {
     float: right;
     left: 130px;
@@ -2263,11 +2272,11 @@ body > #boite_b {
 }
 
 .barre_vie_cockpit {
-	width: 75px;
+	width: 40px;
 }
 
 .barre_faim_cockpit {
-	width: 75px;
+	width: 40px;
 }
 
 .img_barre_niveau {

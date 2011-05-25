@@ -1,6 +1,11 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
-<div class="titre textalia textsizec">Mes Comp&eacute;tences</div>
+
+<?php if (Zend_Registry::get("estMobile")) : ?>
+	<div class="titre textalia textsizec">Mes Comp&eacute;tences</div>
+<?php else: ?>
+	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"><span class="titrea textalia titreasizeb">Mes Comp&eacute;tences</span></div>
+<?php endif;?>
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  

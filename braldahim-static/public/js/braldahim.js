@@ -349,7 +349,7 @@ function _display_(type, box, data) {
 
 function _display_box(type, box, data) {
 	
-	var position = false;
+	var estDialog = false;
 	var filtreCourant = null
 	var largeurMessagerie = 800;
 	
@@ -381,12 +381,16 @@ function _display_box(type, box, data) {
 				var filtreCourant = $('#idCompetencesTable_filter input').val();
 			}
 			
+			
 			$('#'+box).html('');
-			$('#'+box).dialog({ width: largeur});
+			$('#'+box).dialog({ 
+				width: largeur,
+				title: titre
+			});
 			
 		}
 		
-		position = true;
+		estDialog = true;
 	// $('#'+box).html(data);
 	}
 		
@@ -404,8 +408,13 @@ function _display_box(type, box, data) {
 		$('#filtre-competenceCourant').val(filtreCourant);
 	}
 	
-	if (position) {
+	if (estDialog) {
+		var titre = '';
+		if ($('#'+box+"Titre").exists()) {
+			titre = $('#'+box+"Titre").html();
+		}
 		$('#'+box).dialog( "option", "position", 'center' );
+		$('#'+box).dialog( "option", "title", titre );
 	}
 	
 	if (box == "box_cockpit") {

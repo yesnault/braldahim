@@ -1,15 +1,20 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
 
- <div class="titre">
-	  <a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
-	  <span class="titrea textalia textsizea"><?php echo $this->escape($this->user->prenom_braldun);?> 
+<?php if (Zend_Registry::get("estMobile")) : ?>
+<?php else: ?>
+	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"> <span class="titrea textalia titreasizea"><?php echo $this->escape($this->user->prenom_braldun);?> 
 	  <?php echo $this->escape($this->user->nom_braldun);?></span>
 	  <br />
 	  <span class="textalia textsized"><?php if ($this->user->titre_courant_braldun != null) :?>
 	  <?php echo $this->user->titre_courant_braldun?>,
-	  <?php endif;?> n&deg;<?php echo $this->user->id_braldun;?></span>
-	  </a>
+	  <?php endif;?> n&deg;<?php echo $this->user->id_braldun;?></span> </div>
+<?php endif;?>
+
+ <div class="titre">
+	  <span class="alabel" style="float:right;" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $this->user->id_braldun ?>');" title="Cliquez pour voir votre profil">
+	  Profil public
+	  </span>
  </div>
   
 <?php if ($this->affichageInterne == true) : ?>

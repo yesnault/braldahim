@@ -8,7 +8,7 @@
 class Bral_Helper_Profil {
 
 	const COEF_TAILLE = 2;
-	const COEF_TAILLE_COCKPIT = 0.75;
+	const COEF_TAILLE_COCKPIT = 0.4;
 	const COEF_TAILLE_MOBILE = 1.5;
 
 	public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun) {
@@ -126,7 +126,10 @@ class Bral_Helper_Profil {
 			$suffixe = "_cockpit";
 		}
 
-		$retour = "<div class='barre_faim".$suffixe." braltip'><div class='barre_img img_barre_faim' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour = "<div class='barre_faim".$suffixe." braltip'><div class='barre_img img_barre_faim' style='width:".$largeur."px'>";
+		if (!$cockpit) {
+			$retour .= Bral_Helper_Tooltip::render($texte, $titre);
+		}
 		$retour .= "</div></div>";
 
 		return $retour;
@@ -201,14 +204,17 @@ class Bral_Helper_Profil {
 			$suffixe = "_cockpit";
 		}
 
-		$retour = "<div class='barre_vie".$suffixe." braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour = "<div class='barre_vie".$suffixe." braltip'><div class='barre_img img_barre_vie' style='width:".$largeur."px'>";
+		if (!$cockpit) {
+			$retour .= Bral_Helper_Tooltip::render($texte, $titre);
+		}
 		$retour .= "</div></div>";
 
 		return $retour;
 	}
 
 
-	public static function afficheBarreTour($braldun) {
+	public static function afficheBarreTour($braldun, $afficheTooltip = true) {
 		$retour = "";
 
 		$texte = "";
@@ -311,15 +317,24 @@ class Bral_Helper_Profil {
 
 		$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center' style='margin-left: auto; margin-right: auto;'><tr>";
 		$retour .= "<td class='barre_tour_sommeil".$suffixeCss."'>";
-		$retour .= "<div class='braltip'><div class='barre_img img_tour_sommeil' style='width:".$width_latence."px'>".Bral_Helper_Tooltip::render($section_latence.$texte, $titre);
+		$retour .= "<div class='braltip'><div class='barre_img img_tour_sommeil' style='width:".$width_latence."px'>";
+		if ($afficheTooltip) {
+			$retour .= Bral_Helper_Tooltip::render($section_latence.$texte, $titre);
+		}
 		$retour .= "</div></div>";
 		$retour .= "</td>";
 		$retour .= "<td class='barre_tour_eveil".$suffixeCss."'>";
-		$retour .= "<div class='braltip'><div class='barre_img img_tour_eveil' style='width:".$width_milieu."px'>".Bral_Helper_Tooltip::render($section_milieu.$texte, $titre);
+		$retour .= "<div class='braltip'><div class='barre_img img_tour_eveil' style='width:".$width_milieu."px'>";
+		if ($afficheTooltip) {
+			$retour .= Bral_Helper_Tooltip::render($section_milieu.$texte, $titre);
+		}
 		$retour .= "</div></div>";
 		$retour .= "</td>";
 		$retour .= "<td class='barre_tour_activite".$suffixeCss."'>";
-		$retour .= "<div class='braltip'><div class='barre_img img_tour_activite' style='width:".$width_cumul."px'>".Bral_Helper_Tooltip::render($section_cumul.$texte, $titre);
+		$retour .= "<div class='braltip'><div class='barre_img img_tour_activite' style='width:".$width_cumul."px'>";
+		if ($afficheTooltip) {
+			$retour .= Bral_Helper_Tooltip::render($section_cumul.$texte, $titre);
+		}
 		$retour .= "</div></div>";
 		$retour .= "</td>";
 		$retour .= "</tr></table>";
