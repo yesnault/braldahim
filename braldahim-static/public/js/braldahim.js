@@ -958,7 +958,7 @@ function controleEchoppe(i) {
 
 function afficheTransbahuterRechercheBraldun() {
 	// constante definie dans Transbahuter.php
-	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) { 
+	if ($('#valeur_2').val() == 4 || $('#valeur_2').val() == 8 || $('#valeur_2').val() == 12) {
 		$('#div_braldun').show()
 	} else {
 		$('#div_braldun').hide()

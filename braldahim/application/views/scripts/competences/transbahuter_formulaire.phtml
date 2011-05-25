@@ -103,7 +103,7 @@
 				
 				<?php if ($venteEtalSelectionne || $coffreBraldunSelectionne || $reservationCommunauteSelectionnee) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
 				<input type="hidden" name="valeur_3" id="valeur_3" value="-1"/>
-				<div id="div_braldun" style="visibility: <?php echo $visibility?>;display :<?php echo $display?>">
+				<div id="div_braldun" style="display :<?php echo $display?>">
 					<span id="texte_transbahuter_braldun">
 					<?php if ($venteEtalSelectionne) :?>
 						<?php echo "Vous pouvez réserver cette vente à un unique Braldûn:"; ?>

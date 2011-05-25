@@ -240,7 +240,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_BANQUE ||$this->view->user->est_pnj_braldun == 'oui') {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE,'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
-				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldun', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
+				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldûn', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 			}
 				
 			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HALL || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
