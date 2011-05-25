@@ -190,10 +190,13 @@ li.leaf, li.expanded, li.collapsed {
 }
 
 #footer {
-    background: #1F2614 repeat-x scroll 0pt 0%;
+    background: none repeat-x scroll 0 0 #1F2614;
+    bottom: 0;
+    float: left;
     overflow: hidden;
     padding: 43px 0 120px;
     position: relative;
+    width: 100%;
 }
 
 #links {
@@ -2179,7 +2182,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #wrapper {
-	min-height:850px;
+	min-height:300px;
 }
 
 #racine {

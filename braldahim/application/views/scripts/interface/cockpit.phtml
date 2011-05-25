@@ -1,5 +1,6 @@
 <button class="butCompetences" title="Compétences" onclick='Javascript:_get_("/interface/load/?box=box_competences");' title="Action !">
-<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action
+<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action. 
+DLA à <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H\hi', $this->user->date_fin_tour_braldun) ?>
 
 <?php 
 		Zend_Loader::loadClass('Bral_Helper_Profil');
