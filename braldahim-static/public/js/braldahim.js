@@ -1454,6 +1454,8 @@ function affDetailsClick() {
 		
 		$("#vueFixeeButton").show();
 	}
+	
+	my_switch("box_vuedetails","box_interface_boxes", "interface"); 
 }
 
 function vueFixeeButton() {
