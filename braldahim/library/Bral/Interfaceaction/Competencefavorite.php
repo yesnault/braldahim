@@ -8,7 +8,7 @@
 class Bral_Interfaceaction_Competencefavorite extends Bral_Interfaceaction_Interfaceaction {
 
 	function getNomInterne() {
-		return "box_action";
+		return "box_compfavfoo";
 	}
 
 	function getTitreAction() {

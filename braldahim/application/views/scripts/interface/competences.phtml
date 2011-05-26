@@ -4,7 +4,7 @@
 <?php if (Zend_Registry::get("estMobile")) : ?>
 	<div class="titre textalia textsizec">Mes Comp&eacute;tences</div>
 <?php else: ?>
-	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"><span class="titrea textalia titreasizeb">Mes Comp&eacute;tences</span></div>
+	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"><span class="titrea textalia titreasizee">Mes Comp&eacute;tences</span></div>
 <?php endif;?>
  <div class="contenuB">
  <div class="box_contenu1 textalic">
@@ -17,6 +17,7 @@
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span><br /><br />
+ <div id="box_compfavfoo"></div>
  
  <?php
 	if ($this->metiers != null && count($this->metiers) > 0) :

@@ -1501,15 +1501,17 @@ function affDetailsOut() {
 }
 
 function tableauTriable(id) {
+	
+	
 	$('#'+id).dataTable({
 		"bJQueryUI": true,
 		"oLanguage": {
-			"sLengthMenu": "Affichage de _MENU_ éléments par page",
+			"sLengthMenu": "Afficher _MENU_ éléments",
 			"sZeroRecords": "Aucun résultat - désolé",
 			"sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
 			"sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
 			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
-			"sSearch": "Filtre"
+			"sSearch": "Filtre",
 		}
 	});
 	
@@ -1520,7 +1522,7 @@ function tableauTriable(id) {
 		} else if ($('#init-competencefavorite').val() == "true") {
 			$('#'+id).dataTable().fnFilter('Favorite')	;
 		}
-		
+		$('#'+id).dataTable().fnSort([ [1,'asc'] ]);
 	}
 	
 }
