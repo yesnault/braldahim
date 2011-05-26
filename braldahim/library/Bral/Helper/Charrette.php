@@ -16,8 +16,8 @@ class Bral_Helper_Charrette {
 		if ($largeur > 200) {
 			$largeur = 200;
 		}
-		$retour = "<div class='barre_poids braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
-		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/barres/barre_poids.gif' height='10px' width=".$largeur."></div>";
+		$retour = "<div class='barre_poids_charrette braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/barres/barre_poids.gif' height='13px' width=".$largeur."></div>";
 
 		return $retour;
 	}
@@ -33,8 +33,8 @@ class Bral_Helper_Charrette {
 		if ($largeur > 200) {
 			$largeur = 200;
 		}
-		$retour = "<div class='barre_poids braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
-		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/barres/barre_poids.gif' height='10px' width=".$largeur."></div>";
+		$retour = "<div class='barre_poids_charrette braltip'>".Bral_Helper_Tooltip::render($texte, $titre);
+		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/barres/barre_poids.gif' height='13px' width=".$largeur." style='top-10px'></div>";
 
 		return $retour;
 	}

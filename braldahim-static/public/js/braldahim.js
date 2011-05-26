@@ -322,6 +322,28 @@ function ecrireMessageListeContact(idListe) {
 	// my_switch("box_messagerie","boite_c");
 }
 
+function disabledAllBtnMessagerie() {
+	$('#msgBtnSupSelect').attr('disabled', true);
+	$('#msgBtnArcSelect').attr('disabled', true);
+	$('#msgBtnMarSelect').attr('disabled', true);
+	$('#msgBtnSupAll').attr('disabled', true);
+	$('#msgBtnMarAll').attr('disabled', true);
+}
+
+function chaineCheckbox(liste) {
+	val = liste.split(',');
+	retour = "";
+	for (i = 0; i < val.length; i++) {
+		if ($($('#'+val[i]).attr('checked'))) {
+			retour = retour + $('#'+val[i]).val() + ",";
+		}
+	}
+	if (retour != "") {
+		retour = retour.substring(0, retour.lastIndexOf(','));
+	}
+	return retour;
+}
+
 function checkboxCocher(liste, valeur, acacher, aafficher) {
 	val = liste.split(',');
 	retour = "";

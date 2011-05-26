@@ -2251,7 +2251,7 @@ body > #boite_b {
 }
 
 .barre_faim, .barre_vie, .barre_niveau, .barre_poids, .barre_entretien, .barre_vie_communaute,
-.barre_faim_cockpit, .barre_vie_cockpit {
+.barre_faim_cockpit, .barre_vie_cockpit, .barre_poids_charrette {
 	background-color: #FFFFFF;
 	width: 200px;
 	height: 10px;
@@ -2261,7 +2261,10 @@ body > #boite_b {
 	margin-left: auto;
 	margin-right: auto;
 	border-color: #6f5f6f;
-	
+}
+
+.barre_poids_charrette {
+	height: 13px;
 }
 
 .img_barre_faim {
