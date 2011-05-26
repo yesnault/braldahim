@@ -82,6 +82,10 @@ abstract class Bral_Boutique_Boutique {
 	public function getIdChampCourant() {
 		return false;
 	}
+	
+	public function getTablesHtmlTri() {
+		return false;
+	}
 
 	public function calculNbPa() {
 		if ($this->view->user->pa_braldun - $this->paUtilisationBoutique < 0) {
