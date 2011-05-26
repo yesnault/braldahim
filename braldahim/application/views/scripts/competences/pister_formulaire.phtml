@@ -31,11 +31,11 @@
 			<?php foreach ($this->tabTailleMonstre as $taille) : $tailleTrouve = false;?>
 				<?php foreach ($t["tailles"] as $tailleCdm) : ?>
 					<?php if ($tailleCdm["taille"] == $taille["nom_taille_m_monstre"] ): $tailleTrouve = true;?>
-						<td align='center'><font color='red'><?php echo $tailleCdm["nb_manquant"]?></font></td>
+						<td align='center'><font color='#D17525'><?php echo $tailleCdm["nb_manquant"]?></font></td>
 					<?php endif;?>
 				<?php endforeach; ?>
 				<?php if ($tailleTrouve == false) : ?>
-					<td align='center'><font color='green'><?php echo $taille["nb_cdm_taille_monstre"]?>/<?php echo $taille["nb_cdm_taille_monstre"]?></font></td>
+					<td align='center'><font color='#99CC69'><?php echo $taille["nb_cdm_taille_monstre"]?>/<?php echo $taille["nb_cdm_taille_monstre"]?></font></td>
 				<?php endif;?>
 			<?php endforeach;?>
 			</tr>

@@ -60,6 +60,7 @@
 	    		<td width="80%" align='center'>
 				<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun)?>
 				<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun)?>
+				
 				</td>
 				<td width="10%" nowrap>
 					<?php echo $this->user->pv_restant_braldun ?> / 
@@ -69,6 +70,13 @@
 		    		<br />
 					<?php echo $this->user->balance_faim_braldun ?> %
 				</td>
+				<tr>
+				<td>
+				</td>&nbsp;
+				<td>
+				<input class="button1" type="button" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_manger')" value="1 PA - Boire et Manger">
+				</td>
+				</tr>
 			</tr>
 		</tbody>
 		</table>
