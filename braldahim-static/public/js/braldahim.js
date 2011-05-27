@@ -255,6 +255,9 @@ function showResponse(reponse) {
 	// Box action
 	if (display_action) {
 		ouvreBralBox("box_action");
+		if ($("#actionBoutonFermer").exists()) {
+			$("#actionBoutonFermer").focus();
+		}
 	}
 	
 	// Box informations

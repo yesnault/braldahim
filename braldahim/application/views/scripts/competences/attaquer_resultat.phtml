@@ -4,7 +4,7 @@
 	La cible a disparu, elle ne fait pas partie de votre vue.<br />
 	
 <?php else: ?>
- Vous avez attaqu&eacute; <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>) :<br /><br />
+ <b>Vous avez attaqu&eacute; <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>)</b> :<br /><br />
  Jet d'attaque : <span class="resultat" title="<?php echo $this->retourAttaque["jetAttaquant"]["details"]?>"><?php echo $this->retourAttaque["jetAttaquant"]["jet"]?> </span> 
  <span class="resultat_cache">(<?php echo $this->retourAttaque["jetAttaquant"]["details"]?>)</span><br />
  Jet de d&eacute;fense de la cible : <?php echo $this->retourAttaque["jetCible"]?><br />
@@ -67,7 +67,7 @@
 		Le ballon de soule est tomb&eacute; &agrave; terre !<br />
 	<?php endif;?>
  <?php else: ?>
- 	Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
+ 	<br /><b><u>Votre attaque a &eacute;t&eacute; esquiv&eacute;e</u></b> 
  	<?php if ($this->retourAttaque["fragilisee"] === true) : ?>
  	<br /> La cible est fragilis&eacute;e pour les prochaines attaques<br />
  	<?php else: ?>

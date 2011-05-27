@@ -5,7 +5,7 @@
 	
 <?php else: ?>
 
-	Vous avez tir&eacute; sur <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
+	<b>Vous avez tir&eacute; sur <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>)</b><br /><br />
 	Jet d'attaque : <?php echo $this->jetAttaquantNonReduit?><br />
 	Vous étiez &agrave; une distance de <?php echo $this->distCible ?> case<?php if ($this->distCible > 1) : ?>s<?php endif;?><br />
 	<?php if ($this->palissade === true) : ?>
@@ -82,7 +82,7 @@
 		<br />
 		
  	<?php else: ?>
-	 	Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
+	 	<br /><b><u>Votre attaque a &eacute;t&eacute; esquiv&eacute;e</u></b> 
 	 	<?php if ($this->retourAttaque["fragilisee"] === true) : ?>
 	 		<br /> La cible est fragilis&eacute;e pour les prochaines attaques
 	 	<?php else: ?>

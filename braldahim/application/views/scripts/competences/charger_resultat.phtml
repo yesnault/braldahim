@@ -5,7 +5,7 @@
 	
 <?php else: ?>
 	<?php if ($this->okJet1 === true): ?>
-		 Vous avez charg&eacute; <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>) 
+		 <b>Vous avez charg&eacute; <?php echo $this->retourAttaque["cible"]["nom_cible"]?> (<?php echo $this->retourAttaque["cible"]["id_cible"]?>)</b> 
 		 <br /> et vous &ecirc;tes arriv&eacute; en x:<?php echo $this->retourAttaque["cible"]["x_cible"]?> y:<?php echo $this->retourAttaque["cible"]["y_cible"]?><br /><br />
 		 Jet d'attaque : <span class="resultat" title="<?php echo $this->retourAttaque["jetAttaquant"]["details"]?>"><?php echo $this->retourAttaque["jetAttaquant"]["jet"]?> </span> 
 		 <span class="resultat_cache">(<?php echo $this->retourAttaque["jetAttaquant"]["details"]?>)</span><br />
@@ -68,7 +68,7 @@
 				Le ballon de soule est tomb&eacute; &agrave; terre !<br />
 			<?php endif;?>
 	 	<?php else: ?>
-	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
+	 		<br /><b><u>Votre attaque a &eacute;t&eacute; esquiv&eacute;e</u></b> 
 	 		<?php if ($this->retourAttaque["fragilisee"] === true) : ?>
 	 			<br /> La cible est fragilis&eacute;e pour les prochaines attaques
 	 		<?php else: ?>
