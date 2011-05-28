@@ -1703,14 +1703,6 @@ lightbox
 	letter-spacing: 2pt;
 }
 
-.braltexte:first-letter {
-    float: left;
-    font-size: 30px;
-    margin: 7px 5px 0 0;
-    vertical-align: text-top;
-    font-family: Cardinal;
-}
-
 .braltexte, .braltexte2 {
     line-height: 20px;
     text-align: justify;
