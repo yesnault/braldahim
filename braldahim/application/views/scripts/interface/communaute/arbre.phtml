@@ -1,8 +1,199 @@
 <?php echo $this->render("/interface/box_header.phtml") ?>
 <br />
-<div class="titre textalic textsizec">Arbre de Communauté</div><br />
+<div class="titrea textalic titreasized">Arbre de Communauté</div>
 
-Développement en cours.
+
+
+<table class="arbre">
+
+<tr>
+	<td rowspan="7">
+	<div class="niveauTitre titrea textalic titreasized" style="vertical-align: center">Hall</div>
+	
+	<div class="niveauTexte">
+		Hall La communauté est créée en Mairie<br /><br />
+		Le Hall est créé sur une ruine<br /><br />
+		Limitation à 1 seul Hall par communauté.<br /><br />
+		L'influence d'une communauté = somme des niveaux de tous les bâtiments.<br /><br />
+		Les ajouts de bâtiments sont possibles à maximum 2 cases du Hall. <br /><br />
+		Au delà des niveaux présentés, les niveaux des bâtiments font juste gagner 1 point d'influence.<br /><br />
+	</div>
+
+	</td>
+	<th><div class="titrea textalic titreasizee">Arts</div></th>
+	<td><div class="niveau">Temple Niveau 1</div>
+		  	<div class="niveauTexte">
+		  	<img src='<?php echo $this->config->url->static?>/images/vue/batiments/bibliotheque.png'/><br /><br />
+		  	Permet de placer une Bibliothèque</div>
+	</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Agriculture</div></th>
+	<td>
+		<div class="niveau">Grenier Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/champ.png'/><br />
+		  	Permet de récolter dans les champs des autres Braldûns de la communauté
+		</div>
+	</td>
+	<td>
+		<div class="niveau">Grenier Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/champ.png'/><br /><br />
+	  		Permet d'entretenir les champs des autres Braldûns de la communauté
+	  	</div>
+	</td>
+	<td>
+		<div class="niveau">Grenier Niveau 3</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/champ.png'/><br /><br />
+		  	Permet de semer dans les champs des autres Braldûns de la communauté
+		</div>
+	</td>
+	<td></td>
+	<td></td>
+</tr>
+
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Commerce</div></th>
+	<td><div class="niveau">Marché couvert Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/banque.png'/><br />
+		  	Permet de placer une banque autour du Hall
+		</div>
+		
+	</td>
+	<td><div class="niveau">Marché couvert Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/hotel.png'/><br />
+			Permet de placer un Hôtel des Ventes autour du Hall
+		</div>
+	</td>
+	<td><div class="niveau">Marché couvert Niveau 3</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/banque.png'/><br />
+		  	Permet d'effectuer des ordres Coffre perso <-> Coffre commun à distance
+		</div>
+	</td>
+	<td><div class="niveau">Marché couvert Niveau 4</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/banque.png'/><br />
+		  	Permet d'effectuer des ordres Coffre perso -> autres coffres de Braldûns
+		</div>
+	</td>
+	<td><div class="niveau">Marché couvert Niveau 5</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/hotel.png'/><br />
+		  	Permet d'effecter des ordres Coffre commun -> Hôtel des Ventes
+		</div>
+	</td>
+</tr>
+
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Médecine</div></th>
+	<td><div class="niveau">Infirmerie Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/infirmerie.png'/><br />
+		  	Permet de soigner les Braldûns dans l'infirmerie
+	  	</div>
+	</td>
+	<td><div class="niveau">Infirmerie Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/infirmerie.png'/><br />
+		  	Permet de revenir à cette infirmerie après un KO
+		</div>
+	</td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Militaire</div></th>
+	<td><div class="niveau">Barraquements Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/academie.png'/><br />
+		  	Permet de placer une Académie
+		</div>
+	</td>
+	<td><div class="niveau">Barraquements Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/hotel.png'/><br />
+		  	Permet d'avoir un état des Braldûns (position / Niv. / métier)
+		</div>		
+	</td>
+	<td><div class="niveau">Barraquements Niveau 3</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/banque.png'/><br />
+		  	Permet d'avoir un état des Braldûns (PV / DLA)
+		</div>
+	</td>
+	<td><div class="niveau">Barraquements Niveau 4</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/banque.png'/><br />
+		  	Permet d'avoir un état des Braldûns (PA / BM)
+		</div>
+	</td>
+	<td></td>
+</tr>
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Recherche</div></th>
+	<td><div class="niveau">Atelier Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/atelier.png'/><br />
+		  	Permet de placer un Assembleur
+		</div>
+	</td>
+	<td><div class="niveau">Atelier Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/atelier.png'/><br />
+		  	Permet de placer un Joaillier
+		</div>
+	</td>
+	<td><div class="niveau">Atelier Niveau 3</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/atelier.png'/><br />
+		  	Permet de rechercher des mots runiques sur l'atelier, en prenant toutes les runes du coffre de Communauté
+		</div>
+	</td>
+	<td></td>
+	<td></td>
+</tr>
+
+
+<tr>
+	<th><div class="titrea textalic titreasizee">Politique</div></th>
+	<td><div class="niveau">Tribune Niveau 1</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/assembleur.png'/><br />
+		  	Permet de placer une gare
+		</div>
+	</td>
+	<td><div class="niveau">Tribune Niveau 2</div>
+		<div class="niveauTexte">
+			<img src='<?php echo $this->config->url->static?>/images/vue/batiments/hotel.png'/><br />
+		  	Permet de placer un Office Notarial
+		</div>
+	</td>
+	<td><div class="niveau">Tribune Niveau 3</div>
+		<div class="niveauTexte">
+		  	Permet d'obtenir une CSS personnalisée pour les Braldûns de la Communauté
+		</div>
+	</td>
+	<td></td>
+	<td></td>
+</tr>
+
+</table>
 
 
 <?php echo $this->render("/interface/box_bottom.phtml") ?>

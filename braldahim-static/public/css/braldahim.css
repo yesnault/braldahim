@@ -478,6 +478,36 @@ table.authTable {
 	width: 100%;	
 }
 
+
+table.arbre td {
+	text-align:center;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #1F2614;
+	padding: 20px;
+	vertical-align:top;
+}
+
+table.arbre td .niveau {
+	text-align: center;
+	color: #F2F2F2;
+	background-color: #31401A;
+	border: 1px solid #1F2614;
+}
+
+table.arbre td .niveauTitre {
+	text-align: center;
+	background-color: #31401A;
+	border: 1px solid #1F2614;
+}
+
+table.arbre td .niveauTexte {
+	text-align: center;
+	color: #F2F2F2;
+	background-color: transparent;
+	border: 1px solid #1F2614;
+}
+
 td.authTable {
 	width: 33%;
 	text-align: center;
