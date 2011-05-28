@@ -307,7 +307,7 @@ body {
 
 #braldunsite {
 	z-index:1000;
-	background:transparent url(/images/layout/comte.png) no-repeat scroll 0 0;
+	background:transparent url(/images/layout/braldun-jeu-comte-cadre.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:540px;
@@ -1773,7 +1773,7 @@ lightbox
 
 #pageflip {
 	position: relative;
-    top: -96px;
+    top: -102px;
 }
 
 #pageflip img {

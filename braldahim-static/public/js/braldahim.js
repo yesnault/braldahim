@@ -1567,7 +1567,7 @@ function tableauTriable(id) {
 
 	settings = $.extend({
 		textLayers : [],
-		textShowTime : 1500,
+		textShowTime : 2000,
 		textTopOffset : 00
 	},settings);
 
@@ -1622,9 +1622,20 @@ function tableauTriable(id) {
 	}).hide();
 
 	text.load(function(){
+		
+		if (id==0) {
+		text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
+				                    text.remove();
+				                    splashScreen.trigger('changeText',[id+1]);
+				                });
+		}
+		else
+			{
+			text.fadeIn('slow');
+			splashScreen.delay(settings.textShowTime).click();	
+			}
 		// text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
-		text.fadeIn('slow');
-		splashScreen.delay(settings.textShowTime).click();
+		
 		/*
 		 * .fadeOut('slow',function(){ text.remove();
 		 * splashScreen.trigger('changeText',[id+1]); });
@@ -1649,6 +1660,7 @@ $(document).ready(function() {
 	if ($('#promoIMG').exists()) {
 		$('#promoIMG').splashScreen({
 			textLayers : [
+			    $('#urlStatique').val() + '/images/layout/accueil1.png',
 				$('#urlStatique').val() + '/images/layout/comte.png',
 			]
 		});
