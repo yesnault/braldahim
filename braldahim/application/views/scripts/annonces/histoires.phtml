@@ -8,7 +8,7 @@
 		Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
 		<br/>
 		<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
-			<img src="<?php echo $this->config->url->static?>/images/new.gif" alt="New" title="information de moins de 36 heures" style="cursor:pointer" />
+			<img src="<?php echo $this->config->url->static?>/images/divers/new.gif" alt="New" title="information de moins de 36 heures" style="cursor:pointer" />
 			<br/>
 		<?php else:?>
 			&nbsp;
