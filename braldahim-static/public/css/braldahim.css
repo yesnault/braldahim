@@ -2224,6 +2224,11 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
  	text-align: center;
 }
 
+#tourCockpit {
+	margin-left: 40px;
+    margin-top: 30px;
+}
+
 .butPersonnage span  {
     padding: 0 0.7em !important;
     line-height: 1.4 ! important;
@@ -2254,7 +2259,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #boite_c {
-	margin-top: 70px;
+	margin-top: 80px;
 }
 
 body > #boite_b {

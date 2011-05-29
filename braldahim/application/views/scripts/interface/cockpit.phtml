@@ -1,14 +1,15 @@
 <button class="butCompetences" title="Compétences" onclick='Javascript:boutonCockpit("box_competences");' title="Action !">
+<span class="titrea textalic titreasizee">Action !</span>
 <?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action. 
-DLA à <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H\hi', $this->user->date_fin_tour_braldun) ?>
-
+</button>
+<div id="tourCockpit">
 <?php 
 		Zend_Loader::loadClass('Bral_Helper_Profil');
-		echo Bral_Helper_Profil::afficheBarreTour($this->user, false)?></button>
-
+		echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
+</div>
 <br /><br />
 
-<button class="butPersonnage" title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");' title="Personnage">
+<button class="butPersonnage " title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");' title="Personnage">
 	<?php if (Zend_Registry::get("estWork")) : ?>
 		
 	<?php else:?>
