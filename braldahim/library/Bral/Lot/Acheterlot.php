@@ -403,7 +403,7 @@ class Bral_Lot_Acheterlot extends Bral_Lot_Lot {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_laban", "box_charrette", "box_evenements");
+		$tab = array("box_profil", "box_laban", "box_charrette", "box_evenements", "box_cockpit");
 
 
 		if ($this->view->idEchoppe != null) {
