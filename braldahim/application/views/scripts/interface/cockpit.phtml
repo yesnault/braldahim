@@ -3,9 +3,8 @@
 <?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'action. 
 </button>
 <div id="tourCockpit">
-<?php 
-		Zend_Loader::loadClass('Bral_Helper_Profil');
-		echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
+<?php   Zend_Loader::loadClass('Bral_Helper_Profil');
+		echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
 </div>
 <br /><br />
 

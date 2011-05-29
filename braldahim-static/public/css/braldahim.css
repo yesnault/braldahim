@@ -2224,11 +2224,6 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
  	text-align: center;
 }
 
-#tourCockpit {
-	margin-left: 40px;
-    margin-top: 30px;
-}
-
 .butPersonnage span  {
     padding: 0 0.7em !important;
     line-height: 1.4 ! important;
@@ -2247,7 +2242,17 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #box_cockpit table{
-	text-align:center;width:auto;align:center;margin-left:auto;margin-right:auto;	
+	text-align:center;width:auto;align:center;margin-left:auto;margin-right:auto;
+	with:200px;	
+}
+
+#tourCockpit {
+	margin-left: 20px;
+    margin-top: 30px;
+}
+
+#tourCockpit table{
+	width:200px;
 }
 
 #box_cockpit table td {
