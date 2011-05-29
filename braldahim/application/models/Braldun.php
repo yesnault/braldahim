@@ -89,10 +89,6 @@ class Braldun extends Zend_Db_Table {
 
 		if ($avecKo == false) {
 			$select->where('est_ko_braldun = ?', "non");
-		} else {
-			$date = date("Y-m-d H:i:s");
-			$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, -5);
-			$select->where("est_ko_braldun like 'non' or (est_ko_braldun like 'oui' and date_fin_tour_braldun >= ?)", $dateFin);
 		}
 
 		$select->joinLeft('communaute','id_fk_communaute_braldun = id_communaute');
