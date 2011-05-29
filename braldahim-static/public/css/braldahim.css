@@ -405,10 +405,10 @@ div.braltip:hover div.tip, div.tipf {
 }
 
 div.tip hr, div.tipf hr {
-border: none 0;
-border-top: 1px dotted #C0C0C0;
-width: 100%;
-height: 1px;
+	border: none 0;
+	border-top: 1px dotted #C0C0C0;
+	width: 100%;
+	height: 1px;
 }
 
 * html input.button1 {
@@ -417,9 +417,7 @@ height: 1px;
 }
 
 input.button1 {
-	/*background-image:
-		url(/images/divers/bg_button.gif);*/
-	background :url("/css/braldahim-theme/images/ui-bg_highlight-soft_60_41591c_1x100") repeat-x scroll 50% 50% #41591C;
+	background :url("/css/braldahim-theme/images/ui-bg_highlight-soft_60_41591c_1x100.png") repeat-x scroll 50% 50% #41591C;
 	color: #F2F2F2;
 	font-size: 1em;
 	border: 1px solid #31401A;
