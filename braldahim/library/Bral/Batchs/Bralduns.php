@@ -14,6 +14,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$retour .= $this->distinctionsReputation();
 		$retour .= $this->distinctionsPalmares();
 		$retour .= $this->calculPointsDistinctions();
+		$retour .= $this->calculPointsReputation();
 		$retour .= $this->suppression();
 		$retour .= $this->preventionSuppression();
 
@@ -272,29 +273,68 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$where = "id_braldun=".intval($h["id_braldun"]);
 				$braldunTable->update($data, $where);
 
-				//Stats
-				$mois = date("m");
-				$moisEnCours  = mktime(0, 0, 0, $mois, 2, date("Y"));
-				$moisDebut =  mktime(0, 0, 0, $mois, 2, date("Y"));
-				$moisFin =  mktime(0, 0, 0, $mois+1, 2, date("Y"));
+				/*
+				 * Code pour rattrapage
+				 * for($annee = 2010; $annee <= date("Y"); $annee++) {
+						
+					for($mois = 1; $mois <= 12; $mois++) {
+						if ($annee == 2010 && $mois < 5) continue;
+						if ($annee == 2011 && $mois > date("m")) continue;
+				*/
+						//Stats
+						$mois = date("m");
+						$moisEnCours  = mktime(0, 0, 0, $mois, 2, date("Y"));
+						$moisDebut =  mktime(0, 0, 0, $mois, 1, date("Y"));
+						$moisFin =  mktime(0, 0, 0, $mois+1, 1, date("Y"));
+							
+						/*Code pour rattrapage
+						$moisEnCours  = mktime(0, 0, 0, $mois, 2, $annee);
+						$moisDebut =  mktime(0, 0, 0, $mois, 1, $annee);
+						$moisFin =  mktime(0, 0, 0, $mois+1, 1, $annee);
+						*/
 
-				$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($h["id_braldun"], date("Y-m-d", $moisDebut), date("Y-m-d",$moisFin));
+						$braldunsDistinctionRowset = $braldunsDistinctionTable->findDistinctionsByBraldunId($h["id_braldun"], date("Y-m-d", $moisDebut), date("Y-m-d",$moisFin));
 
-				$points = 0;
-				if (count($braldunsDistinctionRowset) > 0) {
-					foreach($braldunsDistinctionRowset as $t) {
-						$points = $points + $t["points_type_distinction"];
-					}
+						$points = 0;
+						if (count($braldunsDistinctionRowset) > 0) {
+							foreach($braldunsDistinctionRowset as $t) {
+								$points = $points + $t["points_type_distinction"];
+							}
+						}
+
+						$data = null;
+						$data["points_stats_distinction"] = $points;
+						$data["id_fk_braldun_stats_distinction"] = $h["id_braldun"];
+						$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
+						$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
+						$statsDistinction->deleteAndInsert($data);
+					/*}
 				}
+				*/
 
-				$data = null;
-				$data["points_stats_distinction"] = $points;
-				$data["id_fk_braldun_stats_distinction"] = $h["id_braldun"];
-				$data["niveau_braldun_stats_distinction"] = $h["niveau_braldun"];
-				$data["mois_stats_distinction"] = date("Y-m-d", $moisEnCours);
-				$statsDistinction->deleteAndInsert($data);
+			}
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - exit -".$retour);
+		return $retour;
+	}
+
+	private function calculPointsReputation() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsReputation - enter -");
+
+		$retour = "";
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+
+		Zend_Loader::loadClass("StatsReputation");
+		$statsReputation = new StatsReputation();
+
+		if (count($bralduns) > 0) {
+
+			foreach ($bralduns as $h) {
 
 				$statsReputation = new StatsReputation();
+				$mois = date("m");
+				$moisEnCours  = mktime(0, 0, 0, $mois, 2, date("Y"));
 				$moisDebut =  mktime(0, 0, 0, $mois-1, 2, date("Y"));
 				$moisFin =  mktime(0, 0, 0, $mois+1, 2, date("Y"));
 				$reputation = $statsReputation->findByIdBraldun($h["id_braldun"], date("Y-m-d", $moisDebut), date("Y-m-d", $moisFin));
@@ -324,7 +364,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				$data["points_redresseur_stats_reputation"] = $pointsRedresseurDelta;
 				$data["points_gredin_total_stats_reputation"] = $h["points_gredin_braldun"];
 				$data["points_redresseur_total_stats_reputation"] = $h["points_redresseur_braldun"];
-				
+
 				$data["id_fk_braldun_stats_reputation"] = $h["id_braldun"];
 				$data["niveau_braldun_stats_reputation"] = $h["niveau_braldun"];
 				$data["mois_stats_reputation"] = date("Y-m-d", $moisEnCours);
@@ -332,7 +372,8 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 
 			}
 		}
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsDistinctions - exit -".$retour);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Bralduns - calculPointsReputation - exit -".$retour);
 		return $retour;
 	}
 
@@ -413,7 +454,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$bralduns = $braldunTable->findAllBatchByDateFin($dateFin);
 		$retour .= $this->calculSuppressionBralduns($bralduns);
 		$nb = $nb + $braldunTable->deleteAllBatchByDateFin($dateFin);
-		
+
 		$bralduns = $braldunTable->findAllCompteInactif($dateFin);
 		$retour .= $this->calculSuppressionBralduns($bralduns);
 		$nb = $nb + $braldunTable->deleteAllCompteInactif($dateFin);
@@ -481,37 +522,37 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 		$baldunsEquipementTable = new BraldunsEquipement();
 		$where = 'id_fk_braldun_hequipement = '.$braldun['id_braldun'];
 		$baldunsEquipementTable->delete($where);
-		
+
 		Zend_Loader::loadClass('BraldunsMetiers');
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$where = 'id_fk_braldun_hmetier = '.$braldun['id_braldun'];
 		$braldunsMetiersTable->delete($where);
-		
+
 		Zend_Loader::loadClass('Communaute');
 		$communauteTable = new Communaute();
 		$where = 'id_fk_braldun_gestionnaire_communaute = '.$braldun['id_braldun'];
 		$communauteTable->delete($where);
-		
+
 		Zend_Loader::loadClass('Butin');
 		$butinTable = new Butin();
 		$where = 'id_fk_braldun_butin = '.$braldun['id_braldun'];
 		$butinTable->delete($where);
-		
+
 		Zend_Loader::loadClass('Laban');
 		$labanTable = new Laban();
 		$where = 'id_fk_braldun_laban  = '.$braldun['id_braldun'];
 		$labanTable->delete($where);
-		
+
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		$where = 'id_fk_braldun_evenement  = '.$braldun['id_braldun'];
 		$evenementTable->delete($where);
-		
+
 	}
 
 	private function copieVersAncien($braldun) {
 
-		// s'il est dans une communaute		
+		// s'il est dans une communaute
 		if ($braldun['id_fk_communaute_braldun'] != null) {
 			// S'il est le gestionnaire de la communauté
 			Zend_Loader::loadClass('Communaute');
@@ -522,7 +563,7 @@ class Bral_Batchs_Bralduns extends Bral_Batchs_Batch {
 				Bral_Util_Communaute::calculNouveauGestionnaire($braldun['id_fk_communaute_braldun'], $braldun['id_fk_rang_communaute_braldun'], $braldun['prenom_braldun'], $braldun['nom_braldun'], $braldun['sexe_braldun'], $braldun['id_braldun'], $this->view);
 			}
 		}
-		
+
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($braldun["id_braldun"]);
 		$metiers = "";

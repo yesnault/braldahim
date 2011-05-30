@@ -18,5 +18,27 @@ class StatsDistinction extends Zend_Db_Table {
 		$where = 'id_fk_braldun_stats_distinction = '.$data["id_fk_braldun_stats_distinction"]. ' AND mois_stats_distinction = \''.$data["mois_stats_distinction"].'\'';
 		$this->delete($where);
 		$this->insert($data);
+		
+		/*
+		 * Code pour rattrapage
+		 * $db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stats_distinction', '*');
+		$select->where('id_fk_braldun_stats_distinction =  ?', $data["id_fk_braldun_stats_distinction"]);
+		$select->where('mois_stats_distinction = ?', $data["mois_stats_distinction"]);
+		$sql = $select->__toString();
+		$res = $db->fetchAll($sql);
+		if ($res != null) {
+			if (count($res) > 1) {
+				throw new Zend_Exception("Erreur Braldun id=".$data["id_fk_braldun_stats_distinction"]. " mois:".$data["mois_stats_distinction"]);
+			} elseif (count($res) == 1) {
+				// on garde le niveau
+				$data["niveau_braldun_stats_distinction"] = $res[0]["niveau_braldun_stats_distinction"];
+				$this->update($data, $where);
+			} else {
+				$this->insert($data);
+			}
+		}*/
+		
 	}
 }
