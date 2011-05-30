@@ -9,6 +9,11 @@
  <div class="contenuB">
  <div class="box_contenu1 textalic">
  
+  <?php if ($this->user->activation == false) :
+ 	echo "Tour non activé à la connexion"; ?>
+ <?php elseif ($this->affichageInterne == true) : ?>
+ 
+ 
  <?php
  Zend_Loader::loadClass("Bral_Helper_Profil") ;
  echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
@@ -43,11 +48,6 @@
   <input type='hidden' id='valeur_1-competencefavorite' name='valeur_1-competencefavorite' value='-1'><br />
 	 
   <br /> <br />
- 	
- <?php if ($this->user->activation == false) :
- 	echo "Tour non activé à la connexion"; ?>
- <?php elseif ($this->affichageInterne == true) : ?>
- 
  	
  	<table class="table_liste" style="width:100%" id="idCompetencesTable">
 	<thead class="table_liste">

@@ -1540,7 +1540,7 @@ function tableauTriable(id) {
 		}
 	});
 	
-	if (id == "idCompetencesTable") {
+	if (id == "idCompetencesTable" && $('#'+id).exists()) {
 		
 		if ($('#filtre-competenceCourant').val() != '') {
 			$('#'+id).dataTable().fnFilter($('#filtre-competenceCourant').val());
