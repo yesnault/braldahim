@@ -21,6 +21,7 @@ class AdministrationController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
+		$this->serveurKO();
 		$this->render();
 	}
 
@@ -99,25 +100,28 @@ class AdministrationController extends Zend_Controller_Action {
 
 
 	private function serveurKO() {
-		return;
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 
 		$contenu = "Bonjour,".PHP_EOL.PHP_EOL;
-		$contenu .= "Nous venons d'avoir accès à notre nouveau serveur, une nouvelle machine qui nécessite une réinstallation complète du système.".PHP_EOL.PHP_EOL;
-		$contenu .= "Laissez nous encore quelques heures pour la réinstallation et pour que cette nouvelle machine soit accessible via http://www.braldahim.com.".PHP_EOL.PHP_EOL;
-		$contenu .= "Si tout se passe bien et que la malchance nous quitte, Braldahim sera de nouveau sur la toile ce week-end !".PHP_EOL.PHP_EOL;
+		$contenu .= "Après bien des périples, le nouveau serveur de Braldahim est lancé.".PHP_EOL.PHP_EOL;
+		$contenu .= "Vous pouvez dès à présent vous connecter et jouer sur http://jeu.braldahim.com".PHP_EOL.PHP_EOL;
+		$contenu .= "Quelques infos :".PHP_EOL;
+		$contenu .= " - Tous les Braldûn(e)s sont passé(e)s en hibernation et sortent d'hibernation dès la connexion au jeu.".PHP_EOL;
+		$contenu .= " - Reprise avec 12 PA.".PHP_EOL;
+		$contenu .= " - Les dates liées aux champs (date fin semance, date fin récolte) sont décalées.".PHP_EOL;
+		$contenu .= " - Les dates de destruction des palissades sont décalées.".PHP_EOL.PHP_EOL;
 		
-		$contenu .= "Nous sommes vraiment désolés pour cette longue interruption, liée à cette coupure de courant, suivie d'un déménagement, puis de l'installation d'une nouvelle machine et d'une restauration des données...".PHP_EOL.PHP_EOL;
-
-		$contenu .= "A très vite !".PHP_EOL.PHP_EOL;
+		$contenu .= "Toutes les informations sont sur le forum : http://forum.braldahim.com/viewtopic.php?f=9&t=994 ".PHP_EOL.PHP_EOL;
+		
+		$contenu .= "A bientôt sur www.braldahim.com !".PHP_EOL.PHP_EOL;
 		
 		$contenu .= "Braldahim - Les Thains.".PHP_EOL.PHP_EOL;
 
 		foreach ($bralduns as $h) {
 				echo "ENVOI  VERS :".$h["id_braldun"]." <br>";
-				Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Quelques nouvelles", $contenu, $this->view);
+				Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Reprise !", $contenu, $this->view);
 		}
 			
 	}

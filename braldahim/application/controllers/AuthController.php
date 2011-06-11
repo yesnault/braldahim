@@ -182,7 +182,7 @@ class AuthController extends Zend_Controller_Action {
 			if ($aujourdhui > Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y-m-d 0:0:0", $braldun->date_fin_hibernation_braldun)) {
 
 				// si le Braldûn est dans un donjon, on le remet à l'hopital le plus proche
-				if ($braldun->est_donjon_braldun = "oui") {
+				if ($braldun->est_donjon_braldun == "oui") {
 					Zend_Loader::loadClass("Lieu");
 					Zend_Loader::loadClass("TypeLieu");
 					$lieuTable = new Lieu();
@@ -201,9 +201,6 @@ class AuthController extends Zend_Controller_Action {
 					'est_en_hibernation_braldun' => $braldun->est_en_hibernation_braldun,
 					'date_fin_tour_braldun' => $braldun->date_fin_tour_braldun,
 					'est_donjon_braldun' => $braldun->est_donjon_braldun,
-					'x_braldun' => $braldun->x_braldun,
-					'y_braldun' => $braldun->y_braldun,
-					'z_braldun' => $braldun->z_braldun,
 				);
 
 				$where = "id_braldun = ".intval($braldun->id_braldun);
