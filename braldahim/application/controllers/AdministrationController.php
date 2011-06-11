@@ -97,6 +97,31 @@ class AdministrationController extends Zend_Controller_Action {
 			
 	}
 
+
+	private function serveurKO() {
+		return;
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Mail");
+
+		$contenu = "Bonjour,".PHP_EOL.PHP_EOL;
+		$contenu .= "Nous venons d'avoir accès à notre nouveau serveur, une nouvelle machine qui nécessite une réinstallation complète du système.".PHP_EOL.PHP_EOL;
+		$contenu .= "Laissez nous encore quelques heures pour la réinstallation et pour que cette nouvelle machine soit accessible via http://www.braldahim.com.".PHP_EOL.PHP_EOL;
+		$contenu .= "Si tout se passe bien et que la malchance nous quitte, Braldahim sera de nouveau sur la toile ce week-end !".PHP_EOL.PHP_EOL;
+		
+		$contenu .= "Nous sommes vraiment désolés pour cette longue interruption, liée à cette coupure de courant, suivie d'un déménagement, puis de l'installation d'une nouvelle machine et d'une restauration des données...".PHP_EOL.PHP_EOL;
+
+		$contenu .= "A très vite !".PHP_EOL.PHP_EOL;
+		
+		$contenu .= "Braldahim - Les Thains.".PHP_EOL.PHP_EOL;
+
+		foreach ($bralduns as $h) {
+				echo "ENVOI  VERS :".$h["id_braldun"]." <br>";
+				Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Quelques nouvelles", $contenu, $this->view);
+		}
+			
+	}
+
 	function md5Action() {
 		$this->render();
 	}
