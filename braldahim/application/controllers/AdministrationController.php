@@ -21,7 +21,6 @@ class AdministrationController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->serveurKO();
 		$this->render();
 	}
 
@@ -100,6 +99,7 @@ class AdministrationController extends Zend_Controller_Action {
 
 
 	private function serveurKO() {
+		return;
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Mail");
