@@ -1723,7 +1723,12 @@ $(document).ready(function() {
 	}
 	
 	if ($.browser.mozilla == true && $.browser.version < '2.0.1') {
-		alert("Firefox 3.x n'est plus supporté par Braldahim. Utilisez Firefox 4 minimum ou un autre navigateur ou vous aurez quelques problèmes d'affichage...");
+		if ($('#box_warning').exists()) {
+			$('#box_warning').html("Firefox 3.x n'est plus supporté par Braldahim. Utilisez Firefox 4 minimum ou un autre navigateur ou vous aurez quelques problèmes d'affichage...");
+			$('#box_warning').show();
+		} else {
+			alert("Firefox 3.x n'est plus supporté par Braldahim. Utilisez Firefox 4 minimum ou un autre navigateur ou vous aurez quelques problèmes d'affichage...");
+		}
 	} else if ($.browser.ie == true && $.browser.version < '9.0') {
 		alert("Internet Explorer n'est plus supporté par Braldahim. Utilisez un autre navigateur");
 	}
