@@ -1,13 +1,8 @@
-<button class="butCompetences" title="Compétences" onclick='Javascript:boutonCockpit("box_competences");' title="Action !">
-<span class="titrea textalic titreasizee">Action !</span>
-<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'Action 
-</button>
-<div id="tourCockpit">
-<?php   Zend_Loader::loadClass('Bral_Helper_Profil');
-		echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
-</div>
-<br /><br />
+<?php Zend_Loader::loadClass('Bral_Helper_Profil'); ?>
 
+<table id="table_cockpit">
+<tr>
+<td class="tdcockpit">
 <button class="butPersonnage " title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");' title="Personnage">
 	<?php if (Zend_Registry::get("estWork")) : ?>
 		
@@ -34,43 +29,64 @@
 		</tr>
 	</table>
 </button>
+</td>
+<td class="tdcockpit">
+	<button class="butCompetences" title="Compétences" onclick='Javascript:boutonCockpit("box_competences");' title="Action !">
+	<span class="titrea textalic titreasizee">Action !</span>
+	<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'Action 
+	</button>
+	<div id="tourCockpit">
+	<?php echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
+	</div>
+</td>
+<td class="tdcockpit">
+	<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">Effets</button>
+</td>
+<td class="tdcockpit">
+	<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">Carnet</button>
+</td>
+<td class="tdcockpit">
+	<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");' title="Carnet">&nbsp;</button>
+</td>
+<td class="tdcockpit">
+	<table>
+	<tr>
+	<td colspan="3">
+		<div class="titrea textalic titreasized">Ressources</div>	
+	</td>
+	</tr>
+	<tr>
+	<td>
+			<button class="butLaban" title="Laban" onclick='Javascript:boutonCockpit("box_laban");' title="Laban">
+		<?php if (Zend_Registry::get("estWork")) : ?>
+			Laban
+		<?php else:?>
+			<img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/>
+		<?php endif;?>
+		</button>
+	</td>
+	<td>
+		<button class="butCharrette" title="Charrette" onclick='Javascript:boutonCockpit("box_charrette");' title="Charrette">
+		<?php if (Zend_Registry::get("estWork")) : ?>
+			Charrette
+		<?php else:?>
+			<img src='<?php echo $this->config->url->static?>/images/layout/charrette.png'/>
+		<?php endif;?>
+		</button>
+	</td>
+	<td>
+		<button class="butCoffre" title="Coffre" onclick='Javascript:boutonCockpit("box_coffre");' title="Coffre">
+		<?php if (Zend_Registry::get("estWork")) : ?>
+			Coffre
+		<?php else:?>
+			<img src='<?php echo $this->config->url->static?>/images/layout/coffre.png'/>
+		<?php endif;?>
+		</button>
+	</td>
+	</tr>
+	</table>
+</td>
+</tr>
+</table>
 
-<br /><br />
 
-<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">Effets</button>
-
-<br /><br />
-<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">Carnet</button>
-<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");' title="Carnet">&nbsp;</button>
-
-<br /><br /><br />
-
-<div class="titrea textalic titreasized">Ressources</div>
-
-
-<br />
-<button class="butLaban" title="Laban" onclick='Javascript:boutonCockpit("box_laban");' title="Laban">
-<?php if (Zend_Registry::get("estWork")) : ?>
-	Laban
-<?php else:?>
-	<img src='<?php echo $this->config->url->static?>/images/vue/laban.png'/>
-<?php endif;?>
-</button>
-
-<br /><br />
-<button class="butCharrette" title="Charrette" onclick='Javascript:boutonCockpit("box_charrette");' title="Charrette">
-<?php if (Zend_Registry::get("estWork")) : ?>
-	Charrette
-<?php else:?>
-	<img src='<?php echo $this->config->url->static?>/images/layout/charrette.png'/>
-<?php endif;?>
-</button>
-<br /><br />
-
-<button class="butCoffre" title="Coffre" onclick='Javascript:boutonCockpit("box_coffre");' title="Coffre">
-<?php if (Zend_Registry::get("estWork")) : ?>
-	Coffre
-<?php else:?>
-	<img src='<?php echo $this->config->url->static?>/images/layout/coffre.png'/>
-<?php endif;?>
-</button>

@@ -2216,15 +2216,22 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 #racine {
 	display:inline;
 	float:left;		
-	width:89%;
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 95%;
 }
 
 #box_cockpit {
-	margin-top: 20px;
-	margin-left: 10px;
-	width:10%;
+ 	margin-top: 0px;
+	margin-left: 0px;
+	width:auto;
  	float:left;
  	text-align: center;
+}
+
+#table_cockpit .tdcockpit {
+	vertical-align:top;
+	padding-left:20px;
 }
 
 .butPersonnage span  {
@@ -2238,20 +2245,19 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 
 .butCompetences {
     float: right;
-    left: 130px;
-    top: -15px;
+    left: 0px;
     width: 250px;
     z-index: 902;
 }
 
-#box_cockpit table{
+#box_cockpit table {
 	text-align:center;width:auto;align:center;margin-left:auto;margin-right:auto;
-	with:200px;	
+	with:100%;	
 }
 
 #tourCockpit {
-	margin-left: 20px;
-    margin-top: 30px;
+	margin-left: 10px;
+    margin-top: 50px;
 }
 
 #tourCockpit table{
@@ -2267,7 +2273,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #boite_c {
-	margin-top: 80px;
+	margin-top: 10px;
 }
 
 body > #boite_b {
