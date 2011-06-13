@@ -108,7 +108,7 @@ nav ul {
 }
 #nav-main > ul > li {
     border-radius: 3px 3px 0 0;
-    font-family: Cardinal,'Arial Narrow',Arial,sans-serif;
+    font-family: Cardinal, 'Lucida Sans','Arial Narrow',Arial,sans-serif;
     font-size: 22px;
     line-height: 17px;
 }
@@ -935,7 +935,7 @@ td.authTable {
 }
 
 .titrea {
-	font-family: "Cardinal",Times,serif;
+	font-family: "Cardinal",'Lucida Sans',Times,serif;
 	font-weight: normal;
     color: #f0ae21;
     text-shadow: 0 0 4px black, 0 -5px 4px black;
@@ -1016,7 +1016,7 @@ td.authTable {
     text-shadow: 0 0 2px #666677;
     text-shadow: 0 0 4px 666677, 0 -5px 4px 666677;
     text-align: center;
-    font-family: Cardinal,'Arial Narrow',Arial,sans-serif;
+    font-family: Cardinal,'Lucida Sans', 'Arial Narrow',Arial,sans-serif;
 }
 
 .textdark {
@@ -1764,12 +1764,15 @@ lightbox
 	font-style: italic ;	
 }
 
+/*
+Dans les headers de chaque appli
 @font-face {
     font-family: "Cardinal";
     font-style: normal;
     font-weight: normal;
     src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
 }
+*/
 
 #splashScreen img {
 	margin:0 auto;
@@ -2404,7 +2407,7 @@ body > #boite_b {
 /*******************************/
 
 .pointsdistinctions {
-	font-family: "Cardinal",Times,serif;
+	font-family: "Cardinal",'Lucida Sans',Times,serif;
 	font-weight: normal;
 	color: #f0ae21;
 	text-shadow: 0 0 4px black, 0 -5px 4px black;
