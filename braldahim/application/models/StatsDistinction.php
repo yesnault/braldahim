@@ -16,8 +16,11 @@ class StatsDistinction extends Zend_Db_Table {
 		}
 		
 		$where = 'id_fk_braldun_stats_distinction = '.$data["id_fk_braldun_stats_distinction"]. ' AND mois_stats_distinction = \''.$data["mois_stats_distinction"].'\'';
+		
+		/* Commenter ce bloc si rattrapage*/
 		$this->delete($where);
 		$this->insert($data);
+		/* fin bloc. */
 		
 		/*
 		 * Code pour rattrapage
