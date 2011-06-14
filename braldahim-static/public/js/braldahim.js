@@ -871,12 +871,17 @@ function controlePoids() {
 				alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
 				return false;
 			} else {
+				$('#div_poids').empty();
+				poidsRestant = Math.round((poidsRestant - poids) * 100) / 100
+				$('#div_poids').append("Poids restant : " + poidsRestant + " Kg");
 				return true;
 			}
 		} else {
+			$('#div_poids').empty();
 			return true;
 		}
 	} else {
+		$('#div_poids').empty();
 		return true;
 	}
 }

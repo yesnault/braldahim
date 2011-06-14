@@ -99,8 +99,8 @@
 				</select>
 				<?php echo $poids ?><br/>
 				<?php echo $charrette ?>
-				<br/><br/>
-				
+				<br/>
+				<div id="div_poids"></div>
 				<?php if ($venteEtalSelectionne || $coffreBraldunSelectionne || $reservationCommunauteSelectionnee) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
 				<input type="hidden" name="valeur_3" id="valeur_3" value="-1"/>
 				<div id="div_braldun" style="display :<?php echo $display?>">
