@@ -178,8 +178,8 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 				$data["pv_restant_braldun"] = $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 			} else { // -> Le Braldûn est réanimé, sa BdF remonte de la valeur du repas, ses PV = 2x BM de SAG du lanceur
 				$data["balance_faim_braldun"] = $braldun["balance_faim_braldun"] + $this->view->tabAliments[$idAliment]["bbdf"];
-				if ($braldun["balance_faim_braldun"] > 100) {
-					$braldun["balance_faim_braldun"] = 100;
+				if ($data["balance_faim_braldun"] > 100) {
+					$data["balance_faim_braldun"] = 100;
 				}
 				$this->view->balanceFaim = $data["balance_faim_braldun"];
 				$data["pv_restant_braldun"] = 2*($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun);
@@ -191,7 +191,11 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			if ($data["pv_restant_braldun"] > $braldun["pv_max_braldun"]) {
 				$data["pv_restant_braldun"] = $braldun["pv_max_braldun"];
 			}
-
+			
+			//le braldun perd ses PX suite au KO
+			$data["px_commun_braldun"] = 0;
+			$data["px_perso_braldun"] = $braldun["px_perso_braldun"] - floor($braldun["px_perso_braldun"] / 3);
+			
 			$this->view->pvRestants = $data["pv_restant_braldun"];
 			$data["est_intangible_braldun"] = "oui";
 			$data["est_intangible_prochaine_braldun"] = "oui"; // intangible au prochain tour
@@ -204,6 +208,14 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			$alimentTable = new Aliment();
 			$where = 'id_aliment = '.(int)$idAliment;
 			$alimentTable->delete($where);
+			
+			$id_type = $this->view->config->game->evenements->type->competence;
+			$details = "[b".$this->view->user->id_braldun."] a réanimé [b".$braldun["id_braldun"]."]";
+			$messageCible = $this->view->user->prenom_braldun.' '.$this->view->user->nom_braldun.' vous a réanimé ! '.PHP_EOL;
+			$messageCible .= "Vous disposez de ".$this->view->pvRestants." PV.".PHP_EOL;
+			$messageCible .= "Votre balance de faim est de ".$this->view->balanceFaim." %.".PHP_EOL;
+			$this->setDetailsEvenement($details, $id_type);
+			$this->setDetailsEvenementCible($braldun["id_braldun"], 'braldun', 0, $messageCible);
 			
 			$this->view->okJet1 = true;
 
