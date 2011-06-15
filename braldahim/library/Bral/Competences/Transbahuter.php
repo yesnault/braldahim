@@ -6,7 +6,6 @@
  */
 
 // bouton transfert equipement, potion et materiel dans echoppe ==> edit Boule. On ne remet pas quelque chose dans l'échoppe si c'est déjà sorti.
-//@TODO afficher poids restant dans formulaire
 // On ne transbahute pas depuis l'etal
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
@@ -458,11 +457,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$idEvenement = $this->view->config->game->evenements->type->service;
 			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun &&
 			($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE)) {
-				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
-				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
-				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->view->id_braldun_destinataire, $message, $this->view);
-
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre coffre : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans le coffre de [b'.$this->view->id_braldun_destinataire.']';
@@ -501,11 +495,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($endroitArrivee['id_braldun_charrette'] != $this->view->user->id_braldun) {
-				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
-				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre charrette : '.PHP_EOL;
-				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $endroitArrivee['id_braldun_charrette'], $message, $this->view);
-
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre charrette : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans la charrette de [b'.$endroitArrivee['id_braldun_charrette'].']';
@@ -517,11 +506,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($endroitArrivee['nom_systeme'] == 'Echoppe') {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($endroitArrivee['id_braldun_echoppe'] != $this->view->user->id_braldun) {
-				$message = '[Ceci est un message automatique de transbahutage]'.PHP_EOL;
-				$message .= $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre échoppe : '.PHP_EOL;
-				$message .= $this->view->elementsRetires;
-				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $endroitArrivee['id_braldun_echoppe'], $message, $this->view);
-
 				$messageCible = $this->view->user->prenom_braldun. ' '. $this->view->user->nom_braldun. ' a transbahuté ces éléments dans votre échoppe : '.PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
 				$this->detailEvenement = '[b'.$this->view->user->id_braldun.'] a transbahuté des éléments dans l\'échoppe de [b'.$endroitArrivee['id_braldun_echoppe'].']';

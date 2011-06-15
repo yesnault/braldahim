@@ -323,7 +323,7 @@ abstract class Bral_Competences_Competence {
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun, "braldun", false, null, $this->idMatchSoule);
 				if ($this->idCible != null && $this->typeCible != null){
-					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $this->detailBotCible, $this->niveauCible, $this->typeCible);
+					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $this->detailBotCible, $this->niveauCible, $this->typeCible, true, $this->view);
 				}
 			}
 		}
