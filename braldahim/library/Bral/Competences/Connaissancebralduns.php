@@ -153,8 +153,9 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$details = "[b".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence sur [b".$braldun["id_braldun"]."]";
+		$messageCible = $this->view->user->prenom_braldun.' '.$this->view->user->nom_braldun.' a utilisé sa compétence connaissance des braldûns sur vous ! '.PHP_EOL;
 		$this->setDetailsEvenement($details, $id_type);
-		$this->setDetailsEvenementCible($braldun["id_braldun"], "braldun", $braldun["niveau_braldun"]);
+		$this->setDetailsEvenementCible($braldun["id_braldun"], "braldun", $braldun["niveau_braldun"], $messageCible);
 
 	}
 
