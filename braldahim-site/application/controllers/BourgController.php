@@ -112,10 +112,7 @@ class BourgController extends Zend_Controller_Action {
 		foreach($rowset as $r) {
 			$tab = null;
 			$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]);
-			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
-			$braldun .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/braldun/?braldun=".$r["id_braldun"]."\");^_self";
-			$tab[] = $r["details_evenement"];
-
+			$tab[] = str_replace("ouvrirWin('", "ouvrirWin('".$this->view->config->url->game, $r["details_evenement"]);
 			$dhtmlxGrid->addRow($r["id_evenement"], $tab);
 		}
 
