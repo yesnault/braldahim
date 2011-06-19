@@ -4,7 +4,6 @@
 	<div id="frisetopa">
 		<?php if (!Zend_Registry::get("estMobile")):?><h1>&nbsp;</h1><?php endif;?>
 		
-		
 		<?php if (!Zend_Registry::get("estMobile")):?>
 		 <?php if ($this->user->administrateur === true) : ?>
 			  	<span class='alabel' onclick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
@@ -50,15 +49,9 @@
 	</div>
 	<?php if (!Zend_Registry::get("estMobile")):?>
 	<div id="frisetop">
-		<?php if (Zend_Registry::get("estWork")) : ?>
-		<center><input type='button' class='button1' value='Afficher / Cacher les liens' onclick="switch2div('menuWork', 'menuFoo');"></center>
-		<div id='menuFoo' style="display:none"></div>
-		<div id='menuWork' style="display:none">
-			<script language="Javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>
-		</div>
-	<?php else: ?>
-		<script type="text/javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>	
-	<?php endif;?>
+		<?php if (!Zend_Registry::get("estWork")) : ?>
+			<script type="text/javascript" src="<?php echo $this->config->url->static?>/index/menu"></script>	
+		<?php endif;?>
 	</div>
 	<div id="frisebot">
 	</div>
