@@ -19,9 +19,7 @@ class Bral_Monstres_VieSolitaire {
 			// recuperation des monstres a jouer
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_monstre_a_jouer, false);
-			$this->traiteSolitaires($monstres, true);
-			$monstres = $monstreTable->findMonstresAJouerSansGroupe(false, $this->config->game->monstre->nombre_monstre_a_jouer, false);
-			$this->traiteSolitaires($monstres, false);
+			$this->traiteSolitaires($monstres);
 		} catch (Exception $e) {
 			Bral_Util_Log::erreur()->err(get_class($this)." - vieSolitairesAction - Erreur:".$e->getTraceAsString());
 			throw new Zend_Exception($e);
@@ -29,16 +27,14 @@ class Bral_Monstres_VieSolitaire {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitairesAction - exit");
 	}
 
-	private function traiteSolitaires($solitaires, $aleatoire1D2) {
+	private function traiteSolitaires($solitaires) {
 		foreach($solitaires as $s) {
-			if ($aleatoire1D2 == false || ($aleatoire1D2 == true && Bral_Util_De::get_1d2() == 1)) {
-				$this->vieSolitaireAction($s);
-			}
+			$this->vieSolitaireAction($s);
 		}
 	}
 
 	private function vieSolitaireAction(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (idm:".$monstre["id_monstre"].") ############# start");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - vieSolitaireAction - enter (idm:".$monstre["id_monstre"].") ############# start");
 
 		$estFuite = $this->calculFuiteSolitaire($monstre);
 		if ($estFuite) {
@@ -57,7 +53,7 @@ class Bral_Monstres_VieSolitaire {
 
 			$this->calculPostAllSolitaire($monstre);
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - exit - (idm:".$monstre["id_monstre"].") ############# end");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - vieSolitaireAction - exit - (idm:".$monstre["id_monstre"].") ############# end");
 	}
 
 	/**

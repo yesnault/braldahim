@@ -19,9 +19,7 @@ class Bral_Monstres_VieGibier {
 			// recuperation des monstres a jouer
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_monstre_a_jouer, true);
-			$this->traiteGibiers($monstres, true);
-			$monstres = $monstreTable->findMonstresAJouerSansGroupe(false, $this->config->game->monstre->nombre_monstre_a_jouer, true);
-			$this->traiteGibiers($monstres, false);
+			$this->traiteGibiers($monstres);
 		} catch (Exception $e) {
 			Bral_Util_Log::erreur()->err(get_class($this)." - vieGibierAction - Erreur:".$e->getTraceAsString());
 			throw new Zend_Exception($e);
@@ -29,11 +27,9 @@ class Bral_Monstres_VieGibier {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieGibierAction - exit");
 	}
 
-	private function traiteGibiers($gibiers, $aleatoire1D2) {
+	private function traiteGibiers($gibiers) {
 		foreach($gibiers as $s) {
-			if ($aleatoire1D2 == false || ($aleatoire1D2 == true && Bral_Util_De::get_1d2() == 1)) {
-				$this->vieGibierAction($s);
-			}
+			$this->vieGibierAction($s);
 		}
 	}
 

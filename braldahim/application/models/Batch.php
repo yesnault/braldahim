@@ -26,7 +26,7 @@ class Batch extends Zend_Db_Table {
 		return $resultat[0]["nombre"];
 	}
 
-	public function findByDate($dateDebut, $dateFin = null, $etat = null) {
+	public function findByDate($dateDebut, $dateFin = null, $etat = null, $type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('batch', '*')
@@ -37,6 +37,9 @@ class Batch extends Zend_Db_Table {
 		$select->order("id_batch desc");
 		if ($etat != null) {
 			$select->where("etat_batch like ?", $etat);
+		}
+		if ($type != null) {
+			$select->where("type_batch like ?", $type);
 		}
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);

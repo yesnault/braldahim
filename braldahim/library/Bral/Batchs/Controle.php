@@ -71,6 +71,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
 				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
+				$this->purgeMonstreHorsZone($m);
 			}
 		}
 
@@ -86,6 +87,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
 				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
+				$this->purgeMonstreHorsZone($m);
 			}
 		}
 
@@ -101,6 +103,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
 				$texte .= " cible:".$m["id_fk_braldun_cible_monstre"];
 				$texte .=  PHP_EOL;
+				$this->purgeMonstreHorsZone($m);
 			}
 		}
 
@@ -120,6 +123,30 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - exit -");
+	}
+
+	private function purgeMonstreHorsZone($m) {
+		if ($m["id_fk_braldun_cible_monstre"] != null) {
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - purge idm(".$m["id_monstre"].") - possede une cible -");
+			return;
+		}
+		$where = "id_monstre=".$m["id_monstre"];
+		$nbJours = Bral_Util_De::get_1d2();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours);
+
+		$monstreTable = new Monstre();
+		$data = array(
+			"date_fin_cadavre_monstre" => $dateFin,
+			"est_mort_monstre" => "oui",
+			"id_fk_groupe_monstre" => null,
+		);
+		$monstreTable->update($data, $where);
+		$details = "[m".$m["id_monstre"]."] est mort de vieillesse.";
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - purge idm(".$m["id_monstre"].") !");
+		
+		Zend_Loader::loadClass('Bral_Util_Evenement');
+		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $m["id_monstre"], $this->config->game->evenements->type->killmonstre, $details, "", $m["niveau_monstre"], $this->view);
 	}
 
 	private function controleBralduns(&$titre, &$texte) {
@@ -177,8 +204,8 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		}
 
 		$texte .=  PHP_EOL." ------- ".PHP_EOL;
-		
-		
+
+
 		$braldunsNonActifs = $braldunTable->findAllCompteInactif();
 		$texte .= " Bralduns Compte non actif : ".count($braldunsNonActifs). " Details:".PHP_EOL." ------- ".PHP_EOL;
 		Zend_Loader::loadClass("Bral_Util_Inscription");
@@ -191,9 +218,9 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 				$this->view->id_braldun = $h["id_braldun"];
 				$this->view->urlValidation = Bral_Util_Inscription::getLienValidation($h["id_braldun"], $h["email_braldun"], md5($h["prenom_braldun"]), $h["password_hash_braldun"]);
 				$this->view->adresseSupport = $this->config->general->adresseSupport;
-				
+
 				$contenuText = $this->view->render("inscription/mailText.phtml");
-				
+
 				$texte .= $contenuText;
 				$texte .= PHP_EOL.PHP_EOL." --------".PHP_EOL.PHP_EOL;
 			}

@@ -18,6 +18,7 @@ abstract class Bral_Batchs_Batch {
 	const PURGE_NB_JOUR_TOUS = 30;
 
 	const PURGE_BRALDUN_SUPPRESSION_NBJOURS = 30;
+	
 	/* Nombre de rappel avant la suppression, duree en jours. */
 	const PURGE_BRALDUN_PREVENTION_NBJOURS = 4;
 
@@ -35,6 +36,11 @@ abstract class Bral_Batchs_Batch {
 
 		$batchTable = new Batch();
 		$idBatch = $this->preCalcul($batchTable);
+		if ($idBatch === false) {
+			Bral_Util_Log::batchs()->warn("Bral_Batchs_Batch - calculBatch - un batch de type ".$this->nomSysteme." est deja en cours");
+			return true; // on considère qu'il n'y a pas d'erreur
+		}
+		
 		$message = null;
 		try {
 			$message = $this->calculBatchImpl($param);
@@ -54,17 +60,31 @@ abstract class Bral_Batchs_Batch {
 				$mail->send();
 			}
 				
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - calculBatch - exit false -");
 			return false;
 		}
 		 
 		$this->postCalcul($batchTable, $idBatch, self::ETAT_OK, $message);
 
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - calculBatch - exit true -");
 		return true;
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - calculBatch - enter -");
 	}
 
 	private function preCalcul($batchTable) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - preCalcul - enter -");
+		
+		// Y a t-il un batch du même type, en cours, depuis moins de 10 min ?
+		$dateFin = date("Y-m-d H:i:s");
+		$dateDebut = Bral_Util_ConvertDate::get_date_remove_time_to_date($dateFin, "00:10:00");
+		
+		$batchEnCours = $batchTable->findByDate($dateDebut, $dateFin, self::ETAT_EN_COURS, $this->nomSysteme);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - preCalcul - batchEnCours DD:".$dateDebut. " DF:".$dateFin);
+		
+		if (count($batchEnCours) > 0) {
+			Bral_Util_Log::batchs()->warn("Bral_Batchs_Batch - preCalcul - batchEnCours nb:".count($batchEnCours)." - exit -");
+			return false;
+		}
+		
 		$data = array(
 			'type_batch' => $this->nomSysteme,
 			'date_debut_batch' => date("Y-m-d H:i:s"),
