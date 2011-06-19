@@ -338,6 +338,10 @@ class Bral_Helper_Profil {
 		$retour .= "</div></div>";
 		$retour .= "</td>";
 		$retour .= "</tr></table>";
+		
+		if (Zend_Registry::get("estMobile")) {
+			$retour .= "<br/>".$texte;
+		}
 
 		return $retour;
 	}

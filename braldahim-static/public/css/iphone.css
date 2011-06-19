@@ -43,10 +43,13 @@ input {
 	background:#41591C;
 }
 
+.titre {
+	padding: 10px;	
+}
+
 .onglet {
 	font: 20px arial, verdana, sans-serif;
 	margin:0px;
-    border-bottom: 1px solid #E0E0E0;
     padding: 8px;
     font-weight: bold;
     list-style: none;
