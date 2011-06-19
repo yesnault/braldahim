@@ -420,7 +420,11 @@ function _display_box(type, box, data) {
 	}
 		
 	if (box == 'messagerie_contenu') {
-		$('#box_messagerie').dialog({ width: largeurMessagerie});
+		if ($("#estMobile").val() == "true") {
+			$('#box_messagerie').show();
+		} else {
+			$('#box_messagerie').dialog({ width: largeurMessagerie});
+		}
 	}
 	
 	if ($('#'+box)) {
@@ -540,6 +544,14 @@ function ouvreBralBox(element) {
 		boutonClose = "none";
 	}
 	
+	if ($("#estMobile").val() == "true") {
+		$( "#"+element ).show();
+		if (element == "box_action") {
+			$("#box_competences").hide();
+		}
+		return;
+	}
+	
 	$( "#"+element ).dialog({
 		modal: true,
 		minWidth : 600,
@@ -559,6 +571,15 @@ function ouvreBralBox(element) {
 }
 
 function fermeBralBox() {
+	if ($("#estMobile").val() == "true") {
+		$("#box_competences").show();
+		$("#box_action").hide();
+		$("#box_informations").hide();
+		$("#erreur").hide();
+		$("#erreur_catch").hide();
+		return;
+	}
+	
 	$("#box_action").dialog("close");
 	$("#box_informations").dialog("close");
 	$("#erreur").dialog("close");

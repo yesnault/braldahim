@@ -17,3 +17,9 @@
 <div id="box_charrette" class="box_charrette" style="display: none"></div>
 <div id="box_coffre" class="box_coffre" style="display: none"></div>
 <input type="hidden" id="vueFixee" value="-1">
+
+<?php if (Zend_Registry::get("estMobile")) : ?>
+<input type="hidden" id="estMobile" value="true">
+<?php else:?>
+<input type="hidden" id="estMobile" value="false">
+<?php endif;?>
