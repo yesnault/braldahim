@@ -444,7 +444,7 @@ a,.alabel {
 }
 
 a:hover,.alabel:hover {
-	color: #6A8C20;
+	text-decoration: underline;
 	cursor: pointer;
 }
 
