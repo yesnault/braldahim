@@ -3,3 +3,5 @@
 /.buildpath
 .DS_Store
 /.idea
+/.braldahim/application/configs/config.ini
+/.braldahim/application/configs/configdb.ini
