@@ -211,6 +211,9 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			if ($x > $xMax || $x < $xMin) {
 				echo "ERREUR idz:".$zone["id_zone_nid"]." x:$x xmin:$xMin xmax:$xMax";
 			}
+			
+			// il faut vérifier que l'on n'est pas sur de l'eau ou sur une ruine
+			//TODO
 
 			usleep(Bral_Util_De::get_de_specifique(100, self::USLEEP_DELTA));
 			$y =  Bral_Util_De::get_de_specifique($yMin, $yMax);

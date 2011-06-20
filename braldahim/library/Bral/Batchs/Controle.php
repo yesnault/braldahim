@@ -13,6 +13,8 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		$titre = "";
 		$texte = "";
 
+		//$this->supprimeSurRuine();
+
 		$this->controleBatchs($titre, $texte);
 		$this->controleMonstres($titre, $texte);
 		$this->controleBralduns($titre, $texte);
@@ -125,9 +127,42 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - exit -");
 	}
 
+
+	private function supprimeSurRuine() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - supprimeSurRuine - enter -");
+
+		Zend_Loader::loadClass("Monstre");
+		$monstreTable = new Monstre();
+
+		Zend_Loader::loadClass("Route");
+		$routeTable = new Route();
+
+		$paves = $routeTable->findByType("ruine");
+		$tabPave = null;
+		foreach($paves as $p) {
+			$key = $p["x_route"]."-".$p["y_route"]."-".$p["z_route"];
+			$tabPave[$key] = true;
+		}
+
+		for($idZone = 1; $idZone<=93; $idZone++) {
+			$monstres = $monstreTable->findByIdZoneNidMinAndIdZoneNidMax($idZone, $idZone);
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - supprimeSurRuine - zone:".$idZone. " nb:".count($monstres));
+			if (count($monstres) > 0) {
+				foreach($monstres as $m) {
+					$key = $m["x_monstre"]."-".$m["y_monstre"]."-".$m["z_monstre"];
+					if (array_key_exists($key, $tabPave)) {
+						self::purgeMonstreHorsZone($m);
+					}
+				}
+			}
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - supprimeSurRuine - exit -");
+	}
+
 	private function purgeMonstreHorsZone($m) {
 		return; // désactivé
-		
+
 		if ($m["id_fk_braldun_cible_monstre"] != null) {
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - purge idm(".$m["id_monstre"].") - possede une cible -");
 			return;
@@ -144,9 +179,9 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		);
 		$monstreTable->update($data, $where);
 		$details = "[m".$m["id_monstre"]."] est mort de vieillesse.";
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - purge idm(".$m["id_monstre"].") !");
-		
+
 		Zend_Loader::loadClass('Bral_Util_Evenement');
 		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $m["id_monstre"], $this->config->game->evenements->type->killmonstre, $details, "", $m["niveau_monstre"], $this->view);
 	}
