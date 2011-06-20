@@ -47,7 +47,7 @@ class Monstre extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countAllByTypeAndIdZoneNid($idZone = null) {
+	function countAllByTypeAndIdZoneNid($idZone = null, $niveau0Uniquement = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', array('count(id_monstre) as nombre', 'id_fk_type_monstre', 'id_fk_zone_nid_monstre', 'sum(niveau_monstre) as totalNiveau'));
@@ -56,6 +56,9 @@ class Monstre extends Zend_Db_Table {
 		}
 		$select->where('est_mort_monstre = ?', 'non');
 		$select->group(array('id_fk_type_monstre', 'id_fk_zone_nid_monstre'));
+		if ($niveau0Uniquement === true) {
+			$select->where('z_monstre = 0');
+		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -303,7 +306,7 @@ class Monstre extends Zend_Db_Table {
 	function findByIdZoneNidMinAndIdZoneNidMax($idZoneMin, $idZoneMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('monstre', array('id_monstre', 'x_monstre', 'y_monstre', 'z_monstre', 'niveau_monstre', 'id_fk_braldun_cible_monstre'))
+		$select->from('monstre', array('id_monstre', 'x_monstre', 'y_monstre', 'z_monstre', 'niveau_monstre', 'id_fk_braldun_cible_monstre', 'id_fk_type_monstre'))
 		->where('id_fk_zone_nid_monstre >= ?', intval($idZoneMin))
 		->where('id_fk_zone_nid_monstre <= ?', intval($idZoneMax))
 		->where('est_mort_monstre = ?', 'non');

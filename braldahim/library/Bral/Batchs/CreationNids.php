@@ -24,6 +24,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("TailleMonstre");
 		Zend_Loader::loadClass("TypeMonstre");
 		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("Route");
 
 		$retour = null;
 
@@ -123,8 +124,9 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$nidTable = new Nid();
 		$monstreTable = new Monstre();
 
-		$monstres = $monstreTable->countAllByTypeAndIdZoneNid($zone["id_zone_nid"]);
-		$nids = $nidTable->countMonstresACreerByTypeMonstreAndIdZone($zone["id_zone_nid"]);
+		// compte uniquement avec z=0
+		$monstres = $monstreTable->countAllByTypeAndIdZoneNid($zone["id_zone_nid"], true);
+		$nids = $nidTable->countMonstresACreerByTypeMonstreAndIdZone($zone["id_zone_nid"], true);
 
 		$creationNidsTable = new CreationNids();
 		$typesMonstresDansZone = $creationNidsTable->findByIdZoneNid($zone["id_zone_nid"]);
@@ -145,13 +147,13 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		foreach($tousTypesMontres as $t) {
 			$nbMonstre = 0;
 			foreach($monstres as $m) {
-				if ($m["z_monstre"] == 0 && $t["id_type_monstre"] == $m["id_fk_type_monstre"]) {
+				if ($t["id_type_monstre"] == $m["id_fk_type_monstre"]) {
 					$nbMonstre = $nbMonstre + $m["nombre"];
 					break;
 				}
 			}
 			foreach($nids as $n) {
-				if ($n["z_nid"] == 0 && $t["id_type_monstre"] == $n["id_fk_type_monstre_nid"]) {
+				if ($t["id_type_monstre"] == $n["id_fk_type_monstre_nid"]) {
 					$nbMonstre = $nbMonstre + $n["nombre"];
 					break;
 				}
@@ -192,6 +194,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$retour = "";
 
 		$nidTable = new Nid();
+		$routeTable = new Route();
 
 		$nbNidACreer = floor($nbMonstreACreer / self::NB_MONSTRES_PAR_NID_MOYENNE);
 
@@ -211,9 +214,6 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			if ($x > $xMax || $x < $xMin) {
 				echo "ERREUR idz:".$zone["id_zone_nid"]." x:$x xmin:$xMin xmax:$xMax";
 			}
-			
-			// il faut vérifier que l'on n'est pas sur de l'eau ou sur une ruine
-			//TODO
 
 			usleep(Bral_Util_De::get_de_specifique(100, self::USLEEP_DELTA));
 			$y =  Bral_Util_De::get_de_specifique($yMin, $yMax);
@@ -231,18 +231,22 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 				$y = $config->game->y_max - 1;
 			}
 
-			$data = array(
-				'x_nid' => $x,
-				'y_nid' => $y,
-				'z_nid' => 0,
-				'nb_monstres_total_nid' => $nbMonstres,
-				'nb_monstres_restants_nid' => $nbMonstres,
-				'id_fk_zone_nid' => $zone["id_zone_nid"],
-				'id_fk_type_monstre_nid' => $idTypeMonstre,
-				'date_creation_nid' => date("Y-m-d H:i:s"),
-				'date_generation_nid' =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours),
-			);
-			$nidTable->insert($data);
+			// il faut vérifier que l'on n'est pas sur une route
+			$routes = $routeTable->findByCase($x, $y, 0);
+			if ($routes == null || count($routes) == 0) {
+				$data = array(
+					'x_nid' => $x,
+					'y_nid' => $y,
+					'z_nid' => 0,
+					'nb_monstres_total_nid' => $nbMonstres,
+					'nb_monstres_restants_nid' => $nbMonstres,
+					'id_fk_zone_nid' => $zone["id_zone_nid"],
+					'id_fk_type_monstre_nid' => $idTypeMonstre,
+					'date_creation_nid' => date("Y-m-d H:i:s"),
+					'date_generation_nid' =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours),
+				);
+				$nidTable->insert($data);
+			}
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - exit - idz:".$zone["id_zone_nid"]);

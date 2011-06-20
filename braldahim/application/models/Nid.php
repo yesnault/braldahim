@@ -24,7 +24,7 @@ class Nid extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countMonstresACreerByTypeMonstreAndIdZone($idZone = null) {
+	function countMonstresACreerByTypeMonstreAndIdZone($idZone = null, $niveau0Uniquement = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('nid', array('sum(nb_monstres_restants_nid) as nombre', 'id_fk_type_monstre_nid', 'id_fk_zone_nid'));
@@ -32,6 +32,10 @@ class Nid extends Zend_Db_Table {
 			$select->where('id_fk_zone_nid = ?', $idZone);
 		}
 		$select->group(array('id_fk_type_monstre_nid', 'id_fk_zone_nid'));
+		if ($niveau0Uniquement === true) {
+			$select->where('z_nid = 0');
+		}
+		
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

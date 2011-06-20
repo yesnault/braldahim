@@ -129,6 +129,8 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 
 
 	private function supprimeSurRuine() {
+		//return; // désactivé
+		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - supprimeSurRuine - enter -");
 
 		Zend_Loader::loadClass("Monstre");
@@ -161,7 +163,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 	}
 
 	private function purgeMonstreHorsZone($m) {
-		return; // désactivé
+		//return; // désactivé
 
 		if ($m["id_fk_braldun_cible_monstre"] != null) {
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - purge idm(".$m["id_monstre"].") - possede une cible -");

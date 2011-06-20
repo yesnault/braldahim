@@ -108,7 +108,7 @@ class Route extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*')
-		->where('type_route not like ?', $type);
+		->where('type_route like ?', $type);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
