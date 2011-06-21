@@ -112,16 +112,38 @@ class AdministrationController extends Zend_Controller_Action {
 		$contenu .= " - Reprise avec 12 PA.".PHP_EOL;
 		$contenu .= " - Les dates liées aux champs (date fin semance, date fin récolte) sont décalées.".PHP_EOL;
 		$contenu .= " - Les dates de destruction des palissades sont décalées.".PHP_EOL.PHP_EOL;
-		
+
 		$contenu .= "Toutes les informations sont sur le forum : http://forum.braldahim.com/viewtopic.php?f=9&t=994 ".PHP_EOL.PHP_EOL;
-		
+
 		$contenu .= "A bientôt sur www.braldahim.com !".PHP_EOL.PHP_EOL;
-		
+
 		$contenu .= "Braldahim - Les Thains.".PHP_EOL.PHP_EOL;
 
 		foreach ($bralduns as $h) {
-				echo "ENVOI  VERS :".$h["id_braldun"]." <br>";
-				Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Reprise !", $contenu, $this->view);
+			echo "ENVOI  VERS :".$h["id_braldun"]." <br>";
+			Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Reprise !", $contenu, $this->view);
+		}
+			
+	}
+
+	private function rappelIRL() {
+		$braldunTable = new Braldun();
+		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+
+		foreach ($bralduns as $h) {
+			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."L'IRL 2011 approche !";
+			
+			$detailsBot .= PHP_EOL.PHP_EOL."ELle approche tellement vite qu'elle se déroule la semaine prochaine.".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Oui, oui, c'est bien le 2 et 3 juillet que cette rencontre entre joueurs a lieu.".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Au programme : barbecue et jeux de société.".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Lieu : Hédé (Bretagne, 25 min de Rennes).".PHP_EOL.PHP_EOL;
+			
+			$detailsBot .= "Toutes les informations sont sur le forum : [url]http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953[/url]".PHP_EOL.PHP_EOL;
+
+			$message = $detailsBot.PHP_EOL.PHP_EOL." Grace Petits-pieds".PHP_EOL."Au plaisir de vous rencontrer.";
+
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
 			
 	}
