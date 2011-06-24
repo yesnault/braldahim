@@ -119,10 +119,10 @@
    					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" alt="Recherche..." /></span>
    				</div>
    				
-   				<?php if ($venteSelectionne || $reservationCommunauteSelectionnee) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
-				<div id="div_vente_transbahuter" style="visibility: <?php echo $visibility?>;display :<?php echo $display?>">
-					<?php if ($venteSelectionne) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
-					<br /><span style="visibility: <?php echo $visibility?>;display :<?php echo $display?>"><b>Les castars sélectionnés ne seront pas pris en compte dans ce transbahutage</b>.</span><br /><br />
+   				<?php if ($venteSelectionne || $reservationCommunauteSelectionnee) : $display = 'block'; else: $display = 'none'; endif ?>
+				<div id="div_vente_transbahuter" style="display :<?php echo $display?>">
+					<?php if ($venteSelectionne) : $display = 'block'; else:  $display = 'none'; endif ?>
+					<br /><span id="span_vente_transbahuter" style="display :<?php echo $display?>"><b>Les castars sélectionnés ne seront pas pris en compte dans ce transbahutage</b>.</span><br /><br />
 					<?php include("transbahuter/vente_formulaire_castars.phtml")?>
    				</div>
    				
