@@ -1031,6 +1031,9 @@ function afficheTransbahuterVente() {
 	// constantes definies dans Transbahuter.php
 	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
 		$('#div_vente_transbahuter').show();
+		if ($('#valeur_2').val() != 12) {
+			$('#span_vente_transbahuter').show();
+		}
 	} else {
 		$('#div_vente_transbahuter').hide();
 	}
