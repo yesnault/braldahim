@@ -41,7 +41,7 @@ class Bral_Util_Lien {
 	private static function getFunctionMonstre($avecJs = true) {
 		$retour = '$m = new Monstre();';
 		$retour .= '$nom = "";';
-		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/monstre/?monstre=".$matches[1]."\');\">";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\''.Zend_Registry::get('config')->url->game.'/voir/monstre/?monstre=".$matches[1]."\');\">";';
 		$retour .= '$nom .= $m->findNomById($matches[1]);';
 		if ($avecJs) $retour .= '$nom .= "</label>";';
 		$retour .= 'return $nom;';
@@ -51,7 +51,7 @@ class Bral_Util_Lien {
 	private static function getFunctionBraldun($avecJs = true) {
 		$retour = '$h = new Braldun();';
 		$retour .= '$nom = "";';
-		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\''.Zend_Registry::get('config')->url->game.'/voir/braldun/?braldun=".$matches[1]."\');\">";';
 		$retour .= '$nom .= $h->findNomById($matches[1]);';
 		if ($avecJs) $retour .= '$nom .= "</label>";';
 		$retour .= 'return $nom;';
@@ -59,6 +59,6 @@ class Bral_Util_Lien {
 	}
 	
 	public static function getJsBraldun($id, $texte) {
-		return "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/braldun/?braldun=".$id."');\">".$texte."</label>";
+		return "<label class='alabel' onclick=\"javascript:ouvrirWin(''".Zend_Registry::get('config')->url->game."/voir/braldun/?braldun=".$id."');\">".$texte."</label>";
 	}
 }

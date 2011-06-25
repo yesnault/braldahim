@@ -28,7 +28,7 @@
 					Vendeuse : 
 				<?php endif;?>
 				
-				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
+				<a onclick="javascript:ouvrirWin('<?php echo Zend_Registry::get('config')->url->game?>/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
 					<hr style="width:50%"/><br />
 				</li>
 				
