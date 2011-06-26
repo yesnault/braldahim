@@ -855,6 +855,9 @@ class Bral_Util_Lot {
 
 			$equipementTable->insert($data);
 		}
+		
+		$where = 'id_fk_lot_lot_equipement = '.intval($idLot);
+		$lotEquipementTable->delete($where);	
 	}
 
 	private static function transfertLotMateriel($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
@@ -880,6 +883,9 @@ class Bral_Util_Lot {
 
 			$materielTable->insert($data);
 		}
+		
+		$where = 'id_fk_lot_lot_materiel = '.intval($idLot);
+		$lotMaterielTable->delete($where);
 
 	}
 
@@ -904,6 +910,9 @@ class Bral_Util_Lot {
 			);
 			$alimentTable->insert($data);
 		}
+		
+		$where = 'id_fk_lot_lot_aliment = '.intval($idLot);
+		$lotAlimentTable->delete($where);
 	}
 
 	private static function transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
@@ -966,6 +975,9 @@ class Bral_Util_Lot {
 
 			$graineTable->insertOrUpdate($data);
 		}
+		
+		$where = 'id_fk_lot_lot_graine = '.intval($idLot);
+		$lotGraineTable->delete($where);
 	}
 
 	private static function transfertLotIngredient($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
@@ -991,6 +1003,9 @@ class Bral_Util_Lot {
 
 			$ingredientTable->insertOrUpdate($data);
 		}
+		
+		$where = 'id_fk_lot_lot_ingredient = '.intval($idLot);
+		$lotIngredientTable->delete($where);
 	}
 
 	private static function transfertLotMunition($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
@@ -1016,6 +1031,9 @@ class Bral_Util_Lot {
 
 			$munitionTable->insertOrUpdate($data);
 		}
+		
+		$where = 'id_fk_lot_lot_munition = '.intval($idLot);
+		$lotMunitionTable->delete($where);
 	}
 
 	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
@@ -1043,6 +1061,9 @@ class Bral_Util_Lot {
 
 			$partieplanteTable->insertOrUpdate($data);
 		}
+		
+		$where = 'id_fk_lot_lot_partieplante = '.intval($idLot);
+		$lotPartieplanteTable->delete($where);
 	}
 
 	private static function transfertLotMinerai($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
@@ -1069,6 +1090,9 @@ class Bral_Util_Lot {
 
 			$mineraiTable->insertOrUpdate($data);
 		}
+		
+		$where = 'id_fk_lot_lot_minerai = '.intval($idLot);
+		$lotMineraiTable->delete($where);
 	}
 
 	private static function transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
@@ -1093,6 +1117,9 @@ class Bral_Util_Lot {
 
 			$potionTable->insert($data);
 		}
+		
+		$where = 'id_fk_lot_lot_potion = '.intval($idLot);
+		$lotPotionTable->delete($where);
 	}
 
 	private static function transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
@@ -1117,5 +1144,8 @@ class Bral_Util_Lot {
 
 			$runeTable->insert($data);
 		}
+		
+		$where = 'id_fk_lot_lot_rune = '.intval($idLot);
+		$lotRuneTable->delete($where);
 	}
 }
