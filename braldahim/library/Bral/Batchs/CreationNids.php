@@ -131,6 +131,10 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$creationNidsTable = new CreationNids();
 		$typesMonstresDansZone = $creationNidsTable->findByIdZoneNid($zone["id_zone_nid"]);
 		$nbTypesTotalDansZone = count($typesMonstresDansZone);
+		
+		if ($nbTypesTotalDansZone <=0) {
+			Bral_Util_Log::batchs()->err("Bral_Batchs_CreationNids - Erreur parametrage zone ".$zone["id_zone_nid"]);
+		}
 
 		$typeMonstreTable = new TypeMonstre();
 		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();

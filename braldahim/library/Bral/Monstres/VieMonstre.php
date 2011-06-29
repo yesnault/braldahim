@@ -810,12 +810,13 @@ class Bral_Monstres_VieMonstre {
 
 		if ($zone != null && $zone["est_ville_zone_nid"] == "oui") {
 
-			if ($niveau <= 18) { // niveau <= 18, on limite le min à 54 cases, le max à 74 cases
-				$rayonMin = 5 + $niveau * 3;
-				$rayonMax = $niveau * 3 + 20;
+			// dans les zones de villes, seuls les niveaux < 15 sont paramétrés.
+			if ($niveau <= 15) { // niveau <= 15, on limite le min à 42 cases, le max à 50 cases
+				$rayonMin = 5 + $niveau * 2.5;
+				$rayonMax = $niveau * 2.5 + 20;
 			} else { // au delà, tous les types de monstres peuvent circuler
-				$rayonMin = 50;
-				$rayonMax = 100;
+				$rayonMin = 43;
+				$rayonMax = 50;
 			}
 
 			$xCentreVille = $zone["x_min_zone_nid"] + ($zone["x_max_zone_nid"] - $zone["x_min_zone_nid"]) / 2;
