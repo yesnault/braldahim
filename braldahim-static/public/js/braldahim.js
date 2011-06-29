@@ -337,7 +337,7 @@ function chaineCheckbox(liste) {
 	val = liste.split(',');
 	retour = "";
 	for (i = 0; i < val.length; i++) {
-		if ($($('#'+val[i]).attr('checked'))) {
+		if ($('#'+val[i]+':checked').val()) {
 			retour = retour + $('#'+val[i]).val() + ",";
 		}
 	}
