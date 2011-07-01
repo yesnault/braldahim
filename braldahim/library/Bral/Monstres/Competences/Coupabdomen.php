@@ -61,7 +61,7 @@ class Bral_Monstres_Competences_Coupabdomen extends Bral_Monstres_Competences_At
 	private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a donné un coup d'abdomem sur [b".$braldun["id_braldun"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a donné un coup d'abdomen sur [b".$braldun["id_braldun"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -70,7 +70,7 @@ class Bral_Monstres_Competences_Coupabdomen extends Bral_Monstres_Competences_At
 	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un coup d'abdomem :";
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un coup d'abdomen :";
 		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
 		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetBraldun;
 		if ($jetBraldun > $jetMonstre) {
