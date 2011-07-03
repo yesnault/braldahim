@@ -41,7 +41,7 @@ if ($case['n_lieux'] > 0) :
       	}
       	
 	    if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
+			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 	}
 	 
@@ -71,7 +71,7 @@ if ($case['n_echoppes'] > 0) :
 		}
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
+			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 		
       	$textEchoppe .= '<br />';
@@ -105,7 +105,7 @@ if ($case['n_champs'] > 0) :
 		}
 		
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');" title="Entrez">Entrez</button>';
+			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 	
       	$textChamp .= '<br />';
@@ -117,7 +117,7 @@ if ($case['n_champs'] > 0) :
 	
 endif; ?>
 
-<div class='braltip'>
+<div class='braltipd'>
 <?php $detailsLieux = "";?>
 
 <?php if ($textPalissade != "") : 
@@ -127,7 +127,7 @@ endif; ?>
 	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
 	<?php $jsLieu = '';
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) :
-			$jsLieu = 'OnDblClick="Javascript:my_switch(\'box_lieu\',\'box_interface_boxes\', \'interface\');"';
+			$jsLieu = 'OnDblClick="Javascript:_get_(\'/interface/load/?box=box_lieu\');"';
 		endif;
 	?>
 	<?php if ($type_lieu != '') : ?>
@@ -145,12 +145,9 @@ endif; ?>
 	<br />
 <?php endif;?>  
 
-<div id="vuedetails_hd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
-	<?php echo $detailsLieux; ?>
-</div>
-
 <?php if ($textBallon != '') : ?>
 <img src='<?php echo $this->config->url->static?>/images/vue/ballon.png'/>
 <?php endif;?>
 
 </div>
+<div class="tooltip"><?php echo $detailsLieux; ?></div>

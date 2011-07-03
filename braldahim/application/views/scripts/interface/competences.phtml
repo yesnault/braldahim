@@ -14,7 +14,7 @@
  <?php elseif ($this->affichageInterne == true) : ?>
  
  
- <?php if (!Zend_Registry::get("estMobile")) : ?>
+ <?php if (Zend_Registry::get("estMobile")) : ?>
  <?php
  Zend_Loader::loadClass("Bral_Helper_Profil") ;
  echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
@@ -24,9 +24,10 @@
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Soule')">Soule</span><br /><br />
- <div id="box_compfavfoo"></div>
+ <div id="box_compfavfoo" style="display:none"></div>
  
  <?php
+ 	$i = 0;
 	if ($this->metiers != null && count($this->metiers) > 0) :
 		?>
 		 <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Métier')">Métier<?php if (count($this->metiers) > 1) : echo 's'; endif;?> : </span>

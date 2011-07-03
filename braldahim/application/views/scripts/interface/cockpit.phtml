@@ -31,22 +31,23 @@
 </button>
 </td>
 <td class="tdcockpit">
-	<button class="butCompetences" title="Compétences" onclick='Javascript:boutonCockpit("box_competences");' title="Action !">
-	<span class="titrea textalic titreasizee">Action !</span>
-	<?php echo $this->user->pa_braldun?> Point<?php if ($this->user->pa_braldun > 1): echo 's'; endif;?> d'Action 
-	</button>
+<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">Effets</button>
+<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">Carnet</button>
+<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");' title="Carnet">&nbsp;</button>
+<br /><br />
+<?php $s = ''; if ($this->user->pa_braldun > 1): $s = 's'; endif;?>	<?php echo $this->user->pa_braldun?> Point<?php echo $s?> d'Action restant<?php echo $s?>
 	<div id="tourCockpit">
 	<?php echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
 	</div>
 </td>
 <td class="tdcockpit">
-	<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">Effets</button>
+	
 </td>
 <td class="tdcockpit">
-	<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">Carnet</button>
+	
 </td>
 <td class="tdcockpit">
-	<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");' title="Carnet">&nbsp;</button>
+	
 </td>
 <td class="tdcockpit">
 	<table>

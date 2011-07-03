@@ -42,7 +42,7 @@
   	foreach($this->blablaMessages as $e): ?>
   		<tr>
   			<td style='text-align:left'><i title='le <?php echo $e["date"]?> en <?php echo $e["x"]?> / <?php echo $e["y"]?>'><?php echo $e["braldun"]?></i><br />
-	  		<?php echo Bral_Util_BBParser::bbcodeReplace($e["message"]);?>&nbsp;
+	  		<?php echo Bral_Util_BBParser::bbcodeReplace($e["message"], false);?>&nbsp;
 	  		<p class="a">~</p>
 	  		</td>
   		</tr>

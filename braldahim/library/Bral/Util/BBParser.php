@@ -24,7 +24,7 @@
 
 class Bral_Util_BBParser {
 
-	public static function bbcodeReplace($string) {
+	public static function bbcodeReplace($string, $afficheImage = true) {
 
 		// replace font formatting [b] [i] [u] [color= [size=
 		// bold
@@ -38,7 +38,7 @@ class Bral_Util_BBParser {
 
 		// size Max size is 7
 		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
-		// et une seconde fois pour les chaines du style : [size=4]sqfdqsdf[size=3]qqsdfqsf[/size][/size] 
+		// et une seconde fois pour les chaines du style : [size=4]sqfdqsdf[size=3]qqsdfqsf[/size][/size]
 		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
 
 		// color
@@ -110,10 +110,16 @@ class Bral_Util_BBParser {
 		$string = preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/si","<a href=\"\\1\" target=\"_blank\">\\2</a>",$string);
 
 		// img replacement
+
 		$string = preg_replace("/\[img size=([0-9][0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" alt=\"\" />",$string);
 		$string = preg_replace("/\[img size=([0-9][0-9])\](.*?)\[\/img\]/si","<img src=\"$2\" border=\"0\" width=\"$1\" alt=\"\" />",$string);
-		$string = preg_replace("/\[img\](.*?)\[\/img\]/si","<img src=\"$1\" border=\"0\" alt=\"\" />",$string);
-		$string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);
+		if ($afficheImage) {
+			$string = preg_replace("/\[img\](.*?)\[\/img\]/si","<img src=\"$1\" border=\"0\" alt=\"\" />",$string);
+			$string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);
+		} else {
+			$string = preg_replace("/\[img\](.*?)\[\/img\]/si","image non visible",$string);
+			$string = preg_replace("/<img(.*?)javascript(.*?)>/si",'image non visible',$string);
+		}
 
 		$string = nl2br($string);
 

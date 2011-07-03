@@ -387,7 +387,7 @@ function _display_box(type, box, data) {
 		if ($("#loaded_box_vue").val() != "1") {
 			_get_('/interface/load/?box=box_vue');
 		}
-	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet' || box == 'box_competences' 
+	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu' 
 		|| box == 'box_titres' || box == 'box_messagerie' 
 			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre' 
 			|| box == 'box_personnage' )) { 
@@ -402,17 +402,11 @@ function _display_box(type, box, data) {
 		// ouverte
 		if (type == "display" || (type == "refresh" && (!$('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == true))) {
 			
-			if (box == 'box_competences' && $('#idCompetencesTable_filter').exists()) {
-				var filtreCourant = $('#idCompetencesTable_filter input').val();
-			}
-			
-			
 			$('#'+box).html('');
 			$('#'+box).dialog({ 
 				width: largeur,
 				title: titre
 			});
-			
 		}
 		
 		estDialog = true;
@@ -433,7 +427,12 @@ function _display_box(type, box, data) {
 	}
 	
 	
-	if (filtreCourant != null) {
+	if (box == "box_vue") {
+		$('.braltipd').tooltip();
+	}
+	
+	if (box == 'box_competences' && $('#idCompetencesTable_filter').exists()) {
+		var filtreCourant = $('#idCompetencesTable_filter input').val();
 		$('#filtre-competenceCourant').val(filtreCourant);
 	}
 	
@@ -1518,6 +1517,12 @@ function vueFixeeButton() {
 }
 
 function affDetails(x, y, z) {
+	id = x + '_' + y;
+	$('.braltipd').tooltip();
+
+}
+
+function affDetailsOLD(x, y, z) {
 	
 	$("#onglet_box_vuedetails").css('background-color', 'transparent');
 	

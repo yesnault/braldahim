@@ -124,10 +124,10 @@ nav ul {
     color: #F2F2F2;
 }
 #nav-main > ul > li {
-	border-radius: 3px; /* en css3 lui même */
-	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 3px; /* en css3 lui m√™me */
+	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 }
 #nav-main li li a {
 }
@@ -362,6 +362,25 @@ input:-webkit-autofill {
     color: #000000 !important;
 }
 
+.tooltip {
+		display:none;
+		background-color:#1F2614;
+		border:1px solid #cc9;
+		padding:3px;
+		font-size:13px;
+		-moz-box-shadow: 2px 2px 11px #666;
+		-webkit-box-shadow: 2px 2px 11px #666;
+		position:relative;
+		z-index:240;
+		color:#F2F2F2;
+		text-align:left;
+}
+
+.braltipd {
+	position:relative;
+	z-index:24;
+	cursor:pointer;
+}
 
 .braltip {
 	position:relative;
@@ -375,6 +394,7 @@ input:-webkit-autofill {
 	color:#000000;
 	z-index:2100;
 }
+
 .braltip div.tip {
 	display:none;
 	text-align:left;
@@ -395,10 +415,10 @@ div.braltip:hover div.tip, div.tipf {
 	min-height:100px;
 	z-index:2100;
 	cursor:pointer;
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 		
 	opacity:1;
 	background-color: #31401A;
@@ -526,10 +546,10 @@ td.authTable {
 	z-index: 1000;
 	color: #F2F2F2;
 	background-color:#1F2614;
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 }
 
 .box_action {
@@ -748,10 +768,10 @@ td.authTable {
 	
 	font: 0.9em/.0 arial,verdana,sans-serif;
 	 
-	border-radius: 10px 10px 2px 2px; /* en css3 lui même */
-	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror… */
+	border-radius: 10px 10px 2px 2px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror‚Ä¶ */
 }
 
 .onglet.actif {
@@ -912,10 +932,10 @@ td.authTable {
 	margin-bottom:2px;
 	color:#F2F2F2;
 	padding : 20px;
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 }
 
 .contenuA,.contenuB {
@@ -1048,10 +1068,10 @@ td.authTable {
 .inner { /* exterieur de boite */
 	padding: 5pt 10px;
 	/**AJOUT**/
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 	padding: 1pt 10px;
 	border-color: #1F2614;
 	border-style: solid;
@@ -1122,10 +1142,10 @@ td.authTable {
 }
 	
 .box_contenu {
-	border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 	background: #1F2614 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
@@ -1749,9 +1769,9 @@ lightbox
 .bralannonce {
 	color:#1F2614;
 	background: url(/images/layout/papierinfo.png) no-repeat right top;
-	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	-moz-border-radius: 3px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 3px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
     -moz-transition: background-color 0.3s ease 0s;
     padding : 5px;	
 }
@@ -1770,7 +1790,7 @@ Dans les headers de chaque appli
     font-family: "Cardinal";
     font-style: normal;
     font-weight: normal;
-    src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
+    src: local("‚ò∫"), url("/fonts/Cardinal.ttf") format("truetype");
 }
 */
 
@@ -2257,7 +2277,7 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 
 #tourCockpit {
 	margin-left: 10px;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 #tourCockpit table{
@@ -2443,10 +2463,10 @@ body > #boite_b {
   margin: 20px;
   width: 300px;
   text-align: center;
-  border-radius: 10px; /* en css3 lui même */
-	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
-	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
-	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+  border-radius: 10px; /* en css3 lui m√™me */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
 }
 
 

@@ -15,7 +15,14 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		$this->chargementInBoxes = false;
 		$this->nomInterne = "box_competences";
 		$this->render = "interface/competences.phtml";
-		$this->titreOnglet = "Compétences";
+		
+		if ($this->view->user->pa_braldun > 1) {
+			$s = 's';
+		}
+		
+		$this->titreOnglet = '<span class="titrea textalic titreasizee">Action !</span> '.$this->view->user->pa_braldun.' Point';
+		
+		$this->titreOnglet .= " d'Action restant".$s;
 	}
 
 	function getTitreOnglet() {
@@ -43,24 +50,24 @@ class Bral_Box_Competences extends Bral_Box_Box {
 	}
 
 	function data() {
-		
+
 		Zend_Loader::loadClass("BraldunsCompetencesFavorites");
 		$favoritesTable = new BraldunsCompetencesFavorites();
 		$favoritesRowset = $favoritesTable->findByIdBraldun($this->view->user->id_braldun);
-		
+
 		$tabFavorites = array();
-		
+
 		if ($favoritesRowset != null) {
 			foreach($favoritesRowset as $f) {
 				$tabFavorites[] = $f["id_competence"];
-			}	
+			}
 		}
-		
+
 		$tabCompetences = null;
 		$this->view->nom_interne = $this->getNomInterne();
 
 		$tabCompetences["basiques"] = array(
-				//"nom_onglet" => "Compétences Basiques",
+		//"nom_onglet" => "Compétences Basiques",
 				"nom_onglet" => "Basique",
 				"nom_systeme_onglet" => "basiques",
 				"competences" => Bral_Util_Registre::get('competencesBasiques')
@@ -91,7 +98,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			}
 			if ($competence != null) {
 				$tabCompetences["communes"] = array(
-					//"nom_onglet" => "Compétences communes",
+				//"nom_onglet" => "Compétences communes",
 					"nom_onglet" => "Commune",
 					"nom_systeme_onglet" => "communes",
 					"competences" => $competence,

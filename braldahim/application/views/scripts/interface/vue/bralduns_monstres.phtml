@@ -131,11 +131,7 @@ endif;
 
 ?>
 
-<div class="braltip">
-
-<div id="vuedetails_bralduns-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
-<?php echo $textBraldun.$textMonstre.$textNid;?>
-</div>
+<div class="braltipd">
 
 <?php if ($case["n_nids"] > 0) : ?>
     <img src='<?php echo $this->config->url->static?>/images/vue/nid.png' style="position: absolute; top:-8px; left:0px;"/>
@@ -173,4 +169,5 @@ endif;
 <?php elseif ($case["n_bralduns"] > 0) : ?>
     <img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $sexe_braldun?><?php echo $soule_braldun?>.png' style="position: absolute;top:0px;left:6px;"/>
 <?php endif; ?>
-</div> 
+</div>
+<div class="tooltip"><?php echo $textBraldun.$textMonstre.$textNid;?></div> 

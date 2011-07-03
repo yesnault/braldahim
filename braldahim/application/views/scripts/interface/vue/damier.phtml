@@ -53,9 +53,16 @@ foreach($this->tableau as $k => $case) :
 		$col="ok"; ?>
 		<tr><td><?php echo $case["y"]?></td>
     <?php endif; ?>
-	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer" onClick="affDetailsClick();" onMouseout="affDetailsOut()" onMouseover="affDetails(<?php echo $case["x"]?>, <?php echo $case["y"]?>, <?php echo $case["z"]?>);">
-	
-	<div class="cases <?php echo $case["css_actuelle"]?>">
+	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' 
+	nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer"
+	 <?php if (Zend_Registry::get("estMobile")) : ?> 
+	 	onClick="affDetailsClick();"
+	 <?php else: ?> 
+		
+	<?php endif; ?>
+	>
+
+	<div id="vuetd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" class="cases <?php echo $case["css_actuelle"]?>">
 		<table class="cases <?php echo $case["css_actuelle"]?>">
 		<tr>
 		<td class="cases <?php echo $case["css_actuelle"]?>" <?php echo $adminDoubleClickEau?>><?php include('bralduns_monstres.phtml');ob_flush();?></td>
@@ -67,6 +74,7 @@ foreach($this->tableau as $k => $case) :
 		</tr>
 		</table>
 	</div>
+	
 	<?php
 	$case = null;
 	unset($this->tableau[$k]);

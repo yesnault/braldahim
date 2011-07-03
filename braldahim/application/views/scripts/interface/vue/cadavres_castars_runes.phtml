@@ -141,11 +141,7 @@ endif;
 
 ?>
 
-<div class="braltip">
-
-<div id="vuedetails_bg-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
-<?php echo $textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute;?>
-</div>
+<div class="braltipd">
 
 <?php
 if ($case["n_buissons"] > 0) :
@@ -179,3 +175,4 @@ if ($case["n_buissons"] > 0) :
 	endif;
 	?>
 </div>
+<div class="tooltip"><?php echo $textCorpBraldun.$textCadavre.$textCastar.$textRune.$textBuisson.$textRoute;?></div>

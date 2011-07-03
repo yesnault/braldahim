@@ -31,13 +31,12 @@ include('elements.phtml');
 if ($textCharrette != '' || $textElementsMateriels != '' || $textElementsEquipements != '' || $textElementsMunitions != '' || $textElementsMineraisBruts != '' 
 	|| $textElementsLingots != '' || $textElementsPartiesPlantesBrutes != '' || $textElementsPartiesPlantesPreparees != '' || $textElementsGraines != ''
 	|| $textElements != '' || $textElementsPotions != '' || $textElementsTabac != '' || $textElementsAliments != '') : ?>
-	<div class="braltip">
+	<div class="braltipd">
 	
-		<div id="vuedetails_bd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" style='display:none'>
-		<?php echo $textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsIngredients.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements;?>
-		</div>
 		<img src='<?php echo $this->config->url->static?>/images/vue/laban.png' />
 	</div>
 <?php else: ?>
 	&nbsp;
 <?php endif; ?>
+
+<div class="tooltip"><?php echo $textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsIngredients.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements;?></div>
