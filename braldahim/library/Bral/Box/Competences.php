@@ -16,13 +16,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		$this->nomInterne = "box_competences";
 		$this->render = "interface/competences.phtml";
 		
-		if ($this->view->user->pa_braldun > 1) {
-			$s = 's';
-		}
-		
-		$this->titreOnglet = '<span class="titrea textalic titreasizee">Action !</span> '.$this->view->user->pa_braldun.' Point';
-		
-		$this->titreOnglet .= " d'Action restant".$s;
+		$this->titreOnglet = '<span class="titrea textalic titreasized">Action !</span>';
 	}
 
 	function getTitreOnglet() {

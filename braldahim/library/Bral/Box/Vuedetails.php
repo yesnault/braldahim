@@ -8,7 +8,7 @@
 class Bral_Box_Vuedetails extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "Détails";
+		return "Blabla";
 	}
 
 	function getNomInterne() {
