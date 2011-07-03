@@ -118,7 +118,7 @@ if ($case['n_champs'] > 0) :
 endif; ?>
 
 <div class='braltipd'>
-<?php $detailsLieux = "";?>
+<?php $detailsLieux = $case['x'] . " / ". $case['y'];?>
 
 <?php if ($textPalissade != "") : 
 	$detailsLieux .= $textPalissade; ?>
