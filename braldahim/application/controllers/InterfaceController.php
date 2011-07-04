@@ -59,7 +59,8 @@ class InterfaceController extends Zend_Controller_Action {
 		if ($controleOk === true) {
 
 			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-			if ($this->view->user == null) { // dernier contrôle
+			if ($this->view->user == null) {
+				// dernier contrôle
 				$texte = " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
 				$this->_forward('logoutajax', 'auth');
@@ -122,7 +123,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$nomBox = $this->_request->get("box");
 		$box = Bral_Box_Factory::getBox($nomBox, $this->_request, $this->view, true);
 
-		if ($nomBox == "box_echoppes" || $nomBox == "box_echoppe") { // force render pour avoir htmlTri
+		if ($nomBox == "box_echoppes" || $nomBox == "box_echoppe") {
+			// force render pour avoir htmlTri
 			$xml_entry->set_data($box->render());
 		} else {
 			$xml_entry->set_box($box);
@@ -174,8 +176,10 @@ class InterfaceController extends Zend_Controller_Action {
 
 			$this->addBox(Bral_Box_Factory::getInterface($this->_request, $this->view, true), $boite_c);
 
-			//$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), $boite_c);
-			//$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
+			if ($this->view->estMobile) {
+				$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_c);
+				$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
+			}
 
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$braldunsMetiers = new BraldunsMetiers();
@@ -197,7 +201,7 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
 
 			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), $boite_c);
-				
+
 			if ($this->view->estMobile) {
 				$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);
 				$this->addBox(Bral_Box_Factory::getCarnet($this->_request, $this->view, false), $boite_c);

@@ -34,19 +34,20 @@ class Bral_Box_Interface extends Bral_Box_Box {
 	}
 
 	private function prepareData() {
-		$this->prepareOnglets();
+		if (!$this->view->estMobile) {
+			$this->prepareOnglets();
+		}
 	}
 
 	private function prepareOnglets() {
 		Zend_Loader::loadClass('Bral_Box_Box');
 		Zend_Loader::loadClass('Bral_Box_Factory');
 
-		
-		
 		//$tabBox[] = Bral_Box_Factory::getBlabla($this->_request, $this->view, true);
 		
-		$tabBox[] = Bral_Box_Factory::getVuedetails($this->_request, $this->view, true);
+		$tabBox[] = Bral_Box_Factory::getBlabla($this->_request, $this->view, true);
 		$tabBox[] = Bral_Box_Factory::getCompetences($this->_request, $this->view, false);
+		//$tabBox[] = Bral_Box_Factory::getVuedetails($this->_request, $this->view, true);
 		//$tabBox[] = Bral_Box_Factory::getBlabla($this->_request, $this->view, true);
 		//$tabBox[] = Bral_Box_Factory::getLieu($this->_request, $this->view, false);
 		//$tabBox[] = Bral_Box_Factory::getLaban($this->_request, $this->view, false);
@@ -90,7 +91,7 @@ class Bral_Box_Interface extends Bral_Box_Box {
 		$this->view->conteneur = "box_interface_boxes";
 		$this->view->onglets = $onglets;
 	}
-	
+
 	public function getTablesHtmlTri() {
 		$tab[] = "idCompetencesTable";
 		return $tab;

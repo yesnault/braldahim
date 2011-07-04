@@ -1478,75 +1478,9 @@ function chiffres(event, negatif) {
 	}
 }
 
-function affDetailsClick() {
-	// -1 : non fixée
-	// 1 : fixée
-	
-	if ($("#vueFixee").val() == 1) {
-		$("#vueFixee").val(-1);
-		$("#vueFixeeButton").hide();
-	} else {
-		$("#vueFixee").val(1);
-		
-		$("#vueFixeeButton").button({
-            icons: {
-                primary: "ui-icon-locked"
-            },
-            text: false
-        })
-		
-		$("#vueFixeeButton").show();
-	}
-	
-	my_switch("box_vuedetails","box_interface_boxes", "interface"); 
-}
-
-function vueFixeeButton() {
-	$("#vueFixee").val(-1);
-	$("#vueFixeeButton").hide();
-}
-
 function affDetails(x, y, z) {
 	id = x + '_' + y;
 	$('.braltipd').tooltip();
-
-}
-
-function affDetailsOLD(x, y, z) {
-	
-	$("#onglet_box_vuedetails").css('background-color', 'transparent');
-	
-	if ($("#vueFixee").val() == 1) {
-		return;
-	}
-	
-	// switch2div('box_vuedetails', 'box_interface_boxes');
-	id = x + '_' + y;
-	$('#vuedetails_interne').html('');
-	$('#vuedetails_interne').append($('#vuedetails_bralduns-' + id).html());
-	$('#vuedetails_interne').append($('#vuedetails_hd-' + id).html());
-	$('#vuedetails_interne').append($('#vuedetails_bg-' + id).html());
-	$('#vuedetails_interne').append($('#vuedetails_bd-' + id).html());
-	
-	if ($('#vuedetails_interne').html().trim() == '') {
-		$('#vuedetails_interne').append('<br />Rien de particulier à cet endroit');
-	}
-	
-	$('#vuedetails_interne').prepend("Position " + x + ", " + y + ", " + z + " <br />");
-	
-	$('#vuedetails_interne').append('<br /><br />');
-	
-	$('.butEntrer').button({
-        icons: {
-            primary: "ui-icon-arrowthickstop-1-e"
-        },
-        text: false
-    })
-    
-}
-
-function affDetailsOut() {
-	$("#onglet_box_vuedetails").css('background-color', $('#onglet_box_lieu').css('background-color'));
 }
 
 function tableauTriable(id) {
