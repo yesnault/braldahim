@@ -431,7 +431,7 @@ function _display_box(type, box, data) {
 		$('.braltipd').tooltip();
 	}
 	
-	if (box == 'box_competences' && $('#idCompetencesTable_filter').exists()) {
+	if ($('#idCompetencesTable_filter').exists()) {
 		var filtreCourant = $('#idCompetencesTable_filter input').val();
 		$('#filtre-competenceCourant').val(filtreCourant);
 	}
@@ -469,16 +469,6 @@ function prepareCockpit() {
         },
         text: false
 		})
-	}
-	
-	if ($('.butCompetences').exists()) {
-		$( ".butCompetences" ).button({
-        icons: {
-            primary: "ui-icon-play"
-        },
-        text: true
-		})
-		
 	}
 	
 	if ($('.butPersonnage').exists()) {
@@ -1575,7 +1565,6 @@ function tableauTriable(id) {
 	});
 	
 	if (id == "idCompetencesTable" && $('#'+id).exists()) {
-		
 		if ($('#filtre-competenceCourant').val() != '') {
 			$('#'+id).dataTable().fnFilter($('#filtre-competenceCourant').val());
 		} else if ($('#init-competencefavorite').val() == "true") {
