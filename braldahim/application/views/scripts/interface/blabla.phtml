@@ -1,5 +1,5 @@
 <?php include("box_header.phtml") ?>
-<?php if (!Zend_Registry::get("estMobile")) : ?>
+<?php if (Zend_Registry::get("estMobile")) : ?>
 <div class="inner">
   <div class="contenuC">
     <div class="box_contenu1 textalic">
@@ -9,7 +9,7 @@
 			<?php include("blabla/messages.phtml") ?>
 			</div>
 			<br /><br />
-<?php if (!Zend_Registry::get("estMobile")) : ?>			
+<?php if (Zend_Registry::get("estMobile")) : ?>			
  	</div>
    </div>
  </div>
