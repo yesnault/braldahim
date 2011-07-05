@@ -387,6 +387,7 @@ function _display_box(type, box, data) {
 		if ($("#loaded_box_vue").val() != "1") {
 			_get_('/interface/load/?box=box_vue');
 		}
+		_get_('/interface/load/?box=box_competences');
 	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu' 
 		|| box == 'box_titres' || box == 'box_messagerie' 
 			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre' 
@@ -426,9 +427,10 @@ function _display_box(type, box, data) {
 		$("#loaded_"+box).val(1);
 	}
 	
-	
 	if (box == "box_vue") {
-		$('.braltipd').tooltip();
+		$('.braltipd').tooltip({
+		  position:'top right',
+		  offset: [0, -64]});
 	}
 	
 	if ($('#idCompetencesTable_filter').exists()) {
@@ -1485,7 +1487,6 @@ function affDetails(x, y, z) {
 
 function tableauTriable(id) {
 	
-	
 	$('#'+id).dataTable({
 		"bJQueryUI": true,
 		"oLanguage": {
@@ -1495,6 +1496,7 @@ function tableauTriable(id) {
 			"sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
 			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
 			"sSearch": "Filtre",
+			
 		}
 	});
 	
@@ -1509,6 +1511,20 @@ function tableauTriable(id) {
 	
 }
 
+function isDataTable ( nTable )
+{
+	var settings = $.fn.dataTableSettings;
+	for ( var i=0, iLen=settings.length ; i<iLen ; i++ )
+	{
+		alert('T:'+settings[i].nTable);
+		if ( settings[i].nTable == nTable )
+		{
+			alert('TRUE');
+			return true;
+		}
+	}
+	return false;
+}
 
 
 

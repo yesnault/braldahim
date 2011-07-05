@@ -19,7 +19,7 @@
  Zend_Loader::loadClass("Bral_Helper_Profil") ;
  echo Bral_Helper_Profil::afficheBarreTour($this->user)?>
  <?php endif;?>
- <br />
+
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Favorite')">Favorites</span>  -
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Basique')">Basiques</span> - 
  <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('Commune')">Communes</span> - 
@@ -102,6 +102,11 @@
 		<?php endif; ?>
 	</tbody>
 </table>
+
+<br>
+<?php if (!Zend_Registry::get("estMobile")) : ?>
+	<?php echo $this->blabla ?>
+<?php endif;?>
 
  <?php else: ?>
 	Chargement en cours

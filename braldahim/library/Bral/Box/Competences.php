@@ -38,6 +38,15 @@ class Bral_Box_Competences extends Bral_Box_Box {
 	function render() {
 		if ($this->view->affichageInterne || $this->chargementInBoxes === true) {
 			$this->data();
+			
+			if (!$this->view->estMobile) {
+				Zend_Loader::loadClass('Bral_Util_Blabla');
+				$backFlag = $this->view->affichageInterne;
+				$this->view->affichageInterne = true;
+				$this->view->blabla = Bral_Util_Blabla::render($this->view);
+				$this->view->affichageInterne = $backFlag;
+			}
+			
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render($this->render);

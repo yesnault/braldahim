@@ -1,13 +1,17 @@
 <?php include("box_header.phtml") ?>
+<?php if (!Zend_Registry::get("estMobile")) : ?>
 <div class="inner">
   <div class="contenuC">
     <div class="box_contenu1 textalic">
+<?php endif;?>
 			<div id='box_blabla'>
 			<span class="titre textalia textsizec">Le Bla bla...</span>
 			<?php include("blabla/messages.phtml") ?>
 			</div>
 			<br /><br />
+<?php if (!Zend_Registry::get("estMobile")) : ?>			
  	</div>
    </div>
  </div>
+<?php endif;?>
 <?php include("box_bottom.phtml") ?>
