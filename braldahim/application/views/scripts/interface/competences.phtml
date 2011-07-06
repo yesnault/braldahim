@@ -44,12 +44,21 @@
  endforeach;
  endif;
  ?>
+ <br /><br /> PA :
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('0 PA')">0,</span> 
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('1 PA')">1,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('2 PA')">2,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('3 PA')">3,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('4 PA')">4,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('5 PA')">5,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('6 PA')">6,</span>
+ <span class="alabel" onClick="Javascript:$('#idCompetencesTable').dataTable().fnFilter('8 PA')">8</span>
  
   <input type='hidden' id='init-competencefavorite' name='init-competencefavorite' value='<?php if ($this->favorites == null || count($this->favorites) <= 0) : echo "false"; else: echo "true"; endif;?>'>
   <input type='hidden' id='nb_valeurs-competencefavorite' name='nb_valeurs-competencefavorite' value='1'>
   <input type='hidden' id='valeur_1-competencefavorite' name='valeur_1-competencefavorite' value='-1'><br />
 	 
-  <br /> <br />
+  <br /> 
  	
  	<table class="table_liste" style="width:100%" id="idCompetencesTable">
 	<thead class="table_liste">
