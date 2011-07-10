@@ -1,4 +1,21 @@
 <span class="texte textalia" >	<a class="titre textalia textsizef"  onclick="javascript:ouvrirWin('/voir/vue/')";>Vue &eacute;tendue</a> - Cliquez sur une case pour fixer les informations à droite</span>
+
+<?php if ($this->estSurLieu === true) : ?>
+	<div class="text surlieu">
+	Vous êtes actuellement sur un lieu particulier<button class="butEntrer" title="Cliquer pour accéder directement au lieu" onclick="Javascript:_get_('/interface/load/?box=box_lieu');" title="Entrez">Entrez</button>
+	</div>
+<?php elseif ($this->estSurEchoppe === true) : ?>
+	<div class="text surlieu">
+		Vous êtes actuellement sur une échoppe
+		<button class="butEntrer" title="Cliquer pour accéder directement à l'échoppe" onclick="Javascript:_get_('/interface/load/?box=box_lieu');" title="Entrez">Entrez</button>
+	</div>
+<?php elseif ($this->estSurChamp === true) : ?>
+	<div class="text surlieu">
+		Vous êtes actuellement sur un champ
+		<button class="butEntrer" title="Cliquer pour accéder directement au champ" onclick="Javascript:_get_('/interface/load/?box=box_lieu');" title="Entrez">Entrez</button>
+	</div>
+<?php endif;?>
+
 <table class='vue2d' align='center'>
      <?php 
      

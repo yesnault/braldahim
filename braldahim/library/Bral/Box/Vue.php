@@ -311,6 +311,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$utilMarcher = new Bral_Util_Marcher();
 			$marcher = $utilMarcher->calcul($this->view->user);
 		}
+		
+		$estSurLieu = false;
+		$estSurEchoppe = false;
+		$estSurChamp = false;
 
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
@@ -422,6 +426,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								}
 								$tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier'=> $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
 							}
+							
+							if ($this->view->user->x_braldun == $e['x_echoppe'] && $this->view->user->y_braldun == $e['y_echoppe']) {
+								$estSurEchoppe = true;
+							}
 						}
 					}
 
@@ -429,6 +437,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($champs as $e) {
 							if ($display_x == $e['x_champ'] && $display_y == $e['y_champ']) {
 								$tabChamps[] = array('id_champ' => $e['id_champ'], 'nom_champ' => $e['nom_champ'], 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
+							}
+							
+							if ($this->view->user->x_braldun == $e['x_champ'] && $this->view->user->y_braldun == $e['y_champ']) {
+								$estSurChamp = true;
 							}
 						}
 					}
@@ -618,6 +630,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								$tabLieux[] = array('id_lieu' => $l['id_lieu'], 'nom_lieu' => $l['nom_lieu'], 'nom_type_lieu' => $l['nom_type_lieu'], 'nom_systeme_type_lieu' => $l['nom_systeme_type_lieu']);
 								$lieuCourant = $l;
 								$estLimiteVille = false;
+							}
+							if ($this->view->user->x_braldun == $l['x_lieu'] && $this->view->user->y_braldun == $l['y_lieu']) {
+								$estSurLieu = true;
 							}
 						}
 					}
@@ -884,6 +899,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($zones);
 
 		$this->view->tableau = $tableau;
+		$this->view->estSurLieu = $estSurLieu;
+		$this->view->estSurEchoppe = $estSurEchoppe;
+		$this->view->estSurChamp = $estSurChamp;
+		
 		unset($tableau);
 	}
 }

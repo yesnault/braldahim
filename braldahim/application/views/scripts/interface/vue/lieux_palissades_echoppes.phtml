@@ -39,10 +39,6 @@ if ($case['n_lieux'] > 0) :
       	if ($this->user->administrationvue == true) {
        		$textLieu .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
       	}
-      	
-	    if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
-		}
 	}
 	 
 	if ($textLieu != "") {
@@ -68,10 +64,6 @@ if ($case['n_echoppes'] > 0) :
 		$textEchoppe .= '</label>';
 		if ($this->estVueEtendue == false) {
 			$textEchoppe .= ' <img src=\''.$this->config->url->static.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
-		}
-		
-		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 		
       	$textEchoppe .= '<br />';
@@ -104,10 +96,6 @@ if ($case['n_champs'] > 0) :
 			$textChamp .= ' <img src=\''.$this->config->url->static.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
 		}
 		
-		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
-		}
-	
       	$textChamp .= '<br />';
 	}
 	

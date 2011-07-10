@@ -1776,6 +1776,12 @@ lightbox
     padding : 5px;	
 }
 
+.surlieu {
+    background: #31401A;
+    padding-left:20px;
+    margin:20px;
+}
+
 .bralannonce a {
 	color:#1F2614;
 }
