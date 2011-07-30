@@ -47,10 +47,11 @@ class Bral_Batchs_Communautes extends Bral_Batchs_Batch {
 			// Les deux premiers jours de la lune, on vérifie l'entretien, sinon non
 			// Si l'age est < 2j, on revérifie la date d'entretien des bâtiments pour la réentrance
 			if ($moonAge > 2) { // Lune > 2 jours
-				Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - exit, ageLune:".$moonAge);
-				return $retour;
+				Bral_Util_Log::batchs()->notice("Bral_Batchs_Communaute - calculEntretien - pas d'entretien, ageLune:".$moonAge);
+			} else {
+				$retour .= $this->calculEntretien($communaute);
 			}
-			$retour .= $this->calculEntretien($communaute);
+			// dans tous les cas, on calcul les points d'influence
 			$retour .= $this->calculPointsInfluence($communaute);
 		}
 
