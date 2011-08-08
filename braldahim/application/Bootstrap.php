@@ -1,17 +1,15 @@
 <?php
 
-class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
-{
+class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
-	public function run()
-	{
+	public function run() {
 		Zend_Registry::set('config', new Zend_Config($this->getOptions()));
 
 		$registry = Zend_Registry::getInstance();
 		$config = new Zend_Config_Ini('../application/configs/config.ini', 'general');
 		$registry->set('config', $config);
 
-        date_default_timezone_set('Europe/Paris');
+		date_default_timezone_set('Europe/Paris');
 
 		if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.local" || $_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
 			Zend_Registry::set('estMobile', true);
@@ -32,7 +30,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		}
 
 		Bral_Util_Registre::chargement();
-		srand((double) microtime() * 1000000);
+		srand((double)microtime() * 1000000);
 
 		parent::run();
 	}

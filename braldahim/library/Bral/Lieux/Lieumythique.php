@@ -20,7 +20,7 @@ class Bral_Lieux_Lieumythique extends Bral_Lieux_Lieu {
 			$typeDistinctionTable = new TypeDistinction();
 			$distinction = $typeDistinctionTable->findByIdFkTypeLieu($this->view->idLieu);
 			if ($distinction == null) {
-				throw new Zend_Exception("Lieu Mythique invalide:".$this->view->idLieu);
+				throw new Zend_Exception("Lieu Mythique invalide:" . $this->view->idLieu);
 			} else {
 				$this->_distinction = $distinction;
 				$this->view->nom_distinction = $distinction->nom_type_distinction;
@@ -37,6 +37,10 @@ class Bral_Lieux_Lieumythique extends Bral_Lieux_Lieu {
 		Bral_Util_Distinction::ajouterDistinction($this->view->user->id_braldun, $this->_distinction->id_type_distinction, $this->_distinction->nom_type_distinction);
 
 		$this->majBraldun();
+		
+		Zend_Loader::loadClass("Bral_Util_Tracemail");
+		Bral_Util_Tracemail::traite("Nouvelle distinction Lieu Mythique pour " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ") : " . $this->_distinction->nom_type_distinction, $this->view, "Distinction Lieu Mythique");
+
 	}
 
 	function getListBoxRefresh() {
