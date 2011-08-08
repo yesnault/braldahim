@@ -71,13 +71,7 @@ foreach($this->tableau as $k => $case) :
 		<tr><td><?php echo $case["y"]?></td>
     <?php endif; ?>
 	<td class='vue2d <?php echo $case["css"] ?> <?php echo $case["css_actuelle"]?>' 
-	nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer"
-	 <?php if (Zend_Registry::get("estMobile")) : ?> 
-	 	onClick="affDetailsClick();"
-	 <?php else: ?> 
-		
-	<?php endif; ?>
-	>
+	nowrap title="<?php echo $case["x"]. "," . $case["y"]." ".$textVille?>" style="cursor:pointer">
 
 	<div id="vuetd-<?php echo $case["x"]?>_<?php echo $case["y"]?>" class="cases <?php echo $case["css_actuelle"]?>">
 		<table class="cases <?php echo $case["css_actuelle"]?>">

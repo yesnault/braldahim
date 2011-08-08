@@ -11,6 +11,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$config = new Zend_Config_Ini('../application/configs/config.ini', 'general');
 		$registry->set('config', $config);
 
+        date_default_timezone_set('Europe/Paris');
+
 		Zend_Layout::startMvc($config->layout);
 
 		parent::run();

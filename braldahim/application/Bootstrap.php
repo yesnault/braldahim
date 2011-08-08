@@ -11,6 +11,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$config = new Zend_Config_Ini('../application/configs/config.ini', 'general');
 		$registry->set('config', $config);
 
+        date_default_timezone_set('Europe/Paris');
+
 		if ($_SERVER['SERVER_NAME'] == "mobile.braldahim.local" || $_SERVER['SERVER_NAME'] == "mobile.braldahim.com" || $_SERVER['SERVER_NAME'] == "iphone.braldahim.com") {
 			Zend_Registry::set('estMobile', true);
 		} else {
