@@ -248,7 +248,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM3_TYPE == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("TypeMonstre");
 			$typeMonstreTable = new TypeMonstre();
-			$types = $typeMonstreTable->fetchAll();
+			$types = $typeMonstreTable->fetchAllQuete();
 			$deType = Bral_Util_De::get_de_specifique(0, count($types) - 1);
 			$dataTypeEtape["param4"] = $types[$deType]["id_type_monstre"];
 			$dataTypeEtape["libelle_etape"] .= " de type ".$types[$deType]["nom_type_monstre"];
