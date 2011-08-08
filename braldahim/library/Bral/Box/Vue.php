@@ -271,11 +271,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($regionTable);
 		$routeTable = new Route();
-		if ($this->view->user->administrationvue === true) {
+		/*if ($this->view->user->administrationvue === true) {
 			$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position, 'toutes');
 		} else {
-			$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
-		}
+
+		}*/
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($routeTable);
 		$souleMatchTable = new SouleMatch();
 		$souleMatch = $souleMatchTable->selectBallonVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
