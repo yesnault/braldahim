@@ -34,6 +34,16 @@ class TypeMonstre extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	public function fetchAllQuete() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_monstre', '*')
+		->where('est_dans_quete_type_monstre = ?', "oui");
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 
 	public function fetchAllByTypeGroupe($typeGroupeMonstre) {
 		$db = $this->getAdapter();
@@ -44,5 +54,7 @@ class TypeMonstre extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	
 
 }
