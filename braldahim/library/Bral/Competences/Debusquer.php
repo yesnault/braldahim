@@ -22,11 +22,11 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
-		if ($this->view->user->z_braldun !=0) {
-			throw new Zend_Exception(get_class($this)." Debusquer disponible qu'au niveau 0. Niveau Actuel:".$this->view->user->z_braldun);
+		if ($this->view->user->z_braldun != 0) {
+			throw new Zend_Exception(get_class($this) . " Debusquer disponible qu'au niveau 0. Niveau Actuel:" . $this->view->user->z_braldun);
 		}
 
 		// calcul des jets
@@ -49,7 +49,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 
 		$typesMonstre = $typeMonstreTable->fetchAllByTypeGroupe($this->view->config->game->groupe_monstre->type->gibier);
 		if ($typesMonstre == null || count($typesMonstre) < 1) {
-			throw new Zend_Exception(get_class($this)." Type Monstre Gibier invalide");
+			throw new Zend_Exception(get_class($this) . " Type Monstre Gibier invalide");
 		}
 		$deType = Bral_Util_De::get_de_specifique(1, count($typesMonstre)) - 1;
 		$typeGibier = $typesMonstre[$deType];
@@ -97,7 +97,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$y_monstre = $this->view->user->y_braldun + $aleaY;
 
 		$surPalissade = true;
-		while($surPalissade) {
+		while ($surPalissade) {
 			$nb = $palissadeTable->countCase($x_monstre, $y_monstre);
 			if ($nb < 1) {
 				$surPalissade = false;
@@ -143,8 +143,8 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$zoneNid = $zoneNidTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		if (count($zoneNid) != 1 && $this->view->user->est_soule_braldun == 'non') {
-			throw new Zend_Exception(" Debusquer Zone Nid Invalide idZoneNid:x".$this->view->user->x_braldun." y:".$this->view->user->y_braldun." z:".$this->view->user->z_braldun);
-		} elseif($this->view->user->est_soule_braldun == 'oui') {
+			throw new Zend_Exception(" Debusquer Zone Nid Invalide idZoneNid:x" . $this->view->user->x_braldun . " y:" . $this->view->user->y_braldun . " z:" . $this->view->user->z_braldun);
+		} elseif ($this->view->user->est_soule_braldun == 'oui') {
 			Zend_Loader::loadClass("SouleTerrain");
 			$souleTerrainTable = new SouleTerrain();
 			$terrainRowset = $souleTerrainTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun);
@@ -155,7 +155,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 				$yMax = $terrainRowset[0]["y_max_soule_terrain"] - 1;
 				$idZone = 1;
 			} else {
-				throw new Zend_Exception(" Debusquer terrain invalide:x".$this->view->user->x_braldun." y:".$this->view->user->y_braldun." z:".$this->view->user->z_braldun);
+				throw new Zend_Exception(" Debusquer terrain invalide:x" . $this->view->user->x_braldun . " y:" . $this->view->user->y_braldun . " z:" . $this->view->user->z_braldun);
 			}
 		} else {
 			$zoneNid = $zoneNid[0];
@@ -207,9 +207,9 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$monstreTable = new Monstre();
 		$id_monstre = $monstreTable->insert($data);
 		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = "[b".$this->view->user->id_braldun."] a débusqué [m".$id_monstre."]";
-		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $details, "", 0,"braldun");
-		Bral_Util_Evenement::majEvenements($id_monstre, $id_type, $details, "", 0,"monstre");
+		$details = "[b" . $this->view->user->id_braldun . "] a débusqué [m" . $id_monstre . "]";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $details, "", 0, "braldun");
+		Bral_Util_Evenement::majEvenements($id_monstre, $id_type, $details, "", 0, "monstre");
 	}
 
 	/*
@@ -221,20 +221,20 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	private function calculTaille() {
 		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
-		$chance_a = -0.5625 * $maitrise + 55.625 ;
-		$chance_b = 0.125 * $maitrise + 38.75 ;
-		$chance_c = 0.3125 * $maitrise + 1.875 ;
-		$chance_d = 0.125 * $maitrise + 3.75 ;
+		$chance_a = -0.5625 * $maitrise + 55.625;
+		$chance_b = 0.125 * $maitrise + 38.75;
+		$chance_c = 0.3125 * $maitrise + 1.875;
+		$chance_d = 0.125 * $maitrise + 3.75;
 
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM AGI/2)+1.
 		 */
-		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ) + 1;
+		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2) + 1;
 
 		if ($n < 1) $n = 1;
 		$tirage = 0;
 
-		for ($i = 1; $i <= $n; $i ++) {
+		for ($i = 1; $i <= $n; $i++) {
 			$tirageTemp = Bral_Util_De::get_1d100();
 			if ($tirageTemp > $tirage) {
 				$tirage = $tirageTemp;
@@ -371,7 +371,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			$environnement = $zone["nom_systeme_environnement"];
 		}
 
-		switch($environnement) {
+		switch ($environnement) {
 			case "marais":
 			case "montagne":
 				$retour = -1;
@@ -385,7 +385,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 				$retour = 1;
 				break;
 			default :
-				throw new Exception("Debusquer Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_braldun." y=".$this->view->user->y_braldun);
+				throw new Exception("Debusquer Environnement invalide:" . $zone["nom_systeme_environnement"] . " x=" . $this->view->user->x_braldun . " y=" . $this->view->user->y_braldun);
 		}
 
 		return $retour;

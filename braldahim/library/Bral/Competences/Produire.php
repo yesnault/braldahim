@@ -28,12 +28,13 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 8, strlen($this->nom_systeme) - 8);
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun &&
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == $metier &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->produireEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -58,18 +59,18 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$typeMaterielTable = new TypeMateriel();
 		$typeMaterielsRowset = $typeMaterielTable->findByIdMetier($this->getIdMetier());
 		$tabTypeMateriel = null;
-		foreach($typeMaterielsRowset as $t) {
+		foreach ($typeMaterielsRowset as $t) {
 			$selected = "";
 			if ($id_type_courant == $t["id_type_materiel"]) {
 				$selected = "selected";
 			}
 			$t = array(
 				'id_type_materiel' => $t["id_type_materiel"],
-				'nom_type_materiel' =>$t["nom_type_materiel"],
-				'capacite' => $t["capacite_type_materiel"], 
-				'durabilite' => $t["durabilite_type_materiel"], 
-				'usure' => $t["usure_type_materiel"], 
-				'poids' => $t["poids_type_materiel"], 
+				'nom_type_materiel' => $t["nom_type_materiel"],
+				'capacite' => $t["capacite_type_materiel"],
+				'durabilite' => $t["durabilite_type_materiel"],
+				'usure' => $t["usure_type_materiel"],
+				'poids' => $t["poids_type_materiel"],
 				'selected' => $selected,
 				'nom_systeme_type_materiel' => $t["nom_systeme_type_materiel"],
 				'durabilite_type_materiel' => $t["durabilite_type_materiel"],
@@ -101,14 +102,14 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			$recetteCoutTable = new RecetteMaterielCout();
 			$recetteCout = $recetteCoutTable->findByIdTypeMateriel($typeMaterielCourant["id_type_materiel"]);
 
-			foreach($recetteCout as $r) {
+			foreach ($recetteCout as $r) {
 				if ($r["cuir_recette_materiel_cout"] > 0) {
 					$ok = "oui";
 					if ($r["cuir_recette_materiel_cout"] > $echoppeCourante["quantite_cuir_arriere_echoppe"]) {
 						$ressourcesOk = false;
 						$ok = "non";
 					}
-					$tabCout[] = array("nom" => "Cuir", "nom_systeme"=>"cuir", "cout" => $r["cuir_recette_materiel_cout"], "ressourcesOk" => $ok);
+					$tabCout[] = array("nom" => "Cuir", "nom_systeme" => "cuir", "cout" => $r["cuir_recette_materiel_cout"], "ressourcesOk" => $ok);
 
 				}
 				if ($r["fourrure_recette_materiel_cout"] > 0) {
@@ -117,7 +118,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 						$ressourcesOk = false;
 						$ok = "non";
 					}
-					$tabCout[] = array("nom" => "Fourrure", "nom_systeme"=>"fourrure", "cout" => $r["fourrure_recette_materiel_cout"], "ressourcesOk" => $ok);
+					$tabCout[] = array("nom" => "Fourrure", "nom_systeme" => "fourrure", "cout" => $r["fourrure_recette_materiel_cout"], "ressourcesOk" => $ok);
 
 				}
 				if ($r["planche_recette_materiel_cout"] > 0) {
@@ -131,7 +132,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 						$ressourcesOk = false;
 						$ok = "non";
 					}
-					$tabCout[] = array("nom" => $nom, "nom_systeme"=>"planche", "cout" => $r["planche_recette_materiel_cout"], "ressourcesOk" => $ok);
+					$tabCout[] = array("nom" => $nom, "nom_systeme" => "planche", "cout" => $r["planche_recette_materiel_cout"], "ressourcesOk" => $ok);
 				}
 			}
 
@@ -141,10 +142,10 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			$echoppeMineraiTable = new EchoppeMinerai();
 			$this->echoppeMinerai = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
 
-			foreach($recetteCoutMinerai as $r) {
+			foreach ($recetteCoutMinerai as $r) {
 				if ($r["quantite_lingot_recette_materiel_cout_minerai"] > 0) {
 					$ressourceMinerai = false;
-					foreach($this->echoppeMinerai as $m) {
+					foreach ($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $r["id_type_minerai"]) {
 							if ($r["quantite_lingot_recette_materiel_cout_minerai"] <= $m["quantite_lingots_echoppe_minerai"]) {
 								$ressourceMinerai = true;
@@ -160,10 +161,10 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 						$ok = "non";
 					}
 					$tabCout[] = array(
-						"nom" => $r["nom_type_minerai"], 
-						"nom_systeme"=> "minerai",
-						"id_type_minerai" => $r["id_type_minerai"], 
-						"cout" => $r["quantite_lingot_recette_materiel_cout_minerai"], 
+						"nom" => $r["nom_type_minerai"],
+						"nom_systeme" => "minerai",
+						"id_type_minerai" => $r["id_type_minerai"],
+						"cout" => $r["quantite_lingot_recette_materiel_cout_minerai"],
 						"unite" => "lingot",
 						"ressourcesOk" => $ok,
 					);
@@ -190,10 +191,10 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 				}
 			}
 
-			foreach($recetteCoutPlante as $r) {
+			foreach ($recetteCoutPlante as $r) {
 				$ok = "non";
 				$ressourcePlante = false;
-				if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]][$r["id_fk_type_partieplante_recette_materiel_cout_plante"]]["quantite_preparees"])) ) {
+				if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]][$r["id_fk_type_partieplante_recette_materiel_cout_plante"]]["quantite_preparees"]))) {
 					if ($r["quantite_recette_materiel_cout_plante"] <= $tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]][$r["id_fk_type_partieplante_recette_materiel_cout_plante"]]["quantite_preparees"]) {
 						$ressourcePlante = true;
 						$ok = "oui";
@@ -201,17 +202,17 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 				} else {
 					$ressourcePlante = false;
 				}
-					
+
 				if ($ressourcePlante == false) {
 					$ressourcesOk = false;
 					$ok = "non";
 				}
 				$tabCout[] = array(
-					"nom" => $r["nom_type_plante"], 
-					"nom_systeme"=> "plante", 
-					"id_type_plante" => $r["id_type_plante"], 
-					"id_type_partieplante" => $r["id_type_partieplante"], 
-					"unite" => $r["nom_type_partieplante"], 
+					"nom" => $r["nom_type_plante"],
+					"nom_systeme" => "plante",
+					"id_type_plante" => $r["id_type_plante"],
+					"id_type_partieplante" => $r["id_type_partieplante"],
+					"unite" => $r["nom_type_partieplante"],
 					"cout" => $r["quantite_recette_materiel_cout_plante"],
 					"ressourcesOk" => $ok,
 				);
@@ -237,18 +238,18 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification produire
 		if ($this->view->produireEchoppeOk == false) {
-			throw new Zend_Exception(get_class($this)." Produire Echoppe interdit ");
+			throw new Zend_Exception(get_class($this) . " Produire Echoppe interdit ");
 		}
 
 		$idTypeMateriel = (int)$this->request->get("valeur_1");
 
 		if ($idTypeMateriel != $this->view->typeMaterielCourant["id_type_materiel"]) {
-			throw new Zend_Exception(get_class($this)." idTypeMateriel interdit A=".$idTypeMateriel. " B=".$this->view->typeMaterielCourant["id_type_materiel"]);
+			throw new Zend_Exception(get_class($this) . " idTypeMateriel interdit A=" . $idTypeMateriel . " B=" . $this->view->typeMaterielCourant["id_type_materiel"]);
 		}
 
 		// calcul des jets
@@ -308,7 +309,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$echoppeMaterielTable->insert($dataEchoppe);
 
 		Zend_Loader::loadClass("Bral_Util_Materiel");
-		$details = "[b".$this->view->user->id_braldun."] a produit le matériel n°".$idMateriel;
+		$details = "[b" . $this->view->user->id_braldun . "] a produit le matériel n°" . $idMateriel;
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_CREATION_ID, $idMateriel, $details);
 
 		$this->view->id_materiel_cree = $idMateriel;
@@ -324,7 +325,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 
 		$echoppeMineraiTable = new EchoppeMinerai();
 
-		foreach($this->view->cout as $c) {
+		foreach ($this->view->cout as $c) {
 			switch ($c["nom_systeme"]) {
 				case "cuir" :
 					$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = $this->echoppeCourante["quantite_cuir_arriere_echoppe"] - floor($c["cout"] / $coef);
@@ -346,31 +347,31 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 					break;
 				case "minerai" :
 					if (!isset($c["id_type_minerai"])) {
-						throw new Zend_Exception(get_class($this)." Minerai inconnu ".$c["nom_systeme"]);
+						throw new Zend_Exception(get_class($this) . " Minerai inconnu " . $c["nom_systeme"]);
 					}
-					foreach($this->echoppeMinerai as $m) {
+					foreach ($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
 							$quantite = $m["quantite_lingots_echoppe_minerai"] - floor($c["cout"] / $coef);
 							if ($quantite < 0) {
 								$quantite = 0;
 							}
 							$data = array('quantite_lingots_echoppe_minerai' => $quantite);
-							$where = 'id_fk_type_echoppe_minerai = '. $c["id_type_minerai"];
-							$where .= ' AND id_fk_echoppe_echoppe_minerai='.$this->echoppeCourante["id_echoppe"];
+							$where = 'id_fk_type_echoppe_minerai = ' . $c["id_type_minerai"];
+							$where .= ' AND id_fk_echoppe_echoppe_minerai=' . $this->echoppeCourante["id_echoppe"];
 							$echoppeMineraiTable->update($data, $where);
 						}
 					}
 					break;
 				case "plante" :
 					$echoppePartiePlanteTable = new EchoppePartieplante();
-					$data = array('quantite_preparee_echoppe_partieplante' => - floor($c["cout"] / $coef),
-						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
-						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
-						  'id_fk_echoppe_echoppe_partieplante' => $this->echoppeCourante["id_echoppe"]);
+					$data = array('quantite_preparee_echoppe_partieplante' => -floor($c["cout"] / $coef),
+								  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+								  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+								  'id_fk_echoppe_echoppe_partieplante' => $this->echoppeCourante["id_echoppe"]);
 					$echoppePartiePlanteTable->insertOrUpdate($data);
 					break;
 				default :
-					throw new Zend_Exception(get_class($this)." Type inconnu ".$c["nom_systeme"]);
+					throw new Zend_Exception(get_class($this) . " Type inconnu " . $c["nom_systeme"]);
 			}
 		}
 
@@ -381,7 +382,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
 			'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
 		);
-		$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
+		$echoppeTable->update($data, 'id_echoppe = ' . $this->echoppeCourante["id_echoppe"]);
 	}
 
 	public function getIdEchoppeCourante() {

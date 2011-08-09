@@ -30,12 +30,13 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 		$this->view->nbArriereRondin = 0;
 
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == "menuisier" &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun && 
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == "menuisier" &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->decouperEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -78,21 +79,21 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->decouperEchoppeOk == false || $this->view->decouperPlancheOk == false) {
-			throw new Zend_Exception(get_class($this)." decouper interdit ");
+			throw new Zend_Exception(get_class($this) . " decouper interdit ");
 		}
 
-		if ((int)$this->request->get("valeur_1")."" != $this->request->get("valeur_1")."") {
-			throw new Zend_Exception(get_class($this)." Nombre invalide");
+		if ((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "") {
+			throw new Zend_Exception(get_class($this) . " Nombre invalide");
 		} else {
 			$nombre = (int)$this->request->get("valeur_1");
 		}
 
 		if ($nombre < 0 || $nombre > $this->view->nbRondinsMax) {
-			throw new Zend_Exception(get_class($this)." Nombre invalide b");
+			throw new Zend_Exception(get_class($this) . " Nombre invalide b");
 		}
 
 		// calcul des jets
@@ -114,7 +115,7 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 		$this->view->quantitePlanches = 0;
 
-		for($j = 1; $j <= $nb; $j++) {
+		for ($j = 1; $j <= $nb; $j++) {
 			$tirage = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 			$tirage = $tirage + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
@@ -127,9 +128,9 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 		$echoppeTable = new Echoppe();
 		$data = array(
-				'id_echoppe' => $this->idEchoppe,
-				'quantite_rondin_arriere_echoppe' => -$nb,
-				'quantite_planche_arriere_echoppe' => $this->view->quantitePlanches,
+			'id_echoppe' => $this->idEchoppe,
+			'quantite_rondin_arriere_echoppe' => -$nb,
+			'quantite_planche_arriere_echoppe' => $this->view->quantitePlanches,
 		);
 		$echoppeTable->insertOrUpdate($data);
 

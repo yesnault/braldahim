@@ -44,11 +44,11 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->nbRuneOk == false) {
-			throw new Zend_Exception(get_class($this)." Demandeidentificationrune : pas de rune");
+			throw new Zend_Exception(get_class($this) . " Demandeidentificationrune : pas de rune");
 		}
 
 		$idRune = intval($this->request->get("valeur_1"));
@@ -60,7 +60,7 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 		// on regarde si la rune choisie fait bien partie des runes a identifier
 		$runeValide = false;
 		$rune = null;
-		foreach($this->view->runes as $r) {
+		foreach ($this->view->runes as $r) {
 			if ($r["id_rune"] == $idRune) {
 				$rune = $r;
 				$runeValide = true;
@@ -68,7 +68,7 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 			}
 		}
 		if ($runeValide == false || $rune == null) {
-			throw new Zend_Exception(get_class($this)." Demandeidentificationrune B : rune invalide:".$idRune);
+			throw new Zend_Exception(get_class($this) . " Demandeidentificationrune B : rune invalide:" . $idRune);
 		}
 
 		$this->calcul($rune, $idBraldun);
@@ -78,20 +78,20 @@ class Bral_Competences_Demandeidentificationrune extends Bral_Competences_Compet
 		Zend_Loader::loadClass("LabanRune");
 		$labanRuneTable = new LabanRune();
 		$data["id_fk_braldun_identification_laban_rune"] = $idBraldun;
-		$where = 'id_rune_laban_rune = '.$rune["id_rune"];
+		$where = 'id_rune_laban_rune = ' . $rune["id_rune"];
 		$labanRuneTable->update($data, $where);
 
 		$runes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, 'non', null, true, $rune["id_rune"]);
 		if (count($runes) != 1) {
-			throw new Zend_Exception(get_class($this)." Demandeidentificationrune C : rune invalide:".$rune["id_rune"]);
+			throw new Zend_Exception(get_class($this) . " Demandeidentificationrune C : rune invalide:" . $rune["id_rune"]);
 		}
 		$this->view->rune = $runes[0];
 
 		if ($idBraldun != null) {
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = "[Ceci est un message automatique de demande d'identification de rune]".PHP_EOL;
-			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " vous a proposé d'identifier la rune n°".$rune["id_rune"]." présente dans son laban.".PHP_EOL;
-			$message .= "Vous pouvez tenter une identification de cette rune en utilisant la compétence \"Identification des runes\"".PHP_EOL;
+			$message = "[Ceci est un message automatique de demande d'identification de rune]" . PHP_EOL;
+			$message .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " vous a proposé d'identifier la rune n°" . $rune["id_rune"] . " présente dans son laban." . PHP_EOL;
+			$message .= "Vous pouvez tenter une identification de cette rune en utilisant la compétence \"Identification des runes\"" . PHP_EOL;
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idBraldun, $message, $this->view);
 		}
 	}

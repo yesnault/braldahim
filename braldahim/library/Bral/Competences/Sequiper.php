@@ -31,22 +31,23 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$affiche = "oui";
 			$position = "gauche";
 			if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
-			$t["nom_systeme_type_emplacement"] == "mains" ||
-			$t["nom_systeme_type_emplacement"] == "maingauche" ||
-			$t["nom_systeme_type_emplacement"] == "maindroite") {
+				$t["nom_systeme_type_emplacement"] == "mains" ||
+				$t["nom_systeme_type_emplacement"] == "maingauche" ||
+				$t["nom_systeme_type_emplacement"] == "maindroite"
+			) {
 				$affiche = "non";
 				$position = "droite";
 			}
 
 			if ($t["est_equipable_type_emplacement"] == "oui") {
 				$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
-						"nom_type_emplacement" => $t["nom_type_emplacement"],
-						"id_type_emplacement" => $t["id_type_emplacement"],
-						"ordre_emplacement" => $t["ordre_emplacement"],
-						"equipementPorte" => null,
-						"equipementLaban" => null,
-						"affiche" => $affiche,
-						"position" => $position,
+					"nom_type_emplacement" => $t["nom_type_emplacement"],
+					"id_type_emplacement" => $t["id_type_emplacement"],
+					"ordre_emplacement" => $t["ordre_emplacement"],
+					"equipementPorte" => null,
+					"equipementLaban" => null,
+					"affiche" => $affiche,
+					"position" => $position,
 				);
 			}
 		}
@@ -92,16 +93,16 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification sequiper
 		if ($this->view->sequiperOk == false) {
-			throw new Zend_Exception(get_class($this)." Sequiper interdit ");
+			throw new Zend_Exception(get_class($this) . " Sequiper interdit ");
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Equipement invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Equipement invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idEquipement = (int)$this->request->get("valeur_1");
 		}
@@ -128,7 +129,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($destination == "") {
-			throw new Zend_Exception(get_class($this)." Equipement interdit :" + $idEquipement);
+			throw new Zend_Exception(get_class($this) . " Equipement interdit :" + $idEquipement);
 		}
 
 		// calcul des jets
@@ -138,9 +139,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 
 		if ($destination == "porte") {
-			$details = "[b".$this->view->user->id_braldun."] a mis une pièce d'équipement";
+			$details = "[b" . $this->view->user->id_braldun . "] a mis une pièce d'équipement";
 		} else {
-			$details = "[b".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
+			$details = "[b" . $this->view->user->id_braldun . "] a enlevé une pièce d'équipement";
 		}
 		$this->setDetailsEvenement($details, $this->view->config->game->evenements->type->competence);
 
@@ -156,13 +157,15 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				foreach ($this->equipementPorte as $p) {
 					if ($equipement["nom_systeme_type_emplacement"] == "deuxmains") {
 						if ($p["nom_systeme_type_emplacement"] == "maingauche" ||
-						$p["nom_systeme_type_emplacement"] == "maindroite" ||
-						$p["nom_systeme_type_emplacement"] == "deuxmains") {
+							$p["nom_systeme_type_emplacement"] == "maindroite" ||
+							$p["nom_systeme_type_emplacement"] == "deuxmains"
+						) {
 							$this->calculTransfertVersLaban($p);
 							$this->calculRetireEffet($p);
 						}
 					} else if (($equipement["nom_systeme_type_emplacement"] == "maingauche" || $equipement["nom_systeme_type_emplacement"] == "maindroite")
-					&& $p["nom_systeme_type_emplacement"] == "deuxmains") {
+							   && $p["nom_systeme_type_emplacement"] == "deuxmains"
+					) {
 						$this->calculTransfertVersLaban($p);
 						$this->calculRetireEffet($p);
 					} else if ($equipement["id_type_emplacement"] == $p["id_type_emplacement"]) {
@@ -191,13 +194,13 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$braldunEquipementTable->insert($data);
 
 		$labanEquipementTable = new LabanEquipement();
-		$where = "id_laban_equipement=".$equipement["id_equipement"];
+		$where = "id_laban_equipement=" . $equipement["id_equipement"];
 		$labanEquipementTable->delete($where);
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeEquiper($this->view->user, $equipement["id_type_emplacement"]);
 
-		$details = "[b".$this->view->user->id_braldun."] a mis une pièce d'équipement";
+		$details = "[b" . $this->view->user->id_braldun . "] a mis une pièce d'équipement";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 
@@ -212,10 +215,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$labanEquipementTable->insert($data);
 
 		$braldunEquipementTable = new BraldunEquipement();
-		$where = "id_equipement_hequipement=".$equipement["id_equipement"];
+		$where = "id_equipement_hequipement=" . $equipement["id_equipement"];
 		$braldunEquipementTable->delete($where);
 
-		$details = "[b".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
+		$details = "[b" . $this->view->user->id_braldun . "] a enlevé une pièce d'équipement";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 
@@ -243,9 +246,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$this->view->user->bm_degat_braldun = intval($this->view->user->bm_degat_braldun + $b["vernis_bm_degat_equipement_bonus"]);
 			$this->view->user->bm_defense_braldun = intval($this->view->user->bm_defense_braldun + $b["vernis_bm_defense_equipement_bonus"]);
 		}
-			
+
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
-			foreach($equipement["runes"] as $r) {
+			foreach ($equipement["runes"] as $r) {
 				if ($r["nom_type_rune"] == "KR") {
 					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
 					$this->view->user->agilite_bm_braldun = $this->view->user->agilite_bm_braldun + floor($this->view->user->agilite_base_braldun / 3);
@@ -341,7 +344,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
-			foreach($equipement["runes"] as $r) {
+			foreach ($equipement["runes"] as $r) {
 				if ($r["nom_type_rune"] == "KR") {
 					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
 					$this->view->user->agilite_bm_braldun = $this->view->user->agilite_bm_braldun - floor($this->view->user->agilite_base_braldun / 3);
@@ -410,23 +413,23 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	private function majBraldunEffet() {
 		$braldunTable = new Braldun();
 		$data = array(
-				'vue_bm_braldun' => $this->view->user->vue_bm_braldun,
-				'force_bm_braldun' => $this->view->user->force_bm_braldun,
-				'agilite_bm_braldun' => $this->view->user->agilite_bm_braldun,
-				'vigueur_bm_braldun' => $this->view->user->vigueur_bm_braldun,
-				'sagesse_bm_braldun' => $this->view->user->sagesse_bm_braldun,
-				'vue_bm_braldun' => $this->view->user->vue_bm_braldun,
-				'armure_naturelle_braldun' => $this->view->user->armure_naturelle_braldun,
-				'armure_equipement_braldun' => $this->view->user->armure_equipement_braldun,
-				'poids_transportable_braldun' => $this->view->user->poids_transportable_braldun,
-				'duree_prochain_tour_braldun' => $this->view->user->duree_prochain_tour_braldun,
-				'pv_max_bm_braldun' => $this->view->user->pv_max_bm_braldun,
-				'bm_attaque_braldun' => $this->view->user->bm_attaque_braldun,
-				'bm_degat_braldun' => $this->view->user->bm_degat_braldun,
-				'bm_defense_braldun' => $this->view->user->bm_defense_braldun,
-				'duree_bm_tour_braldun' => $this->view->user->duree_bm_tour_braldun,
+			'vue_bm_braldun' => $this->view->user->vue_bm_braldun,
+			'force_bm_braldun' => $this->view->user->force_bm_braldun,
+			'agilite_bm_braldun' => $this->view->user->agilite_bm_braldun,
+			'vigueur_bm_braldun' => $this->view->user->vigueur_bm_braldun,
+			'sagesse_bm_braldun' => $this->view->user->sagesse_bm_braldun,
+			'vue_bm_braldun' => $this->view->user->vue_bm_braldun,
+			'armure_naturelle_braldun' => $this->view->user->armure_naturelle_braldun,
+			'armure_equipement_braldun' => $this->view->user->armure_equipement_braldun,
+			'poids_transportable_braldun' => $this->view->user->poids_transportable_braldun,
+			'duree_prochain_tour_braldun' => $this->view->user->duree_prochain_tour_braldun,
+			'pv_max_bm_braldun' => $this->view->user->pv_max_bm_braldun,
+			'bm_attaque_braldun' => $this->view->user->bm_attaque_braldun,
+			'bm_degat_braldun' => $this->view->user->bm_degat_braldun,
+			'bm_defense_braldun' => $this->view->user->bm_defense_braldun,
+			'duree_bm_tour_braldun' => $this->view->user->duree_bm_tour_braldun,
 		);
-		$where = "id_braldun=".$this->view->user->id_braldun;
+		$where = "id_braldun=" . $this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
 	}
 

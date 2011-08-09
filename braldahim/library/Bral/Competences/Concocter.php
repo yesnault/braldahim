@@ -26,12 +26,13 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			$this->view->nbPlantesMax = 1;
 		}
 
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == "apothicaire" &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun && 
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == "apothicaire" &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->concocterEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;
@@ -91,31 +92,32 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification concocter
 		if ($this->view->concocterEchoppeOk == false || $this->view->concocterPlanteOk == false) {
-			throw new Zend_Exception(get_class($this)." Concocter interdit ");
+			throw new Zend_Exception(get_class($this) . " Concocter interdit ");
 		}
 
 		$indicateur = $this->request->get("valeur_1");
-		if ($indicateur == null ) {
-			throw new Zend_Exception(get_class($this)." Plante inconnue ");
+		if ($indicateur == null) {
+			throw new Zend_Exception(get_class($this) . " Plante inconnue ");
 		}
 
-		if ((int)$this->request->get("valeur_2")."" != $this->request->get("valeur_2")."") {
-			throw new Zend_Exception(get_class($this)." Nombre invalide");
+		if ((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "") {
+			throw new Zend_Exception(get_class($this) . " Nombre invalide");
 		} else {
 			$nombre = (int)$this->request->get("valeur_2");
 		}
 
 		if ($nombre < 0 || $nombre > $this->view->nbPlantesMax) {
-			throw new Zend_Exception(get_class($this)." Nombre invalide b");
+			throw new Zend_Exception(get_class($this) . " Nombre invalide b");
 		}
 
-		$planteOk = false;;
-		foreach($this->view->partiesPlantes as $t) {
+		$planteOk = false;
+		;
+		foreach ($this->view->partiesPlantes as $t) {
 			if ($t["indicateur"] == $indicateur) {
 				$planteOk = true;
 				$this->view->planteNomType = $t["nom_type"];
@@ -129,7 +131,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			}
 		}
 		if ($planteOk == false) {
-			throw new Zend_Exception(get_class($this)." Plante invalide");
+			throw new Zend_Exception(get_class($this) . " Plante invalide");
 		}
 
 		// calcul des jets
@@ -148,14 +150,14 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 	private function calculConcocter($idTypePartiePlante, $idTypePlante, $nb) {
 
 		$this->view->nbPartiesPlantesPreparees = 0;
-		
-		for($j = 1; $j <= $nb; $j++) {
-			
+
+		for ($j = 1; $j <= $nb; $j++) {
+
 			$tirage = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $this->view->user->agilite_base_braldun);
 			$tirage = $tirage + $this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun;
 
 			$tirage2 = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $this->view->user->agilite_base_braldun);
-			
+
 			if ($tirage > $tirage2) {
 				$this->view->nbPartiesPlantesPreparees = $this->view->nbPartiesPlantesPreparees + 1;
 			}
@@ -170,7 +172,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			'quantite_arriere_echoppe_partieplante' => -$nb,
 		);
 		$echoppePlanteTable->insertOrUpdate($data);
-		
+
 		$this->view->nbPlantesUtilisees = $nb;
 	}
 

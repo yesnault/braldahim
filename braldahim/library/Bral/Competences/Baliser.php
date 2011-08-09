@@ -54,7 +54,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			$this->environnement = $case["nom_systeme_environnement"];
 			$this->view->environnement = $case["nom_environnement"];
 		} else {
-			throw new Zend_Exception(get_class($this)."::calculNbPa : Nombre de case invalide");
+			throw new Zend_Exception(get_class($this) . "::calculNbPa : Nombre de case invalide");
 		}
 		unset($zone);
 
@@ -89,11 +89,11 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->construireOk == false) {
-			throw new Zend_Exception(get_class($this)." Baliser interdit");
+			throw new Zend_Exception(get_class($this) . " Baliser interdit");
 		}
 
 		$bmJet1 = 0;
@@ -103,15 +103,15 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 			if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
-				throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
+				throw new Zend_Exception(get_class($this) . " Deplacement X impossible : " . $offset_x);
 			}
 
 			if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
-				throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
+				throw new Zend_Exception(get_class($this) . " Deplacement Y impossible : " . $offset_y);
 			}
 
 			if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-				throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
+				throw new Zend_Exception(get_class($this) . " Deplacement XY impossible : " . $offset_x . $offset_y);
 			}
 			$bmJet1 = -10;
 		}
@@ -137,7 +137,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 	private function calculDecouverteRoute() {
 		$routeTable = new Route();
 		$data = array("est_visible_route" => "oui");
-		$where = "id_route = ".$this->view->route["id_route"];
+		$where = "id_route = " . $this->view->route["id_route"];
 		$routeTable->update($data, $where);
 		$this->view->routeTrouvee = true;
 	}
@@ -146,9 +146,9 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
-		$chance_a = -0.375 * $maitrise + 53.75 ;
-		$chance_b = 0.25 * $maitrise + 42.5 ;
-		$chance_c = 0.125 * $maitrise + 3.75 ;
+		$chance_a = -0.375 * $maitrise + 53.75;
+		$chance_b = 0.25 * $maitrise + 42.5;
+		$chance_c = 0.125 * $maitrise + 3.75;
 
 		$tirage = Bral_Util_De::get_1d100();
 
@@ -174,7 +174,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nbJours);
 
 		$data = array(
-			"x_route"  => $this->view->user->x_braldun,
+			"x_route" => $this->view->user->x_braldun,
 			"y_route" => $this->view->user->y_braldun,
 			"z_route" => $this->view->user->z_braldun,
 			"id_fk_braldun_route" => $this->view->user->id_braldun,
@@ -190,7 +190,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("StatsRoutes");
 		$statsRoutes = new StatsRoutes();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataRoutes["niveau_braldun_stats_routes"] = $this->view->user->niveau_braldun;
 		$dataRoutes["id_fk_braldun_stats_routes"] = $this->view->user->id_braldun;
 		$dataRoutes["mois_stats_routes"] = date("Y-m-d", $moisEnCours);
@@ -241,7 +241,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 	private function estEnvironnementValid($environnement) {
 		$retour = false;
-		switch($environnement) {
+		switch ($environnement) {
 			case "plaine" :
 			case "marais" :
 			case "montagne" :
@@ -252,7 +252,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 				$retour = false;
 				break;
 			default:
-				throw new Zend_Exception(get_class($this)."::environnement invalide :".$environnement);
+				throw new Zend_Exception(get_class($this) . "::environnement invalide :" . $environnement);
 		}
 		return $retour;
 	}

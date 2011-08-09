@@ -76,7 +76,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$ingredientsRecetteRowset = $recetteAlimentsTable->findByIdTypeAliment(TypeAliment::ID_TYPE_LAGER);
 
 		if ($ingredientsRecetteRowset == null || count($ingredientsRecetteRowset) < 0) {
-			throw new Zend_Exception("Erreur recette aliment".TypeAliment::ID_TYPE_LAGER);
+			throw new Zend_Exception("Erreur recette aliment" . TypeAliment::ID_TYPE_LAGER);
 		}
 
 		$tabSources = null;
@@ -110,10 +110,10 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 				$tabSources["laban"]["ingredients"] = $ingredients;
 				*/
 		}
-			
+
 		$tabIngredients = null;
 		$poidsIngredients = 0;
-		foreach($ingredientsRecetteRowset as $i) {
+		foreach ($ingredientsRecetteRowset as $i) {
 			$tabIngredients[] = array(
 				'nom_type_ingredient' => $i["nom_type_ingredient"],
 				'id_type_ingredient' => $i["id_type_ingredient"],
@@ -129,16 +129,16 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 	private function controleIngredientsDispo(&$tabSources, $idTypeIngredient, $quantite) {
 		if ($tabSources != null && count($tabSources) > 0) {
-			foreach($tabSources as $k => $v) {
+			foreach ($tabSources as $k => $v) {
 				if ($tabSources[$k]["possible"] === true) {
 					if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
 						$ingredientOk = false;
-						foreach($tabSources[$k]["ingredients"] as $i) {
+						foreach ($tabSources[$k]["ingredients"] as $i) {
 							$prefix = $k;
 							if ($k == "echoppe") {
 								$prefix = "arriere_echoppe";
 							}
-							if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
+							if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_" . $prefix . "_ingredient"] >= $quantite) {
 								$ingredientOk = true;
 							}
 						}
@@ -156,7 +156,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 		$uneSourceOk = false;
 		if ($this->view->sources != null && count($this->view->sources) > 0) {
-			foreach($this->view->sources as $s) {
+			foreach ($this->view->sources as $s) {
 				if ($s["possible"] == true) {
 					$uneSourceOk = true;
 				}
@@ -173,12 +173,12 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
 		if ($this->view->sourceOk == false) {
-			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO ");
+			throw new Zend_Exception(get_class($this) . " Cuisiner interdit source KO ");
 		}
 
 		$idSource = $this->request->get("valeur_1");
@@ -192,7 +192,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		}
 
 		if ($sourceOk == false) {
-			throw new Zend_Exception(get_class($this)." Brasser interdit source KO B idSource:".$idSource);
+			throw new Zend_Exception(get_class($this) . " Brasser interdit source KO B idSource:" . $idSource);
 		}
 
 		$this->idSource = $idSource;
@@ -205,7 +205,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		}
 
 		if ($destinationOk == false) {
-			throw new Zend_Exception(get_class($this)." Brasser interdit destination KO idDestination:".$idDestination);
+			throw new Zend_Exception(get_class($this) . " Brasser interdit destination KO idDestination:" . $idDestination);
 		}
 		$this->idDestination = $idDestination;
 
@@ -296,7 +296,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$tabBase["y_element_aliment"] = $this->view->user->y_braldun;
 			$tabBase["z_element_aliment"] = $this->view->user->z_braldun;
 		} else {
-			throw new Zend_Exception("creationAliment::Source invalide:".$idDestination);
+			throw new Zend_Exception("creationAliment::Source invalide:" . $idDestination);
 		}
 
 		Zend_Loader::loadClass("ElementAliment");
@@ -338,11 +338,11 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$elementAlimentTable->insert($data);
 
 			if ($i <= $this->view->nbBieresDestination) {
-				$where = "id_element_aliment = ".(int)$idAliment;
+				$where = "id_element_aliment = " . (int)$idAliment;
 				$elementAlimentTable->delete($where);
 
 				$data = $tabBase;
-				$data['id_'.$prefix.'_aliment'] = $idAliment;
+				$data['id_' . $prefix . '_aliment'] = $idAliment;
 				$table->insert($data);
 			}
 		}
@@ -367,16 +367,16 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$table = new LabanIngredient();
 			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 		} else {
-			throw new Zend_Exception("retireIngredients::Source invalide:".$idSource);
+			throw new Zend_Exception("retireIngredients::Source invalide:" . $idSource);
 		}
 
-		foreach($this->view->ingredients as $i) {
+		foreach ($this->view->ingredients as $i) {
 			$quantite = -$i["quantite_recette_aliments"];
 			if ($estRate) {
 				$quantite = floor($quantite / 2);
 			}
-			$data["id_fk_type_".$prefix."_ingredient"] = $i["id_type_ingredient"];
-			$data["quantite_".$prefix2.$prefix."_ingredient"] = $quantite;
+			$data["id_fk_type_" . $prefix . "_ingredient"] = $i["id_type_ingredient"];
+			$data["quantite_" . $prefix2 . $prefix . "_ingredient"] = $quantite;
 			$table->insertOrUpdate($data);
 		}
 	}
@@ -409,7 +409,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			} elseif ($this->idTypeAliment == TypeAliment::ID_TYPE_STOUT) {
 				$gain = 4;
 			} else {
-				throw new Zend_Exception("Calcul gain invalide:idTypeAliment:".$idTypeAliment);
+				throw new Zend_Exception("Calcul gain invalide:idTypeAliment:" . $idTypeAliment);
 			}
 			$this->view->nb_px_perso = $this->competence["px_gain"] + $gain;
 		} else {

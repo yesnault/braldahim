@@ -39,7 +39,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$typeAlimentTable = new TypeAliment();
 		$typeAlimentsRowset = $typeAlimentTable->findAllByType('manger');
 		$tabTypeAliment = null;
-		foreach($typeAlimentsRowset as $t) {
+		foreach ($typeAlimentsRowset as $t) {
 			$selected = "";
 			if ($idTypeCourant == $t["id_type_aliment"]) {
 				$selected = "selected";
@@ -72,7 +72,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$ingredientsRecetteRowset = $recetteAlimentsTable->findByIdTypeAliment($this->view->typeAlimentCourant["id_type_aliment"]);
 
 		if ($ingredientsRecetteRowset == null || count($ingredientsRecetteRowset) < 0) {
-			throw new Zend_Exception("Erreur recette aliment".$this->view->typeAlimentCourant["id_type_aliment"]);
+			throw new Zend_Exception("Erreur recette aliment" . $this->view->typeAlimentCourant["id_type_aliment"]);
 		}
 
 		Zend_Loader::loadClass("RecetteAlimentsPotions");
@@ -139,7 +139,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		$tabIngredients = null;
 		$poidsIngredients = 0;
-		foreach($ingredientsRecetteRowset as $i) {
+		foreach ($ingredientsRecetteRowset as $i) {
 			$tabIngredients[] = array(
 				'nom_type_ingredient' => $i["nom_type_ingredient"],
 				'id_type_ingredient' => $i["id_type_ingredient"],
@@ -155,7 +155,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				throw new Zend_Exception('Erreur parametrage nb potion');
 			}
 
-			foreach($potionsRecetteRowset as $i) {
+			foreach ($potionsRecetteRowset as $i) {
 				$tabPotions[] = array(
 					'nom_type_potion' => $i['nom_type_potion'],
 					'id_type_potion' => $i['id_type_potion'],
@@ -173,16 +173,16 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	private function controleIngredientsDispo(&$tabSources, $idTypeIngredient, $quantite) {
-		foreach($tabSources as $k => $v) {
+		foreach ($tabSources as $k => $v) {
 			if ($tabSources[$k]["possible"] === true) {
 				if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
 					$ingredientOk = false;
-					foreach($tabSources[$k]["ingredients"] as $i) {
+					foreach ($tabSources[$k]["ingredients"] as $i) {
 						$prefix = $k;
 						if ($k == "echoppe") {
 							$prefix = "arriere_echoppe";
 						}
-						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
+						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_" . $prefix . "_ingredient"] >= $quantite) {
 							$ingredientOk = true;
 						}
 					}
@@ -195,11 +195,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	private function controlePotionsDispo(&$tabSources, $idTypePotion) {
-		foreach($tabSources as $k => $v) {
+		foreach ($tabSources as $k => $v) {
 			if ($tabSources[$k]["possible"] === true) {
 				if ($tabSources[$k]["potions"] != null && count($tabSources[$k]["potions"]) > 0) {
 					$ingredientOk = false;
-					foreach($tabSources[$k]["potions"] as $i) {
+					foreach ($tabSources[$k]["potions"] as $i) {
 						if ($i["id_type_potion"] == $idTypePotion) {
 							$potionOk = true;
 						}
@@ -253,7 +253,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	private function controleSource() {
 
 		$uneSourceOk = false;
-		foreach($this->view->sources as $s) {
+		foreach ($this->view->sources as $s) {
 			if ($s["possible"] == true) {
 				$uneSourceOk = true;
 			}
@@ -275,12 +275,12 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
 		if ($this->view->sourceOk == false) {
-			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO ");
+			throw new Zend_Exception(get_class($this) . " Cuisiner interdit source KO ");
 		}
 
 		$idTypeAliment = (int)$this->request->get("valeur_1");
@@ -288,7 +288,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$idDestination = $this->request->get("valeur_3");
 
 		if ($idTypeAliment != $this->view->typeAlimentCourant["id_type_aliment"]) {
-			throw new Zend_Exception(get_class($this)." idTypeAliment interdit A=".$idTypeAliment. " B=".$this->view->typeAlimentCourant["id_type_aliment"]);
+			throw new Zend_Exception(get_class($this) . " idTypeAliment interdit A=" . $idTypeAliment . " B=" . $this->view->typeAlimentCourant["id_type_aliment"]);
 		}
 
 		if ($this->view->recetteAvecPotion === true) {
@@ -311,11 +311,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 
 		if ($sourceOk == false) {
-			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO B idSource:".$idSource);
+			throw new Zend_Exception(get_class($this) . " Cuisiner interdit source KO B idSource:" . $idSource);
 		}
 
 		if ($this->view->recetteAvecPotion === true && $sourceOkPotion === false) {
-			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO Potion $idPotion:".$idPotion);
+			throw new Zend_Exception(get_class($this) . " Cuisiner interdit source KO Potion $idPotion:" . $idPotion);
 		}
 
 		$this->idSource = $idSource;
@@ -328,7 +328,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 
 		if ($destinationOk == false) {
-			throw new Zend_Exception(get_class($this)." Cuisiner interdit destination KO idDestination:".$idDestination);
+			throw new Zend_Exception(get_class($this) . " Cuisiner interdit destination KO idDestination:" . $idDestination);
 		}
 		$this->idDestination = $idDestination;
 
@@ -397,18 +397,18 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
 			$this->appliqueQuintuple();
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[b".$this->view->user->id_braldun."] cuisine un banquet pour tous ses confrères.";
+			$details = "[b" . $this->view->user->id_braldun . "] cuisine un banquet pour tous ses confrères.";
 			$this->setDetailsEvenement($details, $idType);
 		} else {
 			$this->creationAliment($idDestination, $idSource, $idPotion);
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[b".$this->view->user->id_braldun."] a cuisiné";
+			$details = "[b" . $this->view->user->id_braldun . "] a cuisiné";
 			$this->setDetailsEvenement($details, $idType);
 		}
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
@@ -439,16 +439,16 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$data["id_fk_braldun_laban_ingredient"] = $this->view->user->id_braldun;
 			$prefix2 = $prefix;
 		} else {
-			throw new Zend_Exception("retireIngredients::Source invalide:".$idSource);
+			throw new Zend_Exception("retireIngredients::Source invalide:" . $idSource);
 		}
 
-		foreach($this->view->ingredients as $i) {
+		foreach ($this->view->ingredients as $i) {
 			$quantite = -$i["quantite_recette_aliments"];
 			if ($estRate) {
 				$quantite = floor($quantite / 2);
 			}
-			$data["id_fk_type_".$prefix."_ingredient"] = $i["id_type_ingredient"];
-			$data["quantite_".$prefix2."_ingredient"] = $quantite;
+			$data["id_fk_type_" . $prefix . "_ingredient"] = $i["id_type_ingredient"];
+			$data["quantite_" . $prefix2 . "_ingredient"] = $quantite;
 			$table->insertOrUpdate($data);
 		}
 	}
@@ -456,20 +456,20 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	private function calculQualite() {
 		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
-		$chance_a = -0.375 * $maitrise + 53.75 ;
-		$chance_b = 0.25 * $maitrise + 42.5 ;
-		$chance_c = 0.125 * $maitrise + 3.75 ;
+		$chance_a = -0.375 * $maitrise + 53.75;
+		$chance_b = 0.25 * $maitrise + 42.5;
+		$chance_c = 0.125 * $maitrise + 3.75;
 
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
 		 */
-		$n = (($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun) / 2 ) + 1;
+		$n = (($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun) / 2) + 1;
 
 		if ($n < 1) $n = 1;
 
 		$tirage = 0;
 
-		for ($i = 1; $i <= $n; $i ++) {
+		for ($i = 1; $i <= $n; $i++) {
 			$tirageTemp = Bral_Util_De::get_1d100();
 			if ($tirageTemp > $tirage) {
 				$tirage = $tirageTemp;
@@ -506,7 +506,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		} elseif ($typeBbdf == 'quintuple') {
 			$base = 60;
 		} else {
-			throw new Zend_Exception('typeBddf invalide:'.$typeBbdf);
+			throw new Zend_Exception('typeBddf invalide:' . $typeBbdf);
 		}
 
 		$bm = Bral_Util_De::get_de_specifique(0, 5);
@@ -545,7 +545,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$tabBase["y_element_aliment"] = $this->view->user->y_braldun;
 			$tabBase["z_element_aliment"] = $this->view->user->z_braldun;
 		} else {
-			throw new Zend_Exception("creationAliment::Source invalide:".$idDestination);
+			throw new Zend_Exception("creationAliment::Source invalide:" . $idDestination);
 		}
 
 		$elementAlimentTable = new ElementAliment();
@@ -561,7 +561,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$potion = null;
 		if ($this->view->recetteAvecPotion == true) {
 			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
-			foreach($this->view->sources[$idSource]["potions"] as $p) {
+			foreach ($this->view->sources[$idSource]["potions"] as $p) {
 				if ($idPotion == $p["id_potion"] && $p["id_type_potion"] == $this->view->idPotionIngredient) {
 
 					$potion = $p;
@@ -574,7 +574,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$listAliments = "";
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$idAliment = $idsAliment->prepareNext();
-			$listAliments .= $idAliment.", "; 
+			$listAliments .= $idAliment . ", ";
 			$idEffetBraldun = null;
 			if ($potion != null) {
 				$idEffetBraldun = Bral_Util_Effets::ajouteEtAppliqueEffetBraldun(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
@@ -602,11 +602,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$elementAlimentTable->insert($data);
 
 			if ($i <= $this->view->nbAlimentDestination) {
-				$where = "id_element_aliment = ".(int)$idAliment;
+				$where = "id_element_aliment = " . (int)$idAliment;
 				$elementAlimentTable->delete($where);
 
 				$data = $tabBase;
-				$data['id_'.$prefix.'_aliment'] = $idAliment;
+				$data['id_' . $prefix . '_aliment'] = $idAliment;
 				$table->insert($data);
 			}
 		}
@@ -627,15 +627,15 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$prefix = "laban";
 			$table = new LabanPotion();
 		} else {
-			throw new Zend_Exception("creationAliment::Source invalide:".$idSource);
+			throw new Zend_Exception("creationAliment::Source invalide:" . $idSource);
 		}
 
-		$where = 'id_'.$prefix.'_potion = '.$potion["id_potion"];
+		$where = 'id_' . $prefix . '_potion = ' . $potion["id_potion"];
 		$table->delete($where);
 
 		Zend_Loader::loadClass('Potion');
 		$potionTable = new Potion();
-		$where = 'id_potion = '.$potion["id_potion"];
+		$where = 'id_potion = ' . $potion["id_potion"];
 		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
 		$potionTable->update($data, $where);
 		$this->view->idPotion = $potion["id_potion"];
@@ -648,19 +648,19 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		$braldunTable = new Braldun();
 		$tabBraldun = null;
-		foreach($bralduns as $h) {
+		foreach ($bralduns as $h) {
 			$idTypeEvenement = $this->view->config->game->evenements->type->effet;
 			if ($this->view->user->id_braldun != $h["id_braldun"]) {
-				$details = "[b".$h["id_braldun"]."] s'empresse de manger une bonne assiette de pot au feu offert par [b".$this->view->user->id_braldun."]";
-				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
+				$details = "[b" . $h["id_braldun"] . "] s'empresse de manger une bonne assiette de pot au feu offert par [b" . $this->view->user->id_braldun . "]";
+				$detailsBot = "Balance de faim : +" . $this->view->bbdfAliment . " %";
 				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
 			} else {
 				$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $this->view->bbdfAliment;
 				if ($this->view->user->balance_faim_braldun > 100) {
 					$this->view->user->balance_faim_braldun = 100;
 				}
-				$details = "[b".$h["id_braldun"]."] s'empresse de manger une bonne assiette de son pot au feu";
-				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
+				$details = "[b" . $h["id_braldun"] . "] s'empresse de manger une bonne assiette de son pot au feu";
+				$detailsBot = "Balance de faim : +" . $this->view->bbdfAliment . " %";
 				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
 				$this->view->balanceFaimUtilisee = false;
 			}
@@ -670,7 +670,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($data["balance_faim_braldun"] > 100) {
 				$data["balance_faim_braldun"] = 100;
 			}
-			$where = "id_braldun = ".$h["id_braldun"];
+			$where = "id_braldun = " . $h["id_braldun"];
 			$braldunTable->update($data, $where);
 		}
 
@@ -692,7 +692,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		} elseif ($typeBbdf == 'quintuple') {
 			$retour = "Quintuple";
 		} else {
-			throw new Zend_Exception('Erreut type typeBbdf:'.$typeBbdf);
+			throw new Zend_Exception('Erreut type typeBbdf:' . $typeBbdf);
 		}
 		return $retour;
 	}

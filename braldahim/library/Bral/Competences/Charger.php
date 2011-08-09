@@ -45,7 +45,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		$armeTirPortee = false;
 		$braldunEquipement = new BraldunEquipement();
-		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
+		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun, "arme_tir");
 
 		$this->view->possedeCharrette = false;
 		$this->view->chargerPossible = false;
@@ -60,10 +60,10 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		} else if ($nombreCharrette <= 0) {
 			$this->view->chargerPossible = true;
 		} else if ($nombreCharrette > 1) {
-			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_braldun);
+			throw new Zend_Exception(get_class($this) . " NB Charrette invalide idh:" . $this->view->user->id_braldun);
 		}
 
-		if (count($equipementPorteRowset) > 0){
+		if (count($equipementPorteRowset) > 0) {
 			$armeTirPortee = true;
 		} else if ($this->view->user->est_intangible_braldun == "non") {
 			$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_braldun / 3) + 1;
@@ -78,15 +78,15 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			//En bosquet un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 			if ($environnement == "montagne" || $environnement == "marais") {
-				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
+				$this->view->charge_nb_cases = $this->view->charge_nb_cases - 2;
 			} elseif ($nombreBosquets > 1) {
-				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
-			} 
+				$this->view->charge_nb_cases = $this->view->charge_nb_cases - 1;
+			}
 
 			$eauTable = new Eau();
 			$eaux = $eauTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-			if ( count ($eaux) >= 1 ) {
-				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 3;
+			if (count($eaux) >= 1) {
+				$this->view->charge_nb_cases = $this->view->charge_nb_cases - 3;
 			}
 
 			//minimum de distance de charge à 1 case dans tous les cas
@@ -111,8 +111,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 			$tabValide = null;
 			$numero = -1;
-			for ($j = $y_max ; $j >= $y_min ; $j--) {
-				for ($i = $x_min ; $i <= $x_max ; $i++) {
+			for ($j = $y_max; $j >= $y_min; $j--) {
+				for ($i = $x_min; $i <= $x_max; $i++) {
 					$numero++;
 					$tabValide[$i][$j] = true;
 					if ($dijkstra->getDistance($numero) > $this->view->charge_nb_cases) {
@@ -130,12 +130,13 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 			if ($estRegionPvp ||
-			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
+				$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0
+			) {
 				// recuperation des bralduns qui sont presents sur la vue
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
 
-				foreach($bralduns as $h) {
+				foreach ($bralduns as $h) {
 					if ($tabValide[$h["x_braldun"]][$h["y_braldun"]] === true) {
 						$tab = array(
 							'id_braldun' => $h["id_braldun"],
@@ -149,7 +150,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 								$tabBralduns[] = $tab;
 							}
 						} elseif ($this->view->user->est_soule_braldun == 'non' ||
-						($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
+								  ($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)
+						) {
 							$tabBralduns[] = $tab;
 						}
 					}
@@ -159,7 +161,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
-			foreach($monstres as $m) {
+			foreach ($monstres as $m) {
 				if ($m["genre_type_monstre"] == 'feminin') {
 					$m_taille = $m["nom_taille_f_monstre"];
 				} else {
@@ -172,9 +174,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				}
 				if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
 					$tabMonstres[] = array(
-						'id_monstre' => $m["id_monstre"], 
-						'nom_monstre' => $m["nom_type_monstre"], 
-						'taille_monstre' => $m_taille, 
+						'id_monstre' => $m["id_monstre"],
+						'nom_monstre' => $m["nom_type_monstre"],
+						'taille_monstre' => $m_taille,
 						'niveau_monstre' => $m["niveau_monstre"],
 						'x_monstre' => $m["x_monstre"],
 						'y_monstre' => $m["y_monstre"],
@@ -198,19 +200,19 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Monstre invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre != -1 && $idBraldun != -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (!=-1)");
+			throw new Zend_Exception(get_class($this) . " Monstre ou Braldûn invalide (!=-1)");
 		}
 
 		$attaqueMonstre = false;
@@ -258,7 +260,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			} elseif ($attaqueMonstre === true) {
 				$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
 			} else {
-				throw new Zend_Exception(get_class($this)." Erreur inconnue");
+				throw new Zend_Exception(get_class($this) . " Erreur inconnue");
 			}
 			/* on va à la position de la cible. */
 			$this->view->user->x_braldun = $this->view->retourAttaque["cible"]["x_cible"];
@@ -290,13 +292,13 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
 		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
-		$jetAttaquantDetails = "0.5x(".$nbDe."D6)";
+		$jetAttaquantDetails = "0.5x(" . $nbDe . "D6)";
 
 		$jetAttaquant = floor(0.5 * $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
-		if ($jetAttaquant < 0){
+		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
 		$tabJetAttaquant["jet"] = $jetAttaquant;
@@ -316,11 +318,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$coefCritique = 1.5;
 
 		$nbDeForce = $this->view->config->game->base_force + $braldun->force_base_braldun;
-		$jetDetailsNonCritiqueForce = $nbDeForce."D6";
-		$jetDetailsCritiqueForce = $coefCritique."x(".$nbDeForce."D6)";
+		$jetDetailsNonCritiqueForce = $nbDeForce . "D6";
+		$jetDetailsCritiqueForce = $coefCritique . "x(" . $nbDeForce . "D6)";
 
 		$nbDeVigueur = $this->view->config->game->base_vigueur + $braldun->vigueur_base_braldun;
-		$jetDetailsVigueur = "+".$nbDeVigueur."D6";
+		$jetDetailsVigueur = "+" . $nbDeVigueur . "D6";
 
 		$jetDegat["critique"] = Bral_Util_De::getLanceDe6($nbDeForce * $coefCritique);
 		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun;
@@ -341,8 +343,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->vigueur_bbdf_braldun);
 		$jetDetails .= Bral_Util_String::getSigneValeur($braldun->bm_degat_braldun);
 
-		$jetDegat["critiquedetails"] = $jetDetailsCritiqueForce.$jetDetailsVigueur.$jetDetails;
-		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritiqueForce.$jetDetailsVigueur.$jetDetails;
+		$jetDegat["critiquedetails"] = $jetDetailsCritiqueForce . $jetDetailsVigueur . $jetDetails;
+		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritiqueForce . $jetDetailsVigueur . $jetDetails;
 
 		if ($jetDegat["critique"] < 0) {
 			$jetDegat["critique"] = 0;
@@ -365,8 +367,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		if ($this->view->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
+			$this->view->nb_px_commun = 10 + 2 * ($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
+			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
 				$this->view->nb_px_commun = $this->view->nb_px_perso;
 			}
 		}

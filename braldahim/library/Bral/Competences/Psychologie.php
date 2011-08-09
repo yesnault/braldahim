@@ -42,23 +42,23 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
 
 		$caract = null;
 		if (!array_key_exists($this->request->get("valeur_2"), $this->view->tabCaracs)) {
-			throw new Zend_Exception(get_class($this)." Caract invalide : ".$this->request->get("valeur_2"));
+			throw new Zend_Exception(get_class($this) . " Caract invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$caract = $this->request->get("valeur_2");
 		}
 
 		if ($idBraldun == -1 || $caract == null) {
-			throw new Zend_Exception(get_class($this)." Caract ou Braldûn invalide");
+			throw new Zend_Exception(get_class($this) . " Caract ou Braldûn invalide");
 		}
 
 		$psychologieBraldun = false;
@@ -73,7 +73,7 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 			}
 		}
 		if ($psychologieBraldun === false) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide (".$idBraldun.")");
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide (" . $idBraldun . ")");
 		}
 
 
@@ -92,8 +92,8 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 		$this->view->jetBraldun = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
 
-		$jetCible = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun[$caracteristique."_base_braldun"]);
-		$this->view->jetCible = $jetCible + $braldun[$caracteristique."_bm_braldun"] + $braldun[$caracteristique."_bbdf_braldun"];
+		$jetCible = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $braldun[$caracteristique . "_base_braldun"]);
+		$this->view->jetCible = $jetCible + $braldun[$caracteristique . "_bm_braldun"] + $braldun[$caracteristique . "_bbdf_braldun"];
 
 		$psychologieOk = false;
 
@@ -101,22 +101,22 @@ class Bral_Competences_Psychologie extends Bral_Competences_Competence {
 			$psychologieOk = true;
 			$maj = false;
 
-			if ($braldun[$caracteristique."_bbdf_braldun"] < 0) {
+			if ($braldun[$caracteristique . "_bbdf_braldun"] < 0) {
 				$maj = true;
-				$data[$caracteristique."_bbdf_braldun"] = 0;
+				$data[$caracteristique . "_bbdf_braldun"] = 0;
 			}
 
-			if ($braldun[$caracteristique."_bm_braldun"] < 0) {
+			if ($braldun[$caracteristique . "_bm_braldun"] < 0) {
 				$maj = true;
-				$data[$caracteristique."_bm_braldun"] = 0;
+				$data[$caracteristique . "_bm_braldun"] = 0;
 			}
 
 			if ($maj) {
 				$braldunTable = new Braldun();
-				$where = "id_braldun = ".$braldun["id_braldun"];
+				$where = "id_braldun = " . $braldun["id_braldun"];
 				$braldunTable->update($data, $where);
 			}
-			
+
 			$this->view->okJet1 = true;
 		}
 

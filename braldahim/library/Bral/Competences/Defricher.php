@@ -34,7 +34,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		$this->calculDefricher();
@@ -50,15 +50,15 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 		if ($this->route != null) {
 			$routeTable = new Route();
 			$data = array("est_visible_route" => "oui");
-			$where = "id_route = ".$this->route["id_route"];
+			$where = "id_route = " . $this->route["id_route"];
 			$routeTable->update($data, $where);
 			$this->view->routeTrouvee = true;
 
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[b".$this->view->user->id_braldun."] a défriché une route";
+			$details = "[b" . $this->view->user->id_braldun . "] a défriché une route";
 			$this->setDetailsEvenement($details, $idType);
 			$this->setEvenementQueSurOkJet1(false);
-			
+
 			$this->view->okJet1 = true;
 			$this->view->nbGainCommunParDlaOk = true;
 		} else {

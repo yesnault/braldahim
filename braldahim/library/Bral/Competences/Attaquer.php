@@ -19,31 +19,33 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		$armeTirPortee = false;
 		$braldunEquipement = new BraldunEquipement();
-		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
+		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun, "arme_tir");
 
-		if (count($equipementPorteRowset) > 0){
+		if (count($equipementPorteRowset) > 0) {
 			$armeTirPortee = true;
 		} else if ($this->view->user->est_intangible_braldun == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 			if ($estRegionPvp ||
-			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
+				$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0
+			) {
 				// recuperation des bralduns qui sont presents sur la case
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
-				foreach($bralduns as $h) {
+				foreach ($bralduns as $h) {
 					$tab = array(
 						'id_braldun' => $h["id_braldun"],
 						'nom_braldun' => $h["nom_braldun"],
 						'prenom_braldun' => $h["prenom_braldun"],
 					);
-					
+
 					if (!$estRegionPvp) { // pve 
 						if ($h["points_gredin_braldun"] > 0 || $h["points_redresseur_braldun"] > 0) {
 							$tabBralduns[] = $tab;
 						}
 					} elseif ($this->view->user->est_soule_braldun == 'non' ||
-					($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
+							  ($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)
+					) {
 						$tabBralduns[] = $tab;
 					}
 				}
@@ -52,7 +54,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			// recuperation des monstres qui sont presents sur la case
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-			foreach($monstres as $m) {
+			foreach ($monstres as $m) {
 				if ($m["genre_type_monstre"] == 'feminin') {
 					$m_taille = $m["nom_taille_f_monstre"];
 				} else {
@@ -82,22 +84,22 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Monstre invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre == -1 && $idBraldun == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (==-1)");
+			throw new Zend_Exception(get_class($this) . " Monstre ou Braldûn invalide (==-1)");
 		}
 
 		$attaqueMonstre = false;
@@ -173,8 +175,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		if ($this->view->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = floor(10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"]);
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
+			$this->view->nb_px_commun = floor(10 + 2 * ($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"]);
+			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
 				$this->view->nb_px_commun = $this->view->nb_px_perso;
 			}
 		}

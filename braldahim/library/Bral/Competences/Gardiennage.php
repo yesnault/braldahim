@@ -12,11 +12,11 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 
 		$this->tabJoursDebut = null;
 
-		for ($i=1; $i<=10; $i++) {
+		for ($i = 1; $i <= 10; $i++) {
 			$this->tabJoursDebut[] =
-			array("valeur" => date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y"))),
-					"affichage" => date("d/m/Y", mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y"))));
-			$this->tabJoursDebutValides[] = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
+					array("valeur" => date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + $i, date("Y"))),
+						  "affichage" => date("d/m/Y", mktime(0, 0, 0, date("m"), date("d") + $i, date("Y"))));
+			$this->tabJoursDebutValides[] = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") + $i, date("Y")));
 		}
 	}
 
@@ -26,9 +26,9 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$gardiens = $gardiennageTable->findGardiens($this->view->user->id_braldun);
 		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id_braldun);
 
-		foreach($gardiens as $gardien) {
+		foreach ($gardiens as $gardien) {
 			$tabGardiens[] = array(
-				"id_gardien" => $gardien["id_fk_gardien_gardiennage"], 
+				"id_gardien" => $gardien["id_fk_gardien_gardiennage"],
 				"nom_gardien" => $gardien["nom_braldun"],
 				"prenom_gardien" => $gardien["prenom_braldun"]);
 		}
@@ -36,7 +36,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$nbJours = 0;
 
 		$gardiennage30Jours = $gardiennageTable->findGardiennage30Jours($this->view->user->id_braldun);
-		foreach($gardiennage30Jours as $g) {
+		foreach ($gardiennage30Jours as $g) {
 			$nbJours = $nbJours + $g["nb_jours_gardiennage"];
 		}
 
@@ -62,7 +62,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 			$this->view->tabGardiennage = $this->voirGardiennage();
 			$this->view->tabGardiennageTrenteJours = $this->voirGardiennage(true);
 		} else {
-			throw new Zend_Exception(get_class($this)." Action invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this) . " Action invalide : " . $this->request->get("valeur_1"));
 		}
 	}
 
@@ -79,8 +79,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 
 		$filtreChaine = new Zend_Filter();
 		$filtreChaine->addFilter(new Zend_Filter_StringTrim())
-		->addFilter(new Zend_Filter_StripTags());
-			
+				->addFilter(new Zend_Filter_StripTags());
+
 		$premierJour = $this->request->get("valeur_2");
 		$nbJour = $this->request->get("valeur_3");
 		$idGardienExistant = trim($this->request->get("valeur_4"));
@@ -89,38 +89,38 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 
 		// Verification du premier jour
 		if (!in_array($premierJour, $this->tabJoursDebutValides)) {
-			throw new Zend_Exception(get_class($this)." Premier jour invalide : ".$premierJour);
+			throw new Zend_Exception(get_class($this) . " Premier jour invalide : " . $premierJour);
 		}
 
 		// Verification du nombre de jour
 		if (intval($nbJour) == 0 || intval($nbJour) < -1 || intval($nbJour) > 5) {
-			throw new Zend_Exception(get_class($this)." Nombre de jour(s) invalide : ".$nbJour);
+			throw new Zend_Exception(get_class($this) . " Nombre de jour(s) invalide : " . $nbJour);
 		}
 
 		$idGardien = null;
-		if (intval($idGardienExistant) != 0  && intval($idGardienExistant) != -1) {
+		if (intval($idGardienExistant) != 0 && intval($idGardienExistant) != -1) {
 			$idGardien = intval($idGardienExistant);
 		} elseif (intval($idNouveauGardien) != 0) {
 			$idGardien = intval($idNouveauGardien);
 		} else {
-			throw new Zend_Exception(get_class($this)." Gardien invalide : existant:".$idGardienExistant. " nouveau:".$idNouveauGardien);
+			throw new Zend_Exception(get_class($this) . " Gardien invalide : existant:" . $idGardienExistant . " nouveau:" . $idNouveauGardien);
 		}
 
 		// Il ne faut pas que le gardien soit le joueur lui même
 		if ($idGardien == $this->view->user->id_braldun) {
-			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id_braldun);
+			throw new Zend_Exception(get_class($this) . " Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:" . $idGardien . " Vous:" . $this->view->user->id_braldun);
 		}
 
 		$break = explode("-", $premierJour);
 		$jour = $break[2];
 		$mois = $break[1];
 		$annee = $break[0];
-		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois  , $jour+$nbJour-1, $annee));
-		$dernierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour+$nbJour-1, $annee));
+		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois, $jour + $nbJour - 1, $annee));
+		$dernierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour + $nbJour - 1, $annee));
 		$premierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour, $annee));
 
 		$gardiennageTable = new Gardiennage();
-		$data = array (
+		$data = array(
 			'id_fk_braldun_gardiennage' => $this->view->user->id_braldun,
 			'id_fk_gardien_gardiennage' => $idGardien,
 			'date_debut_gardiennage' => $premierJour,
@@ -131,13 +131,13 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$gardiennageTable->insert($data);
 		$this->view->nouveauGardiennage = true;
 
-		$message = "[Ceci est un message automatique de gardiennage]".PHP_EOL;
-		$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun;
-		$message .= " (".$this->view->user->id_braldun.") vous confie son braldun.".PHP_EOL;
-		$message .= " Premier jour de garde : ".$premierJourTexte.PHP_EOL;
-		$message .= " Dernier jour de garde (inclus) : ".$dernierJourTexte.PHP_EOL;
-		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
-		$message .= " Commentaire : ".$commentaire.PHP_EOL;
+		$message = "[Ceci est un message automatique de gardiennage]" . PHP_EOL;
+		$message .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun;
+		$message .= " (" . $this->view->user->id_braldun . ") vous confie son braldun." . PHP_EOL;
+		$message .= " Premier jour de garde : " . $premierJourTexte . PHP_EOL;
+		$message .= " Dernier jour de garde (inclus) : " . $dernierJourTexte . PHP_EOL;
+		$message .= " Nombre de jours : " . $nbJour . PHP_EOL;
+		$message .= " Commentaire : " . $commentaire . PHP_EOL;
 
 		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $idGardien, $message, $this->view);
 	}
@@ -154,9 +154,9 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 
 		$tabGardiennage = null;
 
-		foreach($gardiennages as $g) {
+		foreach ($gardiennages as $g) {
 			$tabGardiennage[] = array(
-				"id_gardien" => $g["id_fk_gardien_gardiennage"], 
+				"id_gardien" => $g["id_fk_gardien_gardiennage"],
 				"nom_gardien" => $g["nom_braldun"],
 				"prenom_gardien" => $g["prenom_braldun"],
 				"date_debut" => $g["date_debut_gardiennage"],

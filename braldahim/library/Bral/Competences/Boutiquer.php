@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
@@ -23,12 +22,13 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 9, strlen($this->nom_systeme) - 9);
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun &&
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == $metier &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->boutiquerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;
@@ -52,15 +52,15 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification chasse
 		if ($this->view->boutiquerEchoppeOk == false) {
-			throw new Zend_Exception(get_class($this)." Boutiquer interdit ");
+			throw new Zend_Exception(get_class($this) . " Boutiquer interdit ");
 		}
 
-		$details = "[b".$this->view->user->id_braldun."] a boutiqué";
+		$details = "[b" . $this->view->user->id_braldun . "] a boutiqué";
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
@@ -82,10 +82,10 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("BraldunsMetiers");
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
-		foreach($braldunsMetierRowset as $m) {
+		foreach ($braldunsMetierRowset as $m) {
 			if ($this->competence["id_fk_metier_competence"] == $m["id_metier"]) {
 				if ($m["est_actif_hmetier"] == "oui") {
-					$this->view->boutiquerMetierCourant  = true;
+					$this->view->boutiquerMetierCourant = true;
 					break;
 				}
 			}
@@ -97,8 +97,8 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		if ($de10 >= 8 && $this->view->boutiquerMetierCourant) {
 			$deCompetence = Bral_Util_De::get_1d2();
 			if ($de10 == 8) {
-				$this->updateCompetenceDb($deCompetence, "produire".$this->boutiquerMetier);
-			} elseif($de10 == 9) {
+				$this->updateCompetenceDb($deCompetence, "produire" . $this->boutiquerMetier);
+			} elseif ($de10 == 9) {
 				$this->updateCompetenceDb($deCompetence, $this->boutiquerMetier, 2);
 			} else {
 				$this->updateCompetenceDb($deCompetence, $this->boutiquerMetier, 4);
@@ -111,16 +111,16 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 
 		$equipements = $petitEquipementTable->findByIdMetier($this->competence["id_fk_metier_competence"]);
 		if (count($equipements) < 6) {
-			throw new Zend_Exception(get_class($this)." Equipements invalides : idMetier:".$this->competence["id_fk_metier_competence"]);
+			throw new Zend_Exception(get_class($this) . " Equipements invalides : idMetier:" . $this->competence["id_fk_metier_competence"]);
 		}
 		$de6 = Bral_Util_De::get_1d6();
-		$petitEquipement = $equipements[$de6-1];
+		$petitEquipement = $equipements[$de6 - 1];
 
 		$this->view->petitEquipement = $petitEquipement;
 
 		$message = "";
 		$nbCastars = 0;
-		switch($de6) {
+		switch ($de6) {
 			case 1:
 				$message = "Je vous le prends, mais c'est vraiment pour vous débarrasser.";
 				$nbCastars = Bral_Util_De::get_1d10();
@@ -146,7 +146,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 				$nbCastars = Bral_Util_De::get_3d10() + 5;
 				break;
 			default:
-				throw new Zend_Exception(get_class($this)." Erreur switch :".$de6);
+				throw new Zend_Exception(get_class($this) . " Erreur switch :" . $de6);
 				break;
 		}
 		$this->view->nbCastarsGagnes = $nbCastars;
@@ -170,19 +170,19 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		}
 
 		if ($competences == null || count($competences) == 0) {
-			throw new Zend_Exception(get_class($this)." Competences invalides :".$this->view->user->id_braldun.",".$nbPa.",".$nomSystemeCompetence);
+			throw new Zend_Exception(get_class($this) . " Competences invalides :" . $this->view->user->id_braldun . "," . $nbPa . "," . $nomSystemeCompetence);
 		}
 
 		$tabCompetencesAmeliorees = null;
 
 		foreach ($competences as $c) {
-			if ($c["pourcentage_hcomp"] < 50 && ("produire".$this->boutiquerMetier != $c["nom_systeme_competence"] && "reparer".$this->boutiquerMetier != $c["nom_systeme_competence"] && $nbPa != -1) || $nbPa == -1) {
+			if ($c["pourcentage_hcomp"] < 50 && ("produire" . $this->boutiquerMetier != $c["nom_systeme_competence"] && "reparer" . $this->boutiquerMetier != $c["nom_systeme_competence"] && $nbPa != -1) || $nbPa == -1) {
 				$pourcentage = $c["pourcentage_hcomp"] + $deCompetence;
 				if ($pourcentage > $c["pourcentage_max_competence"]) { // % comp maximum
 					$pourcentage = $c["pourcentage_max_competence"];
 				}
 				$data = array('pourcentage_hcomp' => $pourcentage);
-				$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+				$where = array("id_fk_competence_hcomp = " . $c["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 				$braldunsCompetencesTable->update($data, $where);
 				$tabCompetencesAmeliorees[] = $c;
 				$this->view->ameliorationCompetence = true;

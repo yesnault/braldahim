@@ -79,20 +79,20 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 
 		$tabRetour = null;
 		if ($graines != null && count($graines) > 0) {
-			foreach($graines as $g) {
+			foreach ($graines as $g) {
 
 				$possible = false;
 
-				if ($g["quantite_".$type."_graine"] >= 2) {
+				if ($g["quantite_" . $type . "_graine"] >= 2) {
 					$possible = true;
 				}
 
-				$tabRetour[$type."-".$g["id_type_graine"]] = array(
-					"id_genere" => $type."-".$g["id_type_graine"],
+				$tabRetour[$type . "-" . $g["id_type_graine"]] = array(
+					"id_genere" => $type . "-" . $g["id_type_graine"],
 					"id_type_graine" => $g["id_type_graine"],
 					"nom_type_graine" => $g["nom_type_graine"],
 					"possible" => $possible,
-					"quantite" => $g["quantite_".$type."_graine"],
+					"quantite" => $g["quantite_" . $type . "_graine"],
 					"prefix" => $g["prefix_type_graine"],
 				);
 
@@ -114,48 +114,48 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification semer
 		if ($this->view->semerChampOk == false) {
-			throw new Zend_Exception(get_class($this)." Semer Champ interdit");
+			throw new Zend_Exception(get_class($this) . " Semer Champ interdit");
 		}
 
 		$idChoisit = $this->request->get("valeur_1");
 		list ($type, $idTypeGraine) = preg_split("/-/", $idChoisit);
 
 		if ($type != "laban" && $type != "charrette") {
-			throw new Zend_Exception(get_class($this)." Type invalide A : ".$idChoisit);
+			throw new Zend_Exception(get_class($this) . " Type invalide A : " . $idChoisit);
 		}
 
 		$idTypeGraine = intval($idTypeGraine);
 		if ($idTypeGraine < 1) {
-			throw new Zend_Exception(get_class($this)." Id Type invalide B : ".$idChoisit);
+			throw new Zend_Exception(get_class($this) . " Id Type invalide B : " . $idChoisit);
 		}
 
 		if (array_key_exists($type, $this->view->conteneurs) == false) {
-			throw new Zend_Exception(get_class($this)." Id Type invalide C : ".$idChoisit);
+			throw new Zend_Exception(get_class($this) . " Id Type invalide C : " . $idChoisit);
 		}
 
-		if (array_key_exists($type."-".$idTypeGraine, $this->view->conteneurs[$type]["graines"]) == false) {
-			throw new Zend_Exception(get_class($this)." Id Type invalide D : ".$idChoisit);
+		if (array_key_exists($type . "-" . $idTypeGraine, $this->view->conteneurs[$type]["graines"]) == false) {
+			throw new Zend_Exception(get_class($this) . " Id Type invalide D : " . $idChoisit);
 		}
 
 		// calcul des jets
 		$this->calculSemerChamp($type, $idTypeGraine, $this->view->conteneurs[$type]["id_charrette"]);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[b".$this->view->user->id_braldun."] a semé un champ";
+		$details = "[b" . $this->view->user->id_braldun . "] a semé un champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		//message pour le braldûn propriétaire
 		if ($this->idProprietaire != $this->view->user->id_braldun) {
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = "[Ceci est un message automatique d'agriculture]".PHP_EOL;
-			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a semé 2 poignées de graines ".$this->view->nom_graine." dans votre champ en x:".$this->view->champ["x_champ"].", y:".$this->view->champ["y_champ"].PHP_EOL;
-			$message .= "Il sera récoltable dans 21 jours. En attendant, n'oubliez pas de l'entretenir...".PHP_EOL;
+			$message = "[Ceci est un message automatique d'agriculture]" . PHP_EOL;
+			$message .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " a semé 2 poignées de graines " . $this->view->nom_graine . " dans votre champ en x:" . $this->view->champ["x_champ"] . ", y:" . $this->view->champ["y_champ"] . PHP_EOL;
+			$message .= "Il sera récoltable dans 21 jours. En attendant, n'oubliez pas de l'entretenir..." . PHP_EOL;
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->idProprietaire, $message, $this->view);
 		}
 
@@ -179,16 +179,16 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			$charretteGraineTable = new CharretteGraine();
 			$data = array(
 				'id_fk_charrette_graine' => $idCharrette,
-				'id_fk_type_charrette_graine' => $idTypeGraine, 
+				'id_fk_type_charrette_graine' => $idTypeGraine,
 				'quantite_charrette_graine' => -2,
 			);
 			$charretteGraineTable->insertOrUpdate($data);
 		} else {
-			throw new Exception("Erreur calculSemerChamp type:".$type. " idCharrette:".$idCharrette);
+			throw new Exception("Erreur calculSemerChamp type:" . $type . " idCharrette:" . $idCharrette);
 		}
 
-		$this->view->nom_graine = $this->view->conteneurs[$type]["graines"][$type."-".$idTypeGraine]["prefix"];
-		$this->view->nom_graine .= $this->view->conteneurs[$type]["graines"][$type."-".$idTypeGraine]["nom_type_graine"];
+		$this->view->nom_graine = $this->view->conteneurs[$type]["graines"][$type . "-" . $idTypeGraine]["prefix"];
+		$this->view->nom_graine .= $this->view->conteneurs[$type]["graines"][$type . "-" . $idTypeGraine]["nom_type_graine"];
 		$this->initialiseChamp($idTypeGraine);
 
 	}
@@ -223,14 +223,14 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			'date_utilisation_champ' => $dateUtilisation,
 		);
 
-		$where = 'id_champ='.$this->view->champ["id_champ"];
+		$where = 'id_champ=' . $this->view->champ["id_champ"];
 		$champTable->update($data, $where);
 
 		Zend_Loader::loadClass("ChampTaupe");
-			
+
 		// suppression des anciennes taupes s'il y en a
 		$champTaupeTable = new ChampTaupe();
-		$where = 'id_fk_champ_taupe='.$this->view->champ["id_champ"];
+		$where = 'id_fk_champ_taupe=' . $this->view->champ["id_champ"];
 		$champTaupeTable->delete($where);
 
 		$this->initialiseTaupes();
@@ -255,13 +255,13 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		}
 
 		$grille = null;
-		for($x = 1; $x <= 10; $x++) {
-			for($y = 1; $y <= 10; $y++) {
+		for ($x = 1; $x <= 10; $x++) {
+			for ($y = 1; $y <= 10; $y++) {
 				$grille[$x][$y] = array('libre' => true);
 			}
 		}
 
-		foreach($taupes as $t) {
+		foreach ($taupes as $t) {
 			$positionOk = false;
 			while ($positionOk != true) {
 				usleep(Bral_Util_De::get_de_specifique(1, 300000));
@@ -280,17 +280,17 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 
 		// si çà déborde avec les x, y initiaux
 		if ($sens == 1) { // horizontal
-			if ($startX + $taupe["taille"] > 10 ) {
+			if ($startX + $taupe["taille"] > 10) {
 				$startX = 10 - $taupe["taille"];
 			}
 		} else { // vertical
-			if ($startY + $taupe["taille"] > 10 ) {
+			if ($startY + $taupe["taille"] > 10) {
 				$startY = 10 - $taupe["taille"];
 			}
 		}
-			
+
 		$positionOk = true;
-		for($t = 0; $t < $taupe["taille"]; $t++) {
+		for ($t = 0; $t < $taupe["taille"]; $t++) {
 			if ($sens == 1) { // horizontal
 				if ($grille[$startX + $t][$startY]['libre'] == false) {
 					$positionOk = false;
@@ -304,7 +304,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 
 		if ($positionOk) {
 			$champTaupeTable = new ChampTaupe();
-			for($t = 0; $t < $taupe["taille"]; $t++) {
+			for ($t = 0; $t < $taupe["taille"]; $t++) {
 				if ($sens == 1) { // horizontal
 					$grille[$startX + $t][$startY]['libre'] = false;
 					$x = $startX + $t;

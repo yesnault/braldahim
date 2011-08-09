@@ -32,12 +32,13 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 
 		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 7, strlen($this->nom_systeme) - 7);
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun &&
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == $metier &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->reparermenuisierEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -85,7 +86,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		if ($charrettesRowset == null || count($charrettesRowset) == 0) {
 			return;
 		}
-		foreach($charrettesRowset as $c) {
+		foreach ($charrettesRowset as $c) {
 			$cout = $this->calculCoutPlanche($c);
 
 			$possiblePlanche = false;
@@ -114,7 +115,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 				"possible_cout" => $possibleCout,
 				"possible" => $possible,
 			);
-			
+
 			if (array_key_exists("nom_braldun", $c)) {
 				$tabCharrettes[$c["id_charrette"]]["id_braldun"] = $c["id_braldun"];
 				$tabCharrettes[$c["id_charrette"]]["nom_braldun"] = $c["nom_braldun"];
@@ -132,21 +133,21 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		$usureJournaliere = $charrette["usure_type_materiel"];
 
 		if ($materielsAssembles != null && count($materielsAssembles) > 0) {
-			foreach($materielsAssembles as $m) {
+			foreach ($materielsAssembles as $m) {
 				$usureJournaliere = $usureJournaliere - $m["usure_type_materiel"];
 			}
 		}
-			
+
 		$ratio = ($charrette["durabilite_max_charrette"] / 100) + $usureJournaliere + $charrette["poids_transportable_charrette"];
 
-		$coef =  ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
+		$coef = ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
 		$retour = 0;
-		if ($coef >= 100){
+		if ($coef >= 100) {
 			$retour = 0;
-		} else if ($coef <= 25 ) {
-			$retour = 	round($ratio / 5);
+		} else if ($coef <= 25) {
+			$retour = round($ratio / 5);
 		} else if ($coef <= 50) {
-			$retour = 	round($ratio / 10);
+			$retour = round($ratio / 10);
 		} else if ($coef <= 75) {
 			$retour = round($ratio / 15);
 		} else {
@@ -164,22 +165,22 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification reparer
 		if ($this->view->reparermenuisierEchoppeOk == false) {
-			throw new Zend_Exception(get_class($this)." Reparer Echoppe interdit ");
+			throw new Zend_Exception(get_class($this) . " Reparer Echoppe interdit ");
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Charrette invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Charrette invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idCharrette = (int)$this->request->get("valeur_1");
 		}
 
 		$charrette = null;
-		foreach($this->view->charrettes as $c) {
+		foreach ($this->view->charrettes as $c) {
 			if ($c["id_charrette"] == $idCharrette) {
 				if ($c["possible"] == true) {
 					$charrette = $c;
@@ -189,14 +190,14 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		}
 
 		if ($charrette == null) {
-			throw new Zend_Exception(get_class($this)." idCharrette interdit A=".$idCharrette. " idh=".$this->view->user->id_braldun);
+			throw new Zend_Exception(get_class($this) . " idCharrette interdit A=" . $idCharrette . " idh=" . $this->view->user->id_braldun);
 		}
 
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			$this->calculReparer($charrette);
 			$id_type = $this->view->config->game->evenements->type->competence;
-			$details = "[b".$this->view->user->id_braldun."] a réparé un matériel";
+			$details = "[b" . $this->view->user->id_braldun . "] a réparé un matériel";
 			$this->setDetailsEvenement($details, $id_type);
 		}
 		$this->setEvenementQueSurOkJet1(false);
@@ -211,7 +212,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	private function calculReparer($charrette) {
 		$charretteTable = new Charrette();
 		$data = array("durabilite_actuelle_charrette" => $charrette["durabilite_max_charrette"]);
-		$where = "id_charrette = ".$charrette["id_charrette"];
+		$where = "id_charrette = " . $charrette["id_charrette"];
 		$charretteTable->update($data, $where);
 
 		$echoppeTable = new Echoppe();

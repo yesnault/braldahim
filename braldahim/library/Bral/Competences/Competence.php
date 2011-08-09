@@ -60,7 +60,7 @@ abstract class Bral_Competences_Competence {
 		$this->prepareCommun();
 		$this->calculNbPa();
 
-		switch($this->action) {
+		switch ($this->action) {
 			case "ask" :
 				$this->prepareFormulaire();
 				break;
@@ -68,15 +68,18 @@ abstract class Bral_Competences_Competence {
 				$this->prepareResultat();
 				break;
 			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
+				throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
 		}
 	}
 
 	abstract function prepareCommun();
+
 	abstract function prepareFormulaire();
+
 	abstract function prepareResultat();
+
 	abstract function getListBoxRefresh();
-	
+
 	public function getTablesHtmlTri() {
 		return false;
 	}
@@ -137,7 +140,7 @@ abstract class Bral_Competences_Competence {
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($this->view->user->id_braldun);
 		$ameliorationCompetence = false;
-		foreach($braldunsMetierRowset as $m) {
+		foreach ($braldunsMetierRowset as $m) {
 			if ($this->competence["id_fk_metier_competence"] == $m["id_metier"]) {
 				if ($m["est_actif_hmetier"] == "oui") {
 					$ameliorationCompetence = true;
@@ -232,7 +235,7 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) {
 			$this->view->okJet2 = false;
 
-		}  else if (($this->view->okJet1 === true || $this->braldun_competence["pourcentage_hcomp"] < 50) && $this->braldun_competence["pourcentage_hcomp"] < $this->competence["pourcentage_max"]) {
+		} else if (($this->view->okJet1 === true || $this->braldun_competence["pourcentage_hcomp"] < 50) && $this->braldun_competence["pourcentage_hcomp"] < $this->competence["pourcentage_max"]) {
 			// 2nd Jet : réussite ou non de l'amélioration de la compétence
 			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
 			// et qu'on n'a pas le max de la compétence
@@ -268,7 +271,7 @@ abstract class Bral_Competences_Competence {
 				$pourcentage = $this->competence["pourcentage_max"];
 			}
 			$data = array('pourcentage_hcomp' => $pourcentage);
-			$where = array("id_fk_competence_hcomp = ".$this->braldun_competence["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+			$where = array("id_fk_competence_hcomp = " . $this->braldun_competence["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 			$braldunsCompetencesTable->update($data, $where);
 		}
 	}
@@ -284,7 +287,7 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des événements de la cible.
 	 */
-	protected function setDetailsEvenementCible($idCible, $typeCible, $niveauCible, $detailBotCible="?") {
+	protected function setDetailsEvenementCible($idCible, $typeCible, $niveauCible, $detailBotCible = "?") {
 		$this->idCible = $idCible;
 		$this->niveauCible = $niveauCible;
 		$this->typeCible = $typeCible;
@@ -315,14 +318,14 @@ abstract class Bral_Competences_Competence {
 			}
 			if ($this->detailEvenement == null) {
 				if ($this->view->okJet1 == true) {
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence";
+					$this->detailEvenement = "[b" . $this->view->user->id_braldun . "] a réussi l'utilisation d'une compétence";
 				} elseif ($this->view->okJet1 == false) {
-					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a raté l'utilisation d'une compétence";
+					$this->detailEvenement = "[b" . $this->view->user->id_braldun . "] a raté l'utilisation d'une compétence";
 				}
 			}
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun, "braldun", false, null, $this->idMatchSoule);
-				if ($this->idCible != null && $this->typeCible != null){
+				if ($this->idCible != null && $this->typeCible != null) {
 					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $this->detailBotCible, $this->niveauCible, $this->typeCible, true, $this->view);
 				}
 			}
@@ -349,7 +352,7 @@ abstract class Bral_Competences_Competence {
 		$data["nb_px_commun_gagnes_stats_experience"] = $this->view->nb_px_commun;
 		$data["id_fk_braldun_stats_experience"] = $this->view->user->id_braldun;
 		$data["niveau_braldun_stats_experience"] = $this->view->user->niveau_braldun;
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$data["mois_stats_experience"] = date("Y-m-d", $moisEnCours);
 
 		$statsExperience = new StatsExperience();
@@ -359,7 +362,7 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->balance_faim_braldun = 0;
 		}
 
-		if ($this->view->user->pa_braldun  < 0) { // verif au cas où...
+		if ($this->view->user->pa_braldun < 0) { // verif au cas où...
 			$this->view->user->pa_braldun = 0;
 		}
 
@@ -376,8 +379,8 @@ abstract class Bral_Competences_Competence {
 			'nb_braldun_ko_braldun' => $this->view->user->nb_braldun_ko_braldun,
 			'nb_monstre_kill_braldun' => $this->view->user->nb_monstre_kill_braldun,
 			'x_braldun' => $this->view->user->x_braldun,
-			'y_braldun'  => $this->view->user->y_braldun,
-			'z_braldun'  => $this->view->user->z_braldun,
+			'y_braldun' => $this->view->user->y_braldun,
+			'z_braldun' => $this->view->user->z_braldun,
 			'pv_restant_braldun' => $this->view->user->pv_restant_braldun,
 			'pv_max_braldun' => $this->view->user->pv_max_braldun,
 			'pv_max_bm_braldun' => $this->view->user->pv_max_bm_braldun,
@@ -396,7 +399,7 @@ abstract class Bral_Competences_Competence {
 			'force_base_braldun' => $this->view->user->force_base_braldun,
 			'vigueur_base_braldun' => $this->view->user->vigueur_base_braldun,
 			'sagesse_base_braldun' => $this->view->user->sagesse_base_braldun,
-			'duree_prochain_tour_braldun' => $this->view->user->duree_prochain_tour_braldun ,
+			'duree_prochain_tour_braldun' => $this->view->user->duree_prochain_tour_braldun,
 			'armure_naturelle_braldun' => $this->view->user->armure_naturelle_braldun,
 			'bm_attaque_braldun' => $this->view->user->bm_attaque_braldun,
 			'bm_degat_braldun' => $this->view->user->bm_degat_braldun,
@@ -422,7 +425,7 @@ abstract class Bral_Competences_Competence {
 			'nb_ko_gredin_braldun' => $this->view->user->nb_ko_gredin_braldun,
 			'nb_ko_neutre_braldun' => $this->view->user->nb_ko_neutre_braldun,
 		);
-		$where = "id_braldun=".$this->view->user->id_braldun;
+		$where = "id_braldun=" . $this->view->user->id_braldun;
 
 		$braldunTable = new Braldun();
 		$braldunTable->getAdapter()->beginTransaction();
@@ -438,9 +441,9 @@ abstract class Bral_Competences_Competence {
 
 	public function render() {
 		$this->view->competence = $this->competence;
-		switch($this->action) {
+		switch ($this->action) {
 			case "ask":
-				$texte = $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
+				$texte = $this->view->render("competences/" . $this->nom_systeme . "_formulaire.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 
@@ -448,7 +451,7 @@ abstract class Bral_Competences_Competence {
 				break;
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
-				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
+				$texte = $this->view->render("competences/" . $this->nom_systeme . "_resultat.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 
@@ -459,7 +462,7 @@ abstract class Bral_Competences_Competence {
 				return $this->view->render("competences/commun_resultat.phtml");
 				break;
 			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
+				throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
 		}
 	}
 
@@ -509,7 +512,7 @@ abstract class Bral_Competences_Competence {
 				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_braldun,
 				'nb_action_tour_hcomp' => ($this->braldun_competence["nb_action_tour_hcomp"] + 1),
 			);
-			$where = array("id_fk_competence_hcomp = ".$this->braldun_competence["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+			$where = array("id_fk_competence_hcomp = " . $this->braldun_competence["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 			$braldunsCompetencesTable->update($data, $where);
 		}
 	}
@@ -521,7 +524,7 @@ abstract class Bral_Competences_Competence {
 				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_braldun,
 				'nb_gain_tour_hcomp' => ($this->braldun_competence["nb_gain_tour_hcomp"] + 1),
 			);
-			$where = array("id_fk_competence_hcomp = ".$this->braldun_competence["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+			$where = array("id_fk_competence_hcomp = " . $this->braldun_competence["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 			$braldunsCompetencesTable->update($data, $where);
 		}
 	}
@@ -543,7 +546,7 @@ abstract class Bral_Competences_Competence {
 					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_braldun,
 					'nb_action_tour_hcomp' => 0,
 				);
-				$where = array("id_fk_competence_hcomp = ".$this->braldun_competence["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+				$where = array("id_fk_competence_hcomp = " . $this->braldun_competence["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 				$braldunsCompetencesTable->update($data, $where);
 			}
 		} else { // competence non metier
@@ -569,7 +572,7 @@ abstract class Bral_Competences_Competence {
 					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_braldun,
 					'nb_gain_tour_hcomp' => 0,
 				);
-				$where = array("id_fk_competence_hcomp = ".$this->braldun_competence["id_fk_competence_hcomp"]." AND id_fk_braldun_hcomp = ".$this->view->user->id_braldun);
+				$where = array("id_fk_competence_hcomp = " . $this->braldun_competence["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $this->view->user->id_braldun);
 				$braldunsCompetencesTable->update($data, $where);
 			}
 		} else { // competence non commune et soumise à un jet
@@ -593,12 +596,13 @@ abstract class Bral_Competences_Competence {
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
 		$idEchoppe = null;
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == $metier &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun &&
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == $metier &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->estSurEchoppe = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;

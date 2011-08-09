@@ -22,7 +22,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 		$tabBralduns = null;
 
 		if (count($bralduns) > 0) {
-			foreach($bralduns as $b) {
+			foreach ($bralduns as $b) {
 				if ($b["niveau_braldun"] < ($this->view->user->sagesse_base_braldun * 2)) {
 					$tabBralduns[] = $b;
 				}
@@ -85,22 +85,22 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_1");
 		}
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."") || !array_key_exists($this->request->get("valeur_2"), $this->view->tabAliments)) {
-			throw new Zend_Exception(get_class($this)." Aliment invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "") || !array_key_exists($this->request->get("valeur_2"), $this->view->tabAliments)) {
+			throw new Zend_Exception(get_class($this) . " Aliment invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idAliment = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idBraldun == -1 || $idAliment == -1) {
-			throw new Zend_Exception(get_class($this)." Caract ou Braldûn invalide");
+			throw new Zend_Exception(get_class($this) . " Caract ou Braldûn invalide");
 		}
 
 		$choixBraldun = false;
@@ -115,7 +115,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			}
 		}
 		if ($choixBraldun === false) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide (".$idBraldun.")");
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide (" . $idBraldun . ")");
 		}
 
 		$this->reanimer($braldun, $idAliment);
@@ -154,7 +154,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 		$jetBraldun = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_braldun);
 		$this->view->jetBraldunPourAgilite = $jetBraldun + $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 
-		$jetAgilite= Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun["agilite_base_braldun"]);
+		$jetAgilite = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $braldun["agilite_base_braldun"]);
 		$this->view->jetCibleAgilite = $jetAgilite + $braldun["agilite_bm_braldun"] + $braldun["agilite_bbdf_braldun"];
 
 		if ($this->view->jetBraldunPourAgilite > $this->view->jetCibleAgilite) {
@@ -174,7 +174,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 		if ($nbReussi >= 3) {
 
 			$data["est_ko_braldun"] = "non";
-			if ($nbReussi == 3) {  // -> Le Braldûn est réanimé, sa BdF est à 0 (le repas est quand même consommé : il disparait), ses PV = BM de SAG du lanceur
+			if ($nbReussi == 3) { // -> Le Braldûn est réanimé, sa BdF est à 0 (le repas est quand même consommé : il disparait), ses PV = BM de SAG du lanceur
 				$data["pv_restant_braldun"] = $this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun;
 			} else { // -> Le Braldûn est réanimé, sa BdF remonte de la valeur du repas, ses PV = 2x BM de SAG du lanceur
 				$data["balance_faim_braldun"] = $braldun["balance_faim_braldun"] + $this->view->tabAliments[$idAliment]["bbdf"];
@@ -182,7 +182,7 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 					$data["balance_faim_braldun"] = 100;
 				}
 				$this->view->balanceFaim = $data["balance_faim_braldun"];
-				$data["pv_restant_braldun"] = 2*($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun);
+				$data["pv_restant_braldun"] = 2 * ($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun);
 			}
 
 			if ($data["pv_restant_braldun"] < 1) {
@@ -191,32 +191,32 @@ class Bral_Competences_Reanimer extends Bral_Competences_Competence {
 			if ($data["pv_restant_braldun"] > $braldun["pv_max_braldun"]) {
 				$data["pv_restant_braldun"] = $braldun["pv_max_braldun"];
 			}
-			
+
 			//le braldun perd ses PX suite au KO
 			$data["px_commun_braldun"] = 0;
 			$data["px_perso_braldun"] = $braldun["px_perso_braldun"] - floor($braldun["px_perso_braldun"] / 3);
-			
+
 			$this->view->pvRestants = $data["pv_restant_braldun"];
 			$data["est_intangible_braldun"] = "oui";
 			$data["est_intangible_prochaine_braldun"] = "oui"; // intangible au prochain tour
 
 			$braldunTable = new Braldun();
-			$where = "id_braldun = ".$braldun["id_braldun"];
+			$where = "id_braldun = " . $braldun["id_braldun"];
 			$braldunTable->update($data, $where);
 
 			Zend_Loader::loadClass("Aliment");
 			$alimentTable = new Aliment();
-			$where = 'id_aliment = '.(int)$idAliment;
+			$where = 'id_aliment = ' . (int)$idAliment;
 			$alimentTable->delete($where);
-			
+
 			$id_type = $this->view->config->game->evenements->type->competence;
-			$details = "[b".$this->view->user->id_braldun."] a réanimé [b".$braldun["id_braldun"]."]";
-			$messageCible = $this->view->user->prenom_braldun.' '.$this->view->user->nom_braldun.' vous a réanimé ! '.PHP_EOL;
-			$messageCible .= "Vous disposez de ".$this->view->pvRestants." PV.".PHP_EOL;
-			$messageCible .= "Votre balance de faim est de ".$this->view->balanceFaim." %.".PHP_EOL;
+			$details = "[b" . $this->view->user->id_braldun . "] a réanimé [b" . $braldun["id_braldun"] . "]";
+			$messageCible = $this->view->user->prenom_braldun . ' ' . $this->view->user->nom_braldun . ' vous a réanimé ! ' . PHP_EOL;
+			$messageCible .= "Vous disposez de " . $this->view->pvRestants . " PV." . PHP_EOL;
+			$messageCible .= "Votre balance de faim est de " . $this->view->balanceFaim . " %." . PHP_EOL;
 			$this->setDetailsEvenement($details, $id_type);
 			$this->setDetailsEvenementCible($braldun["id_braldun"], 'braldun', 0, $messageCible);
-			
+
 			$this->view->okJet1 = true;
 
 		} else { // Si 2 jets ou moins sont supérieurs : échec, le Braldûn ne se réveille pas.

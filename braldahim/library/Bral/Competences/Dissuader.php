@@ -22,9 +22,9 @@ class Bral_Competences_Dissuader extends Bral_Competences_Competence {
 		$yMax = $this->view->user->y_braldun + 1;
 
 		$dissuaderPossible = false;
-		
+
 		if ($this->view->user->est_soule_braldun == "oui") {
-			return;	
+			return;
 		}
 
 		$bralduns = null;
@@ -59,11 +59,11 @@ class Bral_Competences_Dissuader extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->dissuaderPossible == false) {
-			throw new Zend_Exception(get_class($this)." Dissuader impossible");
+			throw new Zend_Exception(get_class($this) . " Dissuader impossible");
 		}
 
 		$this->dissuader();
@@ -80,31 +80,31 @@ class Bral_Competences_Dissuader extends Bral_Competences_Competence {
 		$sommeJets = 0;
 
 		if (count($this->bralduns) > 0) {
-			foreach($this->bralduns as $b) {
+			foreach ($this->bralduns as $b) {
 				$sommeJets = $sommeJets + Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $b["sagesse_base_braldun"]);
 				$sommeJets = $sommeJets + $b["sagesse_bm_braldun"] + $b["sagesse_bbdf_braldun"];
 			}
 		}
 
 		if (count($this->monstres) > 0) {
-			foreach($this->monstres as $m) {
+			foreach ($this->monstres as $m) {
 				$sommeJets = $sommeJets + Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $m["sagesse_base_monstre"]);
 				$sommeJets = $sommeJets + $m["sagesse_bm_monstre"];
 			}
 		}
-		
+
 		$dissuaderOk = false;
 		if ($this->view->jetBraldun > $sommeJets) {
 			$data = array(
 				'est_intangible_braldun' => 'oui'
 			);
 			$tableBraldun = new Braldun();
-			$where = "id_braldun = ".$this->view->user->id_braldun;
+			$where = "id_braldun = " . $this->view->user->id_braldun;
 			$tableBraldun->update($data, $where);
 			$dissuaderOk = true;
 			$this->view->okJet1 = true;
 		}
-		
+
 		$this->view->dissuaderOk = $dissuaderOk;
 		$this->view->sommeJets = $sommeJets;
 	}
