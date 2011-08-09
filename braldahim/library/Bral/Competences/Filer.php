@@ -58,15 +58,15 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->positionOk == false) {
-			throw new Zend_Exception(get_class($this)." Position KO");
+			throw new Zend_Exception(get_class($this) . " Position KO");
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Valeur 1 invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Valeur 1 invalide : " . $this->request->get("valeur_1"));
 		}
 
 		$idBraldun = null;
@@ -79,12 +79,14 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			$tableBraldun = new Braldun();
 			$braldunCible = $tableBraldun->findById($idBraldun);
 			if ($braldunCible == null || $braldunCible["est_pnj_braldun"] == "oui" ||
-			$braldunCible["id_braldun"] == $this->view->user->id_braldun) {
-				throw new Zend_Exception(get_class($this)." Braldûn invalide 2 : ".$this->request->get("valeur_1"));
+				$braldunCible["id_braldun"] == $this->view->user->id_braldun
+			) {
+				throw new Zend_Exception(get_class($this) . " Braldûn invalide 2 : " . $this->request->get("valeur_1"));
 			}
 		} else {
 			if ($this->view->peutCastars && (int)$this->request->get("valeur_1") == 1
-			&& $this->view->filerEnCours["etape_filature"] == 2 || $this->view->filerEnCours["etape_filature"] == 3) {
+				&& $this->view->filerEnCours["etape_filature"] == 2 || $this->view->filerEnCours["etape_filature"] == 3
+			) {
 				$this->view->enPayant = true;
 			} else {
 				$this->view->enPayant = false;
@@ -93,7 +95,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 		}
 
 		if ($braldunCible == null) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide 3");
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide 3");
 		}
 
 		// calcul des jets
@@ -138,7 +140,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			'id_fk_cible_braldun_filature' => $braldunCible["id_braldun"],
 			'etape_filature' => 2,
 			'date_creation_filature' => date("Y-m-d H:i:s"),
-			'date_fin_filature' => null, 
+			'date_fin_filature' => null,
 		);
 		$idFilature = $filatureTable->insert($data);
 		$details = "Création de la filature";
@@ -151,31 +153,31 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 		$regionTable = new Region();
 		$regionCourante = $regionTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun);
 		if ($regionCourante == null) {
-			throw new Zend_Exception(get_class($this)." Region invalide 1");
+			throw new Zend_Exception(get_class($this) . " Region invalide 1");
 		}
 
 		$regionCible = $regionTable->findByCase($braldunCible["x_braldun"], $braldunCible["y_braldun"]);
 		if ($regionCible == null) {
-			throw new Zend_Exception(get_class($this)." Region invalide 2");
+			throw new Zend_Exception(get_class($this) . " Region invalide 2");
 		}
 
-		$cible = $braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+		$cible = $braldunCible["prenom_braldun"] . " " . $braldunCible["nom_braldun"] . " (" . $braldunCible["id_braldun"] . ")";
 		$details .= $cible;
 		if ($regionCible["id_region"] == $regionCourante["id_region"]) {
-			$details .= " se trouve dans la même Comté que la vôtre (".$regionCourante["nom_region"].").";
+			$details .= " se trouve dans la même Comté que la vôtre (" . $regionCourante["nom_region"] . ").";
 			$data = array('etape_filature' => 3);
 		} else {
-			$details .= " se trouve dans une autre Comté que la vôtre (".$regionCourante["nom_region"].").";
+			$details .= " se trouve dans une autre Comté que la vôtre (" . $regionCourante["nom_region"] . ").";
 			$data = array('etape_filature' => 2);
 		}
 
 		$filatureTable = new Filature();
-		$where = "id_filature = ".$this->view->filerEnCours["id_filature"];
+		$where = "id_filature = " . $this->view->filerEnCours["id_filature"];
 		$idFilature = $filatureTable->update($data, $where);
 
 		if ($this->view->enPayant) {
-			$message = "[Filature] Vous avez reçu un message par l'inconnu de la gare de ".$this->lieuEnCours["nom_ville"]." :".PHP_EOL;
-			$message .= "\"". $cible. " est à la gare ! \"";
+			$message = "[Filature] Vous avez reçu un message par l'inconnu de la gare de " . $this->lieuEnCours["nom_ville"] . " :" . PHP_EOL;
+			$message .= "\"" . $cible . " est à la gare ! \"";
 			$this->insertFilatureAction($braldunCible["id_braldun"], $this->view->user->x_braldun, $this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->y_braldun, $message);
 		}
 	}
@@ -185,25 +187,25 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 		$villeCourante = $villeTable->findLaPlusProche($this->view->user->x_braldun, $this->view->user->y_braldun);
 		$villeCible = $villeTable->findLaPlusProche($braldunCible["x_braldun"], $braldunCible["y_braldun"]);
 
-		$cible = $braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+		$cible = $braldunCible["prenom_braldun"] . " " . $braldunCible["nom_braldun"] . " (" . $braldunCible["id_braldun"] . ")";
 		$details .= $cible;
 
 		if ($this->view->enPayant) {
-			$message = "[Filature] Vous avez reçu un message par l'inconnu de la mairie de ".$this->lieuEnCours["nom_ville"]." :".PHP_EOL;
-			$message .= "\"". $cible. " est dans la ville ! \"";
+			$message = "[Filature] Vous avez reçu un message par l'inconnu de la mairie de " . $this->lieuEnCours["nom_ville"] . " :" . PHP_EOL;
+			$message .= "\"" . $cible . " est dans la ville ! \"";
 			$this->insertFilatureAction($braldunCible["id_braldun"], $villeCible["x_min_ville"], $villeCible["x_max_ville"], $villeCible["y_min_ville"], $villeCible["y_max_ville"], $message);
 		}
 
 		if ($villeCourante["id_ville"] == $villeCible["id_ville"]) {
-			$details .= " se trouve dans les environs de votre ville (".$villeCourante["nom_ville"].").";
+			$details .= " se trouve dans les environs de votre ville (" . $villeCourante["nom_ville"] . ").";
 			$data = array('etape_filature' => 4);
 
 			$filatureTable = new Filature();
-			$where = "id_filature = ".$this->view->filerEnCours["id_filature"];
+			$where = "id_filature = " . $this->view->filerEnCours["id_filature"];
 			$idFilature = $filatureTable->update($data, $where);
 			return true;
 		} else {
-			$details .= " ne se trouve pas dans les environs de votre ville (".$villeCourante["nom_ville"].").<br />";
+			$details .= " ne se trouve pas dans les environs de votre ville (" . $villeCourante["nom_ville"] . ").<br />";
 			$this->calculFilerEtape2($braldunCible, $details);
 			return false;
 		}
@@ -219,7 +221,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			$this->view->user->x_braldun;
 			$this->view->user->y_braldun;
 
-			$distance = sqrt((($this->view->user->x_braldun - $braldunCible["x_braldun"]) * ($this->view->user->x_braldun - $braldunCible["x_braldun"])) + (($this->view->user->y_braldun- $braldunCible["y_braldun"]) * ($this->view->user->y_braldun- $braldunCible["y_braldun"])));
+			$distance = sqrt((($this->view->user->x_braldun - $braldunCible["x_braldun"]) * ($this->view->user->x_braldun - $braldunCible["x_braldun"])) + (($this->view->user->y_braldun - $braldunCible["y_braldun"]) * ($this->view->user->y_braldun - $braldunCible["y_braldun"])));
 
 			$x = $this->view->user->x_braldun;
 			$y = $this->view->user->y_braldun;
@@ -231,26 +233,27 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 			if ($distance <= $vue_nb_cases * 3) {
 
 				if ($this->view->user->x_braldun == $braldunCible["x_braldun"] &&
-				$this->view->user->y_braldun == $braldunCible["y_braldun"]) {
-					$details .= "<br />".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+					$this->view->user->y_braldun == $braldunCible["y_braldun"]
+				) {
+					$details .= "<br />" . $braldunCible["prenom_braldun"] . " " . $braldunCible["nom_braldun"] . " (" . $braldunCible["id_braldun"] . ")";
 					$details .= " se trouve sur votre case !";
 				} else {
 					$details .= "<br />D'après les indices trouvés sur le sol, ";
-					$details .= $braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+					$details .= $braldunCible["prenom_braldun"] . " " . $braldunCible["nom_braldun"] . " (" . $braldunCible["id_braldun"] . ")";
 					$details .= " peut être en (x / y) : <br />";
 
-					$tab[] = $braldunCible["x_braldun"]. " / ". $braldunCible["y_braldun"];
-					$tab[] = ($braldunCible["x_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3())). " / ". ($braldunCible["y_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3()));
-					$tab[] = ($braldunCible["x_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3())). " / ". ($braldunCible["y_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3()));
+					$tab[] = $braldunCible["x_braldun"] . " / " . $braldunCible["y_braldun"];
+					$tab[] = ($braldunCible["x_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3())) . " / " . ($braldunCible["y_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3()));
+					$tab[] = ($braldunCible["x_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3())) . " / " . ($braldunCible["y_braldun"] + (Bral_Util_De::get_1ouMoins1() * Bral_Util_De::get_1d3()));
 					shuffle($tab);
-					$details .= $tab[0]." ou en ".$tab[1]." ou en ".$tab[2].".";
+					$details .= $tab[0] . " ou en " . $tab[1] . " ou en " . $tab[2] . ".";
 				}
 
-				$message = "Quelqu'un est sur vos pas !".PHP_EOL.PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inconnu->id_braldun, $braldunCible["id_braldun"] , $message, $this->view);
-				
+				$message = "Quelqu'un est sur vos pas !" . PHP_EOL . PHP_EOL . "Inutile de répondre à ce message.";
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inconnu->id_braldun, $braldunCible["id_braldun"], $message, $this->view);
+
 			} else {
-				$details .= "<br />".$braldunCible["prenom_braldun"] . " ". $braldunCible["nom_braldun"] . " (". $braldunCible["id_braldun"] . ")";
+				$details .= "<br />" . $braldunCible["prenom_braldun"] . " " . $braldunCible["nom_braldun"] . " (" . $braldunCible["id_braldun"] . ")";
 				$details .= " se trouve ";
 
 				if ($this->view->user->x_braldun == $braldunCible["x_braldun"]) {
@@ -284,11 +287,11 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 				}
 
 				if ($this->view->user->z_braldun != $braldunCible["z_braldun"]) {
-					$details .= " Attention, la cible n'est pas à votre niveau (z=".$this->view->user->z_braldun.")";
+					$details .= " Attention, la cible n'est pas à votre niveau (z=" . $this->view->user->z_braldun . ")";
 				}
-				
-				$message = "Le vent vous porte un étrange odeur ...".PHP_EOL.PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inconnu->id_braldun, $braldunCible["id_braldun"] , $message, $this->view);
+
+				$message = "Le vent vous porte un étrange odeur ..." . PHP_EOL . PHP_EOL . "Inutile de répondre à ce message.";
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inconnu->id_braldun, $braldunCible["id_braldun"], $message, $this->view);
 			}
 		} else {
 			// rien à faire ici
@@ -299,7 +302,7 @@ class Bral_Competences_Filer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("FilatureAction");
 		$tableFilatureAction = new FilatureAction();
 
-		$data = array (
+		$data = array(
 			'id_fk_braldun_filature_action' => $idCible,
 			'id_fk_filature_action' => $this->view->filerEnCours["id_filature"],
 			'x_min_filature_action' => $xMin,

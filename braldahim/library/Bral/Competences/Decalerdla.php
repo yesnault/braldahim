@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
@@ -9,12 +9,13 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 
 	private $_tabHeures = null;
 	private $_tabMinutes = null;
+
 	function prepareCommun() {
-		for ($i = 0; $i< 24; $i ++) {
+		for ($i = 0; $i < 24; $i++) {
 			$this->_tabHeures[] = $i;
 		}
 
-		for ($i = 0; $i< 60; $i ++) {
+		for ($i = 0; $i < 60; $i++) {
 			$this->_tabMinutes[] = $i;
 		}
 	}
@@ -46,9 +47,9 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		}
 
 		if ($heureOk === false) {
-			throw new Zend_Exception(get_class($this)." Heure invalide : ".$newHeure);
+			throw new Zend_Exception(get_class($this) . " Heure invalide : " . $newHeure);
 		}
-		
+
 		// Verification des minutes
 		$minutesOk = false;
 		foreach ($this->_tabMinutes as $m) {
@@ -59,28 +60,28 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		}
 
 		if ($minutesOk === false) {
-			throw new Zend_Exception(get_class($this)." Minutes invalides : ".$newMinutes);
+			throw new Zend_Exception(get_class($this) . " Minutes invalides : " . $newMinutes);
 		}
-		
+
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
-		
-		$ajout = $newHeure.":".$newMinutes.":0";
+
+		$ajout = $newHeure . ":" . $newMinutes . ":0";
 		$nouvelleDla = Bral_Util_ConvertDate::get_date_add_time_to_date($this->view->user->date_fin_tour_braldun, $ajout);
 		$this->view->user->date_fin_tour_braldun = $nouvelleDla;
-		
-		$data = array( 
+
+		$data = array(
 			'date_fin_tour_braldun' => $this->view->user->date_fin_tour_braldun,
-		); 
-		$where = "id_braldun=".$this->view->user->id_braldun;
+		);
+		$where = "id_braldun=" . $this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
-		
+
 		$this->view->heures = $newHeure;
 		$this->view->minutes = $newMinutes;
 		$dlaActuelle["texte"] = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_braldun);
 		$this->view->dlaActuelle = $dlaActuelle;
-		
+
 	}
 
 	function getListBoxRefresh() {

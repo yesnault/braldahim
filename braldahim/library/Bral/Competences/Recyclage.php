@@ -37,7 +37,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 			);
 		}
 		$this->view->tabEquipementLaban = $tabEquipementLaban;
-		$this->view->nbEquipementLaban = count ($tabEquipementLaban);
+		$this->view->nbEquipementLaban = count($tabEquipementLaban);
 
 	}
 
@@ -51,11 +51,11 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Equipement invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Equipement invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idEquipement = (int)$this->request->get("valeur_1");
 		}
@@ -73,7 +73,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 			}
 		}
 		if ($recyclage === false) {
-			throw new Zend_Exception(get_class($this)." Equipement invalide (".$idEquipement.")");
+			throw new Zend_Exception(get_class($this) . " Equipement invalide (" . $idEquipement . ")");
 		}
 
 		$this->calculJets();
@@ -86,7 +86,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->majBraldun();
 	}
 
-	private function calculRecyclage($idEquipement, $idTypeEquipement, $nivEquipement, $poidsEquipement){
+	private function calculRecyclage($idEquipement, $idTypeEquipement, $nivEquipement, $poidsEquipement) {
 		Zend_Loader::loadClass("RecetteCout");
 		Zend_Loader::loadClass("RecetteCoutMinerai");
 		Zend_Loader::loadClass("Laban");
@@ -101,7 +101,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->poidsRestant = $this->view->user->poids_transportable_braldun - $this->view->user->poids_transporte_braldun + $poidsEquipement;
 
 		$labanEquipementTable = new LabanEquipement();
-		$where = "id_laban_equipement=".$idEquipement;
+		$where = "id_laban_equipement=" . $idEquipement;
 		$labanEquipementTable->delete($where);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -125,20 +125,20 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 		if ($nivEquipement == 0) {
 			$perte = 0.20; // pour le niveau 0
-		} elseif ($jetSag < $nivEquipement*20) {
+		} elseif ($jetSag < $nivEquipement * 20) {
 			$perte = 0.20;
-		} elseif ($jetSag >= $nivEquipement*20 && $jetSag < $nivEquipement*30) {
+		} elseif ($jetSag >= $nivEquipement * 20 && $jetSag < $nivEquipement * 30) {
 			$perte = 0.4;
-		} elseif ($jetSag >= $nivEquipement*30 && $jetSag < $nivEquipement*40) {
+		} elseif ($jetSag >= $nivEquipement * 30 && $jetSag < $nivEquipement * 40) {
 			$perte = 0.5;
-		} elseif ($jetSag >= $nivEquipement*40) {
+		} elseif ($jetSag >= $nivEquipement * 40) {
 			$perte = 0.5;
 		}
 
-		foreach($recetteCout as $r) {
-			$nbCuir = floor($r["cuir_recette_cout"]*$perte);
-			$nbFourrure = floor($r["fourrure_recette_cout"]*$perte);
-			$nbPlanche = floor($r["planche_recette_cout"]*$perte);
+		foreach ($recetteCout as $r) {
+			$nbCuir = floor($r["cuir_recette_cout"] * $perte);
+			$nbFourrure = floor($r["fourrure_recette_cout"] * $perte);
+			$nbPlanche = floor($r["planche_recette_cout"] * $perte);
 		}
 
 		$nbCuirLaban = $this->calculNbPoidsPossible($nbCuir, Bral_Util_Poids::POIDS_CUIR);
@@ -174,20 +174,20 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 		$recetteCoutMineraiTable = new RecetteCoutMinerai();
 		$recetteCoutMinerai = $recetteCoutMineraiTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);
-		if (count ($recetteCoutMinerai) > 0) {
+		if (count($recetteCoutMinerai) > 0) {
 			Zend_Loader::loadClass("LabanMinerai");
 			Zend_Loader::loadClass("ElementMinerai");
 
 			$labanMineraiTable = new LabanMinerai();
-			foreach($recetteCoutMinerai as $r){
-				$nbMinerai = floor($r["quantite_recette_cout_minerai"]*$perte);
+			foreach ($recetteCoutMinerai as $r) {
+				$nbMinerai = floor($r["quantite_recette_cout_minerai"] * $perte);
 
 				$nbMineraiLaban = $this->calculNbPoidsPossible($nbMinerai, Bral_Util_Poids::POIDS_LINGOT);
 				$nbMineraiTerre = $nbMinerai - $nbMineraiLaban;
 
 				if ($nbMineraiLaban > 0) {
 					// on ajoute dans le laban
-					$tabMineraiLaban[] = array (
+					$tabMineraiLaban[] = array(
 						"nom" => $r["nom_type_minerai"],
 						"quantite" => $nbMineraiLaban,
 					);
@@ -202,13 +202,13 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 
 				if ($nbMineraiTerre > 0) {
 					// on depose le trop plein à terre
-					$tabMineraiTerre[] = array (
+					$tabMineraiTerre[] = array(
 						"nom" => $r["nom_type_minerai"],
 						"quantite" => $nbMineraiTerre,
 					);
 
 					$elementMineraiTable = new ElementMinerai();
-					$data = array (
+					$data = array(
 						"x_element_minerai" => $this->view->user->x_braldun,
 						"y_element_minerai" => $this->view->user->y_braldun,
 						"z_element_minerai" => $this->view->user->z_braldun,
@@ -230,7 +230,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->view->mineraiTerre = $tabMineraiTerre;
 		$this->view->jetRecyclage = $jetSag;
 
-		$details = "[b".$this->view->user->id_braldun."] a recyclé la pièce d'équipement n°".$idEquipement;
+		$details = "[b" . $this->view->user->id_braldun . "] a recyclé la pièce d'équipement n°" . $idEquipement;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_DESTRUCTION_ID, $idEquipement, $details);
 
 	}

@@ -21,9 +21,9 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		if (count($filons) > 0) {
 			$this->view->filonOk = true;
 
-			foreach($filons as $f) {
+			foreach ($filons as $f) {
 				$tabFilons[] = array(
-					'id_filon' => $f["id_filon"], 
+					'id_filon' => $f["id_filon"],
 					'nom_type_minerai' => $f['nom_type_minerai'],
 					'id_fk_type_minerai_filon' => $f["id_fk_type_minerai_filon"],
 					'quantite_restante_filon' => $f["quantite_restante_filon"],
@@ -69,14 +69,14 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		$idFilonRecu = intval($this->request->get("valeur_1"));
 
 		//verification de la présence du filon
 		$valid = false;
-		foreach($this->view->filons as $f) {
+		foreach ($this->view->filons as $f) {
 			if ($idFilonRecu == $f["id_filon"]) {
 				$idFilon = $f["id_filon"];
 				$id_fk_type_minerai_filon = $f["id_fk_type_minerai_filon"];
@@ -87,26 +87,26 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			}
 		}
 
-		if ($valid===false) {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid id=".$idFilonRecu);
+		if ($valid === false) {
+			throw new Zend_Exception(get_class($this) . " Erreur inconnue. Valid id=" . $idFilonRecu);
 		}
 
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		if ($arrivee < 1 || $arrivee > 3) {
-			throw new Zend_Exception(get_class($this)." Destination impossible ");
+			throw new Zend_Exception(get_class($this) . " Destination impossible ");
 		}
 
 		if ($this->view->charettePleine == true && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Charette pleine !");
+			throw new Zend_Exception(get_class($this) . " Charette pleine !");
 		}
 
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+			throw new Zend_Exception(get_class($this) . " Pas de charrette !");
 		}
 
 		if ($this->view->labanPlein == true && $arrivee == 2) {
-			throw new Zend_Exception(get_class($this)." Laban plein !");
+			throw new Zend_Exception(get_class($this) . " Laban plein !");
 		}
 
 		// calcul des jets
@@ -185,7 +185,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			}
 
 			$statsRecolteurs = new StatsRecolteurs();
-			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
@@ -198,7 +198,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		// Destruction du filon s'il ne reste plus rien
 		if ($quantite_restante_filon - $quantiteExtraite <= 0) {
 			$filonTable = new Filon();
-			$where = "id_filon=".$idFilon;
+			$where = "id_filon=" . $idFilon;
 			$filonTable->delete($where);
 			$filonDetruit = true;
 			if ($this->view->user->z_braldun == 0) {
@@ -210,7 +210,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$data = array(
 				'quantite_restante_filon' => $quantite_restante_filon - $quantiteExtraite,
 			);
-			$where = "id_filon=".$idFilon;
+			$where = "id_filon=" . $idFilon;
 			$filonTable->update($data, $where);
 			$filonDetruit = false;
 		}
@@ -252,7 +252,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$n = ceil($n * 1.5);
 		}
 
-		$n = $n + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2 ;
+		$n = $n + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2;
 		$n = intval($n);
 		if ($n <= 0) {
 			$n = 1;
@@ -266,7 +266,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
 			if ($this->view->filonOk === true) {
-				$this->view->nb_px_perso =  $this->competence["px_gain"] + 1;
+				$this->view->nb_px_perso = $this->competence["px_gain"] + 1;
 			} else {
 				$this->view->nb_px_perso = $this->competence["px_gain"];
 			}
@@ -316,7 +316,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		if (count($zone) == 1) {
 			$case = $zone[0];
 		} else {
-			throw new Zend_Exception(get_class($this)."::recreation : Nombre de case invalide");
+			throw new Zend_Exception(get_class($this) . "::recreation : Nombre de case invalide");
 		}
 
 		// On verifie que la case est bien de type montagne
@@ -328,11 +328,11 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 
 		$data = array(
-			'id_fk_type_minerai_filon' => $idTypeMinerai, 
-			'x_filon' => $x, 
-			'y_filon' => $y, 
-			'z_filon' => 0, 
-			'quantite_restante_filon' => $quantite, 
+			'id_fk_type_minerai_filon' => $idTypeMinerai,
+			'x_filon' => $x,
+			'y_filon' => $y,
+			'z_filon' => 0,
+			'quantite_restante_filon' => $quantite,
 			'quantite_max_filon' => $quantite
 		);
 		$filonTable->insert($data);

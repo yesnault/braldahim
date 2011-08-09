@@ -52,14 +52,14 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$selection = $this->request->get("position"); // si l'on vient de la vue (clic sur l'icone marcher)
 		$tabPositions = null;
 
-		for($i=1; $i<=10; $i++) {
-			for($j=1; $j<=10; $j++) {
+		for ($i = 1; $i <= 10; $i++) {
+			for ($j = 1; $j <= 10; $j++) {
 				$selected = "";
-				if ($selection == $i."-".$j) {
+				if ($selection == $i . "-" . $j) {
 					$selected = "selected";
 				}
-				$tabPositions[$i.'t'.$j] = array(
-					'possible' => true,	
+				$tabPositions[$i . 't' . $j] = array(
+					'possible' => true,
 					'selected' => $selected,
 					'x' => $i,
 					'y' => $j,
@@ -74,10 +74,10 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$tabTaupes = array();
 		if ($this->view->champ["phase_champ"] == 'seme') {
 			if ($taupes != null) {
-				foreach($taupes as $t) {
+				foreach ($taupes as $t) {
 					if ($t["etat_champ_taupe"] != 'vivant') {
-						$tabPositions[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]]["possible"] = false;
-						$tabPositions[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]]["selected"] = "";
+						$tabPositions[$t["x_champ_taupe"] . 't' . $t["y_champ_taupe"]]["possible"] = false;
+						$tabPositions[$t["x_champ_taupe"] . 't' . $t["y_champ_taupe"]]["selected"] = "";
 					}
 				}
 			}
@@ -95,46 +95,46 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification semer
 		if ($this->view->entretenirChampOk == false) {
-			throw new Zend_Exception(get_class($this)." Entretenir Champ interdit");
+			throw new Zend_Exception(get_class($this) . " Entretenir Champ interdit");
 		}
 
 		$x_y = $this->request->get("valeur_1");
 		list ($x, $y) = preg_split("/t/", $x_y);
 
 		if ($x < 0 || $x > 10 || $y < 0 || $y > 10) {
-			throw new Zend_Exception(get_class($this)." XY invalides : ".$x_y);
+			throw new Zend_Exception(get_class($this) . " XY invalides : " . $x_y);
 		}
 
-		if ($this->view->positions[$x."t".$y]["possible"] !== true) {
-			throw new Zend_Exception(get_class($this)." XY impossibles : ".$x_y);
+		if ($this->view->positions[$x . "t" . $y]["possible"] !== true) {
+			throw new Zend_Exception(get_class($this) . " XY impossibles : " . $x_y);
 		}
 
 		$this->entretenir($x, $y);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[b".$this->view->user->id_braldun."] a entretenu son champ";
+		$details = "[b" . $this->view->user->id_braldun . "] a entretenu son champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		//message pour le braldûn propriétaire
 		if ($this->idProprietaire != $this->view->user->id_braldun) {
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = "[Ceci est un message automatique d'agriculture]".PHP_EOL;
-			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a entretenu votre champ en x:".$this->view->champ["x_champ"].", y:".$this->view->champ["y_champ"].PHP_EOL;
-			$message .= "Zone entretenue : x: ".$this->view->etatZone["x"]." y:".$this->view->etatZone["y"].".".PHP_EOL;
+			$message = "[Ceci est un message automatique d'agriculture]" . PHP_EOL;
+			$message .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " a entretenu votre champ en x:" . $this->view->champ["x_champ"] . ", y:" . $this->view->champ["y_champ"] . PHP_EOL;
+			$message .= "Zone entretenue : x: " . $this->view->etatZone["x"] . " y:" . $this->view->etatZone["y"] . "." . PHP_EOL;
 			if ($this->view->etatZone["etat"] == ChampTaupe::ETAT_ENTRETENU) {
-				$message .= "Aucun taupe n'a été trouvée à cet endroit.".PHP_EOL;
+				$message .= "Aucun taupe n'a été trouvée à cet endroit." . PHP_EOL;
 			} else {
-				$message .= "Une partie de taupe de taille ".$this->view->etatZone["taille"]." a été trouvée !".PHP_EOL;
+				$message .= "Une partie de taupe de taille " . $this->view->etatZone["taille"] . " a été trouvée !" . PHP_EOL;
 				if ($this->view->taupeDetruite) {
-					$message .= "La taupe est occise.".PHP_EOL;
+					$message .= "La taupe est occise." . PHP_EOL;
 				} else {
-					$message .= "Consultez le champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement.".PHP_EOL;
+					$message .= "Consultez le champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement." . PHP_EOL;
 				}
 			}
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $this->idProprietaire, $message, $this->view);
@@ -175,7 +175,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 			'date_utilisation_champ' => date("Y-m-d 00:00:00"),
 		);
 
-		$where = 'id_champ='.$this->view->champ["id_champ"];
+		$where = 'id_champ=' . $this->view->champ["id_champ"];
 		$champTable->update($data, $where);
 
 		$this->view->etatZone = $etatZone;

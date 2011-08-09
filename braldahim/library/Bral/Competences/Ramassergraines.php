@@ -74,11 +74,11 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->ramasserGrainesEnvironnementOk == false || $this->view->placeDispo == false) {
-			throw new Zend_Exception(get_class($this)." Ramasser des graines interdit ");
+			throw new Zend_Exception(get_class($this) . " Ramasser des graines interdit ");
 		}
 
 		// calcul des jets
@@ -102,9 +102,9 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		$this->view->nbGraines = 1;
 
 		$buissonTable = new Buisson();
-		$where = "id_buisson=".$this->view->buissonCourant["id_buisson"];
+		$where = "id_buisson=" . $this->view->buissonCourant["id_buisson"];
 		// Destruction du buisson s'il ne reste plus rien
-		if ($this->view->buissonCourant["quantite_restante_buisson"] - $this->view->nbGraines  <= 0) {
+		if ($this->view->buissonCourant["quantite_restante_buisson"] - $this->view->nbGraines <= 0) {
 			$this->view->nbGraines = $this->view->buissonCourant["quantite_restante_buisson"];
 			$buissonTable->delete($where);
 			$buissonDetruit = true;
@@ -140,9 +140,9 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			$labanGraineTable->insertOrUpdate($data);
 			unset($charretteTable);
 		}
-			
+
 		$statsRecolteurs = new StatsRecolteurs();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 		$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
@@ -178,7 +178,7 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
 			}
 		}
-			
+
 		if ($buissonTable->countByCase($x, $y, 0) > 0) {
 			$x = $x - 1;
 			if ($buissonTable->countByCase($x, $y, 0) > 0) {
@@ -187,11 +187,11 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 		}
 
 		$data = array(
-			'id_fk_type_buisson_buisson' => $this->view->buissonCourant['id_fk_type_buisson_buisson'], 
-			'x_buisson' => $x, 
-			'y_buisson' => $y, 
-			'z_buisson' => 0, 
-			'quantite_restante_buisson' => $quantite, 
+			'id_fk_type_buisson_buisson' => $this->view->buissonCourant['id_fk_type_buisson_buisson'],
+			'x_buisson' => $x,
+			'y_buisson' => $y,
+			'z_buisson' => 0,
+			'quantite_restante_buisson' => $quantite,
 			'quantite_max_buisson' => $quantite
 		);
 		$buissonTable->insert($data);

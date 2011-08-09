@@ -11,7 +11,7 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun ) * 2;
+		$this->view->rayon_precis = (Bral_Util_Commun::getVueBase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun) + $this->view->user->vue_bm_braldun) * 2;
 
 		$this->view->avecChoix = false;
 		$tabChoix = array();
@@ -34,14 +34,14 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Valeur invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$choix = (int)$this->request->get("valeur_1");
 		}
 
 		if ($choix > count($this->view->tabChoix) - 1 || $choix == -1) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide  2 : ".$choix);
+			throw new Zend_Exception(get_class($this) . " Valeur invalide  2 : " . $choix);
 		}
 
 		$this->calculJets();
@@ -65,8 +65,8 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 		if ($choix != -3 && $choix != -2) {
 			$idTypeMinerai = $this->view->tabChoix[$choix]["id_type_minerai"];
-				
-			$this->view->libelleRecherche = "un filon de type ".$this->view->tabChoix[$choix]["nom_type_minerai"];
+
+			$this->view->libelleRecherche = "un filon de type " . $this->view->tabChoix[$choix]["nom_type_minerai"];
 		}
 
 		Zend_Loader::loadClass('Filon');
@@ -90,9 +90,10 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			}
 
 		} else {
-			$this->view->trouve= false;
+			$this->view->trouve = false;
 		}
 	}
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences"));
 	}

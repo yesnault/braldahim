@@ -20,14 +20,14 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$tabBoissons = null;
 		foreach ($aliments as $p) {
 			$tab = array(
-					"id_aliment" => $p["id_aliment"],
-					"id_fk_type_aliment" => $p["id_fk_type_aliment"],
-					"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_aliment"],
-					"nom" => $p["nom_type_aliment"],
-					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
-					"qualite" => $p["nom_type_qualite"],
-					"bbdf" => $p["bbdf_aliment"],
-					"id_fk_effet_braldun_aliment" => $p["id_fk_effet_braldun_aliment"],
+				"id_aliment" => $p["id_aliment"],
+				"id_fk_type_aliment" => $p["id_fk_type_aliment"],
+				"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_aliment"],
+				"nom" => $p["nom_type_aliment"],
+				"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
+				"qualite" => $p["nom_type_qualite"],
+				"bbdf" => $p["bbdf_aliment"],
+				"id_fk_effet_braldun_aliment" => $p["id_fk_effet_braldun_aliment"],
 			);
 
 			if ($p["type_type_aliment"] == "manger") {
@@ -54,16 +54,16 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification cuisiner
 		if ($this->view->mangerNbAlimentOk == false) {
-			throw new Zend_Exception(get_class($this)." Manger interdit ");
+			throw new Zend_Exception(get_class($this) . " Manger interdit ");
 		}
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Aliment invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Aliment invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idAliment = (int)$this->request->get("valeur_1");
 		}
@@ -77,11 +77,11 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		}
 
 		if ($aliment == null) {
-			throw new Zend_Exception(get_class($this)." Aliment invalide (".$idAliment.")");
+			throw new Zend_Exception(get_class($this) . " Aliment invalide (" . $idAliment . ")");
 		}
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Boisson invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Boisson invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idBoisson = (int)$this->request->get("valeur_2");
 		}
@@ -97,16 +97,16 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		}
 
 		if ($boisson == null && $idBoisson != -1) {
-			throw new Zend_Exception(get_class($this)." Boisson invalide (".$idBoisson.")");
+			throw new Zend_Exception(get_class($this) . " Boisson invalide (" . $idBoisson . ")");
 		}
 
 		// cacul de la quete avant, pour avoir le controle sur l'état repu ou affame.
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
 
 		$this->calculManger($aliment, $boisson);
-		
+
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[b".$this->view->user->id_braldun."] a mangé";
+		$details = "[b" . $this->view->user->id_braldun . "] a mangé";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -122,7 +122,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TypeAliment");
 
 		$labanAlimentTable = new LabanAliment();
-		$where = 'id_laban_aliment = '.(int)$aliment["id_aliment"];
+		$where = 'id_laban_aliment = ' . (int)$aliment["id_aliment"];
 		$labanAlimentTable->delete($where);
 
 		$braldunTable = new Braldun();
@@ -146,7 +146,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$gain = floor($aliment["bbdf"] * $coef);
 		$nbSupplementaires = $this->view->user->balance_faim_braldun + $gain;
 		$nbPvManquants = $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun - $this->view->user->pv_restant_braldun;
-		
+
 		if ($nbPvManquants > 0 && // manque des pv
 			$nbSupplementaires >= 110 // gain donne 10% au min supplémentaire 
 		) {
@@ -159,7 +159,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 				$this->view->user->pv_restant_braldun = $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun;
 			}
 		}
-		
+
 		$this->view->user->balance_faim_braldun = $this->view->user->balance_faim_braldun + $gain;
 
 		if ($this->view->user->balance_faim_braldun > 100) {
@@ -169,7 +169,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$data = array(
 			'balance_faim_braldun' => $this->view->user->balance_faim_braldun,
 		);
-		$where = "id_braldun=".$this->view->user->id_braldun;
+		$where = "id_braldun=" . $this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
 
 		$this->view->aliment = $aliment;
@@ -184,7 +184,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 
 		if ($aliment["id_fk_effet_braldun_aliment"] != null) {
 			$data = array("id_fk_braldun_cible_effet_braldun" => $this->view->user->id_braldun);
-			$where = "id_effet_braldun = ".intval($aliment["id_fk_effet_braldun_aliment"]);
+			$where = "id_effet_braldun = " . intval($aliment["id_fk_effet_braldun_aliment"]);
 			$effetBraldunTable->update($data, $where);
 			Bral_Util_Effets::calculEffetBraldun($this->view->user, true, $aliment["id_fk_effet_braldun_aliment"]);
 			$this->view->avecEffet = true;
@@ -192,7 +192,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 
 		if ($boisson["id_fk_effet_braldun_aliment"] != null) {
 			$data = array("id_fk_braldun_cible_effet_braldun" => $this->view->user->id_braldun);
-			$where = "id_effet_braldun = ".intval($boisson["id_fk_effet_braldun_aliment"]);
+			$where = "id_effet_braldun = " . intval($boisson["id_fk_effet_braldun_aliment"]);
 			$effetBraldunTable->update($data, $where);
 			Bral_Util_Effets::calculEffetBraldun($this->view->user, true, $boisson["id_fk_effet_braldun_aliment"]);
 			$this->view->avecEffet = true;
@@ -200,13 +200,13 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Aliment");
 		$alimentTable = new Aliment();
-		$where = 'id_aliment = '.(int)$aliment["id_aliment"];
+		$where = 'id_aliment = ' . (int)$aliment["id_aliment"];
 		$alimentTable->delete($where);
 
 		if ($boisson != null) {
-			$where = 'id_laban_aliment = '.(int)$boisson["id_aliment"];
+			$where = 'id_laban_aliment = ' . (int)$boisson["id_aliment"];
 			$labanAlimentTable->delete($where);
-			$where = 'id_aliment = '.(int)$boisson["id_aliment"];
+			$where = 'id_aliment = ' . (int)$boisson["id_aliment"];
 			$alimentTable->delete($where);
 		}
 	}

@@ -31,12 +31,13 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			return;
 		}
 		$idEchoppe = -1;
-		foreach($echoppes as $e) {
+		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-			$e["nom_systeme_metier"] == self::NOM_METIER &&
-			$e["x_echoppe"] == $this->view->user->x_braldun &&
-			$e["y_echoppe"] == $this->view->user->y_braldun &&
-			$e["z_echoppe"] == $this->view->user->z_braldun) {
+				$e["nom_systeme_metier"] == self::NOM_METIER &&
+				$e["x_echoppe"] == $this->view->user->x_braldun &&
+				$e["y_echoppe"] == $this->view->user->y_braldun &&
+				$e["z_echoppe"] == $this->view->user->z_braldun
+			) {
 				$this->view->confectionnerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -62,9 +63,9 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
-		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier(), "region_".$this->region["id_region"]."_nom_type_equipement");
+		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier(), "region_" . $this->region["id_region"] . "_nom_type_equipement");
 		$tabTypeEquipement = null;
-		foreach($typeEquipementsRowset as $t) {
+		foreach ($typeEquipementsRowset as $t) {
 			$selected = "";
 			if ($id_type_courant == $t["id_type_equipement"]) {
 				$selected = "selected";
@@ -98,28 +99,28 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 			$this->view->etape1 = true;
 
-			for ($i = 0; $i <= $this->view->user->niveau_braldun / 10 ; $i++) {
-				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true, 'a_afficher' => false);
+			for ($i = 0; $i <= $this->view->user->niveau_braldun / 10; $i++) {
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau ' . $i, 'ressourcesOk' => true, 'a_afficher' => false);
 			}
 
 			$recetteEquipementTable = new RecetteEquipement();
 			$recetteEquipement = $recetteEquipementTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 
-			foreach($recetteEquipement as $r) {
+			foreach ($recetteEquipement as $r) {
 				$tabCaracs[$r["niveau_recette_equipement"]][$r["id_fk_type_qualite_recette_equipement"]][] = array(
-						'nom_qualite' => $r["nom_type_qualite"],
-						'niveau' => $r["niveau_recette_equipement"], 
-						'poids' => $r["poids_recette_equipement"], 
-						'armure' => $r["armure_recette_equipement"], 
-						'force' => $r["force_recette_equipement"], 
-						'agilite' => $r["agilite_recette_equipement"], 
-						'vigueur' => $r["vigueur_recette_equipement"], 
-						'sagesse' => $r["sagesse_recette_equipement"], 
-						'vue' => $r["vue_recette_equipement"], 
-						'attaque' => $r["bm_attaque_recette_equipement"], 
-						'degat' => $r["bm_degat_recette_equipement"], 
-						'defense' => $r["bm_defense_recette_equipement"], 
-						'nom_emplacement' => $r["nom_type_emplacement"], 
+					'nom_qualite' => $r["nom_type_qualite"],
+					'niveau' => $r["niveau_recette_equipement"],
+					'poids' => $r["poids_recette_equipement"],
+					'armure' => $r["armure_recette_equipement"],
+					'force' => $r["force_recette_equipement"],
+					'agilite' => $r["agilite_recette_equipement"],
+					'vigueur' => $r["vigueur_recette_equipement"],
+					'sagesse' => $r["sagesse_recette_equipement"],
+					'vue' => $r["vue_recette_equipement"],
+					'attaque' => $r["bm_attaque_recette_equipement"],
+					'degat' => $r["bm_degat_recette_equipement"],
+					'defense' => $r["bm_defense_recette_equipement"],
+					'nom_emplacement' => $r["nom_type_emplacement"],
 				);
 				if (array_key_exists($r["niveau_recette_equipement"], $tabNiveaux)) {
 					$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
@@ -129,16 +130,16 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$recetteCoutTable = new RecetteCout();
 			$recetteCout = $recetteCoutTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 
-			foreach($recetteCout as $r) {
-				if ($r["niveau_recette_cout"] <= floor($this->view->user->niveau_braldun / 10) ) {
+			foreach ($recetteCout as $r) {
+				if ($r["niveau_recette_cout"] <= floor($this->view->user->niveau_braldun / 10)) {
 					if ($r["cuir_recette_cout"] > 0) {
-						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Cuir", "nom_systeme"=>"cuir", "cout" => $r["cuir_recette_cout"]);
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom" => "Cuir", "nom_systeme" => "cuir", "cout" => $r["cuir_recette_cout"]);
 						if ($r["cuir_recette_cout"] > $echoppeCourante["quantite_cuir_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
 					}
 					if ($r["fourrure_recette_cout"] > 0) {
-						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Fourrure", "nom_systeme"=>"fourrure", "cout" => $r["fourrure_recette_cout"]);
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom" => "Fourrure", "nom_systeme" => "fourrure", "cout" => $r["fourrure_recette_cout"]);
 						if ($r["fourrure_recette_cout"] > $echoppeCourante["quantite_fourrure_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
@@ -149,7 +150,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 						} else {
 							$nom = "Planche";
 						}
-						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>$nom, "nom_systeme"=>"planche", "cout" => $r["planche_recette_cout"]);
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom" => $nom, "nom_systeme" => "planche", "cout" => $r["planche_recette_cout"]);
 						if ($r["planche_recette_cout"] > $echoppeCourante["quantite_planche_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
@@ -163,12 +164,13 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$echoppeMineraiTable = new EchoppeMinerai();
 			$this->echoppeMinerai = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
 
-			foreach($recetteCoutMinerai as $r) {
+			foreach ($recetteCoutMinerai as $r) {
 				if (($r["quantite_recette_cout_minerai"] > 0) &&
-				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_braldun / 10))) {
-					$tabCout[$r["niveau_recette_cout_minerai"]][] = array("nom"=>$r["nom_type_minerai"], "nom_systeme"=>$r["nom_systeme_type_minerai"], "id_type_minerai"=>$r["id_type_minerai"], "cout" => $r["quantite_recette_cout_minerai"], "unite" => "lingot");
+					($r["niveau_recette_cout_minerai"] <= floor($this->view->user->niveau_braldun / 10))
+				) {
+					$tabCout[$r["niveau_recette_cout_minerai"]][] = array("nom" => $r["nom_type_minerai"], "nom_systeme" => $r["nom_systeme_type_minerai"], "id_type_minerai" => $r["id_type_minerai"], "cout" => $r["quantite_recette_cout_minerai"], "unite" => "lingot");
 					$ressourceMinerai = false;
-					foreach($this->echoppeMinerai as $m) {
+					foreach ($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $r["id_type_minerai"]) {
 							if ($r["quantite_recette_cout_minerai"] <= $m["quantite_lingots_echoppe_minerai"]) {
 								$ressourceMinerai = true;
@@ -185,7 +187,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 			if ($typeEquipementCourant["nb_runes_max_type_equipement"] > 0) {
 				$this->view->peutRunes = true;
-				for ($i = 0; $i<=$typeEquipementCourant["nb_runes_max_type_equipement"]; $i++) {
+				for ($i = 0; $i <= $typeEquipementCourant["nb_runes_max_type_equipement"]; $i++) {
 					$tabRunes[] = array('nombre' => $i);
 				}
 			} else {
@@ -214,12 +216,12 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification confectionner
 		if ($this->view->confectionnerEchoppeOk == false) {
-			throw new Zend_Exception(get_class($this)." Confectionner Echoppe interdit ");
+			throw new Zend_Exception(get_class($this) . " Confectionner Echoppe interdit ");
 		}
 
 		$idTypeEquipement = (int)$this->request->get("valeur_1");
@@ -227,7 +229,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		$nbRunes = (int)$this->request->get("valeur_3");
 
 		if ($idTypeEquipement != $this->view->typeEquipementCourant["id_type_equipement"]) {
-			throw new Zend_Exception(get_class($this)." idTypeEqupement interdit A=".$idTypeEquipement. " B=".$this->view->typeEquipementCourant["id_type_equipement"]);
+			throw new Zend_Exception(get_class($this) . " idTypeEqupement interdit A=" . $idTypeEquipement . " B=" . $this->view->typeEquipementCourant["id_type_equipement"]);
 		}
 
 		$niveauxOk = false;
@@ -237,7 +239,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			}
 		}
 		if ($niveauxOk == false) {
-			throw new Zend_Exception(get_class($this)." Niveau interdit ");
+			throw new Zend_Exception(get_class($this) . " Niveau interdit ");
 		}
 
 		$runesOk = false;
@@ -251,7 +253,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$runesOk = true;
 		}
 		if ($runesOk == false) {
-			throw new Zend_Exception(get_class($this)." NbRunes interdit ");
+			throw new Zend_Exception(get_class($this) . " NbRunes interdit ");
 		}
 
 		// calcul des jets
@@ -278,20 +280,20 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		$maitrise = $this->braldun_competence["pourcentage_hcomp"] / 100;
 
-		$chance_a = -0.375 * $maitrise + 53.75 ;
-		$chance_b = 0.25 * $maitrise + 42.5 ;
-		$chance_c = 0.125 * $maitrise + 3.75 ;
+		$chance_a = -0.375 * $maitrise + 53.75;
+		$chance_b = 0.25 * $maitrise + 42.5;
+		$chance_c = 0.125 * $maitrise + 3.75;
 
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM AGI/2)+1.
 		 */
-		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ) + 1;
+		$n = (($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2) + 1;
 
 		if ($n < 1) $n = 1;
 
 		$tirage = 0;
 
-		for ($i = 1; $i <= $n; $i ++) {
+		for ($i = 1; $i <= $n; $i++) {
 			$tirageTemp = Bral_Util_De::get_1d100();
 			if ($tirageTemp > $tirage) {
 				$tirage = $tirageTemp;
@@ -330,7 +332,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$this->majCout($niveau, true);
 
 			$this->recetteEquipementACreer = null;
-			foreach($recetteEquipement as $r) {
+			foreach ($recetteEquipement as $r) {
 				$this->recetteEquipementACreer = $r;
 				break;
 			}
@@ -371,12 +373,12 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($id_equipement, $niveau, $this->region["id_region"]);
 			$this->view->typePiece = $this->recetteEquipementACreer["nom_systeme_type_piece"];
 			$this->view->idEquipement = $id_equipement;
-			
+
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeFabriquer($this->view->user, $idTypeEquipement, $qualite);
 
 			Zend_Loader::loadClass("StatsFabricants");
 			$statsFabricants = new StatsFabricants();
-			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
 			$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
@@ -386,15 +388,15 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$statsFabricants->insertOrUpdate($dataFabricants);
 
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {
-				$details = "[b".$this->view->user->id_braldun."] a confectionné la pièce d'équipement n°".$id_equipement;
+				$details = "[b" . $this->view->user->id_braldun . "] a confectionné la pièce d'équipement n°" . $id_equipement;
 				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $id_equipement, $details);
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
+			throw new Zend_Exception(get_class($this) . " Recette inconnue: id=" . $idTypeEquipement . " n=" . $niveau . " q=" . $qualite);
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Competence");
-		$nomSystemeCompetence = "produire".self::NOM_METIER;
+		$nomSystemeCompetence = "produire" . self::NOM_METIER;
 		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_braldun);
 	}
 
@@ -408,7 +410,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		$echoppeMineraiTable = new EchoppeMinerai();
 
-		foreach($this->view->cout[$niveau] as $c) {
+		foreach ($this->view->cout[$niveau] as $c) {
 			switch ($c["nom_systeme"]) {
 				case "cuir" :
 					$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = $this->echoppeCourante["quantite_cuir_arriere_echoppe"] - intval($c["cout"] / $coef);
@@ -430,17 +432,17 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 					break;
 				default :
 					if (!isset($c["id_type_minerai"])) {
-						throw new Zend_Exception(get_class($this)." Minerai inconnu ".$c["nom_systeme"]);
+						throw new Zend_Exception(get_class($this) . " Minerai inconnu " . $c["nom_systeme"]);
 					}
-					foreach($this->echoppeMinerai as $m) {
+					foreach ($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
 							$quantite = $m["quantite_lingots_echoppe_minerai"] - intval($c["cout"] / $coef);
 							if ($quantite < 0) {
 								$quantite = 0;
 							}
 							$data = array('quantite_lingots_echoppe_minerai' => $quantite);
-							$where = 'id_fk_type_echoppe_minerai = '. $c["id_type_minerai"];
-							$where .= ' AND id_fk_echoppe_echoppe_minerai='.$this->echoppeCourante["id_echoppe"];
+							$where = 'id_fk_type_echoppe_minerai = ' . $c["id_type_minerai"];
+							$where .= ' AND id_fk_echoppe_echoppe_minerai=' . $this->echoppeCourante["id_echoppe"];
 							$echoppeMineraiTable->update($data, $where);
 						}
 					}
@@ -454,7 +456,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
 			'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
 		);
-		$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
+		$echoppeTable->update($data, 'id_echoppe = ' . $this->echoppeCourante["id_echoppe"]);
 	}
 
 	public function getIdEchoppeCourante() {
@@ -473,7 +475,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] == "munition") {
 				$this->view->nb_px_perso = 2;
 			} else {
-				$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_braldun/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
+				$this->view->nb_px_perso = floor((($this->view->niveau + 1) / (floor($this->view->user->niveau_braldun / 10) + 1) + 1 + ($this->view->niveauQualite - 1)) * 5);
 			}
 		} else {
 			$this->view->nb_px_perso = 0;

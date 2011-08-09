@@ -21,7 +21,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		$tabCadavres = null;
 		$this->view->gibier = false;
-		foreach($monstres as $c) {
+		foreach ($monstres as $c) {
 			if ($c["genre_type_monstre"] == 'feminin') {
 				$c_taille = $c["nom_taille_f_monstre"];
 			} else {
@@ -29,7 +29,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			}
 			if ($c["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
 				$estGibier = true;
-				if ($c["id_monstre"] == $id_monstre_courant || count ($monstres) == 1) {
+				if ($c["id_monstre"] == $id_monstre_courant || count($monstres) == 1) {
 					$this->view->gibier = true;
 				}
 			} else {
@@ -72,8 +72,8 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Cadavre invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Cadavre invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idCadavre = (int)$this->request->get("valeur_1");
 		}
@@ -86,36 +86,36 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			}
 		}
 		if ($attaqueCadavre === false) {
-			throw new Zend_Exception(get_class($this)." Cadavre invalide (".$idCadavre.")");
+			throw new Zend_Exception(get_class($this) . " Cadavre invalide (" . $idCadavre . ")");
 		}
 
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		if ($arrivee < 1 || $arrivee > 3) {
-			throw new Zend_Exception(get_class($this)." Destination impossible ");
+			throw new Zend_Exception(get_class($this) . " Destination impossible ");
 		}
-		
+
 		if ($this->view->charettePleine == true && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Charette pleine !");
+			throw new Zend_Exception(get_class($this) . " Charette pleine !");
 		}
-		
+
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+			throw new Zend_Exception(get_class($this) . " Pas de charrette !");
 		}
-		
+
 		if ($this->view->labanPlein == true && $arrivee == 2) {
-			throw new Zend_Exception(get_class($this)." Laban plein !");
+			throw new Zend_Exception(get_class($this) . " Laban plein !");
 		}
-		
+
 		// Verification preference
 		$choix = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
 		if ($choix < 1 || $choix > 2) {
-			throw new Zend_Exception(get_class($this)." Préférence impossible ");
+			throw new Zend_Exception(get_class($this) . " Préférence impossible ");
 		}
-		
+
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// calcul des jets
@@ -149,7 +149,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$monstre = $monstreRowset;
 
 		if ($monstre == null || $monstre["id_monstre"] == null || $monstre["id_monstre"] == "") {
-			throw new Zend_Exception(get_class($this)."::calculDepiauter monstre inconnu");
+			throw new Zend_Exception(get_class($this) . "::calculDepiauter monstre inconnu");
 		}
 
 		$this->view->nbPeau = 0;
@@ -207,7 +207,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}
 
-		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2 ;
+		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_braldun + $this->view->user->force_bbdf_braldun) / 2;
 		if ($this->view->nbPeau < 0) {
 			$this->view->nbPeau = 0;
 		}
@@ -237,15 +237,15 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		if ($this->view->nbPeau > $nbMax) {
 			$this->view->nbPeau = $nbMax;
 		}
-		
+
 		$this->view->limitationLaban = false;
 		$this->view->limitationCharrette = false;
-		
+
 		switch ($arrivee) {
 			case 1 : //charrette
 				if ($this->view->nbPeau + $this->view->nbViande > $this->view->nbPossibleDansCharretteMax) {
-					if ( $pref == 1) {
-						if ( $this->view->nbPeau > $this->view->nbPossibleDansCharretteMax ) {
+					if ($pref == 1) {
+						if ($this->view->nbPeau > $this->view->nbPossibleDansCharretteMax) {
 							$nbPeauDansCharrette = $this->view->nbPossibleDansCharretteMax;
 							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansCharrette;
 						} else {
@@ -259,10 +259,10 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 						}
 					}
 					else {
-						if ( $this->view->nbViande > $this->view->nbPossibleDansCharretteMax ) {
+						if ($this->view->nbViande > $this->view->nbPossibleDansCharretteMax) {
 							$nbViandeDansCharrette = $this->view->nbPossibleDansCharretteMax;
 							$nbViandeATerre = $this->view->nbViande - $nbViandeDansCharrette;
-							
+
 						} else {
 							$nbViandeDansCharrette = $this->view->nbViande;
 						}
@@ -271,15 +271,15 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansCharrette;
 						} else {
 							$nbPeauDansCharrette = $this->view->nbPeau;
-						}						
+						}
 					}
 					$this->view->limitationCharrette = true;
 				}
 				else {
 					$nbPeauDansCharrette = $this->view->nbPeau;
 					$nbViandeDansCharrette = $this->view->nbViande;
-				}	
-				
+				}
+
 				if ($nbPeauDansCharrette > 0) {
 					$charretteTable = new Charrette();
 					$data = array(
@@ -288,7 +288,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 					);
 					$charretteTable->insertOrUpdate($data);
 				}
-		
+
 				Zend_Loader::loadClass("TypeIngredient");
 				if ($nbViandeDansCharrette > 0) {
 					Zend_Loader::loadClass("CharretteIngredient");
@@ -304,14 +304,14 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				break;
 			case 2 : //laban
 				if ($this->view->nbPeau + $this->view->nbViande > $this->view->nbPossibleDansLabanMax) {
-					if ( $pref == 1) {
-						if ( $this->view->nbPeau > $this->view->nbPossibleDansLabanMax ) {
+					if ($pref == 1) {
+						if ($this->view->nbPeau > $this->view->nbPossibleDansLabanMax) {
 							$nbPeauDansLaban = $this->view->nbPossibleDansLabanMax;
 							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
 						} else {
 							$nbPeauDansLaban = $this->view->nbPeau;
 						}
-						if ($this->view->nbViande > $this->view->nbPossibleDansLabanMax - $nbPeauDansLaban ) {
+						if ($this->view->nbViande > $this->view->nbPossibleDansLabanMax - $nbPeauDansLaban) {
 							$nbViandeDansLaban = $this->view->nbPossibleDansLabanMax - $nbPeauDansLaban;
 							$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
 						} else {
@@ -319,9 +319,9 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 						}
 					}
 					else {
-						if ( $this->view->nbViande > $this->view->nbPossibleDansLabanMax ) {
+						if ($this->view->nbViande > $this->view->nbPossibleDansLabanMax) {
 							$nbViandeDansLaban = $this->view->nbPossibleDansLabanMax;
-							$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;						
+							$nbViandeATerre = $this->view->nbViande - $nbViandeDansLaban;
 						} else {
 							$nbViandeDansLaban = $this->view->nbViande;
 						}
@@ -330,7 +330,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 							$nbPeauATerre = $this->view->nbPeau - $nbPeauDansLaban;
 						} else {
 							$nbPeauDansLaban = $this->view->nbPeau;
-						}						
+						}
 					}
 					$this->view->limitationLaban = true;
 				}
@@ -338,7 +338,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 					$nbPeauDansLaban = $this->view->nbPeau;
 					$nbViandeDansLaban = $this->view->nbViande;
 				}
-				
+
 				if ($nbPeauDansLaban > 0) {
 					$labanTable = new Laban();
 					$data = array(
@@ -347,7 +347,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 					);
 					$labanTable->insertOrUpdate($data);
 				}
-		
+
 				Zend_Loader::loadClass("TypeIngredient");
 				if ($nbViandeDansLaban > 0) {
 					Zend_Loader::loadClass("LabanIngredient");
@@ -359,7 +359,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 					);
 					$labanTable->insertOrUpdate($data);
 				}
-				
+
 				break;
 			case 3 : //sol
 				$nbPeauATerre = $this->view->nbPeau;
@@ -394,7 +394,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		$statsRecolteurs = new StatsRecolteurs();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 		$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
@@ -402,7 +402,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$dataRecolteurs["nb_viande_stats_recolteurs"] = $this->view->nbViande;
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 
-		$where = "id_monstre=".$id_monstre;
+		$where = "id_monstre=" . $id_monstre;
 		$data = array('est_depiaute_cadavre' => 'oui');
 		$monstreTable->update($data, $where);
 
@@ -412,11 +412,11 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$libelleMonstreGibier = "gibier";
 		}
 
-		$details = "[b".$this->view->user->id_braldun."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
+		$details = "[b" . $this->view->user->id_braldun . "] a dépiauté le " . $libelleMonstreGibier . " [m" . $id_monstre . "]";
 		$this->setDetailsEvenement($details, $idTypeEvenement);
 
 		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");
-			
+
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 		$this->view->nbPeauCharrette = $nbPeauDansCharrette;
 		$this->view->nbViandeCharrette = $nbViandeDansCharrette;
@@ -425,7 +425,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$this->view->nbPeauSol = $nbPeauATerre;
 		$this->view->nbViandeSol = $nbViandeATerre;
 		$this->view->arrivee = $arrivee;
-		
+
 	}
 
 	function getListBoxRefresh() {

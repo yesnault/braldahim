@@ -31,11 +31,11 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 		$tabPortails = null;
 		$portailEnCours = null;
 		if ($portails != null && count($portails) > 0) {
-			foreach($portails as $p) {
+			foreach ($portails as $p) {
 				$tab = array(
 					'x_portail' => $p["x_palissade"],
 					'y_portail' => $p["y_palissade"],
-					'id_portail' => $p["id_palissade"], 
+					'id_portail' => $p["id_palissade"],
 					'code_1_palissade' => $p["code_1_palissade"],
 					'code_2_palissade' => $p["code_2_palissade"],
 					'code_3_palissade' => $p["code_3_palissade"],
@@ -63,7 +63,7 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 			// Pas de portail
 			$etatFormulaire = null;
 		}
-		
+
 		$this->view->numeroPortail = $numeroPortail;
 		$this->portailEnCours = $portailEnCours;
 		$this->view->tabPortails = $tabPortails;
@@ -80,9 +80,9 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 		$calcul = $utilMarcher->calcul($this->view->user, $selection, false, $xPortail, $yPortail);
 
 		$this->view->effetMot = $calcul["effetMot"];
-		$this->view->assezDePa  = $calcul["assezDePa"];
+		$this->view->assezDePa = $calcul["assezDePa"];
 		$this->view->nb_cases = $calcul["nb_cases"];
-		$this->view->nb_pa  =  $calcul["nb_pa"];
+		$this->view->nb_pa = $calcul["nb_pa"];
 		$this->view->tableau = $calcul["tableau"];
 		$this->tableauValidation = $calcul["tableauValidation"];
 		$this->view->environnement = $calcul["environnement"];
@@ -116,19 +116,19 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this) . " Deplacement X impossible : " . $offset_x);
 		}
 
 		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this) . " Deplacement Y impossible : " . $offset_y);
 		}
 
 		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-			throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
+			throw new Zend_Exception(get_class($this) . " Deplacement XY impossible : " . $offset_x . $offset_y);
 		}
 
 		if ($this->portailEnCours == null) {
-			throw new Zend_Exception(get_class($this)." portail invalide");
+			throw new Zend_Exception(get_class($this) . " portail invalide");
 		}
 
 		$chiffre_1 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
@@ -137,11 +137,12 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 		$chiffre_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
 
 		$this->view->codeOk = false;
-		$this->view->codeSaisi = $chiffre_1."".$chiffre_2."".$chiffre_3."".$chiffre_4;
+		$this->view->codeSaisi = $chiffre_1 . "" . $chiffre_2 . "" . $chiffre_3 . "" . $chiffre_4;
 		if ($this->portailEnCours["code_1_palissade"] == $chiffre_1 &&
-		$this->portailEnCours["code_2_palissade"] == $chiffre_2 &&
-		$this->portailEnCours["code_3_palissade"] == $chiffre_3 &&
-		$this->portailEnCours["code_4_palissade"] == $chiffre_4) {
+			$this->portailEnCours["code_2_palissade"] == $chiffre_2 &&
+			$this->portailEnCours["code_3_palissade"] == $chiffre_3 &&
+			$this->portailEnCours["code_4_palissade"] == $chiffre_4
+		) {
 			$this->view->codeOk = true;
 		}
 
@@ -152,7 +153,7 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 			} else {
 				$e = "";
 			}
-			$details = "[b".$this->view->user->id_braldun."] reste bloqué".$e." devant un portail";
+			$details = "[b" . $this->view->user->id_braldun . "] reste bloqué" . $e . " devant un portail";
 			$this->setDetailsEvenement($details, $id_type);
 			$this->setEvenementQueSurOkJet1(false);
 
@@ -168,7 +169,7 @@ class Bral_Competences_Franchirportail extends Bral_Competences_Competence {
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
 
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = "[b".$this->view->user->id_braldun."] a franchi un portail";
+		$details = "[b" . $this->view->user->id_braldun . "] a franchi un portail";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 

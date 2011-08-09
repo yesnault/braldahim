@@ -35,9 +35,9 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 				return;
 			}
 		} else if ($nombreCharrette > 1) {
-			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_braldun);
+			throw new Zend_Exception(get_class($this) . " NB Charrette invalide idh:" . $this->view->user->id_braldun);
 		}
-			
+
 		$this->view->estEngage = false;
 		if ($this->view->user->est_engage_braldun == "oui") {
 			$this->view->courirPossible = false;
@@ -100,7 +100,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 				if ($zone["est_mine_zone"] == "oui") { // dans une mine
 					$tunnelOk = false;
-					foreach($tunnels as $t) {
+					foreach ($tunnels as $t) {
 						if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
 							$tunnelOk = true;
 							break;
@@ -112,18 +112,18 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 				}
 			}
 		}
-		foreach($palissades as $p) {
+		foreach ($palissades as $p) {
 			$this->tabValidationEauPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
 		}
-		foreach($eaux as $e) {
+		foreach ($eaux as $e) {
 			$this->tabValidationEauPalissade[$e["x_eau"]][$e["y_eau"]] = false;
 		}
 
 		$defautChecked = false;
 
-		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
+		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j--) {
 			$change_level = true;
-			for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
+			for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 
@@ -146,15 +146,16 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 				} else {
 					$display = "";
 				}
-					
+
 				if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
 				} else {
 					$valid = false;
 				}
-					
+
 				if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
-				|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
+					|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max
+				) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
 				}
 
@@ -170,14 +171,14 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 				} else {
 					$default = "";
 				}
-					
-				$tab[] = array ("x_offset" => $i,
-			 	"y_offset" => $j,
-			 	"default" => $default,
-			 	"display" => $display,
-			 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-				"valid" => $valid);
-					
+
+				$tab[] = array("x_offset" => $i,
+							   "y_offset" => $j,
+							   "default" => $default,
+							   "display" => $display,
+							   "change_level" => $change_level, // nouvelle ligne dans le tableau
+							   "valid" => $valid);
+
 				$tabValidation[$i][$j] = $valid;
 
 				if ($change_level) {
@@ -201,15 +202,15 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this) . " Deplacement X impossible : " . $offset_x);
 		}
 
 		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this) . " Deplacement Y impossible : " . $offset_y);
 		}
 
 		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-			throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
+			throw new Zend_Exception(get_class($this) . " Deplacement XY impossible : " . $offset_x . $offset_y);
 		}
 
 		$this->calculPalissade($offset_x, $offset_y);
@@ -221,7 +222,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
 
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = "[b".$this->view->user->id_braldun."] a couru";
+		$details = "[b" . $this->view->user->id_braldun . "] a couru";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -257,18 +258,19 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		for ($i = 1; $i <= $this->distance; $i++) {
 			if ($this->tabValidationEauPalissade[$x + $i * $offset_x][$y + $i * $offset_y] == false
-			|| $x + $i*$offset_x < $this->view->config->game->x_min
-			|| $x + $i*$offset_x > $this->view->config->game->x_max
-			|| $y + $i*$offset_y < $this->view->config->game->y_min
-			|| $y + $i*$offset_y > $this->view->config->game->y_max) {
-				$k = $i-1;
+				|| $x + $i * $offset_x < $this->view->config->game->x_min
+				|| $x + $i * $offset_x > $this->view->config->game->x_max
+				|| $y + $i * $offset_y < $this->view->config->game->y_min
+				|| $y + $i * $offset_y > $this->view->config->game->y_max
+			) {
+				$k = $i - 1;
 				$this->view->eauPalissadeRencontree = true;
 				break;
 			} else {
 				$k = $i;
 			}
 		}
-		if ($k <> 0 ) {
+		if ($k <> 0) {
 			$this->offset_x_calcul = $k * $offset_x;
 			$this->offset_y_calcul = $k * $offset_y;
 		} else {

@@ -22,14 +22,14 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$nbMunitionsPortees = 0;
 		$idMunitionPortee = null;
 		$braldunEquipement = new BraldunEquipement();
-		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun,"arme_tir");
+		$equipementPorteRowset = $braldunEquipement->findByTypePiece($this->view->user->id_braldun, "arme_tir");
 
 		if (count($equipementPorteRowset) > 0) {
 			$armeTirPortee = true;
 			//on verifie qu'il a des munitions et que ce sont les bonnes
 			$labanMunition = new LabanMunition();
-			$munitionPorteRowset = 	$labanMunition->findByIdBraldun($this->view->user->id_braldun);
-			if (count ($munitionPorteRowset) > 0) {
+			$munitionPorteRowset = $labanMunition->findByIdBraldun($this->view->user->id_braldun);
+			if (count($munitionPorteRowset) > 0) {
 				foreach ($equipementPorteRowset as $eq) {
 					foreach ($munitionPorteRowset as $mun) {
 						if ($mun['id_fk_type_laban_munition'] == $eq['id_fk_type_munition_type_equipement']) {
@@ -63,12 +63,13 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_braldun, $this->view->user->y_braldun);
 
 			if ($estRegionPvp ||
-			$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0) {
+				$this->view->user->points_gredin_braldun > 0 || $this->view->user->points_redresseur_braldun > 0
+			) {
 				// recuperation des bralduns qui sont presents sur la vue
 				$braldunTable = new Braldun();
 				$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun, $this->view->user->id_braldun, false);
 
-				foreach($bralduns as $h) {
+				foreach ($bralduns as $h) {
 					if ($h["x_braldun"] != $this->view->user->x_braldun || $h["y_braldun"] != $this->view->user->y_braldun) { // on ne prend pas la case courante
 						$tab = array(
 							'id_braldun' => $h["id_braldun"],
@@ -84,7 +85,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 								$tabBralduns[] = $tab;
 							}
 						} elseif ($this->view->user->est_soule_braldun == 'non' ||
-						($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)) {
+								  ($this->view->user->est_soule_braldun == 'oui' && $h["soule_camp_braldun"] != $this->view->user->soule_camp_braldun)
+						) {
 							$tabBralduns[] = $tab;
 						}
 					}
@@ -94,7 +96,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
-			foreach($monstres as $m) {
+			foreach ($monstres as $m) {
 				if ($m["x_monstre"] != $this->view->user->x_braldun || $m["y_monstre"] != $this->view->user->y_braldun) { // on ne prend pas la case courante
 					if ($m["genre_type_monstre"] == 'feminin') {
 						$m_taille = $m["nom_taille_f_monstre"];
@@ -102,13 +104,13 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 						$m_taille = $m["nom_taille_m_monstre"];
 					}
 					$tabMonstres[] = array(
-					'id_monstre' => $m["id_monstre"], 
-					'nom_monstre' => $m["nom_type_monstre"], 
-					'taille_monstre' => $m_taille, 
-					'niveau_monstre' => $m["niveau_monstre"],
-					'x_monstre' => $m["x_monstre"],
-					'y_monstre' => $m["y_monstre"],
-					'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_braldun), abs($m["y_monstre"]-$this->view->user->y_braldun))
+						'id_monstre' => $m["id_monstre"],
+						'nom_monstre' => $m["nom_type_monstre"],
+						'taille_monstre' => $m_taille,
+						'niveau_monstre' => $m["niveau_monstre"],
+						'x_monstre' => $m["x_monstre"],
+						'y_monstre' => $m["y_monstre"],
+						'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_braldun), abs($m["y_monstre"] - $this->view->user->y_braldun))
 					);
 				}
 			}
@@ -126,14 +128,14 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 	function prepareFormulaire() {
 		//on trie suivant la distance
-		$dist=null;
+		$dist = null;
 		if ($this->view->nMonstres > 0) {
 			foreach ($this->view->tabMonstres as $key => $row) {
 				$dist[$key] = $row['dist_monstre'];
 			}
 			array_multisort($dist, SORT_ASC, $this->view->tabMonstres);
 		}
-		$dist=null;
+		$dist = null;
 		if ($this->view->nBralduns > 0) {
 			foreach ($this->view->tabBralduns as $key => $row) {
 				$dist[$key] = $row['dist_braldun'];
@@ -143,26 +145,26 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Monstre invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre != -1 && $idBraldun != -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (!=-1)");
+			throw new Zend_Exception(get_class($this) . " Monstre ou Braldûn invalide (!=-1)");
 		}
 
 		if ($this->view->armeTirPortee === false) {
-			throw new Zend_Exception(get_class($this)." pas d'arme de tir");
+			throw new Zend_Exception(get_class($this) . " pas d'arme de tir");
 		}
 		if ($this->view->munitionPortee === false) {
-			throw new Zend_Exception(get_class($this)." pas de munition");
+			throw new Zend_Exception(get_class($this) . " pas de munition");
 		}
 
 		$attaqueMonstre = false;
@@ -215,7 +217,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		} elseif ($attaqueMonstre === true) {
 			$this->calculTirer($idMonstre, "monstre");
 		} else {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			throw new Zend_Exception(get_class($this) . " Erreur inconnue");
 		}
 
 		$this->setEvenementQueSurOkJet1(false);
@@ -232,16 +234,16 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	protected function calculJetAttaque($braldun) {
 		$coef = 0;
 		$palissade = false;
-		$monte=false;
+		$monte = false;
 
 		$nbDe = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
 		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
-		$jetAttaquantDetails = $nbDe."D6";
+		$jetAttaquantDetails = $nbDe . "D6";
 
 		if ($this->view->xCible < $braldun->x_braldun) {
 			$x_min = $this->view->xCible;
 			$x_max = $braldun->x_braldun;
-		} else{
+		} else {
 			$x_min = $braldun->x_braldun;
 			$x_max = $this->view->xCible;
 		}
@@ -249,7 +251,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		if ($this->view->yCible < $braldun->y_braldun) {
 			$y_min = $this->view->yCible;
 			$y_max = $braldun->y_braldun;
-		} else{
+		} else {
 			$y_min = $braldun->y_braldun;
 			$y_max = $this->view->yCible;
 		}
@@ -265,29 +267,29 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 			// calcul de m, p, a, b et c :
 			if ($this->view->user->x_braldun != $this->view->xCible) {
-				$m = ($this->view->user->y_braldun-$this->view->yCible)/($this->view->user->x_braldun-$this->view->xCible);
+				$m = ($this->view->user->y_braldun - $this->view->yCible) / ($this->view->user->x_braldun - $this->view->xCible);
 				$p = $this->view->yCible - $m * $this->view->xCible;
 				$a = 1;
-				if ($m != 0 ) {
-					$b = -1/$m;
-				} else{
-					$a=0;
-					$b=1;
+				if ($m != 0) {
+					$b = -1 / $m;
+				} else {
+					$a = 0;
+					$b = 1;
 				}
-				$c = -1*$p*$b;
+				$c = -1 * $p * $b;
 			} else {
 				$a = 1;
 				$b = 0;
-				$c = -1*$this->view->user->x_braldun;
+				$c = -1 * $this->view->user->x_braldun;
 			}
 
 			$palissadeTable = new Palissade();
 
 			for ($x = $x_min; $x <= $x_max; $x++) {
 				for ($y = $y_min; $y <= $y_max; $y++) {
-					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
-					if ( round($dist,5) < sqrt(2)/2 ) {
-						if ($palissadeTable->findByCase($x,$y, $z)) {
+					$dist = abs(($a * $x + $b * $y + $c) / sqrt(pow($a, 2) + pow($b, 2)));
+					if (round($dist, 5) < sqrt(2) / 2) {
+						if ($palissadeTable->findByCase($x, $y, $z)) {
 							$palissade = true;
 							break;
 						}
@@ -299,36 +301,37 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		if ($palissade == false) {
 			switch ($this->view->distCible) {
 				case 0 :
-					$coef=0.6;
+					$coef = 0.6;
 					break;
 				case 1 :
-					$coef=1;
+					$coef = 1;
 					break;
 				case 2 :
-					$coef=0.8;
+					$coef = 0.8;
 					break;
 				case 3 :
-					$coef=0.7;
+					$coef = 0.7;
 					break;
 				default :
-					$coef=0.6;
+					$coef = 0.6;
 			}
-		} else{
+		} else {
 			switch ($this->view->distCible) {
 				case 2 :
-					$coef=0.533;
+					$coef = 0.533;
 					break;
 				case 3 :
-					$coef=0.466;
+					$coef = 0.466;
 					break;
-				default : $coef=0.4;
+				default :
+					$coef = 0.4;
 			}
 		}
 		$jetAttaquantNonReduit = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
-		
+
 		$jetAttaquant = floor($coef * ($jetAttaquantNonReduit));
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
@@ -347,7 +350,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
-		
+
 		$nbDeAgi = $this->view->config->game->base_agilite + $braldun->agilite_base_braldun;
 		$nbDeSag = $this->view->config->game->base_sagesse + $braldun->sagesse_base_braldun;
 
@@ -355,13 +358,13 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$jetDegSag = Bral_Util_De::getLanceDe6($nbDeSag);
 
 		//$details = "Jet AGI:".$jetDegAgi." Jet SAG:".$jetDegSag.". ";
-		
-		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
-		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
-		
-		$jetDetailsNonCritique = "(".$nbDeAgi."D6 + ".$nbDeSag. "D6)/2";
-		$jetDetailsCritique = $coefCritique."x".$jetDetailsNonCritique;
-		
+
+		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag) / 2);
+		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag) / 2);
+
+		$jetDetailsNonCritique = "(" . $nbDeAgi . "D6 + " . $nbDeSag . "D6)/2";
+		$jetDetailsCritique = $coefCritique . "x" . $jetDetailsNonCritique;
+
 		$jetDegat["critiquedetails"] = $jetDetailsCritique;
 		$jetDegat["noncritiquedetails"] = $jetDetailsNonCritique;
 
@@ -379,7 +382,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	private function calculTirer($id, $type) {
 		if ($type == "braldun") {
 			$this->view->retourAttaque = $this->attaqueBraldun($this->view->user, $id, true, true);
-		} else{
+		} else {
 			$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $id, true);
 		}
 
@@ -390,7 +393,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			"id_fk_braldun_laban_munition" => $this->view->user->id_braldun,
 		);
 		$labanMunition->insertOrUpdate($data);
-		$this->view->nbMunitionsPortees = $this->view->nbMunitionsPortees - 1; 
+		$this->view->nbMunitionsPortees = $this->view->nbMunitionsPortees - 1;
 	}
 
 	function getListBoxRefresh() {
@@ -407,8 +410,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 		if ($this->view->retourAttaque["mort"] === true && $this->view->retourAttaque["idTypeGroupeMonstre"] != $this->view->config->game->groupe_monstre->type->gibier) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
+			$this->view->nb_px_commun = 10 + 2 * ($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_braldun) + $this->view->retourAttaque["cible"]["niveau_cible"];
+			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
 				$this->view->nb_px_commun = $this->view->nb_px_perso;
 			}
 		}

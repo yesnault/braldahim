@@ -30,24 +30,24 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			}
 
 			$tabPotions[$p["id_laban_potion"]] = array(
-					"id_potion" => $p["id_laban_potion"],
-					"id_fk_type_potion" => $p["id_fk_type_potion"],
-					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
-					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
-					"nom" => $p["nom_type_potion"],
-					"de" => $p["de_type_potion"],
-					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_potion"],
-					"caracteristique" => $p["caract_type_potion"],
-					"bm_type" => $p["bm_type_potion"],
-					"caracteristique2" => $p["caract2_type_potion"],
-					"bm2_type" => $p["bm2_type_potion"],
-					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
-					"type_potion" => $p["type_potion"],
-					'selected' => $selected,
-					'template_m_type_potion' => $p["template_m_type_potion"],
-					'template_f_type_potion' => $p["template_f_type_potion"],
-					'id_fk_type_ingredient_type_potion' => $p["id_fk_type_ingredient_type_potion"],
+				"id_potion" => $p["id_laban_potion"],
+				"id_fk_type_potion" => $p["id_fk_type_potion"],
+				"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
+				"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
+				"nom" => $p["nom_type_potion"],
+				"de" => $p["de_type_potion"],
+				"qualite" => $p["nom_type_qualite"],
+				"niveau" => $p["niveau_potion"],
+				"caracteristique" => $p["caract_type_potion"],
+				"bm_type" => $p["bm_type_potion"],
+				"caracteristique2" => $p["caract2_type_potion"],
+				"bm2_type" => $p["bm2_type_potion"],
+				"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
+				"type_potion" => $p["type_potion"],
+				'selected' => $selected,
+				'template_m_type_potion' => $p["template_m_type_potion"],
+				'template_f_type_potion' => $p["template_f_type_potion"],
+				'id_fk_type_ingredient_type_potion' => $p["id_fk_type_ingredient_type_potion"],
 			);
 
 			if ($idPotionCourante == $p["id_laban_potion"]) {
@@ -76,7 +76,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		// recuperation des bralduns qui sont presents sur la case
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, false);
-		foreach($bralduns as $h) {
+		foreach ($bralduns as $h) {
 			$tab = array(
 				'id_braldun' => $h["id_braldun"],
 				'nom_braldun' => $h["nom_braldun"],
@@ -100,7 +100,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		// recuperation des monstres qui sont presents sur la case
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-		foreach($monstres as $m) {
+		foreach ($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];
 			} else {
@@ -128,9 +128,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabEquipementsLaban = null;
 		foreach ($equipementsLaban as $e) {
 			if (
-			$this->view->potionCourante["niveau_potion"] >=$e["niveau_recette_equipement"] &&
-			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
-			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
+				$this->view->potionCourante["niveau_potion"] >= $e["niveau_recette_equipement"] &&
+				($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+				 ($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))
+			) {
 				$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
@@ -151,9 +152,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabEquipementsCharrette = null;
 		foreach ($equipementsCharrette as $e) {
 			if (
-			$this->view->potionCourante["niveau_potion"] >=$e["niveau_recette_equipement"] &&
-			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
-			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
+				$this->view->potionCourante["niveau_potion"] >= $e["niveau_recette_equipement"] &&
+				($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+				 ($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))
+			) {
 				$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
 					"id_equipement" => $e["id_charrette_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
@@ -178,8 +180,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Potion invalide : ".$this->request->get("valeur_1"));
+		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Potion invalide : " . $this->request->get("valeur_1"));
 		} else {
 			$idPotion = (int)$this->request->get("valeur_1");
 		}
@@ -194,10 +196,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					$this->appliqueVernis($vernis);
 				}
 			} else {
-				throw new Zend_Exception(get_class($this)." Potion invalide 2 : ".$this->request->get("valeur_1") . " id2:".$this->view->potionCourante["id_laban_potion"]);
+				throw new Zend_Exception(get_class($this) . " Potion invalide 2 : " . $this->request->get("valeur_1") . " id2:" . $this->view->potionCourante["id_laban_potion"]);
 			}
 		} else {
-			throw new Zend_Exception(get_class($this)." Potion invalide 3 : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this) . " Potion invalide 3 : " . $this->request->get("valeur_1"));
 		}
 
 		$this->calculPx();
@@ -210,20 +212,20 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$idBraldun = null;
 		$idMonstre = null;
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Monstre invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idMonstre = (int)$this->request->get("valeur_2");
 		}
 
-		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception(get_class($this)." Braldûn invalide : ".$this->request->get("valeur_3"));
+		if (((int)$this->request->get("valeur_3") . "" != $this->request->get("valeur_3") . "")) {
+			throw new Zend_Exception(get_class($this) . " Braldûn invalide : " . $this->request->get("valeur_3"));
 		} else {
 			$idBraldun = (int)$this->request->get("valeur_3");
 		}
 
 		if ($idMonstre == -1 && $idBraldun == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Braldûn invalide (==-1)");
+			throw new Zend_Exception(get_class($this) . " Monstre ou Braldûn invalide (==-1)");
 		}
 
 		$potion = null;
@@ -235,17 +237,17 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($potion == null) {
-			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.")");
+			throw new Zend_Exception(get_class($this) . " Potion invalide (" . $idPotion . ")");
 		}
 
 		// pas de potion de malus en zone pve
 		if ($idBraldun != -1 && $this->view->estRegionPvp == false && $potion["bm_type"] == "malus") {
-			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.") region pve, idh:".$this->view->user->id_braldun." x:".$this->view->user->x_braldun. " y=".$this->view->user->y_braldun);
+			throw new Zend_Exception(get_class($this) . " Potion invalide (" . $idPotion . ") region pve, idh:" . $this->view->user->id_braldun . " x:" . $this->view->user->x_braldun . " y=" . $this->view->user->y_braldun);
 		}
 
 		$trouveH = false;
 		if ($this->view->tabBralduns != null) {
-			foreach($this->view->tabBralduns as $h) {
+			foreach ($this->view->tabBralduns as $h) {
 				if ($h["id_braldun"] == $idBraldun) {
 					$trouveH = true;
 					break;
@@ -264,7 +266,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($trouveH == false && $trouveM == false) {
-			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Braldûn (".$idBraldun.") invalide");
+			throw new Zend_Exception(get_class($this) . " id Monstre (" . $idMonstre . ") ou id Braldûn (" . $idBraldun . ") invalide");
 		}
 
 		$this->idBraldunCible = $idBraldun;
@@ -277,37 +279,37 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$idEquipementLaban = null;
 		$idEquipementCharrette = null;
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Equipement Laban invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+			throw new Zend_Exception(get_class($this) . " Equipement Laban invalide : " . $this->request->get("valeur_2"));
 		} else {
 			$idEquipementLaban = (int)$this->request->get("valeur_2");
 		}
 
-		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception(get_class($this)." Equipement Charrette invalide : ".$this->request->get("valeur_3"));
+		if (((int)$this->request->get("valeur_3") . "" != $this->request->get("valeur_3") . "")) {
+			throw new Zend_Exception(get_class($this) . " Equipement Charrette invalide : " . $this->request->get("valeur_3"));
 		} else {
 			$idEquipementCharrette = (int)$this->request->get("valeur_3");
 		}
 
 		if ($idEquipementCharrette == -1 && $idEquipementLaban == -1) {
-			throw new Zend_Exception(get_class($this)." Equipement laban ou Equipement charrette invalide (==-1)");
+			throw new Zend_Exception(get_class($this) . " Equipement laban ou Equipement charrette invalide (==-1)");
 		}
 
 		$vernis = null;
 		foreach ($this->view->tabPotions as $p) {
-			if ($p["id_potion"] == $idPotion &&  ($p["type_potion"] == "vernis_reparateur" || $p["type_potion"] == "vernis_enchanteur")) {
+			if ($p["id_potion"] == $idPotion && ($p["type_potion"] == "vernis_reparateur" || $p["type_potion"] == "vernis_enchanteur")) {
 				$vernis = $p;
 				break;
 			}
 		}
 
 		if ($vernis == null) {
-			throw new Zend_Exception(get_class($this)." Vernis invalide (".$idPotion.")");
+			throw new Zend_Exception(get_class($this) . " Vernis invalide (" . $idPotion . ")");
 		}
 
 		$trouveL = false;
 		if ($this->view->tabEquipementsLaban != null) {
-			foreach($this->view->tabEquipementsLaban as $l) {
+			foreach ($this->view->tabEquipementsLaban as $l) {
 				if ($l["id_equipement"] == $idEquipementLaban) {
 					$trouveL = true;
 					break;
@@ -326,7 +328,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($trouveL == false && $trouveC == false) {
-			throw new Zend_Exception(get_class($this)." id Equipement Laban (".$idEquipementLaban.") ou id Equipement Charrette (".$idEquipementCharrette.") invalide");
+			throw new Zend_Exception(get_class($this) . " id Equipement Laban (" . $idEquipementLaban . ") ou id Equipement Charrette (" . $idEquipementCharrette . ") invalide");
 		}
 
 		$this->idEquipementLaban = $idEquipementLaban;
@@ -345,16 +347,16 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				foreach ($this->view->tabBralduns as $h) {
 					if ($h["id_braldun"] == $this->idBraldunCible) {
 						$utiliserPotionBraldun = true;
-						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_braldun"]. " ". $h["nom_braldun"],
-													   'id_cible' => $h["id_braldun"],
-													   'niveau_cible' => $h["niveau_braldun"]
+						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_braldun"] . " " . $h["nom_braldun"],
+															 'id_cible' => $h["id_braldun"],
+															 'niveau_cible' => $h["niveau_braldun"]
 						);
 						break;
 					}
 				}
 			}
 			if ($utiliserPotionBraldun === false) {
-				throw new Zend_Exception(get_class($this)." Braldûn invalide (".$this->idBraldunCible.")");
+				throw new Zend_Exception(get_class($this) . " Braldûn invalide (" . $this->idBraldunCible . ")");
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
@@ -362,35 +364,35 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					if ($m["id_monstre"] == $this->idMonstreCible) {
 						$utiliserPotionMonstre = true;
 						$this->retourPotion['cible'] = array('nom_cible' => $m["nom_monstre"],
-													   'id_cible' => $m["id_monstre"],
-														'niveau_cible' => $m["niveau_monstre"],
+															 'id_cible' => $m["id_monstre"],
+															 'niveau_cible' => $m["niveau_monstre"],
 						);
 						break;
 					}
 				}
 			}
 			if ($utiliserPotionMonstre === false) {
-				throw new Zend_Exception(get_class($this)." Monstre invalide (".$this->idMonstreCible.")");
+				throw new Zend_Exception(get_class($this) . " Monstre invalide (" . $this->idMonstreCible . ")");
 			}
 		}
 
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 
-		$this->detailEvenement = "[b".$this->view->user->id_braldun."] a ";
+		$this->detailEvenement = "[b" . $this->view->user->id_braldun . "] a ";
 		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_braldun && $utiliserPotionBraldun === true) {
 			$this->detailEvenement .= "bu une potion";
 		} else {
 			if ($this->idBraldunCible != -1) {
-				$this->detailEvenement .= "utilisé une potion sur [b".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur [b" . $this->retourPotion['cible']["id_cible"] . "]";
 			} else {
-				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur le monstre [m" . $this->retourPotion['cible']["id_cible"] . "]";
 			}
 		}
 		$this->setEvenementQueSurOkJet1(false);
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->competence);
 
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $this->detailEvenement);
-			
+
 		if ($utiliserPotionBraldun === true) {
 			$this->utiliserPotionBraldun($potion, $this->idBraldunCible);
 			if ($this->view->user->id_braldun != $this->retourPotion['cible']["id_cible"]) {
@@ -401,7 +403,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$this->utiliserPotionMonstre($potion, $this->idMonstreCible);
 			$this->setDetailsEvenementCible($this->idMonstreCible, "monstre", $this->retourPotion['cible']["niveau_cible"]);
 		} else {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			throw new Zend_Exception(get_class($this) . " Erreur inconnue");
 		}
 
 		$this->retourPotion['potion'] = $potion;
@@ -426,21 +428,21 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$data = array(
 			'vernis_template_equipement' => $template
 		);
-		$where = "id_equipement = ".$equipement["id_equipement"];
+		$where = "id_equipement = " . $equipement["id_equipement"];
 		$table->update($data, $where);
 
 		Zend_Loader::loadClass("EquipementBonus");
 		if ($potion["type_potion"] == "vernis_enchanteur") {
 			$this->appliqueVernisEnchanteur($equipement, $potion);
-			$details = "[b".$this->view->user->id_braldun."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b" . $this->view->user->id_braldun . "] a verni la pièce d'équipement n°" . $equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VERNIR_ID, $equipement["id_equipement"], $details);
-			$details = "[b".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b" . $this->view->user->id_braldun . "] a utilisé le verni n°" . $potion["id_potion"] . " sur la pièce d'équipement n°" . $equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		} else { // reparateur
 			$this->appliqueVernisReparateur($potion, $equipement);
-			$details = "[b".$this->view->user->id_braldun."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b" . $this->view->user->id_braldun . "] a réparé la pièce d'équipement n°" . $equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_REPARER_ID, $equipement["id_equipement"], $details);
-			$details = "[b".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b" . $this->view->user->id_braldun . "] a utilisé le verni n°" . $potion["id_potion"] . " pour réparer la pièce d'équipement n°" . $equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		}
 
@@ -455,7 +457,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique"], $potion["bm_type"], $potion, $equipement);
 		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique2"], $potion["bm2_type"], $potion, $equipement);
 		$this->view->detail = $detail;
-		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
+		$where = "id_equipement_bonus = " . $equipement["id_equipement"];
 		$equipementBonusTable = new EquipementBonus();
 		$equipementBonusTable->update($data, $where);
 
@@ -463,7 +465,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Equipement");
 		$equipementTable = new Equipement();
 		$data = array('poids_equipement' => $equipement["poids_equipement"]);
-		$where = "id_equipement=".$equipement["id_equipement"];
+		$where = "id_equipement=" . $equipement["id_equipement"];
 		$equipementTable->update($data, $where);
 	}
 
@@ -474,7 +476,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$equipementBonus = $equipementBonusTable->findByIdEquipement($equipement["id_equipement"]);
 
 		if (count($equipementBonus) > 0) {
-			foreach($equipementBonus as $b) {
+			foreach ($equipementBonus as $b) {
 				$equipement["poids_equipement"] = $equipement["poids_equipement"] - $b["vernis_bm_poids_equipement_bonus"];
 			}
 		}
@@ -492,7 +494,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			'vernis_bm_defense_equipement_bonus' => null,
 		);
 
-		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
+		$where = "id_equipement_bonus = " . $equipement["id_equipement"];
 		$equipementBonusTable->update($data, $where);
 	}
 
@@ -546,11 +548,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			} else {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
-					$valeur = $potion["niveau"] -1;
+					$valeur = $potion["niveau"] - 1;
 				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
 					$valeur = $potion["niveau"];
 				} else {
-					$valeur = $potion["niveau"] +1;
+					$valeur = $potion["niveau"] + 1;
 				}
 			}
 		} elseif ($type == "C") { // poids
@@ -591,16 +593,16 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			} else {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
-					$valeur = $potion["niveau"] -1;
+					$valeur = $potion["niveau"] - 1;
 				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
 					$valeur = $potion["niveau"];
 				} else {
-					$valeur = $potion["niveau"] +1;
+					$valeur = $potion["niveau"] + 1;
 				}
 			}
 		}
 
-		$detail .= $bmType. " de ".$valeur." sur la caractéristique ".$caracteristique. " de la pièce d'équipement.<br />";
+		$detail .= $bmType . " de " . $valeur . " sur la caractéristique " . $caracteristique . " de la pièce d'équipement.<br />";
 		$data[$nom] = $valeur;
 	}
 
@@ -626,9 +628,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$data = array(
 			'etat_courant_equipement' => $etat,
 		);
-		$where = "id_equipement = ".$equipement["id_equipement"];
-		$detail = "&Eacute;tat de l'équipement : +".$valeur."<br />";
-		$detail .= "Nouvel &eacute;tat : ".$etat ." / ".$equipement["etat_initial_equipement"];
+		$where = "id_equipement = " . $equipement["id_equipement"];
+		$detail = "&Eacute;tat de l'équipement : +" . $valeur . "<br />";
+		$detail .= "Nouvel &eacute;tat : " . $etat . " / " . $equipement["etat_initial_equipement"];
 		$this->view->detail = $detail;
 		$table->update($data, $where);
 	}
@@ -675,11 +677,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 	private function supprimeDuLaban($potion) {
 		$labanPotionTable = new LabanPotion();
-		$where = 'id_laban_potion = '.$potion["id_potion"];
+		$where = 'id_laban_potion = ' . $potion["id_potion"];
 		$labanPotionTable->delete($where);
 
 		$potionTable = new Potion();
-		$where = 'id_potion = '.$potion["id_potion"];
+		$where = 'id_potion = ' . $potion["id_potion"];
 		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
 		$potionTable->update($data, $where);
 	}
@@ -688,31 +690,31 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$retour = "";
 
 		if ($this->view->user->id_braldun != $this->retourPotion['cible']["id_cible"]) {
-			$retour .= $this->view->user->prenom_braldun ." ". $this->view->user->nom_braldun ." (".$this->view->user->id_braldun.") ";
+			$retour .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ") ";
 		}
 
 		if ($potion["bm_type"] == "bonus") {
 			$retour .= "vous a lancé une potion ";
-			$retour .= htmlspecialchars($potion["nom"])." de qualité ";
+			$retour .= htmlspecialchars($potion["nom"]) . " de qualité ";
 			$retour .= htmlspecialchars($potion["qualite"]);
 			$retour .= " que vous avez immédiatement bu !";
 		} else {
 			$retour .= "vous a jetté à la figure une fiole qui éclate. ";
 			$retour .= "La potion ";
-			$retour .= htmlspecialchars($potion["nom"])." de qualité ";
+			$retour .= htmlspecialchars($potion["nom"]) . " de qualité ";
 			$retour .= htmlspecialchars($potion["qualite"]);
 			$retour .= " commence à faire effet...";
 		}
 
 		$retour .= PHP_EOL;
-		$retour .= "L'effet de la potion porte sur ".$this->retourPotion['effet']['nb_tour_restant']." tour";
+		$retour .= "L'effet de la potion porte sur " . $this->retourPotion['effet']['nb_tour_restant'] . " tour";
 		if ($this->retourPotion['effet']['nb_tour_restant'] > 1): $retour .= 's'; endif;
-		$retour .= ".".PHP_EOL."Vous venez de subir ".$this->retourPotion['effet']["nEffet"];
+		$retour .= "." . PHP_EOL . "Vous venez de subir " . $this->retourPotion['effet']["nEffet"];
 		$retour .= " point";
 		if ($this->retourPotion['effet']["nEffet"] > 1): $retour .= 's'; endif;
-		$retour .= " de ".$potion["bm_type"];
-		$retour .= " sur ".$potion["caracteristique"];
-		$retour .= PHP_EOL."L'effet est immédiat.";
+		$retour .= " de " . $potion["bm_type"];
+		$retour .= " sur " . $potion["caracteristique"];
+		$retour .= PHP_EOL . "L'effet est immédiat.";
 
 		return $retour;
 	}

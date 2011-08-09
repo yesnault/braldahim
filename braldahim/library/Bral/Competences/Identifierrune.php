@@ -58,11 +58,11 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->identifierRuneOk == false) {
-			throw new Zend_Exception(get_class($this)." Identifier Rune : pas de rune");
+			throw new Zend_Exception(get_class($this) . " Identifier Rune : pas de rune");
 		}
 
 		$idRune = intval($this->request->get("valeur_1"));
@@ -70,7 +70,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		// on regarde si la rune choisie fait bien partie des runes a identifier
 		$runeValide = false;
 		$rune = null;
-		foreach($this->view->runes as $r) {
+		foreach ($this->view->runes as $r) {
 			if ($r["id_rune"] == $idRune) {
 				$rune = $r;
 				$runeValide = true;
@@ -78,7 +78,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 			}
 		}
 		if ($runeValide == false || $rune == null) {
-			throw new Zend_Exception(get_class($this)." Identifier Rune : rune invalide:".$idRune);
+			throw new Zend_Exception(get_class($this) . " Identifier Rune : rune invalide:" . $idRune);
 		}
 
 		// calcul des jets
@@ -106,7 +106,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		if ($this->view->jetBraldun > $rune["sagesse_type_rune"]) {
 			$this->view->identificationReussieOk = true;
 		} else {
-			$this->view->identificationReussieOk  = false;
+			$this->view->identificationReussieOk = false;
 			if ($this->view->jetBraldun <= $rune["sagesse_type_rune"] / 2) {
 				$this->view->jetBraldunLoin = true;
 			} else {
@@ -119,24 +119,24 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Rune");
 		$runeTable = new Rune();
 		$data["est_identifiee_rune"] = 'oui';
-		$where = 'id_rune = '.$rune["id_rune"];
+		$where = 'id_rune = ' . $rune["id_rune"];
 		$runeTable->update($data, $where);
 
 		$labanRuneTable = new LabanRune();
 		$data = null;
 		$data["id_fk_braldun_identification_laban_rune"] = null;
-		$where = 'id_rune_laban_rune = '.$rune["id_rune"];
+		$where = 'id_rune_laban_rune = ' . $rune["id_rune"];
 		$labanRuneTable->update($data, $where);
-		
-		$details = "[b".$this->view->user->id_braldun."] a identifié la rune n°".$rune["id_rune"];
+
+		$details = "[b" . $this->view->user->id_braldun . "] a identifié la rune n°" . $rune["id_rune"];
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
 
 		if ($rune["id_braldun_possesseur"] != null) {
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = "[Ceci est un message automatique d'identification de rune]".PHP_EOL;
-			$message .= $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a identifié votre rune n°".$rune["id_rune"]." présente dans votre laban.".PHP_EOL;
-			$message .= "C'est une rune de type ".$rune["type"].".".PHP_EOL;
+			$message = "[Ceci est un message automatique d'identification de rune]" . PHP_EOL;
+			$message .= $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " a identifié votre rune n°" . $rune["id_rune"] . " présente dans votre laban." . PHP_EOL;
+			$message .= "C'est une rune de type " . $rune["type"] . "." . PHP_EOL;
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_braldun, $rune["id_braldun_possesseur"], $message, $this->view);
 		}
 	}

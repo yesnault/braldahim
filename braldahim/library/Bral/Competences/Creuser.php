@@ -59,8 +59,8 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		$tabTunnels = null;
 		$tabZones = null;
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
-			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+		for ($j = $this->distance; $j >= -$this->distance; $j--) {
+			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 				$tabTunnels[$x][$y] = false;
@@ -72,8 +72,8 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				}
 			}
 		}
-			
-		foreach($tunnels as $t) {
+
+		foreach ($tunnels as $t) {
 			$tabTunnels[$t["x_tunnel"]][$t["y_tunnel"]] = true;
 		}
 
@@ -86,20 +86,20 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		$numero = -1;
 
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
-			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+		for ($j = $this->distance; $j >= -$this->distance; $j--) {
+			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 				$numero++;
 				$nDecouverte = 0;
-				if ($tabTunnels[$x-1][$y-1] === true) $nDecouverte++;
-				if ($tabTunnels[$x-1][$y] === true) $nDecouverte++;
-				if ($tabTunnels[$x-1][$y+1] === true) $nDecouverte++;
-				if ($tabTunnels[$x][$y+1] === true) $nDecouverte++;
-				if ($tabTunnels[$x][$y-1] === true) $nDecouverte++;
-				if ($tabTunnels[$x+1][$y+1] === true) $nDecouverte++;
-				if ($tabTunnels[$x+1][$y] === true) $nDecouverte++;
-				if ($tabTunnels[$x+1][$y-1] === true) $nDecouverte++;
+				if ($tabTunnels[$x - 1][$y - 1] === true) $nDecouverte++;
+				if ($tabTunnels[$x - 1][$y] === true) $nDecouverte++;
+				if ($tabTunnels[$x - 1][$y + 1] === true) $nDecouverte++;
+				if ($tabTunnels[$x][$y + 1] === true) $nDecouverte++;
+				if ($tabTunnels[$x][$y - 1] === true) $nDecouverte++;
+				if ($tabTunnels[$x + 1][$y + 1] === true) $nDecouverte++;
+				if ($tabTunnels[$x + 1][$y] === true) $nDecouverte++;
+				if ($tabTunnels[$x + 1][$y - 1] === true) $nDecouverte++;
 
 				//La case à creuser doit avoir au minimum 4 cases adjacentes non évidées
 				if ($nDecouverte < 3) {
@@ -114,17 +114,17 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 
 		$this->distance = 1;
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
+		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			$change_level = true;
-			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
-					
+
 				$caseCourante = false;
 				$display = $x;
 				$display .= " ; ";
 				$display .= $y;
-					
+
 				$tunnelTrouve = false;
 				$valid = false;
 
@@ -136,9 +136,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 					$valid = false;
 					$caseCourante = true;
 				}
-					
+
 				if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
-				|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
+					|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max
+				) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
 				}
 
@@ -146,7 +147,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 				// où les cases sont non valides, où la construction de tunnel n'est pas possible
 				// et où il n'y a pas déjà un tunnel
 				if ($supprimeMinerai && !$valid && $tabTunnelsPossibles[$x][$y] == false && $tabTunnels[$x][$y] === false && !$caseCourante) {
-					$nb = $filonTable->delete("x_filon = ".$x. " and y_filon = ".$y." and z_filon=".$this->view->user->z_braldun);
+					$nb = $filonTable->delete("x_filon = " . $x . " and y_filon = " . $y . " and z_filon=" . $this->view->user->z_braldun);
 					$filonsSupprimes = $filonsSupprimes + $nb;
 				}
 
@@ -158,16 +159,16 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 					$default = "";
 				}
 
-				$tab[] = array ("x_offset" => $i,
-				 	"y_offset" => $j,
-				 	"default" => $default,
-				 	"display" => $display,
-				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-					"valid" => $valid
+				$tab[] = array("x_offset" => $i,
+							   "y_offset" => $j,
+							   "default" => $default,
+							   "display" => $display,
+							   "change_level" => $change_level, // nouvelle ligne dans le tableau
+							   "valid" => $valid
 				);
 
 				$tabValidation[$i][$j] = $valid;
-					
+
 				if ($change_level) {
 					$change_level = false;
 				}
@@ -189,30 +190,30 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->niveauValide == false) {
-			throw new Zend_Exception(get_class($this)." Niveau invalide : ".$this->view->user->z_braldun);
+			throw new Zend_Exception(get_class($this) . " Niveau invalide : " . $this->view->user->z_braldun);
 		}
 
 		if ($this->view->creuserOk == false) {
-			throw new Zend_Exception(get_class($this)." Monter Palissade interdit");
+			throw new Zend_Exception(get_class($this) . " Monter Palissade interdit");
 		}
 
 		// on verifie que l'on peut monter une tunnel sur la case
 		$x_y = $this->request->get("valeur_1");
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 		if ($offset_x < -$this->distance || $offset_x > $this->distance) {
-			throw new Zend_Exception(get_class($this)." Creuser X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this) . " Creuser X impossible : " . $offset_x);
 		}
 
 		if ($offset_y < -$this->distance || $offset_y > $this->distance) {
-			throw new Zend_Exception(get_class($this)." Creuser Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this) . " Creuser Y impossible : " . $offset_y);
 		}
 
 		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-			throw new Zend_Exception(get_class($this)." Creuser XY impossible : ".$offset_x.$offset_y);
+			throw new Zend_Exception(get_class($this) . " Creuser XY impossible : " . $offset_x . $offset_y);
 		}
 
 		// calcul des jets
@@ -230,7 +231,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculCreuser($x, $y) {
 
-		if (Bral_Util_De::get_1d10() == 5) {
+		if (Bral_Util_De::get_1d10() > 5) { // 4 chances sur 10
 			$nidDecouvert = $this->calculNid($x, $y, $this->view->user->z_braldun);
 		}
 
@@ -238,7 +239,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$this->view->user->y_braldun = $y;
 
 		$data = array(
-			"x_tunnel"  => $x,
+			"x_tunnel" => $x,
 			"y_tunnel" => $y,
 			"z_tunnel" => $this->view->user->z_braldun,
 			"date_tunnel" => date("Y-m-d H:00:00"),
@@ -254,7 +255,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
@@ -273,10 +274,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 		$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_MINE, $this->view->user->x_braldun, $this->view->user->y_braldun, "non");
 		if ($lieuRowset == null || count($lieuRowset) < 1) {
-			throw new Zend_Exception("Erreur nb mine x:".$this->view->user->x_braldun." y:".$this->view->user->y_braldun);
+			throw new Zend_Exception("Erreur nb mine x:" . $this->view->user->x_braldun . " y:" . $this->view->user->y_braldun);
 		}
 		$lieu = $lieuRowset[0];
-		$distance =  $lieu["distance"];
+		$distance = $lieu["distance"];
 
 		//if ($distance < 11) { // 11: distance = 5 + niveauMin x 3, avec niveauMin=2, distanceMin : 11
 		if ($distance < 11) {
@@ -297,7 +298,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$zoneNidTable = new ZoneNid();
 		$zones = $zoneNidTable->findByCase($x, $y, $z);
 		if ($zones == null || count($zones) > 1) {
-			throw new Zend_Exception("Creuser: Erreur Parametrage zone nid: x:".$x." y:".$y." z:".$z. " n:".count($zones));
+			throw new Zend_Exception("Creuser: Erreur Parametrage zone nid: x:" . $x . " y:" . $y . " z:" . $z . " n:" . count($zones));
 		}
 		$idZoneNid = $zones[0]["id_zone_nid"];
 
@@ -316,7 +317,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 		$typesMonstres = $creationNidsTable->findIdTypeMonstreNiveauMinMaxByIdZone($idZoneNid, $niveauMin, $niveauMax);
 
 		if ($typesMonstres == null || count($typesMonstres) < 1) {
-			throw new Zend_Exception("Creuser: Erreur Parametrage 2 zone nid: ".$idZoneNid." min:".$niveauMin. " max:".$niveauMax);
+			throw new Zend_Exception("Creuser: Erreur Parametrage 2 zone nid: " . $idZoneNid . " min:" . $niveauMin . " max:" . $niveauMax);
 		}
 
 		$idKey = Bral_Util_De::get_de_specifique(0, count($typesMonstres) - 1);
@@ -348,7 +349,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 			'id_fk_zone_nid' => $idZoneNid,
 			'id_fk_type_monstre_nid' => $idTypeMonstre,
 			'date_creation_nid' => date("Y-m-d H:i:s"),
-			'date_generation_nid' =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours),
+			'date_generation_nid' => Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), $nbJours),
 		);
 		$nidTable = new Nid();
 		$nidTable->insert($data);
@@ -361,14 +362,15 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence {
 
 	private function calculTabZones($zones, &$tabZones) {
 		$distance = 1;
-		foreach($zones as $z) {
+		foreach ($zones as $z) {
 			if ($z["est_mine_zone"] == "oui") {
-				for ($j = $distance; $j >= -$distance; $j --) {
-					for ($i = -$distance; $i <= $distance; $i ++) {
+				for ($j = $distance; $j >= -$distance; $j--) {
+					for ($i = -$distance; $i <= $distance; $i++) {
 						$x = $this->view->user->x_braldun + $i;
 						$y = $this->view->user->y_braldun + $j;
 						if ($x >= $z["x_min_zone"] && $x <= $z["x_max_zone"] &&
-						$y >= $z["y_min_zone"] && $y <= $z["y_max_zone"]) {
+							$y >= $z["y_min_zone"] && $y <= $z["y_max_zone"]
+						) {
 							$tabZones[$x][$y] = true;
 						}
 					}

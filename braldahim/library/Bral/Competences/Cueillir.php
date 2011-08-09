@@ -20,7 +20,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 		$typePartiePlanteTable = new TypePartieplante();
 		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall();
-		foreach($typePartiePlanteRowset as $p) {
+		foreach ($typePartiePlanteRowset as $p) {
 			$tabPartiePlante[$p->id_type_partieplante]["id"] = $p->id_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom"] = $p->nom_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom_systeme"] = $p->nom_systeme_type_partieplante;
@@ -34,26 +34,26 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		foreach ($plantes as $p) {
-			if ($p["partie_1_plante"] > 0) $nom_partie_1 = $tabPartiePlante[$p["id_fk_partieplante1_type_plante"]]["nom"]; else $nom_partie_1="";
-			if ($p["partie_2_plante"] > 0) $nom_partie_2 = $tabPartiePlante[$p["id_fk_partieplante2_type_plante"]]["nom"]; else $nom_partie_2="";
-			if ($p["partie_3_plante"] > 0) $nom_partie_3 = $tabPartiePlante[$p["id_fk_partieplante3_type_plante"]]["nom"]; else $nom_partie_3="";
-			if ($p["partie_4_plante"] > 0) $nom_partie_4 = $tabPartiePlante[$p["id_fk_partieplante4_type_plante"]]["nom"]; else $nom_partie_4="";
+			if ($p["partie_1_plante"] > 0) $nom_partie_1 = $tabPartiePlante[$p["id_fk_partieplante1_type_plante"]]["nom"]; else $nom_partie_1 = "";
+			if ($p["partie_2_plante"] > 0) $nom_partie_2 = $tabPartiePlante[$p["id_fk_partieplante2_type_plante"]]["nom"]; else $nom_partie_2 = "";
+			if ($p["partie_3_plante"] > 0) $nom_partie_3 = $tabPartiePlante[$p["id_fk_partieplante3_type_plante"]]["nom"]; else $nom_partie_3 = "";
+			if ($p["partie_4_plante"] > 0) $nom_partie_4 = $tabPartiePlante[$p["id_fk_partieplante4_type_plante"]]["nom"]; else $nom_partie_4 = "";
 			$this->_tabPlantes[] = array("id_plante" => $p["id_plante"],
-				"nom_type" => $p["nom_type_plante"],
-				"categorie" => $p["categorie_type_plante"],
-				"id_fk_type_plante" => $p["id_fk_type_plante"],
-				"partie_1_plante" => $p["partie_1_plante"],
-				"partie_2_plante" => $p["partie_2_plante"],
-				"partie_3_plante" => $p["partie_3_plante"],
-				"partie_4_plante" => $p["partie_4_plante"],
-				"id_fk_partie_1" => $p["id_fk_partieplante1_type_plante"],
-				"id_fk_partie_2" => $p["id_fk_partieplante2_type_plante"],
-				"id_fk_partie_3" => $p["id_fk_partieplante3_type_plante"],
-				"id_fk_partie_4" => $p["id_fk_partieplante4_type_plante"],
-				"nom_partie_1" => $nom_partie_1,
-				"nom_partie_2" => $nom_partie_2,
-				"nom_partie_3" => $nom_partie_3,
-				"nom_partie_4" => $nom_partie_4
+										 "nom_type" => $p["nom_type_plante"],
+										 "categorie" => $p["categorie_type_plante"],
+										 "id_fk_type_plante" => $p["id_fk_type_plante"],
+										 "partie_1_plante" => $p["partie_1_plante"],
+										 "partie_2_plante" => $p["partie_2_plante"],
+										 "partie_3_plante" => $p["partie_3_plante"],
+										 "partie_4_plante" => $p["partie_4_plante"],
+										 "id_fk_partie_1" => $p["id_fk_partieplante1_type_plante"],
+										 "id_fk_partie_2" => $p["id_fk_partieplante2_type_plante"],
+										 "id_fk_partie_3" => $p["id_fk_partieplante3_type_plante"],
+										 "id_fk_partie_4" => $p["id_fk_partieplante4_type_plante"],
+										 "nom_partie_1" => $nom_partie_1,
+										 "nom_partie_2" => $nom_partie_2,
+										 "nom_partie_3" => $nom_partie_3,
+										 "nom_partie_4" => $nom_partie_4
 			);
 		}
 
@@ -98,25 +98,25 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		// Verification arrivee
 		$arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		if ($arrivee < 1 || $arrivee > 3) {
-			throw new Zend_Exception(get_class($this)." Destination impossible ");
+			throw new Zend_Exception(get_class($this) . " Destination impossible ");
 		}
 
 		if ($this->view->charettePleine == true && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Charette pleine !");
+			throw new Zend_Exception(get_class($this) . " Charette pleine !");
 		}
 
 		if ($this->view->possedeCharrette == false && $arrivee == 1) {
-			throw new Zend_Exception(get_class($this)." Pas de charrette !");
+			throw new Zend_Exception(get_class($this) . " Pas de charrette !");
 		}
 
 		if ($this->view->labanPlein == true && $arrivee == 2) {
-			throw new Zend_Exception(get_class($this)." Laban plein !");
+			throw new Zend_Exception(get_class($this) . " Laban plein !");
 		}
 
 		// Verification de la plante
@@ -132,47 +132,49 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		if ($planteOk === false) {
-			throw new Zend_Exception(get_class($this)." Plante invalide : ".$idPlante);
+			throw new Zend_Exception(get_class($this) . " Plante invalide : " . $idPlante);
 		}
 
 		// calcul des jets
 		$this->calculJets();
 		$quantiteExtraite = $this->calculQuantiteAExtraire();
 
-		for ($i=1; $i<=4; $i++) {
+		for ($i = 1; $i <= 4; $i++) {
 			$tab[$i]["estVide"] = true;
 			$tab[$i]["quantite"] = 0;
 			$tab[$i]["id_fk"] = -1;
 			$cueillette[$i]["quantite"] = 0;
 			$cueillette[$i]["id_fk"] = -1;
 			$cueillette[$i]["id_type_plante"] = $plante["id_fk_type_plante"];
-			if ($plante["partie_".$i."_plante"] > 0) {
-				$tab[$i]["id_fk"] = $plante["id_fk_partie_".$i];
-				$tab[$i]["quantite"] = $plante["partie_".$i."_plante"];
+			if ($plante["partie_" . $i . "_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_" . $i];
+				$tab[$i]["quantite"] = $plante["partie_" . $i . "_plante"];
 				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_".$i];
-				$cueillette[$i]["nom_partie"] = $plante["nom_partie_".$i];
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_" . $i];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_" . $i];
 			}
 		}
 
 		$planteADetruire = false;
-		for ($i=1; $i<=$quantiteExtraite; $i++) {
+		for ($i = 1; $i <= $quantiteExtraite; $i++) {
 			$idx = Bral_Util_De::get_de_specifique(1, 4);
 			if ($tab[$idx]["quantite"] > 0 && $tab[$idx]["estVide"] === false) {
 				$cueillette[$idx]["quantite"] = $cueillette[$idx]["quantite"] + 1;
 				$tab[$idx]["quantite"] = $tab[$idx]["quantite"] - 1;
 				if ($tab[$idx]["quantite"] < 1) {
 					$tab[$idx]["estVide"] = true;
-					if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
-					$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+					if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true &&
+						$tab[3]["estVide"] === true && $tab[4]["estVide"] === true
+					) {
 						$planteADetruire = true;
 						break; // si la plante est vide, on sort
 					}
 				}
 			} else {
 				$tab[$idx]["estVide"] = true;
-				if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
-				$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+				if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true &&
+					$tab[3]["estVide"] === true && $tab[4]["estVide"] === true
+				) {
 					$planteADetruire = true;
 					break; // si la plante est vide, on sort
 				} else {
@@ -191,7 +193,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			if ($arrivee == 2) {
 				Zend_Loader::loadClass('LabanPartieplante');
 				$labanPartiePlanteTable = new LabanPartieplante();
-				for ($i=1; $i<=4; $i++) {
+				for ($i = 1; $i <= 4; $i++) {
 					if ($cueillette[$i]["quantite"] > 0) {
 						$dansLaban = 0;
 						$aTerre = 0;
@@ -237,7 +239,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			if ($arrivee == 1) {
 				Zend_Loader::loadClass('CharrettePartieplante');
 				$charrettePartiePlanteTable = new CharrettePartieplante();
-				for ($i=1; $i<=4; $i++) {
+				for ($i = 1; $i <= 4; $i++) {
 					if ($cueillette[$i]["quantite"] > 0) {
 						$dansCharrette = 0;
 						$aTerre = 0;
@@ -281,7 +283,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 			}
 			if ($arrivee == 3) {
-				for ($i=1; $i<=4; $i++) {
+				for ($i = 1; $i <= 4; $i++) {
 					if ($cueillette[$i]["quantite"] > 0) {
 						Zend_Loader::loadClass("ElementPartieplante");
 						$elementPartiePlanteTable = new ElementPartieplante();
@@ -300,7 +302,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				}
 			}
 			$statsRecolteurs = new StatsRecolteurs();
-			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_braldun_stats_recolteurs"] = $this->view->user->niveau_braldun;
 			$dataRecolteurs["id_fk_braldun_stats_recolteurs"] = $this->view->user->id_braldun;
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
@@ -313,7 +315,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		// s'il n'y a plus rien sur la plante, il faut la supprimer
 		if ($planteADetruire === true) {
 			$planteTable = new Plante();
-			$where = "id_plante=".$idPlante;
+			$where = "id_plante=" . $idPlante;
 			$planteTable->delete($where);
 			$this->recreation($plante);
 		} else { // sinon, il faut la mettre à jour
@@ -324,7 +326,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				"partie_4_plante" => $p["partie_4_plante"] - $cueillette[4]["quantite"],
 			);
 			$planteTable = new Plante();
-			$where = "id_plante=".$idPlante;
+			$where = "id_plante=" . $idPlante;
 			$planteTable->update($data, $where);
 		}
 
@@ -336,7 +338,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->view->planteDetruite = $planteADetruire;
 		$this->view->plante = $plante;
 		$this->view->arrivee = $arrivee;
-			
+
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
@@ -372,10 +374,10 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$n = ceil($n * 1.5);
 		}
 
-		$n  = $n  + ($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2 ;
-		$n  = intval($n);
+		$n = $n + ($this->view->user->agilite_bm_braldun + $this->view->user->agilite_bbdf_braldun) / 2;
+		$n = intval($n);
 		if ($n <= 0) {
-			$n  = 1;
+			$n = 1;
 		}
 
 		return $n;
@@ -407,7 +409,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				$y = Bral_Util_De::get_de_specifique($yMin, $yMax);
 			}
 		}
-			
+
 		$min = 5;
 		$max = 10;
 		$partie_1 = Bral_Util_De::get_de_specifique($min, $max);

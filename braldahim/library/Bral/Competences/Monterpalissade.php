@@ -75,78 +75,79 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		$defautChecked = false;
 
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
+		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			$change_level = true;
-			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $this->view->user->x_braldun + $i;
 				$y = $this->view->user->y_braldun + $j;
 				$z = $this->view->user->z_braldun;
-					
+
 				$display = $x;
 				$display .= " ; ";
 				$display .= $y;
-					
+
 				if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
 				} else {
 					$valid = false;
 				}
-					
+
 				if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
-				|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
+					|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max
+				) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
 				}
-					
-				foreach($echoppes as $e) {
+
+				foreach ($echoppes as $e) {
 					if ($x == $e["x_echoppe"] && $y == $e["y_echoppe"] && $z == $e["z_echoppe"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($lieux as $l) {
+				foreach ($lieux as $l) {
 					if ($x == $l["x_lieu"] && $y == $l["y_lieu"] && $z == $l["z_lieu"]) {
 						$valid = false;
 						break;
 					}
 				}
-					
-				foreach($bralduns as $h) {
+
+				foreach ($bralduns as $h) {
 					if ($x == $h["x_braldun"] && $y == $h["y_braldun"] && $z == $h["z_braldun"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($monstres as $m) {
+				foreach ($monstres as $m) {
 					if ($x == $m["x_monstre"] && $y == $m["y_monstre"] && $z == $m["z_monstre"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($palissades as $p) {
+				foreach ($palissades as $p) {
 					if ($x == $p["x_palissade"] && $y == $p["y_palissade"] && $z == $p["z_palissade"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($routes as $r) {
+				foreach ($routes as $r) {
 					if ($x == $r["x_route"] && $y == $r["y_route"] && $z == $r["z_route"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($nids as $n) {
+				foreach ($nids as $n) {
 					if ($x == $n["x_route"] && $y == $n["y_nid"] && $z == $n["z_nid"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($champs as $n) {
+				foreach ($champs as $n) {
 					if ($x == $n["x_champ"] && $y == $n["y_champ"] && $z == $n["z_champ"]) {
 						$valid = false;
 						break;
@@ -161,16 +162,16 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 					$default = "";
 				}
 
-				$tab[] = array ("x_offset" => $i,
-				 	"y_offset" => $j,
-				 	"default" => $default,
-				 	"display" => $display,
-				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-					"valid" => $valid
+				$tab[] = array("x_offset" => $i,
+							   "y_offset" => $j,
+							   "default" => $default,
+							   "display" => $display,
+							   "change_level" => $change_level, // nouvelle ligne dans le tableau
+							   "valid" => $valid
 				);
 
 				$tabValidation[$i][$j] = $valid;
-					
+
 				if ($change_level) {
 					$change_level = false;
 				}
@@ -191,19 +192,19 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	function prepareResultat() {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_braldun);
+			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
 		}
 
 		if ($this->view->monterPalissadeOk == false) {
-			throw new Zend_Exception(get_class($this)." Monter Palissade interdit");
+			throw new Zend_Exception(get_class($this) . " Monter Palissade interdit");
 		}
 
 		if ($this->view->nRondinsSuffisants == false) {
-			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : rondins insuffisants");
+			throw new Zend_Exception(get_class($this) . " Monter Palissade interdit : rondins insuffisants");
 		}
 
 		if ($this->view->monterPalissadeCharretteOk == false) {
-			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : pas de charrette");
+			throw new Zend_Exception(get_class($this) . " Monter Palissade interdit : pas de charrette");
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Controle");
@@ -217,15 +218,15 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$x_y = $this->request->get("valeur_1");
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 		if ($offset_x < -$this->distance || $offset_x > $this->distance) {
-			throw new Zend_Exception(get_class($this)." MonterPalissade X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this) . " MonterPalissade X impossible : " . $offset_x);
 		}
 
 		if ($offset_y < -$this->distance || $offset_y > $this->distance) {
-			throw new Zend_Exception(get_class($this)." MonterPalissade Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this) . " MonterPalissade Y impossible : " . $offset_y);
 		}
 
 		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-			throw new Zend_Exception(get_class($this)." MonterPalissade XY impossible : ".$offset_x.$offset_y);
+			throw new Zend_Exception(get_class($this) . " MonterPalissade XY impossible : " . $offset_x . $offset_y);
 		}
 
 		// calcul des jets
@@ -267,7 +268,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		}
 
 		$data = array(
-			"x_palissade"  => $x,
+			"x_palissade" => $x,
 			"y_palissade" => $y,
 			"z_palissade" => $this->view->user->z_braldun,
 			"agilite_palissade" => 0,
@@ -275,7 +276,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			"pv_restant_palissade" => $this->view->user->pv_restant_braldun,
 			"pv_max_palissade" => $this->view->user->pv_restant_braldun,
 			"date_creation_palissade" => $date_creation,
-			"date_fin_palissade" => $date_fin,	
+			"date_fin_palissade" => $date_fin,
 			"est_portail_palissade" => $estPorte,
 			"code_1_palissade" => $chiffre_1,
 			"code_2_palissade" => $chiffre_2,
@@ -289,7 +290,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataFabricants["niveau_braldun_stats_fabricants"] = $this->view->user->niveau_braldun;
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);

@@ -6,7 +6,7 @@
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Competences_Factory {
-	
+
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
@@ -22,9 +22,9 @@ class Bral_Competences_Factory {
 
 		// On regarde si c'est une competence basique
 		$competencesBasiques = Bral_Util_Registre::get('competencesBasiques');
-		foreach($competencesBasiques as $c) {
+		foreach ($competencesBasiques as $c) {
 			if ($c["nom_systeme"] == $nomSystemeCompetence) {
-				$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
+				$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
 				$competence = $c;
 				break;
 			}
@@ -37,9 +37,9 @@ class Bral_Competences_Factory {
 		// On regarde si c'est une competence de soule
 		if ($construct == null) {
 			$competencesSoule = Bral_Util_Registre::get('competencesSoule');
-			foreach($competencesSoule as $c) {
+			foreach ($competencesSoule as $c) {
 				if ($c["nom_systeme"] == $nomSystemeCompetence) {
-					$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
+					$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
 					$competence = $c;
 					break;
 				}
@@ -54,9 +54,9 @@ class Bral_Competences_Factory {
 
 			$competences = Bral_Util_Registre::get('competences');
 
-			foreach($braldunCompetences as $c) {
+			foreach ($braldunCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {
-					$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
+					$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
 					$competence = $competences[$c["id_competence"]];
 					$braldunCompetence = $c;
 					break;
@@ -67,15 +67,15 @@ class Bral_Competences_Factory {
 		// verification que la classe de la competence existe.
 		try {
 			Zend_Loader::loadClass($construct);
-		} catch(Exception $e) {
-			throw new Zend_Exception("Comp&eacute;tence invalide (classe): ".$nomSystemeCompetence);
+		} catch (Exception $e) {
+			throw new Zend_Exception("Comp&eacute;tence invalide (classe): " . $nomSystemeCompetence);
 		}
-		 
+
 		if (($construct != null) && (class_exists($construct))) {
 			Zend_Loader::loadClass($construct);
 			return new $construct ($competence, $braldunCompetence, $request, $view, $action);
 		} else {
-			throw new Zend_Exception("Comp&eacute;tence invalide: ".$nomSystemeCompetence);
+			throw new Zend_Exception("Comp&eacute;tence invalide: " . $nomSystemeCompetence);
 		}
 	}
 }
