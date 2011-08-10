@@ -13,10 +13,10 @@ class Contrat extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-		->where('id_fk_braldun_contrat = ?', intval($idBraldunSource))
-		->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
-		->where('date_fin_contrat is null')
-		->where('etat_contrat like ?', 'en cours');
+				->where('id_fk_braldun_contrat = ?', intval($idBraldunSource))
+				->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
+				->where('date_fin_contrat is null')
+				->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -25,9 +25,9 @@ class Contrat extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-		->from('braldun', '*')
-		->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-		->where('id_fk_cible_braldun_contrat = id_braldun');
+				->from('braldun', '*')
+				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+				->where('id_fk_cible_braldun_contrat = id_braldun');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -36,14 +36,16 @@ class Contrat extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-		->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-		->where('date_fin_contrat is null')
-		->where('etat_contrat like ?', 'en cours');
+				->from('braldun', '*')
+				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+				->where('id_fk_braldun_contrat = id_braldun')
+				->where('date_fin_contrat is null')
+				->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 
 		$result = $db->fetchAll($sql);
 		if (count($result) > 1) {
-			throw new Zend_Exception("Contrat::findEnCoursByIdBraldun nbInvalide:".count($result). " h:".$idBraldun);
+			throw new Zend_Exception("Contrat::findEnCoursByIdBraldun nbInvalide:" . count($result) . " h:" . $idBraldun);
 		} elseif (count($result) == 1) {
 			return $result[0];
 		} else {
@@ -55,9 +57,9 @@ class Contrat extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-		->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
-		->where('date_fin_contrat is null')
-		->where('etat_contrat like ?', 'en cours');
+				->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
+				->where('date_fin_contrat is null')
+				->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -66,8 +68,8 @@ class Contrat extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-		->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-		->where('id_contrat = ?', intval($idContrat));
+				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+				->where('id_contrat = ?', intval($idContrat));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

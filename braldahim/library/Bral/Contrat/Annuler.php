@@ -19,15 +19,23 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 		Zend_Loader::loadClass("Contrat");
 
 		$this->refresh = false;
+		$this->nb_points = 5;
 
 		$tableContrat = new Contrat();
 		$contratEnCours = $tableContrat->findEnCoursByIdBraldun($this->view->user->id_braldun);
 		if ($contratEnCours != null) {
+
 			$this->view->contratEnCours = $contratEnCours;
 			if ($this->view->contratEnCours["type_contrat"] == "gredin") {
-				$this->view->perte = " 5 points de Gredin";
+				if ($contratEnCours["points_gredin_braldun"]) {
+					$this->nb_points = 0;
+				}
+				$this->view->perte = $this->nb_points . " points de Gredin";
 			} else {
-				$this->view->perte = " 5 points de Redresseur de Torts";
+				if ($contratEnCours["points_redresseur_braldun"]) {
+					$this->nb_points = 0;
+				}
+				$this->view->perte = $this->nb_points . " points de Redresseur de Torts";
 			}
 		} else {
 			$this->view->contratEnCours = null;
@@ -36,11 +44,12 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 
 	}
 
-	function prepareFormulaire() {}
+	function prepareFormulaire() {
+	}
 
 	function prepareResultat() {
 		if ($this->view->contratEnCours == null) {
-			throw new Zend_Exception(get_class($this)." Annuler Contrat invalide");
+			throw new Zend_Exception(get_class($this) . " Annuler Contrat invalide");
 		}
 
 		$this->annuler();
@@ -53,21 +62,21 @@ class Bral_Contrat_Annuler extends Bral_Contrat_Contrat {
 			'date_fin_contrat' => date("Y-m-d H:i:s"),
 			'etat_contrat' => 'annulé',
 		);
-		$where = "id_contrat = ".$this->view->contratEnCours["id_contrat"];
+		$where = "id_contrat = " . $this->view->contratEnCours["id_contrat"];
 		$tableContrat->update($data, $where);
 
 		if ($this->view->contratEnCours["type_contrat"] == "gredin") {
-			$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - 5;
+			$this->view->user->points_gredin_braldun = $this->view->user->points_gredin_braldun - $this->nb_points;
 			if ($this->view->user->points_gredin_braldun < 0) {
 				$this->view->user->points_gredin_braldun = 0;
 			}
-			$perte = " 5 points de Gredin";
+			$perte = $this->nb_points . " points de Gredin";
 		} else {
-			$this->view->user->points_redresseur_braldun = $this->view->user->points_redresseur_braldun - 5;
+			$this->view->user->points_redresseur_braldun = $this->view->user->points_redresseur_braldun - $this->nb_points;
 			if ($this->view->user->points_redresseur_braldun < 0) {
 				$this->view->user->points_redresseur_braldun = 0;
 			}
-			$perte = " 5 points de Redresseur de Torts";
+			$perte = $this->nb_points . " points de Redresseur de Torts";
 		}
 		$this->majBraldun();
 		$this->view->perte = $perte;

@@ -41,7 +41,7 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$this->view->utilisationPossible = $utilisationPointPossible && ($travauxOk || $cautionOk);
 			if ($this->view->user->pa_braldun >= 4) {
 				$this->view->utilisationPaPossible = true;
-			} 
+			}
 
 		} elseif ($this->view->user->points_redresseur_braldun > 0) {
 			$type = "redresseur";
@@ -70,32 +70,32 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 	function prepareResultat() {
 		// verification qu'il y a assez de castars
 		if ($this->view->utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Tribunal impossible");
+			throw new Zend_Exception(get_class($this) . " Tribunal impossible");
 		}
 
 		if ($this->view->contratEnCours == true) {
-			throw new Zend_Exception(get_class($this)." Tribunal contrat impossible");
+			throw new Zend_Exception(get_class($this) . " Tribunal contrat impossible");
 		}
 
 		if ($this->view->utilisationPointPossible == false) {
-			throw new Zend_Exception(get_class($this)." Tribunal impossible 2");
+			throw new Zend_Exception(get_class($this) . " Tribunal impossible 2");
 		}
 
 		if ($this->view->type == "gredin") {
-			if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
+			if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide : val=" . $this->request->get("valeur_1"));
 			} else {
 				$choix = (int)$this->request->get("valeur_1");
 			}
 
 			if ($choix == 1 && $this->view->travauxOk != true) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide b : val=".$this->request->get("valeur_1"));
+				throw new Zend_Exception(get_class($this) . " Valeur invalide b : val=" . $this->request->get("valeur_1"));
 			} elseif ($choix == 2 && $this->view->cautionOk != true) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide c : val=".$this->request->get("valeur_1"));
+				throw new Zend_Exception(get_class($this) . " Valeur invalide c : val=" . $this->request->get("valeur_1"));
 			}
 		} else {
 			if (!$this->view->soudoyerOk) {
-				throw new Zend_Exception(get_class($this)." Tribunal Soudoyer KO");
+				throw new Zend_Exception(get_class($this) . " Tribunal Soudoyer KO");
 			}
 		}
 
@@ -115,10 +115,10 @@ class Bral_Lieux_Tribunal extends Bral_Lieux_Lieu {
 			$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastarsSoudoyer;
 			$this->view->user->points_redresseur_braldun = 0;
 		}
-		
+
 		if ($this->view->user->pa_braldun < $this->view->paUtilisationLieu) {
 			// dernier contrôle
-			throw new Zend_Exception(get_class($this)." Tribunal Pas assez de PA braldun:".$this->view->user->pa_braldun. " lieu:".$this->view->paUtilisationLieu);
+			throw new Zend_Exception(get_class($this) . " Tribunal Pas assez de PA braldun:" . $this->view->user->pa_braldun . " lieu:" . $this->view->paUtilisationLieu);
 		}
 
 		$this->majBraldun();
