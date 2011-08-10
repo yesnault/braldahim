@@ -10,8 +10,7 @@ class Blabla extends Zend_Db_Table {
 	protected $_name = 'blabla';
 	protected $_primary = array('id_blabla');
 
-	public function findByPosition($x, $y, $z) {
-		$nbCases = Bral_Util_Blabla::NB_CASES_MAX;
+	public function findByPosition($x, $y, $z, $nbCases) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('blabla', '*');
