@@ -2276,12 +2276,8 @@ td.champ2d.jachere { background: url('/images/champ/jachere.png') no-repeat; }
 }
 
 #tourCockpit {
-	margin-left: 10px;
+	margin-left: 0px;
     margin-top: 0px;
-}
-
-#tourCockpit table{
-	width:200px;
 }
 
 #box_cockpit table td {
