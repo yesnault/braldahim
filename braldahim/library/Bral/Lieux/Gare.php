@@ -14,7 +14,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_braldun -  $this->_coutCastars) >= 0);
+		$this->_utilisationPossible = (($this->view->user->castars_braldun - $this->_coutCastars) >= 0);
 
 		//	$this->prepareDestinationsBeta(); //Beta
 		$this->prepareDestinations();
@@ -22,6 +22,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 	}
 
 	function prepareDestinations() {
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
 		$gareCourant = $lieuTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 		$gareCourant = $gareCourant[0];
@@ -31,10 +32,30 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$routes = $routeNumeroTable->findOuverteByIdLieu($gareCourant["id_lieu"], $gareCourant["est_capitale_ville"]);
 
 		if (count($routes) > 0) {
-			foreach($routes as $e) {
-				$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => ($e["est_capitale_ville"] == "oui")) ;
+			foreach ($routes as $e) {
+				$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => ($e["est_capitale_ville"] == "oui"));
 			}
 		}
+
+		// Si c'est une gare de Communauté, on affiche la gare la plus proche (ville reliée)
+		if ($gareCourant["id_fk_communaute_lieu"] != null) {
+			$gareRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_GARE, $this->view->user->x_braldun, $this->view->user->y_braldun, null, "oui");
+			foreach ($gareRowset as $e) {
+				if ($e["x_lieu"] == $this->view->user->x_braldun && $e["y_lieu"] == $this->view->user->y_braldun) {
+					// on ne propose pas le lieu ou le Braldûn est present
+				} else {
+					$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => ($e["est_capitale_ville"] == "oui"));
+					break;
+				}
+			}
+			// Si l'on appartient à une communauté, on regarde si l'on a une gare
+		} else if ($this->view->user->id_fk_communaute_braldun != null) {
+			$gareRowset = $lieuTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun, null, null, null, null, TypeLieu::ID_TYPE_GARE, null, true);
+			foreach ($gareRowset as $e) {
+				$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => ($e["est_capitale_ville"] == "oui"));
+			}
+		}
+
 	}
 
 	function prepareDestinationsBeta() {
@@ -44,7 +65,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$gareCourant = $gareCourant[0];
 		$gareRowset = $lieuTable->findByType(TypeLieu::ID_TYPE_GARE);
 
-		foreach($gareRowset as $e) {
+		foreach ($gareRowset as $e) {
 			if ($e["x_lieu"] == $this->view->user->x_braldun && $e["y_lieu"] == $this->view->user->y_braldun) {
 				// on ne propose pas le lieu ou le Braldûn est present
 			} else {
@@ -52,14 +73,14 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 				if ($gareCourant["est_capitale_ville"] == "oui") {
 					// deplacement vers les ville de la Comté et vers les capitales
 					if ($est_capitale === true) {
-						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale);
 					} else if ($gareCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
-						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale);
 					}
 				} else {
 					// deplacement uniquement vers la capitale
 					if ($gareCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "oui") {
-						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale);
 					}
 				}
 			}
@@ -79,12 +100,12 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->_coutCastars);
+			throw new Zend_Exception(get_class($this) . " Achat impossible : castars:" . $this->view->user->castars_braldun . " cout:" . $this->_coutCastars);
 		}
 
 		// verification que la destination etait bien dans la liste des destinations proposees
 		$destinationOk = false;
-		foreach($this->_tabDestinations as $d) {
+		foreach ($this->_tabDestinations as $d) {
 			if ($d["id_lieu"] == $idDestination) {
 				$xDestination = $d["x"];
 				$yDestination = $d["y"];
@@ -94,7 +115,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		}
 
 		if ($destinationOk === false) {
-			throw new Zend_Exception(get_class($this)."::Destination invalide:".$idDestination);
+			throw new Zend_Exception(get_class($this) . "::Destination invalide:" . $idDestination);
 		}
 
 		$braldunTable = new Braldun();

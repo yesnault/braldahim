@@ -9,8 +9,8 @@ class Lieu extends Zend_Db_Table {
 	protected $_name = 'lieu';
 	protected $_primary = 'id_lieu';
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_lieu = ?',(int)$id);
+	public function findById($id) {
+		$where = $this->getAdapter()->quoteInto('id_lieu = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 
@@ -28,13 +28,13 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('lieu.id_fk_type_lieu = ?',$type)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->where('lieu.id_fk_type_lieu = ?', $type)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
 		if ($estSoule != null) {
-			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+			$select->where('lieu.est_soule_lieu = ?', $estSoule);
 		}
 
 		if ($estReliee != null) {
@@ -52,16 +52,16 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
 		if ($estDonjon != null) {
-			$select->where('lieu.est_donjon_lieu = ?',$estDonjon);
+			$select->where('lieu.est_donjon_lieu = ?', $estDonjon);
 		}
 
 		if ($estSoule != null) {
-			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+			$select->where('lieu.est_soule_lieu = ?', $estSoule);
 		}
 
 		if ($estReliee != null) {
@@ -85,23 +85,23 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->from('region', '*')
-		->where('region.id_region = ?', $region)
-		->where('lieu.id_fk_type_lieu = ?', $type)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('lieu.x_lieu >= region.x_min_region')
-		->where('lieu.x_lieu <= region.x_max_region')
-		->where('lieu.y_lieu >= region.y_min_region')
-		->where('lieu.y_lieu <= region.y_max_region')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->from('region', '*')
+				->where('region.id_region = ?', $region)
+				->where('lieu.id_fk_type_lieu = ?', $type)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->where('lieu.x_lieu >= region.x_min_region')
+				->where('lieu.x_lieu <= region.x_max_region')
+				->where('lieu.y_lieu >= region.y_min_region')
+				->where('lieu.y_lieu <= region.y_max_region')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
 		if ($estSoule != null) {
-			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+			$select->where('lieu.est_soule_lieu = ?', $estSoule);
 		}
 
 		if ($estCapitale != null) {
-			$select->where('ville.est_capitale_ville = ?',$estCapitale);
+			$select->where('ville.est_capitale_ville = ?', $estCapitale);
 		}
 
 		$sql = $select->__toString();
@@ -113,16 +113,16 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('x_lieu <= ?',$x_max)
-		->where('x_lieu >= ?',$x_min)
-		->where('y_lieu >= ?',$y_min)
-		->where('y_lieu <= ?',$y_max)
-		->where('z_lieu = ?',$z)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
+				->from('type_lieu', '*')
+				->where('x_lieu <= ?', $x_max)
+				->where('x_lieu >= ?', $x_min)
+				->where('y_lieu >= ?', $y_min)
+				->where('y_lieu <= ?', $y_max)
+				->where('z_lieu = ?', $z)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
 
 		if ($id_type != null) {
-			$select->where('id_fk_type_lieu = ?',$id_type);
+			$select->where('id_fk_type_lieu = ?', $id_type);
 		}
 
 		$sql = $select->__toString();
@@ -134,14 +134,14 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', 'count(*) as nombre')
-		->where('x_lieu <= ?',$x_max)
-		->where('x_lieu >= ?',$x_min)
-		->where('y_lieu >= ?',$y_min)
-		->where('y_lieu <= ?',$y_max)
-		->where('z_lieu = ?',$z);
+				->where('x_lieu <= ?', $x_max)
+				->where('x_lieu >= ?', $x_min)
+				->where('y_lieu >= ?', $y_min)
+				->where('y_lieu <= ?', $y_max)
+				->where('z_lieu = ?', $z);
 
 		if ($id_type != null) {
-			$select->where('id_fk_type_lieu = ?',$id_type);
+			$select->where('id_fk_type_lieu = ?', $id_type);
 		}
 
 		$sql = $select->__toString();
@@ -155,16 +155,16 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('id_lieu = ?',$id)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
+				->from('type_lieu', '*')
+				->where('id_lieu = ?', $id)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
 		$sql = $select->__toString();
 
 		$lieu = $db->fetchRow($sql);
 		if ($lieu == null) {
 			$retour = "lieu inconnu";
 		} else {
-			$retour = $lieu["nom_lieu"]. " (".$lieu["id_lieu"].")";
+			$retour = $lieu["nom_lieu"] . " (" . $lieu["id_lieu"] . ")";
 		}
 		return $retour;
 	}
@@ -173,12 +173,12 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('x_lieu = ?',$x)
-		->where('y_lieu = ?',$y)
-		->where('z_lieu = ?',$z)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->where('x_lieu = ?', $x)
+				->where('y_lieu = ?', $y)
+				->where('z_lieu = ?', $z)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -188,9 +188,9 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', 'count(*) as nombre')
-		->where('x_lieu = ?',$x)
-		->where('y_lieu = ?',$y)
-		->where('z_lieu = ?',$z);
+				->where('x_lieu = ?', $x)
+				->where('y_lieu = ?', $y)
+				->where('z_lieu = ?', $z);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
@@ -201,37 +201,40 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->where('x_lieu = ?',$x)
-		->where('y_lieu = ?',$y)
-		->where('z_lieu = ?',$z)
-		->where('lieu.id_fk_type_lieu = ?', $type)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->where('x_lieu = ?', $x)
+				->where('y_lieu = ?', $y)
+				->where('z_lieu = ?', $z)
+				->where('lieu.id_fk_type_lieu = ?', $type)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false, $idTypeLieu = null, $niveauMin = null) {
+	function findByIdCommunaute($idCommunaute, $x = null, $y = null, $z = null, $pourEntretien = false, $idTypeLieu = null, $niveauMin = null, $estDependance = false) {
 		if ($idCommunaute == null) {
 			return $idCommunaute;
 		}
-		
+
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->from('type_lieu_communaute', '*')
-		->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('type_lieu.id_fk_type_lieu_communaute_type_lieu = type_lieu_communaute.id_type_lieu_communaute')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+				->from('type_lieu', '*')
+				->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
-		if ($x != null && $y != null &&$z != null) {
-			$select->where('x_lieu = ?',$x);
-			$select->where('y_lieu = ?',$y);
-			$select->where('z_lieu = ?',$z);
+		if ($estDependance == false) {
+			$select->from('type_lieu_communaute', '*')
+					->where('type_lieu.id_fk_type_lieu_communaute_type_lieu = type_lieu_communaute.id_type_lieu_communaute');
+		}
+
+		if ($x != null && $y != null && $z != null) {
+			$select->where('x_lieu = ?', $x);
+			$select->where('y_lieu = ?', $y);
+			$select->where('z_lieu = ?', $z);
 		}
 
 		if ($idTypeLieu != null) {
@@ -256,30 +259,34 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->from('type_dependance', '*')
-		->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = id_type_lieu')
-		->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('type_dependance.id_fk_type_lieu_type_dependance = ?', intval($idTypeLieu));
+				->from('type_lieu', '*')
+				->from('type_dependance', '*')
+				->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = id_type_lieu')
+				->where('lieu.id_fk_communaute_lieu = ?', $idCommunaute)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->where('type_dependance.id_fk_type_lieu_type_dependance = ?', intval($idTypeLieu));
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
 
-	public function findByTypeAndPosition($type, $x, $y, $estSoule = null) {
+	public function findByTypeAndPosition($type, $x, $y, $estSoule = null, $estReliee = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('lieu', '*, SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) as distance')
-		->from('type_lieu', '*')
-		->where('lieu.id_fk_type_lieu = ?',$type)
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->joinLeft('ville','id_fk_ville_lieu = id_ville')
-		->order(array('distance ASC'));
+		$select->from('lieu', '*, SQRT(((x_lieu - ' . $x . ') * (x_lieu - ' . $x . ')) + ((y_lieu - ' . $y . ') * ( y_lieu - ' . $y . '))) as distance')
+				->from('type_lieu', '*')
+				->where('lieu.id_fk_type_lieu = ?', $type)
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville')
+				->order(array('distance ASC'));
 
 		if ($estSoule != null) {
 			$select->where('lieu.est_soule_lieu = ?', $estSoule);
+		}
+
+		if ($estReliee != null) {
+			$select->where("ville.est_reliee_ville like ? ", $estReliee);
 		}
 
 		$sql = $select->__toString();
@@ -289,12 +296,12 @@ class Lieu extends Zend_Db_Table {
 	public function findByPositionMax($x, $y, $max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('lieu', '*, SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) as distance')
-		->from('type_lieu', '*')
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) <= ?', $max)
-		->joinLeft('ville','id_fk_ville_lieu = id_ville')
-		->order(array('distance ASC'));
+		$select->from('lieu', '*, SQRT(((x_lieu - ' . $x . ') * (x_lieu - ' . $x . ')) + ((y_lieu - ' . $y . ') * ( y_lieu - ' . $y . '))) as distance')
+				->from('type_lieu', '*')
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->where('SQRT(((x_lieu - ' . $x . ') * (x_lieu - ' . $x . ')) + ((y_lieu - ' . $y . ') * ( y_lieu - ' . $y . '))) <= ?', $max)
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville')
+				->order(array('distance ASC'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -303,12 +310,12 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->from('ville', '*')
-		->from('region', '*')
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('lieu.id_fk_ville_lieu = id_ville')
-		->where('ville.id_fk_region_ville = region.id_region');
+				->from('type_lieu', '*')
+				->from('ville', '*')
+				->from('region', '*')
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->where('lieu.id_fk_ville_lieu = id_ville')
+				->where('ville.id_fk_region_ville = region.id_region');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -317,13 +324,13 @@ class Lieu extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		->from('type_lieu', '*')
-		->from('ville', '*')
-		->from('region', '*')
-		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
-		->where('lieu.id_fk_ville_lieu = id_ville')
-		->where('ville.id_fk_region_ville = region.id_region')
-		->where('nom_systeme_type_lieu = ?', 'quete');
+				->from('type_lieu', '*')
+				->from('ville', '*')
+				->from('region', '*')
+				->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+				->where('lieu.id_fk_ville_lieu = id_ville')
+				->where('ville.id_fk_region_ville = region.id_region')
+				->where('nom_systeme_type_lieu = ?', 'quete');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

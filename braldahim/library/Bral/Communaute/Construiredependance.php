@@ -7,8 +7,11 @@
  */
 class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
-	function getTitreOnglet() {}
-	function setDisplay($display) {}
+	function getTitreOnglet() {
+	}
+
+	function setDisplay($display) {
+	}
 
 	function getNomInterne() {
 		return "box_action";
@@ -22,27 +25,27 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 		Zend_Loader::loadClass("Bral_Util_Communaute");
 		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
-			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
+			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:" . $this->view->user->id_fk_communaute_braldun);
 		}
 
 		$this->view->nomLieu = null;
 
 		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
-			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
+			throw new Zend_Exception(get_class($this) . " Vous n'êtes pas tenancier de la communauté " . $this->view->user->rangCommunaute);
 		}
 
 		Zend_Loader::loadClass("Communaute");
 		$communauteTable = new Communaute();
 		$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
 		if (count($communaute) != 1) {
-			throw new Zend_Exception("Bral_Communaute_Initialiserbatiment :: Erreur Technique :".count($communaute));
+			throw new Zend_Exception("Bral_Communaute_Initialiserbatiment :: Erreur Technique :" . count($communaute));
 		} else {
 			$communaute = $communaute[0];
 		}
 
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass('Palissade');
-		
+
 		$this->distance = 3;
 		$this->view->x_min = $communaute["x_communaute"] - $this->distance;
 		$this->view->x_max = $communaute["x_communaute"] + $this->distance;
@@ -57,42 +60,43 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 		$defautChecked = false;
 
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
+		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			$change_level = true;
-			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+			for ($i = -$this->distance; $i <= $this->distance; $i++) {
 				$x = $communaute["x_communaute"] + $i;
 				$y = $communaute["y_communaute"] + $j;
 				$z = $communaute["z_communaute"];
-					
+
 				$display = $x;
 				$display .= " ; ";
 				$display .= $y;
-					
+
 				if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
 				} else {
 					$valid = false;
 				}
-					
+
 				if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
-				|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
+					|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max
+				) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
 				}
 
-				foreach($lieux as $l) {
+				foreach ($lieux as $l) {
 					if ($x == $l["x_lieu"] && $y == $l["y_lieu"] && $z == $l["z_lieu"]) {
 						$valid = false;
 						break;
 					}
 				}
 
-				foreach($palissades as $p) {
+				foreach ($palissades as $p) {
 					if ($x == $p["x_palissade"] && $y == $p["y_palissade"] && $z == $p["z_palissade"]) {
 						$valid = false;
 						break;
 					}
 				}
-					
+
 				if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
@@ -101,16 +105,16 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 					$default = "";
 				}
 
-				$tab[] = array ("x_offset" => $i,
-				 	"y_offset" => $j,
-				 	"default" => $default,
-				 	"display" => $display,
-				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-					"valid" => $valid
+				$tab[] = array("x_offset" => $i,
+							   "y_offset" => $j,
+							   "default" => $default,
+							   "display" => $display,
+							   "change_level" => $change_level, // nouvelle ligne dans le tableau
+							   "valid" => $valid
 				);
 
 				$tabValidation[$i][$j] = $valid;
-					
+
 				if ($change_level) {
 					$change_level = false;
 				}
@@ -124,9 +128,9 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 		$typesLieux = $typeLieuTable->findByTypeDependance();
 
 		$tabTypesLieux = null;
-		foreach($typesLieux as $t) {
+		foreach ($typesLieux as $t) {
 			$display = null;
-			foreach($lieux as $l) { // si dans les lieux, il y a déjà un lieu de même type
+			foreach ($lieux as $l) { // si dans les lieux, il y a déjà un lieu de même type
 				if ($t["id_type_lieu"] == $l["id_fk_type_lieu"] && $l["id_fk_communaute_lieu"] == $this->view->user->id_fk_communaute_braldun) {
 					// on ne pourra pas construire un bâtiment du même type une seconde fois
 					$display = false;
@@ -158,29 +162,29 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 			return;
 		}
 
-		if (((int)$this->_request->get("valeur_1").""!=$this->_request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Type invalide : ".$this->_request->get("valeur_1"));
+		if (((int)$this->_request->get("valeur_1") . "" != $this->_request->get("valeur_1") . "")) {
+			throw new Zend_Exception(get_class($this) . " Type invalide : " . $this->_request->get("valeur_1"));
 		} else {
 			$idTypeLieu = (int)$this->_request->get("valeur_1");
 		}
 
 		if (!array_key_exists($idTypeLieu, $this->view->typeLieux)) {
-			throw new Zend_Exception(get_class($this)." Type invalide 2 : ".$idTypeLieu);
+			throw new Zend_Exception(get_class($this) . " Type invalide 2 : " . $idTypeLieu);
 		}
 
 		$x_y = $this->_request->get("valeur_2");
 		list ($offset_x, $offset_y) = preg_split("/h/", $x_y);
 
 		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Position X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this) . " Position X impossible : " . $offset_x);
 		}
 
 		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)." Position Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this) . " Position Y impossible : " . $offset_y);
 		}
 
 		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
-			throw new Zend_Exception(get_class($this)." Position XY impossible : ".$offset_x.$offset_y);
+			throw new Zend_Exception(get_class($this) . " Position XY impossible : " . $offset_x . $offset_y);
 		}
 
 		$x = $this->communaute["x_communaute"] + $offset_x;
@@ -203,7 +207,7 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 
 		$lieuTable = new Lieu();
 
-		$nomLieu = $this->view->typeLieux[$idTypeLieu]["type"]["nom_type_lieu"]." de la communauté ".$communaute["nom_communaute"];
+		$nomLieu = $this->view->typeLieux[$idTypeLieu]["type"]["nom_type_lieu"] . " de la communauté " . $communaute["nom_communaute"];
 
 		$data = array(
 			'nom_lieu' => $nomLieu,
@@ -225,11 +229,11 @@ class Bral_Communaute_Construiredependance extends Bral_Communaute_Communaute {
 		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
 		$details = $nomLieu;
-		$detailsBot = "La dépendance -".$nomLieu."- a été construite. ".PHP_EOL;
-		$detailsBot = "Attention, la perte d'un niveau d'un Bâtiment dans un domaine peut faire perdre une dépendance. ".PHP_EOL;
-		$detailsBot = "Consultez l'arbre des Communautés pour plus d'informations. ".PHP_EOL;
+		$detailsBot = "La dépendance -" . $nomLieu . "- a été construite. " . PHP_EOL;
+		$detailsBot = "Attention, la perte d'un niveau d'un Bâtiment dans un domaine peut faire perdre une dépendance. " . PHP_EOL;
+		$detailsBot = "Consultez l'arbre des Communautés pour plus d'informations. " . PHP_EOL;
 
-		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
+		$detailsBot .= PHP_EOL . PHP_EOL . "Action réalisée par [b" . $this->view->user->id_braldun . "]";
 		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_INITIALISATION_DEPENDANCE, $details, $detailsBot, $this->view);
 
 	}
