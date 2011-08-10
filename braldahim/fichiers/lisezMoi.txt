@@ -2,7 +2,7 @@ bralduns.csv : liste des bralduns, avec les personnages non joueurs (PNJ)
 
 communautes.csv : liste des communautées
 
-rangs_communautes.csv : liste des rangs dans les communautées
+rangs_communautes.csv : liste des rangs dans les communautés
 
 competences.csv : liste des compétences
 
