@@ -101,10 +101,10 @@ if ($case['n_champs'] > 0) :
 		$textChamp .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun=' . $c['id_braldun'] . '\'); title=\'Voir le profil\' >';
 		$textChamp .= htmlspecialchars($c['prenom_braldun']) . ' ' . htmlspecialchars($c['nom_braldun']) . ', n&deg; ' . $c['id_braldun'];
 		$textChamp .= '</label>';
+
 		if ($this->estVueEtendue == false) {
 			$textChamp .= ' <img src=\'' . $this->config->url->static . '/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage(' . $c['id_braldun'] . '); style=\'cursor:pointer\'/> ';
 		}
-
 
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
 			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';

@@ -253,7 +253,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				) {
 					$estDepart = true;
 				}
-				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $lieux[0]['id_fk_communaute_lieu']);
+				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
 			}
 		}
 	}
@@ -432,7 +432,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$coffreTable = new Coffre();
 			$coffre = $coffreTable->findByIdCommunaute($endroitArrivee['id_communaute']);
 			if (count($coffre) != 1) {
-				throw new Zend_Exception(get_class($this) . ' Coffre communaute arrivee invalide = ' . $endroitArrivee['id_communaute']);
+				throw new Zend_Exception(get_class($this) . ' Coffre communaute arrivee invalide = ' . $endroitArrivee['id_communaute']. ' idType:'.$endroitArrivee['id_type_endroit']);
 			}
 			$this->view->id_coffre_arrivee = $coffre[0]['id_coffre'];
 		}
