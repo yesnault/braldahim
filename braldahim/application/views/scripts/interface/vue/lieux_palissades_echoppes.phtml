@@ -7,135 +7,149 @@ $textBallon = '';
 
 $textPalissade = "";
 if ($case["n_palissades"] > 0) :
-     	$textPalissade = "<br /><div class='titre textalia textsizef'><br />Palissade / Portail</div>";
-      	foreach($case["palissades"] as $p) {
-		  	if ($p["est_portail_palissade"] == "oui") {
-				$textPalissade .= "un portail (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
-			} else {
-				$textPalissade .= "une palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
-			}
-      		if ($p["est_destructible_palissade"] == "oui") {
-      			$textPalissade .= " destructible (".htmlspecialchars($p["date_fin_palissade"]).")";
-      		} else {
-      			$textPalissade .= " indestructible";
-      		}
-      		$textPalissade .= "<br />";
-		} 
-		$s = "";
-		if ($case["n_palissades"] > 1) {
-			$s = "s";
+	$textPalissade = "<br /><div class='titre textalia textsizef'><br />Palissade / Portail</div>";
+	foreach ($case["palissades"] as $p) {
+		if ($p["est_portail_palissade"] == "oui") {
+			$textPalissade .= "un portail (n&deg; " . htmlspecialchars($p["id_palissade"]) . ")";
+		} else {
+			$textPalissade .= "une palissade (n&deg; " . htmlspecialchars($p["id_palissade"]) . ")";
 		}
+		if ($p["est_destructible_palissade"] == "oui") {
+			$textPalissade .= " destructible (" . htmlspecialchars($p["date_fin_palissade"]) . ")";
+		} else {
+			$textPalissade .= " indestructible";
+		}
+		$textPalissade .= "<br />";
+	}
+	$s = "";
+	if ($case["n_palissades"] > 1) {
+		$s = "s";
+	}
 endif;
-	
+
 if ($textPalissade != "") {
-	$textPalissade = $textPalissade.'<br /><hr/><br />';
+	$textPalissade = $textPalissade . '<br /><hr/><br />';
 }
-	
+
 if ($case['n_lieux'] > 0) :
 	$textLieu = "<br /><div class='titre textalia textsizef'>Lieu</div>";
-    foreach($case['lieux'] as $l) {
-      	$textLieu .= htmlspecialchars($l['nom_lieu']);
-      	$type_lieu = $l['nom_systeme_type_lieu'];
-      	if ($this->user->administrationvue == true) {
-       		$textLieu .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu='.$l['id_lieu'].'\')>[Admin:deplacer]</label>';
-      	}
+	foreach ($case['lieux'] as $l) {
+		$textLieu .= htmlspecialchars($l['nom_lieu']);
+		$type_lieu = $l['nom_systeme_type_lieu'];
+		if ($this->user->administrationvue == true) {
+			$textLieu .= ' <label class=\'alabel\' onclick=_get_(\'\/administrationajax\/doaction?caction=ask_administrationajax_deplacerlieu&id_lieu=' . $l['id_lieu'] . '\')>[Admin:deplacer]</label>';
+		}
+
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+		}
 	}
-	 
+
 	if ($textLieu != "") {
-		$textLieu = $textLieu.'<br /><hr/><br />';
+		$textLieu = $textLieu . '<br /><hr/><br />';
 	}
 endif;
 
 if ($case['n_ballons'] > 0) :
 	$textBallon = 'Ballon &agrave terre !<br />';
-endif; 
+endif;
 
 if ($case['n_echoppes'] > 0) :
 	$textEchoppe = "<br /><div class='titre textalia textsizef'>Échoppe</div>";
 	$nomSystemeEchoppe = '';
-	foreach($case['echoppes'] as $c) {
-		if ($c['nom_metier']{0} == 'A') : $d='d\''; else: $d='de '; endif;
+	foreach ($case['echoppes'] as $c) {
+		if ($c['nom_metier']{0} == 'A') : $d = 'd\''; else: $d = 'de '; endif;
 		if ($c['nom_echoppe'] != null && $c['nom_echoppe'] != '') :
-			$textEchoppe .= htmlspecialchars($c['nom_echoppe']). ', ';
-		endif; 
-		$textEchoppe .= '&Eacute;choppe '.$d.htmlspecialchars($c['nom_metier']).' appartenant &agrave; <br />';
-		$textEchoppe .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
-		$textEchoppe .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
+			$textEchoppe .= htmlspecialchars($c['nom_echoppe']) . ', ';
+		endif;
+		$textEchoppe .= '&Eacute;choppe ' . $d . htmlspecialchars($c['nom_metier']) . ' appartenant &agrave; <br />';
+		$textEchoppe .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun=' . $c['id_braldun'] . '\'); title=\'Voir le profil\' >';
+		$textEchoppe .= htmlspecialchars($c['prenom_braldun']) . ' ' . htmlspecialchars($c['nom_braldun']) . ', n&deg; ' . $c['id_braldun'];
 		$textEchoppe .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textEchoppe .= ' <img src=\''.$this->config->url->static.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
+			$textEchoppe .= ' <img src=\'' . $this->config->url->static . '/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage(' . $c['id_braldun'] . '); style=\'cursor:pointer\'/> ';
 		}
-		
-      	$textEchoppe .= '<br />';
-      	$nomSystemeEchoppe = $c['nom_systeme_metier'];
+
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+		}
+
+
+		$textEchoppe .= '<br />';
+		$nomSystemeEchoppe = $c['nom_systeme_metier'];
 	}
 	$s = '';
 	if ($case['n_echoppes'] > 1) {
 		$s = 's';
 	}
-	
+
 	if ($textEchoppe != "") {
-		$textEchoppe = $textEchoppe.'<br /><hr/><br />';
+		$textEchoppe = $textEchoppe . '<br /><hr/><br />';
 	}
-	
-endif; 
+
+endif;
 
 if ($case['n_champs'] > 0) :
 	$textChamp = "<br /><div class='titre textalia textsizef'>Champ</div>";
 	$nomSystemeChamp = '';
-	foreach($case['champs'] as $c) {
+	foreach ($case['champs'] as $c) {
 		if ($c['nom_champ'] != null && $c['nom_champ'] != '') :
 			$textChamp .= htmlspecialchars($c['nom_champ']);
 			$textChamp .= '<br />';
-		endif; 
+		endif;
 		$textChamp .= 'Champ appartenant &agrave; <br />';
-		$textChamp .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun='.$c['id_braldun'].'\'); title=\'Voir le profil\' >';
-		$textChamp .= htmlspecialchars($c['prenom_braldun']).' '.htmlspecialchars($c['nom_braldun']).', n&deg; '.$c['id_braldun'];
+		$textChamp .= '<label class=\'alabel\' onclick=ouvrirWin(\'\/voir\/braldun\/?braldun=' . $c['id_braldun'] . '\'); title=\'Voir le profil\' >';
+		$textChamp .= htmlspecialchars($c['prenom_braldun']) . ' ' . htmlspecialchars($c['nom_braldun']) . ', n&deg; ' . $c['id_braldun'];
 		$textChamp .= '</label>';
 		if ($this->estVueEtendue == false) {
-			$textChamp .= ' <img src=\''.$this->config->url->static.'/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage('.$c['id_braldun'].'); style=\'cursor:pointer\'/> ';
+			$textChamp .= ' <img src=\'' . $this->config->url->static . '/images/uddeim/env.gif\' title=\'Envoyer un message\' alt=\'Ecrire\' border=\'0\' onclick=ecrireMessage(' . $c['id_braldun'] . '); style=\'cursor:pointer\'/> ';
 		}
-		
-      	$textChamp .= '<br />';
+
+
+		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
+			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+		}
+
+		$textChamp .= '<br />';
 	}
-	
+
 	if ($textChamp != "") {
-		$textChamp = $textChamp.'<br /><hr/><br />';
+		$textChamp = $textChamp . '<br /><hr/><br />';
 	}
-	
+
 endif; ?>
 
 <div class='braltipd'>
-<?php $detailsLieux = $case['x'] . " / ". $case['y'];?>
+	<?php $detailsLieux = $case['x'] . " / " . $case['y'];?>
 
-<?php if ($textPalissade != "") : 
+	<?php if ($textPalissade != "") :
 	$detailsLieux .= $textPalissade; ?>
-<?php endif;?>
-<?php if ($textLieu != '' ) :?>
-	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
+	<?php endif;?>
+	<?php if ($textLieu != '') : ?>
+	<?php $detailsLieux .= $textLieu . $textEchoppe . $textChamp . $textBallon; ?>
 	<?php $jsLieu = '';
-		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) :
-			$jsLieu = 'OnDblClick="Javascript:_get_(\'/interface/load/?box=box_lieu\');"';
-		endif;
+	if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) :
+		$jsLieu = 'OnDblClick="Javascript:_get_(\'/interface/load/?box=box_lieu\');"';
+	endif;
 	?>
 	<?php if ($type_lieu != '') : ?>
 		<img src='<?php echo $this->config->url->static?>/images/vue/batiments/<?php echo $type_lieu?>.png' <?php echo $jsLieu?>/>
-	<?php else: ?>
+		<?php else: ?>
 		<img src='<?php echo $this->config->url->static?>/images/vue/batiment.png' <?php echo $jsLieu?>/>
-	<?php endif; ?>
-<?php elseif ($textChamp != '') : ?>
-	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
-	<img src='<?php echo $this->config->url->static?>/images/vue/champ.png' />
-<?php elseif ($textEchoppe != '') : ?>
-	<?php $detailsLieux .= $textLieu.$textEchoppe.$textChamp.$textBallon; ?>
-	<img src='<?php echo $this->config->url->static?>/images/vue/echoppes/<?php echo $nomSystemeEchoppe?>.png' />
-<?php else: ?>
-	<br />
-<?php endif;?>  
+		<?php endif; ?>
+	<?php elseif ($textChamp != '') : ?>
+	<?php $detailsLieux .= $textLieu . $textEchoppe . $textChamp . $textBallon; ?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/champ.png'/>
+	<?php  elseif ($textEchoppe != '') : ?>
+	<?php $detailsLieux .= $textLieu . $textEchoppe . $textChamp . $textBallon; ?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/echoppes/<?php echo $nomSystemeEchoppe?>.png'/>
+	<?php  else: ?>
+	<br/>
+	<?php endif;?>
 
-<?php if ($textBallon != '') : ?>
-<img src='<?php echo $this->config->url->static?>/images/vue/ballon.png'/>
-<?php endif;?>
+	<?php if ($textBallon != '') : ?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/ballon.png'/>
+	<?php endif;?>
 
 </div>
 <div class="tooltip"><?php echo $detailsLieux; ?></div>
