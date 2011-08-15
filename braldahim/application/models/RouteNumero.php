@@ -14,15 +14,14 @@ class RouteNumero extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route_numero', '*')
-		->from('lieu', '*')
-		->from('ville', '*')
-		->where('id_fk_ville_lieu = id_ville')
-		->where('est_ouverte_route_numero = ?', 'oui');
+				->from('lieu', '*')
+				->where('est_ouverte_route_numero = ?', 'oui')
+				->joinLeft('ville', 'id_fk_ville_lieu = id_ville');
 
 		if ($estDepartCapitale == "oui") {
-			$where = "(id_fk_gare_capitale_route_numero = '".intval($idLieu)."'";
+			$where = "(id_fk_gare_capitale_route_numero = '" . intval($idLieu) . "'";
 			$where .= "AND id_lieu = id_fk_gare_province_route_numero) OR";
-			$where .= "(id_fk_gare_province_route_numero = '".intval($idLieu)."'";
+			$where .= "(id_fk_gare_province_route_numero = '" . intval($idLieu) . "'";
 			$where .= "AND id_lieu = id_fk_gare_capitale_route_numero)";
 			$select->where($where);
 		} else {
