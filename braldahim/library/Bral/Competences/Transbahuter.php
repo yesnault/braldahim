@@ -291,7 +291,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c['id_braldun']);
 			if ($c['id_braldun'] == $this->view->user->id_braldun) {
 				$panneau = Bral_Util_Charrette::possedePanneauAmovible($c['id_charrette']);
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 				//$this->view->id_charrette_depart = $c['id_charrette'];
 			} else {
 				$estDepart = false;
@@ -320,7 +320,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$panneau = false;
 				}
 
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de ' . $c['prenom_braldun'] . ' ' . $c['nom_braldun'] . ' (n°' . $c['id_braldun'] . ')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de ' . $c['prenom_braldun'] . ' ' . $c['nom_braldun'] . ' (n°' . $c['id_braldun'] . ')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 			}
 			$nbendroit++;
 		}
@@ -443,6 +443,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->elementsRetires = '';
 		$this->view->elementsNonRetiresPoids = '';
 		$this->view->elementsNonRetiresPanneau = '';
+		if ($this->view->id_braldun_destinataire == null) {
+			$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
+		}
 		$this->deposeType($endroitDepart, $endroitArrivee);
 		$this->view->depart = $endroitDepart['nom_type_endroit'];
 
