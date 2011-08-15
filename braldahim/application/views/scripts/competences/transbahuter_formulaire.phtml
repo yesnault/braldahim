@@ -21,7 +21,7 @@
 		 </select>
 		 <input type="hidden" name="valeur_panneau" id="valeur_panneau" value="<?php echo $panneau ?>"/>
 		 <br/><br/>
-		
+
 		<?php if ($this->choixDepart == true) : ?>
 			<?php if (count($this->typeArrivee) > 0) : ?>
 				<?php include("transbahuter/autres.phtml")?>
@@ -36,40 +36,40 @@
 				<?php include("transbahuter/ingredients.phtml")?>
 				<?php include("transbahuter/tabacs.phtml")?>
 				<?php include("transbahuter/materiels.phtml")?>
-			
-				<?php 
+
+				<?php
 				$js = "selectAll(11, ".$this->nb_valeurs.");";
-				
+
 				$jsRechercheBraldun = "afficheTransbahuterRechercheBraldun();";
 				$jsVente = "afficheTransbahuterVente();";
-				
+
 				$jsFermer = "";
 				$jsOuvrir = "";
 				if ($poches != null) :
 					foreach ($poches as $p) :
 						$jsFermer .= "maccordion_fermer($('#$p'));";
 						$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
-					endforeach; 
+					endforeach;
 				endif;
 				?>
 				<br/>
 				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onclick="<?php echo $js?>"/>
 				<input type='reset' class='button1' id='bouton_selectionnertout' value='Réinitialiser !' onclick="$('#bouton_deposer').attr('disabled', true);"/>
-				<?php if ($poches != null): ?> 
+				<?php if ($poches != null): ?>
 					<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onclick="<?php echo $jsFermer ?>"/>
 					<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>"/>
 				<?php endif;?>
 				<br/><br/>
 				Transbahuter vers :<br />
-				<?php 
+				<?php
 					$options = "";
 					$poids = "";
-					$charrette = "";
+					$charretteOuLaban = "";
 					$venteSelectionne = false;
 					$venteEtalSelectionne = false;
 					$coffreBraldunSelectionne = false;
 					$reservationCommunauteSelectionnee = false;
-					foreach($this->typeArrivee as $idTypeArrivee => $t) { 
+					foreach($this->typeArrivee as $idTypeArrivee => $t) {
 						$options .="<option value='".$idTypeArrivee."'";
 				 		if ($t["selected"] == $idTypeArrivee || count($this->typeArrivee) == 1) {
 				 			$options .=" selected='selected' ";
@@ -88,8 +88,8 @@
 				 		}
 				 		$options .= ">".$t["nom_type_arrivee"]."</option>";
 				 		$poids .= "<input type='hidden' name='poids_".$idTypeArrivee."' id='poids_".$idTypeArrivee."' value='".$t["poids_restant"]."' />";
-				 		if ($t["nom_systeme"] == "Charrette") {
-				 			$charrette .= "<input type='hidden' name='id_charrette_".$idTypeArrivee."' id='id_charrette_".$idTypeArrivee."' value='".$t["id_charrette"]."' />";
+				 		if ($this->ID_ENDROIT_CHARRETTE == $t["id_type_arrivee"] || $this->ID_ENDROIT_LABAN_BRALDUN == $t["id_type_arrivee"]) {
+				 			$charretteOuLaban .= "<input type='hidden' name='id_destination_".$idTypeArrivee."' id='id_destination_".$idTypeArrivee."' value='".$t["id_destination"]."' />";
 				 		}
 				   	}
 				?>
@@ -98,7 +98,7 @@
 					<?php echo $options ?>
 				</select>
 				<?php echo $poids ?><br/>
-				<?php echo $charrette ?>
+				<?php echo $charretteOuLaban ?>
 				<br/>
 				<div id="div_poids"></div>
 				<?php if ($venteEtalSelectionne || $coffreBraldunSelectionne || $reservationCommunauteSelectionnee) : $visibility = 'visible'; $display = 'block'; else: $visibility = 'hidden'; $display = 'none'; endif ?>
@@ -118,16 +118,16 @@
 					<div class="recherche" id="recherche_valeur_3_dest_update" ></div>
    					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" alt="Recherche..." /></span>
    				</div>
-   				
+
    				<?php if ($venteSelectionne || $reservationCommunauteSelectionnee) : $display = 'block'; else: $display = 'none'; endif ?>
 				<div id="div_vente_transbahuter" style="display :<?php echo $display?>">
 					<?php if ($venteSelectionne) : $display = 'block'; else:  $display = 'none'; endif ?>
 					<br /><span id="span_vente_transbahuter" style="display :<?php echo $display?>"><b>Les castars sélectionnés ne seront pas pris en compte dans ce transbahutage</b>.</span><br /><br />
 					<?php include("transbahuter/vente_formulaire_castars.phtml")?>
    				</div>
-   				
+
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charrette();if (controlePrixVenteBoutonDeposer()) {this.disabled=true;$('#valeur_10').val(encodePlus($('#valeur_commentaire').val()));_get_('/competences/doaction?caction=do_competence_transbahuter&idCharretteEtal=<?php echo $this->idCharretteEtal?>')};" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onclick="charretteOuLaban();if (controlePrixVenteBoutonDeposer()) {this.disabled=true;$('#valeur_10').val(encodePlus($('#valeur_commentaire').val()));_get_('/competences/doaction?caction=do_competence_transbahuter&idCharretteEtal=<?php echo $this->idCharretteEtal?>')};" disabled>
 		<?php else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?php endif; ?>

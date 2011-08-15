@@ -19,9 +19,9 @@ function _get_(url, nomAction, encode) {
 	var valeurs = "";
 	var nb_valeurs = 0;
 	var action = "";
-	
+
 	revealModal('#modalPage');
-	
+
 	if (url.length > 34) {
 		if (url.substring(0, 9) == "/palmares") { // /palmares/doaction?caction=ask/do
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
@@ -72,16 +72,16 @@ function _get_(url, nomAction, encode) {
 				action = "do";
 			}
 		}
-		
+
 	}
 
 	var sep = '';
-	
+
 	var suffixe = '';
 	if (nomAction) {
 		suffixe = '-' + nomAction;
 	}
-	
+
 	if ($('#nb_valeurs' + suffixe) && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
 		nb_valeurs = $('#nb_valeurs' + suffixe).val();
@@ -108,13 +108,13 @@ function _get_(url, nomAction, encode) {
 		}
 		$("#box_action").innerHTML = "Chargement...";
 	}
-	
+
 	if ($('#dateAuth')) {
 		valeurs = valeurs + sep + "dateAuth=" + $('#dateAuth').val();
 	} else {
 		valeurs = valeurs + sep + "dateAuth=-1" ;
 	}
-	
+
 	 $.ajax({
 		   type: "POST",
 		   url: url,
@@ -186,7 +186,7 @@ function showResponse(reponse) {
 							display_erreur = true; // affichage de la boite
 													// d'erreur
 						}
-						
+
 						if (m_type == "display" || m_type == "refresh") {
 							_display_(m_type, m_type_valeur, m_data);
 						} else if (m_type == "action") {
@@ -259,12 +259,12 @@ function showResponse(reponse) {
 			$("#actionBoutonFermer").focus();
 		}
 	}
-	
+
 	// Box informations
 	if (display_informations) {
 		ouvreBralBox("box_informations");
 	}
-	
+
 	// Box erreur
 	if (display_erreur) {
 		ouvreBralBox("erreur");
@@ -273,7 +273,7 @@ function showResponse(reponse) {
 			$("#erreur").hide();
 		}
 	}
-	
+
 	// Box erreur catch
 	if (display_erreur_catch) {
 		ouvreBralBox("erreur_catch");
@@ -284,7 +284,7 @@ function showResponse(reponse) {
 	}
 
 	hideModal('#modalPage');
-	
+
 	return;
 }
 
@@ -319,7 +319,7 @@ function ecrireMessage(idBraldun) {
 
 function ecrireMessageListeContact(idListe) {
 	if ($("#loaded_box_messagerie").val() != "1") {
-		$("#loaded_box_messagerie").val("1"); 
+		$("#loaded_box_messagerie").val("1");
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
 	// my_switch("box_messagerie","boite_c");
@@ -350,10 +350,10 @@ function chaineCheckbox(liste) {
 function checkboxCocher(liste, valeur, acacher, aafficher) {
 	val = liste.split(',');
 	retour = "";
-	
+
 	acacher.style.display="none";
 	aafficher.show();
-	
+
 	for (i = 0; i < val.length; i++) {
 		$($('#'+val[i]).attr('checked', valeur));
 	}
@@ -373,47 +373,47 @@ function _display_(type, box, data) {
 }
 
 function _display_box(type, box, data) {
-	
+
 	var estDialog = false;
 	var filtreCourant = null
 	var largeurMessagerie = 800;
-	
+
 	// si l'on fait appel a boxes, on appelle interface et cockpit
 	if (box == 'racine') {
 		_get_('/interface/load/?box=box_cockpit');
 		_get_('/interface/load/?box=box_interface');
-	} else if (box == 'box_interface') { 
+	} else if (box == 'box_interface') {
 		// si l'on fait appel a interface, on appelle la vue ensuite
 		if ($("#loaded_box_vue").val() != "1") {
 			_get_('/interface/load/?box=box_vue');
 		}
 		_get_('/interface/load/?box=box_competences');
-	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu' 
-		|| box == 'box_titres' || box == 'box_messagerie' 
-			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre' 
-			|| box == 'box_personnage' )) { 
-		
+	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu'
+		|| box == 'box_titres' || box == 'box_messagerie'
+			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre'
+			|| box == 'box_personnage' )) {
+
 		var largeur = 600;
-		
+
 		if (box == 'box_messagerie') {
 			largeur = largeurMessagerie;
 		}
-		
+
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est
 		// ouverte
 		if (type == "display" || (type == "refresh" && (!$('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == true))) {
-			
+
 			$('#'+box).html('');
-			$('#'+box).dialog({ 
+			$('#'+box).dialog({
 				width: largeur,
 				title: titre
 			});
 		}
-		
+
 		estDialog = true;
 	// $('#'+box).html(data);
 	}
-		
+
 	if (box == 'messagerie_contenu') {
 		if ($("#estMobile").val() == "true") {
 			$('#box_messagerie').show();
@@ -421,23 +421,23 @@ function _display_box(type, box, data) {
 			$('#box_messagerie').dialog({ width: largeurMessagerie});
 		}
 	}
-	
+
 	if ($('#'+box)) {
 		$('#'+box).html(data);
 		$("#loaded_"+box).val(1);
 	}
-	
+
 	if (box == "box_vue") {
 		$('.braltipd').tooltip({
 		  position:'top right',
 		  offset: [0, -64]});
 	}
-	
+
 	if ($('#idCompetencesTable_filter').exists()) {
 		var filtreCourant = $('#idCompetencesTable_filter input').val();
 		$('#filtre-competenceCourant').val(filtreCourant);
 	}
-	
+
 	if (estDialog) {
 		var titre = '';
 		if ($('#'+box+"Titre").exists()) {
@@ -446,11 +446,11 @@ function _display_box(type, box, data) {
 		$('#'+box).dialog( "option", "position", 'center' );
 		$('#'+box).dialog( "option", "title", titre );
 	}
-	
+
 	if (box == "box_cockpit") {
 		prepareCockpit();
 	}
-	
+
 }
 
 function prepareCockpit() {
@@ -463,7 +463,7 @@ function prepareCockpit() {
 		})
 		messagerie();
 	}
-	
+
 	if ($('.butEffets').exists()) {
 		$( ".butEffets" ).button({
         icons: {
@@ -472,25 +472,25 @@ function prepareCockpit() {
         text: false
 		})
 	}
-	
+
 	if ($('.butPersonnage').exists()) {
 		$( ".butPersonnage" ).button({
 			text: true
 		})
 	}
-	
+
 	if ($('.butLaban').exists()) {
 		$( ".butLaban" ).button({
 			text: true
 		})
 	}
-	
+
 	if ($('.butCharrette').exists()) {
 		$( ".butCharrette" ).button({
 			text: true
 		})
 	}
-	
+
 	if ($('.butCoffre').exists()) {
 		$( ".butCoffre" ).button({
 			text: true
@@ -517,7 +517,7 @@ function boutonCockpit(box) {
 }
 
 function ouvreBralBox(element) {
-	
+
 	if (element == "box_action") {
 		titre = "Action";
 		boutonClose = "block";
@@ -534,7 +534,7 @@ function ouvreBralBox(element) {
 		titre = "Une erreur est survenue (js)";
 		boutonClose = "none";
 	}
-	
+
 	if ($("#estMobile").val() == "true") {
 		$( "#"+element ).show();
 		if (element == "box_action") {
@@ -542,7 +542,7 @@ function ouvreBralBox(element) {
 		}
 		return;
 	}
-	
+
 	$( "#"+element ).dialog({
 		modal: true,
 		minWidth : 600,
@@ -551,7 +551,7 @@ function ouvreBralBox(element) {
 		title: titre
 	    // position: 'top'
 	});
-	
+
 	if (element != "box_action") {
 		$( "#"+element ).bind( "dialogclose", function(event, ui) {
 			// rechargement de l'interface :
@@ -570,7 +570,7 @@ function fermeBralBox() {
 		$("#erreur_catch").hide();
 		return;
 	}
-	
+
 	$("#box_action").dialog("close");
 	$("#box_informations").dialog("close");
 	$("#erreur").dialog("close");
@@ -580,22 +580,22 @@ function fermeBralBox() {
 // Switch pour les onglets sur les box
 function my_switch(box, conteneur, controleur) {
 	val = $('#switch_' + conteneur).val().split(',');
-	
+
 	if ($('#'+box) && $("#"+box).css('display') == "block") {
 		return;
 	}
-	
+
 	$('#'+box).show();
 	$("#onglet_" + box).className = "onglet actif";
-	
-	
+
+
 	for (i = 0; i < val.length; i++) {
 		if ($('#'+val[i]) && val[i] != box) {
 			$('#'+val[i]).hide();
 		}
 		$("#onglet_" + val[i]).className = "onglet inactif";
 	}
-	
+
 	if (box == "box_carnet" || box == "box_messagerie" || box == "box_titres") {
 		_get_('/'+controleur+'/load/?box='+ box);
 	} else if ($("#loaded_" + box).val() != "1") {
@@ -744,16 +744,16 @@ function sortGridOnServer(ind, gridObj, direct, url, grid) {
 function selectionnerLot(idLot) {
 	var texteSelectionne = "Sélectionné, cliquer pour désélectionner";
 	var texteSelectionner = "Sélectionner";
-	
+
 	var idChamp = '#tabLotsSelectionnes';
 	var idChampTexte = '#selectionLotsTexte';
 	var tabValeur = $(idChamp).val().split(',');
 	var nouvelleValeur = '';
 	element = "#selectionnerLot" + idLot;
-	
+
 	if ($(element).html() == texteSelectionne) {
 		$(element).html(texteSelectionner);
-		
+
 		for (i = 0; i < tabValeur.length; i++) {
 			if (tabValeur[i] != idLot && tabValeur[i] != "") {
 				if (nouvelleValeur == "") {
@@ -763,7 +763,7 @@ function selectionnerLot(idLot) {
 				}
 			}
 		}
-		
+
 	} else {
 		$(element).html(texteSelectionne);
 		if ($(idChamp).val() != "") {
@@ -772,9 +772,9 @@ function selectionnerLot(idLot) {
 			nouvelleValeur = idLot;
 		}
 	}
-	
+
 	$(idChamp).val(nouvelleValeur);
-	
+
 	var s='';
 	if (nouvelleValeur.indexOf(',') > 0) s = 's';
 	if (nouvelleValeur == "") {
@@ -791,7 +791,7 @@ function braltipFixer(id) {
 	$(id + 'clos').style.display='inline';
 	$(id + 'dep').style.display='inline';
 	$(id + 'fix').hide();
-	
+
 	new Draggable(id, { handle: id + 'dep' });
 }
 
@@ -801,7 +801,7 @@ function braltipDeFixer(id) {
 	$('#'+id + 'clos').hide();
 	$('#'+id + 'dep').hide();
 	$('#'+id + 'fix').attr('display','inline');
-	
+
 	$('#'+id).style.left='0px';
 	$('#'+id).style.right='0px';
 	$('#'+id).style.top='-3px'
@@ -838,12 +838,12 @@ function maccordion_fermer(el) {
 function maccordion_ouvrir(el) {
 	var eldown = el.parents().attr("id") + '-body';
 	$("#"+eldown).show("fast");
-	el.css("background-image", 'url("'+$('#urlStatique').val()+'/images/divers/expanded.gif")');  
+	el.css("background-image", 'url("'+$('#urlStatique').val()+'/images/divers/expanded.gif")');
 }
 
 function maccordion(el) {
 	var eldown = el.parentNode.id + '-body';
-	
+
 	if ($("#"+eldown)) {
 		if ($("#"+eldown)[0].style.display == "none") {
 			maccordion_ouvrir($('#'+el.id));
@@ -906,7 +906,7 @@ function controlePanneau (i) {
 		}
 	} else {
 		$('#valeur_'+i).val(0);
-	}		
+	}
 	alert ("Cette charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
 }
 
@@ -924,7 +924,7 @@ function controleQte() {
 			v = true;
 		}
 	 }
-	 
+
 	 cacher = true;
 	 if (ctrlEchoppe == true ) {
 		 alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
@@ -978,9 +978,9 @@ function selectAll(valmin, valmax) {
 	$('#bouton_deposer').attr('disabled', cacher);
 }
 
-function charrette() {
+function charretteOuLaban() {
 	if ($('#valeur_2').val() >= 13) {
-		$('#valeur_3').val($('#id_charrette_' + $('#valeur_2').val()).val());
+		$('#valeur_3').val($('#id_destination_' + $('#valeur_2').val()).val());
 	}
 }
 
@@ -1006,12 +1006,12 @@ function afficheTransbahuterRechercheBraldun() {
 		$('#div_braldun').hide()
 		$('#valeur_3').val(-1);
 	}
-	
+
 	// constante definie dans Transbahuter.php
-	if ($('#valeur_2').val() == 8) { 
+	if ($('#valeur_2').val() == 8) {
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver cette vente à un unique Braldûn:');
 		// constante definie dans Transbahuter.php
-	} else if ($('#valeur_2').val() == 12) { 
+	} else if ($('#valeur_2').val() == 12) {
 		$('#texte_transbahuter_braldun').html('Vous pouvez réserver ce lot à un unique Braldûn:');
 	} else if ($('#valeur_2').val() == 4) {
 		$('#texte_transbahuter_braldun').html('Entrez le Braldûn destinataire:');
@@ -1020,7 +1020,7 @@ function afficheTransbahuterRechercheBraldun() {
 
 function afficheTransbahuterVente() {
 	// constantes definies dans Transbahuter.php
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) {
 		$('#div_vente_transbahuter').show();
 		if ($('#valeur_2').val() != 12) {
 			$('#span_vente_transbahuter').show();
@@ -1032,7 +1032,7 @@ function afficheTransbahuterVente() {
 
 function controlePrixVenteBoutonDeposer() {
 	// constantes definies dans Transbahuter.php
-	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) { 
+	if ($('#valeur_2').val() == 8 || $('#valeur_2').val() == 9 || $('#valeur_2').val() == 12) {
 		if ($('#valeur_4').val() >= 0 && $('#valeur_4').val() != '' && $('#valeur_5').val() !=-1 ) {
 			return true;
 		} else {
@@ -1127,7 +1127,7 @@ function activerRechercheAdminBraldun(id) {
 }
 
 function activerRechercheVoirBraldun(id) {
-	
+
 	$( "#recherche_" + id).autocomplete({
 		source: "/Recherche/braldun/",
 		minLength: 2,
@@ -1169,24 +1169,24 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idBraldun) {
 		} else {
 			return;
 		}
-	}	
+	}
 	var contenu = window.document.createElement('span');
 	contenu.name = 'm_' + champ + '_' + idJos;
-	
+
 	var texte = valeur;
 	if (idBraldun != null) {
 		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/braldun/?braldun='+idBraldun+'\');">' + texte + '(' + idBraldun + ')</label> ';
 	}
 	texte = texte + ' <img src="'+$('#urlStatique').val() + '/images/divers/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
-	
+
 	if ($('#cpt_' + champ)) {
 		$('#cpt_' + champ).val(parseInt($('#cpt_' + champ).val() *1) + parseInt(1));
 	}
 	if ($('#onChange_' + champ)) {
 		eval($('#onChange_' + champ).val());
 	}
-	
+
 	contenu.id = contenu.name;
 	contenu.innerHTML = texte;
 	$('#aff_' + champ).append(contenu);
@@ -1316,7 +1316,7 @@ function bbstyle(bbnumber, field) {
 			sel.Text = theGuy;
 			if (theGuy.length > 0) {
 				sel.moveStart('character', -theGuy.length + sluss);
-			}	
+			}
 			txtarea.focus();
 			theSelection = '';
 			return;
@@ -1325,7 +1325,7 @@ function bbstyle(bbnumber, field) {
 		mozWrap(txtarea, bbtags[bbnumber], bbtags[bbnumber+1]);
 		return;
 	}
-	
+
 	// Find last occurance of an open tag the same as the one just clicked
 	for (i = 0; i < bbcode.length; i++) {
 		if (bbcode[i] == bbnumber + 1) {
@@ -1347,7 +1347,7 @@ function bbstyle(bbnumber, field) {
 			txtarea.focus();
 			return;
 	} else { // Open tags
-	
+
 		if (imageTag && (bbnumber != 24)) {		// Close image tag before adding
 												// another
 			// txtarea.value += bbtags[25];
@@ -1361,20 +1361,20 @@ function bbstyle(bbnumber, field) {
 			// Return button back to normal state
 			imageTag = false;
 		}
-		
+
 		// Open tag
 		// txtarea.value += bbtags[bbnumber];
 		pasteAtCursor(txtarea, bbtags[bbnumber]);
 		// Check to stop additional tags after an unclosed image tag
 		if ((bbnumber == 24) && (imageTag == false)) {
-			imageTag = 1; 
+			imageTag = 1;
 		}
 		arraypush(bbcode,bbnumber+1);
 		// eval('$('#myForm').addbbcode'+bbnumber+'.value += "*"');
 		var imgsrcori = eval('$("#addbbcode'+bbnumber+'").attr("src")');
 		var imgsrcnew = imgsrcori.substr(0, (imgsrcori.length - 4));
 		imgsrcnew += "_close.gif";
-		eval('$("#addbbcode'+bbnumber+'").attr("src", "' + imgsrcnew + '")');	
+		eval('$("#addbbcode'+bbnumber+'").attr("src", "' + imgsrcnew + '")');
 		txtarea.focus();
 		return;
 	}
@@ -1394,15 +1394,15 @@ function mozWrap(txtarea, open, close) {
 	var s2 = txtarea.val().substring(selStart, selEnd)
 	var s3 = txtarea.val().substring(selEnd, selLength);
 	txtarea.val(s1 + open + s2 + close + s3);
-	
+
 	var anfangs = s1;
 	var endes = s1 + open + s2 + close;
 	var anfang = anfangs.length;
 	var ende= endes.length;
 
 	txtarea[0].selectionStart = anfang;
-	txtarea[0].selectionEnd = ende;	
-	
+	txtarea[0].selectionEnd = ende;
+
 	return;
 }
 
@@ -1434,7 +1434,7 @@ function pasteAtCursor(theGirl, theGuy) {
 		sel.text = theGuy;
 		if (theGuy.length > 0) {
 			sel.moveStart('character', -theGuy.length + sluss);
-		}		
+		}
 	} else if (theGirl[0].selectionStart || theGirl[0].selectionStart == '0') {
 		// MOZILLA/NETSCAPE support
 		var startPos = theGirl[0].selectionStart;
@@ -1461,8 +1461,8 @@ function chiffres(event, negatif) {
 
 	// IE tab, fleches deplacement
 	// backspace ou delete
-	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || 
-			event.keyCode == 46 || event.keyCode == 8) { 
+	if (event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 ||
+			event.keyCode == 46 || event.keyCode == 8) {
 		return;
 	} else if (event.keyCode < 48 || event.keyCode > 57) {
 		event.returnValue = false;
@@ -1470,7 +1470,7 @@ function chiffres(event, negatif) {
 	}
 
 	// DOM backspace ou delete
-	if (event.which == 9 || event.which == 46 || event.which == 8) { 
+	if (event.which == 9 || event.which == 46 || event.which == 8) {
 		return;
 	} else if (negatif != null && event.which == 45) { // signe -
 		return;
@@ -1486,7 +1486,7 @@ function affDetails(x, y, z) {
 }
 
 function tableauTriable(id) {
-	
+
 	$('#'+id).dataTable({
 		"bJQueryUI": true,
 		"oLanguage": {
@@ -1496,10 +1496,10 @@ function tableauTriable(id) {
 			"sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
 			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
 			"sSearch": "Filtre",
-			
+
 		}
 	});
-	
+
 	if (id == "idCompetencesTable" && $('#'+id).exists()) {
 		if ($('#filtre-competenceCourant').val() != '') {
 			$('#'+id).dataTable().fnFilter($('#filtre-competenceCourant').val());
@@ -1508,7 +1508,7 @@ function tableauTriable(id) {
 		}
 		$('#'+id).dataTable().fnSort([ [1,'asc'] ]);
 	}
-	
+
 }
 
 function isDataTable ( nTable )
@@ -1557,22 +1557,22 @@ function isDataTable ( nTable )
 			height : $(document).height()
 		}
 	});
-	
+
 	$('body').append(splashScreen);
-	
+
 	splashScreen.click(function(){
 		splashScreen.fadeOut('slow');
 	});
-	
+
 	// Binding a custom event for changing the current visible text
 	// according
 	// to the contents of the textLayers array (passed as a parameter)
 
 	splashScreen.bind('changeText',function(e,newID){
-	
+
 		// If the image that we want to show is
 		// within the boundaries of the array:
-	
+
 		if(settings.textLayers[newID]){
 			showText(newID);
 		}
@@ -1595,7 +1595,7 @@ function isDataTable ( nTable )
 	}).hide();
 
 	text.load(function(){
-		
+
 		if (id==0) {
 		text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
 				                    text.remove();
@@ -1605,10 +1605,10 @@ function isDataTable ( nTable )
 		else
 			{
 			text.fadeIn('slow');
-			splashScreen.delay(settings.textShowTime).click();	
+			splashScreen.delay(settings.textShowTime).click();
 			}
 		// text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
-		
+
 		/*
 		 * .fadeOut('slow',function(){ text.remove();
 		 * splashScreen.trigger('changeText',[id+1]); });
@@ -1637,7 +1637,7 @@ $(document).ready(function() {
 				$('#urlStatique').val() + '/images/layout/comte.png',
 			]
 		});
-		
+
 		$(function() {
 		    // Use this example, or...
 		    $('a[rel*=lightboxScreenshot]').lightBox(); // Select all links that
@@ -1648,14 +1648,14 @@ $(document).ready(function() {
 													// attribute rel
 		});
 	}
-	
+
 	if ($('#main-cycle').exists()) {
-		$('#main-cycle').cycle({ 
+		$('#main-cycle').cycle({
 			fx: 'scrollHorz',
 		    speed: $('body.lte8').length ? 0 : 1000,
 			timeout: 0,
 			timeout: 20000,
-			next:   '#c-next', 
+			next:   '#c-next',
 			prev:   '#c-prev' ,
 		    cleartype: true,
 			cleartypeNoBg: true
@@ -1669,7 +1669,7 @@ $(document).ready(function() {
  * 840, next: '#c-next', prev: '#c-prev', cleartype: true, cleartypeNoBg: true
  * });
  */
-	
+
 	if ($('#pageflip').exists()) {
 		$("#pageflip").hover(function() { // On hover...
 			$("#pageflip img , .msg_block").stop()
@@ -1694,7 +1694,7 @@ $(document).ready(function() {
 							// glitching in IE)
 		});
 	}
-	
+
 	if ($.browser.ie == true && $.browser.version < '9.0') {
 		alert("Internet Explorer n'est plus supporté par Braldahim. Utilisez un autre navigateur");
 	}

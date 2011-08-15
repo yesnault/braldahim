@@ -22,6 +22,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	const ID_ENDROIT_HALL_LIEU = 11;
 	const ID_ENDROIT_RESERVATION_COMMUNAUTE = 12;
 	const ID_ENDROIT_CHARRETTE = 13;
+	const ID_ENDROIT_LABAN_BRALDUN = 14;
 
 	const NB_VALEURS = 23;
 
@@ -55,6 +56,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			$this->prepareCommunEchoppe($tabEndroit);
 			$this->prepareCommunCharrette($tabEndroit);
+			$this->prepareCommunLaban($tabEndroit);
 			$this->prepareCommunLieu($tabEndroit);
 			$this->prepareCommunCommunaute($tabEndroit);
 		}
@@ -107,6 +109,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->tabEndroit = $tabEndroit;
 		$this->view->ID_ENDROIT_ECHOPPE_ETAL = self::ID_ENDROIT_ECHOPPE_ETAL;
 		$this->view->ID_ENDROIT_HOTEL = self::ID_ENDROIT_HOTEL;
+		$this->view->ID_ENDROIT_CHARRETTE = self::ID_ENDROIT_CHARRETTE;
+		$this->view->ID_ENDROIT_LABAN_BRALDUN = self::ID_ENDROIT_LABAN_BRALDUN;
 		$this->view->ID_ENDROIT_RESERVATION_COMMUNAUTE = self::ID_ENDROIT_RESERVATION_COMMUNAUTE;
 		$this->view->textePrixVente = null;
 	}
@@ -155,8 +159,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($e['poids_restant'] != -1 && $e['poids_restant'] <= 0) continue;
 
 			$tabTypeArrivee[$k] = array('id_type_arrivee' => $e['id_type_endroit'], 'selected' => $id_courant_arrivee, 'nom_systeme' => $e['nom_systeme'], 'nom_type_arrivee' => $e['nom_type_endroit'], 'poids_restant' => $e['poids_restant']);
-			if ($e['nom_systeme'] == 'Charrette') {
-				$tabTypeArrivee[$k]['id_charrette'] = $e['id_charrette'];
+			if ($e['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE || $e['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
+				$tabTypeArrivee[$k]['id_destination'] = $e['id_destination'];
 			}
 			if ($e['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL || $e['id_type_endroit'] == self::ID_ENDROIT_HOTEL || $e['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE) {
 				$uniteAPreparer = true;
@@ -287,7 +291,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c['id_braldun']);
 			if ($c['id_braldun'] == $this->view->user->id_braldun) {
 				$panneau = Bral_Util_Charrette::possedePanneauAmovible($c['id_charrette']);
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'panneau' => $panneau, 'nom_type_endroit' => 'Votre charrette', 'est_depart' => true, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 				//$this->view->id_charrette_depart = $c['id_charrette'];
 			} else {
 				$estDepart = false;
@@ -316,8 +320,27 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$panneau = false;
 				}
 
-				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_charrette' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de ' . $c['prenom_braldun'] . ' ' . $c['nom_braldun'] . ' (n°' . $c['id_braldun'] . ')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
+				$tabEndroit[$nbendroit] = array('id_type_endroit' => self::ID_ENDROIT_CHARRETTE, 'nom_systeme' => 'Charrette', 'id_destination' => $c['id_charrette'], 'id_braldun_charrette' => $c['id_fk_braldun_charrette'], 'nom_type_endroit' => 'La charrette de ' . $c['prenom_braldun'] . ' ' . $c['nom_braldun'] . ' (n°' . $c['id_braldun'] . ')', 'est_depart' => $estDepart, 'panneau' => $panneau, 'poids_restant' => $tabPoidsCharrette['place_restante']);
 			}
+			$nbendroit++;
+		}
+
+	}
+
+	private function prepareCommunLaban(&$tabEndroit) {
+
+		//Cas des charrettes
+		$nbendroit = self::ID_ENDROIT_LABAN_BRALDUN;
+		$braldunTable = new Braldun();
+
+		$tabBralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, true);
+		if (count($tabBralduns) < 0) {
+			return;
+		}
+
+		foreach ($tabBralduns as $b) {
+			$poidsRestantLaban = $b["poids_transportable_braldun"] - $b["poids_transporte_braldun"];
+			$tabEndroit[self::ID_ENDROIT_LABAN_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_LABAN_BRALDUN, 'nom_systeme' => 'Laban', 'nom_type_endroit' => 'Laban de ' . $b['prenom_braldun'] . ' ' . $b['nom_braldun'] . ' (n°' . $b['id_braldun'] . ')', 'est_depart' => true, 'poids_restant' => $poidsRestantLaban, 'panneau' => true, 'id_destination' => $b['id_braldun']);
 			$nbendroit++;
 		}
 
@@ -335,7 +358,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idArrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 		$endroitDepart = null;
 		$endroitArrivee = null;
-		$idCharrette = null;
+		$idDestination = null;
 		foreach ($this->view->tabEndroit as $k => $e) {
 			if ($idDepart == $k) {
 				$endroitDepart = $e;
@@ -345,13 +368,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$endroitArrivee = $e;
 				$this->view->poidsRestant = $e['poids_restant'];
 			} elseif ($k == $idArrivee && $idArrivee >= self::ID_ENDROIT_CHARRETTE) {
-				if ($e['nom_systeme'] == 'Charrette') {
-					$idCharrette = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
-					if ($idCharrette == $e['id_charrette']) {
-						$endroitArrivee = $e;
-						$this->view->id_charrette_arrivee = $idCharrette;
-						$this->view->poidsRestant = $e['poids_restant'];
-					}
+				$idDestination = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
+				if ($e['nom_systeme'] == 'Charrette' && $idDestination == $e['id_destination']) {
+					$endroitArrivee = $e;
+					$this->view->id_charrette_arrivee = $idDestination;
+					$this->view->poidsRestant = $e['poids_restant'];
+				} else if ($e['nom_systeme'] == 'Laban' && $idDestination == $e['id_destination']) {
+					$endroitArrivee = $e;
+					$this->view->poidsRestant = $e['poids_restant'];
 				}
 			}
 		}
@@ -359,13 +383,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this) . ' Endroit depart invalide = ' . $idDepart);
 		}
 		if ($endroitArrivee === null) {
-			throw new Zend_Exception(get_class($this) . ' Endroit arrivee invalide = ' . $idArrivee . ' idCharrette=' . $idCharrette);
+			throw new Zend_Exception(get_class($this) . ' Endroit arrivee invalide = ' . $idArrivee . ' idDestination=' . $idDestination);
 		}
 
 		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN
 			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
 			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
 			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
+			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN
 		) {
 			$idBraldunDestinataire = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
 			$this->view->id_braldun_destinataire = null;
@@ -373,7 +398,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($idBraldunDestinataire == -1) {
 				$this->view->id_braldun_destinataire = $this->view->user->id_braldun;
 			} else {
-				$this->view->id_braldun_destinataire = $idBraldunDestinataire;
+
+				if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
+					$this->view->id_braldun_destinataire = $idBraldunDestinataire;
+				} else {
+					$braldunTable = new Braldun();
+					$tabBralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, true, false, $idBraldunDestinataire);
+					if (count($tabBralduns) != 1) {
+						throw new Exception("Braldun " . $idBraldunDestinataire . " non present sur la meme case que " . $this->view->user->id_braldun);
+					}
+					$this->view->id_braldun_destinataire = $idBraldunDestinataire;
+				}
+
 				if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
 					|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
 				) {
@@ -414,11 +450,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			return;
 		}
 
-		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
 			Zend_Loader::loadClass('Braldun');
 			$braldun = new Braldun();
 			$nomBraldun = $braldun->findNomById($this->view->id_braldun_destinataire);
-			$this->view->arrivee = 'le coffre de ' . $nomBraldun;
+			if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN) {
+				$this->view->arrivee = 'le coffre de ' . $nomBraldun;
+			} else {
+				$this->view->arrivee = 'le laban de ' . $nomBraldun;
+			}
+
 		} else {
 			$this->view->arrivee = $endroitArrivee['nom_type_endroit'];
 		}
@@ -432,17 +473,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			Bral_Util_Poids::calculPoidsCharrette($endroitDepart['id_braldun_charrette'], true);
 			$texte = $this->calculTexte($endroitDepart['nom_systeme'], $endroitArrivee['nom_systeme']);
-			$details = '[b' . $this->view->user->id_braldun . '] a transbahuté des choses depuis la [t' . $endroitDepart['id_charrette'] . '] (' . $texte['departTexte'] . ' vers ' . $texte['arriveeTexte'] . ')';
+			$details = '[b' . $this->view->user->id_braldun . '] a transbahuté des choses depuis la [t' . $endroitDepart['id_destination'] . '] (' . $texte['departTexte'] . ' vers ' . $texte['arriveeTexte'] . ')';
 			Zend_Loader::loadClass('Bral_Util_Materiel');
-			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitDepart['id_charrette'], $details);
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitDepart['id_destination'], $details);
 		}
 
 		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			Bral_Util_Poids::calculPoidsCharrette($endroitArrivee['id_braldun_charrette'], true);
 			$texte = $this->calculTexte($endroitDepart['nom_systeme'], $endroitArrivee['nom_systeme']);
-			$details = '[b' . $this->view->user->id_braldun . '] a transbahuté des choses dans la [t' . $endroitArrivee['id_charrette'] . '] (' . $texte['departTexte'] . ' vers ' . $texte['arriveeTexte'] . ')';
+			$details = '[b' . $this->view->user->id_braldun . '] a transbahuté des choses dans la [t' . $endroitArrivee['id_destination'] . '] (' . $texte['departTexte'] . ' vers ' . $texte['arriveeTexte'] . ')';
 			Zend_Loader::loadClass('Bral_Util_Materiel');
-			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitArrivee['id_charrette'], $details);
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $endroitArrivee['id_destination'], $details);
 		}
 
 		// événements
@@ -498,7 +539,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_RETRAIT, $details, $detailsBot, $this->view);
 		}
 
-		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
+		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			$messageCible = $this->view->user->prenom_braldun . ' ' . $this->view->user->nom_braldun . ' a transbahuté ces éléments dans votre laban : ' . PHP_EOL;
+			$messageCible .= $this->view->elementsRetires;
+			$this->detailEvenement = '[b' . $this->view->user->id_braldun . '] a transbahuté des éléments dans le laban de [b' . $endroitArrivee['id_destination'] . ']';
+			$this->setDetailsEvenementCible($endroitArrivee['id_destination'], 'braldun', 0, $messageCible);
+		} else if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_CHARRETTE) {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($endroitArrivee['id_braldun_charrette'] != $this->view->user->id_braldun) {
 				$messageCible = $this->view->user->prenom_braldun . ' ' . $this->view->user->nom_braldun . ' a transbahuté ces éléments dans votre charrette : ' . PHP_EOL;
@@ -508,8 +555,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			} else {
 				$this->detailEvenement = '[b' . $this->view->user->id_braldun . '] a transbahuté des éléments dans sa charrette ';
 			}
-		}
-		if ($endroitArrivee['nom_systeme'] == 'Echoppe') {
+		} else if ($endroitArrivee['nom_systeme'] == 'Echoppe') {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($endroitArrivee['id_braldun_echoppe'] != $this->view->user->id_braldun) {
 				$messageCible = $this->view->user->prenom_braldun . ' ' . $this->view->user->nom_braldun . ' a transbahuté ces éléments dans votre échoppe : ' . PHP_EOL;
@@ -853,11 +899,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						if ($equipement['nom_systeme_type_piece'] == 'munition') {
 							Zend_Loader::loadClass('LabanMunition');
 							$arriveeEquipementTable = new LabanMunition();
 							$data = array(
-								'id_fk_braldun_laban_munition' => $this->view->user->id_braldun,
+								'id_fk_braldun_laban_munition' => $this->view->id_braldun_destinataire,
 								'id_fk_type_laban_munition' => $equipement['id_fk_type_munition_type_equipement'],
 								'quantite_laban_munition' => $equipement['nb_munition_type_equipement'],
 							);
@@ -867,7 +914,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$arriveeEquipementTable = new LabanEquipement();
 							$data = array(
 								'id_laban_equipement' => $equipement['id_equipement'],
-								'id_fk_braldun_laban_equipement' => $this->view->user->id_braldun,
+								'id_fk_braldun_laban_equipement' => $this->view->id_braldun_destinataire,
 							);
 							$arriveeEquipementTable->insert($data);
 						}
@@ -1105,10 +1152,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						$arriveeRuneTable = new LabanRune();
 						$data = array(
 							'id_rune_laban_rune' => $rune['id_rune'],
-							'id_fk_braldun_laban_rune' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban_rune' => $this->view->id_braldun_destinataire,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
 						break;
@@ -1305,10 +1353,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						$arriveePotionTable = new LabanPotion();
 						$data = array(
 							'id_laban_potion' => $potion['id_potion'],
-							'id_fk_braldun_laban_potion' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban_potion' => $this->view->id_braldun_destinataire,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
 						break;
@@ -1509,10 +1558,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						$arriveeAlimentTable = new LabanAliment();
 						$data = array(
 							'id_laban_aliment' => $aliment['id_aliment'],
-							'id_fk_braldun_laban_aliment' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban_aliment' => $this->view->id_braldun_destinataire,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - $aliment['poids'];
 						break;
@@ -1738,11 +1788,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			switch ($idTypeArrivee) {
 				case self::ID_ENDROIT_LABAN :
+				case self::ID_ENDROIT_LABAN_BRALDUN :
 					$arriveeMunitionTable = new LabanMunition();
 					$data = array(
 						'quantite_laban_munition' => $nbMunition,
 						'id_fk_type_laban_munition' => $munition['id_type_munition'],
-						'id_fk_braldun_laban_munition' => $this->view->user->id_braldun,
+						'id_fk_braldun_laban_munition' => $this->view->id_braldun_destinataire,
 					);
 					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
 					break;
@@ -1992,12 +2043,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 					switch ($idTypeArrivee) {
 						case self::ID_ENDROIT_LABAN :
+						case self::ID_ENDROIT_LABAN_BRALDUN :
+
 							$arriveeMineraiTable = new LabanMinerai();
 							$data = array(
 								'quantite_brut_laban_minerai' => $nbBrut,
 								'quantite_lingots_laban_minerai' => $nbLingot,
 								'id_fk_type_laban_minerai' => $this->view->minerais[$indice]['id_fk_type_minerai'],
-								'id_fk_braldun_laban_minerai' => $this->view->user->id_braldun,
+								'id_fk_braldun_laban_minerai' => $this->view->id_braldun_destinataire,
 							);
 							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MINERAI * $nbBrut - Bral_Util_Poids::POIDS_LINGOT * $nbLingot;
 							break;
@@ -2269,9 +2322,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 					switch ($idTypeArrivee) {
 						case self::ID_ENDROIT_LABAN :
+						case self::ID_ENDROIT_LABAN_BRALDUN :
 							$arriveePartiePlanteTable = new LabanPartieplante();
 							$data = array(
-								'id_fk_braldun_laban_partieplante' => $this->view->user->id_braldun,
+								'id_fk_braldun_laban_partieplante' => $this->view->id_braldun_destinataire,
 								'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]['id_fk_type_partieplante'],
 								'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]['id_fk_type_plante_partieplante'],
 								'quantite_laban_partieplante' => $nbBrutes,
@@ -2509,11 +2563,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						$arriveeTabacTable = new LabanTabac();
 						$data = array(
 							'quantite_feuille_laban_tabac' => $nbTabac,
 							'id_fk_type_laban_tabac' => $tabac['id_type_tabac'],
-							'id_fk_braldun_laban_tabac' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban_tabac' => $this->view->id_braldun_destinataire,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbTabac;
 						break;
@@ -2708,10 +2763,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 				switch ($idTypeArrivee) {
 					case self::ID_ENDROIT_LABAN :
+					case self::ID_ENDROIT_LABAN_BRALDUN :
 						$arriveeMaterielTable = new LabanMateriel();
 						$data = array(
 							'id_laban_materiel' => $materiel['id_materiel'],
-							'id_fk_braldun_laban_materiel' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban_materiel' => $this->view->id_braldun_destinataire,
 						);
 						$this->view->poidsRestant = $this->view->poidsRestant - $materiel['poids'];
 						break;
@@ -2937,11 +2993,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			switch ($idTypeArrivee) {
 				case self::ID_ENDROIT_LABAN :
+				case self::ID_ENDROIT_LABAN_BRALDUN :
+
 					$arriveeGraineTable = new LabanGraine();
 					$data = array(
 						'quantite_laban_graine' => $nb,
 						'id_fk_type_laban_graine' => $this->view->graines[$indice]['id_fk_type_graine'],
-						'id_fk_braldun_laban_graine' => $this->view->user->id_braldun,
+						'id_fk_braldun_laban_graine' => $this->view->id_braldun_destinataire,
 					);
 					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 					break;
@@ -3163,11 +3221,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			switch ($idTypeArrivee) {
 				case self::ID_ENDROIT_LABAN :
+				case self::ID_ENDROIT_LABAN_BRALDUN :
 					$arriveeIngredientTable = new LabanIngredient();
 					$data = array(
 						'quantite_laban_ingredient' => $nb,
 						'id_fk_type_laban_ingredient' => $this->view->ingredients[$indice]['id_fk_type_ingredient'],
-						'id_fk_braldun_laban_ingredient' => $this->view->user->id_braldun,
+						'id_fk_braldun_laban_ingredient' => $this->view->id_braldun_destinataire,
 					);
 					$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 					break;
@@ -3546,6 +3605,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$arriveeTable = null;
 			switch ($idTypeArrivee) {
 				case self::ID_ENDROIT_LABAN :
+				case self::ID_ENDROIT_LABAN_BRALDUN :
 					if ($nom_systeme == 'castar') {
 						$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
 						$this->view->elementsRetires .= $nb . ' castar';
@@ -3554,7 +3614,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					} else {
 						$data = array(
 							'quantite_' . $nom_systeme . '_laban' => $nb,
-							'id_fk_braldun_laban' => $this->view->user->id_braldun,
+							'id_fk_braldun_laban' => $this->view->id_braldun_destinataire,
 						);
 						$arriveeTable = new Laban();
 					}
