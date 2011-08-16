@@ -228,7 +228,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if (count($lieux) == 1) {
 
-
 			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_BANQUE || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 			}
@@ -245,17 +244,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldûn', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 			}
-
-			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HALL || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
-				$estDepart = false;
-				if ($lieux[0]['id_fk_communaute_lieu'] == $this->view->user->id_fk_communaute_braldun
-					&& $this->view->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER
-				) {
-					$estDepart = true;
-				}
-				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
-			}
 		}
+
+		if ((count($lieux) == 1 && $lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HALL) || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
+			$estDepart = false;
+			if (($this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN || (count($lieux) == 1 && $lieux[0]['id_fk_communaute_lieu'] == $this->view->user->id_fk_communaute_braldun))
+				&& $this->view->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER
+			) {
+				$estDepart = true;
+			}
+			$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
+		}
+
 	}
 
 	private function prepareCommunCommunaute(&$tabEndroit) {
