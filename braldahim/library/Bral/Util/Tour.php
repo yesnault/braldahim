@@ -6,11 +6,25 @@
  * Copyright: see http://www.braldahim.com/sources
  */
 class Bral_Util_Tour {
-	
+
+
+	/**
+	 * Retourne la duree en H:m:s du tour de base d'un braldûn.
+	 * Si le braldûn est dans un match de soule, le tour de base est divisé par deux.
+	 * 
+	 * @static
+	 * @param $braldun Braldun
+	 * @param $config Config
+	 * @return string duree sous le format H:m:s
+	 */
 	public static function getDureeBaseProchainTour($braldun, $config) {
-		
+
 		$minutesProchain = Bral_Util_ConvertDate::getMinuteFromHeure($config->game->tour->duree_base);
 		$minutesProchain = $minutesProchain - (10 * $braldun->sagesse_base_braldun);
+
+		if ($braldun->est_soule_braldun == "oui") {
+			$minutesProchain = intval($minutesProchain / 2);
+		}
 		
 		return Bral_Util_ConvertDate::getHeureFromMinute($minutesProchain);
 	}

@@ -36,26 +36,28 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$nbJoueursEquipeMinQuota = floor($this->config->game->soule->min->joueurs / 2);
 
 		if ($matchs != null) {
-			foreach($matchs as $m) { // pour tous les matchs non débutés
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - Traitement du match(".$m["id_soule_match"].") ");
+			foreach ($matchs as $m) { // pour tous les matchs non débutés
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - Traitement du match(" . $m["id_soule_match"] . ") ");
 				$equipes = $souleEquipe->countInscritsNonDebuteByIdMatch($m["id_soule_match"]);
 				if ($equipes != null && count($equipes) == 2
-				&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin)
-				|| ($m["nb_jours_quota_soule_match"] >= 2)))  {
+					&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin)
+						|| ($m["nb_jours_quota_soule_match"] >= 2))
+				) {
 					$retour .= $this->calculCreationMath($m);
 				} elseif ($equipes != null && count($equipes) == 2
-				&& $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota) {
+						  && $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota
+				) {
 					$retour .= $this->updateJoursQuotaMinMatch($m);
 				} else {
 					if (count($equipes) == 2) {
-						$retour .= " match(".$m["id_soule_match"].") e1:".$equipes[0]["nombre"]." e2:".$equipes[1]["nombre"];
-						Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - match(".$m["id_soule_match"].") equipe 1:".$equipes[0]["nombre"]." equipe 2:".$equipes[1]["nombre"]);
+						$retour .= " match(" . $m["id_soule_match"] . ") e1:" . $equipes[0]["nombre"] . " e2:" . $equipes[1]["nombre"];
+						Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - match(" . $m["id_soule_match"] . ") equipe 1:" . $equipes[0]["nombre"] . " equipe 2:" . $equipes[1]["nombre"]);
 					} elseif (count($equipes) == 1) {
-						$retour .= " match(".$m["id_soule_match"].") e1:".$equipes[0]["nombre"]." e2:0";
-						Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - match(".$m["id_soule_match"].") equipe 1:".$equipes[0]["nombre"]);
+						$retour .= " match(" . $m["id_soule_match"] . ") e1:" . $equipes[0]["nombre"] . " e2:0";
+						Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - match(" . $m["id_soule_match"] . ") equipe 1:" . $equipes[0]["nombre"]);
 					} else {
-						Bral_Util_Log::batchs()->err("Bral_Batchs_Soule - pas d'equipe avec un match (".$m["id_soule_match"].") initialise");
-						$retour .= " Erreur match(".$m["id_soule_match"].")";
+						Bral_Util_Log::batchs()->err("Bral_Batchs_Soule - pas d'equipe avec un match (" . $m["id_soule_match"] . ") initialise");
+						$retour .= " Erreur match(" . $m["id_soule_match"] . ")";
 					}
 				}
 			}
@@ -69,13 +71,13 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 	private function updateJoursQuotaMinMatch($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - enter -");
-		$retour = " updateQuota match(".$match["id_soule_match"].")";
+		$retour = " updateQuota match(" . $match["id_soule_match"] . ")";
 
 		$souleMatchTable = new SouleMatch();
 		$data = array(
 			"nb_jours_quota_soule_match" => $match["nb_jours_quota_soule_match"] + 1,
 		);
-		$where = "id_soule_match = ".(int)$match["id_soule_match"];
+		$where = "id_soule_match = " . (int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - exit -");
@@ -84,7 +86,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 	private function calculCreationMath($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
-		$retour = " creation match(".$match["id_soule_match"].")";
+		$retour = " creation match(" . $match["id_soule_match"] . ")";
 
 		$souleEquipe = new SouleEquipe();
 
@@ -94,11 +96,11 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$joueurs = $souleEquipe->findByIdMatch($match["id_soule_match"]);
 
 		if ($joueurs != null && count($joueurs) > 0) {
-			foreach($joueurs as $j) {
+			foreach ($joueurs as $j) {
 				$retour .= $this->calculCreationJoueur($j, $match);
 			}
 		} else {
-			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath nb.joueurs invaides match(".$match["id_soule_match"].")");
+			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath nb.joueurs invaides match(" . $match["id_soule_match"] . ")");
 		}
 
 		$this->updateMatchDb($match);
@@ -114,18 +116,18 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		Zend_Loader::loadClass("Route");
 		$routeTable = new Route();
-		$where = "x_route >= ".$match["x_min_soule_terrain"];
-		$where .= " AND x_route <= ".$match["x_max_soule_terrain"];
-		$where .= " AND y_route >= ".$match["y_min_soule_terrain"];
-		$where .= " AND y_route <= ".$match["y_max_soule_terrain"];
+		$where = "x_route >= " . $match["x_min_soule_terrain"];
+		$where .= " AND x_route <= " . $match["x_max_soule_terrain"];
+		$where .= " AND y_route >= " . $match["y_min_soule_terrain"];
+		$where .= " AND y_route <= " . $match["y_max_soule_terrain"];
 		$routeTable->delete($where);
-			
+
 		Zend_Loader::loadClass("Palissade");
 		$palissadeTable = new Palissade();
-		$where = "x_palissade >= ".$match["x_min_soule_terrain"];
-		$where .= " AND x_palissade <= ".$match["x_max_soule_terrain"];
-		$where .= " AND y_palissade >= ".$match["y_min_soule_terrain"];
-		$where .= " AND y_palissade <= ".$match["y_max_soule_terrain"];
+		$where = "x_palissade >= " . $match["x_min_soule_terrain"];
+		$where .= " AND x_palissade <= " . $match["x_max_soule_terrain"];
+		$where .= " AND y_palissade >= " . $match["y_min_soule_terrain"];
+		$where .= " AND y_palissade <= " . $match["y_max_soule_terrain"];
 		$palissadeTable->delete($where);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - deleteRouteSurTerrain - exit -");
@@ -135,11 +137,11 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateMatchDb - enter -");
 		$souleMatchTable = new SouleMatch();
 		$data = array(
-			"date_debut_soule_match" =>	date("Y-m-d H:i:s"),
+			"date_debut_soule_match" => date("Y-m-d H:i:s"),
 			"nom_equipea_soule_match" => $match["nom_equipea_soule_match"],
 			"nom_equipeb_soule_match" => $match["nom_equipeb_soule_match"],
 		);
-		$where = "id_soule_match = ".(int)$match["id_soule_match"];
+		$where = "id_soule_match = " . (int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateMatchDb - exit -");
 	}
@@ -152,7 +154,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		foreach ($nomRowset as $n) {
 			$noms[] = $n["nom_soule_nom_equipe"];
 		}
-		srand((float)microtime()*1000000);
+		srand((float)microtime() * 1000000);
 		shuffle($noms);
 
 		$nomA = array_pop($noms);
@@ -161,8 +163,8 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$match["nom_equipea_soule_match"] = $nomA;
 		$match["nom_equipeb_soule_match"] = $nomB;
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomA:".$match["nom_equipea_soule_match"]);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomB:".$match["nom_equipeb_soule_match"]);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomA:" . $match["nom_equipea_soule_match"]);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomB:" . $match["nom_equipeb_soule_match"]);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - exit -");
 	}
@@ -175,7 +177,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		$ecartX = $match["x_max_soule_terrain"] - $match["x_min_soule_terrain"];
 		if ($ecartX <= 2) {
-			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath ecartX invalide(".$ecartX.") match(".$match["id_soule_match"].") xmax".$match["x_max_soule_terrain"]. " xmin:".$match["x_min_soule_terrain"]);
+			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath ecartX invalide(" . $ecartX . ") match(" . $match["id_soule_match"] . ") xmax" . $match["x_max_soule_terrain"] . " xmin:" . $match["x_min_soule_terrain"]);
 		}
 
 		if ($joueur["camp_soule_equipe"] == "a") {
@@ -193,7 +195,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 			"soule_camp_braldun" => $joueur["camp_soule_equipe"], // dénormalisation
 			"id_fk_soule_match_braldun" => $match["id_soule_match"], // dénormalisation
 		);
-		$where = "id_braldun = ".(int)$joueur["id_braldun"];
+		$where = "id_braldun = " . (int)$joueur["id_braldun"];
 		$braldunTable->update($data, $where);
 
 		$souleEquipe = new SouleEquipe();
@@ -201,20 +203,24 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 			"x_avant_braldun_soule_equipe" => $joueur["x_braldun"],
 			"y_avant_braldun_soule_equipe" => $joueur["y_braldun"],
 		);
-		$where = "id_fk_braldun_soule_equipe = ".(int)$joueur["id_braldun"];
+		$where = "id_fk_braldun_soule_equipe = " . (int)$joueur["id_braldun"];
 		$souleEquipe->update($data, $where);
 
 		$idType = $this->config->game->evenements->type->soule;
-		$details = "La roulotte a pris [b".$joueur["id_braldun"]."] pour aller jouer un match sur le ".$match["nom_soule_terrain"];
-		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. PHP_EOL."Le nom de votre équipe est : ";
+		$details = "La roulotte a pris [b" . $joueur["id_braldun"] . "] pour aller jouer un match sur le " . $match["nom_soule_terrain"];
+		$detailsBot = "Vous êtes arrivés sur le " . $match["nom_soule_terrain"] . " en " . $x . "," . $y . PHP_EOL . "Le nom de votre équipe est : ";
 		if ($joueur["camp_soule_equipe"] == "a") {
 			$detailsBot .= $match["nom_equipea_soule_match"];
 		} else {
 			$detailsBot .= $match["nom_equipeb_soule_match"];
 		}
+
+		$detailsBot .= PHP_EOL . PHP_EOL . "Attention, la durée de votre tour est divisée par deux pendant le match ";
+		$detailsBot .= "(à partir de la prochaine activation de votre tour).";
+
 		Bral_Util_Evenement::majEvenements($joueur["id_braldun"], $idType, $details, $detailsBot, $joueur["niveau_braldun"], "braldun", true, $this->view);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - joueur(".$joueur["id_braldun"].") x:".$x." y:".$y);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - joueur(" . $joueur["id_braldun"] . ") x:" . $x . " y:" . $y);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - exit -");
 		return $retour;

@@ -241,7 +241,7 @@ class Bral_Util_Soule {
 		$nbMinerai = count($minerais);
 		$nbPlante = count($plantes);
 
-		$nbUnitaireGain = ceil($nbGain / 3);
+		$nbUnitaireGain = $nbGain;
 
 		$tirage1 = Bral_Util_De::get_de_specifique(0, $nbMinerai + $nbPlante - 1);
 		$tirage2 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbMinerai + $nbPlante - 1, array($tirage1));
@@ -540,6 +540,9 @@ class Bral_Util_Soule {
 		$souleMatchTable = new SouleMatch();
 		$matchs = $souleMatchTable->findByIdMatch($braldun->id_fk_soule_match_braldun);
 
+		// Gain péhiks * 2 pendant un match de soule, pour la cagnotte
+		$nbPxCommun = $nbPxCommun * 2;
+
 		if ($matchs == null || count($matchs) > 1) {
 			throw new Zend_Exception("Bral_Util_Soule::updateCagnotteDb - Erreur calcul match en cours. idh:".$braldun->id_braldun);
 		} else {
@@ -581,8 +584,8 @@ class Bral_Util_Soule {
 
 		if ($matchs != null && count($matchs) == 1) { // s'il n'y a pas de match en cours
 			$match = $matchs[0];
-			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: == 0)
-			if ($match["nb_jours_quota_soule_match"] == 0) {
+			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: > 0)
+			if ($match["nb_jours_quota_soule_match"] > 0) {
 				$matchRetour = $match;
 				//} else {
 				//	throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
