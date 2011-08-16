@@ -402,10 +402,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
 					$this->view->id_braldun_destinataire = $idBraldunDestinataire;
 				} else {
-					$braldunTable = new Braldun();
-					$tabBralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, true, false, $idBraldunDestinataire);
-					if (count($tabBralduns) != 1) {
-						throw new Exception("Braldun " . $idBraldunDestinataire . " non present sur la meme case que " . $this->view->user->id_braldun);
+
+					if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN) {
+						$braldunTable = new Braldun();
+						$tabBralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, true, false, $idBraldunDestinataire);
+						if (count($tabBralduns) != 1) {
+							throw new Exception("Braldun " . $idBraldunDestinataire . " non present sur la meme case que " . $this->view->user->id_braldun);
+						}
 					}
 					$this->view->id_braldun_destinataire = $idBraldunDestinataire;
 				}
@@ -432,7 +435,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$coffreTable = new Coffre();
 			$coffre = $coffreTable->findByIdCommunaute($endroitArrivee['id_communaute']);
 			if (count($coffre) != 1) {
-				throw new Zend_Exception(get_class($this) . ' Coffre communaute arrivee invalide = ' . $endroitArrivee['id_communaute']. ' idType:'.$endroitArrivee['id_type_endroit']);
+				throw new Zend_Exception(get_class($this) . ' Coffre communaute arrivee invalide = ' . $endroitArrivee['id_communaute'] . ' idType:' . $endroitArrivee['id_type_endroit']);
 			}
 			$this->view->id_coffre_arrivee = $coffre[0]['id_coffre'];
 		}

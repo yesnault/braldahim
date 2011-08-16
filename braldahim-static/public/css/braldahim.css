@@ -2468,7 +2468,7 @@ body > #boite_b {
 
 /*** Autocomplete */
 
-.ui-autocomplete-loading { background: white url('images/divers/ui-anim_basic_16x16.gif') right center no-repeat; }
+.ui-autocomplete-loading { background: white url('/images/divers/ui-anim_basic_16x16.gif') right center no-repeat; }
 
 .ui-autocomplete {
     cursor: default;
