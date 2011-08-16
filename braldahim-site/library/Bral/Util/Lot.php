@@ -52,7 +52,7 @@ class Bral_Util_Lot {
 		$lots = $lotTable->findByIdLot($idsLots);
 		$tabLots = self::prepareLots($lots);
 		if (count($tabLots) != count($idsLots)) {
-			throw new Zend_Exception('getLotByIdLot - Lot invalide:'.$idsLots);
+			throw new Zend_Exception('getLotByIdLot - Lot invalide:' . $idsLots);
 		}
 
 		return $tabLots;
@@ -94,73 +94,80 @@ class Bral_Util_Lot {
 		self::prepareLotMinerai($idsLot, $lots);
 		self::prepareLotPartieplante($idsLot, $lots);
 		self::prepareLotRune($idsLot, $lots);
+		self::prepareLotTabac($idsLot, $lots);
 		self::prepareResume($lots);
 	}
 
 	private static function prepareResume(&$lots) {
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$resume = '';
 
 			if (count($lot['equipements']) > 0) {
-				$resume .= count($lot['equipements']). ' équipement'.Bral_Util_String::getPluriel(count($lot['equipements']));
+				$resume .= count($lot['equipements']) . ' équipement' . Bral_Util_String::getPluriel(count($lot['equipements']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['materiels']) > 0) {
-				$resume .= count($lot['materiels']). ' matériel'.Bral_Util_String::getPluriel(count($lot['materiels']));
+				$resume .= count($lot['materiels']) . ' matériel' . Bral_Util_String::getPluriel(count($lot['materiels']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['aliments']) > 0) {
-				$resume .= count($lot['aliments']). ' aliment'.Bral_Util_String::getPluriel(count($lot['aliments']));
+				$resume .= count($lot['aliments']) . ' aliment' . Bral_Util_String::getPluriel(count($lot['aliments']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['potions']) > 0) {
-				$resume .= count($lot['potions']). ' potion'.Bral_Util_String::getPluriel(count($lot['potions']));
+				$resume .= count($lot['potions']) . ' potion' . Bral_Util_String::getPluriel(count($lot['potions']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['ingredients']) > 0) {
-				$resume .= count($lot['ingredients']). ' ingredient'.Bral_Util_String::getPluriel(count($lot['ingredients']));
+				$resume .= count($lot['ingredients']) . ' ingredient' . Bral_Util_String::getPluriel(count($lot['ingredients']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['runes_non_identifiees']) + count($lot['runes_identifiees']) > 0) {
-				$resume .= count($lot['runes_non_identifiees']) + count($lot['runes_identifiees']). ' rune'.Bral_Util_String::getPluriel(count($lot['runes_non_identifiees']) + count($lot['runes_identifiees']));
+				$resume .= count($lot['runes_non_identifiees']) + count($lot['runes_identifiees']) . ' rune' . Bral_Util_String::getPluriel(count($lot['runes_non_identifiees']) + count($lot['runes_identifiees']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['munitions']) > 0) {
-				$resume .= count($lot['munitions']). ' munition'.Bral_Util_String::getPluriel(count($lot['munitions']));
+				$resume .= count($lot['munitions']) . ' munition' . Bral_Util_String::getPluriel(count($lot['munitions']));
 				$resume .= ', ';
 			}
 
-		if (count($lot['graines']) > 0) {
-				$resume .= count($lot['graines']). ' type'.Bral_Util_String::getPluriel(count($lot['graines'])).' de graine'.Bral_Util_String::getPluriel(count($lot['graines']));
+			if (count($lot['graines']) > 0) {
+				$resume .= count($lot['graines']) . ' type' . Bral_Util_String::getPluriel(count($lot['graines'])) . ' de graine' . Bral_Util_String::getPluriel(count($lot['graines']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['minerais_bruts']) > 0) {
-				$resume .= count($lot['minerais_bruts']). ' minerai'.Bral_Util_String::getPluriel(count($lot['minerais_bruts']));
+				$resume .= count($lot['minerais_bruts']) . ' minerai' . Bral_Util_String::getPluriel(count($lot['minerais_bruts']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['minerais_lingots']) > 0) {
-				$resume .= count($lot['minerais_lingots']). ' lingot'.Bral_Util_String::getPluriel(count($lot['minerais_lingots']));
+				$resume .= count($lot['minerais_lingots']) . ' lingot' . Bral_Util_String::getPluriel(count($lot['minerais_lingots']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['partiesplantes_brutes']) > 0) {
-				$resume .= count($lot['partiesplantes_brutes']). ' plante'.Bral_Util_String::getPluriel(count($lot['partiesplantes_brutes']));
+				$resume .= count($lot['partiesplantes_brutes']) . ' plante' . Bral_Util_String::getPluriel(count($lot['partiesplantes_brutes']));
 				$resume .= ', ';
 			}
 
 			if (count($lot['partiesplantes_preparees']) > 0) {
 				$s = Bral_Util_String::getPluriel(count($lot['partiesplantes_preparees']));
-				$resume .= count($lot['partiesplantes_preparees']). ' plante'.$s;
+				$resume .= count($lot['partiesplantes_preparees']) . ' plante' . $s;
 				$resume .= ', ';
+			}
+
+			if (count($lot['tabac']) > 0) {
+				foreach ($lot['tabac'] as $l) {
+					$resume .= $l['details'];
+				}
 			}
 
 			if ($lot['elements'] != null) {
@@ -168,27 +175,27 @@ class Bral_Util_Lot {
 				$details = "";
 
 				if ($lot['elements']['nb_peau'] > 0) {
-					$details .= $lot['elements']['nb_peau']. ' peau'.Bral_Util_String::getPluriel($lot['elements']['nb_peau'], 'x');
+					$details .= $lot['elements']['nb_peau'] . ' peau' . Bral_Util_String::getPluriel($lot['elements']['nb_peau'], 'x');
 					$details .= ', ';
 				}
 				if ($lot['elements']['nb_cuir'] > 0) {
-					$details .= $lot['elements']['nb_cuir']. ' cuir'.Bral_Util_String::getPluriel($lot['elements']['nb_cuir']);
+					$details .= $lot['elements']['nb_cuir'] . ' cuir' . Bral_Util_String::getPluriel($lot['elements']['nb_cuir']);
 					$details .= ', ';
 				}
 				if ($lot['elements']['nb_fourrure'] > 0) {
-					$details .= $lot['elements']['nb_fourrure']. ' fourrure'.Bral_Util_String::getPluriel($lot['elements']['nb_fourrure']);
+					$details .= $lot['elements']['nb_fourrure'] . ' fourrure' . Bral_Util_String::getPluriel($lot['elements']['nb_fourrure']);
 					$details .= ', ';
 				}
 				if ($lot['elements']['nb_planche'] > 0) {
-					$details .= $lot['elements']['nb_planche']. ' planche'.Bral_Util_String::getPluriel($lot['elements']['nb_planche']);
+					$details .= $lot['elements']['nb_planche'] . ' planche' . Bral_Util_String::getPluriel($lot['elements']['nb_planche']);
 					$details .= ', ';
 				}
 				if ($lot['elements']['nb_rondin'] > 0) {
-					$details .= $lot['elements']['nb_rondin']. ' rondin'.Bral_Util_String::getPluriel($lot['elements']['nb_rondin']);
+					$details .= $lot['elements']['nb_rondin'] . ' rondin' . Bral_Util_String::getPluriel($lot['elements']['nb_rondin']);
 					$details .= ', ';
 				}
 				if ($lot['elements']['nb_viande'] > 0) {
-					$details .= $lot['elements']['nb_viande']. ' viande'.Bral_Util_String::getPluriel($lot['elements']['nb_viande']);
+					$details .= $lot['elements']['nb_viande'] . ' viande' . Bral_Util_String::getPluriel($lot['elements']['nb_viande']);
 					$details .= ', ';
 				}
 
@@ -242,10 +249,10 @@ class Bral_Util_Lot {
 
 		$tabRetour = null;
 		if ($tabEquipements != null) {
-			foreach($tabEquipements as $e) {
+			foreach ($tabEquipements as $e) {
 				$lots[$e['id_lot']]['equipements'][$e['id_type_emplacement']]['equipements'][] = $e;
 				$lots[$e['id_lot']]['equipements'][$e['id_type_emplacement']]['nom_type_emplacement'] = $e['emplacement'];
-				$lots[$e['id_lot']]['details'] .= 'Équipement n°'.$e['id_equipement'].' : '.$e['nom'].', ';
+				$lots[$e['id_lot']]['details'] .= 'Équipement n°' . $e['id_equipement'] . ' : ' . $e['nom'] . ', ';
 			}
 		}
 	}
@@ -265,7 +272,7 @@ class Bral_Util_Lot {
 		foreach ($minerais as $m) {
 
 			if ($m['quantite_brut_lot_minerai'] > 0) {
-				$tabMineraisBruts = array (
+				$tabMineraisBruts = array(
 					'type' => $m['nom_type_minerai'],
 					'id_type_minerai' => $m['id_type_minerai'],
 					'estLingot' => false,
@@ -276,10 +283,10 @@ class Bral_Util_Lot {
 
 				$sbrut = '';
 				if ($tabMineraisBruts['quantite'] > 1) $sbrut = 's';
-				$lots[$m['id_fk_lot_lot_minerai']]['details'] .= $tabMineraisBruts['type']. ' : '.$tabMineraisBruts['quantite']. ' minerai'.$sbrut.' brut'.$sbrut. ', ';
+				$lots[$m['id_fk_lot_lot_minerai']]['details'] .= $tabMineraisBruts['type'] . ' : ' . $tabMineraisBruts['quantite'] . ' minerai' . $sbrut . ' brut' . $sbrut . ', ';
 			}
 			if ($m['quantite_lingots_lot_minerai'] > 0) {
-				$tabLingots = array (
+				$tabLingots = array(
 					'type' => $m['nom_type_minerai'],
 					'id_type_minerai' => $m['id_type_minerai'],
 					'estLingot' => true,
@@ -289,7 +296,7 @@ class Bral_Util_Lot {
 				$lots[$m['id_fk_lot_lot_minerai']]['minerais_lingots'][] = $tabLingots;
 				$slingot = '';
 				if ($tabLingots['quantite'] > 1) $slingot = 's';
-				$lots[$m['id_fk_lot_lot_minerai']]['details'] .= $tabLingots['type']. ' : '.$tabLingots['quantite'].' lingot'.$slingot. ', ';
+				$lots[$m['id_fk_lot_lot_minerai']]['details'] .= $tabLingots['type'] . ' : ' . $tabLingots['quantite'] . ' lingot' . $slingot . ', ';
 			}
 		}
 	}
@@ -313,15 +320,15 @@ class Bral_Util_Lot {
 		$lotPartieplanteTable = new LotPartieplante();
 		$partiePlantes = $lotPartieplanteTable->findByIdLot($idsLot);
 
-		if (count($partiePlantes) <= 0)  {
+		if (count($partiePlantes) <= 0) {
 			return;
 		}
 
-		foreach($typePartiePlantesRowset as $p) {
-			foreach($typePlantesRowset as $t) {
+		foreach ($typePartiePlantesRowset as $p) {
+			foreach ($typePlantesRowset as $t) {
 				$val = false;
-				for($i = 1; $i<= 4; $i++) {
-					if ($t['id_fk_partieplante'.$i.'_type_plante'] == $p['id_type_partieplante']) {
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t['id_fk_partieplante' . $i . '_type_plante'] == $p['id_type_partieplante']) {
 						$val = true;
 					}
 				}
@@ -342,7 +349,7 @@ class Bral_Util_Lot {
 			}
 		}
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$tabTypePlantesBrutes = $tabTypePlantes;
 			$tabTypePlantesPreparees = $tabTypePlantes;
 			foreach ($partiePlantes as $p) {
@@ -358,8 +365,8 @@ class Bral_Util_Lot {
 
 					$sbrute = '';
 					if ($p['quantite_lot_partieplante'] > 1) $sbrute = 's';
-					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante']. ' : ';
-					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['quantite_lot_partieplante']. ' '.$p['nom_type_plante']. ' brute'.$sbrute;
+					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante'] . ' : ';
+					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['quantite_lot_partieplante'] . ' ' . $p['nom_type_plante'] . ' brute' . $sbrute;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
 				}
 
@@ -373,8 +380,8 @@ class Bral_Util_Lot {
 
 					$spreparee = '';
 					if ($p['quantite_preparee_lot_partieplante'] > 1) $spreparee = 's';
-					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante']. ' : ';
-					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .=  ' et '.$p['quantite_preparee_lot_partieplante']. ' '.$p['nom_type_plante']. ' préparée'.$spreparee;
+					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante'] . ' : ';
+					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ' et ' . $p['quantite_preparee_lot_partieplante'] . ' ' . $p['nom_type_plante'] . ' préparée' . $spreparee;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
 				}
 			}
@@ -407,7 +414,41 @@ class Bral_Util_Lot {
 				$lots[$g['id_fk_lot_lot_graine']]['graines'][] = $tabGraines;
 				$s = '';
 				if ($tabGraines['quantite'] > 1) $s = 's';
-				$lots[$g['id_fk_lot_lot_graine']]['details'] .= $tabGraines['type']. ' : '.$tabGraines['quantite']. ' poignée'.$s.' de graines, ';
+				$lots[$g['id_fk_lot_lot_graine']]['details'] .= $tabGraines['type'] . ' : ' . $tabGraines['quantite'] . ' poignée' . $s . ' de graines, ';
+			}
+		}
+	}
+
+	private static function prepareLotTabac($idsLot, &$lots) {
+		Zend_Loader::loadClass('LotTabac');
+
+		$lotTabacTable = new LotTabac();
+		$tabacs = null;
+		$tabacs = $lotTabacTable->findByIdLot($idsLot);
+
+
+		$tabReturn = array();
+
+		if (count($tabacs) <= 0) {
+			return;
+		}
+
+		foreach ($tabacs as $t) {
+			if ($t['quantite_feuille_lot_tabac'] > 0) {
+
+				$tabTabac = array(
+					'type' => $t['nom_type_tabac'],
+					'id_type_tabac' => $t['id_type_tabac'],
+					'quantite' => $t['quantite_feuille_lot_tabac'],
+					'poids' => $t['quantite_feuille_lot_tabac'] * Bral_Util_Poids::POIDS_TABAC,
+				);
+
+				$details = ' Tabac : ' . $tabTabac['quantite'] . ' feuille' . Bral_Util_String::getPluriel($tabTabac['quantite']) . ' de '.$tabTabac['type'].', ';
+				$tabTabac['details'] = $details;
+				$lots[$t['id_fk_lot_lot_tabac']]['tabac'][] = $tabTabac;
+				$s = '';
+				if ($tabTabac['quantite'] > 1) $s = 's';
+				$lots[$t['id_fk_lot_lot_tabac']]['details'] .= $details;
 			}
 		}
 	}
@@ -427,12 +468,12 @@ class Bral_Util_Lot {
 
 		foreach ($ingredients as $g) {
 			if ($g['quantite_lot_ingredient'] > 0) {
-				if ($g['id_type_ingredient'] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
+				if ($g['id_type_ingredient'] == TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
 					$lots[$g['id_fk_lot_lot_ingredient']]['elements']['nb_viande'] = $g['quantite_lot_ingredient'];
 					$lots[$g['id_fk_lot_lot_ingredient']]['elements']['nb_viande_poids_unitaire'] = $g['poids_unitaire_type_ingredient'];
 					$s = '';
 					if ($g['quantite_lot_ingredient'] > 1) $s = 's';
-					$lots[$g['id_fk_lot_lot_ingredient']]['details'] .= $g['quantite_lot_ingredient']. ' viande'.$s.' préparée'.$s;
+					$lots[$g['id_fk_lot_lot_ingredient']]['details'] .= $g['quantite_lot_ingredient'] . ' viande' . $s . ' préparée' . $s;
 				} else {
 					$tabIngredients = array(
 						'type' => $g['nom_type_ingredient'],
@@ -444,7 +485,7 @@ class Bral_Util_Lot {
 
 					$s = '';
 					if ($tabIngredients['quantite'] > 1) $s = 's';
-					$lots[$g['id_fk_lot_lot_ingredient']]['details'] .= $tabIngredients['type']. ' : '.$tabIngredients['quantite'].', ';
+					$lots[$g['id_fk_lot_lot_ingredient']]['details'] .= $tabIngredients['type'] . ' : ' . $tabIngredients['quantite'] . ', ';
 				}
 			}
 		}
@@ -452,13 +493,13 @@ class Bral_Util_Lot {
 
 	private static function prepareLotElement($lot) {
 		$tabObjet = array(
-				'nb_peau' => $lot['quantite_peau_lot'],
-				'nb_cuir' => $lot['quantite_cuir_lot'],
-				'nb_fourrure' => $lot['quantite_fourrure_lot'],
-				'nb_planche' => $lot['quantite_planche_lot'],
-				'nb_rondin' => $lot['quantite_rondin_lot'],
-				'nb_viande' => 0, // remplit dans renderIngredient
-				'nb_viande_poids_unitaire' => 0, // remplit dans renderIngredient
+			'nb_peau' => $lot['quantite_peau_lot'],
+			'nb_cuir' => $lot['quantite_cuir_lot'],
+			'nb_fourrure' => $lot['quantite_fourrure_lot'],
+			'nb_planche' => $lot['quantite_planche_lot'],
+			'nb_rondin' => $lot['quantite_rondin_lot'],
+			'nb_viande' => 0, // remplit dans renderIngredient
+			'nb_viande_poids_unitaire' => 0, // remplit dans renderIngredient
 		);
 		return $tabObjet;
 	}
@@ -482,15 +523,15 @@ class Bral_Util_Lot {
 				'id_type_munition' => $m['id_type_munition'],
 				'type' => $m['nom_type_munition'],
 				'quantite' => $m['quantite_lot_munition'],
-				'poids' =>  $m['quantite_lot_munition'] * Bral_Util_Poids::POIDS_MUNITION,
+				'poids' => $m['quantite_lot_munition'] * Bral_Util_Poids::POIDS_MUNITION,
 				'type' => $m['nom_type_munition'],
 				'type_pluriel' => $m['nom_pluriel_type_munition'],
 			);
 			$lots[$m['id_fk_lot_lot_munition']]['munitions'][] = $tabMunitions;
 			if ($tabMunitions['quantite'] > 1) {
-				$lots[$m['id_fk_lot_lot_munition']]['details'] .= $tabMunitions['quantite'].' '.$tabMunitions['type_pluriel'].', ';
+				$lots[$m['id_fk_lot_lot_munition']]['details'] .= $tabMunitions['quantite'] . ' ' . $tabMunitions['type_pluriel'] . ', ';
 			} else {
-				$lots[$m['id_fk_lot_lot_munition']]['details'] .= $tabMunitions['quantite'].' '.$tabMunitions['type'].', ';
+				$lots[$m['id_fk_lot_lot_munition']]['details'] .= $tabMunitions['quantite'] . ' ' . $tabMunitions['type'] . ', ';
 			}
 		}
 	}
@@ -506,7 +547,7 @@ class Bral_Util_Lot {
 		}
 
 		if (count($aliments) > 0) {
-			foreach($aliments as $e) {
+			foreach ($aliments as $e) {
 				$tabAliment = array(
 					'id_aliment' => $e['id_lot_aliment'],
 					'id_lot_aliment' => $e['id_lot_aliment'],
@@ -518,7 +559,7 @@ class Bral_Util_Lot {
 					'poids' => $e['poids_unitaire_type_aliment'],
 				);
 				$lots[$e['id_fk_lot_lot_aliment']]['aliments'][] = $tabAliment;
-				$lots[$e['id_fk_lot_lot_aliment']]['details'] .= 'Aliment n°'.$tabAliment['id_aliment'].' : '.$tabAliment['nom'].' +'.$tabAliment['bbdf'].'%, ';
+				$lots[$e['id_fk_lot_lot_aliment']]['details'] .= 'Aliment n°' . $tabAliment['id_aliment'] . ' : ' . $tabAliment['nom'] . ' +' . $tabAliment['bbdf'] . '%, ';
 			}
 		}
 	}
@@ -539,28 +580,28 @@ class Bral_Util_Lot {
 		if (count($materiels) <= 0) {
 			return;
 		}
-		foreach($materiels as $e) {
+		foreach ($materiels as $e) {
 			if (substr($e['nom_systeme_type_materiel'], 0, 9) == 'charrette') {
 				$lots[$e['id_fk_lot_lot_materiel']]['estLotCharrette'] = true;
 			}
 			$tabMateriel = array(
-					'id_lot_materiel' => $e['id_lot_materiel'],
-					'id_type_materiel' => $e['id_type_materiel'],
-					'nom' => $e['nom_type_materiel'],
-					'id_materiel' => $e['id_lot_materiel'],
-					'id_type_materiel' => $e['id_type_materiel'],
-					'nom_systeme_type_materiel' => $e['nom_systeme_type_materiel'],
-					'capacite' => $e['capacite_type_materiel'],
-					'durabilite' => $e['durabilite_type_materiel'],
-					'usure' => $e['usure_type_materiel'],
-					'poids' => $e['poids_type_materiel'],
-					'force_base_min_type_materiel' => $e['force_base_min_type_materiel'],
-					'agilite_base_min_type_materiel' => $e['agilite_base_min_type_materiel'],
-					'sagesse_base_min_type_materiel' => $e['sagesse_base_min_type_materiel'],
-					'vigueur_base_min_type_materiel' => $e['vigueur_base_min_type_materiel'],
+				'id_lot_materiel' => $e['id_lot_materiel'],
+				'id_type_materiel' => $e['id_type_materiel'],
+				'nom' => $e['nom_type_materiel'],
+				'id_materiel' => $e['id_lot_materiel'],
+				'id_type_materiel' => $e['id_type_materiel'],
+				'nom_systeme_type_materiel' => $e['nom_systeme_type_materiel'],
+				'capacite' => $e['capacite_type_materiel'],
+				'durabilite' => $e['durabilite_type_materiel'],
+				'usure' => $e['usure_type_materiel'],
+				'poids' => $e['poids_type_materiel'],
+				'force_base_min_type_materiel' => $e['force_base_min_type_materiel'],
+				'agilite_base_min_type_materiel' => $e['agilite_base_min_type_materiel'],
+				'sagesse_base_min_type_materiel' => $e['sagesse_base_min_type_materiel'],
+				'vigueur_base_min_type_materiel' => $e['vigueur_base_min_type_materiel'],
 			);
 			$lots[$e['id_fk_lot_lot_materiel']]['materiels'][] = $tabMateriel;
-			$lots[$e['id_fk_lot_lot_materiel']]['details'] .= 'Matériel n°'.$tabMateriel['id_materiel'].' : '.$tabMateriel['nom'].', ';
+			$lots[$e['id_fk_lot_lot_materiel']]['details'] .= 'Matériel n°' . $tabMateriel['id_materiel'] . ' : ' . $tabMateriel['nom'] . ', ';
 		}
 	}
 
@@ -605,7 +646,7 @@ class Bral_Util_Lot {
 			if ($rune['est_identifiee'] == 'oui') {
 				$nomRune = $rune['type'];
 			}
-			$lots[$r['id_fk_lot_lot_rune']]['details'] .= 'Rune n°'.$rune['id_rune'].' : '.$nomRune.', ';
+			$lots[$r['id_fk_lot_lot_rune']]['details'] .= 'Rune n°' . $rune['id_rune'] . ' : ' . $nomRune . ', ';
 		}
 	}
 
@@ -627,7 +668,7 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		foreach($potions as $e) {
+		foreach ($potions as $e) {
 			$tabPotion = array(
 				'id_lot_potion' => $e['id_lot_potion'],
 				'id_type_potion' => $e['id_type_potion'],
@@ -642,66 +683,68 @@ class Bral_Util_Lot {
 				'nom_type' => Bral_Util_Potion::getNomType($e['type_potion']),
 			);
 			$lots[$e['id_fk_lot_lot_potion']]['potions'][] = $tabPotion;
-			$lots[$e['id_fk_lot_lot_potion']]['details'] .= $tabPotion['nom_type'].' '.$tabPotion['nom']. ' n°'.$tabPotion['id_potion'].', ';
+			$lots[$e['id_fk_lot_lot_potion']]['details'] .= $tabPotion['nom_type'] . ' ' . $tabPotion['nom'] . ' n°' . $tabPotion['id_potion'] . ', ';
 		}
 	}
 
 	private static function prepareRowLot($r) {
 
 		$tab = array('id_lot' => $r['id_lot'],
-				'unite_1_lot' => $r['unite_1_lot'],
-				'prix_1_lot' => $r['prix_1_lot'],
-				'date_debut_lot' => $r['date_debut_lot'],
-				'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
-				'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
-				'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
-				'sexe_braldun_vendeur' => $r['sexe_braldun_vendeur'],
-				'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
-				'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
-				'commentaire_lot' => $r['commentaire_lot'],
-				'poids_lot' => $r['poids_lot'],
-				'estLotCharrette' => false,
-				'equipements' => null,
-				'materiels' => null,
-				'aliments' => null,
-				'elements' => self::prepareLotElement($r),
-				'potions' => null,
-				'ingredients' => null,
-				'runes_non_identifiees' => null,
-				'runes_identifiees' => null,	
-				'munitions' => null,
-				'graines' => null,
-				'minerais_bruts' => null,
-				'minerais_lingots' => null,
-				'partiesplantes_brutes' => null,
-				'partiesplantes_preparees' => null,
-				'details' => '',
-				'resume' => '',
-				'echoppe' => null,
-				'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+					 'unite_1_lot' => $r['unite_1_lot'],
+					 'prix_1_lot' => $r['prix_1_lot'],
+					 'date_debut_lot' => $r['date_debut_lot'],
+					 'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
+					 'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
+					 'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+					 'sexe_braldun_vendeur' => $r['sexe_braldun_vendeur'],
+					 'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
+					 'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
+					 'commentaire_lot' => $r['commentaire_lot'],
+					 'poids_lot' => $r['poids_lot'],
+					 'estLotCharrette' => false,
+					 'equipements' => null,
+					 'materiels' => null,
+					 'aliments' => null,
+					 'elements' => self::prepareLotElement($r),
+					 'potions' => null,
+					 'ingredients' => null,
+					 'runes_non_identifiees' => null,
+					 'runes_identifiees' => null,
+					 'munitions' => null,
+					 'graines' => null,
+					 'tabac' => null,
+					 'minerais_bruts' => null,
+					 'minerais_lingots' => null,
+					 'partiesplantes_brutes' => null,
+					 'partiesplantes_preparees' => null,
+					 'details' => '',
+					 'resume' => '',
+					 'echoppe' => null,
+					 'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
 		);
 
 		if ($r['date_fin_lot'] != null) {
 			$tab['date_fin_lot'] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $r['date_fin_lot']);
 		}
-		
+
 		if (array_key_exists('id_echoppe', $r)) {
 			$tab['echoppe']['x_echoppe'] = $r['x_echoppe'];
 			$tab['echoppe']['y_echoppe'] = $r['y_echoppe'];
 			$tab['echoppe']['z_echoppe'] = $r['z_echoppe'];
 		}
-		
+
 		return $tab;
 	}
 
 	public static function transfertLot($idLot, $destination, $idDestination) {
 
 		if ($destination != 'caisse_echoppe'
-		&& $destination != 'arriere_echoppe'
-		&& $destination != 'laban'
-		&& $destination != 'charrette'
-		&& $destination != 'coffre') {
-			throw new Zend_exception('Erreur Appel Bral_Util_Lot::transfertLot : idLot:'.$idLot.' destination'.$destination);
+			&& $destination != 'arriere_echoppe'
+			&& $destination != 'laban'
+			&& $destination != 'charrette'
+			&& $destination != 'coffre'
+		) {
+			throw new Zend_exception('Erreur Appel Bral_Util_Lot::transfertLot : idLot:' . $idLot . ' destination' . $destination);
 		}
 
 		$preSuffixe = '';
@@ -716,7 +759,7 @@ class Bral_Util_Lot {
 		$suffixe1 = strtolower($destination);
 		$nomTable = Bral_Util_String::firstToUpper($destination);
 
-		$suffixe2 = $suffixe1.'_';
+		$suffixe2 = $suffixe1 . '_';
 		if ($destination == 'laban') {
 			$suffixe2 = 'braldun_';
 		} elseif ($destination == 'charrette') {
@@ -746,7 +789,7 @@ class Bral_Util_Lot {
 	public static function supprimeLot($idLot) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
-		$where = 'id_lot = '.intval($idLot);
+		$where = 'id_lot = ' . intval($idLot);
 		$lotTable->delete($where);
 	}
 
@@ -760,14 +803,14 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Equipement';
+		$table = $nomTable . 'Equipement';
 		Zend_Loader::loadClass($table);
 		$equipementTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1.'_equipement' => $lot['id_lot_equipement'], //idEquipement,
-				'id_fk_'.$suffixe2.$suffixe1.'_equipement' => $idDestination, //idDestination
+				'id_' . $suffixe1 . '_equipement' => $lot['id_lot_equipement'], //idEquipement,
+				'id_fk_' . $suffixe2 . $suffixe1 . '_equipement' => $idDestination, //idDestination
 			);
 
 			$equipementTable->insert($data);
@@ -785,14 +828,14 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Materiel';
+		$table = $nomTable . 'Materiel';
 		Zend_Loader::loadClass($table);
 		$materielTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1.'_materiel' => $lot['id_lot_materiel'], //idMateriel,
-				'id_fk_'.$suffixe2.$suffixe1.'_materiel' => $idDestination, //idDestination
+				'id_' . $suffixe1 . '_materiel' => $lot['id_lot_materiel'], //idMateriel,
+				'id_fk_' . $suffixe2 . $suffixe1 . '_materiel' => $idDestination, //idDestination
 			);
 
 			$materielTable->insert($data);
@@ -810,14 +853,14 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Aliment';
+		$table = $nomTable . 'Aliment';
 		Zend_Loader::loadClass($table);
 		$alimentTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1.'_aliment' => $lot['id_lot_aliment'], //idAliment,
-				'id_fk_'.$suffixe2.$suffixe1.'_aliment' => $idDestination, //idDestination
+				'id_' . $suffixe1 . '_aliment' => $lot['id_lot_aliment'], //idAliment,
+				'id_fk_' . $suffixe2 . $suffixe1 . '_aliment' => $idDestination, //idDestination
 			);
 
 			$alimentTable->insert($data);
@@ -838,23 +881,23 @@ class Bral_Util_Lot {
 		Zend_Loader::loadClass($table);
 		$elementTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_peau_'.$preSuffixe.$suffixe1 => $lot['quantite_peau_lot'],
-				'quantite_cuir_'.$preSuffixe.$suffixe1 => $lot['quantite_cuir_lot'],
-				'quantite_fourrure_'.$preSuffixe.$suffixe1 => $lot['quantite_fourrure_lot'],
-				'quantite_planche_'.$preSuffixe.$suffixe1 => $lot['quantite_planche_lot'],
-				'quantite_rondin_'.$preSuffixe.$suffixe1 => $lot['quantite_rondin_lot'],
+				'quantite_peau_' . $preSuffixe . $suffixe1 => $lot['quantite_peau_lot'],
+				'quantite_cuir_' . $preSuffixe . $suffixe1 => $lot['quantite_cuir_lot'],
+				'quantite_fourrure_' . $preSuffixe . $suffixe1 => $lot['quantite_fourrure_lot'],
+				'quantite_planche_' . $preSuffixe . $suffixe1 => $lot['quantite_planche_lot'],
+				'quantite_rondin_' . $preSuffixe . $suffixe1 => $lot['quantite_rondin_lot'],
 			);
 
 			if ($preSuffixe != 'arriere_') {
-				$data['quantite_castar_'.$preSuffixe.$suffixe1] = $lot['quantite_castar_lot'];
+				$data['quantite_castar_' . $preSuffixe . $suffixe1] = $lot['quantite_castar_lot'];
 			}
 
 			if ($suffixe1 == 'laban') {
 				$data['id_fk_braldun_laban'] = $idDestination;
 			} else {
-				$data['id_'.$suffixe1] = $idDestination;
+				$data['id_' . $suffixe1] = $idDestination;
 			}
 
 			$elementTable->insertOrUpdate($data);
@@ -871,15 +914,15 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Graine';
+		$table = $nomTable . 'Graine';
 		Zend_Loader::loadClass($table);
 		$graineTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_'.$suffixe1.'_graine' => $lot['quantite_lot_graine'],
-				'id_fk_type_'.$suffixe1.'_graine' => $lot['id_fk_type_lot_graine'], 
-				'id_fk_'.$suffixe2.$suffixe1.'_graine' => $idDestination, 
+				'quantite_' . $suffixe1 . '_graine' => $lot['quantite_lot_graine'],
+				'id_fk_type_' . $suffixe1 . '_graine' => $lot['id_fk_type_lot_graine'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_graine' => $idDestination,
 			);
 
 			$graineTable->insertOrUpdate($data);
@@ -896,15 +939,15 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Ingredient';
+		$table = $nomTable . 'Ingredient';
 		Zend_Loader::loadClass($table);
 		$ingredientTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_'.$suffixe1.'_ingredient' => $lot['quantite_lot_ingredient'],
-				'id_fk_type_'.$suffixe1.'_ingredient' => $lot['id_fk_type_lot_ingredient'], 
-				'id_fk_'.$suffixe2.$suffixe1.'_ingredient' => $idDestination, 
+				'quantite_' . $suffixe1 . '_ingredient' => $lot['quantite_lot_ingredient'],
+				'id_fk_type_' . $suffixe1 . '_ingredient' => $lot['id_fk_type_lot_ingredient'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_ingredient' => $idDestination,
 			);
 
 			$ingredientTable->insertOrUpdate($data);
@@ -921,15 +964,15 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Munition';
+		$table = $nomTable . 'Munition';
 		Zend_Loader::loadClass($table);
 		$munitionTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_'.$suffixe1.'_munition' => $lot['quantite_lot_munition'],
-				'id_fk_type_'.$suffixe1.'_munition' => $lot['id_fk_type_lot_munition'], 
-				'id_fk_'.$suffixe2.$suffixe1.'_munition' => $idDestination, 
+				'quantite_' . $suffixe1 . '_munition' => $lot['quantite_lot_munition'],
+				'id_fk_type_' . $suffixe1 . '_munition' => $lot['id_fk_type_lot_munition'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_munition' => $idDestination,
 			);
 
 			$munitionTable->insertOrUpdate($data);
@@ -946,17 +989,17 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Partieplante';
+		$table = $nomTable . 'Partieplante';
 		Zend_Loader::loadClass($table);
 		$partieplanteTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_'.$preSuffixe.$suffixe1.'_partieplante' => $lot['quantite_lot_partieplante'],
-				'quantite_preparee_'.$suffixe1.'_partieplante' => $lot['quantite_preparee_lot_partieplante'],
-				'id_fk_type_plante_'.$suffixe1.'_partieplante' => $lot['id_fk_type_plante_lot_partieplante'],
-				'id_fk_type_'.$suffixe1.'_partieplante' => $lot['id_fk_type_lot_partieplante'], 
-				'id_fk_'.$suffixe2.$suffixe1.'_partieplante' => $idDestination, 
+				'quantite_' . $preSuffixe . $suffixe1 . '_partieplante' => $lot['quantite_lot_partieplante'],
+				'quantite_preparee_' . $suffixe1 . '_partieplante' => $lot['quantite_preparee_lot_partieplante'],
+				'id_fk_type_plante_' . $suffixe1 . '_partieplante' => $lot['id_fk_type_plante_lot_partieplante'],
+				'id_fk_type_' . $suffixe1 . '_partieplante' => $lot['id_fk_type_lot_partieplante'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_partieplante' => $idDestination,
 			);
 
 			$partieplanteTable->insertOrUpdate($data);
@@ -973,16 +1016,16 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Minerai';
+		$table = $nomTable . 'Minerai';
 		Zend_Loader::loadClass($table);
 		$mineraiTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'quantite_brut_'.$preSuffixe.$suffixe1.'_minerai' => $lot['quantite_brut_lot_minerai'],
-				'quantite_lingots_'.$suffixe1.'_minerai' => $lot['quantite_lingots_lot_minerai'],
-				'id_fk_type_'.$suffixe1.'_minerai' => $lot['id_fk_type_lot_minerai'], 
-				'id_fk_'.$suffixe2.$suffixe1.'_minerai' => $idDestination, 
+				'quantite_brut_' . $preSuffixe . $suffixe1 . '_minerai' => $lot['quantite_brut_lot_minerai'],
+				'quantite_lingots_' . $suffixe1 . '_minerai' => $lot['quantite_lingots_lot_minerai'],
+				'id_fk_type_' . $suffixe1 . '_minerai' => $lot['id_fk_type_lot_minerai'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_minerai' => $idDestination,
 			);
 
 			$mineraiTable->insertOrUpdate($data);
@@ -999,14 +1042,14 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Potion';
+		$table = $nomTable . 'Potion';
 		Zend_Loader::loadClass($table);
 		$potionTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'id_'.$suffixe1.'_potion' => $lot['id_lot_potion'], //idPotion,
-				'id_fk_'.$suffixe2.$suffixe1.'_potion' => $idDestination, //idDestination
+				'id_' . $suffixe1 . '_potion' => $lot['id_lot_potion'], //idPotion,
+				'id_fk_' . $suffixe2 . $suffixe1 . '_potion' => $idDestination, //idDestination
 			);
 
 			$potionTable->insert($data);
@@ -1023,14 +1066,14 @@ class Bral_Util_Lot {
 			return;
 		}
 
-		$table = $nomTable.'Rune';
+		$table = $nomTable . 'Rune';
 		Zend_Loader::loadClass($table);
 		$runeTable = new $table();
 
-		foreach($lots as $lot) {
+		foreach ($lots as $lot) {
 			$data = array(
-				'id_rune_'.$suffixe1.'_rune' => $lot['id_rune_lot_rune'], //idRune,
-				'id_fk_'.$suffixe2.$suffixe1.'_rune' => $idDestination, //idDestination
+				'id_rune_' . $suffixe1 . '_rune' => $lot['id_rune_lot_rune'], //idRune,
+				'id_fk_' . $suffixe2 . $suffixe1 . '_rune' => $idDestination, //idDestination
 			);
 
 			$runeTable->insert($data);

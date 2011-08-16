@@ -97,7 +97,8 @@
 		<?php include("poches/poche_graine.phtml") ?><br />
 	<?php endif;?>
 	
-	<?php if (count($this->tabac) > 0) : ?>
+	<?php if (count($lot["tabac"]) > 0) :
+		$this->tabac = $lot["tabac"];?>
 		<?php include("poches/poche_tabac.phtml") ?>
 	<?php endif;?>
    	
