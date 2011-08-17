@@ -55,8 +55,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabEndroit[self::ID_ENDROIT_LABAN] = array('id_type_endroit' => self::ID_ENDROIT_LABAN, 'nom_systeme' => 'Laban', 'nom_type_endroit' => 'Votre laban', 'est_depart' => true, 'poids_restant' => $poidsRestantLaban, 'panneau' => true);
 
 			$this->prepareCommunEchoppe($tabEndroit);
-			$this->prepareCommunCharrette($tabEndroit);
-			$this->prepareCommunLaban($tabEndroit);
+			$nbEndroit = $this->prepareCommunCharrette($tabEndroit);
+			$this->prepareCommunLaban($tabEndroit, $nbEndroit);
 			$this->prepareCommunLieu($tabEndroit);
 			$this->prepareCommunCommunaute($tabEndroit);
 		}
@@ -329,12 +329,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$nbendroit++;
 		}
 
+		return $nbendroit;
+
 	}
 
-	private function prepareCommunLaban(&$tabEndroit) {
+	private function prepareCommunLaban(&$tabEndroit, $nbEndroit) {
 
-		//Cas des charrettes
-		$nbendroit = self::ID_ENDROIT_LABAN_BRALDUN;
 		$braldunTable = new Braldun();
 
 		$tabBralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, $this->view->user->id_braldun, true);
@@ -344,8 +344,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		foreach ($tabBralduns as $b) {
 			$poidsRestantLaban = $b["poids_transportable_braldun"] - $b["poids_transporte_braldun"];
-			$tabEndroit[self::ID_ENDROIT_LABAN_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_LABAN_BRALDUN, 'nom_systeme' => 'Laban', 'nom_type_endroit' => 'Laban de ' . $b['prenom_braldun'] . ' ' . $b['nom_braldun'] . ' (n°' . $b['id_braldun'] . ')', 'est_depart' => true, 'poids_restant' => $poidsRestantLaban, 'panneau' => true, 'id_destination' => $b['id_braldun']);
-			$nbendroit++;
+			$tabEndroit[$nbEndroit] = array('id_type_endroit' => self::ID_ENDROIT_LABAN_BRALDUN, 'nom_systeme' => 'Laban', 'nom_type_endroit' => 'Laban de ' . $b['prenom_braldun'] . ' ' . $b['nom_braldun'] . ' (n°' . $b['id_braldun'] . ')', 'est_depart' => true, 'poids_restant' => $poidsRestantLaban, 'panneau' => true, 'id_destination' => $b['id_braldun']);
+			$nbEndroit++;
 		}
 
 	}
