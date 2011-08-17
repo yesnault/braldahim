@@ -228,15 +228,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if (count($lieux) == 1) {
 
-			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_BANQUE || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
-				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
-			}
-
-			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_BANQUE || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_VERS_AUTRE) {
-				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldûn', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
-			}
-
-			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HOTEL || $this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_COMMUN_VERS_HOTEL) {
+			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HOTEL) {
 				$tabEndroit[self::ID_ENDROIT_HOTEL] = array('id_type_endroit' => self::ID_ENDROIT_HOTEL, 'nom_systeme' => 'Lot', 'nom_type_endroit' => 'Hôtel des Ventes', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
 			}
 
@@ -254,6 +246,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$estDepart = true;
 			}
 			$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
+
+			if ($this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_COMMUN) {
+				$tabEndroit[self::ID_ENDROIT_MON_COFFRE] = array('id_type_endroit' => self::ID_ENDROIT_MON_COFFRE, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Votre coffre', 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
+			}
+
+			if ($this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_PERSO_VERS_AUTRE) {
+				$tabEndroit[self::ID_ENDROIT_COFFRE_BRALDUN] = array('id_type_endroit' => self::ID_ENDROIT_COFFRE_BRALDUN, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Le coffre d\'un autre Braldûn', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
+			}
+
+			if ($this->view->niveauMarcheCommunaute >= Bral_Util_Communaute::NIVEAU_MARCHE_COFFRE_COMMUN_VERS_HOTEL) {
+				$tabEndroit[self::ID_ENDROIT_HOTEL] = array('id_type_endroit' => self::ID_ENDROIT_HOTEL, 'nom_systeme' => 'Lot', 'nom_type_endroit' => 'Hôtel des Ventes', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
+			}
 		}
 
 	}
@@ -597,12 +601,21 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
-		if (array_key_exists(self::ID_ENDROIT_MON_COFFRE, $this->view->tabEndroit) && $this->view->user->est_pnj_braldun == 'non') {
-			$tab = array('box_vue', 'box_laban', 'box_coffre', 'box_charrette', 'box_banque');
-		} elseif (array_key_exists(self::ID_ENDROIT_HOTEL, $this->view->tabEndroit)) {
-			$tab = array('box_vue', 'box_laban', 'box_hotel', 'box_charrette');
-		} else {
-			$tab = array('box_vue', 'box_laban', 'box_charrette');
+		$tab = array('box_vue', 'box_laban', 'box_charrette');
+
+		$lieu = new Lieu();
+		$lieux = $lieu->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+
+		if (count($lieux) == 1) {
+
+			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_HOTEL) {
+				$tab[] = 'box_hotel';
+			}
+
+			if ($lieux[0]['id_type_lieu'] == TypeLieu::ID_TYPE_BANQUE) {
+				$tab[] = 'box_banque';
+				$tab[] = 'box_coffre';
+			}
 		}
 
 		if (count($echoppeCase) > 0) {
