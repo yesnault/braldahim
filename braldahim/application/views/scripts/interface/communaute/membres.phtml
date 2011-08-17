@@ -5,9 +5,14 @@
 	Vous faites partie de la communauté depuis le
   		
   	<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_entree_communaute_braldun); ?>
-  		
+  		<br /><br />
   	<hr />
-  		
+
+	<div class="titre textalic textsizec">Informations sur les rangs</div><br />
+	Gestionnaires : rang n°1<br />
+	Adjoints : rang n°2<br />
+ 	Tenanciers : rang n°3<br /><br />
+
 	<?php Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
 	<div class="titre textalic textsizec">Liste des Membres</div><br />
 

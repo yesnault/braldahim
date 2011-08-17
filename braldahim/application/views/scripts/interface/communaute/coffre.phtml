@@ -3,6 +3,9 @@
 <div class="titre textalic textsizec">Coffre de Communauté</div><br />
 
 <?php if ($this->affichageInterne == true) : ?>
+
+	Seuls les tenanciers, adjoints et gestionnaires peuvent retirer des éléments du coffre. <br />
+
 	<?php if (!Bral_Util_Communaute::possedeUnHall($this->user->id_fk_communaute_braldun, $this->communaute)) : ?>
 	<br /><br />Vous n'avez pas de Hall de Communauté.
 	<?php else:?>
