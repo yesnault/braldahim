@@ -2454,6 +2454,11 @@ body > #boite_b {
 	position: relative;
 }
 
+#label_description {
+    text-align: left;
+    margin-left: 15px;
+}
+
 .admin_flottante {
   border: 1px solid #000000;
   margin: 20px;

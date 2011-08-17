@@ -1,222 +1,227 @@
-<br /><br />
+<br/><br/>
 <div class="titrea textalic titreasizea">Profil Officiel</div>
-<br />
+<br/>
 
 <table class="table_liste" style="width:90%;">
-	
-  <tr class="table_liste">
-  	<?php if ($this->ancien === false) : ?>
-	<th rowspan="17"><?php echo Bral_Helper_Image::afficherAvatar($this->braldun["url_avatar_braldun"]); ?></th>
-	<?php endif;?>
-	<th class="table_liste">Date de cr&eacute;ation</th>
-	<th class="table_liste">Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->braldun["date_creation_braldun"]); ?></th>
-  </tr>
-  
-  <tr class="table_liste">
-  
-  <?php if ($this->ancien === true) : ?>
-	<th class="table_liste">Distinction<?php if (count($this->tabDistinctions) > 0) :
-		echo "s";
-	   endif; ?></th>
+
+	<tr class="table_liste">
+		<?php if ($this->ancien === false) : ?>
+		<th rowspan="17"><?php echo Bral_Helper_Image::afficherAvatar($this->braldun["url_avatar_braldun"]); ?></th>
+		<?php endif;?>
+		<th class="table_liste">Date de cr&eacute;ation</th>
+		<th class="table_liste">
+			Le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ', $this->braldun["date_creation_braldun"]); ?></th>
+	</tr>
+
+	<tr class="table_liste">
+
+		<?php if ($this->ancien === true) : ?>
+		<th class="table_liste">Distinction<?php if (count($this->tabDistinctions) > 0) :
+			echo "s";
+		endif; ?></th>
 	<td class="table_liste">
 		<?php if ($this->braldun["distinctions_ancien_braldun"] != "") : ?>
-			<?php echo $this->braldun["distinctions_ancien_braldun"]?>
-		<?php else: ?>
+			<?php echo $this->braldun["distinctions_ancien_braldun"] ?>
+			<?php else: ?>
 			Aucune distinction
+			<?php endif; ?>
 		<?php endif;?>
-	<?php endif;?>
 	</td>
-  </tr>
-	
-  <tr class="table_liste">
-	<th class="table_liste">Sexe</th>
-	<td class="table_liste"><?php if ($this->braldun["sexe_braldun"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
-  </tr>
-  <?php if ($this->ancien === false) : ?>
-	  <tr class="table_liste">
+	</tr>
+
+	<tr class="table_liste">
+		<th class="table_liste">Sexe</th>
+		<td class="table_liste"><?php if ($this->braldun["sexe_braldun"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
+	</tr>
+	<?php if ($this->ancien === false) : ?>
+	<tr class="table_liste">
 		<th class="table_liste">Communaut&eacute;</th>
 		<td class="table_liste" nowrap>
-		<?php if ($this->communaute == null) : ?>
+			<?php if ($this->communaute == null) : ?>
 			<i>Aucune</i>
-		<?php else: ?>
+			<?php else: ?>
 			<a href="/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>">
-			<?php echo $this->communaute["nom_communaute"] ?>, n&deg;<?php echo $this->communaute["id_communaute"] ?>
+				<?php echo $this->communaute["nom_communaute"] ?>,
+				n&deg;<?php echo $this->communaute["id_communaute"] ?>
 			</a>
-		<?php endif; ?>
+			<?php endif; ?>
 		</td>
-	  </tr>
-  <?php endif; ?>
-  <tr class="table_liste">
-	<th class="table_liste">Niveau</th>
+	</tr>
+	<?php endif; ?>
+	<tr class="table_liste">
+		<th class="table_liste">Niveau</th>
 	<td class="table_liste">
-	
-	<?php if ($this->ancien == false && $this->braldun["est_pnj_braldun"] == "oui") : ?>
+
+		<?php if ($this->ancien == false && $this->braldun["est_pnj_braldun"] == "oui") : ?>
 		-
-	<?php else: ?>
-	  <?php echo $this->braldun["niveau_braldun"] ?></td>
-	<?php endif;?>
-  </tr>
-  <tr class="table_liste">
-	<th class="table_liste">Nombre de KO</th>
-	<td class="table_liste"><?php echo $this->braldun["nb_ko_braldun"] ?></td>
-  </tr>
-  <tr class="table_liste">
-	<th class="table_liste">Nombre de KO (de Braldûn) effectués</th>
-	<td class="table_liste"><?php echo $this->braldun["nb_braldun_ko_braldun"] ?></td>
-  </tr>
-  <tr class="table_liste">
-	<th class="table_liste">Nombre de meurtres Monstre</th>
-	<td class="table_liste"><?php echo $this->braldun["nb_monstre_kill_braldun"] ?></td>
-  </tr>
-    <tr class="table_liste">
-	<th class="table_liste">Plaquages Soule Subis</th>
-	<td class="table_liste"><?php echo $this->braldun["nb_plaque_braldun"] ?></td>
-  </tr>
-  <tr class="table_liste">
-	<th class="table_liste">Plaquages Soule Effectués</th>
-	<td class="table_liste"><?php echo $this->braldun["nb_braldun_plaquage_braldun"] ?></td>
-  </tr>
-  <tr class="table_liste">
-	<th class="table_liste">Titre<?php if (count($this->tabTitres) > 0) :
-		echo "s";
-	   endif; ?></th>
-	<td class="table_liste">
-	
-	<?php if ($this->ancien === true) : ?>
-		<?php if ($this->braldun["titres_ancien_braldun"] != "") : ?>
-			<?php echo $this->braldun["titres_ancien_braldun"]?>
 		<?php else: ?>
-			Aucun Titre
-		<?php endif;?>
-	<?php elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
-		-
-	<?php else : ?>
-		<?php $liste = "Aucun Titre";?>
-	  	<?php if ($this->tabTitres != null && count($this->tabTitres) >= 1): ?>
-			<?php
+		<?php echo $this->braldun["niveau_braldun"] ?></td>
+	<?php endif;?>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Nombre de KO</th>
+		<td class="table_liste"><?php echo $this->braldun["nb_ko_braldun"] ?></td>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Nombre de KO (de Braldûn) effectués</th>
+		<td class="table_liste"><?php echo $this->braldun["nb_braldun_ko_braldun"] ?></td>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Nombre de meurtres Monstre</th>
+		<td class="table_liste"><?php echo $this->braldun["nb_monstre_kill_braldun"] ?></td>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Plaquages Soule Subis</th>
+		<td class="table_liste"><?php echo $this->braldun["nb_plaque_braldun"] ?></td>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Plaquages Soule Effectués</th>
+		<td class="table_liste"><?php echo $this->braldun["nb_braldun_plaquage_braldun"] ?></td>
+	</tr>
+	<tr class="table_liste">
+		<th class="table_liste">Titre<?php if (count($this->tabTitres) > 0) :
+			echo "s";
+		endif; ?></th>
+		<td class="table_liste">
+
+			<?php if ($this->ancien === true) : ?>
+			<?php if ($this->braldun["titres_ancien_braldun"] != "") : ?>
+				<?php echo $this->braldun["titres_ancien_braldun"] ?>
+				<?php else: ?>
+				Aucun Titre
+				<?php endif; ?>
+			<?php elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
+			-
+			<?php  else : ?>
+			<?php $liste = "Aucun Titre"; ?>
+			<?php if ($this->tabTitres != null && count($this->tabTitres) >= 1): ?>
+				<?php
 			$liste = "";
-			foreach ($this->tabTitres as $t) :
-			$liste .= $t["nom"].", ";
-			endforeach; ?>
-			<?php 
-			if ($liste != "") {
-				$liste = mb_substr($liste, 0, -2); 
-			}
-			?>
-	  	<?php endif; ?>
-	    <?php if ($liste != "") : ?>
-	    	<?php echo $liste ?>
-	    <?php endif;?>
-	<?php endif;?>
-	</td>
-  </tr>
-  <tr class="table_liste" valign="top">
-	<th class="table_liste">M&eacute;tier<?php if ($this->possedeMetier && $this->tabMetierCourant != null && count($this->tabMetiers) > 0) :
-		echo "s";
-	   endif; ?>
-	</th>
-	<td class="table_liste">
-	<?php if ($this->ancien === true) : ?>
-		<?php if ($this->braldun["metiers_ancien_braldun"] != "") : ?>
-			<?php echo $this->braldun["metiers_ancien_braldun"]?>
-		<?php else: ?>
+				foreach ($this->tabTitres as $t) :
+					$liste .= $t["nom"] . ", ";
+				endforeach; ?>
+				<?php
+				if ($liste != "") {
+					$liste = mb_substr($liste, 0, -2);
+				}
+				?>
+				<?php endif; ?>
+			<?php if ($liste != "") : ?>
+				<?php echo $liste ?>
+				<?php endif; ?>
+			<?php endif;?>
+		</td>
+	</tr>
+	<tr class="table_liste" valign="top">
+		<th class="table_liste">
+			M&eacute;tier<?php if ($this->possedeMetier && $this->tabMetierCourant != null && count($this->tabMetiers) > 0) :
+			echo "s";
+		endif; ?>
+		</th>
+		<td class="table_liste">
+			<?php if ($this->ancien === true) : ?>
+			<?php if ($this->braldun["metiers_ancien_braldun"] != "") : ?>
+				<?php echo $this->braldun["metiers_ancien_braldun"] ?>
+				<?php else: ?>
+				Aucun m&eacute;tier
+				<?php endif; ?>
+			<?php elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
+			-
+			<?php  elseif (!$this->possedeMetier): ?>
 			Aucun m&eacute;tier
-		<?php endif;?>
-	<?php elseif ($this->braldun["est_pnj_braldun"] == "oui") : ?>
-		-
-	<?php elseif (!$this->possedeMetier): ?>
-	   	Aucun m&eacute;tier
-	<?php else : ?>
-			<?php $liste = "";?>
-		   	Actuellement :
-		  	 	<?php echo $this->tabMetierCourant["nom"] ?>
-			<br /><br />
-		   	<?php if (count($this->tabMetiers) >= 1): ?>
-		   		<?php if ($this->braldun["sexe_braldun"] == "feminin") : ?>
-		   		Elle
-		   		<?php else: ?>
-		   		Il
-		   		<?php endif; ?>
-		   		 pratique &eacute;galement 
-			   	<?php if (count($this->tabMetiers) > 1): ?>
-			   		les m&eacute;tiers suivants : <br />
-			   	<?php else: ?>
-			   		 le m&eacute;tier suivant : <br />
-			   	<?php endif; ?>	
-		   	<?php endif;?>
-		   	<?php if (count($this->tabMetiers) >= 1):
+			<?php  else : ?>
+			<?php $liste = ""; ?>
+			Actuellement :
+			<?php echo $this->tabMetierCourant["nom"] ?>
+			<br/><br/>
+			<?php if (count($this->tabMetiers) >= 1): ?>
+				<?php if ($this->braldun["sexe_braldun"] == "feminin") : ?>
+					Elle
+					<?php else: ?>
+					Il
+					<?php endif; ?>
+				pratique &eacute;galement
+				<?php if (count($this->tabMetiers) > 1): ?>
+					les m&eacute;tiers suivants : <br/>
+					<?php else: ?>
+					le m&eacute;tier suivant : <br/>
+					<?php endif; ?>
+				<?php endif; ?>
+			<?php if (count($this->tabMetiers) >= 1):
 				$liste = "";
 				foreach ($this->tabMetiers as $m) :
-					$liste .= $m["nom"].", ";
-				endforeach; 
+					$liste .= $m["nom"] . ", ";
+				endforeach;
 				if ($liste != "") {
-				  	$liste = mb_substr($liste, 0, -2); 
+					$liste = mb_substr($liste, 0, -2);
 				}
-			endif; 
+			endif;
 			if ($liste != "") : ?>
-		    	<?php echo $liste ?>
-		    <?php endif;?>
-	   <?php endif; ?>
-	</td>
-  </tr>
-  <?php if ($this->ancien === false) : ?>
-	  <tr class="table_liste">
+				<?php echo $liste ?>
+				<?php endif; ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<?php if ($this->ancien === false) : ?>
+	<tr class="table_liste">
 		<th class="table_liste">Équipement</th>
 		<td class="table_liste"><?php echo Bral_Helper_ProfilEquipement::afficher($this->tabTypesEmplacement, false); ?></td>
-	  </tr>
-	  <tr class="table_liste">
-	  	<td class="table_liste" colspan="2" align="center">
-	  	<?php if ($this->possedeCharrette == "non") : ?>
-	  		Ne poss&egrave;de pas de charrette actuellement
-	  	<?php else: ?>
-	  		Poss&egrave;de actuellement une charrette
-	  	<?php endif;?>
-		</td>
-	  </tr>
-	  <tr class="table_liste">
-	  	<td class="table_liste" colspan="2" align="center">
-	  	<?php if ($this->braldun["est_en_hibernation_braldun"] == "non") : ?>
-	  		N'est pas en hibernation
-	  	<?php else: ?>
-	  		Est en hibernation
-	  	<?php endif;?>
-		</td>
-	  </tr>
-	  <tr class="table_liste">
+	</tr>
+	<tr class="table_liste">
 		<td class="table_liste" colspan="2" align="center">
-	  	<?php if ($this->braldun["est_intangible_braldun"] == "non") : ?>
-	  		N'est pas intangible
-	  	<?php else: ?>
-	  		Est intangible
-	  	<?php endif;?>
+			<?php if ($this->possedeCharrette == "non") : ?>
+			Ne poss&egrave;de pas de charrette actuellement
+			<?php else: ?>
+			Poss&egrave;de actuellement une charrette
+			<?php endif;?>
 		</td>
-	  </tr>
-	  <tr class="table_liste">
-	  	<td class="table_liste" colspan="2" align="center">
-	  	<?php if ($this->braldun["est_pnj_braldun"] == "non") : ?>
-	  		N'est pas PNJ
-	  	<?php else: ?>
-	  		Est PNJ
-	  	<?php endif;?>
+	</tr>
+	<tr class="table_liste">
+		<td class="table_liste" colspan="2" align="center">
+			<?php if ($this->braldun["est_en_hibernation_braldun"] == "non") : ?>
+			N'est pas en hibernation
+			<?php else: ?>
+			Est en hibernation
+			<?php endif;?>
 		</td>
-	  </tr>
-  <?php endif;?>
+	</tr>
+	<tr class="table_liste">
+		<td class="table_liste" colspan="2" align="center">
+			<?php if ($this->braldun["est_intangible_braldun"] == "non") : ?>
+			N'est pas intangible
+			<?php else: ?>
+			Est intangible
+			<?php endif;?>
+		</td>
+	</tr>
+	<tr class="table_liste">
+		<td class="table_liste" colspan="2" align="center">
+			<?php if ($this->braldun["est_pnj_braldun"] == "non") : ?>
+			N'est pas PNJ
+			<?php else: ?>
+			Est PNJ
+			<?php endif;?>
+		</td>
+	</tr>
+	<?php endif;?>
 </table>
 
-<br /><br />
+<br/><br/>
 
 <?php if ($this->ancien === false) : ?>
-	<div class="titre textalic textsizeb">Profil Non Officiel</div>
-	<div class="titre textalic textsizec">Renseign&eacute; par le joueur</div>
-	<table class="table_liste" style="width:90%;">
+<div class="titre textalic textsizeb">Profil Non Officiel</div>
+<div class="titre textalic textsizec">Renseign&eacute; par le joueur</div>
+<table class="table_liste" style="width:90%;">
 	<tr class="table_liste">
 		<td class="table_liste" style="text-align:left; width:320px;'">
 			<?php echo Bral_Helper_Image::afficherBlason($this->braldun["url_blason_braldun"]); ?>
 		</td>
-		<td  style="padding-left:30px">
-			<?php echo Bral_Util_BBParser::bbcodeReplace($this->braldun["description_braldun"]); ?>
+		<td style="padding-left:30px">
+			<div id="label_description">
+				<?php echo Bral_Util_BBParser::bbcodeReplace($this->braldun["description_braldun"]); ?>
+			</div>
 		</td>
 	</tr>
-	</table>
-<?php endif;?>
-<br /><br />
+</table>
+<?php endif; ?>
+<br/><br/>
