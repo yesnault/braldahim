@@ -38,8 +38,11 @@
 				<?php if ($this->lots["visiteur"]):?>
 					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot('<?php echo $numero;?>')">Sélectionner</span>
 				<?php else:?>
+					<?php if ($this->estSurEchoppe !== true):
+							$attr = "disabled" ; ?>
+					<?php endif; ?>
 					<?php if ($this->lots["type"] == "echoppe"):?>
-						<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
+						<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1" <?php echo $attr ?>>
 					<?php elseif ($this->lots["type"] == "communaute" && $this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER): ?>
 						<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=do_communaute_retirerlot&amp;valeur_1=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
 					<?php endif;?>
