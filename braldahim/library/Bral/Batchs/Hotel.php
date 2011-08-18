@@ -10,8 +10,11 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace('Bral_Batchs_Hotel - calculBatchImpl - enter -');
 		Zend_Loader::loadClass('Lot');
+		Zend_Loader::loadClass('Coffre');
 		Zend_Loader::loadClass('Bral_Util_Lot');
 
+		$coffreTable = new Coffre();
+		
 		$lots = Bral_Util_Lot::getLotsByHotel(true);
 		$nb = 0;
 
@@ -22,7 +25,15 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 				if ($lot["id_fk_vendeur_braldun_lot"] == null) {
 					throw new Zend_Exception('Bral_Batchs_Hotel::calculBatchImpl id_fk_vendeur_braldun_lot null pour idLot:'.$lot['id_lot']);
 				}
-				Bral_Util_Lot::transfertLot($lot['id_lot'], 'coffre', $lot['id_fk_vendeur_braldun_lot']);
+
+
+				$coffres = $coffreTable->findByIdBraldun($lot['id_fk_vendeur_braldun_lot']);
+				if (count($coffres) != 1) {
+					throw new Zend_Exception('Bral_Batchs_Hotel Coffre depart invalide = idb:' . $lot['id_fk_vendeur_braldun_lot']);
+				}
+				$idCoffre = $coffres[0]['id_coffre'];
+
+				Bral_Util_Lot::transfertLot($lot['id_lot'], 'coffre', $idCoffre);
 
 				$s = "";
 				if ($lot["prix_1_lot"] > 1) {
