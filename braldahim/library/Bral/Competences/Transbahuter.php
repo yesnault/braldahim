@@ -74,7 +74,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_LABAN] = array('id_type_endroit' => self::ID_ENDROIT_LABAN, 'nom_systeme' => 'Laban', 'nom_type_endroit' => 'Votre laban', 'est_depart' => true, 'poids_restant' => $poidsRestantLaban, 'panneau' => true);
 			}
 
-			$this->prepareCommunEchoppe($tabEndroit);
+			$this->prepareCommunEchoppe($tabEndroit, intval($this->request->get('valeur_1')));
 			$nbEndroit = $this->prepareCommunCharrette($tabEndroit, $labanCharretteSolPossible);
 			if ($labanCharretteSolPossible) {
 				$this->prepareCommunLaban($tabEndroit, $nbEndroit);
@@ -219,7 +219,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					 'type_forme' => $forme);
 	}
 
-	private function prepareCommunEchoppe(&$tabEndroit) {
+	private function prepareCommunEchoppe(&$tabEndroit, $idTypeDepart) {
 		//Si on est sur une echoppe
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
@@ -229,7 +229,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_ATELIER, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Atelier', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$this->view->id_echoppe_depart = $echoppeCase[0]['id_echoppe'];
 			} elseif ($echoppeCase[0]['id_braldun'] == $this->view->user->id_braldun) {
-				$tabEndroit[self::ID_ENDROIT_HOTEL] = array('id_type_endroit' => self::ID_ENDROIT_HOTEL, 'nom_systeme' => 'Lot', 'nom_type_endroit' => 'Hôtel des Ventes', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
+				if ($idTypeDepart <= 0 || $idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE || $idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER || $idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL) {
+					$tabEndroit[self::ID_ENDROIT_HOTEL] = array('id_type_endroit' => self::ID_ENDROIT_HOTEL, 'nom_systeme' => 'Lot', 'nom_type_endroit' => 'Hôtel des Ventes', 'est_depart' => false, 'poids_restant' => -1, 'panneau' => true);
+				}
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_CAISSE] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_CAISSE, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Caisse', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Matières Premières', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
 				$tabEndroit[self::ID_ENDROIT_ECHOPPE_ATELIER] = array('id_type_endroit' => self::ID_ENDROIT_ECHOPPE_ATELIER, 'nom_systeme' => 'Echoppe', 'nom_type_endroit' => 'Votre échoppe : Atelier', 'id_braldun_echoppe' => $echoppeCase[0]['id_braldun'], 'est_depart' => true, 'poids_restant' => -1, 'panneau' => true);
@@ -827,7 +829,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		switch ($idTypeDepart) {
 			case self::ID_ENDROIT_HALL_LIEU:
 			case self::ID_ENDROIT_COFFRE_COMMUNAUTE:
-				$nbPA = 0;
+			case self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE:
+			case self::ID_ENDROIT_ECHOPPE_ATELIER:
+			case self::ID_ENDROIT_ECHOPPE_ETAL:
+				$this->view->nb_pa = 0;
 				break;
 			case self::ID_ENDROIT_LABAN :
 			case self::ID_ENDROIT_ELEMENT :
@@ -835,16 +840,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			case self::ID_ENDROIT_CHARRETTE :
 			case self::ID_ENDROIT_ECHOPPE_ATELIER :
 			default:
-				$nbPA = parent::calculNbPa();
+				parent::calculNbPa();
 				break;
 		}
 
-		if ($this->view->user->pa_braldun - $nbPA < 0) {
+		if ($this->view->user->pa_braldun - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
-		$this->view->nb_pa = $nbPA;
 	}
 
 	private function prepareTypeEquipements($depart, $idTypeDepart) {
