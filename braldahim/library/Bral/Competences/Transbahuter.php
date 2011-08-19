@@ -52,9 +52,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			// Si l'on choisit un coffre en source et que l'on n'est pas sur une banque ou sur un hall
 			// laban / charrette et Sol sont des destinations impossibles
-			if (count($lieux) == 1
-				&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_BANQUE
-				&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_HALL
+			if (count($lieux) == 0 || (count($lieux) == 1
+									   && $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_BANQUE
+									   && $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_HALL)
 			) {
 				$labanCharretteSolPossible = false;
 			}
@@ -76,7 +76,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			$this->prepareCommunEchoppe($tabEndroit);
 			$nbEndroit = $this->prepareCommunCharrette($tabEndroit, $labanCharretteSolPossible);
-			$this->prepareCommunLaban($tabEndroit, $nbEndroit);
+			if ($labanCharretteSolPossible) {
+				$this->prepareCommunLaban($tabEndroit, $nbEndroit);
+			}
 			$this->prepareCommunLieu($tabEndroit, intval($this->request->get('valeur_1')));
 			$this->prepareCommunCommunaute($tabEndroit);
 		}
@@ -273,7 +275,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$estDepart = true;
 			}
 
-			if ($idTypeDepart == self::ID_ENDROIT_MON_COFFRE) {
+			if ($idTypeDepart <= 0 || $idTypeDepart == self::ID_ENDROIT_MON_COFFRE || $idTypeDepart == self::ID_ENDROIT_HALL_LIEU) {
 				$tabEndroit[self::ID_ENDROIT_HALL_LIEU] = array('id_type_endroit' => self::ID_ENDROIT_HALL_LIEU, 'nom_systeme' => 'Coffre', 'nom_type_endroit' => 'Coffre de Communauté (Hall)', 'est_depart' => $estDepart, 'poids_restant' => -1, 'panneau' => true, 'id_communaute' => $this->view->user->id_fk_communaute_braldun);
 			}
 
@@ -821,7 +823,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	protected function calculNbPa() {
 		$idTypeDepart = intval($this->request->get('valeur_1'));
-		
+
 		switch ($idTypeDepart) {
 			case self::ID_ENDROIT_HALL_LIEU:
 			case self::ID_ENDROIT_COFFRE_COMMUNAUTE:
