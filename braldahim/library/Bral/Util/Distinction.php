@@ -91,6 +91,8 @@ class Bral_Util_Distinction {
 	const ID_TYPE_GAGNER_MATCH_INFERIORITE = 108;
 	const ID_TYPE_CHAMPION_SOULE = 109;
 
+	const ID_TYPE_SOULE_JOUEUR_SAISON = 121;
+
 	function __construct() {
 	}
 
@@ -111,11 +113,11 @@ class Bral_Util_Distinction {
 		if ($quete != null) {
 			Zend_Loader::loadClass("Quete");
 			$queteTable = new Quete();
-			$quete["gain_quete"] .= " Nouvelle distinction:". $texte.PHP_EOL;
+			$quete["gain_quete"] .= " Nouvelle distinction:" . $texte . PHP_EOL;
 			$data = array(
 				"gain_quete" => $quete["gain_quete"],
 			);
-			$where = "id_quete=".$quete["id_quete"];
+			$where = "id_quete=" . $quete["id_quete"];
 			$queteTable->update($data, $where);
 		}
 	}
@@ -136,11 +138,11 @@ class Bral_Util_Distinction {
 
 			$config = Zend_Registry::get('config');
 			$idEvenement = $config->game->evenements->type->special;
-			$details = "[b".$idBraldun."] a reçu une distinction : ".$distinction["nom_type_distinction"].$complementDistinction;
-			$detailBot = "Vous avez reçu une nouvelle distinction : ".$distinction["nom_type_distinction"].$complementDistinction. " ".$distinction["points_type_distinction"]. " pt(s).";
+			$details = "[b" . $idBraldun . "] a reçu une distinction : " . $distinction["nom_type_distinction"] . $complementDistinction;
+			$detailBot = "Vous avez reçu une nouvelle distinction : " . $distinction["nom_type_distinction"] . $complementDistinction . " " . $distinction["points_type_distinction"] . " pt(s).";
 			Bral_Util_Evenement::majEvenements($idBraldun, $idEvenement, $details, $detailBot, $niveauBraldun, "braldun");
 
-			Bral_Util_Distinction::ajouterDistinction($idBraldun, $idTypeDistinction, $distinction["nom_type_distinction"].$complementDistinction);
+			Bral_Util_Distinction::ajouterDistinction($idBraldun, $idTypeDistinction, $distinction["nom_type_distinction"] . $complementDistinction);
 			return $detailBot;
 		} else {
 			return null;
@@ -155,7 +157,7 @@ class Bral_Util_Distinction {
 		$tabDistinctions = null;
 		$possedeDistinction = false;
 
-		foreach($braldunsDistinctionRowset as $t) {
+		foreach ($braldunsDistinctionRowset as $t) {
 			$possedeDistinction = true;
 
 			$tabDistinctions[$t["id_type_categorie"]]["nom"] = $t["nom_type_categorie"];
@@ -177,7 +179,7 @@ class Bral_Util_Distinction {
 	}
 
 	public static function getIdDistinctionDonjonFromIdDistinctionBourlingueur($idType) {
-		switch($idType) {
+		switch ($idType) {
 			case self::ID_TYPE_BOURLINGUEUR_CENTRE:
 				return self::ID_TYPE_DONJON_CENTRE;
 				break;
@@ -194,7 +196,7 @@ class Bral_Util_Distinction {
 				return self::ID_TYPE_DONJON_EST;
 				break;
 			default :
-				throw new Zend_Exception("getIdDistinctionDonjonFromIdDistinctionBourlingueur invalide:".$idType);
+				throw new Zend_Exception("getIdDistinctionDonjonFromIdDistinctionBourlingueur invalide:" . $idType);
 		}
 	}
 
@@ -221,7 +223,7 @@ class Bral_Util_Distinction {
 
 		Zend_Loader::loadClass("BraldunsDistinction");
 		$braldunsDistinctionTable = new BraldunsDistinction();
-		
+
 		$listId[] = self::ID_TYPE_PLAQUEUR;
 		$listId[] = self::ID_TYPE_MEILLEUR_PLAQUEUR;
 		$listId[] = self::ID_TYPE_PASSEUR;

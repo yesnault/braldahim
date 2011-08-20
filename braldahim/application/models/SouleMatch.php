@@ -31,6 +31,24 @@ class SouleMatch extends Zend_Db_Table {
 		return $result;
 	}
 
+	public function findMatchSaisonTermineByIdTerrainAndAnnee($idTerrain, $annee) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_match', '*');
+		$select->where('id_fk_terrain_soule_match = ?', (int)$idTerrain);
+		$select->where('date_debut_soule_match is not null and date_fin_soule_match is not null');
+
+		$dateDebut = date($annee.'-09-01 00:00:00');
+		$dateFin = date($annee.'-12-31 00:00:00');
+		
+		$select->where('date_debut_soule_match >= ?', $dateDebut);
+		$select->where('date_debut_soule_match <= ?', $dateFin);
+		
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
+
 	public function findNonDebuteByIdBraldun($idBraldun) {
 		$db = $this->getAdapter();
 		$select = $db->select();
