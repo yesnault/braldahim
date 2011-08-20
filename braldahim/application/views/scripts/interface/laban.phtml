@@ -1,38 +1,45 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
 
-<?php if (Zend_Registry::get("estMobile")) : ?>
+	<?php if (Zend_Registry::get("estMobile")) : ?>
 	<div class="titre textalia textsizec">Mon Laban, besace du Braldûn</div>
-<?php else: ?>
-	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"><span class="titrea textalia titreasizee">Mon Laban, besace du Braldûn</span></div>
-<?php endif;?>
+	<?php else: ?>
+	<div id="<?php echo $this->nom_interne ?>Titre" style="display:none"><span class="titrea textalia titreasizee">Mon Laban, besace du Braldûn</span>
+	</div>
+	<?php endif;?>
 
- <div class="contenuC">
-  <div class="box_contenu1 textalic">
-  
-<?php if ($this->affichageInterne == true) : ?>
+	<div class="contenuC">
+		<div class="box_contenu1 textalic">
 
-	<div class="titre textalic textsized braltip">Partage de butin</div>
-	
-	Partage avec les Braldûns de la communauté : <?php echo $this->user->est_partage_communaute_butin_braldun?><br />
-   			
-   	<?php if ($this->partageBralduns == null) : ?>
-   		Partage avec aucun autre Braldûn<br /><br />
-   	<?php else: ?>
-  		Partage avec : <?php echo $this->partageBralduns?><br /><br />
-   	<?php endif;?>
-   			
-	<input type="button" class='button1' value="0 PA - Configurer les partages de butin" onclick="Javascript:_get_('/butin/doaction?caction=ask_butin_partage');" />
+			<?php if ($this->affichageInterne == true) : ?>
 
-	<br /><br />
-	Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
-    <?php include("commun/poches.phtml"); ?>
-<?php else: ?>
-	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" />
-<?php endif; ?>
+			<div class="titre textalic textsized braltip">Partage de butin</div>
 
-  </div>
- </div>
+			Partage avec les Braldûns de la communauté : <?php echo $this->user->est_partage_communaute_butin_braldun ?>
+			<br/>
+
+			<?php if ($this->partageBralduns == null) : ?>
+				Partage avec aucun autre Braldûn<br/><br/>
+				<?php else: ?>
+				Partage avec : <?php echo $this->partageBralduns ?><br/><br/>
+				<?php endif; ?>
+
+			<input type="button" class='button1' value="0 PA - Configurer les partages de butin"
+				   onclick="Javascript:_get_('/butin/doaction?caction=ask_butin_partage');"/>
+
+			<br/><br/>
+			<?php Zend_Loader::loadClass("Bral_Helper_Profil"); ?>
+			<?php echo Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_braldun, $this->user->poids_transporte_braldun); ?>
+
+			<br/><br/>
+			Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br/><br/>
+			<?php include("commun/poches.phtml"); ?>
+			<?php else: ?>
+			Chargement en cours
+			<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+			<?php endif; ?>
+
+		</div>
+	</div>
 </div>
 <?php include("box_bottom.phtml") ?>

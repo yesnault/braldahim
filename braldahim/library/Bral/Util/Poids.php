@@ -335,7 +335,7 @@ class Bral_Util_Poids {
 		return self::ajoute(0, $nbRunes, self::POIDS_RUNE);
 	}
 
-	private static function calculPoidsTransporteEquipement($idBraldun) {
+	public static function calculPoidsTransporteEquipement($idBraldun) {
 		$poids = 0;
 		Zend_Loader::loadClass("BraldunEquipement");
 		$braldunEquipementTable = new BraldunEquipement();

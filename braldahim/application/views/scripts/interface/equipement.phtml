@@ -2,30 +2,36 @@
 Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 ?>
 <div class="titre textalia textsizec">Mon &Eacute;quipement</div>
- <div class="contenuA">
-  <div class="box_contenu1 textalic">
- 
- <?php if ($this->affichageInterne == true) : ?>
- 
-   &Eacute;quipement pr&eacute;sent sur vous : <br />
+<div class="contenuA">
+	<div class="box_contenu1 textalic">
 
-	<table>
-	<tr>
-	<td><img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun?>_grand.png'"/></td>
-	
-	<td><?php echo Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement, true); ?></td>
-	</tr>
-	</table>
-	
-	<input class="button1" type="button" onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_sequiper')" value="2 PA - S'équiper">
-	<br /><br />
-	
-  	
- <?php else: ?>
-	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" />
-<?php endif; ?>
+		<?php if ($this->affichageInterne == true) : ?>
 
-   </div>
+		<?php Zend_Loader::loadClass("Bral_Util_Poids") ?>
+		Poids de l'équipement porté : <?php echo Bral_Util_Poids::calculPoidsTransporteEquipement($this->user->id_braldun) ?> Kg
+		<br/><br/>
+
+		<table>
+			<tr>
+				<td><img
+						src=' <?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun?>_grand.png'"/>
+				</td>
+
+				<td><?php echo Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement, true); ?></td>
+			</tr>
+		</table>
+
+		<input class="button1" type="button"
+			   onclick="Javascript:_get_('/competences/doaction?caction=ask_competence_sequiper')"
+			   value="2 PA - S'équiper">
+		<br/><br/>
+
+
+		<?php else: ?>
+		Chargement en cours
+		<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+		<?php endif; ?>
+
+	</div>
 </div>
 <?php include("box_bottom.phtml") ?>
