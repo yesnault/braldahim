@@ -1,0 +1,33 @@
+<?php if (count($this->communautes) > 0): ?>
+<?php foreach ($this->communautes as $c): ?>
+
+
+	<table class="table_liste nocadre" style="width:90%">
+		<?php $i = 0; ?>
+
+		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
+			<td class="table_liste">
+				<a title="Cliquez pour voir le profil"
+				   onclick="javascript:ouvrirWin('/voir/communaute/?communaute='<?php echo $c["id_communaute"] ?>);"
+				   href="#">
+
+					<?php echo $c["nom_communaute"]; ?>
+				</a>
+			</td>
+			<td class="table_liste">
+				<?php echo $c["points_communaute"] . " pt";
+				if ($c["points_communaute"] > 1) :
+					echo "s";
+				endif;?>
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<?php endforeach; ?>
+
+<?php else: ?>
+Il n'y a actuellement aucune communauté distinguée.
+<?php endif; ?>
+<br/>
+<a onclick="javascript:ouvrirWin('/voir/communautes')" href="#">Toutes les communautés</a>

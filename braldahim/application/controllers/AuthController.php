@@ -35,6 +35,12 @@ class AuthController extends Zend_Controller_Action {
 		} else {
 			Zend_Loader::loadClass('Bral_Helper_Bougrie');
 
+			Zend_Loader::loadClass("Bral_Util_Lot");
+			$this->view->lots = Bral_Util_Lot::getLotsByHotelAccueil();
+			
+			Zend_Loader::loadClass("Bral_Util_Communaute");
+			$this->view->communautes = Bral_Util_Communaute::getTop5($this->view);
+
 			$this->loginWork();
 			$this->render();
 		}

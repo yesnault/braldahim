@@ -2,36 +2,53 @@
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
 <div id="wrapper">
 
-<br/><br/>
 
 <table class="authTable">
 <tr>
 <td class="authTable">
 
-<?php include("palmares.phtml") ?><br/>
-<p class="titrea textalic titreasizeb cadre" style="margin-top:50px;">Hôtel des Ventes</p>
-	Émile Clacclac vous prépare des infos...
+<?php include("palmares.phtml") ?>
+<p class="titrea textalic titreasizeb cadre" style="margin-top:50px;">Top Communautés</p>
+<p class="titrea textalic titreasizee cadre" style="margin-top:0px;">par points d'influence</p>
+<?php include("communautes.phtml")?>
 
+<p class="titrea textalic titreasizeb cadre" style="margin-top:50px;">Hôtel des Ventes</p>
+	<?php include("hotel.phtml")?>
 </td>
 <td class="authTable">
 
 	<div id="braldunjeu"></div>
 	
-	<div class="box_speciale" style="margin-top:00px;">
-		<div class="inner">
-			<p class="titrea textalic titreasizeb" style="margin-top:-15px;" >IRL 2011 !</p>
-			<a href="http://doodle.com/kbd2estk897zxek5">Inscription !</a><br />
-			<a href="http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953">Toutes les infos sur le forum</a>
-			<br /><br /> 
-			</div>
-			
-	</div>
+
 	<br /> <br />
 	<?php include("login/formulaire.phtml")?>
 	
 	
 </td>
-<td class="authTable"><?php include("infos.phtml") ?></td>
+<td class="authTable">
+
+	<div class="box_speciale" style="margin-top:00px;">
+		<div class="inner">
+			<p class="titrea textalic titreasizeb" style="margin-top:-15px;" >Saison de Soule 404 / 405 !</p>
+
+			<img src='<?php echo $this->config->url->static?>/images/vue/ballon.png'/>
+<br />
+			La saison 404 / 405 des matchs de Soule débute le 1er septembre.
+			<br />
+			Tous les participants recevront une distinction pour le premier match de la saison sur
+			chaque terrain (5 pts de distinction).
+			<br /><br />
+
+			Rappel : la durée des tour de jeu est divisée par deux pendant un match de soule.
+<br /><br />
+			<a href="http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953">Toutes les infos sur le forum</a>
+
+			<br /><br />
+			</div>
+
+	</div>
+<br /><br />
+	<?php include("infos.phtml") ?></td>
 </tr>
 
 <tr>

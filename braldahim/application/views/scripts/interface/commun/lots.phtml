@@ -1,95 +1,123 @@
-<?php Zend_Loader::loadClass("Bral_Helper_DetailPrix");?>
+<?php Zend_Loader::loadClass("Bral_Helper_DetailPrix"); ?>
 <?php if (count($this->lots["lots"]) > 0) : ?>
-	<input type='button' class='button1' value='Fermer Tout' onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
-	<input type='button' class='button1' value='Ouvrir Tout' onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 
-	<?php if ($this->lots["visiteur"]):?>
-		<?php if ($this->lots["type"] == "echoppe"):?>
-			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=".$this->echoppe["id_echoppe"]."&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+<?php if ($this->lots["type"] != "hotelaccueil"): ?>
+	<input type='button' class='button1' value='Fermer Tout'
+		   onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<input type='button' class='button1' value='Ouvrir Tout'
+		   onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
+	<?php endif; ?>
+
+<?php if ($this->lots["visiteur"]): ?>
+	<?php if ($this->lots["type"] == "echoppe"): ?>
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=" . $this->echoppe["id_echoppe"] . "&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
 		<?php else: ?>
-			<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
-		<?php endif;?>
-		<?php echo $boutonAcheter;?>
-		<br >
-		<span style="float:right" id="selectionLotsTexte">
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php endif; ?>
+	<?php echo $boutonAcheter; ?>
+	<br>
+	<span style="float:right" id="selectionLotsTexte">
 		Lots sélectionnés : aucun
 		</span>
-		<input type='hidden' value='' id='tabLotsSelectionnes'>
-		
-		<br /><br /><br /><br />
-	<?php endif;?>
-	<?php echo $poches = null; ?>
-	<div id="cadre_lots" style="height:530px;overflow: auto; min-height: 80px;">
+	<input type='hidden' value='' id='tabLotsSelectionnes'>
+
+	<br/><br/><br/><br/>
+	<?php endif; ?>
+<?php echo $poches = null; ?>
+<div id="cadre_lots" style="height:530px;overflow: auto; min-height: 80px;">
 	<ul id="navigation" style="width:99%;text-align:left">
-		
-		<?php foreach($this->lots["lots"] as $numero => $lot) : ?>
-		<?php if ($lot["id_fk_braldun_lot"] == null || ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun))):?>
-		<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
-			<?php $poches[] = "poche".$this->pocheNomSysteme."Lot".$numero."-head" ?>
-	      	<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
-				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild" onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
-				- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
-				<?php if ($this->user->id_braldun == $lot['id_fk_vendeur_braldun_lot']) : ?>
-				(le rachat est gratuit)
-				<?php endif;?>
-				- <?php echo $lot["resume"]; ?>
+
+		<?php foreach ($this->lots["lots"] as $numero => $lot) : ?>
+		<?php if ($lot["id_fk_braldun_lot"] == null || ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun))): ?>
+			<li id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>">
+				<?php $poches[] = "poche" . $this->pocheNomSysteme . "Lot" . $numero . "-head" ?>
+				<h3 id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-head" class="head">
+				<span id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-headchild"
+					  onclick="maccordion(this.parentNode);">Lot n&deg;<?php echo $numero;?>
+					- Prix : <?php echo Bral_Helper_DetailPrix::afficherPrix($lot, ""); ?>
+					<?php if ($this->user != null && $this->user->id_braldun == $lot['id_fk_vendeur_braldun_lot']) : ?>
+						(le rachat est gratuit)
+						<?php endif;?>
+					- <?php echo $lot["resume"]; ?>
 				</span>
-				
-				<?php if ($this->lots["visiteur"]):?>
-					<span style="float:right" id="selectionnerLot<?php echo $numero;?>" onClick="selectionnerLot('<?php echo $numero;?>')">Sélectionner</span>
-				<?php else:?>
+
+					<?php if ($this->lots["visiteur"]): ?>
+					<span style="float:right" id="selectionnerLot<?php echo $numero;?>"
+						  onClick="selectionnerLot('<?php echo $numero;?>')">Sélectionner</span>
+					<?php else: ?>
 					<?php if ($this->estSurEchoppe !== true):
-							$attr = "disabled" ; ?>
-					<?php endif; ?>
-					<?php if ($this->lots["type"] == "echoppe"):?>
-						<input type="button" onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1" <?php echo $attr ?>>
-					<?php elseif ($this->lots["type"] == "communaute" && $this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER): ?>
-						<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=do_communaute_retirerlot&amp;valeur_1=<?php echo $numero;?>')" value="0 PA - Retirer de la vente" class="button1">
+						$attr = "disabled"; ?>
+						<?php endif; ?>
+					<?php if ($this->lots["type"] == "echoppe"): ?>
+						<input type="button"
+							   onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')"
+							   value="0 PA - Retirer de la vente" class="button1" <?php echo $attr ?>>
+						<?php elseif ($this->lots["type"] == "communaute" && $this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER): ?>
+						<input type="button"
+							   onclick="Javascript:_get_('/communaute/doaction?caction=do_communaute_retirerlot&amp;valeur_1=<?php echo $numero;?>')"
+							   value="0 PA - Retirer de la vente" class="button1">
+						<?php endif; ?>
 					<?php endif;?>
-				<?php endif;?>
-			</h3>
-			<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
-				<?php if ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun)):?>
-					<li> <b>Ce lot est réservé à  : <a class="aclass" onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot["id_fk_braldun_lot"] ?>');" title="Cliquez pour voir son profil"><?php echo $lot["prenom_braldun_destinataire"] ?> <?php echo $lot["nom_braldun_destinataire"] ?> <?php echo $lot["id_fk_braldun_lot"] ?></a></b>
-					<hr style="width:50%"/><br />
+				</h3>
+				<ul id="poche<?php echo $this->pocheNomSysteme ?>Lot<?php echo $numero;?>-body" style="display:none">
+					<?php if ($lot["id_fk_braldun_lot"] != null && ($lot["id_fk_vendeur_braldun_lot"] == $this->user->id_braldun || $lot["id_fk_braldun_lot"] == $this->user->id_braldun)): ?>
+					<li><b>Ce lot est réservé à : <a class="aclass"
+													 onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot["id_fk_braldun_lot"] ?>');"
+													 title="Cliquez pour voir son profil"><?php echo $lot["prenom_braldun_destinataire"] ?> <?php echo $lot["nom_braldun_destinataire"] ?> <?php echo $lot["id_fk_braldun_lot"] ?></a></b>
+						<hr style="width:50%"/>
+						<br/>
 					</li>
-				<?php endif;?>
-				<li>
-				Vendeur : 
-				<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');" title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?> (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
-					<hr style="width:50%"/><br />
-				</li>
-				<li> Commentaire du vendeur : 
-					<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
-					<hr style="width:50%"/><br />
-				</li>
-				<li>
-					<?php include("lot.phtml") ?><br />
-				</li>
-			</ul>
-		</li>
-		<?php endif;?>
+					<?php endif;?>
+					<li>
+						Vendeur :
+						<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $lot['id_fk_vendeur_braldun_lot']  ?>');"
+						   title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?>
+							(<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
+						<hr style="width:50%"/>
+						<br/>
+					</li>
+					<li> Commentaire du vendeur :
+						<?php echo Bral_Util_BBParser::bbcodeReplace($lot['commentaire_lot']);?>
+						<hr style="width:50%"/>
+						<br/>
+					</li>
+					<li>
+						<?php include("lot.phtml") ?><br/>
+					</li>
+				</ul>
+			</li>
+			<?php endif; ?>
 		<?php endforeach;?>
 	</ul>
-	
+
+	<?php if ($this->lots["type"] != "hotelaccueil"): ?>
 	<?php 
 	$jsFermer = "";
 	$jsOuvrir = "";
 	if ($poches != null) :
-	foreach ($poches as $p) :
-		$jsFermer .= "maccordion_fermer($('#$p'));";
-		$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
-	endforeach; 
+		foreach ($poches as $p) :
+			$jsFermer .= "maccordion_fermer($('#$p'));";
+			$jsOuvrir .= "maccordion_ouvrir($('#$p'));";
+		endforeach;
 	endif;?>
-	   
-	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>" name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout' onclick="<?php echo $jsFermer ?>">
-	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"  value='Ouvrir Tout' onclick="<?php echo $jsOuvrir ?>">
-	<?php if ($this->lots["visiteur"]):?>
-		<?php echo $boutonAcheter;?>
+
+	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>"
+		   name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout'
+		   onclick="<?php echo $jsFermer ?>">
+	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"
+		   name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" value='Ouvrir Tout'
+		   onclick="<?php echo $jsOuvrir ?>">
+	<?php endif; ?>
+	<?php if ($this->lots["visiteur"]): ?>
+	<?php echo $boutonAcheter; ?>
 	<?php endif;?>
-	
-	</div>
+
+	<?php if ($this->lots["type"] == "hotelaccueil"): ?>
+		<a href="<?php echo Zend_Registry::get("config")->url->site?>/hotel">Voir tous les lots en vente</a>
+	<?php endif; ?>
+
+</div>
 
 <?php else: ?>
-	<i>Aucun élément</i>
-<?php endif;?>
+<i>Aucun élément</i>
+<?php endif; ?>

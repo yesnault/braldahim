@@ -7,6 +7,20 @@
  */
 class Bral_Util_Lot {
 
+
+	public static function getLotsByHotelAccueil() {
+		Zend_Loader::loadClass('Lot');
+		$lotTable = new Lot();
+
+		$lots = $lotTable->findByHotel(false, 5);
+
+		$retourLots['lots'] = self::prepareLots($lots);
+		$retourLots['visiteur'] = false;
+		$retourLots['type'] = "hotelaccueil";
+
+		return $retourLots;
+	}
+
 	public static function getLotsByHotel($perimes = false) {
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();

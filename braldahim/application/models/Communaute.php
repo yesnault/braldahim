@@ -30,6 +30,18 @@ class Communaute extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findTopDistinguees($limite) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('communaute', '*')
+		->where('points_communaute > 0')
+		->order('points_communaute DESC')
+		->limit($limite);
+		
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findByCriteres($page = null, $nbMax = null, $ordre = null, $sens = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

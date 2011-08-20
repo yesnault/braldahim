@@ -241,4 +241,11 @@ class Bral_Util_Communaute {
 		}
 		return $retour;
 	}
+
+	public static function getTop5() {
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findTopDistinguees(5);
+		return $communauteRowset;
+	}
 }
