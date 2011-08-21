@@ -13,10 +13,10 @@
 
 				<table cellspacing="0px" cellpadding="0px">
 					<tr>
-						<td>
+						<td nowrap>
 							<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef, $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
 						</td>
-						<td>&nbsp;
+						<td nowrap>&nbsp;
 							<?php echo $this->user->pv_restant_braldun ?>
 							/<?php echo ($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?>
 						</td>
