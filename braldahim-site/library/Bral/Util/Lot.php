@@ -443,7 +443,7 @@ class Bral_Util_Lot {
 					'poids' => $t['quantite_feuille_lot_tabac'] * Bral_Util_Poids::POIDS_TABAC,
 				);
 
-				$details = ' Tabac : ' . $tabTabac['quantite'] . ' feuille' . Bral_Util_String::getPluriel($tabTabac['quantite']) . ' de '.$tabTabac['type'].', ';
+				$details = ' Tabac : ' . $tabTabac['quantite'] . ' feuille' . Bral_Util_String::getPluriel($tabTabac['quantite']) . ' de ' . $tabTabac['type'] . ', ';
 				$tabTabac['details'] = $details;
 				$lots[$t['id_fk_lot_lot_tabac']]['tabac'][] = $tabTabac;
 				$s = '';
