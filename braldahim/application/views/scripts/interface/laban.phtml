@@ -30,6 +30,8 @@
 			<br/><br/>
 			<?php Zend_Loader::loadClass("Bral_Helper_Profil"); ?>
 			<?php echo Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_braldun, $this->user->poids_transporte_braldun); ?>
+			<?php echo $this->user->poids_transporte_braldun ?> Kg
+			/ <?php echo $this->user->poids_transportable_braldun ?> Kg transportable.
 
 			<br/><br/>
 			Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br/><br/>
