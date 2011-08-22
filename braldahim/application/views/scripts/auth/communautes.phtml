@@ -8,7 +8,7 @@
 		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			<td class="table_liste">
 				<a title="Cliquez pour voir le profil"
-				   onclick="javascript:ouvrirWin('/voir/communaute/?communaute='<?php echo $c["id_communaute"] ?>);"
+				   onclick="javascript:ouvrirWin('/voir/communaute/?communaute=<?php echo $c["id_communaute"] ?>');"
 				   href="#">
 
 					<?php echo $c["nom_communaute"]; ?>
