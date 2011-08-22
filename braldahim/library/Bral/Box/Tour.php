@@ -46,7 +46,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	}
 
 	public function modificationTour() {
-		Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - enter - user=".$this->view->user->id_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " modificationTour - enter - user=" . $this->view->user->id_braldun);
 
 		$this->is_update_tour = false;
 		$this->is_nouveau_tour = false;
@@ -61,7 +61,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		// nouveau tour (ou ko : en cas de ko : la date de fin de tour doit aªtre positionnee au ko)
 		if ($this->is_nouveau_tour) {
-			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
+			Bral_Util_Log::tour()->debug(get_class($this) . " Nouveau tour");
 			$this->calculDLA();
 
 			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_latence;
@@ -73,16 +73,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		 * directement en position de cumul
 		 */
 
-		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$this->braldun->date_fin_latence_braldun);
-		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$this->braldun->date_debut_cumul_braldun);
-		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->braldun->date_fin_tour_braldun);
-		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->braldun->tour_position_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " date_fin_latence=" . $this->braldun->date_fin_latence_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " date_debut_cumul" . $this->braldun->date_debut_cumul_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " date_courante=" . $date_courante);
+		Bral_Util_Log::tour()->debug(get_class($this) . " date fin tour=" . $this->braldun->date_fin_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " tour position=" . $this->braldun->tour_position_braldun);
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
 		if ($this->braldun->est_ko_braldun == "oui") {
-			Bral_Util_Log::tour()->debug(get_class($this)." KO du braldun");
+			Bral_Util_Log::tour()->debug(get_class($this) . " KO du braldun");
 			$mdate = date("Y-m-d H:i:s");
 			$this->braldun->date_debut_cumul_braldun = $mdate;
 			$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
@@ -92,37 +92,40 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->is_update_tour = true;
 			$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
 		} else if ($date_courante > $this->braldun->date_fin_tour_braldun) { // Perte d'un tour
-			Bral_Util_Log::tour()->debug(get_class($this)." Perte d'un tour");
+			Bral_Util_Log::tour()->debug(get_class($this) . " Perte d'un tour");
 			$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
 			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_cumul;
 			$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
 			$this->braldun->est_engage_next_dla_braldun = "non";
 			$this->braldun->est_engage_braldun = "non";
-			$this->is_tour_manque  = true;
+			$this->is_tour_manque = true;
 			$this->is_update_tour = true;
-		} elseif(($date_courante < $this->braldun->date_fin_latence_braldun) // Latence
-		&& $this->is_nouveau_tour) {
-			Bral_Util_Log::tour()->debug(get_class($this)." Latence Tour");
+		} elseif (($date_courante < $this->braldun->date_fin_latence_braldun) // Latence
+				  && $this->is_nouveau_tour
+		) {
+			Bral_Util_Log::tour()->debug(get_class($this) . " Latence Tour");
 			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_latence;
 			$this->braldun->pa_braldun = 0;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $this->braldun->date_fin_latence_braldun && $date_courante < $this->braldun->date_debut_cumul_braldun) // Milieu
-		&& ( (!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_milieu))
-		|| ($this->is_nouveau_tour))) {
-			Bral_Util_Log::tour()->debug(get_class($this)." Milieu Tour");
+		} elseif (($date_courante >= $this->braldun->date_fin_latence_braldun && $date_courante < $this->braldun->date_debut_cumul_braldun) // Milieu
+				  && ((!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_milieu))
+					  || ($this->is_nouveau_tour))
+		) {
+			Bral_Util_Log::tour()->debug(get_class($this) . " Milieu Tour");
 			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_milieu;
 			$this->braldun->pa_braldun = $this->view->config->game->pa_max;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $this->braldun->date_debut_cumul_braldun && $date_courante < $this->braldun->date_fin_tour_braldun)  // Cumul
-		&& ( (!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_cumul))
-		|| ($this->is_nouveau_tour))) {
-			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
+		} elseif (($date_courante >= $this->braldun->date_debut_cumul_braldun && $date_courante < $this->braldun->date_fin_tour_braldun) // Cumul
+				  && ((!$this->is_nouveau_tour && ($this->braldun->tour_position_braldun != $this->view->config->game->tour->position_cumul))
+					  || ($this->is_nouveau_tour))
+		) {
+			Bral_Util_Log::tour()->debug(get_class($this) . " Cumul tour");
 			// Si le joueur a deja  eu des PA
 			if ($this->braldun->tour_position_braldun == $this->view->config->game->tour->position_milieu && !$this->is_nouveau_tour) {
-				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur a deja eu des PA");
+				Bral_Util_Log::tour()->debug(get_class($this) . " Le joueur a deja eu des PA");
 				$this->braldun->pa_braldun = $this->braldun->pa_braldun + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour
-				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur n'a pas encore eu de PA");
+				Bral_Util_Log::tour()->debug(get_class($this) . " Le joueur n'a pas encore eu de PA");
 				$this->braldun->pa_braldun = $this->view->config->game->pa_max_cumul;
 			}
 			$this->braldun->tour_position_braldun = $this->view->config->game->tour->position_cumul;
@@ -133,10 +136,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if ($this->braldun->est_pnj_braldun == 'oui') {
 				$this->braldun->pa_braldun = 100;
 			}
-			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - true");
+			Bral_Util_Log::tour()->debug(get_class($this) . " modificationTour - exit - true");
 			return true;
 		} else {
-			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - false");
+			Bral_Util_Log::tour()->debug(get_class($this) . " modificationTour - exit - false");
 			return false;
 		}
 	}
@@ -148,17 +151,17 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$dateFin = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, '00:30:00');
 
 		if ($this->braldun->date_fin_tour_braldun < $dateFin && $this->braldun->pa_braldun > 0) {
-			$retour = "Votre tour se termine bientôt et il vous reste ".$this->braldun->pa_braldun." PA à jouer ! ";
+			$retour = "Votre tour se termine bientôt et il vous reste " . $this->braldun->pa_braldun . " PA à jouer ! ";
 		}
 
 		return $retour;
 	}
 
 	public function activer() {
-		Bral_Util_Log::tour()->trace(get_class($this)." activer - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " activer - enter -");
 
 		if ($this->view->user->activation === false) {
-			Bral_Util_Log::tour()->trace(get_class($this)." le joueur n'a pas activé la DLA");
+			Bral_Util_Log::tour()->trace(get_class($this) . " le joueur n'a pas activé la DLA");
 			return false;
 		}
 
@@ -190,7 +193,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig a  0
 		// Ensuite, on les recalcule suivant l'equipement porte et les potions en cours
 		if ($this->is_nouveau_tour) {
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_nouveau_tour - true");
+			Bral_Util_Log::tour()->trace(get_class($this) . " activer - is_nouveau_tour - true");
 			$this->braldun->force_bm_braldun = 0;
 			$this->braldun->agilite_bm_braldun = 0;
 			$this->braldun->vigueur_bm_braldun = 0;
@@ -245,7 +248,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_braldun);
 			if ($effetMotE != null) {
-				Bral_Util_Log::tour()->trace(get_class($this)." activer - effetMotE Actif - effetMotE=".$effetMotE);
+				Bral_Util_Log::tour()->trace(get_class($this) . " activer - effetMotE Actif - effetMotE=" . $effetMotE);
 				$this->view->effetMotE = true;
 				$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun - $effetMotE;
 			}
@@ -284,7 +287,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 
 		if ($this->is_update_tour) {
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_update_tour - true");
+			Bral_Util_Log::tour()->trace(get_class($this) . " activer - is_update_tour - true");
 			$this->updateDb();
 		}
 
@@ -295,34 +298,35 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour)) {
 			$this->calculInfoTour();
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - exit - true");
+			Bral_Util_Log::tour()->trace(get_class($this) . " activer - exit - true");
 			return true;
 		} else {
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - exit - false");
+			Bral_Util_Log::tour()->trace(get_class($this) . " activer - exit - false");
 			return false;
 		}
 	}
+
 	/* Verification que c'est bien le debut d'un
-	 * nouveau tour pour le joueur
-	 * @return false si non
-	 * @return true si oui
-	 */
+	  * nouveau tour pour le joueur
+	  * @return false si non
+	  * @return true si oui
+	  */
 	private function calcul_debut_nouveau($date_courante) {
-		Bral_Util_Log::tour()->trace(get_class($this)." calcul_debut_nouveau - enter -");
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->braldun->date_fin_tour_braldun=".$this->braldun->date_fin_tour_braldun);
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->braldun->est_ko_braldun=".$this->braldun->est_ko_braldun);
+		Bral_Util_Log::tour()->trace(get_class($this) . " calcul_debut_nouveau - enter -");
+		Bral_Util_Log::tour()->debug(get_class($this) . " calcul_debut_nouveau - this->braldun->date_fin_tour_braldun=" . $this->braldun->date_fin_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " calcul_debut_nouveau - date_courante=" . $date_courante);
+		Bral_Util_Log::tour()->debug(get_class($this) . " calcul_debut_nouveau - this->braldun->est_ko_braldun=" . $this->braldun->est_ko_braldun);
 		if ($this->braldun->date_fin_tour_braldun < $date_courante || $this->braldun->est_ko_braldun == 'oui') {
-			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
+			Bral_Util_Log::tour()->debug(get_class($this) . " calcul_debut_nouveau - exit - true");
 			return true;
 		} else {
-			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - false");
+			Bral_Util_Log::tour()->debug(get_class($this) . " calcul_debut_nouveau - exit - false");
 			return false;
 		}
 	}
 
 	private function calculKo() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculKo - enter -");
 		$this->est_ko = ($this->braldun->est_ko_braldun == "oui");
 
 		if ($this->est_ko) {
@@ -343,7 +347,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->braldun->balance_faim_braldun = 50;
 
 			// points de vie
-			$this->braldun->pv_restant_braldun = floor(($this->view->config->game->pv_base + $this->braldun->vigueur_base_braldun*$this->view->config->game->pv_max_coef) / 2);
+			$this->braldun->pv_restant_braldun = floor(($this->view->config->game->pv_base + $this->braldun->vigueur_base_braldun * $this->view->config->game->pv_max_coef) / 2);
 
 			// statut engage
 			$this->braldun->est_engage_braldun = "non";
@@ -357,19 +361,19 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Zend_Loader::loadClass("EffetPotionBraldun");
 			$effetPotionBraldunTable = new EffetPotionBraldun();
-			$where = "id_fk_braldun_cible_effet_potion_braldun = ".intval($this->braldun->id_braldun);
+			$where = "id_fk_braldun_cible_effet_potion_braldun = " . intval($this->braldun->id_braldun);
 			$effetPotionBraldunTable->delete($where);
 
 			Zend_Loader::loadClass("EffetBraldun");
 			$effetBraldunTable = new EffetBraldun();
-			$where = "id_fk_braldun_cible_effet_braldun = ".intval($this->braldun->id_braldun);
+			$where = "id_fk_braldun_cible_effet_braldun = " . intval($this->braldun->id_braldun);
 			$effetBraldunTable->delete($where);
 
 			Zend_Loader::loadClass("BraldunsCompetences");
 			$braldunsCompetencesTable = new BraldunsCompetences();
 			$braldunsCompetencesTable->annuleEffetsTabacByIdBraldun($this->braldun->id_braldun);
 		}
-		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculKo - exit -");
 	}
 
 	// recalcule de la position suite à un KO
@@ -407,27 +411,29 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				if ($lieux != null && count($lieux) > 0 && $this->view->user->id_fk_lieu_resurrection_braldun == $lieux[0]["id_lieu"]) {
 					$lieuRetour = $lieux[0];
 				}
-			} else {
-				// Normal
-				$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
-				foreach($lieuRowset as $lieu) {
-					if (!array_key_exists('est_reliee_ville', $lieu) || (array_key_exists('est_reliee_ville', $lieu) && $lieu['est_reliee_ville'] == 'oui')) {
-						$lieuRetour = $lieu;
-						break;
-					}
-				}
-				if ($lieuRetour == null) {
-					$lieuRetour = $lieuRowset[0];
-				}
 			}
 		}
+
+		// Normal
+		if ($lieuRetour == null) {
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->braldun->x_braldun, $this->braldun->y_braldun, "non");
+			foreach ($lieuRowset as $lieu) {
+				if ($lieu["id_fk_ville_lieu"] == null || ($lieu["id_fk_ville_lieu"] != null && $lieu['est_reliee_ville'] == 'oui')) {
+					$lieuRetour = $lieu;
+					break;
+				}
+			}
+
+			$lieuRetour = $lieuRowset[0];
+		}
+
 		$this->braldun->x_braldun = $lieuRetour["x_lieu"];
 		$this->braldun->y_braldun = $lieuRetour["y_lieu"];
 		$this->braldun->z_braldun = $lieuRetour["z_lieu"];
 	}
 
 	private function calculBMEquipement() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMEquipement - enter -");
 		Zend_Loader::loadClass("BraldunEquipement");
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("EquipementBonus");
@@ -443,7 +449,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		if (count($tabEquipementPorte) > 0) {
 
-			Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement nb equipement porte:".count($equipementPorteRowset));
+			Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement nb equipement porte:" . count($equipementPorteRowset));
 
 			$tabWhere = null;
 			$equipementRuneTable = new EquipementRune();
@@ -464,12 +470,12 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->braldun->bm_attaque_braldun = $this->braldun->bm_attaque_braldun + $e["attaque"];
 				$this->braldun->bm_degat_braldun = $this->braldun->bm_degat_braldun + $e["degat"];
 				$this->braldun->bm_defense_braldun = $this->braldun->bm_defense_braldun + $e["defense"];
-					
+
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
 					$this->view->effetMotB = true;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->braldun->sagesse_bm_braldun".$this->braldun->sagesse_bm_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotB actif - avant : this->braldun->sagesse_bm_braldun" . $this->braldun->sagesse_bm_braldun);
 					$this->braldun->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun + (3 * ($e["niveau"] + 1));
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->braldun->sagesse_bm_braldun".$this->braldun->sagesse_bm_braldun. " ajout de :".(2 * $e["niveau"]));
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotB actif - apres : this->braldun->sagesse_bm_braldun" . $this->braldun->sagesse_bm_braldun . " ajout de :" . (2 * $e["niveau"]));
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
@@ -479,10 +485,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					} else { // negatif
 						$val = abs($e["attaque"]) / 2;
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_braldun=".$val);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->braldun->bm_attaque_braldun".$this->braldun->bm_attaque_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_braldun=" . $val);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotK actif - avant : this->braldun->bm_attaque_braldun" . $this->braldun->bm_attaque_braldun);
 					$this->braldun->bm_attaque_braldun = $this->braldun->bm_attaque_braldun + $val;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - apres : this->braldun->bm_attaque_braldun".$this->braldun->bm_attaque_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotK actif - apres : this->braldun->bm_attaque_braldun" . $this->braldun->bm_attaque_braldun);
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
@@ -492,23 +498,23 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					} else { // negatif
 						$val = abs($e["defense"]) / 2;
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_braldun=".$val);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->braldun->bm_defense_braldun".$this->braldun->bm_defense_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_braldun=" . $val);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotM actif - avant : this->braldun->bm_defense_braldun" . $this->braldun->bm_defense_braldun);
 					$this->braldun->bm_defense_braldun = $this->braldun->bm_defense_braldun + $val;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - apres : this->braldun->bm_defense_braldun".$this->braldun->bm_defense_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotM actif - apres : this->braldun->bm_defense_braldun" . $this->braldun->bm_defense_braldun);
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_n") {
 					$this->view->effetMotN = true;
 					$this->view->effetMotNPointsDegats = Bral_Util_De::getLanceDe6(4 * $e["niveau"]);
 					$this->view->ciblesEffetN = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->braldun, $this->view->effetMotNPointsDegats, $this->view);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotN actif - logs presents dans bral_attaque.log");
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotN actif - logs presents dans bral_attaque.log");
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_o") {
 					$this->view->effetMotO = true;
 					$this->view->ciblesEffetO = Bral_Util_Attaque::calculSoinCase($this->view->config, $this->braldun, Bral_Util_De::getLanceDe6(4 * $e["niveau"]));
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotO actif - logs presents dans bral_attaque.log");
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotO actif - logs presents dans bral_attaque.log");
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
@@ -516,7 +522,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					$this->view->effetMotUPointsDegats = Bral_Util_De::getLanceDe6(3 * $e["niveau"]);
 					$this->view->effetMotUNbPv = 0;
 					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->braldun, $this->view->effetMotUPointsDegats, $this->view);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->braldun->pv_restant_braldun=".$this->braldun->pv_restant_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotU actif - avant recuperation pv this->braldun->pv_restant_braldun=" . $this->braldun->pv_restant_braldun);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
 						$this->view->effetMotUNbPv = Bral_Util_De::getLanceDe6($ciblesEffetU["n_cible"] * $e["niveau"]);
 
@@ -525,15 +531,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 							$this->braldun->pv_restant_braldun = $this->braldun->pv_max_braldun + $this->braldun->pv_max_bm_braldun;
 						}
 					}
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - apres recuperation pv this->braldun->pv_restant_braldun=".$this->braldun->pv_restant_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotU actif - apres recuperation pv this->braldun->pv_restant_braldun=" . $this->braldun->pv_restant_braldun);
 					$this->view->ciblesEffetU = $ciblesEffetU;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - logs presents dans bral_attaque.log");
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotU actif - logs presents dans bral_attaque.log");
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_v") {
 					$this->view->effetMotV = true;
 					$this->braldun->vue_bm_braldun = $this->braldun->vue_bm_braldun + 2;
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotV actif - this->braldun->vue_bm_braldun=".$this->braldun->vue_bm_braldun);
+					Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - effetMotV actif - this->braldun->vue_bm_braldun=" . $this->braldun->vue_bm_braldun);
 				}
 
 			}
@@ -542,7 +548,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			unset($equipementBonusTable);
 
 			if (count($equipementBonus) > 0) {
-				foreach($equipementBonus as $b) {
+				foreach ($equipementBonus as $b) {
 					$this->braldun->armure_equipement_braldun = intval($this->braldun->armure_equipement_braldun + $b["armure_equipement_bonus"] + $b["vernis_bm_armure_equipement_bonus"]);
 					$this->braldun->agilite_bm_braldun = intval($this->braldun->agilite_bm_braldun + $b["agilite_equipement_bonus"] + $b["vernis_bm_agilite_equipement_bonus"]);
 					$this->braldun->force_bm_braldun = intval($this->braldun->force_bm_braldun + $b["force_equipement_bonus"] + $b["vernis_bm_force_equipement_bonus"]);
@@ -561,56 +567,56 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			unset($equipementRuneTable);
 
 			if (count($equipementRunes) > 0) {
-				foreach($equipementRunes as $r) {
+				foreach ($equipementRunes as $r) {
 					if ($r["nom_type_rune"] == "KR") {
 						// KR Bonus de AGI = Niveau d'AGI/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - avant this->braldun->agilite_bm_braldun=".$this->braldun->agilite_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune KR active - avant this->braldun->agilite_bm_braldun=" . $this->braldun->agilite_bm_braldun);
 						$this->braldun->agilite_bm_braldun = $this->braldun->agilite_bm_braldun + floor($this->braldun->agilite_base_braldun / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - apres this->braldun->agilite_bm_braldun=".$this->braldun->agilite_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune KR active - apres this->braldun->agilite_bm_braldun=" . $this->braldun->agilite_bm_braldun);
 					} else if ($r["nom_type_rune"] == "ZE") {
 						// ZE Bonus de FOR = Niveau de FOR/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune ZE active - avant this->braldun->force_bm_braldun=".$this->braldun->force_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune ZE active - avant this->braldun->force_bm_braldun=" . $this->braldun->force_bm_braldun);
 						$this->braldun->force_bm_braldun = $this->braldun->force_bm_braldun + floor($this->braldun->force_base_braldun / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->braldun->force_bm_braldun=".$this->braldun->force_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune Ze active - apres this->braldun->force_bm_braldun=" . $this->braldun->force_bm_braldun);
 					} else if ($r["nom_type_rune"] == "IL") {
 						// IL Reduit le tour de jeu de 10 minutes
 						$this->braldun->duree_bm_tour_braldun = $this->braldun->duree_bm_tour_braldun - 10;
 					} else if ($r["nom_type_rune"] == "MU") {
 						// MU PV + niveau du Braldun/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->braldun->pv_max_bm_braldun=".$this->braldun->pv_max_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune MU active - avant this->braldun->pv_max_bm_braldun=" . $this->braldun->pv_max_bm_braldun);
 						$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun + floor($this->braldun->niveau_braldun / 10) + 1;
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->braldun->pv_max_bm_braldun=".$this->braldun->pv_max_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune MU active - apres this->braldun->pv_max_bm_braldun=" . $this->braldun->pv_max_bm_braldun);
 					} else if ($r["nom_type_rune"] == "RE") {
 						// RE ARM NAT + Niveau du Braldun/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=".$this->braldun->armure_naturelle_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=" . $this->braldun->armure_naturelle_braldun);
 						$this->braldun->armure_naturelle_braldun = $this->braldun->armure_naturelle_braldun + floor($this->braldun->niveau_braldun / 10);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=".$this->braldun->armure_naturelle_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune RE active - apres this->braldun->armure_naturelle_braldun=" . $this->braldun->armure_naturelle_braldun);
 					} else if ($r["nom_type_rune"] == "OG") {
 						// OG Bonus de VIG = Niveau de VIG/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=".$this->braldun->vigueur_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=" . $this->braldun->vigueur_bm_braldun);
 						$this->braldun->vigueur_bm_braldun = $this->braldun->vigueur_bm_braldun + floor($this->braldun->vigueur_base_braldun / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=".$this->braldun->vigueur_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune OG active - avant this->braldun->vigueur_bm_braldun=" . $this->braldun->vigueur_bm_braldun);
 					} else if ($r["nom_type_rune"] == "OX") {
 						// OX Poids maximum porte augmente de Niveau du Braldun/10 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=".$this->braldun->poids_transportable_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=" . $this->braldun->poids_transportable_braldun);
 						$this->braldun->poids_transportable_braldun = $this->braldun->poids_transportable_braldun + floor($this->braldun->niveau_braldun / 10);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=".$this->braldun->poids_transportable_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune OX active - avant this->braldun->poids_transportable_braldun=" . $this->braldun->poids_transportable_braldun);
 					} else if ($r["nom_type_rune"] == "UP") {
 						// UP Bonus de SAG = Niveau de SAG/3 arrondi inferieur
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=".$this->braldun->sagesse_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=" . $this->braldun->sagesse_bm_braldun);
 						$this->braldun->sagesse_bm_braldun = $this->braldun->sagesse_bm_braldun + floor($this->braldun->sagesse_base_braldun / 3);
-						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=".$this->braldun->sagesse_bm_braldun);
+						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune UP active - avant this->braldun->sagesse_bm_braldun=" . $this->braldun->sagesse_bm_braldun);
 					}
 				}
 				unset($equipementRunes);
 			}
 			unset($equipementPorteRowset);
 		}
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMEquipement - exit -");
 	}
 
 	private function calculBMPotion() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMPotion - enter -");
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 		$effetsPotions = Bral_Util_EffetsPotion::calculPotionBraldun($this->braldun, true);
 
@@ -618,11 +624,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->view->effetPotion = true;
 			$this->view->effetPotionPotions = $effetsPotions;
 		}
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMPotion - exit -");
 	}
 
 	private function calculBMEffet() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMEffet - enter -");
 		Zend_Loader::loadClass("Bral_Util_Effets");
 		$effetsBraldun = Bral_Util_Effets::calculEffetBraldun($this->braldun, true);
 
@@ -630,41 +636,41 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->view->effetBraldun = true;
 			$this->view->effetBraldunEffets = $effetsBraldun;
 		}
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMEffet - exit -");
 	}
 
 	private function calculBMSpecialisation() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMSpecialisation - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMSpecialisation - enter -");
 		Zend_Loader::loadClass("Bral_Util_Specialisation");
 		Bral_Util_Specialisation::calculSpecialisationBraldun($this->braldun, false);
-		Bral_Util_Log::tour()->trace(get_class($this)." calculBMSpecialisation - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculBMSpecialisation - exit -");
 	}
 
 	private function calculInfoTour() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculInfoTour - enter -");
 		$info = "";
 		if ($this->view->user->tour_position_braldun == $this->view->config->game->tour->position_latence) {
-			$info = "Fin latence &agrave; ".$this->braldun->date_fin_latence_braldun;
+			$info = "Fin latence &agrave; " . $this->braldun->date_fin_latence_braldun;
 		} else if ($this->view->user->tour_position_braldun == $this->view->config->game->tour->position_milieu) {
-			$info = "Cumul &agrave; ".$this->braldun->date_debut_cumul_braldun;
+			$info = "Cumul &agrave; " . $this->braldun->date_debut_cumul_braldun;
 		}
 		$this->view->user->info_prochaine_position = $info;
-		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculInfoTour - exit -");
 	}
 
 	private function calculDLA() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculDLA - enter -");
 		$this->braldun->duree_courant_tour_braldun = $this->braldun->duree_prochain_tour_braldun;
 		// Ajouter la prise en compte du niveau de sagesse
 		//Duree DLA (en minutes) = 1440 â€“ 10 * Niveau SAG
 
-		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_prochain_tour_braldun=".$this->braldun->duree_prochain_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " this->braldun->duree_prochain_tour_braldun=" . $this->braldun->duree_prochain_tour_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Tour");
 		$tabProchainTour = Bral_Util_Tour::getTabMinutesProchainTour($this->braldun);
 		$minutesCourant = $tabProchainTour["minutesBase"];
 
-		Bral_Util_Log::tour()->debug(get_class($this)." minutesCourant=".$minutesCourant);
+		Bral_Util_Log::tour()->debug(get_class($this) . " minutesCourant=" . $minutesCourant);
 		// Ajouter les blessures : pour chaque PV : Arrondi inf"rieur [duree DLA (+BM) / (4*max PV du Braldun)].
 
 		$minutesAAjouter = 0;
@@ -672,14 +678,14 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$minutesAAjouter = $tabProchainTour["minutesBlessures"];
 		}
 
-		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);
+		Bral_Util_Log::tour()->debug(get_class($this) . " minutesAAjouter=" . $minutesAAjouter);
 
 		$this->braldun->duree_courant_tour_braldun = $tabProchainTour["heureMinuteTotal"];
-		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_courant_tour_braldun=".$this->braldun->duree_courant_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " this->braldun->duree_courant_tour_braldun=" . $this->braldun->duree_courant_tour_braldun);
 
 		Zend_Loader::loadClass("Bral_Util_Tour");
 		$this->braldun->duree_prochain_tour_braldun = Bral_Util_Tour::getDureeBaseProchainTour($this->braldun, $this->view->config);
-		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->duree_prochain_tour_braldun=".$this->braldun->duree_prochain_tour_braldun);
+		Bral_Util_Log::tour()->debug(get_class($this) . " this->braldun->duree_prochain_tour_braldun=" . $this->braldun->duree_prochain_tour_braldun);
 
 		$this->braldun->date_debut_tour_braldun = $this->braldun->date_fin_tour_braldun;
 		$this->braldun->date_fin_tour_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_fin_tour_braldun, $this->braldun->duree_courant_tour_braldun);
@@ -687,16 +693,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->braldun->duree_courant_tour_braldun, $this->view->config->game->tour->diviseur_latence);
 		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->braldun->duree_courant_tour_braldun, $this->view->config->game->tour->diviseur_cumul);
 
-		$this->braldun->date_fin_latence_braldun =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_latence);
-		$this->braldun->date_debut_cumul_braldun =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_cumul);
+		$this->braldun->date_fin_latence_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_latence);
+		$this->braldun->date_debut_cumul_braldun = Bral_Util_ConvertDate::get_date_add_time_to_date($this->braldun->date_debut_tour_braldun, $time_cumul);
 
-		Bral_Util_Log::tour()->debug(get_class($this)." this->braldun->date_fin_tour_braldun=".$this->braldun->date_fin_tour_braldun);
-		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - exit -");
+		Bral_Util_Log::tour()->debug(get_class($this) . " this->braldun->date_fin_tour_braldun=" . $this->braldun->date_fin_tour_braldun);
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculDLA - exit -");
 	}
 
 	private function calculPv() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
-		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->braldun->regeneration_bm_braldun=".$this->braldun->regeneration_bm_braldun);
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculPv - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculPv - this->braldun->regeneration_bm_braldun=" . $this->braldun->regeneration_bm_braldun);
 
 		$this->view->jetRegeneration = 0;
 
@@ -705,11 +711,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		/* Remise a  zero du malus de regeneration. */
 		$this->braldun->regeneration_bm_braldun = 0;
-		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " calculPv - exit -");
 	}
 
 	private function updateDb() {
-		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this) . " updateDb - enter -");
 
 		// Mise a jour du joueur dans la base de donnees
 		$braldunTable = new Braldun();
@@ -717,8 +723,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$braldun = $braldunRowset->current();
 
 		$this->view->user->x_braldun = $this->braldun->x_braldun;
-		$this->view->user->y_braldun  = $this->braldun->y_braldun;
-		$this->view->user->z_braldun  = $this->braldun->z_braldun;
+		$this->view->user->y_braldun = $this->braldun->y_braldun;
+		$this->view->user->z_braldun = $this->braldun->z_braldun;
 
 		$this->view->user->date_debut_tour_braldun = $this->braldun->date_debut_tour_braldun;
 		$this->view->user->date_fin_tour_braldun = $this->braldun->date_fin_tour_braldun;
@@ -764,8 +770,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$data = array(
 			'x_braldun' => $this->braldun->x_braldun,
-			'y_braldun'  => $this->braldun->y_braldun,
-			'z_braldun'  => $this->braldun->z_braldun,
+			'y_braldun' => $this->braldun->y_braldun,
+			'z_braldun' => $this->braldun->z_braldun,
 			'date_debut_tour_braldun' => $this->braldun->date_debut_tour_braldun,
 			'date_fin_tour_braldun' => $this->braldun->date_fin_tour_braldun,
 			'date_fin_latence_braldun' => $this->braldun->date_fin_latence_braldun,
@@ -814,10 +820,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'nb_ko_gredins_suite_braldun' => $this->braldun->nb_ko_gredins_suite_braldun,
 			'nb_tour_blabla_braldun' => $this->braldun->nb_tour_blabla_braldun,
 		);
-		$where = "id_braldun=".$this->braldun->id_braldun;
+		$where = "id_braldun=" . $this->braldun->id_braldun;
 		$braldunTable->update($data, $where);
-		Bral_Util_Log::tour()->debug(get_class($this)." activer() - update braldun ".$this->braldun->id_braldun." en base");
-		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - exit -");
+		Bral_Util_Log::tour()->debug(get_class($this) . " activer() - update braldun " . $this->braldun->id_braldun . " en base");
+		Bral_Util_Log::tour()->trace(get_class($this) . " updateDb - exit -");
 	}
 }
 
