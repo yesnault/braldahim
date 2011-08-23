@@ -24,6 +24,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 	private function calculCreationMatchs() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - enter -");
+		Zend_Loader::loadClass("Bral_Util_Tracemail");
 
 		$retour = "";
 
@@ -43,6 +44,8 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 					&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin)
 						|| ($m["nb_jours_quota_soule_match"] >= 2))
 				) {
+
+					Bral_Util_Tracemail::traite("Lancement du match de soule n°" . $m["id_soule_match"], $this->view, "Lancement du match de soule n°" . $m["id_soule_match"]);
 					$retour .= $this->calculCreationMath($m);
 				} elseif ($equipes != null && count($equipes) == 2
 						  && $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota
@@ -73,12 +76,15 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - enter -");
 		$retour = " updateQuota match(" . $match["id_soule_match"] . ")";
 
+		$quota = $match["nb_jours_quota_soule_match"] + 1;
 		$souleMatchTable = new SouleMatch();
 		$data = array(
-			"nb_jours_quota_soule_match" => $match["nb_jours_quota_soule_match"] + 1,
+			"nb_jours_quota_soule_match" => $quota,
 		);
 		$where = "id_soule_match = " . (int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
+
+		Bral_Util_Tracemail::traite("Match n°" . $match["id_soule_match"] . " Quota = " . $quota . " (après maj)", $this->view, "Match n°" . $match["id_soule_match"] . " Maj Quota");
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - exit -");
 		return $retour;
