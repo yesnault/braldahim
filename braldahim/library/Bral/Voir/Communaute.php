@@ -26,6 +26,11 @@ class Bral_Voir_Communaute {
 	function render() {
 		$this->view->connue = false;
 		$this->view->communaute = null;
+
+		if (!Bral_Util_Controle::getValeurIntVerifSansException($this->_request->get("communaute"))) {
+			$this->view->render("voir/communaute.phtml");
+			return;
+		}
 		
 		$communauteTable = new Communaute();
 		$communauteRowset = $communauteTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("communaute")));
