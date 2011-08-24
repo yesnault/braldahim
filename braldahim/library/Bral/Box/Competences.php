@@ -85,13 +85,6 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		foreach($braldunCompetences as $c) {
 			if ($c["type_competence"] == "commun") {
 				$pa_texte = $c["pa_utilisation_competence"];
-				if ($c["nom_systeme_competence"] == "marcher") {
-					$pa_texte = "1 ou 2";
-				}
-
-				if ($c["nom_systeme_competence"] == "transbahuter") {
-					$pa_texte = "0 ou 1";
-				}
 
 				$competence[] = array(
 					"id_competence" => $c["id_fk_competence_hcomp"],

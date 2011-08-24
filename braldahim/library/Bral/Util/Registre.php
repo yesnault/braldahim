@@ -7,7 +7,8 @@
  */
 class Bral_Util_Registre {
 
-	private function __construct(){}
+	private function __construct() {
+	}
 
 	public static function get($key) {
 		if (Zend_Registry::isRegistered($key) == false && ($key == "competencesBasiques" || $key == "competencesSoule" || $key == "competences")) {
@@ -29,6 +30,16 @@ class Bral_Util_Registre {
 		$tabBasiques = null;
 		$tabSoule = null;
 		foreach ($competences as $c) {
+
+			$pa_texte = $c->pa_utilisation_competence;
+			if ($c->nom_systeme_competence == "marcher") {
+				$pa_texte = "1 à 3";
+			}
+
+			if ($c["nom_systeme_competence"] == "transbahuter") {
+				$pa_texte = "0 ou 1";
+			}
+
 			$tab[$c->id_competence]["nom"] = $c->nom_competence;
 			$tab[$c->id_competence]["nom_systeme"] = $c->nom_systeme_competence;
 			$tab[$c->id_competence]["description"] = $c->description_competence;
@@ -38,7 +49,7 @@ class Bral_Util_Registre {
 			$tab[$c->id_competence]["balance_faim"] = $c->balance_faim_competence;
 			$tab[$c->id_competence]["pourcentage_max"] = $c->pourcentage_max_competence;
 			$tab[$c->id_competence]["pa_utilisation"] = $c->pa_utilisation_competence;
-			$tab[$c->id_competence]["pa_texte"] = $c->pa_utilisation_competence;
+			$tab[$c->id_competence]["pa_texte"] = $pa_texte;
 			$tab[$c->id_competence]["pa_manquee"] = $c->pa_manquee_competence;
 			$tab[$c->id_competence]["type_competence"] = $c->type_competence;
 			$tab[$c->id_competence]["id_fk_metier_competence"] = $c->id_fk_metier_competence;
@@ -47,18 +58,18 @@ class Bral_Util_Registre {
 
 			if ($c->type_competence == 'basic' || $c->type_competence == 'soule') {
 				$tabCompetence = array
-				( "id_competence" => $c->id_competence,
-					"nom" => $c->nom_competence,
-					"nom_systeme" => $c->nom_systeme_competence,
-					"description" => $c->description_competence,
-					"pa_utilisation" => $c->pa_utilisation_competence,
-					"pa_texte" => $c->pa_utilisation_competence,
-					"type_competence" => $c->type_competence,
-					"pourcentage_max" => $c->pourcentage_max_competence,
-					"id_fk_metier_competence" => null,
-					"balance_faim" => $c->balance_faim_competence,
-					"px_gain" => $c->px_gain_competence,
-					"pourcentage_init" => 100,
+				("id_competence" => $c->id_competence,
+				 "nom" => $c->nom_competence,
+				 "nom_systeme" => $c->nom_systeme_competence,
+				 "description" => $c->description_competence,
+				 "pa_utilisation" => $c->pa_utilisation_competence,
+				 "pa_texte" => $pa_texte,
+				 "type_competence" => $c->type_competence,
+				 "pourcentage_max" => $c->pourcentage_max_competence,
+				 "id_fk_metier_competence" => null,
+				 "balance_faim" => $c->balance_faim_competence,
+				 "px_gain" => $c->px_gain_competence,
+				 "pourcentage_init" => 100,
 				);
 				if ($c->type_competence == 'basic') {
 					$tabBasiques[] = $tabCompetence;
@@ -105,7 +116,7 @@ class Bral_Util_Registre {
 		$typeUniteRowset = $typeUniteRowset->toArray();
 		foreach ($typeUniteRowset as $t) {
 			$tabUnite[$t["id_type_unite"]] = array(
-				"nom_systeme" => $t["nom_systeme_type_unite"], 
+				"nom_systeme" => $t["nom_systeme_type_unite"],
 				"nom" => $t["nom_type_unite"],
 				"nom_pluriel" => $t["nom_pluriel_type_unite"],
 			);
