@@ -838,7 +838,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			case self::ID_ENDROIT_ELEMENT :
 			case self::ID_ENDROIT_MON_COFFRE:
 			case self::ID_ENDROIT_CHARRETTE :
-			case self::ID_ENDROIT_ECHOPPE_ATELIER :
 			default:
 				parent::calculNbPa();
 				break;
