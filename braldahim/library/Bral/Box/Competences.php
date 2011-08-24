@@ -89,6 +89,10 @@ class Bral_Box_Competences extends Bral_Box_Box {
 					$pa_texte = "1 ou 2";
 				}
 
+				if ($c["nom_systeme_competence"] == "transbahuter") {
+					$pa_texte = "0 ou 1";
+				}
+
 				$competence[] = array(
 					"id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
