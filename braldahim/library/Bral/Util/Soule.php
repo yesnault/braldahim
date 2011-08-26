@@ -618,7 +618,7 @@ class Bral_Util_Soule {
 		if ($matchs != null && count($matchs) == 1) { // s'il n'y a pas de match en cours
 			$match = $matchs[0];
 			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: > 0)
-			if ($match["nb_jours_quota_soule_match"] > 0) {
+			if ($match["nb_jours_quota_soule_match"] == 0) {
 				$matchRetour = $match;
 				//} else {
 				//	throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
