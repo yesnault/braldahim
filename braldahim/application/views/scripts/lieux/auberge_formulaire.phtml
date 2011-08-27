@@ -1,6 +1,6 @@
 <div class='comp_titre'>Auberge</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
  	<br />
  	Pour <?php echo $this->coutCastars?> castars et <?php echo $this->paUtilisationLieu ?> PA, vous pouvez vous restaurer
@@ -31,19 +31,57 @@
 			<input type='hidden' value='<?php echo $t["bouton"]?>' id='bouton_<?php echo $k?>'>
 		<?php endforeach; ?>
 		
+		<?php
+		$max = $this->nbPossible - $this->nbDeduction;
+		$js = "var type=$('#valeur_3').val();";
+		$js .= "if (type != -1 && $('#valeur_2').val() > $('#nb_max_' + type).val() || $('#valeur_2').val() == 0){ $('#bouton_auberge').attr('disabled', true) };";
+		$js .= "if ($('#valeur_1').val() == 3 && $('#valeur_2').val() == ".$this->nbPossible."){ $('#valeur_2').val(".$max.") };";
+		?>
 	   	Choix : <br />
-	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').val($('#bouton_'+this.value).val());if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==0){$('#bouton_auberge').attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').val() ==2 || $('#valeur_1').val() ==3) {$('#nbAliment').show()} else { $('#nbAliment').hide()};if ($('#valeur_1').val() ==3 && $('#valeur_2').val() ==<?php echo $this->nbPossible  ?>){$('#valeur_2').val(<?php echo $this->nbPossible - $this->nbDeduction ?>)}">
+	   	<select name='valeur_1' id="valeur_1" onchange="javascript:$('#bouton_auberge').val($('#bouton_'+this.value).val());if ($('#valeur_1').val() ==-1 && $('#valeur_2').val() ==0 || ($('#valeur_3').val() ==-1 && $('#valeur_1').val() !=1 )){$('#bouton_auberge').attr('disabled', true) } else {$('#bouton_auberge').attr('disabled',false) };if ($('#valeur_1').val() ==2 || $('#valeur_1').val() ==3) {$('#nbAliment').show()} else { $('#nbAliment').hide()};<?php echo $js;?>">
 		<option value='-1'>(Choix &agrave; faire)</option>
-		<?php foreach ($this->tabChoix as $k => $t) : ?>
-		<option value="<?php echo $k?>" <?php if ($t["valid"] === false): echo "disabled"; endif;?>><?php echo $t["nom"]?> <?php if ($t["valid"] === false): echo " (impossible)"; endif;?></option>
-		<?php endforeach; ?>
+			<?php foreach ($this->tabChoix as $k => $t) : ?>
+				<option value="<?php echo $k?>" <?php if ($t["valid"] === false): echo "disabled"; endif;?>><?php echo $t["nom"]?> <?php if ($t["valid"] === false): echo " (impossible)"; endif;?></option>
+			<?php endforeach; ?>
 		</select>
 		<br /><br />
 
 	   	<div id="nbAliment" style="display:none">
 	   	Nombre de ragoûts &agrave; acheter  :
 	 	 <br />
-		 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if ((this.value >= 0 && this.value <=<?php echo $this->nbPossible  ?> && ($('#valeur_1').val() ==2) || ($('#valeur_1').val() ==3) && this.value >= 0 && this.value <=<?php echo $this->nbPossible - $this->nbDeduction ?> )) {$('#bouton_auberge').attr('disabled',false)} else {$('#bouton_auberge').attr('disabled', true)} ">   		
+		 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if ((this.value >= 0 && this.value <=<?php echo $this->nbPossible  ?> && ($('#valeur_1').val() ==2) || ($('#valeur_1').val() ==3) && this.value >= 0 && this.value <=<?php echo $this->nbPossible - $this->nbDeduction ?> ) && $('#valeur_3').val() !=-1) {$('#bouton_auberge').attr('disabled',false)} else {$('#bouton_auberge').attr('disabled', true)};<?php echo $js;?> ">
+		 <br />
+		 <br />
+		 	Destination : <br />
+		 	<?php 
+		 	$options = "";
+		 	$input = "";
+		 	foreach($this->destinationTransfert as $d) {
+				$options .= "<option value='".$d["id_destination"]."'";
+				if ($d["possible"] == false) {
+					$options .= " disabled='true' ";
+				}
+				if (count($this->destinationTransfert) == 1){
+					$options .= " selected='true' ";
+				}
+				$options .= ">";
+				$options .= $d["texte"]." ".$d["poids_restant"]." Kg dispo ";
+				if ($d["possible"] == false) {
+					$options .= " : pas assez de place";
+				}
+				else {
+					$options .= " (".$d["nb_possible"]." rations possible max)"; 
+				}
+				$options .= "</option>";
+				
+				$input .= "<input type='hidden' id='nb_max_".$d["id_destination"]."' value='".$d["nb_possible"]."'/>";
+			}
+			?>
+			<select name="valeur_3" id="valeur_3" onchange="if (this.value != -1) {$('#bouton_auberge').attr('disabled', false)} else { $('#bouton_auberge').attr('disabled', 'disabled')};<?php echo $js;?>">
+		 		<option value="-1">(Choisissez une destination)</option>
+		 		<?php echo $options;?>
+			</select>
+			<?php echo $input;?>		
 	    </div>
 
 	<?php endif;?>

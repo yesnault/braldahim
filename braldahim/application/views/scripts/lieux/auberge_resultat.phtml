@@ -7,6 +7,6 @@
 
 <?php if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
 	Vous avez achet&eacute; <?php echo $this->nbAcheter ?>  <?php echo $this->aliment->nom_type_aliment?><?php if ($this->nbAcheter > 1): echo "s"; endif; ?>, 
-	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?php echo $this->bbdfAliment?> %.<br /><br />
+	de qualit&eacute; correcte, avec pour effet sur la balance de faim de +<?php echo $this->bbdfAliment?> % plac&eacute;<?php if ($this->nbAcheter > 1): echo "s"; endif; ?> dans votre <?php echo $this->destination;?>.<br /><br />
 <?php endif;?>
 Vous avez d&eacute;pens&eacute; <?php echo $this->coutCastars ?> castars.

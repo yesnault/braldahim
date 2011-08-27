@@ -477,6 +477,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"qualite" => $p["nom_aliment_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
 					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
+					"poids" => $p["poids_unitaire_type_aliment"],
 			);
 		}
 		unset($aliments);
