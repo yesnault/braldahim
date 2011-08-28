@@ -7,8 +7,6 @@
  */
 class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	
-	//cas pas de charrette
-	
 	private $_utilisationPossible = false;
 	private $_coutCastars = null;
 
