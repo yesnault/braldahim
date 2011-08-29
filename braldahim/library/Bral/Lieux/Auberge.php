@@ -124,33 +124,37 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			}
 			
 			$idDestination = $this->request->get("valeur_3");
+			
+			$destination = null;
 
+			// on regarde si l'on connait la destination
+			$flag = false;
+			foreach($this->view->destinationTransfert as $d) {
+				if ($d["id_destination"] == $idDestination) {
+					$destination = $d;
+					$flag = true;
+					break;
+				}
+			}
+	
+			if ($flag == false) {
+				throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
+			}
+			
+			if ($destination["possible"] == false) {
+				throw new Zend_Exception(get_class($this)." destination invalide 3");
+			}
+
+			$this->view->destination = $destination["id_destination"];
+			
+			if ($this->view->nbAcheter > $this->view->nbPossible || $this->view->nbAcheter > $destination["nb_possible"]) {
+				throw new Zend_Exception("Bral_Lieux_Auberge :: Nombre Rations invalide : ".$this->view->nbAcheter. " possible=".$this->view->nbPossible . " ou ".$destination["nb_possible"]);
+			}
+			
 			if ($this->view->charrette == null && $this->request->get("valeur_3") == "charrette") {
 				throw new Zend_Exception(get_class($this)." destination invalide 3");
 			}
 		}
-		
-		$destination = null;
-
-		// on regarde si l'on connait la destination
-		$flag = false;
-		foreach($this->view->destinationTransfert as $d) {
-			if ($d["id_destination"] == $idDestination) {
-				$destination = $d;
-				$flag = true;
-				break;
-			}
-		}
-
-		if ($flag == false) {
-			throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
-		}
-
-		if ($destination["possible"] == false) {
-			throw new Zend_Exception(get_class($this)." destination invalide 3");
-		}
-
-		$this->view->destination = $destination["id_destination"];
 		
 		if ($this->view->idChoix < 1 || $this->view->idChoix > 3) {
 			throw new Zend_Exception("Bral_Lieux_Auberge :: Choix invalide 2 : ".$this->request->get("valeur_1"));
@@ -158,10 +162,6 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 
 		if ($this->view->tabChoix[$this->view->idChoix]["valid"] == false) {
 			throw new Zend_Exception("Bral_Lieux_Auberge :: Choix invalide 3 : ".$this->view->tabChoix[$this->view->idChoix]["valid"]);
-		}
-
-		if ($this->view->nbAcheter > $this->view->nbPossible || $this->view->nbAcheter > $destination["nb_possible"]) {
-			throw new Zend_Exception("Bral_Lieux_Auberge :: Nombre Rations invalide : ".$this->view->nbAcheter. " possible=".$this->view->nbPossible . " ou ".$destination["nb_possible"]);
 		}
 
 		if ($this->view->idChoix == 1 || $this->view->idChoix == 3) {

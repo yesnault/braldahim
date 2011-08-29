@@ -34,7 +34,7 @@
 		<?php
 		$max = $this->nbPossible - $this->nbDeduction;
 		$js = "var type=$('#valeur_3').val();";
-		$js .= "if (type !=-1 && parseInt($('#valeur_2').val())>parseInt($('#nb_max_' + type).val()) || $('#valeur_2').val() ==0){ $('#bouton_auberge').attr('disabled', true); };";
+		$js .= "if ((type !=-1 && parseInt($('#valeur_2').val())>parseInt($('#nb_max_' + type).val()) || $('#valeur_2').val() ==0) && $('#valeur_1').val() != 1){ $('#bouton_auberge').attr('disabled', true); };";
 		$js .= "if ($('#valeur_1').val() == 3 && $('#valeur_2').val() == ".$this->nbPossible."){ $('#valeur_2').val(".$max.") };";
 		?>
 	   	Choix : <br />
