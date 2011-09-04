@@ -150,7 +150,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($this->request->get('valeur_2') != '') {
 			$id_courant_arrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 			$choixArrivee = true;
-			if ($id_courant_arrivee < 1 || !array_key_exists($id_courant_arrivee, $tabEndroit) || $id_courant_arrivee == $id_type_courant_depart) {
+			if ($id_courant_arrivee < 1 || !array_key_exists($id_courant_arrivee, $tabEndroit) || ($id_courant_arrivee == $id_type_courant_depart && $id_courant_arrivee != self::ID_ENDROIT_CHARRETTE)) {
+				print_r($tabEndroit);
 				throw new Zend_Exception('Bral_Competences_Transbahuter Valeur invalide : id_type_courant_arrivee=' . $id_courant_arrivee);
 			}
 		} else {
@@ -3555,9 +3556,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this) . ' Nb ' . $nom_systeme . ' : ' . $nb);
 			}
 
-			if ($nb <= 0) {
-				continue;
-			}
 			if ($nb > $this->view->autres['nb_' . $nom_systeme]) {
 				$nb = $this->view->autres['nb_' . $nom_systeme];
 			}
@@ -3567,6 +3565,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 			if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE && $nom_systeme == 'castar') {
 				$nb = 0;
+			}
+
+			if ($nb <= 0) {
+				continue;
 			}
 
 			if ($depart == 'Charrette' && $this->view->a_panneau === false && $this->view->nbelement > 0) {
@@ -3692,19 +3694,41 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			switch ($idTypeArrivee) {
 				case self::ID_ENDROIT_LABAN :
 				case self::ID_ENDROIT_LABAN_BRALDUN :
+
 					if ($nom_systeme == 'castar') {
-						$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
+						if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun) {
+							$braldunTable = new Braldun();
+							$tabBralduns = $braldunTable->findById(intval($this->view->id_braldun_destinataire));
+							if ($tabBralduns == null) {
+								throw new Zend_Exception("Erreur castar sur " . $this->view->id_braldun_destinataire);
+							}
+							$tabBraldun = $tabBralduns->toArray();
+							if (count($tabBraldun) <= 0) {
+								throw new Zend_Exception("Erreur castar 2 sur " . $this->view->id_braldun_destinataire);
+							}
+
+							$data = array("castars_braldun" => $tabBraldun["castars_braldun"] + $nb);
+							$where = "id_braldun = " . $tabBraldun["id_braldun"];
+							$braldunTable->update($data, $where);
+
+						} else {
+							$this->view->user->castars_braldun = $this->view->user->castars_braldun + $nb;
+							$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
+						}
+
 						$this->view->elementsRetires .= $nb . ' castar';
 						if ($nb > 1) $this->view->elementsRetires .= 's';
 						$this->view->elementsRetires .= ', ';
+
 					} else {
 						$data = array(
 							'quantite_' . $nom_systeme . '_laban' => $nb,
 							'id_fk_braldun_laban' => $this->view->id_braldun_destinataire,
 						);
 						$arriveeTable = new Laban();
+						$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
 					}
-					$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
+
 					break;
 				case self::ID_ENDROIT_ELEMENT :
 					$data = array(
