@@ -444,11 +444,11 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
 				}
 			}
-			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
-			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
+			$lots[$lot['id_lot']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
+			$lots[$lot['id_lot']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
 
-			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
-			$lots[$p['id_fk_lot_lot_partieplante']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
+			$lots[$lot['id_lot']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
+			$lots[$lot['id_lot']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
 		}
 	}
 
