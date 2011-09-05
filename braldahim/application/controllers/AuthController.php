@@ -229,8 +229,9 @@ class AuthController extends Zend_Controller_Action {
 	}
 
 	private function prepareInfosJeu() {
-		Zend_Loader::loadClass("Bral_Util_InfoJeu");
+	/*	Zend_Loader::loadClass("Bral_Util_InfoJeu");
 		$infoJeu = Bral_Util_InfoJeu::prepareInfosJeu();
 		$this->view->nouvelles = $infoJeu["toutes"];
+	*/
 	}
 }
