@@ -14,7 +14,7 @@
 		  foreach($this->evenements as $e): ?>
 		  	<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 		  		<td class="table_liste"><?php echo $e["date_evenement"]?></td>
-		  		<td class="table_liste"><?php echo $e["details_evenement"]?></td>
+		  		<td class="table_liste"><?php echo str_replace("ouvrirWin('", "ouvrirWin('".$this->config->url->game, $e["details_evenement"]);?></td>
 		  	</tr>
 		  <?php endforeach; ?>
 		<?php else: ?>

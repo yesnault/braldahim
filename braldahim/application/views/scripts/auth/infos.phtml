@@ -1,6 +1,31 @@
-<p class="titrea textalic titreasizeb cadre" >News</p>
-<?php if (count($this->nouvelles) > 0) : 
-	echo $this->render('annonces/infos.phtml');  
-	endif; 
-?>
-<br/><a href="/annonces">Archives</a>&nbsp;
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 10,
+  interval: 30000,
+  width: 'auto',
+  height: 500,
+  theme: {
+    shell: {
+      background: '#1f2614',
+      color: '#f2f2f2'
+    },
+    tweets: {
+      background: '#31401a',
+      color: '#f2f2f2',
+      links: '#6a8c20'
+    }
+  },
+  features: {
+    scrollbar: true,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('Braldahim').start();
+</script>
