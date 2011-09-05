@@ -352,6 +352,7 @@ class Bral_Util_Lot {
 		foreach ($lots as $lot) {
 			$tabTypePlantesBrutes = $tabTypePlantes;
 			$tabTypePlantesPreparees = $tabTypePlantes;
+			$avecPlante = false;
 			foreach ($partiePlantes as $p) {
 				if ($p['id_fk_lot_lot_partieplante'] != $lot['id_lot']) continue;
 
@@ -368,7 +369,7 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante'] . ' : ';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['quantite_lot_partieplante'] . ' ' . $p['nom_type_plante'] . ' brute' . $sbrute;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
-
+					$avecPlante = true;
 				}
 
 				if ($p['quantite_preparee_lot_partieplante'] > 0) {
@@ -384,10 +385,13 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante'] . ' : ';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ' et ' . $p['quantite_preparee_lot_partieplante'] . ' ' . $p['nom_type_plante'] . ' préparée' . $spreparee;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
+					$avecPlante = true;
 				}
 			}
-			$lots[$lot['id_lot']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
-			$lots[$lot['id_lot']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
+			if ($avecPlante) {
+				$lots[$lot['id_lot']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
+				$lots[$lot['id_lot']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
+			}
 		}
 	}
 

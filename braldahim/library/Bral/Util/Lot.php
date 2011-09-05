@@ -390,6 +390,7 @@ class Bral_Util_Lot {
 		foreach ($lots as $lot) {
 			$tabTypePlantesBrutes = $tabTypePlantes;
 			$tabTypePlantesPreparees = $tabTypePlantes;
+			$avecPlante = false;
 			foreach ($partiePlantes as $p) {
 				if ($p['id_fk_lot_lot_partieplante'] != $lot['id_lot']) continue;
 
@@ -417,6 +418,7 @@ class Bral_Util_Lot {
 					$tab['quantite_lot_partieplante'] = $p['quantite_lot_partieplante'];
 					$tab['poids'] = $p['quantite_lot_partieplante'] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 					$tabTypePlantesBrutesCsv[] = $tab;
+					$avecPlante = true;
 				}
 
 				if ($p['quantite_preparee_lot_partieplante'] > 0) {
@@ -442,13 +444,16 @@ class Bral_Util_Lot {
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= $p['nom_type_plante'] . ' : ';
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ' et ' . $p['quantite_preparee_lot_partieplante'] . ' ' . $p['nom_type_plante'] . ' préparée' . $spreparee;
 					$lots[$p['id_fk_lot_lot_partieplante']]['details'] .= ', ';
+					$avecPlante = true;
 				}
 			}
-			$lots[$lot['id_lot']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
-			$lots[$lot['id_lot']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
+			if ($avecPlante) {
+				$lots[$lot['id_lot']]['partiesplantes_brutes'] = $tabTypePlantesBrutes;
+				$lots[$lot['id_lot']]['partiesplantes_preparees'] = $tabTypePlantesPreparees;
 
-			$lots[$lot['id_lot']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
-			$lots[$lot['id_lot']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
+				$lots[$lot['id_lot']]['partiesplantes_brutes_csv'] = $tabTypePlantesBrutesCsv;
+				$lots[$lot['id_lot']]['partiesplantes_preparees_csv'] = $tabTypePlantesPrepareesCsv;
+			}
 		}
 	}
 
@@ -505,7 +510,7 @@ class Bral_Util_Lot {
 					'poids' => $t['quantite_feuille_lot_tabac'] * Bral_Util_Poids::POIDS_TABAC,
 				);
 
-				$details = ' Tabac : ' . $tabTabac['quantite'] . ' feuille' . Bral_Util_String::getPluriel($tabTabac['quantite']) . ' de '.$tabTabac['type'].', ';
+				$details = ' Tabac : ' . $tabTabac['quantite'] . ' feuille' . Bral_Util_String::getPluriel($tabTabac['quantite']) . ' de ' . $tabTabac['type'] . ', ';
 				$tabTabac['details'] = $details;
 				$lots[$t['id_fk_lot_lot_tabac']]['tabac'][] = $tabTabac;
 				$s = '';
