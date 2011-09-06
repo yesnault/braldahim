@@ -15,7 +15,7 @@
 		  	foreach($equipe["joueurs"] as $j): ?>
 		  		<tr class="table_liste<?php echo ($i % 2);$i++; ?>">
 			  		<td class="table_liste" nowrap>
-			  		<a onclick="javascript:ouvrirWin('/voir/braldun/?braldun=<?php echo $j["id_braldun"]?>');" title="Cliquez pour voir le profil">
+			  		<a onclick="javascript:ouvrirWin('<?php echo $this->config->url->game?>/voir/braldun/?braldun=<?php echo $j["id_braldun"]?>');" title="Cliquez pour voir le profil">
 			  		<?php echo $j["prenom_braldun"]?> <?php echo $j["nom_braldun"]?> (<?php echo $j["id_braldun"]?>)
 			  		</a>
 			  		<?php if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
