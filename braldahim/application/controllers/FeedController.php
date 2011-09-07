@@ -7,7 +7,12 @@
  */
 class FeedController extends Zend_Controller_Action {
 
-	public function indexAction(){
+	public function indexAction() {
+		$twitter_feed = file_get_contents('http://twitter.com/statuses/user_timeline/75385076.rss');
+		echo $twitter_feed;
+	}
+
+	public function indexOldAction(){
 		 
 		Zend_Loader::loadClass("Zend_Feed");
 		Zend_Loader::loadClass("InfoJeu");
