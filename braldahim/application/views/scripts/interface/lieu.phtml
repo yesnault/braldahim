@@ -1,39 +1,42 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
-  <div class="titre textalia textsizeb">Lieu actuel</div>
-  <div class="titre textalib textsizeab"><?php echo $this->nomTypeLieu; ?></div>
-  <div class="contenuC">
-    <div class="box_contenu1 textalic">
-    
-<?php if ($this->affichageInterne == true) : ?>
-    
- 	<?php if ($this->estLieuCourant === true) : ?>
- 		<i>Vous vous trouvez sur un lieu particulier !</i>
- 		
- 		<br /><br />
- 		<div class="titre textalic textsizeb"><?php echo $this->nomLieu ?></div>
- 		<img src='<?php echo $this->config->url->static?>/images/vue/<?php echo $this->nomImageLieu?>.png' />
- 		<br /><br />
- 		<table width='80%' align='center'>
- 		<tr><td class="braltexte"><?php echo nl2br($this->descriptionLieu); ?>
- 		</td></tr>
- 		</table>
- 		
- 		<?php if ($this->user->activation == true) :?>
- 			<?php echo $this->htmlLieu?>
- 		<?php else: ?>
- 			Détails non affichés, Tour non activé à la connexion
- 		<?php endif;?>
- 	<?php else: ?>
- 	Le lieu o&ugrave; vous vous trouvez n'a rien de particulier
- 	<?php endif; ?>
- 
- 	<br /><br />
- 	<?php else: ?>
-	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" />
-<?php endif; ?>
- 	</div>
-   </div>
- </div>
+	<div class="titre textalia textsizeb">Lieu actuel</div>
+	<div class="titre textalib textsizeab"><?php echo $this->nomTypeLieu; ?></div>
+	<div class="contenuC">
+		<div class="box_contenu1 textalic">
+
+			<?php if ($this->affichageInterne == true) : ?>
+
+			<?php if ($this->estLieuCourant === true) : ?>
+				<i>Vous vous trouvez sur un lieu particulier !</i>
+
+				<br/><br/>
+				<div class="titre textalic textsizeb"><?php echo $this->nomLieu ?></div>
+				<img src='<?php echo $this->config->url->static?>/images/vue/<?php echo $this->nomImageLieu?>.png'/>
+				<br/><br/>
+				<table width='80%' align='center'>
+					<tr>
+						<td class="braltexte">
+							<?php echo Bral_Util_BBParser::bbcodeReplace($this->descriptionLieu); ?>
+						</td>
+					</tr>
+				</table>
+
+				<?php if ($this->user->activation == true) : ?>
+					<?php echo $this->htmlLieu ?>
+					<?php else: ?>
+					Détails non affichés, Tour non activé à la connexion
+					<?php endif; ?>
+				<?php else: ?>
+				Le lieu o&ugrave; vous vous trouvez n'a rien de particulier
+				<?php endif; ?>
+
+			<br/><br/>
+			<?php else: ?>
+			Chargement en cours
+			<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
 <?php include("box_bottom.phtml") ?>

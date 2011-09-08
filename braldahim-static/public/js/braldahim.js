@@ -389,10 +389,13 @@ function _display_box(type, box, data) {
 			|| box == 'box_personnage' )) {
 
 		var largeur = 600;
+        var hauteur = "auto";
 
 		if (box == 'box_messagerie') {
 			largeur = largeurMessagerie;
-		}
+		} else if (box == 'box_lieu') {
+            hauteur = 700;
+        }
 
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est
 		// ouverte
@@ -401,6 +404,7 @@ function _display_box(type, box, data) {
 			$('#'+box).html('');
 			$('#'+box).dialog({
 				width: largeur,
+                height: hauteur,
 				title: titre
 			});
 		}
