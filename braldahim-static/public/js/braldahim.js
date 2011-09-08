@@ -161,12 +161,7 @@ function showResponse(reponse) {
 	} else if (xmldoc == "clear") {
 		$("#box_action").innerHTML = "";
 	} else {
-		estInternetExplorer = false;
-		if (navigator.appName == "Microsoft Internet Explorer") {
-			estInternetExplorer = false;
-		} else {
-			estInternetExplorer = true;
-		}
+		estInternetExplorer = (navigator.appName == "Microsoft Internet Explorer");
 
 		var root = xmldoc.getElementsByTagName('root').item(0);
 		for ( var iNode = 0; iNode < root.childNodes.length; iNode++) {
@@ -174,7 +169,7 @@ function showResponse(reponse) {
 
 			for (i = 0; i < node.childNodes.length; i++) {
 				var sibl = node.childNodes.item(i);
-				if (estInternetExplorer == false) {
+				if (estInternetExplorer) {
 					if (i == 0) m_type = sibl.text
 					if (i == 1) m_type_valeur = sibl.text
 					if (i == 2) m_data = sibl.text
