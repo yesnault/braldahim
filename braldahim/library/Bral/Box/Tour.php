@@ -582,9 +582,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 						// IL Reduit le tour de jeu de 10 minutes
 						$this->braldun->duree_bm_tour_braldun = $this->braldun->duree_bm_tour_braldun - 10;
 					} else if ($r["nom_type_rune"] == "MU") {
-						// MU PV + niveau du Braldun/10 arrondi inferieur
+						// MU PV + niveau du Braldun/5 arrondi inferieur
 						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune MU active - avant this->braldun->pv_max_bm_braldun=" . $this->braldun->pv_max_bm_braldun);
-						$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun + floor($this->braldun->niveau_braldun / 10) + 1;
+						$this->braldun->pv_max_bm_braldun = $this->braldun->pv_max_bm_braldun + floor($this->braldun->niveau_braldun / 5) + 1;
 						Bral_Util_Log::tour()->debug(get_class($this) . " calculBMEquipement - rune MU active - apres this->braldun->pv_max_bm_braldun=" . $this->braldun->pv_max_bm_braldun);
 					} else if ($r["nom_type_rune"] == "RE") {
 						// RE ARM NAT + Niveau du Braldun/10 arrondi inferieur

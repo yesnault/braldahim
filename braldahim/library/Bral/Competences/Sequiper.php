@@ -259,8 +259,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_bm_tour_braldun = $this->view->user->duree_bm_tour_braldun - 10;
 				} else if ($r["nom_type_rune"] == "MU") {
-					// MU PV + niveau du Braldun/10 arrondi inférieur
-					$this->view->user->pv_max_bm_braldun = $this->view->user->pv_max_bm_braldun + floor($this->view->user->niveau_braldun / 10) + 1;
+					// MU PV + niveau du Braldun/5 arrondi inférieur
+					$this->view->user->pv_max_bm_braldun = $this->view->user->pv_max_bm_braldun + floor($this->view->user->niveau_braldun / 5) + 1;
 				} else if ($r["nom_type_rune"] == "RE") {
 					// RE ARM NAT + Niveau du Braldun/10 arrondi inférieur
 					$this->view->user->armure_naturelle_braldun = $this->view->user->armure_naturelle_braldun + floor($this->view->user->niveau_braldun / 10);
@@ -355,8 +355,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_bm_tour_braldun = $this->view->user->duree_bm_tour_braldun + 10;
 				} else if ($r["nom_type_rune"] == "MU") {
-					// MU PV + niveau du Braldun/10 arrondi inférieur
-					$this->view->user->pv_max_bm_braldun = $this->view->user->pv_max_bm_braldun - floor($this->view->user->niveau_braldun / 10);
+					// MU PV + niveau du Braldun/5 arrondi inférieur
+					$this->view->user->pv_max_bm_braldun = $this->view->user->pv_max_bm_braldun - floor($this->view->user->niveau_braldun / 5) - 1;
 				} else if ($r["nom_type_rune"] == "RE") {
 					// RE ARM NAT + Niveau du Braldun/10 arrondi inférieur
 					$this->view->user->armure_naturelle_braldun = $this->view->user->armure_naturelle_braldun - floor($this->view->user->niveau_braldun / 10);
@@ -379,6 +379,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_e") {
 			$this->view->user->pv_max_bm_braldun = $this->view->user->pv_max_bm_braldun + ($equipement["niveau"] * 10);
+		}
+		
+		if ($this->view->user->pv_restant_braldun > $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun) {
+			$this->view->user->pv_restant_braldun = $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun;
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_k") {
