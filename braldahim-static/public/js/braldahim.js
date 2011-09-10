@@ -161,12 +161,7 @@ function showResponse(reponse) {
 	} else if (xmldoc == "clear") {
 		$("#box_action").innerHTML = "";
 	} else {
-		estInternetExplorer = false;
-		if (navigator.appName == "Microsoft Internet Explorer") {
-			estInternetExplorer = false;
-		} else {
-			estInternetExplorer = true;
-		}
+		estInternetExplorer = (navigator.appName == "Microsoft Internet Explorer");
 
 		var root = xmldoc.getElementsByTagName('root').item(0);
 		for ( var iNode = 0; iNode < root.childNodes.length; iNode++) {
@@ -174,7 +169,7 @@ function showResponse(reponse) {
 
 			for (i = 0; i < node.childNodes.length; i++) {
 				var sibl = node.childNodes.item(i);
-				if (estInternetExplorer == false) {
+				if (estInternetExplorer) {
 					if (i == 0) m_type = sibl.text
 					if (i == 1) m_type_valeur = sibl.text
 					if (i == 2) m_data = sibl.text
@@ -394,10 +389,13 @@ function _display_box(type, box, data) {
 			|| box == 'box_personnage' )) {
 
 		var largeur = 600;
+        var hauteur = "auto";
 
 		if (box == 'box_messagerie') {
 			largeur = largeurMessagerie;
-		}
+		} else if (box == 'box_lieu') {
+            hauteur = 700;
+        }
 
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est
 		// ouverte
@@ -406,6 +404,7 @@ function _display_box(type, box, data) {
 			$('#'+box).html('');
 			$('#'+box).dialog({
 				width: largeur,
+                height: hauteur,
 				title: titre
 			});
 		}

@@ -1,31 +1,42 @@
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
 <script>
-new TWTR.Widget({
-  version: 2,
-  type: 'profile',
-  rpp: 10,
-  interval: 30000,
-  width: 'auto',
-  height: 500,
-  theme: {
-    shell: {
-      background: '#1f2614',
-      color: '#f2f2f2'
-    },
-    tweets: {
-      background: '#31401a',
-      color: '#f2f2f2',
-      links: '#6a8c20'
-    }
-  },
-  features: {
-    scrollbar: true,
-    loop: false,
-    live: true,
-    hashtags: true,
-    timestamp: true,
-    avatars: false,
-    behavior: 'all'
-  }
-}).render().setUser('Braldahim').start();
+	new TWTR.Widget({
+		version: 2,
+		type: 'profile',
+		rpp: 10,
+		interval: 30000,
+		width: 'auto',
+		height: 500,
+		theme: {
+			shell: {
+			<?php if (Zend_Registry::get("estWork")) : ?>
+				background: '#FFFFFF',
+				color: '#666666'
+				<?php else: ?>
+				background: '#1f2614',
+				color: '#f2f2f2'
+				<?php endif; ?>
+			},
+			tweets: {
+			<?php if (Zend_Registry::get("estWork")) : ?>
+				background: '#FFFFFF',
+				color: '#666666',
+				links: '#666666'
+			<?php else: ?>
+				background: '#31401a',
+				color: '#f2f2f2',
+				links: '#6a8c20'
+			<?php endif; ?>
+			}
+		},
+		features: {
+			scrollbar: true,
+			loop: false,
+			live: true,
+			hashtags: false,
+			timestamp: true,
+			avatars: false,
+			behavior: 'all'
+		}
+	}).render().setUser('Braldahim').start();
 </script>
