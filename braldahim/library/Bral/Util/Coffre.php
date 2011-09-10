@@ -143,8 +143,8 @@ class Bral_Util_Coffre {
 		$coffreRuneTable = new CoffreRune();
 		$runes = $coffreRuneTable->findByIdCoffre($idCoffre);
 		unset($coffreRuneTable);
-
-		foreach ($runes as $r) {
+		$tri_type = null;
+		foreach ($runes as $key => $r) {
 			if ($r["est_identifiee_rune"] == "oui") {
 				$tabRunesIdentifiees[] = array(
 					"id_rune" => $r["id_rune_coffre_rune"],
@@ -153,6 +153,7 @@ class Bral_Util_Coffre {
 					"est_identifiee" => $r["est_identifiee_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
+				$tri_type[$key] = $r["nom_type_rune"];
 			} else {
 				$tabRunesNonIdentifiees[] = array(
 					"id_rune" => $r["id_rune_coffre_rune"],
@@ -162,6 +163,9 @@ class Bral_Util_Coffre {
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			}
+		}
+		if ($tabRunesIdentifiees != null) {
+			array_multisort($tri_type, SORT_ASC, $tabRunesIdentifiees);
 		}
 		unset($runes);
 
