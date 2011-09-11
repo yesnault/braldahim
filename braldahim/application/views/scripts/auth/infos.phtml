@@ -1,42 +1,60 @@
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-	new TWTR.Widget({
-		version: 2,
-		type: 'profile',
-		rpp: 10,
-		interval: 30000,
-		width: 'auto',
-		height: 500,
-		theme: {
-			shell: {
-			<?php if (Zend_Registry::get("estWork")) : ?>
-				background: '#FFFFFF',
-				color: '#666666'
-				<?php else: ?>
-				background: '#1f2614',
-				color: '#f2f2f2'
-				<?php endif; ?>
-			},
-			tweets: {
-			<?php if (Zend_Registry::get("estWork")) : ?>
-				background: '#FFFFFF',
-				color: '#666666',
-				links: '#666666'
-			<?php else: ?>
-				background: '#31401a',
-				color: '#f2f2f2',
-				links: '#6a8c20'
-			<?php endif; ?>
-			}
-		},
-		features: {
-			scrollbar: true,
-			loop: false,
-			live: true,
-			hashtags: false,
-			timestamp: true,
-			avatars: false,
-			behavior: 'all'
-		}
-	}).render().setUser('Braldahim').start();
-</script>
+<div id="twtr-widget-1" class="twtr-widget twtr-widget-profile twtr-scroll">
+	<div class="twtr-doc" style="width: 100%;">
+		<p class="titrea textalic titreasizec" style="margin-top:-15px;">
+			Les nouvelles
+		</p>
+
+		<div class="twtr-bd">
+			<div class="twtr-timeline" style="height: 500px;">
+				<div class="twtr-tweets">
+					<div class="twtr-reference-tweet"></div>
+
+					<?php foreach ($this->twitterSearch->status as $n => $t) : ?>
+
+					<?php if ($t->id >= 109704074529746945) : ?>
+						<div id="tweet-id-<?php echo $n ?>" class="twtr-tweet">
+							<div class="twtr-tweet-wrap">
+
+								<div class="twtr-avatar">
+									<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s", strtotime($t->created_at)), "36:00:00") > date("Y-m-d H:i:s")): ?>
+									<img src="<?php echo $this->config->url->static?>/images/divers/new.gif"
+										 alt="information de moins de 36 heures" style="cursor:pointer"/>
+									<?php endif;?>
+								</div>
+
+								<div class="twtr-tweet-text">
+									<p>
+
+										<?php
+									// Liens
+										$tweet = preg_replace('/http([s]?):\/\/([^ )$]*)/', '<a rel="nofollow" href="http$1://$2">http$1://$2</a>', $t->text);
+										// Suppression des hashtags
+										$tweet = preg_replace('/#([^ )$]*)/', '', $tweet);
+										echo $tweet; ?>
+
+										<em>
+											<?php echo  Bral_Util_ConvertDate::getTwitterDate($t->created_at); ?>
+										</em>
+									</p>
+								</div>
+							</div>
+						</div>
+						<?php endif; ?>
+
+					<?php endforeach; ?>
+
+
+				</div>
+			</div>
+		</div>
+
+
+		<div class="twtr-ft">
+			<div><span>
+<a class="twtr-join-conv" href="http://twitter.com/Braldahim" style="color:#f2f2f2" target="_blank">Braldahim sur
+	Twitter</a>
+</span>
+			</div>
+		</div>
+	</div>
+</div>
