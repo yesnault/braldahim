@@ -475,6 +475,16 @@ a:hover,.alabel:hover {
 	color: #F2F2F2;
 }
 
+.aOnDark {
+	color: #6A8C20!important;
+    text-decoration: none;
+}
+
+.aOnDark:hover {
+	color: #6A8C20 !important;
+    text-decoration: underline;
+}
+
 span.id_braldun {
 	color: red;
 }

@@ -276,5 +276,19 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->xml_response->add_entry($xml_entry);
 		$this->xml_response->renderJs();
 	}
+
+	function palmarestop10derniermoisAction() {
+		$this->prepareFiltre();
+		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
+		Zend_Layout::resetMvcInstance();
+		$this->xml_response = new Bral_Xml_Response();
+		$xml_entry = new Bral_Xml_Entry();
+		$caction = "do_palmares_distinctiontop10_2_jsVersion";
+		$box = Bral_Palmares_Factory::getBox($this->_request, $this->view, true, $caction);
+		$xml_entry->set_box($box);
+		$xml_entry->set_valeur($box->getNomInterne());
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->renderJs();
+	}
 }
 
