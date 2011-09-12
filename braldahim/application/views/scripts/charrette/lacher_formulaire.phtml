@@ -2,16 +2,24 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  <br />
- 	
+
 	 <?php if ($this->possedeCharrette === false) : ?>
 	 	Vous n'avez pas de charrette...
 	 <?php elseif ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
 	 <?php else: ?>
 		 Pour <?php echo $this->nb_pa ?> PA, vous pouvez l&acirc;cher votre charrette. <br /><br />
-		 
+
 		 <?php if ($this->possedeCaleFrein === true) : ?>
 			 La charrette possède un Cale-Frein, vous pouvez la l&acirc;cher.<br />
+
+		 	<?php if ($this->user->est_soule_braldun == "oui") : ?>
+				 <br />
+				<b>ATTENTION !</b> Vous êtes en plein match de soule.
+				 Si le match se termine et que vous n'avez pas récupéré votre charrette, elle restera sur le terrain !
+				 <br />
+			<?php endif; ?>
+
 		<?php else: ?>
 			La charrette ne possède pas de Cale-Frein, vous ne pouvez donc pas la l&acirc;cher.<br />
 		 <?php endif;?>
