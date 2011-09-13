@@ -9,39 +9,43 @@
 				<div class="twtr-tweets">
 					<div class="twtr-reference-tweet"></div>
 
-					<?php foreach ($this->twitterSearch->status as $n => $t) : ?>
+					<?php if ($this->twitterSearch != null) : ?>
+						<?php foreach ($this->twitterSearch->status as $n => $t) : ?>
+	
+						<?php if ($t->id >= 109704074529746945) : ?>
+							<div id="tweet-id-<?php echo $n ?>" class="twtr-tweet">
+								<div class="twtr-tweet-wrap">
 
-					<?php if ($t->id >= 109704074529746945) : ?>
-						<div id="tweet-id-<?php echo $n ?>" class="twtr-tweet">
-							<div class="twtr-tweet-wrap">
+									<div class="twtr-avatar">
+										<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s", strtotime($t->created_at)), "36:00:00") > date("Y-m-d H:i:s")): ?>
+										<img src="<?php echo $this->config->url->static?>/images/divers/new.gif"
+											 alt="information de moins de 36 heures" style="cursor:pointer"/>
+										<?php endif;?>
+									</div>
 
-								<div class="twtr-avatar">
-									<?php if (Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s", strtotime($t->created_at)), "36:00:00") > date("Y-m-d H:i:s")): ?>
-									<img src="<?php echo $this->config->url->static?>/images/divers/new.gif"
-										 alt="information de moins de 36 heures" style="cursor:pointer"/>
-									<?php endif;?>
-								</div>
+									<div class="twtr-tweet-text">
+										<p>
 
-								<div class="twtr-tweet-text">
-									<p>
+											<?php
+										// Liens
+											$tweet = preg_replace('/http([s]?):\/\/([^ )$]*)/', '<a rel="nofollow" href="http$1://$2">http$1://$2</a>', $t->text);
+											// Suppression des hashtags
+											$tweet = preg_replace('/#([^ )$]*)/', '', $tweet);
+											echo $tweet; ?>
 
-										<?php
-									// Liens
-										$tweet = preg_replace('/http([s]?):\/\/([^ )$]*)/', '<a rel="nofollow" href="http$1://$2">http$1://$2</a>', $t->text);
-										// Suppression des hashtags
-										$tweet = preg_replace('/#([^ )$]*)/', '', $tweet);
-										echo $tweet; ?>
-
-										<em>
-											<?php echo  Bral_Util_ConvertDate::getTwitterDate($t->created_at); ?>
-										</em>
-									</p>
+											<em>
+												<?php echo  Bral_Util_ConvertDate::getTwitterDate($t->created_at); ?>
+											</em>
+										</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						<?php endif; ?>
+							<?php endif; ?>
 
-					<?php endforeach; ?>
+						<?php endforeach; ?>
+					<?php else: ?>
+						Maintenance du flux de nouvelles en cours.
+					<?php endif; ?>
 
 
 				</div>

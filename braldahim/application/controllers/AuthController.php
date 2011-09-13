@@ -42,9 +42,13 @@ class AuthController extends Zend_Controller_Action {
 			$this->view->communautes = Bral_Util_Communaute::getTop5($this->view);
 
 			Zend_Loader::loadClass("Zend_Service_Twitter");
-			$twitter = new Zend_Service_Twitter();
-	        $response = $twitter->status->userTimeline(array('screen_name' => 'Braldahim'));
+			$response = null;
+			try {
+				$twitter = new Zend_Service_Twitter();
+	        	$response = $twitter->status->userTimeline(array('screen_name' => 'Braldahim'));
+			} catch (Zend_Exception $exception) {
 
+			}
 			$this->view->twitterSearch = $response;
 			$this->loginWork();
 			$this->render();
