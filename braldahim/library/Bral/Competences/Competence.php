@@ -52,7 +52,7 @@ abstract class Bral_Competences_Competence {
 		$this->braldun_competence = $braldunCompetence;
 
 		// si c'est une competence metier, on verifie que ce n'est pas utilise plus de 2 fois par DLA
-		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
+		$this->view->nbGainMetierParDlaOk = $this->calculNbGainMetierParDlaOk();
 
 		// si c'est une competence commune avec un jet de dé, on verifie qu'on ne peut gagner de PX plus de 2 fois par DLA
 		$this->view->nbGainCommunParDlaOk = $this->calculNbGainCommunParDlaOk();
@@ -161,7 +161,7 @@ abstract class Bral_Competences_Competence {
 
 	protected function calculPx() {
 		$this->view->calcul_px_generique = true;
-		if ($this->view->okJet1 === true && $this->view->nbGainCommunParDlaOk === true) {
+		if ($this->view->okJet1 === true && $this->view->nbGainCommunParDlaOk === true && $this->view->nbGainMetierParDlaOk === true) {
 			$this->view->nb_px_perso = $this->competence["px_gain"];
 		} else {
 			$this->view->nb_px_perso = 0;
@@ -529,7 +529,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	private function calculNbActionMetierParDlaOk() {
+	private function calculNbGainMetierParDlaOk() {
 		$retour = false;
 		if ($this->competence["id_fk_metier_competence"] != null && $this->competence["id_fk_metier_competence"] > 0) {
 			if ($this->view->user->date_debut_tour_braldun == $this->braldun_competence["date_debut_tour_hcomp"]) {
