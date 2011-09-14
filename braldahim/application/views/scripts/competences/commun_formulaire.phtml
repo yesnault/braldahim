@@ -1,23 +1,22 @@
 <div class='comp_titre'><?php echo $this->competence["nom"] ?></div>
 <br/>
 <form name='myForm' id='myForm'>
-<?php if ($this->assezDePa == false && $this->competence["nom_systeme"] != "marcher") : ?>
+	<?php if ($this->assezDePa == false && $this->competence["nom_systeme"] != "marcher") : ?>
 	<div class='comp_contenu'>
-	Vous n'avez pas assez de PA.
-	<br /><br/>
+		Vous n'avez pas assez de PA.
+		<br/><br/>
 	</div>
-<?php elseif ($this->nbActionMetierParDlaOk == false) : ?>
-	<div class='comp_contenu'>
-	Vous avez d&eacute;j&agrave; utilis&eacute; cette comp&eacute;tence m&eacute;tier 2 fois 
-	au cours de votre tour courant. Vous ne pourrez utiliser cette comp&eacute;tence qu'&agrave;
-	votre prochain tour.
-	<br/><br/>
-	</div>
-<?php else : ?>
-	
-	<?php echo $this->texte ?>
-	
-<?php endif ?>
+	<?php else : ?>
 
-<?php echo Bral_Helper_Fermer::affiche(); ?>
+		<?php if ($this->nbGainMetierParDlaOk == false) : ?>
+			<b>Vous avez d&eacute;j&agrave; utilis&eacute; cette comp&eacute;tence m&eacute;tier 2 fois
+			au cours de votre tour courant. Vous ne gagnerez plus de PX à la réussite de cette compétence.</b>
+			<br/><br/>
+		<?php endif; ?>
+
+		<?php echo $this->texte ?>
+
+	<?php endif ?>
+
+	<?php echo Bral_Helper_Fermer::affiche(); ?>
 </form>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
@@ -12,7 +12,7 @@ class VoirController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
-		
+
 		Zend_Loader::loadClass('Bral_Voir_Factory');
 	}
 
@@ -24,52 +24,52 @@ class VoirController extends Zend_Controller_Action {
 		$voir = Bral_Voir_Factory::getCommunaute($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function communautesAction() {
 		$voir = Bral_Voir_Factory::getCommunautes($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function equipementAction() {
 		$voir = Bral_Voir_Factory::getEquipement($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function potionAction() {
 		$voir = Bral_Voir_Factory::getPotion($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function runeAction() {
 		$voir = Bral_Voir_Factory::getRune($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function materielAction() {
 		$voir = Bral_Voir_Factory::getMateriel($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function braldunAction() {
 		$voir = Bral_Voir_Factory::getBraldun($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function braldunsAction() {
 		$voir = Bral_Voir_Factory::getBralduns($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function monstreAction() {
 		$voir = Bral_Voir_Factory::getMonstre($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function monstretestAction() {
 		if (!Zend_Auth::getInstance()->hasIdentity() || $this->config->general->production == 1) {
-			$this->_redirect('/'); 
+			$this->_redirect('/');
 		}
-		
+
 		Zend_Loader::loadClass('Monstre');
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($this->_request->get('idmonstre'));
@@ -81,12 +81,12 @@ class VoirController extends Zend_Controller_Action {
 		$this->view->id_monstre = $this->_request->get('idmonstre');
 		$this->render();
 	}
-	
+
 	function vueAction() {
 		$voir = Bral_Voir_Factory::getVue($this->_request, $this->view);
 		echo $voir->render();
 	}
-	
+
 	function doactionAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");

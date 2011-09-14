@@ -55,7 +55,7 @@ function _get_(url, nomAction, encode) {
 			if ((url.substring(5, 7) == "do") && (url.substring(22, 24) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule" || url.substring(0, 6) == "/butin") { // /lieux/doaction?caction=ask/do
+		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule" || url.substring(0, 6) == "/butin" || url.substring(0, 6) == "/carte") { // /lieux/doaction?caction=ask/do
 			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
 				action = "do";
 			}
@@ -383,7 +383,7 @@ function _display_box(type, box, data) {
 			_get_('/interface/load/?box=box_vue');
 		}
 		_get_('/interface/load/?box=box_competences');
-	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu'
+	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu' || box == 'box_carte'
 		|| box == 'box_titres' || box == 'box_messagerie'
 			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre'
 			|| box == 'box_personnage' )) {
@@ -395,6 +395,9 @@ function _display_box(type, box, data) {
 			largeur = largeurMessagerie;
 		} else if (box == 'box_lieu') {
             hauteur = 700;
+        } else if (box == 'box_carte') {
+            hauteur = 650;
+            largeur = 880;
         }
 
 		// si la boite est déjà ouverte, ou si c'est refresh et qu'elle est

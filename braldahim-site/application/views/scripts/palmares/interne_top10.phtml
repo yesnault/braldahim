@@ -27,6 +27,12 @@
 			<?php endif;?>
 		<?php else: ?>
 			<th colspan="2"><p class="titrea textalic titreasizeb" >Top Distingués</p></th>
+		  	</tr>
+			<tr class="table_liste">
+		  	<td colspan="2">
+				<a href="#" class="aOnDark" onClick='$( "#dernierMois" ).hide();$( "#depuisToujours" ).show();'>Depuis Toujours</a> -
+				<a href="#" class="aOnDark" onClick='$( "#dernierMois" ).show();$( "#depuisToujours" ).hide();'>Dernier Mois</a>
+		  	</td>
 		<?php endif;?>
 	  </tr>
 	</thead>

@@ -8,7 +8,7 @@
 class Bral_Box_Factory {
 
 	public static function getBox($nom, $request, $view, $interne) {
-		switch($nom) {
+		switch ($nom) {
 			case "box_banque" :
 				return self::getBanque($request, $view, $interne);
 				break;
@@ -20,6 +20,9 @@ class Bral_Box_Factory {
 				break;
 			case "box_carnet" :
 				return self::getCarnet($request, $view, $interne);
+				break;
+			case "box_carte" :
+				return self::getCarte($request, $view, $interne);
 				break;
 			case "box_cockpit" :
 				return self::getCockpit($request, $view, $interne);
@@ -127,7 +130,7 @@ class Bral_Box_Factory {
 				return self::getVuedetails($request, $view, $interne);
 				break;
 			default :
-				throw new Zend_Exception("getBox::nom invalide :".$nom);
+				throw new Zend_Exception("getBox::nom invalide :" . $nom);
 		}
 	}
 
@@ -211,6 +214,11 @@ class Bral_Box_Factory {
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
 		return new Bral_Box_Echoppes($request, $view, $interne);
+	}
+
+	static function getCarte($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Carte");
+		return new Bral_Box_Carte($request, $view, $interne);
 	}
 
 	static function getCarnet($request, $view, $interne) {

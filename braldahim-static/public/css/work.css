@@ -209,3 +209,20 @@ tr.table_liste0:hover, tr.table_liste1:hover  {
 	color:#666666;
 }
 
+#twtr-widget-1 .twtr-doc, #twtr-widget-1 .twtr-hd a, #twtr-widget-1 h3, #twtr-widget-1 h4, #twtr-widget-1 .twtr-popular {
+    background-color: #FFFFFF !important;
+    color: #666666 !important;
+}
+#twtr-widget-1 .twtr-popular {
+    background-color:#FFFFFF !important;
+    color: #666666 !important;
+}
+#twtr-widget-1 .twtr-tweet a {
+    color: #666666 !important;
+}
+#twtr-widget-1 .twtr-bd, #twtr-widget-1 .twtr-timeline i a, #twtr-widget-1 .twtr-bd p {
+    color: #666666 !important;
+}
+#twtr-widget-1 .twtr-new-results, #twtr-widget-1 .twtr-results-inner, #twtr-widget-1 .twtr-timeline {
+    background: none repeat scroll 0 0 #FFFFFF !important;
+}

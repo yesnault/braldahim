@@ -1,0 +1,52 @@
+<?php include("box_header.phtml") ?>
+<div class="inner">
+	<div class="titre textalia textsizeb">Votre position dans Braldahim,  X:<?php echo $this->user->x_braldun?>, Y:<?php echo $this->user->y_braldun?></div>
+	<div class="contenuC">
+		<div class="box_contenu1 textalic">
+
+			<style type="text/css">
+
+<?php $coef = 0.5;
+$largeur = 1600;
+$hauteur = 1000;
+?>
+
+#terrain {
+	width:<?php echo ($largeur * $coef) ?>px;
+	height:<?php echo (($hauteur * $coef) + 100) ?>px;
+	/*background-color: #6B8E23;*/
+	background-image:url('<?php echo $this->config->url->static?>/images/cockpit/carte-1.jpg');
+	background-repeat:no-repeat;
+	position:relative;
+	left:0em;
+}
+
+.positionBraldun {
+    width: 19px;
+    height: 22px;
+    background-color: #F4A460;
+    border: 1px solid #8B0000;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    position:absolute;
+    bottom:0px;
+    margin:0px;
+    cursor:pointer;
+    left:<?php echo  -10 + ($this->user->x_braldun + 800) * $coef ?>px;
+    top:<?php echo  -5 + (500 - $this->user->y_braldun) * $coef ?>px;
+	background-image:url('<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>.png');
+	background-repeat:no-repeat;
+}
+
+</style>
+
+
+<div id="terrain">
+<p class="positionBraldun" title="Position en X:<?php echo $this->user->x_braldun?>, Y:<?php echo $this->user->y_braldun?>"></p>
+</div>
+
+		</div>
+	</div>
+</div>
+<?php include("box_bottom.phtml") ?>

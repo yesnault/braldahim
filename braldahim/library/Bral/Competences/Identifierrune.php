@@ -142,7 +142,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	}
 
 	public function calculPx() {
-		if ($this->view->nbGainCommunParDlaOk === true) {
+		if ($this->view->nbGainCommunParDlaOk === true && $this->view->nbGainMetierParDlaOk === true) {
 			parent::calculPx();
 			$this->view->calcul_px_generique = false;
 			if ($this->view->identificationReussieOk === true) {
