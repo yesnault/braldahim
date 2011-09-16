@@ -2103,12 +2103,12 @@ td.vue2d.mine-gr { background: url('/images/vue/environnement/mine-gr.png') repe
 td.vue2d.tunnel { background: url('/images/vue/environnement/tunnel.png') repeat;}
 td.vue2d.tunnel-gr { background: url('/images/vue/environnement/tunnel-gr.png') repeat;}
 
-td.vue2d.route { background: url('/images/vue/route.png') repeat; }
-td.vue2d.pave { background: url('/images/vue/pave.png') repeat; }
+td.vue2d.route { background: url('/images/vue/environnement/route.png') repeat; }
+td.vue2d.pave { background: url('/images/vue/environnement/pave.png') repeat; }
 
 
 td.vue2d.palissade {
-	background: url('/images/vue/palissade.png') repeat;
+	background: url('/images/vue/environnement/palissade.png') repeat;
 }
 
 td.vue2d.buisson {
@@ -2118,7 +2118,7 @@ td.vue2d.buisson {
 td.vue2d.buisson {	background: url('/images/vue/buisson.png') no-repeat;}
 
 td.vue2d.portail {
-	background: url('/images/vue/portail.png') repeat;
+	background: url('/images/vue/environnement/portail.png') repeat;
 }
 
 td.vue2d.inconnu {
