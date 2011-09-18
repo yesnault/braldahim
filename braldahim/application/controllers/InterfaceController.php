@@ -25,15 +25,16 @@ class InterfaceController extends Zend_Controller_Action {
 		} else if ($this->_request->action == 'index' && (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun))) {
 			$this->_forward('logout', 'auth');
 		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
-		|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)) {
+				   || ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
+		) {
 			if (!$hasIdentity) {
-				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue: dateAuth".$this->_request->get("dateAuth"));
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue: dateAuth" . $this->_request->get("dateAuth"));
 			} else {
 				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
+					$texte = $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")";
 				}
-				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B ".$texte." action=".$this->_request->action. " uri=".$this->_request->getRequestUri()." initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B " . $texte . " action=" . $this->_request->action . " uri=" . $this->_request->getRequestUri() . " initialCall=" . $this->view->user->initialCall . " dateAuth=" . $this->_request->get("dateAuth") . " dateAuth2=" . $this->view->user->dateAuth);
 			}
 
 			$this->_forward('logoutajax', 'auth');
@@ -42,10 +43,10 @@ class InterfaceController extends Zend_Controller_Action {
 			if (Bral_Util_BralSession::refreshSession() == false) {
 				$texte = "braldun:inconnu";
 				if ($this->view != null && $this->view->user != null) {
-					$texte = $this->view->user->prenom_braldun . " ". $this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")";
+					$texte = $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")";
 				}
-				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
-				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 ".$texte);
+				$texte .= " action=" . $this->_request->action . " uri=" . $this->_request->getRequestUri();
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 " . $texte);
 				if ($this->_request->action == 'index') {
 					$this->_forward('logout', 'auth');
 				} else {
@@ -61,8 +62,8 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
 			if ($this->view->user == null) {
 				// dernier contrôle
-				$texte = " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
-				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
+				$texte = " action=" . $this->_request->action . " uri=" . $this->_request->getRequestUri();
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax " . $texte);
 				$this->_forward('logoutajax', 'auth');
 				return;
 			}
@@ -176,6 +177,10 @@ class InterfaceController extends Zend_Controller_Action {
 
 			$this->addBox(Bral_Box_Factory::getInterface($this->_request, $this->view, true), $boite_c);
 
+			if ($this->view->user->est_testeur_vue_braldun == 'oui' && !$this->view->estMobile) {
+				$this->addBox(Bral_Box_Factory::getInterfacetest($this->_request, $this->view, true), $boite_c);
+			}
+
 			if ($this->view->estMobile) {
 				$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_c);
 				$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
@@ -256,21 +261,21 @@ class InterfaceController extends Zend_Controller_Action {
 		$onglets = null;
 
 		if ($nom != "aucune") {
-			for ($i = 0; $i < count($l); $i ++) {
+			for ($i = 0; $i < count($l); $i++) {
 				if ($i == 0 && !$this->view->estMobile) {
 					$css = "actif";
 				} else {
 					$css = "inactif";
 				}
-				$tab = array ("titre" => $l[$i]->getTitreOnglet(), "nom" => $l[$i]->getNomInterne(), "css" => $css, "chargementInBoxes" => $l[$i]->getChargementInBoxes());
+				$tab = array("titre" => $l[$i]->getTitreOnglet(), "nom" => $l[$i]->getNomInterne(), "css" => $css, "chargementInBoxes" => $l[$i]->getChargementInBoxes());
 				$onglets[] = $tab;
 				$liste .= $l[$i]->getNomInterne();
-				if ($i < count($l)-1 ) {
+				if ($i < count($l) - 1) {
 					$liste .= ",";
 				}
 			}
 
-			for ($i = 0; $i < count($l); $i ++) {
+			for ($i = 0; $i < count($l); $i++) {
 				if ($i == 0 && !$this->view->estMobile) {
 					if ($l[$i]->getNomInterne() == "box_interface") {
 						$display = "block";
@@ -303,7 +308,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 	private function refreshAll() {
 		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences", "box_laban", "box_coffre", "box_charrette", "box_soule", "box_quete", "box_messagerie");
-		for ($i=0; $i<count($boxToRefresh); $i++) {
+		for ($i = 0; $i < count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
 
 			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_coffre" || $boxToRefresh[$i] == "box_charrette") {

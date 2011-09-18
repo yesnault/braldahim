@@ -96,6 +96,9 @@ class Bral_Box_Factory {
 			case "box_interface" :
 				return self::getInterface($request, $view, $interne);
 				break;
+			case "box_interfacetest" :
+				return self::getInterfacetest($request, $view, $interne);
+				break;
 			case "box_laban" :
 				return self::getLaban($request, $view, $interne);
 				break;
@@ -209,6 +212,11 @@ class Bral_Box_Factory {
 	public static function getInterface($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Interface");
 		return new Bral_Box_Interface($request, $view, $interne);
+	}
+
+	public static function getInterfacetest($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Interfacetest");
+		return new Bral_Box_Interfacetest($request, $view, $interne);
 	}
 
 	public static function getEchoppes($request, $view, $interne) {

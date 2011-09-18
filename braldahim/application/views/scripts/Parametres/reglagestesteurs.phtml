@@ -1,0 +1,29 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<form action="/Parametres/reglagestesteurs" method="post">
+<div class="box_parametres">
+<div class="inner">
+	<div class="titrea textalic titreasize0">Mes Param&egrave;tres</div>
+    <div class="titrea textalic titreasizea">Envie de tester des fonctionnalités ?</div>
+	<div class="contenu">
+	    <div class="box_contenu1 textalic">
+	    <br />
+	    
+		<label for="title">Tester la vue future vue 2d ? Attention, elle est en cours de développement</label><br />
+			Si vous positionnez ce paramètre à 'oui', un nouvel onglet apparaitra avec la nouvelle vue 2d.
+			<br />
+		
+		<input type="radio" id="valeur_1" name="valeur_1" value="oui" <?php if ($this->user->est_testeur_vue_braldun == "oui"):echo "checked"; endif; ?>>Oui
+		<input type="radio" id="valeur_1" name="valeur_1" value="non" <?php if ($this->user->est_testeur_vue_braldun == "non"):echo "checked"; endif; ?>>Non <br /><br />
+
+		<div id="formbutton">
+		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 
+		<input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
+		</div>
+		</div>
+	</div>
+	&nbsp;
+</div>
+</div>
+</form>
+<?php echo $this->render('footer.phtml'); ?>

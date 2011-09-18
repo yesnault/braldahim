@@ -313,6 +313,37 @@ class ParametresController extends Zend_Controller_Action {
 		}
 	}
 
+	function reglagestesteursAction() {
+		$this->view->modification = false;
+
+		$est_testeur_vue = $this->_request->getPost("valeur_1");
+
+		$braldunTable = new Braldun();
+		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+		$braldun = $braldunRowset->current();
+
+		if ($this->_request->isPost()) {
+
+			if ($est_testeur_vue != "oui" && $est_testeur_vue != "non") {
+				throw new Zend_Exception("Erreur est_testeur_vue:".$est_testeur_vue);
+			}
+
+			$this->view->user->est_testeur_vue_braldun = $est_testeur_vue;
+
+			$data = array(
+				'est_testeur_vue_braldun' => $this->view->user->est_testeur_vue_braldun,
+			);
+			$where = "id_braldun=".$this->view->user->id_braldun;
+			$braldunTable = new Braldun();
+			$braldunTable->update($data, $where);
+
+			$this->view->message = "Réglages pris en compte";
+			echo $this->view->render("Parametres/index.phtml");
+		} else {
+			$this->render();
+		}
+	}
+
 	function partageAction() {
 		Zend_Loader::loadClass("Partage");
 		Zend_Loader::loadClass('Zend_Filter');

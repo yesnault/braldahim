@@ -1,0 +1,14 @@
+<?php include("box_header.phtml") ?>
+<div class="inner">
+
+	<?php if ($this->affichageInterne == true) : ?>
+
+			Intégration de la vue Braldop en cours. Consultez cet onglet d'ici quelques jours.
+
+	<?php else: ?>
+	Chargement en cours
+	<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+	<?php endif; ?>
+
+</div>
+<?php include("box_bottom.phtml") ?>

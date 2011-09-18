@@ -1,27 +1,27 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
 
-<?php if ($this->affichageInterne == true) : ?>
+	<?php if ($this->affichageInterne == true) : ?>
 
-	<?php if ($this->estMobile) : ?>
-		<div id="box_vue"></div>
-	<?php else : ?>
-	<table width="100%">
-		<tr>
-			<td valign='top' style="width:50%; text-align:right">
-				<div id="box_vue"></div>
-			</td>
-			<td valign='top' style="width:50%; text-align:left">
-				<div id="box_competences" class="box_competences" style="display: block"></div>
-			</td>
-		</tr>
-	</table>
-	<?php endif;?>
-	
-<?php else: ?>
+		<?php if ($this->estMobile) : ?>
+			<div id="box_vue"></div>
+		<?php else : ?>
+			<table width="100%">
+				<tr>
+					<td valign='top' style="width:50%; text-align:right">
+						<div id="box_vue"></div>
+					</td>
+					<td valign='top' style="width:50%; text-align:left">
+						<div id="box_competences" class="box_competences" style="display: block"></div>
+					</td>
+				</tr>
+			</table>
+		<?php endif; ?>
+
+	<?php else: ?>
 	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" />
-<?php endif; ?>
+	<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+	<?php endif; ?>
 
 </div>
 <?php include("box_bottom.phtml") ?>
