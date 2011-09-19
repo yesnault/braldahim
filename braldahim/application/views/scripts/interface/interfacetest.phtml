@@ -1,14 +1,20 @@
 <?php include("box_header.phtml") ?>
 <div class="inner">
 
-	<?php if ($this->affichageInterne == true) : ?>
 
-			Intégration de la vue Braldop en cours. Consultez cet onglet d'ici quelques jours.
+	Intégration de la vue Braldop en cours. Ce que vous voyez n'est pas votre vue.
+	<br />
 
-	<?php else: ?>
-	Chargement en cours
-	<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
-	<?php endif; ?>
+	<div id=layer_list>
+		<input type=checkbox id="layer_satellite"><label for=layer_satellite>Photo Satellite</label>
+		<br><input type=checkbox id="layer_nomsLieux"><label for=layer_nomsLieux>Noms des lieux</label>
+		<br><input type=checkbox id="layer_régions"><label for=layer_régions>Régions</label>
+	</div>
+	<div id=map>
+		<canvas id=map_canvas></canvas>
+	</div>
+	<div id=posmark>-</div>
+
 
 </div>
 <?php include("box_bottom.phtml") ?>

@@ -337,4 +337,8 @@ class InterfaceController extends Zend_Controller_Action {
 		unset($xml_entry);
 		$this->xml_response->render();
 	}
+
+	public function cartejsonAction() {
+		echo $this->view->render("interface/cartejson.phtml");
+	}
 }

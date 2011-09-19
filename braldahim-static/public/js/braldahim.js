@@ -451,6 +451,8 @@ function _display_box(type, box, data) {
 
 	if (box == "box_cockpit") {
 		prepareCockpit();
+	} else if (box == 'box_interfacetest') {
+		initBraldop();
 	}
 
 }
@@ -512,7 +514,7 @@ function hideModal(divID) {
 
 function boutonCockpit(box) {
 	if ($('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == false) {
-		_get_("/interface/load/?box="+box);
+		_get_("/dinterface/load/?box="+box);
 	} else {
 		$("#"+box).dialog("close");
 	}
