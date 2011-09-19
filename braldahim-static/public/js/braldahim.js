@@ -514,7 +514,7 @@ function hideModal(divID) {
 
 function boutonCockpit(box) {
 	if ($('#'+box).dialog( "isOpen" ) instanceof Object || $('#'+box).dialog( "isOpen" ) == false) {
-		_get_("/dinterface/load/?box="+box);
+		_get_("/interface/load/?box="+box);
 	} else {
 		$("#"+box).dialog("close");
 	}
