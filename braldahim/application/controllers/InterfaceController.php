@@ -339,6 +339,8 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	public function cartejsonAction() {
+		Zend_Loader::loadClass('Bral_Util_Vue');
+		$this->view->json = Bral_Util_Vue::getJsonData($this->view);
 		echo $this->view->render("interface/cartejson.phtml");
 	}
 }
