@@ -9,7 +9,6 @@ function Map(canvasId, posmarkid) {
 	this.originX=0; // coin haut gauche de la grotte au centre de l'écran
 	this.originY=0;
 	this.scales = [0.5, 1, 2, 4, 8, 16, 32, 48, 64, 92];
-	console.log(this.scales);
 	this.scaleIndex = 8; // -> zoom "naturel" de 64
 	this.zoom = this.scales[this.scaleIndex];
 	this.mouseIsDown=false;
@@ -17,7 +16,7 @@ function Map(canvasId, posmarkid) {
 	this.pointerY = 0;
 	this.pointerScreenX = 0; // coordonnées du pointeur dans le référentiel de l'écran
 	this.pointerScreenY = 0;
-	this.hoverObject = null;
+	this.hoverObject = null; // cette notion sera remplacée à terme par une cellule (mais restera null si la cellule ne contient rien d'intéressant)
 	this.photoSatellite = new Image();
 	this.displayPhotoSatellite = true;
 	this.displayTownPlaceNames = false;
@@ -36,12 +35,14 @@ function Map(canvasId, posmarkid) {
 		_this.photoSatelliteRect.y = 0.5*psh - 27; // dernier nombre : ajustement manuel
 		_this.photoSatelliteRect.w = psw;
 		_this.photoSatelliteRect.h = psh;
-		_this.photoSatelliteScreenRect = new Rect();		
+		_this.photoSatelliteScreenRect = new Rect();
 		_this.photoSatelliteOK = true;
 		_this.redraw();
 	};
+
+	// Gestion de la molette, au dessus ou non, de la carte
 	this.mouseOnMap = false;
-	$('#map').mouseover(function() {
+	$('#'+canvasId).mouseover(function() {
 		_this.mouseOnMap = true;
 		document.body.style.overflow = "hidden";
 	}).mouseout(function() {
@@ -62,23 +63,10 @@ function Map(canvasId, posmarkid) {
 	});
 }
 
-function test() {
-	console.log('hop');
-}
-
-function testScales(e) {
-	console.log(e);
-	this.scales = new Array();
-	this.scales[0]=1;
-	for (var i=1; i<22; i++) {
-		var v = Math.round(e*this.scales[i-1]);
-		if (v==this.scales[i-1]) v++;
-		this.scales.push(v);
-	}
-	console.log(this.scales);
-	
-}
-
+// l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
+// Les champs dans le nom commence par une minuscule sont définis localement et
+//  ceux dont le nom commence par une majuscule proviennent du serveur (cette norme
+//  est valable sur toute la hiérarchie des objets de mapData).
 Map.prototype.setData = function(mapData) {
 	this.mapData = mapData;
 }
@@ -99,8 +87,20 @@ Map.prototype.recomputeCanvasPosition = function() {
 }
 
 // renvoie l'objet aux coordonnées (univers Braldahim) x et y.
-// On optimisera ça plus tard via une matrice
+// On optimisera ça plus tard via une matrice (on utilise déjà une matrice pour la partie vue)
 Map.prototype.objectOn = function(x, y) {
+	if (this.mapData.Vues) {
+		for (var i=this.mapData.Vues.length; i-->0;) {
+			var vue = this.mapData.Vues[i];
+			// BH if (vue.active && vue.matrix) {
+			if (vue.matrix) {
+				var W = vue.XMax-vue.XMin;
+				var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
+				var cell = vue.matrix[index];
+				if (cell) return cell; // la cellule n'est définie que si elle contient quelque chose
+			}
+		}
+	}
 	if (this.mapData.LieuxVilles && this.zoom>25) {
 		for (var i=this.mapData.LieuxVilles.length; i-->0;) {
 			var lv = this.mapData.LieuxVilles[i];
@@ -159,6 +159,13 @@ Map.prototype.redraw = function() {
 					this.drawTownPlace(this.mapData.LieuxVilles[i]);
 				}
 			}
+			if (this.mapData.Vues) {
+				for (var i=this.mapData.Vues.length; i-->0;) {
+					var vue = this.mapData.Vues[i];
+					// BH if (vue.active) this.drawVue(vue);
+					this.drawVue(vue);
+				}
+			}
 			if (this.mapData.Villes && this.zoom<=60) {
 				for (var i=this.mapData.Villes.length; i-->0;) {
 					this.drawTown(this.mapData.Villes[i]);
@@ -169,13 +176,16 @@ Map.prototype.redraw = function() {
 					this.drawRégion(this.mapData.Régions[i]);
 				}
 			}
-			if (this.bubbleText.length>0) this.drawBubble();
+			if (this.bubbleText.length>0) {
+				this.bubbleText.splice(0, 0, this.pointerX+','+this.pointerY);
+				this.drawBubble();
+			}
 		}
 	} finally {
 		this.drawInProgress = false;
 	}
 	if (this.redrawStacked) {
-		setTimeout(this.redraw, 40); 
+		setTimeout(this.redraw, 40);
 	}
 }
 Map.prototype.mouseWheel = function(e) {
@@ -205,7 +215,7 @@ Map.prototype.mouseWheel = function(e) {
 		mouseX = e.layerX; // FF
 		mouseY = e.layerY; // FF
 	}
-	this.originX += (mouseX-this.canvas_position_x)*zr; 
+	this.originX += (mouseX-this.canvas_position_x)*zr;
 	this.originY += (mouseY-this.canvas_position_y)*zr;
 	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
 	this.hoverObject = null;
@@ -258,7 +268,7 @@ Map.prototype.mouseMove = function(e) {
 		var dy = (mouseY-this.dragStartPageY)/this.zoom;
 		this.originX = this.dragStartOriginX + dx;
 		this.originY = this.dragStartOriginY + dy;
-		this.redraw();		
+		this.redraw();
 	} else {
 		var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
 		if (newHoverObject!=this.hoverObject) {
@@ -275,12 +285,12 @@ Map.prototype.naturalToScreen = function(naturalPoint, screenPoint) {
 };
 
 Map.prototype.screenToNatural = function(screenPoint, naturalPoint) {
-	naturalPoint.x = screenPoint.x/this.zoom - this.originX;	
+	naturalPoint.x = screenPoint.x/this.zoom - this.originX;
 	naturalPoint.y = screenPoint.y/this.zoom - this.originY;
 };
 
 Map.prototype.screenRectToNaturalRect = function(screenRect, naturalRect) {
-	naturalRect.x = screenRect.x/this.zoom - this.originX;	
+	naturalRect.x = screenRect.x/this.zoom - this.originX;
 	naturalRect.y = screenRect.y/this.zoom - this.originY;
 	naturalRect.w = screenRect.w/this.zoom;
 	naturalRect.h = screenRect.h/this.zoom;

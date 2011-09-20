@@ -43,15 +43,12 @@ Map.prototype.initTiles = function() {
 	(this.placeImg[37] = new Image()).src = baseTilesUrl + "batiments/atelier.png";
 	(this.placeImg[38] = new Image()).src = baseTilesUrl + "batiments/haltegare.png";
 
-	this.placeOutlinedImg = [];
-
 	this.echoppeImg = []; // tableau des images des échoppes en fonction de leur métier
 	(this.echoppeImg["apothicaire"] = new Image()).src = baseTilesUrl + "echoppes/apothicaire.png";
 	(this.echoppeImg["cuisinier"] = new Image()).src = baseTilesUrl + "echoppes/cuisinier.png";
 	(this.echoppeImg["forgeron"] = new Image()).src = baseTilesUrl + "echoppes/forgeron.png";
 	(this.echoppeImg["menuisier"] = new Image()).src = baseTilesUrl + "echoppes/menuisier.png";
 	(this.echoppeImg["tanneur"] = new Image()).src = baseTilesUrl + "echoppes/tanneur.png";
-	this.echoppeOutlinedImg = [];
 	
 	(this.champImg = new Image()).src = baseTilesUrl + "champ.png";
 
@@ -59,30 +56,40 @@ Map.prototype.initTiles = function() {
 	var environnements = new Array(
 		"caverne-crevasse", "caverne-gr-crevasse",
 		"caverne-crevasse", "caverne-gr", "caverne", "gazon-gr", "gazon", "marais-gr", "marais",
-		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave");
-
+		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave"
+	);
 	for (env in environnements) {
 		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "environnement/" + environnements[env] + ".png";
 	}
-
+	
+	(this.img_braldun_feminin = new Image()).src = baseTilesUrl + "braldun_feminin.png";
+	(this.img_braldun_masculin = new Image()).src = baseTilesUrl + "braldun_masculin.png";
+	(this.img_bralduns_feminin = new Image()).src = baseTilesUrl + "bralduns_feminin.png";
+	(this.img_bralduns_masculin = new Image()).src = baseTilesUrl + "bralduns_masculin.png";
+	(this.img_bralduns_masculin_feminin = new Image()).src = baseTilesUrl + "bralduns_masculin_feminin.png";
+	
 	for (tile in this.envTiles) {
 		tile.onload = function() { 	_this.redraw(); }; // on dirait que ça ne marche pas
 	}
 }
 
 // cette méthode est imparfaite : elle ne crée pas réellement un contour
-Map.prototype.makeOutlineImg = function(img) {
-	outlinedImg = document.createElement('canvas');
-	var ow = img.width+4;
-	var oh = img.height+4;
-	outlinedImg.width = ow;
-	outlinedImg.height = oh;
-	oc = outlinedImg.getContext('2d');
-	oc.drawImage(img, 0, 0, ow, oh);
-	oc.globalCompositeOperation="source-in";
-	oc.fillStyle="Gold";//"DarkGoldenRod";
-	oc.fillRect(0, 0, ow, oh);
-	return outlinedImg;
+Map.prototype.getOutlineImg = function(img) {
+	if (!img.outline) {
+		var outlinedImg = document.createElement('canvas');
+		var ow = img.width+4;
+		var oh = img.height+4;
+		outlinedImg.width = ow;
+		outlinedImg.height = oh;
+		oc = outlinedImg.getContext('2d');
+		oc.drawImage(img, 0, 0, ow, oh);
+		oc.globalCompositeOperation="source-in";
+		oc.fillStyle="Gold";//"DarkGoldenRod";
+		oc.fillRect(0, 0, ow, oh);
+		//oc.drawImage(img, 2, 2); TODO ça serait pas mal d'avoir une seule image (cad que l'outline contienne l'original) mais je maitrise pas bien le rendu
+		img.outline = outlinedImg;
+	}
+	return img.outline;
 }
 
 // dessine une case d'environnement
@@ -115,19 +122,15 @@ Map.prototype.drawChamp = function(e) {
 	}
 	var c = this.context;
 	c.save();
-	if (this.hoverObject==e) {
-		if (!this.champOutlineImg) {
-			this.champOutlineImg = this.makeOutlineImg(this.champImg);
-		}
+	if (e.X==this.pointerX && e.Y==this.pointerY) {
 		c.shadowOffsetX = 0;
 		c.shadowOffsetY = 0;
 		c.shadowBlur = 5;
 		c.shadowColor = "black";
 		var d = 3;
-		c.drawImage(this.champOutlineImg, screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
+		c.drawImage(this.getOutlineImg(this.champImg), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
 		c.shadowBlur = 0;
 		this.bubbleText.push("Champ du Braldûn " + e.IdBraldun);
-		this.bubbleText.push(' en ' + e.X + ',' + e.Y);
 	}
 	screenRect.drawImage(c, this.champImg);
 	c.restore();
@@ -147,22 +150,16 @@ Map.prototype.drawEchoppe = function(e) {
 	c.save();
 	var img = this.echoppeImg[e.Métier];
 	if (img) {
-		if (this.hoverObject==e) {
-			var outlinedImg = this.echoppeOutlinedImg[e.Métier];
-			if (!outlinedImg) {
-				outlinedImg = this.makeOutlineImg(img);
-				this.placeOutlinedImg[e.Métier]=outlinedImg;
-			}
+		if (e.X==this.pointerX && e.Y==this.pointerY) {
 			c.shadowOffsetX = 0;
 			c.shadowOffsetY = 0;
 			c.shadowBlur = 5;
 			c.shadowColor = "black";
 			var d = 3;
-			c.drawImage(outlinedImg, screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
+			c.drawImage(this.getOutlineImg(img), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
 			c.shadowBlur = 0;
 			this.bubbleText.push(e.Nom);
 			this.bubbleText.push('('+e.Métier+')');
-			this.bubbleText.push(' en ' + e.X + ',' + e.Y);
 		}
 		screenRect.drawImage(c, img);
 	} else {
@@ -184,21 +181,15 @@ Map.prototype.drawTownPlace = function(lieu) {
 	c.save();
 	var img = this.placeImg[lieu.IdTypeLieu];
 	if (img) {
-		if (this.hoverObject==lieu) {
-			var outlinedImg = this.placeOutlinedImg[lieu.IdTypeLieu];
-			if (!outlinedImg) {
-				outlinedImg = this.makeOutlineImg(img);
-				this.placeOutlinedImg[lieu.IdTypeLieu]=outlinedImg;
-			}
+		if (lieu.X==this.pointerX && lieu.Y==this.pointerY) {
 			c.shadowOffsetX = 0;
 			c.shadowOffsetY = 0;
 			c.shadowBlur = 5;
 			c.shadowColor = "black";
 			var d = 3;
-			c.drawImage(outlinedImg, screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
+			c.drawImage(this.getOutlineImg(this.placeImg[lieu.IdTypeLieu]), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
 			c.shadowBlur = 0;
 			this.bubbleText.push(lieu.Nom);
-			this.bubbleText.push(" en " + lieu.X + "," + lieu.Y);
 		}
 		screenRect.drawImage(c, img);
 	} else {

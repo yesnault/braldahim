@@ -19,3 +19,8 @@ function atoi(s) {
 	return parseInt(s);
 }
 
+function formatDate(timestamp) {
+	if (timestamp==0) return "";
+	var d = new Date(timestamp);
+	return d.getDate()+"/"+(d.getMonth()<9?("0"+(d.getMonth()+1)):(d.getMonth()+1))+" "+d.getHours()+"h"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
+}

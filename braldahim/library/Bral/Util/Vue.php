@@ -281,6 +281,36 @@ class Bral_Util_Vue {
 			}
 		}
 
+		if ($bralduns != null) {
+			foreach ($bralduns as $b) {
+
+				/*if ($h['est_ko_braldun'] == 'oui') {
+					$tabBraldunsKo[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
+				} else {
+					$tabBralduns[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
+				}
+				*/
+
+				$tableau["Vues"][0]["Time"] = date('now');
+				$tableau["Vues"][0]["Voyeur"] = $view->user->id_braldun;
+				$tableau["Vues"][0]["XMin"] = $view->x_min;
+				$tableau["Vues"][0]["XMax"] = $view->x_max;
+				$tableau["Vues"][0]["YMin"] = $view->y_min;
+				$tableau["Vues"][0]["YMax"] = $view->y_max;
+
+				$tableau["Vues"][0]["Bralduns"][] = array("Id" => $b['id_braldun'],
+													   "X" => $b['x_braldun'],
+													   "Y" => $b['y_braldun'],
+													   "Prénom" => $b['prenom_braldun'],
+													   "Nom" => $b['nom_braldun'],
+													   "Niveau" => $b['niveau_braldun'],
+													   "Sexe" => substr($b['sexe_braldun'], 0, 1),
+													   "KO" => ($b['est_ko_braldun'] == 'oui'),
+													   "Intangible" => ($b['est_intangible_braldun'] == "oui"));
+
+			}
+		}
+
 
 		/*
 					 if (($j > $view->y_max) || ($j < $view->y_min) ||

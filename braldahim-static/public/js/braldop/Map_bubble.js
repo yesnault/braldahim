@@ -1,6 +1,6 @@
 Map.prototype.drawBubble =  function() {
 	var c = this.context;
-	var h = 12;
+	var h = 14;
 	var maxWidth = 0;
 	c.font = h+"px Verdana";
 	for (var i=0; i<this.bubbleText.length; i++) {

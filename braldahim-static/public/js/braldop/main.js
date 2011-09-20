@@ -41,4 +41,10 @@ function initBraldop() {
 		map.displayRégions = this.checked;
 		map.redraw();
 	});
+
+	/*for (i in map.mapData.Vues) {
+		var v = map.mapData.Vues[i];
+		v.active = true; //this.checked;
+	}*/
+	map.redraw();
 }
