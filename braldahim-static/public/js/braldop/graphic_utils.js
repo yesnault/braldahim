@@ -49,7 +49,6 @@ function addArcToCenter(center, angle, radius) {
     );
 }
 
-
 /**
  * calcule l'angle, en radians, sur le cercle trigonométrique, entre l'horizontale
  * et un point de la périphérie.
@@ -70,4 +69,24 @@ function computeAngle(c, a) {
 		angle = Math.PI-Math.asin(sinus);
 	}
 	return angle;
+}
+
+/**
+ * dessine une image centrée sur le point (cx, cy).
+ * Si w et h sont fournis, ils donnent la dimension de l'image.
+ * Si h est fourni sans w, w est calculé proportionnellement.
+ * Si w est fourni sans h, h est calculé proportionnellement.
+ * Si aucune dimension n'est fournie, alors on dessine à la taille naturelle de l'image.
+ */
+function drawCenteredImage(c, img, cx, cy, w, h) {
+	if (!img.width) return; // image non chargée
+	if (w) {
+		if (!h) h = w*img.height/img.width;
+		c.drawImage(img, cx-w/2, cy-h/2, w, h);
+	} else if (h) {
+		w = h*img.width/img.height;
+		c.drawImage(img, cx-w/2, cy-h/2, w, h);		
+	} else {
+		c.drawImage(img, cx-img.width/2, cy-img.height/2);
+	}
 }

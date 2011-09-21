@@ -1,56 +1,56 @@
 
 Map.prototype.initTiles = function() {
-	var baseTilesUrl = "http://static.braldahim.com/images/vue/";
+	var baseTilesUrl = "http://static.braldahim.com/images/";
 	var _this = this;
 
 	this.placeImg = []; // tableau des images des lieux en fonction de leur type entier
-	(this.placeImg[1] = new Image()).src = baseTilesUrl + "batiments/mairie.png";
-	(this.placeImg[2] = new Image()).src = baseTilesUrl + "batiments/centreformation.png";
-	(this.placeImg[3] = new Image()).src = baseTilesUrl + "batiments/gare.png";
-	(this.placeImg[4] = new Image()).src = baseTilesUrl + "batiments/hopital.png";
-	(this.placeImg[5] = new Image()).src = baseTilesUrl + "batiments/bibliotheque.png";
-	(this.placeImg[6] = new Image()).src = baseTilesUrl + "batiments/academie.png";
-	(this.placeImg[7] = new Image()).src = baseTilesUrl + "batiments/banque.png";
-	(this.placeImg[8] = new Image()).src = baseTilesUrl + "batiments/joaillier.png";
-	(this.placeImg[9] = new Image()).src = baseTilesUrl + "batiments/auberge.png";
-	(this.placeImg[10] = new Image()).src = baseTilesUrl + "batiments/bbois.png";
-	(this.placeImg[11] = new Image()).src = baseTilesUrl + "batiments/bpartieplantes.png";
-	(this.placeImg[12] = new Image()).src = baseTilesUrl + "batiments/bminerais.png";
-	(this.placeImg[13] = new Image()).src = baseTilesUrl + "batiments/tabatiere.png";
-	(this.placeImg[14] = new Image()).src = baseTilesUrl + "batiments/notaire.png";
-	(this.placeImg[15] = new Image()).src = baseTilesUrl + "batiments/quete.png";
-	(this.placeImg[16] = new Image()).src = baseTilesUrl + "batiments/echangeurrune.png";
-	(this.placeImg[17] = new Image()).src = baseTilesUrl + "batiments/assembleur.png";
-	(this.placeImg[18] = new Image()).src = baseTilesUrl + "batiments/bpeaux.png";
-	(this.placeImg[19] = new Image()).src = baseTilesUrl + "batiments/hotel.png";
-	(this.placeImg[20] = new Image()).src = baseTilesUrl + "batiments/postedegarde.png";
-	(this.placeImg[21] = new Image()).src = baseTilesUrl + "batiments/entreegrotte.png";
-	(this.placeImg[22] = new Image()).src = baseTilesUrl + "batiments/escaliers.png";
-	(this.placeImg[23] = new Image()).src = baseTilesUrl + "batiments/lieumythique.png";
-	(this.placeImg[24] = new Image()).src = baseTilesUrl + "batiments/ruine.png";
-	(this.placeImg[25] = new Image()).src = baseTilesUrl + "batiments/tribunal.png";
-	(this.placeImg[26] = new Image()).src = baseTilesUrl + "batiments/contrat.png";
-	(this.placeImg[27] = new Image()).src = baseTilesUrl + "batiments/maisonpnj.png";
-	(this.placeImg[28] = new Image()).src = baseTilesUrl + "batiments/mine.png";
-	(this.placeImg[29] = new Image()).src = baseTilesUrl + "batiments/puit.png";
-	(this.placeImg[30] = new Image()).src = baseTilesUrl + "batiments/hall.png";
-	(this.placeImg[31] = new Image()).src = baseTilesUrl + "batiments/grenier.png";
-	(this.placeImg[32] = new Image()).src = baseTilesUrl + "batiments/temple.png";
-	(this.placeImg[33] = new Image()).src = baseTilesUrl + "batiments/marche.png";
-	(this.placeImg[34] = new Image()).src = baseTilesUrl + "batiments/infirmerie.png";
-	(this.placeImg[35] = new Image()).src = baseTilesUrl + "batiments/baraquement.png";
-	(this.placeImg[36] = new Image()).src = baseTilesUrl + "batiments/tribune.png";
-	(this.placeImg[37] = new Image()).src = baseTilesUrl + "batiments/atelier.png";
-	(this.placeImg[38] = new Image()).src = baseTilesUrl + "batiments/haltegare.png";
+	(this.placeImg[1] = new Image()).src = baseTilesUrl + "vue/batiments/mairie.png";
+	(this.placeImg[2] = new Image()).src = baseTilesUrl + "vue/batiments/centreformation.png";
+	(this.placeImg[3] = new Image()).src = baseTilesUrl + "vue/batiments/gare.png";
+	(this.placeImg[4] = new Image()).src = baseTilesUrl + "vue/batiments/hopital.png";
+	(this.placeImg[5] = new Image()).src = baseTilesUrl + "vue/batiments/bibliotheque.png";
+	(this.placeImg[6] = new Image()).src = baseTilesUrl + "vue/batiments/academie.png";
+	(this.placeImg[7] = new Image()).src = baseTilesUrl + "vue/batiments/banque.png";
+	(this.placeImg[8] = new Image()).src = baseTilesUrl + "vue/batiments/joaillier.png";
+	(this.placeImg[9] = new Image()).src = baseTilesUrl + "vue/batiments/auberge.png";
+	(this.placeImg[10] = new Image()).src = baseTilesUrl + "vue/batiments/bbois.png";
+	(this.placeImg[11] = new Image()).src = baseTilesUrl + "vue/batiments/bpartieplantes.png";
+	(this.placeImg[12] = new Image()).src = baseTilesUrl + "vue/batiments/bminerais.png";
+	(this.placeImg[13] = new Image()).src = baseTilesUrl + "vue/batiments/tabatiere.png";
+	(this.placeImg[14] = new Image()).src = baseTilesUrl + "vue/batiments/notaire.png";
+	(this.placeImg[15] = new Image()).src = baseTilesUrl + "vue/batiments/quete.png";
+	(this.placeImg[16] = new Image()).src = baseTilesUrl + "vue/batiments/echangeurrune.png";
+	(this.placeImg[17] = new Image()).src = baseTilesUrl + "vue/batiments/assembleur.png";
+	(this.placeImg[18] = new Image()).src = baseTilesUrl + "vue/batiments/bpeaux.png";
+	(this.placeImg[19] = new Image()).src = baseTilesUrl + "vue/batiments/hotel.png";
+	(this.placeImg[20] = new Image()).src = baseTilesUrl + "vue/batiments/postedegarde.png";
+	(this.placeImg[21] = new Image()).src = baseTilesUrl + "vue/batiments/entreegrotte.png";
+	(this.placeImg[22] = new Image()).src = baseTilesUrl + "vue/batiments/escaliers.png";
+	(this.placeImg[23] = new Image()).src = baseTilesUrl + "vue/batiments/lieumythique.png";
+	(this.placeImg[24] = new Image()).src = baseTilesUrl + "vue/batiments/ruine.png";
+	(this.placeImg[25] = new Image()).src = baseTilesUrl + "vue/batiments/tribunal.png";
+	(this.placeImg[26] = new Image()).src = baseTilesUrl + "vue/batiments/contrat.png";
+	(this.placeImg[27] = new Image()).src = baseTilesUrl + "vue/batiments/maisonpnj.png";
+	(this.placeImg[28] = new Image()).src = baseTilesUrl + "vue/batiments/mine.png";
+	(this.placeImg[29] = new Image()).src = baseTilesUrl + "vue/batiments/puit.png"; // manque pas un s ?
+	(this.placeImg[30] = new Image()).src = baseTilesUrl + "vue/batiments/hall.png";
+	(this.placeImg[31] = new Image()).src = baseTilesUrl + "vue/batiments/grenier.png";
+	(this.placeImg[32] = new Image()).src = baseTilesUrl + "vue/batiments/temple.png";
+	(this.placeImg[33] = new Image()).src = baseTilesUrl + "vue/batiments/marche.png";
+	(this.placeImg[34] = new Image()).src = baseTilesUrl + "vue/batiments/infirmerie.png";
+	(this.placeImg[35] = new Image()).src = baseTilesUrl + "vue/batiments/baraquement.png";
+	(this.placeImg[36] = new Image()).src = baseTilesUrl + "vue/batiments/tribune.png";
+	(this.placeImg[37] = new Image()).src = baseTilesUrl + "vue/batiments/atelier.png";
+	(this.placeImg[38] = new Image()).src = baseTilesUrl + "vue/batiments/haltegare.png";
 
 	this.echoppeImg = []; // tableau des images des échoppes en fonction de leur métier
-	(this.echoppeImg["apothicaire"] = new Image()).src = baseTilesUrl + "echoppes/apothicaire.png";
-	(this.echoppeImg["cuisinier"] = new Image()).src = baseTilesUrl + "echoppes/cuisinier.png";
-	(this.echoppeImg["forgeron"] = new Image()).src = baseTilesUrl + "echoppes/forgeron.png";
-	(this.echoppeImg["menuisier"] = new Image()).src = baseTilesUrl + "echoppes/menuisier.png";
-	(this.echoppeImg["tanneur"] = new Image()).src = baseTilesUrl + "echoppes/tanneur.png";
+	(this.echoppeImg["apothicaire"] = new Image()).src = baseTilesUrl + "vue/echoppes/apothicaire.png";
+	(this.echoppeImg["cuisinier"] = new Image()).src = baseTilesUrl + "vue/echoppes/cuisinier.png";
+	(this.echoppeImg["forgeron"] = new Image()).src = baseTilesUrl + "vue/echoppes/forgeron.png";
+	(this.echoppeImg["menuisier"] = new Image()).src = baseTilesUrl + "vue/echoppes/menuisier.png";
+	(this.echoppeImg["tanneur"] = new Image()).src = baseTilesUrl + "vue/echoppes/tanneur.png";
 	
-	(this.champImg = new Image()).src = baseTilesUrl + "champ.png";
+	(this.champImg = new Image()).src = baseTilesUrl + "vue/champ.png";
 
 	this.envTiles = {}; // map
 	var environnements = new Array(
@@ -59,14 +59,18 @@ Map.prototype.initTiles = function() {
 		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave"
 	);
 	for (env in environnements) {
-		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "environnement/" + environnements[env] + ".png";
+		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "vue/environnement/" + environnements[env] + ".png";
 	}
 	
-	(this.img_braldun_feminin = new Image()).src = baseTilesUrl + "braldun_feminin.png";
-	(this.img_braldun_masculin = new Image()).src = baseTilesUrl + "braldun_masculin.png";
-	(this.img_bralduns_feminin = new Image()).src = baseTilesUrl + "bralduns_feminin.png";
-	(this.img_bralduns_masculin = new Image()).src = baseTilesUrl + "bralduns_masculin.png";
-	(this.img_bralduns_masculin_feminin = new Image()).src = baseTilesUrl + "bralduns_masculin_feminin.png";
+	(this.img_braldun_feminin = new Image()).src = baseTilesUrl + "vue/braldun_feminin.png";
+	(this.img_braldun_masculin = new Image()).src = baseTilesUrl + "vue/braldun_masculin.png";
+	(this.img_bralduns_feminin = new Image()).src = baseTilesUrl + "vue/bralduns_feminin.png";
+	(this.img_bralduns_masculin = new Image()).src = baseTilesUrl + "vue/bralduns_masculin.png";
+	(this.img_bralduns_masculin_feminin = new Image()).src = baseTilesUrl + "vue/bralduns_masculin_feminin.png";
+	
+	this.imgObjets = {};
+	(this.imgObjets['charette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
+	
 	
 	for (tile in this.envTiles) {
 		tile.onload = function() { 	_this.redraw(); }; // on dirait que ça ne marche pas

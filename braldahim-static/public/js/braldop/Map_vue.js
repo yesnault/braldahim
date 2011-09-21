@@ -21,7 +21,6 @@ Map.prototype.drawVue = function(vue) {
 			for (ib in vue.Bralduns) {
 				var b = vue.Bralduns[ib];
 				var index = ((b.X-vue.XMin)%W)+(W*(b.Y-vue.YMin));
-				//console.log(b.X+" "+b.Y+" -> "+index);
 				var cell = vue.matrix[index];
 				if (!cell) {
 					cell = {};
@@ -37,7 +36,9 @@ Map.prototype.drawVue = function(vue) {
 		}
 		
 		//> on dessine les bralduns en vue
-		var imgh = this.zoom*0.37;
+		var naturalSize = this.zoom==64;
+		var imgh;
+		if (this.zoom!=64) imgh=this.zoom*0.38;
 		for (var x=vue.XMin; x<=vue.XMax; x++) {
 			for (var y=vue.YMin; y<=vue.YMax; y++) {
 				var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
@@ -57,27 +58,17 @@ Map.prototype.drawVue = function(vue) {
 						imgb = this.img_braldun_masculin;
 					}
 					if (imgb!=null && imgb.width) {
-						var imgw = imgb.width*imgh/imgb.height;
+						var cx = this.zoom*(this.originX+x)+this.zoom/4;
+						var cy = this.zoom*(this.originY-y)+this.zoom/4;
 						if (selected) {
 							this.bubbleText.push('Bralduns :');
 							for (var ib in cell.bralduns) {
 								var b = cell.bralduns[ib];
 								this.bubbleText.push('  '+b.Prénom+' '+b.Nom+' (niveau '+b.Niveau+')');
 							}
-							var oimgb = this.getOutlineImg(imgb);
-							var oimgw = imgw+4;
-							var oimgh = imgh+4;
-							c.drawImage(
-								oimgb,
-								this.zoom*(this.originX+x)+this.zoom/4-oimgw/2, this.zoom*(this.originY-y)+this.zoom/4-oimgh/2,
-								oimgw, oimgh
-							);
+							drawCenteredImage(c, this.getOutlineImg(imgb), cx, cy, null, imgh?imgh+4:null);
 						}
-						c.drawImage(
-							imgb,
-							this.zoom*(this.originX+x)+this.zoom/4-imgw/2, this.zoom*(this.originY-y)+this.zoom/4-imgh/2,
-							imgw, imgh
-						);
+						drawCenteredImage(c, imgb, cx, cy, null, imgh);
 					}					
 				}
 			}
@@ -90,7 +81,7 @@ Map.prototype.drawVue = function(vue) {
 	// Là pour l'instant je fais comme s'il n'y avait qu'une vue active. Sinon il faut cumuler les trous au lieu
 	//  d'accumuler les obscurcissement. Je ferai ça quand il y aura plusieurs vues...
 	c.fillStyle = "rgba(100, 100, 100, 0.4)";
-	this.screenRect.makeHolePath(c, screenRect, 5);
+	this.screenRect.makeHolePath(c, screenRect, 7);
 	c.fill();
 	
 }

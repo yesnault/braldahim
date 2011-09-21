@@ -8,7 +8,7 @@ function Map(canvasId, posmarkid) {
 	this.rect = new Rect(); // le rectangle englobant le contenu que l'on veut montrer
 	this.originX=0; // coin haut gauche de la grotte au centre de l'écran
 	this.originY=0;
-	this.scales = [0.5, 1, 2, 4, 8, 16, 32, 48, 64, 92];
+	this.scales = [0.5, 1, 2, 4, 8, 16, 32, 48, 64]; // éliminé : 92
 	this.scaleIndex = 8; // -> zoom "naturel" de 64
 	this.zoom = this.scales[this.scaleIndex];
 	this.mouseIsDown=false;
@@ -35,7 +35,7 @@ function Map(canvasId, posmarkid) {
 		_this.photoSatelliteRect.y = 0.5*psh - 27; // dernier nombre : ajustement manuel
 		_this.photoSatelliteRect.w = psw;
 		_this.photoSatelliteRect.h = psh;
-		_this.photoSatelliteScreenRect = new Rect();
+		_this.photoSatelliteScreenRect = new Rect();		
 		_this.photoSatelliteOK = true;
 		_this.redraw();
 	};
@@ -92,8 +92,7 @@ Map.prototype.objectOn = function(x, y) {
 	if (this.mapData.Vues) {
 		for (var i=this.mapData.Vues.length; i-->0;) {
 			var vue = this.mapData.Vues[i];
-			// BH if (vue.active && vue.matrix) {
-			if (vue.matrix) {
+			if (vue.active && vue.matrix) {
 				var W = vue.XMax-vue.XMin;
 				var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
 				var cell = vue.matrix[index];
@@ -162,8 +161,7 @@ Map.prototype.redraw = function() {
 			if (this.mapData.Vues) {
 				for (var i=this.mapData.Vues.length; i-->0;) {
 					var vue = this.mapData.Vues[i];
-					// BH if (vue.active) this.drawVue(vue);
-					this.drawVue(vue);
+					if (vue.active) this.drawVue(vue);
 				}
 			}
 			if (this.mapData.Villes && this.zoom<=60) {
@@ -185,7 +183,7 @@ Map.prototype.redraw = function() {
 		this.drawInProgress = false;
 	}
 	if (this.redrawStacked) {
-		setTimeout(this.redraw, 40);
+		setTimeout(this.redraw, 40); 
 	}
 }
 Map.prototype.mouseWheel = function(e) {
@@ -215,7 +213,7 @@ Map.prototype.mouseWheel = function(e) {
 		mouseX = e.layerX; // FF
 		mouseY = e.layerY; // FF
 	}
-	this.originX += (mouseX-this.canvas_position_x)*zr;
+	this.originX += (mouseX-this.canvas_position_x)*zr; 
 	this.originY += (mouseY-this.canvas_position_y)*zr;
 	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
 	this.hoverObject = null;
@@ -268,7 +266,7 @@ Map.prototype.mouseMove = function(e) {
 		var dy = (mouseY-this.dragStartPageY)/this.zoom;
 		this.originX = this.dragStartOriginX + dx;
 		this.originY = this.dragStartOriginY + dy;
-		this.redraw();
+		this.redraw();		
 	} else {
 		var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
 		if (newHoverObject!=this.hoverObject) {
@@ -285,12 +283,12 @@ Map.prototype.naturalToScreen = function(naturalPoint, screenPoint) {
 };
 
 Map.prototype.screenToNatural = function(screenPoint, naturalPoint) {
-	naturalPoint.x = screenPoint.x/this.zoom - this.originX;
+	naturalPoint.x = screenPoint.x/this.zoom - this.originX;	
 	naturalPoint.y = screenPoint.y/this.zoom - this.originY;
 };
 
 Map.prototype.screenRectToNaturalRect = function(screenRect, naturalRect) {
-	naturalRect.x = screenRect.x/this.zoom - this.originX;
+	naturalRect.x = screenRect.x/this.zoom - this.originX;	
 	naturalRect.y = screenRect.y/this.zoom - this.originY;
 	naturalRect.w = screenRect.w/this.zoom;
 	naturalRect.h = screenRect.h/this.zoom;
