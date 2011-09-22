@@ -2380,19 +2380,19 @@ td.vue2d.hetres-gr {
 }
 
 td.vue2d.peuprofonde {
-    background: url('/images/vue/eaux/peuprofonde.png') repeat;
+    background: url('/images/vue/environnement/peuprofonde.png') repeat;
 }
 
 td.vue2d.profonde {
-    background: url('/images/vue/eaux/profonde.png') repeat;
+    background: url('/images/vue/environnement/profonde.png') repeat;
 }
 
 td.vue2d.lac {
-    background: url('/images/vue/eaux/lac.png') repeat;
+    background: url('/images/vue/environnement/lac.png') repeat;
 }
 
 td.vue2d.mer {
-    background: url('/images/vue/eaux/mer.png') repeat;
+    background: url('/images/vue/environnement/mer.png') repeat;
 }
 
 .vue2d_case_num {
