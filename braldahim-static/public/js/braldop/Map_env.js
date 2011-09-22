@@ -53,11 +53,13 @@ Map.prototype.initTiles = function() {
 	(this.champImg = new Image()).src = baseTilesUrl + "vue/champ.png";
 
 	this.envTiles = {}; // map
-	var environnements = new Array(
-		"caverne-crevasse", "caverne-gr-crevasse",
-		"caverne-crevasse", "caverne-gr", "caverne", "gazon-gr", "gazon", "marais-gr", "marais",
-		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave"
-	);
+    var environnements = new Array(
+   		"caverne-crevasse", "caverne-gr-crevasse",
+   		"caverne-crevasse", "caverne-gr", "caverne", "gazon-gr", "gazon", "marais-gr", "marais",
+   		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave",
+   		"palissade", "portail", "lac", "mer", "peuprofonde", "profonde", //  eaux
+   		"erables", "erables-gr", "chenes", "chenes-gr", "peupliers", "peupliers-gr", "hetres", "hetres-gr" // bosquets
+   	);
 	for (env in environnements) {
 		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "vue/environnement/" + environnements[env] + ".png";
 	}
