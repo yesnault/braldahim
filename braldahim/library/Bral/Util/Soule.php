@@ -200,9 +200,9 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter -");
 
 		if ($estGagnant) {
-			$pourcentage = 0.7;
+			$pourcentage = 0.4;
 		} else {
-			$pourcentage = 0.3;
+			$pourcentage = 0.2;
 		}
 
 		$rang = -1;
