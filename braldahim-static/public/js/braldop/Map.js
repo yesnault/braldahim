@@ -1,5 +1,5 @@
 
-function Map(canvasId, posmarkid) {
+function Map(canvasId, posmarkid, dialogId) {
 	this.canvas = document.getElementById(canvasId);
 	this.context = this.canvas.getContext("2d");
 	this.posmarkdiv = document.getElementById(posmarkid);
@@ -11,6 +11,7 @@ function Map(canvasId, posmarkid) {
 	this.scales = [0.5, 1, 2, 4, 8, 16, 32, 48, 64]; // éliminé : 92
 	this.scaleIndex = 8; // -> zoom "naturel" de 64
 	this.zoom = this.scales[this.scaleIndex];
+	this.W = 900; // simplement un nombre supérieur à la demi-largeur ou demi-hauteur de la carte mais pas trop
 	this.mouseIsDown=false;
 	this.pointerX = 0; // coordonnées du pointeur dans l'univers Braldahim
 	this.pointerY = 0;
@@ -19,8 +20,9 @@ function Map(canvasId, posmarkid) {
 	this.hoverObject = null; // cette notion sera remplacée à terme par une cellule (mais restera null si la cellule ne contient rien d'intéressant)
 	this.photoSatellite = new Image();
 	this.displayPhotoSatellite = true;
-	this.displayTownPlaceNames = false;
 	this.displayRégions = false;
+	this.$dialog = $('#'+dialogId);
+	this.dialopIsOpen = false;
 	this.recomputeCanvasPosition();
 	var _this = this;
 	this.photoSatelliteOK = false;
@@ -56,19 +58,27 @@ function Map(canvasId, posmarkid) {
 	this.canvas.addEventListener("mousemove", function(e) {_this.mouseMove(e)}, false);
 	if (window.addEventListener) window.addEventListener("DOMMouseScroll", function(e) {_this.mouseWheel(e)}, false); // firefox
 	window.onmousewheel = function(e) {_this.mouseWheel(e)}; // chrome
-	Map.activeMap = this;
 	$(window).resize(function(){
-		Map.activeMap.recomputeCanvasPosition();
-		Map.activeMap.redraw();
+		_this.recomputeCanvasPosition();
+		_this.redraw();
 	});
 }
 
-// l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
-// Les champs dans le nom commence par une minuscule sont définis localement et
-//  ceux dont le nom commence par une majuscule proviennent du serveur (cette norme
-//  est valable sur toute la hiérarchie des objets de mapData).
-Map.prototype.setData = function(mapData) {
-	this.mapData = mapData;
+// renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
+Map.prototype.getCellCreate = function(x, y) {
+	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
+	//console.log("("+x+","+y+") -> "+index);
+	var cell = this.matrix[index];
+	if (!cell) {
+		cell = {};
+		this.matrix[index] = cell;
+	}
+	return cell;
+}
+// renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
+Map.prototype.getCell = function(x, y) {
+	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
+	return this.matrix[index];
 }
 
 Map.prototype.recomputeCanvasPosition = function() {
@@ -86,41 +96,49 @@ Map.prototype.recomputeCanvasPosition = function() {
 	this.originY = (this.screenRect.h/2)/this.zoom;
 }
 
-// renvoie l'objet aux coordonnées (univers Braldahim) x et y.
-// On optimisera ça plus tard via une matrice (on utilise déjà une matrice pour la partie vue)
-Map.prototype.objectOn = function(x, y) {
-	if (this.mapData.Vues) {
-		for (var i=this.mapData.Vues.length; i-->0;) {
-			var vue = this.mapData.Vues[i];
-			if (vue.active && vue.matrix) {
-				var W = vue.XMax-vue.XMin;
-				var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
-				var cell = vue.matrix[index];
-				if (cell) return cell; // la cellule n'est définie que si elle contient quelque chose
+
+// l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
+// Les champs dans le nom commence par une minuscule sont définis localement et
+//  ceux dont le nom commence par une majuscule proviennent du serveur (cette norme
+//  est valable sur toute la hiérarchie des objets de mapData).
+// Les données sont copiées dans une structure qui donne un accès par les coordonnées des cases.
+Map.prototype.setData = function(mapData) {
+	this.mapData = mapData;
+	console.log("carte reçue");
+	this.matrix = {};//new Array(); // todo benchmarker pour comparer les effets en ram et cpu
+	if (this.mapData.Cases) {
+		for (var i=this.mapData.Cases.length; i-->0;) {
+			var o = this.mapData.Cases[i];
+			var c = this.getCell(o.X, o.Y);
+			if (c) {
+				console.log("doublon!");
 			}
+			this.getCellCreate(o.X, o.Y).fond = o.Fond;
 		}
 	}
-	if (this.mapData.LieuxVilles && this.zoom>25) {
-		for (var i=this.mapData.LieuxVilles.length; i-->0;) {
-			var lv = this.mapData.LieuxVilles[i];
-			if (lv.X==x && lv.Y==y) return lv;
-		}
-	}
-	if (this.mapData.Champs && this.zoom>25) {
+	if (this.mapData.Champs) {
 		for (var i=this.mapData.Champs.length; i-->0;) {
 			var o = this.mapData.Champs[i];
-			if (o.X==x && o.Y==y) return o;
+			o.Nom = "Champ";
+			o.détails = "Propriétaire : "+o.NomCompletBraldun;
+			this.getCellCreate(o.X, o.Y).champ=o;
 		}
 	}
-	if (this.mapData.Echoppes && this.zoom>25) {
+	if (this.mapData.Echoppes) {
 		for (var i=this.mapData.Echoppes.length; i-->0;) {
 			var o = this.mapData.Echoppes[i];
-			if (o.X==x && o.Y==y) return o;
+			o.détails = o.Métier+" : "+o.NomCompletBraldun;
+			this.getCellCreate(o.X, o.Y).échoppe=o;
 		}
 	}
-	return null;
+	if (this.mapData.LieuxVilles) {
+		for (var i=this.mapData.LieuxVilles.length; i-->0;) {
+			var o = this.mapData.LieuxVilles[i];
+			this.getCellCreate(o.X, o.Y).lieu=o;
+		}
+	}
+	console.log("carte compilée");
 }
-
 // redessine la page. Peut-être appelée de n'importe quel contexte, y compris depuis une méthode de dessin (pour par exemple faire une animation)
 Map.prototype.redraw = function() {
 	if (this.drawInProgress) {
@@ -138,24 +156,33 @@ Map.prototype.redraw = function() {
 				this.naturalRectToScreenRect(this.photoSatelliteRect, this.photoSatelliteScreenRect);
 				this.photoSatelliteScreenRect.drawImage(this.context, this.photoSatellite);
 			}
-			if (this.mapData.Cases) {
-				for (var i=this.mapData.Cases.length; i-->0;) {
-					this.drawCell(this.mapData.Cases[i]);
-				}
-			}
-			if (this.mapData.Champs && this.zoom>10) {
-				for (var i=this.mapData.Champs.length; i-->0;) {
-					this.drawChamp(this.mapData.Champs[i]);
-				}
-			}
-			if (this.mapData.Echoppes && this.zoom>10) {
-				for (var i=this.mapData.Echoppes.length; i-->0;) {
-					this.drawEchoppe(this.mapData.Echoppes[i]);
-				}
-			}
-			if (this.mapData.LieuxVilles && this.zoom>10) {
-				for (var i=this.mapData.LieuxVilles.length; i-->0;) {
-					this.drawTownPlace(this.mapData.LieuxVilles[i]);
+			var xMin = Math.floor(-this.originX);
+			var xMax = Math.ceil(this.screenRect.w/this.zoom-this.originX);
+			var yMin = -Math.floor(this.screenRect.h/this.zoom-this.originY);
+			var yMax = Math.ceil(this.originY);
+			
+			//~ console.log("xMin="+xMin);
+			//~ console.log("xMax="+xMax);
+			//~ console.log("yMin="+yMin);
+			//~ console.log("yMax="+yMax);
+			
+			if (this.zoom>1) {
+				var screenRect = new Rect();
+				screenRect.w = this.zoom;
+				screenRect.h = this.zoom;
+				for (var x=xMin; x<=xMax; x++) {
+					for (var y=yMin; y<=yMax; y++) {
+						var cell = this.getCell(x, y);
+						if (cell) {
+							screenRect.x = this.zoom*(this.originX+x);
+							screenRect.y = this.zoom*(this.originY-y);
+							var hover = this.pointerX==x && this.pointerY==y;
+							if (cell.fond) this.drawFond(screenRect, cell.fond);
+							if (cell.champ) this.drawLieu(screenRect, cell.champ, this.champImg, hover);
+							else if (cell.échoppe) this.drawLieu(screenRect, cell.échoppe, this.echoppeImg[cell.échoppe.Métier], hover);
+							else if (cell.lieu) this.drawLieu(screenRect, cell.lieu, this.placeImg[cell.lieu.IdTypeLieu], hover);
+						}
+					}
 				}
 			}
 			if (this.mapData.Vues) {
@@ -174,7 +201,7 @@ Map.prototype.redraw = function() {
 					this.drawRégion(this.mapData.Régions[i]);
 				}
 			}
-			if (this.bubbleText.length>0) {
+			if (this.bubbleText.length>0 && !this.dialopIsOpen) {
 				this.bubbleText.splice(0, 0, this.pointerX+','+this.pointerY);
 				this.drawBubble();
 			}
@@ -217,7 +244,6 @@ Map.prototype.mouseWheel = function(e) {
 	this.originY += (mouseY-this.canvas_position_y)*zr;
 	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
 	this.hoverObject = null;
-	//console.log('scaleIndex after = '+this.scaleIndex);
 	this.redraw();
 }
 Map.prototype.mouseDown = function(e) {
@@ -233,12 +259,25 @@ Map.prototype.mouseDown = function(e) {
 	this.dragStartOriginX = this.originX;
 	this.dragStartOriginY = this.originY;
 	this.zoomChangedSinceLastRedraw = true;
-	this.hoverObject = null;
+	//this.hoverObject = null;
 	this.redraw();
 }
 Map.prototype.mouseUp = function(e) {
 	this.mouseIsDown = false;
-	this.hoverObject = null;
+	if (this.dialopIsOpen) {
+		this.$dialog.hide();
+		this.dialopIsOpen = false;
+		return;
+	}
+	var mouseX = e.offsetX; // Chrome
+	var mouseY = e.offsetY; // Chrome
+	if (!mouseX) {
+		mouseX = e.layerX; // FF
+		mouseY = e.layerY; // FF
+	}
+	if (Math.abs(mouseX-this.dragStartPageX)<5 && Math.abs(mouseY-this.dragStartPageY)<5 && this.hoverObject) {
+		this.openCellDialog(this.pointerX, this.pointerY);
+	}
 	this.redraw();
 }
 
@@ -246,6 +285,27 @@ Map.prototype.mouseLeave = function(e) {
 	this.mouseIsDown = false;
 	this.hoverObject = null;
 	this.redraw();
+}
+
+// renvoie un "objet" à la position (x,y) dans le référetiel Braldahim :
+// - une cellule s'il y en a une non vide (le fond ne comptant pas)
+// - une cellule de vue s'il y en a une non vide, en ne cherchant que dans les vues affichées
+// - null s'il n'y a rien d'intéressant sur la case
+Map.prototype.objectOn = function(x,y) {
+	var cell = this.getCell(this.pointerX, this.pointerY);
+	if (cell && (cell.champ||cell.échoppe||cell.lieu)) return cell;
+	if (this.mapData.Vues) {
+		for (var i=this.mapData.Vues.length; i-->0;) {
+			var vue = this.mapData.Vues[i];
+			if (vue.active) {
+				var cell = getCellVue(vue, x, y);
+				if (cell) {
+					return cell;
+				}
+			}
+		}
+	}
+	return null;
 }
 
 Map.prototype.mouseMove = function(e) {
@@ -275,7 +335,6 @@ Map.prototype.mouseMove = function(e) {
 		}
 	}
 }
-
 
 Map.prototype.naturalToScreen = function(naturalPoint, screenPoint) {
 	screenPoint.x = this.zoom*(this.originX+naturalPoint.x+0.5);

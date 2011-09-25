@@ -20,7 +20,7 @@ function fetchMap(callback) {
 }
 
 function initBraldop() {
-    map = new Map("map_canvas", "posmark");
+    map = new Map("map_canvas", "posmark", "map_dialog");
     fetchMap(function(msg) {
         map.setData(msg);
         map.redraw();
@@ -31,10 +31,6 @@ function initBraldop() {
 
     $('#layer_satellite').attr('checked', map.displayPhotoSatellite).change(function() {
         map.displayPhotoSatellite = this.checked;
-        map.redraw();
-    });
-    $('#layer_nomsLieux').attr('checked', map.displayTownPlaceNames).change(function() {
-        map.displayTownPlaceNames = this.checked;
         map.redraw();
     });
     $('#layer_régions').attr('checked', map.displayRégions).change(function() {

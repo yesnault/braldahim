@@ -22,8 +22,6 @@ Map.prototype.drawBubble =  function() {
 	bubbleRect.makePath(c, margin);
 	c.fillStyle = "rgba(240, 250, 240, 0.9)";
 	c.fill();
-	//~ c.strokeStyle = "red";
-	//~ c.stroke();
 	var x = bubbleRect.x + margin;
 	var y = bubbleRect.y + margin + h;
 	c.fillStyle = "black";

@@ -53,13 +53,13 @@ Map.prototype.initTiles = function() {
 	(this.champImg = new Image()).src = baseTilesUrl + "vue/champ.png";
 
 	this.envTiles = {}; // map
-    var environnements = new Array(
-   		"caverne-crevasse", "caverne-gr-crevasse",
-   		"caverne-crevasse", "caverne-gr", "caverne", "gazon-gr", "gazon", "marais-gr", "marais",
-   		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave",
-   		"palissade", "portail", "lac", "mer", "peuprofonde", "profonde", //  eaux
-   		"erables", "erables-gr", "chenes", "chenes-gr", "peupliers", "peupliers-gr", "hetres", "hetres-gr" // bosquets
-   	);
+	var environnements = new Array(
+		"caverne-crevasse", "caverne-gr-crevasse",
+		"caverne-crevasse", "caverne-gr", "caverne", "gazon-gr", "gazon", "marais-gr", "marais",
+		"mine-gr", "mine", "montagne-gr", "montagne", "plaine", "plaine-gr", "tunnel-gr", "tunnel", "route", "pave",
+		"palissade", "portail", "lac", "mer", "peuprofonde", "profonde", //  eaux
+		"erables", "erables-gr", "chenes", "chenes-gr", "peupliers", "peupliers-gr", "hetres", "hetres-gr" // bosquets
+	);
 	for (env in environnements) {
 		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "vue/environnement/" + environnements[env] + ".png";
 	}
@@ -71,7 +71,7 @@ Map.prototype.initTiles = function() {
 	(this.img_bralduns_masculin_feminin = new Image()).src = baseTilesUrl + "vue/bralduns_masculin_feminin.png";
 	
 	this.imgObjets = {};
-	(this.imgObjets['charette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
+	(this.imgObjets['charrette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
 	
 	
 	for (tile in this.envTiles) {
@@ -92,23 +92,14 @@ Map.prototype.getOutlineImg = function(img) {
 		oc.globalCompositeOperation="source-in";
 		oc.fillStyle="Gold";//"DarkGoldenRod";
 		oc.fillRect(0, 0, ow, oh);
-		//oc.drawImage(img, 2, 2); TODO ça serait pas mal d'avoir une seule image (cad que l'outline contienne l'original) mais je maitrise pas bien le rendu
 		img.outline = outlinedImg;
 	}
 	return img.outline;
 }
 
 // dessine une case d'environnement
-Map.prototype.drawCell = function(cell) {
-	var screenRect = new Rect();
-	screenRect.x = this.zoom*(this.originX+cell.X);
-	screenRect.y = this.zoom*(this.originY-cell.Y);
-	screenRect.w = this.zoom;
-	screenRect.h = this.zoom;
-	if (!Rect_intersect(screenRect, this.screenRect)) {
-		return;
-	}
-	var envTile = this.envTiles[cell.Fond];
+Map.prototype.drawFond = function(screenRect, fond) {
+	var envTile = this.envTiles[fond];
 	if (envTile) {
 		screenRect.drawImage(this.context, envTile);
 	} else {
@@ -116,107 +107,23 @@ Map.prototype.drawCell = function(cell) {
 	}
 }
 
-// dessine un champ
-Map.prototype.drawChamp = function(e) {
-	var screenRect = new Rect();
-	screenRect.w = this.zoom/2;
-	screenRect.h = screenRect.w*(29/32); // ajustement manuel parce que je suis fatigué des dimensions de l'image du champ
-	screenRect.x = this.zoom*(this.originX+e.X)+screenRect.w;
-	screenRect.y = this.zoom*(this.originY-e.Y);
-	if (!Rect_intersect(screenRect, this.screenRect)) {
-		return;
-	}
+// dessine un lieu de ville, une échoppe ou un champ
+Map.prototype.drawLieu = function(screenRect, lieu, img, hover) {
 	var c = this.context;
-	c.save();
-	if (e.X==this.pointerX && e.Y==this.pointerY) {
-		c.shadowOffsetX = 0;
-		c.shadowOffsetY = 0;
-		c.shadowBlur = 5;
-		c.shadowColor = "black";
-		var d = 3;
-		c.drawImage(this.getOutlineImg(this.champImg), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
-		c.shadowBlur = 0;
-		this.bubbleText.push("Champ du Braldûn " + e.IdBraldun);
-	}
-	screenRect.drawImage(c, this.champImg);
-	c.restore();
-}
-
-// dessine une échoppe
-Map.prototype.drawEchoppe = function(e) {
-	var screenRect = new Rect();
-	screenRect.w = this.zoom/2;
-	screenRect.h = screenRect.w;
-	screenRect.x = this.zoom*(this.originX+e.X)+screenRect.w;
-	screenRect.y = this.zoom*(this.originY-e.Y);
-	if (!Rect_intersect(screenRect, this.screenRect)) {
-		return;
-	}
-	var c = this.context;
-	c.save();
-	var img = this.echoppeImg[e.Métier];
+	var cx = screenRect.x+0.75*screenRect.w;
+	var cy = screenRect.y+0.25*screenRect.h;
+	var imgw;
+	if (this.zoom!=64) imgw=this.zoom*0.5;
 	if (img) {
-		if (e.X==this.pointerX && e.Y==this.pointerY) {
-			c.shadowOffsetX = 0;
-			c.shadowOffsetY = 0;
-			c.shadowBlur = 5;
-			c.shadowColor = "black";
-			var d = 3;
-			c.drawImage(this.getOutlineImg(img), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
-			c.shadowBlur = 0;
-			this.bubbleText.push(e.Nom);
-			this.bubbleText.push('('+e.Métier+')');
-		}
-		screenRect.drawImage(c, img);
-	} else {
-		console.log("pas d'image pour " + e.Métier);
-	}	c.restore();
-}
-
-// dessine un lieu de ville
-Map.prototype.drawTownPlace = function(lieu) {
-	var screenRect = new Rect();
-	screenRect.w = this.zoom/2;
-	screenRect.h = screenRect.w;
-	screenRect.x = this.zoom*(this.originX+lieu.X)+screenRect.w;
-	screenRect.y = this.zoom*(this.originY-lieu.Y);
-	if (!Rect_intersect(screenRect, this.screenRect)) {
-		return;
-	}
-	var c = this.context;
-	c.save();
-	var img = this.placeImg[lieu.IdTypeLieu];
-	if (img) {
-		if (lieu.X==this.pointerX && lieu.Y==this.pointerY) {
-			c.shadowOffsetX = 0;
-			c.shadowOffsetY = 0;
-			c.shadowBlur = 5;
-			c.shadowColor = "black";
-			var d = 3;
-			c.drawImage(this.getOutlineImg(this.placeImg[lieu.IdTypeLieu]), screenRect.x-d, screenRect.y-d, screenRect.w+2*d, screenRect.h+2*d);
-			c.shadowBlur = 0;
+		if (hover) {
+			drawCenteredImage(c, this.getOutlineImg(img), cx, cy, imgw?imgw+4:null, null);
 			this.bubbleText.push(lieu.Nom);
+			if (lieu.détails) this.bubbleText.push("  "+lieu.détails);
 		}
-		screenRect.drawImage(c, img);
+		drawCenteredImage(c, img, cx, cy, imgw);
 	} else {
 		console.log("pas d'image pour " + lieu.Nom);
 	}
-	if (this.displayTownPlaceNames && this.zoom>60) {
-		c.fillStyle = "black";
-		var lh = 12;
-		c.font = "bold "+lh+"px Verdana";
-		c.shadowOffsetX = 0;
-		c.shadowOffsetY = 0;
-		c.shadowBlur = 4;
-		c.shadowColor = "white";
-		var textWidth = c.measureText(lieu.Nom).width;
-		var x=screenRect.x+(screenRect.w-textWidth)/2;
-		var y=screenRect.y+(screenRect.h)/2;
-		if (lieu.X%2) y+=lh+7;
-		else y+=4;
-		c.fillText(lieu.Nom, x, y);
-	}
-	c.restore();
 }
 
 // dessine un nom de ville

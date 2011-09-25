@@ -3636,6 +3636,24 @@ div.box {
      width: 70%;
      height: 600px;
 }
+#map_dialog {
+	position: fixed;
+	background-color : rgba(0, 50, 0, 0.8);
+	border-radius: 5px;
+	padding: 5px;
+	display: none;
+	color: white;
+	z-index: 10;
+}
+.dialog_title {
+	font-weight: bold;
+}
+#map_dialog td, #map_dialog a {
+	color: white;
+}
+#map_dialog a:hover {
+	color: yellow;
+}
 
 a.layer {
     display: block;
