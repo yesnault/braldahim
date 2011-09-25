@@ -82,7 +82,7 @@ Map.prototype.getCell = function(x, y) {
 }
 
 Map.prototype.recomputeCanvasPosition = function() {
-	var pos = $(this.canvas).position();
+	var pos = $(this.canvas).offset();
 	this.canvas_position_x = pos.left;
 	this.canvas_position_y = pos.top;
 	this.screenRect = new Rect();
