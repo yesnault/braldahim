@@ -21,7 +21,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 	}
 
 	public function getVersion() {
-		return 2;
+		return 3;
 	}
 
 	public function calculScriptImpl() {
@@ -284,7 +284,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 								} else {
 									$c_taille = $c["nom_taille_m_monstre"];
 								}
-								$retour .= 'CADAVRE;'.$pos.';'. $c["id_monstre"].';'.$c["nom_type_monstre"].';'.$c_taille.$fin;
+								$retour .= 'CADAVRE;'.$pos.';'. $c["id_monstre"].';'.$c["nom_type_monstre"].';'.$c_taille.';'.$c["id_type_monstre"].$fin;
 							}
 						}
 					}
@@ -473,7 +473,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 								} else {
 									$m_taille = $m["nom_taille_m_monstre"];
 								}
-								$retour .= 'MONSTRE;'.$pos.';'.$m["id_monstre"].';'.$m["nom_type_monstre"].';'.$m_taille.';'.$m["niveau_monstre"].$fin;
+								$retour .= 'MONSTRE;'.$pos.';'.$m["id_monstre"].';'.$m["nom_type_monstre"].';'.$m_taille.';'.$m["niveau_monstre"].';'.$m["id_type_monstre"].$fin;
 							}
 						}
 					}

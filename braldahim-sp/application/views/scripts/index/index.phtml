@@ -83,14 +83,16 @@
 				Vue
 			</td>
 			<td width="80%" style="text-align:left">
-			Version : 2<br />
-			URL : http://sp.braldahim.com/scripts/vue/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=2<br />
+			Version : 3<br />
+			URL : http://sp.braldahim.com/scripts/vue/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=3<br />
 			Détails d'une ligne: TYPE;position_x;position_y;postion_z;autre_element;autre_element...
 			<br />
 			Historique :<br /> 
-			
+
+            version 3 : ajout de l'id_type_monstre sur les types CADAVRE et MONSTRE<br />
 			version 2 : ajout du type PORTAIL<br />
-			
+
+
 			<div id='details_vue_a' style="display:block" >
 			  	<input type='button' class='button1' value='Afficher détails' onclick="javascript:switch2div('details_vue_a','details_vue_b');" />
 			</div>
@@ -101,7 +103,7 @@
 			<pre style="background-color:#2a5911; text-align:left" >
 			POSITION;x;y;z;xMin;xMax;yMin;yMax;idBraldun;vueNbCases;vueBm
 			ENVIRONNEMENT;x;y;z;nom_systeme_environnement;nom_environnement
-			CADAVRE;x;y;z; id_monstre;nom_type_monstre;$c_taille
+			CADAVRE;x;y;z; id_monstre;nom_type_monstre;nom_taille;id_type_monstre
 			CHARRETTE;x;y;z; id_charrette;nom_type_materiel
 			ECHOPPE;x;y;z;id_echoppe;nom_echoppe;nom_systeme_metier;nom_metier;id_braldun
 			CHAMP;x;y;z;id_champ;id_braldun
@@ -127,7 +129,7 @@
 			TABAC;x;y;z;quantite_feuille_element_tabac;nom_court_type_tabac
 			BRALDUN;x;y;z;id_braldun;est_ko_braldun;est_intangible_braldun;est_soule_braldun;soule_camp_braldun;id_fk_soule_match_braldun
 			LIEU;x;y;z;id_lieu;nom_lieu;nom_type_lieu;nom_systeme_type_lieu
-			MONSTRE;x;y;z;id_monstre;nom_type_monstre;m_taille;niveau_monstre
+			MONSTRE;x;y;z;id_monstre;nom_type_monstre;m_taille;niveau_monstre;id_type_monstre
 			NID;x;y;z;id_nid;nom_nid_type_monstre
 			PORTAIL;x;y;z;id_palissade;est_destructible_palissade
 			PALISSADE;x;y;z;id_palissade;est_destructible_palissade
