@@ -14,15 +14,27 @@ Map.prototype.getBralduns = function(x, y) {
 	return [];
 }
 
+// renvoie la première cellule de vue trouvée (en ne cherchant que parmi les vues affichées)
+Map.prototype.getCellVueVisible = function(x, y) {
+	if (this.mapData.Vues) {
+		for (var i=this.mapData.Vues.length; i-->0;) {
+			var vue = this.mapData.Vues[i];
+			if (vue.active) {
+				var cell = getCellVue(vue, x, y);
+				if (cell) {
+					return cell;
+				}
+			}
+		}
+	}
+	return null;
+}
+
 // renvoie la cellule de la vue ou null (hors vue ou vide)
 function getCellVue(vue, x, y) {
 	var W = vue.XMax-vue.XMin;
 	var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
-	if (vue.matrix) {
-		return vue.matrix[index];
-	} else {
-		return null;
-	}
+	return vue.matrix ? vue.matrix[index] : null;
 }
 
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
@@ -117,7 +129,8 @@ Map.prototype.drawVue = function(vue) {
 							this.bubbleText.push('Objets :');
 							for (var ib in cell.objets) {
 								var o = cell.objets[ib];
-								this.bubbleText.push('  '+o.Type);
+								if (o.Quantité) this.bubbleText.push('  '+o.Quantité+' '+o.Type+(o.Quantité>1?'s':''));
+								else this.bubbleText.push('  '+o.Type);
 							}
 						}
 						var o = cell.objets[0];

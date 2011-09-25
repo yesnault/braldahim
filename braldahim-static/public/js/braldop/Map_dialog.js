@@ -55,20 +55,38 @@ Map.prototype.openCellDialog = function(x, y) {
 	} else {
 		empty = true;
 	}
-	var bralduns = this.getBralduns(x, y);
-	if (bralduns.length>0) {
-		empty = false;
-		html[h++] = "<b>Braldûns :</b>";
-		html[h++] = '<table>';
-		for (var ib=0; ib<bralduns.length; ib++) {
-			var b = bralduns[ib];
-			var img = b.Sexe=='f' ? this.img_braldun_feminin : this.img_braldun_masculin;
-			html[h++] = '<tr><td>';
-			html[h++] = '<img src="'+img.src+'">';
-			html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/braldun/?braldun='+b.Id+'&direct=profil">'+b.Prénom+' '+b.Nom+'</a></td><td>niv. '+b.Niveau;
-			html[h++] = '</td></tr>';
-		}		
-		html[h++] = '</table>';
+	var cellVue = this.getCellVueVisible(x, y);
+	if (cellVue) {		
+		if (cellVue.bralduns.length>0) {
+			empty = false;
+			html[h++] = "<b>Braldûns :</b>";
+			html[h++] = '<table>';
+			for (var ib=0; ib<cellVue.bralduns.length; ib++) {
+				var b = cellVue.bralduns[ib];
+				var img = b.Sexe=='f' ? this.img_braldun_feminin : this.img_braldun_masculin;
+				html[h++] = '<tr><td>';
+				html[h++] = '<img src="'+img.src+'">';
+				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/braldun/?braldun='+b.Id+'&direct=profil">'+b.Prénom+' '+b.Nom+'</a></td><td>niv. '+b.Niveau;
+				html[h++] = '</td></tr>';
+			}		
+			html[h++] = '</table>';
+		}
+		if (cellVue.objets.length>0) {
+			html[h++] = "<b>Au sol :</b>";
+			html[h++] = '<table>';
+			for (var ib=0; ib<cellVue.objets.length; ib++) {
+				var o = cellVue.objets[ib];
+				var img = this.imgObjets[o.Type];
+				html[h++] = '<tr><td>';
+				if (img) html[h++] = '<img src="'+img.src+'">';
+				html[h++] = '</td><td>';
+				if (o.Quantité) html[h++] = '  '+o.Quantité+' '+o.Type+(o.Quantité>1?'s':'');
+				else html[h++] = '  '+o.Type;
+				html[h++] = '</td></tr>';
+			}		
+			html[h++] = '</table>';
+			
+		}
 	}
 	if (empty) html[h++] = "<i>Il n'y a rien ici</i>";
 	this.openDialog(screenRect, x+","+y, html.join(''));

@@ -349,529 +349,560 @@ class Bral_Util_Vue
             }
         }
 
+        if ($charrettes != null) {
+            foreach ($charrettes as $c) {
+                $tableau["Vues"][0]["Objets"][] = array(
+                    "X" => $c['x_charrette'],
+                    "Y" => $c['y_charrette'],
+                    //'Type' => $c['nom_type_materiel'],
+                    'Type' => "charrette",
+                    'Quantité' => 0,
+                );
+            }
+        }
+
+        if ($elements != null) {
+            foreach ($elements as $e) {
+                //if ($e['quantite_peau_element'] > 0) $tabElements[] = array('nom' => 'Peau', 's' => 'x', 'nb' => $e['quantite_peau_element']);
+                //if ($e['quantite_cuir_element'] > 0) $tabElements[] = array('nom' => 'Cuir', 's' => 's', 'nb' => $e['quantite_cuir_element']);
+                //if ($e['quantite_fourrure_element'] > 0) $tabElements[] = array('nom' => 'Fourrure', 's' => 's', 'nb' => $e['quantite_fourrure_element']);
+                //if ($e['quantite_planche_element'] > 0) $tabElements[] = array('nom' => 'Planche', 's' => 's', 'nb' => $e['quantite_planche_element']);
+                //if ($e['quantite_rondin_element'] > 0) $tabElements[] = array('nom' => 'Rondin', 's' => 's', 'nb' => $e['quantite_rondin_element']);
+                //OK if ($e['quantite_castar_element'] > 0) $tabCastars[] = array('nb_castar' => $e['quantite_castar_element'], 'butin' => $e['id_fk_butin_element']);
+
+                $tableau["Vues"][0]["Objets"][] = array(
+                    "X" => $e['x_element'],
+                    "Y" => $e['y_element'],
+                    'Type' => 'castars',
+                    'Quantité' => $e['quantite_castar_element'],
+                );
+
+            }
+        }
+
 
         /*
-                       if (($j > $view->y_max) || ($j < $view->y_min) ||
-                           ($i < $view->x_min) || ($i > $view->x_max) ||
-                           ($j > $view->config->game->y_max) || ($j < $view->config->game->y_min) ||
-                           ($i < $view->config->game->x_min) || ($i > $view->config->game->x_max)
-                       ) {
-                           $nom_systeme_environnement = 'inconnu';
-                       } else {
-                           foreach ($zones as $z) {
-                               if ($display_x >= $z['x_min_zone'] &&
-                                   $display_x <= $z['x_max_zone'] &&
-                                   $display_y >= $z['y_min_zone'] &&
-                                   $display_y <= $z['y_max_zone']
-                               ) {
-                                   $nom_zone = $z['nom_zone'];
-                                   $est_mine_zone = $z['est_mine_zone'];
-                                   $description_zone = $z['description_zone'];
-                                   $nom_systeme_environnement = $z['nom_systeme_environnement'];
-                                   $nom_environnement = htmlspecialchars($z['nom_environnement']);
-                                   break;
-                               }
-                           }
+                if (($j > $view->y_max) || ($j < $view->y_min) ||
+                    ($i < $view->x_min) || ($i > $view->x_max) ||
+                    ($j > $view->config->game->y_max) || ($j < $view->config->game->y_min) ||
+                    ($i < $view->config->game->x_min) || ($i > $view->config->game->x_max)
+                ) {
+                    $nom_systeme_environnement = 'inconnu';
+                } else {
+                    foreach ($zones as $z) {
+                        if ($display_x >= $z['x_min_zone'] &&
+                            $display_x <= $z['x_max_zone'] &&
+                            $display_y >= $z['y_min_zone'] &&
+                            $display_y <= $z['y_max_zone']
+                        ) {
+                            $nom_zone = $z['nom_zone'];
+                            $est_mine_zone = $z['est_mine_zone'];
+                            $description_zone = $z['description_zone'];
+                            $nom_systeme_environnement = $z['nom_systeme_environnement'];
+                            $nom_environnement = htmlspecialchars($z['nom_environnement']);
+                            break;
+                        }
+                    }
 
-                           if ($tunnels != null && $est_mine_zone == 'oui') {
-                               foreach ($tunnels as $t) {
-                                   if ($display_x == $t['x_tunnel'] && $display_y == $t['y_tunnel']) {
-                                       $nom_systeme_environnement = Environnement::NOM_SYSTEME_TUNNEL;
-                                       $nom_environnement = Environnement::NOM_TUNNEL;
-                                   }
-                               }
-                           }
+                    if ($tunnels != null && $est_mine_zone == 'oui') {
+                        foreach ($tunnels as $t) {
+                            if ($display_x == $t['x_tunnel'] && $display_y == $t['y_tunnel']) {
+                                $nom_systeme_environnement = Environnement::NOM_SYSTEME_TUNNEL;
+                                $nom_environnement = Environnement::NOM_TUNNEL;
+                            }
+                        }
+                    }
 
-                           if ($cadavres != null) {
-                               foreach ($cadavres as $c) {
-                                   if ($display_x == $c['x_monstre'] && $display_y == $c['y_monstre']) {
-                                       if ($c['genre_type_monstre'] == 'feminin') {
-                                           $c_taille = $c['nom_taille_f_monstre'];
-                                       } else {
-                                           $c_taille = $c['nom_taille_m_monstre'];
-                                       }
-                                       if ($c['id_fk_type_groupe_monstre'] == $view->config->game->groupe_monstre->type->gibier) {
-                                           $estGibier = true;
-                                       } else {
-                                           $estGibier = false;
-                                       }
-                                       $tabCadavres[] = array('id_monstre' => $c['id_monstre'], 'nom_monstre' => $c['nom_type_monstre'], 'taille_monstre' => $c_taille, 'est_gibier' => $estGibier);
-                                   }
-                               }
-                           }
+                    if ($cadavres != null) {
+                        foreach ($cadavres as $c) {
+                            if ($display_x == $c['x_monstre'] && $display_y == $c['y_monstre']) {
+                                if ($c['genre_type_monstre'] == 'feminin') {
+                                    $c_taille = $c['nom_taille_f_monstre'];
+                                } else {
+                                    $c_taille = $c['nom_taille_m_monstre'];
+                                }
+                                if ($c['id_fk_type_groupe_monstre'] == $view->config->game->groupe_monstre->type->gibier) {
+                                    $estGibier = true;
+                                } else {
+                                    $estGibier = false;
+                                }
+                                $tabCadavres[] = array('id_monstre' => $c['id_monstre'], 'nom_monstre' => $c['nom_type_monstre'], 'taille_monstre' => $c_taille, 'est_gibier' => $estGibier);
+                            }
+                        }
+                    }
 
-                           if ($charrettes != null) {
-                               foreach ($charrettes as $c) {
-                                   if ($display_x == $c['x_charrette'] && $display_y == $c['y_charrette']) {
-                                       $tabCharrettes[] = array('id_charrette' => $c['id_charrette'], 'nom' => $c['nom_type_materiel']);
-                                   }
-                               }
-                           }
+                    if ($charrettes != null) {
+                        foreach ($charrettes as $c) {
+                            if ($display_x == $c['x_charrette'] && $display_y == $c['y_charrette']) {
+                                $tabCharrettes[] = array('id_charrette' => $c['id_charrette'], 'nom' => $c['nom_type_materiel']);
+                            }
+                        }
+                    }
 
-                           if ($echoppes != null) {
-                               foreach ($echoppes as $e) {
-                                   if ($display_x == $e['x_echoppe'] && $display_y == $e['y_echoppe']) {
-                                       if ($e['sexe_braldun'] == 'feminin') {
-                                           $nom_metier = $e['nom_feminin_metier'];
-                                       } else {
-                                           $nom_metier = $e['nom_masculin_metier'];
-                                       }
-                                       $tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier' => $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-                                   }
+                    if ($echoppes != null) {
+                        foreach ($echoppes as $e) {
+                            if ($display_x == $e['x_echoppe'] && $display_y == $e['y_echoppe']) {
+                                if ($e['sexe_braldun'] == 'feminin') {
+                                    $nom_metier = $e['nom_feminin_metier'];
+                                } else {
+                                    $nom_metier = $e['nom_masculin_metier'];
+                                }
+                                $tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier' => $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
+                            }
 
-                                   if ($view->user->x_braldun == $e['x_echoppe'] && $view->user->y_braldun == $e['y_echoppe']) {
-                                       $estSurEchoppe = true;
-                                   }
-                               }
-                           }
+                            if ($view->user->x_braldun == $e['x_echoppe'] && $view->user->y_braldun == $e['y_echoppe']) {
+                                $estSurEchoppe = true;
+                            }
+                        }
+                    }
 
-                           if ($champs != null) {
-                               foreach ($champs as $e) {
-                                   if ($display_x == $e['x_champ'] && $display_y == $e['y_champ']) {
-                                       $tabChamps[] = array('id_champ' => $e['id_champ'], 'nom_champ' => $e['nom_champ'], 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-                                   }
+                    if ($champs != null) {
+                        foreach ($champs as $e) {
+                            if ($display_x == $e['x_champ'] && $display_y == $e['y_champ']) {
+                                $tabChamps[] = array('id_champ' => $e['id_champ'], 'nom_champ' => $e['nom_champ'], 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
+                            }
 
-                                   if ($view->user->x_braldun == $e['x_champ'] && $view->user->y_braldun == $e['y_champ']) {
-                                       $estSurChamp = true;
-                                   }
-                               }
-                           }
+                            if ($view->user->x_braldun == $e['x_champ'] && $view->user->y_braldun == $e['y_champ']) {
+                                $estSurChamp = true;
+                            }
+                        }
+                    }
 
-                           if ($crevasses != null) {
-                               foreach ($crevasses as $c) {
-                                   if ($display_x == $c['x_crevasse'] && $display_y == $c['y_crevasse']) {
-                                       $tabCrevasses[] = array('id_crevasse' => $c['id_crevasse']);
-                                   }
-                               }
-                           }
+                    if ($crevasses != null) {
+                        foreach ($crevasses as $c) {
+                            if ($display_x == $c['x_crevasse'] && $display_y == $c['y_crevasse']) {
+                                $tabCrevasses[] = array('id_crevasse' => $c['id_crevasse']);
+                            }
+                        }
+                    }
 
-                           if ($elements != null) {
-                               foreach ($elements as $e) {
-                                   if ($display_x == $e['x_element'] && $display_y == $e['y_element']) {
-                                       if ($e['quantite_peau_element'] > 0) $tabElements[] = array('nom' => 'Peau', 's' => 'x', 'nb' => $e['quantite_peau_element']);
-                                       if ($e['quantite_cuir_element'] > 0) $tabElements[] = array('nom' => 'Cuir', 's' => 's', 'nb' => $e['quantite_cuir_element']);
-                                       if ($e['quantite_fourrure_element'] > 0) $tabElements[] = array('nom' => 'Fourrure', 's' => 's', 'nb' => $e['quantite_fourrure_element']);
-                                       if ($e['quantite_planche_element'] > 0) $tabElements[] = array('nom' => 'Planche', 's' => 's', 'nb' => $e['quantite_planche_element']);
-                                       if ($e['quantite_rondin_element'] > 0) $tabElements[] = array('nom' => 'Rondin', 's' => 's', 'nb' => $e['quantite_rondin_element']);
-                                       //if ($e['quantite_castar_element'] > 0) $tabElements[] = array('nom' => 'Castar', 's' => 's', 'nb' => $e['quantite_castar_element']);
-                                       if ($e['quantite_castar_element'] > 0) $tabCastars[] = array('nb_castar' => $e['quantite_castar_element'], 'butin' => $e['id_fk_butin_element']);
-                                   }
-                               }
-                           }
+                    if ($elements != null) {
+                        foreach ($elements as $e) {
+                            if ($display_x == $e['x_element'] && $display_y == $e['y_element']) {
+                                if ($e['quantite_peau_element'] > 0) $tabElements[] = array('nom' => 'Peau', 's' => 'x', 'nb' => $e['quantite_peau_element']);
+                                if ($e['quantite_cuir_element'] > 0) $tabElements[] = array('nom' => 'Cuir', 's' => 's', 'nb' => $e['quantite_cuir_element']);
+                                if ($e['quantite_fourrure_element'] > 0) $tabElements[] = array('nom' => 'Fourrure', 's' => 's', 'nb' => $e['quantite_fourrure_element']);
+                                if ($e['quantite_planche_element'] > 0) $tabElements[] = array('nom' => 'Planche', 's' => 's', 'nb' => $e['quantite_planche_element']);
+                                if ($e['quantite_rondin_element'] > 0) $tabElements[] = array('nom' => 'Rondin', 's' => 's', 'nb' => $e['quantite_rondin_element']);
+                                //if ($e['quantite_castar_element'] > 0) $tabElements[] = array('nom' => 'Castar', 's' => 's', 'nb' => $e['quantite_castar_element']);
+                                if ($e['quantite_castar_element'] > 0) $tabCastars[] = array('nb_castar' => $e['quantite_castar_element'], 'butin' => $e['id_fk_butin_element']);
+                            }
+                        }
+                    }
 
-                           if ($elementsEquipements != null) {
-                               foreach ($elementsEquipements as $e) {
-                                   if ($display_x == $e['x_element_equipement'] && $display_y == $e['y_element_equipement']) {
-                                       $tabElementsEquipements[] = array('id_equipement' => $e['id_element_equipement'],
-                                                                         'nom' => Bral_Util_Equipement::getNomByIdRegion($e, $e['id_fk_region_equipement']),
-                                                                         'qualite' => $e['nom_type_qualite'],
-                                                                         'niveau' => $e['niveau_recette_equipement'],
-                                                                         'suffixe' => $e['suffixe_mot_runique']);
-                                   }
-                               }
-                           }
+                    if ($elementsEquipements != null) {
+                        foreach ($elementsEquipements as $e) {
+                            if ($display_x == $e['x_element_equipement'] && $display_y == $e['y_element_equipement']) {
+                                $tabElementsEquipements[] = array('id_equipement' => $e['id_element_equipement'],
+                                                                  'nom' => Bral_Util_Equipement::getNomByIdRegion($e, $e['id_fk_region_equipement']),
+                                                                  'qualite' => $e['nom_type_qualite'],
+                                                                  'niveau' => $e['niveau_recette_equipement'],
+                                                                  'suffixe' => $e['suffixe_mot_runique']);
+                            }
+                        }
+                    }
 
-                           if ($elementsMateriels != null) {
-                               foreach ($elementsMateriels as $e) {
-                                   if ($display_x == $e['x_element_materiel'] && $display_y == $e['y_element_materiel']) {
-                                       $tabElementsMateriels[] = array('id_materiel' => $e['id_element_materiel'], 'nom' => $e['nom_type_materiel']);
-                                   }
-                               }
-                           }
+                    if ($elementsMateriels != null) {
+                        foreach ($elementsMateriels as $e) {
+                            if ($display_x == $e['x_element_materiel'] && $display_y == $e['y_element_materiel']) {
+                                $tabElementsMateriels[] = array('id_materiel' => $e['id_element_materiel'], 'nom' => $e['nom_type_materiel']);
+                            }
+                        }
+                    }
 
-                           if ($elementsMunitions != null) {
-                               foreach ($elementsMunitions as $m) {
-                                   if ($m['quantite_element_munition'] > 0) {
-                                       if ($display_x == $m['x_element_munition'] && $display_y == $m['y_element_munition']) {
-                                           $tabElementsMunitions[] = array(
-                                               'type' => $m['nom_type_munition'],
-                                               'pluriel' => $m['nom_pluriel_type_munition'],
-                                               'quantite' => $m['quantite_element_munition'],
-                                           );
-                                       }
-                                   }
-                               }
-                           }
+                    if ($elementsMunitions != null) {
+                        foreach ($elementsMunitions as $m) {
+                            if ($m['quantite_element_munition'] > 0) {
+                                if ($display_x == $m['x_element_munition'] && $display_y == $m['y_element_munition']) {
+                                    $tabElementsMunitions[] = array(
+                                        'type' => $m['nom_type_munition'],
+                                        'pluriel' => $m['nom_pluriel_type_munition'],
+                                        'quantite' => $m['quantite_element_munition'],
+                                    );
+                                }
+                            }
+                        }
+                    }
 
-                           if ($elementsPotions != null) {
-                               foreach ($elementsPotions as $p) {
-                                   if ($display_x == $p['x_element_potion'] && $display_y == $p['y_element_potion']) {
-                                       $tabElementsPotions[] = array('id_element_potion' => $p['id_element_potion'],
-                                                                     'nom_type' => Bral_Util_Potion::getNomType($p['type_potion']),
-                                                                     'nom' => $p['nom_type_potion'],
-                                                                     'qualite' => $p['nom_type_qualite'],
-                                                                     'niveau' => $p['niveau_potion'],
-                                       );
-                                   }
-                               }
-                           }
+                    if ($elementsPotions != null) {
+                        foreach ($elementsPotions as $p) {
+                            if ($display_x == $p['x_element_potion'] && $display_y == $p['y_element_potion']) {
+                                $tabElementsPotions[] = array('id_element_potion' => $p['id_element_potion'],
+                                                              'nom_type' => Bral_Util_Potion::getNomType($p['type_potion']),
+                                                              'nom' => $p['nom_type_potion'],
+                                                              'qualite' => $p['nom_type_qualite'],
+                                                              'niveau' => $p['niveau_potion'],
+                                );
+                            }
+                        }
+                    }
 
-                           if ($elementsAliments != null) {
-                               foreach ($elementsAliments as $p) {
-                                   if ($display_x == $p['x_element_aliment'] && $display_y == $p['y_element_aliment']) {
-                                       $tabElementsAliments[] = array('id_element_aliment' => $p['id_element_aliment'],
-                                                                      'nom' => $p['nom_type_aliment'],
-                                                                      'qualite' => $p['nom_type_qualite'],
-                                       );
-                                   }
-                               }
-                           }
+                    if ($elementsAliments != null) {
+                        foreach ($elementsAliments as $p) {
+                            if ($display_x == $p['x_element_aliment'] && $display_y == $p['y_element_aliment']) {
+                                $tabElementsAliments[] = array('id_element_aliment' => $p['id_element_aliment'],
+                                                               'nom' => $p['nom_type_aliment'],
+                                                               'qualite' => $p['nom_type_qualite'],
+                                );
+                            }
+                        }
+                    }
 
-                           if ($elementsGraines != null) {
-                               foreach ($elementsGraines as $p) {
-                                   if ($display_x == $p['x_element_graine'] && $display_y == $p['y_element_graine']) {
-                                       $tabElementsGraines[] = array('quantite' => $p['quantite_element_graine'],
-                                                                     'type' => $p['nom_type_graine'],
-                                       );
-                                   }
-                               }
-                           }
+                    if ($elementsGraines != null) {
+                        foreach ($elementsGraines as $p) {
+                            if ($display_x == $p['x_element_graine'] && $display_y == $p['y_element_graine']) {
+                                $tabElementsGraines[] = array('quantite' => $p['quantite_element_graine'],
+                                                              'type' => $p['nom_type_graine'],
+                                );
+                            }
+                        }
+                    }
 
-                           if ($elementsIngredients != null) {
-                               foreach ($elementsIngredients as $p) {
-                                   if ($display_x == $p['x_element_ingredient'] && $display_y == $p['y_element_ingredient']) {
-                                       $tabElementsIngredients[] = array('quantite' => $p['quantite_element_ingredient'],
-                                                                         'type' => $p['nom_type_ingredient'],
-                                       );
-                                   }
-                               }
-                           }
+                    if ($elementsIngredients != null) {
+                        foreach ($elementsIngredients as $p) {
+                            if ($display_x == $p['x_element_ingredient'] && $display_y == $p['y_element_ingredient']) {
+                                $tabElementsIngredients[] = array('quantite' => $p['quantite_element_ingredient'],
+                                                                  'type' => $p['nom_type_ingredient'],
+                                );
+                            }
+                        }
+                    }
 
-                           if ($elementsMinerais != null) {
-                               foreach ($elementsMinerais as $m) {
-                                   if ($m['quantite_brut_element_minerai'] > 0) {
-                                       if ($display_x == $m['x_element_minerai'] && $display_y == $m['y_element_minerai']) {
-                                           $tabElementsMineraisBruts[] = array(
-                                               'type' => $m['nom_type_minerai'],
-                                               'quantite' => $m['quantite_brut_element_minerai'],
-                                           );
-                                       }
-                                   }
+                    if ($elementsMinerais != null) {
+                        foreach ($elementsMinerais as $m) {
+                            if ($m['quantite_brut_element_minerai'] > 0) {
+                                if ($display_x == $m['x_element_minerai'] && $display_y == $m['y_element_minerai']) {
+                                    $tabElementsMineraisBruts[] = array(
+                                        'type' => $m['nom_type_minerai'],
+                                        'quantite' => $m['quantite_brut_element_minerai'],
+                                    );
+                                }
+                            }
 
-                                   if ($m['quantite_lingots_element_minerai'] > 0) {
-                                       if ($display_x == $m['x_element_minerai'] && $display_y == $m['y_element_minerai']) {
-                                           $tabElementsLingots[] = array(
-                                               'type' => $m['nom_type_minerai'],
-                                               'quantite' => $m['quantite_lingots_element_minerai'],
-                                           );
-                                       }
-                                   }
-                               }
-                           }
+                            if ($m['quantite_lingots_element_minerai'] > 0) {
+                                if ($display_x == $m['x_element_minerai'] && $display_y == $m['y_element_minerai']) {
+                                    $tabElementsLingots[] = array(
+                                        'type' => $m['nom_type_minerai'],
+                                        'quantite' => $m['quantite_lingots_element_minerai'],
+                                    );
+                                }
+                            }
+                        }
+                    }
 
-                           if ($elementsPartieplantes != null) {
-                               foreach ($elementsPartieplantes as $m) {
-                                   if ($m['quantite_element_partieplante'] > 0) {
-                                       if ($display_x == $m['x_element_partieplante'] && $display_y == $m['y_element_partieplante']) {
-                                           $tabElementsPartieplantesBrutes[] = array(
-                                               'type' => $m['nom_type_partieplante'],
-                                               'type_plante' => $m['nom_type_plante'],
-                                               'quantite' => $m['quantite_element_partieplante'],
-                                           );
-                                       }
-                                   }
+                    if ($elementsPartieplantes != null) {
+                        foreach ($elementsPartieplantes as $m) {
+                            if ($m['quantite_element_partieplante'] > 0) {
+                                if ($display_x == $m['x_element_partieplante'] && $display_y == $m['y_element_partieplante']) {
+                                    $tabElementsPartieplantesBrutes[] = array(
+                                        'type' => $m['nom_type_partieplante'],
+                                        'type_plante' => $m['nom_type_plante'],
+                                        'quantite' => $m['quantite_element_partieplante'],
+                                    );
+                                }
+                            }
 
-                                   if ($m['quantite_preparee_element_partieplante'] > 0) {
-                                       if ($display_x == $m['x_element_partieplante'] && $display_y == $m['y_element_partieplante']) {
-                                           $tabElementsPartieplantesPreparees[] = array(
-                                               'type' => $m['nom_type_partieplante'],
-                                               'type_plante' => $m['nom_type_plante'],
-                                               'quantite' => $m['quantite_preparee_element_partieplante'],
-                                           );
-                                       }
-                                   }
-                               }
-                           }
+                            if ($m['quantite_preparee_element_partieplante'] > 0) {
+                                if ($display_x == $m['x_element_partieplante'] && $display_y == $m['y_element_partieplante']) {
+                                    $tabElementsPartieplantesPreparees[] = array(
+                                        'type' => $m['nom_type_partieplante'],
+                                        'type_plante' => $m['nom_type_plante'],
+                                        'quantite' => $m['quantite_preparee_element_partieplante'],
+                                    );
+                                }
+                            }
+                        }
+                    }
 
-                           if ($elementsRunes != null) {
-                               foreach ($elementsRunes as $r) {
-                                   if ($display_x == $r['x_element_rune'] && $display_y == $r['y_element_rune']) {
-                                       $tabElementsRunes[] = array('id_rune_element_rune' => $r['id_rune_element_rune'], 'id_butin' => $r['id_fk_butin_element_rune']);
-                                   }
-                               }
-                           }
+                    if ($elementsRunes != null) {
+                        foreach ($elementsRunes as $r) {
+                            if ($display_x == $r['x_element_rune'] && $display_y == $r['y_element_rune']) {
+                                $tabElementsRunes[] = array('id_rune_element_rune' => $r['id_rune_element_rune'], 'id_butin' => $r['id_fk_butin_element_rune']);
+                            }
+                        }
+                    }
 
-                           if ($elementsTabac != null) {
-                               foreach ($elementsTabac as $m) {
-                                   if ($m['quantite_feuille_element_tabac'] > 0) {
-                                       if ($display_x == $m['x_element_tabac'] && $display_y == $m['y_element_tabac']) {
-                                           $tabElementsTabac[] = array(
-                                               'type' => $m['nom_court_type_tabac'],
-                                               'quantite' => $m['quantite_feuille_element_tabac'],
-                                           );
-                                       }
-                                   }
-                               }
-                           }
+                    if ($elementsTabac != null) {
+                        foreach ($elementsTabac as $m) {
+                            if ($m['quantite_feuille_element_tabac'] > 0) {
+                                if ($display_x == $m['x_element_tabac'] && $display_y == $m['y_element_tabac']) {
+                                    $tabElementsTabac[] = array(
+                                        'type' => $m['nom_court_type_tabac'],
+                                        'quantite' => $m['quantite_feuille_element_tabac'],
+                                    );
+                                }
+                            }
+                        }
+                    }
 
-                           if ($bralduns != null) {
-                               foreach ($bralduns as $h) {
-                                   if ($display_x == $h['x_braldun'] && $display_y == $h['y_braldun']) {
-                                       if ($h['est_ko_braldun'] == 'oui') {
-                                           $tabBraldunsKo[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
-                                       } else {
-                                           $tabBralduns[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
-                                       }
-                                   }
-                               }
-                           }
+                    if ($bralduns != null) {
+                        foreach ($bralduns as $h) {
+                            if ($display_x == $h['x_braldun'] && $display_y == $h['y_braldun']) {
+                                if ($h['est_ko_braldun'] == 'oui') {
+                                    $tabBraldunsKo[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
+                                } else {
+                                    $tabBralduns[] = array('id_braldun' => $h['id_braldun'], 'nom_braldun' => $h['nom_braldun'], 'prenom_braldun' => $h['prenom_braldun'], 'niveau_braldun' => $h['niveau_braldun'], 'id_communaute' => $h['id_fk_communaute_braldun'], 'nom_communaute' => $h['nom_communaute'], 'sexe_braldun' => $h['sexe_braldun'], 'est_soule_braldun' => $h['est_soule_braldun'], 'soule_camp_braldun' => $h['soule_camp_braldun'], 'est_intangible_braldun' => $h['est_intangible_braldun']);
+                                }
+                            }
+                        }
+                    }
 
-                           if ($lieux != null) {
-                               foreach ($lieux as $l) {
-                                   if ($display_x == $l['x_lieu'] && $display_y == $l['y_lieu']) {
-                                       $tabLieux[] = array('id_lieu' => $l['id_lieu'], 'nom_lieu' => $l['nom_lieu'], 'nom_type_lieu' => $l['nom_type_lieu'], 'nom_systeme_type_lieu' => $l['nom_systeme_type_lieu']);
-                                       $lieuCourant = $l;
-                                       $estLimiteVille = false;
-                                   }
-                                   if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
-                                       $estSurLieu = true;
-                                   }
-                               }
-                           }
+                    if ($lieux != null) {
+                        foreach ($lieux as $l) {
+                            if ($display_x == $l['x_lieu'] && $display_y == $l['y_lieu']) {
+                                $tabLieux[] = array('id_lieu' => $l['id_lieu'], 'nom_lieu' => $l['nom_lieu'], 'nom_type_lieu' => $l['nom_type_lieu'], 'nom_systeme_type_lieu' => $l['nom_systeme_type_lieu']);
+                                $lieuCourant = $l;
+                                $estLimiteVille = false;
+                            }
+                            if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
+                                $estSurLieu = true;
+                            }
+                        }
+                    }
 
-                           if ($monstres != null) {
-                               foreach ($monstres as $m) {
-                                   if ($display_x == $m['x_monstre'] && $display_y == $m['y_monstre']) {
-                                       if ($m['genre_type_monstre'] == 'feminin') {
-                                           $m_taille = $m['nom_taille_f_monstre'];
-                                       } else {
-                                           $m_taille = $m['nom_taille_m_monstre'];
-                                       }
-                                       if ($m['id_fk_type_groupe_monstre'] == $view->config->game->groupe_monstre->type->gibier) {
-                                           $estGibier = true;
-                                       } else {
-                                           $estGibier = false;
-                                       }
-                                       $tabMonstres[] = array('id_monstre' => $m['id_monstre'], 'id_type_monstre' => $m['id_type_monstre'], 'nom_monstre' => $m['nom_type_monstre'], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m['niveau_monstre'], 'est_gibier' => $estGibier);
-                                   }
-                               }
-                           }
+                    if ($monstres != null) {
+                        foreach ($monstres as $m) {
+                            if ($display_x == $m['x_monstre'] && $display_y == $m['y_monstre']) {
+                                if ($m['genre_type_monstre'] == 'feminin') {
+                                    $m_taille = $m['nom_taille_f_monstre'];
+                                } else {
+                                    $m_taille = $m['nom_taille_m_monstre'];
+                                }
+                                if ($m['id_fk_type_groupe_monstre'] == $view->config->game->groupe_monstre->type->gibier) {
+                                    $estGibier = true;
+                                } else {
+                                    $estGibier = false;
+                                }
+                                $tabMonstres[] = array('id_monstre' => $m['id_monstre'], 'id_type_monstre' => $m['id_type_monstre'], 'nom_monstre' => $m['nom_type_monstre'], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m['niveau_monstre'], 'est_gibier' => $estGibier);
+                            }
+                        }
+                    }
 
-                           if ($nids != null) {
-                               foreach ($nids as $n) {
-                                   if ($display_x == $n['x_nid'] && $display_y == $n['y_nid']) {
-                                       $tabNids[] = array('id_nid' => $n['id_nid'], 'nom_nid' => $n['nom_nid_type_monstre']);
-                                   }
-                               }
-                           }
+                    if ($nids != null) {
+                        foreach ($nids as $n) {
+                            if ($display_x == $n['x_nid'] && $display_y == $n['y_nid']) {
+                                $tabNids[] = array('id_nid' => $n['id_nid'], 'nom_nid' => $n['nom_nid_type_monstre']);
+                            }
+                        }
+                    }
 
-                           if ($villes != null) {
-                               foreach ($villes as $v) {
-                                   if ($display_x >= $v['x_min_ville'] &&
-                                       $display_x <= $v['x_max_ville'] &&
-                                       $display_y >= $v['y_min_ville'] &&
-                                       $display_y <= $v['y_max_ville']
-                                   ) {
-                                       $estLimiteVille = false;
+                    if ($villes != null) {
+                        foreach ($villes as $v) {
+                            if ($display_x >= $v['x_min_ville'] &&
+                                $display_x <= $v['x_max_ville'] &&
+                                $display_y >= $v['y_min_ville'] &&
+                                $display_y <= $v['y_max_ville']
+                            ) {
+                                $estLimiteVille = false;
 
-                                       if ($v['x_min_ville'] == $display_x || $v['x_max_ville'] == $display_y || $v['y_min_ville'] == $display_x || $v['y_max_ville'] == $display_y) {
-                                           $estLimiteVille = true;
-                                       }
-                                       $ville = array('estLimite' => $estLimiteVille, 'nom_ville' => $v['nom_ville'], 'est_capitale' => $v['est_capitale_ville'], 'nom_systeme' => $v['nom_systeme_ville'], 'nom_region' => $v['nom_region']);
-                                       break;
-                                   }
-                               }
-                           }
+                                if ($v['x_min_ville'] == $display_x || $v['x_max_ville'] == $display_y || $v['y_min_ville'] == $display_x || $v['y_max_ville'] == $display_y) {
+                                    $estLimiteVille = true;
+                                }
+                                $ville = array('estLimite' => $estLimiteVille, 'nom_ville' => $v['nom_ville'], 'est_capitale' => $v['est_capitale_ville'], 'nom_systeme' => $v['nom_systeme_ville'], 'nom_region' => $v['nom_region']);
+                                break;
+                            }
+                        }
+                    }
 
-                           if ($regions != null) {
-                               foreach ($regions as $r) {
-                                   if ($display_x >= $r['x_min_region'] &&
-                                       $display_x <= $r['x_max_region'] &&
-                                       $display_y >= $r['y_min_region'] &&
-                                       $display_y <= $r['y_max_region']
-                                   ) {
-                                       $region = array('nom' => $r['nom_region'], 'description' => $r['description_region'], 'est_pvp_region' => $r['est_pvp_region']);
-                                       break;
-                                   }
-                               }
-                           }
+                    if ($regions != null) {
+                        foreach ($regions as $r) {
+                            if ($display_x >= $r['x_min_region'] &&
+                                $display_x <= $r['x_max_region'] &&
+                                $display_y >= $r['y_min_region'] &&
+                                $display_y <= $r['y_max_region']
+                            ) {
+                                $region = array('nom' => $r['nom_region'], 'description' => $r['description_region'], 'est_pvp_region' => $r['est_pvp_region']);
+                                break;
+                            }
+                        }
+                    }
 
-                           if ($palissades != null) {
-                               foreach ($palissades as $p) {
-                                   if ($display_x == $p['x_palissade'] && $display_y == $p['y_palissade']) {
-                                       $tabPalissades[] = array('id_palissade' => $p['id_palissade'], 'est_destructible_palissade' => $p['est_destructible_palissade'], 'est_portail_palissade' => $p['est_portail_palissade'], 'date_fin_palissade' => $p["date_fin_palissade"]);
-                                   }
-                               }
-                           }
+                    if ($palissades != null) {
+                        foreach ($palissades as $p) {
+                            if ($display_x == $p['x_palissade'] && $display_y == $p['y_palissade']) {
+                                $tabPalissades[] = array('id_palissade' => $p['id_palissade'], 'est_destructible_palissade' => $p['est_destructible_palissade'], 'est_portail_palissade' => $p['est_portail_palissade'], 'date_fin_palissade' => $p["date_fin_palissade"]);
+                            }
+                        }
+                    }
 
-                           if ($buissons != null) {
-                               foreach ($buissons as $b) {
-                                   if ($display_x == $b['x_buisson'] && $display_y == $b['y_buisson']) {
-                                       $tabBuissons[] = array('id_buisson' => $b['id_buisson'], 'nom_buisson' => $b['nom_type_buisson']);
-                                   }
-                               }
-                           }
+                    if ($buissons != null) {
+                        foreach ($buissons as $b) {
+                            if ($display_x == $b['x_buisson'] && $display_y == $b['y_buisson']) {
+                                $tabBuissons[] = array('id_buisson' => $b['id_buisson'], 'nom_buisson' => $b['nom_type_buisson']);
+                            }
+                        }
+                    }
 
-                           if ($bosquets != null) {
-                               foreach ($bosquets as $b) {
-                                   if ($display_x == $b['x_bosquet'] && $display_y == $b['y_bosquet']) {
-                                       $tabBosquets[] = array('id_bosquet' => $b['id_bosquet']);
-                                       $nom_systeme_environnement = $b['nom_systeme_type_bosquet'];
-                                       $nom_environnement = $b['description_type_bosquet'];
-                                   }
-                               }
-                           }
+                    if ($bosquets != null) {
+                        foreach ($bosquets as $b) {
+                            if ($display_x == $b['x_bosquet'] && $display_y == $b['y_bosquet']) {
+                                $tabBosquets[] = array('id_bosquet' => $b['id_bosquet']);
+                                $nom_systeme_environnement = $b['nom_systeme_type_bosquet'];
+                                $nom_environnement = $b['description_type_bosquet'];
+                            }
+                        }
+                    }
 
-                           if ($eaux != null) {
-                               foreach ($eaux as $e) {
-                                   if ($display_x == $e['x_eau'] && $display_y == $e['y_eau']) {
-                                       $tabEaux[] = array('id_eau' => $e['id_eau']);
-                                       $nom_environnement = $e['type_eau'];
-                                   }
-                               }
-                           }
+                    if ($eaux != null) {
+                        foreach ($eaux as $e) {
+                            if ($display_x == $e['x_eau'] && $display_y == $e['y_eau']) {
+                                $tabEaux[] = array('id_eau' => $e['id_eau']);
+                                $nom_environnement = $e['type_eau'];
+                            }
+                        }
+                    }
 
-                           if ($routes != null) {
-                               foreach ($routes as $r) {
-                                   if ($display_x == $r['x_route'] && $display_y == $r['y_route']) {
-                                       $tabRoutes[] = array('id_route' => $r['id_route'], 'type_route' => $r['type_route']);
-                                   }
-                               }
-                           }
+                    if ($routes != null) {
+                        foreach ($routes as $r) {
+                            if ($display_x == $r['x_route'] && $display_y == $r['y_route']) {
+                                $tabRoutes[] = array('id_route' => $r['id_route'], 'type_route' => $r['type_route']);
+                            }
+                        }
+                    }
 
-                           if ($souleMatch != null) {
-                               foreach ($souleMatch as $s) {
-                                   if ($display_x == $s['x_ballon_soule_match'] && $display_y == $s['y_ballon_soule_match']) {
-                                       $tabBallons[] = array('est_ballon_present' => true);
-                                   }
-                               }
-                           }
+                    if ($souleMatch != null) {
+                        foreach ($souleMatch as $s) {
+                            if ($display_x == $s['x_ballon_soule_match'] && $display_y == $s['y_ballon_soule_match']) {
+                                $tabBallons[] = array('est_ballon_present' => true);
+                            }
+                        }
+                    }
 
-                       }
+                }
 
-                       if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) { // Position du joueur
-                           $cssActuelle = 'actuelle';
-                           $view->environnement = $nom_environnement;
-                           $view->centre_nom_region = $region['nom'];
-                           $view->est_pvp_region = ($region['est_pvp_region'] == 'oui');
-                           $view->centre_description_region = $region['description'];
-                           $view->centre_nom_ville = $ville['nom_ville'];
-                           $view->centre_est_capitale = ($ville['est_capitale'] == 'oui');
-                       } else {
-                           $cssActuelle = '';
-                       }
+                if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) { // Position du joueur
+                    $cssActuelle = 'actuelle';
+                    $view->environnement = $nom_environnement;
+                    $view->centre_nom_region = $region['nom'];
+                    $view->est_pvp_region = ($region['est_pvp_region'] == 'oui');
+                    $view->centre_description_region = $region['description'];
+                    $view->centre_nom_ville = $ville['nom_ville'];
+                    $view->centre_est_capitale = ($ville['est_capitale'] == 'oui');
+                } else {
+                    $cssActuelle = '';
+                }
 
-                       if (count($tabPalissades) > 0) {
-                           if ($tabPalissades[0]['est_portail_palissade'] == 'oui') {
-                               $css = 'portail';
-                           } else {
-                               $css = 'palissade';
-                           }
-                       } else {
-                           $css = $nom_systeme_environnement;
-                           if ($css == null) {
-                               $css = 'inconnu';
-                           }
+                if (count($tabPalissades) > 0) {
+                    if ($tabPalissades[0]['est_portail_palissade'] == 'oui') {
+                        $css = 'portail';
+                    } else {
+                        $css = 'palissade';
+                    }
+                } else {
+                    $css = $nom_systeme_environnement;
+                    if ($css == null) {
+                        $css = 'inconnu';
+                    }
 
-                           if (count($tabEaux) >= 1) {
-                               $css = $nom_environnement;
-                           } elseif (count($tabRoutes) >= 1) {
-                               if ($tabRoutes[0]['type_route'] == 'ville' || $tabRoutes[0]['type_route'] == 'ruine') {
-                                   $css = 'pave';
-                               } elseif ($tabRoutes[0]['type_route'] == 'echoppe') {
-                                   $css = 'pave';
-                               } elseif ($tabRoutes[0]['type_route'] == 'route') {
-                                   $css = 'route';
-                               } else {
-                                   $css .= '-gr';
-                               }
-                           }
-                           if (count($tabCrevasses) >= 1) {
-                               $css .= '-crevasse';
-                           }
-                       }
+                    if (count($tabEaux) >= 1) {
+                        $css = $nom_environnement;
+                    } elseif (count($tabRoutes) >= 1) {
+                        if ($tabRoutes[0]['type_route'] == 'ville' || $tabRoutes[0]['type_route'] == 'ruine') {
+                            $css = 'pave';
+                        } elseif ($tabRoutes[0]['type_route'] == 'echoppe') {
+                            $css = 'pave';
+                        } elseif ($tabRoutes[0]['type_route'] == 'route') {
+                            $css = 'route';
+                        } else {
+                            $css .= '-gr';
+                        }
+                    }
+                    if (count($tabCrevasses) >= 1) {
+                        $css .= '-crevasse';
+                    }
+                }
 
-                       if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
-                           $view->centre_environnement = $nom_environnement;
-                       }
+                if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
+                    $view->centre_environnement = $nom_environnement;
+                }
 
-                       if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
-                           $tabMarcher['case'] = null;
-                       } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
-                           $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
-                           $tabMarcher['general'] = $marcher;
-                       } else {
-                           $tabMarcher['case'] = null;
-                       }
+                if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
+                    $tabMarcher['case'] = null;
+                } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
+                    $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
+                    $tabMarcher['general'] = $marcher;
+                } else {
+                    $tabMarcher['case'] = null;
+                }
 
-                       $tab = array('x' => $display_x, 'y' => $display_y, 'z' => $view->z_position, //
-                                    'change_level' => $change_level, // nouvelle ligne dans le tableau ;
-                                    'css_actuelle' => $cssActuelle,
-                                    'nom_zone' => $nom_zone,
-                                    'description_zone' => $nom_zone,
-                                    'css' => $css,
-                                    'n_cadavres' => count($tabCadavres),
-                                    'cadavres' => $tabCadavres,
-                                    'n_champs' => count($tabChamps),
-                                    'champs' => $tabChamps,
-                                    'n_crevasses' => count($tabCrevasses),
-                                    'crevasses' => $tabCrevasses,
-                                    'n_echoppes' => count($tabEchoppes),
-                                    'echoppes' => $tabEchoppes,
-                                    'n_castars' => count($tabCastars),
-                                    'castars' => $tabCastars,
-                                    'n_charrettes' => count($tabCharrettes),
-                                    'charrettes' => $tabCharrettes,
-                                    'n_elements' => count($tabElements),
-                                    'elements' => $tabElements,
-                                    'n_elements_equipements' => count($tabElementsEquipements),
-                                    'elements_equipements' => $tabElementsEquipements,
-                                    'n_elements_materiels' => count($tabElementsMateriels),
-                                    'elements_materiels' => $tabElementsMateriels,
-                                    'n_elements_munitions' => count($tabElementsMunitions),
-                                    'elements_munitions' => $tabElementsMunitions,
-                                    'n_elements_partieplante_brutes' => count($tabElementsPartieplantesBrutes),
-                                    'elements_partieplantes_brutes' => $tabElementsPartieplantesBrutes,
-                                    'n_elements_partieplante_preparees' => count($tabElementsPartieplantesPreparees),
-                                    'elements_partieplantes_preparees' => $tabElementsPartieplantesPreparees,
-                                    'n_elements_potions' => count($tabElementsPotions),
-                                    'elements_potions' => $tabElementsPotions,
-                                    'n_elements_graines' => count($tabElementsGraines),
-                                    'elements_graines' => $tabElementsGraines,
-                                    'n_elements_ingredients' => count($tabElementsIngredients),
-                                    'elements_ingredients' => $tabElementsIngredients,
-                                    'n_elements_aliments' => count($tabElementsAliments),
-                                    'elements_aliments' => $tabElementsAliments,
-                                    'n_elements_minerais_bruts' => count($tabElementsMineraisBruts),
-                                    'elements_minerais_bruts' => $tabElementsMineraisBruts,
-                                    'n_elements_lingots' => count($tabElementsLingots),
-                                    'elements_lingots' => $tabElementsLingots,
-                                    'n_elements_runes' => count($tabElementsRunes),
-                                    'elements_runes' => $tabElementsRunes,
-                                    'n_elements_tabac' => count($tabElementsTabac),
-                                    'elements_tabc' => $tabElementsTabac,
-                                    'n_bralduns' => count($tabBralduns),
-                                    'bralduns' => $tabBralduns,
-                                    'n_braldunsKo' => count($tabBraldunsKo),
-                                    'braldunsKo' => $tabBraldunsKo,
-                                    'n_lieux' => count($tabLieux),
-                                    'lieux' => $tabLieux,
-                                    'n_monstres' => count($tabMonstres),
-                                    'monstres' => $tabMonstres,
-                                    'n_nids' => count($tabNids),
-                                    'nids' => $tabNids,
-                                    'n_palissades' => count($tabPalissades),
-                                    'palissades' => $tabPalissades,
-                                    'n_buissons' => count($tabBuissons),
-                                    'buissons' => $tabBuissons,
-                                    'n_bosquets' => count($tabBosquets),
-                                    'bosquets' => $tabBosquets,
-                                    'n_eaux' => count($tabEaux),
-                                    'eaux' => $tabEaux,
-                                    'n_routes' => count($tabRoutes),
-                                    'routes' => $tabRoutes,
-                                    'n_ballons' => count($tabBallons),
-                                    'ballons' => $tabBallons,
-                                    'ville' => $ville,
-                                    'marcher' => $tabMarcher,
-                       );
-                       $tableau[] = $tab;
-                       if ($change_level) {
-                           $change_level = false;
-                       }
-                   }
-               }
-               */
+                $tab = array('x' => $display_x, 'y' => $display_y, 'z' => $view->z_position, //
+                             'change_level' => $change_level, // nouvelle ligne dans le tableau ;
+                             'css_actuelle' => $cssActuelle,
+                             'nom_zone' => $nom_zone,
+                             'description_zone' => $nom_zone,
+                             'css' => $css,
+                             'n_cadavres' => count($tabCadavres),
+                             'cadavres' => $tabCadavres,
+                             'n_champs' => count($tabChamps),
+                             'champs' => $tabChamps,
+                             'n_crevasses' => count($tabCrevasses),
+                             'crevasses' => $tabCrevasses,
+                             'n_echoppes' => count($tabEchoppes),
+                             'echoppes' => $tabEchoppes,
+                             'n_castars' => count($tabCastars),
+                             'castars' => $tabCastars,
+                             'n_charrettes' => count($tabCharrettes),
+                             'charrettes' => $tabCharrettes,
+                             'n_elements' => count($tabElements),
+                             'elements' => $tabElements,
+                             'n_elements_equipements' => count($tabElementsEquipements),
+                             'elements_equipements' => $tabElementsEquipements,
+                             'n_elements_materiels' => count($tabElementsMateriels),
+                             'elements_materiels' => $tabElementsMateriels,
+                             'n_elements_munitions' => count($tabElementsMunitions),
+                             'elements_munitions' => $tabElementsMunitions,
+                             'n_elements_partieplante_brutes' => count($tabElementsPartieplantesBrutes),
+                             'elements_partieplantes_brutes' => $tabElementsPartieplantesBrutes,
+                             'n_elements_partieplante_preparees' => count($tabElementsPartieplantesPreparees),
+                             'elements_partieplantes_preparees' => $tabElementsPartieplantesPreparees,
+                             'n_elements_potions' => count($tabElementsPotions),
+                             'elements_potions' => $tabElementsPotions,
+                             'n_elements_graines' => count($tabElementsGraines),
+                             'elements_graines' => $tabElementsGraines,
+                             'n_elements_ingredients' => count($tabElementsIngredients),
+                             'elements_ingredients' => $tabElementsIngredients,
+                             'n_elements_aliments' => count($tabElementsAliments),
+                             'elements_aliments' => $tabElementsAliments,
+                             'n_elements_minerais_bruts' => count($tabElementsMineraisBruts),
+                             'elements_minerais_bruts' => $tabElementsMineraisBruts,
+                             'n_elements_lingots' => count($tabElementsLingots),
+                             'elements_lingots' => $tabElementsLingots,
+                             'n_elements_runes' => count($tabElementsRunes),
+                             'elements_runes' => $tabElementsRunes,
+                             'n_elements_tabac' => count($tabElementsTabac),
+                             'elements_tabc' => $tabElementsTabac,
+                             'n_bralduns' => count($tabBralduns),
+                             'bralduns' => $tabBralduns,
+                             'n_braldunsKo' => count($tabBraldunsKo),
+                             'braldunsKo' => $tabBraldunsKo,
+                             'n_lieux' => count($tabLieux),
+                             'lieux' => $tabLieux,
+                             'n_monstres' => count($tabMonstres),
+                             'monstres' => $tabMonstres,
+                             'n_nids' => count($tabNids),
+                             'nids' => $tabNids,
+                             'n_palissades' => count($tabPalissades),
+                             'palissades' => $tabPalissades,
+                             'n_buissons' => count($tabBuissons),
+                             'buissons' => $tabBuissons,
+                             'n_bosquets' => count($tabBosquets),
+                             'bosquets' => $tabBosquets,
+                             'n_eaux' => count($tabEaux),
+                             'eaux' => $tabEaux,
+                             'n_routes' => count($tabRoutes),
+                             'routes' => $tabRoutes,
+                             'n_ballons' => count($tabBallons),
+                             'ballons' => $tabBallons,
+                             'ville' => $ville,
+                             'marcher' => $tabMarcher,
+                );
+                $tableau[] = $tab;
+                if ($change_level) {
+                    $change_level = false;
+                }
+            }
+        }
+        */
 
 
         $view->estSurLieu = $estSurLieu;

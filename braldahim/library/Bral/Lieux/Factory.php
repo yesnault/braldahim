@@ -21,7 +21,7 @@ class Bral_Lieux_Factory {
 
 		$construct = "Bral_Lieux_".Bral_Util_String::firstToUpper($nomSystemeLieu);
 
-		if ($nomSystemeLieu == "puit") {
+		if ($nomSystemeLieu == "puits") {
 			Zend_Loader::loadClass("Bral_Lieux_Mine");
 		}
 

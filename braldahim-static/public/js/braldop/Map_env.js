@@ -32,7 +32,7 @@ Map.prototype.initTiles = function() {
 	(this.placeImg[26] = new Image()).src = baseTilesUrl + "vue/batiments/contrat.png";
 	(this.placeImg[27] = new Image()).src = baseTilesUrl + "vue/batiments/maisonpnj.png";
 	(this.placeImg[28] = new Image()).src = baseTilesUrl + "vue/batiments/mine.png";
-	(this.placeImg[29] = new Image()).src = baseTilesUrl + "vue/batiments/puit.png"; // manque pas un s ?
+	(this.placeImg[29] = new Image()).src = baseTilesUrl + "vue/batiments/puits.png"; // manque pas un s ?
 	(this.placeImg[30] = new Image()).src = baseTilesUrl + "vue/batiments/hall.png";
 	(this.placeImg[31] = new Image()).src = baseTilesUrl + "vue/batiments/grenier.png";
 	(this.placeImg[32] = new Image()).src = baseTilesUrl + "vue/batiments/temple.png";
@@ -72,7 +72,7 @@ Map.prototype.initTiles = function() {
 	
 	this.imgObjets = {};
 	(this.imgObjets['charrette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
-	
+	(this.imgObjets['castar'] = new Image()).src = baseTilesUrl + "vue/castars.png";
 	
 	for (tile in this.envTiles) {
 		tile.onload = function() { 	_this.redraw(); }; // on dirait que ça ne marche pas
