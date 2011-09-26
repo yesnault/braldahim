@@ -293,7 +293,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($charrettes as $c) {
 							if ($display_x == $c["x_charrette"] && $display_y == $c["y_charrette"]) {
 								$tabCharrettes[] = array("id_charrette" => $c["id_charrette"], "nom" => $c["nom_type_materiel"]);
-								$retour .= 'CHARRETTE;'.$pos.';'. $c["id_charrette"].';'.$c["nom_type_materiel"].$fin;
+								$retour .= 'CHARRETTE;'.$pos.';'. $c["id_charrette"].';'.$c["nom_type_materiel"].';'.$c["id_type_materiel"].$fin;
 							}
 						}
 					}
@@ -331,12 +331,12 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elements != null) {
 						foreach($elements as $e) {
 							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
-								if ($e["quantite_peau_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Peau;'.$e["quantite_peau_element"].$fin;
-								if ($e["quantite_cuir_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Cuir;'.$e["quantite_cuir_element"].$fin;
-								if ($e["quantite_fourrure_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Fourrure;'.$e["quantite_fourrure_element"].$fin;
-								if ($e["quantite_planche_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Planche;'.$e["quantite_planche_element"].$fin;
-								if ($e["quantite_rondin_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Rondin;'.$e["quantite_rondin_element"].$fin;
-								if ($e["quantite_castar_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Castar;'.$e["quantite_castar_element"].$fin;
+								if ($e["quantite_peau_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Peau;'.$e["quantite_peau_element"].';x'.$fin;
+								if ($e["quantite_cuir_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Cuir;'.$e["quantite_cuir_element"].';s'.$fin;
+								if ($e["quantite_fourrure_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Fourrure;'.$e["quantite_fourrure_element"].';s'.$fin;
+								if ($e["quantite_planche_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Planche;'.$e["quantite_planche_element"].';s'.$fin;
+								if ($e["quantite_rondin_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Rondin;'.$e["quantite_rondin_element"].';s'.$fin;
+								if ($e["quantite_castar_element"] > 0) $retour .= 'ELEMENT;'.$pos.';Castar;'.$e["quantite_castar_element"].';s'.$fin;
 							}
 						}
 					}
@@ -344,7 +344,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsEquipements != null) {
 						foreach($elementsEquipements as $e) {
 							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
-								$retour .= 'EQUIPEMENT;'.$pos.';'.$e["id_element_equipement"].';'.Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]).';'.$e["nom_type_qualite"].';'.$e["niveau_recette_equipement"].';'.$e["suffixe_mot_runique"].$fin;
+								$retour .= 'EQUIPEMENT;'.$pos.';'.$e["id_element_equipement"].';'.Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]).';'.$e["nom_type_qualite"].';'.$e["niveau_recette_equipement"].';'.$e["suffixe_mot_runique"].';'.$e["id_type_equipement"].$fin;
 							}
 						}
 					}
@@ -352,7 +352,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsMateriels != null) {
 						foreach($elementsMateriels as $e) {
 							if ($display_x == $e["x_element_materiel"] && $display_y == $e["y_element_materiel"]) {
-								$retour .= 'MATERIEL;'.$pos.';'.$e["id_element_materiel"].';'.$e["nom_type_materiel"].$fin;
+								$retour .= 'MATERIEL;'.$pos.';'.$e["id_element_materiel"].';'.$e["nom_type_materiel"].';'.$e["id_type_materiel"].$fin;
 							}
 						}
 					}
@@ -361,7 +361,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($elementsMunitions as $m) {
 							if ($m["quantite_element_munition"] > 0) {
 								if ($display_x == $m["x_element_munition"] && $display_y == $m["y_element_munition"]) {
-									$retour .= 'MUNITION;'.$pos.';'.$m["nom_type_munition"].';'.$m["nom_pluriel_type_munition"].';'.$m["quantite_element_munition"].$fin;
+									$retour .= 'MUNITION;'.$pos.';'.$m["nom_type_munition"].';'.$m["nom_pluriel_type_munition"].';'.$m["quantite_element_munition"].';'.$m["id_type_munition"].$fin;
 								}
 							}
 						}
@@ -370,7 +370,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsPotions != null) {
 						foreach($elementsPotions as $p) {
 							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
-								$retour .= 'POTION;'.$pos.';'.$p["id_element_potion"].';'.Bral_Util_Potion::getNomType($p["type_potion"]).';'.$p["nom_type_potion"].';'.$p["nom_type_qualite"].';'.$p["niveau_potion"].$fin;
+								$retour .= 'POTION;'.$pos.';'.$p["id_element_potion"].';'.Bral_Util_Potion::getNomType($p["type_potion"]).';'.$p["nom_type_potion"].';'.$p["nom_type_qualite"].';'.$p["niveau_potion"].';'.$p["id_type_potion"].$fin;
 							}
 						}
 					}
@@ -378,7 +378,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsAliments != null) {
 						foreach($elementsAliments as $p) {
 							if ($display_x == $p["x_element_aliment"] && $display_y == $p["y_element_aliment"]) {
-								$retour .= 'ALIMENT;'.$pos.';'.$p["id_element_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].$fin;
+								$retour .= 'ALIMENT;'.$pos.';'.$p["id_element_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].';'.$p["id_type_aliment"].$fin;
 							}
 						}
 					}
@@ -386,7 +386,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsGraines != null) {
 						foreach($elementsGraines as $p) {
 							if ($display_x == $p["x_element_graine"] && $display_y == $p["y_element_graine"]) {
-								$retour .= 'GRAINE;'.$pos.';'.$p["quantite_element_graine"].';'.$p["nom_type_graine"].$fin;
+								$retour .= 'GRAINE;'.$pos.';'.$p["quantite_element_graine"].';'.$p["nom_type_graine"].';'.$p["id_type_graine"].$fin;
 							}
 						}
 					}
@@ -394,7 +394,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($elementsIngredients != null) {
 						foreach($elementsIngredients as $p) {
 							if ($display_x == $p["x_element_ingredient"] && $display_y == $p["y_element_ingredient"]) {
-								$retour .= 'INGREDIENT;'.$pos.';'.$p["quantite_element_ingredient"].';'.$p["nom_type_ingredient"].$fin;
+								$retour .= 'INGREDIENT;'.$pos.';'.$p["quantite_element_ingredient"].';'.$p["nom_type_ingredient"].';'.$p["id_type_ingredient"].$fin;
 							}
 						}
 					}
@@ -403,13 +403,13 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($elementsMinerais as $m) {
 							if ($m["quantite_brut_element_minerai"] > 0) {
 								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
-									$retour .= 'MINERAI_BRUT;'.$pos.';'.$m["quantite_brut_element_minerai"].';'.$m["nom_type_minerai"].$fin;
+									$retour .= 'MINERAI_BRUT;'.$pos.';'.$m["quantite_brut_element_minerai"].';'.$m["nom_type_minerai"].';'.$m["id_type_minerai"].$fin;
 								}
 							}
 
 							if ($m["quantite_lingots_element_minerai"] > 0) {
 								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
-									$retour .= 'LINGOT;'.$pos.';'.$m["quantite_lingots_element_minerai"].';'.$m["nom_type_minerai"].$fin;
+									$retour .= 'LINGOT;'.$pos.';'.$m["quantite_lingots_element_minerai"].';'.$m["nom_type_minerai"].';'.$m["id_type_minerai"].$fin;
 								}
 							}
 						}
@@ -419,13 +419,13 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($elementsPartieplantes as $m) {
 							if ($m["quantite_element_partieplante"] > 0) {
 								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
-									$retour .= 'PLANTE_BRUTE;'.$pos.';'.$m["quantite_element_partieplante"].';'.$m["nom_type_partieplante"].';'.$m["nom_type_plante"].$fin;
+									$retour .= 'PLANTE_BRUTE;'.$pos.';'.$m["quantite_element_partieplante"].';'.$m["nom_type_partieplante"].';'.$m["nom_type_plante"].';'.$m["id_type_plante"].';'.$m["id_type_partieplante"].$fin;
 								}
 							}
 
 							if ($m["quantite_preparee_element_partieplante"] > 0) {
 								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
-									$retour .= 'PLANTE_PREPAREE;'.$pos.';'.$m["quantite_preparee_element_partieplante"].';'.$m["nom_type_partieplante"].';'.$m["nom_type_plante"].$fin;
+									$retour .= 'PLANTE_PREPAREE;'.$pos.';'.$m["quantite_preparee_element_partieplante"].';'.$m["nom_type_partieplante"].';'.$m["nom_type_plante"].';'.$m["id_type_plante"].';'.$m["id_type_partieplante"].$fin;
 								}
 							}
 						}
@@ -443,7 +443,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						foreach($elementsTabac as $m) {
 							if ($m["quantite_feuille_element_tabac"] > 0) {
 								if ($display_x == $m["x_element_tabac"] && $display_y == $m["y_element_tabac"]) {
-									$retour .= 'TABAC;'.$pos.';'.$m["quantite_feuille_element_tabac"].';'.$m["nom_court_type_tabac"].$fin;
+									$retour .= 'TABAC;'.$pos.';'.$m["quantite_feuille_element_tabac"].';'.$m["nom_court_type_tabac"].';'.$m["id_type_tabac"].$fin;
 								}
 							}
 						}
@@ -452,7 +452,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($bralduns != null) {
 						foreach($bralduns as $h) {
 							if ($display_x == $h["x_braldun"] && $display_y == $h["y_braldun"]) {
-								$retour .= 'BRALDUN;'.$pos.';'.$h["id_braldun"].';'.$h['est_ko_braldun'].';'.$h['est_intangible_braldun'].';'.$h['est_soule_braldun'].';'.$h["soule_camp_braldun"].';'.$h["id_fk_soule_match_braldun"].$fin;
+								$retour .= 'BRALDUN;'.$pos.';'.$h["id_braldun"].';'.$h['est_ko_braldun'].';'.$h['est_intangible_braldun'].';'.$h['est_soule_braldun'].';'.$h["soule_camp_braldun"].';'.$h["id_fk_soule_match_braldun"].';'.$h["points_gredin_braldun"].';'.$h["points_redresseur_braldun"].';'.$h["points_distinctions_braldun"].$fin;
 							}
 						}
 					}
@@ -460,7 +460,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($lieux != null) {
 						foreach($lieux as $l) {
 							if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
-								$retour .= 'LIEU;'.$pos.';'.$l["id_lieu"].';'.$l["nom_lieu"].';'.$l["nom_type_lieu"].';'.$l["nom_systeme_type_lieu"].$fin;
+								$retour .= 'LIEU;'.$pos.';'.$l["id_lieu"].';'.$l["nom_lieu"].';'.$l["nom_type_lieu"].';'.$l["nom_systeme_type_lieu"].';'.$l["id_type_lieu"].$fin;
 							}
 						}
 					}
@@ -502,7 +502,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($buissons != null) {
 						foreach($buissons as $b) {
 							if ($display_x == $b["x_buisson"] && $display_y == $b["y_buisson"]) {
-								$retour .= 'BUISSON;'.$pos.';'.$b["id_buisson"].';'.$b["nom_type_buisson"].$fin;
+								$retour .= 'BUISSON;'.$pos.';'.$b["id_buisson"].';'.$b["nom_type_buisson"].';'.$b["id_type_buisson"].$fin;
 							}
 						}
 					}
@@ -512,7 +512,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 							if ($display_x == $b["x_bosquet"] && $display_y == $b["y_bosquet"]) {
 								$tabBosquets[] = array("id_bosquet" => $b["id_bosquet"]);
 								$nom_systeme_environnement = $b["nom_systeme_type_bosquet"];
-								$retour .= 'BOSQUET;'.$pos.';'.$b["id_bosquet"].';'.$b["nom_systeme_type_bosquet"].$fin;
+								$retour .= 'BOSQUET;'.$pos.';'.$b["id_bosquet"].';'.$b["nom_systeme_type_bosquet"].';'.$b["id_type_bosquet"].$fin;
 							}
 						}
 					}
