@@ -615,7 +615,8 @@ button::-moz-focus-inner
 /* The disabled styles */
 .button[disabled], .button[disabled]:hover, .button.disabled, .button.disabled:hover
 {
-        background: #eee;
+    background: #31401A;
+        /*background: #eee;
         color: #aaa;
         border-color: #aaa;
         cursor: default;
@@ -623,7 +624,7 @@ button::-moz-focus-inner
         position: static;
         -moz-box-shadow: none;
         -webkit-box-shadow: none;
-        box-shadow: none;
+        box-shadow: none;*/
 }
 
 /*
