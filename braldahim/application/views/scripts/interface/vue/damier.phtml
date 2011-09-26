@@ -1,7 +1,7 @@
 <?php if ($this->estVueEtendue == false): ?>
 	<?php if ($this->estSurLieu === true) : ?>
 		<div class="text surlieu">
-		Vous êtes actuellement sur un lieu particulier<button class="butEntrer" title="Cliquer pour accéder directement au lieu" onclick="Javascript:_get_('/interface/load/?box=box_lieu');" title="Entrez">Entrez</button>
+		Vous êtes actuellement sur un lieu particulier<button class="button next" title="Cliquer pour accéder directement au lieu" onclick="Javascript:_get_('/interface/load/?box=box_lieu');" title="Entrez">Entrez</button>
 		</div>
 	<?php elseif ($this->estSurEchoppe === true) : ?>
 		<div class="text surlieu">

@@ -10,7 +10,7 @@
   <?php else: ?>
   
   <?php if ($this->idFilatureEnCours != null) : ?>
-	  <input type='button' class='button1' value='Annuler la filature en cours - 0 PA' onclick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?php echo $this->idFilatureEnCours?>');">
+	  <input type='button' class='button' value='Annuler la filature en cours - 0 PA' onclick="_get_('/filature/doaction?caction=ask_filature_annuler&id_filature=<?php echo $this->idFilatureEnCours?>');">
 	  <br /><br />
   <?php endif;?>
     

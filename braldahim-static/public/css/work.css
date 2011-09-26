@@ -158,13 +158,13 @@ thead.table_liste,tfoot.table_liste {
 	display: none;
 }
 
-input.button1 {
+input.button {
 	background-image: none;
 	background-color:transparent;
 	color: #666666;
 }
 
-input.button1:hover {
+input.button:hover {
 	border-color: #31401A;
 	cursor: pointer;
 }

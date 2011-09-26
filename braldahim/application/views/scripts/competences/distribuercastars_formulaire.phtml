@@ -32,5 +32,5 @@
  </div>
 <br />
 <?php if ($this->tabBralduns != null) : ?> 	
-<input type='button' class='button1' id='bouton_distribuercastars' value='Distribuer !' onclick="if (parseInt($('#cagnottecastars_origine').val() * 1) > parseInt($('#cagnottecastars').val() * 1)) {this.disabled=true;_get_('/competences/doaction?caction=do_competence_distribuercastars');} else {alert('Il n\'y a rien &agrave; distribuer');}">
+<input type='button' class='button' id='bouton_distribuercastars' value='Distribuer !' onclick="if (parseInt($('#cagnottecastars_origine').val() * 1) > parseInt($('#cagnottecastars').val() * 1)) {this.disabled=true;_get_('/competences/doaction?caction=do_competence_distribuercastars');} else {alert('Il n\'y a rien &agrave; distribuer');}">
 <?php endif; ?>

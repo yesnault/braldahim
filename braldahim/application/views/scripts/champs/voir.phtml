@@ -1,5 +1,5 @@
 <div style="text-align:left; position:Absolute; padding: 0px; ">
-<input type="button" class='button1' onclick='_get_("/champs/doaction?caction=ask_champs_liste");' value="Retour">
+<input type="button" class='button' onclick='_get_("/champs/doaction?caction=ask_champs_liste");' value="Retour">
 </div>
 
 <div class="titre textalic textsizec">
@@ -11,9 +11,9 @@ Champ appartenant à <?php echo $this->champ["braldun"]?><br /></div>
 <br />
 
   <?php if ($this->possedeChamp === true): ?>
-	 <input type="button" class='button1' value="0 PA - Modifier le nom" 
+	 <input type="button" class='button' value="0 PA - Modifier le nom"
 	 onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifiernom&valeur_1=<?php echo $this->champ["id_champ"] ?>')" <?php echo $disabled?> />
-	 <input type="button" class='button1' value="0 PA - Modifier la description"
+	 <input type="button" class='button' value="0 PA - Modifier la description"
 	  onclick="Javascript:_get_('/champs/doaction?caction=ask_champs_modifierdescription&valeur_1=<?php echo $this->champ["id_champ"] ?>')" <?php echo $disabled?>/>
  <?php endif; ?>
  
@@ -34,7 +34,7 @@ if ($this->competences != null) :
 	    else:
 	      $attr = " disabled ";
 	    endif;?>
-	    <input type="button" class='button1' value="<?php echo $c["pa_utilisation"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
+	    <input type="button" class='button' value="<?php echo $c["pa_utilisation"]?> PA - <?php echo $c["nom"]?><?php if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?php echo $attr?>>
 	<?php endforeach; ?>
 <?php else: ?>
 	<i>Aucune compétence d'agriculture disponible</i>.

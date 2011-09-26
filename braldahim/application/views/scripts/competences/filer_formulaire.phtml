@@ -82,14 +82,14 @@
 <?php if ($this->assezDePa == true && $this->positionOk == true) : ?>
 	<?php if ($this->filerEnCours != null) : ?>
 		<?php if ($this->peutCastars && $this->filerEnCours["etape_filature"] == 2 || $this->filerEnCours["etape_filature"] == 3): ?>
- 			<input type='button' class='button1' value='Filer en payant 50 castars!' onclick='$("#valeur_1").val(1);this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
- 			<input type='button' class='button1' value='Filer sans payer 50 castars!' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
+ 			<input type='button' class='button' value='Filer en payant 50 castars!' onclick='$("#valeur_1").val(1);this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
+ 			<input type='button' class='button' value='Filer sans payer 50 castars!' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
  		<?php else: ?>
- 			<input type='button' class='button1' value='Filer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
+ 			<input type='button' class='button' value='Filer !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");'>
  		<?php endif;?>
  			
 		
 	<?php else: ?>
-		<input type='button' class='button1' value='Filer !' onclick='if ($("#valeur_1").val() == -1 || $("#recherche_valeur_1").val() == "") {alert("Choisissez un Braldûn"); } else { this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");}'>
+		<input type='button' class='button' value='Filer !' onclick='if ($("#valeur_1").val() == -1 || $("#recherche_valeur_1").val() == "") {alert("Choisissez un Braldûn"); } else { this.disabled=true;_get_("/competences/doaction?caction=do_competence_filer");}'>
 	<?php endif;?>
 <?php endif ?>

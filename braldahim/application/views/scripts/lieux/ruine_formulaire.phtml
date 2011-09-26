@@ -21,6 +21,6 @@
 <br /> 
 
 <?php if ($this->utilisationPaPossible === true && $this->transformerOk === true): ?>
-<input type='button' class='button1' id="bouton_hopital" value='Transformer en Hall de Communauté' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_ruine');">
+<input type='button' class='button' id="bouton_hopital" value='Transformer en Hall de Communauté' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_ruine');">
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

@@ -12,12 +12,12 @@
 	<?php if ($this->erreurBraldun) : ?>
 		Une erreur est survenue. Veuillez bien renseigner le n° de Braldûn avec lequel vous partagez la connexion.<br />
 		<br /><br />
-		<input type="button" class='button1' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/partage'"/>
+		<input type="button" class='button' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/partage'"/>
 		
 	<?php elseif ($this->idPartage != null) : ?>
 		Votre partage est bien signalé. Un enquêteur vous contactera par mail si besoin.
 		<br /><br />
-		<input type="button" class='button1' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/'"/>
+		<input type="button" class='button' name="Retour" value="Retour" onclick="javascript:document.location.href='/Parametres/'"/>
 		 
 	<?php else: ?>
 	   	<table width='70%' align='center'>
@@ -46,8 +46,8 @@
 		 Décrivez ici vos liens avec le joueur du Braldûn cité ci-dessus  : <br />
 		 <textarea rows='10' cols='80' name="message" id="message"></textarea>
 		 <br /><br /></br>
-		 <input type="button" class='button1' name="bouton_partage"  id="bouton_partage" onclick="if (parseInt($('#id_braldun').val() * 1) > 0 && $('#message').val() !='') { $('#form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
-		 <input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
+		 <input type="button" class='button' name="bouton_partage"  id="bouton_partage" onclick="if (parseInt($('#id_braldun').val() * 1) > 0 && $('#message').val() !='') { $('#form_partage').submit(); } else { alert('Veuillez renseigner tous les champs') }" value="Envoyer" />
+		 <input type="button" class='button' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
 	
 	 <?php endif;?>
 		

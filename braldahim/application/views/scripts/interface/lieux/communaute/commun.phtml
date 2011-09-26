@@ -33,7 +33,7 @@ Niveau du bâtiment : <?php echo $this->niveauLieu?> <br />
 
 <?php if ($this->niveauLieu != $this->niveauProchainLieu) : ?>
 	Le bâtiment est en cours de construction. Vous pouvez participer à la construction. <br /><br />
-	<input type='button' class='button1' value='1 PA - Construire le bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_construirebatiment");'>
+	<input type='button' class='button' value='1 PA - Construire le bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_construirebatiment");'>
 	<br />
 <?php else: ?>
 	La construction du bâtiment est terminée.

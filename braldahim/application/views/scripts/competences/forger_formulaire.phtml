@@ -75,5 +75,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->forgerEchoppeOk === true && $this->etape1 === true) : ?>
-<input type='button' class='button1' id='bouton_forger' value='Forger !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_forger&type_equipement="+$("#valeur_1").val());' disabled>
+<input type='button' class='button' id='bouton_forger' value='Forger !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_forger&type_equipement="+$("#valeur_1").val());' disabled>
 <?php endif ?>

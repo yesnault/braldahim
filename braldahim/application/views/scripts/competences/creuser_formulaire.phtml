@@ -45,5 +45,5 @@ Pour <?php echo $this->nb_pa ?> PA, vous pouvez creuser un tunnel. <br />
 
 <br />
 <?php if ($this->niveauValide === true && $this->assezDePa === true && $this->creuserOk === true) : ?>
-<input type='button' class='button1' value='Creuser un tunnel !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_creuser");'>
+<input type='button' class='button' value='Creuser un tunnel !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_creuser");'>
 <?php endif ?>

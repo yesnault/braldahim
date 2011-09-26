@@ -18,10 +18,10 @@
 		  <tr class="table_liste">
 		    <th colspan='5'>
 			   <?php if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_monstre&monstre=<?php echo $this->monstre["id_monstre"]?>&menu=evenements&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <input type="button" class='button' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_monstre&monstre=<?php echo $this->monstre["id_monstre"]?>&menu=evenements&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
 			   <?php endif; ?>
 			   <?php if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_monstre&monstre=<?php echo $this->monstre["id_monstre"]?>&menu=evenements&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page suivante">
+			   <input type="button" class='button' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_monstre&monstre=<?php echo $this->monstre["id_monstre"]?>&menu=evenements&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>')" value="Page suivante">
 			   <?php endif; ?>
 		    </th>
 		  </tr>

@@ -6,7 +6,7 @@
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
 	    
-	    <input type="button"  class='button1' name="Nouvelle Bougrie" value="Nouvelle Bougrie" onclick="document.location.href='/Administrationbougrie/bougrie'"/>
+	    <input type="button"  class='button' name="Nouvelle Bougrie" value="Nouvelle Bougrie" onclick="document.location.href='/Administrationbougrie/bougrie'"/>
 	    <br /><br />
 			<form action="/Administrationbougrie/bougrie" method="post">
 			<input type='hidden' name='id_bougrie' id='id_bougrie' value='<?php echo $this->bougrie["id_bougrie"]?>'/>
@@ -26,9 +26,9 @@
 			<input style="background-color: #31401A;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="500" type="text">Caract&egrave;res restants<br /><br />
 			
 			<?php if ($this->bougrie["id_bougrie"] != -1) : ?>
-				<input type="submit"  class='button1' name="Editer" value="Editer la Bougrie" />
+				<input type="submit"  class='button' name="Editer" value="Editer la Bougrie" />
 			<?php else :?>
-				<input type="submit"  class='button1' name="Ajouter" value="Ajouter la Bougrie" />
+				<input type="submit"  class='button' name="Ajouter" value="Ajouter la Bougrie" />
 			<?php endif;?>
 			
 			</form>
@@ -48,7 +48,7 @@
 						<td class="table_liste"><?php echo $bougrie["id_bougrie"] ?></td>
 						<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($bougrie["texte_bougrie"]);?></td>
 						<td class="table_liste"><?php if ($bougrie["regle_bougrie"] != null && $bougrie["regle_bougrie"] != "") :?><a href='<?php echo $bougrie["regle_bougrie"];?>'>Règle</a><?php else:?>n/a<?php endif;?></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer la bougrie" onclick='document.location.href="/Administrationbougrie/bougrie/id_bougrie/<?php echo $bougrie["id_bougrie"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button' name="Editer" value="Editer la bougrie" onclick='document.location.href="/Administrationbougrie/bougrie/id_bougrie/<?php echo $bougrie["id_bougrie"] ?>"'/></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php endif; ?>

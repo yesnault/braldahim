@@ -63,7 +63,7 @@
 					(Cr&eacute;ation automatique de groupe)
 				<input type="text" name="nombre" onkeypress="chiffres(event);" size="3" maxlength="3" />
 				
-			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
+			<input type="submit" class="button" name="Ajouter" value="Ajouter" />
 			</form>
 			</td>
 			</tr>
@@ -88,8 +88,8 @@
 					FOR:<?php echo $g["force_base_monstre"]?> SAG:<?php echo $g["sagesse_base_monstre"]?>
 					AGI:<?php echo $g["agilite_base_monstre"]?> VIG:<?php echo $g["vigueur_base_monstre"]?>
 					ARMNAT :<?php echo $g["armure_naturelle_monstre"]?> DLA:<?php echo $g["duree_base_tour_monstre"]?>
-					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?php echo $g["id_monstre"]?>"'> 
-	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?php echo $g["id_monstre"]?>");'> <br />
+					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button'  onclick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?php echo $g["id_monstre"]?>"'>
+	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?php echo $g["id_monstre"]?>");'> <br />
 				<?php endforeach; ?>
 				
 			<?php endif; ?>

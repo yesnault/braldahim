@@ -25,7 +25,7 @@
 	<tr >
    		<td>
    		<?php if ($this->nouveauPossible) : ?>
-			<input type="button" class='button1' name="nouveau_msg" id="nouveau_msg" value="Nouveau" onClick="$('#divBlablaMessage-body').toggle()"/> 
+			<button type="button" class='button edit' name="nouveau_msg" id="nouveau_msg" onClick="$('#divBlablaMessage-body').toggle()">Nouveau</button>
 			<div id="divBlablaMessage-body" style="display:none">
 				<?php include("nouveau.phtml")?>
 			</div>

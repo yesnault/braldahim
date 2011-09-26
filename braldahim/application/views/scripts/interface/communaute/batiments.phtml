@@ -18,9 +18,9 @@ Points d'influence de la communauté : <?php echo $this->communaute["points_comm
 	 des bâtiments de communautés ou augmenter le niveau d'un bâtiment existant.<br />
 	 Les ressources nécessaires doivent être présentes dans le coffre de la communauté.<br />
 	 
-	 <input type='button' class='button1' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
-	 <input type='button' class='button1' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
-	 <input type='button' class='button1' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
+	 <input type='button' class='button' value='1 PA - Initialiser un nouveau bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_initialiserbatiment");'>
+	 <input type='button' class='button' value='1 PA - Améliorer un bâtiment' onclick='_get_("/communaute/doaction?caction=ask_communaute_ameliorerbatiment");'>
+	 <input type='button' class='button' value='1 PA - Construire une dépendance' onclick='_get_("/communaute/doaction?caction=ask_communaute_construiredependance");'>
 	 <br />
 	 <hr />
 	 <?php endif; ?>
@@ -56,7 +56,7 @@ Points d'influence de la communauté : <?php echo $this->communaute["points_comm
 			  				Ceci n'est pas votre lieu de résurrection
 			  			<?php endif;?>
 			  			<br />
-			  			<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_infirmerie')" value="0 PA - Définir point de résurrection" class="button1">
+			  			<input type="button" onclick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_infirmerie')" value="0 PA - Définir point de résurrection" class="button">
 			  		<?php endif;?>
 			  		
 			  		</td>

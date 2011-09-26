@@ -14,7 +14,7 @@
   		 	<input type="hidden" name="commande" value="grep" />
   		 	<input type="hidden" name="recherche" value="<?php echo $this->id_monstre?>" />
   		 	<input type="hidden" name="fichier" value="bral_viemonstre.log" />
-			<input type="submit" class="button1" name="Rechercher" value="Derniers Event Logs" />
+			<input type="submit" class="button" name="Rechercher" value="Derniers Event Logs" />
 		</form>
 		
 	    <form action="/Administrationmonstre/monstre/mode/<?php echo $this->mode?>/idmonstre/<?php echo $this->id_monstre?>" method="post">
@@ -23,12 +23,12 @@
 		<?php else: 
 			$nbElement = 0; ?>
 			
-			<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?php echo $this->id_monstre?>");'> 
+			<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?php echo $this->id_monstre?>");'>
 	   
 			<?php if ($this->mode == "simple") :?>
-	 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onclick="document.location.href='/Administrationmonstre/monstre/mode/complexe/idmonstre/<?php echo $this->id_monstre?>'"/>
+	 	   		<input type="button"  class='button' name="mode" value="Passer en vue complexe" onclick="document.location.href='/Administrationmonstre/monstre/mode/complexe/idmonstre/<?php echo $this->id_monstre?>'"/>
 	   	 	<?php else: ?>
-	    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onclick="document.location.href='/Administrationmonstre/monstre/mode/simple/idmonstre/<?php echo $this->id_monstre?>'"/>
+	    		<input type="button"  class='button' name="mode" value="Passer en vue simple" onclick="document.location.href='/Administrationmonstre/monstre/mode/simple/idmonstre/<?php echo $this->id_monstre?>'"/>
 	    	<?php endif; ?>
 	    	
 			<table  align='center'>
@@ -52,13 +52,13 @@
 				</td>
 				<td>				
 				<?php if ($nbElement % 8 == 0) :?>
-				<input type="submit"  class='button1' name="Modifier" value="Modifier le monstre" />
+				<input type="submit"  class='button' name="Modifier" value="Modifier le monstre" />
 				<?php endif; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
 			</table>
-			<input type="submit"  class='button1' name="Modifier" value="Modifier le monstre" />
+			<input type="submit"  class='button' name="Modifier" value="Modifier le monstre" />
 		<?php endif; ?>
 		</form>
 		</div>

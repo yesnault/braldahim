@@ -32,7 +32,7 @@
 			<br />
 			
 			<?php if ($this->blabla["id_blabla"] != -1) : ?>
-				<input type="submit"  class='button1' name="Editer" value="Editer le Bla Bla" />
+				<input type="submit"  class='button' name="Editer" value="Editer le Bla Bla" />
 			<?php endif;?>
 			</form>
 			
@@ -57,9 +57,9 @@
 						<td class="table_liste" nowrap><?php echo $blabla["x_blabla"] ?> / <?php echo $blabla["y_blabla"] ?> / <?php echo $blabla["z_blabla"] ?></td>
 						<td class="table_liste"><?php echo $blabla["id_fk_braldun_blabla"] ?></td>
 						<td class="table_liste"><?php echo Bral_Util_BBParser::bbcodeReplace($blabla["message_blabla"]);?></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Editer le blabla" onclick='document.location.href="/Administrationblabla/blabla/id_blabla/<?php echo $blabla["id_blabla"] ?>"'/></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Censurer" onclick='document.location.href="/Administrationblabla/estcensure/id_blabla/<?php echo $blabla["id_blabla"] ?>/"'></td>
-						<td class="table_liste"><input type="button"  class='button1' name="Editer" value="Dé-Censurer" onclick='document.location.href="/Administrationblabla/estnoncensure/id_blabla/<?php echo $blabla["id_blabla"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button' name="Editer" value="Editer le blabla" onclick='document.location.href="/Administrationblabla/blabla/id_blabla/<?php echo $blabla["id_blabla"] ?>"'/></td>
+						<td class="table_liste"><input type="button"  class='button' name="Editer" value="Censurer" onclick='document.location.href="/Administrationblabla/estcensure/id_blabla/<?php echo $blabla["id_blabla"] ?>/"'></td>
+						<td class="table_liste"><input type="button"  class='button' name="Editer" value="Dé-Censurer" onclick='document.location.href="/Administrationblabla/estnoncensure/id_blabla/<?php echo $blabla["id_blabla"] ?>"'/></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php endif; ?>

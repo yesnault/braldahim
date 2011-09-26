@@ -20,8 +20,8 @@
 	      $attrB = "disabled";
 	    endif;?>
 	    
-		<input type="button" class='button1' value="1 PA - Attraper une charrette" <?php echo $attrA?> />
-		<input type="button" class='button1' value="1 PA - Lâcher une charrette" <?php echo $attrB?> />
+		<input type="button" class='button' value="1 PA - Attraper une charrette" <?php echo $attrA?> />
+		<input type="button" class='button' value="1 PA - Lâcher une charrette" <?php echo $attrB?> />
 	   
 	    <br /> <br />
 	    
@@ -101,9 +101,9 @@
 				   				Partage avec : <?php echo $this->partageBralduns?><br /><br />
 				   			<?php endif;?>
 				   			
-				   			<input type="button" class='button1' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
+				   			<input type="button" class='button' value="0 PA - Configurer les partages" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_partage');" />
 				   			<?php if ($this->possedeSabot) : ?>
-				   			<input type="button" class='button1' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
+				   			<input type="button" class='button' value="0 PA - Configurer le sabot" onclick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_sabot');" />
 				   			<?php endif;?>
 				   			</li>
 				   		</ul>

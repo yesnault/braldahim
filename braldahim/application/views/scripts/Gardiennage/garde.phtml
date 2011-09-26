@@ -13,19 +13,19 @@
 		<?php if ($this->user->gardeEnCours) : ?>
 			Braldûn en cours : <?php echo htmlspecialchars($this->user->prenom_braldun) ?> <?php echo htmlspecialchars($this->user->nom_braldun) ?> (<?php echo $this->user->id_braldun?>)<br /><br />
 			<div id="formbutton">
-				<input type="button" name="retour" class='button1' value="Aller &agrave; l'interface" onclick="javascript:document.location.href='/interface'"/>
+				<input type="button" name="retour" class='button' value="Aller &agrave; l'interface" onclick="javascript:document.location.href='/interface'"/>
 			</div>
 			&nbsp;
 			<br /><br />
 			<b>Pour reprendre votre interface de jeu, déconnectez-vous et reconnectez-vous.</b>
 			<div id="formbutton">
-				<input type="button" name="retour" class='button1' value="Se déconnecter" onclick="javascript:document.location.href='/auth/logout'"/>
+				<input type="button" name="retour" class='button' value="Se déconnecter" onclick="javascript:document.location.href='/auth/logout'"/>
 			</div>
 		<?php else: ?>
 		<br />
 			Vous devez s&eacute;lectionner un Braldûn en garde
 			<div id="formbutton">
-				<input type="button" name="retour" class='button1' value="Retour Gardiennage" onclick="javascript:document.location.href='/Gardiennage'"/>
+				<input type="button" name="retour" class='button' value="Retour Gardiennage" onclick="javascript:document.location.href='/Gardiennage'"/>
 			</div>
 		<?php endif; ?>
 		</div>

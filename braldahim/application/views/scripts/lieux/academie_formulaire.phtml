@@ -131,6 +131,6 @@
 </form>
 
 <?php if ($this->utilisationPaPossible === true && ($this->achatPossible === true)): ?>
-<input type='button' class='button1' id="bouton_academie" value="S'am&eacute;liorer !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
+<input type='button' class='button' id="bouton_academie" value="S'am&eacute;liorer !" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

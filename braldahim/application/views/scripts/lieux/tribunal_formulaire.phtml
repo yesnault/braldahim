@@ -64,6 +64,6 @@
 <br /> 
 <br />
 <?php if ($this->utilisationPointPossible === true && $this->utilisationPossible === true) : ?>
-	<input type='button' class='button1' id="bouton_tribunal" value='Valider' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_tribunal', 'lieu_tribunal', true);"    <?php if ($this->type == "gredin"): ?>disabled<?php endif;?>>
+	<input type='button' class='button' id="bouton_tribunal" value='Valider' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_tribunal', 'lieu_tribunal', true);"    <?php if ($this->type == "gredin"): ?>disabled<?php endif;?>>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

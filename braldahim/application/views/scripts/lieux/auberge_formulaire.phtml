@@ -91,6 +91,6 @@
 <br /> 
 
 <?php if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_auberge" value='Faites un choix' onclick="if ($('#valeur_2').val() <= 0 && ($('#valeur_1').val() == 2 || $('#valeur_1').val() == 3)) { alert('Entrez un nombre de ragoût > 0 ou sélectionnez \'Se restaurer uniquement\'')} else {this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');}"  disabled>
+<input type='button' class='button' id="bouton_auberge" value='Faites un choix' onclick="if ($('#valeur_2').val() <= 0 && ($('#valeur_1').val() == 2 || $('#valeur_1').val() == 3)) { alert('Entrez un nombre de ragoût > 0 ou sélectionnez \'Se restaurer uniquement\'')} else {this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');}"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

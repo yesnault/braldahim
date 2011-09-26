@@ -60,6 +60,6 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->possedeCharrette === false && $this->attraperCharrettePossible == true) : ?>
-<input type='button' class='button1' id='bouton_attrapercharrette' value='Attraper une charrette !' onclick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_attraper&provenance=<?php echo $this->provenance?>");' disabled>
+<input type='button' class='button' id='bouton_attrapercharrette' value='Attraper une charrette !' onclick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_attraper&provenance=<?php echo $this->provenance?>");' disabled>
 <?php endif ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

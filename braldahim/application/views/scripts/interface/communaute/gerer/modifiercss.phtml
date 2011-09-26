@@ -15,7 +15,7 @@
 	donc sur le <a href="http://forum.braldahim.com">forum de Braldahim, dans la section Questions.</a><br /><br />
 	Tout abus de mise en page visant à dissimuler le profil public sera sanctionné. <br /><br />
 	
-	<input type="button" class='button1' id="bouton_editer" value="Editer la CSS" 
+	<input type="button" class='button' id="bouton_editer" value="Editer la CSS"
 	onclick="$('#label_css').hide(); 
 		$('#edition').show(); 
 		$('#bouton_css').show(); 
@@ -30,7 +30,7 @@
   
   <div id="edition" style="display:none">
 	  <textarea rows='10' cols='80' name="valeur_css"  id="valeur_css"><?php echo stripslashes($this->communaute["css_communaute"]) ?></textarea>
-	  <input type="button" class='button1' id="bouton_css" 
+	  <input type="button" class='button' id="bouton_css"
 	  onclick="
 		  $('#label_css').show();
 		  $('#edition').hide(); 

@@ -28,7 +28,7 @@ class Bral_Helper_Tooltip {
 			$retour .= '<option value="'.$i.'">note n&deg;'.$i.'</option>';
 		 endfor;
 		$retour .= '</select>';
-		$retour .= '<input type="button" class="button1" id="'.$id.'btnEnr" value="Enregistrer" onclick="braltipEnr(this, \''.$id.'\')" />';				
+		$retour .= '<input type="button" class="button" id="'.$id.'btnEnr" value="Enregistrer" onclick="braltipEnr(this, \''.$id.'\')" />';
 		$retour .= '<span id="'.$id.'msg">&nbsp;</span>';
 		$retour .= '</span>';
 		

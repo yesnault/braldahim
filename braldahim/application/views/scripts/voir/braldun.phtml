@@ -26,12 +26,12 @@
 	
 	<div class="contenu">
 	    <div class="box_contenu1 textalic">
-				<input type='button' class='button1' value='Profil' onclick='document.location.href="/voir/braldun/?braldun=<?php echo $this->braldun["id_braldun"] ?>"'>
+				<input type='button' class='button' value='Profil' onclick='document.location.href="/voir/braldun/?braldun=<?php echo $this->braldun["id_braldun"] ?>"'>
 				 <?php if ($this->ancien === false) : ?>
-					<input type='button' class='button1' value='&Eacute;v&eacute;nements' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=evenements");'>
-					<input type='button' class='button1' value='Distinctions' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=distinctions");'>
+					<input type='button' class='button' value='&Eacute;v&eacute;nements' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=evenements");'>
+					<input type='button' class='button' value='Distinctions' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=distinctions");'>
 				 <?php endif; ?>
-				<input type='button' class='button1' value='Famille' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=famille");'>
+				<input type='button' class='button' value='Famille' onclick='_get_("/voir/doaction?caction=ask_voir_braldun&braldun=<?php echo $this->braldun["id_braldun"] ?>&menu=famille");'>
 			<div id="box_voir_braldun_inner">
 				<?php echo $this->flux; ?>
 			</div>

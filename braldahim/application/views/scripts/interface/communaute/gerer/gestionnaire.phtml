@@ -4,7 +4,7 @@
 <?php if ($this->isUpdateGestionnaire == true) :?>
 	Gestionnaire mis &agrave; jour.
 	<br />
-	<input type="button"  class='button1' onclick="Javascript: _get_('/interface/load/?box=box_communaute')" value="Finir l'action (Recharge l'onglet Communaut&eacute;)" >
+	<input type="button"  class='button' onclick="Javascript: _get_('/interface/load/?box=box_communaute')" value="Finir l'action (Recharge l'onglet Communaut&eacute;)" >
 	
 <?php else : ?>
 
@@ -25,7 +25,7 @@
   		</select>
   		<br />
   		
-  		<input type="button" id="button_valider_gestionnaire" class='button1' onclick="Javascript: _get_('/communaute/doaction?caction=do_communaute_gestionnaire', 'gestionnaire')" value="Valider" disabled>
+  		<input type="button" id="button_valider_gestionnaire" class='button' onclick="Javascript: _get_('/communaute/doaction?caction=do_communaute_gestionnaire', 'gestionnaire')" value="Valider" disabled>
 
 	<?php else: ?>
 		<img src="<?php echo $this->config->url->static?>/images/divers/info_icon.gif"/> Vous ne pouvez pas changer de gestionnaire. <br />

@@ -36,5 +36,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->user->est_intangible_braldun == 'non' && $this->nBralduns > 0 && $this->nAliments > 0) : ?>
-<input type='button' class='button1' value='Réanimer !' id='bouton_reanimer' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_reanimer");' disabled>
+<input type='button' class='button' value='Réanimer !' id='bouton_reanimer' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_reanimer");' disabled>
 <?php endif ?>

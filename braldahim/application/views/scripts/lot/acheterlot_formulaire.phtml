@@ -51,7 +51,7 @@
 				
 			<?php elseif ($this->detailsLots["place_dispo"] === true && $this->detailsLots["prix_possible"] === true) : ?>
 			
-				<input type='button' class='button1' id='bouton_acheterelot' value='Acheter !' 
+				<input type='button' class='button' id='bouton_acheterelot' value='Acheter !'
 				onclick='this.disabled=true;_get_("/lot/doaction?caction=do_lot_acheterlot&amp;idsLots=<?php echo $this->idsLots ?>&amp;idEchoppe=<?php echo $this->idEchoppe?>");' 
 				<?php if ($this->lotCharrette == null) : echo "disabled"; endif;?>>
 				

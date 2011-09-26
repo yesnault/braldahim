@@ -82,12 +82,12 @@
 		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" alt="Recherche..." /></span>
 		    
 		    <br /><br />
-		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onclick="this.disabled=true;$('#valeur_1').val($('#valeur_1_coequiper').val());_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
+		    <input type='button' class='button' id="bouton_poste_nouveau" value="Inscrire l'équipe" onclick="this.disabled=true;$('#valeur_1').val($('#valeur_1_coequiper').val());_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
 	
 		<?php elseif ($this->inscriptionDemandee === true): ?>
-			 <input type='button' class='button1' id="bouton_poste_nouveau" value="Valider l'inscription" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
+			 <input type='button' class='button' id="bouton_poste_nouveau" value="Valider l'inscription" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
 		<?php elseif ($this->estMeneur && $this->descentePossible) : ?>
-		 	 <input type='button' class='button1' id="bouton_poste_nouveau" value="Ouvrir la porte du Donjon" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
+		 	 <input type='button' class='button' id="bouton_poste_nouveau" value="Ouvrir la porte du Donjon" onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
 		<?php endif;?>
  	<?php endif;?>
  	

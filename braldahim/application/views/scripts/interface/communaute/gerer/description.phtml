@@ -17,13 +17,13 @@
 	</div>
 	<input type="text" id="valeur_2-communaute_description" size="50" maxlength="250" style="display:none" value="<?php echo htmlspecialchars($this->communaute["site_web"]) ?>" />
 	
-	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
+	<input type="button" class='button' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web"
 		onclick="$('#label_site').hide(); 
 		$('#valeur_2-communaute_description').show(); 
 		$('#bouton_site').show();  
 		this.style.display='none'"/>
 	
-	<input type="button" class='button1' id="bouton_site" name="bouton_site" 
+	<input type="button" class='button' id="bouton_site" name="bouton_site"
  	 onclick="
 	  $('#label_site').show();  
 	  $('#valeur_2-communaute_description').hide(); 
@@ -34,7 +34,7 @@
 	<br /><br /><br />
 	
 	<div class="titre textalic textsizec">Description</div><br />
-	<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
+	<input type="button" class='button' id="bouton_editer" value="Editer la description"
 	onclick="$('#label_description').hide();
 		$('#edition').show(); 
 		$('#bouton_description').show();  
@@ -52,7 +52,7 @@
 	 <?php echo Bral_Helper_BBBoutons::affiche('valeur_description')?>
 	
 	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?php echo stripslashes($this->communaute["description"]) ?></textarea>
-	  <input type="button" class='button1' id="bouton_description" 
+	  <input type="button" class='button' id="bouton_description"
 	  onclick="
 		  $('#label_description').show();  
 		  $('#edition').hide();

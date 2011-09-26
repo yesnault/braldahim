@@ -172,13 +172,13 @@
 				</tr>
 				<tr>
 					<td colspan='2'><?php if ($this->modifier === true): ?> <input
-						type="submit" class="button1" name="Modifier"
+						type="submit" class="button" name="Modifier"
 						value="Modifier la référence" /> <input
-						type="button" class="button1" name="Annuler" value="Annuler"
+						type="button" class="button" name="Annuler" value="Annuler"
 						onclick="document.location.href='/Administrationmonstre/referentiel/'" />
 
 						<?php else: ?> 
-						<!-- <input type="submit" class="button1" name="Ajouter"
+						<!-- <input type="submit" class="button" name="Ajouter"
 						value="Ajouter une nouvelle référence" /> --> 
 						<?php endif; ?>
 					</td>
@@ -266,7 +266,7 @@
 			<td nowrap><?php echo $r["coef_pv_max_ref_monstre"] ?></td>
 			<td><?php echo $r["estimation_pv_min"]?></td>
 			<td><?php echo $r["estimation_pv_max"]?></td>
-			<td><input type="button" class="button1" name="Modifier"
+			<td><input type="button" class="button" name="Modifier"
 				value="Modifier"
 				onclick="document.location.href='/Administrationmonstre/referentiel/modifier/<?php echo $r["id_ref_monstre"] ?>';" /></td>
 		</tr>

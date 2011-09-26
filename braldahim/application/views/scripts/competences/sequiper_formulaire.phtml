@@ -27,7 +27,7 @@
 					<?php foreach($e["equipementPorte"] as $p) : ?>
 						<?php echo Bral_Helper_DetailEquipement::afficher($p, true); ?><br />
 						<input type="hidden" id="porte_<?php echo $e["id_type_emplacement"]?>" value="<?php echo $p["id_equipement"] ?>">
-						<input type='button' class='button1' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !" 
+						<input type='button' class='button' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !"
 						onclick='this.disabled=true;for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("#bouton_mettre_"+i)) {$("#bouton_mettre_"+i).hide() ; if (<?php echo $e["id_type_emplacement"]?> != i){$("#laban_"+i).selectedIndex = 0}}} ;$("#valeur_1").val($("#porte_<?php echo $e["id_type_emplacement"]?>").val());_get_("/competences/doaction?caction=do_competence_sequiper");'>
  					<?php endforeach; ?>
  				<?php else : ?>
@@ -57,7 +57,7 @@
 					<?php foreach($e["equipementPorte"] as $p) : ?>
  						<?php echo Bral_Helper_DetailEquipement::afficher($p, true); ?><br />
  						<input type="hidden" id="porte_<?php echo $e["id_type_emplacement"]?>" value="<?php echo $p["id_equipement"] ?>">
- 						<input type='button' class='button1' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !" 
+ 						<input type='button' class='button' id='bouton_enlever_<?php echo $e["id_type_emplacement"]?>' value="Enlever (<?php echo $this->nb_pa ?> PA) !"
  						onclick='this.disabled=true; for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("#bouton_mettre_"+i)) {$("#bouton_mettre_"+i).hide()} ; if ($("#laban_"+i)) {$("#laban_"+i).selectedIndex = 0}};$("#valeur_1").val($("#porte_<?php echo $e["id_type_emplacement"]?>").val());_get_("/competences/doaction?caction=do_competence_sequiper");'>
  					<?php endforeach; ?>
 	 			<?php endif;  ?>
@@ -93,7 +93,7 @@
 	 					</option>
 	 					<?php endforeach; ?>
 	 				</select>
-	 				<input type='button' class='button1' id='bouton_mettre_<?php echo $e["id_type_emplacement"]?>' value="Mettre (<?php echo $this->nb_pa ?> PA) !" 
+	 				<input type='button' class='button' id='bouton_mettre_<?php echo $e["id_type_emplacement"]?>' value="Mettre (<?php echo $this->nb_pa ?> PA) !"
 	 				onclick='this.disabled=true;for (i=1; i<=<?php echo $this->nbTypesEmplacement ?>; i++) {if ($("#bouton_enlever_"+i)) {$("#bouton_enlever_"+i).hide()}} ; $("#valeur_1").val($("#laban_<?php echo $e["id_type_emplacement"]?>").val());_get_("/competences/doaction?caction=do_competence_sequiper");' style="display:none">
 	 			<?php endif;  ?>
 	 		</td>

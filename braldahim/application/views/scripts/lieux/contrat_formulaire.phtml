@@ -47,6 +47,6 @@
 <br /> 
 <br />
 <?php if ($this->utilisationPossible === true && $this->utilisationPaPossible === true && $this->contratDisponible == true) : ?>
-	<input type='button' class='button1' id="bouton_contrat" value='Obtenir le contrat' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_contrat', 'lieu_contrat', true);">
+	<input type='button' class='button' id="bouton_contrat" value='Obtenir le contrat' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_contrat', 'lieu_contrat', true);">
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

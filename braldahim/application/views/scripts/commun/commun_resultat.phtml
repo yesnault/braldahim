@@ -12,9 +12,9 @@
  </div>
 <br /><br />
 
-<input type='button' class='button1' value='Copier' onclick="javascript:switch2div('<?php echo $this->nom_systeme?>_text','<?php echo $this->nom_systeme?>_copie');">
+<input type='button' class='button' value='Copier' onclick="javascript:switch2div('<?php echo $this->nom_systeme?>_text','<?php echo $this->nom_systeme?>_copie');">
 <?php if ($this->reloadInterface == true): ?>
-	<input type='button' class='button1' value='Fermer' id="actionBoutonFermer" onclick='_get_("/interface/reload");fermeBralBox();'>
+	<input type='button' class='button' value='Fermer' id="actionBoutonFermer" onclick='_get_("/interface/reload");fermeBralBox();'>
 <?php else: ?>
 	<?php echo Bral_Helper_Fermer::affiche(); ?>
 <?php endif; ?>

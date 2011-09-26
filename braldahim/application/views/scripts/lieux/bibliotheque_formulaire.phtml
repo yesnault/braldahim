@@ -52,6 +52,6 @@
 <br />
 
 <?php if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
-<input type='button' class='button1' id="bouton_bibliotheque" value='Apprendre cette comp&eacute;tence !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_bibliotheque');"  disabled>
+<input type='button' class='button' id="bouton_bibliotheque" value='Apprendre cette comp&eacute;tence !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_bibliotheque');"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

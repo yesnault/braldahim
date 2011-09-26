@@ -2,17 +2,17 @@
 <?php if (count($this->lots["lots"]) > 0) : ?>
 
 <?php if ($this->lots["type"] != "hotelaccueil"): ?>
-	<input type='button' class='button1' value='Fermer Tout'
+	<input type='button' class='button' value='Fermer Tout'
 		   onclick="$('#fermer_poche<?php echo $this->pocheNomSysteme ?>').click();">
-	<input type='button' class='button1' value='Ouvrir Tout'
+	<input type='button' class='button' value='Ouvrir Tout'
 		   onclick="$('#ouvrir_poche<?php echo $this->pocheNomSysteme ?>').click();">
 	<?php endif; ?>
 
 <?php if ($this->lots["visiteur"]): ?>
 	<?php if ($this->lots["type"] == "echoppe"): ?>
-		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=" . $this->echoppe["id_echoppe"] . "&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idEchoppe=" . $this->echoppe["id_echoppe"] . "&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button'>"; ?>
 		<?php else: ?>
-		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button1'>"; ?>
+		<?php $boutonAcheter = "<input type='button' style='float:right' onclick=\"Javascript:if ($('#tabLotsSelectionnes').val()=='') { alert('Vous n\'avez pas sélectionné de lot'); } else {_get_('/lot/doaction?caction=ask_lot_acheterlot&amp;idsLots='+$('#tabLotsSelectionnes').val())}\" value='1 PA - Acheter les lots sélectionnés'' class='button'>"; ?>
 		<?php endif; ?>
 	<?php echo $boutonAcheter; ?>
 	<br>
@@ -51,11 +51,11 @@
 					<?php if ($this->lots["type"] == "echoppe"): ?>
 						<input type="button"
 							   onclick="Javascript:_get_('/echoppes/doaction?caction=do_echoppes_retirerlot&amp;valeur_1=<?php echo $this->echoppe["id_echoppe"] ?>&amp;valeur_2=<?php echo $numero;?>')"
-							   value="0 PA - Retirer de la vente" class="button1" <?php echo $attr ?>>
+							   value="0 PA - Retirer de la vente" class="button" <?php echo $attr ?>>
 						<?php elseif ($this->lots["type"] == "communaute" && $this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER): ?>
 						<input type="button"
 							   onclick="Javascript:_get_('/communaute/doaction?caction=do_communaute_retirerlot&amp;valeur_1=<?php echo $numero;?>')"
-							   value="0 PA - Retirer de la vente" class="button1">
+							   value="0 PA - Retirer de la vente" class="button">
 						<?php endif; ?>
 					<?php endif;?>
 				</h3>
@@ -101,10 +101,10 @@
 		endforeach;
 	endif;?>
 
-	<input type='button' class='button1' id="fermer_poche<?php echo $this->pocheNomSysteme ?>"
+	<input type='button' class='button' id="fermer_poche<?php echo $this->pocheNomSysteme ?>"
 		   name="fermer_poche<?php echo $this->pocheNomSysteme ?>" value='Fermer Tout'
 		   onclick="<?php echo $jsFermer ?>">
-	<input type='button' class='button1' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"
+	<input type='button' class='button' id="ouvrir_poche<?php echo $this->pocheNomSysteme ?>"
 		   name="ouvrir_poche<?php echo $this->pocheNomSysteme ?>" value='Ouvrir Tout'
 		   onclick="<?php echo $jsOuvrir ?>">
 	<?php endif; ?>

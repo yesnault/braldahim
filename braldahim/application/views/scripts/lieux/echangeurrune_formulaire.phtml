@@ -44,6 +44,6 @@ Vous n'avez pas assez de PA.<br />
 
 
 <?php if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->tabAAfficher === true): ?>
-<input type='button' class='button1' id="bouton_echangeurrune" value='&Eacute;changer !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_echangeurrune');"  disabled>
+<input type='button' class='button' id="bouton_echangeurrune" value='&Eacute;changer !' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_echangeurrune');"  disabled>
 <?php endif; ?>
 <?php echo Bral_Helper_Fermer::affiche(); ?>

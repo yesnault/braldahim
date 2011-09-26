@@ -12,13 +12,13 @@
 		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
 		
 		<div class="titre textalic textsizec">Description</div><br />
-			<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
+			<input type="button" class='button' id="bouton_editer" value="Editer la description"
 			onclick="$('#label_description').hide();
 				$('#edition').show() ; 
 				$('#bouton_description').show(); 
 				 this.style.display='none' ;"/>
 				
-			<input type="button" class='button1' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
+			<input type="button" class='button' name="Annuler" value="Annuler" onclick="javascript:document.location.href='/Parametres/'"/>
 		 
 			 <br />
 			 
@@ -30,7 +30,7 @@
 			  <?php echo Bral_Helper_BBBoutons::affiche('valeur_2', 1000000)?>
 			  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"><?php echo stripslashes($this->user->description_braldun) ?></textarea>
 			 
-				  <input type="button" class='button1' id="bouton_description" 
+				  <input type="button" class='button' id="bouton_description"
 				  	onclick="
 					  $('#label_description').show();
 					  $('#edition').hide();

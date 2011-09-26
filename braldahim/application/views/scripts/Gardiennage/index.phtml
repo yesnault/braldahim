@@ -52,13 +52,13 @@
 <br />
 <div id="formbutton">
 <?php if (!empty($this->tabBraldunGarde) && $this->uneGardePossible) : ?>
-<input type="submit" name="add" class='button1' value="Jouer !" />
+<input type="submit" name="add" class='button' value="Jouer !" />
 <?php elseif (!empty($this->tabBraldunGarde)): ?>
 Aucune des gardes débute aujourd'hui.<br /><br />
 <?php endif; ?>
-<input type="button" name="retour" class='button1' value="Retour Interface" onclick="javascript:document.location.href='/interface/'"/>
+<input type="button" name="retour" class='button' value="Retour Interface" onclick="javascript:document.location.href='/interface/'"/>
 <?php if (!empty($this->message)) : ?>
-<input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onclick="javascript:document.location.href='/auth/logout'"/>
+<input type="button" name="deconnexion" class='button' value="D&eacute;connexion" onclick="javascript:document.location.href='/auth/logout'"/>
 <?php endif; ?>
 		</div>
 	</div>

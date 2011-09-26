@@ -28,10 +28,10 @@ Filtrer par rang :
     <th colspan='10'>
     	Affichage de <?php echo count($this->tabMembres) ?> braldun<?php if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?php echo $this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <?php if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?php echo $this->communaute["id_communaute"] ?>&menu=membres&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <input type="button" class='button' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?php echo $this->communaute["id_communaute"] ?>&menu=membres&valeur_1=p&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <?php endif; ?>
 	   <?php if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?php echo $this->communaute["id_communaute"] ?>&menu=membres&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page suivante">
+	   <input type="button" class='button' onclick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?php echo $this->communaute["id_communaute"] ?>&menu=membres&valeur_1=s&valeur_2=<?php echo $this->filtre ?>&valeur_3=<?php echo $this->page ?>&valeur_4=<?php echo $this->filtre?>&valeur_5=<?php echo $this->ordre ?>&valeur_6=<?php echo $this->sensOrdre ?>')" value="Page suivante">
 	   <?php endif; ?>
     </th>
   </tr>
@@ -47,7 +47,7 @@ Filtrer par rang :
 	  <td class="table_liste"><?php echo $m["niveau_braldun"] ?></td>
 	  <td class="table_liste"><?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
 	  <td class="table_liste">Rang n&deg;<?php echo $m["ordre_rang_communaute"] ?> : <?php echo $m["nom_rang_communaute"] ?></td>
-	  <td class="table_liste"><input type="button" class='button1' onclick="Javascript:document.location.href='/voir/braldun/?braldun=<?php echo $m["id_braldun"] ?>';" value="Voir"></td>
+	  <td class="table_liste"><input type="button" class='button' onclick="Javascript:document.location.href='/voir/braldun/?braldun=<?php echo $m["id_braldun"] ?>';" value="Voir"></td>
 	</tr>
 <?php endforeach; ?>
 <?php else: ?>

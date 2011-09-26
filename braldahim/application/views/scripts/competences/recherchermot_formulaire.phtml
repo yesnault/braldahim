@@ -69,7 +69,7 @@
 				" ?>
 			
 			<?php if (count($this->runes) > 0) : ?>
-				<input type="button" class='button1' value="Choisir les runes" onclick="<?php echo $js ?>; $('#choix_runes_recherche').show();this.style.display='none';">
+				<input type="button" class='button' value="Choisir les runes" onclick="<?php echo $js ?>; $('#choix_runes_recherche').show();this.style.display='none';">
 			
 				<div id="choix_runes_recherche" style="display:none">
 				
@@ -109,5 +109,5 @@
 
 <br />
 <?php if ($this->assezDePa == true && $this->rechercherMotOk === true) : ?>
-	<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("#valeur_1-recherchermot").val(), "recherchermot");' disabled>
+	<input type='button' class='button' id='bouton_recherchermot' value='Rechercher !' onclick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("#valeur_1-recherchermot").val(), "recherchermot");' disabled>
 <?php endif ?>
