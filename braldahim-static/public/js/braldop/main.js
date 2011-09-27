@@ -37,11 +37,21 @@ function initBraldop() {
         map.displayRégions = this.checked;
         map.redraw();
     });
+    $('#layer_fog').attr('checked', map.displayFog).change(function() {
+        map.displayFog = this.checked;
+        map.redraw();
+    });
+
+    $('#btnCentrer').bind('click', function() {
+        map.zoom=64; map.redraw();
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+    });
 
     setTimeout(function() {
         for (i in map.mapData.Vues) {
             var v = map.mapData.Vues[i];
             v.active = true; //this.checked;
+            map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
         }
         map.redraw();
     }, 1000);

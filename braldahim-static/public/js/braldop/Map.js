@@ -2,6 +2,7 @@
 function Map(canvasId, posmarkid, dialogId) {
 	this.canvas = document.getElementById(canvasId);
 	this.context = this.canvas.getContext("2d");
+	this.context.mozImageSmoothingEnabled = false; // contourne un bug de FF qui rend floues les images même à taille naturelle
 	this.posmarkdiv = document.getElementById(posmarkid);
 	this.initTiles();
 	this.screenRect = new Rect();
@@ -13,7 +14,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.zoom = this.scales[this.scaleIndex];
 	this.W = 900; // simplement un nombre supérieur à la demi-largeur ou demi-hauteur de la carte mais pas trop
 	this.mouseIsDown=false;
-	this.pointerX = 0; // coordonnées du pointeur dans l'univers Braldahim
+	this.pointerX = 2* this.W; // coordonnées du pointeur dans l'univers Braldahim
 	this.pointerY = 0;
 	this.pointerScreenX = 0; // coordonnées du pointeur dans le référentiel de l'écran
 	this.pointerScreenY = 0;
@@ -21,6 +22,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.photoSatellite = new Image();
 	this.displayPhotoSatellite = true;
 	this.displayRégions = false;
+	this.displayFog = true;
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
 	this.recomputeCanvasPosition();
@@ -62,6 +64,13 @@ function Map(canvasId, posmarkid, dialogId) {
 		_this.recomputeCanvasPosition();
 		_this.redraw();
 	});
+}
+
+// centre l'écran sur la case de coordonnées (x, y)
+Map.prototype.goto = function(x, y) {
+	this.originX = (this.screenRect.w/2)/this.zoom - x;
+	this.originY = y+(this.screenRect.h/2)/this.zoom;
+	this.redraw();
 }
 
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
@@ -139,6 +148,44 @@ Map.prototype.setData = function(mapData) {
 	}
 	console.log("carte compilée");
 }
+
+Map.prototype.drawFog = function() {
+	var c = this.context;
+	var hasVue = false;
+	c.beginPath();
+	c.moveTo(0, 0);
+	c.lineTo(this.screenRect.w, 0);
+	c.lineTo(this.screenRect.w, this.screenRect.h);
+	c.lineTo(0, this.screenRect.h);
+	c.closePath();
+	if (this.mapData.Vues) {
+		var radius = 8;
+		for (var i=this.mapData.Vues.length; i-->0;) {
+			var vue = this.mapData.Vues[i];
+			if (vue.active) {
+				hasVue = true;
+				var hole = new Rect();
+				hole.x = this.zoom*(this.originX+vue.XMin);
+				hole.y = this.zoom*(this.originY-vue.YMin+1);
+				hole.w = this.zoom*(this.originX+vue.XMax+1) - hole.x;
+				hole.h = - (this.zoom*(this.originY-vue.YMax) - hole.y);
+				hole.y -= hole.h;
+				if (!Rect_intersect(hole, this.screenRect)) {
+					continue;
+				}
+				c.moveTo(hole.x, hole.y+radius);
+				c.arcTo(hole.x, hole.y+hole.h, hole.x+radius, hole.y+hole.h, radius);
+				c.arcTo(hole.x+hole.w, hole.y+hole.h, hole.x+hole.w, hole.y+radius, radius);
+				c.arcTo(hole.x+hole.w, hole.y, hole.x+radius, hole.y, radius);
+				c.arcTo(hole.x, hole.y, hole.x, hole.y+radius, radius);
+			}
+		}
+	}
+	if (hasVue) {
+		c.fillStyle = "rgba(100, 100, 100, 0.4)";
+		c.fill();
+	}
+}
 // redessine la page. Peut-être appelée de n'importe quel contexte, y compris depuis une méthode de dessin (pour par exemple faire une animation)
 Map.prototype.redraw = function() {
 	if (this.drawInProgress) {
@@ -176,7 +223,7 @@ Map.prototype.redraw = function() {
 						if (cell) {
 							screenRect.x = this.zoom*(this.originX+x);
 							screenRect.y = this.zoom*(this.originY-y);
-							var hover = this.pointerX==x && this.pointerY==y;
+							var hover = this.zoom>20 && this.pointerX==x && this.pointerY==y;
 							if (cell.fond) this.drawFond(screenRect, cell.fond);
 							if (cell.champ) this.drawLieu(screenRect, cell.champ, this.champImg, hover);
 							else if (cell.échoppe) this.drawLieu(screenRect, cell.échoppe, this.echoppeImg[cell.échoppe.Métier], hover);
@@ -190,6 +237,9 @@ Map.prototype.redraw = function() {
 					var vue = this.mapData.Vues[i];
 					if (vue.active) this.drawVue(vue);
 				}
+			}
+			if (this.displayFog) {
+				this.drawFog();
 			}
 			if (this.mapData.Villes && this.zoom<=60) {
 				for (var i=this.mapData.Villes.length; i-->0;) {
@@ -240,8 +290,8 @@ Map.prototype.mouseWheel = function(e) {
 		mouseX = e.layerX; // FF
 		mouseY = e.layerY; // FF
 	}
-	this.originX += (mouseX-this.canvas_position_x)*zr; 
-	this.originY += (mouseY-this.canvas_position_y)*zr;
+	this.originX += (mouseX)*zr; 
+	this.originY += (mouseY)*zr;
 	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
 	this.hoverObject = null;
 	this.redraw();
@@ -292,6 +342,7 @@ Map.prototype.mouseLeave = function(e) {
 // - une cellule de vue s'il y en a une non vide, en ne cherchant que dans les vues affichées
 // - null s'il n'y a rien d'intéressant sur la case
 Map.prototype.objectOn = function(x,y) {
+	if (this.zoom<10) return null;
 	var cell = this.getCell(this.pointerX, this.pointerY);
 	if (cell && (cell.champ||cell.échoppe||cell.lieu)) return cell;
 	if (this.mapData.Vues) {

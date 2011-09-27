@@ -41,37 +41,37 @@ Rect.prototype.drawThin = function(c) {
 renvoie true ssi l'intersection entre les deux rectangles est non nulle
 */
 function Rect_intersect(r1, r2) {
-    return r1.x<=r2.x+r2.w && r2.x<=r1.x+r1.w && r1.y<=r2.y+r2.h && r2.y<=r1.y+r1.h;
+	return r1.x<=r2.x+r2.w && r2.x<=r1.x+r1.w && r1.y<=r2.y+r2.h && r2.y<=r1.y+r1.h;
 }
 
 function Rect_maxRect(w, h) {
-    var z = Math.max(w, h);
-    var rect = new Rect(0, 0, w/z, h/z);
-    rect.x = (1-rect.w)/2;
-    rect.y = (1-rect.h)/2;
-    return rect;
+	var z = Math.max(w, h);
+	var rect = new Rect(0, 0, w/z, h/z);
+	rect.x = (1-rect.w)/2;
+	rect.y = (1-rect.h)/2;
+	return rect;
 }
 
 function Rect(x,y,w,h){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
 }
 
 
 Rect.prototype.string = function() {
-    return 'Rect('+this.x+', '+this.y+', '+this.w+', '+this.h+')';
+	return 'Rect('+this.x+', '+this.y+', '+this.w+', '+this.h+')';
 }
 
 Rect.prototype.contains = function(x, y) {
-    return x>=this.x && x<=this.x+this.w && y>=this.y && y<=this.y+this.h;
+	return x>=this.x && x<=this.x+this.w && y>=this.y && y<=this.y+this.h;
 };
 
 
 Rect.prototype.fill = function(c, fillStyle) {
-    c.fillStyle=fillStyle;
-    c.fillRect(this.x, this.y, this.w, this.h);
+	c.fillStyle=fillStyle;
+	c.fillRect(this.x, this.y, this.w, this.h);
 };
 
 /**
@@ -80,12 +80,12 @@ Rect.prototype.fill = function(c, fillStyle) {
  * Doc de arcTo : http://dev.w3.org/html5/2dcontext/ 
 */
 Rect.prototype.makePath = function(c, radius) {
-    c.beginPath();
-    c.moveTo(this.x, this.y+radius);
-    c.arcTo(this.x, this.y+this.h, this.x+radius, this.y+this.h, radius);
-    c.arcTo(this.x+this.w, this.y+this.h, this.x+this.w, this.y+radius, radius);
-    c.arcTo(this.x+this.w, this.y, this.x+radius, this.y, radius);
-    c.arcTo(this.x, this.y, this.x, this.y+radius, radius);
+	c.beginPath();
+	c.moveTo(this.x, this.y+radius);
+	c.arcTo(this.x, this.y+this.h, this.x+radius, this.y+this.h, radius);
+	c.arcTo(this.x+this.w, this.y+this.h, this.x+this.w, this.y+radius, radius);
+	c.arcTo(this.x+this.w, this.y, this.x+radius, this.y, radius);
+	c.arcTo(this.x, this.y, this.x, this.y+radius, radius);
 };
 
 /**
@@ -96,17 +96,17 @@ Rect.prototype.makePath = function(c, radius) {
  * On utilise la technique du "Opposite Winding"
 */
 Rect.prototype.makeHolePath = function(c, hole, radius) {
-    c.beginPath();
-    c.moveTo(this.x, this.y);
-    c.lineTo(this.x+this.w, this.y);
-    c.lineTo(this.x+this.w, this.y+this.h);
-    c.lineTo(this.x, this.y+this.h);
-    c.closePath();
-    c.moveTo(hole.x, hole.y+radius);
-    c.arcTo(hole.x, hole.y+hole.h, hole.x+radius, hole.y+hole.h, radius);
-    c.arcTo(hole.x+hole.w, hole.y+hole.h, hole.x+hole.w, hole.y+radius, radius);
-    c.arcTo(hole.x+hole.w, hole.y, hole.x+radius, hole.y, radius);
-    c.arcTo(hole.x, hole.y, hole.x, hole.y+radius, radius);
+	c.beginPath();
+	c.moveTo(this.x, this.y);
+	c.lineTo(this.x+this.w, this.y);
+	c.lineTo(this.x+this.w, this.y+this.h);
+	c.lineTo(this.x, this.y+this.h);
+	c.closePath();
+	c.moveTo(hole.x, hole.y+radius);
+	c.arcTo(hole.x, hole.y+hole.h, hole.x+radius, hole.y+hole.h, radius);
+	c.arcTo(hole.x+hole.w, hole.y+hole.h, hole.x+hole.w, hole.y+radius, radius);
+	c.arcTo(hole.x+hole.w, hole.y, hole.x+radius, hole.y, radius);
+	c.arcTo(hole.x, hole.y, hole.x, hole.y+radius, radius);
 };
 
 
@@ -114,22 +114,22 @@ Rect.prototype.makeHolePath = function(c, hole, radius) {
  * élargit si nécessaire le rectangle de telle sorte qu'il contienne le point p
  */ 
 Rect.prototype.makeContain = function(p) {
-    if (p.x<this.x) {
-        this.w += this.x-p.x;
-        this.x=p.x;
-    } else if (p.x>this.x+this.w) {
-        this.w=p.x-this.x;
-    }
-    if (p.y<this.y) {
-        this.h += this.y-p.y;
-        this.y=p.y;
-    } else if (p.y>this.y+this.h) {
-        this.h=p.y-this.y;
-    }
+	if (p.x<this.x) {
+		this.w += this.x-p.x;
+		this.x=p.x;
+	} else if (p.x>this.x+this.w) {
+		this.w=p.x-this.x;
+	}
+	if (p.y<this.y) {
+		this.h += this.y-p.y;
+		this.y=p.y;
+	} else if (p.y>this.y+this.h) {
+		this.h=p.y-this.y;
+	}
 };
 
 Rect.prototype.clone = function() {
-    return new Rect(this.x, this.y, this.w, this.h);
+	return new Rect(this.x, this.y, this.w, this.h);
 };
 
 Rect.prototype.drawImage = function(context, img) {

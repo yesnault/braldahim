@@ -152,13 +152,4 @@ Map.prototype.drawVue = function(vue) {
 		}
 		
 	}
-	
-	
-	//> on assombrit tout ce qui n'est pas la vue
-	// Là pour l'instant je fais comme s'il n'y avait qu'une vue active. Sinon il faut cumuler les trous au lieu
-	//  d'accumuler les obscurcissement. Je ferai ça quand il y aura plusieurs vues...
-	c.fillStyle = "rgba(100, 100, 100, 0.4)";
-	this.screenRect.makeHolePath(c, screenRect, 7);
-	c.fill();
-	
 }

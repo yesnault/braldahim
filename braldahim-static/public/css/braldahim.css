@@ -3777,7 +3777,7 @@ div.box {
     left: 5px;
     top: 5px;
     bottom: 5px;
-    width: 200px;
+    width: 500px;
     border-style: solid;
     border-width: 1px;
     border-color: black;
@@ -3799,7 +3799,7 @@ div.box {
     -moz-user-select: none;
     user-select: none;
     -webkit-user-select: none;
-     width: 70%;
+     width: 880px;
      height: 600px;
 }
 #map_dialog {
