@@ -41,7 +41,7 @@ if ($case['n_lieux'] > 0) :
 		}
 
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textLieu .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+			$textLieu .= ' <button class="button next" title="Cliquer pour acc&eacute;der directement au lieu" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 	}
 
@@ -71,7 +71,7 @@ if ($case['n_echoppes'] > 0) :
 		}
 
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textEchoppe .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+			$textEchoppe .= ' <button class="button next" title="Cliquer pour acc&eacute;der directement &agrave; l\'&eacute;choppe" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 
 
@@ -107,7 +107,7 @@ if ($case['n_champs'] > 0) :
 		}
 
 		if ($this->user->x_braldun == $case['x'] && $this->user->y_braldun == $case['y'] && $this->estVueEtendue == false) {
-			$textChamp .= ' <button class="butEntrer" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
+			$textChamp .= ' <button class="button next" title="Cliquer pour acc&eacute;der directement au champ" onclick="Javascript:_get_(\'/interface/load/?box=box_lieu\');" title="Entrez">Entrez</button>';
 		}
 
 		$textChamp .= '<br />';
