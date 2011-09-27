@@ -18,6 +18,11 @@ input {
 	border: 1px solid #666666;
 }
 
+.button{
+    padding: 14px 14px 14px 14px;
+    margin: 2px 2pt;
+}
+
 .box_authentification_mobile {
 	width: auto;
 	height: 400px;
