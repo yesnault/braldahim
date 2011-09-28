@@ -283,7 +283,7 @@ class Bral_Util_Vue
                     "Nom" => "" . $e['nom_echoppe'],
                     "Métier" => $e['nom_systeme_metier'],
                     "IdBraldun" => $e['id_braldun'],
-                    "NomCompletBraldun" => $e['prenom_braldun']. " ". $e['nom_braldun'],
+                    "NomCompletBraldun" => $e['prenom_braldun'] . " " . $e['nom_braldun'],
                 );
             }
         }
@@ -296,7 +296,7 @@ class Bral_Util_Vue
                     "X" => $e['x_champ'],
                     "Y" => $e['y_champ'],
                     "IdBraldun" => $e['id_braldun'],
-                    "NomCompletBraldun" => $e['prenom_braldun']. " ". $e['nom_braldun'],
+                    "NomCompletBraldun" => $e['prenom_braldun'] . " " . $e['nom_braldun'],
                 );
             }
         }
@@ -382,19 +382,21 @@ class Bral_Util_Vue
                 //if ($e['quantite_rondin_element'] > 0) $tabElements[] = array('nom' => 'Rondin', 's' => 's', 'nb' => $e['quantite_rondin_element']);
                 //OK if ($e['quantite_castar_element'] > 0) $tabCastars[] = array('nb_castar' => $e['quantite_castar_element'], 'butin' => $e['id_fk_butin_element']);
 
-                $tableau["Vues"][0]["Objets"][] = array(
-                    "X" => $e['x_element'],
-                    "Y" => $e['y_element'],
-                    'Type' => 'castar',
-                    'Quantité' => $e['quantite_castar_element'],
-                );
+                if ($e['quantite_castar_element'] > 0) {
+                    $tableau["Vues"][0]["Objets"][] = array(
+                        "X" => $e['x_element'],
+                        "Y" => $e['y_element'],
+                        'Type' => 'castar',
+                        'Quantité' => $e['quantite_castar_element'],
+                    );
+                }
 
             }
         }
 
         if ($elementsRunes != null) {
             foreach ($elementsRunes as $r) {
-             /*   if ($display_x == $r['x_element_rune'] && $display_y == $r['y_element_rune']) {
+                /*   if ($display_x == $r['x_element_rune'] && $display_y == $r['y_element_rune']) {
                     $tabElementsRunes[] = array('id_rune_element_rune' => $r['id_rune_element_rune'], 'id_butin' => $r['id_fk_butin_element_rune']);
                 }*/
                 $tableau["Vues"][0]["Objets"][] = array(
