@@ -89,7 +89,9 @@
 			<br />
 			Historique :<br /> 
 
-            version 5 : ajout des id_butin sur les éléments + runes, info de gibier ou non pour monstre / cadavre, suppression du niveau des monstres<br />
+            version 5 : ajout des id_butin sur les éléments aliment, equipement, graine, ingredient, materiel,
+                minerai, munition, partieplante, potion, rune, tabac
+                +  info de gibier ou non pour monstre / cadavre, suppression du niveau des monstres<br />
             version 4 : ajout de l'id_type_*, points gredins / redresseurs / distinctions, date de fin palissade<br />
             version 3 : ajout de l'id_type_monstre sur les types CADAVRE et MONSTRE<br />
 			version 2 : ajout du type PORTAIL<br />
@@ -115,19 +117,19 @@
 			ELEMENT;x;y;z;Planche;quantite_planche_element;s;id_butin
 			ELEMENT;x;y;z;Rondin;quantite_rondin_element;s;id_butin
 			ELEMENT;x;y;z;Castar;quantite_castar_element;s;id_butin
-			EQUIPEMENT;x;y;z;id_element_equipement;nom;nom_type_qualite;niveau_recette_equipement;suffixe_mot_runique;id_type_equipement
-			MATERIEL;x;y;z;id_element_materiel;nom_type_materiel;id_type_materiel;id_type_materiel
-			MUNITION;x;y;z;nom_type_munition;nom_pluriel_type_munition;quantite_element_munition;id_type_munition
-			POTION;x;y;z;id_element_potion;type;nom_type_potion;nom_type_qualite;niveau_potion;id_type_potion
-			ALIMENT;x;y;z;id_element_aliment;nom_type_aliment;nom_type_qualite;id_type_aliment
-			GRAINE;x;y;z;quantite_element_graine;nom_type_graine;id_type_graine
-			INGREDIENT;x;y;z;quantite_element_ingredient;nom_type_ingredient;id_type_ingredient
-			MINERAI_BRUT;x;y;z;quantite_brut_element_minerai;nom_type_minerai;id_type_minerai
-			LINGOT;x;y;z;quantite_lingots_element_minerai;nom_type_minerai;id_type_minerai
-			PLANTE_BRUTE;x;y;z;quantite_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante
-			PLANTE_PREPAREE;x;y;z;quantite_preparee_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante
+			EQUIPEMENT;x;y;z;id_element_equipement;nom;nom_type_qualite;niveau_recette_equipement;suffixe_mot_runique;id_type_equipement;id_butin
+			MATERIEL;x;y;z;id_element_materiel;nom_type_materiel;id_type_materiel;id_type_materiel;id_butin
+			MUNITION;x;y;z;nom_type_munition;nom_pluriel_type_munition;quantite_element_munition;id_type_munition;id_butin
+			POTION;x;y;z;id_element_potion;type;nom_type_potion;nom_type_qualite;niveau_potion;id_type_potion;id_butin
+			ALIMENT;x;y;z;id_element_aliment;nom_type_aliment;nom_type_qualite;id_type_aliment;id_butin
+			GRAINE;x;y;z;quantite_element_graine;nom_type_graine;id_type_graine;id_butin
+			INGREDIENT;x;y;z;quantite_element_ingredient;nom_type_ingredient;id_type_ingredient;id_butin
+			MINERAI_BRUT;x;y;z;quantite_brut_element_minerai;nom_type_minerai;id_type_minerai;id_butin
+			LINGOT;x;y;z;quantite_lingots_element_minerai;nom_type_minerai;id_type_minerai;id_butin
+			PLANTE_BRUTE;x;y;z;quantite_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante;id_butin
+			PLANTE_PREPAREE;x;y;z;quantite_preparee_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante;id_butin
 			RUNE;x;y;z;id_rune_element_rune;id_butin
-			TABAC;x;y;z;quantite_feuille_element_tabac;nom_court_type_tabac;id_type_tabac
+			TABAC;x;y;z;quantite_feuille_element_tabac;nom_court_type_tabac;id_type_tabac;id_butin
 			BRALDUN;x;y;z;id_braldun;est_ko_braldun;est_intangible_braldun;est_soule_braldun;soule_camp_braldun;id_fk_soule_match_braldun;points_gredin_braldun;points_redresseur_braldun;points_distinctions_braldun
 			LIEU;x;y;z;id_lieu;nom_lieu;nom_type_lieu;nom_systeme_type_lieu;id_type_lieu
             CADAVRE;x;y;z; id_monstre;nom_type_monstre;nom_taille;id_type_monstre;est_gibier

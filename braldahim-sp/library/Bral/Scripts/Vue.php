@@ -357,7 +357,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsEquipements != null) {
                         foreach ($elementsEquipements as $e) {
                             if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
-                                $retour .= 'EQUIPEMENT;' . $pos . ';' . $e["id_element_equipement"] . ';' . Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]) . ';' . $e["nom_type_qualite"] . ';' . $e["niveau_recette_equipement"] . ';' . $e["suffixe_mot_runique"] . ';' . $e["id_type_equipement"] . $fin;
+                                $retour .= 'EQUIPEMENT;' . $pos . ';' . $e["id_element_equipement"] . ';' . Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]) . ';' . $e["nom_type_qualite"] . ';' . $e["niveau_recette_equipement"] . ';' . $e["suffixe_mot_runique"] . ';' . $e["id_type_equipement"] . ';' . $e['id_fk_butin_element_equipement'] . $fin;
                             }
                         }
                     }
@@ -365,7 +365,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsMateriels != null) {
                         foreach ($elementsMateriels as $e) {
                             if ($display_x == $e["x_element_materiel"] && $display_y == $e["y_element_materiel"]) {
-                                $retour .= 'MATERIEL;' . $pos . ';' . $e["id_element_materiel"] . ';' . $e["nom_type_materiel"] . ';' . $e["id_type_materiel"] . $fin;
+                                $retour .= 'MATERIEL;' . $pos . ';' . $e["id_element_materiel"] . ';' . $e["nom_type_materiel"] . ';' . $e["id_type_materiel"] . ';' . $e['id_fk_butin_element_materiel'] . $fin;
                             }
                         }
                     }
@@ -374,7 +374,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                         foreach ($elementsMunitions as $m) {
                             if ($m["quantite_element_munition"] > 0) {
                                 if ($display_x == $m["x_element_munition"] && $display_y == $m["y_element_munition"]) {
-                                    $retour .= 'MUNITION;' . $pos . ';' . $m["nom_type_munition"] . ';' . $m["nom_pluriel_type_munition"] . ';' . $m["quantite_element_munition"] . ';' . $m["id_type_munition"] . $fin;
+                                    $retour .= 'MUNITION;' . $pos . ';' . $m["nom_type_munition"] . ';' . $m["nom_pluriel_type_munition"] . ';' . $m["quantite_element_munition"] . ';' . $m["id_type_munition"] . ';' . $m['id_fk_butin_element_munition'] . $fin;
                                 }
                             }
                         }
@@ -383,7 +383,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsPotions != null) {
                         foreach ($elementsPotions as $p) {
                             if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
-                                $retour .= 'POTION;' . $pos . ';' . $p["id_element_potion"] . ';' . Bral_Util_Potion::getNomType($p["type_potion"]) . ';' . $p["nom_type_potion"] . ';' . $p["nom_type_qualite"] . ';' . $p["niveau_potion"] . ';' . $p["id_type_potion"] . $fin;
+                                $retour .= 'POTION;' . $pos . ';' . $p["id_element_potion"] . ';' . Bral_Util_Potion::getNomType($p["type_potion"]) . ';' . $p["nom_type_potion"] . ';' . $p["nom_type_qualite"] . ';' . $p["niveau_potion"] . ';' . $p["id_type_potion"] . ';' . $p['id_fk_butin_element_potion'] . $fin;
                             }
                         }
                     }
@@ -391,7 +391,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsAliments != null) {
                         foreach ($elementsAliments as $p) {
                             if ($display_x == $p["x_element_aliment"] && $display_y == $p["y_element_aliment"]) {
-                                $retour .= 'ALIMENT;' . $pos . ';' . $p["id_element_aliment"] . ';' . $p["nom_type_aliment"] . ';' . $p["nom_type_qualite"] . ';' . $p["id_type_aliment"] . $fin;
+                                $retour .= 'ALIMENT;' . $pos . ';' . $p["id_element_aliment"] . ';' . $p["nom_type_aliment"] . ';' . $p["nom_type_qualite"] . ';' . $p["id_type_aliment"] . ';' . $p['id_fk_butin_element_aliment'] . $fin;
                             }
                         }
                     }
@@ -399,7 +399,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsGraines != null) {
                         foreach ($elementsGraines as $p) {
                             if ($display_x == $p["x_element_graine"] && $display_y == $p["y_element_graine"]) {
-                                $retour .= 'GRAINE;' . $pos . ';' . $p["quantite_element_graine"] . ';' . $p["nom_type_graine"] . ';' . $p["id_type_graine"] . $fin;
+                                $retour .= 'GRAINE;' . $pos . ';' . $p["quantite_element_graine"] . ';' . $p["nom_type_graine"] . ';' . $p["id_type_graine"] . ';' . $p['id_fk_butin_element_graine'] . $fin;
                             }
                         }
                     }
@@ -407,7 +407,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                     if ($elementsIngredients != null) {
                         foreach ($elementsIngredients as $p) {
                             if ($display_x == $p["x_element_ingredient"] && $display_y == $p["y_element_ingredient"]) {
-                                $retour .= 'INGREDIENT;' . $pos . ';' . $p["quantite_element_ingredient"] . ';' . $p["nom_type_ingredient"] . ';' . $p["id_type_ingredient"] . $fin;
+                                $retour .= 'INGREDIENT;' . $pos . ';' . $p["quantite_element_ingredient"] . ';' . $p["nom_type_ingredient"] . ';' . $p["id_type_ingredient"] . ';' . $p['id_fk_butin_element_ingredient'] . $fin;
                             }
                         }
                     }
@@ -416,13 +416,13 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                         foreach ($elementsMinerais as $m) {
                             if ($m["quantite_brut_element_minerai"] > 0) {
                                 if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
-                                    $retour .= 'MINERAI_BRUT;' . $pos . ';' . $m["quantite_brut_element_minerai"] . ';' . $m["nom_type_minerai"] . ';' . $m["id_type_minerai"] . $fin;
+                                    $retour .= 'MINERAI_BRUT;' . $pos . ';' . $m["quantite_brut_element_minerai"] . ';' . $m["nom_type_minerai"] . ';' . $m["id_type_minerai"] . ';' . $m['id_fk_butin_element_minerai'] . $fin;
                                 }
                             }
 
                             if ($m["quantite_lingots_element_minerai"] > 0) {
                                 if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
-                                    $retour .= 'LINGOT;' . $pos . ';' . $m["quantite_lingots_element_minerai"] . ';' . $m["nom_type_minerai"] . ';' . $m["id_type_minerai"] . $fin;
+                                    $retour .= 'LINGOT;' . $pos . ';' . $m["quantite_lingots_element_minerai"] . ';' . $m["nom_type_minerai"] . ';' . $m["id_type_minerai"] . ';' . $m['id_fk_butin_element_minerai'] . $fin;
                                 }
                             }
                         }
@@ -432,13 +432,13 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                         foreach ($elementsPartieplantes as $m) {
                             if ($m["quantite_element_partieplante"] > 0) {
                                 if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
-                                    $retour .= 'PLANTE_BRUTE;' . $pos . ';' . $m["quantite_element_partieplante"] . ';' . $m["nom_type_partieplante"] . ';' . $m["nom_type_plante"] . ';' . $m["id_type_plante"] . ';' . $m["id_type_partieplante"] . $fin;
+                                    $retour .= 'PLANTE_BRUTE;' . $pos . ';' . $m["quantite_element_partieplante"] . ';' . $m["nom_type_partieplante"] . ';' . $m["nom_type_plante"] . ';' . $m["id_type_plante"] . ';' . $m["id_type_partieplante"] . ';' . $m['id_fk_butin_element_partieplante'] . $fin;
                                 }
                             }
 
                             if ($m["quantite_preparee_element_partieplante"] > 0) {
                                 if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
-                                    $retour .= 'PLANTE_PREPAREE;' . $pos . ';' . $m["quantite_preparee_element_partieplante"] . ';' . $m["nom_type_partieplante"] . ';' . $m["nom_type_plante"] . ';' . $m["id_type_plante"] . ';' . $m["id_type_partieplante"] . $fin;
+                                    $retour .= 'PLANTE_PREPAREE;' . $pos . ';' . $m["quantite_preparee_element_partieplante"] . ';' . $m["nom_type_partieplante"] . ';' . $m["nom_type_plante"] . ';' . $m["id_type_plante"] . ';' . $m["id_type_partieplante"] . ';' . $m['id_fk_butin_element_partieplante'] . $fin;
                                 }
                             }
                         }
@@ -456,7 +456,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
                         foreach ($elementsTabac as $m) {
                             if ($m["quantite_feuille_element_tabac"] > 0) {
                                 if ($display_x == $m["x_element_tabac"] && $display_y == $m["y_element_tabac"]) {
-                                    $retour .= 'TABAC;' . $pos . ';' . $m["quantite_feuille_element_tabac"] . ';' . $m["nom_court_type_tabac"] . ';' . $m["id_type_tabac"] . $fin;
+                                    $retour .= 'TABAC;' . $pos . ';' . $m["quantite_feuille_element_tabac"] . ';' . $m["nom_court_type_tabac"] . ';' . $m["id_type_tabac"] . ';' . $m['id_fk_butin_element_tabac'] . $fin;
                                 }
                             }
                         }
