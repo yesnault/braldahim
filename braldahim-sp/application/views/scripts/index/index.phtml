@@ -83,12 +83,13 @@
 				Vue
 			</td>
 			<td width="80%" style="text-align:left">
-			Version : 3<br />
-			URL : http://sp.braldahim.com/scripts/vue/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=4<br />
+			Version : 5<br />
+			URL : http://sp.braldahim.com/scripts/vue/?idBraldun=XXX&amp;mdpRestreint=YYY&amp;version=5<br />
 			Détails d'une ligne: TYPE;position_x;position_y;postion_z;autre_element;autre_element...
 			<br />
 			Historique :<br /> 
 
+            version 5 : ajout des id_butin sur les éléments + runes, info de gibier ou non pour monstre / cadavre, suppression du niveau des monstres<br />
             version 4 : ajout de l'id_type_*, points gredins / redresseurs / distinctions, date de fin palissade<br />
             version 3 : ajout de l'id_type_monstre sur les types CADAVRE et MONSTRE<br />
 			version 2 : ajout du type PORTAIL<br />
@@ -104,17 +105,17 @@
 			<pre style="background-color:#2a5911; text-align:left" >
 			POSITION;x;y;z;xMin;xMax;yMin;yMax;idBraldun;vueNbCases;vueBm
 			ENVIRONNEMENT;x;y;z;nom_systeme_environnement;nom_environnement
-			CADAVRE;x;y;z; id_monstre;nom_type_monstre;nom_taille;id_type_monstre
+
 			CHARRETTE;x;y;z; id_charrette;nom_type_materiel;id_type_materiel
 			ECHOPPE;x;y;z;id_echoppe;nom_echoppe;nom_systeme_metier;nom_metier;id_braldun
 			CHAMP;x;y;z;id_champ;id_braldun
 			CREVASSE;x;y;z;id_crevasse
-			ELEMENT;x;y;z;Peau;quantite_peau_element;x
-			ELEMENT;x;y;z;Cuir;quantite_cuir_element;s
-			ELEMENT;x;y;z;Fourrure;quantite_fourrure_element;s
-			ELEMENT;x;y;z;Planche;quantite_planche_element;s
-			ELEMENT;x;y;z;Rondin;quantite_rondin_element;s
-			ELEMENT;x;y;z;Castar;quantite_castar_element;s
+			ELEMENT;x;y;z;Peau;quantite_peau_element;x;id_butin
+			ELEMENT;x;y;z;Cuir;quantite_cuir_element;s;id_butin
+			ELEMENT;x;y;z;Fourrure;quantite_fourrure_element;s;id_butin
+			ELEMENT;x;y;z;Planche;quantite_planche_element;s;id_butin
+			ELEMENT;x;y;z;Rondin;quantite_rondin_element;s;id_butin
+			ELEMENT;x;y;z;Castar;quantite_castar_element;s;id_butin
 			EQUIPEMENT;x;y;z;id_element_equipement;nom;nom_type_qualite;niveau_recette_equipement;suffixe_mot_runique;id_type_equipement
 			MATERIEL;x;y;z;id_element_materiel;nom_type_materiel;id_type_materiel;id_type_materiel
 			MUNITION;x;y;z;nom_type_munition;nom_pluriel_type_munition;quantite_element_munition;id_type_munition
@@ -126,11 +127,12 @@
 			LINGOT;x;y;z;quantite_lingots_element_minerai;nom_type_minerai;id_type_minerai
 			PLANTE_BRUTE;x;y;z;quantite_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante
 			PLANTE_PREPAREE;x;y;z;quantite_preparee_element_partieplante;nom_type_partieplante;nom_type_plante;id_type_plante;id_type_partieplante
-			RUNE;x;y;z;id_rune_element_rune
+			RUNE;x;y;z;id_rune_element_rune;id_butin
 			TABAC;x;y;z;quantite_feuille_element_tabac;nom_court_type_tabac;id_type_tabac
 			BRALDUN;x;y;z;id_braldun;est_ko_braldun;est_intangible_braldun;est_soule_braldun;soule_camp_braldun;id_fk_soule_match_braldun;points_gredin_braldun;points_redresseur_braldun;points_distinctions_braldun
 			LIEU;x;y;z;id_lieu;nom_lieu;nom_type_lieu;nom_systeme_type_lieu;id_type_lieu
-			MONSTRE;x;y;z;id_monstre;nom_type_monstre;m_taille;niveau_monstre;id_type_monstre
+            CADAVRE;x;y;z; id_monstre;nom_type_monstre;nom_taille;id_type_monstre;est_gibier
+			MONSTRE;x;y;z;id_monstre;nom_type_monstre;m_taille;id_type_monstre;est_gibier
 			NID;x;y;z;id_nid;nom_nid_type_monstre
 			PORTAIL;x;y;z;id_palissade;est_destructible_palissade;date_fin_palissade
 			PALISSADE;x;y;z;id_palissade;est_destructible_palissade;date_fin_palissade
