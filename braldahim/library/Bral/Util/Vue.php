@@ -277,7 +277,7 @@ class Bral_Util_Vue
                     $nom_metier = $e['nom_masculin_metier'];
                 }
                 //$tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier' => $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-                $tableau["Echoppes"][] = array("X" => $e['x_echoppe'], "Y" => $e['y_echoppe'], "Nom" => $e['nom_echoppe'], "Métier" => $e['nom_systeme_metier'], "IdBraldun" => $e['id_braldun']);
+                $tableau["Echoppes"][] = array("X" => $e['x_echoppe'], "Y" => $e['y_echoppe'], "Nom" => "" . $e['nom_echoppe'], "Métier" => $e['nom_systeme_metier'], "IdBraldun" => $e['id_braldun']);
             }
         }
 
@@ -377,6 +377,62 @@ class Bral_Util_Vue
                     'Quantité' => $e['quantite_castar_element'],
                 );
 
+            }
+        }
+
+        if ($elementsRunes != null) {
+            foreach ($elementsRunes as $r) {
+             /*   if ($display_x == $r['x_element_rune'] && $display_y == $r['y_element_rune']) {
+                    $tabElementsRunes[] = array('id_rune_element_rune' => $r['id_rune_element_rune'], 'id_butin' => $r['id_fk_butin_element_rune']);
+                }*/
+                $tableau["Vues"][0]["Objets"][] = array(
+                    "X" => $r['x_element_rune'],
+                    "Y" => $r['y_element_rune'],
+                    'Type' => 'rune',
+                    'Quantité' => 1,
+                );
+
+            }
+        }
+
+
+        if ($monstres != null) {
+            foreach ($monstres as $m) {
+                if ($m['genre_type_monstre'] == 'feminin') {
+                    $m_taille = $m['nom_taille_f_monstre'];
+                } else {
+                    $m_taille = $m['nom_taille_m_monstre'];
+                }
+
+                $tableau["Vues"][0]["Monstres"][] = array(
+                    "X" => $m['x_monstre'],
+                    "Y" => $m['y_monstre'],
+                    "Id" => $m['id_monstre'],
+                    'Nom' => $m['nom_type_monstre'],
+                    'Taille' => $m_taille,
+                    'Niveau' => $m['niveau_monstre'],
+                    'IdType' => $m['id_type_monstre'],
+                );
+            }
+        }
+
+        if ($cadavres != null) {
+            foreach ($cadavres as $c) {
+                if ($c['genre_type_monstre'] == 'feminin') {
+                    $c_taille = $c['nom_taille_f_monstre'];
+                } else {
+                    $c_taille = $c['nom_taille_m_monstre'];
+                }
+
+                $tableau["Vues"][0]["Monstres"][] = array(
+                    "X" => $c['x_monstre'],
+                    "Y" => $c['y_monstre'],
+                    "Id" => $c['id_monstre'],
+                    'Nom' => $c['nom_type_monstre'],
+                    'Taille' => $c_taille,
+                    'Niveau' => $c['niveau_monstre'],
+                    'IdType' => $c['id_type_monstre'],
+                );
             }
         }
 

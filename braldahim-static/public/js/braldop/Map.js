@@ -22,7 +22,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.photoSatellite = new Image();
 	this.displayPhotoSatellite = true;
 	this.displayRégions = false;
-	this.displayFog = true;
+	this.displayFog = true; 
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
 	this.recomputeCanvasPosition();
@@ -159,7 +159,7 @@ Map.prototype.drawFog = function() {
 	c.lineTo(0, this.screenRect.h);
 	c.closePath();
 	if (this.mapData.Vues) {
-		var radius = 8;
+		var radius = this.zoom/6;
 		for (var i=this.mapData.Vues.length; i-->0;) {
 			var vue = this.mapData.Vues[i];
 			if (vue.active) {
@@ -235,7 +235,7 @@ Map.prototype.redraw = function() {
 			if (this.mapData.Vues) {
 				for (var i=this.mapData.Vues.length; i-->0;) {
 					var vue = this.mapData.Vues[i];
-					if (vue.active) this.drawVue(vue);
+					if (vue.active) this.drawVue(vue, xMin, xMax, yMin, yMax);
 				}
 			}
 			if (this.displayFog) {
@@ -266,7 +266,6 @@ Map.prototype.redraw = function() {
 Map.prototype.mouseWheel = function(e) {
 	if (this.mouseIsDown) return;
 	if (!this.mouseOnMap) return;
-	//console.log('scaleIndex before = '+this.scaleIndex);
 	var delta = 0;
 	if (!e) e=window.e;
 	if (e.wheelDelta) {

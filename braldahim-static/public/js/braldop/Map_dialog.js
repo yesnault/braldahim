@@ -56,7 +56,7 @@ Map.prototype.openCellDialog = function(x, y) {
 	}
 	var cellVue = this.getCellVueVisible(x, y);
 	if (cellVue) {		
-		if (cellVue.bralduns.length>0) {
+		if (cellVue.bralduns.length) {
 			empty = false;
 			html[h++] = "<b>Braldûns :</b>";
 			html[h++] = '<table>';
@@ -70,7 +70,37 @@ Map.prototype.openCellDialog = function(x, y) {
 			}		
 			html[h++] = '</table>';
 		}
-		if (cellVue.objets.length>0) {
+		if (cellVue.monstres.length) {
+			empty = false;
+			html[h++] = "<b>Monstres :</b>";
+			html[h++] = '<table>';
+			for (var ib=0; ib<cellVue.monstres.length; ib++) {
+				var o = cellVue.monstres[ib];
+				var imgbase =  this.imgMonstres[o.IdType];	
+				var img = imgbase ? imgbase.a : this.imgMonstreInconnu;
+				html[h++] = '<tr><td>';
+				html[h++] = '<img src="'+img.src+'">';
+				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a></td><td>niv. '+o.Niveau;
+				html[h++] = '</td></tr>';
+			}
+			html[h++] = '</table>';
+		}
+		if (cellVue.cadavres.length) {
+			empty = false;
+			html[h++] = "<b>Monstres :</b>";
+			html[h++] = '<table>';
+			for (var ib=0; ib<cellVue.cadavres.length; ib++) {
+				var o = cellVue.cadavres[ib];
+				var img = this.imgCadavre;
+				html[h++] = '<tr><td>';
+				html[h++] = '<img src="'+img.src+'">';
+				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a></td><td>niv. '+o.Niveau;
+				html[h++] = '</td></tr>';
+			}
+			html[h++] = '</table>';
+		}
+		if (cellVue.objets.length) {
+			empty = false;
 			html[h++] = "<b>Au sol :</b>";
 			html[h++] = '<table>';
 			for (var ib=0; ib<cellVue.objets.length; ib++) {
