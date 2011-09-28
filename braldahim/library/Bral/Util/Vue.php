@@ -277,7 +277,14 @@ class Bral_Util_Vue
                     $nom_metier = $e['nom_masculin_metier'];
                 }
                 //$tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier' => $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-                $tableau["Echoppes"][] = array("X" => $e['x_echoppe'], "Y" => $e['y_echoppe'], "Nom" => "" . $e['nom_echoppe'], "Métier" => $e['nom_systeme_metier'], "IdBraldun" => $e['id_braldun']);
+                $tableau["Echoppes"][] = array(
+                    "X" => $e['x_echoppe'],
+                    "Y" => $e['y_echoppe'],
+                    "Nom" => "" . $e['nom_echoppe'],
+                    "Métier" => $e['nom_systeme_metier'],
+                    "IdBraldun" => $e['id_braldun'],
+                    "NomCompletBraldun" => $e['prenom_braldun']. " ". $e['nom_braldun'],
+                );
             }
         }
 
@@ -285,7 +292,12 @@ class Bral_Util_Vue
         if ($champs != null) {
             foreach ($champs as $e) {
                 //$tabChamps[] = array('id_champ' => $e['id_champ'], 'nom_champ' => $e['nom_champ'], 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-                $tableau["Champs"][] = array("X" => $e['x_champ'], "Y" => $e['y_champ'], "IdBraldun" => $e['id_braldun']);
+                $tableau["Champs"][] = array(
+                    "X" => $e['x_champ'],
+                    "Y" => $e['y_champ'],
+                    "IdBraldun" => $e['id_braldun'],
+                    "NomCompletBraldun" => $e['prenom_braldun']. " ". $e['nom_braldun'],
+                );
             }
         }
 
@@ -373,7 +385,7 @@ class Bral_Util_Vue
                 $tableau["Vues"][0]["Objets"][] = array(
                     "X" => $e['x_element'],
                     "Y" => $e['y_element'],
-                    'Type' => 'castars',
+                    'Type' => 'castar',
                     'Quantité' => $e['quantite_castar_element'],
                 );
 
