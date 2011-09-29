@@ -155,7 +155,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
         $elementsTabac = $elementTabacTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
         unset($elementTabacTable);
         $braldunTable = new Braldun();
-        $bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
+        $bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position, -1, true, true);
         unset($braldunTable);
         $lieuxTable = new Lieu();
         $lieux = $lieuxTable->selectVue($x_min, $y_min, $x_max, $y_max, $z_position);
