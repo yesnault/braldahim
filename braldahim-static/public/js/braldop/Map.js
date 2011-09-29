@@ -22,7 +22,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.photoSatellite = new Image();
 	this.displayPhotoSatellite = true;
 	this.displayRégions = false;
-	this.displayFog = true; 
+	this.displayFog = true;
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
 	this.recomputeCanvasPosition();

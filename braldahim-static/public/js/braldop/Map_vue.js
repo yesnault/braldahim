@@ -169,15 +169,13 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 							}
 							cell.zones[0].push(img);
 						}
-						//-- zone 1 : buisson
-						//   TODO
 						//-- zone 2 : braldun KO
 						if (nbBraldunsKO) cell.zones[2].push(this.img_braldun_ko);
 						//-- zone 2 : cadavre
 						if (cell.cadavres.length) {
 							cell.zones[2].push(this.imgCadavre);
 						}
-						//-- zones 2 et 3 : objets, triés suivant leur type et orientés dans l'une des deux zones
+						//-- zones 1, 2 et 3 : objets, triés suivant leur type et orientés dans l'une des deux zones
 						if (cell.objets.length) {
 							for (var i=0; i<cell.objets.length; i++) {
 								var o = cell.objets[i];
@@ -191,6 +189,7 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 								if (typeDéjàPrésent) continue;
 								var dest = cell.zones[3];
 								if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
+								else if (o.Type=="buisson") dest = cell.zones[1];
 								var img = this.imgObjets[o.Type];
 								if (img) {
 									dest.push(img);
@@ -233,22 +232,21 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 							this.bubbleText.push('Monstres :');
 							for (var ib=0; ib<cell.monstres.length; ib++) {
 								var o = cell.monstres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille+' (niveau '+o.Niveau+')');
+								this.bubbleText.push('  '+o.Nom+' '+o.Taille+(o.Gibier?' (gibier)':''));
 							}
 						}
 						if (cell.cadavres.length) {
 							this.bubbleText.push('Cadavres :');
 							for (var ib=0; ib<cell.cadavres.length; ib++) {
 								var o = cell.cadavres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille+' (niveau '+o.Niveau+')');
+								this.bubbleText.push('  '+o.Nom+' '+o.Taille);
 							}
 						}
-						if (cell.objets.length) {
+						if (cell.objets.length) { // les buissons sont considérés "au sol"
 							this.bubbleText.push('Au sol :');
 							for (var ib=0; ib<cell.objets.length; ib++) {
 								var o = cell.objets[ib];
-								if (o.Quantité) this.bubbleText.push('  '+o.Quantité+' '+o.Type+(o.Quantité>1?'s':''));
-								else this.bubbleText.push('  '+o.Type);
+								this.bubbleText.push('  '+o.Label);
 							}
 						}
 					}

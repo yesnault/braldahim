@@ -72,6 +72,7 @@ Map.prototype.initTiles = function() {
 	(this.img_braldun_ko = new Image()).src = baseTilesUrl + "vue/braldunKo.png";
 	
 	this.imgObjets = {};
+	(this.imgObjets['buisson'] = new Image()).src = baseTilesUrl + "vue/buisson.png";
 	(this.imgObjets['castar'] = new Image()).src = baseTilesUrl + "vue/castars.png";
 	(this.imgObjets['charrette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
 	(this.imgObjets['cuir'] = new Image()).src = baseTilesUrl + "elements/cuir.png";

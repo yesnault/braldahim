@@ -369,28 +369,19 @@ class Bral_Util_Vue
                     //'Type' => $c['nom_type_materiel'],
                     'Type' => "charrette",
                     'Quantité' => 0,
+                    'Label' => $c['nom_type_materiel'] . ' n°(' . $c['id_charrette'] . ')',
                 );
             }
         }
 
         if ($elements != null) {
             foreach ($elements as $e) {
-                //if ($e['quantite_peau_element'] > 0) $tabElements[] = array('nom' => 'Peau', 's' => 'x', 'nb' => $e['quantite_peau_element']);
-                //if ($e['quantite_cuir_element'] > 0) $tabElements[] = array('nom' => 'Cuir', 's' => 's', 'nb' => $e['quantite_cuir_element']);
-                //if ($e['quantite_fourrure_element'] > 0) $tabElements[] = array('nom' => 'Fourrure', 's' => 's', 'nb' => $e['quantite_fourrure_element']);
-                //if ($e['quantite_planche_element'] > 0) $tabElements[] = array('nom' => 'Planche', 's' => 's', 'nb' => $e['quantite_planche_element']);
-                //if ($e['quantite_rondin_element'] > 0) $tabElements[] = array('nom' => 'Rondin', 's' => 's', 'nb' => $e['quantite_rondin_element']);
-                //OK if ($e['quantite_castar_element'] > 0) $tabCastars[] = array('nb_castar' => $e['quantite_castar_element'], 'butin' => $e['id_fk_butin_element']);
-
-                if ($e['quantite_castar_element'] > 0) {
-                    $tableau["Vues"][0]["Objets"][] = array(
-                        "X" => $e['x_element'],
-                        "Y" => $e['y_element'],
-                        'Type' => 'castar',
-                        'Quantité' => $e['quantite_castar_element'],
-                    );
-                }
-
+                self::addElement($tableau, $e, 'peau', 'peau', 'quantite_peau_element', 'x');
+                self::addElement($tableau, $e, 'cuir', 'cuir', 'quantite_cuir_element', 's');
+                self::addElement($tableau, $e, 'fourrure', 'fourrure', 'quantite_fourrure_element', 's');
+                self::addElement($tableau, $e, 'planche', 'planche', 'quantite_planche_element', 's');
+                self::addElement($tableau, $e, 'rondin', 'rondin', 'quantite_rondin_element', 's');
+                self::addElement($tableau, $e, 'castar', 'castar', 'quantite_castar_element', 's');
             }
         }
 
@@ -404,8 +395,21 @@ class Bral_Util_Vue
                     "Y" => $r['y_element_rune'],
                     'Type' => 'rune',
                     'Quantité' => 1,
+                    'Label' => ' rune n°(' . $r['id_rune_element_rune'] . ')',
                 );
 
+            }
+        }
+
+        if ($buissons != null) {
+            foreach ($buissons as $b) {
+                $tableau["Vues"][0]["Objets"][] = array(
+                    "X" => $b['x_buisson'],
+                    "Y" => $b['y_buisson'],
+                    'Type' => 'buisson',
+                    'Quantité' => 1,
+                    'Label' => $b['nom_type_buisson'],
+                );
             }
         }
 
@@ -980,5 +984,18 @@ class Bral_Util_Vue
         $view->estSurChamp = $estSurChamp;
 
         return $tableau;
+    }
+
+    private static function addElement(&$tableau, $rowset, $type, $libelle, $colonne, $pluriel)
+    {
+        if ($rowset[$colonne] > 0) {
+            $tableau["Vues"][0]["Objets"][] = array(
+                "X" => $rowset['x_element'],
+                "Y" => $rowset['y_element'],
+                'Type' => $type,
+                'Quantité' => $rowset[$colonne],
+                'Label' => $rowset[$colonne] . ' ' . $libelle . Bral_Util_String::getPluriel($rowset[$colonne], $pluriel),
+            );
+        }
     }
 }

@@ -80,21 +80,22 @@ Map.prototype.openCellDialog = function(x, y) {
 				var img = imgbase ? imgbase.a : this.imgMonstreInconnu;
 				html[h++] = '<tr><td>';
 				html[h++] = '<img src="'+img.src+'">';
-				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a></td><td>niv. '+o.Niveau;
+				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a>';
 				html[h++] = '</td></tr>';
 			}
 			html[h++] = '</table>';
 		}
 		if (cellVue.cadavres.length) {
 			empty = false;
-			html[h++] = "<b>Monstres :</b>";
+			html[h++] = "<b>Cadavres :</b>";
 			html[h++] = '<table>';
 			for (var ib=0; ib<cellVue.cadavres.length; ib++) {
 				var o = cellVue.cadavres[ib];
 				var img = this.imgCadavre;
 				html[h++] = '<tr><td>';
 				html[h++] = '<img src="'+img.src+'">';
-				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a></td><td>niv. '+o.Niveau;
+				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a>';
+				if (o.Gibier) html[h++] = ' (gibier)';
 				html[h++] = '</td></tr>';
 			}
 			html[h++] = '</table>';
@@ -109,8 +110,7 @@ Map.prototype.openCellDialog = function(x, y) {
 				html[h++] = '<tr><td>';
 				if (img) html[h++] = '<img src="'+img.src+'">';
 				html[h++] = '</td><td>';
-				if (o.Quantité) html[h++] = '  '+o.Quantité+' '+o.Type+(o.Quantité>1?'s':'');
-				else html[h++] = '  '+o.Type;
+				html[h++] = '  '+o.Label;
 				html[h++] = '</td></tr>';
 			}		
 			html[h++] = '</table>';
