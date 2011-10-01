@@ -19,7 +19,7 @@ Map.prototype.getCellVueVisible = function(x, y) {
 	if (this.mapData.Vues) {
 		for (var i=this.mapData.Vues.length; i-->0;) {
 			var vue = this.mapData.Vues[i];
-			if (vue.active) {
+			if (vue.active && x>=vue.XMin && x<=vue.XMax && y>=vue.YMin && y<=vue.YMax) {
 				var cell = getCellVue(vue, x, y);
 				if (cell) {
 					return cell;
@@ -31,6 +31,7 @@ Map.prototype.getCellVueVisible = function(x, y) {
 }
 
 // renvoie la cellule de la vue ou null (hors vue ou vide)
+// Attention : cette méthode ne vérifie pas que x et y sont dans la portée de la vue : le faire avant
 function getCellVue(vue, x, y) {
 	var W = vue.XMax-vue.XMin+1;
 	var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
@@ -64,15 +65,16 @@ Map.prototype.drawIcons = function(c, sx, sy, icons, hover) {
 		x[0]=sx; y[0]=sy;
 		break;
 	case 2:
-		var d = 0.17*this.zoom;
-		x[0]=sx; y[0]=sy-d;
-		x[1]=sx; y[1]=sy+d;
+		var d1 = 0.07*this.zoom;
+		var d2 = 0.17*this.zoom;
+		x[0]=sx+d1; y[0]=sy-d2;
+		x[1]=sx-d1; y[1]=sy+d2;
 		break;
 	case 3:
 		var d = 0.17*this.zoom;
 		x[0]=sx;   y[0]=sy-d;
 		x[1]=sx-d; y[1]=sy+d;
-		x[2]=sx-d; y[2]=sy+d;
+		x[2]=sx+d; y[2]=sy+d;
 		break;
 	case 4:
 	default: // si le cas se présente, il faut implémenter le cas 5
@@ -100,8 +102,7 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 	
 	if (this.zoom>30) {
 
-		//> on compile les objets de la vue sous forme matricielle et on compte les 
-		//   bralduns de chaque sexe
+		//> on compile les objets de la vue sous forme matricielle
 		if (!vue.matrix) {
 			vue.matrix = [];
 			for (ib in vue.Bralduns) {
@@ -130,32 +131,37 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 					var cell = getCellVue(vue, x, y);
 					if (cell) {
 						cell.zones = [[], [], [], []]; // 4 zones : haut-gauche, centre, bas-gauche et bas-droit (haut-droit n'est pas géré dans la vue et correspond au lieu)
-						var nbBraldunsFémininsNonKO=0; 
-						var nbBraldunsMasculinsNonKO=0;
-						var nbBraldunsKO=0;
-						for (var i=0; i<cell.bralduns.length; i++) {
-							var b = cell.bralduns[i];
-							if (b.KO) {
-								nbBraldunsKO++;
-							} else {
-								if (b.Sexe=='f') nbBraldunsFémininsNonKO++;
-								else nbBraldunsMasculinsNonKO++;
+						//-- zone 0 : bralduns
+						if (cell.bralduns.length) {
+							var hasBraldunsCampA = false;
+							var hasBraldunsCampB = false;
+							var nbBraldunsFémininsNonKO=0; 
+							var nbBraldunsMasculinsNonKO=0;
+							var nbBraldunsKO=0;
+							for (var i=0; i<cell.bralduns.length; i++) {
+								var b = cell.bralduns[i];
+								if (b.KO) {
+									nbBraldunsKO++;
+								} else {
+									if (b.Sexe=='f') nbBraldunsFémininsNonKO++;
+									else nbBraldunsMasculinsNonKO++;
+									if (b.Camp=='a') hasBraldunsCampA=true;
+									else if (b.Camp=='b') hasBraldunsCampB=true;
+								}
+							}
+							if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>0) {
+								var key = 'braldun';
+								if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>1) key+='s';
+								if (nbBraldunsMasculinsNonKO>0) key += '_masculin';
+								if (nbBraldunsFémininsNonKO>0) key += '_feminin';
+								if (hasBraldunsCampA && hasBraldunsCampB) key += '-combat';
+								else if (hasBraldunsCampA) key += '-a';
+								else if (hasBraldunsCampB) key += '-b';
+								var img = this.imgBralduns[key];
+								if (img) cell.zones[0].push(img);
+								else console.log("pas d'image de braldun pour la clé '" +key+"'");
 							}
 						}
-						//-- zone 0 : bralduns
-						var imgb = null;
-						if (nbBraldunsFémininsNonKO>0 && nbBraldunsMasculinsNonKO>0) {
-							imgb = this.img_bralduns_masculin_feminin;					
-						} else if (nbBraldunsFémininsNonKO>1) {
-							imgb = this.img_bralduns_feminin;
-						} else if (nbBraldunsMasculinsNonKO>1) {
-							imgb = this.img_bralduns_masculin;
-						} else if (nbBraldunsFémininsNonKO>0) {
-							imgb = this.img_braldun_feminin;
-						} else if (nbBraldunsMasculinsNonKO>0) {
-							imgb = this.img_braldun_masculin;
-						}
-						if (imgb) cell.zones[0].push(imgb);
 						//-- zone 0 : monstres
 						if (cell.monstres.length) {
 							var imgbase =  this.imgMonstres[cell.monstres[0].IdType];							
@@ -189,12 +195,15 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 								if (typeDéjàPrésent) continue;
 								var dest = cell.zones[3];
 								if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
-								else if (o.Type=="buisson") dest = cell.zones[1];
-								var img = this.imgObjets[o.Type];
+								else if (o.Type=="ballon"||o.Type=="buisson") dest = cell.zones[1];
+								var img;
+								if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine") img = this.imgObjets[o.Type+'-'+o.IdType];
+								else img = this.imgObjets[o.Type];
 								if (img) {
 									dest.push(img);
 								} else {
-									console.log("pas d'image pour l'objet " + o.Type);
+									console.log("pas d'image pour cet objet :");
+									console.log(o);
 								}
 							}
 						}
@@ -222,31 +231,49 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 					if (cell.zones[3].length>0) this.drawIcons(c, cx+3*d, cy+3*d, cell.zones[3], hover);
 					if (hover) { // remplissage de la bulle du hover
 						if (cell.bralduns.length) {
-							this.bubbleText.push('Bralduns :');
-							for (var ib=0; ib<cell.bralduns.length; ib++) {
-								var b = cell.bralduns[ib];
-								this.bubbleText.push('  '+b.Prénom+' '+b.Nom+' (niveau '+b.Niveau+')');
+							if (cell.bralduns.length>5) {
+								this.bubbleText.push('Plein de Bralduns ('+cell.bralduns.length+')');
+							} else {
+								this.bubbleText.push('Bralduns :');
+								for (var ib=0; ib<cell.bralduns.length; ib++) {
+									var b = cell.bralduns[ib];
+									var s = '  '+b.Prénom+' '+b.Nom+' (niv.'+b.Niveau+')'
+									if (b.IdCommunauté>0) s += ' ' +this.mapData.Communautés[b.IdCommunauté].Nom;
+									this.bubbleText.push(s);
+								}
 							}
 						}
 						if (cell.monstres.length) {
-							this.bubbleText.push('Monstres :');
-							for (var ib=0; ib<cell.monstres.length; ib++) {
-								var o = cell.monstres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille+(o.Gibier?' (gibier)':''));
+							if (cell.monstres.length>5) {
+								this.bubbleText.push('Plein de monstres ('+cell.monstres.length+')');
+							} else {
+								this.bubbleText.push('Monstres :');
+								for (var ib=0; ib<cell.monstres.length; ib++) {
+									var o = cell.monstres[ib];
+									this.bubbleText.push('  '+o.Nom+' '+o.Taille+(o.Gibier?' (gibier)':''));
+								}
 							}
 						}
 						if (cell.cadavres.length) {
-							this.bubbleText.push('Cadavres :');
-							for (var ib=0; ib<cell.cadavres.length; ib++) {
-								var o = cell.cadavres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille);
+							if (cell.cadavres.length>3) {
+								this.bubbleText.push('Plein de cadavres ('+cell.cadavres.length+')');
+							} else {
+								this.bubbleText.push('Cadavres :');
+								for (var ib=0; ib<cell.cadavres.length; ib++) {
+									var o = cell.cadavres[ib];
+									this.bubbleText.push('  '+o.Nom+' '+o.Taille);
+								}
 							}
 						}
 						if (cell.objets.length) { // les buissons sont considérés "au sol"
-							this.bubbleText.push('Au sol :');
-							for (var ib=0; ib<cell.objets.length; ib++) {
-								var o = cell.objets[ib];
-								this.bubbleText.push('  '+o.Label);
+							if (cell.objets.length>5) {
+								this.bubbleText.push("Plein d'objets au sol");
+							} else {
+								this.bubbleText.push('Au sol :');
+								for (var ib=0; ib<cell.objets.length; ib++) {
+									var o = cell.objets[ib];
+									this.bubbleText.push('  '+o.Label);
+								}
 							}
 						}
 					}

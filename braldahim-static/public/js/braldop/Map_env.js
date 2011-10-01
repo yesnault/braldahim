@@ -64,23 +64,43 @@ Map.prototype.initTiles = function() {
 		(this.envTiles[environnements[env]] = new Image()).src = baseTilesUrl + "vue/environnement/" + environnements[env] + ".png";
 	}
 	
-	(this.img_braldun_feminin = new Image()).src = baseTilesUrl + "vue/braldun_feminin.png";
-	(this.img_braldun_masculin = new Image()).src = baseTilesUrl + "vue/braldun_masculin.png";
-	(this.img_bralduns_feminin = new Image()).src = baseTilesUrl + "vue/bralduns_feminin.png";
-	(this.img_bralduns_masculin = new Image()).src = baseTilesUrl + "vue/bralduns_masculin.png";
-	(this.img_bralduns_masculin_feminin = new Image()).src = baseTilesUrl + "vue/bralduns_masculin_feminin.png";
-	(this.img_braldun_ko = new Image()).src = baseTilesUrl + "vue/braldunKo.png";
+	this.imgBralduns = {};
+	var typeImgBralduns = [
+		'braldun_feminin', 'braldun_feminin-a', 'braldun_feminin-b', 'braldun_masculin', 'braldun_masculin-a', 'braldun_masculin-b',
+		'bralduns_feminin', 'bralduns_feminin-a', 'bralduns_feminin-b', 'bralduns_feminin-combat',
+		'bralduns_masculin', 'bralduns_masculin-a', 'bralduns_masculin-b', 'bralduns_masculin-combat',
+		'bralduns_masculin_feminin', 'bralduns_masculin_feminin-a', 'bralduns_masculin_feminin-b', 'bralduns_masculin_feminin-combat'
+	];
+	for (var i=0; i<typeImgBralduns.length; i++) {
+		var key = typeImgBralduns[i];
+		var img = new Image();
+		img.src = baseTilesUrl + "vue/"+key+'.png';
+		this.imgBralduns[key]=img;
+	}
 	
 	this.imgObjets = {};
+	(this.imgObjets['ballon'] = new Image()).src = baseTilesUrl + "vue/ballon.png";
 	(this.imgObjets['buisson'] = new Image()).src = baseTilesUrl + "vue/buisson.png";
 	(this.imgObjets['castar'] = new Image()).src = baseTilesUrl + "vue/castars.png";
 	(this.imgObjets['charrette'] = new Image()).src = baseTilesUrl + "cockpit/charrette.png";
 	(this.imgObjets['cuir'] = new Image()).src = baseTilesUrl + "elements/cuir.png";
 	(this.imgObjets['fourrure'] = new Image()).src = baseTilesUrl + "elements/fourrure.png";
+	(this.imgObjets['ingrédient'] = new Image()).src = baseTilesUrl + "type_ingredient/type_ingredient_8.png"; // on fera évoluer quand le jeu proposera des icônes différentes
+	(this.imgObjets['munition'] = new Image()).src = baseTilesUrl + "type_munition/type_munition_1.png"; // todo sans doute pas satisfaisant
 	(this.imgObjets['peau'] = new Image()).src = baseTilesUrl + "elements/peau.png";
 	(this.imgObjets['planche'] = new Image()).src = baseTilesUrl + "elements/planche.png";
 	(this.imgObjets['rondin'] = new Image()).src = baseTilesUrl + "elements/rondin.png";
 	(this.imgObjets['rune'] = new Image()).src = baseTilesUrl + "vue//runes.png"; // rien pour le singulier ?
+	(this.imgObjets['tabac-1'] = new Image()).src = baseTilesUrl + "type_tabac/type_tabac_1.png";
+	(this.imgObjets['tabac-2'] = new Image()).src = baseTilesUrl + "type_tabac/type_tabac_2.png";
+	(this.imgObjets['tabac-3'] = new Image()).src = baseTilesUrl + "type_tabac/type_tabac_3.png";
+	(this.imgObjets['lingot'] = new Image()).src = baseTilesUrl + "type_minerai/type_minerai_1_p.png";
+	(this.imgObjets['minerai'] = new Image()).src = baseTilesUrl + "type_minerai/type_minerai_1.png";
+	for (var i=1; i<=5; i++) (this.imgObjets['plante-'+i] = new Image()).src = baseTilesUrl + "type_partieplante/type_partieplante_"+i+".png";
+	for (var i=1; i<=27; i++) (this.imgObjets['potion-'+i] = new Image()).src = baseTilesUrl + "type_potion/type_potion_"+i+".png";
+	for (var i=1; i<=27; i++) (this.imgObjets['aliment-'+i] = new Image()).src = baseTilesUrl + "type_aliment/type_aliment_"+i+".png";
+	for (var i=1; i<=9; i++) (this.imgObjets['graine-'+i] = new Image()).src = baseTilesUrl + "type_graine/type_graine_"+i+".png";
+	
 	
 	var numTypeMonstres =[1, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 21, 23, 24, 25, 26, 27, 28, 37, 38];
 	this.imgMonstres = [];
