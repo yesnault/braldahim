@@ -4,14 +4,16 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.context = this.canvas.getContext("2d");
 	this.context.mozImageSmoothingEnabled = false; // contourne un bug de FF qui rend floues les images même à taille naturelle
 	this.posmarkdiv = document.getElementById(posmarkid);
+	this.callbacks = {};
 	this.initTiles();
 	this.screenRect = new Rect();
 	this.rect = new Rect(); // le rectangle englobant le contenu que l'on veut montrer
 	this.originX=0; // coin haut gauche de la grotte au centre de l'écran
 	this.originY=0;
 	this.scales = [0.5, 1, 2, 4, 8, 16, 32, 48, 64]; // éliminé : 92
-	this.scaleIndex = 8; // -> zoom "naturel" de 64
-	this.zoom = this.scales[this.scaleIndex];
+	this.zoom = 64;
+	this.z = 0; // la profondeur affichée
+	this.couche = null; // la couche actuellement affichée. Doit correspondre à la profondeur this.z
 	this.W = 900; // simplement un nombre supérieur à la demi-largeur ou demi-hauteur de la carte mais pas trop
 	this.mouseIsDown=false;
 	this.pointerX = 2* this.W; // coordonnées du pointeur dans l'univers Braldahim
@@ -66,28 +68,51 @@ function Map(canvasId, posmarkid, dialogId) {
 	});
 }
 
-// centre l'écran sur la case de coordonnées (x, y)
-Map.prototype.goto = function(x, y) {
+Map.prototype.updatePosDiv = function() {
+	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY+' &nbsp; Z='+this.z;
+}
+
+Map.prototype.changeProfondeur = function(z) {
+	var newCouche = null;
+	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
+		var couche = this.mapData.Couches[ic];
+		if (couche.Z==z) newCouche = couche;
+	}
+	if (!newCouche) {
+		console.log('couche de profondeur '+z+' introuvable !');
+	} else {
+		this.couche = newCouche;
+		this.z = z;
+	}
+	this.updatePosDiv();
+}
+
+// centre l'écran sur la case de coordonnées (x, y, z)
+Map.prototype.goto = function(x, y, z) {
+	if (this.callbacks['profondeur']) {
+		this.callbacks['profondeur'](z);
+	}
 	this.originX = (this.screenRect.w/2)/this.zoom - x;
 	this.originY = y+(this.screenRect.h/2)/this.zoom;
+	this.changeProfondeur(z);
 	this.redraw();
 }
 
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
-Map.prototype.getCellCreate = function(x, y) {
+Map.prototype.getCellCreate = function(couche, x, y) {
 	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
 	//console.log("("+x+","+y+") -> "+index);
-	var cell = this.matrix[index];
+	var cell = couche.matrix[index];
 	if (!cell) {
 		cell = {};
-		this.matrix[index] = cell;
+		couche.matrix[index] = cell;
 	}
 	return cell;
 }
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
-Map.prototype.getCell = function(x, y) {
+Map.prototype.getCell = function(couche, x, y) {
 	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
-	return this.matrix[index];
+	return couche.matrix[index];
 }
 
 Map.prototype.recomputeCanvasPosition = function() {
@@ -114,36 +139,43 @@ Map.prototype.recomputeCanvasPosition = function() {
 Map.prototype.setData = function(mapData) {
 	this.mapData = mapData;
 	console.log("carte reçue");
-	this.matrix = {};//new Array(); // todo benchmarker pour comparer les effets en ram et cpu
-	if (this.mapData.Cases) {
-		for (var i=this.mapData.Cases.length; i-->0;) {
-			var o = this.mapData.Cases[i];
-			var c = this.getCell(o.X, o.Y);
-			if (c) {
-				console.log("doublon!");
+	this.z = 0; // on va basculer forcément sur la couche zéro
+	this.couche = null; 
+	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
+		var couche = this.mapData.Couches[ic];
+		if (couche.Z==0) this.couche = couche;
+		couche.matrix = {};//new Array(); // todo benchmarker pour comparer les effets en ram et cpu de la version map et de la version table
+		if (couche.Cases) {
+			for (var i=couche.Cases.length; i-->0;) {
+				var o = couche.Cases[i];
+				this.getCellCreate(couche, o.X, o.Y).fond = o.Fond;
 			}
-			this.getCellCreate(o.X, o.Y).fond = o.Fond;
+		}
+		if (couche.Champs) {
+			for (var i=couche.Champs.length; i-->0;) {
+				var o = couche.Champs[i];
+				o.Nom = "Champ";
+				o.détails = "Propriétaire : "+o.NomCompletBraldun;
+				this.getCellCreate(couche, o.X, o.Y).champ=o;
+			}
+		}
+		if (couche.Echoppes) {
+			for (var i=couche.Echoppes.length; i-->0;) {
+				var o = couche.Echoppes[i];
+				o.détails = o.Métier+" : "+o.NomCompletBraldun;
+				this.getCellCreate(couche, o.X, o.Y).échoppe=o;
+			}
 		}
 	}
-	if (this.mapData.Champs) {
-		for (var i=this.mapData.Champs.length; i-->0;) {
-			var o = this.mapData.Champs[i];
-			o.Nom = "Champ";
-			o.détails = "Propriétaire : "+o.NomCompletBraldun;
-			this.getCellCreate(o.X, o.Y).champ=o;
-		}
+	if (!this.couche) {
+		console.log('Pas de couche zéro !');
+		return;
 	}
-	if (this.mapData.Echoppes) {
-		for (var i=this.mapData.Echoppes.length; i-->0;) {
-			var o = this.mapData.Echoppes[i];
-			o.détails = o.Métier+" : "+o.NomCompletBraldun;
-			this.getCellCreate(o.X, o.Y).échoppe=o;
-		}
-	}
+	//  les lieux de ville (pour l'instant ?) n'ont pas de profondeur explicite mais ne concerne que la surface. On les met dans la couche zéro
 	if (this.mapData.LieuxVilles) {
 		for (var i=this.mapData.LieuxVilles.length; i-->0;) {
 			var o = this.mapData.LieuxVilles[i];
-			this.getCellCreate(o.X, o.Y).lieu=o;
+			this.getCellCreate(this.couche, o.X, o.Y).lieu=o;
 		}
 	}
 	console.log("carte compilée");
@@ -162,7 +194,7 @@ Map.prototype.drawFog = function() {
 		var radius = this.zoom/6;
 		for (var i=this.mapData.Vues.length; i-->0;) {
 			var vue = this.mapData.Vues[i];
-			if (vue.active) {
+			if (vue.active && vue.Z==this.z) {
 				hasVue = true;
 				var hole = new Rect();
 				hole.x = this.zoom*(this.originX+vue.XMin);
@@ -207,19 +239,14 @@ Map.prototype.redraw = function() {
 			var xMax = Math.ceil(this.screenRect.w/this.zoom-this.originX);
 			var yMin = -Math.floor(this.screenRect.h/this.zoom-this.originY);
 			var yMax = Math.ceil(this.originY);
-			
-			//~ console.log("xMin="+xMin);
-			//~ console.log("xMax="+xMax);
-			//~ console.log("yMin="+yMin);
-			//~ console.log("yMax="+yMax);
-			
+
 			if (this.zoom>1) {
 				var screenRect = new Rect();
 				screenRect.w = this.zoom;
 				screenRect.h = this.zoom;
 				for (var x=xMin; x<=xMax; x++) {
 					for (var y=yMin; y<=yMax; y++) {
-						var cell = this.getCell(x, y);
+						var cell = this.getCell(this.couche, x, y);
 						if (cell) {
 							screenRect.x = this.zoom*(this.originX+x);
 							screenRect.y = this.zoom*(this.originY-y);
@@ -235,7 +262,7 @@ Map.prototype.redraw = function() {
 			if (this.mapData.Vues) {
 				for (var i=this.mapData.Vues.length; i-->0;) {
 					var vue = this.mapData.Vues[i];
-					if (vue.active) this.drawVue(vue, xMin, xMax, yMin, yMax);
+					if (vue.active && vue.Z==this.z) this.drawVue(vue, xMin, xMax, yMin, yMax);
 				}
 			}
 			if (this.displayFog) {
@@ -274,12 +301,20 @@ Map.prototype.mouseWheel = function(e) {
 		delta = -e.detail / 3;
 	}
 	var oldZoom = this.zoom;
-	if (delta>0) {
-		if (this.scaleIndex<this.scales.length-1) {
-			this.zoom = this.scales[++this.scaleIndex];
+	// recherche du scaleIndex (on va supposer qu'on le trouve)
+	var scaleIndex = 0;
+	for (var i=0; i<this.scales.length; i++) {
+		if (this.zoom==this.scales[i]) {
+			scaleIndex = i;
+			break;
 		}
-	} else if (this.scaleIndex>0){
-		this.zoom = this.scales[--this.scaleIndex];
+	}
+	if (delta>0) {
+		if (scaleIndex<this.scales.length-1) {
+			this.zoom = this.scales[++scaleIndex];
+		}
+	} else if (scaleIndex>0){
+		this.zoom = this.scales[--scaleIndex];
 	}
 	var zr = (1/this.zoom-1/oldZoom);
 	this.zoomChangedSinceLastRedraw = true;
@@ -291,7 +326,7 @@ Map.prototype.mouseWheel = function(e) {
 	}
 	this.originX += (mouseX)*zr; 
 	this.originY += (mouseY)*zr;
-	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
+	this.updatePosDiv();
 	this.hoverObject = null;
 	this.redraw();
 }
@@ -308,7 +343,6 @@ Map.prototype.mouseDown = function(e) {
 	this.dragStartOriginX = this.originX;
 	this.dragStartOriginY = this.originY;
 	this.zoomChangedSinceLastRedraw = true;
-	//this.hoverObject = null;
 	this.redraw();
 }
 Map.prototype.mouseUp = function(e) {
@@ -342,12 +376,12 @@ Map.prototype.mouseLeave = function(e) {
 // - null s'il n'y a rien d'intéressant sur la case
 Map.prototype.objectOn = function(x,y) {
 	if (this.zoom<10) return null;
-	var cell = this.getCell(this.pointerX, this.pointerY);
+	var cell = this.getCell(this.couche, this.pointerX, this.pointerY);
 	if (cell && (cell.champ||cell.échoppe||cell.lieu)) return cell;
 	if (this.mapData.Vues) {
 		for (var i=this.mapData.Vues.length; i-->0;) {
 			var vue = this.mapData.Vues[i];
-			if (vue.active) {
+			if (vue.active && vue.Z==this.z) {
 				var cell = getCellVue(vue, x, y);
 				if (cell) {
 					return cell;
@@ -370,7 +404,7 @@ Map.prototype.mouseMove = function(e) {
 	this.pointerScreenY = mouseY;
 	this.pointerX = Math.floor(mouseX/this.zoom-this.originX);
 	this.pointerY = -Math.floor(mouseY/this.zoom-this.originY);
-	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY;
+	this.updatePosDiv();
 	if (this.mouseIsDown) {
 		var dx = (mouseX-this.dragStartPageX)/this.zoom;
 		var dy = (mouseY-this.dragStartPageY)/this.zoom;
@@ -409,3 +443,10 @@ Map.prototype.naturalRectToScreenRect = function(naturalRect, screenRect) {
 	screenRect.w = this.zoom*naturalRect.w;
 	screenRect.h = this.zoom*naturalRect.h;
 };
+
+
+// permet de spécifier un callback 
+// - 'profondeur' : appelé en cas de changement de profondeur. L'argument de la méthode sera la profondeur z
+Map.prototype.setCallback = function(key, f) {
+	this.callbacks[key] = f;
+}

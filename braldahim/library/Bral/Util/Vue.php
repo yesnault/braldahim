@@ -167,6 +167,7 @@ class Bral_Util_Vue
 		$centre_x_max = $view->x_max;
 		$centre_y_min = $view->y_min;
 		$centre_y_max = $view->y_max;
+		$positionZ = $view->user->z_braldun;
 
 		/*
 				   * $marcher = null;
@@ -179,7 +180,9 @@ class Bral_Util_Vue
 		$estSurEchoppe = false;
 		$estSurChamp = false;
 
-		$tableau["Cases"] = null;
+		$tableau["Couches"][$positionZ]["Z"] = $positionZ;
+		$tableau["Vues"][0]["Z"] = $positionZ;
+
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j--) {
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i++) {
 				$display_x = $i;
@@ -195,7 +198,6 @@ class Bral_Util_Vue
 						$description_zone = $z['description_zone'];
 						$nom_systeme_environnement = $z['nom_systeme_environnement'];
 						$nom_environnement = htmlspecialchars($z['nom_environnement']);
-
 
 						if ($tunnels != null) {
 							foreach ($tunnels as $t) {
@@ -268,9 +270,7 @@ class Bral_Util_Vue
 							}
 						}
 
-
-						$tableau["Cases"][] = array("X" => $display_x, "Y" => $display_y, "Fond" => $nom_systeme_environnement);
-
+						$tableau["Couches"][$positionZ]["Cases"][] = array("X" => $display_x, "Y" => $display_y, "Fond" => $nom_systeme_environnement);
 						break;
 					}
 				}
@@ -286,7 +286,7 @@ class Bral_Util_Vue
 					$nom_metier = $e['nom_masculin_metier'];
 				}
 				//$tabEchoppes[] = array('id_echoppe' => $e['id_echoppe'], 'nom_echoppe' => $e['nom_echoppe'], 'nom_systeme_metier' => $e['nom_systeme_metier'], 'nom_metier' => $nom_metier, 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-				$tableau["Echoppes"][] = array(
+				$tableau["Couches"][$positionZ]["Echoppes"][] = array(
 					"X" => $e['x_echoppe'],
 					"Y" => $e['y_echoppe'],
 					"Nom" => "" . $e['nom_echoppe'],
@@ -301,7 +301,7 @@ class Bral_Util_Vue
 		if ($champs != null) {
 			foreach ($champs as $e) {
 				//$tabChamps[] = array('id_champ' => $e['id_champ'], 'nom_champ' => $e['nom_champ'], 'nom_braldun' => $e['nom_braldun'], 'prenom_braldun' => $e['prenom_braldun'], 'id_braldun' => $e['id_braldun']);
-				$tableau["Champs"][] = array(
+				$tableau["Couches"][$positionZ]["Champs"][] = array(
 					"X" => $e['x_champ'],
 					"Y" => $e['y_champ'],
 					"IdBraldun" => $e['id_braldun'],
@@ -446,7 +446,6 @@ class Bral_Util_Vue
 				}
 			}
 		}
-
 
 		if ($elementsEquipements != null) {
 			foreach ($elementsEquipements as $e) {

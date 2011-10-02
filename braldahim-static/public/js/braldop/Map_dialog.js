@@ -41,7 +41,7 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content) {
 }
 
 Map.prototype.openCellDialog = function(x, y) {
-	var cell = this.getCell(x, y);
+	var cell = this.getCell(this.couche, x, y);
 	var screenRect = new Rect();
 	screenRect.w = this.zoom;
 	screenRect.h = this.zoom;

@@ -23,6 +23,22 @@ function initBraldop() {
     map = new Map("map_canvas", "posmark", "map_dialog");
     fetchMap(function(msg) {
         map.setData(msg);
+        //> on batit le menu de choix de la profondeur
+        var html = ''
+        if (msg.Couches) {
+            html += 'Profondeur : <select id=select_profondeur>';
+            for (var i = 0; i < msg.Couches.length; i++) {
+                var z = msg.Couches[i].Z;
+                html += '<option value=' + z + '>' + z + '</option>';
+            }
+            html += '</select>';
+        }
+        $('#choix_profondeur').html(html);
+        
+        map.setCallback('profondeur', function(z) {
+            $('#select_profondeur').val(z);
+        });
+
         map.redraw();
         setTimeout(function() {
             map.redraw();
@@ -43,8 +59,14 @@ function initBraldop() {
     });
 
     $('#btnCentrer').bind('click', function() {
-        map.zoom=64; map.redraw();
+        map.zoom = 64;
+        map.redraw();
         map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+    });
+
+    $('#select_profondeur').live('change', function() {
+        map.changeProfondeur(parseInt($(this).val()));
+        map.redraw();
     });
 
     setTimeout(function() {

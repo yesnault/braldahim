@@ -14,12 +14,11 @@
 		<input type=checkbox id="layer_satellite"><label for=layer_satellite>Photo Satellite</label>
         <input type=checkbox id="layer_régions"><label for=layer_régions>Régions</label>
         <input type=checkbox id="layer_fog"><label for=layer_fog>Brouillard de guerre</label>
+		<div id=choix_profondeur></div>
         <button id="btnCentrer" class="button">Centrer</button>
 	</div>
     <input type="hidden" id="positionX" value="<?php echo $this->user->x_braldun ?>" />
     <input type="hidden" id="positionY" value="<?php echo $this->user->y_braldun ?>" />
-
-
 
 	<div id=map>
 		<canvas id=map_canvas></canvas>
