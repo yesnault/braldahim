@@ -86,7 +86,7 @@ Map.prototype.initTiles = function() {
 	(this.imgObjets['cuir'] = new Image()).src = baseTilesUrl + "elements/cuir.png";
 	(this.imgObjets['fourrure'] = new Image()).src = baseTilesUrl + "elements/fourrure.png";
 	(this.imgObjets['ingrédient'] = new Image()).src = baseTilesUrl + "type_ingredient/type_ingredient_8.png"; // on fera évoluer quand le jeu proposera des icônes différentes
-	(this.imgObjets['munition'] = new Image()).src = baseTilesUrl + "type_munition/type_munition_1.png"; // todo sans doute pas satisfaisant
+	(this.imgObjets['matériel'] = new Image()).src = baseTilesUrl + "type_materiel/type_materiel_1.png"; // on fera évoluer quand le jeu proposera des icônes différentes
 	(this.imgObjets['peau'] = new Image()).src = baseTilesUrl + "elements/peau.png";
 	(this.imgObjets['planche'] = new Image()).src = baseTilesUrl + "elements/planche.png";
 	(this.imgObjets['rondin'] = new Image()).src = baseTilesUrl + "elements/rondin.png";
@@ -100,7 +100,8 @@ Map.prototype.initTiles = function() {
 	for (var i=1; i<=27; i++) (this.imgObjets['potion-'+i] = new Image()).src = baseTilesUrl + "type_potion/type_potion_"+i+".png";
 	for (var i=1; i<=27; i++) (this.imgObjets['aliment-'+i] = new Image()).src = baseTilesUrl + "type_aliment/type_aliment_"+i+".png";
 	for (var i=1; i<=9; i++) (this.imgObjets['graine-'+i] = new Image()).src = baseTilesUrl + "type_graine/type_graine_"+i+".png";
-	
+    for (var i=1; i<=44; i++) (this.imgObjets['équipement-'+i] = new Image()).src = baseTilesUrl + "type_equipement/type_equipement_"+i+".png";
+    for (var i=1; i<=2; i++) (this.imgObjets['munition-'+i] = new Image()).src = baseTilesUrl + "type_munition/type_munition_"+i+".png";
 	
 	var numTypeMonstres =[1, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 21, 23, 24, 25, 26, 27, 28, 37, 38];
 	this.imgMonstres = [];

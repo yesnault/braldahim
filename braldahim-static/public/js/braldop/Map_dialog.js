@@ -120,7 +120,7 @@ Map.prototype.openCellDialog = function(x, y) {
 			for (var ib=0; ib<cellVue.objets.length; ib++) {
 				var o = cellVue.objets[ib];
 				var img;
-				if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine") img = this.imgObjets[o.Type+'-'+o.IdType];
+				if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine"||o.Type=="équipement"||o.Type=="munition") img = this.imgObjets[o.Type+'-'+o.IdType];
 				else img = this.imgObjets[o.Type];
 				html[h++] = '<tr><td>';
 				if (img) html[h++] = '<img src="'+img.src+'">';

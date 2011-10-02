@@ -462,7 +462,7 @@ class Bral_Util_Vue
                 $tableau["Vues"][0]["Objets"][] = array(
                     "X" => $e['x_element_equipement'],
                     "Y" => $e['y_element_equipement'],
-                    'Type' => 'equipement',
+                    'Type' => 'équipement',
                     'Quantité' => 1,
                     'Label' => Bral_Util_Equipement::getNomByIdRegion($e, $e['id_fk_region_equipement']),
                     'IdType' => $e['id_type_equipement'],
@@ -495,7 +495,7 @@ class Bral_Util_Vue
                 $tableau["Vues"][0]["Objets"][] = array(
                     "X" => $e['x_element_materiel'],
                     "Y" => $e['y_element_materiel'],
-                    'Type' => 'materiel',
+                    'Type' => 'matériel',
                     'Quantité' => 1,
                     'Label' => $e['nom_type_materiel'] . ' n°' . $e['id_element_materiel'],
                     'IdType' => $e['id_type_materiel'],
