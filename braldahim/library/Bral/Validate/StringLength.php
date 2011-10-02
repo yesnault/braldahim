@@ -35,131 +35,133 @@ require_once 'Zend/Validate/Interface.php';
  */
 class Bral_Validate_StringLength implements Zend_Validate_Interface
 {
-	/**
-	 * Minimum length
-	 *
-	 * @var integer
-	 */
-	protected $_min;
+    /**
+     * Minimum length
+     *
+     * @var integer
+     */
+    protected $_min;
 
-	/**
-	 * Maximum length
-	 *
-	 * If null, there is no maximum length
-	 *
-	 * @var integer|null
-	 */
-	protected $_max;
+    /**
+     * Maximum length
+     *
+     * If null, there is no maximum length
+     *
+     * @var integer|null
+     */
+    protected $_max;
 
-	/**
-	 * Array of validation failure messages
-	 *
-	 * @var array
-	 */
-	protected $_messages = array();
+    /**
+     * Array of validation failure messages
+     *
+     * @var array
+     */
+    protected $_messages = array();
 
-	/**
-	 * Sets validator options
-	 *
-	 * @param  integer $min
-	 * @param  integer $max
-	 * @return void
-	 */
-	public function __construct($min = 0, $max = null)
-	{
-		$this->setMin($min);
-		$this->setMax($max);
-	}
+    /**
+     * Sets validator options
+     *
+     * @param  integer $min
+     * @param  integer $max
+     * @return void
+     */
+    public function __construct($min = 0, $max = null)
+    {
+        $this->setMin($min);
+        $this->setMax($max);
+    }
 
-	/**
-	 * Returns the min option
-	 *
-	 * @return integer
-	 */
-	public function getMin()
-	{
-		return $this->_min;
-	}
+    /**
+     * Returns the min option
+     *
+     * @return integer
+     */
+    public function getMin()
+    {
+        return $this->_min;
+    }
 
-	/**
-	 * Sets the min option
-	 *
-	 * @param  integer $min
-	 * @return Zend_Validate_StringLength Provides a fluent interface
-	 */
-	public function setMin($min)
-	{
-		$this->_min = max(0, (integer) $min);
-		return $this;
-	}
+    /**
+     * Sets the min option
+     *
+     * @param  integer $min
+     * @return Zend_Validate_StringLength Provides a fluent interface
+     */
+    public function setMin($min)
+    {
+        $this->_min = max(0, (integer)$min);
+        return $this;
+    }
 
-	/**
-	 * Returns the max option
-	 *
-	 * @return integer|null
-	 */
-	public function getMax()
-	{
-		return $this->_max;
-	}
+    /**
+     * Returns the max option
+     *
+     * @return integer|null
+     */
+    public function getMax()
+    {
+        return $this->_max;
+    }
 
-	/**
-	 * Sets the max option
-	 *
-	 * @param  integer|null $max
-	 * @return Zend_Validate_StringLength Provides a fluent interface
-	 */
-	public function setMax($max)
-	{
-		if (null === $max) {
-			$this->_max = null;
-		} else {
-			$this->_max = (integer) $max;
-		}
+    /**
+     * Sets the max option
+     *
+     * @param  integer|null $max
+     * @return Zend_Validate_StringLength Provides a fluent interface
+     */
+    public function setMax($max)
+    {
+        if (null === $max) {
+            $this->_max = null;
+        } else {
+            $this->_max = (integer)$max;
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
 
-	/**
-	 * Defined by Zend_Validate_Interface
-	 *
-	 * Returns true if and only if the string length of $value is at least the min option and
-	 * no greater than the max option (when the max option is not null).
-	 *
-	 * @param  string $value
-	 * @return boolean
-	 */
-	public function isValid($value) {
-		$this->_messages = array();
-		$valueString = (string) $value;
-		$length = mb_strlen($valueString);
-		if ($length < $this->_min) {
-			$this->_messages[] = "Ce champ doit contenir au minimum $this->_min caractère(s)";
-		}
-		if (null !== $this->_max && $this->_max < $length) {
-			$this->_messages[] = "Ce champ doit contenir au maximum $this->_max caractère(s)";
-		}
-		if (count($this->_messages)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    /**
+     * Defined by Zend_Validate_Interface
+     *
+     * Returns true if and only if the string length of $value is at least the min option and
+     * no greater than the max option (when the max option is not null).
+     *
+     * @param  string $value
+     * @return boolean
+     */
+    public function isValid($value)
+    {
+        $this->_messages = array();
+        $valueString = (string)$value;
+        $length = mb_strlen($valueString);
+        if ($length < $this->_min) {
+            $this->_messages[] = "Ce champ doit contenir au minimum $this->_min caractère(s)";
+        }
+        if (null !== $this->_max && $this->_max < $length) {
+            $this->_messages[] = "Ce champ doit contenir au maximum $this->_max caractère(s)";
+        }
+        if (count($this->_messages)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	/**
-	 * Defined by Zend_Validate_Interface
-	 *
-	 * Returns array of validation failure messages
-	 *
-	 * @return array
-	 */
-	public function getMessages()
-	{
-		return $this->_messages;
-	}
+    /**
+     * Defined by Zend_Validate_Interface
+     *
+     * Returns array of validation failure messages
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
 
-	public function getErrors() {
-		return $this->_messages;
-	}
+    public function getErrors()
+    {
+        return $this->_messages;
+    }
 }

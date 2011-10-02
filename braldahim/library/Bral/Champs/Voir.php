@@ -5,203 +5,217 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Champs_Voir extends Bral_Champs_Champ {
+class Bral_Champs_Voir extends Bral_Champs_Champ
+{
 
 
-	function __construct($nomSystemeAction, $request, $view, $action, $id_champ = false) {
-		Zend_Loader::loadClass("Champ");
+    function __construct($nomSystemeAction, $request, $view, $action, $id_champ = false)
+    {
+        Zend_Loader::loadClass("Champ");
 
-		if ($id_champ !== false) {
-			$this->idChamp = $id_champ;
-		}
-		parent::__construct($nomSystemeAction, $request, $view, $action);
-	}
+        if ($id_champ !== false) {
+            $this->idChamp = $id_champ;
+        }
+        parent::__construct($nomSystemeAction, $request, $view, $action);
+    }
 
-	function getNomInterne() {
-		return "box_champ";
-	}
+    function getNomInterne()
+    {
+        return "box_champ";
+    }
 
-	function render() {
-		return $this->view->render("champs/voir.phtml");
-	}
+    function render()
+    {
+        return $this->view->render("champs/voir.phtml");
+    }
 
-	function prepareCommun() {
-		Zend_Loader::loadClass("Bral_Helper_Communaute");
-		Zend_Loader::loadClass('Bral_Util_Communaute');
-		Zend_Loader::loadClass('TypeLieu');
+    function prepareCommun()
+    {
+        Zend_Loader::loadClass("Bral_Helper_Communaute");
+        Zend_Loader::loadClass('Bral_Util_Communaute');
+        Zend_Loader::loadClass('TypeLieu');
 
-		if (!isset($this->idChamp)) {
-			$id_champ = (int)$this->request->get("valeur_1");
-		} else {
-			$id_champ = $this->idChamp;
-		}
+        if (!isset($this->idChamp)) {
+            $id_champ = (int)$this->request->get("valeur_1");
+        } else {
+            $id_champ = $this->idChamp;
+        }
 
-		$champTable = new Champ();
+        $champTable = new Champ();
 
-		$niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_GRENIER);
+        $niveauGrenier = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_GRENIER);
 
-		if ($niveauGrenier != null && $niveauGrenier > 0) {
-			$champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
-		} else {
-			$champsRowset = $champTable->findByIdBraldun($this->view->user->id_braldun);
-		}
+        if ($niveauGrenier != null && $niveauGrenier > 0) {
+            $champsRowset = $champTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
+        } else {
+            $champsRowset = $champTable->findByIdBraldun($this->view->user->id_braldun);
+        }
 
-		$this->view->possedeChamp == false;
+        $this->view->possedeChamp == false;
 
-		$tabChamp = null;
-		$id_metier = null;
-		foreach ($champsRowset as $e) {
-			if ($e["id_champ"] == $id_champ) {
-				$tabChamp = array(
-					'id_champ' => $e["id_champ"],
-					'nom_champ' => $e["nom_champ"],
-					'nom_region' => $e["nom_region"],
-					'x_champ' => $e["x_champ"],
-					'y_champ' => $e["y_champ"],
-					'z_champ' => $e["z_champ"],
-					'phase_champ' => $e["phase_champ"],
-					'date_seme_champ' => $e["date_seme_champ"],
-					'date_fin_recolte_champ' => $e["date_fin_recolte_champ"],
-					'date_fin_seme_champ' => $e["date_fin_seme_champ"],
-					'quantite_champ' => $e["quantite_champ"],
-					'braldun' => $e['prenom_braldun'].' '.$e['nom_braldun'].' ('.$e['id_braldun'].')',
-					'nom_type_graine' => $e['nom_type_graine'],
-				);
+        $tabChamp = null;
+        $id_metier = null;
+        foreach ($champsRowset as $e) {
+            if ($e["id_champ"] == $id_champ) {
+                $tabChamp = array(
+                    'id_champ' => $e["id_champ"],
+                    'nom_champ' => $e["nom_champ"],
+                    'nom_region' => $e["nom_region"],
+                    'x_champ' => $e["x_champ"],
+                    'y_champ' => $e["y_champ"],
+                    'z_champ' => $e["z_champ"],
+                    'phase_champ' => $e["phase_champ"],
+                    'date_seme_champ' => $e["date_seme_champ"],
+                    'date_fin_recolte_champ' => $e["date_fin_recolte_champ"],
+                    'date_fin_seme_champ' => $e["date_fin_seme_champ"],
+                    'quantite_champ' => $e["quantite_champ"],
+                    'braldun' => $e['prenom_braldun'] . ' ' . $e['nom_braldun'] . ' (' . $e['id_braldun'] . ')',
+                    'nom_type_graine' => $e['nom_type_graine'],
+                );
 
-				if ($this->view->user->id_braldun == $e["id_braldun"]) {
-					$this->view->possedeChamp = true;
-				}
-				$this->prepareChamp($e);
-				break;
-			}
-		}
+                if ($this->view->user->id_braldun == $e["id_braldun"]) {
+                    $this->view->possedeChamp = true;
+                }
+                $this->prepareChamp($e);
+                break;
+            }
+        }
 
-		if ($tabChamp == null) {
-			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_braldun." ide:".$id_champ);
-		}
+        if ($tabChamp == null) {
+            throw new Zend_Exception(get_class($this) . " Champ invalide idh:" . $this->view->user->id_braldun . " ide:" . $id_champ);
+        }
 
-		$this->prepareCompetences($niveauGrenier);
-		$this->view->champ = $tabChamp;
-		$this->view->niveauGrenier = $niveauGrenier;
-	}
+        $this->prepareCompetences($niveauGrenier);
+        $this->view->champ = $tabChamp;
+        $this->view->niveauGrenier = $niveauGrenier;
+    }
 
-	private function prepareCompetences($niveauGrenier) {
-		Zend_Loader::loadClass("BraldunsCompetences");
-		$braldunsCompetencesTables = new BraldunsCompetences();
-		$braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
+    private function prepareCompetences($niveauGrenier)
+    {
+        Zend_Loader::loadClass("BraldunsCompetences");
+        $braldunsCompetencesTables = new BraldunsCompetences();
+        $braldunCompetences = $braldunsCompetencesTables->findByIdBraldun($this->view->user->id_braldun);
 
-		$competence = null;
-		$tabCompetences = null;
-		$possedeEntretenir = false;
-		
-		foreach($braldunCompetences as $c) {
-			if (($c["nom_systeme_competence"] == "semer" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_SEMER)) ||
-			($c["nom_systeme_competence"] == "entretenir" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_ENTRETENIR)) ||
-			($c["nom_systeme_competence"] == "recolter" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER))) {
-				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
-					"nom" => $c["nom_competence"],
-					"pa_utilisation" => $c["pa_utilisation_competence"],
-					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
-					"nom_systeme" => $c["nom_systeme_competence"],
-					"pourcentage_init" => $c["pourcentage_init_competence"],
-				);
+        $competence = null;
+        $tabCompetences = null;
+        $possedeEntretenir = false;
 
-				if ($c["nom_systeme_competence"] == "entretenir") {
-					$possedeEntretenir = true;
-				}
-			}
-				
-		}
-		$this->view->competences = $tabCompetences;
-		$this->view->possedeEntretenir = $possedeEntretenir;
-	}
+        foreach ($braldunCompetences as $c) {
+            if (($c["nom_systeme_competence"] == "semer" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_SEMER)) ||
+                    ($c["nom_systeme_competence"] == "entretenir" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_ENTRETENIR)) ||
+                    ($c["nom_systeme_competence"] == "recolter" && ($this->view->possedeChamp || $niveauGrenier >= Bral_Util_Communaute::NIVEAU_GRENIER_RECOLTER))
+            ) {
+                $tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
+                    "nom" => $c["nom_competence"],
+                    "pa_utilisation" => $c["pa_utilisation_competence"],
+                    "pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
+                    "nom_systeme" => $c["nom_systeme_competence"],
+                    "pourcentage_init" => $c["pourcentage_init_competence"],
+                );
 
-	private function prepareChamp($champ) {
-		Zend_Loader::loadClass("ChampTaupe");
-		$champTaupeTable = new ChampTaupe();
-		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
+                if ($c["nom_systeme_competence"] == "entretenir") {
+                    $possedeEntretenir = true;
+                }
+            }
 
-		$tabTaupes = array();
-		if ($champ["phase_champ"] != "jachere") {
-			if ($taupes != null) {
-				foreach($taupes as $t) {
-					if ($champ["phase_champ"] == 'a_recolter' ||
-					$champ["phase_champ"] == 'seme' && $t["etat_champ_taupe"] != 'vivant') {
-						$tabTaupes[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]] = $t;
-					}
-				}
-			}
-		}
+        }
+        $this->view->competences = $tabCompetences;
+        $this->view->possedeEntretenir = $possedeEntretenir;
+    }
 
-		for ($y = 1; $y <= 10; $y++) {
-			$change_level = true;
-			for ($x = 1; $x <= 10; $x++) {
+    private function prepareChamp($champ)
+    {
+        Zend_Loader::loadClass("ChampTaupe");
+        $champTaupeTable = new ChampTaupe();
+        $taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
 
-				$taupe = null;
-				if ($tabTaupes != null) {
-					$key = $x.'t'.$y;
-					if (array_key_exists($key, $tabTaupes)) {
-						$taupe = array(
-							'etat_champ_taupe' => $tabTaupes[$key]["etat_champ_taupe"],
-						);
-					}
-				}
+        $tabTaupes = array();
+        if ($champ["phase_champ"] != "jachere") {
+            if ($taupes != null) {
+                foreach ($taupes as $t) {
+                    if ($champ["phase_champ"] == 'a_recolter' ||
+                            $champ["phase_champ"] == 'seme' && $t["etat_champ_taupe"] != 'vivant'
+                    ) {
+                        $tabTaupes[$t["x_champ_taupe"] . 't' . $t["y_champ_taupe"]] = $t;
+                    }
+                }
+            }
+        }
 
-				$tab = array (
-					"css_champ" => $champ["phase_champ"],
-					"x" => $x, 
-					"y" => $y, //
-					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
-					"taupe" => $taupe,
-				);
+        for ($y = 1; $y <= 10; $y++) {
+            $change_level = true;
+            for ($x = 1; $x <= 10; $x++) {
 
-				$tableau[] = $tab;
-				if ($change_level) {
-					$change_level = false;
-				}
-			}
-		}
-		$this->view->tableau = $tableau;
-		$this->prepareTaupes($taupes);
-	}
+                $taupe = null;
+                if ($tabTaupes != null) {
+                    $key = $x . 't' . $y;
+                    if (array_key_exists($key, $tabTaupes)) {
+                        $taupe = array(
+                            'etat_champ_taupe' => $tabTaupes[$key]["etat_champ_taupe"],
+                        );
+                    }
+                }
 
-	private function prepareTaupes($taupes) {
+                $tab = array(
+                    "css_champ" => $champ["phase_champ"],
+                    "x" => $x,
+                    "y" => $y, //
+                    "change_level" => $change_level, // nouvelle ligne dans le tableau ;
+                    "taupe" => $taupe,
+                );
 
-		$taupesVivantes = array();
-		foreach($taupes as $t) {
-			if ($t["etat_champ_taupe"] == "vivant") {
-				$taupesVivantes[$t["numero_champ_taupe"]]["taille"] = $t["taille_champ_taupe"];
-				$taupesVivantes[$t["numero_champ_taupe"]]["morceaux"][] = $t;
-			}
-		}
+                $tableau[] = $tab;
+                if ($change_level) {
+                    $change_level = false;
+                }
+            }
+        }
+        $this->view->tableau = $tableau;
+        $this->prepareTaupes($taupes);
+    }
 
-		$taupesDetruites = array();
-		foreach($taupes as $t) {
-			if ($t["etat_champ_taupe"] == "detruit" && !array_key_exists($t["numero_champ_taupe"], $taupesVivantes)) {
-				$taupesDetruites[$t["numero_champ_taupe"]] = $t["taille_champ_taupe"];
-			}
-		}
+    private function prepareTaupes($taupes)
+    {
 
-		$this->view->taupesVivantes = $taupesVivantes;
-		$this->view->taupesDetruites = $taupesDetruites;
+        $taupesVivantes = array();
+        foreach ($taupes as $t) {
+            if ($t["etat_champ_taupe"] == "vivant") {
+                $taupesVivantes[$t["numero_champ_taupe"]]["taille"] = $t["taille_champ_taupe"];
+                $taupesVivantes[$t["numero_champ_taupe"]]["morceaux"][] = $t;
+            }
+        }
 
-		$toutes = null;
-		foreach($taupes as $t) {
-			$toutes[$t["numero_champ_taupe"]][] = $t;
-		}
-		$this->view->toutes = $toutes;
-	}
+        $taupesDetruites = array();
+        foreach ($taupes as $t) {
+            if ($t["etat_champ_taupe"] == "detruit" && !array_key_exists($t["numero_champ_taupe"], $taupesVivantes)) {
+                $taupesDetruites[$t["numero_champ_taupe"]] = $t["taille_champ_taupe"];
+            }
+        }
 
-	function prepareFormulaire() {
-	}
+        $this->view->taupesVivantes = $taupesVivantes;
+        $this->view->taupesDetruites = $taupesDetruites;
 
-	function prepareResultat() {
-	}
+        $toutes = null;
+        foreach ($taupes as $t) {
+            $toutes[$t["numero_champ_taupe"]][] = $t;
+        }
+        $this->view->toutes = $toutes;
+    }
 
-	function getListBoxRefresh() {
-	}
+    function prepareFormulaire()
+    {
+    }
 
-	public function getIdChampCourant() {
-		return false;
-	}
+    function prepareResultat()
+    {
+    }
+
+    function getListBoxRefresh()
+    {
+    }
+
+    public function getIdChampCourant()
+    {
+        return false;
+    }
 }

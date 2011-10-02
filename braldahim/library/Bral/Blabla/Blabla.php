@@ -5,96 +5,112 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-abstract class Bral_Blabla_Blabla {
+abstract class Bral_Blabla_Blabla
+{
 
-	private $majEvenement = true;
+    private $majEvenement = true;
 
-	function __construct($nomSystemeAction, $request, $view, $action, $idTerrainDefaut = null) {
-		$this->view = $view;
-		$this->request = $request;
-		$this->action = $action;
-		$this->nom_systeme = $nomSystemeAction;
-		$this->idTerrainDefaut = $idTerrainDefaut;
-		$this->estEvenementAuto = true;
+    function __construct($nomSystemeAction, $request, $view, $action, $idTerrainDefaut = null)
+    {
+        $this->view = $view;
+        $this->request = $request;
+        $this->action = $action;
+        $this->nom_systeme = $nomSystemeAction;
+        $this->idTerrainDefaut = $idTerrainDefaut;
+        $this->estEvenementAuto = true;
 
-		$this->prepareCommun();
+        $this->prepareCommun();
 
-		switch($this->action) {
-			case "ask" :
-				$this->prepareFormulaire();
-				break;
-			case "do":
-				$this->prepareResultat();
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+        switch ($this->action) {
+            case "ask" :
+                $this->prepareFormulaire();
+                break;
+            case "do":
+                $this->prepareResultat();
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
 
-	abstract function prepareCommun();
-	abstract function prepareFormulaire();
-	abstract function prepareResultat();
-	abstract function getListBoxRefresh();
-	abstract function getNomInterne();
-	abstract function getTitreAction();
-	abstract function calculNbPa();
+    abstract function prepareCommun();
 
-	protected function setEstEvenementAuto($flag) {
-		$this->estEvenementAuto = $flag;
-	}
+    abstract function prepareFormulaire();
 
-	protected function constructListBoxRefresh($tab = null) {
-		return $tab;
-	}
+    abstract function prepareResultat();
 
-	protected function setDetailsEvenement($details, $idType) {
-		$this->detailEvenement = $details;
-		$this->idTypeEvenement = $idType;
-	}
+    abstract function getListBoxRefresh();
 
-	public function getIdEchoppeCourante() {
-		return false;
-	}
+    abstract function getNomInterne();
 
-	public function getIdChampCourant() {
-		return false;
-	}
+    abstract function getTitreAction();
 
-	public function getTablesHtmlTri() {
-		return false;
-	}
+    abstract function calculNbPa();
 
-	protected function majBraldun() {
-		$braldunTable = new Braldun();
-		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
-		$braldun = $braldunRowset->current();
+    protected function setEstEvenementAuto($flag)
+    {
+        $this->estEvenementAuto = $flag;
+    }
 
-		$data = array(
-			'nb_blabla_braldun' => $this->view->user->nb_blabla_braldun,
-			'nb_tour_blabla_braldun' => $this->view->user->nb_tour_blabla_braldun,
-		);
-		$where = "id_braldun=".$this->view->user->id_braldun;
-		$braldunTable->update($data, $where);
-	}
+    protected function constructListBoxRefresh($tab = null)
+    {
+        return $tab;
+    }
 
-	function render() {
-		$this->view->nomAction = $this->getTitreAction();
-		$this->view->nomSysteme = $this->nom_systeme;
-		switch($this->action) {
-			case "ask":
-				$texte = $this->view->render("blabla/".$this->nom_systeme."_formulaire.phtml");
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
-				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				return $this->view->render("competences/commun_formulaire.phtml");
-				break;
-			case "do":
-				$texte = $this->view->render("blabla/".$this->nom_systeme."_resultat.phtml");
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
-				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				return $this->view->render("competences/commun_resultat.phtml");
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+    protected function setDetailsEvenement($details, $idType)
+    {
+        $this->detailEvenement = $details;
+        $this->idTypeEvenement = $idType;
+    }
+
+    public function getIdEchoppeCourante()
+    {
+        return false;
+    }
+
+    public function getIdChampCourant()
+    {
+        return false;
+    }
+
+    public function getTablesHtmlTri()
+    {
+        return false;
+    }
+
+    protected function majBraldun()
+    {
+        $braldunTable = new Braldun();
+        $braldunRowset = $braldunTable->find($this->view->user->id_braldun);
+        $braldun = $braldunRowset->current();
+
+        $data = array(
+            'nb_blabla_braldun' => $this->view->user->nb_blabla_braldun,
+            'nb_tour_blabla_braldun' => $this->view->user->nb_tour_blabla_braldun,
+        );
+        $where = "id_braldun=" . $this->view->user->id_braldun;
+        $braldunTable->update($data, $where);
+    }
+
+    function render()
+    {
+        $this->view->nomAction = $this->getTitreAction();
+        $this->view->nomSysteme = $this->nom_systeme;
+        switch ($this->action) {
+            case "ask":
+                $texte = $this->view->render("blabla/" . $this->nom_systeme . "_formulaire.phtml");
+                // suppression des espaces : on met un espace à la place de n espaces à suivre
+                $this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+                return $this->view->render("competences/commun_formulaire.phtml");
+                break;
+            case "do":
+                $texte = $this->view->render("blabla/" . $this->nom_systeme . "_resultat.phtml");
+                // suppression des espaces : on met un espace à la place de n espaces à suivre
+                $this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+                return $this->view->render("competences/commun_resultat.phtml");
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
 }

@@ -5,71 +5,83 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-abstract class Bral_Butin_Butin {
+abstract class Bral_Butin_Butin
+{
 
-	function __construct($nomSystemeAction, $request, $view, $action) {
-		Zend_Loader::loadClass("Bral_Util_Evenement");
-		Zend_Loader::loadClass("Butin");
+    function __construct($nomSystemeAction, $request, $view, $action)
+    {
+        Zend_Loader::loadClass("Bral_Util_Evenement");
+        Zend_Loader::loadClass("Butin");
 
-		$this->view = $view;
-		$this->request = $request;
-		$this->action = $action;
-		$this->nom_systeme = $nomSystemeAction;
-		$this->view->nom_systeme = $this->nom_systeme;
+        $this->view = $view;
+        $this->request = $request;
+        $this->action = $action;
+        $this->nom_systeme = $nomSystemeAction;
+        $this->view->nom_systeme = $this->nom_systeme;
 
-		$this->prepareCommun();
+        $this->prepareCommun();
 
-		switch($this->action) {
-			case "ask" :
-				$this->prepareFormulaire();
-				break;
-			case "do":
-				$this->prepareResultat();
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+        switch ($this->action) {
+            case "ask" :
+                $this->prepareFormulaire();
+                break;
+            case "do":
+                $this->prepareResultat();
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
 
-	abstract function prepareCommun();
-	abstract function prepareFormulaire();
-	abstract function prepareResultat();
-	abstract function getListBoxRefresh();
-	abstract function getNomInterne();
-	abstract function getTitreAction();
+    abstract function prepareCommun();
 
-	public function getIdEchoppeCourante() {
-		return false;
-	}
+    abstract function prepareFormulaire();
 
-	public function getIdChampCourant() {
-		return false;
-	}
-	
-	public function getTablesHtmlTri() {
-		return false;
-	}
+    abstract function prepareResultat();
 
-	function render() {
-		$this->view->titreAction = $this->getTitreAction();
-		switch($this->action) {
-			case "ask":
-				return $this->view->render("butin/".$this->nom_systeme."_formulaire.phtml");
-				break;
-			case "do":
-				$texte = $this->view->render("butin/".$this->nom_systeme."_resultat.phtml");
+    abstract function getListBoxRefresh();
 
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
-				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				return $this->view->render("commun/commun_resultat.phtml");
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+    abstract function getNomInterne();
 
-	protected function constructListBoxRefresh($tab = null) {
-		return $tab;
-	}
+    abstract function getTitreAction();
+
+    public function getIdEchoppeCourante()
+    {
+        return false;
+    }
+
+    public function getIdChampCourant()
+    {
+        return false;
+    }
+
+    public function getTablesHtmlTri()
+    {
+        return false;
+    }
+
+    function render()
+    {
+        $this->view->titreAction = $this->getTitreAction();
+        switch ($this->action) {
+            case "ask":
+                return $this->view->render("butin/" . $this->nom_systeme . "_formulaire.phtml");
+                break;
+            case "do":
+                $texte = $this->view->render("butin/" . $this->nom_systeme . "_resultat.phtml");
+
+                // suppression des espaces : on met un espace à la place de n espaces à suivre
+                $this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+                return $this->view->render("commun/commun_resultat.phtml");
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
+
+    protected function constructListBoxRefresh($tab = null)
+    {
+        return $tab;
+    }
 
 }

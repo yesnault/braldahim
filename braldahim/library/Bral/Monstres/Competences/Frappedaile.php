@@ -5,102 +5,111 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Monstres_Competences_Frappedaile extends Bral_Monstres_Competences_Attaque {
+class Bral_Monstres_Competences_Frappedaile extends Bral_Monstres_Competences_Attaque
+{
 
-	public function calculJetAttaque(){}
-	public function calculDegat($estCritique){}
+    public function calculJetAttaque()
+    {
+    }
 
-	public function actionSpecifique() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
+    public function calculDegat($estCritique)
+    {
+    }
 
-		Zend_Loader::loadClass("Bral_Util_Effets");
+    public function actionSpecifique()
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - actionSpecifique - enter");
 
-		$x_min = $this->monstre["x_monstre"];
-		$y_min = $this->monstre["y_monstre"];
-		$x_max = $this->monstre["x_monstre"];
-		$y_max = $this->monstre["y_monstre"];
-		$z = $this->monstre["z_monstre"];
+        Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$braldunTable = new Braldun();
-		$bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z, -1, false);
+        $x_min = $this->monstre["x_monstre"];
+        $y_min = $this->monstre["y_monstre"];
+        $x_max = $this->monstre["x_monstre"];
+        $y_max = $this->monstre["y_monstre"];
+        $z = $this->monstre["z_monstre"];
 
-		$koCible = false;
+        $braldunTable = new Braldun();
+        $bralduns = $braldunTable->selectVue($x_min, $y_min, $x_max, $y_max, $z, -1, false);
 
-		if ($bralduns != null) {
-			foreach($bralduns as $h) {
-				$malus = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
-				$malus = $malus + $this->monstre["force_bm_monstre"];
-				$malus = floor($malus / 2);
+        $koCible = false;
 
-				if ($malus <= 2) {
-					$malus = 2;
-				}
+        if ($bralduns != null) {
+            foreach ($bralduns as $h) {
+                $malus = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
+                $malus = $malus + $this->monstre["force_bm_monstre"];
+                $malus = floor($malus / 2);
 
-				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
-				$jetMonstre = $jetMonstre + $this->monstre["force_bm_monstre"];
+                if ($malus <= 2) {
+                    $malus = 2;
+                }
 
-				$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $h["agilite_base_braldun"]);
-				$jetBraldun = $jetBraldun + $h["agilite_bm_braldun"] + $h["agilite_bbdf_braldun"];
+                $jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
+                $jetMonstre = $jetMonstre + $this->monstre["force_bm_monstre"];
 
-				if ($jetBraldun > $jetMonstre) {
-					$malus = floor($malus / 2);
-				}
+                $jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $h["agilite_base_braldun"]);
+                $jetBraldun = $jetBraldun + $h["agilite_bm_braldun"] + $h["agilite_bbdf_braldun"];
 
-				$armureTotale = $h["armure_naturelle_braldun"] + $h["armure_equipement_braldun"] + $h["armure_bm_braldun"];
-				if ($armureTotale < 0) {
-					$armureTotale = 0;
-				}
-				$pvEnMoins = $malus -  $armureTotale;
-				if ($pvEnMoins < 1) {
-					$pvEnMoins = 1;
-				}
-				$h["pv_restant_braldun"] = $h["pv_restant_braldun"] - $pvEnMoins;
+                if ($jetBraldun > $jetMonstre) {
+                    $malus = floor($malus / 2);
+                }
 
-				$this->cible = $h;
-				if ($h["pv_restant_braldun"] <= 0) {
-					if ($this->cible["id_braldun"] == $this->monstre["id_fk_braldun_cible_monstre"]) {
-						$koCible = true;
-					}
-					$details = $this->initKo();
-					$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-					$detailsBot .= PHP_EOL."Vous êtes KO.";
-					$id_type_evenement_cible = self::$config->game->evenements->type->ko;
-					Bral_Util_Evenement::majEvenementsFromVieMonstre($h["id_braldun"], null, $id_type_evenement_cible, $details, $detailsBot, $h["niveau_braldun"], $this->view);
-				} else {
-					$this->majEvenement($h, $malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-				}
+                $armureTotale = $h["armure_naturelle_braldun"] + $h["armure_equipement_braldun"] + $h["armure_bm_braldun"];
+                if ($armureTotale < 0) {
+                    $armureTotale = 0;
+                }
+                $pvEnMoins = $malus - $armureTotale;
+                if ($pvEnMoins < 1) {
+                    $pvEnMoins = 1;
+                }
+                $h["pv_restant_braldun"] = $h["pv_restant_braldun"] - $pvEnMoins;
 
-				$this->updateCible();
-			}
-		}
+                $this->cible = $h;
+                if ($h["pv_restant_braldun"] <= 0) {
+                    if ($this->cible["id_braldun"] == $this->monstre["id_fk_braldun_cible_monstre"]) {
+                        $koCible = true;
+                    }
+                    $details = $this->initKo();
+                    $detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+                    $detailsBot .= PHP_EOL . "Vous êtes KO.";
+                    $id_type_evenement_cible = self::$config->game->evenements->type->ko;
+                    Bral_Util_Evenement::majEvenementsFromVieMonstre($h["id_braldun"], null, $id_type_evenement_cible, $details, $detailsBot, $h["niveau_braldun"], $this->view);
+                } else {
+                    $this->majEvenement($h, $malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+                }
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
-		return $koCible;
-	}
+                $this->updateCible();
+            }
+        }
 
-	private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
-		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] frappe avec ses ailes [b".$braldun["id_braldun"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
-	}
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - actionSpecifique - exit");
+        return $koCible;
+    }
 
-	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
-		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous frappe avec ses ailes :";
-		$retour .= PHP_EOL."Jet du Monstre (jet de force) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet d'agilite) : ".$jetBraldun;
-		if ($jetBraldun > $jetMonstre) {
-			$retour .= PHP_EOL."Vous avez résisté aux frappes, le malus a été divisé par 2.";
-		} else {
-			$retour .= PHP_EOL."Vous n'avez pas résisté aux frappes.";
-		}
-		$retour .= PHP_EOL."Jet de Dégats de la frappe : ".$malus;
-		$retour .= PHP_EOL."Armure prise en compte, points de vie en moins : ".$pvEnMoins." PV";
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
-		return $retour;
-	}
+    private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun)
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - majEvenement - enter");
+        $idTypeEvenement = self::$config->game->evenements->type->attaquer;
+        $details = "[m" . $this->monstre["id_monstre"] . "] frappe avec ses ailes [b" . $braldun["id_braldun"] . "]";
+        $detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+        Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - majEvenement - exit");
+    }
+
+    protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun)
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - getDetailsBot - enter");
+        $retour = "";
+        $retour .= $this->monstre["nom_type_monstre"] . " (" . $this->monstre["id_monstre"] . ") vous frappe avec ses ailes :";
+        $retour .= PHP_EOL . "Jet du Monstre (jet de force) : " . $jetMonstre;
+        $retour .= PHP_EOL . "Jet de résistance (jet d'agilite) : " . $jetBraldun;
+        if ($jetBraldun > $jetMonstre) {
+            $retour .= PHP_EOL . "Vous avez résisté aux frappes, le malus a été divisé par 2.";
+        } else {
+            $retour .= PHP_EOL . "Vous n'avez pas résisté aux frappes.";
+        }
+        $retour .= PHP_EOL . "Jet de Dégats de la frappe : " . $malus;
+        $retour .= PHP_EOL . "Armure prise en compte, points de vie en moins : " . $pvEnMoins . " PV";
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - getDetailsBot - exit");
+        return $retour;
+    }
 }

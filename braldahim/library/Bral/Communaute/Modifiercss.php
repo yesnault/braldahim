@@ -5,93 +5,111 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Modifiercss extends Bral_Communaute_Communaute {
+class Bral_Communaute_Modifiercss extends Bral_Communaute_Communaute
+{
 
-	function getTitreOnglet() {}
-	function getListBoxRefresh() {}
+    function getTitreOnglet()
+    {
+    }
 
-	function setDisplay($display) {
-		$this->view->display = $display;
-	}
+    function getListBoxRefresh()
+    {
+    }
 
-	function getTitre() {
-		return null;
-	}
+    function setDisplay($display)
+    {
+        $this->view->display = $display;
+    }
 
-	function prepareCommun() {
-		Zend_Loader::loadClass("Bral_Util_Communaute");
-		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
-			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
-		}
+    function getTitre()
+    {
+        return null;
+    }
 
-		Zend_Loader::loadClass("Communaute");
+    function prepareCommun()
+    {
+        Zend_Loader::loadClass("Bral_Util_Communaute");
+        if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
+            throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:" . $this->view->user->id_fk_communaute_braldun);
+        }
 
-		$this->preparePage();
+        Zend_Loader::loadClass("Communaute");
 
-		$this->view->isUpdateDescription = false;
-		$this->view->isUpdateSiteWeb = false;
+        $this->preparePage();
 
-		if ($this->_request->get("caction") == "do_communaute_modifiercss") {
-			if ($this->_request->getPost("valeur_1") == "1") {
-				$this->updateCss();
-			}
-		}
-	}
+        $this->view->isUpdateDescription = false;
+        $this->view->isUpdateSiteWeb = false;
 
-	function prepareFormulaire() {}
-	function prepareResultat() {}
+        if ($this->_request->get("caction") == "do_communaute_modifiercss") {
+            if ($this->_request->getPost("valeur_1") == "1") {
+                $this->updateCss();
+            }
+        }
+    }
 
-	function getNomInterne() {
-		return "box_communaute_gestion_interne";
-	}
+    function prepareFormulaire()
+    {
+    }
 
-	function preparePage() {
-		Zend_Loader::loadClass('Bral_Util_Communaute');
+    function prepareResultat()
+    {
+    }
 
-		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
-		if (count($communauteRowset) == 1) {
-			$communaute = $communauteRowset[0];
-		}
+    function getNomInterne()
+    {
+        return "box_communaute_gestion_interne";
+    }
 
-		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_ADJOINT) {
-			throw new Zend_Exception(get_class($this)." Vos n'etes pas gestionnaire ou adjoint");
-		}
-		if ($communaute == null) {
-			throw new Zend_Exception(get_class($this)." Communaute Invalide");
-		}
+    function preparePage()
+    {
+        Zend_Loader::loadClass('Bral_Util_Communaute');
 
-		$this->communaute = $communaute;
-	}
+        $communauteTable = new Communaute();
+        $communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_braldun);
+        if (count($communauteRowset) == 1) {
+            $communaute = $communauteRowset[0];
+        }
 
-	function render() {
-		$c = array(
-			"css_communaute" => $this->communaute["css_communaute"], 
-		);
-		$this->view->communaute = $c;
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute/gerer/modifiercss.phtml");
-	}
+        if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_ADJOINT) {
+            throw new Zend_Exception(get_class($this) . " Vos n'etes pas gestionnaire ou adjoint");
+        }
+        if ($communaute == null) {
+            throw new Zend_Exception(get_class($this) . " Communaute Invalide");
+        }
 
-	private function updateCss() {
-		Zend_Loader::loadClass('Zend_Filter');
-		Zend_Loader::loadClass('Zend_Filter_StripTags');
-		Zend_Loader::loadClass('Zend_Filter_StringTrim');
+        $this->communaute = $communaute;
+    }
 
-		$filter = new Zend_Filter();
-		$filter->addFilter(new Zend_Filter_StringTrim())
-		->addFilter(new Zend_Filter_StripTags());
+    function render()
+    {
+        $c = array(
+            "css_communaute" => $this->communaute["css_communaute"],
+        );
+        $this->view->communaute = $c;
+        $this->view->nom_interne = $this->getNomInterne();
+        return $this->view->render("interface/communaute/gerer/modifiercss.phtml");
+    }
 
-		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_2")));
+    private function updateCss()
+    {
+        Zend_Loader::loadClass('Zend_Filter');
+        Zend_Loader::loadClass('Zend_Filter_StripTags');
+        Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
-		$champ = $valeur;
+        $filter = new Zend_Filter();
+        $filter->addFilter(new Zend_Filter_StringTrim())
+                ->addFilter(new Zend_Filter_StripTags());
 
-		$communauteTable = new Communaute();
-		$data = array("css_communaute" => $champ);
+        $valeur = stripslashes($filter->filter($this->_request->getPost("valeur_2")));
 
-		$where = " id_communaute=".$this->communaute["id_communaute"];
-		$communauteTable->update($data, $where);
+        $champ = $valeur;
 
-		$this->view->isUpdateCss = true;
-	}
+        $communauteTable = new Communaute();
+        $data = array("css_communaute" => $champ);
+
+        $where = " id_communaute=" . $this->communaute["id_communaute"];
+        $communauteTable->update($data, $where);
+
+        $this->view->isUpdateCss = true;
+    }
 }

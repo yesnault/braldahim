@@ -5,65 +5,75 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-abstract class Bral_Carnet_Carnet {
+abstract class Bral_Carnet_Carnet
+{
 
-	protected $reloadInterface = false;
+    protected $reloadInterface = false;
 
-	function __construct($nomSysteme, $request, $view, $action) {
-		$this->view = $view;
-		$this->request = $request;
-		$this->action = $action;
-		$this->nom_systeme = $nomSysteme;
+    function __construct($nomSysteme, $request, $view, $action)
+    {
+        $this->view = $view;
+        $this->request = $request;
+        $this->action = $action;
+        $this->nom_systeme = $nomSysteme;
 
-		$this->prepareCommun();
+        $this->prepareCommun();
 
-		switch($this->action) {
-			case "ask" :
-				$this->prepareFormulaire();
-				break;
-			case "do":
-				$this->prepareResultat();
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+        switch ($this->action) {
+            case "ask" :
+                $this->prepareFormulaire();
+                break;
+            case "do":
+                $this->prepareResultat();
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
 
-	abstract function prepareCommun();
-	abstract function prepareFormulaire();
-	abstract function prepareResultat();
+    abstract function prepareCommun();
 
-	function getNomInterne() {
-		return "carnet_html";
-	}
+    abstract function prepareFormulaire();
 
-	function getIdEchoppeCourante() {
-		return false;
-	}
+    abstract function prepareResultat();
 
-	public function getIdChampCourant() {
-		return false;
-	}
+    function getNomInterne()
+    {
+        return "carnet_html";
+    }
 
-	public function getTablesHtmlTri() {
-		return false;
-	}
+    function getIdEchoppeCourante()
+    {
+        return false;
+    }
 
-	function render() {
-		switch($this->action) {
-			case "ask":
-				return $this->view->render("carnet/".$this->nom_systeme."_formulaire.phtml");
-				break;
-			case "do":
-				$this->view->reloadInterface = $this->reloadInterface;
-				return $this->view->render("carnet/".$this->nom_systeme."_resultat.phtml");
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
-		}
-	}
+    public function getIdChampCourant()
+    {
+        return false;
+    }
 
-	public function getListBoxRefresh() {
-		return null;
-	}
+    public function getTablesHtmlTri()
+    {
+        return false;
+    }
+
+    function render()
+    {
+        switch ($this->action) {
+            case "ask":
+                return $this->view->render("carnet/" . $this->nom_systeme . "_formulaire.phtml");
+                break;
+            case "do":
+                $this->view->reloadInterface = $this->reloadInterface;
+                return $this->view->render("carnet/" . $this->nom_systeme . "_resultat.phtml");
+                break;
+            default:
+                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+        }
+    }
+
+    public function getListBoxRefresh()
+    {
+        return null;
+    }
 }

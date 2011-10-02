@@ -5,6 +5,7 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Competences_Produireforgeron extends Bral_Competences_Produire {
+class Bral_Competences_Produireforgeron extends Bral_Competences_Produire
+{
 
 }

@@ -5,56 +5,68 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Infirmerie extends Bral_Communaute_Communaute {
+class Bral_Communaute_Infirmerie extends Bral_Communaute_Communaute
+{
 
-	function getTitreOnglet() {}
-	function setDisplay($display) {}
+    function getTitreOnglet()
+    {
+    }
 
-	function getTitre() {
-		return "Infirmerie";
-	}
+    function setDisplay($display)
+    {
+    }
 
-	function getNomInterne() {
-		return "box_action";
-	}
+    function getTitre()
+    {
+        return "Infirmerie";
+    }
 
-	function prepareCommun() {
-		Zend_Loader::loadClass("Bral_Util_Communaute");
-		Zend_Loader::loadClass("TypeLieu");
+    function getNomInterne()
+    {
+        return "box_action";
+    }
 
-		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
-			throw new Zend_Exception("Bral_Communaute_Infirmerie :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
-		}
-		if (Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE) < Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) {
-			throw new Zend_Exception("Bral_Communaute_Infirmerie::Erreur Infirmerie, niveau invalide");
-		}
-	}
+    function prepareCommun()
+    {
+        Zend_Loader::loadClass("Bral_Util_Communaute");
+        Zend_Loader::loadClass("TypeLieu");
 
-	function prepareFormulaire() {
-	}
+        if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
+            throw new Zend_Exception("Bral_Communaute_Infirmerie :: Hall invalide idC:" . $this->view->user->id_fk_communaute_braldun);
+        }
+        if (Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE) < Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR) {
+            throw new Zend_Exception("Bral_Communaute_Infirmerie::Erreur Infirmerie, niveau invalide");
+        }
+    }
 
-	function prepareResultat() {
-		if ($this->_request->get("valeur_1")."" != "oui" && $this->_request->get("valeur_1")."" != "non") {
-			throw new Zend_Exception("Bral_Communaute_Infirmerie :: Choix invalide : ".$this->_request->get("valeur_1"));
-		} else {
-			$choix = $this->_request->get("valeur_1");
-		}
+    function prepareFormulaire()
+    {
+    }
 
-		$lieu = Bral_Util_Communaute::recupereLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE, Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR);
+    function prepareResultat()
+    {
+        if ($this->_request->get("valeur_1") . "" != "oui" && $this->_request->get("valeur_1") . "" != "non") {
+            throw new Zend_Exception("Bral_Communaute_Infirmerie :: Choix invalide : " . $this->_request->get("valeur_1"));
+        } else {
+            $choix = $this->_request->get("valeur_1");
+        }
 
-		if ($choix == "oui" && $lieu != null) {
-			$this->view->user->id_fk_lieu_resurrection_braldun = $lieu["id_lieu"];
-		} else {
-			$this->view->user->id_fk_lieu_resurrection_braldun = null;
-			$lieu = null;
-		}
+        $lieu = Bral_Util_Communaute::recupereLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_INFIRMERIE, Bral_Util_Communaute::NIVEAU_INFIRMERIE_REVENIR);
 
-		$this->majBraldun();
-		$this->view->lieu = $lieu;
-	}
+        if ($choix == "oui" && $lieu != null) {
+            $this->view->user->id_fk_lieu_resurrection_braldun = $lieu["id_lieu"];
+        } else {
+            $this->view->user->id_fk_lieu_resurrection_braldun = null;
+            $lieu = null;
+        }
 
-	function getListBoxRefresh() {
-		return array("box_communaute_batiments", "box_cockpit");
-	}
+        $this->majBraldun();
+        $this->view->lieu = $lieu;
+    }
+
+    function getListBoxRefresh()
+    {
+        return array("box_communaute_batiments", "box_cockpit");
+    }
 
 }

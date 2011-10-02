@@ -5,31 +5,33 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Util_Filature {
-	
-	public static function action($braldun, $view) {
-		Zend_Loader::loadClass("FilatureAction");
-		$filatureActionTable = new FilatureAction();
-		$nombre = $filatureActionTable->countByIdBraldun($braldun->id_braldun); // Perf
-		
-		if ($nombre <= 0) {
-			return;
-		}
-		
-		$actions = $filatureActionTable->findByIdBraldunAndPosition($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun);
-		
-		if ($actions != null && count($actions) > 0) {
-			$config = Zend_Registry::get('config');
-			foreach($actions as $a) {
-				$message = $a["message_filature_action"].PHP_EOL.PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($config->game->pnj->inconnu->id_braldun, $a["id_fk_braldun_filature"], $message, $view);
-				$where = "id_filature_action = ".$a["id_filature_action"];
-				$filatureActionTable->delete($where);
-				
-				$message = "Il semblerait qu'un inconnu vient de donner des informations à quelqu'un vous concernant".PHP_EOL.PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($config->game->pnj->inconnu->id_braldun, $braldun->id_braldun, $message, $view);
-				
-			}
-		}
-	}
+class Bral_Util_Filature
+{
+
+    public static function action($braldun, $view)
+    {
+        Zend_Loader::loadClass("FilatureAction");
+        $filatureActionTable = new FilatureAction();
+        $nombre = $filatureActionTable->countByIdBraldun($braldun->id_braldun); // Perf
+
+        if ($nombre <= 0) {
+            return;
+        }
+
+        $actions = $filatureActionTable->findByIdBraldunAndPosition($braldun->id_braldun, $braldun->x_braldun, $braldun->y_braldun);
+
+        if ($actions != null && count($actions) > 0) {
+            $config = Zend_Registry::get('config');
+            foreach ($actions as $a) {
+                $message = $a["message_filature_action"] . PHP_EOL . PHP_EOL . "Inutile de répondre à ce message.";
+                Bral_Util_Messagerie::envoiMessageAutomatique($config->game->pnj->inconnu->id_braldun, $a["id_fk_braldun_filature"], $message, $view);
+                $where = "id_filature_action = " . $a["id_filature_action"];
+                $filatureActionTable->delete($where);
+
+                $message = "Il semblerait qu'un inconnu vient de donner des informations à quelqu'un vous concernant" . PHP_EOL . PHP_EOL . "Inutile de répondre à ce message.";
+                Bral_Util_Messagerie::envoiMessageAutomatique($config->game->pnj->inconnu->id_braldun, $braldun->id_braldun, $message, $view);
+
+            }
+        }
+    }
 }

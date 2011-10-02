@@ -5,30 +5,34 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Helper_DetailRune {
+class Bral_Helper_DetailRune
+{
 
-	public static function afficherTooltip($p) {
-		return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
-	}
+    public static function afficherTooltip($p)
+    {
+        return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
+    }
 
-	public static function afficherTexte($p, $afficheLienHistorique) {
-		return stripslashes(self::prepareDetail($p, $afficheLienHistorique));
-	}
+    public static function afficherTexte($p, $afficheLienHistorique)
+    {
+        return stripslashes(self::prepareDetail($p, $afficheLienHistorique));
+    }
 
-	private static function prepareDetail($e, $afficheLienHistorique) {
-		if ($e["est_identifiee"] == "non") {
-			$text = "Rune non identifiée n° ".$e["id_rune"]."<br />";
-		} else {
-			$text = "Rune ".$e["type"]." n° ".$e["id_rune"]."<br />";
-		}
+    private static function prepareDetail($e, $afficheLienHistorique)
+    {
+        if ($e["est_identifiee"] == "non") {
+            $text = "Rune non identifiée n° " . $e["id_rune"] . "<br />";
+        } else {
+            $text = "Rune " . $e["type"] . " n° " . $e["id_rune"] . "<br />";
+        }
 
-		if ($afficheLienHistorique) {
-			$text .= "<label class='alabel' onclick=ouvHistoR(".$e["id_rune"].")>Voir l'historique</label><br />";
-		}
-		if ($e["est_identifiee"] == "oui") {
-			$text .= "<br />".addslashes($e["effet_type_rune"]);
-		}
+        if ($afficheLienHistorique) {
+            $text .= "<label class='alabel' onclick=ouvHistoR(" . $e["id_rune"] . ")>Voir l'historique</label><br />";
+        }
+        if ($e["est_identifiee"] == "oui") {
+            $text .= "<br />" . addslashes($e["effet_type_rune"]);
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 }

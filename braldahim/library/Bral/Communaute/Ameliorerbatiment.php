@@ -5,123 +5,136 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute {
+class Bral_Communaute_Ameliorerbatiment extends Bral_Communaute_Communaute
+{
 
-	function getNomInterne() {
-		return "box_action";
-	}
+    function getNomInterne()
+    {
+        return "box_action";
+    }
 
-	function getTitre() {
-		return "Améliorer un bâtiment";
-	}
+    function getTitre()
+    {
+        return "Améliorer un bâtiment";
+    }
 
-	function getTitreOnglet() {}
-	function setDisplay($display) {}
+    function getTitreOnglet()
+    {
+    }
 
-	function prepareCommun() {
-		if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
-			throw new Zend_Exception(get_class($this)." Vous n'êtes pas tenancier de la communauté ". $this->view->user->rangCommunaute);
-		}
+    function setDisplay($display)
+    {
+    }
 
-		Zend_Loader::loadClass("Bral_Util_Communaute");
-		if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
-			throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:".$this->view->user->id_fk_communaute_braldun);
-		}
+    function prepareCommun()
+    {
+        if ($this->view->user->rangCommunaute > Bral_Util_Communaute::ID_RANG_TENANCIER) {
+            throw new Zend_Exception(get_class($this) . " Vous n'êtes pas tenancier de la communauté " . $this->view->user->rangCommunaute);
+        }
 
-		$this->view->nomLieu = null;
+        Zend_Loader::loadClass("Bral_Util_Communaute");
+        if (!Bral_Util_Communaute::possedeUnHall($this->view->user->id_fk_communaute_braldun)) {
+            throw new Zend_Exception("Bral_Communaute_Construirebatiment :: Hall invalide idC:" . $this->view->user->id_fk_communaute_braldun);
+        }
 
-		$this->view->nb_pa = 1;
+        $this->view->nomLieu = null;
 
-		Zend_Loader::loadClass('Bral_Util_Communaute');
-		Zend_Loader::loadClass('Lieu');
-		Zend_Loader::loadClass('TypeLieu');
+        $this->view->nb_pa = 1;
 
-		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
+        Zend_Loader::loadClass('Bral_Util_Communaute');
+        Zend_Loader::loadClass('Lieu');
+        Zend_Loader::loadClass('TypeLieu');
 
-		$tabLieux = null;
-		if ($lieux != null && count($lieux) > 0) {
-			foreach($lieux as $l) {
-				if ($l["niveau_lieu"] == $l["niveau_prochain_lieu"] && $l["id_type_lieu"] != TypeLieu::ID_TYPE_HALL) {
-					$tab["lieu"] = $l;
-					$tab["couts"] = Bral_Util_Communaute::getCoutsAmeliorationBatiment($l["niveau_prochain_lieu"]);
-					$tabLieux[] = $tab;
-				}
-			}
-		}
+        $lieuxTable = new Lieu();
+        $lieux = $lieuxTable->findByIdCommunaute($this->view->user->id_fk_communaute_braldun);
 
-		$this->view->lieuxCommunaute = $tabLieux;
-	}
+        $tabLieux = null;
+        if ($lieux != null && count($lieux) > 0) {
+            foreach ($lieux as $l) {
+                if ($l["niveau_lieu"] == $l["niveau_prochain_lieu"] && $l["id_type_lieu"] != TypeLieu::ID_TYPE_HALL) {
+                    $tab["lieu"] = $l;
+                    $tab["couts"] = Bral_Util_Communaute::getCoutsAmeliorationBatiment($l["niveau_prochain_lieu"]);
+                    $tabLieux[] = $tab;
+                }
+            }
+        }
 
-	function prepareFormulaire() {
-	}
+        $this->view->lieuxCommunaute = $tabLieux;
+    }
 
-	function prepareResultat() {
-		if ($this->view->assezDePa == false) {
-			return;
-		}
+    function prepareFormulaire()
+    {
+    }
 
-		if (((int)$this->_request->get("valeur_1").""!=$this->_request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Type invalide : ".$this->_request->get("valeur_1"));
-		} else {
-			$idLieu = (int)$this->_request->get("valeur_1");
-		}
+    function prepareResultat()
+    {
+        if ($this->view->assezDePa == false) {
+            return;
+        }
 
-		$trouve = false;
-		$lieu = null;
+        if (((int)$this->_request->get("valeur_1") . "" != $this->_request->get("valeur_1") . "")) {
+            throw new Zend_Exception(get_class($this) . " Type invalide : " . $this->_request->get("valeur_1"));
+        } else {
+            $idLieu = (int)$this->_request->get("valeur_1");
+        }
 
-		foreach($this->view->lieuxCommunaute as $l) {
-			if ($l['lieu']['id_lieu'] == $idLieu) {
-				$trouve = true;
-				$lieu = $l['lieu'];
-			}
-		}
+        $trouve = false;
+        $lieu = null;
 
-		if ($trouve == false || $lieu == null) {
-			throw new Zend_Exception(get_class($this)." Lieu invalide : ".$idLieu);
-		}
+        foreach ($this->view->lieuxCommunaute as $l) {
+            if ($l['lieu']['id_lieu'] == $idLieu) {
+                $trouve = true;
+                $lieu = $l['lieu'];
+            }
+        }
 
-		$this->calculAmeliorer($lieu);
-		$this->majBraldun();
-		$this->view->nomLieu = $lieu['nom_lieu'];
-	}
+        if ($trouve == false || $lieu == null) {
+            throw new Zend_Exception(get_class($this) . " Lieu invalide : " . $idLieu);
+        }
 
-	private function calculAmeliorer($lieu) {
+        $this->calculAmeliorer($lieu);
+        $this->majBraldun();
+        $this->view->nomLieu = $lieu['nom_lieu'];
+    }
 
-		$niveauSuivant = $lieu['niveau_lieu'] + 1;
+    private function calculAmeliorer($lieu)
+    {
 
-		$lieuTable = new Lieu();
-		$data = array(
-			'niveau_prochain_lieu' => $niveauSuivant,
-			'nb_pa_depenses_lieu' => 0,
-			'nb_castars_depenses_lieu' => 0,
-		);
-		$where = 'id_lieu = '.intval($lieu['id_lieu']);
-		$lieuTable->update($data, $where);
+        $niveauSuivant = $lieu['niveau_lieu'] + 1;
 
-		$this->view->niveauSuivant = $niveauSuivant;
+        $lieuTable = new Lieu();
+        $data = array(
+            'niveau_prochain_lieu' => $niveauSuivant,
+            'nb_pa_depenses_lieu' => 0,
+            'nb_castars_depenses_lieu' => 0,
+        );
+        $where = 'id_lieu = ' . intval($lieu['id_lieu']);
+        $lieuTable->update($data, $where);
 
-		Zend_Loader::loadClass("TypeEvenementCommunaute");
-		Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
+        $this->view->niveauSuivant = $niveauSuivant;
 
-		$details = $lieu['nom_lieu'];
-		$detailsBot = "Le bâtiment -".$lieu['nom_lieu']."- a été amélioré. ".PHP_EOL;
-		$detailsBot .= "Le bâtiment est maintenant en construction vers le niveau ".$niveauSuivant.".".PHP_EOL;
-		$detailsBot .= "Pour le construire complètement, chaque Braldûn de la communauté peut aller sur le bâtiment et ";
-		$detailsBot .= "utiliser l'action -Construire un bâtiment- pour faire progresser la construction".PHP_EOL.PHP_EOL;
-		$detailsBot .= "La progression de chaque construction est visible dans l'onglet Communauté".PHP_EOL;
+        Zend_Loader::loadClass("TypeEvenementCommunaute");
+        Zend_Loader::loadClass("Bral_Util_EvenementCommunaute");
 
-		$detailsBot .= PHP_EOL.PHP_EOL."Action réalisée par [b".$this->view->user->id_braldun."]";
-		Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_AMELIORATION, $details, $detailsBot, $this->view);
+        $details = $lieu['nom_lieu'];
+        $detailsBot = "Le bâtiment -" . $lieu['nom_lieu'] . "- a été amélioré. " . PHP_EOL;
+        $detailsBot .= "Le bâtiment est maintenant en construction vers le niveau " . $niveauSuivant . "." . PHP_EOL;
+        $detailsBot .= "Pour le construire complètement, chaque Braldûn de la communauté peut aller sur le bâtiment et ";
+        $detailsBot .= "utiliser l'action -Construire un bâtiment- pour faire progresser la construction" . PHP_EOL . PHP_EOL;
+        $detailsBot .= "La progression de chaque construction est visible dans l'onglet Communauté" . PHP_EOL;
 
-	}
+        $detailsBot .= PHP_EOL . PHP_EOL . "Action réalisée par [b" . $this->view->user->id_braldun . "]";
+        Bral_Util_EvenementCommunaute::ajoutEvenements($this->view->user->id_fk_communaute_braldun, TypeEvenementCommunaute::ID_TYPE_AMELIORATION, $details, $detailsBot, $this->view);
 
-	function getListBoxRefresh() {
-		$tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements", "box_cockpit");
-		if ($this->view->nomLieu != null) {
-			$tab[] = "box_vue";
-		}
-		return $tab;
-	}
+    }
+
+    function getListBoxRefresh()
+    {
+        $tab = array("box_profil", "box_lieu", "box_communaute", "box_evenements", "box_communaute_evenements", "box_cockpit");
+        if ($this->view->nomLieu != null) {
+            $tab[] = "box_vue";
+        }
+        return $tab;
+    }
 
 }

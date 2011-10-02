@@ -5,290 +5,297 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
+class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu
+{
 
-	private $_utilisationPossible = false;
-	private $_coutCastars = null;
-	private $_tabCompetences = null;
+    private $_utilisationPossible = false;
+    private $_coutCastars = null;
+    private $_tabCompetences = null;
 
-	function prepareCommun() {
+    function prepareCommun()
+    {
 
-		$this->_coutCastars = $this->calculCoutCastars();
-		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
+        $this->_coutCastars = $this->calculCoutCastars();
+        $this->view->coutCastars = $this->_coutCastars;
+        $this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->_coutCastars >= 0);
+        // $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 
-		if ($this->view->utilisationPaPossible == false) {
-			return;
-		}
+        if ($this->view->utilisationPaPossible == false) {
+            return;
+        }
 
-		Zend_Loader::loadClass("LabanEquipement");
-		Zend_Loader::loadClass("MotRunique");
+        Zend_Loader::loadClass("LabanEquipement");
+        Zend_Loader::loadClass("MotRunique");
 
-		$this->view->effetMotF = false;
+        $this->view->effetMotF = false;
 
-		$id_equipement_courant = $this->request->get("id_equipement");
+        $id_equipement_courant = $this->request->get("id_equipement");
 
-		$tabEquipementsLaban = null;
-		$labanEquipementTable = new LabanEquipement();
-		$equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
+        $tabEquipementsLaban = null;
+        $labanEquipementTable = new LabanEquipement();
+        $equipements = $labanEquipementTable->findByIdBraldun($this->view->user->id_braldun);
 
-		Zend_Loader::loadClass("Bral_Util_Equipement");
+        Zend_Loader::loadClass("Bral_Util_Equipement");
 
-		if (count($equipements) > 0) {
-			foreach($equipements as $e) {
-				$selected = "";
-				if ($id_equipement_courant == $e["id_laban_equipement"]) {
-					$selected = "selected";
-				}
-					
-				$t = array(
-					"id_laban_equipement" => $e["id_laban_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"poids" => $e["poids_equipement"],
-					"nb_runes" => $e["nb_runes_equipement"],
-					"id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
-					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
-					"selected" => $selected
-				);
+        if (count($equipements) > 0) {
+            foreach ($equipements as $e) {
+                $selected = "";
+                if ($id_equipement_courant == $e["id_laban_equipement"]) {
+                    $selected = "selected";
+                }
 
-				if ($id_equipement_courant == $e["id_laban_equipement"]) {
-					$equipementCourant = $t;
-				}
-				$tabEquipementsLaban[] = $t;
-			}
-		}
+                $t = array(
+                    "id_laban_equipement" => $e["id_laban_equipement"],
+                    "id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
+                    "nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
+                    "qualite" => $e["nom_type_qualite"],
+                    "niveau" => $e["niveau_recette_equipement"],
+                    "poids" => $e["poids_equipement"],
+                    "nb_runes" => $e["nb_runes_equipement"],
+                    "id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
+                    "nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
+                    "selected" => $selected
+                );
 
-		$this->view->nbEquipementsLaban = count($tabEquipementsLaban);
-		$this->view->equipementsLaban = $tabEquipementsLaban;
+                if ($id_equipement_courant == $e["id_laban_equipement"]) {
+                    $equipementCourant = $t;
+                }
+                $tabEquipementsLaban[] = $t;
+            }
+        }
 
-		$this->view->equipementEnCours = null;
+        $this->view->nbEquipementsLaban = count($tabEquipementsLaban);
+        $this->view->equipementsLaban = $tabEquipementsLaban;
 
-		if (isset($equipementCourant)) {
-			Zend_Loader::loadClass("EquipementRune");
-			$tabEquipementsRune = null;
-			$equipementRuneTable = new EquipementRune();
-			$equipementRunes = $equipementRuneTable->findByIdEquipement($id_equipement_courant);
+        $this->view->equipementEnCours = null;
 
-			foreach($equipementRunes as $e) {
-				$tabEquipementsRune[] = array(
-					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-					"id_fk_type_rune" => $e["id_fk_type_rune"],
-					"nom_type_rune" => $e["nom_type_rune"],
-					"effet_type_rune" => $e["effet_type_rune"],
-				);
-			}
+        if (isset($equipementCourant)) {
+            Zend_Loader::loadClass("EquipementRune");
+            $tabEquipementsRune = null;
+            $equipementRuneTable = new EquipementRune();
+            $equipementRunes = $equipementRuneTable->findByIdEquipement($id_equipement_courant);
 
-			$this->view->nbEquipementRune = count($tabEquipementsRune);
-			$this->view->equipementRunes = $tabEquipementsRune;
-			$this->view->equipementCourant = $equipementCourant;
+            foreach ($equipementRunes as $e) {
+                $tabEquipementsRune[] = array(
+                    "id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
+                    "id_fk_type_rune" => $e["id_fk_type_rune"],
+                    "nom_type_rune" => $e["nom_type_rune"],
+                    "effet_type_rune" => $e["effet_type_rune"],
+                );
+            }
 
-			Zend_Loader::loadClass("LabanRune");
-			$tabLabanRune = null;
-			$labanRuneTable = new LabanRune();
-			$labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
+            $this->view->nbEquipementRune = count($tabEquipementsRune);
+            $this->view->equipementRunes = $tabEquipementsRune;
+            $this->view->equipementCourant = $equipementCourant;
 
-			foreach($labanRunes as $l) {
-				if ($l["est_identifiee_rune"] == "oui") {
-					$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-						"id_fk_type_rune" => $l["id_fk_type_rune"],
-						"nom_type_rune" => $l["nom_type_rune"],
-						"image_type_rune" => $l["image_type_rune"],
-						"effet_type_rune" => $l["effet_type_rune"],
-						"id_rune_laban_rune" => $l["id_rune_laban_rune"],
-					);
-				}
-			}
-			$this->view->nbLabanRune = count($tabLabanRune);
-			$this->view->labanRunes = $tabLabanRune;
-		}
-	}
+            Zend_Loader::loadClass("LabanRune");
+            $tabLabanRune = null;
+            $labanRuneTable = new LabanRune();
+            $labanRunes = $labanRuneTable->findByIdBraldun($this->view->user->id_braldun, "oui");
 
-	function prepareFormulaire() {
-		$this->view->coutCastars = $this->_coutCastars;
-	}
+            foreach ($labanRunes as $l) {
+                if ($l["est_identifiee_rune"] == "oui") {
+                    $tabLabanRune[$l["id_rune_laban_rune"]] = array(
+                        "id_fk_type_rune" => $l["id_fk_type_rune"],
+                        "nom_type_rune" => $l["nom_type_rune"],
+                        "image_type_rune" => $l["image_type_rune"],
+                        "effet_type_rune" => $l["effet_type_rune"],
+                        "id_rune_laban_rune" => $l["id_rune_laban_rune"],
+                    );
+                }
+            }
+            $this->view->nbLabanRune = count($tabLabanRune);
+            $this->view->labanRunes = $tabLabanRune;
+        }
+    }
 
-	function prepareResultat() {
+    function prepareFormulaire()
+    {
+        $this->view->coutCastars = $this->_coutCastars;
+    }
 
-		$idEquipementLaban = $this->request->get("valeur_1");
-		$nbRunes = $this->request->get("valeur_2");
-		$runes = $this->request->get("valeur_3");
+    function prepareResultat()
+    {
 
-		if ((int) $idEquipementLaban."" != $this->request->get("valeur_1")."") {
-			throw new Zend_Exception(get_class($this)." Equipement Laban invalide=".$idEquipementLaban);
-		} else {
-			$idEquipementLaban = (int)$idEquipementLaban;
-		}
+        $idEquipementLaban = $this->request->get("valeur_1");
+        $nbRunes = $this->request->get("valeur_2");
+        $runes = $this->request->get("valeur_3");
 
-		if ($idEquipementLaban != $this->view->equipementCourant["id_laban_equipement"]) {
-			throw new Zend_Exception(get_class($this)." idEquipement interdit A=".$idEquipementLaban. " B=".$this->view->equipementCourant["id_laban_equipement"]);
-		}
+        if ((int)$idEquipementLaban . "" != $this->request->get("valeur_1") . "") {
+            throw new Zend_Exception(get_class($this) . " Equipement Laban invalide=" . $idEquipementLaban);
+        } else {
+            $idEquipementLaban = (int)$idEquipementLaban;
+        }
 
-		if ((int) $nbRunes."" != $this->request->get("valeur_2")."") {
-			throw new Zend_Exception(get_class($this)." Nb Rune invalide=".$nbRunes);
-		} else {
-			$nbRunes = (int)$nbRunes;
-		}
+        if ($idEquipementLaban != $this->view->equipementCourant["id_laban_equipement"]) {
+            throw new Zend_Exception(get_class($this) . " idEquipement interdit A=" . $idEquipementLaban . " B=" . $this->view->equipementCourant["id_laban_equipement"]);
+        }
 
-		if ($runes == "" || $runes == null) {
-			throw new Zend_Exception(get_class($this)." Runes invalides=".$runes);
-		}
+        if ((int)$nbRunes . "" != $this->request->get("valeur_2") . "") {
+            throw new Zend_Exception(get_class($this) . " Nb Rune invalide=" . $nbRunes);
+        } else {
+            $nbRunes = (int)$nbRunes;
+        }
 
-		$runes = substr($runes, 0, strlen($runes) - 1); // suppression de la virgule
-		$tabRunesJs = explode(",", $runes);
-		$tabRunes = null;
-		// on regarde si les runes sont présentes dans le laban
+        if ($runes == "" || $runes == null) {
+            throw new Zend_Exception(get_class($this) . " Runes invalides=" . $runes);
+        }
 
-		$tmp = $this->view->labanRunes;
-		$nb = 0;
-		foreach($tabRunesJs as $u) {
-			$trouve = false;
-			foreach($tmp as $k => $r) {
-				if ((int)$u == $k) {
-					$nb++;
-					$tabRunes[$nb] = $r;
-					$trouve = true;
-					break;
-				}
-			}
-			if ($trouve == false) {
-				throw new Zend_Exception(get_class($this)." Rune invalide =".$u);
-			}
-		}
+        $runes = substr($runes, 0, strlen($runes) - 1); // suppression de la virgule
+        $tabRunesJs = explode(",", $runes);
+        $tabRunes = null;
+        // on regarde si les runes sont présentes dans le laban
 
-		if ($nb != $nbRunes) {
-			throw new Zend_Exception(get_class($this)." Nombre de runes invalides A n1=".$nb. " n2=".$nbRunes);
-		}
+        $tmp = $this->view->labanRunes;
+        $nb = 0;
+        foreach ($tabRunesJs as $u) {
+            $trouve = false;
+            foreach ($tmp as $k => $r) {
+                if ((int)$u == $k) {
+                    $nb++;
+                    $tabRunes[$nb] = $r;
+                    $trouve = true;
+                    break;
+                }
+            }
+            if ($trouve == false) {
+                throw new Zend_Exception(get_class($this) . " Rune invalide =" . $u);
+            }
+        }
 
-		// tous les emplacements runiques doivent etre utilises
-		if ($nb == 0 || $nb != $this->view->equipementCourant["nb_runes"]) {
-			throw new Zend_Exception(get_class($this)." Nombre de runes invalides B n1=".$nb. " n2=".$this->view->equipementCourant["nb_runes"]);
-		}
+        if ($nb != $nbRunes) {
+            throw new Zend_Exception(get_class($this) . " Nombre de runes invalides A n1=" . $nb . " n2=" . $nbRunes);
+        }
 
-		$this->view->suffixe = "";
-		$this->calculSertir($tabRunes);
+        // tous les emplacements runiques doivent etre utilises
+        if ($nb == 0 || $nb != $this->view->equipementCourant["nb_runes"]) {
+            throw new Zend_Exception(get_class($this) . " Nombre de runes invalides B n1=" . $nb . " n2=" . $this->view->equipementCourant["nb_runes"]);
+        }
 
-		$details = "[b".$this->view->user->id_braldun."] a serti la pièce d'équipement n°".$idEquipementLaban;
-		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_SERTIR_ID, $idEquipementLaban, $details);
+        $this->view->suffixe = "";
+        $this->calculSertir($tabRunes);
 
-		$this->view->nbRunes = $nb;
-		$this->view->tabRunes = $tabRunes;
-		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
-		$this->majBraldun();
-	}
+        $details = "[b" . $this->view->user->id_braldun . "] a serti la pièce d'équipement n°" . $idEquipementLaban;
+        Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_SERTIR_ID, $idEquipementLaban, $details);
 
-	private function calculSertir($tabRunes) {
-		$equipementRuneTable = new EquipementRune();
-		$labanRuneTable = new LabanRune();
+        $this->view->nbRunes = $nb;
+        $this->view->tabRunes = $tabRunes;
+        $this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
+        $this->majBraldun();
+    }
 
-		// on regarde si les runes ne signifient pas un mot runique
-		$motRuniqueTable = new MotRunique();
+    private function calculSertir($tabRunes)
+    {
+        $equipementRuneTable = new EquipementRune();
+        $labanRuneTable = new LabanRune();
 
-		$id_fk_mot_runique_equipement = null;
-		$nom_mot_runique = null;
+        // on regarde si les runes ne signifient pas un mot runique
+        $motRuniqueTable = new MotRunique();
 
-		if ($this->view->equipementCourant["nom_systeme_type_piece"] == "arme_tir") { // si c'est une "arme de tir", on prend les mots runiques de "arme"
-			$nomSystemeTypePiece = "arme";
-		} else {
-			$nomSystemeTypePiece = $this->view->equipementCourant["nom_systeme_type_piece"];
-		}
+        $id_fk_mot_runique_equipement = null;
+        $nom_mot_runique = null;
 
-		$motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($nomSystemeTypePiece, $tabRunes);
-		if (count($motsRowset) > 0) {
-			foreach ($motsRowset as $m) {
-				$id_fk_mot_runique_equipement = $m["id_mot_runique"];
-				$nom_mot_runique = $m["nom_systeme_mot_runique"];
-				$this->view->suffixe = $m["suffixe_mot_runique"];
-				break; // s'il y a plusieurs mots (ce qui devrait jamais arriver), on prend le premier
-			}
-		}
+        if ($this->view->equipementCourant["nom_systeme_type_piece"] == "arme_tir") { // si c'est une "arme de tir", on prend les mots runiques de "arme"
+            $nomSystemeTypePiece = "arme";
+        } else {
+            $nomSystemeTypePiece = $this->view->equipementCourant["nom_systeme_type_piece"];
+        }
 
-		$ordre = 0;
-		foreach($tabRunes as $k => $v) {
-			$ordre++;
-			$data = array(
-				'id_equipement_rune' => $this->view->equipementCourant["id_laban_equipement"],
-				'id_rune_equipement_rune' => $v["id_rune_laban_rune"],
-				'ordre_equipement_rune' => $ordre
-			);
-			$equipementRuneTable->insert($data);
+        $motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($nomSystemeTypePiece, $tabRunes);
+        if (count($motsRowset) > 0) {
+            foreach ($motsRowset as $m) {
+                $id_fk_mot_runique_equipement = $m["id_mot_runique"];
+                $nom_mot_runique = $m["nom_systeme_mot_runique"];
+                $this->view->suffixe = $m["suffixe_mot_runique"];
+                break; // s'il y a plusieurs mots (ce qui devrait jamais arriver), on prend le premier
+            }
+        }
 
-			// Suppression des runes du laban
-			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
-			$labanRunes = $labanRuneTable->delete($where);
+        $ordre = 0;
+        foreach ($tabRunes as $k => $v) {
+            $ordre++;
+            $data = array(
+                'id_equipement_rune' => $this->view->equipementCourant["id_laban_equipement"],
+                'id_rune_equipement_rune' => $v["id_rune_laban_rune"],
+                'ordre_equipement_rune' => $ordre
+            );
+            $equipementRuneTable->insert($data);
 
-			$details = "[b".$this->view->user->id_braldun."] a serti la rune n°".$v["id_rune_laban_rune"];
-			Zend_Loader::loadClass("Bral_Util_Rune");
-			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
-		}
+            // Suppression des runes du laban
+            $where = "id_rune_laban_rune = " . $v["id_rune_laban_rune"];
+            $labanRunes = $labanRuneTable->delete($where);
 
-		// mise a jour du poids
-		Zend_Loader::loadClass("Bral_Util_Poids");
-		$poids = Bral_Util_Poids::ajoute($this->view->equipementCourant["poids"], count($tabRunes), Bral_Util_Poids::POIDS_RUNE);
+            $details = "[b" . $this->view->user->id_braldun . "] a serti la rune n°" . $v["id_rune_laban_rune"];
+            Zend_Loader::loadClass("Bral_Util_Rune");
+            Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
+        }
 
-		Zend_Loader::loadClass("Equipement");
-		$equipementTable = new Equipement();
-		$data = array('poids_equipement' => $poids);
-		$where = "id_equipement=".$this->view->equipementCourant["id_laban_equipement"];
-		$equipementTable->update($data, $where);
-			
-		if ($id_fk_mot_runique_equipement != null) {
-			Zend_Loader::loadClass("Equipement");
-			$equipementTable = new Equipement();
-			$data = array(
-				'id_fk_mot_runique_equipement' => $id_fk_mot_runique_equipement,
-			);
-			$where = "id_equipement=".$this->view->equipementCourant["id_laban_equipement"];
-			$equipementTable->update($data, $where);
+        // mise a jour du poids
+        Zend_Loader::loadClass("Bral_Util_Poids");
+        $poids = Bral_Util_Poids::ajoute($this->view->equipementCourant["poids"], count($tabRunes), Bral_Util_Poids::POIDS_RUNE);
 
-			Zend_Loader::loadClass("StatsMotsRuniques");
-			$statsMotsRuniques = new StatsMotsRuniques();
-			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-			$dataMotsRuniques["niveau_piece_stats_mots_runiques"] = $this->view->equipementCourant["niveau"];
-			$dataMotsRuniques["id_fk_mot_runique_stats_mots_runiques"] = $id_fk_mot_runique_equipement;
-			$dataMotsRuniques["mois_stats_mots_runiques"] = date("Y-m-d", $moisEnCours);
-			$dataMotsRuniques["nb_piece_stats_mots_runiques"] = 1;
-			$dataMotsRuniques["id_fk_type_piece_stats_mots_runiques"] = $this->view->equipementCourant["id_fk_type_piece"];
-			$statsMotsRuniques->insertOrUpdate($dataMotsRuniques);
-		}
+        Zend_Loader::loadClass("Equipement");
+        $equipementTable = new Equipement();
+        $data = array('poids_equipement' => $poids);
+        $where = "id_equipement=" . $this->view->equipementCourant["id_laban_equipement"];
+        $equipementTable->update($data, $where);
 
-		if ($nom_mot_runique != null && $nom_mot_runique == "mot_f") {
-			Zend_Loader::loadClass("EffetMotF");
-			Zend_Loader::loadClass("TypeMonstre");
+        if ($id_fk_mot_runique_equipement != null) {
+            Zend_Loader::loadClass("Equipement");
+            $equipementTable = new Equipement();
+            $data = array(
+                'id_fk_mot_runique_equipement' => $id_fk_mot_runique_equipement,
+            );
+            $where = "id_equipement=" . $this->view->equipementCourant["id_laban_equipement"];
+            $equipementTable->update($data, $where);
 
-			$this->view->effetMotF = false;
-			$typeMonstreTable = new TypeMonstre();
+            Zend_Loader::loadClass("StatsMotsRuniques");
+            $statsMotsRuniques = new StatsMotsRuniques();
+            $moisEnCours = mktime(0, 0, 0, date("m"), 2, date("Y"));
+            $dataMotsRuniques["niveau_piece_stats_mots_runiques"] = $this->view->equipementCourant["niveau"];
+            $dataMotsRuniques["id_fk_mot_runique_stats_mots_runiques"] = $id_fk_mot_runique_equipement;
+            $dataMotsRuniques["mois_stats_mots_runiques"] = date("Y-m-d", $moisEnCours);
+            $dataMotsRuniques["nb_piece_stats_mots_runiques"] = 1;
+            $dataMotsRuniques["id_fk_type_piece_stats_mots_runiques"] = $this->view->equipementCourant["id_fk_type_piece"];
+            $statsMotsRuniques->insertOrUpdate($dataMotsRuniques);
+        }
 
-			$typeMonstreRowset = $typeMonstreTable->fetchall();
-			$typeMonstreRowset = $typeMonstreRowset->toArray();
+        if ($nom_mot_runique != null && $nom_mot_runique == "mot_f") {
+            Zend_Loader::loadClass("EffetMotF");
+            Zend_Loader::loadClass("TypeMonstre");
 
-			$typesMonstre = null;
+            $this->view->effetMotF = false;
+            $typeMonstreTable = new TypeMonstre();
 
-			foreach($typeMonstreRowset as $t) {
-				$typesMonstre[] = array(
-					"id_type_monstre" => $t["id_type_monstre"],
-				//"nom_type_monstre" => $t["nom_type_monstre"],
-				);
-			}
+            $typeMonstreRowset = $typeMonstreTable->fetchall();
+            $typeMonstreRowset = $typeMonstreRowset->toArray();
 
-			$nTypeMonstre = Bral_Util_De::get_de_specifique(0, count($typesMonstre)-1);
-			$idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
+            $typesMonstre = null;
 
-			$effetMotFTable = new EffetMotF();
-			$data = array("id_fk_braldun_effet_mot_f" => $this->view->user->id_braldun,
-						  "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);
-			$effetMotDTable->insert($data);
-		}
-	}
+            foreach ($typeMonstreRowset as $t) {
+                $typesMonstre[] = array(
+                    "id_type_monstre" => $t["id_type_monstre"],
+                    //"nom_type_monstre" => $t["nom_type_monstre"],
+                );
+            }
 
-	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban", "box_metier"));
-	}
+            $nTypeMonstre = Bral_Util_De::get_de_specifique(0, count($typesMonstre) - 1);
+            $idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
 
-	private function calculCoutCastars() {
-		return 100;
-	}
+            $effetMotFTable = new EffetMotF();
+            $data = array("id_fk_braldun_effet_mot_f" => $this->view->user->id_braldun,
+                "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);
+            $effetMotDTable->insert($data);
+        }
+    }
+
+    function getListBoxRefresh()
+    {
+        return $this->constructListBoxRefresh(array("box_laban", "box_metier"));
+    }
+
+    private function calculCoutCastars()
+    {
+        return 100;
+    }
 }

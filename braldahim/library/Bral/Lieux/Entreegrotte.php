@@ -5,21 +5,26 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Lieux_Entreegrotte extends Bral_Lieux_Lieu {
+class Bral_Lieux_Entreegrotte extends Bral_Lieux_Lieu
+{
 
-	function prepareCommun() {
-		Zend_Loader::loadClass("Lieu");
-	}
+    function prepareCommun()
+    {
+        Zend_Loader::loadClass("Lieu");
+    }
 
-	function prepareFormulaire() {
-	}
+    function prepareFormulaire()
+    {
+    }
 
-	function prepareResultat() {
-		$this->view->user->z_braldun = $this->view->user->z_braldun - 1;
-		$this->majBraldun();
-	}
+    function prepareResultat()
+    {
+        $this->view->user->z_braldun = $this->view->user->z_braldun - 1;
+        $this->majBraldun();
+    }
 
-	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
-	}
+    function getListBoxRefresh()
+    {
+        return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
+    }
 }

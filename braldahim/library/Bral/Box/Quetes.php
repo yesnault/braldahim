@@ -5,37 +5,44 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Box_Quetes extends Bral_Box_Box {
+class Bral_Box_Quetes extends Bral_Box_Box
+{
 
-	public function getTitreOnglet() {
-		return "Qu&ecirc;tes / Contrats";
-	}
+    public function getTitreOnglet()
+    {
+        return "Qu&ecirc;tes / Contrats";
+    }
 
-	function getNomInterne() {
-		return "box_quetes";
-	}
+    function getNomInterne()
+    {
+        return "box_quetes";
+    }
 
-	function getChargementInBoxes() {
-		return false;
-	}
+    function getChargementInBoxes()
+    {
+        return false;
+    }
 
-	function setDisplay($display) {
-		$this->view->display = $display;
-	}
+    function setDisplay($display)
+    {
+        $this->view->display = $display;
+    }
 
-	function render() {
-		if ($this->view->affichageInterne) {
-			$this->view->nom_interne = $this->getNomInterne();
-			$this->data();
-		}
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/quetes.phtml");
-	}
+    function render()
+    {
+        if ($this->view->affichageInterne) {
+            $this->view->nom_interne = $this->getNomInterne();
+            $this->data();
+        }
+        $this->view->nom_interne = $this->getNomInterne();
+        return $this->view->render("interface/quetes.phtml");
+    }
 
-	protected function data() {
-		Zend_Loader :: loadClass("Bral_Quetes_Factory");
-		$box = Bral_Quetes_Factory::getListe($this->_request, $this->view);
-		$this->view->htmlContenu = $box->render();
-	}
+    protected function data()
+    {
+        Zend_Loader :: loadClass("Bral_Quetes_Factory");
+        $box = Bral_Quetes_Factory::getListe($this->_request, $this->view);
+        $this->view->htmlContenu = $box->render();
+    }
 
 }

@@ -5,32 +5,38 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Box_Hotel extends Bral_Box_Box {
+class Bral_Box_Hotel extends Bral_Box_Box
+{
 
-	function getTitreOnglet() {
-		return "H&ocirc;tel";
-	}
+    function getTitreOnglet()
+    {
+        return "H&ocirc;tel";
+    }
 
-	function getNomInterne() {
-		return "box_lieu";
-	}
+    function getNomInterne()
+    {
+        return "box_lieu";
+    }
 
-	function setDisplay($display) {
-		$this->view->display = $display;
-	}
+    function setDisplay($display)
+    {
+        $this->view->display = $display;
+    }
 
-	function render() {
-		if ($this->view->affichageInterne) {
-			$this->data();
-		}
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/hotel.phtml");
-	}
+    function render()
+    {
+        if ($this->view->affichageInterne) {
+            $this->data();
+        }
+        $this->view->nom_interne = $this->getNomInterne();
+        return $this->view->render("interface/hotel.phtml");
+    }
 
-	private function data() {
-		Zend_Loader::loadClass("Bral_Hotel_Hotel");
-		Zend_Loader::loadClass("Bral_Hotel_Voir");
-		$box = new Bral_Hotel_Voir("voir", $this->_request, $this->view, "ask");
-		$this->view->htmlContenu = $box->render();
-	}
+    private function data()
+    {
+        Zend_Loader::loadClass("Bral_Hotel_Hotel");
+        Zend_Loader::loadClass("Bral_Hotel_Voir");
+        $box = new Bral_Hotel_Voir("voir", $this->_request, $this->view, "ask");
+        $this->view->htmlContenu = $box->render();
+    }
 }

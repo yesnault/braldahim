@@ -5,30 +5,36 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-abstract class Bral_Box_Box {
+abstract class Bral_Box_Box
+{
 
-	protected $loadWithBoxes = true;
-	protected $tablesHtmlTri = false;
+    protected $loadWithBoxes = true;
+    protected $tablesHtmlTri = false;
 
-	function __construct($request, $view, $interne) {
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		$this->loadWithBoxes = $interne;
-		$this->tablesHtmlTri = false;
-	}
+    function __construct($request, $view, $interne)
+    {
+        $this->_request = $request;
+        $this->view = $view;
+        $this->view->affichageInterne = $interne;
+        $this->loadWithBoxes = $interne;
+        $this->tablesHtmlTri = false;
+    }
 
-	abstract function getTitreOnglet();
-	abstract function setDisplay($display) ;
-	abstract function getNomInterne();
+    abstract function getTitreOnglet();
 
-	function getChargementInBoxes() {
-		return false;
-	}
+    abstract function setDisplay($display);
 
-	public function getTablesHtmlTri() {
-		return $this->tablesHtmlTri;
-	}
+    abstract function getNomInterne();
 
-	abstract function render() ;
+    function getChargementInBoxes()
+    {
+        return false;
+    }
+
+    public function getTablesHtmlTri()
+    {
+        return $this->tablesHtmlTri;
+    }
+
+    abstract function render();
 }

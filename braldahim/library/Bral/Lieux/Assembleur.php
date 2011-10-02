@@ -5,299 +5,313 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
+class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu
+{
 
-	private $_utilisationPossible = false;
+    private $_utilisationPossible = false;
 
-	function prepareCommun() {
+    function prepareCommun()
+    {
 
-		Zend_Loader::loadClass("Bral_Util_Charrette");
-		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
-		
-		$this->view->coutCastars = $this->calculCoutCastars();
-		$this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->view->coutCastars >= 0);
-		if ($this->view->achatPossibleCastars == false) {
-			return;
-		}
+        Zend_Loader::loadClass("Bral_Util_Charrette");
+        Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
 
-		$idMaterielCourant = $this->request->get("id_materiel_courant");
+        $this->view->coutCastars = $this->calculCoutCastars();
+        $this->view->achatPossibleCastars = ($this->view->user->castars_braldun - $this->view->coutCastars >= 0);
+        if ($this->view->achatPossibleCastars == false) {
+            return;
+        }
 
-		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("TypeMaterielAssemble");
-		Zend_Loader::loadClass("LabanMateriel");
-		Zend_Loader::loadClass("CharretteMateriel");
-		Zend_Loader::loadClass("CharretteMaterielAssemble");
+        $idMaterielCourant = $this->request->get("id_materiel_courant");
 
-		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
+        Zend_Loader::loadClass("Charrette");
+        Zend_Loader::loadClass("TypeMaterielAssemble");
+        Zend_Loader::loadClass("LabanMateriel");
+        Zend_Loader::loadClass("CharretteMateriel");
+        Zend_Loader::loadClass("CharretteMaterielAssemble");
 
-		$tabMaterielsBase = null;
-		$materielCourant = null;
+        $charretteTable = new Charrette();
+        $charrettes = $charretteTable->findByIdBraldun($this->view->user->id_braldun);
 
-		if (count($charrettes) == 1) {
-			$charrette = $charrettes[0];
-			$selected = "";
-			if ($idMaterielCourant ==  $charrette["id_charrette"]) {
-				$selected = "selected";
-			}
-			$m = array(
-				"type" => 'charrette', 
-				"id_materiel" => $charrette["id_charrette"], 
-				"nom_type_materiel" => $charrette["nom_type_materiel"],
-				"id_type_materiel" => $charrette["id_type_materiel"],
-				"selected" => $selected,
-				"origine" => "",
-			);
+        $tabMaterielsBase = null;
+        $materielCourant = null;
 
-			$tabMaterielsBase[] = $m;
+        if (count($charrettes) == 1) {
+            $charrette = $charrettes[0];
+            $selected = "";
+            if ($idMaterielCourant == $charrette["id_charrette"]) {
+                $selected = "selected";
+            }
+            $m = array(
+                "type" => 'charrette',
+                "id_materiel" => $charrette["id_charrette"],
+                "nom_type_materiel" => $charrette["nom_type_materiel"],
+                "id_type_materiel" => $charrette["id_type_materiel"],
+                "selected" => $selected,
+                "origine" => "",
+            );
 
-			if ($idMaterielCourant ==  $charrette["id_charrette"]) {
-				$materielCourant = $m;
-			}
-		} else if (count($charrettes) > 1) {
-			throw new Zend_Exception(get_class($this)." Nb Charrettes invalide:".count($charrettes). " idh=".$this->view->user->id_braldun);
-		}
+            $tabMaterielsBase[] = $m;
 
-		$this->prepareMaterielBase("laban", $materielCourant, $tabMaterielsBase);
-		$this->prepareMaterielBase("charrette", $materielCourant, $tabMaterielsBase);
+            if ($idMaterielCourant == $charrette["id_charrette"]) {
+                $materielCourant = $m;
+            }
+        } else if (count($charrettes) > 1) {
+            throw new Zend_Exception(get_class($this) . " Nb Charrettes invalide:" . count($charrettes) . " idh=" . $this->view->user->id_braldun);
+        }
 
-		$tabMaterielsAAssembler = null;
+        $this->prepareMaterielBase("laban", $materielCourant, $tabMaterielsBase);
+        $this->prepareMaterielBase("charrette", $materielCourant, $tabMaterielsBase);
 
-		if ($materielCourant != null) {
-			$this->prepareMaterielsAAssembler("laban", $materielCourant, $tabMaterielsAAssembler);
-			$this->prepareMaterielsAAssembler("charrette", $materielCourant, $tabMaterielsAAssembler);
-		}
-		
-		$this->view->materielCourant = $materielCourant;
-		$this->view->materielsBase = $tabMaterielsBase;
-		$this->view->materielsAAssembler = $tabMaterielsAAssembler;
-	}
+        $tabMaterielsAAssembler = null;
 
-	private function prepareMaterielBase($type, &$materielCourant, &$tabMaterielsBase) {
-		if ($type == "laban") {
-			$table = new LabanMateriel();
-			$suffixe = "laban";
-			$origine = "le laban";
-			$materielsBase = $table->findByIdBraldun($this->view->user->id_braldun);
-		} elseif ($type == "charrette") {
-			$table = new CharretteMateriel();
-			$suffixe = "charrette";
-			$origine = "la charrette";
-			$materielsBase = $table->findByIdCharrette($materielCourant["id_materiel"]);
-		}
+        if ($materielCourant != null) {
+            $this->prepareMaterielsAAssembler("laban", $materielCourant, $tabMaterielsAAssembler);
+            $this->prepareMaterielsAAssembler("charrette", $materielCourant, $tabMaterielsAAssembler);
+        }
 
-		if (count($materielsBase) > 0) {
-			$typeMaterielAssembleTable = new TypeMaterielAssemble();
+        $this->view->materielCourant = $materielCourant;
+        $this->view->materielsBase = $tabMaterielsBase;
+        $this->view->materielsAAssembler = $tabMaterielsAAssembler;
+    }
 
-			$listIdType = null;
-			foreach($materielsBase as $l) {
-				$listIdType[] = $l["id_".$suffixe."_materiel"];
-			}
+    private function prepareMaterielBase($type, &$materielCourant, &$tabMaterielsBase)
+    {
+        if ($type == "laban") {
+            $table = new LabanMateriel();
+            $suffixe = "laban";
+            $origine = "le laban";
+            $materielsBase = $table->findByIdBraldun($this->view->user->id_braldun);
+        } elseif ($type == "charrette") {
+            $table = new CharretteMateriel();
+            $suffixe = "charrette";
+            $origine = "la charrette";
+            $materielsBase = $table->findByIdCharrette($materielCourant["id_materiel"]);
+        }
 
-			$listeTypesBase = $typeMaterielAssembleTable->findByIdListTypeBase($listIdType);
+        if (count($materielsBase) > 0) {
+            $typeMaterielAssembleTable = new TypeMaterielAssemble();
 
-			foreach($materielsBase as $l) {
-				foreach($listeTypesBase as $t) {
-					if ($l["id_type_materiel"] == $t["id_base_type_materiel_assemble"]) { // si c'est un matériel de base
-						$selected = "";
-						if ($idMaterielCourant ==  $l["id_".$suffixe."_materiel"]) {
-							$selected = "selected";
-						}
-						$m = array(
-							"type" => $suffixe, 
-							"id_materiel" => $l["id_".$suffixe."_materiel"], 
-							"nom_type_materiel" => $l["nom_type_materiel"],
-							"id_type_materiel" => $l["id_type_materiel"],
-							"selected" => $selected,
-							"origine" => $origine,
-						);
+            $listIdType = null;
+            foreach ($materielsBase as $l) {
+                $listIdType[] = $l["id_" . $suffixe . "_materiel"];
+            }
 
-						$tabMaterielsBase[] = $m;
+            $listeTypesBase = $typeMaterielAssembleTable->findByIdListTypeBase($listIdType);
 
-						if ($idMaterielCourant ==  $l["id_".$suffixe."_materiel"]) {
-							$materielCourant = $m;
-						}
-					}
-				}
-			}
-		}
-	}
+            foreach ($materielsBase as $l) {
+                foreach ($listeTypesBase as $t) {
+                    if ($l["id_type_materiel"] == $t["id_base_type_materiel_assemble"]) { // si c'est un matériel de base
+                        $selected = "";
+                        if ($idMaterielCourant == $l["id_" . $suffixe . "_materiel"]) {
+                            $selected = "selected";
+                        }
+                        $m = array(
+                            "type" => $suffixe,
+                            "id_materiel" => $l["id_" . $suffixe . "_materiel"],
+                            "nom_type_materiel" => $l["nom_type_materiel"],
+                            "id_type_materiel" => $l["id_type_materiel"],
+                            "selected" => $selected,
+                            "origine" => $origine,
+                        );
 
-	private function prepareMaterielsAAssembler($type, $materielCourant, &$tabMaterielsAAssembler) {
+                        $tabMaterielsBase[] = $m;
 
-		if ($type == "laban") {
-			$table = new LabanMateriel();
-			$suffixe = "laban";
-			$origine = "le laban";
-			$materiels = $table->findByIdBraldun($this->view->user->id_braldun);
-		} elseif ($type == "charrette") {
-			$table = new CharretteMateriel();
-			$suffixe = "charrette";
-			$origine = "la charrette";
-			$materiels = $table->findByIdCharrette($materielCourant["id_materiel"]);
-		}
+                        if ($idMaterielCourant == $l["id_" . $suffixe . "_materiel"]) {
+                            $materielCourant = $m;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-		$materielsAssembles = null;
-		if ($materielCourant["type"] == "charrette") {
-			$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
-			$materielsDejaAssembles = $charretteMaterielAssembleTable->findByIdCharrette($materielCourant["id_materiel"]);
-		}
+    private function prepareMaterielsAAssembler($type, $materielCourant, &$tabMaterielsAAssembler)
+    {
+
+        if ($type == "laban") {
+            $table = new LabanMateriel();
+            $suffixe = "laban";
+            $origine = "le laban";
+            $materiels = $table->findByIdBraldun($this->view->user->id_braldun);
+        } elseif ($type == "charrette") {
+            $table = new CharretteMateriel();
+            $suffixe = "charrette";
+            $origine = "la charrette";
+            $materiels = $table->findByIdCharrette($materielCourant["id_materiel"]);
+        }
+
+        $materielsAssembles = null;
+        if ($materielCourant["type"] == "charrette") {
+            $charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+            $materielsDejaAssembles = $charretteMaterielAssembleTable->findByIdCharrette($materielCourant["id_materiel"]);
+        }
 
 
-		$typeMaterielAssembleTable = new TypeMaterielAssemble();
-		$typesBase = $typeMaterielAssembleTable->findByIdTypeBase($materielCourant["id_type_materiel"]);
+        $typeMaterielAssembleTable = new TypeMaterielAssemble();
+        $typesBase = $typeMaterielAssembleTable->findByIdTypeBase($materielCourant["id_type_materiel"]);
 
-		foreach($materiels as $m) {
-			foreach($typesBase as $t) {
-				// on verifie que le materiel peut être assemblé avec le matériel de base choisi
-				if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_materiel"] &&
-				$this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_materiel"]) == false) {
+        foreach ($materiels as $m) {
+            foreach ($typesBase as $t) {
+                // on verifie que le materiel peut être assemblé avec le matériel de base choisi
+                if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_materiel"] &&
+                        $this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_materiel"]) == false
+                ) {
 
-					$tabMaterielsAAssembler[] = array(
-							"type" => $suffixe,
-							"id_materiel" => $m["id_".$suffixe."_materiel"], 
-							"nom_type_materiel" => $m["nom_type_materiel"],
-							"id_type_materiel" => $m["id_type_materiel"],
-							"selected" => "",
-							"origine" => $origine,
-					);
-					break;
-				}
-			}
-		}
-	}
+                    $tabMaterielsAAssembler[] = array(
+                        "type" => $suffixe,
+                        "id_materiel" => $m["id_" . $suffixe . "_materiel"],
+                        "nom_type_materiel" => $m["nom_type_materiel"],
+                        "id_type_materiel" => $m["id_type_materiel"],
+                        "selected" => "",
+                        "origine" => $origine,
+                    );
+                    break;
+                }
+            }
+        }
+    }
 
-	private function estDejaAssembleSurCharrette($materielsDejaAssembles, $idTypeMateriel) {
-		$retour = false;
-		foreach($materielsDejaAssembles as $m) {
-			if ($m["id_fk_type_materiel"] == $idTypeMateriel) {
-				$retour = true;
-				break;
-			}
-		}
-		return $retour;
-	}
+    private function estDejaAssembleSurCharrette($materielsDejaAssembles, $idTypeMateriel)
+    {
+        $retour = false;
+        foreach ($materielsDejaAssembles as $m) {
+            if ($m["id_fk_type_materiel"] == $idTypeMateriel) {
+                $retour = true;
+                break;
+            }
+        }
+        return $retour;
+    }
 
-	function prepareFormulaire() {
-	}
+    function prepareFormulaire()
+    {
+    }
 
-	function prepareResultat() {
-		// verification que la valeur recue est bien numerique
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
-		} else {
-			$idMaterielBase = (int)$this->request->get("valeur_1");
-		}
+    function prepareResultat()
+    {
+        // verification que la valeur recue est bien numerique
+        if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+            throw new Zend_Exception(get_class($this) . " Valeur invalide : val=" . $this->request->get("valeur_1"));
+        } else {
+            $idMaterielBase = (int)$this->request->get("valeur_1");
+        }
 
-		if ($idMaterielBase == -1) {
-			throw new Zend_Exception(get_class($this)." Id Matériel base invalide:-1");
-		}
+        if ($idMaterielBase == -1) {
+            throw new Zend_Exception(get_class($this) . " Id Matériel base invalide:-1");
+        }
 
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_2"));
-		} else {
-			$idMaterielAAssembler = (int)$this->request->get("valeur_2");
-		}
+        if (((int)$this->request->get("valeur_2") . "" != $this->request->get("valeur_2") . "")) {
+            throw new Zend_Exception(get_class($this) . " Valeur invalide : val=" . $this->request->get("valeur_2"));
+        } else {
+            $idMaterielAAssembler = (int)$this->request->get("valeur_2");
+        }
 
-		if ($idMaterielAAssembler == -1) {
-			throw new Zend_Exception(get_class($this)." Id Matériel A Assembler invalide:-1");
-		}
+        if ($idMaterielAAssembler == -1) {
+            throw new Zend_Exception(get_class($this) . " Id Matériel A Assembler invalide:-1");
+        }
 
-		// verification qu'il a assez de PA
-		if ($this->view->utilisationPaPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_braldun);
-		}
+        // verification qu'il a assez de PA
+        if ($this->view->utilisationPaPossible == false) {
+            throw new Zend_Exception(get_class($this) . " Utilisation impossible : PA:" . $this->view->user->pa_braldun);
+        }
 
-		// verification qu'il y a assez de castars
-		if ($this->view->achatPossibleCastars == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_braldun." cout:".$this->view->coutCastars);
-		}
+        // verification qu'il y a assez de castars
+        if ($this->view->achatPossibleCastars == false) {
+            throw new Zend_Exception(get_class($this) . " Achat impossible : castars:" . $this->view->user->castars_braldun . " cout:" . $this->view->coutCastars);
+        }
 
-		$trouve = false;
-		$materielBase = null;
-		foreach($this->view->materielsBase as $m) {
-			if ($m["id_materiel"] == $idMaterielBase) {
-				$trouve = true;
-				$materielBase = $m;
-				break;
-			}
-		}
-		if ($trouve == false) {
-			throw new Zend_Exception(get_class($this)." Materiel base invalide");
-		}
+        $trouve = false;
+        $materielBase = null;
+        foreach ($this->view->materielsBase as $m) {
+            if ($m["id_materiel"] == $idMaterielBase) {
+                $trouve = true;
+                $materielBase = $m;
+                break;
+            }
+        }
+        if ($trouve == false) {
+            throw new Zend_Exception(get_class($this) . " Materiel base invalide");
+        }
 
-		$trouve = false;
-		$materielAAssembler = null;
-		foreach($this->view->materielsAAssembler as $m) {
-			if ($m["id_materiel"] == $idMaterielAAssembler) {
-				$trouve = true;
-				$materielAAssembler = $m;
-				break;
-			}
-		}
-		if ($trouve == false) {
-			throw new Zend_Exception(get_class($this)." Materiel a assembler invalide");
-		}
+        $trouve = false;
+        $materielAAssembler = null;
+        foreach ($this->view->materielsAAssembler as $m) {
+            if ($m["id_materiel"] == $idMaterielAAssembler) {
+                $trouve = true;
+                $materielAAssembler = $m;
+                break;
+            }
+        }
+        if ($trouve == false) {
+            throw new Zend_Exception(get_class($this) . " Materiel a assembler invalide");
+        }
 
-		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
+        $this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->view->coutCastars;
 
-		$this->assembler($materielBase, $materielAAssembler);
-		$this->majBraldun();
-	}
+        $this->assembler($materielBase, $materielAAssembler);
+        $this->majBraldun();
+    }
 
-	private function assembler($materielBase, $materielAAssembler) {
+    private function assembler($materielBase, $materielAAssembler)
+    {
 
-		if ($materielBase["type"] == "charrette") {
-			$this->assemblerSurCharrette($materielBase, $materielAAssembler);
-		} else {
-			$this->assemblerSurMateriel($materielBase, $materielAAssembler);
-		}
+        if ($materielBase["type"] == "charrette") {
+            $this->assemblerSurCharrette($materielBase, $materielAAssembler);
+        } else {
+            $this->assemblerSurMateriel($materielBase, $materielAAssembler);
+        }
 
-		$this->view->materielBase = $materielBase;
-		$this->view->materielAAssembler = $materielAAssembler;
-		
-		$details = "[b".$this->view->user->id_braldun."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
-		Zend_Loader::loadClass("Bral_Util_Materiel");
-		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $materielAAssembler["id_materiel"], $details);
-	}
+        $this->view->materielBase = $materielBase;
+        $this->view->materielAAssembler = $materielAAssembler;
 
-	private function assemblerSurCharrette($materielBase, $materielAAssembler) {
-		Zend_Loader::loadClass("CharretteMaterielAssemble");
+        $details = "[b" . $this->view->user->id_braldun . "] a assemblé le matériel n°" . $materielAAssembler["id_materiel"];
+        Zend_Loader::loadClass("Bral_Util_Materiel");
+        Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $materielAAssembler["id_materiel"], $details);
+    }
 
-		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+    private function assemblerSurCharrette($materielBase, $materielAAssembler)
+    {
+        Zend_Loader::loadClass("CharretteMaterielAssemble");
 
-		$data = array(
-			"id_charrette_materiel_assemble" => $materielBase["id_materiel"],
-			"id_materiel_materiel_assemble" => $materielAAssembler["id_materiel"],
-		);
-		$charretteMaterielAssembleTable->insert($data);
-		$this->supprimeMaterielAAsembler($materielAAssembler);
+        $charretteMaterielAssembleTable = new CharretteMaterielAssemble();
 
-		Zend_Loader::loadClass("Bral_Util_Charrette");
-		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
-	}
+        $data = array(
+            "id_charrette_materiel_assemble" => $materielBase["id_materiel"],
+            "id_materiel_materiel_assemble" => $materielAAssembler["id_materiel"],
+        );
+        $charretteMaterielAssembleTable->insert($data);
+        $this->supprimeMaterielAAsembler($materielAAssembler);
 
-	private function supprimeMaterielAAsembler($materielAAssembler) {
-		if ($materielAAssembler["type"] == "laban") {
-			$table = new LabanMateriel();
-			$suffixe = "laban";
-		} elseif ($materielAAssembler["type"] == "charrette") {
-			$table = new CharretteMateriel();
-			$suffixe = "charrette";
-		}
-		$where = "id_".$suffixe."_materiel = ".$materielAAssembler["id_materiel"];
-		$table->delete($where);
-	}
+        Zend_Loader::loadClass("Bral_Util_Charrette");
+        Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
+    }
 
-	private function assemblerSurMateriel($materielBase, $materielAAssembler) {
-		throw new Zend_Exception(get_class($this)." assemblerSurMateriel non implémenté");
-	}
+    private function supprimeMaterielAAsembler($materielAAssembler)
+    {
+        if ($materielAAssembler["type"] == "laban") {
+            $table = new LabanMateriel();
+            $suffixe = "laban";
+        } elseif ($materielAAssembler["type"] == "charrette") {
+            $table = new CharretteMateriel();
+            $suffixe = "charrette";
+        }
+        $where = "id_" . $suffixe . "_materiel = " . $materielAAssembler["id_materiel"];
+        $table->delete($where);
+    }
 
-	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban", "box_charrette"));
-	}
+    private function assemblerSurMateriel($materielBase, $materielAAssembler)
+    {
+        throw new Zend_Exception(get_class($this) . " assemblerSurMateriel non implémenté");
+    }
 
-	private function calculCoutCastars() {
-		return 10;
-	}
+    function getListBoxRefresh()
+    {
+        return $this->constructListBoxRefresh(array("box_laban", "box_charrette"));
+    }
+
+    private function calculCoutCastars()
+    {
+        return 10;
+    }
 }

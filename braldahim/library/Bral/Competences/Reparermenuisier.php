@@ -15,223 +15,233 @@
  Da/Dm 51-75%	Ratio/15
  Da/Dm >75%	Ratio/20
  */
-class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
+class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence
+{
 
-	function prepareCommun() {
-		Zend_Loader::loadClass("Echoppe");
+    function prepareCommun()
+    {
+        Zend_Loader::loadClass("Echoppe");
 
-		// On regarde si le Braldûn est dans une de ses echopppes
-		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+        // On regarde si le Braldûn est dans une de ses echopppes
+        $echoppeTable = new Echoppe();
+        $echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 
-		$this->view->reparermenuisierEchoppeOk = false;
-		if ($echoppes == null || count($echoppes) == 0) {
-			$this->view->reparermenuisierEchoppeOk = false;
-			return;
-		}
+        $this->view->reparermenuisierEchoppeOk = false;
+        if ($echoppes == null || count($echoppes) == 0) {
+            $this->view->reparermenuisierEchoppeOk = false;
+            return;
+        }
 
-		$idEchoppe = -1;
-		$metier = substr($this->nom_systeme, 7, strlen($this->nom_systeme) - 7);
-		foreach ($echoppes as $e) {
-			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-				$e["nom_systeme_metier"] == $metier &&
-				$e["x_echoppe"] == $this->view->user->x_braldun &&
-				$e["y_echoppe"] == $this->view->user->y_braldun &&
-				$e["z_echoppe"] == $this->view->user->z_braldun
-			) {
-				$this->view->reparermenuisierEchoppeOk = true;
-				$idEchoppe = $e["id_echoppe"];
+        $idEchoppe = -1;
+        $metier = substr($this->nom_systeme, 7, strlen($this->nom_systeme) - 7);
+        foreach ($echoppes as $e) {
+            if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
+                    $e["nom_systeme_metier"] == $metier &&
+                    $e["x_echoppe"] == $this->view->user->x_braldun &&
+                    $e["y_echoppe"] == $this->view->user->y_braldun &&
+                    $e["z_echoppe"] == $this->view->user->z_braldun
+            ) {
+                $this->view->reparermenuisierEchoppeOk = true;
+                $idEchoppe = $e["id_echoppe"];
 
-				$echoppeCourante = array(
-					'id_echoppe' => $e["id_echoppe"],
-					'x_echoppe' => $e["x_echoppe"],
-					'y_echoppe' => $e["y_echoppe"],
-					'z_echoppe' => $e["z_echoppe"],
-					'id_metier' => $e["id_metier"],
-					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
-				);
-				break;
-			}
+                $echoppeCourante = array(
+                    'id_echoppe' => $e["id_echoppe"],
+                    'x_echoppe' => $e["x_echoppe"],
+                    'y_echoppe' => $e["y_echoppe"],
+                    'z_echoppe' => $e["z_echoppe"],
+                    'id_metier' => $e["id_metier"],
+                    'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+                );
+                break;
+            }
 
-		}
-		if ($this->view->reparermenuisierEchoppeOk == false) {
-			return;
-		}
+        }
+        if ($this->view->reparermenuisierEchoppeOk == false) {
+            return;
+        }
 
-		$this->echoppeCourante = $echoppeCourante;
+        $this->echoppeCourante = $echoppeCourante;
 
-		$tabCharrettes = $this->prepareCharrettes();
+        $tabCharrettes = $this->prepareCharrettes();
 
-		$this->view->charrettes = $tabCharrettes;
-		$this->idEchoppe = $idEchoppe;
+        $this->view->charrettes = $tabCharrettes;
+        $this->idEchoppe = $idEchoppe;
 
-		$this->view->nom_systeme = $this->nom_systeme;
-	}
+        $this->view->nom_systeme = $this->nom_systeme;
+    }
 
-	// Récupération des charrettes portées par les Braldûns, sur la cases de l'échoppe.
-	private function prepareCharrettes() {
-		$tabCharrettes = null;
+    // Récupération des charrettes portées par les Braldûns, sur la cases de l'échoppe.
+    private function prepareCharrettes()
+    {
+        $tabCharrettes = null;
 
-		Zend_Loader::loadClass("Charrette");
-		$charretteTable = new Charrette();
-		$charrettesRowset = $charretteTable->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-		$this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
+        Zend_Loader::loadClass("Charrette");
+        $charretteTable = new Charrette();
+        $charrettesRowset = $charretteTable->findByPositionAvecBraldun($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+        $this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
 
-		$charrettesRowset = $charretteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
-		$this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
-		return $tabCharrettes;
-	}
+        $charrettesRowset = $charretteTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
+        $this->ajouteCharrettes($tabCharrettes, $charrettesRowset);
+        return $tabCharrettes;
+    }
 
-	private function ajouteCharrettes(&$tabCharrettes, $charrettesRowset) {
-		if ($charrettesRowset == null || count($charrettesRowset) == 0) {
-			return;
-		}
-		foreach ($charrettesRowset as $c) {
-			$cout = $this->calculCoutPlanche($c);
+    private function ajouteCharrettes(&$tabCharrettes, $charrettesRowset)
+    {
+        if ($charrettesRowset == null || count($charrettesRowset) == 0) {
+            return;
+        }
+        foreach ($charrettesRowset as $c) {
+            $cout = $this->calculCoutPlanche($c);
 
-			$possiblePlanche = false;
-			if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] >= $cout) {
-				$possiblePlanche = true;
-			}
+            $possiblePlanche = false;
+            if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] >= $cout) {
+                $possiblePlanche = true;
+            }
 
-			$possibleCout = false;
-			if ($cout > 0) {
-				$possibleCout = true;
-			}
+            $possibleCout = false;
+            if ($cout > 0) {
+                $possibleCout = true;
+            }
 
-			$possible = false;
-			if ($possibleCout == true && $possiblePlanche == true) {
-				$possible = true;
-			}
+            $possible = false;
+            if ($possibleCout == true && $possiblePlanche == true) {
+                $possible = true;
+            }
 
-			$tabCharrettes[$c["id_charrette"]] = array(
-				"id_charrette" => $c["id_charrette"],
-				"nom_type_materiel" => $c["nom_type_materiel"],
-				"durabilite_max_charrette" => $c["durabilite_max_charrette"],
-				"durabilite_actuelle_charrette" => $c["durabilite_actuelle_charrette"],
-				"poids_transportable_charrette" => $c["poids_transportable_charrette"],
-				"cout_reparation_planche" => $cout,
-				"possible_planche" => $possiblePlanche,
-				"possible_cout" => $possibleCout,
-				"possible" => $possible,
-			);
+            $tabCharrettes[$c["id_charrette"]] = array(
+                "id_charrette" => $c["id_charrette"],
+                "nom_type_materiel" => $c["nom_type_materiel"],
+                "durabilite_max_charrette" => $c["durabilite_max_charrette"],
+                "durabilite_actuelle_charrette" => $c["durabilite_actuelle_charrette"],
+                "poids_transportable_charrette" => $c["poids_transportable_charrette"],
+                "cout_reparation_planche" => $cout,
+                "possible_planche" => $possiblePlanche,
+                "possible_cout" => $possibleCout,
+                "possible" => $possible,
+            );
 
-			if (array_key_exists("nom_braldun", $c)) {
-				$tabCharrettes[$c["id_charrette"]]["id_braldun"] = $c["id_braldun"];
-				$tabCharrettes[$c["id_charrette"]]["nom_braldun"] = $c["nom_braldun"];
-				$tabCharrettes[$c["id_charrette"]]["prenom_braldun"] = $c["prenom_braldun"];
-			}
-		}
-	}
+            if (array_key_exists("nom_braldun", $c)) {
+                $tabCharrettes[$c["id_charrette"]]["id_braldun"] = $c["id_braldun"];
+                $tabCharrettes[$c["id_charrette"]]["nom_braldun"] = $c["nom_braldun"];
+                $tabCharrettes[$c["id_charrette"]]["prenom_braldun"] = $c["prenom_braldun"];
+            }
+        }
+    }
 
-	private function calculCoutPlanche($charrette) {
+    private function calculCoutPlanche($charrette)
+    {
 
-		Zend_Loader::loadClass("CharretteMaterielAssemble");
-		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
-		$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
+        Zend_Loader::loadClass("CharretteMaterielAssemble");
+        $charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+        $materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 
-		$usureJournaliere = $charrette["usure_type_materiel"];
+        $usureJournaliere = $charrette["usure_type_materiel"];
 
-		if ($materielsAssembles != null && count($materielsAssembles) > 0) {
-			foreach ($materielsAssembles as $m) {
-				$usureJournaliere = $usureJournaliere - $m["usure_type_materiel"];
-			}
-		}
+        if ($materielsAssembles != null && count($materielsAssembles) > 0) {
+            foreach ($materielsAssembles as $m) {
+                $usureJournaliere = $usureJournaliere - $m["usure_type_materiel"];
+            }
+        }
 
-		$ratio = ($charrette["durabilite_max_charrette"] / 100) + $usureJournaliere + $charrette["poids_transportable_charrette"];
+        $ratio = ($charrette["durabilite_max_charrette"] / 100) + $usureJournaliere + $charrette["poids_transportable_charrette"];
 
-		$coef = ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
-		$retour = 0;
-		if ($coef >= 100) {
-			$retour = 0;
-		} else if ($coef <= 25) {
-			$retour = round($ratio / 5);
-		} else if ($coef <= 50) {
-			$retour = round($ratio / 10);
-		} else if ($coef <= 75) {
-			$retour = round($ratio / 15);
-		} else {
-			$retour = round($ratio / 20);
-		}
-		return $retour;
-	}
+        $coef = ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
+        $retour = 0;
+        if ($coef >= 100) {
+            $retour = 0;
+        } else if ($coef <= 25) {
+            $retour = round($ratio / 5);
+        } else if ($coef <= 50) {
+            $retour = round($ratio / 10);
+        } else if ($coef <= 75) {
+            $retour = round($ratio / 15);
+        } else {
+            $retour = round($ratio / 20);
+        }
+        return $retour;
+    }
 
-	function prepareFormulaire() {
-		if ($this->view->assezDePa == false) {
-			return;
-		}
-	}
+    function prepareFormulaire()
+    {
+        if ($this->view->assezDePa == false) {
+            return;
+        }
+    }
 
-	function prepareResultat() {
-		// Verification des Pa
-		if ($this->view->assezDePa == false) {
-			throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
-		}
+    function prepareResultat()
+    {
+        // Verification des Pa
+        if ($this->view->assezDePa == false) {
+            throw new Zend_Exception(get_class($this) . " Pas assez de PA : " . $this->view->user->pa_braldun);
+        }
 
-		// Verification reparer
-		if ($this->view->reparermenuisierEchoppeOk == false) {
-			throw new Zend_Exception(get_class($this) . " Reparer Echoppe interdit ");
-		}
+        // Verification reparer
+        if ($this->view->reparermenuisierEchoppeOk == false) {
+            throw new Zend_Exception(get_class($this) . " Reparer Echoppe interdit ");
+        }
 
-		if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
-			throw new Zend_Exception(get_class($this) . " Charrette invalide : " . $this->request->get("valeur_1"));
-		} else {
-			$idCharrette = (int)$this->request->get("valeur_1");
-		}
+        if (((int)$this->request->get("valeur_1") . "" != $this->request->get("valeur_1") . "")) {
+            throw new Zend_Exception(get_class($this) . " Charrette invalide : " . $this->request->get("valeur_1"));
+        } else {
+            $idCharrette = (int)$this->request->get("valeur_1");
+        }
 
-		$charrette = null;
-		foreach ($this->view->charrettes as $c) {
-			if ($c["id_charrette"] == $idCharrette) {
-				if ($c["possible"] == true) {
-					$charrette = $c;
-				}
-				break;
-			}
-		}
+        $charrette = null;
+        foreach ($this->view->charrettes as $c) {
+            if ($c["id_charrette"] == $idCharrette) {
+                if ($c["possible"] == true) {
+                    $charrette = $c;
+                }
+                break;
+            }
+        }
 
-		if ($charrette == null) {
-			throw new Zend_Exception(get_class($this) . " idCharrette interdit A=" . $idCharrette . " idh=" . $this->view->user->id_braldun);
-		}
+        if ($charrette == null) {
+            throw new Zend_Exception(get_class($this) . " idCharrette interdit A=" . $idCharrette . " idh=" . $this->view->user->id_braldun);
+        }
 
-		$this->calculJets();
-		if ($this->view->okJet1 === true) {
-			$this->calculReparer($charrette);
-			$id_type = $this->view->config->game->evenements->type->competence;
-			$details = "[b" . $this->view->user->id_braldun . "] a réparé un matériel";
-			$this->setDetailsEvenement($details, $id_type);
-		}
-		$this->setEvenementQueSurOkJet1(false);
+        $this->calculJets();
+        if ($this->view->okJet1 === true) {
+            $this->calculReparer($charrette);
+            $id_type = $this->view->config->game->evenements->type->competence;
+            $details = "[b" . $this->view->user->id_braldun . "] a réparé un matériel";
+            $this->setDetailsEvenement($details, $id_type);
+        }
+        $this->setEvenementQueSurOkJet1(false);
 
-		$this->calculPx();
-		$this->calculBalanceFaim();
-		$this->majBraldun();
+        $this->calculPx();
+        $this->calculBalanceFaim();
+        $this->majBraldun();
 
-		$this->view->charrette = $charrette;
-	}
+        $this->view->charrette = $charrette;
+    }
 
-	private function calculReparer($charrette) {
-		$charretteTable = new Charrette();
-		$data = array("durabilite_actuelle_charrette" => $charrette["durabilite_max_charrette"]);
-		$where = "id_charrette = " . $charrette["id_charrette"];
-		$charretteTable->update($data, $where);
+    private function calculReparer($charrette)
+    {
+        $charretteTable = new Charrette();
+        $data = array("durabilite_actuelle_charrette" => $charrette["durabilite_max_charrette"]);
+        $where = "id_charrette = " . $charrette["id_charrette"];
+        $charretteTable->update($data, $where);
 
-		$echoppeTable = new Echoppe();
-		$data = array(
-			"quantite_planche_arriere_echoppe" => -$charrette["cout_reparation_planche"],
-			"id_echoppe" => $this->idEchoppe,
-		);
-		$echoppeTable->insertOrUpdate($data);
-	}
+        $echoppeTable = new Echoppe();
+        $data = array(
+            "quantite_planche_arriere_echoppe" => -$charrette["cout_reparation_planche"],
+            "id_echoppe" => $this->idEchoppe,
+        );
+        $echoppeTable->insertOrUpdate($data);
+    }
 
-	public function getIdEchoppeCourante() {
-		if (isset($this->idEchoppe)) {
-			return $this->idEchoppe;
-		} else {
-			return false;
-		}
-	}
+    public function getIdEchoppeCourante()
+    {
+        if (isset($this->idEchoppe)) {
+            return $this->idEchoppe;
+        } else {
+            return false;
+        }
+    }
 
-	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_echoppes", "box_charrette", "box_competences"));
-	}
+    function getListBoxRefresh()
+    {
+        return $this->constructListBoxRefresh(array("box_echoppes", "box_charrette", "box_competences"));
+    }
 }

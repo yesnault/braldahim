@@ -5,32 +5,39 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Administrationajax_Activeradminvue extends Bral_Administrationajax_Administrationajax {
+class Bral_Administrationajax_Activeradminvue extends Bral_Administrationajax_Administrationajax
+{
 
-	function getNomInterne() {
-		return "box_action";
-	}
+    function getNomInterne()
+    {
+        return "box_action";
+    }
 
-	function getTitreAction() {
-		return "Admin : activer / désactiver Administrationvue";
-	}
+    function getTitreAction()
+    {
+        return "Admin : activer / désactiver Administrationvue";
+    }
 
-	function prepareCommun() {
-	}
+    function prepareCommun()
+    {
+    }
 
-	function prepareFormulaire() {
-		// rien ici
-	}
+    function prepareFormulaire()
+    {
+        // rien ici
+    }
 
-	function prepareResultat() {
-		if (Zend_Auth::getInstance()->getIdentity()->administrationvue === false) {
-			Zend_Auth::getInstance()->getIdentity()->administrationvue = true;
-		} else {
-			Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
-		}
-	}
+    function prepareResultat()
+    {
+        if (Zend_Auth::getInstance()->getIdentity()->administrationvue === false) {
+            Zend_Auth::getInstance()->getIdentity()->administrationvue = true;
+        } else {
+            Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
+        }
+    }
 
-	function getListBoxRefresh() {
-		return array("box_vue");
-	}
+    function getListBoxRefresh()
+    {
+        return array("box_vue");
+    }
 }

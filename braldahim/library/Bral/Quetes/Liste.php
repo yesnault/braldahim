@@ -5,69 +5,86 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Quetes_Liste extends Bral_Quetes_Quetes {
+class Bral_Quetes_Liste extends Bral_Quetes_Quetes
+{
 
-	function getNomInterne() {
-		return "box_quete_interne";
-	}
+    function getNomInterne()
+    {
+        return "box_quete_interne";
+    }
 
-	function render() {
-		return $this->view->render("quetes/liste.phtml");
-	}
+    function render()
+    {
+        return $this->view->render("quetes/liste.phtml");
+    }
 
-	function getTitreAction() {}
-	public function calculNbPa() {}
+    function getTitreAction()
+    {
+    }
 
-	function prepareCommun() {
+    public function calculNbPa()
+    {
+    }
 
-		Zend_Loader::loadClass("Lieu");
-		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findAllLieuQueteAvecRegion();
+    function prepareCommun()
+    {
 
-		Zend_Loader::loadClass("Quete");
-		$queteTable = new Quete();
-		$quetes = $queteTable->findByIdBraldun($this->view->user->id_braldun);
+        Zend_Loader::loadClass("Lieu");
+        $lieuTable = new Lieu();
+        $lieux = $lieuTable->findAllLieuQueteAvecRegion();
 
-		$idQueteEnCours = -1;
+        Zend_Loader::loadClass("Quete");
+        $queteTable = new Quete();
+        $quetes = $queteTable->findByIdBraldun($this->view->user->id_braldun);
 
-		$lieuxQuetes = null;
-		foreach($lieux as $l) {
-			$lieu = array(
-				'nom_lieu' => $l["nom_lieu"],
-				'nom_ville' => $l["nom_ville"],
-				'date_fin_quete' => null,
-				'id_quete' => null,
-				'en_cours' => false,
-			);
+        $idQueteEnCours = -1;
 
-			foreach($quetes as $q) {
-				if ($q["date_fin_quete"] == null) {
-					$idQueteEnCours = $q["id_quete"];
-					if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
-						$lieu["en_cours"] = true;
-					}
-				}
-				if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
-					$lieu["date_fin_quete"] = $q["date_fin_quete"];
-					$lieu["id_quete"] = $q["id_quete"];
-				}
-			}
+        $lieuxQuetes = null;
+        foreach ($lieux as $l) {
+            $lieu = array(
+                'nom_lieu' => $l["nom_lieu"],
+                'nom_ville' => $l["nom_ville"],
+                'date_fin_quete' => null,
+                'id_quete' => null,
+                'en_cours' => false,
+            );
 
-			$lieuxQuetes[$l["nom_systeme_region"]]["lieux"][] = $lieu;
-			$lieuxQuetes[$l["nom_systeme_region"]]["nom"] = $l["nom_region"];
-		}
+            foreach ($quetes as $q) {
+                if ($q["date_fin_quete"] == null) {
+                    $idQueteEnCours = $q["id_quete"];
+                    if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
+                        $lieu["en_cours"] = true;
+                    }
+                }
+                if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
+                    $lieu["date_fin_quete"] = $q["date_fin_quete"];
+                    $lieu["id_quete"] = $q["id_quete"];
+                }
+            }
 
-		$this->view->lieuxQuetes = $lieuxQuetes;
+            $lieuxQuetes[$l["nom_systeme_region"]]["lieux"][] = $lieu;
+            $lieuxQuetes[$l["nom_systeme_region"]]["nom"] = $l["nom_region"];
+        }
 
-		if ($idQueteEnCours != -1) {
-			Zend_Loader::loadClass("Bral_Quete_Factory");
-			$voir = Bral_Quete_Factory::getVoir($this->request, $this->view, $idQueteEnCours);
-			$this->view->htmlQuete = $voir->render();
-		}
-	}
+        $this->view->lieuxQuetes = $lieuxQuetes;
 
-	function prepareFormulaire() {}
-	function prepareResultat() {}
-	function getListBoxRefresh() {}
+        if ($idQueteEnCours != -1) {
+            Zend_Loader::loadClass("Bral_Quete_Factory");
+            $voir = Bral_Quete_Factory::getVoir($this->request, $this->view, $idQueteEnCours);
+            $this->view->htmlQuete = $voir->render();
+        }
+    }
+
+    function prepareFormulaire()
+    {
+    }
+
+    function prepareResultat()
+    {
+    }
+
+    function getListBoxRefresh()
+    {
+    }
 
 }

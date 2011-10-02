@@ -1,86 +1,95 @@
-<?php 
+<?php
 /**
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Monstres_Competences_Coupabdomen extends Bral_Monstres_Competences_Attaque {
+class Bral_Monstres_Competences_Coupabdomen extends Bral_Monstres_Competences_Attaque
+{
 
-	public function calculJetAttaque(){}
-	public function calculDegat($estCritique){}
+    public function calculJetAttaque()
+    {
+    }
 
-	public function actionSpecifique() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
+    public function calculDegat($estCritique)
+    {
+    }
 
-		Zend_Loader::loadClass("Bral_Util_Effets");
+    public function actionSpecifique()
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - actionSpecifique - enter");
 
-		$malus = $this->monstre["niveau_monstre"] - 3 + Bral_Util_De::get_1d6();
-		if ($malus <= 0) {
-			$malus = 1;
-		}
+        Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
-		$jetMonstre = $jetMonstre + $this->monstre["vigueur_bm_monstre"];
+        $malus = $this->monstre["niveau_monstre"] - 3 + Bral_Util_De::get_1d6();
+        if ($malus <= 0) {
+            $malus = 1;
+        }
 
-		$jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->cible["force_base_braldun"]);
-		$jetBraldun = $jetBraldun + $this->cible["force_bm_braldun"] + $this->cible["force_bbdf_braldun"];
+        $jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
+        $jetMonstre = $jetMonstre + $this->monstre["vigueur_bm_monstre"];
 
-		if ($jetBraldun > $jetMonstre) {
-			$malus = 0;
-		}
+        $jetBraldun = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->cible["force_base_braldun"]);
+        $jetBraldun = $jetBraldun + $this->cible["force_bm_braldun"] + $this->cible["force_bbdf_braldun"];
 
-		$armureTotale = $this->cible["armure_naturelle_braldun"] + $this->cible["armure_equipement_braldun"] + $this->cible["armure_bm_braldun"];
-		if ($armureTotale < 0) {
-			$armureTotale = 0;
-		}
-		$pvEnMoins = $malus -  $armureTotale;
-		if ($pvEnMoins < 0) {
-			$pvEnMoins = 0;
-		}
-		$this->cible["pv_restant_braldun"] = $this->cible["pv_restant_braldun"] - $pvEnMoins;
+        if ($jetBraldun > $jetMonstre) {
+            $malus = 0;
+        }
 
-		if ($this->cible["pv_restant_braldun"] <= 0) {
-			if ($this->cible["id_braldun"] == $this->monstre["id_fk_braldun_cible_monstre"]) {
-				$koCible = true;
-			}
-			$details = $this->initKo();
-			$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-			$detailsBot .= PHP_EOL."Vous êtes KO.";
-			$id_type_evenement_cible = self::$config->game->evenements->type->ko;
-			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view);
-		} else {
-			$this->majEvenement($this->cible, $malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-		}
+        $armureTotale = $this->cible["armure_naturelle_braldun"] + $this->cible["armure_equipement_braldun"] + $this->cible["armure_bm_braldun"];
+        if ($armureTotale < 0) {
+            $armureTotale = 0;
+        }
+        $pvEnMoins = $malus - $armureTotale;
+        if ($pvEnMoins < 0) {
+            $pvEnMoins = 0;
+        }
+        $this->cible["pv_restant_braldun"] = $this->cible["pv_restant_braldun"] - $pvEnMoins;
 
-		$this->updateCible();
+        if ($this->cible["pv_restant_braldun"] <= 0) {
+            if ($this->cible["id_braldun"] == $this->monstre["id_fk_braldun_cible_monstre"]) {
+                $koCible = true;
+            }
+            $details = $this->initKo();
+            $detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+            $detailsBot .= PHP_EOL . "Vous êtes KO.";
+            $id_type_evenement_cible = self::$config->game->evenements->type->ko;
+            Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view);
+        } else {
+            $this->majEvenement($this->cible, $malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+        }
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
-		return null;
-	}
+        $this->updateCible();
 
-	private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
-		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a donné un coup d'abdomen sur [b".$braldun["id_braldun"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
-	}
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - actionSpecifique - exit");
+        return null;
+    }
 
-	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
-		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un coup d'abdomen :";
-		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetBraldun;
-		if ($jetBraldun > $jetMonstre) {
-			$retour .= PHP_EOL."Vous avez résisté au coup, vous ne perdez pas de Point de Vie.";
-		} else {
-			$retour .= PHP_EOL."Vous n'avez pas résisté au coup, vous perdez des Points de Vie.";
-			$retour .= PHP_EOL."Jet de Dégats du coup : ".$malus;
-			$retour .= PHP_EOL."Armure prise en compte, points de vie en moins : ".$pvEnMoins." PV";
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
-		return $retour;
-	}
+    private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun)
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - majEvenement - enter");
+        $idTypeEvenement = self::$config->game->evenements->type->attaquer;
+        $details = "[m" . $this->monstre["id_monstre"] . "] a donné un coup d'abdomen sur [b" . $braldun["id_braldun"] . "]";
+        $detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
+        Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - majEvenement - exit");
+    }
+
+    protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun)
+    {
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - getDetailsBot - enter");
+        $retour = "";
+        $retour .= $this->monstre["nom_type_monstre"] . " (" . $this->monstre["id_monstre"] . ") vous a donné un coup d'abdomen :";
+        $retour .= PHP_EOL . "Jet du Monstre (jet de vigueur) : " . $jetMonstre;
+        $retour .= PHP_EOL . "Jet de résistance (jet de force) : " . $jetBraldun;
+        if ($jetBraldun > $jetMonstre) {
+            $retour .= PHP_EOL . "Vous avez résisté au coup, vous ne perdez pas de Point de Vie.";
+        } else {
+            $retour .= PHP_EOL . "Vous n'avez pas résisté au coup, vous perdez des Points de Vie.";
+            $retour .= PHP_EOL . "Jet de Dégats du coup : " . $malus;
+            $retour .= PHP_EOL . "Armure prise en compte, points de vie en moins : " . $pvEnMoins . " PV";
+        }
+        Bral_Util_Log::viemonstres()->trace(get_class($this) . "  - getDetailsBot - exit");
+        return $retour;
+    }
 }

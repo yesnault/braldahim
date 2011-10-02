@@ -5,187 +5,194 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
+class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch
+{
 
-	public function calculBatchImpl() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculBatchImpl - enter -");
+    public function calculBatchImpl()
+    {
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculBatchImpl - enter -");
 
-		Zend_Loader::loadClass('CreationBuissons');
-		Zend_Loader::loadClass('Buisson');
-		Zend_Loader::loadClass('TypeBuisson');
-		Zend_Loader::loadClass('Zone');
+        Zend_Loader::loadClass('CreationBuissons');
+        Zend_Loader::loadClass('Buisson');
+        Zend_Loader::loadClass('TypeBuisson');
+        Zend_Loader::loadClass('Zone');
 
-		$retour = null;
+        $retour = null;
 
-		$retour .= $this->calculCreation();
-		$retour .= $this->suppressionBuissonSurEau();
+        $retour .= $this->calculCreation();
+        $retour .= $this->suppressionBuissonSurEau();
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculBatchImpl - exit -");
-		return $retour;
-	}
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculBatchImpl - exit -");
+        return $retour;
+    }
 
-	private function suppressionBuissonSurEau() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - enter -");
-		$retour = "";
+    private function suppressionBuissonSurEau()
+    {
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - enter -");
+        $retour = "";
 
-		// Suppression des buissons partout où il y a une eau
-		Zend_Loader::loadClass("Eau");
-		$eauTable = new Eau();
-		$buissonTable = new Buisson();
-		
-		$nbEaux = $eauTable->countAll();
-		$limit = 1000;
+        // Suppression des buissons partout où il y a une eau
+        Zend_Loader::loadClass("Eau");
+        $eauTable = new Eau();
+        $buissonTable = new Buisson();
 
-		$where = "";
+        $nbEaux = $eauTable->countAll();
+        $limit = 1000;
 
-		for ($offset = 0; $offset <= $nbEaux + $limit; $offset =  $offset + $limit) {
-			$eaux = $eauTable->fetchall(null, null, $limit, $offset);
-			$nb = 0;
-			$where = "";
-			foreach($eaux as $r) {
-				$or = "";
-				if ($where != "") {
-					$or = " OR ";
-				}
+        $where = "";
 
-				$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"]." AND z_buisson = ".$r["z_eau"].") ";
+        for ($offset = 0; $offset <= $nbEaux + $limit; $offset = $offset + $limit) {
+            $eaux = $eauTable->fetchall(null, null, $limit, $offset);
+            $nb = 0;
+            $where = "";
+            foreach ($eaux as $r) {
+                $or = "";
+                if ($where != "") {
+                    $or = " OR ";
+                }
 
-				$nb++;
-				if ($nb == $limit) {
-					$buissonTable->delete($where);
-					$nb = 0;
-					$where = "";
-				}
-			}
+                $where .= $or . " (x_buisson = " . $r["x_eau"] . " AND y_buisson = " . $r["y_eau"] . " AND z_buisson = " . $r["z_eau"] . ") ";
 
-			if ($where != "") {
-				$buissonTable->delete($where);
-			}
-		}
+                $nb++;
+                if ($nb == $limit) {
+                    $buissonTable->delete($where);
+                    $nb = 0;
+                    $where = "";
+                }
+            }
 
-		if ($where != "") {
-			$buissonTable->delete($where);
-		}
-		
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - exit -");
-		return $retour;
-	}
+            if ($where != "") {
+                $buissonTable->delete($where);
+            }
+        }
 
-	private function calculCreation() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculCreation - enter -");
-		$retour = "";
+        if ($where != "") {
+            $buissonTable->delete($where);
+        }
 
-		$zoneTable = new Zone();
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - exit -");
+        return $retour;
+    }
 
-		$creationBuissonsTable = new CreationBuissons();
-		$creationBuissons = $creationBuissonsTable->fetchAll(null, "id_fk_type_buisson_creation_buissons");
-		$nbCreationBuissons = count($creationBuissons);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nbCreationBuissons=" .$nbCreationBuissons);
+    private function calculCreation()
+    {
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculCreation - enter -");
+        $retour = "";
 
-		$typeBuissonTable = new TypeBuisson();
-		$typeBuissons = $typeBuissonTable->fetchAll();
-		$nbTypeBuissons = count($typeBuissons);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nbTypeBuissons=" .$nbTypeBuissons);
+        $zoneTable = new Zone();
 
-		// selection des environnements / zones concernes
-		$environnementIds = $this->getEnvironnementsConcernes($creationBuissons);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nb environnement concernes=" .count($environnementIds));
-		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nb zones concernees=" .count($zones));
+        $creationBuissonsTable = new CreationBuissons();
+        $creationBuissons = $creationBuissonsTable->fetchAll(null, "id_fk_type_buisson_creation_buissons");
+        $nbCreationBuissons = count($creationBuissons);
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nbCreationBuissons=" . $nbCreationBuissons);
 
-		$buissonTable = new Buisson();
-		$tmp = "";
+        $typeBuissonTable = new TypeBuisson();
+        $typeBuissons = $typeBuissonTable->fetchAll();
+        $nbTypeBuissons = count($typeBuissons);
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nbTypeBuissons=" . $nbTypeBuissons);
 
-		$superficieZones = array();
-		$superficieTotale = array();
+        // selection des environnements / zones concernes
+        $environnementIds = $this->getEnvironnementsConcernes($creationBuissons);
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nb environnement concernes=" . count($environnementIds));
+        $zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - nb zones concernees=" . count($zones));
 
-		foreach($creationBuissons as $c) {
-			// on recupere la supercifie totale de toutes les zones concernees par ce type
-			foreach($zones as $z) {
-				if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_buissons"]) {
-					$superficieZones[$z["id_zone"]] = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
-					if (array_key_exists($c["id_fk_type_buisson_creation_buissons"], $superficieTotale)) {
-						$superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] = $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] + ( $superficieZones[$z["id_zone"]] );
-					} else {
-						$superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] = $superficieZones[$z["id_zone"]];
-					}
-				}
-			}
-		}
+        $buissonTable = new Buisson();
+        $tmp = "";
 
-		foreach($creationBuissons as $c) {
-			$t = null;
-			foreach($typeBuissons as $type) {
-				if ($c["id_fk_type_buisson_creation_buissons"] == $type["id_type_buisson"]) {
-					$t = $type;
-					break;
-				}
-			}
+        $superficieZones = array();
+        $superficieTotale = array();
 
-			if ($t != null) {
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - traitement du buisson ".$t["id_type_buisson"]. " nbMaxMonde(".$t["nb_creation_type_buisson"].") environnement(".$c["id_fk_environnement_creation_buissons"].") suptotal(". $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]].")");
-				foreach($zones as $z) {
-					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_buissons"]) {
-						$tmp = "";
-						$nbCreation = ceil($t["nb_creation_type_buisson"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]]));
-						$nbActuel = $buissonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_buisson"]);
+        foreach ($creationBuissons as $c) {
+            // on recupere la supercifie totale de toutes les zones concernees par ce type
+            foreach ($zones as $z) {
+                if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_buissons"]) {
+                    $superficieZones[$z["id_zone"]] = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
+                    if (array_key_exists($c["id_fk_type_buisson_creation_buissons"], $superficieTotale)) {
+                        $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] = $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] + ($superficieZones[$z["id_zone"]]);
+                    } else {
+                        $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] = $superficieZones[$z["id_zone"]];
+                    }
+                }
+            }
+        }
 
-						$aCreer = $nbCreation - $nbActuel;
-						if ($aCreer <= 0) {
-							$tmp = " deja pleine";
-						}
-						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]].")");
-						if ($aCreer > 0) {
-							$retour .= $this->insert($t["id_type_buisson"], $z, $aCreer, $buissonTable);
-						} else {
-							$retour .= "zone(".$z["id_zone"].") pleine de buisson(".$t["id_type_buisson"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
-						}
-					}
-				}
-			}
-		}
+        foreach ($creationBuissons as $c) {
+            $t = null;
+            foreach ($typeBuissons as $type) {
+                if ($c["id_fk_type_buisson_creation_buissons"] == $type["id_type_buisson"]) {
+                    $t = $type;
+                    break;
+                }
+            }
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculCreation - exit -");
-		return $retour;
-	}
+            if ($t != null) {
+                Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - traitement du buisson " . $t["id_type_buisson"] . " nbMaxMonde(" . $t["nb_creation_type_buisson"] . ") environnement(" . $c["id_fk_environnement_creation_buissons"] . ") suptotal(" . $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] . ")");
+                foreach ($zones as $z) {
+                    if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_buissons"]) {
+                        $tmp = "";
+                        $nbCreation = ceil($t["nb_creation_type_buisson"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]]));
+                        $nbActuel = $buissonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_buisson"]);
 
-	private function getEnvironnementsConcernes($creationBuissons) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - getEnvironnementsConcernes - enter -");
-		$environnementIds = null;
-		foreach($creationBuissons as $n) {
-			$environnementIds[$n["id_fk_environnement_creation_buissons"]] = $n["id_fk_environnement_creation_buissons"];
-		}
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - getEnvironnementsConcernes - exit -");
-		return $environnementIds;
-	}
+                        $aCreer = $nbCreation - $nbActuel;
+                        if ($aCreer <= 0) {
+                            $tmp = " deja pleine";
+                        }
+                        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - zone(" . $z["id_zone"] . ") nbActuel:" . $nbActuel . " max:" . $nbCreation . $tmp . " supzone(" . $superficieZones[$z["id_zone"]] . ") suptotal(" . $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]] . ")");
+                        if ($aCreer > 0) {
+                            $retour .= $this->insert($t["id_type_buisson"], $z, $aCreer, $buissonTable);
+                        } else {
+                            $retour .= "zone(" . $z["id_zone"] . ") pleine de buisson(" . $t["id_type_buisson"] . ") nbActuel(" . $nbActuel . ") max(" . $nbCreation . "). ";
+                        }
+                    }
+                }
+            }
+        }
 
-	private function insert($idTypeBuisson, $zone, $aCreer, $buissonTable) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - insert - enter - idtype(".$idTypeBuisson.") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
-		$retour = "buisson(".$idTypeBuisson.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculCreation - exit -");
+        return $retour;
+    }
 
-		for($i = 1; $i <= $aCreer; $i++) {
-			usleep(Bral_Util_De::get_de_specifique(50, 10000));
-			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
-			usleep(Bral_Util_De::get_de_specifique(100, 10000));
-			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
+    private function getEnvironnementsConcernes($creationBuissons)
+    {
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - getEnvironnementsConcernes - enter -");
+        $environnementIds = null;
+        foreach ($creationBuissons as $n) {
+            $environnementIds[$n["id_fk_environnement_creation_buissons"]] = $n["id_fk_environnement_creation_buissons"];
+        }
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - getEnvironnementsConcernes - exit -");
+        return $environnementIds;
+    }
 
-			$this->insertDb($buissonTable, $idTypeBuisson, $x, $y, 0, 1);
-		}
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - insert - exit -");
-		return $retour;
-	}
+    private function insert($idTypeBuisson, $zone, $aCreer, $buissonTable)
+    {
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - insert - enter - idtype(" . $idTypeBuisson . ") idzone(" . $zone['id_zone'] . ") nbACreer(" . $aCreer . ")");
+        $retour = "buisson(" . $idTypeBuisson . ") idzone(" . $zone['id_zone'] . ") aCreer(" . $aCreer . "). ";
 
-	private function insertDb($buissonTable, $idTypeBuisson, $x, $y, $z, $quantite) {
-		if ($buissonTable->countByCase($x, $y, $z) == 0) {
-			$data = array(
-				'id_fk_type_buisson_buisson' => $idTypeBuisson, 
-				'x_buisson' => $x, 
-				'y_buisson' => $y, 
-				'z_buisson' => $z, 
-				'quantite_restante_buisson' => $quantite, 
-				'quantite_max_buisson' => $quantite
-			);
-			$buissonTable->insert($data);
-		}
-	}
+        for ($i = 1; $i <= $aCreer; $i++) {
+            usleep(Bral_Util_De::get_de_specifique(50, 10000));
+            $x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
+            usleep(Bral_Util_De::get_de_specifique(100, 10000));
+            $y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
+
+            $this->insertDb($buissonTable, $idTypeBuisson, $x, $y, 0, 1);
+        }
+        Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - insert - exit -");
+        return $retour;
+    }
+
+    private function insertDb($buissonTable, $idTypeBuisson, $x, $y, $z, $quantite)
+    {
+        if ($buissonTable->countByCase($x, $y, $z) == 0) {
+            $data = array(
+                'id_fk_type_buisson_buisson' => $idTypeBuisson,
+                'x_buisson' => $x,
+                'y_buisson' => $y,
+                'z_buisson' => $z,
+                'quantite_restante_buisson' => $quantite,
+                'quantite_max_buisson' => $quantite
+            );
+            $buissonTable->insert($data);
+        }
+    }
 }
