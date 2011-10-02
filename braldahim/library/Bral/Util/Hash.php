@@ -8,14 +8,14 @@
 class Bral_Util_Hash
 {
 
-    public static function getHashString($salt, $chaine)
-    {
-        return hash('sha256', $salt . '::' . $chaine);
-    }
+	public static function getHashString($salt, $chaine)
+	{
+		return hash('sha256', $salt . '::' . $chaine);
+	}
 
-    public static function getSalt()
-    {
-        return time() . '::' . rand();
-    }
+	public static function getSalt()
+	{
+		return time() . '::' . rand();
+	}
 
 }

@@ -8,9 +8,9 @@
 class Bral_Helper_Fermer
 {
 
-    public static function affiche()
-    {
-        return "<button type='button' class='button' id='actionBoutonFermer'  onclick='this.disabled=true;_get_(\"/interface/clear\");fermeBralBox();'>Fermer</button>";
-    }
+	public static function affiche()
+	{
+		return "<button type='button' class='button' id='actionBoutonFermer'  onclick='this.disabled=true;_get_(\"/interface/clear\");fermeBralBox();'>Fermer</button>";
+	}
 }
 

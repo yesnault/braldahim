@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class SouleMatch extends Zend_Db_Table {
+class SouleMatch extends Zend_Db_Table
+{
 	protected $_name = 'soule_match';
 	protected $_primary = 'id_soule_match';
 
-	public function findEnCoursByIdTerrain($idTerrain) {
+	public function findEnCoursByIdTerrain($idTerrain)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_match', '*');
@@ -19,8 +21,9 @@ class SouleMatch extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
-	
-	public function findNonDebuteByIdTerrain($idTerrain) {
+
+	public function findNonDebuteByIdTerrain($idTerrain)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_match', '*');
@@ -31,40 +34,43 @@ class SouleMatch extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findMatchSaisonTermineByIdTerrainAndAnnee($idTerrain, $annee) {
+	public function findMatchSaisonTermineByIdTerrainAndAnnee($idTerrain, $annee)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_match', '*');
 		$select->where('id_fk_terrain_soule_match = ?', (int)$idTerrain);
 		$select->where('date_debut_soule_match is not null and date_fin_soule_match is not null');
 
-		$dateDebut = date($annee.'-09-01 00:00:00');
-		$dateFin = date($annee.'-12-31 00:00:00');
-		
+		$dateDebut = date($annee . '-09-01 00:00:00');
+		$dateFin = date($annee . '-12-31 00:00:00');
+
 		$select->where('date_debut_soule_match >= ?', $dateDebut);
 		$select->where('date_debut_soule_match <= ?', $dateFin);
-		
+
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
 
-	public function findNonDebuteByIdBraldun($idBraldun) {
+	public function findNonDebuteByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_equipe', null)
-		->from('soule_match', '*')
-		->from('soule_terrain', '*')
-		->where('id_fk_braldun_soule_equipe = ?', (int)$idBraldun)
-		->where('id_fk_match_soule_equipe = id_soule_match')
-		->where('date_debut_soule_match is null')
-		->where('id_fk_terrain_soule_match = id_soule_terrain');
+			->from('soule_match', '*')
+			->from('soule_terrain', '*')
+			->where('id_fk_braldun_soule_equipe = ?', (int)$idBraldun)
+			->where('id_fk_match_soule_equipe = id_soule_match')
+			->where('date_debut_soule_match is null')
+			->where('id_fk_terrain_soule_match = id_soule_terrain');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
-	
-	public function findNonDebutes() {
+
+	public function findNonDebutes()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_match', '*');
@@ -76,7 +82,8 @@ class SouleMatch extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findByXYBallon($x, $y) {
+	public function findByXYBallon($x, $y)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -87,21 +94,23 @@ class SouleMatch extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function selectBallonVue($x_min, $y_min, $x_max, $y_max) {
+	public function selectBallonVue($x_min, $y_min, $x_max, $y_max)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('soule_match', '*');
-		$select->where('x_ballon_soule_match <= ?',$x_max);
-		$select->where('x_ballon_soule_match >= ?',$x_min);
-		$select->where('y_ballon_soule_match >= ?',$y_min);
-		$select->where('y_ballon_soule_match <= ?',$y_max);
+		$select->where('x_ballon_soule_match <= ?', $x_max);
+		$select->where('x_ballon_soule_match >= ?', $x_min);
+		$select->where('y_ballon_soule_match >= ?', $y_min);
+		$select->where('y_ballon_soule_match <= ?', $y_max);
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdBraldunBallon($idBraldun) {
+	public function findByIdBraldunBallon($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -112,8 +121,9 @@ class SouleMatch extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	public function findByIdMatch($idMatch) {
+
+	public function findByIdMatch($idMatch)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 

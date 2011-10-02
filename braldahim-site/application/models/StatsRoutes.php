@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class StatsRoutes extends Zend_Db_Table {
+class StatsRoutes extends Zend_Db_Table
+{
 	protected $_name = 'stats_routes';
 	protected $_primary = array('id_stats_routes');
-	
-	function findTop10($dateDebut, $dateFin, $type) {
+
+	function findTop10($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -29,8 +31,9 @@ class StatsRoutes extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByFamille($dateDebut, $dateFin, $type) {
+
+	function findByFamille($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', null);
@@ -46,8 +49,9 @@ class StatsRoutes extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByNiveau($dateDebut, $dateFin, $type) {
+
+	function findByNiveau($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_routes', array('sum(nb_stats_routes) as nombre', 'floor(niveau_braldun_stats_routes/10) as niveau'));
@@ -59,8 +63,9 @@ class StatsRoutes extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findBySexe($dateDebut, $dateFin, $type) {
+
+	function findBySexe($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'sexe_braldun');
@@ -74,14 +79,15 @@ class StatsRoutes extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	private function getWhereType($type) {
+
+	private function getWhereType($type)
+	{
 		Zend_Loader::loadClass("Bral_Util_Metier");
-		
+
 		$retour = "";
-		switch($type) {
+		switch ($type) {
 			case "bucheronsroutes":
-				$retour = "id_fk_metier_stats_routes = ".Bral_Util_Metier::METIER_BUCHERON_ID;
+				$retour = "id_fk_metier_stats_routes = " . Bral_Util_Metier::METIER_BUCHERON_ID;
 				break;
 		}
 		return $retour;

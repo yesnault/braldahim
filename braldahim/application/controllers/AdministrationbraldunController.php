@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationbraldunController extends Zend_Controller_Action {
+class AdministrationbraldunController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -20,11 +22,13 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function braldunAction() {
+	function braldunAction()
+	{
 		Zend_Loader::loadClass('Braldun');
 
 		$this->modificationBraldun = false;
@@ -34,7 +38,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 
 			if (Zend_Auth::getInstance()->getIdentity()->administrateur !== true) { // role testeur
 				if ($this->_request->getPost("id_braldun") != $this->view->user->id_braldun) {
-					throw new Zend_Exception("Braldun Invalide : (demande)".$this->_request->getPost("id_braldun") ."!= (courant)". $this->view->user->id_braldun);
+					throw new Zend_Exception("Braldun Invalide : (demande)" . $this->_request->getPost("id_braldun") . "!= (courant)" . $this->view->user->id_braldun);
 				}
 			}
 
@@ -50,7 +54,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 					if ($braldun[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
-					$modification .= "$key avant: ".$braldun[$key]. " apres:".$value;
+					$modification .= "$key avant: " . $braldun[$key] . " apres:" . $value;
 					$modification .= PHP_EOL;
 
 					if ($value == '') {
@@ -73,9 +77,9 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 
 				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
-				$mail->setSubject("[Braldahim-Admin Jeu] Administration Braldûn ".$this->_request->getPost("id_braldun"));
-				$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-				$texte .= PHP_EOL.$modification;
+				$mail->setSubject("[Braldahim-Admin Jeu] Administration Braldûn " . $this->_request->getPost("id_braldun"));
+				$texte = "--------> Utilisateur " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+				$texte .= PHP_EOL . $modification;
 
 				$mail->setBodyText($texte);
 				$mail->send();
@@ -86,13 +90,14 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function braldunPrepare() {
+	private function braldunPrepare()
+	{
 
 		$this->view->id_braldun = intval($this->_request->get('idbraldun'));
 
 		if (!Zend_Auth::getInstance()->getIdentity()->administrateur == true) { // role testeur
 			if ($this->view->id_braldun != $this->view->user->id_braldun) {
-				throw new Zend_Exception("Braldun Invalide : (demande)".$this->view->id_braldun ."!= (courant)". $this->view->user->id_braldun);
+				throw new Zend_Exception("Braldun Invalide : (demande)" . $this->view->id_braldun . "!= (courant)" . $this->view->user->id_braldun);
 			}
 		}
 
@@ -129,7 +134,8 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 
 	}
 
-	public function usurpationAction() {
+	public function usurpationAction()
+	{
 		Bral_Util_Securite::controlAdmin();
 
 		Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
@@ -138,7 +144,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		$authAdapter->setTableName('braldun');
 		$authAdapter->setIdentityColumn('id_braldun');
 		$authAdapter->setCredentialColumn('id_braldun');
-			
+
 		// Set the input credential values to authenticate against
 		$authAdapter->setIdentity($this->_request->get('idbraldun'));
 		$authAdapter->setCredential($this->_request->get('idbraldun'));
@@ -148,12 +154,12 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 		} else {
 			$activation = false;
 		}
-			
+
 		// authentication
 		$auth = Zend_Auth::getInstance();
 		$result = $auth->authenticate($authAdapter);
 		if ($result->isValid()) {
-			$braldun = $authAdapter->getResultRowObject(null,array('password_hash_braldun', 'password_salt_braldun'));
+			$braldun = $authAdapter->getResultRowObject(null, array('password_hash_braldun', 'password_salt_braldun'));
 			if ($braldun->est_compte_actif_braldun == "oui") {
 				$auth->getStorage()->write($braldun);
 				// activation du tour
@@ -170,7 +176,7 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 				Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
 
 				Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
-					
+
 				if ($braldun->id_fk_communaute_braldun != null) {
 					Zend_Loader::loadClass("RangCommunaute");
 					$rangCommunauteTable = new RangCommunaute();
@@ -181,9 +187,9 @@ class AdministrationbraldunController extends Zend_Controller_Action {
 				}
 
 				$sessionTable = new Session();
-				$where = "id_php_session = '".session_id()."'";
+				$where = "id_php_session = '" . session_id() . "'";
 				$sessionTable->delete($where);
-					
+
 				$this->_redirect('/');
 			}
 		}

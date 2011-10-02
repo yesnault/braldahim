@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class InscriptionController extends Zend_Controller_Action {
+class InscriptionController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->initView();
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailBraldun");
@@ -28,12 +30,14 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->view->title = "Inscription";
 		$this->_redirect('/inscription/ajouter');
 	}
 
-	function validationAction() {
+	function validationAction()
+	{
 		Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - enter");
 		$this->view->title = "Validation de l'inscription";
 		$this->view->validationOk = false;
@@ -66,18 +70,18 @@ class InscriptionController extends Zend_Controller_Action {
 						'id_fk_mere_braldun' => $dataParents["id_fk_mere_braldun"],
 					);
 
-					$where = "id_braldun=".$braldun->id_braldun;
+					$where = "id_braldun=" . $braldun->id_braldun;
 					$braldunTable->update($data, $where);
 
-					$braldun->id_fk_pere_braldun =  $dataParents["id_fk_pere_braldun"];
-					$braldun->id_fk_mere_braldun =  $dataParents["id_fk_mere_braldun"];
+					$braldun->id_fk_pere_braldun = $dataParents["id_fk_pere_braldun"];
+					$braldun->id_fk_mere_braldun = $dataParents["id_fk_mere_braldun"];
 
 					$e = "";
 					if ($braldun->sexe_braldun == "feminin") {
 						$e = "e";
 					}
 
-					$details = $braldun->prenom_braldun ." ".$braldun->nom_braldun." (".$braldun->id_braldun.") est apparu".$e." sur Braldahim";
+					$details = $braldun->prenom_braldun . " " . $braldun->nom_braldun . " (" . $braldun->id_braldun . ") est apparu" . $e . " sur Braldahim";
 					Zend_Loader::loadClass('Evenement');
 					$evenementTable = new Evenement();
 					$data = array(
@@ -96,9 +100,9 @@ class InscriptionController extends Zend_Controller_Action {
 					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_braldun, $braldun->id_braldun, $message, $this->view);
 
 					$this->ajouterDistinctionTesteur($braldun->id_braldun, $email_braldun);
-					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_braldun);
+					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :" . $email_braldun);
 				} else {
-					Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - C MD5 invalides : ".$md5_prenom_braldun.":".md5($braldun->prenom_braldun)." PASS:".$hash_password_braldun.":".$braldun->password_braldun);
+					Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - C MD5 invalides : " . $md5_prenom_braldun . ":" . md5($braldun->prenom_braldun) . " PASS:" . $hash_password_braldun . ":" . $braldun->password_braldun);
 				}
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - validationAction - compte deja active");
@@ -118,7 +122,8 @@ class InscriptionController extends Zend_Controller_Action {
 	 * @param unknown_type $emailBraldun email du braldun, doit être le même qu'en version Beta (table Testeur)
 	 * @return void
 	 */
-	private function ajouterDistinctionTesteur($idBraldun, $emailBraldun) {
+	private function ajouterDistinctionTesteur($idBraldun, $emailBraldun)
+	{
 		Zend_Loader::loadClass("Testeur");
 		$testeurTable = new Testeur();
 		$r = $testeurTable->findByEmail($emailBraldun);
@@ -130,7 +135,8 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 	}
 
-	function ajouterAction() {
+	function ajouterAction()
+	{
 		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - enter");
 		$this->view->title = "Nouvel Braldun";
 		$this->prenom_braldun = "";
@@ -139,13 +145,13 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->sexe_braldun = "";
 		$this->id_region = -1;
 
-		$regionTable =  new Region();
+		$regionTable = new Region();
 		$regionsRowset = $regionTable->fetchAll();
 		$regionsRowset = $regionsRowset->toArray();
 
 		$regions = null;
 		foreach ($regionsRowset as $r) {
-			if ($r["id_region"] == 1) {// || $r["id_region"] == 3) {
+			if ($r["id_region"] == 1) { // || $r["id_region"] == 3) {
 				$regions[$r["id_region"]]["nom"] = $r["nom_region"];
 				$regions[$r["id_region"]]["est_pvp"] = $r["est_pvp_region"];
 			}
@@ -162,7 +168,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())
-			->addFilter(new Zend_Filter_StripTags());
+				->addFilter(new Zend_Filter_StripTags());
 
 			$this->prenom_braldun = stripslashes($filter->filter($this->_request->getPost('prenom_braldun')));
 			$this->prenom_braldun = Bral_Util_String::firstToUpper($this->prenom_braldun);
@@ -174,7 +180,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$this->sexe_braldun = $filter->filter($this->_request->getPost('sexe_braldun'));
 			$this->id_region = $filter->filter($this->_request->getPost('id_region'));
 
-			$captcha_vue =  $this->_request->getPost('captcha');
+			$captcha_vue = $this->_request->getPost('captcha');
 			$validPrenom = $validateurPrenom->isValid($this->prenom_braldun);
 			$validEmail = $validateurEmail->isValid($this->email_braldun, ($this->view->config->general->production == 1));
 			$validPassword = $validateurPassword->isValid($this->password_braldun);
@@ -195,13 +201,14 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 
 			if (($validPrenom)
-			&& ($validEmail)
-			&& ($validPassword)
-			&& ($validSexe)
-			&& ($validEmailConfirm)
-			&& ($validPasswordConfirm)
-			&& ($validCaptcha)) {
-					
+				&& ($validEmail)
+				&& ($validPassword)
+				&& ($validSexe)
+				&& ($validEmailConfirm)
+				&& ($validPasswordConfirm)
+				&& ($validCaptcha)
+			) {
+
 				$data = $this->initialiseDataBraldun();
 
 				$braldunTable = new Braldun();
@@ -210,7 +217,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->view->email_braldun = $this->email_braldun;
 
 				$this->envoiEmail($data["password_hash_braldun"]);
-				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_braldun);
+				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers " . $this->email_braldun);
 				echo $this->view->render("inscription/fin.phtml");
 
 				// Creation du coffre
@@ -220,7 +227,7 @@ class InscriptionController extends Zend_Controller_Action {
 					"id_fk_braldun_coffre" => $this->view->id_braldun,
 				);
 				$coffreTable->insert($data);
-				
+
 				return;
 			} else {
 				$tabPrenom = null;
@@ -258,16 +265,16 @@ class InscriptionController extends Zend_Controller_Action {
 		$captcha = new Zend_Captcha_Image();
 
 		$captcha->setTimeout('300')
-		->setWordLen('6')
-		->setHeight('80')
-		->setFont('../public/fonts/Arial.ttf')
-		->setImgDir($this->view->config->captcha->patch);
+			->setWordLen('6')
+			->setHeight('80')
+			->setFont('../public/fonts/Arial.ttf')
+			->setImgDir($this->view->config->captcha->patch);
 
 		$id = $captcha->generate();
 		$this->view->captcha = $captcha;
 
 		// Braldûn par defaut
-		$this->view->braldun= new stdClass();
+		$this->view->braldun = new stdClass();
 		$this->view->braldun->id_braldun = null;
 		$this->view->braldun->prenom_braldun = $this->prenom_braldun;
 		$this->view->braldun->email_braldun = $this->email_braldun;
@@ -279,7 +286,8 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function initialiseDataBraldun() {
+	private function initialiseDataBraldun()
+	{
 		// region aleatoire
 
 		if ($this->id_region == -1) {
@@ -306,7 +314,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
 		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_HOPITAL, $this->id_region, "non", "oui");
-		$de = Bral_Util_De::get_de_specifique(0, count($lieuxRowset)-1);
+		$de = Bral_Util_De::get_de_specifique(0, count($lieuxRowset) - 1);
 		$lieu = $lieuxRowset[$de];
 
 		$pv = $this->view->config->game->pv_base + 0 * $this->view->config->game->pv_max_coef;
@@ -316,7 +324,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Bral_Util_Nom');
 		$nom = new Bral_Util_Nom();
-			
+
 		$dataNom = $nom->calculNom($this->prenom_braldun, $this->email_braldun);
 		$nom_braldun = $dataNom["nom"];
 		$id_fk_nom_initial_braldun = $dataNom["id_nom"];
@@ -327,15 +335,15 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Util_Hash');
 		$salt = Bral_Util_Hash::getSalt();
 		$passwordHash = Bral_Util_Hash::getHashString($salt, md5($this->password_braldun));
-			
+
 		$data = array(
 			'nom_braldun' => $nom_braldun,
 			'prenom_braldun' => $this->prenom_braldun,
 			'id_fk_nom_initial_braldun' => $id_fk_nom_initial_braldun,
-			'email_braldun'  => $this->email_braldun,
-			'password_salt_braldun'  => $salt,
-			'password_hash_braldun'  => $passwordHash,
-			'est_compte_actif_braldun'  => "non",
+			'email_braldun' => $this->email_braldun,
+			'password_salt_braldun' => $salt,
+			'password_hash_braldun' => $passwordHash,
+			'est_compte_actif_braldun' => "non",
 			'castars_braldun' => $this->view->config->game->inscription->castars,
 			'sexe_braldun' => $this->sexe_braldun,
 			'x_braldun' => $lieu["x_lieu"],
@@ -356,7 +364,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'agilite_base_braldun' => $this->view->config->game->inscription->agilite_base,
 			'vigueur_base_braldun' => $this->view->config->game->inscription->vigueur_base,
 			'sagesse_base_braldun' => $this->view->config->game->inscription->sagesse_base,
-		//'pa_braldun' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
+			//'pa_braldun' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
 			'poids_transportable_braldun' => $poids,
 			'armure_naturelle_braldun' => $armure_nat,
 			'regeneration_braldun' => $reg,
@@ -371,7 +379,8 @@ class InscriptionController extends Zend_Controller_Action {
 		return $data;
 	}
 
-	private function envoiEmail($passwordHashBraldun) {
+	private function envoiEmail($passwordHashBraldun)
+	{
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Inscription");
@@ -392,10 +401,11 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 		$mail->send();
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
-		Bral_Util_Log::mail()->trace("InscriptionController - envoiEmail - ".$this->email_braldun. " ". $this->prenom_braldun);
+		Bral_Util_Log::mail()->trace("InscriptionController - envoiEmail - " . $this->email_braldun . " " . $this->prenom_braldun);
 	}
 
-	private function calculParent($idBraldun) {
+	private function calculParent($idBraldun)
+	{
 		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - enter");
 		// on tente de creer de nouveaux couples si besoin
 		$de = Bral_Util_De::get_de_specifique(0, 3);
@@ -412,31 +422,31 @@ class InscriptionController extends Zend_Controller_Action {
 		$dataParents["id_fk_mere_braldun"] = null;
 
 		if (count($couplesRowset) >= 1) {
-			$de = Bral_Util_De::get_de_specifique(0, count($couplesRowset)-1);
+			$de = Bral_Util_De::get_de_specifique(0, count($couplesRowset) - 1);
 			$couple = $couplesRowset[$de];
 
 			$dataParents["id_fk_pere_braldun"] = $couple["id_fk_m_braldun_couple"];
 			$dataParents["id_fk_mere_braldun"] = $couple["id_fk_f_braldun_couple"];
 
-			$where = "id_fk_m_braldun_couple=".$couple["id_fk_m_braldun_couple"]." AND id_fk_f_braldun_couple=".$couple["id_fk_f_braldun_couple"];
+			$where = "id_fk_m_braldun_couple=" . $couple["id_fk_m_braldun_couple"] . " AND id_fk_f_braldun_couple=" . $couple["id_fk_f_braldun_couple"];
 			$nombreEnfants = $couple["nb_enfants_couple"] + 1;
 			$data = array('nb_enfants_couple' => $nombreEnfants);
 
 			$coupleTable->update($data, $where);
 
 			$detailEvenement = "Un heureux événement est arrivé... ";
-			$detailsBot = " Vous venez d'avoir un nouvel enfant à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+			$detailsBot = " Vous venez d'avoir un nouvel enfant à  " . Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', date("Y-m-d H:i:s")) . ".";
 			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 
 			Bral_Util_Evenement::majEvenements($couple["id_fk_m_braldun_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "braldun", true, $this->view);
 			Bral_Util_Evenement::majEvenements($couple["id_fk_f_braldun_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "braldun", true, $this->view);
 
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
-			$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
+			$message = $detailsBot . PHP_EOL . PHP_EOL . " Signé Irène Doucelac" . PHP_EOL . "Inutile de répondre à ce message.";
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $couple["id_fk_m_braldun_couple"], $message, $this->view);
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $couple["id_fk_f_braldun_couple"], $message, $this->view);
 
-			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_braldun_couple"]." f:".$couple["id_fk_f_braldun_couple"]." enfants:".$nombreEnfants.")");
+			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:" . $couple["id_fk_m_braldun_couple"] . " f:" . $couple["id_fk_f_braldun_couple"] . " enfants:" . $nombreEnfants . ")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idBraldun);
 		}
@@ -444,7 +454,8 @@ class InscriptionController extends Zend_Controller_Action {
 		return $dataParents;
 	}
 
-	private function creationCouple($idBraldun) {
+	private function creationCouple($idBraldun)
+	{
 		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - enter");
 		$dataParents["id_fk_pere_braldun"] = null;
 		$dataParents["id_fk_mere_braldun"] = null;
@@ -453,16 +464,16 @@ class InscriptionController extends Zend_Controller_Action {
 		if (count($braldunsMasculinRowset) > 0) {
 			$braldunsFemininRowset = $braldunTable->findBraldunsFemininSansConjoint($idBraldun);
 			if (count($braldunsFemininRowset) > 0) { // creation d'un nouveau couple
-				$de = Bral_Util_De::get_de_specifique(0, count($braldunsMasculinRowset)-1);
+				$de = Bral_Util_De::get_de_specifique(0, count($braldunsMasculinRowset) - 1);
 				$pere = $braldunsMasculinRowset[$de];
 
-				$de = Bral_Util_De::get_de_specifique(0, count($braldunsFemininRowset)-1);
+				$de = Bral_Util_De::get_de_specifique(0, count($braldunsFemininRowset) - 1);
 				$mere = $braldunsFemininRowset[$de];
 
 				$data = array('id_fk_m_braldun_couple' => $pere["id_braldun"],
-							  'id_fk_f_braldun_couple' => $mere["id_braldun"],
-							  'date_creation_couple' => date("Y-m-d H:i:s"),
-							  'nb_enfants_couple' => 0,
+					'id_fk_f_braldun_couple' => $mere["id_braldun"],
+					'date_creation_couple' => date("Y-m-d H:i:s"),
+					'nb_enfants_couple' => 0,
 				);
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
@@ -470,15 +481,15 @@ class InscriptionController extends Zend_Controller_Action {
 				$dataParents["id_fk_pere_braldun"] = $pere["id_braldun"];
 				$dataParents["id_fk_mere_braldun"] = $mere["id_braldun"];
 
-				$detailEvenement =  "[b".$mere["id_braldun"]."] s'est mariée avec [b".$pere["id_braldun"]."]" ;
-				$detailsBot = "Mariage effectué à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+				$detailEvenement = "[b" . $mere["id_braldun"] . "] s'est mariée avec [b" . $pere["id_braldun"] . "]";
+				$detailsBot = "Mariage effectué à  " . Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y', date("Y-m-d H:i:s")) . ".";
 				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 
 				Bral_Util_Evenement::majEvenements($pere["id_braldun"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $pere["niveau_braldun"], "braldun", true, $this->view);
 				Bral_Util_Evenement::majEvenements($mere["id_braldun"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $mere["niveau_braldun"], "braldun", true, $this->view);
 
 				Zend_Loader::loadClass("Bral_Util_Messagerie");
-				$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
+				$message = $detailsBot . PHP_EOL . PHP_EOL . " Signé Irène Doucelac" . PHP_EOL . "Inutile de répondre à ce message.";
 				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $mere["id_braldun"], $message, $this->view);
 				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $pere["id_braldun"], $message, $this->view);
 
@@ -493,12 +504,13 @@ class InscriptionController extends Zend_Controller_Action {
 		return $dataParents;
 	}
 
-	function validateCaptcha($captcha) {
+	function validateCaptcha($captcha)
+	{
 		$captchaId = $captcha['id'];
 		$captchaInput = $captcha['input'];
 		$captchaSession = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
 		$captchaIterator = $captchaSession->getIterator();
-		if($captchaIterator != null && array_key_exists("word", $captchaIterator) && $captchaInput != $captchaIterator['word']){
+		if ($captchaIterator != null && array_key_exists("word", $captchaIterator) && $captchaInput != $captchaIterator['word']) {
 			return false;
 		} else {
 			return true;

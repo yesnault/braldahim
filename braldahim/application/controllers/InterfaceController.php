@@ -5,10 +5,12 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class InterfaceController extends Zend_Controller_Action {
+class InterfaceController extends Zend_Controller_Action
+{
 	private $xml_response = null;
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
@@ -16,7 +18,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->estIphone = Zend_Registry::get("estIphone");
 	}
 
-	function preDispatch() {
+	function preDispatch()
+	{
 		$hasIdentity = Zend_Auth::getInstance()->hasIdentity();
 		$controleOk = false;
 
@@ -25,7 +28,7 @@ class InterfaceController extends Zend_Controller_Action {
 		} else if ($this->_request->action == 'index' && (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun))) {
 			$this->_forward('logout', 'auth');
 		} else if (!$hasIdentity || !isset($this->view->user) || !isset($this->view->user->email_braldun)
-				   || ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
+			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
 		) {
 			if (!$hasIdentity) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue: dateAuth" . $this->_request->get("dateAuth"));
@@ -105,7 +108,8 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 	}
 
-	function clearAction() {
+	function clearAction()
+	{
 		if ($this->infoTour == false) {
 			$this->render();
 		} else {
@@ -113,11 +117,13 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function loadAction() {
+	function loadAction()
+	{
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
@@ -144,7 +150,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->xml_response->render();
 	}
 
-	function boxesAction() {
+	function boxesAction()
+	{
 		// Si nouveau tour ou nouvelle phase, on ne charge pas toutes les boites.
 		// elles seront chargées au clic sur Fermer sur la fenêtre d'information
 		if ($this->infoTour) {
@@ -234,11 +241,13 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->xml_response->render();
 	}
 
-	private function addBox($p, $position) {
+	private function addBox($p, $position)
+	{
 		$this->m_list[$position][] = $p;
 	}
 
-	private function getBoxesData() {
+	private function getBoxesData()
+	{
 		if ($this->view->estMobile) {
 			$r = $this->getDataList("boite_m");
 		} else {
@@ -254,7 +263,8 @@ class InterfaceController extends Zend_Controller_Action {
 		return $r;
 	}
 
-	private function getDataList($nom) {
+	private function getDataList($nom)
+	{
 		$l = $this->m_list[$nom];
 		$liste = "";
 		$data = "";
@@ -306,7 +316,8 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 	}
 
-	private function refreshAll() {
+	private function refreshAll()
+	{
 		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences", "box_laban", "box_coffre", "box_charrette", "box_soule", "box_quete", "box_messagerie");
 		for ($i = 0; $i < count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
@@ -328,7 +339,8 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 	}
 
-	public function reloadAction() {
+	public function reloadAction()
+	{
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("action");
 		$xml_entry->set_valeur("goto");
@@ -338,7 +350,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->xml_response->render();
 	}
 
-	public function cartejsonAction() {
+	public function cartejsonAction()
+	{
 		Zend_Loader::loadClass('Bral_Util_Vue');
 		$this->view->json = Bral_Util_Vue::getJsonData($this->view);
 		echo $this->view->render("interface/cartejson.phtml");

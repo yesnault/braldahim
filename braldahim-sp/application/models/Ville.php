@@ -10,41 +10,46 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Ville extends Zend_Db_Table {
+class Ville extends Zend_Db_Table
+{
 	protected $_name = 'ville';
 	protected $_primary = 'id_ville';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('ville', '*')
-		->from('region', '*')
-		->where('x_min_ville <= ?',$x_max)
-		->where('x_max_ville >= ?',$x_min)
-		->where('y_min_ville <= ?',$y_max)
-		->where('y_max_ville >= ?',$y_min)
-		->where('ville.id_fk_region_ville = region.id_region');
+			->from('region', '*')
+			->where('x_min_ville <= ?', $x_max)
+			->where('x_max_ville >= ?', $x_min)
+			->where('y_min_ville <= ?', $y_max)
+			->where('y_max_ville >= ?', $y_min)
+			->where('ville.id_fk_region_ville = region.id_region');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y) {
+	function findByCase($x, $y)
+	{
 		return $this->selectVue($x, $y, $x, $y);
 	}
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_ville = ?',(int)$id);
+	public function findById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_ville = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 
-	function findAllWithRegion() {
+	function findAllWithRegion()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('ville', '*')
-		->from('region', '*')
-		->where('ville.id_fk_region_ville = region.id_region')
-		->order(array('id_region ASC', 'id_ville ASC'));
+			->from('region', '*')
+			->where('ville.id_fk_region_ville = region.id_region')
+			->order(array('id_region ASC', 'id_ville ASC'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

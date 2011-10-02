@@ -10,22 +10,28 @@
  * $LastChangedRevision: 2487 $
  * $LastChangedBy: yvonnickesnault $
  */
-class Bral_Util_Registre {
+class Bral_Util_Registre
+{
 
-	private function __construct(){}
+	private function __construct()
+	{
+	}
 
-	public static function get($key) {
+	public static function get($key)
+	{
 		if (Zend_Registry::isRegistered($key) == false && ($key == "competencesBasiques" || $key == "competencesSoule" || $key == "competences")) {
 			self::chargementCompetence();
 		}
 		return Zend_Registry::get($key);
 	}
 
-	public static function chargement() {
+	public static function chargement()
+	{
 		self::chargementNomTour();
 	}
 
-	public static function getNomUnite($unite, $systeme = false, $quantite = 0) {
+	public static function getNomUnite($unite, $systeme = false, $quantite = 0)
+	{
 		if (Zend_Registry::isRegistered("typesUnites") == false) {
 			self::chargementTypeUnite();
 		}
@@ -43,14 +49,15 @@ class Bral_Util_Registre {
 		}
 	}
 
-	private static function chargementTypeUnite() {
+	private static function chargementTypeUnite()
+	{
 		Zend_Loader::loadClass("TypeUnite");
 		$typeUniteTable = new TypeUnite();
 		$typeUniteRowset = $typeUniteTable->fetchAll();
 		$typeUniteRowset = $typeUniteRowset->toArray();
 		foreach ($typeUniteRowset as $t) {
 			$tabUnite[$t["id_type_unite"]] = array(
-				"nom_systeme" => $t["nom_systeme_type_unite"], 
+				"nom_systeme" => $t["nom_systeme_type_unite"],
 				"nom" => $t["nom_type_unite"],
 				"nom_pluriel" => $t["nom_pluriel_type_unite"],
 			);

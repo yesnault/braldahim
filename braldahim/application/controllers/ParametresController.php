@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class ParametresController extends Zend_Controller_Action {
+class ParametresController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -38,18 +40,20 @@ class ParametresController extends Zend_Controller_Action {
 		$this->view->controleur = $this->_request->controller;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
 
 		$this->view->password_hash_braldun = $braldun->password_hash_braldun;
-			
+
 		$this->render();
 	}
 
-	function descriptionAction() {
+	function descriptionAction()
+	{
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
@@ -57,11 +61,11 @@ class ParametresController extends Zend_Controller_Action {
 		$filter->addFilter(new Zend_Filter_StringTrim());
 
 		$valeur = htmlspecialchars($filter->filter($this->_request->getPost("valeur_2")));
-			
+
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
-			
+
 		if ($this->_request->isPost()) {
 			$controle = $this->_request->getPost("valeur_1");
 
@@ -70,7 +74,7 @@ class ParametresController extends Zend_Controller_Action {
 				$data = array(
 					'description_braldun' => $valeur,
 				);
-				$where = "id_braldun=".$this->view->user->id_braldun;
+				$where = "id_braldun=" . $this->view->user->id_braldun;
 				$braldunTable = new Braldun();
 				$braldunTable->update($data, $where);
 
@@ -80,14 +84,15 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function imagesAction() {
+	function imagesAction()
+	{
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
-			
+
 		$this->view->urlAvatarValide = true;
 		$this->view->urlBlasonValide = true;
-			
+
 		if ($this->_request->isPost()) {
 			$urlAvatar = $this->_request->getPost("valeur_1");
 			$urlBlason = $this->_request->getPost("valeur_2");
@@ -120,7 +125,7 @@ class ParametresController extends Zend_Controller_Action {
 				'url_avatar_braldun' => $urlAvatar,
 				'url_blason_braldun' => $urlBlason,
 			);
-			$where = "id_braldun=".$this->view->user->id_braldun;
+			$where = "id_braldun=" . $this->view->user->id_braldun;
 			$braldunTable = new Braldun();
 			$braldunTable->update($data, $where);
 
@@ -134,7 +139,8 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function motdepasseAction() {
+	function motdepasseAction()
+	{
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass("Bral_Validate_StringLength");
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -167,7 +173,7 @@ class ParametresController extends Zend_Controller_Action {
 					'password_hash_braldun' => $passwordHash,
 					'password_salt_braldun' => $salt,
 				);
-				$where = "id_braldun=".$braldun->id_braldun;
+				$where = "id_braldun=" . $braldun->id_braldun;
 				$braldunTable->update($data, $where);
 				$this->view->message = "Votre mot de passe est modifi&eacute;";
 				echo $this->view->render("Parametres/index.phtml");
@@ -191,10 +197,11 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function emailAction() {
+	function emailAction()
+	{
 		$this->email_actuel_braldun = null;
 		$this->email_nouveau_braldun = null;
-		$this->email_confirm_braldun =  null;
+		$this->email_confirm_braldun = null;
 
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -227,10 +234,10 @@ class ParametresController extends Zend_Controller_Action {
 				$data = array(
 					'email_braldun' => $this->email_nouveau_braldun,
 				);
-				$where = "id_braldun=".$braldun->id_braldun;
+				$where = "id_braldun=" . $braldun->id_braldun;
 				$braldunTable->update($data, $where);
 
-				$this->view->message = "L'adresse ".$this->email_nouveau_braldun." est bien prise en compte";
+				$this->view->message = "L'adresse " . $this->email_nouveau_braldun . " est bien prise en compte";
 				echo $this->view->render("Parametres/index.phtml");
 				return;
 			} else {
@@ -261,7 +268,8 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function reglagesmailAction() {
+	function reglagesmailAction()
+	{
 		$this->view->modification = false;
 
 		$envoi_mail_message = $this->_request->getPost("valeur_1");
@@ -272,23 +280,23 @@ class ParametresController extends Zend_Controller_Action {
 		$braldunTable = new Braldun();
 		$braldunRowset = $braldunTable->find($this->view->user->id_braldun);
 		$braldun = $braldunRowset->current();
-			
+
 		if ($this->_request->isPost()) {
 
 			if ($envoi_mail_message != "oui" && $envoi_mail_message != "non") {
-				throw new Zend_Exception("Erreur envoi_mail_message:".$envoi_mail_message);
+				throw new Zend_Exception("Erreur envoi_mail_message:" . $envoi_mail_message);
 			}
 
 			if ($envoi_mail_evenement != "oui" && $envoi_mail_evenement != "non") {
-				throw new Zend_Exception("Erreur envoi_mail_evenement:".$envoi_mail_evenement);
+				throw new Zend_Exception("Erreur envoi_mail_evenement:" . $envoi_mail_evenement);
 			}
-			
+
 			if ($envoi_mail_soule != "oui" && $envoi_mail_soule != "non") {
-				throw new Zend_Exception("Erreur envoi_mail_soule:".$envoi_mail_soule);
+				throw new Zend_Exception("Erreur envoi_mail_soule:" . $envoi_mail_soule);
 			}
 
 			if ($position_messagerie_braldun != "d" && $position_messagerie_braldun != "b") {
-				throw new Zend_Exception("Erreur position_messagerie_braldun:".$position_messagerie_braldun);
+				throw new Zend_Exception("Erreur position_messagerie_braldun:" . $position_messagerie_braldun);
 			}
 
 			$this->view->user->envoi_mail_message_braldun = $envoi_mail_message;
@@ -302,7 +310,7 @@ class ParametresController extends Zend_Controller_Action {
 				'envoi_mail_soule_braldun' => $this->view->user->envoi_mail_soule_braldun,
 				'position_messagerie_braldun' => $this->view->user->position_messagerie_braldun,
 			);
-			$where = "id_braldun=".$this->view->user->id_braldun;
+			$where = "id_braldun=" . $this->view->user->id_braldun;
 			$braldunTable = new Braldun();
 			$braldunTable->update($data, $where);
 
@@ -313,7 +321,8 @@ class ParametresController extends Zend_Controller_Action {
 		}
 	}
 
-	function reglagestesteursAction() {
+	function reglagestesteursAction()
+	{
 		$this->view->modification = false;
 
 		$est_testeur_vue = $this->_request->getPost("valeur_1");
@@ -325,7 +334,7 @@ class ParametresController extends Zend_Controller_Action {
 		if ($this->_request->isPost()) {
 
 			if ($est_testeur_vue != "oui" && $est_testeur_vue != "non") {
-				throw new Zend_Exception("Erreur est_testeur_vue:".$est_testeur_vue);
+				throw new Zend_Exception("Erreur est_testeur_vue:" . $est_testeur_vue);
 			}
 
 			$this->view->user->est_testeur_vue_braldun = $est_testeur_vue;
@@ -333,7 +342,7 @@ class ParametresController extends Zend_Controller_Action {
 			$data = array(
 				'est_testeur_vue_braldun' => $this->view->user->est_testeur_vue_braldun,
 			);
-			$where = "id_braldun=".$this->view->user->id_braldun;
+			$where = "id_braldun=" . $this->view->user->id_braldun;
 			$braldunTable = new Braldun();
 			$braldunTable->update($data, $where);
 
@@ -344,7 +353,8 @@ class ParametresController extends Zend_Controller_Action {
 		}
 	}
 
-	function partageAction() {
+	function partageAction()
+	{
 		Zend_Loader::loadClass("Partage");
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
@@ -385,14 +395,14 @@ class ParametresController extends Zend_Controller_Action {
 
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
-			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idPartage);
-			$texte = "--------> Braldûn déclarant : ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-			$texte .= "--------> Braldûn déclaré : ".$braldun->prenom_braldun." ".$braldun->nom_braldun. " (".$braldun->id_braldun.")".PHP_EOL;
-			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_braldun.PHP_EOL;
-			$texte .= "--------> Mail du déclaré : ".$braldun->email_braldun.PHP_EOL;
-			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR'];
-			$texte .= "--------> Message : ".PHP_EOL;
-			$texte .= $message.PHP_EOL;
+			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°" . $this->view->idPartage);
+			$texte = "--------> Braldûn déclarant : " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+			$texte .= "--------> Braldûn déclaré : " . $braldun->prenom_braldun . " " . $braldun->nom_braldun . " (" . $braldun->id_braldun . ")" . PHP_EOL;
+			$texte .= "--------> Mail du déclarant : " . $this->view->user->email_braldun . PHP_EOL;
+			$texte .= "--------> Mail du déclaré : " . $braldun->email_braldun . PHP_EOL;
+			$texte .= "--------> IP du déclarant : " . $_SERVER['REMOTE_ADDR'];
+			$texte .= "--------> Message : " . PHP_EOL;
+			$texte .= $message . PHP_EOL;
 
 			$mail->setBodyText($texte);
 			$mail->send();
@@ -400,7 +410,8 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function contacterAction() {
+	function contacterAction()
+	{
 		Zend_Loader::loadClass("Enquete");
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
@@ -428,11 +439,11 @@ class ParametresController extends Zend_Controller_Action {
 
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
-			$mail->setSubject("[Braldahim-Enqueteur Jeu] Enquête n°".$this->view->idEnquete);
-			$texte = "--------> Braldûn ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-			$texte .= "--------> Mail ".$this->view->user->email_braldun.PHP_EOL;
-			$texte .= "--------> Message : ".PHP_EOL;
-			$texte .= $message.PHP_EOL;
+			$mail->setSubject("[Braldahim-Enqueteur Jeu] Enquête n°" . $this->view->idEnquete);
+			$texte = "--------> Braldûn " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+			$texte .= "--------> Mail " . $this->view->user->email_braldun . PHP_EOL;
+			$texte .= "--------> Message : " . PHP_EOL;
+			$texte .= $message . PHP_EOL;
 
 			$mail->setBodyText($texte);
 			$mail->send();

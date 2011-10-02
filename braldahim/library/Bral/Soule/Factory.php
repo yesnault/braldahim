@@ -7,40 +7,40 @@
  */
 class Bral_Soule_Factory
 {
-    static function getAction($request, $view)
-    {
-        Zend_Loader::loadClass("Bral_Soule_Soule");
-        $matches = null;
-        preg_match('/(.*)_soule_(.*)/', $request->get("caction"), $matches);
-        $action = $matches[1]; // "do" ou "ask"
-        $nomSystemeAction = $matches[2];
-        $construct = null;
+	static function getAction($request, $view)
+	{
+		Zend_Loader::loadClass("Bral_Soule_Soule");
+		$matches = null;
+		preg_match('/(.*)_soule_(.*)/', $request->get("caction"), $matches);
+		$action = $matches[1]; // "do" ou "ask"
+		$nomSystemeAction = $matches[2];
+		$construct = null;
 
-        if ($view->user->activation == false && $nomSystemeAction != "voir" && $nomSystemeAction != "message") {
-            throw new Zend_Exception("Tour non activé");
-        }
+		if ($view->user->activation == false && $nomSystemeAction != "voir" && $nomSystemeAction != "message") {
+			throw new Zend_Exception("Tour non activé");
+		}
 
-        $construct = "Bral_Soule_" . Bral_Util_String::firstToUpper($nomSystemeAction);
+		$construct = "Bral_Soule_" . Bral_Util_String::firstToUpper($nomSystemeAction);
 
-        try {
-            Zend_Loader::loadClass($construct);
-        } catch (Exception $e) {
-            throw new Zend_Exception("Bral_Soule_Factory construct invalide (classe): " . $nomSystemeAction);
-        }
+		try {
+			Zend_Loader::loadClass($construct);
+		} catch (Exception $e) {
+			throw new Zend_Exception("Bral_Soule_Factory construct invalide (classe): " . $nomSystemeAction);
+		}
 
-        // verification que la classe de l'action existe.
-        if (($construct != null) && (class_exists($construct))) {
-            return new $construct ($nomSystemeAction, $request, $view, $action);
-        } else {
-            throw new Zend_Exception("Bral_Soule_Factory action invalide: " . $nomSystemeAction);
-        }
-    }
+		// verification que la classe de l'action existe.
+		if (($construct != null) && (class_exists($construct))) {
+			return new $construct ($nomSystemeAction, $request, $view, $action);
+		} else {
+			throw new Zend_Exception("Bral_Soule_Factory action invalide: " . $nomSystemeAction);
+		}
+	}
 
-    static function getVoir($request, $view, $idTerrain)
-    {
-        Zend_Loader::loadClass("Bral_Soule_Soule");
-        Zend_Loader::loadClass("Bral_Soule_Voir");
-        return new Bral_Soule_Voir("voir", $request, $view, "ask", $idTerrain);
-    }
+	static function getVoir($request, $view, $idTerrain)
+	{
+		Zend_Loader::loadClass("Bral_Soule_Soule");
+		Zend_Loader::loadClass("Bral_Soule_Voir");
+		return new Bral_Soule_Voir("voir", $request, $view, "ask", $idTerrain);
+	}
 
 }

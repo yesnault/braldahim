@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class QueteController extends Bral_Controller_Action {
+class QueteController extends Bral_Controller_Action
+{
 
-	public function doactionAction() {
+	public function doactionAction()
+	{
 		Zend_Loader :: loadClass("Bral_Quete_Factory");
 		$this->doBralAction("Bral_Quete_Factory");
 	}

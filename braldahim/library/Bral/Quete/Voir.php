@@ -8,67 +8,67 @@
 class Bral_Quete_Voir extends Bral_Quete_Quete
 {
 
-    function getNomInterne()
-    {
-        return "box_quete_voir";
-    }
+	function getNomInterne()
+	{
+		return "box_quete_voir";
+	}
 
-    function render()
-    {
-        return $this->view->render("quete/voir.phtml");
-    }
+	function render()
+	{
+		return $this->view->render("quete/voir.phtml");
+	}
 
-    function getTitreAction()
-    {
-    }
+	function getTitreAction()
+	{
+	}
 
-    public function calculNbPa()
-    {
-    }
+	public function calculNbPa()
+	{
+	}
 
-    function prepareCommun()
-    {
+	function prepareCommun()
+	{
 
-        if ($this->request->get("id_quete") != "") {
-            $this->idQueteEnCours = Bral_Util_Controle::getValeurIntVerif($this->request->get("id_quete"));
-        } else if ($this->idQueteDefaut != null) {
-            $this->idQueteEnCours = $this->idQueteDefaut;
-        }
-        if ($this->idQueteEnCours == null || $this->idQueteEnCours <= 0) {
-            throw new Zend_Exception(get_class($this) . " idQueteEnCours null" . $this->request->get("id_quete"));
-        }
+		if ($this->request->get("id_quete") != "") {
+			$this->idQueteEnCours = Bral_Util_Controle::getValeurIntVerif($this->request->get("id_quete"));
+		} else if ($this->idQueteDefaut != null) {
+			$this->idQueteEnCours = $this->idQueteDefaut;
+		}
+		if ($this->idQueteEnCours == null || $this->idQueteEnCours <= 0) {
+			throw new Zend_Exception(get_class($this) . " idQueteEnCours null" . $this->request->get("id_quete"));
+		}
 
-        Zend_Loader::loadClass("Quete");
-        $queteTable = new Quete();
+		Zend_Loader::loadClass("Quete");
+		$queteTable = new Quete();
 
-        $quete = $queteTable->findByIdBraldunAndIdQuete($this->view->user->id_braldun, $this->idQueteEnCours);
+		$quete = $queteTable->findByIdBraldunAndIdQuete($this->view->user->id_braldun, $this->idQueteEnCours);
 
-        if ($quete == null || count($quete) != 1) {
-            throw new Zend_Exception(get_class($this) . " quete invalide h:" . $this->view->user->id_braldun . " q:" . $this->idQueteEnCours);
-        }
-        $this->view->quete = $quete[0];
-        $this->prepareEtapes($this->idQueteEnCours);
+		if ($quete == null || count($quete) != 1) {
+			throw new Zend_Exception(get_class($this) . " quete invalide h:" . $this->view->user->id_braldun . " q:" . $this->idQueteEnCours);
+		}
+		$this->view->quete = $quete[0];
+		$this->prepareEtapes($this->idQueteEnCours);
 
-    }
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-    }
+	function prepareResultat()
+	{
+	}
 
-    function getListBoxRefresh()
-    {
-    }
+	function getListBoxRefresh()
+	{
+	}
 
-    private function prepareEtapes($idQuete)
-    {
-        Zend_Loader::loadClass("Etape");
-        $etapeTable = new Etape();
-        $etapes = $etapeTable->findByIdQuete($idQuete);
+	private function prepareEtapes($idQuete)
+	{
+		Zend_Loader::loadClass("Etape");
+		$etapeTable = new Etape();
+		$etapes = $etapeTable->findByIdQuete($idQuete);
 
-        $this->view->etapes = $etapes;
-    }
+		$this->view->etapes = $etapes;
+	}
 }

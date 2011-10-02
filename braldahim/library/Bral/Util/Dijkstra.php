@@ -10,371 +10,371 @@
 class Bral_Util_Dijkstra
 {
 
-    var $visited = array();
-    var $distance = array();
-    var $previousNode = array();
-    var $startnode = null;
-    var $map = array();
-    var $infiniteDistance = 1000;
-    var $numberOfNodes = 0;
-    var $bestPath = 0;
-    var $matrixWidth = 0;
+	var $visited = array();
+	var $distance = array();
+	var $previousNode = array();
+	var $startnode = null;
+	var $map = array();
+	var $infiniteDistance = 1000;
+	var $numberOfNodes = 0;
+	var $bestPath = 0;
+	var $matrixWidth = 0;
 
-    var $nbCasesLargeur = 0;
-    var $nbCases = 0;
+	var $nbCasesLargeur = 0;
+	var $nbCases = 0;
 
-    var $xPosition = 0;
-    var $yPosition = 0;
-    var $tabPalissades = array();
+	var $xPosition = 0;
+	var $yPosition = 0;
+	var $tabPalissades = array();
 
-    var $xPortail = null;
-    var $yPortail = null;
-    var $numeroPortail = null;
+	var $xPortail = null;
+	var $yPortail = null;
+	var $numeroPortail = null;
 
-    public function Dijkstra()
-    {
-    }
+	public function Dijkstra()
+	{
+	}
 
-    public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true, $controleCrevasse = false, $xPortail = null, $yPortail = null)
-    {
+	public function calcul($nbCases, $xPosition, $yPosition, $zPosition, $zone = null, $controleTunnel = true, $controleCrevasse = false, $xPortail = null, $yPortail = null)
+	{
 
-        $this->bestPath = 0;
-        $this->nbCasesLargeur = $nbCases + $nbCases + 1;
-        $this->nbCases = $nbCases;
-        $this->xPosition = $xPosition;
-        $this->yPosition = $yPosition;
-        $this->zPosition = $zPosition;
-        $this->xPortail = $xPortail;
-        $this->yPortail = $yPortail;
-        $this->numeroPortail = null;
+		$this->bestPath = 0;
+		$this->nbCasesLargeur = $nbCases + $nbCases + 1;
+		$this->nbCases = $nbCases;
+		$this->xPosition = $xPosition;
+		$this->yPosition = $yPosition;
+		$this->zPosition = $zPosition;
+		$this->xPortail = $xPortail;
+		$this->yPortail = $yPortail;
+		$this->numeroPortail = null;
 
-        if ($zone == null) {
-            Zend_Loader::loadClass("Zone");
-            $zoneTable = new Zone();
-            $zones = $zoneTable->findByCase($xPosition, $yPosition, $zPosition);
+		if ($zone == null) {
+			Zend_Loader::loadClass("Zone");
+			$zoneTable = new Zone();
+			$zones = $zoneTable->findByCase($xPosition, $yPosition, $zPosition);
 
-            // La requete ne doit renvoyer qu'une seule case
-            if (count($zones) == 1) {
-                $zone = $zones[0];
-            } else {
-                throw new Zend_Exception("Dijkstra::calcul : Nombre de case invalide pour zone x:$xPosition , y: $yPosition, z:$zPosition nb:(" . count($zones) . ")");
-            }
-        }
+			// La requete ne doit renvoyer qu'une seule case
+			if (count($zones) == 1) {
+				$zone = $zones[0];
+			} else {
+				throw new Zend_Exception("Dijkstra::calcul : Nombre de case invalide pour zone x:$xPosition , y: $yPosition, z:$zPosition nb:(" . count($zones) . ")");
+			}
+		}
 
-        $this->initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse);
-        $this->map = $this->initMap();
-        $this->numberOfNodes = count($this->map);
+		$this->initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse);
+		$this->map = $this->initMap();
+		$this->numberOfNodes = count($this->map);
 
-        $this->findShortestPath();
-    }
+		$this->findShortestPath();
+	}
 
-    private function initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse)
-    {
-        Zend_Loader::loadClass('Palissade');
-        Zend_Loader::loadClass('Eau');
-        Zend_Loader::loadClass('Tunnel');
-        Zend_Loader::loadClass('Crevasse');
+	private function initTabPalissadesEaux($zone, $controleTunnel, $controleCrevasse)
+	{
+		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass('Eau');
+		Zend_Loader::loadClass('Tunnel');
+		Zend_Loader::loadClass('Crevasse');
 
-        $palissadeTable = new Palissade();
-        $eauTable = new Eau();
-        $tunnelTable = new Tunnel();
-        $crevasseTable = new Crevasse();
+		$palissadeTable = new Palissade();
+		$eauTable = new Eau();
+		$tunnelTable = new Tunnel();
+		$crevasseTable = new Crevasse();
 
-        $xMin = $this->xPosition - $this->nbCasesLargeur;
-        $xMax = $this->xPosition + $this->nbCasesLargeur;
-        $yMin = $this->yPosition - $this->nbCasesLargeur;
-        $yMax = $this->yPosition + $this->nbCasesLargeur;
+		$xMin = $this->xPosition - $this->nbCasesLargeur;
+		$xMax = $this->xPosition + $this->nbCasesLargeur;
+		$yMin = $this->yPosition - $this->nbCasesLargeur;
+		$yMax = $this->yPosition + $this->nbCasesLargeur;
 
-        $palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
-        $eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, false);
-        $tunnels = null;
-        if ($zone["est_mine_zone"] == "oui" && $controleTunnel) {
-            $tunnels = $tunnelTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
-        }
+		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
+		$eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, false);
+		$tunnels = null;
+		if ($zone["est_mine_zone"] == "oui" && $controleTunnel) {
+			$tunnels = $tunnelTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
+		}
 
-        if ($controleCrevasse) {
-            $crevasses = $crevasseTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
-        }
+		if ($controleCrevasse) {
+			$crevasses = $crevasseTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
+		}
 
 
-        $numero = -1;
-        for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
-            for ($i = -$this->nbCases; $i <= $this->nbCases; $i++) {
-                $x = $this->xPosition + $i;
-                $y = $this->yPosition + $j;
-                $numero++;
-                $this->tabPalissadesEauxTunnels[$numero] = 1;
-                foreach ($palissades as $p) {
-                    if ($p["x_palissade"] == $x && $p["y_palissade"] == $y || ($this->xPortail != null && $this->yPortail != null && $i >= -1 && $i <= 1 && $j >= -1 && $j <= 1)) {
-                        $this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
-                        break;
-                    }
-                }
+		$numero = -1;
+		for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
+			for ($i = -$this->nbCases; $i <= $this->nbCases; $i++) {
+				$x = $this->xPosition + $i;
+				$y = $this->yPosition + $j;
+				$numero++;
+				$this->tabPalissadesEauxTunnels[$numero] = 1;
+				foreach ($palissades as $p) {
+					if ($p["x_palissade"] == $x && $p["y_palissade"] == $y || ($this->xPortail != null && $this->yPortail != null && $i >= -1 && $i <= 1 && $j >= -1 && $j <= 1)) {
+						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+						break;
+					}
+				}
 
-                if ($this->xPortail != null && $this->yPortail != null) {
-                    foreach ($palissades as $p) {
-                        if ($p["x_palissade"] == $x && $p["y_palissade"] == $y && $x == $this->xPortail && $y == $this->yPortail) {
-                            $this->tabPalissadesEauxTunnels[$numero] = 1;
-                            $this->numeroPortail = $numero;
-                            break;
-                        }
-                    }
-                }
-                foreach ($eaux as $e) {
-                    if ($e["x_eau"] == $x && $e["y_eau"] == $y) {
-                        $this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
-                        break;
-                    }
-                }
-                if ($zone["est_mine_zone"] == "oui") { // dans une mine
-                    $tunnelOk = false;
-                    if ($tunnels != null) {
-                        foreach ($tunnels as $t) {
-                            if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
-                                $tunnelOk = true;
-                                break;
-                            }
-                        }
-                    }
-                    if ($tunnelOk == false && $controleTunnel) { // si pas de tunnel trouvé => non accessible
-                        $this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
-                    }
-                }
-                if ($controleCrevasse) {
-                    foreach ($crevasses as $c) {
-                        if ($c["x_crevasse"] == $x && $c["y_crevasse"] == $y) {
-                            $this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
-                            break;
-                        }
-                    }
-                }
-                if ($x == $this->xPosition && $y == $this->yPosition) {
-                    $this->tabPalissadesEauxTunnels[$numero] = 1;
-                    $this->startnode = $numero;
-                }
-            }
-        }
-    }
+				if ($this->xPortail != null && $this->yPortail != null) {
+					foreach ($palissades as $p) {
+						if ($p["x_palissade"] == $x && $p["y_palissade"] == $y && $x == $this->xPortail && $y == $this->yPortail) {
+							$this->tabPalissadesEauxTunnels[$numero] = 1;
+							$this->numeroPortail = $numero;
+							break;
+						}
+					}
+				}
+				foreach ($eaux as $e) {
+					if ($e["x_eau"] == $x && $e["y_eau"] == $y) {
+						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+						break;
+					}
+				}
+				if ($zone["est_mine_zone"] == "oui") { // dans une mine
+					$tunnelOk = false;
+					if ($tunnels != null) {
+						foreach ($tunnels as $t) {
+							if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé
+								$tunnelOk = true;
+								break;
+							}
+						}
+					}
+					if ($tunnelOk == false && $controleTunnel) { // si pas de tunnel trouvé => non accessible
+						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+					}
+				}
+				if ($controleCrevasse) {
+					foreach ($crevasses as $c) {
+						if ($c["x_crevasse"] == $x && $c["y_crevasse"] == $y) {
+							$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+							break;
+						}
+					}
+				}
+				if ($x == $this->xPosition && $y == $this->yPosition) {
+					$this->tabPalissadesEauxTunnels[$numero] = 1;
+					$this->startnode = $numero;
+				}
+			}
+		}
+	}
 
-    private function initMap()
-    {
+	private function initMap()
+	{
 
-        // Initialisation des distances connues
-        $points = array(); // Un point est un tableau entre la case de départ, la case de fin et la distance entre les deux
-        for ($i = 0; $i <= $this->nbCasesLargeur * $this->nbCasesLargeur - 1; $i++) {
-            if ($this->tabPalissadesEauxTunnels[$i] == 1) { // Ce n'est pas une palissade, on initialise les distances avec les cases autour
-                // La case qui est à gauche
-                if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case en cours est sur un bord gauche
-                    $points[] = array($i, $i - 1, $this->tabPalissadesEauxTunnels[$i - 1]);
-                }
+		// Initialisation des distances connues
+		$points = array(); // Un point est un tableau entre la case de départ, la case de fin et la distance entre les deux
+		for ($i = 0; $i <= $this->nbCasesLargeur * $this->nbCasesLargeur - 1; $i++) {
+			if ($this->tabPalissadesEauxTunnels[$i] == 1) { // Ce n'est pas une palissade, on initialise les distances avec les cases autour
+				// La case qui est à gauche
+				if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case en cours est sur un bord gauche
+					$points[] = array($i, $i - 1, $this->tabPalissadesEauxTunnels[$i - 1]);
+				}
 
-                // La case qui est à droite
-                if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-                    $points[] = array($i, $i + 1, $this->tabPalissadesEauxTunnels[$i + 1]);
-                }
+				// La case qui est à droite
+				if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
+					$points[] = array($i, $i + 1, $this->tabPalissadesEauxTunnels[$i + 1]);
+				}
 
-                // Initialisation des distances avec les cases du dessus
-                if ($i >= $this->nbCasesLargeur) { // Si on n'est pas sur la première ligne (car il n'y a rien au dessus)
+				// Initialisation des distances avec les cases du dessus
+				if ($i >= $this->nbCasesLargeur) { // Si on n'est pas sur la première ligne (car il n'y a rien au dessus)
 
-                    // La case directement au dessus
-                    $points[] = array($i, $i - $this->nbCasesLargeur, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur]);
+					// La case directement au dessus
+					$points[] = array($i, $i - $this->nbCasesLargeur, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur]);
 
-                    // La case au dessus, à gauche
-                    if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
-                        $points[] = array($i, $i - $this->nbCasesLargeur - 1, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur - 1]);
-                    }
+					// La case au dessus, à gauche
+					if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
+						$points[] = array($i, $i - $this->nbCasesLargeur - 1, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur - 1]);
+					}
 
-                    // La case au dessus à droite
-                    if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-                        $points[] = array($i, $i - $this->nbCasesLargeur + 1, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur + 1]);
-                    }
-                }
+					// La case au dessus à droite
+					if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
+						$points[] = array($i, $i - $this->nbCasesLargeur + 1, $this->tabPalissadesEauxTunnels[$i - $this->nbCasesLargeur + 1]);
+					}
+				}
 
-                // Initialisation des distances avec les cases au dessous
-                if ($i <= $this->nbCasesLargeur * ($this->nbCasesLargeur - 1) - 1) { // Si on n'est pas sur la dernière ligne
+				// Initialisation des distances avec les cases au dessous
+				if ($i <= $this->nbCasesLargeur * ($this->nbCasesLargeur - 1) - 1) { // Si on n'est pas sur la dernière ligne
 
-                    // La case juste en dessous
-                    $points[] = array($i, $i + $this->nbCasesLargeur, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur]);
+					// La case juste en dessous
+					$points[] = array($i, $i + $this->nbCasesLargeur, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur]);
 
-                    // La case en dessous à gauche
-                    if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
-                        $points[] = array($i, $i + $this->nbCasesLargeur - 1, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur - 1]);
-                    }
+					// La case en dessous à gauche
+					if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
+						$points[] = array($i, $i + $this->nbCasesLargeur - 1, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur - 1]);
+					}
 
-                    // La case en dessous à droite
-                    if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-                        $points[] = array($i, $i + $this->nbCasesLargeur + 1, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur + 1]);
-                    }
-                }
-            } else { // Cas d'une palissade
-                $points[] = array($i, $i, $this->infiniteDistance); // Soit une distance infinie, soit pas de distance, au choix ;-)
-            }
-        }
+					// La case en dessous à droite
+					if (($i + 1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
+						$points[] = array($i, $i + $this->nbCasesLargeur + 1, $this->tabPalissadesEauxTunnels[$i + $this->nbCasesLargeur + 1]);
+					}
+				}
+			} else { // Cas d'une palissade
+				$points[] = array($i, $i, $this->infiniteDistance); // Soit une distance infinie, soit pas de distance, au choix ;-)
+			}
+		}
 
-        $ourMap = array();
-        for ($i = 0, $m = count($points); $i < $m; $i++) {
-            $x = $points[$i][0];
-            $y = $points[$i][1];
-            $c = $points[$i][2];
-            $ourMap[$x][$y] = $c;
-            $ourMap[$y][$x] = $c;
-        }
+		$ourMap = array();
+		for ($i = 0, $m = count($points); $i < $m; $i++) {
+			$x = $points[$i][0];
+			$y = $points[$i][1];
+			$c = $points[$i][2];
+			$ourMap[$x][$y] = $c;
+			$ourMap[$y][$x] = $c;
+		}
 
-        // ensure that the distance from a node to itself is always zero
-        // Purists may want to edit this bit out.
-        $matrixWidth = $this->nbCasesLargeur * $this->nbCasesLargeur;
-        for ($i = 0; $i < $matrixWidth; $i++) {
-            for ($k = 0; $k < $matrixWidth; $k++) {
-                if ($i == $k) $ourMap[$i][$k] = 0;
-            }
-        }
+		// ensure that the distance from a node to itself is always zero
+		// Purists may want to edit this bit out.
+		$matrixWidth = $this->nbCasesLargeur * $this->nbCasesLargeur;
+		for ($i = 0; $i < $matrixWidth; $i++) {
+			for ($k = 0; $k < $matrixWidth; $k++) {
+				if ($i == $k) $ourMap[$i][$k] = 0;
+			}
+		}
 
-        return $ourMap;
-    }
+		return $ourMap;
+	}
 
-    private function findShortestPath($to = null)
-    {
-        for ($i = 0; $i < $this->numberOfNodes; $i++) {
-            if ($i == $this->startnode) {
-                $this->visited[$i] = true;
-                $this->distance[$i] = 0;
-            } else {
-                $this->visited[$i] = false;
-                $this->distance[$i] = isset($this->map[$this->startnode][$i])
-                        ? $this->map[$this->startnode][$i]
-                        : $this->infiniteDistance;
-            }
-            $this->previousNode[$i] = $this->startnode;
-        }
+	private function findShortestPath($to = null)
+	{
+		for ($i = 0; $i < $this->numberOfNodes; $i++) {
+			if ($i == $this->startnode) {
+				$this->visited[$i] = true;
+				$this->distance[$i] = 0;
+			} else {
+				$this->visited[$i] = false;
+				$this->distance[$i] = isset($this->map[$this->startnode][$i])
+					? $this->map[$this->startnode][$i]
+					: $this->infiniteDistance;
+			}
+			$this->previousNode[$i] = $this->startnode;
+		}
 
-        $maxTries = $this->numberOfNodes;
-        $tries = 0;
-        while (in_array(false, $this->visited, true) && $tries <= $maxTries) {
-            $this->bestPath = $this->findBestPath($this->distance, array_keys($this->visited, false, true));
-            if ($to !== null && $this->bestPath === $to) {
-                break;
-            }
-            $this->updateDistanceAndPrevious($this->bestPath);
-            $this->visited[$this->bestPath] = true;
-            $tries++;
-        }
-    }
+		$maxTries = $this->numberOfNodes;
+		$tries = 0;
+		while (in_array(false, $this->visited, true) && $tries <= $maxTries) {
+			$this->bestPath = $this->findBestPath($this->distance, array_keys($this->visited, false, true));
+			if ($to !== null && $this->bestPath === $to) {
+				break;
+			}
+			$this->updateDistanceAndPrevious($this->bestPath);
+			$this->visited[$this->bestPath] = true;
+			$tries++;
+		}
+	}
 
-    private function findBestPath($ourDistance, $ourNodesLeft)
-    {
-        $bestPath = $this->infiniteDistance;
-        $bestNode = 0;
-        for ($i = 0, $m = count($ourNodesLeft); $i < $m; $i++) {
-            if ($ourDistance[$ourNodesLeft[$i]] < $bestPath) {
-                $bestPath = $ourDistance[$ourNodesLeft[$i]];
-                $bestNode = $ourNodesLeft[$i];
-            }
-        }
-        return $bestNode;
-    }
+	private function findBestPath($ourDistance, $ourNodesLeft)
+	{
+		$bestPath = $this->infiniteDistance;
+		$bestNode = 0;
+		for ($i = 0, $m = count($ourNodesLeft); $i < $m; $i++) {
+			if ($ourDistance[$ourNodesLeft[$i]] < $bestPath) {
+				$bestPath = $ourDistance[$ourNodesLeft[$i]];
+				$bestNode = $ourNodesLeft[$i];
+			}
+		}
+		return $bestNode;
+	}
 
-    private function updateDistanceAndPrevious($obp)
-    {
-        for ($i = 0; $i < $this->numberOfNodes; $i++) {
-            if ((isset($this->map[$obp][$i]))
-                    && (!($this->map[$obp][$i] == $this->infiniteDistance) || ($this->map[$obp][$i] == 0))
-                    && (($this->distance[$obp] + $this->map[$obp][$i]) < $this->distance[$i])
-            ) {
-                $this->distance[$i] = $this->distance[$obp] + $this->map[$obp][$i];
-                $this->previousNode[$i] = $obp;
-            }
-        }
-    }
+	private function updateDistanceAndPrevious($obp)
+	{
+		for ($i = 0; $i < $this->numberOfNodes; $i++) {
+			if ((isset($this->map[$obp][$i]))
+				&& (!($this->map[$obp][$i] == $this->infiniteDistance) || ($this->map[$obp][$i] == 0))
+				&& (($this->distance[$obp] + $this->map[$obp][$i]) < $this->distance[$i])
+			) {
+				$this->distance[$i] = $this->distance[$obp] + $this->map[$obp][$i];
+				$this->previousNode[$i] = $obp;
+			}
+		}
+	}
 
-    private function printMap()
-    {
-        $placeholder = ' %' . strlen($this->infiniteDistance) . 'd';
-        $foo = '';
-        for ($i = 0, $im = count($this->map); $i < $im; $i++) {
-            for ($k = 0, $m = $im; $k < $m; $k++) {
-                $foo .= sprintf($placeholder, isset($this->map[$i][$k]) ? $this->map[$i][$k] : $this->infiniteDistance);
-            }
-            $foo .= "\n";
-        }
-        return $foo;
-    }
+	private function printMap()
+	{
+		$placeholder = ' %' . strlen($this->infiniteDistance) . 'd';
+		$foo = '';
+		for ($i = 0, $im = count($this->map); $i < $im; $i++) {
+			for ($k = 0, $m = $im; $k < $m; $k++) {
+				$foo .= sprintf($placeholder, isset($this->map[$i][$k]) ? $this->map[$i][$k] : $this->infiniteDistance);
+			}
+			$foo .= "\n";
+		}
+		return $foo;
+	}
 
-    public function getShortestPath($to)
-    {
-        $ourShortestPath = array();
-        $foo = '';
-        for ($i = 0; $i < $this->numberOfNodes; $i++) {
-            if ($to !== $i) {
-                continue;
-            }
-            $ourShortestPath[$i] = array();
-            $endNode = null;
-            $currNode = $i;
-            $ourShortestPath[$i][] = $i;
-            while ($endNode === null || $endNode != $this->startnode) {
-                $ourShortestPath[$i][] = $this->previousNode[$currNode];
-                $endNode = $this->previousNode[$currNode];
-                $currNode = $this->previousNode[$currNode];
-            }
-            $ourShortestPath[$i] = array_reverse($ourShortestPath[$i]);
-            if ($to === $i) {
-                if ($this->distance[$i] >= $this->infiniteDistance) {
-                    //		$foo .= sprintf("Aucun accès de %d à %d. \n",$this->startnode,$i);
-                    $ourShortestPath = null;
-                    break;
-                } else {
-                    /*		$foo .= sprintf('%d => %d = %d [%d]: (%s).'."\n" ,
-                          $this->startnode,$i, $this->distance[$i],
-                          count($ourShortestPath[$i]),
-                          implode('-',$ourShortestPath[$i]));
-                          */
-                }
-                //$foo .= str_repeat('-',20) . "\n";
-                if ($to === $i) {
-                    break;
-                }
-            }
-        }
-        if ($ourShortestPath != null && count($ourShortestPath) > 0 && array_key_exists($i, $ourShortestPath)) {
-            return $ourShortestPath[$i];
-        } else {
-            return null;
-        }
-    }
+	public function getShortestPath($to)
+	{
+		$ourShortestPath = array();
+		$foo = '';
+		for ($i = 0; $i < $this->numberOfNodes; $i++) {
+			if ($to !== $i) {
+				continue;
+			}
+			$ourShortestPath[$i] = array();
+			$endNode = null;
+			$currNode = $i;
+			$ourShortestPath[$i][] = $i;
+			while ($endNode === null || $endNode != $this->startnode) {
+				$ourShortestPath[$i][] = $this->previousNode[$currNode];
+				$endNode = $this->previousNode[$currNode];
+				$currNode = $this->previousNode[$currNode];
+			}
+			$ourShortestPath[$i] = array_reverse($ourShortestPath[$i]);
+			if ($to === $i) {
+				if ($this->distance[$i] >= $this->infiniteDistance) {
+					//		$foo .= sprintf("Aucun accès de %d à %d. \n",$this->startnode,$i);
+					$ourShortestPath = null;
+					break;
+				} else {
+					/*		$foo .= sprintf('%d => %d = %d [%d]: (%s).'."\n" ,
+											  $this->startnode,$i, $this->distance[$i],
+											  count($ourShortestPath[$i]),
+											  implode('-',$ourShortestPath[$i]));
+											  */
+				}
+				//$foo .= str_repeat('-',20) . "\n";
+				if ($to === $i) {
+					break;
+				}
+			}
+		}
+		if ($ourShortestPath != null && count($ourShortestPath) > 0 && array_key_exists($i, $ourShortestPath)) {
+			return $ourShortestPath[$i];
+		} else {
+			return null;
+		}
+	}
 
-    // Recopie de getResults en modifiant seulement le retour pour n'avoir que la distance
-    public function getDistance($to = null)
-    {
-        $ourShortestPath = array();
-        $foo = '';
-        for ($i = 0; $i < $this->numberOfNodes; $i++) {
-            if ($to !== null && $to !== $i) {
-                continue;
-            }
-            $ourShortestPath[$i] = array();
-            $endNode = null;
-            $currNode = $i;
-            $ourShortestPath[$i][] = $i;
-            while ($endNode === null || $endNode != $this->startnode) {
-                $ourShortestPath[$i][] = $this->previousNode[$currNode];
-                $endNode = $this->previousNode[$currNode];
-                $currNode = $this->previousNode[$currNode];
-            }
-            $ourShortestPath[$i] = array_reverse($ourShortestPath[$i]);
-            if ($to === null || $to === $i) {
-                if ($this->distance[$i] >= $this->infiniteDistance) {
-                    $foo .= sprintf("%d", $this->infiniteDistance);
-                } else {
-                    $foo .= sprintf('%d', $this->distance[$i]);
-                }
-                if ($to === $i) {
-                    break;
-                }
-            }
-        }
-        if ($this->numeroPortail != null && $this->numeroPortail == $to) {
-            $foo .= sprintf("%d", $this->infiniteDistance);
-        }
-        return $foo;
-    }
+	// Recopie de getResults en modifiant seulement le retour pour n'avoir que la distance
+	public function getDistance($to = null)
+	{
+		$ourShortestPath = array();
+		$foo = '';
+		for ($i = 0; $i < $this->numberOfNodes; $i++) {
+			if ($to !== null && $to !== $i) {
+				continue;
+			}
+			$ourShortestPath[$i] = array();
+			$endNode = null;
+			$currNode = $i;
+			$ourShortestPath[$i][] = $i;
+			while ($endNode === null || $endNode != $this->startnode) {
+				$ourShortestPath[$i][] = $this->previousNode[$currNode];
+				$endNode = $this->previousNode[$currNode];
+				$currNode = $this->previousNode[$currNode];
+			}
+			$ourShortestPath[$i] = array_reverse($ourShortestPath[$i]);
+			if ($to === null || $to === $i) {
+				if ($this->distance[$i] >= $this->infiniteDistance) {
+					$foo .= sprintf("%d", $this->infiniteDistance);
+				} else {
+					$foo .= sprintf('%d', $this->distance[$i]);
+				}
+				if ($to === $i) {
+					break;
+				}
+			}
+		}
+		if ($this->numeroPortail != null && $this->numeroPortail == $to) {
+			$foo .= sprintf("%d", $this->infiniteDistance);
+		}
+		return $foo;
+	}
 }

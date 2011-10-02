@@ -9,61 +9,61 @@ require_once 'Zend/Validate/Interface.php';
 
 class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface
 {
-    protected $_messages = array();
+	protected $_messages = array();
 
-    public function __construct($estObligatoire)
-    {
-        $this->estObligatoire = $estObligatoire;
-    }
+	public function __construct($estObligatoire)
+	{
+		$this->estObligatoire = $estObligatoire;
+	}
 
-    public function isValid($valeur)
-    {
-        $this->_messages = array();
-        $valid = true;
+	public function isValid($valeur)
+	{
+		$this->_messages = array();
+		$valid = true;
 
-        if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === true)) {
-            $this->_messages[] = "Ce champ est obligatoire";
-            $valid = false;
-        }
+		if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === true)) {
+			$this->_messages[] = "Ce champ est obligatoire";
+			$valid = false;
+		}
 
-        // si le champ est vide, mais qu'il n'est pas obligatoire, on sort tout de suite
-        if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === false)) {
-            return true;
-        }
+		// si le champ est vide, mais qu'il n'est pas obligatoire, on sort tout de suite
+		if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === false)) {
+			return true;
+		}
 
-        if (mb_strlen($valeur) > 120) {
-            $this->_messages[] = "Trop de Bralduns destinataires (vous pouvez en mettre environ 35 maximum)";
-            $valid = false;
-        }
+		if (mb_strlen($valeur) > 120) {
+			$this->_messages[] = "Trop de Bralduns destinataires (vous pouvez en mettre environ 35 maximum)";
+			$valid = false;
+		}
 
-        if ($valid) {
-            if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`', $valeur, $matches)) {
-                $this->_messages[] = "Ce champ contient des caractères invalides";
-                $valid = false;
-            }
-        }
+		if ($valid) {
+			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`', $valeur, $matches)) {
+				$this->_messages[] = "Ce champ contient des caractères invalides";
+				$valid = false;
+			}
+		}
 
-        if ($valid) {
-            $braldunTable = new Braldun();
-            foreach ($matches[0] as $id) {
-                $r = $braldunTable->findById(trim($id));
-                if ($r == null || count($r) == 0) {
-                    $this->_messages[] = "Le Braldûn est inconnu";
-                    $valid = false;
-                }
-            }
-        }
+		if ($valid) {
+			$braldunTable = new Braldun();
+			foreach ($matches[0] as $id) {
+				$r = $braldunTable->findById(trim($id));
+				if ($r == null || count($r) == 0) {
+					$this->_messages[] = "Le Braldûn est inconnu";
+					$valid = false;
+				}
+			}
+		}
 
-        return $valid;
-    }
+		return $valid;
+	}
 
-    public function getMessages()
-    {
-        return $this->_messages;
-    }
+	public function getMessages()
+	{
+		return $this->_messages;
+	}
 
-    public function getErrors()
-    {
-        return $this->_messages;
-    }
+	public function getErrors()
+	{
+		return $this->_messages;
+	}
 }

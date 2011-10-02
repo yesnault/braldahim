@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class BrasserieController extends Bral_Controller_Box {
+class BrasserieController extends Bral_Controller_Box
+{
 
-	function indexAction() {
+	function indexAction()
+	{
 
 		$this->view->affichageInterne = true;
 		$this->view->nom_interne = "box_brasserie";
@@ -43,7 +45,8 @@ class BrasserieController extends Bral_Controller_Box {
 		$this->render();
 	}
 
-	function loadAction() {
+	function loadAction()
+	{
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
 		$this->xml_response = new Bral_Xml_Response();
@@ -57,13 +60,14 @@ class BrasserieController extends Bral_Controller_Box {
 		$this->xml_response->render();
 	}
 
-	private function prepareMatchs($idMatch = null) {
+	private function prepareMatchs($idMatch = null)
+	{
 		Zend_Loader::loadClass("SouleMatch");
 		$souleMatchTable = new SouleMatch();
 		$matchs = $souleMatchTable->fetchAllAvecTerrain();
 		$retour = false;
 		if ($idMatch != null) {
-			foreach($matchs as $m) {
+			foreach ($matchs as $m) {
 				if ($m["id_soule_match"] == $idMatch) {
 					$retour = true;
 					break;

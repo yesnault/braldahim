@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AuthController extends Zend_Controller_Action {
+class AuthController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		Zend_Loader::loadClass('Braldun');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
@@ -20,16 +22,19 @@ class AuthController extends Zend_Controller_Action {
 		}
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->_redirect('/');
 	}
 
-	function loginmobileAction() {
+	function loginmobileAction()
+	{
 		$this->loginWork();
 		$this->render();
 	}
 
-	function loginAction() {
+	function loginAction()
+	{
 		if ($this->view->estMobile) {
 			$this->_forward("loginmobile");
 		} else {
@@ -37,7 +42,7 @@ class AuthController extends Zend_Controller_Action {
 
 			Zend_Loader::loadClass("Bral_Util_Lot");
 			$this->view->lots = Bral_Util_Lot::getLotsByHotelAccueil();
-			
+
 			Zend_Loader::loadClass("Bral_Util_Communaute");
 			$this->view->communautes = Bral_Util_Communaute::getTop5($this->view);
 
@@ -45,7 +50,7 @@ class AuthController extends Zend_Controller_Action {
 			$response = null;
 			try {
 				$twitter = new Zend_Service_Twitter();
-	        	$response = $twitter->status->userTimeline(array('screen_name' => 'Braldahim'));
+				$response = $twitter->status->userTimeline(array('screen_name' => 'Braldahim'));
 			} catch (Zend_Exception $exception) {
 
 			}
@@ -55,7 +60,8 @@ class AuthController extends Zend_Controller_Action {
 		}
 	}
 
-	function loginWork() {
+	function loginWork()
+	{
 		// si le joueur est connecte, on le deconnecte !
 		if (Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/auth/logout');
@@ -70,7 +76,7 @@ class AuthController extends Zend_Controller_Action {
 		$f = new Zend_Filter_StripTags();
 		$email = $f->filter($this->_request->getPost('post_email_braldun'));
 		$password = $f->filter($this->_request->getPost('post_password_braldun'));
-			
+
 		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
 
 			Zend_Loader::loadClass('Bral_Util_Hash');
@@ -108,11 +114,11 @@ class AuthController extends Zend_Controller_Action {
 				$this->calculSortieHibernation($braldun);
 
 				if ($braldun->est_en_hibernation_braldun == "oui") {
-					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
-					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$braldun->date_fin_hibernation_braldun). " minimum inclus.";
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : " . $email);
+					$this->view->message = "Ce compte est en hibernation jusqu'au " . Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y', $braldun->date_fin_hibernation_braldun) . " minimum inclus.";
 					Zend_Auth::getInstance()->clearIdentity();
 				} else if ($braldun->est_compte_actif_braldun == "oui" && $braldun->est_compte_desactive_braldun == "non") {
-					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
+					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour " . $email);
 					// success : store database row to auth's storage system
 					// (not the password though!)
 					$auth->getStorage()->write($braldun);
@@ -131,7 +137,7 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
 					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_braldun == 'gestion');
 					Zend_Auth::getInstance()->getIdentity()->rangCommunaute = null;
-						
+
 					if ($braldun->id_fk_communaute_braldun != null) {
 						Zend_Loader::loadClass("RangCommunaute");
 						$rangCommunauteTable = new RangCommunaute();
@@ -157,17 +163,17 @@ class AuthController extends Zend_Controller_Action {
 						$this->_redirect('/interface/');
 					}
 				} else if ($braldun->est_compte_actif_braldun == 'non') {
-					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : " . $email);
 					$this->view->message = "Ce compte n'est pas actif";
 					Zend_Auth::getInstance()->clearIdentity();
 				} else { //if ($braldun->est_compte_desactive_braldun == "oui") {
-					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte desactive : ".$email);
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte desactive : " . $email);
 					$this->view->message = "Ce compte est actuellement désactivé. ";
-					$this->view->message .= "Contactez les enquêteurs à l'adresse ".$this->view->config->general->mail->enqueteurs->from." si vous n'êtes pas déjà en contact avec un enquêteur.";
+					$this->view->message .= "Contactez les enquêteurs à l'adresse " . $this->view->config->general->mail->enqueteurs->from . " si vous n'êtes pas déjà en contact avec un enquêteur.";
 					Zend_Auth::getInstance()->clearIdentity();
 				}
 			} else {
-				Bral_Util_Log::authentification()->notice("AuthController - loginAction - echec d'authentification pour ".$email);
+				Bral_Util_Log::authentification()->notice("AuthController - loginAction - echec d'authentification pour " . $email);
 				$this->view->message = "Echec d'authentification";
 			}
 		} else if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
@@ -178,19 +184,22 @@ class AuthController extends Zend_Controller_Action {
 		$this->prepareInfosJeu();
 	}
 
-	function logoutAction() {
+	function logoutAction()
+	{
 		$this->deleteSessionInTable();
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->_redirect('/');
 	}
 
-	function logoutajaxAction() {
+	function logoutajaxAction()
+	{
 		$this->deleteSessionInTable();
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->render();
 	}
 
-	private function calculSortieHibernation(&$braldun) {
+	private function calculSortieHibernation(&$braldun)
+	{
 		if ($braldun->est_en_hibernation_braldun == "oui") {
 			$aujourdhui = date("Y-m-d 0:0:0");
 			echo $aujourdhui;
@@ -218,29 +227,31 @@ class AuthController extends Zend_Controller_Action {
 					'est_donjon_braldun' => $braldun->est_donjon_braldun,
 				);
 
-				$where = "id_braldun = ".intval($braldun->id_braldun);
+				$where = "id_braldun = " . intval($braldun->id_braldun);
 				$table = new Braldun();
 				$table->update($data, $where);
 			}
 		}
 	}
 
-	private function deleteSessionInTable() {
+	private function deleteSessionInTable()
+	{
 		$c = "stdClass";
 		if (Zend_Auth::getInstance()->hasIdentity() && Zend_Auth::getInstance()->getIdentity() instanceof $c) {
 			$idBraldun = Zend_Auth::getInstance()->getIdentity()->id_braldun;
 			if ($idBraldun > 0) {
 				$sessionTable = new Session();
-				$where = "id_fk_braldun_session = ".$idBraldun;
+				$where = "id_fk_braldun_session = " . $idBraldun;
 				$sessionTable->delete($where);
 			}
 		}
 	}
 
-	private function prepareInfosJeu() {
-	/*	Zend_Loader::loadClass("Bral_Util_InfoJeu");
-		$infoJeu = Bral_Util_InfoJeu::prepareInfosJeu();
-		$this->view->nouvelles = $infoJeu["toutes"];
-	*/
+	private function prepareInfosJeu()
+	{
+		/*	Zend_Loader::loadClass("Bral_Util_InfoJeu");
+		 $infoJeu = Bral_Util_InfoJeu::prepareInfosJeu();
+		 $this->view->nouvelles = $infoJeu["toutes"];
+	 */
 	}
 }

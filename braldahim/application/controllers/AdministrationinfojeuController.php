@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationinfojeuController extends Zend_Controller_Action {
+class AdministrationinfojeuController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -36,30 +38,35 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$this->view->tabTypes = $tabTypes;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	public function estaccueilAction() {
+	public function estaccueilAction()
+	{
 		$this->updateAccueil('oui');
 		$this->_forward('infosjeu');
 	}
 
-	public function estnonaccueilAction() {
+	public function estnonaccueilAction()
+	{
 		$this->updateAccueil('non');
 		$this->_forward('infosjeu');
 	}
 
-	private function updateAccueil($estSurAccueil) {
+	private function updateAccueil($estSurAccueil)
+	{
 		if ($this->_request->get('idinfo')) {
 			$infoJeuTable = new InfoJeu();
 			$data = array('est_sur_accueil_info_jeu' => $estSurAccueil);
-			$where = 'id_info_jeu = '.$this->_request->get('idinfo');
+			$where = 'id_info_jeu = ' . $this->_request->get('idinfo');
 			$infoJeuTable->update($data, $where);
 		}
 	}
 
-	public function infosjeuAction() {
+	public function infosjeuAction()
+	{
 
 		if ($this->_request->get('idinfo')) {
 			$infoJeuTable = new InfoJeu();
@@ -87,23 +94,23 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 
 			if ($this->_request->get('idinfoEdit') != -1) {
 				$data = array('titre_info_jeu' => $titre, 'text_info_jeu' => $texte, 'lien_info_jeu' => $lien, 'lien_wiki_info_jeu' => $lienWiki, 'type_info_jeu' => $type);
-				$where = 'id_info_jeu = '.$this->_request->get('idinfoEdit');
+				$where = 'id_info_jeu = ' . $this->_request->get('idinfoEdit');
 				$infoJeuTable->update($data, $where);
 				$idInfo = $this->_request->get('idinfoEdit');
 			} else {
 				$data = array(
 					'date_info_jeu' => date("Y-m-d H:i:s"),
-				 	'text_info_jeu' => $texte,
+					'text_info_jeu' => $texte,
 					'lien_info_jeu' => $lien,
 					'lien_wiki_info_jeu' => $lienWiki,
 					"type_info_jeu" => $type,
 					"titre_info_jeu" => $titre,
-					
+
 				);
 				$idInfo = $infoJeuTable->insert($data);
 
 				if ($this->view->config->twitter->use == '1') {
-				//	$this->twitter($texte, $titre, $lien, $lienWiki);
+					//	$this->twitter($texte, $titre, $lien, $lienWiki);
 				}
 			}
 
@@ -116,7 +123,8 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function twitter($texte, $titre, $lien, $lienWiki) {
+	private function twitter($texte, $titre, $lien, $lienWiki)
+	{
 		Zend_Loader::loadClass("Zend_Service_Twitter");
 		$twitter = new Zend_Service_Twitter($this->view->config->twitter->username, $this->view->config->twitter->password);
 		// verify your credentials with twitter
@@ -125,35 +133,36 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$texteTwitter = "";
 
 		if ($lienWiki != null && $lienWiki != "") {
-			if ((strlen($texteTwitter) +  strlen(" Suite: ")) < 120) {
-				$texteTwitter .= " Suite: ".$lienWiki;
+			if ((strlen($texteTwitter) + strlen(" Suite: ")) < 120) {
+				$texteTwitter .= " Suite: " . $lienWiki;
 			}
 		}
 
 		if ($lien != null && $lien != "") {
-			if ((strlen($texteTwitter) +  strlen(" Discussions: ")) < 120) {
-				$texteTwitter .= " Discussions: ".$lien;
+			if ((strlen($texteTwitter) + strlen(" Discussions: ")) < 120) {
+				$texteTwitter .= " Discussions: " . $lien;
 			}
 		}
 
 		if ($texte != null && $texte != "") {
-			if ((strlen($texteTwitter) +  strlen($texte)) < 135) {
-				$texteTwitter = $texte. $texteTwitter;
+			if ((strlen($texteTwitter) + strlen($texte)) < 135) {
+				$texteTwitter = $texte . $texteTwitter;
 			} elseif (strlen($texteTwitter) < 135) {
-				$texteTwitter = substr($texte, 0, 135-strlen($texteTwitter)). $texteTwitter;
+				$texteTwitter = substr($texte, 0, 135 - strlen($texteTwitter)) . $texteTwitter;
 			}
 		}
 
-		if ((strlen($texteTwitter) +  strlen($titre)) < 135) {
+		if ((strlen($texteTwitter) + strlen($titre)) < 135) {
 			if ($titre != null && $titre != "") {
-				$texteTwitter = $titre.".".$texteTwitter;
+				$texteTwitter = $titre . "." . $texteTwitter;
 			}
 		}
 
 		$response = $twitter->status->update($texteTwitter);
 	}
 
-	private function infosJeuPrepare() {
+	private function infosJeuPrepare()
+	{
 		$infoJeuTable = new InfoJeu();
 		$infosRowset = $infoJeuTable->fetchAll(null, "date_info_jeu DESC");
 		$infosJeu = null;

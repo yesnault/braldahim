@@ -10,8 +10,10 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Hotel_Factory {
-	static function getBox($request, $view) {
+class Bral_Hotel_Factory
+{
+	static function getBox($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Hotel_Box");
 		Zend_Loader::loadClass("Bral_Util_String");
 
@@ -20,22 +22,22 @@ class Bral_Hotel_Factory {
 			preg_match('/(.*)_hotel_(.*)/', $request->get("caction"), $matches);
 			$nomSystemeAction = $matches[2];
 			$construct = null;
-		} else {	
+		} else {
 			$nomSystemeAction = "Voir";
 		}
 
-		$construct = "Bral_Hotel_".Bral_Util_String::firstToUpper($nomSystemeAction);
+		$construct = "Bral_Hotel_" . Bral_Util_String::firstToUpper($nomSystemeAction);
 		try {
 			Zend_Loader::loadClass($construct);
-		} catch(Exception $e) {
-			throw new Zend_Exception("Bral_Hotel_Factory construct invalide (classe): ".$nomSystemeAction);
+		} catch (Exception $e) {
+			throw new Zend_Exception("Bral_Hotel_Factory construct invalide (classe): " . $nomSystemeAction);
 		}
-			
+
 		// verification que la classe de l'action existe.
 		if (($construct != null) && (class_exists($construct))) {
 			return new $construct ($request, $view);
 		} else {
-			throw new Zend_Exception("Bral_Hotel_Factory action invalide: ".$nomSystemeAction);
+			throw new Zend_Exception("Bral_Hotel_Factory action invalide: " . $nomSystemeAction);
 		}
 	}
 }

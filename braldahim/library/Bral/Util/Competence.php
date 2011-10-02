@@ -8,36 +8,36 @@
 class Bral_Util_Competence
 {
 
-    const NOM_SYSTEME_IDENTIFIER_RUNE = "identifierrune";
+	const NOM_SYSTEME_IDENTIFIER_RUNE = "identifierrune";
 
-    private function __construct()
-    {
-    }
+	private function __construct()
+	{
+	}
 
-    public static function updateCompetence1d2($nomSystemeCompetence, $idBraldun)
-    {
-        $braldunsCompetencesTable = new BraldunsCompetences();
+	public static function updateCompetence1d2($nomSystemeCompetence, $idBraldun)
+	{
+		$braldunsCompetencesTable = new BraldunsCompetences();
 
-        $competences = $braldunsCompetencesTable->findByIdBraldunAndNomSysteme($idBraldun, $nomSystemeCompetence);
-        if ($competences == null || count($competences) != 1) {
-            throw new Zend_Exception(get_class($this) . " Competences invalides :" . $idBraldun . "," . $nomSystemeCompetence);
-        }
+		$competences = $braldunsCompetencesTable->findByIdBraldunAndNomSysteme($idBraldun, $nomSystemeCompetence);
+		if ($competences == null || count($competences) != 1) {
+			throw new Zend_Exception(get_class($this) . " Competences invalides :" . $idBraldun . "," . $nomSystemeCompetence);
+		}
 
-        $tabCompetenceAmelioree = null;
+		$tabCompetenceAmelioree = null;
 
-        $c = $competences[0];
-        if ($c["pourcentage_hcomp"] < 50) {
-            $gain = Bral_Util_De::get_1d2();
-            $pourcentage = $c["pourcentage_hcomp"] + $gain;
-            if ($pourcentage > $c["pourcentage_max_competence"]) { // % comp maximum
-                $pourcentage = $c["pourcentage_max_competence"];
-            }
-            $data = array('pourcentage_hcomp' => $pourcentage);
-            $where = array("id_fk_competence_hcomp = " . $c["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $idBraldun);
-            $braldunsCompetencesTable->update($data, $where);
-            $tabCompetenceAmelioree["competence"] = $c;
-            $tabCompetenceAmelioree["gain"] = $gain;
-        }
-        return $tabCompetenceAmelioree;
-    }
+		$c = $competences[0];
+		if ($c["pourcentage_hcomp"] < 50) {
+			$gain = Bral_Util_De::get_1d2();
+			$pourcentage = $c["pourcentage_hcomp"] + $gain;
+			if ($pourcentage > $c["pourcentage_max_competence"]) { // % comp maximum
+				$pourcentage = $c["pourcentage_max_competence"];
+			}
+			$data = array('pourcentage_hcomp' => $pourcentage);
+			$where = array("id_fk_competence_hcomp = " . $c["id_fk_competence_hcomp"] . " AND id_fk_braldun_hcomp = " . $idBraldun);
+			$braldunsCompetencesTable->update($data, $where);
+			$tabCompetenceAmelioree["competence"] = $c;
+			$tabCompetenceAmelioree["gain"] = $gain;
+		}
+		return $tabCompetenceAmelioree;
+	}
 }

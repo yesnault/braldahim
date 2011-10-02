@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Helper_DetailAliment {
+class Bral_Helper_DetailAliment
+{
 
-	public static function afficherPrix($e) {
+	public static function afficherPrix($e)
+	{
 		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_aliment");
 	}

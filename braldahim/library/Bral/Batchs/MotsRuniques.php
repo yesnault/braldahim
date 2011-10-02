@@ -8,137 +8,137 @@
 class Bral_Batchs_MotsRuniques extends Bral_Batchs_Batch
 {
 
-    public function calculBatchImpl()
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculBatchImpl - enter -");
+	public function calculBatchImpl()
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculBatchImpl - enter -");
 
-        $aujourdhui = date("Y-m-d 0:0:0");
+		$aujourdhui = date("Y-m-d 0:0:0");
 
-        $retour = $this->calculMotsRuniques();
+		$retour = $this->calculMotsRuniques();
 
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - exit -");
-        return $retour;
-    }
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - exit -");
+		return $retour;
+	}
 
-    private function calculMotsRuniques()
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculMotsRuniques - enter -");
+	private function calculMotsRuniques()
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculMotsRuniques - enter -");
 
-        Zend_Loader::loadClass("Bral_Util_Lune");
-        Zend_Loader::loadClass("MotRunique");
-        Zend_Loader::loadClass("TypeRune");
+		Zend_Loader::loadClass("Bral_Util_Lune");
+		Zend_Loader::loadClass("MotRunique");
+		Zend_Loader::loadClass("TypeRune");
 
-        $retour = "";
+		$retour = "";
 
-        $annee = date('Y');
-        $mois = date('m');
-        $jour = date('d');
-        $heure = date('H');
-        $mine = date('i');
-        $seconde = date('s');
+		$annee = date('Y');
+		$mois = date('m');
+		$jour = date('d');
+		$heure = date('H');
+		$mine = date('i');
+		$seconde = date('s');
 
-        list($moonPhase, $moonAge, $moonDist, $moonAng, $sunDist, $sunAng, $mpfrac) = Bral_Util_Lune::calculPhase($annee, $mois, $jour, $heure, $mine, $seconde);
-        // coef lune : $mpfrac
-        $coefLune = floor($mpfrac * 100);
+		list($moonPhase, $moonAge, $moonDist, $moonAng, $sunDist, $sunAng, $mpfrac) = Bral_Util_Lune::calculPhase($annee, $mois, $jour, $heure, $mine, $seconde);
+		// coef lune : $mpfrac
+		$coefLune = floor($mpfrac * 100);
 
-        $motRuniqueTable = new MotRunique();
-        $mots = $motRuniqueTable->findARegenerer($coefLune);
+		$motRuniqueTable = new MotRunique();
+		$mots = $motRuniqueTable->findARegenerer($coefLune);
 
-        if ($mots != null && count($mots) > 0) {
-            $typeRuneTable = new TypeRune();
-            $typesRunesA = $typeRuneTable->findByNiveau('a');
-            $typesRunesB = $typeRuneTable->findByNiveau('b');
-            $typesRunesC = $typeRuneTable->findByNiveau('c');
-            $typesRunesD = $typeRuneTable->findByNiveau('d');
-            foreach ($mots as $mot) {
-                $this->regenereMot($mot, $typesRunesA, $typesRunesB, $typesRunesC, $typesRunesD);
-                $this->sauvegardeMot($mot, $motRuniqueTable);
-            }
-        } else {
-            $retour = " aucun mot à regénérer";
-        }
+		if ($mots != null && count($mots) > 0) {
+			$typeRuneTable = new TypeRune();
+			$typesRunesA = $typeRuneTable->findByNiveau('a');
+			$typesRunesB = $typeRuneTable->findByNiveau('b');
+			$typesRunesC = $typeRuneTable->findByNiveau('c');
+			$typesRunesD = $typeRuneTable->findByNiveau('d');
+			foreach ($mots as $mot) {
+				$this->regenereMot($mot, $typesRunesA, $typesRunesB, $typesRunesC, $typesRunesD);
+				$this->sauvegardeMot($mot, $motRuniqueTable);
+			}
+		} else {
+			$retour = " aucun mot à regénérer";
+		}
 
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculMotsRuniques - exit -" . $retour);
-        return $retour;
-    }
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculMotsRuniques - exit -" . $retour);
+		return $retour;
+	}
 
-    private function regenereMot(&$mot, &$typesRunesA, &$typesRunesB, &$typesRunesC, &$typesRunesD)
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - regenereMot - enter -" . $mot["nom_systeme_mot_runique"]);
+	private function regenereMot(&$mot, &$typesRunesA, &$typesRunesB, &$typesRunesC, &$typesRunesD)
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - regenereMot - enter -" . $mot["nom_systeme_mot_runique"]);
 
-        $retour = "Mot:";
-        $mot["nom_systeme_mot_runique"];
+		$retour = "Mot:";
+		$mot["nom_systeme_mot_runique"];
 
-        srand((float)microtime() * 1000000);
+		srand((float)microtime() * 1000000);
 
-        shuffle($typesRunesA);
-        shuffle($typesRunesB);
-        shuffle($typesRunesC);
-        shuffle($typesRunesD);
-        $tabTypes = array(
-            "a" => $typesRunesA,
-            "b" => $typesRunesB,
-            "c" => $typesRunesC,
-            "d" => $typesRunesD,
-        );
+		shuffle($typesRunesA);
+		shuffle($typesRunesB);
+		shuffle($typesRunesC);
+		shuffle($typesRunesD);
+		$tabTypes = array(
+			"a" => $typesRunesA,
+			"b" => $typesRunesB,
+			"c" => $typesRunesC,
+			"d" => $typesRunesD,
+		);
 
-        $mot["id_fk_type_rune_1_mot_runique"] = null;
-        $mot["id_fk_type_rune_2_mot_runique"] = null;
-        $mot["id_fk_type_rune_3_mot_runique"] = null;
-        $mot["id_fk_type_rune_4_mot_runique"] = null;
-        $mot["id_fk_type_rune_5_mot_runique"] = null;
-        $mot["id_fk_type_rune_6_mot_runique"] = null;
+		$mot["id_fk_type_rune_1_mot_runique"] = null;
+		$mot["id_fk_type_rune_2_mot_runique"] = null;
+		$mot["id_fk_type_rune_3_mot_runique"] = null;
+		$mot["id_fk_type_rune_4_mot_runique"] = null;
+		$mot["id_fk_type_rune_5_mot_runique"] = null;
+		$mot["id_fk_type_rune_6_mot_runique"] = null;
 
-        $nbRunesTotales = $mot["nb_total_rune_mot_runique"];
+		$nbRunesTotales = $mot["nb_total_rune_mot_runique"];
 
-        for ($i = 1; $i <= $nbRunesTotales; $i++) {
-            $tabIndices[] = $i;
-        }
-        shuffle($tabIndices);
+		for ($i = 1; $i <= $nbRunesTotales; $i++) {
+			$tabIndices[] = $i;
+		}
+		shuffle($tabIndices);
 
-        $niveaux = array('a', 'b', 'c', 'd');
-        shuffle($niveaux);
+		$niveaux = array('a', 'b', 'c', 'd');
+		shuffle($niveaux);
 
-        foreach ($niveaux as $n) {
-            $retour .= $this->calculRuneNiveau($mot, $n, $tabTypes, $tabIndices);
-        }
+		foreach ($niveaux as $n) {
+			$retour .= $this->calculRuneNiveau($mot, $n, $tabTypes, $tabIndices);
+		}
 
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - regenereMot - exit -" . $retour);
-        return $retour;
-    }
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - regenereMot - exit -" . $retour);
+		return $retour;
+	}
 
-    private function calculRuneNiveau(&$mot, $niveau, $tabTypes, &$tabIndices)
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - enter -" . $niveau);
+	private function calculRuneNiveau(&$mot, $niveau, $tabTypes, &$tabIndices)
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - enter -" . $niveau);
 
-        for ($i = 1; $i <= $mot["nb_rune_niveau_" . $niveau . "_mot_runique"]; $i++) {
-            $indice = array_pop($tabIndices);
-            $mot["id_fk_type_rune_" . $indice . "_mot_runique"] = $tabTypes[$niveau][$i - 1]["id_type_rune"];
-        }
-        $retour = " n:" . $niveau;
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - exit -" . $niveau);
-        return $retour;
-    }
+		for ($i = 1; $i <= $mot["nb_rune_niveau_" . $niveau . "_mot_runique"]; $i++) {
+			$indice = array_pop($tabIndices);
+			$mot["id_fk_type_rune_" . $indice . "_mot_runique"] = $tabTypes[$niveau][$i - 1]["id_type_rune"];
+		}
+		$retour = " n:" . $niveau;
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - exit -" . $niveau);
+		return $retour;
+	}
 
-    private function sauvegardeMot(&$mot, $motRuniqueTable)
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - sauvegardeMot - enter -" . $mot["nom_systeme_mot_runique"]);
+	private function sauvegardeMot(&$mot, $motRuniqueTable)
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - sauvegardeMot - enter -" . $mot["nom_systeme_mot_runique"]);
 
-        $retour = "update " . $mot["nom_systeme_mot_runique"];
+		$retour = "update " . $mot["nom_systeme_mot_runique"];
 
-        $data = array(
-            "id_fk_type_rune_1_mot_runique" => $mot["id_fk_type_rune_1_mot_runique"],
-            "id_fk_type_rune_2_mot_runique" => $mot["id_fk_type_rune_2_mot_runique"],
-            "id_fk_type_rune_3_mot_runique" => $mot["id_fk_type_rune_3_mot_runique"],
-            "id_fk_type_rune_4_mot_runique" => $mot["id_fk_type_rune_4_mot_runique"],
-            "id_fk_type_rune_5_mot_runique" => $mot["id_fk_type_rune_5_mot_runique"],
-            "id_fk_type_rune_6_mot_runique" => $mot["id_fk_type_rune_6_mot_runique"],
-            "date_generation_mot_runique" => date("Y-m-d H:i:s"),
-        );
-        $where = " id_mot_runique = " . $mot["id_mot_runique"];
-        $motRuniqueTable->update($data, $where);
+		$data = array(
+			"id_fk_type_rune_1_mot_runique" => $mot["id_fk_type_rune_1_mot_runique"],
+			"id_fk_type_rune_2_mot_runique" => $mot["id_fk_type_rune_2_mot_runique"],
+			"id_fk_type_rune_3_mot_runique" => $mot["id_fk_type_rune_3_mot_runique"],
+			"id_fk_type_rune_4_mot_runique" => $mot["id_fk_type_rune_4_mot_runique"],
+			"id_fk_type_rune_5_mot_runique" => $mot["id_fk_type_rune_5_mot_runique"],
+			"id_fk_type_rune_6_mot_runique" => $mot["id_fk_type_rune_6_mot_runique"],
+			"date_generation_mot_runique" => date("Y-m-d H:i:s"),
+		);
+		$where = " id_mot_runique = " . $mot["id_mot_runique"];
+		$motRuniqueTable->update($data, $where);
 
-        Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - sauvegardeMot - exit -" . $retour);
-        return $retour;
-    }
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - sauvegardeMot - exit -" . $retour);
+		return $retour;
+	}
 }

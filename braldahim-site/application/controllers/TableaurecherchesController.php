@@ -10,30 +10,34 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class TableaurecherchesController extends Zend_Controller_Action {
+class TableaurecherchesController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$this->prepareContrats();
 		$this->render();
 	}
 
-	private function prepareContrats() {
-		
+	private function prepareContrats()
+	{
+
 		$tabGredins = null;
 		$taRedresseurs = null;
-		
+
 		Zend_Loader::loadClass("Contrat");
 		$tableContrat = new Contrat();
 		$contratsEnCours = $tableContrat->findEnCours();
-		
+
 		if ($contratsEnCours != null) {
-			foreach($contratsEnCours as $c) {
+			foreach ($contratsEnCours as $c) {
 				if ($c["type_contrat"] == "gredin") {
 					$tabGredins[$c["id_fk_cible_braldun_contrat"]] = $c["nombre"];
 				} else {
@@ -41,7 +45,7 @@ class TableaurecherchesController extends Zend_Controller_Action {
 				}
 			}
 		}
-		
+
 		$this->view->tabGredins = $tabGredins;
 		$this->view->tabRedresseurs = $taRedresseurs;
 	}

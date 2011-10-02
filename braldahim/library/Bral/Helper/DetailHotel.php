@@ -8,9 +8,9 @@
 class Bral_Helper_DetailHotel
 {
 
-    public static function afficherPrix($e)
-    {
-        Zend_Loader::loadClass("Bral_Helper_DetailPrix");
-        return Bral_Helper_DetailPrix::afficherPrix($e, "");
-    }
+	public static function afficherPrix($e)
+	{
+		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
+		return Bral_Helper_DetailPrix::afficherPrix($e, "");
+	}
 }

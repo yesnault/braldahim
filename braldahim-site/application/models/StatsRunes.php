@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class StatsRunes extends Zend_Db_Table {
+class StatsRunes extends Zend_Db_Table
+{
 	protected $_name = 'stats_runes';
 	protected $_primary = array('id_stats_runes');
-	
-	function findByType($dateDebut, $dateFin) {
+
+	function findByType($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_rune', 'nom_type_rune as nom');
@@ -27,8 +29,9 @@ class StatsRunes extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByCategorie($dateDebut, $dateFin) {
+
+	function findByCategorie($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_rune', 'niveau_type_rune as niveau');

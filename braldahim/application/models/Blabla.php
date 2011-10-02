@@ -5,12 +5,14 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Blabla extends Zend_Db_Table {
+class Blabla extends Zend_Db_Table
+{
 
 	protected $_name = 'blabla';
 	protected $_primary = array('id_blabla');
 
-	public function findByPosition($x, $y, $z, $nbCases) {
+	public function findByPosition($x, $y, $z, $nbCases)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('blabla', '*');
@@ -28,7 +30,8 @@ class Blabla extends Zend_Db_Table {
 		return $result;
 	}
 
-	function selectAll() {
+	function selectAll()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('blabla', '*');
@@ -40,8 +43,9 @@ class Blabla extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_blabla = ?',(int)$id);
+	public function findById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_blabla = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 }

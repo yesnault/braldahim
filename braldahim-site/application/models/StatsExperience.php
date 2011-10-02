@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class StatsExperience extends Zend_Db_Table {
+class StatsExperience extends Zend_Db_Table
+{
 	protected $_name = 'stats_experience';
 	protected $_primary = array('id_stats_experience');
 
-	function findTop10($dateDebut, $dateFin) {
+	function findTop10($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -28,8 +30,9 @@ class StatsExperience extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByFamille($dateDebut, $dateFin) {
+
+	function findByFamille($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', null);
@@ -44,8 +47,9 @@ class StatsExperience extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByNiveau($dateDebut, $dateFin) {
+
+	function findByNiveau($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_experience', array('SUM(nb_px_perso_gagnes_stats_experience) as nombre', 'floor(niveau_braldun_stats_experience/10) as niveau'));
@@ -56,8 +60,9 @@ class StatsExperience extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findBySexe($dateDebut, $dateFin) {
+
+	function findBySexe($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'sexe_braldun');

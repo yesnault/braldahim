@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Factory {
+class Bral_Palmares_Factory
+{
 
-	static function getBox($request, $view, $interne, $caction = null) {
+	static function getBox($request, $view, $interne, $caction = null)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 
 		$matches = null;
@@ -26,22 +28,23 @@ class Bral_Palmares_Factory {
 		$filtre = (int)$matches[3]; // filtre
 		$type = $matches[4]; // type
 
-		$construct = "Bral_Palmares_".Bral_Util_String::firstToUpper($section);
+		$construct = "Bral_Palmares_" . Bral_Util_String::firstToUpper($section);
 		try {
 			Zend_Loader::loadClass($construct);
 		} catch (Zend_Exception $e) {
-			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 1: ".$construct);
+			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 1: " . $construct);
 		}
 
 		// verification que la classe existe.
 		if (($construct != null) && (class_exists($construct))) {
 			return new $construct ($request, $view, $interne, $filtre, $type);
 		} else {
-			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 2: ".$construct);
+			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 2: " . $construct);
 		}
 	}
 
-	public static function getBoxesNaissance($request, $view) {
+	public static function getBoxesNaissance($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Naissancecomte");
 		Zend_Loader::loadClass("Bral_Palmares_Naissancesexe");
@@ -55,7 +58,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesChasseursgibier($request, $view) {
+	public static function getBoxesChasseursgibier($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Chasseursgibiertop10");
 		Zend_Loader::loadClass("Bral_Palmares_Chasseursgibierfamille");
@@ -71,7 +75,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesCombattantspve($request, $view) {
+	public static function getBoxesCombattantspve($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Combattantspvetop10");
 		Zend_Loader::loadClass("Bral_Palmares_Combattantspvefamille");
@@ -87,7 +92,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesCombattantspvp($request, $view) {
+	public static function getBoxesCombattantspvp($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Combattantspvptop10");
 		Zend_Loader::loadClass("Bral_Palmares_Combattantspvpfamille");
@@ -103,7 +109,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesKo($request, $view) {
+	public static function getBoxesKo($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Kotop10");
 		Zend_Loader::loadClass("Bral_Palmares_Kofamille");
@@ -119,7 +126,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesDistinction($request, $view) {
+	public static function getBoxesDistinction($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Distinctiontop10");
 		Zend_Loader::loadClass("Bral_Palmares_Distinctionfamille");
@@ -135,8 +143,9 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	
-	public static function getBoxesGredins($request, $view) {
+
+	public static function getBoxesGredins($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Gredinstop10");
 		Zend_Loader::loadClass("Bral_Palmares_Gredinsfamille");
@@ -151,8 +160,9 @@ class Bral_Palmares_Factory {
 		$view->titre = "Gredins";
 		return $retour;
 	}
-	
-	public static function getBoxesRedresseurs($request, $view) {
+
+	public static function getBoxesRedresseurs($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Redresseurstop10");
 		Zend_Loader::loadClass("Bral_Palmares_Redresseursfamille");
@@ -167,8 +177,9 @@ class Bral_Palmares_Factory {
 		$view->titre = "Redresseurs";
 		return $retour;
 	}
-	
-	public static function getBoxesExperience($request, $view) {
+
+	public static function getBoxesExperience($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Experiencetop10");
 		Zend_Loader::loadClass("Bral_Palmares_Experiencefamille");
@@ -184,7 +195,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesMonstres($request, $view) {
+	public static function getBoxesMonstres($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Monstrestop10");
 		Zend_Loader::loadClass("Bral_Palmares_Monstrestype");
@@ -196,7 +208,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesSuperbralduns($request, $view) {
+	public static function getBoxesSuperbralduns($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Superbralduns");
 
@@ -206,7 +219,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesRecolteurs($request, $view, $type) {
+	public static function getBoxesRecolteurs($request, $view, $type)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Recolteurstop10");
 		Zend_Loader::loadClass("Bral_Palmares_Recolteursfamille");
@@ -220,7 +234,7 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, $type);
 		$view->titre = "Récolteurs";
 
-		switch($type) {
+		switch ($type) {
 			case "mineurs":
 				$view->titre .= " - Mineurs";
 				break;
@@ -238,7 +252,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesFabricants($request, $view, $type) {
+	public static function getBoxesFabricants($request, $view, $type)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Fabricantstop10");
 		Zend_Loader::loadClass("Bral_Palmares_Fabricantsfamille");
@@ -252,7 +267,7 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Fabricantssexe($request, $view, false, 1, $type);
 		$view->titre = "Fabricants";
 
-		switch($type) {
+		switch ($type) {
 			case "apothicaires":
 				$view->titre .= " - Apothicaires";
 				break;
@@ -280,7 +295,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesRunes($request, $view) {
+	public static function getBoxesRunes($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Runestype");
 		Zend_Loader::loadClass("Bral_Palmares_Runescategorie");
@@ -292,7 +308,8 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 
-	public static function getBoxesMotsRuniques($request, $view) {
+	public static function getBoxesMotsRuniques($request, $view)
+	{
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Motsruniquesmot");
 		Zend_Loader::loadClass("Bral_Palmares_Motsruniquestypepiece");

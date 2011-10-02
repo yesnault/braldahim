@@ -8,61 +8,61 @@
 class Bral_Box_Communaute_Gestion extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Gestion";
-    }
+	function getTitreOnglet()
+	{
+		return "Gestion";
+	}
 
-    function getNomInterne()
-    {
-        return "box_communaute_gestion";
-    }
+	function getNomInterne()
+	{
+		return "box_communaute_gestion";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function getListBoxRefresh()
-    {
-    }
+	function getListBoxRefresh()
+	{
+	}
 
-    function prepareCommun()
-    {
-    }
+	function prepareCommun()
+	{
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-    }
+	function prepareResultat()
+	{
+	}
 
-    function render()
-    {
-        Zend_Loader::loadClass("Communaute");
-        Zend_Loader::loadClass("RangCommunaute");
-        Zend_Loader::loadClass("Bral_Util_Communaute");
-        Zend_Loader::loadClass("TypeLieu");
-        Zend_Loader::loadClass("Bral_Helper_Communaute");
+	function render()
+	{
+		Zend_Loader::loadClass("Communaute");
+		Zend_Loader::loadClass("RangCommunaute");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Helper_Communaute");
 
-        if ($this->view->affichageInterne) {
-            $this->prepareData();
-        }
-        $this->view->nom_interne = $this->getNomInterne();
+		if ($this->view->affichageInterne) {
+			$this->prepareData();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
 
-        $this->view->niveauTribune = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_TRIBUNE);
+		$this->view->niveauTribune = Bral_Util_Communaute::getNiveauDuLieu($this->view->user->id_fk_communaute_braldun, TypeLieu::ID_TYPE_TRIBUNE);
 
-        return $this->view->render("interface/communaute/gestion.phtml");
-    }
+		return $this->view->render("interface/communaute/gestion.phtml");
+	}
 
-    function prepareData()
-    {
-    }
+	function prepareData()
+	{
+	}
 }

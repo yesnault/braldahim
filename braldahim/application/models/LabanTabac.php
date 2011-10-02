@@ -5,34 +5,38 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class LabanTabac extends Zend_Db_Table {
+class LabanTabac extends Zend_Db_Table
+{
 	protected $_name = 'laban_tabac';
 	protected $_primary = array('id_fk_braldun_laban_tabac', 'id_fk_type_laban_tabac');
 
-	function findByIdConteneur($id_braldun) {
+	function findByIdConteneur($id_braldun)
+	{
 		return $this->findByIdBraldun($id_braldun);
 	}
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdBraldun($id_braldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_tabac', '*')
-		->from('type_tabac', '*')
-		->where('id_fk_braldun_laban_tabac = '.intval($id_braldun))
-		->where('laban_tabac.id_fk_type_laban_tabac = type_tabac.id_type_tabac');
+			->from('type_tabac', '*')
+			->where('id_fk_braldun_laban_tabac = ' . intval($id_braldun))
+			->where('laban_tabac.id_fk_type_laban_tabac = type_tabac.id_type_tabac');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_tabac', 'count(*) as nombre,
 		quantite_feuille_laban_tabac as quantiteFeuille')
-		->where('id_fk_type_laban_tabac = ?',$data["id_fk_type_laban_tabac"])
-		->where('id_fk_braldun_laban_tabac = ?',$data["id_fk_braldun_laban_tabac"])
-		->group(array('quantiteFeuille'));
+			->where('id_fk_type_laban_tabac = ?', $data["id_fk_type_laban_tabac"])
+			->where('id_fk_braldun_laban_tabac = ?', $data["id_fk_braldun_laban_tabac"])
+			->group(array('quantiteFeuille'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -41,16 +45,16 @@ class LabanTabac extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteFeuille = $resultat[0]["quantiteFeuille"];
-				
-			$dataUpdate['quantite_feuille_laban_tabac']  = $quantiteFeuille;
-				
+
+			$dataUpdate['quantite_feuille_laban_tabac'] = $quantiteFeuille;
+
 			if (isset($data["quantite_feuille_laban_tabac"])) {
 				$dataUpdate['quantite_feuille_laban_tabac'] = $quantiteFeuille + $data["quantite_feuille_laban_tabac"];
 			}
-				
-			$where = ' id_fk_type_laban_tabac = '.$data["id_fk_type_laban_tabac"];
-			$where .= ' AND id_fk_braldun_laban_tabac = '.$data["id_fk_braldun_laban_tabac"];
-				
+
+			$where = ' id_fk_type_laban_tabac = ' . $data["id_fk_type_laban_tabac"];
+			$where .= ' AND id_fk_braldun_laban_tabac = ' . $data["id_fk_braldun_laban_tabac"];
+
 			if ($dataUpdate['quantite_feuille_laban_tabac'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

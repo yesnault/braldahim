@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class StatsRoutes extends Zend_Db_Table {
+class StatsRoutes extends Zend_Db_Table
+{
 	protected $_name = 'stats_routes';
 	protected $_primary = array('id_stats_routes');
 
-	function findTopPalmaresBraldun($dateDebut, $dateFin) {
+	function findTopPalmaresBraldun($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
@@ -43,17 +45,18 @@ class StatsRoutes extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_routes',
 			'count(*) as nombre, 
 			nb_stats_routes as quantiteRoute')
-		->where('niveau_braldun_stats_routes = '.$data["niveau_braldun_stats_routes"]
-		.' AND id_fk_braldun_stats_routes = '.$data["id_fk_braldun_stats_routes"]
-		.' AND id_fk_metier_stats_routes = '.$data["id_fk_metier_stats_routes"]
-		.' AND mois_stats_routes = \''.$data["mois_stats_routes"].'\'')
-		->group(array('quantiteRoute'));
+			->where('niveau_braldun_stats_routes = ' . $data["niveau_braldun_stats_routes"]
+				. ' AND id_fk_braldun_stats_routes = ' . $data["id_fk_braldun_stats_routes"]
+				. ' AND id_fk_metier_stats_routes = ' . $data["id_fk_metier_stats_routes"]
+				. ' AND mois_stats_routes = \'' . $data["mois_stats_routes"] . '\'')
+			->group(array('quantiteRoute'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -76,10 +79,10 @@ class StatsRoutes extends Zend_Db_Table {
 				}
 			}
 
-			$where = 'niveau_braldun_stats_routes = '.$data["niveau_braldun_stats_routes"]
-			.' AND id_fk_braldun_stats_routes = '.$data["id_fk_braldun_stats_routes"]
-			.' AND id_fk_metier_stats_routes = '.$data["id_fk_metier_stats_routes"]
-			.' AND mois_stats_routes = \''.$data["mois_stats_routes"].'\'';
+			$where = 'niveau_braldun_stats_routes = ' . $data["niveau_braldun_stats_routes"]
+				. ' AND id_fk_braldun_stats_routes = ' . $data["id_fk_braldun_stats_routes"]
+				. ' AND id_fk_metier_stats_routes = ' . $data["id_fk_metier_stats_routes"]
+				. ' AND mois_stats_routes = \'' . $data["mois_stats_routes"] . '\'';
 			$this->update($dataUpdate, $where);
 		}
 	}

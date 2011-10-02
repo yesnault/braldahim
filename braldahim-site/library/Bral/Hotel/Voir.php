@@ -10,20 +10,24 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Hotel_Voir extends Bral_Hotel_Box {
+class Bral_Hotel_Voir extends Bral_Hotel_Box
+{
 
-	function getNomInterne() {
+	function getNomInterne()
+	{
 		return "box_hotel_resultats";
 	}
 
-	function render() {
+	function render()
+	{
 		return $this->view->render("hotel/voir/resultats.phtml");
 	}
 
-	public function getPreparedView() {
+	public function getPreparedView()
+	{
 		Zend_Loader::loadClass("Bral_Util_Lot");
 		$this->view->lots = Bral_Util_Lot::getLotsByHotel();
-		
+
 		return $this->view;
 	}
 }

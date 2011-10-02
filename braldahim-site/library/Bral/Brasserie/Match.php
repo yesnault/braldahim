@@ -10,21 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Brasserie_Match extends Bral_Brasserie_Box {
+class Bral_Brasserie_Match extends Bral_Brasserie_Box
+{
 
-	function getTitreOnglet() {
+	function getTitreOnglet()
+	{
 		return "Match";
 	}
 
-	function getNomInterne() {
+	function getNomInterne()
+	{
 		return "box_brasserie_match";
 	}
 
-	function setDisplay($display) {
+	function setDisplay($display)
+	{
 		$this->view->display = $display;
 	}
 
-	function render() {
+	function render()
+	{
 		Zend_Loader::loadClass("Bral_Helper_Tooltip");
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		Zend_Loader::loadClass("Braldun");
@@ -35,23 +40,24 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		return $this->view->render("brasserie/match.phtml");
 	}
 
-	private function prepareMatch() {
+	private function prepareMatch()
+	{
 		Zend_Loader::loadClass('SouleMatch');
 
-		if (((int)$this->request->get("id_match").""!=$this->request->get("id_match")."")) {
-			throw new Zend_Exception(get_class($this)." match invalide : ".$this->request->get("id_match"));
+		if (((int)$this->request->get("id_match") . "" != $this->request->get("id_match") . "")) {
+			throw new Zend_Exception(get_class($this) . " match invalide : " . $this->request->get("id_match"));
 		} else {
 			$idMatch = (int)$this->request->get("id_match");
 		}
-		
+
 		$souleMatchTable = new SouleMatch();
 		$matchs = $souleMatchTable->findByIdMatch($idMatch);
 		if (count($matchs) != 1) {
-			throw new Zend_Exception(get_class($this)." match invalide  2: ".$this->request->get("id_match"));
+			throw new Zend_Exception(get_class($this) . " match invalide  2: " . $this->request->get("id_match"));
 		}
-		
+
 		$this->match = $matchs[0];
-		
+
 		$porteur = null;
 		if ($this->match != null && $this->match["id_fk_joueur_ballon_soule_match"] != null) {
 			$idPorteur = $this->match["id_fk_joueur_ballon_soule_match"];
@@ -66,9 +72,10 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$this->view->matchEnCours = $this->match;
 	}
 
-	private function prepareEquipes() {
+	private function prepareEquipes()
+	{
 		Zend_Loader::loadClass('SouleEquipe');
-		
+
 		$equipes["equipea"] = array('nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
 		$equipes["equipeb"] = array('nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
 
@@ -77,7 +84,7 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$joueurs = $souleEquipeTable->findByIdMatch($this->match["id_soule_match"]);
 		$equipes["equipea"]["nom_equipe"] = $this->match["nom_equipea_soule_match"];
 		$equipes["equipeb"]["nom_equipe"] = $this->match["nom_equipeb_soule_match"];
-			
+
 		$equipes["equipea"]["px"] = $this->match["px_equipea_soule_match"];
 		$equipes["equipeb"]["px"] = $this->match["px_equipeb_soule_match"];
 
@@ -87,7 +94,7 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$equipes["equipeb"]["plaques"] = 0;
 
 		if ($joueurs != null && count($joueurs) > 0) {
-			foreach($joueurs as $j) {
+			foreach ($joueurs as $j) {
 				if ($j["camp_soule_equipe"] == 'a') {
 					$equipes["equipea"]["joueurs"][] = $j;
 					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_braldun_plaquage_soule_equipe"];
@@ -104,17 +111,18 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$this->view->joueurs = $joueurs;
 	}
 
-	private function prepareEvenements() {
+	private function prepareEvenements()
+	{
 		Zend_Loader::loadClass("Evenement");
 		$evenementTable = new Evenement();
 		$rowset = $evenementTable->findByIdMatch($this->match["id_soule_match"]);
 
 		$tab = null;
-		foreach($rowset as $r) {
-			$braldun = $r["prenom_braldun"]." ".$r["nom_braldun"]." (".$r["id_braldun"].")";
-			$tab[] = array ("date_evenement" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]),
-							"braldun_evenement" => $braldun,
-							"details_evenement" => $r["details_evenement"]);
+		foreach ($rowset as $r) {
+			$braldun = $r["prenom_braldun"] . " " . $r["nom_braldun"] . " (" . $r["id_braldun"] . ")";
+			$tab[] = array("date_evenement" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ', $r["date_evenement"]),
+				"braldun_evenement" => $braldun,
+				"details_evenement" => $r["details_evenement"]);
 		}
 		$this->view->evenements = $tab;
 	}

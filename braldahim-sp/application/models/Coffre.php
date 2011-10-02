@@ -5,41 +5,46 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Coffre extends Zend_Db_Table {
+class Coffre extends Zend_Db_Table
+{
 	protected $_name = 'coffre';
 	protected $_primary = array('id_coffre');
 
-	function findByIdCommunaute($idCommunaute) {
+	function findByIdCommunaute($idCommunaute)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_fk_communaute_coffre = ?', intval($idCommunaute));
+			->where('id_fk_communaute_coffre = ?', intval($idCommunaute));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdCoffre($idCoffre) {
+	function findByIdCoffre($idCoffre)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_coffre = ?', intval($idCoffre));
+			->where('id_coffre = ?', intval($idCoffre));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdBraldun($id_braldun) {
+	function findByIdBraldun($id_braldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', '*')
-		->where('id_fk_braldun_coffre = ?', intval($id_braldun));
+			->where('id_fk_braldun_coffre = ?', intval($id_braldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', 'count(*) as nombre,
@@ -49,8 +54,8 @@ class Coffre extends Zend_Db_Table {
 		quantite_planche_coffre as quantitePlanche,
 		quantite_rondin_coffre as quantiteRondin,
 		quantite_castar_coffre as quantiteCastar')
-		->where('id_coffre = ?', $data["id_coffre"])
-		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
+			->where('id_coffre = ?', $data["id_coffre"])
+			->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -84,7 +89,7 @@ class Coffre extends Zend_Db_Table {
 				$dataUpdate['quantite_castar_coffre'] = $quantiteCastar + $data["quantite_castar_coffre"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_coffre = '.$data["id_coffre"];
+				$where = 'id_coffre = ' . $data["id_coffre"];
 				$this->update($dataUpdate, $where);
 			}
 		}

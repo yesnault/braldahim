@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Util_Materiel {
+class Bral_Util_Materiel
+{
 
 	const HISTORIQUE_CREATION_ID = 1;
 	const HISTORIQUE_UTILISER_ID = 2;
@@ -15,7 +16,8 @@ class Bral_Util_Materiel {
 	const HISTORIQUE_ATTAQUER_ID = 6;
 	const HISTORIQUE_DETRUIRE_ID = 7;
 
-	public static function insertHistorique($idTypeHistoriqueMateriel, $idMateriel, $details) {
+	public static function insertHistorique($idTypeHistoriqueMateriel, $idMateriel, $details)
+	{
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 
@@ -31,7 +33,8 @@ class Bral_Util_Materiel {
 		$historiqueMaterielTable->insert($data);
 	}
 
-	public static function possedeMateriel($idBraldun, $idMateriel) {
+	public static function possedeMateriel($idBraldun, $idMateriel)
+	{
 		Zend_Loader::loadClass("CharretteMateriel");
 		Zend_Loader::loadClass("EchoppeMateriel");
 		Zend_Loader::loadClass("LabanMateriel");

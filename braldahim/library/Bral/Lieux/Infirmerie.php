@@ -10,15 +10,15 @@ Zend_Loader::loadClass("Bral_Lieux_Hopital");
 class Bral_Lieux_Infirmerie extends Bral_Lieux_Hopital
 {
 
-    function prepareCommun()
-    {
-        parent::prepareCommun();
+	function prepareCommun()
+	{
+		parent::prepareCommun();
 
-        Zend_Loader::loadClass("Bral_Util_Communaute");
-        Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("Bral_Util_Communaute");
+		Zend_Loader::loadClass("TypeLieu");
 
-        if (Bral_Util_Communaute::getNiveauDuLieu($this->view->idCommunauteLieu, TypeLieu::ID_TYPE_INFIRMERIE) < Bral_Util_Communaute::NIVEAU_INFIRMERIE_SOIGNER) {
-            throw new Zend_Exception("Erreur Infirmerie, niveau invalide");
-        }
-    }
+		if (Bral_Util_Communaute::getNiveauDuLieu($this->view->idCommunauteLieu, TypeLieu::ID_TYPE_INFIRMERIE) < Bral_Util_Communaute::NIVEAU_INFIRMERIE_SOIGNER) {
+			throw new Zend_Exception("Erreur Infirmerie, niveau invalide");
+		}
+	}
 }

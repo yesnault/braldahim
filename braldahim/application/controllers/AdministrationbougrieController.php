@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationbougrieController extends Zend_Controller_Action {
+class AdministrationbougrieController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -28,11 +30,13 @@ class AdministrationbougrieController extends Zend_Controller_Action {
 		$this->view->bougrie = $bougrie;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	private function envoiMailAdmin($censure = null) {
+	private function envoiMailAdmin($censure = null)
+	{
 		if ($this->view->config->general->mail->exception->use == '1') {
 
 			$modification = "";
@@ -55,9 +59,9 @@ class AdministrationbougrieController extends Zend_Controller_Action {
 					}
 
 					if ($censure == null) {
-						$modification .= "$key avant: ".$bougrie[$key]. " apres:".$value;
+						$modification .= "$key avant: " . $bougrie[$key] . " apres:" . $value;
 					} else {
-						$modification .= "$key : ".$bougrie[$key];
+						$modification .= "$key : " . $bougrie[$key];
 					}
 					$modification .= PHP_EOL;
 
@@ -75,16 +79,17 @@ class AdministrationbougrieController extends Zend_Controller_Action {
 
 			$mail->setFrom($this->view->config->general->mail->administration->from, $this->view->config->general->mail->administration->nom);
 			$mail->addTo($this->view->config->general->mail->administration->from, $this->view->config->general->mail->administration->nom);
-			$mail->setSubject("[Braldahim-Admin Jeu] Administration Bougrie ".$idBougrie);
-			$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-			$texte .= PHP_EOL.$modification;
+			$mail->setSubject("[Braldahim-Admin Jeu] Administration Bougrie " . $idBougrie);
+			$texte = "--------> Utilisateur " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+			$texte .= PHP_EOL . $modification;
 
 			$mail->setBodyText($texte);
 			$mail->send();
 		}
 	}
 
-	public function bougrieAction() {
+	public function bougrieAction()
+	{
 
 		if ($this->_request->get('id_bougrie') && $this->_request->get('id_bougrie') != -1) {
 			$bougrieTable = new Bougrie();
@@ -114,12 +119,12 @@ class AdministrationbougrieController extends Zend_Controller_Action {
 					'texte_bougrie' => $texte,
 					'regle_bougrie' => $regle,
 				);
-				$where = 'id_bougrie = '.$this->_request->get('id_bougrie');
+				$where = 'id_bougrie = ' . $this->_request->get('id_bougrie');
 				$bougrieTable->update($data, $where);
 				$idBougrie = $this->_request->get('id_bougrie');
 			} else {
 				$data = array(
-				 	'texte_bougrie' => $texte,
+					'texte_bougrie' => $texte,
 					'regle_bougrie' => $regle,
 				);
 				$idBougrie = $bougrieTable->insert($data);
@@ -134,7 +139,8 @@ class AdministrationbougrieController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function bougriesPrepare() {
+	private function bougriesPrepare()
+	{
 		$bougrieTable = new Bougrie();
 		$bougrieRowset = $bougrieTable->fetchAll(null, "id_bougrie DESC");
 		$bougrie = null;

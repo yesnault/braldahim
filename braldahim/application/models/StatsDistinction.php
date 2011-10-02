@@ -5,23 +5,25 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class StatsDistinction extends Zend_Db_Table {
+class StatsDistinction extends Zend_Db_Table
+{
 	protected $_name = 'stats_distinction';
 	protected $_primary = array('id_stats_distinction');
 
-	function deleteAndInsert($data) {
+	function deleteAndInsert($data)
+	{
 
 		if (!isset($data["points_stats_distinction"])) {
 			$data["points_stats_distinction"] = 0;
 		}
-		
-		$where = 'id_fk_braldun_stats_distinction = '.$data["id_fk_braldun_stats_distinction"]. ' AND mois_stats_distinction = \''.$data["mois_stats_distinction"].'\'';
-		
+
+		$where = 'id_fk_braldun_stats_distinction = ' . $data["id_fk_braldun_stats_distinction"] . ' AND mois_stats_distinction = \'' . $data["mois_stats_distinction"] . '\'';
+
 		/* Commenter ce bloc si rattrapage*/
 		$this->delete($where);
 		$this->insert($data);
 		/* fin bloc. */
-		
+
 		/*
 		 * Code pour rattrapage
 		 * $db = $this->getAdapter();
@@ -42,6 +44,6 @@ class StatsDistinction extends Zend_Db_Table {
 				$this->insert($data);
 			}
 		}*/
-		
+
 	}
 }

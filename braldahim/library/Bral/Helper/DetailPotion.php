@@ -8,53 +8,53 @@
 class Bral_Helper_DetailPotion
 {
 
-    public static function afficherPrix($e)
-    {
-        Zend_Loader::loadClass("Bral_Helper_DetailPrix");
-        return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_potion");
-    }
+	public static function afficherPrix($e)
+	{
+		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
+		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_potion");
+	}
 
-    public static function afficher($p)
-    {
-        return "<div class='braltip'>" . self::afficherTooltip($p) . "<span>" . htmlspecialchars($p["nom"]) . ", n&deg;" . $p["id_potion"] . "</span></div>";
-    }
+	public static function afficher($p)
+	{
+		return "<div class='braltip'>" . self::afficherTooltip($p) . "<span>" . htmlspecialchars($p["nom"]) . ", n&deg;" . $p["id_potion"] . "</span></div>";
+	}
 
-    public static function afficherTooltip($p)
-    {
-        return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
-    }
+	public static function afficherTooltip($p)
+	{
+		return Bral_Helper_Tooltip::render(self::prepareDetail($p, true));
+	}
 
-    public static function afficherTexte($p)
-    {
-        return stripslashes(self::prepareDetail($p, false));
-    }
+	public static function afficherTexte($p)
+	{
+		return stripslashes(self::prepareDetail($p, false));
+	}
 
-    private static function prepareDetail($p, $afficheLienHistorique)
-    {
-        $text = htmlspecialchars($p["nom"]) . " de qualit&eacute; " . htmlspecialchars($p["qualite"]) . "<br />";
+	private static function prepareDetail($p, $afficheLienHistorique)
+	{
+		$text = htmlspecialchars($p["nom"]) . " de qualit&eacute; " . htmlspecialchars($p["qualite"]) . "<br />";
 
-        if ($afficheLienHistorique) {
-            $text .= "<label class=\'alabel\' onclick=ouvHistoP(" . $p["id_potion"] . ")>Voir l'historique</label><br />";
-        }
+		if ($afficheLienHistorique) {
+			$text .= "<label class=\'alabel\' onclick=ouvHistoP(" . $p["id_potion"] . ")>Voir l'historique</label><br />";
+		}
 
-        $text .= "<br />";
-        $text .= $p["nom_type"] . " n&deg; " . $p["id_potion"] . "<br />";
-        $text .= "Niveau : " . $p["niveau"] . "<br />";
-        $text .= "Poids : " . Bral_Util_Poids::POIDS_POTION . " Kg<br />";
-        if ($p["bm_type"] != null) {
-            $text .= "<br /> Apporte un " . $p["bm_type"];
-            $text .= " sur la caract&eacute;ristique " . $p["caracteristique"];
-            if ($p["bm2_type"] != null) {
-                $text .= "<br /> et un " . $p["bm2_type"];
-                $text .= " sur la caract&eacute;ristique " . $p["caracteristique2"];
-            }
-            $text .= ".<br />";
-        }
-        if ($p["bm2_type"] != null || $p["bm_type"] == null) {
-            $text .= "<br />Ce vernis est à appliquer sur une pièce d'équipement.";
-        }
-        $text .= "<br />";
+		$text .= "<br />";
+		$text .= $p["nom_type"] . " n&deg; " . $p["id_potion"] . "<br />";
+		$text .= "Niveau : " . $p["niveau"] . "<br />";
+		$text .= "Poids : " . Bral_Util_Poids::POIDS_POTION . " Kg<br />";
+		if ($p["bm_type"] != null) {
+			$text .= "<br /> Apporte un " . $p["bm_type"];
+			$text .= " sur la caract&eacute;ristique " . $p["caracteristique"];
+			if ($p["bm2_type"] != null) {
+				$text .= "<br /> et un " . $p["bm2_type"];
+				$text .= " sur la caract&eacute;ristique " . $p["caracteristique2"];
+			}
+			$text .= ".<br />";
+		}
+		if ($p["bm2_type"] != null || $p["bm_type"] == null) {
+			$text .= "<br />Ce vernis est à appliquer sur une pièce d'équipement.";
+		}
+		$text .= "<br />";
 
-        return $text;
-    }
+		return $text;
+	}
 }

@@ -8,16 +8,16 @@
 class Bral_Util_Region
 {
 
-    public static function getRegionByXY($x, $y)
-    {
-        Zend_Loader::loadClass("Region");
-        $regionTable = new Region();
-        $region = $regionTable->findByCase($x, $y);
-        if ($region == null) {
-            throw new Zend_Exception("Bral_Util_Region::getRegionByXY Region invalide x:" . $x . "y:" . $y);
-        } else {
-            return $region;
-        }
-    }
+	public static function getRegionByXY($x, $y)
+	{
+		Zend_Loader::loadClass("Region");
+		$regionTable = new Region();
+		$region = $regionTable->findByCase($x, $y);
+		if ($region == null) {
+			throw new Zend_Exception("Bral_Util_Region::getRegionByXY Region invalide x:" . $x . "y:" . $y);
+		} else {
+			return $region;
+		}
+	}
 
 }

@@ -8,22 +8,22 @@
 class Bral_Box_Champ extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Champ";
-    }
+	function getTitreOnglet()
+	{
+		return "Champ";
+	}
 
-    function getNomInterne()
-    {
-        return "box_lieu";
-    }
+	function getNomInterne()
+	{
+		return "box_lieu";
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-    }
+	function render()
+	{
+	}
 }

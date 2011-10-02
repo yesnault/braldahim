@@ -8,30 +8,30 @@
 class Bral_Box_Interfacetest extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Vue [Test]";
-    }
+	function getTitreOnglet()
+	{
+		return "Vue [Test]";
+	}
 
-    function getNomInterne()
-    {
-        return "box_interfacetest";
-    }
+	function getNomInterne()
+	{
+		return "box_interfacetest";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/interfacetest.phtml");
-    }
+	function render()
+	{
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/interfacetest.phtml");
+	}
 
 }

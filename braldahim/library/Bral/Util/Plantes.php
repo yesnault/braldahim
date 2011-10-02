@@ -8,49 +8,49 @@
 class Bral_Util_Plantes
 {
 
-    public static function getTabPlantes()
-    {
-        Zend_Loader::loadClass("TypePlante");
-        Zend_Loader::loadClass("TypePartieplante");
+	public static function getTabPlantes()
+	{
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartieplante");
 
-        $typePlantesTable = new TypePlante();
-        $typePlantesRowset = $typePlantesTable->findAll();
-        unset($typePlantesTable);
+		$typePlantesTable = new TypePlante();
+		$typePlantesRowset = $typePlantesTable->findAll();
+		unset($typePlantesTable);
 
-        $typePartiePlantesTable = new TypePartieplante();
-        $typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
-        unset($typePartiePlantesTable);
-        $typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
+		$typePartiePlantesTable = new TypePartieplante();
+		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
+		unset($typePartiePlantesTable);
+		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 
-        $tabTypePlantes = null;
-        $tabTypePlantesRetour = null;
+		$tabTypePlantes = null;
+		$tabTypePlantesRetour = null;
 
-        foreach ($typePlantesRowset as $t) {
-            foreach ($typePartiePlantesRowset as $p) {
-                $val = false;
-                $idChamp = "";
-                for ($i = 1; $i <= 4; $i++) {
-                    if ($t["id_fk_partieplante" . $i . "_type_plante"] == $p["id_type_partieplante"]) {
-                        $val = true;
-                    }
-                }
+		foreach ($typePlantesRowset as $t) {
+			foreach ($typePartiePlantesRowset as $p) {
+				$val = false;
+				$idChamp = "";
+				for ($i = 1; $i <= 4; $i++) {
+					if ($t["id_fk_partieplante" . $i . "_type_plante"] == $p["id_type_partieplante"]) {
+						$val = true;
+					}
+				}
 
-                if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"] . "-" . $p["nom_type_partieplante"]]) && $val == true) {
-                    $tab = array(
-                        'nom_type_plante' => $t["nom_type_plante"],
-                        'nom_type_partieplante' => $p["nom_type_partieplante"],
-                        'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
-                        'categorie_type_plante' => $t["categorie_type_plante"],
-                        'id_type_partieplante' => $p["id_type_partieplante"],
-                        'id_type_plante' => $t["id_type_plante"],
-                    );
-                    $tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
-                    $tabTypePlantesRetour[] = $tab;
-                }
-            }
-        }
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"] . "-" . $p["nom_type_partieplante"]]) && $val == true) {
+					$tab = array(
+						'nom_type_plante' => $t["nom_type_plante"],
+						'nom_type_partieplante' => $p["nom_type_partieplante"],
+						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+						'categorie_type_plante' => $t["categorie_type_plante"],
+						'id_type_partieplante' => $p["id_type_partieplante"],
+						'id_type_plante' => $t["id_type_plante"],
+					);
+					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
+					$tabTypePlantesRetour[] = $tab;
+				}
+			}
+		}
 
-        return $tabTypePlantesRetour;
-    }
+		return $tabTypePlantesRetour;
+	}
 
 }

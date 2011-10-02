@@ -5,42 +5,46 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Contrat extends Zend_Db_Table {
+class Contrat extends Zend_Db_Table
+{
 	protected $_name = 'contrat';
 	protected $_primary = array('id_contrat');
 
-	function findEnCoursByIdBraldunSourceAndCible($idBraldunSource, $idBraldunCible) {
+	function findEnCoursByIdBraldunSourceAndCible($idBraldunSource, $idBraldunCible)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-				->where('id_fk_braldun_contrat = ?', intval($idBraldunSource))
-				->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
-				->where('date_fin_contrat is null')
-				->where('etat_contrat like ?', 'en cours');
+			->where('id_fk_braldun_contrat = ?', intval($idBraldunSource))
+			->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
+			->where('date_fin_contrat is null')
+			->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-				->from('braldun', '*')
-				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-				->where('id_fk_cible_braldun_contrat = id_braldun');
+			->from('braldun', '*')
+			->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+			->where('id_fk_cible_braldun_contrat = id_braldun');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findEnCoursByIdBraldun($idBraldun) {
+	function findEnCoursByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-				->from('braldun', '*')
-				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-				->where('id_fk_braldun_contrat = id_braldun')
-				->where('date_fin_contrat is null')
-				->where('etat_contrat like ?', 'en cours');
+			->from('braldun', '*')
+			->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+			->where('id_fk_braldun_contrat = id_braldun')
+			->where('date_fin_contrat is null')
+			->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 
 		$result = $db->fetchAll($sql);
@@ -53,23 +57,25 @@ class Contrat extends Zend_Db_Table {
 		}
 	}
 
-	function findEnCoursByIdBraldunCible($idBraldunCible) {
+	function findEnCoursByIdBraldunCible($idBraldunCible)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-				->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
-				->where('date_fin_contrat is null')
-				->where('etat_contrat like ?', 'en cours');
+			->where('id_fk_cible_braldun_contrat = ?', intval($idBraldunCible))
+			->where('date_fin_contrat is null')
+			->where('etat_contrat like ?', 'en cours');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdBraldunAndIdContrat($idBraldun, $idContrat) {
+	function findByIdBraldunAndIdContrat($idBraldun, $idContrat)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('contrat', '*')
-				->where('id_fk_braldun_contrat = ?', intval($idBraldun))
-				->where('id_contrat = ?', intval($idContrat));
+			->where('id_fk_braldun_contrat = ?', intval($idBraldun))
+			->where('id_contrat = ?', intval($idContrat));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

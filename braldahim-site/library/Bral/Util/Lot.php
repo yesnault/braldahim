@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bral_Util_Lot {
+class Bral_Util_Lot
+{
 
-	public static function getLotsByEtals($idRegion = null) {
+	public static function getLotsByEtals($idRegion = null)
+	{
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
@@ -18,7 +20,8 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	public static function getLotsByHotel($perimes = false) {
+	public static function getLotsByHotel($perimes = false)
+	{
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
@@ -29,7 +32,8 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	public static function getLotsByIdEchoppe($idEchoppe, $visiteur) {
+	public static function getLotsByIdEchoppe($idEchoppe, $visiteur)
+	{
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
@@ -45,7 +49,8 @@ class Bral_Util_Lot {
 		return $retourLots;
 	}
 
-	public static function getLotByIdsLots($idsLots) {
+	public static function getLotByIdsLots($idsLots)
+	{
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 
@@ -58,7 +63,8 @@ class Bral_Util_Lot {
 		return $tabLots;
 	}
 
-	private static function prepareLots($lots) {
+	private static function prepareLots($lots)
+	{
 
 		if (count($lots) == 0 || $lots == null) {
 			return null;
@@ -82,7 +88,8 @@ class Bral_Util_Lot {
 	}
 
 	// TODO améliorer perf si l'on vient d'une échoppe
-	private static function prepareLotsContenus($idsLot, &$lots) {
+	private static function prepareLotsContenus($idsLot, &$lots)
+	{
 
 		self::prepareLotEquipement($idsLot, $lots);
 		self::prepareLotMateriel($idsLot, $lots);
@@ -98,7 +105,8 @@ class Bral_Util_Lot {
 		self::prepareResume($lots);
 	}
 
-	private static function prepareResume(&$lots) {
+	private static function prepareResume(&$lots)
+	{
 
 		foreach ($lots as $lot) {
 			$resume = '';
@@ -215,7 +223,8 @@ class Bral_Util_Lot {
 
 	}
 
-	private static function prepareLotEquipement($idsLot, &$lots) {
+	private static function prepareLotEquipement($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotEquipement');
 		Zend_Loader::loadClass('Bral_Util_Equipement');
 
@@ -257,7 +266,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotMinerai($idsLot, &$lots) {
+	private static function prepareLotMinerai($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotMinerai');
 
 		$lotMineraiTable = new LotMinerai();
@@ -301,7 +311,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotPartieplante($idsLot, &$lots) {
+	private static function prepareLotPartieplante($idsLot, &$lots)
+	{
 
 		$tabReturn = array();
 
@@ -395,7 +406,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotGraine($idsLot, &$lots) {
+	private static function prepareLotGraine($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotGraine');
 
 		$lotGraineTable = new LotGraine();
@@ -424,7 +436,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotTabac($idsLot, &$lots) {
+	private static function prepareLotTabac($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotTabac');
 
 		$lotTabacTable = new LotTabac();
@@ -458,7 +471,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotIngredient($idsLot, &$lots) {
+	private static function prepareLotIngredient($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotIngredient');
 		Zend_Loader::loadClass('TypeIngredient');
 
@@ -496,7 +510,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotElement($lot) {
+	private static function prepareLotElement($lot)
+	{
 		$tabObjet = array(
 			'nb_peau' => $lot['quantite_peau_lot'],
 			'nb_cuir' => $lot['quantite_cuir_lot'],
@@ -509,7 +524,8 @@ class Bral_Util_Lot {
 		return $tabObjet;
 	}
 
-	private static function prepareLotMunition($idsLot, &$lots) {
+	private static function prepareLotMunition($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotMunition');
 		Zend_Loader::loadClass('Bral_Util_Equipement');
 
@@ -541,7 +557,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotAliment($idsLot, &$lots) {
+	private static function prepareLotAliment($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotAliment');
 		Zend_Loader::loadClass('Bral_Util_Aliment');
 
@@ -570,7 +587,8 @@ class Bral_Util_Lot {
 	}
 
 
-	private static function prepareLotMateriel($idsLot, &$lots) {
+	private static function prepareLotMateriel($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotMateriel');
 		Zend_Loader::loadClass('Bral_Util_Materiel');
 
@@ -610,7 +628,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotRune($idsLot, &$lots) {
+	private static function prepareLotRune($idsLot, &$lots)
+	{
 		Zend_Loader::loadClass('LotRune');
 
 		$lotRuneTable = new LotRune();
@@ -655,7 +674,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareLotPotion($idsLot, &$lots) {
+	private static function prepareLotPotion($idsLot, &$lots)
+	{
 
 		Zend_Loader::loadClass('LotPotion');
 		Zend_Loader::loadClass('Bral_Util_Potion');
@@ -692,40 +712,41 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function prepareRowLot($r) {
+	private static function prepareRowLot($r)
+	{
 
 		$tab = array('id_lot' => $r['id_lot'],
-					 'unite_1_lot' => $r['unite_1_lot'],
-					 'prix_1_lot' => $r['prix_1_lot'],
-					 'date_debut_lot' => $r['date_debut_lot'],
-					 'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
-					 'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
-					 'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
-					 'sexe_braldun_vendeur' => $r['sexe_braldun_vendeur'],
-					 'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
-					 'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
-					 'commentaire_lot' => $r['commentaire_lot'],
-					 'poids_lot' => $r['poids_lot'],
-					 'estLotCharrette' => false,
-					 'equipements' => null,
-					 'materiels' => null,
-					 'aliments' => null,
-					 'elements' => self::prepareLotElement($r),
-					 'potions' => null,
-					 'ingredients' => null,
-					 'runes_non_identifiees' => null,
-					 'runes_identifiees' => null,
-					 'munitions' => null,
-					 'graines' => null,
-					 'tabac' => null,
-					 'minerais_bruts' => null,
-					 'minerais_lingots' => null,
-					 'partiesplantes_brutes' => null,
-					 'partiesplantes_preparees' => null,
-					 'details' => '',
-					 'resume' => '',
-					 'echoppe' => null,
-					 'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+			'unite_1_lot' => $r['unite_1_lot'],
+			'prix_1_lot' => $r['prix_1_lot'],
+			'date_debut_lot' => $r['date_debut_lot'],
+			'id_fk_vendeur_braldun_lot' => $r['id_fk_vendeur_braldun_lot'],
+			'prenom_braldun_vendeur' => $r['prenom_braldun_vendeur'],
+			'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
+			'sexe_braldun_vendeur' => $r['sexe_braldun_vendeur'],
+			'prenom_braldun_destinataire' => $r['prenom_braldun_destinataire'],
+			'nom_braldun_destinataire' => $r['nom_braldun_destinataire'],
+			'commentaire_lot' => $r['commentaire_lot'],
+			'poids_lot' => $r['poids_lot'],
+			'estLotCharrette' => false,
+			'equipements' => null,
+			'materiels' => null,
+			'aliments' => null,
+			'elements' => self::prepareLotElement($r),
+			'potions' => null,
+			'ingredients' => null,
+			'runes_non_identifiees' => null,
+			'runes_identifiees' => null,
+			'munitions' => null,
+			'graines' => null,
+			'tabac' => null,
+			'minerais_bruts' => null,
+			'minerais_lingots' => null,
+			'partiesplantes_brutes' => null,
+			'partiesplantes_preparees' => null,
+			'details' => '',
+			'resume' => '',
+			'echoppe' => null,
+			'nom_braldun_vendeur' => $r['nom_braldun_vendeur'],
 		);
 
 		if ($r['date_fin_lot'] != null) {
@@ -741,7 +762,8 @@ class Bral_Util_Lot {
 		return $tab;
 	}
 
-	public static function transfertLot($idLot, $destination, $idDestination) {
+	public static function transfertLot($idLot, $destination, $idDestination)
+	{
 
 		if ($destination != 'caisse_echoppe'
 			&& $destination != 'arriere_echoppe'
@@ -791,14 +813,16 @@ class Bral_Util_Lot {
 		self::supprimeLot($idLot);
 	}
 
-	public static function supprimeLot($idLot) {
+	public static function supprimeLot($idLot)
+	{
 		Zend_Loader::loadClass('Lot');
 		$lotTable = new Lot();
 		$where = 'id_lot = ' . intval($idLot);
 		$lotTable->delete($where);
 	}
 
-	private static function transfertLotEquipement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotEquipement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotEquipement');
 
 		$lotEquipementTable = new LotEquipement();
@@ -822,7 +846,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotMateriel($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotMateriel($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 
 		Zend_Loader::loadClass('LotMateriel');
 
@@ -848,7 +873,8 @@ class Bral_Util_Lot {
 
 	}
 
-	private static function transfertLotAliment($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotAliment($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotAliment');
 
 		$lotAlimentTable = new LotAliment();
@@ -872,7 +898,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
+	private static function transfertLotElement($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe)
+	{
 		Zend_Loader::loadClass('Lot');
 
 		$lotTable = new Lot();
@@ -909,7 +936,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotGraine($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotGraine($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotGraine');
 
 		$lotGraineTable = new LotGraine();
@@ -934,7 +962,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotIngredient($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotIngredient($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotIngredient');
 
 		$lotIngredientTable = new LotIngredient();
@@ -959,7 +988,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotMunition($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotMunition($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotMunition');
 
 		$lotMunitionTable = new LotMunition();
@@ -984,7 +1014,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
+	private static function transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe)
+	{
 		Zend_Loader::loadClass('LotPartieplante');
 
 		$lotPartieplanteTable = new LotPartieplante();
@@ -1011,7 +1042,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotMinerai($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe) {
+	private static function transfertLotMinerai($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe)
+	{
 		Zend_Loader::loadClass('LotMinerai');
 
 		$lotMineraiTable = new LotMinerai();
@@ -1037,7 +1069,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotPotion');
 
 		$lotPotionTable = new LotPotion();
@@ -1061,7 +1094,8 @@ class Bral_Util_Lot {
 		}
 	}
 
-	private static function transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination) {
+	private static function transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
 		Zend_Loader::loadClass('LotRune');
 
 		$lotRuneTable = new LotRune();

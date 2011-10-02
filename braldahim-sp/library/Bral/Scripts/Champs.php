@@ -10,21 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Scripts_Champs extends Bral_Scripts_Script {
+class Bral_Scripts_Champs extends Bral_Scripts_Script
+{
 
-	public function getType() {
+	public function getType()
+	{
 		return self::TYPE_STATIQUE;
 	}
 
-	public function getEtatService() {
+	public function getEtatService()
+	{
 		return self::SERVICE_ACTIVE;
 	}
 
-	public function getVersion() {
+	public function getVersion()
+	{
 		return 1;
 	}
 
-	public function calculScriptImpl() {
+	public function calculScriptImpl()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Champs - calculScriptImpl - enter -");
 
 		$retour = null;
@@ -34,7 +39,8 @@ class Bral_Scripts_Champs extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculChamps() {
+	private function calculChamps()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Champs - calculChamps - enter -");
 		$retour = "";
 		$this->calculChampsBraldun($retour);
@@ -42,15 +48,16 @@ class Bral_Scripts_Champs extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculChampsBraldun(&$retour) {
+	private function calculChampsBraldun(&$retour)
+	{
 		Zend_Loader::loadClass("Champ");
 
 		$champsTable = new Champ();
 		$champsRowset = $champsTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($champsRowset != null) {
-			foreach($champsRowset as $e) {
-				$retour .= "CHAMP;".$e["id_champ"].';'.$e["x_champ"].';'.$e["y_champ"].';'.$e["z_champ"].';'.$e["id_region"].PHP_EOL;
+			foreach ($champsRowset as $e) {
+				$retour .= "CHAMP;" . $e["id_champ"] . ';' . $e["x_champ"] . ';' . $e["y_champ"] . ';' . $e["z_champ"] . ';' . $e["id_region"] . PHP_EOL;
 			}
 		} else {
 			$retour .= "AUCUN_CHAMP";

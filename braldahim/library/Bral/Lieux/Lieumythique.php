@@ -8,48 +8,48 @@
 class Bral_Lieux_Lieumythique extends Bral_Lieux_Lieu
 {
 
-    private $_distinction = null;
+	private $_distinction = null;
 
-    function prepareCommun()
-    {
-        Zend_Loader::loadClass("BraldunsDistinction");
-        $braldunsDistinctionTable = new BraldunsDistinction();
-        $distinction = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndIdFkLieuDistinction($this->view->user->id_braldun, $this->view->idLieu);
-        if (count($distinction) >= 1) {
-            $this->view->utilisationPossible = false;
-        } else {
-            Zend_Loader::loadClass("TypeDistinction");
-            $typeDistinctionTable = new TypeDistinction();
-            $distinction = $typeDistinctionTable->findByIdFkTypeLieu($this->view->idLieu);
-            if ($distinction == null) {
-                throw new Zend_Exception("Lieu Mythique invalide:" . $this->view->idLieu);
-            } else {
-                $this->_distinction = $distinction;
-                $this->view->nom_distinction = $distinction->nom_type_distinction;
-            }
-            $this->view->utilisationPossible = true;
-        }
-    }
+	function prepareCommun()
+	{
+		Zend_Loader::loadClass("BraldunsDistinction");
+		$braldunsDistinctionTable = new BraldunsDistinction();
+		$distinction = $braldunsDistinctionTable->findDistinctionsByBraldunIdAndIdFkLieuDistinction($this->view->user->id_braldun, $this->view->idLieu);
+		if (count($distinction) >= 1) {
+			$this->view->utilisationPossible = false;
+		} else {
+			Zend_Loader::loadClass("TypeDistinction");
+			$typeDistinctionTable = new TypeDistinction();
+			$distinction = $typeDistinctionTable->findByIdFkTypeLieu($this->view->idLieu);
+			if ($distinction == null) {
+				throw new Zend_Exception("Lieu Mythique invalide:" . $this->view->idLieu);
+			} else {
+				$this->_distinction = $distinction;
+				$this->view->nom_distinction = $distinction->nom_type_distinction;
+			}
+			$this->view->utilisationPossible = true;
+		}
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-        Zend_Loader::loadClass("Bral_Util_Distinction");
-        Bral_Util_Distinction::ajouterDistinction($this->view->user->id_braldun, $this->_distinction->id_type_distinction, $this->_distinction->nom_type_distinction);
+	function prepareResultat()
+	{
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+		Bral_Util_Distinction::ajouterDistinction($this->view->user->id_braldun, $this->_distinction->id_type_distinction, $this->_distinction->nom_type_distinction);
 
-        $this->majBraldun();
+		$this->majBraldun();
 
-        Zend_Loader::loadClass("Bral_Util_Tracemail");
-        Bral_Util_Tracemail::traite("Nouvelle distinction Lieu Mythique pour " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ") : " . $this->_distinction->nom_type_distinction, $this->view, "Distinction Lieu Mythique");
+		Zend_Loader::loadClass("Bral_Util_Tracemail");
+		Bral_Util_Tracemail::traite("Nouvelle distinction Lieu Mythique pour " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ") : " . $this->_distinction->nom_type_distinction, $this->view, "Distinction Lieu Mythique");
 
-    }
+	}
 
-    function getListBoxRefresh()
-    {
-        return $this->constructListBoxRefresh(array("box_titres"));
-    }
+	function getListBoxRefresh()
+	{
+		return $this->constructListBoxRefresh(array("box_titres"));
+	}
 
 }

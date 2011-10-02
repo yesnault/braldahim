@@ -10,7 +10,8 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-abstract class Bral_Scripts_Script {
+abstract class Bral_Scripts_Script
+{
 
 	const ETAT_EN_COURS = 'EN_COURS';
 	const ETAT_OK = 'OK';
@@ -47,7 +48,8 @@ abstract class Bral_Scripts_Script {
 	protected $braldun = null;
 	protected $request = null;
 
-	public function __construct($nomSysteme, $view, $request) {
+	public function __construct($nomSysteme, $view, $request)
+	{
 		Zend_Loader::loadClass('Script');
 		$this->nomSysteme = $nomSysteme;
 		$this->config = Zend_Registry::get('config');
@@ -56,11 +58,15 @@ abstract class Bral_Scripts_Script {
 	}
 
 	abstract function calculScriptImpl();
+
 	abstract function getType();
+
 	abstract function getEtatService();
+
 	abstract function getVersion();
 
-	public function calculScript() {
+	public function calculScript()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - calculScript - enter -");
 
 		$codeService = $this->verificationService();
@@ -84,7 +90,7 @@ abstract class Bral_Scripts_Script {
 		}
 
 		$message = null;
-			
+
 		try {
 			$message = $this->calculScriptImpl();
 		} catch (Zend_Exception $e) {
@@ -99,21 +105,22 @@ abstract class Bral_Scripts_Script {
 				$mail->setFrom($config->general->mail->exception->from, $config->general->mail->exception->nom);
 				$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
 				$mail->setSubject("[Braldahim-Script] Exception rencontrée");
-				$mail->setBodyText("--------> ".date("Y-m-d H:m:s"). ' IdScript:'.$idScript.PHP_EOL.$e->getMessage(). PHP_EOL);
+				$mail->setBodyText("--------> " . date("Y-m-d H:m:s") . ' IdScript:' . $idScript . PHP_EOL . $e->getMessage() . PHP_EOL);
 				$mail->send();
 			}
 
 			return self::ERREUR_01_EXCEPTION;
 		}
-			
+
 		$this->postCalcul($scriptTable, $idScript, self::ETAT_OK, $message);
 
-		$message = $this->nbAppelsMsg.$message;
+		$message = $this->nbAppelsMsg . $message;
 		return $message;
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - calculScript - exit -");
 	}
 
-	private function preCalcul($scriptTable) {
+	private function preCalcul($scriptTable)
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - preCalcul - enter -");
 		$data = array(
 			'nom_script' => $this->nomSysteme,
@@ -126,11 +133,12 @@ abstract class Bral_Scripts_Script {
 			'url_script' => $_SERVER["REQUEST_URI"],
 		);
 		$idScript = $scriptTable->insert($data);
-		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - preCalcul (id:".$idScript.") - exit -");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - preCalcul (id:" . $idScript . ") - exit -");
 		return $idScript;
 	}
 
-	private function postCalcul($scriptTable, $idScript, $etat, $message = null) {
+	private function postCalcul($scriptTable, $idScript, $etat, $message = null)
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - postCalcul - enter -");
 
 		$data = array(
@@ -138,31 +146,32 @@ abstract class Bral_Scripts_Script {
 			'etat_script' => $etat,
 			'message_script' => $message,
 		);
-		$where = 'id_script='.$idScript;
+		$where = 'id_script=' . $idScript;
 		$scriptTable->update($data, $where);
 
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - postCalcul - exit -");
 	}
 
-	private function verificationService() {
+	private function verificationService()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationService - enter -");
 
 		$versionRecue = $this->request->get(self::PARM_VERSION);
 
-		if (((int)$versionRecue.""!=$versionRecue."")) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES a (".$versionRecue.") - exit -");
+		if (((int)$versionRecue . "" != $versionRecue . "")) {
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES a (" . $versionRecue . ") - exit -");
 			return self::ERREUR_02_PARAMETRES;
 		} else {
 			$version = (int)$versionRecue;
 		}
 
 		if ($this->getVersion() != $version) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_08_VERSION_INCORRECTE (".$this->getVersion(). ", ".$version.") - exit -");
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_08_VERSION_INCORRECTE (" . $this->getVersion() . ", " . $version . ") - exit -");
 			return self::ERREUR_08_VERSION_INCORRECTE;
 		}
 
 		if ($this->getEtatService() != self::SERVICE_ACTIVE) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE (".$this->getEtatService().") - exit -");
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE (" . $this->getEtatService() . ") - exit -");
 			return self::ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE;
 		}
 
@@ -172,14 +181,15 @@ abstract class Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function initParametres() {
+	private function initParametres()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - initParametres - enter -");
 
 		$idBraldunRecu = $this->request->get(self::PARM_ID_BRALDUN);
 		$mdpRestreintRecu = $this->request->get(self::PARM_MDP_RESTREINT);
 
-		if (((int)$idBraldunRecu.""!=$idBraldunRecu."")) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES n (".$idBraldunRecu.") - exit -");
+		if (((int)$idBraldunRecu . "" != $idBraldunRecu . "")) {
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_02_PARAMETRES n (" . $idBraldunRecu . ") - exit -");
 			return self::ERREUR_02_PARAMETRES;
 		} else {
 			$idBraldun = (int)$idBraldunRecu;
@@ -190,12 +200,12 @@ abstract class Bral_Scripts_Script {
 		$braldunRow = $braldunTable->findById($idBraldun);
 
 		if ($braldunRow == null || count($braldunRow) < 1) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_BRALDUN_INCONNU (".$idBraldun.") - exit -");
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_03_BRALDUN_INCONNU (" . $idBraldun . ") - exit -");
 			return self::ERREUR_03_BRALDUN_INCONNU;
 		}
 
 		if ($braldunRow->password_hash_braldun != $mdpRestreintRecu) {
-			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (".$idBraldun.", ".$mdpRestreintRecu.") - exit -");
+			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (" . $idBraldun . ", " . $mdpRestreintRecu . ") - exit -");
 			return self::ERREUR_04_MDP_INVALIDE;
 		}
 
@@ -211,7 +221,8 @@ abstract class Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function getNbAppelsMax() {
+	private function getNbAppelsMax()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - getNbAppelsMax - enter -");
 		$type = $this->getType();
 		if ($type == self::TYPE_DYNAMIQUE) {
@@ -223,11 +234,12 @@ abstract class Bral_Scripts_Script {
 		} else {
 			throw new Zend_Exception("Erreur Parametrage Nb Appels");
 		}
-		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - getNbAppelsMax - exit:".$nb." -");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - getNbAppelsMax - exit:" . $nb . " -");
 		return $nb;
 	}
 
-	private function verificationNbAppels($scriptTable) {
+	private function verificationNbAppels($scriptTable)
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - enter -");
 
 		$date = date("Y-m-d H:i:s");
@@ -235,16 +247,16 @@ abstract class Bral_Scripts_Script {
 
 		Zend_Loader::loadClass("Bral_Util_ConvertDate");
 		$dateDebut = Bral_Util_ConvertDate::get_date_remove_time_to_date($date, $rem_time);
-		$where = $scriptTable->getAdapter()->quoteInto('date_debut_script <= ?',  $dateDebut);
-		$nb = $scriptTable->delete($where. " AND type_script like '".$this->getType()."'");
-		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - del.".$nb." du type .".$this->getType()." -");
+		$where = $scriptTable->getAdapter()->quoteInto('date_debut_script <= ?', $dateDebut);
+		$nb = $scriptTable->delete($where . " AND type_script like '" . $this->getType() . "'");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - del." . $nb . " du type ." . $this->getType() . " -");
 
 		$nb = $scriptTable->countByIdBraldunAndType($this->braldun->id_braldun, $this->getType());
 		$nbMax = $this->getNbAppelsMax();
-		$this->nbAppelsMsg = "TYPE:".$this->getType().";NB_APPELS:".$nb.";MAX_AUTORISE:".$nbMax.PHP_EOL;
-		
+		$this->nbAppelsMsg = "TYPE:" . $this->getType() . ";NB_APPELS:" . $nb . ";MAX_AUTORISE:" . $nbMax . PHP_EOL;
+
 		if ($nb > $nbMax) {
-			$retour = self::ERREUR_09_DEPASSEMENT_APPELS.";".$this->nbAppelsMsg;
+			$retour = self::ERREUR_09_DEPASSEMENT_APPELS . ";" . $this->nbAppelsMsg;
 		} else {
 			$retour = self::VERIFICATION_OK;
 		}

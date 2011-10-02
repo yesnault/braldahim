@@ -8,56 +8,56 @@
 abstract class Bral_Filatures_Filatures
 {
 
-    function __construct($nomSystemeAction, $request, $view, $action)
-    {
-        $this->view = $view;
-        $this->request = $request;
-        $this->action = $action;
-        $this->nom_systeme = $nomSystemeAction;
+	function __construct($nomSystemeAction, $request, $view, $action)
+	{
+		$this->view = $view;
+		$this->request = $request;
+		$this->action = $action;
+		$this->nom_systeme = $nomSystemeAction;
 
-        $this->prepareCommun();
+		$this->prepareCommun();
 
-        switch ($this->action) {
-            case "ask" :
-                $this->prepareFormulaire();
-                break;
-            case "do":
-                $this->prepareResultat();
-                break;
-            default:
-                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
-        }
-    }
+		switch ($this->action) {
+			case "ask" :
+				$this->prepareFormulaire();
+				break;
+			case "do":
+				$this->prepareResultat();
+				break;
+			default:
+				throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+		}
+	}
 
-    abstract function prepareCommun();
+	abstract function prepareCommun();
 
-    abstract function prepareFormulaire();
+	abstract function prepareFormulaire();
 
-    abstract function prepareResultat();
+	abstract function prepareResultat();
 
-    abstract function getListBoxRefresh();
+	abstract function getListBoxRefresh();
 
-    abstract function getNomInterne();
+	abstract function getNomInterne();
 
-    abstract function getTitreAction();
+	abstract function getTitreAction();
 
-    abstract function calculNbPa();
+	abstract function calculNbPa();
 
-    public function getIdEchoppeCourante()
-    {
-        return false;
-    }
+	public function getIdEchoppeCourante()
+	{
+		return false;
+	}
 
-    public function getIdChampCourant()
-    {
-        return false;
-    }
+	public function getIdChampCourant()
+	{
+		return false;
+	}
 
-    public function getTablesHtmlTri()
-    {
-        return false;
-    }
+	public function getTablesHtmlTri()
+	{
+		return false;
+	}
 
-    abstract function render();
+	abstract function render();
 
 }

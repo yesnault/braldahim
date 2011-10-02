@@ -1,41 +1,45 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationplanteController extends Zend_Controller_Action {
+class AdministrationplanteController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Securite");
 		Bral_Util_Securite::controlAdmin();
-		
+
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function plantesAction() {
+	function plantesAction()
+	{
 		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePlante');
 		Zend_Loader::loadClass('TypePartieplante');
-			
+
 		$this->plantesPrepare();
 
 		$creation = false;
 		$nb_creation = 0;
-	
+
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -69,16 +73,16 @@ class AdministrationplanteController extends Zend_Controller_Action {
 			}
 
 			$planteTable = new Plante();
-			
+
 			$nb_cases = $t["nombre_cases"];
 			$nb_creation = (int)(($nb_cases * $couverture) / 100);
 
-			for ($i=1; $i<= $nb_creation; $i++) {
+			for ($i = 1; $i <= $nb_creation; $i++) {
 				$x = Bral_Util_De::get_de_specifique($zone["x_min"], $zone["x_max"]);
 				$y = Bral_Util_De::get_de_specifique($zone["y_min"], $zone["y_max"]);
 
 				$partie_1 = Bral_Util_De::get_de_specifique($partie_1a, $partie_1b);
-					
+
 				if ($partie_2a == 0 || $partie_2b == 0) {
 					$partie_2 = null;
 				} else {
@@ -113,7 +117,8 @@ class AdministrationplanteController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function plantesPrepare() {
+	private function plantesPrepare()
+	{
 		$zoneTable = new Zone();
 		$planteTable = new Plante();
 		$typePlanteTable = new TypePlante();
@@ -124,26 +129,27 @@ class AdministrationplanteController extends Zend_Controller_Action {
 		$typePlanteRowset = $typePlanteTable->fetchAllAvecEnvironnement();
 		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall();
 		$villesRowset = $villeTable->fetchAll();
-		
-		foreach($zonesRowset as $z) {
-			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"], 0);
-			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
+
+		foreach ($zonesRowset as $z) {
+			$nombrePlantes = $planteTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0);
+			$nombreCases = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
 			$couverture = ($nombrePlantes * 100) / $nombreCases;
-			
+
 			$villes = "";
-			foreach($villesRowset as $v) {
+			foreach ($villesRowset as $v) {
 				if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
-				$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
-					$villes .= $v->nom_ville.", ";
+					$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville
+				) {
+					$villes .= $v->nom_ville . ", ";
 				}
 			}
-			
-			$zones[] = array("id_zone" =>$z["id_zone"],
-				"x_min" =>$z["x_min_zone"] ,
-				"x_max" =>$z["x_max_zone"] ,
-				"y_min" =>$z["y_min_zone"] ,
-				"y_max" =>$z["y_max_zone"] ,
-				"environnement" =>$z["nom_environnement"] ,
+
+			$zones[] = array("id_zone" => $z["id_zone"],
+				"x_min" => $z["x_min_zone"],
+				"x_max" => $z["x_max_zone"],
+				"y_min" => $z["y_min_zone"],
+				"y_max" => $z["y_max_zone"],
+				"environnement" => $z["nom_environnement"],
 				"nombre_plantes" => $nombrePlantes,
 				"nombre_cases" => $nombreCases,
 				"couverture" => round($couverture),
@@ -151,14 +157,14 @@ class AdministrationplanteController extends Zend_Controller_Action {
 			);
 		}
 
-		foreach($typePartiePlanteRowset as $p) {
+		foreach ($typePartiePlanteRowset as $p) {
 			$tabPartiePlante[$p->id_type_partieplante]["id"] = $p->id_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom"] = $p->nom_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom_systeme"] = $p->nom_systeme_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["description"] = $p->description_type_partieplante;
 		}
 
-		foreach($typePlanteRowset as $t) {
+		foreach ($typePlanteRowset as $t) {
 			$nom_partie2 = "";
 			if ($t["id_fk_partieplante2_type_plante"] > 0) {
 				$nom_partie2 = $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"];

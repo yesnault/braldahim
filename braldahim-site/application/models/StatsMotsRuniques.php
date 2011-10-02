@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class StatsMotsRuniques extends Zend_Db_Table {
+class StatsMotsRuniques extends Zend_Db_Table
+{
 	protected $_name = 'stats_mots_runiques';
 	protected $_primary = array('id_stats_mots_runiques');
-	
-	function findByMot($dateDebut, $dateFin) {
+
+	function findByMot($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('mot_runique', 'suffixe_mot_runique as suffixe');
@@ -29,8 +31,9 @@ class StatsMotsRuniques extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByNiveauPiece($dateDebut, $dateFin) {
+
+	function findByNiveauPiece($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('mot_runique', 'suffixe_mot_runique as suffixe');
@@ -45,8 +48,9 @@ class StatsMotsRuniques extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByTypePiece($dateDebut, $dateFin) {
+
+	function findByTypePiece($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('mot_runique', 'suffixe_mot_runique as suffixe');

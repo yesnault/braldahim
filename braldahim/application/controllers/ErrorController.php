@@ -5,13 +5,16 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class ErrorController extends Zend_Controller_Action {
+class ErrorController extends Zend_Controller_Action
+{
 
-	public function init() {
+	public function init()
+	{
 		$this->initView();
 	}
 
-	public function errorAction() {
+	public function errorAction()
+	{
 		$errors = $this->_getParam('error_handler');
 
 		switch ($errors->type) {
@@ -20,7 +23,7 @@ class ErrorController extends Zend_Controller_Action {
 				// 404 error -- controller or action not found
 				$this->getResponse()->setRawHeader('HTTP/1.1 404 Not Found');
 
-				$content ="<h1>Erreur !</h1><p>Page introuvable.</p>";
+				$content = "<h1>Erreur !</h1><p>Page introuvable.</p>";
 				echo $content;
 				break;
 			default:
@@ -28,12 +31,12 @@ class ErrorController extends Zend_Controller_Action {
 				$errors = $this->_getParam('error_handler');
 				$exception = $errors->exception;
 				Zend_Loader::loadClass("Bral_Util_Exception");
-				$texte = "Type: ".$errors->type.PHP_EOL;
-				$texte .= "Fichier: ".$exception->getFile().":".$exception->getLine().PHP_EOL;
-				$texte .= "Message: ".$exception->getMessage().PHP_EOL.PHP_EOL;
-				$texte .= "StackTrace:".PHP_EOL.$exception->getTraceAsString().PHP_EOL.PHP_EOL;
-				$texte .= "Params:".var_export($errors->request->getParams(), true);
-				
+				$texte = "Type: " . $errors->type . PHP_EOL;
+				$texte .= "Fichier: " . $exception->getFile() . ":" . $exception->getLine() . PHP_EOL;
+				$texte .= "Message: " . $exception->getMessage() . PHP_EOL . PHP_EOL;
+				$texte .= "StackTrace:" . PHP_EOL . $exception->getTraceAsString() . PHP_EOL . PHP_EOL;
+				$texte .= "Params:" . var_export($errors->request->getParams(), true);
+
 				Bral_Util_Exception::traite($texte, true);
 				break;
 		}

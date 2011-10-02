@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Evenement extends Zend_Db_Table {
+class Evenement extends Zend_Db_Table
+{
 	protected $_name = 'evenement';
 	protected $_primary = 'id_evenement';
 
-	function findTopPalmaresBraldun($dateDebut, $dateFin, $type) {
+	function findTopPalmaresBraldun($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 
 		$select = $db->select();
@@ -45,39 +47,42 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdBraldun($idBraldun, $pageMin, $pageMax, $filtre){
+	public function findByIdBraldun($idBraldun, $pageMin, $pageMax, $filtre)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', '*')
-		->from('type_evenement', '*')
-		->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
-		->where('evenement.id_fk_braldun_evenement = '.intval($idBraldun))
-		->order('id_evenement DESC')
-		->limitPage($pageMin, $pageMax);
+			->from('type_evenement', '*')
+			->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
+			->where('evenement.id_fk_braldun_evenement = ' . intval($idBraldun))
+			->order('id_evenement DESC')
+			->limitPage($pageMin, $pageMax);
 		if ($filtre <> -1) {
-			$select->where('type_evenement.id_type_evenement = '.$filtre);
+			$select->where('type_evenement.id_type_evenement = ' . $filtre);
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdMonstre($idMonstre, $pageMin, $pageMax, $filtre){
+	public function findByIdMonstre($idMonstre, $pageMin, $pageMax, $filtre)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', '*')
-		->from('type_evenement', '*')
-		->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
-		->where('evenement.id_fk_monstre_evenement = '.intval($idMonstre))
-		->order('id_evenement DESC')
-		->limitPage($pageMin, $pageMax);
+			->from('type_evenement', '*')
+			->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
+			->where('evenement.id_fk_monstre_evenement = ' . intval($idMonstre))
+			->order('id_evenement DESC')
+			->limitPage($pageMin, $pageMax);
 		if ($filtre <> -1) {
-			$select->where('type_evenement.id_type_evenement = '.$filtre);
+			$select->where('type_evenement.id_type_evenement = ' . $filtre);
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdMatch($idMatch) {
+	public function findByIdMatch($idMatch)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -89,14 +94,15 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function countByIdMonstreIdBraldunLast3tours($numTour, $idMonstre, $idBraldun, $actionEvenement) {
+	public function countByIdMonstreIdBraldunLast3tours($numTour, $idMonstre, $idBraldun, $actionEvenement)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', 'count(*) as nombre');
 		$select->where('id_fk_braldun_evenement = ?', $idBraldun);
 		$select->where('id_fk_monstre_evenement = ?', $idMonstre);
 		$select->where('action_evenement like ?', $actionEvenement);
-		$select->where('tour_monstre_evenement >= ?', $numTour-3);
+		$select->where('tour_monstre_evenement >= ?', $numTour - 3);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -104,7 +110,8 @@ class Evenement extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	public function countByIdBraldunTourCourant($numTour, $idBraldun, $actionEvenement) {
+	public function countByIdBraldunTourCourant($numTour, $idBraldun, $actionEvenement)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', 'count(*) as nombre');

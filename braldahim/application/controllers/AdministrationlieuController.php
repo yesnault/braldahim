@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationlieuController extends Zend_Controller_Action {
+class AdministrationlieuController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -20,11 +22,13 @@ class AdministrationlieuController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function lieuAction() {
+	function lieuAction()
+	{
 		Zend_Loader::loadClass('Lieu');
 
 		$this->modificationLieu = false;
@@ -44,7 +48,7 @@ class AdministrationlieuController extends Zend_Controller_Action {
 					if ($lieu[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
-					$modification .= "$key avant: ".$lieu[$key]. " apres:".$value;
+					$modification .= "$key avant: " . $lieu[$key] . " apres:" . $value;
 					$modification .= PHP_EOL;
 
 					if ($value == '') {
@@ -67,9 +71,9 @@ class AdministrationlieuController extends Zend_Controller_Action {
 
 				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
-				$mail->setSubject("[Braldahim-Admin Jeu] Gestion Lieu ".$this->_request->getPost("id_lieu"));
-				$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-				$texte .= PHP_EOL.$modification;
+				$mail->setSubject("[Braldahim-Admin Jeu] Gestion Lieu " . $this->_request->getPost("id_lieu"));
+				$texte = "--------> Utilisateur " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+				$texte .= PHP_EOL . $modification;
 
 				$mail->setBodyText($texte);
 				$mail->send();
@@ -80,7 +84,8 @@ class AdministrationlieuController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function lieuPrepare() {
+	private function lieuPrepare()
+	{
 
 		$this->view->id_lieu = intval($this->_request->get('idlieu'));
 

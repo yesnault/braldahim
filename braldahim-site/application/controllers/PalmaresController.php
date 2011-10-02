@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class PalmaresController extends Bral_Controller_Box {
+class PalmaresController extends Bral_Controller_Box
+{
 
-	function init() {
+	function init()
+	{
 		Zend_Loader::loadClass("Bral_Xml_Response");
 		Zend_Loader::loadClass("Bral_Xml_Entry");
 		Zend_Loader::loadClass("Bral_Util_String");
@@ -20,187 +22,214 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render();
 	}
-	
-	function naissanceAction() {
+
+	function naissanceAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 
-	function chasseursgibierAction() {
+	function chasseursgibierAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesChasseursgibier($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function combattantspveAction() {
+
+	function combattantspveAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function combattantspvpAction() {
+
+	function combattantspvpAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function koAction() {
+
+	function koAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesKo($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function distinctionAction() {
+
+	function distinctionAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesDistinction($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function experienceAction() {
+
+	function experienceAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function gredinsAction() {
+
+	function gredinsAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesGredins($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function redresseursAction() {
+
+	function redresseursAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRedresseurs($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 
-	function superbraldunsAction() {
+	function superbraldunsAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperbralduns($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function monstresAction() {
+
+	function monstresAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function mineursAction() {
+
+	function mineursAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "mineurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function herboristesAction() {
+
+	function herboristesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "herboristes"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function bucheronsrecolteursAction() {
+
+	function bucheronsrecolteursAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "bucherons"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function chasseursAction() {
+
+	function chasseursAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "chasseurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function apothicairesAction() {
+
+	function apothicairesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "apothicaires"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function menuisiersAction() {
+
+	function menuisiersAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "menuisiers"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function forgeronsAction() {
+
+	function forgeronsAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "forgerons"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function tanneursAction() {
+
+	function tanneursAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "tanneurs"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function bucheronsfabriquantspalissadesAction() {
+
+	function bucheronsfabriquantspalissadesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronspalissades"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function bucheronsfabriquantsroutesAction() {
+
+	function bucheronsfabriquantsroutesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronsroutes"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function cuisiniersAction() {
+
+	function cuisiniersAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "cuisiniers"), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function runesAction() {
+
+	function runesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRunes($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	function motsruniquesAction() {
+
+	function motsruniquesAction()
+	{
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesMotsRuniques($this->_request, $this->view), "boite_e");
 		$this->prepareCommun();
 		$this->render("index");
 	}
-	
-	private function prepareCommun() {
+
+	private function prepareCommun()
+	{
 		$this->getBoxesData();
 		$this->prepareSelection();
 	}
-	
-	private function prepareSelection() {
+
+	private function prepareSelection()
+	{
 		$selection[] = array("nom" => "Naissances", "url" => "naissance");
 		$selection[] = array("nom" => "Grands Combattants PvE", "url" => "combattantspve");
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
@@ -210,19 +239,19 @@ class PalmaresController extends Bral_Controller_Box {
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
 		$selection[] = array("nom" => "Super Braldûns", "url" => "superbralduns");
 		$this->view->selection = $selection;
-		
+
 		$reputation[] = array("nom" => "Distinctions", "url" => "distinction");
 		$reputation[] = array("nom" => "Gredins", "url" => "gredins");
 		$reputation[] = array("nom" => "Redresseurs de Torts", "url" => "redresseurs");
 		$this->view->selectionReputation = $reputation;
-		
+
 		$selectionRecolteurs = null;
 		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
 		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
 		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucheronsrecolteurs");
 		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");
 		$this->view->selectionRecolteurs = $selectionRecolteurs;
-		
+
 		$selectionFabricants = null;
 		$selectionFabricants[] = array("nom" => "Apothicaires", "url" => "apothicaires");
 		$selectionFabricants[] = array("nom" => "Menuisiers", "url" => "menuisiers");
@@ -232,23 +261,25 @@ class PalmaresController extends Bral_Controller_Box {
 		$selectionFabricants[] = array("nom" => "Bûcherons - Sentiers", "url" => "bucheronsfabriquantsroutes");
 		$selectionFabricants[] = array("nom" => "Cuisiniers", "url" => "cuisiniers");
 		$this->view->selectionFabricants = $selectionFabricants;
-		
+
 		$selectionRunes = null;
 		$selectionRunes[] = array("nom" => "Drops Runes", "url" => "runes");
 		$selectionRunes[] = array("nom" => "Mots Runiques", "url" => "motsruniques");
 		$this->view->selectionRunes = $selectionRunes;
 	}
-	
-	private function prepareFiltre() {
+
+	private function prepareFiltre()
+	{
 		$listFiltre[] = array("nom" => "Mois en cours", "valeur" => 1);
 		$listFiltre[] = array("nom" => "Dernier mois", "valeur" => 2);
 		$listFiltre[] = array("nom" => "Année en cours", "valeur" => 3);
 		$listFiltre[] = array("nom" => "Année précédente", "valeur" => 4);
-		$listFiltre[] = array("nom" => "Depuis toujours", "valeur" => 5);		
-		$this->view->listFiltre = $listFiltre;	
+		$listFiltre[] = array("nom" => "Depuis toujours", "valeur" => 5);
+		$this->view->listFiltre = $listFiltre;
 	}
-	
-	function loadAction() {
+
+	function loadAction()
+	{
 		$this->prepareFiltre();
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
@@ -262,8 +293,9 @@ class PalmaresController extends Bral_Controller_Box {
 		unset($xml_entry);
 		$this->xml_response->render();
 	}
-	
-	function palmarestop10Action() {
+
+	function palmarestop10Action()
+	{
 		$this->prepareFiltre();
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
@@ -277,7 +309,8 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->xml_response->renderJs();
 	}
 
-	function palmarestop10derniermoisAction() {
+	function palmarestop10derniermoisAction()
+	{
 		$this->prepareFiltre();
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();

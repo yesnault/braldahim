@@ -5,40 +5,44 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Carnet extends Zend_Db_Table {
-	
+class Carnet extends Zend_Db_Table
+{
+
 	const MAX_NOTE = 10;
-	
+
 	protected $_name = 'carnet';
 	protected $_primary = array('id_carnet');
 
-	function findByIdBraldunAndIdCarnet($idBraldun, $idCarnet) {
+	function findByIdBraldunAndIdCarnet($idBraldun, $idCarnet)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('carnet', '*')
-		->where('id_fk_braldun_carnet = ?', intval($idBraldun))
-		->where('id_carnet = ?', intval($idCarnet));
-		$sql = $select->__toString();
-
-		return $db->fetchAll($sql);
-	}
-	
-	function findByIdBraldun($idBraldun) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('carnet', '*')
-		->where('id_fk_braldun_carnet = ?', intval($idBraldun));
+			->where('id_fk_braldun_carnet = ?', intval($idBraldun))
+			->where('id_carnet = ?', intval($idCarnet));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function findByIdBraldun($idBraldun)
+	{
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('carnet', '*')
+			->where('id_fk_braldun_carnet = ?', intval($idBraldun));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('carnet', 'count(*) as nombre')
-		->where('id_carnet = ?',$data["id_carnet"])
-		->where('id_fk_braldun_carnet = ?',$data["id_fk_braldun_carnet"]);
+			->where('id_carnet = ?', $data["id_carnet"])
+			->where('id_fk_braldun_carnet = ?', $data["id_fk_braldun_carnet"]);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -47,8 +51,8 @@ class Carnet extends Zend_Db_Table {
 		} else { // update
 			$dataUpdate['texte_carnet'] = $data["texte_carnet"];
 
-			$where = ' id_carnet = '.$data["id_carnet"];
-			$where .= ' AND id_fk_braldun_carnet = '.$data["id_fk_braldun_carnet"];
+			$where = ' id_carnet = ' . $data["id_carnet"];
+			$where .= ' AND id_fk_braldun_carnet = ' . $data["id_fk_braldun_carnet"];
 			$this->update($dataUpdate, $where);
 		}
 	}

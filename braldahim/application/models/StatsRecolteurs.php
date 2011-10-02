@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class StatsRecolteurs extends Zend_Db_Table {
+class StatsRecolteurs extends Zend_Db_Table
+{
 	protected $_name = 'stats_recolteurs';
 	protected $_primary = array('id_stats_recolteurs');
 
-	function findTopPalmaresBraldun($dateDebut, $dateFin, $type) {
+	function findTopPalmaresBraldun($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
@@ -42,7 +44,8 @@ class StatsRecolteurs extends Zend_Db_Table {
 
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_recolteurs',
@@ -52,8 +55,8 @@ class StatsRecolteurs extends Zend_Db_Table {
 			nb_peau_stats_recolteurs as quantitePeau,
 			nb_viande_stats_recolteurs as quantiteViande,
 			nb_bois_stats_recolteurs as quantiteBois')
-		->where('niveau_braldun_stats_recolteurs = '.$data["niveau_braldun_stats_recolteurs"].' AND id_fk_braldun_stats_recolteurs = '.$data["id_fk_braldun_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'')
-		->group(array('quantiteMinerai', 'quantitePartiePlante', 'quantitePeau', 'quantiteViande', 'quantiteBois'));
+			->where('niveau_braldun_stats_recolteurs = ' . $data["niveau_braldun_stats_recolteurs"] . ' AND id_fk_braldun_stats_recolteurs = ' . $data["id_fk_braldun_stats_recolteurs"] . ' AND mois_stats_recolteurs = \'' . $data["mois_stats_recolteurs"] . '\'')
+			->group(array('quantiteMinerai', 'quantitePartiePlante', 'quantitePeau', 'quantiteViande', 'quantiteBois'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -128,12 +131,13 @@ class StatsRecolteurs extends Zend_Db_Table {
 				}
 			}
 
-			$where = 'niveau_braldun_stats_recolteurs = '.$data["niveau_braldun_stats_recolteurs"].' AND id_fk_braldun_stats_recolteurs = '.$data["id_fk_braldun_stats_recolteurs"]. ' AND mois_stats_recolteurs = \''.$data["mois_stats_recolteurs"].'\'';
+			$where = 'niveau_braldun_stats_recolteurs = ' . $data["niveau_braldun_stats_recolteurs"] . ' AND id_fk_braldun_stats_recolteurs = ' . $data["id_fk_braldun_stats_recolteurs"] . ' AND mois_stats_recolteurs = \'' . $data["mois_stats_recolteurs"] . '\'';
 			$this->update($dataUpdate, $where);
 		}
 	}
 
-	function findByBraldunAndDateAndIdTypeMetier($idBraldun, $dateDebut, $dateFin, $idTypeMetier) {
+	function findByBraldunAndDateAndIdTypeMetier($idBraldun, $dateDebut, $dateFin, $idTypeMetier)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_recolteurs', $this->getSelectType($idTypeMetier));
@@ -147,11 +151,12 @@ class StatsRecolteurs extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	private function getSelectType($idTypeMetier, $where=false) {
+	private function getSelectType($idTypeMetier, $where = false)
+	{
 		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$retour = "";
-		switch($idTypeMetier) {
+		switch ($idTypeMetier) {
 			case Bral_Util_Metier::METIER_MINEUR_ID :
 				$retour = "SUM(nb_minerai_stats_recolteurs)";
 				break;

@@ -5,30 +5,33 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Materiel extends Zend_Db_Table {
+class Materiel extends Zend_Db_Table
+{
 	protected $_name = 'materiel';
 	protected $_primary = array('id_materiel');
 
-	function findByIdMaterielWithDetails($idMateriel) {
+	function findByIdMaterielWithDetails($idMateriel)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('materiel', '*')
-		->from('type_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_materiel = ?', intval($idMateriel))
-		->order(array("nom_type_materiel"));
+			->from('type_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('id_materiel = ?', intval($idMateriel))
+			->order(array("nom_type_materiel"));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findNomById($id) {
+	function findNomById($id)
+	{
 		$materiels = $this->findByIdMaterielWithDetails($id);
 
 		if ($materiels == null || count($materiels) != 1) {
 			$retour = "materiel inconnu";
 		} else {
 			$materiel = $materiels[0];
-			$retour = $materiel["nom_type_materiel"]. " (".$materiel["id_materiel"].")";
+			$retour = $materiel["nom_type_materiel"] . " (" . $materiel["id_materiel"] . ")";
 		}
 		return $retour;
 	}

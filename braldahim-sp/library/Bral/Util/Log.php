@@ -14,12 +14,14 @@
  * Ecriture de Log.
  * Les logs sont paramétrés dans le fichier de configuration.
  */
-class Bral_Util_Log {
+class Bral_Util_Log
+{
 	private static $instance = null;
 	private static $scripts = null;
 	private static $config = null;
 
-	public static function scripts() {
+	public static function scripts()
+	{
 		if (self::$scripts == null) {
 			self::initLogScripts();
 		}
@@ -27,10 +29,12 @@ class Bral_Util_Log {
 	}
 
 	//______________
-	private function __construct() {
+	private function __construct()
+	{
 	}
 
-	private static function getInstance() {
+	private static function getInstance()
+	{
 		if (self::$instance == null) {
 			Zend_Loader::loadClass('Zend_Log');
 			Zend_Loader::loadClass('Zend_Log_Writer_Stream');
@@ -40,7 +44,8 @@ class Bral_Util_Log {
 		}
 	}
 
-	private static function initLogScripts() {
+	private static function initLogScripts()
+	{
 		if (self::$instance == null) {
 			$instance = self::getInstance();
 		}

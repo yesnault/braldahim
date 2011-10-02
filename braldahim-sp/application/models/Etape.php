@@ -10,16 +10,18 @@
  * $LastChangedRevision: 2618 $
  * $LastChangedBy: yvonnickesnault $
  */
-class Etape extends Zend_Db_Table {
+class Etape extends Zend_Db_Table
+{
 	protected $_name = 'etape';
 	protected $_primary = array('id_etape');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('etape', '*')
-		->where('id_fk_braldun_etape = ?', intval($idBraldun))
-		->order('ordre_etape ASC');
+			->where('id_fk_braldun_etape = ?', intval($idBraldun))
+			->order('ordre_etape ASC');
 
 		$sql = $select->__toString();
 

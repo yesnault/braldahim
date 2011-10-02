@@ -10,21 +10,26 @@
  * $LastChangedRevision: 2806 $
  * $LastChangedBy: yvonnickesnault $
  */
-class Bral_Scripts_Quetes extends Bral_Scripts_Script {
+class Bral_Scripts_Quetes extends Bral_Scripts_Script
+{
 
-	public function getType() {
+	public function getType()
+	{
 		return self::TYPE_STATIQUE;
 	}
 
-	public function getEtatService() {
+	public function getEtatService()
+	{
 		return self::SERVICE_ACTIVE;
 	}
 
-	public function getVersion() {
+	public function getVersion()
+	{
 		return 1;
 	}
 
-	public function calculScriptImpl() {
+	public function calculScriptImpl()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Quetes - calculScriptImpl - enter -");
 
 		$retour = null;
@@ -34,7 +39,8 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculQuete() {
+	private function calculQuete()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Quetes - calculQuete - enter -");
 		$retour = "";
 		$this->calculQueteBraldun($retour);
@@ -42,7 +48,8 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculQueteBraldun(&$retour) {
+	private function calculQueteBraldun(&$retour)
+	{
 		Zend_Loader::loadClass("Etape");
 		Zend_Loader::loadClass("Quete");
 
@@ -50,11 +57,11 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 		$quetesRowset = $queteTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($quetesRowset != null) {
-			foreach($quetesRowset as $e) {
-				$retour .= "QUETE;".$e["id_quete"].';';
-				$retour .= $e["date_creation_quete"].';';
-				$retour .= $e["date_fin_quete"].';';
-				$retour .= str_replace(PHP_EOL, ", ", $e["gain_quete"]).';';
+			foreach ($quetesRowset as $e) {
+				$retour .= "QUETE;" . $e["id_quete"] . ';';
+				$retour .= $e["date_creation_quete"] . ';';
+				$retour .= $e["date_fin_quete"] . ';';
+				$retour .= str_replace(PHP_EOL, ", ", $e["gain_quete"]) . ';';
 				$retour .= $e["est_initiatique_quete"];
 				$retour .= PHP_EOL;
 			}
@@ -66,20 +73,20 @@ class Bral_Scripts_Quetes extends Bral_Scripts_Script {
 		$etapesRowset = $etapeTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($etapesRowset != null) {
-			foreach($etapesRowset as $e) {
+			foreach ($etapesRowset as $e) {
 				$retour .= "ETAPE;";
-				$retour .= $e["id_fk_quete_etape"].';';
+				$retour .= $e["id_fk_quete_etape"] . ';';
 				if ($e["date_debut_etape"] != '') {
-					$retour .= $e["libelle_etape"].';';
-					$retour .= $e["date_debut_etape"].';';
-					$retour .= $e["date_fin_etape"].';';
-					$retour .= $e["est_terminee_etape"].';';
-					$retour .= $e["objectif_etape"].';';
+					$retour .= $e["libelle_etape"] . ';';
+					$retour .= $e["date_debut_etape"] . ';';
+					$retour .= $e["date_fin_etape"] . ';';
+					$retour .= $e["est_terminee_etape"] . ';';
+					$retour .= $e["objectif_etape"] . ';';
 				} else {
 					$retour .= ';';
 					$retour .= ';';
 					$retour .= ';';
-					$retour .= $e["est_terminee_etape"].';';
+					$retour .= $e["est_terminee_etape"] . ';';
 					$retour .= ';';
 				}
 				$retour .= $e["ordre_etape"];

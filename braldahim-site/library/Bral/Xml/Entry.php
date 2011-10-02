@@ -10,43 +10,52 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Xml_Entry {
+class Bral_Xml_Entry
+{
 
 	private $box = null;
 
-	public function set_type($p) {
+	public function set_type($p)
+	{
 		$this->type = $p;
 	}
 
-	public function get_type() {
+	public function get_type()
+	{
 		return $this->type;
 	}
 
-	public function set_valeur($p) {
+	public function set_valeur($p)
+	{
 		$this->valeur = $p;
 	}
 
-	public function get_valeur() {
+	public function get_valeur()
+	{
 		return $this->valeur;
 	}
 
-	public function set_data($p) {
+	public function set_data($p)
+	{
 		$box = null;
 		$this->data = $p;
 	}
 
-	public function get_data() {
+	public function get_data()
+	{
 		return $this->data;
 	}
 
-	public function set_box($box) {
+	public function set_box($box)
+	{
 		$this->box = $box;
 	}
 
-	public function echo_xml() {
-		 
-		echo "<type>".$this->type."</type>\n";
-		echo "<valeur>".$this->valeur."</valeur>\n";
+	public function echo_xml()
+	{
+
+		echo "<type>" . $this->type . "</type>\n";
+		echo "<valeur>" . $this->valeur . "</valeur>\n";
 		echo "<data>";
 		echo "<![CDATA[";
 		if ($this->box == null) {
@@ -58,7 +67,8 @@ class Bral_Xml_Entry {
 		echo "</data>\n";
 	}
 
-	public function getRender() {
+	public function getRender()
+	{
 		$content = "";
 		if ($this->box == null) {
 			$content .= $this->data;
@@ -68,6 +78,7 @@ class Bral_Xml_Entry {
 		return $content;
 	}
 
-	public function __construct() {
+	public function __construct()
+	{
 	}
 }

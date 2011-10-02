@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,13 +10,15 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-abstract class Bral_Palmares_Box {
-	
+abstract class Bral_Palmares_Box
+{
+
 	protected $loadWithBoxes = true;
-	
-	function __construct($request, $view, $interne, $filtre = 1, $type = null) {
+
+	function __construct($request, $view, $interne, $filtre = 1, $type = null)
+	{
 		Zend_Loader::loadClass("Braldun");
-		
+
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -25,30 +27,35 @@ abstract class Bral_Palmares_Box {
 		$this->view->afficheMoyenne = false;
 		$this->view->afficheMoisEnCours = true;
 	}
-	
-	abstract function getTitreOnglet();
-	abstract function getNomInterne();
-	abstract function getNomClasse();
-	
-	public function getChargementInBoxes() {
-		return $this->loadWithBoxes;		
-	}
-	
-	abstract function setDisplay($display) ;
-	abstract function render() ;
-	
-	protected function getTabDateFiltre($nbMoisASortir = 0) {
-		$tab = null;
-		
-		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1,   date("Y"));
-		$anneePrecedente  = mktime(0, 0, 0, 1,   1,   date("Y")-1);
-		
-		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
-		$anneeEnCours  = mktime(0, 0, 0, 1, 1, date("Y"));
-		
-		$demain  = mktime(0, 0, 0, date("m")-$nbMoisASortir, date("d")+1, date("Y"));
 
-		switch($this->view->filtre) {
+	abstract function getTitreOnglet();
+
+	abstract function getNomInterne();
+
+	abstract function getNomClasse();
+
+	public function getChargementInBoxes()
+	{
+		return $this->loadWithBoxes;
+	}
+
+	abstract function setDisplay($display);
+
+	abstract function render();
+
+	protected function getTabDateFiltre($nbMoisASortir = 0)
+	{
+		$tab = null;
+
+		$moisPrecedent = mktime(0, 0, 0, date("m") - 1, 1, date("Y"));
+		$anneePrecedente = mktime(0, 0, 0, 1, 1, date("Y") - 1);
+
+		$moisEnCours = mktime(0, 0, 0, date("m"), 1, date("Y"));
+		$anneeEnCours = mktime(0, 0, 0, 1, 1, date("Y"));
+
+		$demain = mktime(0, 0, 0, date("m") - $nbMoisASortir, date("d") + 1, date("Y"));
+
+		switch ($this->view->filtre) {
 			case 1: // mois en cours
 				$tab["dateDebut"] = date("Y-m-d H:i:s", $moisEnCours);
 				$tab["dateFin"] = date("Y-m-d H:i:s", $demain);
@@ -70,14 +77,15 @@ abstract class Bral_Palmares_Box {
 				$tab["dateFin"] = date("Y-m-d H:i:s", $demain);
 				break;
 			default:
-				throw new Zend_Exception("Filtre invalide: ".$this->view->filtre);
+				throw new Zend_Exception("Filtre invalide: " . $this->view->filtre);
 		}
 		return $tab;
 	}
-	
-	protected function getSelectTypeRecolteur($type) {
+
+	protected function getSelectTypeRecolteur($type)
+	{
 		$retour = "";
-		switch($type) {
+		switch ($type) {
 			case "mineurs":
 				$retour = "Nombre de minerais récoltés";
 				break;
@@ -93,11 +101,12 @@ abstract class Bral_Palmares_Box {
 		}
 		return $retour;
 	}
-	
-	protected function getSelectTypeFabricant($type) {
+
+	protected function getSelectTypeFabricant($type)
+	{
 		$retour = "";
 		$this->view->titreColonne3 = "Niveau moyen des pièces créées";
-		switch($type) {
+		switch ($type) {
 			case "menuisiers":
 			case "forgerons":
 			case "tanneurs":

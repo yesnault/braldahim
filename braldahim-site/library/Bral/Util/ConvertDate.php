@@ -10,15 +10,18 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Util_ConvertDate {
+class Bral_Util_ConvertDate
+{
 
-	private function __construct() {
+	private function __construct()
+	{
 	}
 
 	/* Convertit un date mysql vers une date php
 	  * @return date
 	  */
-	public static function get_date_mysql_datetime($pattern, $pdate) {
+	public static function get_date_mysql_datetime($pattern, $pdate)
+	{
 		$mdate = explode("-", $pdate);
 		return date($pattern, mktime(0, 0, 0, $mdate[1], $mdate[2], $mdate[0]));
 	}
@@ -26,7 +29,8 @@ class Bral_Util_ConvertDate {
 	/* Convertit un datetime mysql vers une date php
 	 * @return date
 	 */
-	public static function get_datetime_mysql_datetime($pattern, $pdatetime) {
+	public static function get_datetime_mysql_datetime($pattern, $pdatetime)
+	{
 		$break = explode(" ", $pdatetime);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
@@ -36,7 +40,8 @@ class Bral_Util_ConvertDate {
 	/* Convertit un datetime mysql vers un timestamp
 	 * @return timestamp
 	 */
-	public static function get_epoch_mysql_datetime($date) {
+	public static function get_epoch_mysql_datetime($date)
+	{
 		$break = explode(" ", $date);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
@@ -48,13 +53,14 @@ class Bral_Util_ConvertDate {
 	 * retourne le resultat en timestamp
 	 * @return timestamp
 	 */
-	public static function get_epoch_add_time_to_date($date, $add_time) {
+	public static function get_epoch_add_time_to_date($date, $add_time)
+	{
 		$break = explode(" ", $date);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
 		$add_time = explode(":", $add_time);
 		$epoch = date("U", mktime($time[0] + $add_time[0], $time[1] + $add_time[1], $time[2] + $add_time[2],
-								  $datebreak[1], $datebreak[2], $datebreak[0]));
+				$datebreak[1], $datebreak[2], $datebreak[0]));
 
 		return $epoch;
 	}
@@ -63,13 +69,14 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en timestamp
 	  * @return timestamp
 	  */
-	public static function get_epoch_remove_time_to_date($date, $rem_time) {
+	public static function get_epoch_remove_time_to_date($date, $rem_time)
+	{
 		$break = explode(" ", $date);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
 		$rem_time = explode(":", $rem_time);
 		$epoch = date("U", mktime($time[0] - $rem_time[0], $time[1] - $rem_time[1], $time[2] - $rem_time[2],
-								  $datebreak[1], $datebreak[2], $datebreak[0]));
+				$datebreak[1], $datebreak[2], $datebreak[0]));
 
 		return $epoch;
 	}
@@ -78,7 +85,8 @@ class Bral_Util_ConvertDate {
 	 * retourne le resultat en timestamp
 	 * @return timestamp
 	 */
-	public static function get_epoch_add_date_to_date($date, $add_date) {
+	public static function get_epoch_add_date_to_date($date, $add_date)
+	{
 		$break = explode(" ", $date);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
@@ -88,7 +96,7 @@ class Bral_Util_ConvertDate {
 		$add_time = explode(":", $add_break[1]);
 
 		$epoch = date("U", mktime($time[0] + $add_time[0], $time[1] + $add_time[1], $time[2] + $add_time[2],
-								  $datebreak[1] + $add_datebreak[1], $datebreak[2] + $add_datebreak[2], $datebreak[0] + $add_datebreak[0]));
+				$datebreak[1] + $add_datebreak[1], $datebreak[2] + $add_datebreak[2], $datebreak[0] + $add_datebreak[0]));
 
 		return $epoch;
 	}
@@ -97,13 +105,14 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en timestamp
 	  * @return timestamp
 	  */
-	public static function get_epoch_add_day_to_date($date, $add_day) {
+	public static function get_epoch_add_day_to_date($date, $add_day)
+	{
 		$break = explode(" ", $date);
 		$datebreak = explode("-", $break[0]);
 		$time = explode(":", $break[1]);
 
 		$epoch = date("U", mktime($time[0], $time[1], $time[2],
-								  $datebreak[1], $datebreak[2] + $add_day, $datebreak[0]));
+				$datebreak[1], $datebreak[2] + $add_day, $datebreak[0]));
 
 		return $epoch;
 	}
@@ -112,7 +121,8 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en date
 	  * @return date
 	  */
-	public static function get_date_add_time_to_date($date, $add_time) {
+	public static function get_date_add_time_to_date($date, $add_time)
+	{
 		return date("Y-m-d H:i:s", self::get_epoch_add_time_to_date($date, $add_time));
 	}
 
@@ -120,7 +130,8 @@ class Bral_Util_ConvertDate {
 	 * retourne le resultat en date
 	 * @return date
 	 */
-	public static function get_date_remove_time_to_date($date, $rem_time) {
+	public static function get_date_remove_time_to_date($date, $rem_time)
+	{
 		return date("Y-m-d H:i:s", self::get_epoch_remove_time_to_date($date, $rem_time));
 	}
 
@@ -128,7 +139,8 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en date
 	  * @return date
 	  */
-	public static function get_date_add_date_to_date($date, $add_time) {
+	public static function get_date_add_date_to_date($date, $add_time)
+	{
 		return date("Y-m-d H:i:s", self::get_epoch_add_date_to_date($date, $add_time));
 	}
 
@@ -136,11 +148,13 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en date & time "Y-m-d H:i:s"
 	  * @return date
 	  */
-	public static function get_date_add_day_to_date($date, $add_day) {
+	public static function get_date_add_day_to_date($date, $add_day)
+	{
 		return date("Y-m-d H:i:s", self::get_epoch_add_day_to_date($date, $add_day));
 	}
 
-	public static function get_divise_time_to_time($time, $div) {
+	public static function get_divise_time_to_time($time, $div)
+	{
 		$time = explode(":", $time);
 
 		$h = $time[0] * 3600;
@@ -157,7 +171,8 @@ class Bral_Util_ConvertDate {
 		return $r;
 	}
 
-	public static function get_time_from_minutes($minutes) {
+	public static function get_time_from_minutes($minutes)
+	{
 		$h = floor($minutes / 60);
 		$m = ($minutes - $h * 60);
 		$s = 0;
@@ -169,7 +184,8 @@ class Bral_Util_ConvertDate {
 	 * retourne le resultat en time
 	 * @return timestamp
 	 */
-	public static function get_time_remove_time_to_time($time, $add_time) {
+	public static function get_time_remove_time_to_time($time, $add_time)
+	{
 		$time = explode(":", $time);
 		$add_time = explode(":", $add_time);
 
@@ -199,7 +215,8 @@ class Bral_Util_ConvertDate {
 	  * retourne le resultat en time
 	  * @return timestamp
 	  */
-	public static function get_time_add_time_to_time($time, $add_time) {
+	public static function get_time_add_time_to_time($time, $add_time)
+	{
 		$time = explode(":", $time);
 		$add_time = explode(":", $add_time);
 
@@ -228,7 +245,8 @@ class Bral_Util_ConvertDate {
 	/*
 	  * Retourne le temps en minutes d'une heure donnée (H:m:s)
 	  */
-	public static function getMinuteFromHeure($time) {
+	public static function getMinuteFromHeure($time)
+	{
 		$time = explode(":", $time);
 
 		$h = $time[0] * 60;
@@ -242,7 +260,8 @@ class Bral_Util_ConvertDate {
 	/*
 	  * Converti un temps un minute en heure H:m:s .
 	  */
-	public static function getHeureFromMinute($minutes) {
+	public static function getHeureFromMinute($minutes)
+	{
 		$heures = floor($minutes / 60);
 		$min = $minutes - $heures * 60;
 

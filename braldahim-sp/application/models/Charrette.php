@@ -10,58 +10,63 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Charrette extends Zend_Db_Table {
+class Charrette extends Zend_Db_Table
+{
 	protected $_name = 'charrette';
 	protected $_primary = array('id_charrette');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
-		->from('type_materiel', '*')
-		->from('materiel', '*')
-		->where('id_charrette = id_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_braldun_charrette = '.intval($idBraldun));
-		$sql = $select->__toString();
-
-		return $db->fetchAll($sql);
-	}
-	
-	function findByIdCharrette($idCharrette) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('charrette', '*')
-		->from('type_materiel', '*')
-		->from('materiel', '*')
-		->where('id_charrette = id_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_charrette = '.intval($idCharrette));
-		$sql = $select->__toString();
-
-		return $db->fetchAll($sql);
-	}
-	
-	function findByPositionAvecBraldun($x, $y, $z) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('charrette', '*')
-		->from('type_materiel', '*')
-		->from('braldun', '*')
-		->from('materiel', '*')
-		->where('id_braldun = id_fk_braldun_charrette')
-		->where('id_charrette = id_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('est_ko_braldun = ?', 'non')
-		->where('x_braldun = ?', intval($x))
-		->where('y_braldun = ?', intval($y))
-		->where('z_braldun = ?', intval($z));
+			->from('type_materiel', '*')
+			->from('materiel', '*')
+			->where('id_charrette = id_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('id_fk_braldun_charrette = ' . intval($idBraldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z, $avecProprietaire = true) {
+	function findByIdCharrette($idCharrette)
+	{
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+			->from('type_materiel', '*')
+			->from('materiel', '*')
+			->where('id_charrette = id_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('id_charrette = ' . intval($idCharrette));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	function findByPositionAvecBraldun($x, $y, $z)
+	{
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+			->from('type_materiel', '*')
+			->from('braldun', '*')
+			->from('materiel', '*')
+			->where('id_braldun = id_fk_braldun_charrette')
+			->where('id_charrette = id_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('est_ko_braldun = ?', 'non')
+			->where('x_braldun = ?', intval($x))
+			->where('y_braldun = ?', intval($y))
+			->where('z_braldun = ?', intval($z));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	function findByCase($x, $y, $z, $avecProprietaire = true)
+	{
 		$and = "";
 		if ($avecProprietaire === false) {
 			$and = " AND id_fk_braldun_charrette is null";
@@ -69,45 +74,48 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
-		->from('type_materiel', '*')
-		->from('materiel', '*')
-		->where('id_charrette = id_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('z_charrette = '.intval($z))
-		->where('x_charrette = '.intval($x))
-		->where('y_charrette = '.intval($y).$and);
+			->from('type_materiel', '*')
+			->from('materiel', '*')
+			->where('id_charrette = id_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('z_charrette = ' . intval($z))
+			->where('x_charrette = ' . intval($x))
+			->where('y_charrette = ' . intval($y) . $and);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseSansProprietaire($x, $y, $z) {
+	function findByCaseSansProprietaire($x, $y, $z)
+	{
 		return findByCase($x, $y, $z, false);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
-		->from('type_materiel', '*')
-		->from('materiel', '*')
-		->where('x_charrette <= ?', $x_max)
-		->where('x_charrette >= ?', $x_min)
-		->where('y_charrette >= ?', $y_min)
-		->where('y_charrette <= ?', $y_max)
-		->where('z_charrette = ?', $z)
-		->where('id_charrette = id_materiel')
-		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_braldun_charrette is NULL');
+			->from('type_materiel', '*')
+			->from('materiel', '*')
+			->where('x_charrette <= ?', $x_max)
+			->where('x_charrette >= ?', $x_min)
+			->where('y_charrette >= ?', $y_min)
+			->where('y_charrette <= ?', $y_max)
+			->where('z_charrette = ?', $z)
+			->where('id_charrette = id_materiel')
+			->where('id_fk_type_materiel = id_type_materiel')
+			->where('id_fk_braldun_charrette is NULL');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function countByIdBraldun($id_braldun) {
+	function countByIdBraldun($id_braldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'count(*) as nombre')
-		->where('id_fk_braldun_charrette = '.intval($id_braldun));
+			->where('id_fk_braldun_charrette = ' . intval($id_braldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -115,15 +123,16 @@ class Charrette extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function updateCharrette($data) {
+	function updateCharrette($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'quantite_rondin_charrette as quantiteRondin');
-		
+
 		if (isset($data["id_charrette"])) {
-			$select->where('id_charrette = ?',$data["id_charrette"]);
+			$select->where('id_charrette = ?', $data["id_charrette"]);
 		} else {
-			$select->where('id_fk_braldun_charrette = ?',$data["id_fk_braldun_charrette"]);
+			$select->where('id_fk_braldun_charrette = ?', $data["id_fk_braldun_charrette"]);
 		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -136,13 +145,14 @@ class Charrette extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_charrette'] = $quantiteRodin + $data["quantite_rondin_charrette"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_braldun_charrette = '.$data["id_fk_braldun_charrette"];
+				$where = 'id_fk_braldun_charrette = ' . $data["id_fk_braldun_charrette"];
 				$this->update($dataUpdate, $where);
 			}
 		}
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'count(*) as nombre,
@@ -151,11 +161,11 @@ class Charrette extends Zend_Db_Table {
 		quantite_cuir_charrette as quantiteCuir,
 		quantite_fourrure_charrette as quantiteFourrure,
 		quantite_planche_charrette as quantitePlanche,
-		quantite_rondin_charrette as quantiteRondin');	
+		quantite_rondin_charrette as quantiteRondin');
 		if (isset($data["id_charrette"])) {
-			$select->where('id_charrette = ?',$data["id_charrette"]);
+			$select->where('id_charrette = ?', $data["id_charrette"]);
 		} else {
-			$select->where('id_fk_braldun_charrette = ?',$data["id_fk_braldun_charrette"]);
+			$select->where('id_fk_braldun_charrette = ?', $data["id_fk_braldun_charrette"]);
 		}
 		$select->group(array('quantitePeau', 'quantiteCastar', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
@@ -192,9 +202,9 @@ class Charrette extends Zend_Db_Table {
 			}
 			if (isset($dataUpdate)) {
 				if (isset($data["id_charrette"])) {
-					$where = 'id_charrette = '.$data["id_charrette"];
+					$where = 'id_charrette = ' . $data["id_charrette"];
 				} else {
-					$where = 'id_fk_braldun_charrette = '.$data["id_fk_braldun_charrette"];
+					$where = 'id_fk_braldun_charrette = ' . $data["id_fk_braldun_charrette"];
 				}
 				$this->update($dataUpdate, $where);
 			}

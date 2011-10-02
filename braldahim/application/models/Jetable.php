@@ -5,15 +5,17 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Jetable extends Zend_Db_Table {
+class Jetable extends Zend_Db_Table
+{
 	protected $_name = 'jetable';
 	protected $_primary = 'id_jetable';
 
-	public function countByNom($nom){
+	public function countByNom($nom)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('jetable', 'count(*) as nombre')
-		->where('lcase(nom_jetable) like ?', (string)mb_strtolower(trim($nom)));
+			->where('lcase(nom_jetable) like ?', (string)mb_strtolower(trim($nom)));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

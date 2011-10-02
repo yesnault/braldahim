@@ -8,29 +8,29 @@
 class Bral_Lieux_Bpartieplantes extends Bral_Lieux_Lieu
 {
 
-    private $_utilisationPossible = false;
-    private $_coutCastars = null;
+	private $_utilisationPossible = false;
+	private $_coutCastars = null;
 
-    function prepareCommun()
-    {
-        throw new Zend_Exception("Boutique fermee");
-        Zend_Loader::loadClass("Lieu");
-        $this->_coutCastars = 0;
-        $this->_utilisationPossible = true;
-    }
+	function prepareCommun()
+	{
+		throw new Zend_Exception("Boutique fermee");
+		Zend_Loader::loadClass("Lieu");
+		$this->_coutCastars = 0;
+		$this->_utilisationPossible = true;
+	}
 
-    function prepareFormulaire()
-    {
-        $this->view->utilisationPossible = $this->_utilisationPossible;
-        $this->view->coutCastars = $this->_coutCastars;
-    }
+	function prepareFormulaire()
+	{
+		$this->view->utilisationPossible = $this->_utilisationPossible;
+		$this->view->coutCastars = $this->_coutCastars;
+	}
 
-    function prepareResultat()
-    {
-    }
+	function prepareResultat()
+	{
+	}
 
-    function getListBoxRefresh()
-    {
-        return $this->constructListBoxRefresh(array("box_laban"));
-    }
+	function getListBoxRefresh()
+	{
+		return $this->constructListBoxRefresh(array("box_laban"));
+	}
 }

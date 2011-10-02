@@ -10,23 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Util_InfoJeu {
+class Bral_Util_InfoJeu
+{
 
-	private function __construct() {
+	private function __construct()
+	{
 	}
 
-	public static function prepareInfosJeu($type = null, $annee = null) {
+	public static function prepareInfosJeu($type = null, $annee = null)
+	{
 		Zend_Loader::loadClass('InfoJeu');
 		$infoJeuTable = new InfoJeu();
-		
+
 		$dateDebut = null;
 		$dateFin = null;
-		
+
 		if ($annee != null) {
-			$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $annee+1));
-			$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $annee));
+			$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1, $annee + 1));
+			$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1, $annee));
 		}
-		
+
 		$infosRowset = $infoJeuTable->findAll($type, $dateDebut, $dateFin);
 		$annonces = null;
 		$histoires = null;

@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class ChampTaupe extends Zend_Db_Table {
+class ChampTaupe extends Zend_Db_Table
+{
 	protected $_name = 'champ_taupe';
 	protected $_primary = "id_champ_taupe";
 
@@ -14,42 +15,45 @@ class ChampTaupe extends Zend_Db_Table {
 	const ETAT_ENTRETENU = 'entretenu';
 
 
-	function findByIdChamp($idChamp) {
+	function findByIdChamp($idChamp)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ_taupe', '*')
-		->from('champ', '*')
-		->where('id_champ = ?', $idChamp)
-		->where('id_fk_champ_taupe = id_champ')
-		->order('numero_champ_taupe');
-
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
-	}
-	
-	function findByIdChampNumeroTaupeVivant($idChamp, $numero) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('champ_taupe', '*')
-		->from('champ', '*')
-		->where('id_champ = ?', $idChamp)
-		->where('id_fk_champ_taupe = id_champ')
-		->where('numero_champ_taupe = ?', $numero)
-		->where('etat_champ_taupe = ?', 'vivant')
-		->order('numero_champ_taupe');
+			->from('champ', '*')
+			->where('id_champ = ?', $idChamp)
+			->where('id_fk_champ_taupe = id_champ')
+			->order('numero_champ_taupe');
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function entretenir($data) {
+	function findByIdChampNumeroTaupeVivant($idChamp, $numero)
+	{
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ_taupe', '*')
+			->from('champ', '*')
+			->where('id_champ = ?', $idChamp)
+			->where('id_fk_champ_taupe = id_champ')
+			->where('numero_champ_taupe = ?', $numero)
+			->where('etat_champ_taupe = ?', 'vivant')
+			->order('numero_champ_taupe');
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function entretenir($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ_taupe', array('count(*) as nombre', 'id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe', 'numero_champ_taupe'))
-		->where('x_champ_taupe = ?',$data["x_champ_taupe"])
-		->where('y_champ_taupe = ?',$data["y_champ_taupe"])
-		->where('id_fk_champ_taupe = ?',$data["id_fk_champ_taupe"])
-		->group(array('id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe', 'numero_champ_taupe'));
+			->where('x_champ_taupe = ?', $data["x_champ_taupe"])
+			->where('y_champ_taupe = ?', $data["y_champ_taupe"])
+			->where('id_fk_champ_taupe = ?', $data["id_fk_champ_taupe"])
+			->group(array('id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe', 'numero_champ_taupe'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -69,7 +73,7 @@ class ChampTaupe extends Zend_Db_Table {
 			}
 
 			$idChampTaupe = $resultat[0]["id_champ_taupe"];
-			$where = ' id_champ_taupe = '.$idChampTaupe;
+			$where = ' id_champ_taupe = ' . $idChampTaupe;
 
 			$dataUpdate['date_entretien_champ_taupe'] = $data['date_entretien_champ_taupe'];
 			$dataUpdate['etat_champ_taupe'] = self::ETAT_DETRUIT;

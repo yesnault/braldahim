@@ -5,12 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class TypeEvenementCommunaute extends Zend_Db_Table {
+class TypeEvenementCommunaute extends Zend_Db_Table
+{
 	protected $_name = 'type_evenement_communaute';
 	protected $_primary = 'id_type_evenement_communaute';
 
 	const ID_TYPE_ARRIVEE_MEMBRE = 1; // ok
-	const ID_TYPE_DEPART_MEMBRE = 2;  // ok
+	const ID_TYPE_DEPART_MEMBRE = 2; // ok
 	const ID_TYPE_DEPOT = 3; // ok
 	const ID_TYPE_RETRAIT_LOT = 4; // ok
 	const ID_TYPE_CREATION_LOT = 5; // ok

@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class TypeLieu extends Zend_Db_Table {
+class TypeLieu extends Zend_Db_Table
+{
 	protected $_name = 'type_lieu';
 	protected $_primary = 'id_type_lieu';
 
@@ -47,24 +48,26 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_TRIBUNE = 36;
 	const ID_TYPE_ATELIER = 37;
 
-	public function findByTypeCommunaute() {
+	public function findByTypeCommunaute()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_lieu', '*')
-		->from('type_lieu_communaute', '*')
-		->where('type_lieu_communaute.id_type_lieu_communaute = type_lieu.id_fk_type_lieu_communaute_type_lieu')
-		->order('nom_type_lieu_communaute');
+			->from('type_lieu_communaute', '*')
+			->where('type_lieu_communaute.id_type_lieu_communaute = type_lieu.id_fk_type_lieu_communaute_type_lieu')
+			->order('nom_type_lieu_communaute');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByTypeDependance() {
+	public function findByTypeDependance()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_lieu', '*')
-		->from('type_dependance', '*')
-		->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = type_lieu.id_type_lieu')
-		->order('nom_type_lieu');
+			->from('type_dependance', '*')
+			->where('type_dependance.id_fk_type_lieu_enfant_type_dependance = type_lieu.id_type_lieu')
+			->order('nom_type_lieu');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

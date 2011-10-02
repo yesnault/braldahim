@@ -8,40 +8,40 @@
 class Bral_Box_Equipement extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "&Eacute;quipement";
-    }
+	function getTitreOnglet()
+	{
+		return "&Eacute;quipement";
+	}
 
-    function getNomInterne()
-    {
-        return "box_equipement";
-    }
+	function getNomInterne()
+	{
+		return "box_equipement";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        if ($this->view->affichageInterne) {
-            $this->data();
-        }
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/equipement.phtml");
-    }
+	function render()
+	{
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/equipement.phtml");
+	}
 
-    private function data()
-    {
-        Zend_Loader::loadClass("Bral_Util_Equipement");
-        $tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_braldun, $this->view->user->niveau_braldun);
-        $this->view->typesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
-        $this->view->nom_interne = $this->getNomInterne();
-    }
+	private function data()
+	{
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_braldun, $this->view->user->niveau_braldun);
+		$this->view->typesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
+		$this->view->nom_interne = $this->getNomInterne();
+	}
 }

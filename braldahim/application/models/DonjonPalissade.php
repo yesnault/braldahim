@@ -5,15 +5,17 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class DonjonPalissade extends Zend_Db_Table {
+class DonjonPalissade extends Zend_Db_Table
+{
 	protected $_name = 'donjon_palissade';
 	protected $_primary = "id_donjon_palissade";
 
-	function findByIdDonjon($idDonjon) {
+	function findByIdDonjon($idDonjon)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('donjon_palissade', '*')
-		->where('id_fk_donjon_palissade = ?',intval($idDonjon));
+			->where('id_fk_donjon_palissade = ?', intval($idDonjon));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

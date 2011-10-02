@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class ContratController extends Bral_Controller_Action {
+class ContratController extends Bral_Controller_Action
+{
 
-	public function doactionAction() {
+	public function doactionAction()
+	{
 		Zend_Loader :: loadClass("Bral_Contrat_Factory");
 		$this->doBralAction("Bral_Contrat_Factory");
 	}

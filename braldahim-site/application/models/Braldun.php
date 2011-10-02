@@ -10,23 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Braldun extends Zend_Db_Table {
+class Braldun extends Zend_Db_Table
+{
 	protected $_name = 'braldun';
 	protected $_primary = 'id_braldun';
 
-	function findNomById($id) {
-		$where = $this->getAdapter()->quoteInto('id_braldun = ?',(int)$id);
+	function findNomById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_braldun = ?', (int)$id);
 		$braldun = $this->fetchRow($where);
 
 		if ($braldun == null) {
 			$retour = "braldun inconnu";
 		} else {
-			$retour = $braldun["prenom_braldun"]. " ".$braldun["nom_braldun"]. " (".$braldun["id_braldun"].")";
+			$retour = $braldun["prenom_braldun"] . " " . $braldun["nom_braldun"] . " (" . $braldun["id_braldun"] . ")";
 		}
 		return $retour;
 	}
 
-	function findAllByDateCreationAndRegion($dateDebut, $dateFin) {
+	function findAllByDateCreationAndRegion($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'count(id_braldun) as nombre');
@@ -42,7 +45,8 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function countByNiveau($niveau) {
+	function countByNiveau($niveau)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'count(id_braldun) as nombre');
@@ -55,12 +59,14 @@ class Braldun extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_braldun = ?',(int)$id);
+	public function findById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_braldun = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 
-	function findAllByDateCreationAndFamille($dateDebut, $dateFin) {
+	function findAllByDateCreationAndFamille($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'count(id_braldun) as nombre');
@@ -76,7 +82,8 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findAllByDateCreationAndSexe($dateDebut, $dateFin) {
+	function findAllByDateCreationAndSexe($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('count(id_braldun) as nombre', 'sexe_braldun'));
@@ -90,7 +97,8 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findDistinctNiveaux() {
+	function findDistinctNiveaux()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'distinct(niveau_braldun) as niveau');
@@ -101,7 +109,8 @@ class Braldun extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function countByNiveauMinMax($niveauMin, $niveauMax) {
+	function countByNiveauMinMax($niveauMin, $niveauMax)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'count(id_braldun) as nombre');
@@ -115,7 +124,8 @@ class Braldun extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function findByNiveauxMinMaxAndCaracteristique($niveauMin, $niveauMax, $caracteristique) {
+	function findByNiveauxMinMaxAndCaracteristique($niveauMin, $niveauMax, $caracteristique)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', $this->getSelectCaracteristique($caracteristique)));
@@ -132,10 +142,11 @@ class Braldun extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	private function getSelectCaracteristique($caracteristique) {
+
+	private function getSelectCaracteristique($caracteristique)
+	{
 		$retour = "";
-		switch($caracteristique) {
+		switch ($caracteristique) {
 			case "force" :
 				$retour = "max(force_base_braldun) as nombre";
 				break;

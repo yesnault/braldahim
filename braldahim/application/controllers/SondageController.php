@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class SondageController extends Zend_Controller_Action {
+class SondageController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -25,7 +27,8 @@ class SondageController extends Zend_Controller_Action {
 		$this->view->controleur = $this->_request->controller;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		Zend_Loader::loadClass("Sondage");
 		$sondageTable = new Sondage();
 		$sondageEnCours = $sondageTable->findEnCours();
@@ -42,11 +45,13 @@ class SondageController extends Zend_Controller_Action {
 		}
 	}
 
-	function finAction() {
+	function finAction()
+	{
 		$this->render();
 	}
 
-	function valider() {
+	function valider()
+	{
 		$this->view->erreur = "";
 		if ($this->_request->isPost()) {
 			// mise à jour reponse.
@@ -59,36 +64,37 @@ class SondageController extends Zend_Controller_Action {
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 
 			$commentaire = $filter->filter($this->_request->getPost('commentaire'));
-			
+
 			$nbReponse = 3;
-			for($i = 1; $i<=$nbReponse; $i++) {
+			for ($i = 1; $i <= $nbReponse; $i++) {
 				//if (((int)$this->_request->getPost("reponse_$i").""!=$this->_request->getPost("reponse_$i")."") || (int)$this->_request->getPost("reponse_$i") < 0) {
-				if (($this->_request->getPost("reponse_$i").""!="oui") && 
-					($this->_request->getPost("reponse_$i").""!="non")) {
+				if (($this->_request->getPost("reponse_$i") . "" != "oui") &&
+					($this->_request->getPost("reponse_$i") . "" != "non")
+				) {
 					$this->view->erreur .= "Reponse $i invalide<br />";
 				} else {
 					$reponse[$i] = $this->_request->getPost("reponse_$i");
 				}
 			}
 
-			if ($this->view->erreur == "") {// si reponse valide
-				
+			if ($this->view->erreur == "") { // si reponse valide
+
 				Zend_Loader::loadClass("SondageReponse");
 				$sondageReponseTable = new SondageReponse();
-				
+
 				$data = array(
 					'id_fk_sondage_reponse' => $this->view->sondage["id_sondage"],
 					'id_fk_braldun_sondage_reponse' => $this->view->user->id_braldun,
 					'commentaire_braldun_sondage_reponse' => $commentaire,
 					'date_sondage_reponse' => date("Y-m-d H:i:s"),
 				);
-				
-				for($i = 1; $i<=$nbReponse; $i++) {
-					$data["reponse_".$i."_sondage_reponse"] = $reponse[$i];
+
+				for ($i = 1; $i <= $nbReponse; $i++) {
+					$data["reponse_" . $i . "_sondage_reponse"] = $reponse[$i];
 				}
-				
+
 				$sondageReponseTable->insert($data);
-				
+
 				$this->updateBraldunValide();
 				$this->_redirect('/sondage/fin');
 			}
@@ -97,10 +103,11 @@ class SondageController extends Zend_Controller_Action {
 		}
 	}
 
-	private function updateBraldunValide() {
+	private function updateBraldunValide()
+	{
 		$braldunTable = new Braldun();
 		$data = array("est_sondage_valide_braldun" => "oui");
-		$where = "id_braldun=".$this->view->user->id_braldun;
+		$where = "id_braldun=" . $this->view->user->id_braldun;
 		$braldunTable->update($data, $where);
 	}
 }

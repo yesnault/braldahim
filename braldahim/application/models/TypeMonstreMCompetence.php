@@ -5,54 +5,63 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class TypeMonstreMCompetence extends Zend_Db_Table {
+class TypeMonstreMCompetence extends Zend_Db_Table
+{
 	protected $_name = 'type_monstre_mcompetence';
 	protected $_primary = array('id_fk_type_monstre_mcompetence', 'id_fk_mcompetence_type_monstre_mcompetence');
 
-	public function findFuiteByIdTypeGroupe($idTypeMonstre) {
+	public function findFuiteByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "fuite");
 	}
 
-	public function findPreReperageByIdTypeGroupe($idTypeMonstre) {
+	public function findPreReperageByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "prereperage");
 	}
 
-	public function findReperageByIdTypeGroupe($idTypeMonstre) {
+	public function findReperageByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "reperage");
 	}
 
-	public function findAttaqueByIdTypeGroupe($idTypeMonstre) {
+	public function findAttaqueByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "attaque");
 	}
 
-	public function findPostAllByIdTypeGroupe($idTypeMonstre) {
+	public function findPostAllByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "end");
 	}
 
-	public function findDeplacementByIdTypeGroupe($idTypeMonstre) {
+	public function findDeplacementByIdTypeGroupe($idTypeMonstre)
+	{
 		return $this->findByIdTypeGroupe($idTypeMonstre, "deplacement");
 	}
 
-	private function findDeplacementByIdMCompetence($idMCompetence) {
+	private function findDeplacementByIdMCompetence($idMCompetence)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_monstre_mcompetence', '*')
-		->from('mcompetence', '*')
-		->where('type_monstre_mcompetence.id_fk_mcompetence_type_monstre_mcompetence = mcompetence.id_mcompetence')
-		->where('mcompetence.id_mcompetence = ?', intval($idMCompetence));
+			->from('mcompetence', '*')
+			->where('type_monstre_mcompetence.id_fk_mcompetence_type_monstre_mcompetence = mcompetence.id_mcompetence')
+			->where('mcompetence.id_mcompetence = ?', intval($idMCompetence));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	private function findByIdTypeGroupe($idTypeMonstre, $type) {
+	private function findByIdTypeGroupe($idTypeMonstre, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_monstre_mcompetence', '*')
-		->from('mcompetence', '*')
-		->where('type_monstre_mcompetence.id_fk_mcompetence_type_monstre_mcompetence = mcompetence.id_mcompetence')
-		->where('id_fk_type_monstre_mcompetence = ?', intval($idTypeMonstre))
-		->where('type_mcompetence = ?', $type)
-		->order('ordre_type_monstre_mcompetence');
+			->from('mcompetence', '*')
+			->where('type_monstre_mcompetence.id_fk_mcompetence_type_monstre_mcompetence = mcompetence.id_mcompetence')
+			->where('id_fk_type_monstre_mcompetence = ?', intval($idTypeMonstre))
+			->where('type_mcompetence = ?', $type)
+			->order('ordre_type_monstre_mcompetence');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

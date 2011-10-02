@@ -10,32 +10,39 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Fabricantstop10 extends Bral_Palmares_Box {
+class Bral_Palmares_Fabricantstop10 extends Bral_Palmares_Box
+{
 
-	function getTitreOnglet() {
+	function getTitreOnglet()
+	{
 		return "Top 10";
 	}
 
-	function getNomInterne() {
+	function getNomInterne()
+	{
 		return "box_onglet_fabricantstop10";
 	}
 
-	function getNomClasse() {
+	function getNomClasse()
+	{
 		return "fabricantstop10";
 	}
 
-	function setDisplay($display) {
+	function setDisplay($display)
+	{
 		$this->view->display = $display;
 	}
 
-	function render() {
+	function render()
+	{
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
 		return $this->view->render("palmares/fabricants_top10.phtml");
 	}
 
-	private function prepare() {
+	private function prepare()
+	{
 		if ($this->view->type == "bucheronsroutes") {
 			Zend_Loader::loadClass("StatsRoutes");
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);

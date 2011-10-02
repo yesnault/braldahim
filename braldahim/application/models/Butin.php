@@ -5,32 +5,36 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Butin extends Zend_Db_Table {
+class Butin extends Zend_Db_Table
+{
 	protected $_name = 'butin';
 	protected $_primary = array('id_butin');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('butin', '*')
-		->where('id_fk_braldun_butin = ?', intval($idBraldun));
+			->where('id_fk_braldun_butin = ?', intval($idBraldun));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseAndProprietaire($x, $y, $z) {
+	function findByCaseAndProprietaire($x, $y, $z)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('butin', '*')
-		->where('z_butin = ?', intval($z))
-		->where('x_butin = ?', intval($x))
-		->where('y_butin = ?', intval($y));
+			->where('z_butin = ?', intval($z))
+			->where('x_butin = ?', intval($x))
+			->where('y_butin = ?', intval($y));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseAndProprietaires($x, $y, $z, $listIdsBraldun) {
+	function findByCaseAndProprietaires($x, $y, $z, $listIdsBraldun)
+	{
 		if ($listIdsBraldun == null || count($listIdsBraldun) < 1) {
 			return null;
 		}
@@ -38,37 +42,38 @@ class Butin extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('butin', '*')
-		->where('z_butin = ?', intval($z))
-		->where('x_butin = ?', intval($x))
-		->where('y_butin = ?', intval($y));
+			->where('z_butin = ?', intval($z))
+			->where('x_butin = ?', intval($x))
+			->where('y_butin = ?', intval($y));
 
 		$liste = "";
-		foreach($listIdsBraldun as $id) {
-			if ((int) $id."" == $id."") {
+		foreach ($listIdsBraldun as $id) {
+			if ((int)$id . "" == $id . "") {
 				if ($liste == "") {
 					$liste = $id;
 				} else {
-					$liste = $liste." OR id_fk_braldun_butin =".$id;
+					$liste = $liste . " OR id_fk_braldun_butin =" . $id;
 				}
 			}
 		}
 
-		$select->where('id_fk_braldun_butin = '.$liste);
+		$select->where('id_fk_braldun_butin = ' . $liste);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseAndIdCommunaute($x, $y, $z, $idCommunaute) {
+	function findByCaseAndIdCommunaute($x, $y, $z, $idCommunaute)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('butin', '*')
-		->from('braldun', '*')
-		->where('z_butin = ?', intval($z))
-		->where('x_butin = ?', intval($x))
-		->where('y_butin = ?', intval($y))
-		->where('id_fk_braldun_butin = id_braldun')
-		->where('est_partage_communaute_butin_braldun = ?', 'oui')
-		->where('id_fk_communaute_braldun = ?', $idCommunaute);
+			->from('braldun', '*')
+			->where('z_butin = ?', intval($z))
+			->where('x_butin = ?', intval($x))
+			->where('y_butin = ?', intval($y))
+			->where('id_fk_braldun_butin = id_braldun')
+			->where('est_partage_communaute_butin_braldun = ?', 'oui')
+			->where('id_fk_communaute_braldun = ?', $idCommunaute);
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

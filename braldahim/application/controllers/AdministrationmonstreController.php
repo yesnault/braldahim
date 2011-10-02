@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationmonstreController extends Zend_Controller_Action {
+class AdministrationmonstreController extends Zend_Controller_Action
+{
 
 	private $_tabCreation = null;
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -39,11 +41,13 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->prepareCommun();
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function creationAction() {
+	function creationAction()
+	{
 		$creation = false;
 		if ($this->_request->isPost()) {
 			$filter = new Zend_Filter();
@@ -83,40 +87,40 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 			$nombre = $filter->filter($this->_request->getPost('nombre'));
 
-			if (((int)$id_fk_type_ref_monstre."" != $id_fk_type_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
+			if (((int)$id_fk_type_ref_monstre . "" != $id_fk_type_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. id_fk_type_ref_monstre : " . $id_fk_type_ref_monstre);
 			}
 
-			if (((int)$x_min_zone.""!=$x_min_zone."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_min_zone : ".$x_min_zone);
+			if (((int)$x_min_zone . "" != $x_min_zone . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. x_min_zone : " . $x_min_zone);
 			}
-			if (((int)$x_max_zone.""!=$x_max_zone."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_max_zone : ".$x_max_zone);
+			if (((int)$x_max_zone . "" != $x_max_zone . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. x_max_zone : " . $x_max_zone);
 			}
-			if (((int)$y_min_zone.""!=$y_min_zone."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_min_zone : ".$y_min_zone);
+			if (((int)$y_min_zone . "" != $y_min_zone . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. y_min_zone : " . $y_min_zone);
 			}
-			if (((int)$y_max_zone.""!=$y_max_zone."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max_zone : ".$y_max_zone);
+			if (((int)$y_max_zone . "" != $y_max_zone . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. y_max_zone : " . $y_max_zone);
 			}
 
-			if ($x_min_position != "" && ((int)$x_min_position.""!=$x_min_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_min_position : ".$x_min_position);
+			if ($x_min_position != "" && ((int)$x_min_position . "" != $x_min_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. x_min_position : " . $x_min_position);
 			}
-			if ($x_max_position != "" && ((int)$x_max_position.""!=$x_max_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_max_position : ".$x_max_position);
+			if ($x_max_position != "" && ((int)$x_max_position . "" != $x_max_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. x_max_position : " . $x_max_position);
 			}
-			if ($y_min_position != "" && ((int)$y_min_position.""!=$y_min_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_min_position : ".$y_min_position);
+			if ($y_min_position != "" && ((int)$y_min_position . "" != $y_min_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. y_min_position : " . $y_min_position);
 			}
-			if ($y_max_position != "" && ((int)$y_max_position.""!=$y_max_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max_position : ".$y_max_position);
+			if ($y_max_position != "" && ((int)$y_max_position . "" != $y_max_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. y_max_position : " . $y_max_position);
 			}
-			if ($x_position != "" && ((int)$x_position.""!=$x_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_position : ".$x_position);
+			if ($x_position != "" && ((int)$x_position . "" != $x_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. x_position : " . $x_position);
 			}
-			if ($y_position != "" && ((int)$y_position.""!=$y_position."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_position : ".$y_position);
+			if ($y_position != "" && ((int)$y_position . "" != $y_position . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. y_position : " . $y_position);
 			}
 
 			$referenceCourante = $this->recupereReferenceMonstre($id_fk_type_ref_monstre);
@@ -140,7 +144,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					$id_groupe = $this->creationGroupe($referenceCourante["id_type_groupe_monstre"], $nb_membres);
 					$num_role_a = Bral_Util_De::get_de_specifique(1, $nb_membres);
 					$num_role_b = Bral_Util_De::get_de_specifique(1, $nb_membres);
-					while($num_role_a == $num_role_b) {
+					while ($num_role_a == $num_role_b) {
 						$num_role_b = Bral_Util_De::get_de_specifique(1, $nb_membres);
 					}
 					for ($j = 1; $j <= $nb_membres; $j++) {
@@ -170,9 +174,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function recupereReferenceMonstre($id_fk_type_ref_monstre, $taille = 1) {
+	private function recupereReferenceMonstre($id_fk_type_ref_monstre, $taille = 1)
+	{
 		$referenceCourante = null;
-		foreach($this->view->refMonstre as $r) {
+		foreach ($this->view->refMonstre as $r) {
 			if (($id_fk_type_ref_monstre == $r["id_type_monstre"]) && ((int)$taille == (int)$r["id_taille_monstre"])) {
 				$referenceCourante = $r;
 				break;
@@ -180,17 +185,18 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 
 		if ($referenceCourante == null) {
-			throw new Zend_Exception(get_class($this)." creationCalcul referenceCourante invalide. id_fk_type_ref_monstre=".$id_fk_type_ref_monstre. " taille=".$taille);
+			throw new Zend_Exception(get_class($this) . " creationCalcul referenceCourante invalide. id_fk_type_ref_monstre=" . $id_fk_type_ref_monstre . " taille=" . $taille);
 		}
 		return $referenceCourante;
 	}
 
-	private function creationGroupe($id_type, $nb_membres) {
+	private function creationGroupe($id_type, $nb_membres)
+	{
 		$data = array(
 			"id_fk_type_groupe_monstre" => $id_type,
 			"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-			"id_fk_braldun_cible_groupe_monstre"  => null,
-			"nb_membres_max_groupe_monstre"  => $nb_membres,
+			"id_fk_braldun_cible_groupe_monstre" => null,
+			"nb_membres_max_groupe_monstre" => $nb_membres,
 			"nb_membres_restant_groupe_monstre" => $nb_membres,
 			"phase_tactique_groupe_monstre" => 0,
 			"id_role_a_groupe_monstre" => null,
@@ -204,7 +210,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		return $id_groupe;
 	}
 
-	private function creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone,  $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
+	private function creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone, $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false)
+	{
 
 		$id_fk_taille_monstre = $this->creationCalculTaille();
 		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
@@ -322,17 +329,18 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$data = array("id_role_b_groupe_monstre" => $id_monstre);
 			}
 			$groupeMonstreTable = new GroupeMonstre();
-			$where = "id_groupe_monstre=".$id_groupe_monstre;
+			$where = "id_groupe_monstre=" . $id_groupe_monstre;
 			$groupeMonstreTable->update($data, $where);
 		}
 	}
 
-	private function creationCalculTaille() {
+	private function creationCalculTaille()
+	{
 		$id_taille = null;
 
 		$n = Bral_Util_De::get_de_specifique(1, 100);
 		$total = 0;
-		foreach($this->view->taillesMonstre as $t) {
+		foreach ($this->view->taillesMonstre as $t) {
 			$total = $total + $t["pourcentage_apparition"];
 			if ($total >= $n) {
 				$id_taille = $t["id_taille_monstre"];
@@ -342,7 +350,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		return $id_taille;
 	}
 
-	function referentielAction() {
+	function referentielAction()
+	{
 		$modifier = false;
 		$nomAction = '';
 		if ($this->_request->isPost()) {
@@ -375,77 +384,77 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$coef_pv_min_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_min_ref_monstre'));
 			$coef_pv_max_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_max_ref_monstre'));
 
-			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
+			if (((int)$id_fk_type_ref_monstre . "" != $id_fk_type_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. id_fk_type_ref_monstre : " . $id_fk_type_ref_monstre);
 			}
-			if (((int)$id_fk_taille_ref_monstre.""!=$id_fk_taille_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_taille_ref_monstre : ".$id_fk_taille_ref_monstre);
+			if (((int)$id_fk_taille_ref_monstre . "" != $id_fk_taille_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. id_fk_taille_ref_monstre : " . $id_fk_taille_ref_monstre);
 			}
-			if (((int)$niveau_min_ref_monstre.""!=$niveau_min_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. niveau_min_ref_monstre : ".$niveau_min_ref_monstre);
+			if (((int)$niveau_min_ref_monstre . "" != $niveau_min_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. niveau_min_ref_monstre : " . $niveau_min_ref_monstre);
 			}
-			if (((int)$niveau_max_ref_monstre.""!=$niveau_max_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. niveau_max_ref_monstre : ".$niveau_max_ref_monstre);
+			if (((int)$niveau_max_ref_monstre . "" != $niveau_max_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. niveau_max_ref_monstre : " . $niveau_max_ref_monstre);
 			}
-			if (((int)$min_niveau_force_ref_monstre.""!=$min_niveau_force_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_force_ref_monstre : ".$min_niveau_force_ref_monstre);
+			if (((int)$min_niveau_force_ref_monstre . "" != $min_niveau_force_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. min_niveau_force_ref_monstre : " . $min_niveau_force_ref_monstre);
 			}
-			if (((int)$max_niveau_force_ref_monstre.""!=$max_niveau_force_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_force_ref_monstre : ".$max_niveau_force_ref_monstre);
+			if (((int)$max_niveau_force_ref_monstre . "" != $max_niveau_force_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. max_niveau_force_ref_monstre : " . $max_niveau_force_ref_monstre);
 			}
-			if (((int)$bm_force_ref_monstre.""!=$bm_force_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_force_ref_monstre : ".$bm_force_ref_monstre);
+			if (((int)$bm_force_ref_monstre . "" != $bm_force_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_force_ref_monstre : " . $bm_force_ref_monstre);
 			}
-			if (((int)$min_niveau_sagesse_ref_monstre.""!=$min_niveau_sagesse_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_sagesse_ref_monstre : ".$min_niveau_sagesse_ref_monstre);
+			if (((int)$min_niveau_sagesse_ref_monstre . "" != $min_niveau_sagesse_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. min_niveau_sagesse_ref_monstre : " . $min_niveau_sagesse_ref_monstre);
 			}
-			if (((int)$max_niveau_sagesse_ref_monstre.""!=$max_niveau_sagesse_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_sagesse_ref_monstre : ".$max_niveau_sagesse_ref_monstre);
+			if (((int)$max_niveau_sagesse_ref_monstre . "" != $max_niveau_sagesse_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. max_niveau_sagesse_ref_monstre : " . $max_niveau_sagesse_ref_monstre);
 			}
-			if (((int)$bm_sagesse_ref_monstre.""!=$bm_sagesse_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_sagesse_ref_monstre : ".$bm_sagesse_ref_monstre);
+			if (((int)$bm_sagesse_ref_monstre . "" != $bm_sagesse_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_sagesse_ref_monstre : " . $bm_sagesse_ref_monstre);
 			}
-			if (((int)$min_niveau_vigueur_ref_monstre.""!=$min_niveau_vigueur_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_vigueur_ref_monstre : ".$min_niveau_vigueur_ref_monstre);
+			if (((int)$min_niveau_vigueur_ref_monstre . "" != $min_niveau_vigueur_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. min_niveau_vigueur_ref_monstre : " . $min_niveau_vigueur_ref_monstre);
 			}
-			if (((int)$max_niveau_vigueur_ref_monstre.""!=$max_niveau_vigueur_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_vigueur_ref_monstre : ".$max_niveau_vigueur_ref_monstre);
+			if (((int)$max_niveau_vigueur_ref_monstre . "" != $max_niveau_vigueur_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. max_niveau_vigueur_ref_monstre : " . $max_niveau_vigueur_ref_monstre);
 			}
-			if (((int)$bm_vigueur_ref_monstre.""!=$bm_vigueur_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_vigueur_ref_monstre : ".$bm_vigueur_ref_monstre);
+			if (((int)$bm_vigueur_ref_monstre . "" != $bm_vigueur_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_vigueur_ref_monstre : " . $bm_vigueur_ref_monstre);
 			}
-			if (((int)$min_niveau_agilite_ref_monstre.""!=$min_niveau_agilite_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_agilite_ref_monstre : ".$min_niveau_agilite_ref_monstre);
+			if (((int)$min_niveau_agilite_ref_monstre . "" != $min_niveau_agilite_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. min_niveau_agilite_ref_monstre : " . $min_niveau_agilite_ref_monstre);
 			}
-			if (((int)$max_niveau_agilite_ref_monstre.""!=$max_niveau_agilite_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_agilite_ref_monstre : ".$max_niveau_agilite_ref_monstre);
+			if (((int)$max_niveau_agilite_ref_monstre . "" != $max_niveau_agilite_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. max_niveau_agilite_ref_monstre : " . $max_niveau_agilite_ref_monstre);
 			}
-			if (((int)$bm_agilite_ref_monstre.""!=$bm_agilite_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_agilite_ref_monstre : ".$bm_agilite_ref_monstre);
+			if (((int)$bm_agilite_ref_monstre . "" != $bm_agilite_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_agilite_ref_monstre : " . $bm_agilite_ref_monstre);
 			}
-			if (((int)$bm_attaque_ref_monstre.""!=$bm_attaque_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_attaque_ref_monstre : ".$bm_attaque_ref_monstre);
+			if (((int)$bm_attaque_ref_monstre . "" != $bm_attaque_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_attaque_ref_monstre : " . $bm_attaque_ref_monstre);
 			}
-			if (((int)$bm_defense_ref_monstre.""!=$bm_defense_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_defense_ref_monstre : ".$bm_defense_ref_monstre);
+			if (((int)$bm_defense_ref_monstre . "" != $bm_defense_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_defense_ref_monstre : " . $bm_defense_ref_monstre);
 			}
-			if (((int)$bm_degat_ref_monstre.""!=$bm_degat_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_degat_ref_monstre : ".$bm_degat_ref_monstre);
+			if (((int)$bm_degat_ref_monstre . "" != $bm_degat_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. bm_degat_ref_monstre : " . $bm_degat_ref_monstre);
 			}
-			if (((int)$vue_ref_monstre.""!=$vue_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. vue_ref_monstre : ".$vue_ref_monstre);
+			if (((int)$vue_ref_monstre . "" != $vue_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. vue_ref_monstre : " . $vue_ref_monstre);
 			}
-			if (((int)$min_alea_pourcentage_armure_naturelle_ref_monstre.""!=$min_alea_pourcentage_armure_naturelle_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. min_alea_pourcentage_armure_naturelle_ref_monstre : ".$min_alea_pourcentage_armure_naturelle_ref_monstre);
+			if (((int)$min_alea_pourcentage_armure_naturelle_ref_monstre . "" != $min_alea_pourcentage_armure_naturelle_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. min_alea_pourcentage_armure_naturelle_ref_monstre : " . $min_alea_pourcentage_armure_naturelle_ref_monstre);
 			}
-			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre.""!=$max_alea_pourcentage_armure_naturelle_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : ".$max_alea_pourcentage_armure_naturelle_ref_monstre);
+			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre . "" != $max_alea_pourcentage_armure_naturelle_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : " . $max_alea_pourcentage_armure_naturelle_ref_monstre);
 			}
-			if (((float)$coef_pv_min_ref_monstre.""!=$coef_pv_min_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_min_ref_monstre : ".$coef_pv_min_ref_monstre);
+			if (((float)$coef_pv_min_ref_monstre . "" != $coef_pv_min_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. coef_pv_min_ref_monstre : " . $coef_pv_min_ref_monstre);
 			}
-			if (((float)$coef_pv_max_ref_monstre.""!=$coef_pv_max_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_max_ref_monstre : ".$coef_pv_max_ref_monstre);
+			if (((float)$coef_pv_max_ref_monstre . "" != $coef_pv_max_ref_monstre . "")) {
+				throw new Zend_Exception(get_class($this) . " Valeur invalide. coef_pv_max_ref_monstre : " . $coef_pv_max_ref_monstre);
 			}
 
 			$data = array(
@@ -469,16 +478,16 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"bm_defense_ref_monstre" => $bm_defense_ref_monstre,
 				"bm_degat_ref_monstre" => $bm_degat_ref_monstre,
 				"vue_ref_monstre" => $vue_ref_monstre,
-				"max_alea_pourcentage_armure_naturelle_ref_monstre" => $max_alea_pourcentage_armure_naturelle_ref_monstre, 
-				"min_alea_pourcentage_armure_naturelle_ref_monstre" => $min_alea_pourcentage_armure_naturelle_ref_monstre, 
+				"max_alea_pourcentage_armure_naturelle_ref_monstre" => $max_alea_pourcentage_armure_naturelle_ref_monstre,
+				"min_alea_pourcentage_armure_naturelle_ref_monstre" => $min_alea_pourcentage_armure_naturelle_ref_monstre,
 				"coef_pv_min_ref_monstre" => $coef_pv_min_ref_monstre,
-				"coef_pv_max_ref_monstre" => $coef_pv_max_ref_monstre, 
+				"coef_pv_max_ref_monstre" => $coef_pv_max_ref_monstre,
 			);
 
 			$refTable = new ReferentielMonstre();
 			if ($this->_request->getParam('update', 0) != 0) { // Mise à jour
 				$modifier = true;
-				$where = "id_ref_monstre=".(int)$this->_request->getParam('update', 0);
+				$where = "id_ref_monstre=" . (int)$this->_request->getParam('update', 0);
 				$refTable->update($data, $where);
 			} else {
 				// Insertion
@@ -487,7 +496,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$this->prepareCommun();
 		} else if ($this->_request->getParam('modifier', 0) != 0) {
 			$modifier = true;
-			$nomAction = 'update/'.$this->_request->getParam('modifier');
+			$nomAction = 'update/' . $this->_request->getParam('modifier');
 		}
 		$this->referentielPrepare();
 		$this->view->modifier = $modifier;
@@ -495,12 +504,13 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function referentielPrepare() {
+	private function referentielPrepare()
+	{
 		$ref = null;
 		$tailles = null;
 		$types = null;
 		$referenceCourante = array(
-			"id_ref_monstre" =>'',
+			"id_ref_monstre" => '',
 			"id_type_monstre" => '',
 			"id_taille_monstre" => '',
 			"niveau_min" => '',
@@ -534,13 +544,14 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$id = $this->_request->getParam('update', 0);
 		}
 
-		if ($id > 0) {// si l'on veut modifier une reference, on prepare l'objet
+		if ($id > 0) { // si l'on veut modifier une reference, on prepare l'objet
 			$referenceCourante = $this->view->refMonstre[$id];
 		}
 		$this->view->referenceCourante = $referenceCourante;
 	}
 
-	private function prepareCommun() {
+	private function prepareCommun()
+	{
 		$ref = null;
 		$tailles = null;
 		$types = null;
@@ -562,7 +573,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		$action = $this->_request->getParam('action');
 
-		foreach($refRowset as $r) {
+		foreach ($refRowset as $r) {
 			if ($r["genre_type_monstre"] == 'feminin') {
 				$m_taille = $r["nom_taille_f_monstre"];
 			} else {
@@ -609,7 +620,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			);
 		}
 
-		foreach($taillesRowset as $t) {
+		foreach ($taillesRowset as $t) {
 			$tailles[$t->id_taille_monstre] = array(
 				"id_taille_monstre" => $t->id_taille_monstre,
 				"nom_feminin" => $t->nom_taille_f_monstre,
@@ -624,7 +635,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			);
 		}
 
-		foreach($typesRowset as $t) {
+		foreach ($typesRowset as $t) {
 			$types[$t["id_type_monstre"]] = array(
 				"id_type_monstre" => $t["id_type_monstre"],
 				"nom_type" => $t["nom_type_monstre"],
@@ -640,9 +651,9 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 
 		if ($action != "referentiel") {
-			foreach($zonesRowset as $z) {
-				$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"], 0);
-				$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
+			foreach ($zonesRowset as $z) {
+				$nombreMonstres = $monstresTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0);
+				$nombreCases = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
 				if ($nombreMonstres > 0 && $nombreCases > 0) {
 					$couverture = ($nombreMonstres * 100) / $nombreCases;
 				} else {
@@ -650,19 +661,20 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 
 				$villes = "";
-				foreach($villesRowset as $v) {
+				foreach ($villesRowset as $v) {
 					if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
-					$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
-						$villes .= $v->nom_ville.", ";
+						$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville
+					) {
+						$villes .= $v->nom_ville . ", ";
 					}
 				}
 
-				$zones[] = array("id_zone" =>$z["id_zone"],
-					"x_min" => $z["x_min_zone"] ,
-					"x_max" => $z["x_max_zone"] ,
-					"y_min" => $z["y_min_zone"] ,
-					"y_max" => $z["y_max_zone"] ,
-					"environnement" =>$z["nom_environnement"] ,
+				$zones[] = array("id_zone" => $z["id_zone"],
+					"x_min" => $z["x_min_zone"],
+					"x_max" => $z["x_max_zone"],
+					"y_min" => $z["y_min_zone"],
+					"y_max" => $z["y_max_zone"],
+					"environnement" => $z["nom_environnement"],
 					"nombre_monstres" => $nombreMonstres,
 					"nombre_cases" => $nombreCases,
 					"couverture" => round($couverture, 5),
@@ -684,7 +696,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->view->refMonstre = $ref;
 	}
 
-	function monstreAction() {
+	function monstreAction()
+	{
 		Zend_Loader::loadClass('Monstre');
 
 		$this->modificationMonstre = false;
@@ -694,7 +707,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 			$monstreTable = new Monstre();
 
-			$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->getPost('id_monstre'));
+			$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?', (int)$this->_request->getPost('id_monstre'));
 			$monstreRowset = $monstreTable->fetchRow($where);
 			$monstre = $monstreRowset->toArray();
 
@@ -705,7 +718,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					if ($monstre[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
-					$modification .= "$key avant: ".$monstre[$key]. " apres:".$value;
+					$modification .= "$key avant: " . $monstre[$key] . " apres:" . $value;
 					$modification .= PHP_EOL;
 
 					if ($value == '') {
@@ -728,9 +741,9 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
 				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
-				$mail->setSubject("[Braldahim-Admin Jeu] Administration Monstre ".$this->_request->getPost("id_monstre"));
-				$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-				$texte .= PHP_EOL.$modification;
+				$mail->setSubject("[Braldahim-Admin Jeu] Administration Monstre " . $this->_request->getPost("id_monstre"));
+				$texte = "--------> Utilisateur " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+				$texte .= PHP_EOL . $modification;
 
 				$mail->setBodyText($texte);
 				$mail->send();
@@ -742,10 +755,11 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function monstrePrepare() {
+	private function monstrePrepare()
+	{
 		$monstreTable = new Monstre();
 
-		$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->get('idmonstre'));
+		$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?', (int)$this->_request->get('idmonstre'));
 		$monstreRowset = $monstreTable->fetchRow($where);
 
 		if (count($monstreRowset) == 1) {
@@ -768,7 +782,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 	}
 
-	public function repartitionAction() {
+	public function repartitionAction()
+	{
 		Zend_Loader::loadClass("CreationNids");
 		Zend_Loader::loadClass("Nid");
 		Zend_Loader::loadClass("Monstre");
@@ -792,7 +807,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("TypeGroupeMonstre");
 		$tabTypeGroupe = TypeGroupeMonstre::getStaticTypes();
-		foreach($tousTypesMontres as $t) {
+		foreach ($tousTypesMontres as $t) {
 			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];
 			$tabTypesMonstres[$t["id_type_monstre"]]["type"] = $tabTypeGroupe[$t["id_fk_type_groupe_monstre"]];
 		}
@@ -800,7 +815,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->view->typesMonstres = $tabTypesMonstres;
 		Zend_Loader::loadClass("TypeGroupeMonstre");
 
-		foreach($zones as $z) {
+		foreach ($zones as $z) {
 			$tab = array("id_zone_nid" => $z["id_zone_nid"]);
 			$tab["nbVivants"] = 0;
 			$tab["nbDansNids"] = 0;
@@ -808,16 +823,16 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$tab["niveauMoyen"] = null;
 			$tab["dansNids"] = null;
 			$tab["details"] = array();
-			foreach($monstres as $m) {
+			foreach ($monstres as $m) {
 				$tab["details"][$m["id_fk_type_monstre"]]["dansNids"] = 0;
 				if ($z["id_zone_nid"] == $m["id_fk_zone_nid_monstre"]) {
 					$tab["nbVivants"] = $tab["nbVivants"] + $m["nombre"];
 					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = $m["nombre"];
-					$tab["details"][$m["id_fk_type_monstre"]]["niveauMoyen"]  = floor($m["totalNiveau"] / $m["nombre"]);
+					$tab["details"][$m["id_fk_type_monstre"]]["niveauMoyen"] = floor($m["totalNiveau"] / $m["nombre"]);
 				}
 			}
 
-			foreach($nids as $n) {
+			foreach ($nids as $n) {
 				if ($z["id_zone_nid"] == $n["id_fk_zone_nid"]) {
 					$tab["nbDansNids"] = $tab["nbDansNids"] + $n["nombre"];
 					$tab["details"][$n["id_fk_type_monstre_nid"]]["dansNids"] = $n["nombre"];
@@ -836,22 +851,23 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			if ($tab["estVille"] == "oui") {
 				$tab["couvertureDemandee"] = "non applicable";
 			} else {
-				$tab["couvertureDemandee"] = $z["couverture_zone_nid"]."%";
+				$tab["couvertureDemandee"] = $z["couverture_zone_nid"] . "%";
 			}
 			$nbTypesTotalDansZone = count($creationNidsRowset);
 
-			foreach($creationNidsRowset as $c) {
+			foreach ($creationNidsRowset as $c) {
 				if (!array_key_exists($c["id_fk_type_monstre_creation_nid"], $tab["details"]) || !array_key_exists("vivants", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])
-				|| !array_key_exists("niveauMoyen", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])) {
+					|| !array_key_exists("niveauMoyen", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])
+				) {
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] = 0;
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["niveauMoyen"] = 0;
 				}
-					
+
 				if (!array_key_exists($c["id_fk_type_monstre_creation_nid"], $tab["details"]) || !array_key_exists("dansNids", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])) {
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"] = 0;
 				}
 
-				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"] =  $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] + $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"];
+				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"] = $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] + $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"];
 
 				if ($c["nb_monstres_ville_creation_nid"] != null) { // ville
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] = $c["nb_monstres_ville_creation_nid"];
@@ -862,10 +878,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] = number_format($nbMonstresParTypeAAvoir, 2);
 				}
 
-				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"]  - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
+				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
 			}
 
-			$tab["nbTotal"] =  $tab["nbDansNids"] + $tab["nbVivants"];
+			$tab["nbTotal"] = $tab["nbDansNids"] + $tab["nbVivants"];
 			$tab["couvertureReelle"] = number_format($tab["nbTotal"] * 100 / $nbCasesDansZone, 2);
 			$tabZones[] = $tab;
 		}

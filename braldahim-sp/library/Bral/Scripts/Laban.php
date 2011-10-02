@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Scripts_Laban extends Bral_Scripts_Conteneur {
+class Bral_Scripts_Laban extends Bral_Scripts_Conteneur
+{
 
-	public function calculScriptImpl() {
+	public function calculScriptImpl()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Laban - calculScriptImpl - enter -");
 
 		$retour = null;

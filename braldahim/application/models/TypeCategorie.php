@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class TypeCategorie extends Zend_Db_Table {
+class TypeCategorie extends Zend_Db_Table
+{
 	protected $_name = 'type_categorie';
 	protected $_primary = 'id_type_categorie';
 

@@ -10,28 +10,32 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class ChambreController extends Zend_Controller_Action {
+class ChambreController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		$this->view->config = Zend_Registry::get('config');
 
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->prepareMetiers();
 		$this->prepareEchoppes();
 		$this->render();
 	}
 
-	private function prepareMetiers() {
+	private function prepareMetiers()
+	{
 		Zend_Loader::loadClass("BraldunsMetiers");
 		$braldunsMetiers = new BraldunsMetiers();
 
 		$metiersRowset = $braldunsMetiers->countAllByMetier();
 
 		$tabMetiers = null;
-		foreach($metiersRowset as $m) {
+		foreach ($metiersRowset as $m) {
 			$tabMetiers[] = array(
 				"nom_metier" => $m["nom_masculin_metier"],
 				"nombre" => $m["nombre"],
@@ -41,14 +45,15 @@ class ChambreController extends Zend_Controller_Action {
 		$this->view->metiers = $tabMetiers;
 	}
 
-	private function prepareEchoppes() {
+	private function prepareEchoppes()
+	{
 		Zend_Loader::loadClass("Echoppe");
 		$echoppeTable = new Echoppe();
 
 		$echoppesRowset = $echoppeTable->findAllWithRegion();
 
 		$tabEchoppes = null;
-		foreach($echoppesRowset as $m) {
+		foreach ($echoppesRowset as $m) {
 			$tabEchoppes[$m["nom_region"]][] = array(
 				"nom_region" => $m["nom_region"],
 				"nom_metier" => $m["nom_masculin_metier"],

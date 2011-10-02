@@ -8,37 +8,37 @@
 class Bral_Lieux_Mine extends Bral_Lieux_Lieu
 {
 
-    function prepareCommun()
-    {
-        if ($this->view->user->z_braldun != 0) {
-            $tabNiveaux[0] = array('niveauText' => 'Niveau  0');
-        }
+	function prepareCommun()
+	{
+		if ($this->view->user->z_braldun != 0) {
+			$tabNiveaux[0] = array('niveauText' => 'Niveau  0');
+		}
 
-        for ($i = -10; $i >= -13; $i--) {
-            if ($this->view->user->z_braldun != $i) {
-                $tabNiveaux[$i] = array('niveauText' => 'Niveau ' . $i);
-            }
-        }
-        $this->view->niveaux = $tabNiveaux;
-    }
+		for ($i = -10; $i >= -13; $i--) {
+			if ($this->view->user->z_braldun != $i) {
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau ' . $i);
+			}
+		}
+		$this->view->niveaux = $tabNiveaux;
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-        $niveau = (int)$this->request->get("valeur_1");
+	function prepareResultat()
+	{
+		$niveau = (int)$this->request->get("valeur_1");
 
-        if (!array_key_exists($niveau, $this->view->niveaux)) {
-            throw new Zend_Exception(get_class($this) . " niveau invalide:" . $niveau);
-        }
-        $this->view->user->z_braldun = $niveau;
-        $this->majBraldun();
-    }
+		if (!array_key_exists($niveau, $this->view->niveaux)) {
+			throw new Zend_Exception(get_class($this) . " niveau invalide:" . $niveau);
+		}
+		$this->view->user->z_braldun = $niveau;
+		$this->majBraldun();
+	}
 
-    function getListBoxRefresh()
-    {
-        return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
-    }
+	function getListBoxRefresh()
+	{
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
+	}
 }

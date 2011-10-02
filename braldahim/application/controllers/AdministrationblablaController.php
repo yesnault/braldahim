@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationblablaController extends Zend_Controller_Action {
+class AdministrationblablaController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -32,40 +34,45 @@ class AdministrationblablaController extends Zend_Controller_Action {
 		$this->view->blabla = $blabla;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	public function estcensureAction() {
+	public function estcensureAction()
+	{
 		$this->updateCensure('oui');
 		$this->_forward('blabla');
 	}
 
-	public function estnoncensureAction() {
+	public function estnoncensureAction()
+	{
 		$this->updateCensure('non');
 		$this->_forward('blabla');
 	}
 
-	private function updateCensure($estCensure) {
+	private function updateCensure($estCensure)
+	{
 		if ($this->_request->get('id_blabla')) {
 
 			$this->envoiMailAdmin($estCensure);
 
 			$blablaTable = new Blabla();
 			$data = array('est_censure_blabla' => $estCensure);
-			$where = 'id_blabla = '.intval($this->_request->get('id_blabla'));
+			$where = 'id_blabla = ' . intval($this->_request->get('id_blabla'));
 			$blablaTable->update($data, $where);
 		}
 
 	}
 
-	private function envoiMailAdmin($censure = null) {
+	private function envoiMailAdmin($censure = null)
+	{
 		if ($this->view->config->general->mail->exception->use == '1') {
 
 			if ($censure == null) {
 				$modification = "";
 			} else {
-				$modification = "Passage en censure : ".$censure. " de ce Blabla".PHP_EOL.PHP_EOL;
+				$modification = "Passage en censure : " . $censure . " de ce Blabla" . PHP_EOL . PHP_EOL;
 			}
 
 			$blablaTable = new Blabla();
@@ -86,12 +93,12 @@ class AdministrationblablaController extends Zend_Controller_Action {
 					}
 
 					if ($censure == null) {
-						$modification .= "$key avant: ".$blabla[$key]. " apres:".$value;
+						$modification .= "$key avant: " . $blabla[$key] . " apres:" . $value;
 					} else {
 						if ($key == "est_censure_blabla") {
-							$modification .= "$key : ".$censure;
+							$modification .= "$key : " . $censure;
 						} else {
-							$modification .= "$key : ".$blabla[$key];
+							$modification .= "$key : " . $blabla[$key];
 						}
 
 					}
@@ -111,16 +118,17 @@ class AdministrationblablaController extends Zend_Controller_Action {
 
 			$mail->setFrom($this->view->config->general->mail->administration->from, $this->view->config->general->mail->administration->nom);
 			$mail->addTo($this->view->config->general->mail->administration->from, $this->view->config->general->mail->administration->nom);
-			$mail->setSubject("[Braldahim-Admin Jeu] Administration BlaBla ".$idBlabla);
-			$texte = "--------> Utilisateur ".$this->view->user->prenom_braldun." ".$this->view->user->nom_braldun. " (".$this->view->user->id_braldun.")".PHP_EOL;
-			$texte .= PHP_EOL.$modification;
+			$mail->setSubject("[Braldahim-Admin Jeu] Administration BlaBla " . $idBlabla);
+			$texte = "--------> Utilisateur " . $this->view->user->prenom_braldun . " " . $this->view->user->nom_braldun . " (" . $this->view->user->id_braldun . ")" . PHP_EOL;
+			$texte .= PHP_EOL . $modification;
 
 			$mail->setBodyText($texte);
 			$mail->send();
 		}
 	}
 
-	public function blablaAction() {
+	public function blablaAction()
+	{
 
 		if ($this->_request->get('id_blabla')) {
 			$blablaTable = new Blabla();
@@ -151,14 +159,14 @@ class AdministrationblablaController extends Zend_Controller_Action {
 				$this->envoiMailAdmin();
 
 				$data = array(
-					'x_blabla' => $xBlabla, 
-					'y_blabla' => $yBlabla, 
-					'z_blabla' => $zBlabla, 
-				//	'id_fk_braldun_blabla' => $idBraldun,
-				//	'date_blabla' => $dateBlabla,
+					'x_blabla' => $xBlabla,
+					'y_blabla' => $yBlabla,
+					'z_blabla' => $zBlabla,
+					//	'id_fk_braldun_blabla' => $idBraldun,
+					//	'date_blabla' => $dateBlabla,
 					'message_blabla' => $message,
 				);
-				$where = 'id_blabla = '.$this->_request->get('id_blabla');
+				$where = 'id_blabla = ' . $this->_request->get('id_blabla');
 				$blablaTable->update($data, $where);
 				$idBlabla = $this->_request->get('id_blabla');
 			}
@@ -172,7 +180,8 @@ class AdministrationblablaController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	private function blasblasPrepare() {
+	private function blasblasPrepare()
+	{
 		$blablaTable = new Blabla();
 		$blablaRowset = $blablaTable->fetchAll(null, "date_blabla DESC");
 		$blabla = null;

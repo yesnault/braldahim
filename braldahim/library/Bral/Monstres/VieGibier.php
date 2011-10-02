@@ -8,98 +8,98 @@
 class Bral_Monstres_VieGibier
 {
 
-    public function __construct($view, $villes)
-    {
-        $this->config = Zend_Registry::get('config');
-        $this->view = $view;
-        $this->villes = $villes;
-    }
+	public function __construct($view, $villes)
+	{
+		$this->config = Zend_Registry::get('config');
+		$this->view = $view;
+		$this->villes = $villes;
+	}
 
-    public function action()
-    {
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - enter");
-        try {
-            // recuperation des monstres a jouer
-            $monstreTable = new Monstre();
-            $monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_monstre_a_jouer, true);
-            $this->traiteGibiers($monstres);
-        } catch (Exception $e) {
-            Bral_Util_Log::erreur()->err(get_class($this) . " - vieGibierAction - Erreur:" . $e->getTraceAsString());
-            throw new Zend_Exception($e);
-        }
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - exit");
-    }
+	public function action()
+	{
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - enter");
+		try {
+			// recuperation des monstres a jouer
+			$monstreTable = new Monstre();
+			$monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_monstre_a_jouer, true);
+			$this->traiteGibiers($monstres);
+		} catch (Exception $e) {
+			Bral_Util_Log::erreur()->err(get_class($this) . " - vieGibierAction - Erreur:" . $e->getTraceAsString());
+			throw new Zend_Exception($e);
+		}
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - exit");
+	}
 
-    private function traiteGibiers($gibiers)
-    {
-        foreach ($gibiers as $s) {
-            $this->vieGibierAction($s);
-        }
-    }
+	private function traiteGibiers($gibiers)
+	{
+		foreach ($gibiers as $s) {
+			$this->vieGibierAction($s);
+		}
+	}
 
-    private function vieGibierAction(&$monstre)
-    {
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - enter (id=" . $monstre["id_monstre"] . ")");
+	private function vieGibierAction(&$monstre)
+	{
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - enter (id=" . $monstre["id_monstre"] . ")");
 
-        $dateCourante = date("Y-m-d H:i:s");
-        if ($dateCourante > $monstre["date_suppression_monstre"]) {
-            $this->suppressionGibier($monstre);
-        } else {
-            $this->deplacementGibier($monstre);
-        }
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - exit");
-    }
+		$dateCourante = date("Y-m-d H:i:s");
+		if ($dateCourante > $monstre["date_suppression_monstre"]) {
+			$this->suppressionGibier($monstre);
+		} else {
+			$this->deplacementGibier($monstre);
+		}
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - vieGibierAction - exit");
+	}
 
-    private function suppressionGibier(&$monstre)
-    {
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - suppressionGibier - enter");
-        $monstreTable = new Monstre();
-        $where = "id_monstre = " . (int)$monstre["id_monstre"];
-        $monstreTable->delete($where);
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - suppressionGibier - exit");
-    }
+	private function suppressionGibier(&$monstre)
+	{
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - suppressionGibier - enter");
+		$monstreTable = new Monstre();
+		$where = "id_monstre = " . (int)$monstre["id_monstre"];
+		$monstreTable->delete($where);
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - suppressionGibier - exit");
+	}
 
-    /**
-     * Deplacement du Gibier.
-     */
-    protected function deplacementGibier(&$monstre)
-    {
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - deplacementGibier - enter");
+	/**
+	 * Deplacement du Gibier.
+	 */
+	protected function deplacementGibier(&$monstre)
+	{
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - deplacementGibier - enter");
 
-        if (($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
-                ($monstre["y_monstre"] == $monstre["y_direction_monstre"])
-        ) {
+		if (($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
+			($monstre["y_monstre"] == $monstre["y_direction_monstre"])
+		) {
 
-            $ajoutFuite = 5;
+			$ajoutFuite = 5;
 
-            $dx = Bral_Util_De::get_1d20() + $ajoutFuite;
-            $dy = Bral_Util_De::get_1d20() + $ajoutFuite;
+			$dx = Bral_Util_De::get_1d20() + $ajoutFuite;
+			$dy = Bral_Util_De::get_1d20() + $ajoutFuite;
 
-            $plusMoinsX = Bral_Util_De::get_1d2();
-            $plusMoinsY = Bral_Util_De::get_1d2();
+			$plusMoinsX = Bral_Util_De::get_1d2();
+			$plusMoinsY = Bral_Util_De::get_1d2();
 
-            if ($plusMoinsX == 1) {
-                $monstre["x_direction_monstre"] = $monstre["x_direction_monstre"] - $dx;
-            } else {
-                $monstre["x_direction_monstre"] = $monstre["x_direction_monstre"] + $dx;
-            }
+			if ($plusMoinsX == 1) {
+				$monstre["x_direction_monstre"] = $monstre["x_direction_monstre"] - $dx;
+			} else {
+				$monstre["x_direction_monstre"] = $monstre["x_direction_monstre"] + $dx;
+			}
 
-            if ($plusMoinsY == 1) {
-                $monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] - $dy;
-            } else {
-                $monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
-            }
+			if ($plusMoinsY == 1) {
+				$monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] - $dy;
+			} else {
+				$monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
+			}
 
-            $tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"], $monstre["id_monstre"]);
-            $monstre["x_direction_monstre"] = $tab["x_direction"];
-            $monstre["y_direction_monstre"] = $tab["y_direction"];
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"], $monstre["id_monstre"]);
+			$monstre["x_direction_monstre"] = $tab["x_direction"];
+			$monstre["y_direction_monstre"] = $tab["y_direction"];
 
-            Bral_Util_Log::viemonstres()->debug(get_class($this) . " monstre (" . $monstre["id_monstre"] . ")- calcul nouvelle valeur direction x=" . $monstre["x_direction_monstre"] . " y=" . $monstre["y_direction_monstre"] . " ");
-        }
+			Bral_Util_Log::viemonstres()->debug(get_class($this) . " monstre (" . $monstre["id_monstre"] . ")- calcul nouvelle valeur direction x=" . $monstre["x_direction_monstre"] . " y=" . $monstre["y_direction_monstre"] . " ");
+		}
 
-        $vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-        $vieMonstre->setMonstre($monstre);
-        $vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
-        Bral_Util_Log::viemonstres()->trace(get_class($this) . " - deplacementGibier - exit");
-    }
+		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		$vieMonstre->setMonstre($monstre);
+		$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
+		Bral_Util_Log::viemonstres()->trace(get_class($this) . " - deplacementGibier - exit");
+	}
 }

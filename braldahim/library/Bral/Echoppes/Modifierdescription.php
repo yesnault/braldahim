@@ -8,75 +8,75 @@
 class Bral_Echoppes_Modifierdescription extends Bral_Echoppes_Echoppe
 {
 
-    function getNomInterne()
-    {
-        return "box_action";
-    }
+	function getNomInterne()
+	{
+		return "box_action";
+	}
 
-    function prepareCommun()
-    {
-        Zend_Loader::loadClass("Echoppe");
+	function prepareCommun()
+	{
+		Zend_Loader::loadClass("Echoppe");
 
-        $id_echoppe = $this->request->get("valeur_1");
+		$id_echoppe = $this->request->get("valeur_1");
 
-        if ($id_echoppe == "" || $id_echoppe == null) {
-            throw new Zend_Exception(get_class($this) . " Echoppe invalide=" . $id_echoppe);
-        }
+		if ($id_echoppe == "" || $id_echoppe == null) {
+			throw new Zend_Exception(get_class($this) . " Echoppe invalide=" . $id_echoppe);
+		}
 
-        $echoppeTable = new Echoppe();
-        $echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
+		$echoppeTable = new Echoppe();
+		$echoppes = $echoppeTable->findByIdBraldun($this->view->user->id_braldun);
 
-        $tabEchoppe = null;
-        foreach ($echoppes as $e) {
-            if ($e["id_echoppe"] == $id_echoppe) {
-                $tabEchoppe = array(
-                    'id_echoppe' => $e["id_echoppe"],
-                    'commentaire_echoppe' => stripslashes($e["commentaire_echoppe"]),
-                );
-                break;
-            }
-        }
-        if ($tabEchoppe == null) {
-            throw new Zend_Exception(get_class($this) . " Echoppe invalide idh:" . $this->view->user->id_braldun . " ide:" . $id_echoppe);
-        }
+		$tabEchoppe = null;
+		foreach ($echoppes as $e) {
+			if ($e["id_echoppe"] == $id_echoppe) {
+				$tabEchoppe = array(
+					'id_echoppe' => $e["id_echoppe"],
+					'commentaire_echoppe' => stripslashes($e["commentaire_echoppe"]),
+				);
+				break;
+			}
+		}
+		if ($tabEchoppe == null) {
+			throw new Zend_Exception(get_class($this) . " Echoppe invalide idh:" . $this->view->user->id_braldun . " ide:" . $id_echoppe);
+		}
 
-        $this->view->echoppe = $tabEchoppe;
-        $this->view->idEchoppe = $id_echoppe;
-    }
+		$this->view->echoppe = $tabEchoppe;
+		$this->view->idEchoppe = $id_echoppe;
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-        Zend_Loader::loadClass('Zend_Filter');
-        Zend_Loader::loadClass('Zend_Filter_StringTrim');
+	function prepareResultat()
+	{
+		Zend_Loader::loadClass('Zend_Filter');
+		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
-        $filter = new Zend_Filter();
-        $filter->addFilter(new Zend_Filter_StringTrim());
+		$filter = new Zend_Filter();
+		$filter->addFilter(new Zend_Filter_StringTrim());
 
-        $valeur = $filter->filter(htmlspecialchars($this->request->getPost("valeur_2")));
+		$valeur = $filter->filter(htmlspecialchars($this->request->getPost("valeur_2")));
 
-        $data = array("commentaire_echoppe" => $valeur);
-        $echoppeTable = new Echoppe();
-        $where = "id_echoppe = " . $this->view->idEchoppe;
-        $echoppeTable->update($data, $where);
+		$data = array("commentaire_echoppe" => $valeur);
+		$echoppeTable = new Echoppe();
+		$where = "id_echoppe = " . $this->view->idEchoppe;
+		$echoppeTable->update($data, $where);
 
-        $this->view->description = $valeur;
-    }
+		$this->view->description = $valeur;
+	}
 
-    public function getIdEchoppeCourante()
-    {
-        if (isset($this->view->idEchoppe)) {
-            return $this->view->idEchoppe;
-        } else {
-            return false;
-        }
-    }
+	public function getIdEchoppeCourante()
+	{
+		if (isset($this->view->idEchoppe)) {
+			return $this->view->idEchoppe;
+		} else {
+			return false;
+		}
+	}
 
-    function getListBoxRefresh()
-    {
-        return array("box_lieu");
-    }
+	function getListBoxRefresh()
+	{
+		return array("box_lieu");
+	}
 }

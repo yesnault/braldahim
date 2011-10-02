@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Evenement extends Zend_Db_Table {
+class Evenement extends Zend_Db_Table
+{
 	protected $_name = 'evenement';
 	protected $_primary = 'id_evenement';
 
-	function findTop10($dateDebut, $dateFin, $type, $braldunOnly = false) {
+	function findTop10($dateDebut, $dateFin, $type, $braldunOnly = false)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -23,7 +25,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		if ($braldunOnly) { 
+		if ($braldunOnly) {
 			$select->where('id_fk_monstre_evenement IS NULL');
 		}
 		$select->order("nombre DESC");
@@ -32,8 +34,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findTop10Monstres($dateDebut, $dateFin, $type) {
+
+	function findTop10Monstres($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', array('niveau_monstre', 'id_monstre'));
@@ -51,8 +54,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByTypeMonstres($dateDebut, $dateFin, $type) {
+
+	function findByTypeMonstres($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', null);
@@ -70,8 +74,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByFamille($dateDebut, $dateFin, $type, $braldunOnly = false) {
+
+	function findByFamille($dateDebut, $dateFin, $type, $braldunOnly = false)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', null);
@@ -90,8 +95,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByNiveau($dateDebut, $dateFin, $type, $braldunOnly = false) {
+
+	function findByNiveau($dateDebut, $dateFin, $type, $braldunOnly = false)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', array('count(id_evenement) as nombre', 'floor(niveau_evenement/10) as niveau'));
@@ -106,8 +112,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findBySexe($dateDebut, $dateFin, $type, $braldunOnly = false) {
+
+	function findBySexe($dateDebut, $dateFin, $type, $braldunOnly = false)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', 'sexe_braldun');
@@ -124,8 +131,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count) {
+
+	function findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));
@@ -134,7 +142,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		
+
 		if ($ordre != null) {
 			$select->order($ordre);
 		} else {
@@ -144,8 +152,9 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function countByType($dateDebut, $dateFin, $type) {
+
+	function countByType($dateDebut, $dateFin, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('evenement', 'count(id_evenement) as nombre');
@@ -157,8 +166,9 @@ class Evenement extends Zend_Db_Table {
 		$rowset = $db->fetchAll($sql);
 		return $rowset[0]["nombre"];
 	}
-	
-	public function findByIdMatch($idMatch) {
+
+	public function findByIdMatch($idMatch)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun'));

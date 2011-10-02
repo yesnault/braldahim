@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationsqlbatchController extends Zend_Controller_Action {
+class AdministrationsqlbatchController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -20,45 +22,48 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
- 
+	function indexAction()
+	{
+
 		/* $this->prepareHashPassword();
-		 * $this->messageJeanBernard();
-		 * $this->messageJeanBernardRappel();
-		 * $this->messageJeanBernardRappel2();
-		 * $this->jourYuleAction();
-		 * $this->correctionCoffre();
-		 $this->ajoutCompetence();
-		 $this->eauCreation(-10);
-		 $this->eauCreation(-11);
-		 $this->eauCreation(-12);
-		 $this->eauCreation(-13);*/
+				 * $this->messageJeanBernard();
+				 * $this->messageJeanBernardRappel();
+				 * $this->messageJeanBernardRappel2();
+				 * $this->jourYuleAction();
+				 * $this->correctionCoffre();
+				 $this->ajoutCompetence();
+				 $this->eauCreation(-10);
+				 $this->eauCreation(-11);
+				 $this->eauCreation(-12);
+				 $this->eauCreation(-13);*/
 		$this->render();
 	}
 
-	function prepareHashPassword() {
+	function prepareHashPassword()
+	{
 
 		Zend_Loader::loadClass('Bral_Util_Hash');
 
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall();
 
-		foreach($bralduns as $b) {
+		foreach ($bralduns as $b) {
 
 			$salt = Bral_Util_Hash::getSalt();
 			$passwordHash = Bral_Util_Hash::getHashString($salt, $b["password_braldun"]);
 
 			$data = array(
-				'password_salt_braldun' => $salt, 
+				'password_salt_braldun' => $salt,
 				'password_hash_braldun' => $passwordHash
 			);
 
-			$where = 'id_braldun = '.$b['id_braldun'];
+			$where = 'id_braldun = ' . $b['id_braldun'];
 			$braldunTable->update($data, $where);
 		}
 	}
 
-	function correctionCoffre() {
+	function correctionCoffre()
+	{
 
 		Zend_Loader::loadClass("Communaute");
 
@@ -81,7 +86,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$bralduns = $braldunTable->fetchall();
 
 		// creation d'un coffre pour tous les Braldûns
-		foreach($bralduns as $b) {
+		foreach ($bralduns as $b) {
 			$idBraldun = $b["id_braldun"];
 			$coffre = $coffreTable->findByIdBraldun($idBraldun);
 			if ($coffre == null || count($coffre) == 0) {
@@ -97,7 +102,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$communautes = $communauteTable->fetchall();
 
 		// creation d'un coffre pour toutes les Communautes
-		foreach($communautes as $c) {
+		foreach ($communautes as $c) {
 			$idCommunaute = $c["id_communaute"];
 			$coffre = $coffreTable->findByIdCommunaute($idCommunaute);
 			if ($coffre == null || count($coffre) == 0) {
@@ -112,22 +117,55 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$coffres = $coffreTable->fetchall();
 
 		// positionnement des FK
-		foreach($coffres as $c) {
+		foreach ($coffres as $c) {
 			$idCoffre = $c["id_coffre"];
 			$idBraldun = $c["id_fk_braldun_coffre"];
 
 			if ($idBraldun != null) {
-				$table = new CoffreEquipement(); $where = "id_fk_braldun_coffre_equipement = ".$idBraldun; $data = array("id_fk_coffre_coffre_equipement" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreMateriel(); $where = "id_fk_braldun_coffre_materiel = ".$idBraldun; $data = array("id_fk_coffre_coffre_materiel" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreMinerai(); $where = "id_fk_braldun_coffre_minerai = ".$idBraldun; $data = array("id_fk_coffre_coffre_minerai" => $idCoffre); $table->update($data, $where);
-				$table = new CoffrePartieplante(); $where = "id_fk_braldun_coffre_partieplante = ".$idBraldun; $data = array("id_fk_coffre_coffre_partieplante" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreAliment(); $where = "id_fk_braldun_coffre_aliment = ".$idBraldun; $data = array("id_fk_coffre_coffre_aliment" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreGraine(); $where = "id_fk_braldun_coffre_graine = ".$idBraldun; $data = array("id_fk_coffre_coffre_graine" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreIngredient(); $where = "id_fk_braldun_coffre_ingredient = ".$idBraldun; $data = array("id_fk_coffre_coffre_ingredient" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreMunition(); $where = "id_fk_braldun_coffre_munition = ".$idBraldun; $data = array("id_fk_coffre_coffre_munition" => $idCoffre); $table->update($data, $where);
-				$table = new CoffrePotion(); $where = "id_fk_braldun_coffre_potion = ".$idBraldun; $data = array("id_fk_coffre_coffre_potion" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreRune(); $where = "id_fk_braldun_coffre_rune = ".$idBraldun; $data = array("id_fk_coffre_coffre_rune" => $idCoffre); $table->update($data, $where);
-				$table = new CoffreTabac(); $where = "id_fk_braldun_coffre_tabac = ".$idBraldun; $data = array("id_fk_coffre_coffre_tabac" => $idCoffre); $table->update($data, $where);
+				$table = new CoffreEquipement();
+				$where = "id_fk_braldun_coffre_equipement = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_equipement" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreMateriel();
+				$where = "id_fk_braldun_coffre_materiel = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_materiel" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreMinerai();
+				$where = "id_fk_braldun_coffre_minerai = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_minerai" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffrePartieplante();
+				$where = "id_fk_braldun_coffre_partieplante = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_partieplante" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreAliment();
+				$where = "id_fk_braldun_coffre_aliment = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_aliment" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreGraine();
+				$where = "id_fk_braldun_coffre_graine = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_graine" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreIngredient();
+				$where = "id_fk_braldun_coffre_ingredient = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_ingredient" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreMunition();
+				$where = "id_fk_braldun_coffre_munition = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_munition" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffrePotion();
+				$where = "id_fk_braldun_coffre_potion = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_potion" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreRune();
+				$where = "id_fk_braldun_coffre_rune = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_rune" => $idCoffre);
+				$table->update($data, $where);
+				$table = new CoffreTabac();
+				$where = "id_fk_braldun_coffre_tabac = " . $idBraldun;
+				$data = array("id_fk_coffre_coffre_tabac" => $idCoffre);
+				$table->update($data, $where);
 			} else {
 				// Communaute
 			}
@@ -135,7 +173,8 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 	}
 
-	function ajoutCompetence() {
+	function ajoutCompetence()
+	{
 
 		$idMetier = 1;
 		$idCompetence = 72;
@@ -144,22 +183,22 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$competenceTable = new Competence();
 		$data = array(
 			"id_competence" => "72",
-            "nom_systeme_competence" => "creuser",
-            "nom_competence" => "Creuser un tunnel",
-            "description_competence" => "Description Creuser",
-            "niveau_requis_competence" => "0",
-            "niveau_sagesse_requis_competence" => "0",
-            "pi_cout_competence" => "0",
-            "px_gain_competence" => "1",
-            "balance_faim_competence" => "-3",
-            "pourcentage_max_competence" => "90",
-            "pourcentage_init_competence" => "10",
-            "pa_utilisation_competence" => "3",
-            "pa_manquee_competence" => "2",
-            "type_competence" => "metier",
-            "id_fk_metier_competence" => "1",
-            "id_fk_type_tabac_competence" => "1",
-            "ordre_competence" => "0",
+			"nom_systeme_competence" => "creuser",
+			"nom_competence" => "Creuser un tunnel",
+			"description_competence" => "Description Creuser",
+			"niveau_requis_competence" => "0",
+			"niveau_sagesse_requis_competence" => "0",
+			"pi_cout_competence" => "0",
+			"px_gain_competence" => "1",
+			"balance_faim_competence" => "-3",
+			"pourcentage_max_competence" => "90",
+			"pourcentage_init_competence" => "10",
+			"pa_utilisation_competence" => "3",
+			"pa_manquee_competence" => "2",
+			"type_competence" => "metier",
+			"id_fk_metier_competence" => "1",
+			"id_fk_type_tabac_competence" => "1",
+			"ordre_competence" => "0",
 		);
 		$competenceTable->insert($data);
 
@@ -168,12 +207,12 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("BraldunsMetiers");
 		$braldunsMetierTable = new BraldunsMetiers();
-		$bralduns = $braldunsMetierTable->fetchall("id_fk_metier_hmetier=".$idMetier);
+		$bralduns = $braldunsMetierTable->fetchall("id_fk_metier_hmetier=" . $idMetier);
 
-		foreach($bralduns as $b) {
+		foreach ($bralduns as $b) {
 			$data = array(
-			'id_fk_braldun_hcomp' => $b["id_fk_braldun_hmetier"],
-			'id_fk_competence_hcomp' => $idCompetence,
+				'id_fk_braldun_hcomp' => $b["id_fk_braldun_hmetier"],
+				'id_fk_competence_hcomp' => $idCompetence,
 			);
 			if ($b["id_fk_braldun_hmetier"] == 8) {
 				$data["pourcentage_hcomp"] = 80;
@@ -183,7 +222,8 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 	}
 
-	function biereDuMilieuAction() {
+	function biereDuMilieuAction()
+	{
 
 		return;
 
@@ -204,7 +244,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("TypeAliment");
 		Zend_Loader::loadClass("Bral_Util_Effets");
-			
+
 		foreach ($bralduns as $h) {
 
 			$idAliment = $idsAliment->prepareNext();
@@ -230,7 +270,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 			$data = null;
 			$data["balance_faim_braldun"] = 100;
-			$where = "id_braldun=".$h["id_braldun"];
+			$where = "id_braldun=" . $h["id_braldun"];
 			$braldunTable->update($data, $where);
 
 		}
@@ -238,66 +278,69 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$this->messageBiereDuMilieuAction();
 	}
 
-	private function messageBiereDuMilieuAction() {
+	private function messageBiereDuMilieuAction()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
-			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui la fête du jour du milieu !";
-			$detailsBot .= PHP_EOL."Je vous invite à boire un coup pour fêter la moitié de l'année.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Jetez un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			$detailsBot = "Oyez Braldûns !" . PHP_EOL . PHP_EOL . "C'est aujourd'hui la fête du jour du milieu !";
+			$detailsBot .= PHP_EOL . "Je vous invite à boire un coup pour fêter la moitié de l'année." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Jetez un oeil à votre laban je crois qu'il y a une surprise !" . PHP_EOL . PHP_EOL;
 			$detailsBot .= "A la votre,";
 
-			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
+			$message = $detailsBot . PHP_EOL . PHP_EOL . " Huguette Ptipieds" . PHP_EOL . "Inutile de répondre à ce message.";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
-			
+
 	}
 
-	private function messageJeanBernard() {
+	private function messageJeanBernard()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
 			$detailsBot = "";
-			$detailsBot .= "Bien le bonjour à Tous, Amis Braldûns !".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Bien le bonjour à Tous, Amis Braldûns !" . PHP_EOL . PHP_EOL;
 
 			$detailsBot .= "[justify]Deux semaines après son lancement, mon grand concours des Troubadours peut s'enorgueillir de ";
 			$detailsBot .= " compter trois participants déclarés. Afin de relancer votre imagination, et pour encourager ";
-			$detailsBot .= " votre esprit créatif, je reviens vers vous. ".PHP_EOL;
-			$detailsBot .= "Merci aux personnes désireuses de participer de se manifester, publiquement ou par message privé, et de me communiquer leurs écrits via MP, avec un titre. [/justify]".PHP_EOL;
+			$detailsBot .= " votre esprit créatif, je reviens vers vous. " . PHP_EOL;
+			$detailsBot .= "Merci aux personnes désireuses de participer de se manifester, publiquement ou par message privé, et de me communiquer leurs écrits via MP, avec un titre. [/justify]" . PHP_EOL;
 
-			$detailsBot .= "[left]Je vous rappelle les règles : ".PHP_EOL;
-			$detailsBot .= "  -  4500 caractères maximum (espaces compris).".PHP_EOL;
-			$detailsBot .= "  -  Délai : 1 mois, du 10 janvier au 10 février".PHP_EOL;
-			$detailsBot .= "  -  Thème : Votre enfance braldûne".PHP_EOL;
-			$detailsBot .= "  -  Nom du PNJ à qui envoyer le texte : Jean-Bernard Dent-sur-Pivot (566)".PHP_EOL;
+			$detailsBot .= "[left]Je vous rappelle les règles : " . PHP_EOL;
+			$detailsBot .= "  -  4500 caractères maximum (espaces compris)." . PHP_EOL;
+			$detailsBot .= "  -  Délai : 1 mois, du 10 janvier au 10 février" . PHP_EOL;
+			$detailsBot .= "  -  Thème : Votre enfance braldûne" . PHP_EOL;
+			$detailsBot .= "  -  Nom du PNJ à qui envoyer le texte : Jean-Bernard Dent-sur-Pivot (566)" . PHP_EOL;
 			$detailsBot .= "  -  Les textes doivent rester anonymes avant le vote, merci de les envoyer par MP et de ne rien ";
 			$detailsBot .= "publier sur le forum. Pas de pub ni d'indice de la part d'un auteur (ie : 'Votez pour moi'), le ";
 			$detailsBot .= "texte serait dans ce cas retiré du concours. Néanmoins, les participants, ainsi que les amateurs ";
-			$detailsBot .= "de lecture peuvent faire des commentaires au sujet du concours ou mentionner qu'ils participent.[/left]".PHP_EOL.PHP_EOL;
+			$detailsBot .= "de lecture peuvent faire des commentaires au sujet du concours ou mentionner qu'ils participent.[/left]" . PHP_EOL . PHP_EOL;
 
-			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=619]Topic sur le forum.[/url]".PHP_EOL;
+			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=619]Topic sur le forum.[/url]" . PHP_EOL;
 
-			$detailsBot .= "[left]Bien à vous,[/left]".PHP_EOL;
+			$detailsBot .= "[left]Bien à vous,[/left]" . PHP_EOL;
 
-			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
+			$message = $detailsBot . PHP_EOL . " Jean-Bernard Dent-sur-Pivot" . PHP_EOL . "Vous pouvez répondre à ce message !";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
 	}
 
-	private function messageJeanBernardRappel() {
+	private function messageJeanBernardRappel()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
 			$detailsBot = "";
-			$detailsBot .= "Bonsoir à tous !          ".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Bonsoir à tous !          " . PHP_EOL . PHP_EOL;
 
 			$detailsBot .= "[justify]Il ne vous reste plus qu'une journée pour me faire parvenir vos textes pour le Concours des Troubadours. [/justify]";
 			$detailsBot .= PHP_EOL;
@@ -305,22 +348,23 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$detailsBot .= "[justify]Merci à ceux qui ont fait acte de candidature de m'envoyer leurs œuvres, si d'autres Braldûns souhaitent participer, leurs textes seront les bienvenus.[/justify]";
 			$detailsBot .= PHP_EOL;
 
-			$detailsBot .= "[left]Très cordialement,[/left]".PHP_EOL;
+			$detailsBot .= "[left]Très cordialement,[/left]" . PHP_EOL;
 
-			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
+			$message = $detailsBot . PHP_EOL . " Jean-Bernard Dent-sur-Pivot" . PHP_EOL . "Vous pouvez répondre à ce message !";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
 	}
 
-	private function messageJeanBernardRappel2() {
+	private function messageJeanBernardRappel2()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
 			$detailsBot = "";
-			$detailsBot .= "Chers amis Braldûns,          ".PHP_EOL.PHP_EOL;
+			$detailsBot .= "Chers amis Braldûns,          " . PHP_EOL . PHP_EOL;
 
 			$detailsBot .= "[justify]Il vous reste une semaine pour vous délecter des doux écrits de nos prétendants troubadours. Je compte sur vous pour faire honneur aux belles histoires qu'ils ont partagées avec nous, et surtout pour les départager dans cette lutte âpre mais pacifique qui les oppose pour l'obtention du titre de Troubadour de l'année.[/justify]";
 			$detailsBot .= PHP_EOL;
@@ -328,16 +372,17 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			$detailsBot .= "[justify]Merci donc de faire un petit tour sur le forum afin de bouquiner quelques minutes, tous les votes sont importants ![/justify]";
 			$detailsBot .= PHP_EOL;
 
-			$detailsBot .= "[left]Très cordialement,[/left]".PHP_EOL;
+			$detailsBot .= "[left]Très cordialement,[/left]" . PHP_EOL;
 
-			$message = $detailsBot.PHP_EOL." Jean-Bernard Dent-sur-Pivot".PHP_EOL."Vous pouvez répondre à ce message !";
+			$message = $detailsBot . PHP_EOL . " Jean-Bernard Dent-sur-Pivot" . PHP_EOL . "Vous pouvez répondre à ce message !";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->jeanbernard->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
 	}
 
 	// le 31 décembre
-	function jourYuleAction() {
+	function jourYuleAction()
+	{
 
 		return;
 
@@ -358,7 +403,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("TypeAliment");
 		Zend_Loader::loadClass("Bral_Util_Effets");
-			
+
 		foreach ($bralduns as $h) {
 
 			$idAliment = $idsAliment->prepareNext();
@@ -384,7 +429,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 			$data = null;
 			$data["balance_faim_braldun"] = 100;
-			$where = "id_braldun=".$h["id_braldun"];
+			$where = "id_braldun=" . $h["id_braldun"];
 			$braldunTable->update($data, $where);
 
 		}
@@ -393,35 +438,38 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		echo "FIN jourYuleAction";
 	}
 
-	private function messageJourYuleAction() {
+	private function messageJourYuleAction()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
-			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui Yule !";
-			$detailsBot .= PHP_EOL."Je vous invite à boire un coup pour fêter cette fin d'année et la nouvelle année qui commence.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Hum, je vois que vous avez déjà mangé correctement. Jetez-donc un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			$detailsBot = "Oyez Braldûns !" . PHP_EOL . PHP_EOL . "C'est aujourd'hui Yule !";
+			$detailsBot .= PHP_EOL . "Je vous invite à boire un coup pour fêter cette fin d'année et la nouvelle année qui commence." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Hum, je vois que vous avez déjà mangé correctement. Jetez-donc un oeil à votre laban je crois qu'il y a une surprise !" . PHP_EOL . PHP_EOL;
 
-			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=588#p5859]Retrouvez plus d'informations sur le forum.[/url]".PHP_EOL.PHP_EOL;
+			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=588#p5859]Retrouvez plus d'informations sur le forum.[/url]" . PHP_EOL . PHP_EOL;
 
 			$detailsBot .= "A la votre,";
 
-			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
+			$message = $detailsBot . PHP_EOL . PHP_EOL . " Huguette Ptipieds" . PHP_EOL . "Inutile de répondre à ce message.";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
-			
+
 		echo "FIN messageJourYuleAction";
 	}
 
-	function md5Action() {
+	function md5Action()
+	{
 		$this->render();
 	}
 
-	function eauCreation($z) {
-		$nom_image="niveau-10.png";
-		$image=imagecreatefrompng($nom_image);
+	function eauCreation($z)
+	{
+		$nom_image = "niveau-10.png";
+		$image = imagecreatefrompng($nom_image);
 
 		Zend_Loader::loadClass("Eau");
 		$eauTable = new Eau();
@@ -449,25 +497,25 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		$tunnelTable = new Tunnel();
 
 		for ($x = 0; $x < 1600; $x++) {
-			for ($y = 0; $y <1000; $y++) {
-				$couleur=imagecolorat($image,$x,$y);
-				$couleursRVB=imagecolorsforindex($image,$couleur);
+			for ($y = 0; $y < 1000; $y++) {
+				$couleur = imagecolorat($image, $x, $y);
+				$couleursRVB = imagecolorsforindex($image, $couleur);
 				$typeEau = null;
 
 				$xEau = $x - 800;
 				$yEau = 500 - $y;
 
 				if ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 0) { // rouge, fleuve
-					printf("fleuve : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("fleuve : x:%d, y:%d RVB: (%d, %d, %d)<br />" . PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"], $couleursRVB["blue"]);
 					$typeEau = "profonde";
 				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 0 && $couleursRVB["blue"] == 255) { // bleu, lac
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />" . PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"], $couleursRVB["blue"]);
 					$typeEau = "lac";
 				} elseif ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 0) { // jaune, mer
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />" . PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"], $couleursRVB["blue"]);
 					$typeEau = "mer";
 				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 255) { // peuprofonde
-					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
+					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br />" . PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"], $couleursRVB["blue"]);
 					$typeEau = "peuprofonde";
 				} else {
 					//printf("x:%d, y:%d RVB: (%d, %d, %d)<br />".PHP_EOL, $x, $y, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
@@ -475,19 +523,19 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 
 				if ($typeEau != null) {
 					$data = array(
-						"x_eau" => $xEau, 	 	 	
+						"x_eau" => $xEau,
 						"y_eau" => $yEau,
-						"z_eau" => $z,		 	 	 	 	 	 	
-						"type_eau" => $typeEau,	
+						"z_eau" => $z,
+						"type_eau" => $typeEau,
 					);
 					$eauTable->insert($data);
 
 					$dataTunnel = array(
-							"x_tunnel" => $xEau,
-							"y_tunnel" => $xEau,
-							"z_tunnel" => $xEau,
-							"date_tunnel" => date("Y-m-d H:i:s"),
-							"est_eboulable_tunnel" => 'non',
+						"x_tunnel" => $xEau,
+						"y_tunnel" => $xEau,
+						"z_tunnel" => $xEau,
+						"date_tunnel" => date("Y-m-d H:i:s"),
+						"est_eboulable_tunnel" => 'non',
 					);
 
 					$tunnelTable->insert($dataTunnel);
@@ -497,26 +545,26 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 			}
 		}
 
-		$where = "type_eau not like 'peuprofonde' and z_eau=".$z;
+		$where = "type_eau not like 'peuprofonde' and z_eau=" . $z;
 		$eaux = $eauTable->fetchAll($where);
 
-		foreach($eaux as $e) {
+		foreach ($eaux as $e) {
 
 			for ($x = -1; $x <= 1; $x++) {
-				for ($y = -1; $y <=1; $y++) {
+				for ($y = -1; $y <= 1; $y++) {
 					$xEau = $e["x_eau"] + $x;
 					$yEau = $e["y_eau"] + $y;
 					$eau = $eauTable->findByCase($xEau, $yEau, $z);
 
 					if ($eau == null &&
-					$xEau > -800 && $xEau < 800 &&
-					$yEau > -500 && $yEau < 500
+						$xEau > -800 && $xEau < 800 &&
+						$yEau > -500 && $yEau < 500
 					) {
 						$data = array(
 							"x_eau" => $xEau,
 							"y_eau" => $yEau,
-							"z_eau" => $z,		 	 	 	 	 	 	
-							"type_eau" => "peuprofonde",	
+							"z_eau" => $z,
+							"type_eau" => "peuprofonde",
 						);
 						$eauTable->insert($data);
 
@@ -537,21 +585,22 @@ class AdministrationsqlbatchController extends Zend_Controller_Action {
 		}
 	}
 
-	private function deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable, $z) {
+	private function deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable, $z)
+	{
 
-		$where = "x_bosquet=".$xEau." and y_bosquet=".$yEau. " and z_bosquet=".$z; // suppression des bosquets
+		$where = "x_bosquet=" . $xEau . " and y_bosquet=" . $yEau . " and z_bosquet=" . $z; // suppression des bosquets
 		$bosquetTable->delete($where);
 
-		$where = "x_buisson=".$xEau." and y_buisson=".$yEau. " and z_buisson=".$z; // suppression des buissons
+		$where = "x_buisson=" . $xEau . " and y_buisson=" . $yEau . " and z_buisson=" . $z; // suppression des buissons
 		$buissonTable->delete($where);
 
-		$where = "x_monstre=".$xEau." and y_monstre=".$yEau. " and z_monstre=".$z; // suppression des monstres
+		$where = "x_monstre=" . $xEau . " and y_monstre=" . $yEau . " and z_monstre=" . $z; // suppression des monstres
 		$monstreTable->delete($where);
 
-		$where = "x_plante=".$xEau." and y_plante=".$yEau. " and z_plante=".$z; // suppression des plantes
+		$where = "x_plante=" . $xEau . " and y_plante=" . $yEau . " and z_plante=" . $z; // suppression des plantes
 		$planteTable->delete($where);
 
-		$where = "x_filon=".$xEau." and y_filon=".$yEau. " and z_filon=".$z; // suppression des filons
+		$where = "x_filon=" . $xEau . " and y_filon=" . $yEau . " and z_filon=" . $z; // suppression des filons
 		$filonTable->delete($where);
 
 	}

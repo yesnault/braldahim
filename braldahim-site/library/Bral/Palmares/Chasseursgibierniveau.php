@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -10,32 +10,39 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Chasseursgibierniveau extends Bral_Palmares_Box {
+class Bral_Palmares_Chasseursgibierniveau extends Bral_Palmares_Box
+{
 
-	function getTitreOnglet() {
+	function getTitreOnglet()
+	{
 		return "Niveaux";
 	}
-	
-	function getNomInterne() {
-		return "box_onglet_chasseursgibierniveau";		
+
+	function getNomInterne()
+	{
+		return "box_onglet_chasseursgibierniveau";
 	}
-	
-	function getNomClasse() {
-		return "chasseursgibierniveau";		
+
+	function getNomClasse()
+	{
+		return "chasseursgibierniveau";
 	}
-	
-	function setDisplay($display) {
+
+	function setDisplay($display)
+	{
 		$this->view->display = $display;
 	}
-	
-	function render() {
+
+	function render()
+	{
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
 		return $this->view->render("palmares/chasseursgibier_niveau.phtml");
 	}
-	
-	private function prepare() {
+
+	private function prepare()
+	{
 		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();

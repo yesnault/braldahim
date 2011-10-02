@@ -7,31 +7,31 @@
  */
 class Bral_Util_Aliment
 {
-    public static function getNomType($typeRecette)
-    {
+	public static function getNomType($typeRecette)
+	{
 
-        switch ($typeRecette) {
-            case "simple":
-                return "Simple";
-                break;
-            case "double":
-                return "Double";
-                break;
-            case "double_ameliore":
-                return "Double Ameliorée";
-                break;
-            case "triple":
-                return "Triple";
-                break;
-            case "quadruple":
-                return "Quadruple";
-                break;
-            case "quintuple":
-                return "Quintuple";
-                break;
-            default:
-                return "Bière";
-        }
-    }
+		switch ($typeRecette) {
+			case "simple":
+				return "Simple";
+				break;
+			case "double":
+				return "Double";
+				break;
+			case "double_ameliore":
+				return "Double Ameliorée";
+				break;
+			case "triple":
+				return "Triple";
+				break;
+			case "quadruple":
+				return "Quadruple";
+				break;
+			case "quintuple":
+				return "Quintuple";
+				break;
+			default:
+				return "Bière";
+		}
+	}
 
 }

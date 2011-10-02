@@ -5,34 +5,36 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Element extends Zend_Db_Table {
+class Element extends Zend_Db_Table
+{
 	protected $_name = 'element';
 	protected $_primary = array('x_element', 'y_element');
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $controleButin = false, $listIdsButin = null) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $controleButin = false, $listIdsButin = null)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', '*')
-		->where('x_element <= ?', $x_max)
-		->where('x_element >= ?', $x_min)
-		->where('y_element <= ?', $y_max)
-		->where('y_element >= ?', $y_min)
-		->where('z_element = ?', $z);
+			->where('x_element <= ?', $x_max)
+			->where('x_element >= ?', $x_min)
+			->where('y_element <= ?', $y_max)
+			->where('y_element >= ?', $y_min)
+			->where('z_element = ?', $z);
 
 		if ($controleButin) {
 
 			if ($listIdsButin != null) {
 				$liste = "";
-				foreach($listIdsButin as $id) {
-					if ((int) $id."" == $id."") {
+				foreach ($listIdsButin as $id) {
+					if ((int)$id . "" == $id . "") {
 						if ($liste == "") {
 							$liste = $id;
 						} else {
-							$liste = $liste." OR id_fk_butin_element =".$id;
+							$liste = $liste . " OR id_fk_butin_element =" . $id;
 						}
 					}
 				}
-				$select->where('id_fk_butin_element is NULL OR id_fk_butin_element = '.$liste);
+				$select->where('id_fk_butin_element is NULL OR id_fk_butin_element = ' . $liste);
 			} else {
 				$select->where('id_fk_butin_element is NULL');
 			}
@@ -42,11 +44,13 @@ class Element extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z, $controleButin = false,  $listIdsButin = null) {
+	function findByCase($x, $y, $z, $controleButin = false, $listIdsButin = null)
+	{
 		return $this->selectVue($x, $y, $x, $y, $z, $controleButin, $listIdsButin);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', 'count(*) as nombre,
@@ -57,10 +61,10 @@ class Element extends Zend_Db_Table {
 				quantite_planche_element as quantitePlanche,
 				quantite_rondin_element as quantiteRondin,
 				id_fk_butin_element as idButin')
-		->where('x_element = ?',$data["x_element"])
-		->where('y_element = ?',$data["y_element"])
-		->where('z_element = ?',$data["z_element"])
-		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
+			->where('x_element = ?', $data["x_element"])
+			->where('y_element = ?', $data["y_element"])
+			->where('z_element = ?', $data["z_element"])
+			->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		if (isset($data['id_fk_butin_element']) && $data['id_fk_butin_element'] != null) {
 			$select->where('id_fk_butin_element = ?', $data["id_fk_butin_element"]);
 		} else {
@@ -108,21 +112,22 @@ class Element extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_element'] = $quantiteRondin + $data["quantite_rondin_element"];
 			}
 
-			$where = ' x_element = '.$data["x_element"];
-			$where .= ' AND y_element = '.$data["y_element"];
-			$where .= ' AND z_element = '.$data["z_element"];
+			$where = ' x_element = ' . $data["x_element"];
+			$where .= ' AND y_element = ' . $data["y_element"];
+			$where .= ' AND z_element = ' . $data["z_element"];
 			if ($idButin != null) {
-				$where .= ' AND id_fk_butin_element = '.$idButin;
+				$where .= ' AND id_fk_butin_element = ' . $idButin;
 			} else {
 				$where .= ' AND id_fk_butin_element is null';
 			}
 
 			if ($dataUpdate['quantite_peau_element'] <= 0 &&
-			$dataUpdate['quantite_cuir_element'] <= 0 &&
-			$dataUpdate['quantite_fourrure_element'] <= 0 &&
-			$dataUpdate['quantite_planche_element'] <= 0 &&
-			$dataUpdate['quantite_castar_element'] <= 0 &&
-			$dataUpdate['quantite_rondin_element'] <= 0) { // delete
+				$dataUpdate['quantite_cuir_element'] <= 0 &&
+				$dataUpdate['quantite_fourrure_element'] <= 0 &&
+				$dataUpdate['quantite_planche_element'] <= 0 &&
+				$dataUpdate['quantite_castar_element'] <= 0 &&
+				$dataUpdate['quantite_rondin_element'] <= 0
+			) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);

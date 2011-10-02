@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class SouleMessage extends Zend_Db_Table {
+class SouleMessage extends Zend_Db_Table
+{
 	protected $_name = 'soule_message';
 	protected $_primary = 'id_soule_message';
 
-	public function findByIdMatchAndCamp($idTerrain, $camp) {
+	public function findByIdMatchAndCamp($idTerrain, $camp)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_message', '*');

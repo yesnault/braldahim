@@ -1,18 +1,21 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class CharretteController extends Bral_Controller_Action {
+class CharretteController extends Bral_Controller_Action
+{
 
-	function askactionAction() {
+	function askactionAction()
+	{
 		$this->doactionAction();
 	}
 
-	public function doactionAction() {
+	public function doactionAction()
+	{
 		Zend_Loader :: loadClass("Bral_Charrette_Factory");
 		$this->doBralAction("Bral_Charrette_Factory");
-	}	
+	}
 }

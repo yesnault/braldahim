@@ -10,27 +10,30 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class LabanGraine extends Zend_Db_Table {
+class LabanGraine extends Zend_Db_Table
+{
 	protected $_name = 'laban_graine';
 	protected $_primary = array('id_fk_braldun_laban_graine', 'id_fk_type_laban_graine');
 
-	function findByIdBraldun($idBraldun) {
+	function findByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_graine', '*')
-		->from('type_graine', '*')
-		->where('id_fk_braldun_laban_graine = ?', intval($idBraldun))
-		->where('laban_graine.id_fk_type_laban_graine = type_graine.id_type_graine');
+			->from('type_graine', '*')
+			->where('id_fk_braldun_laban_graine = ?', intval($idBraldun))
+			->where('laban_graine.id_fk_type_laban_graine = type_graine.id_type_graine');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function countByIdBraldun($idBraldun) {
+	function countByIdBraldun($idBraldun)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_graine', 'sum(quantite_laban_graine) as nombre')
-		->where('id_fk_braldun_laban_graine = ?', intval($idBraldun));
+			->where('id_fk_braldun_laban_graine = ?', intval($idBraldun));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -38,13 +41,14 @@ class LabanGraine extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_graine', 'count(*) as nombre, quantite_laban_graine as quantite')
-		->where('id_fk_type_laban_graine = ?',$data["id_fk_type_laban_graine"])
-		->where('id_fk_braldun_laban_graine = ?',$data["id_fk_braldun_laban_graine"])
-		->group(array('quantite'));
+			->where('id_fk_type_laban_graine = ?', $data["id_fk_type_laban_graine"])
+			->where('id_fk_braldun_laban_graine = ?', $data["id_fk_braldun_laban_graine"])
+			->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -53,16 +57,16 @@ class LabanGraine extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
-				
-			$dataUpdate['quantite_laban_graine']  = $quantite;
-				
+
+			$dataUpdate['quantite_laban_graine'] = $quantite;
+
 			if (isset($data["quantite_laban_graine"])) {
 				$dataUpdate['quantite_laban_graine'] = $quantite + $data["quantite_laban_graine"];
 			}
-				
-			$where = ' id_fk_type_laban_graine = '.$data["id_fk_type_laban_graine"];
-			$where .= ' AND id_fk_braldun_laban_graine = '.$data["id_fk_braldun_laban_graine"];
-				
+
+			$where = ' id_fk_type_laban_graine = ' . $data["id_fk_type_laban_graine"];
+			$where .= ' AND id_fk_braldun_laban_graine = ' . $data["id_fk_braldun_laban_graine"];
+
 			if ($dataUpdate['quantite_laban_graine'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update

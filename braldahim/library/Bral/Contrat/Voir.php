@@ -8,60 +8,60 @@
 class Bral_Contrat_Voir extends Bral_Contrat_Contrat
 {
 
-    function getNomInterne()
-    {
-        return "box_contrat_voir";
-    }
+	function getNomInterne()
+	{
+		return "box_contrat_voir";
+	}
 
-    function render()
-    {
-        return $this->view->render("contrat/voir.phtml");
-    }
+	function render()
+	{
+		return $this->view->render("contrat/voir.phtml");
+	}
 
-    function getTitreAction()
-    {
-    }
+	function getTitreAction()
+	{
+	}
 
-    public function calculNbPa()
-    {
-    }
+	public function calculNbPa()
+	{
+	}
 
-    function prepareCommun()
-    {
+	function prepareCommun()
+	{
 
-        Zend_Loader::loadClass("Bral_Util_Lien");
+		Zend_Loader::loadClass("Bral_Util_Lien");
 
-        if ($this->request->get("id_contrat") != "") {
-            $this->idContratEnCours = Bral_Util_Controle::getValeurIntVerif($this->request->get("id_contrat"));
-        } else if ($this->idContratDefaut != null) {
-            $this->idContratEnCours = $this->idContratDefaut;
-        }
-        if ($this->idContratEnCours == null || $this->idContratEnCours <= 0) {
-            throw new Zend_Exception(get_class($this) . " idContratEnCours null" . $this->request->get("id_contrat"));
-        }
+		if ($this->request->get("id_contrat") != "") {
+			$this->idContratEnCours = Bral_Util_Controle::getValeurIntVerif($this->request->get("id_contrat"));
+		} else if ($this->idContratDefaut != null) {
+			$this->idContratEnCours = $this->idContratDefaut;
+		}
+		if ($this->idContratEnCours == null || $this->idContratEnCours <= 0) {
+			throw new Zend_Exception(get_class($this) . " idContratEnCours null" . $this->request->get("id_contrat"));
+		}
 
-        Zend_Loader::loadClass("Contrat");
-        $contratTable = new Contrat();
-        $contrat = $contratTable->findByIdBraldunAndIdContrat($this->view->user->id_braldun, $this->idContratEnCours);
+		Zend_Loader::loadClass("Contrat");
+		$contratTable = new Contrat();
+		$contrat = $contratTable->findByIdBraldunAndIdContrat($this->view->user->id_braldun, $this->idContratEnCours);
 
-        if ($contrat == null || count($contrat) != 1) {
-            throw new Zend_Exception(get_class($this) . " contrat invalide h:" . $this->view->user->id_braldun . " q:" . $this->idContratEnCours);
-        }
+		if ($contrat == null || count($contrat) != 1) {
+			throw new Zend_Exception(get_class($this) . " contrat invalide h:" . $this->view->user->id_braldun . " q:" . $this->idContratEnCours);
+		}
 
-        $this->view->contrat = $contrat[0];
+		$this->view->contrat = $contrat[0];
 
-    }
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-    }
+	function prepareResultat()
+	{
+	}
 
-    function getListBoxRefresh()
-    {
-    }
+	function getListBoxRefresh()
+	{
+	}
 
 }

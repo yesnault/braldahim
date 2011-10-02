@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Environnement extends Zend_Db_Table {
+class Environnement extends Zend_Db_Table
+{
 	protected $_name = 'environnement';
 	protected $_primary = 'id_environnement';
 
@@ -27,11 +28,12 @@ class Environnement extends Zend_Db_Table {
 
 	const INCONNU = "inconnu";
 
-	function findAllQuete() {
+	function findAllQuete()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('environnement', '*')
-		->where('est_quete_environnement like ?', "oui");
+			->where('est_quete_environnement like ?', "oui");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -10,8 +10,9 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Util_Metier {
-	
+class Bral_Util_Metier
+{
+
 	const METIER_MINEUR_ID = 1;
 	const METIER_CHASSEUR_ID = 2;
 	const METIER_BUCHERON_ID = 3;
@@ -24,6 +25,7 @@ class Bral_Util_Metier {
 	const METIER_GUERRIER_ID = 10;
 	const METIER_TERRASSIER_ID = 11;
 
-	private function __construct() {
+	private function __construct()
+	{
 	}
 }

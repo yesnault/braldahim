@@ -5,19 +5,22 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Bougrie extends Zend_Db_Table {
+class Bougrie extends Zend_Db_Table
+{
 
 	const MAX_NOTE = 10;
 
 	protected $_name = 'bougrie';
 	protected $_primary = array('id_bougrie');
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_bougrie = ?',(int)$id);
+	public function findById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_bougrie = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 
-	function findAleatoire() {
+	function findAleatoire()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bougrie', 'count(*) as nombre');
@@ -29,21 +32,22 @@ class Bougrie extends Zend_Db_Table {
 			$db = $this->getAdapter();
 			$select = $db->select();
 			$select->from('bougrie', '*')
-			->where('id_bougrie = ?', intval($de));
+				->where('id_bougrie = ?', intval($de));
 			$sql = $select->__toString();
 
-			$res =  $db->fetchAll($sql);
+			$res = $db->fetchAll($sql);
 			return $res[0];
 		} else {
 			return null;
 		}
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('bougrie', 'count(*) as nombre')
-		->where('id_bougrie = ?',$data["id_bougrie"]);
+			->where('id_bougrie = ?', $data["id_bougrie"]);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -52,7 +56,7 @@ class Bougrie extends Zend_Db_Table {
 		} else { // update
 			$dataUpdate['texte_bougrie'] = $data["texte_bougrie"];
 
-			$where = ' id_bougrie = '.$data["id_bougrie"];
+			$where = ' id_bougrie = ' . $data["id_bougrie"];
 			$this->update($dataUpdate, $where);
 		}
 	}

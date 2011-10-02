@@ -8,33 +8,33 @@
 abstract class Bral_Box_Box
 {
 
-    protected $loadWithBoxes = true;
-    protected $tablesHtmlTri = false;
+	protected $loadWithBoxes = true;
+	protected $tablesHtmlTri = false;
 
-    function __construct($request, $view, $interne)
-    {
-        $this->_request = $request;
-        $this->view = $view;
-        $this->view->affichageInterne = $interne;
-        $this->loadWithBoxes = $interne;
-        $this->tablesHtmlTri = false;
-    }
+	function __construct($request, $view, $interne)
+	{
+		$this->_request = $request;
+		$this->view = $view;
+		$this->view->affichageInterne = $interne;
+		$this->loadWithBoxes = $interne;
+		$this->tablesHtmlTri = false;
+	}
 
-    abstract function getTitreOnglet();
+	abstract function getTitreOnglet();
 
-    abstract function setDisplay($display);
+	abstract function setDisplay($display);
 
-    abstract function getNomInterne();
+	abstract function getNomInterne();
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    public function getTablesHtmlTri()
-    {
-        return $this->tablesHtmlTri;
-    }
+	public function getTablesHtmlTri()
+	{
+		return $this->tablesHtmlTri;
+	}
 
-    abstract function render();
+	abstract function render();
 }

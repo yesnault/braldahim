@@ -10,24 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class SouleEquipe extends Zend_Db_Table {
+class SouleEquipe extends Zend_Db_Table
+{
 	protected $_name = 'soule_equipe';
 	protected $_primary = 'id_soule_equipe';
 
 
-	public function findByIdMatch($idMatch, $ordre = null) {
+	public function findByIdMatch($idMatch, $ordre = null)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('soule_equipe', '*')
-		->from('braldun', '*')
-		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
-		->where('id_fk_braldun_soule_equipe = id_braldun');
+			->from('braldun', '*')
+			->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
+			->where('id_fk_braldun_soule_equipe = id_braldun');
 
 		if ($ordre != null) {
 			$select->order($ordre);
 		}
-		
+
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;

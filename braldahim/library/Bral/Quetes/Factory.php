@@ -7,38 +7,38 @@
  */
 class Bral_Quetes_Factory
 {
-    static function getAction($request, $view)
-    {
-        Zend_Loader::loadClass("Bral_Quetes_Quetes");
-        $matches = null;
-        preg_match('/(.*)_quetes_(.*)/', $request->get("caction"), $matches);
-        $action = $matches[1]; // "do" ou "ask"
-        $nomSystemeAction = $matches[2];
-        $construct = null;
+	static function getAction($request, $view)
+	{
+		Zend_Loader::loadClass("Bral_Quetes_Quetes");
+		$matches = null;
+		preg_match('/(.*)_quetes_(.*)/', $request->get("caction"), $matches);
+		$action = $matches[1]; // "do" ou "ask"
+		$nomSystemeAction = $matches[2];
+		$construct = null;
 
-        if ($view->user->activation == false && $nomSystemeAction != 'liste') {
-            throw new Zend_Exception("Tour non activé");
-        }
+		if ($view->user->activation == false && $nomSystemeAction != 'liste') {
+			throw new Zend_Exception("Tour non activé");
+		}
 
-        $construct = "Bral_Quetes_" . Bral_Util_String::firstToUpper($nomSystemeAction);
-        try {
-            Zend_Loader::loadClass($construct);
-        } catch (Exception $e) {
-            throw new Zend_Exception("Bral_Quetes_Factory construct invalide (classe): " . $nomSystemeAction);
-        }
+		$construct = "Bral_Quetes_" . Bral_Util_String::firstToUpper($nomSystemeAction);
+		try {
+			Zend_Loader::loadClass($construct);
+		} catch (Exception $e) {
+			throw new Zend_Exception("Bral_Quetes_Factory construct invalide (classe): " . $nomSystemeAction);
+		}
 
-        // verification que la classe de l'action existe.
-        if (($construct != null) && (class_exists($construct))) {
-            return new $construct ($nomSystemeAction, $request, $view, $action);
-        } else {
-            throw new Zend_Exception("Bral_Quetes_Factory action invalide: " . $nomSystemeAction);
-        }
-    }
+		// verification que la classe de l'action existe.
+		if (($construct != null) && (class_exists($construct))) {
+			return new $construct ($nomSystemeAction, $request, $view, $action);
+		} else {
+			throw new Zend_Exception("Bral_Quetes_Factory action invalide: " . $nomSystemeAction);
+		}
+	}
 
-    static function getListe($request, $view)
-    {
-        Zend_Loader::loadClass("Bral_Quetes_Quetes");
-        Zend_Loader::loadClass("Bral_Quetes_Liste");
-        return new Bral_Quetes_Liste("voir", $request, $view, "ask");
-    }
+	static function getListe($request, $view)
+	{
+		Zend_Loader::loadClass("Bral_Quetes_Quetes");
+		Zend_Loader::loadClass("Bral_Quetes_Liste");
+		return new Bral_Quetes_Liste("voir", $request, $view, "ask");
+	}
 }

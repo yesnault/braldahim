@@ -10,54 +10,59 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Script extends Zend_Db_Table {
+class Script extends Zend_Db_Table
+{
 	protected $_name = 'script';
 	protected $_primary = array('id_script');
 
 
-	public function countByDate($dateDebut, $dateFin, $etat = null) {
+	public function countByDate($dateDebut, $dateFin, $etat = null)
+	{
 		$where = "";
 		if ($etat != null) {
-			$where = " etat_script = '".$etat. "' AND ";
+			$where = " etat_script = '" . $etat . "' AND ";
 		}
 
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('script', 'count(*) as nombre')
-		->where('date_debut_script >= ?', $dateDebut)
-		->where($where.' date_fin_script <= ?', $dateFin);
+			->where('date_debut_script >= ?', $dateDebut)
+			->where($where . ' date_fin_script <= ?', $dateFin);
 		$sql = $select->__toString();
-		$resultat =  $db->fetchAll($sql);
+		$resultat = $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
 	}
 
-	public function countByIdBraldunAndType($idBraldun, $type) {
+	public function countByIdBraldunAndType($idBraldun, $type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('script', 'count(*) as nombre')
-		->where('id_fk_braldun_script = ?', intval($idBraldun))
-		->where('type_script = ?', $type);
+			->where('id_fk_braldun_script = ?', intval($idBraldun))
+			->where('type_script = ?', $type);
 		$sql = $select->__toString();
-		$resultat =  $db->fetchAll($sql);
+		$resultat = $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
 	}
 
-	public function countAll() {
+	public function countAll()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('script', 'count(*) as nombre');
 		$sql = $select->__toString();
-		$resultat =  $db->fetchAll($sql);
+		$resultat = $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
 	}
 
-	public function countAllByEtat($etat) {
+	public function countAllByEtat($etat)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('script', 'count(*) as nombre')
-		->where('etat_script = ?', $etat);
+			->where('etat_script = ?', $etat);
 		$sql = $select->__toString();
-		$resultat =  $db->fetchAll($sql);
+		$resultat = $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
 	}
 }

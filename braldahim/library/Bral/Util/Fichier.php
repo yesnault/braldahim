@@ -8,21 +8,21 @@
 class Bral_Util_Fichier
 {
 
-    public static function ecrire($fichier, $contenu, $mode = 'w')
-    {
-        Bral_Util_Log::batchs()->trace("Bral_Util_Fichier - ecrire - enter -");
+	public static function ecrire($fichier, $contenu, $mode = 'w')
+	{
+		Bral_Util_Log::batchs()->trace("Bral_Util_Fichier - ecrire - enter -");
 
-        if (is_writable($fichier)) {
-            if (!$handle = fopen($fichier, $mode)) {
-                throw new Zend_Exception("Impossible d'ouvrir le fichier ($fichier)");
-            }
-            if (fwrite($handle, $contenu) === FALSE) {
-                throw new Zend_Exception("Impossible d'écrire dans le fichier ($fichier)");
-            }
-            fclose($handle);
-        } else {
-            throw new Zend_Exception("Le fichier $fichier n'est pas accessible en écriture.");
-        }
-        Bral_Util_Log::batchs()->trace("Bral_Util_Fichier - ecrire - exit -");
-    }
+		if (is_writable($fichier)) {
+			if (!$handle = fopen($fichier, $mode)) {
+				throw new Zend_Exception("Impossible d'ouvrir le fichier ($fichier)");
+			}
+			if (fwrite($handle, $contenu) === FALSE) {
+				throw new Zend_Exception("Impossible d'écrire dans le fichier ($fichier)");
+			}
+			fclose($handle);
+		} else {
+			throw new Zend_Exception("Le fichier $fichier n'est pas accessible en écriture.");
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Util_Fichier - ecrire - exit -");
+	}
 }

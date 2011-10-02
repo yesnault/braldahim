@@ -8,23 +8,23 @@
 class Bral_Lieux_Escaliers extends Bral_Lieux_Lieu
 {
 
-    function prepareCommun()
-    {
-        Zend_Loader::loadClass("Lieu");
-    }
+	function prepareCommun()
+	{
+		Zend_Loader::loadClass("Lieu");
+	}
 
-    function prepareFormulaire()
-    {
-    }
+	function prepareFormulaire()
+	{
+	}
 
-    function prepareResultat()
-    {
-        $this->view->user->z_braldun = $this->view->user->z_braldun + 1;
-        $this->majBraldun();
-    }
+	function prepareResultat()
+	{
+		$this->view->user->z_braldun = $this->view->user->z_braldun + 1;
+		$this->majBraldun();
+	}
 
-    function getListBoxRefresh()
-    {
-        return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
-    }
+	function getListBoxRefresh()
+	{
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_blabla"));
+	}
 }

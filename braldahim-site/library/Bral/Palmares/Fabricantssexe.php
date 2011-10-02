@@ -10,32 +10,39 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Fabricantssexe extends Bral_Palmares_Box {
+class Bral_Palmares_Fabricantssexe extends Bral_Palmares_Box
+{
 
-	function getTitreOnglet() {
+	function getTitreOnglet()
+	{
 		return "Sexes";
 	}
 
-	function getNomInterne() {
+	function getNomInterne()
+	{
 		return "box_onglet_fabricantssexe";
 	}
 
-	function getNomClasse() {
+	function getNomClasse()
+	{
 		return "fabricantssexe";
 	}
 
-	function setDisplay($display) {
+	function setDisplay($display)
+	{
 		$this->view->display = $display;
 	}
 
-	function render() {
+	function render()
+	{
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
 		return $this->view->render("palmares/fabricants_sexe.phtml");
 	}
 
-	private function prepare() {
+	private function prepare()
+	{
 		if ($this->view->type == "bucheronsroutes") {
 			Zend_Loader::loadClass("StatsRoutes");
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);

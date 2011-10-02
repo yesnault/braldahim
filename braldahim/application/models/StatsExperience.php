@@ -5,11 +5,13 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class StatsExperience extends Zend_Db_Table {
+class StatsExperience extends Zend_Db_Table
+{
 	protected $_name = 'stats_experience';
 	protected $_primary = array('id_stats_experience');
 
-	function findTopPalmaresBraldun($dateDebut, $dateFin) {
+	function findTopPalmaresBraldun($dateDebut, $dateFin)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('braldun', array('nom_braldun', 'prenom_braldun', 'id_braldun', 'niveau_braldun'));
@@ -38,12 +40,13 @@ class StatsExperience extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stats_experience', 'count(*) as nombre, nb_px_perso_gagnes_stats_experience as quantitePxPerso, nb_px_commun_gagnes_stats_experience as quantitePxCommun')
-		->where('niveau_braldun_stats_experience = '.$data["niveau_braldun_stats_experience"].' AND id_fk_braldun_stats_experience = '.$data["id_fk_braldun_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'')
-		->group(array('quantitePxPerso', 'quantitePxCommun'));
+			->where('niveau_braldun_stats_experience = ' . $data["niveau_braldun_stats_experience"] . ' AND id_fk_braldun_stats_experience = ' . $data["id_fk_braldun_stats_experience"] . ' AND mois_stats_experience = \'' . $data["mois_stats_experience"] . '\'')
+			->group(array('quantitePxPerso', 'quantitePxCommun'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -78,7 +81,7 @@ class StatsExperience extends Zend_Db_Table {
 				}
 			}
 
-			$where = 'niveau_braldun_stats_experience = '.$data["niveau_braldun_stats_experience"].' AND id_fk_braldun_stats_experience = '.$data["id_fk_braldun_stats_experience"]. ' AND mois_stats_experience = \''.$data["mois_stats_experience"].'\'';
+			$where = 'niveau_braldun_stats_experience = ' . $data["niveau_braldun_stats_experience"] . ' AND id_fk_braldun_stats_experience = ' . $data["id_fk_braldun_stats_experience"] . ' AND mois_stats_experience = \'' . $data["mois_stats_experience"] . '\'';
 			$this->update($dataUpdate, $where);
 		}
 	}

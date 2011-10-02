@@ -10,9 +10,11 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class BourgController extends Zend_Controller_Action {
+class BourgController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		$this->view->config = Zend_Registry::get('config');
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -36,11 +38,12 @@ class BourgController extends Zend_Controller_Action {
 		$this->view->typeSelect = $typeSelect;
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$anneeDebut = 2008;
 		$anneeCourante = date("Y");
 
-		for ($i = $anneeDebut ; $i <= $anneeCourante; $i++) {
+		for ($i = $anneeDebut; $i <= $anneeCourante; $i++) {
 			$annees[] = $i;
 		}
 
@@ -54,7 +57,8 @@ class BourgController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function relatexmlAction() {
+	function relatexmlAction()
+	{
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
 
@@ -67,7 +71,7 @@ class BourgController extends Zend_Controller_Action {
 
 		$ordreRecu = intval($f->filter($this->_request->get("orderby")));
 		$direct = $f->filter($this->_request->get("direct"));
-			
+
 		$ordre = null;
 		if ($direct == "asc") {
 			$direct = "ASC";
@@ -83,18 +87,18 @@ class BourgController extends Zend_Controller_Action {
 			$count = 100;
 		}
 
-		switch($ordreRecu) {
+		switch ($ordreRecu) {
 			case 0:
-				$ordre = "id_evenement ".$direct;
+				$ordre = "id_evenement " . $direct;
 				break;
 			case 1:
-				$ordre = "id_braldun ".$direct;
+				$ordre = "id_braldun " . $direct;
 				break;
 		}
 
 		$evenementTable = new Evenement();
-		$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect+1));
-		$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect));
+		$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1, $this->view->anneeSelect + 1));
+		$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1, $this->view->anneeSelect));
 
 		if ($this->view->typeSelect == 1) {
 			$type = $this->view->config->game->evenements->type->evenement;
@@ -109,10 +113,10 @@ class BourgController extends Zend_Controller_Action {
 
 		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
 
-		foreach($rowset as $r) {
+		foreach ($rowset as $r) {
 			$tab = null;
-			$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]);
-			$tab[] = str_replace("ouvrirWin('", "ouvrirWin('".$this->view->config->url->game, $r["details_evenement"]);
+			$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ', $r["date_evenement"]);
+			$tab[] = str_replace("ouvrirWin('", "ouvrirWin('" . $this->view->config->url->game, $r["details_evenement"]);
 			$dhtmlxGrid->addRow($r["id_evenement"], $tab);
 		}
 

@@ -5,7 +5,8 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class TypeAliment extends Zend_Db_Table {
+class TypeAliment extends Zend_Db_Table
+{
 	protected $_name = 'type_aliment';
 	protected $_primary = "id_type_aliment";
 
@@ -15,17 +16,19 @@ class TypeAliment extends Zend_Db_Table {
 	const ID_TYPE_STOUT = 26;
 	const ID_TYPE_JOUR_MILIEU = 27;
 
-	public function findById($id){
-		$where = $this->getAdapter()->quoteInto('id_type_aliment = ?',(int)$id);
+	public function findById($id)
+	{
+		$where = $this->getAdapter()->quoteInto('id_type_aliment = ?', (int)$id);
 		return $this->fetchRow($where);
 	}
 
-	function findAllByType($type) {
+	function findAllByType($type)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_aliment', '*')
-		->where('type_type_aliment = ?', $type)
-		->order('nom_type_aliment');
+			->where('type_type_aliment = ?', $type)
+			->order('nom_type_aliment');
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

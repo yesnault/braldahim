@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationController extends Zend_Controller_Action {
+class AdministrationController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -20,11 +22,13 @@ class AdministrationController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function biereDuMilieuAction() {
+	function biereDuMilieuAction()
+	{
 
 		return;
 
@@ -45,7 +49,7 @@ class AdministrationController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("TypeAliment");
 		Zend_Loader::loadClass("Bral_Util_Effets");
-			
+
 		foreach ($bralduns as $h) {
 
 			$idAliment = $idsAliment->prepareNext();
@@ -71,7 +75,7 @@ class AdministrationController extends Zend_Controller_Action {
 
 			$data = null;
 			$data["balance_faim_braldun"] = 100;
-			$where = "id_braldun=".$h["id_braldun"];
+			$where = "id_braldun=" . $h["id_braldun"];
 			$braldunTable->update($data, $where);
 
 		}
@@ -79,77 +83,81 @@ class AdministrationController extends Zend_Controller_Action {
 		//$this->message();
 	}
 
-	private function message() {
+	private function message()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
-			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."C'est aujourd'hui la fête du jour du milieu !";
-			$detailsBot .= PHP_EOL."Je vous invite à boire un coup pour fêter la moitié de l'année.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Jetez un oeil à votre laban je crois qu'il y a une surprise !".PHP_EOL.PHP_EOL;
+			$detailsBot = "Oyez Braldûns !" . PHP_EOL . PHP_EOL . "C'est aujourd'hui la fête du jour du milieu !";
+			$detailsBot .= PHP_EOL . "Je vous invite à boire un coup pour fêter la moitié de l'année." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Jetez un oeil à votre laban je crois qu'il y a une surprise !" . PHP_EOL . PHP_EOL;
 			$detailsBot .= "A la votre,";
 
-			$message = $detailsBot.PHP_EOL.PHP_EOL." Huguette Ptipieds".PHP_EOL."Inutile de répondre à ce message.";
+			$message = $detailsBot . PHP_EOL . PHP_EOL . " Huguette Ptipieds" . PHP_EOL . "Inutile de répondre à ce message.";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->huguette->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
-			
+
 	}
 
 
-	private function serveurKO() {
+	private function serveurKO()
+	{
 		return;
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 
-		$contenu = "Bonjour,".PHP_EOL.PHP_EOL;
-		$contenu .= "Après bien des périples, le nouveau serveur de Braldahim est lancé.".PHP_EOL.PHP_EOL;
-		$contenu .= "Vous pouvez dès à présent vous connecter et jouer sur http://jeu.braldahim.com".PHP_EOL.PHP_EOL;
-		$contenu .= "Quelques infos :".PHP_EOL;
-		$contenu .= " - Tous les Braldûn(e)s sont passé(e)s en hibernation et sortent d'hibernation dès la connexion au jeu.".PHP_EOL;
-		$contenu .= " - Reprise avec 12 PA.".PHP_EOL;
-		$contenu .= " - Les dates liées aux champs (date fin semance, date fin récolte) sont décalées.".PHP_EOL;
-		$contenu .= " - Les dates de destruction des palissades sont décalées.".PHP_EOL.PHP_EOL;
+		$contenu = "Bonjour," . PHP_EOL . PHP_EOL;
+		$contenu .= "Après bien des périples, le nouveau serveur de Braldahim est lancé." . PHP_EOL . PHP_EOL;
+		$contenu .= "Vous pouvez dès à présent vous connecter et jouer sur http://jeu.braldahim.com" . PHP_EOL . PHP_EOL;
+		$contenu .= "Quelques infos :" . PHP_EOL;
+		$contenu .= " - Tous les Braldûn(e)s sont passé(e)s en hibernation et sortent d'hibernation dès la connexion au jeu." . PHP_EOL;
+		$contenu .= " - Reprise avec 12 PA." . PHP_EOL;
+		$contenu .= " - Les dates liées aux champs (date fin semance, date fin récolte) sont décalées." . PHP_EOL;
+		$contenu .= " - Les dates de destruction des palissades sont décalées." . PHP_EOL . PHP_EOL;
 
-		$contenu .= "Toutes les informations sont sur le forum : http://forum.braldahim.com/viewtopic.php?f=9&t=994 ".PHP_EOL.PHP_EOL;
+		$contenu .= "Toutes les informations sont sur le forum : http://forum.braldahim.com/viewtopic.php?f=9&t=994 " . PHP_EOL . PHP_EOL;
 
-		$contenu .= "A bientôt sur www.braldahim.com !".PHP_EOL.PHP_EOL;
+		$contenu .= "A bientôt sur www.braldahim.com !" . PHP_EOL . PHP_EOL;
 
-		$contenu .= "Braldahim - Les Thains.".PHP_EOL.PHP_EOL;
+		$contenu .= "Braldahim - Les Thains." . PHP_EOL . PHP_EOL;
 
 		foreach ($bralduns as $h) {
-			echo "ENVOI  VERS :".$h["id_braldun"]." <br>";
+			echo "ENVOI  VERS :" . $h["id_braldun"] . " <br>";
 			Bral_Util_Mail::envoiMailAutomatique($h, "[Braldahim] Reprise !", $contenu, $this->view);
 		}
-			
+
 	}
 
-	private function rappelIRL() {
+	private function rappelIRL()
+	{
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->fetchall("est_pnj_braldun = 'non'");
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 
 		foreach ($bralduns as $h) {
-			$detailsBot = "Oyez Braldûns !".PHP_EOL.PHP_EOL."L'IRL 2011 approche !";
-			
-			$detailsBot .= PHP_EOL.PHP_EOL."ELle approche tellement vite qu'elle se déroule la semaine prochaine.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Oui, oui, c'est bien le 2 et 3 juillet que cette rencontre entre joueurs a lieu.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Au programme : barbecue et jeux de société.".PHP_EOL.PHP_EOL;
-			$detailsBot .= "Lieu : Hédé (Bretagne, 25 min de Rennes).".PHP_EOL.PHP_EOL;
-			
-			$detailsBot .= "Toutes les informations sont sur le forum : [url]http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953[/url]".PHP_EOL.PHP_EOL;
+			$detailsBot = "Oyez Braldûns !" . PHP_EOL . PHP_EOL . "L'IRL 2011 approche !";
 
-			$message = $detailsBot.PHP_EOL.PHP_EOL." Grace Petits-pieds".PHP_EOL."Au plaisir de vous rencontrer.";
+			$detailsBot .= PHP_EOL . PHP_EOL . "ELle approche tellement vite qu'elle se déroule la semaine prochaine." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Oui, oui, c'est bien le 2 et 3 juillet que cette rencontre entre joueurs a lieu." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Au programme : barbecue et jeux de société." . PHP_EOL . PHP_EOL;
+			$detailsBot .= "Lieu : Hédé (Bretagne, 25 min de Rennes)." . PHP_EOL . PHP_EOL;
+
+			$detailsBot .= "Toutes les informations sont sur le forum : [url]http://forum.braldahim.com/viewtopic.php?f=9&t=803#p7953[/url]" . PHP_EOL . PHP_EOL;
+
+			$message = $detailsBot . PHP_EOL . PHP_EOL . " Grace Petits-pieds" . PHP_EOL . "Au plaisir de vous rencontrer.";
 
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_braldun, $h["id_braldun"], $message, $this->view);
 		}
-			
+
 	}
 
-	function md5Action() {
+	function md5Action()
+	{
 		$this->render();
 	}
-	
+
 }

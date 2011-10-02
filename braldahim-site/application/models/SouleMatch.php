@@ -10,11 +10,13 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class SouleMatch extends Zend_Db_Table {
+class SouleMatch extends Zend_Db_Table
+{
 	protected $_name = 'soule_match';
 	protected $_primary = 'id_soule_match';
 
-	public function fetchAllAvecTerrain() {
+	public function fetchAllAvecTerrain()
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -25,8 +27,9 @@ class SouleMatch extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	public function findByIdMatch($idMatch) {
+
+	public function findByIdMatch($idMatch)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 

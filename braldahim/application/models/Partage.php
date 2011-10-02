@@ -5,17 +5,19 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class Partage extends Zend_Db_Table {
+class Partage extends Zend_Db_Table
+{
 	protected $_name = 'partage';
 	protected $_primary = 'id_partage';
 
-	function findByIdBraldun($idBraldun) {
-		$where = "id_fk_braldun_declarant_partage = ".intval($idBraldun). " OR id_fk_braldun_declare_partage=".intval($idBraldun);
-		
+	function findByIdBraldun($idBraldun)
+	{
+		$where = "id_fk_braldun_declarant_partage = " . intval($idBraldun) . " OR id_fk_braldun_declare_partage=" . intval($idBraldun);
+
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('partage', '*')
-		->where($where);
+			->where($where);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

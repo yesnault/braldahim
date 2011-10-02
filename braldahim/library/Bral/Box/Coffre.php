@@ -8,36 +8,36 @@
 class Bral_Box_Coffre extends Bral_Box_Banque
 {
 
-    public function getTitreOnglet()
-    {
-        return "Coffre";
-    }
+	public function getTitreOnglet()
+	{
+		return "Coffre";
+	}
 
-    function getNomInterne()
-    {
-        return "box_coffre";
-    }
+	function getNomInterne()
+	{
+		return "box_coffre";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        if ($this->view->affichageInterne) {
-            $this->view->nom_interne = $this->getNomInterne();
-            $this->data();
-            $this->view->pocheNom = "Tiroir";
-            $this->view->pocheNomSysteme = "Coffre";
-            $this->view->nb_castars = $this->view->coffre["nb_castar"];
-        }
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/coffre.phtml");
-    }
+	function render()
+	{
+		if ($this->view->affichageInterne) {
+			$this->view->nom_interne = $this->getNomInterne();
+			$this->data();
+			$this->view->pocheNom = "Tiroir";
+			$this->view->pocheNomSysteme = "Coffre";
+			$this->view->nb_castars = $this->view->coffre["nb_castar"];
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/coffre.phtml");
+	}
 }

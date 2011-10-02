@@ -10,21 +10,26 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
+class Bral_Scripts_Echoppes extends Bral_Scripts_Script
+{
 
-	public function getType() {
+	public function getType()
+	{
 		return self::TYPE_STATIQUE;
 	}
 
-	public function getEtatService() {
+	public function getEtatService()
+	{
 		return self::SERVICE_ACTIVE;
 	}
 
-	public function getVersion() {
+	public function getVersion()
+	{
 		return 2;
 	}
 
-	public function calculScriptImpl() {
+	public function calculScriptImpl()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Echoppes - calculScriptImpl - enter -");
 
 		$retour = null;
@@ -34,7 +39,8 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculEchoppes() {
+	private function calculEchoppes()
+	{
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Echoppes - calculEchoppes - enter -");
 		$retour = "";
 		$this->calculEchoppesBraldun($retour);
@@ -42,16 +48,17 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		return $retour;
 	}
 
-	private function calculEchoppesBraldun(&$retour) {
+	private function calculEchoppesBraldun(&$retour)
+	{
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Bral_Util_Registre");
-		
+
 		$echoppesTable = new Echoppe();
 		$echoppesRowset = $echoppesTable->findByIdBraldun($this->braldun->id_braldun);
 
 		if ($echoppesRowset != null) {
-			foreach($echoppesRowset as $e) {
-				$retour .= "ECHOPPE;".$e["id_echoppe"].';'.$e["x_echoppe"].';'.$e["y_echoppe"].';'.$e["z_echoppe"].';'.$e["id_metier"].';'.$e["id_region"].PHP_EOL;
+			foreach ($echoppesRowset as $e) {
+				$retour .= "ECHOPPE;" . $e["id_echoppe"] . ';' . $e["x_echoppe"] . ';' . $e["y_echoppe"] . ';' . $e["z_echoppe"] . ';' . $e["id_metier"] . ';' . $e["id_region"] . PHP_EOL;
 
 				$this->renderAliments($retour, $e["id_echoppe"]);
 				$this->renderEquipements($retour, $e["id_echoppe"]);
@@ -59,12 +66,12 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 				$this->renderPotions($retour, $e["id_echoppe"]);
 				$this->renderRessources($retour, $e["id_echoppe"]);
 
-				$retour .= "ELEMENT;CAISSE;Castar;".$e["quantite_castar_caisse_echoppe"].PHP_EOL;
-				$retour .= "ELEMENT;ARRIERE;Rondin;".$e["quantite_rondin_arriere_echoppe"].PHP_EOL;
-				$retour .= "ELEMENT;ARRIERE;Peau;".$e["quantite_peau_arriere_echoppe"].PHP_EOL;
-				$retour .= "ELEMENT;ARRIERE;Cuir;".$e["quantite_cuir_arriere_echoppe"].PHP_EOL;
-				$retour .= "ELEMENT;ARRIERE;Fourrure;".$e["quantite_fourrure_arriere_echoppe"].PHP_EOL;
-				$retour .= "ELEMENT;ARRIERE;Planche;".$e["quantite_planche_arriere_echoppe"].PHP_EOL;
+				$retour .= "ELEMENT;CAISSE;Castar;" . $e["quantite_castar_caisse_echoppe"] . PHP_EOL;
+				$retour .= "ELEMENT;ARRIERE;Rondin;" . $e["quantite_rondin_arriere_echoppe"] . PHP_EOL;
+				$retour .= "ELEMENT;ARRIERE;Peau;" . $e["quantite_peau_arriere_echoppe"] . PHP_EOL;
+				$retour .= "ELEMENT;ARRIERE;Cuir;" . $e["quantite_cuir_arriere_echoppe"] . PHP_EOL;
+				$retour .= "ELEMENT;ARRIERE;Fourrure;" . $e["quantite_fourrure_arriere_echoppe"] . PHP_EOL;
+				$retour .= "ELEMENT;ARRIERE;Planche;" . $e["quantite_planche_arriere_echoppe"] . PHP_EOL;
 			}
 		} else {
 			$retour .= "AUCUNE_ECHOPPE";
@@ -72,7 +79,8 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 
 	}
 
-	private function renderAliments(&$retour, $idEchoppe) {
+	private function renderAliments(&$retour, $idEchoppe)
+	{
 		Zend_Loader::loadClass("EchoppeAliment");
 		Zend_Loader::loadClass("Bral_Util_Aliment");
 
@@ -87,19 +95,20 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		}
 
 		if (count($aliments) > 0) {
-			foreach($aliments as $e) {
+			foreach ($aliments as $e) {
 				$retour .= "ALIMENT;";
-				$retour .= $e["id_echoppe_aliment"].';';
-				$retour .= $e["id_type_aliment"].';';
-				$retour .= $e["nom_type_aliment"].';';
-				$retour .= $e["nom_aliment_type_qualite"].';';
-				$retour .= $e["bbdf_aliment"].';';
-				$retour .= Bral_Util_Aliment::getNomType($e["type_bbdf_type_aliment"]).PHP_EOL;
+				$retour .= $e["id_echoppe_aliment"] . ';';
+				$retour .= $e["id_type_aliment"] . ';';
+				$retour .= $e["nom_type_aliment"] . ';';
+				$retour .= $e["nom_aliment_type_qualite"] . ';';
+				$retour .= $e["bbdf_aliment"] . ';';
+				$retour .= Bral_Util_Aliment::getNomType($e["type_bbdf_type_aliment"]) . PHP_EOL;
 			}
 		}
 	}
 
-	private function renderEquipements(&$retour, $idEchoppe) {
+	private function renderEquipements(&$retour, $idEchoppe)
+	{
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("EquipementRune");
@@ -116,14 +125,15 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		}
 
 		if (count($equipements) > 0) {
-			foreach($equipements as $e) {
+			foreach ($equipements as $e) {
 				$retour .= "EQUIPEMENT;";
-				$retour .= $e["id_echoppe_equipement"].PHP_EOL;
+				$retour .= $e["id_echoppe_equipement"] . PHP_EOL;
 			}
 		}
 	}
 
-	private function renderMateriels(&$retour, $idEchoppe) {
+	private function renderMateriels(&$retour, $idEchoppe)
+	{
 		Zend_Loader::loadClass("EchoppeMateriel");
 
 		$tabMaterielsArriereBoutique = null;
@@ -137,22 +147,23 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		}
 
 		if (count($materiels) > 0) {
-			foreach($materiels as $e) {
+			foreach ($materiels as $e) {
 				$retour .= "MATERIEL;";
-				$retour .= $e["id_echoppe_materiel"].';';
-				$retour .= $e["id_type_materiel"].';';
-				$retour .= $e["nom_systeme_type_materiel"].';';
-				$retour .= $e["nom_type_materiel"].';';
-				$retour .= $e["capacite_type_materiel"].';';
-				$retour .= $e["durabilite_type_materiel"].';';
-				$retour .= $e["usure_type_materiel"].';';
-				$retour .= $e["poids_type_materiel"].PHP_EOL;
+				$retour .= $e["id_echoppe_materiel"] . ';';
+				$retour .= $e["id_type_materiel"] . ';';
+				$retour .= $e["nom_systeme_type_materiel"] . ';';
+				$retour .= $e["nom_type_materiel"] . ';';
+				$retour .= $e["capacite_type_materiel"] . ';';
+				$retour .= $e["durabilite_type_materiel"] . ';';
+				$retour .= $e["usure_type_materiel"] . ';';
+				$retour .= $e["poids_type_materiel"] . PHP_EOL;
 			}
 		}
 
 	}
 
-	private function renderPotions(&$retour, $idEchoppe) {
+	private function renderPotions(&$retour, $idEchoppe)
+	{
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("Bral_Util_Potion");
 
@@ -168,18 +179,19 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		}
 
 		if (count($potions) > 0) {
-			foreach($potions as $p) {
+			foreach ($potions as $p) {
 				$retour .= "POTION;";
-				$retour .= $p["id_echoppe_potion"].';';
-				$retour .= $p["bm_type_potion"].';';
-				$retour .= $p["nom_type_potion"].';';
-				$retour .= $p["nom_type_qualite"].';';
-				$retour .= $p["niveau_potion"].PHP_EOL;
+				$retour .= $p["id_echoppe_potion"] . ';';
+				$retour .= $p["bm_type_potion"] . ';';
+				$retour .= $p["nom_type_potion"] . ';';
+				$retour .= $p["nom_type_qualite"] . ';';
+				$retour .= $p["niveau_potion"] . PHP_EOL;
 			}
 		}
 	}
 
-	private function renderRessources(&$retour, $idEchoppe) {
+	private function renderRessources(&$retour, $idEchoppe)
+	{
 		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass("EchoppeIngredient");
@@ -192,9 +204,9 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
 				$retour .= "PLANTE";
-				$retour .= $p["id_type_partieplante"].';';
-				$retour .= $p["id_fk_type_plante_echoppe_partieplante"].';';
-				$retour .= $p["quantite_arriere_echoppe_partieplante"].';';
+				$retour .= $p["id_type_partieplante"] . ';';
+				$retour .= $p["id_fk_type_plante_echoppe_partieplante"] . ';';
+				$retour .= $p["quantite_arriere_echoppe_partieplante"] . ';';
 				$retour .= $p["quantite_preparee_echoppe_partieplante"];
 				$retour .= PHP_EOL;
 			}
@@ -206,10 +218,10 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
 				$retour .= "MINERAI;";
-				$retour .= $m["nom_type_minerai"].';';
-				$retour .= $m["id_type_minerai"].';';
-				$retour .= $m["quantite_brut_arriere_echoppe_minerai"].';';
-				$retour .= $m["quantite_lingots_echoppe_minerai"].';';
+				$retour .= $m["nom_type_minerai"] . ';';
+				$retour .= $m["id_type_minerai"] . ';';
+				$retour .= $m["quantite_brut_arriere_echoppe_minerai"] . ';';
+				$retour .= $m["quantite_lingots_echoppe_minerai"] . ';';
 				$retour .= PHP_EOL;
 			}
 		}
@@ -220,9 +232,9 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		if ($ingredients != null) {
 			foreach ($ingredients as $m) {
 				$retour .= "INGREDIENT;";
-				$retour .= $m["nom_type_ingredient"].';';
-				$retour .= $m["id_type_ingredient"].';';
-				$retour .= $m["quantite_arriere_echoppe_ingredient"].';';
+				$retour .= $m["nom_type_ingredient"] . ';';
+				$retour .= $m["id_type_ingredient"] . ';';
+				$retour .= $m["quantite_arriere_echoppe_ingredient"] . ';';
 				$retour .= PHP_EOL;
 			}
 		}
@@ -234,10 +246,10 @@ class Bral_Scripts_Echoppes extends Bral_Scripts_Script {
 		if ($potions != null) {
 			foreach ($potions as $p) {
 				$retour .= "POTION_ARRIERE;";
-				$retour .= $p["id_echoppe_potion"].';';
-				$retour .= $p["bm_type_potion"].';';
-				$retour .= $p["nom_type_potion"].';';
-				$retour .= $p["nom_type_qualite"].';';
+				$retour .= $p["id_echoppe_potion"] . ';';
+				$retour .= $p["bm_type_potion"] . ';';
+				$retour .= $p["nom_type_potion"] . ';';
+				$retour .= $p["nom_type_qualite"] . ';';
 				$retour .= $p["niveau_potion"];
 				$retour .= PHP_EOL;
 			}

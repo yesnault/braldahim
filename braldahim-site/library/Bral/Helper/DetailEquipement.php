@@ -10,48 +10,54 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Helper_DetailEquipement {
+class Bral_Helper_DetailEquipement
+{
 
-	public static function afficherPrix($e) {
+	public static function afficherPrix($e)
+	{
 		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
 	}
 
-	public static function afficher($e) {
-		$retour = "<div class='braltip'>".self::afficherDetails($e);
-		$retour .= "<img src='".Zend_Registry::get('config')->url->static."/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
+	public static function afficher($e)
+	{
+		$retour = "<div class='braltip'>" . self::afficherDetails($e);
+		$retour .= "<img src='" . Zend_Registry::get('config')->url->static . "/images/type_equipement/type_equipement_" . $e["id_type_equipement"] . ".png' alt=\"" . htmlspecialchars($e["nom"]) . "\"/>";
 		$retour .= "</div>";
 		return $retour;
 	}
 
-	public static function afficherTooltip($e) {
+	public static function afficherTooltip($e)
+	{
 		return Bral_Helper_Tooltip::render(self::prepareDetail($e, true));
 	}
 
-	public static function afficherTexte($e) {
+	public static function afficherTexte($e)
+	{
 		return stripslashes(self::prepareDetail($e, false));
 	}
 
-	private static function prepareDetail($e, $afficheLienHistorique) {
-		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars($e["suffixe"]);
-		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
+	private static function prepareDetail($e, $afficheLienHistorique)
+	{
+		$text = htmlspecialchars($e["nom"]) . " " . htmlspecialchars($e["suffixe"]);
+		$text .= " de qualit&eacute; " . htmlspecialchars($e["qualite"]) . " <br />";
 		if ($afficheLienHistorique) {
-			$text .= "<label class='alabel' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l'historique</label><br />";
+			$text .= "<label class='alabel' onclick=ouvHistoE(" . $e["id_equipement"] . ")>Voir l'historique</label><br />";
 		}
 		$text .= "<br />";
-		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
+		$text .= "Num&eacute;ro de la pi&egrave;ce :" . $e["id_equipement"] . "<br />";
 		$text .= "Niveau : ";
-		
+
 		if ($e["niveau"] == -1) { // set boss
 			$text .= " Spécial<br />";
 		} else {
-			$text .= $e["niveau"]."<br />";
+			$text .= $e["niveau"] . "<br />";
 		}
-		$text .= "Nom d'origine : ".$e["nom_standard"]."<br />";
-		$text .= "Emplacement : ".$e["emplacement"]."<br />\n";
-		$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
-		$text .= "Ingr&eacute;dient de base : ".$e["ingredient"]."<br /><br />";
-			
+		$text .= "Nom d'origine : " . $e["nom_standard"] . "<br />";
+		$text .= "Emplacement : " . $e["emplacement"] . "<br />\n";
+		$text .= "&Eacute;tat : " . $e["etat_courant"] . " / " . $e["etat_initial"] . "<br />";
+		$text .= "Ingr&eacute;dient de base : " . $e["ingredient"] . "<br /><br />";
+
 		$text .= "Caract&eacute;ristiques :<br />";
 		$text .= self::displayBM("Armure", $e, "armure");
 		$text .= self::displayBM("Force", $e, "force");
@@ -63,13 +69,13 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("Defense", $e, "defense");
 		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "degat");
 
-		$text .= "<span style='cursor:pointer' title='Le poids prend en compte les bonus / malus sur Poids et le poids des runes'>Poids : ".$e["poids"];
+		$text .= "<span style='cursor:pointer' title='Le poids prend en compte les bonus / malus sur Poids et le poids des runes'>Poids : " . $e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
-			$text .= " " . self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
+			$text .= " " . self::display("", $e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
 		}
 		$text .= " Kg </span>";
 		$text .= "<br />";
-			
+
 		if (count($e["bonus"]) > 0 && (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition")) {
 			$text .= " Bonus r&eacute;gional: ";
 			$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
@@ -80,17 +86,17 @@ class Bral_Helper_DetailEquipement {
 		}
 
 		if (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition") {
-			$text .= "<br />Nombre d'emplacement runique : ".$e["nb_runes"]."<br />";
-			if (count($e["runes"]) > 1) $s='s'; else $s="";
+			$text .= "<br />Nombre d'emplacement runique : " . $e["nb_runes"] . "<br />";
+			if (count($e["runes"]) > 1) $s = 's'; else $s = "";
 
 
-			$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
+			$text .= count($e["runes"]) . " rune$s sertie$s " . "<br />";
 			if (count($e["runes"]) > 0) {
-				foreach($e["runes"] as $r) {
-					$text .= "<img src='/public/images/runes/".$r["image_type_rune"]."'  class='rune' title='".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars($r["effet_type_rune"]))."' n&deg;".$r["id_rune_equipement_rune"]." alt='".$r["nom_type_rune"]."' n&deg;".$r["id_rune_equipement_rune"]."  />";
+				foreach ($e["runes"] as $r) {
+					$text .= "<img src='/public/images/runes/" . $r["image_type_rune"] . "'  class='rune' title='" . $r["nom_type_rune"] . " :" . str_replace("'", "&#180;", htmlspecialchars($r["effet_type_rune"])) . "' n&deg;" . $r["id_rune_equipement_rune"] . " alt='" . $r["nom_type_rune"] . "' n&deg;" . $r["id_rune_equipement_rune"] . "  />";
 				}
 				if ($e["suffixe"] != null && $e["suffixe"] != "") {
-					$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars($e["suffixe"]);
+					$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : " . htmlspecialchars($e["suffixe"]);
 				} else {
 					$text .= "<br />Aucun mot runique n'est associ&eacute; &agrave; ces runes";
 				}
@@ -101,13 +107,14 @@ class Bral_Helper_DetailEquipement {
 		return $text;
 	}
 
-	private static function displayBM($texte, $e, $bm) {
+	private static function displayBM($texte, $e, $bm)
+	{
 		$vernisBM = null;
-		if (isset($e["bonus"]["vernis_bm_".$bm."_equipement_bonus"])) {
-			$vernisBM = $e["bonus"]["vernis_bm_".$bm."_equipement_bonus"];
+		if (isset($e["bonus"]["vernis_bm_" . $bm . "_equipement_bonus"])) {
+			$vernisBM = $e["bonus"]["vernis_bm_" . $bm . "_equipement_bonus"];
 		}
-		if (isset($e["bonus"]["vernis_".$bm."_equipement_bonus"])) {
-			$vernisBM = $e["bonus"]["vernis_".$bm."_equipement_bonus"];
+		if (isset($e["bonus"]["vernis_" . $bm . "_equipement_bonus"])) {
+			$vernisBM = $e["bonus"]["vernis_" . $bm . "_equipement_bonus"];
 		}
 		$valeur = $e[$bm];
 		$text = null;
@@ -122,13 +129,14 @@ class Bral_Helper_DetailEquipement {
 		return $text;
 	}
 
-	private static function display($display, $valeur, $unite = "", $br = "<br />", $bmVernis = false, $deuxPoints = " : ") {
-		if ($valeur != null && (($bmVernis == false && $valeur != 0) || ($bmVernis == true)) ) {
+	private static function display($display, $valeur, $unite = "", $br = "<br />", $bmVernis = false, $deuxPoints = " : ")
+	{
+		if ($valeur != null && (($bmVernis == false && $valeur != 0) || ($bmVernis == true))) {
 			$plus = "";
 			if ($valeur >= 0) {
 				$plus = "+";
 			}
-			return $display .$deuxPoints.$plus.$valeur . $unite . $br;
+			return $display . $deuxPoints . $plus . $valeur . $unite . $br;
 		} else {
 			return null;
 		}
@@ -137,12 +145,13 @@ class Bral_Helper_DetailEquipement {
 	/**
 	 * Affiche les recettes pour forger, fabriquer,
 	 */
-	public static function afficheRecette($caracs, $niveaux) {
+	public static function afficheRecette($caracs, $niveaux)
+	{
 		$retour = "";
 		$retour .= "<div id='blanc'><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>";
 		if (isset($caracs)) {
-			foreach($niveaux as $k => $v) {
-				$retour .= "<div id='caracs_niveau_".$k."' style='display:none'>";
+			foreach ($niveaux as $k => $v) {
+				$retour .= "<div id='caracs_niveau_" . $k . "' style='display:none'>";
 				$retour .= "<table>";
 				$retour .= "<th>Qual.</th>";
 				$retour .= "<th>Empl.</th>";
@@ -158,22 +167,22 @@ class Bral_Helper_DetailEquipement {
 				$retour .= "<th>BM DEG</th>";
 				$retour .= "<th>BM DEF</th>";
 				if (array_key_exists($k, $caracs)) {
-					foreach($caracs[$k] as $key => $val) {
-						foreach($val as $c) {
+					foreach ($caracs[$k] as $key => $val) {
+						foreach ($val as $c) {
 							$retour .= "<tr>";
-							$retour .= "<td>".$c["nom_qualite"]." </td>";
-							$retour .= "<td>".$c["nom_emplacement"]." </td>";
-							$retour .= "<td>".$c["niveau"]." </td>";
-							$retour .= "<td>".$c["poids"]." </td>";
-							$retour .= "<td>".$c["armure"]." </td>";
-							$retour .= "<td>".$c["force"]." </td>";
-							$retour .= "<td>".$c["agilite"]." </td>";
-							$retour .= "<td>".$c["vigueur"]." </td>";
-							$retour .= "<td>".$c["sagesse"]." </td>";
-							$retour .= "<td>".$c["vue"]." </td>";
-							$retour .= "<td>".$c["attaque"]."</td>";
-							$retour .= "<td>".$c["degat"]." </td>";
-							$retour .= "<td>".$c["defense"]." </td>";
+							$retour .= "<td>" . $c["nom_qualite"] . " </td>";
+							$retour .= "<td>" . $c["nom_emplacement"] . " </td>";
+							$retour .= "<td>" . $c["niveau"] . " </td>";
+							$retour .= "<td>" . $c["poids"] . " </td>";
+							$retour .= "<td>" . $c["armure"] . " </td>";
+							$retour .= "<td>" . $c["force"] . " </td>";
+							$retour .= "<td>" . $c["agilite"] . " </td>";
+							$retour .= "<td>" . $c["vigueur"] . " </td>";
+							$retour .= "<td>" . $c["sagesse"] . " </td>";
+							$retour .= "<td>" . $c["vue"] . " </td>";
+							$retour .= "<td>" . $c["attaque"] . "</td>";
+							$retour .= "<td>" . $c["degat"] . " </td>";
+							$retour .= "<td>" . $c["defense"] . " </td>";
 							$retour .= "</tr>";
 						}
 					}
@@ -186,10 +195,11 @@ class Bral_Helper_DetailEquipement {
 		return $retour;
 	}
 
-	public static function afficheRecetteJs($niveaux) {
+	public static function afficheRecetteJs($niveaux)
+	{
 		$retour = "
 	 	$('#blanc').hide();
-		 for (i=0; i<".count($niveaux)."; i++) {
+		 for (i=0; i<" . count($niveaux) . "; i++) {
 		 	$('#caracs_niveau_'+i).hide();
 		 }
 		 $('#caracs_niveau_'+this.value).show();

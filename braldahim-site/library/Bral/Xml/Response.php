@@ -10,18 +10,22 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Xml_Response {
+class Bral_Xml_Response
+{
 
 	/* add an new entry in the list */
-	public function add_entry($p) {
+	public function add_entry($p)
+	{
 		$this->list[] = $p;
 	}
 
-	public function get_list() {
+	public function get_list()
+	{
 		return $this->list;
 	}
 
-	private function echo_xml() {
+	private function echo_xml()
+	{
 		echo  '<?xml version="1.0" encoding="utf-8" ?>';
 		echo "<root>\n";
 		echo "<entrie>\n";
@@ -44,22 +48,25 @@ class Bral_Xml_Response {
 		echo "</root>\n";
 	}
 
-	public function render() {
+	public function render()
+	{
 		header("Content-Type: text/xml");
 		$this->echo_xml();
 	}
 
-	public function renderJs() {
+	public function renderJs()
+	{
 		$content = "";
 		foreach ($this->list as $k => $e) {
 			$content = $e->getRender();
 		}
-		
-    	$content = preg_replace("/(\r\n|\n|\r)/", " ", $content);
-    	$content = str_replace("'","\'",$content);
-    	echo "document.write('".$content."')";
+
+		$content = preg_replace("/(\r\n|\n|\r)/", " ", $content);
+		$content = str_replace("'", "\'", $content);
+		echo "document.write('" . $content . "')";
 	}
 
-	public function __construct() {
+	public function __construct()
+	{
 	}
 }

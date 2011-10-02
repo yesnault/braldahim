@@ -8,20 +8,20 @@
 class Bral_Helper_DetailPrix
 {
 
-    public static function afficherPrix($e)
-    {
-        $retour = "<span>";
-        $firstOu = true;
-        $ou = "  <br /> ou ";
+	public static function afficherPrix($e)
+	{
+		$retour = "<span>";
+		$firstOu = true;
+		$ou = "  <br /> ou ";
 
-        if ($e["prix_1_lot"] != null && $e["prix_1_lot"] >= 0 && $e["unite_1_lot"] > 0) {
-            $retour .= $e["prix_1_lot"] . " ";
-            $retour .= Bral_Util_Registre::getNomUnite($e["unite_1_lot"], false, $e["prix_1_lot"]);
-            $firstOu = false;
-        }
+		if ($e["prix_1_lot"] != null && $e["prix_1_lot"] >= 0 && $e["unite_1_lot"] > 0) {
+			$retour .= $e["prix_1_lot"] . " ";
+			$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_lot"], false, $e["prix_1_lot"]);
+			$firstOu = false;
+		}
 
-        $retour .= "</span>";
+		$retour .= "</span>";
 
-        return $retour;
-    }
+		return $retour;
+	}
 }

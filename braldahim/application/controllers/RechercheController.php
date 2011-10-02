@@ -5,13 +5,16 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class RechercheController extends Zend_Controller_Action {
+class RechercheController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		if (!Zend_Auth::getInstance()->hasIdentity()
-		&& $this->_request->action != 'logoutajax') {
+			&& $this->_request->action != 'logoutajax'
+		) {
 			$this->_redirect('/Recherche/logoutajax');
 		}
 		$this->view->config = Zend_Registry::get('config');
@@ -20,28 +23,33 @@ class RechercheController extends Zend_Controller_Action {
 		}
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	function logoutajaxAction() {
+	function logoutajaxAction()
+	{
 		$this->render();
 	}
 
-	function braldunAction() {
+	function braldunAction()
+	{
 		$avecBraldunEnCours = Bral_Util_Controle::getValeurTrueFalseVerifSansException($this->_request->get("avecBraldunEnCours"));
 		$avecPnj = Bral_Util_Controle::getValeurTrueFalseVerifSansException($this->_request->get("avecPnj"));
 		$this->rechercheBraldun(null, $avecBraldunEnCours, $avecPnj);
 		$this->render();
 	}
 
-	function bourlingueurAction() {
+	function bourlingueurAction()
+	{
 		$idTypeBourlingueur = Bral_Util_Controle::getValeurIntVerif($this->_request->get("type"));
 		$this->rechercheBraldun($idTypeBourlingueur);
 		$this->render();
 	}
 
-	private function rechercheBraldun($idTypeDistinction = null, $avecBraldunEnCours = null, $avecPnj = null) {
+	private function rechercheBraldun($idTypeDistinction = null, $avecBraldunEnCours = null, $avecPnj = null)
+	{
 
 		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("term")))) {
 			$tabBralduns = null;
@@ -49,7 +57,7 @@ class RechercheController extends Zend_Controller_Action {
 
 			if ($idTypeDistinction != null) {
 
-				$braldunRowset = $braldunTable->findBraldunsParPrenomAndIdTypeDistinction($this->_request->get("term").'%', $idTypeDistinction);
+				$braldunRowset = $braldunTable->findBraldunsParPrenomAndIdTypeDistinction($this->_request->get("term") . '%', $idTypeDistinction);
 				$bralduns = array();
 				foreach ($braldunRowset as $h) {
 					$bralduns[] = $h["id_braldun"];
@@ -70,16 +78,16 @@ class RechercheController extends Zend_Controller_Action {
 				if ($avecBraldunEnCours === false) {
 					$idBraldun = $this->view->user->id_braldun;
 				}
-				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("term").'%', $idBraldun, $avecPnj);
+				$braldunRowset = $braldunTable->findBraldunsParPrenom($this->_request->get("term") . '%', $idBraldun, $avecPnj);
 			}
 
 			foreach ($braldunRowset as $h) {
 				$braldun = array(
-						"id_braldun" => $h["id_braldun"],
-						"nom" => $h["nom_braldun"],
-						"prenom" => $h["prenom_braldun"],
+					"id_braldun" => $h["id_braldun"],
+					"nom" => $h["nom_braldun"],
+					"prenom" => $h["prenom_braldun"],
 				);
-					
+
 				if ($idTypeDistinction == null) {
 					$tabBralduns[] = $braldun;
 				} else if ($idTypeDistinction != null && $h["id_braldun"] != $this->view->user->id_braldun) {
@@ -89,7 +97,7 @@ class RechercheController extends Zend_Controller_Action {
 					if ($distinctionsDonjon == null) {
 						$okD = true;
 					} else {
-						foreach($distinctionsDonjon as $d) {
+						foreach ($distinctionsDonjon as $d) {
 							if ($h["est_donjon_braldun"] == "non" && $d["id_fk_braldun_hdistinction"] == $h["id_braldun"] && $d["nombre"] < 1) {
 								$okD = true;
 								break;
@@ -100,7 +108,7 @@ class RechercheController extends Zend_Controller_Action {
 					if ($soule == null) {
 						$okS = true;
 					} else {
-						foreach($soule as $s) {
+						foreach ($soule as $s) {
 							if ($h["est_soule_braldun"] == "non" && $s["id_fk_braldun_soule_equipe"] == $h["id_braldun"] && $s["nombre"] < 1) {
 								$okS = true;
 								break;
@@ -114,11 +122,11 @@ class RechercheController extends Zend_Controller_Action {
 				}
 			}
 			$this->view->pattern = $this->_request->get("valeur");
-				
+
 			$result = "";
 			if (count($tabBralduns) > 0) {
-				foreach($tabBralduns as $h) {
-					$result .= '{ "id": "'.$h["id_braldun"].'", "label": "'.$h["prenom"].' '.$h["nom"].'", "value": "'.$h["prenom"].' '.$h["nom"].'" }, ';
+				foreach ($tabBralduns as $h) {
+					$result .= '{ "id": "' . $h["id_braldun"] . '", "label": "' . $h["prenom"] . ' ' . $h["nom"] . '", "value": "' . $h["prenom"] . ' ' . $h["nom"] . '" }, ';
 				}
 			}
 			if ($result != "") {

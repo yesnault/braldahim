@@ -8,58 +8,58 @@
 class Bral_Lieux_Hopital extends Bral_Lieux_Lieu
 {
 
-    private $_utilisationPossible = false;
-    private $_coutCastars = null;
+	private $_utilisationPossible = false;
+	private $_coutCastars = null;
 
-    function prepareCommun()
-    {
-        Zend_Loader::loadClass("Lieu");
+	function prepareCommun()
+	{
+		Zend_Loader::loadClass("Lieu");
 
-        $this->_coutCastars = $this->calculCoutCastars();
-        $this->_utilisationPossible = (($this->view->user->castars_braldun - $this->_coutCastars) >= 0);
-        $this->view->recupPossible = false;
+		$this->_coutCastars = $this->calculCoutCastars();
+		$this->_utilisationPossible = (($this->view->user->castars_braldun - $this->_coutCastars) >= 0);
+		$this->view->recupPossible = false;
 
-        if ($this->view->user->pv_restant_braldun < $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun) {
-            $this->view->recupPossible = true;
-        }
+		if ($this->view->user->pv_restant_braldun < $this->view->user->pv_max_braldun + $this->view->user->pv_max_bm_braldun) {
+			$this->view->recupPossible = true;
+		}
 
-    }
+	}
 
-    function prepareFormulaire()
-    {
-        $this->view->utilisationPossible = $this->_utilisationPossible;
-        $this->view->coutCastars = $this->_coutCastars;
-    }
+	function prepareFormulaire()
+	{
+		$this->view->utilisationPossible = $this->_utilisationPossible;
+		$this->view->coutCastars = $this->_coutCastars;
+	}
 
-    function prepareResultat()
-    {
+	function prepareResultat()
+	{
 
-        // verification qu'il y a assez de castars
-        if ($this->_utilisationPossible == false) {
-            throw new Zend_Exception(get_class($this) . " Achat impossible : castars:" . $this->view->user->castars_braldun . " cout:" . $this->_coutCastars);
-        }
+		// verification qu'il y a assez de castars
+		if ($this->_utilisationPossible == false) {
+			throw new Zend_Exception(get_class($this) . " Achat impossible : castars:" . $this->view->user->castars_braldun . " cout:" . $this->_coutCastars);
+		}
 
-        if ($this->view->recupPossible == false) {
-            throw new Zend_Exception("Bral_Lieux_Hopital :: Nombre PV full");
-        }
+		if ($this->view->recupPossible == false) {
+			throw new Zend_Exception("Bral_Lieux_Hopital :: Nombre PV full");
+		}
 
-        $this->view->jetRegeneration = 0;
-        Zend_Loader::loadClass("Bral_Util_Vie");
-        Bral_Util_Vie::calculRegenerationBraldun(&$this->view->user, &$this->view->jetRegeneration);
+		$this->view->jetRegeneration = 0;
+		Zend_Loader::loadClass("Bral_Util_Vie");
+		Bral_Util_Vie::calculRegenerationBraldun(&$this->view->user, &$this->view->jetRegeneration);
 
-        $this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
+		$this->view->user->castars_braldun = $this->view->user->castars_braldun - $this->_coutCastars;
 
-        $this->majBraldun();
-        $this->view->coutCastars = $this->_coutCastars;
-    }
+		$this->majBraldun();
+		$this->view->coutCastars = $this->_coutCastars;
+	}
 
-    function getListBoxRefresh()
-    {
-        return $this->constructListBoxRefresh(array("box_laban"));
-    }
+	function getListBoxRefresh()
+	{
+		return $this->constructListBoxRefresh(array("box_laban"));
+	}
 
-    private function calculCoutCastars()
-    {
-        return 10;
-    }
+	private function calculCoutCastars()
+	{
+		return 10;
+	}
 }

@@ -10,29 +10,33 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Element extends Zend_Db_Table {
+class Element extends Zend_Db_Table
+{
 	protected $_name = 'element';
 	protected $_primary = array('x_element', 'y_element');
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', '*')
-		->where('x_element <= ?',$x_max)
-		->where('x_element >= ?',$x_min)
-		->where('y_element <= ?',$y_max)
-		->where('y_element >= ?',$y_min)
-		->where('z_element = ?',$z);
+			->where('x_element <= ?', $x_max)
+			->where('x_element >= ?', $x_min)
+			->where('y_element <= ?', $y_max)
+			->where('y_element >= ?', $y_min)
+			->where('z_element = ?', $z);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z) {
+	function findByCase($x, $y, $z)
+	{
 		return $this->selectVue($x, $y, $x, $y, $z);
 	}
 
-	function insertOrUpdate($data) {
+	function insertOrUpdate($data)
+	{
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element', 'count(*) as nombre,
@@ -42,9 +46,9 @@ class Element extends Zend_Db_Table {
 		quantite_fourrure_element as quantiteFourrure,
 		quantite_planche_element as quantitePlanche,
 		quantite_rondin_element as quantiteRondin')
-		->where('x_element = ?',$data["x_element"])
-		->where('y_element = ?',$data["y_element"])
-		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
+			->where('x_element = ?', $data["x_element"])
+			->where('y_element = ?', $data["y_element"])
+			->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -85,15 +89,16 @@ class Element extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_element'] = $quantiteRondin + $data["quantite_rondin_element"];
 			}
 
-			$where = ' x_element = '.$data["x_element"];
-			$where .= ' AND y_element = '.$data["y_element"];
+			$where = ' x_element = ' . $data["x_element"];
+			$where .= ' AND y_element = ' . $data["y_element"];
 
 			if ($dataUpdate['quantite_peau_element'] <= 0 &&
-			$dataUpdate['quantite_cuir_element'] <= 0 &&
-			$dataUpdate['quantite_fourrure_element'] <= 0 &&
-			$dataUpdate['quantite_planche_element'] <= 0 &&
-			$dataUpdate['quantite_castar_element'] <= 0 && 
-			$dataUpdate['quantite_rondin_element'] <= 0) { // delete
+				$dataUpdate['quantite_cuir_element'] <= 0 &&
+				$dataUpdate['quantite_fourrure_element'] <= 0 &&
+				$dataUpdate['quantite_planche_element'] <= 0 &&
+				$dataUpdate['quantite_castar_element'] <= 0 &&
+				$dataUpdate['quantite_rondin_element'] <= 0
+			) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);

@@ -8,41 +8,41 @@
 class Bral_Box_Effets extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Effets";
-    }
+	function getTitreOnglet()
+	{
+		return "Effets";
+	}
 
-    function getNomInterne()
-    {
-        return "box_effets";
-    }
+	function getNomInterne()
+	{
+		return "box_effets";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        if ($this->view->affichageInterne) {
-            $this->data();
-        }
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/effets.phtml");
-    }
+	function render()
+	{
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/effets.phtml");
+	}
 
-    private function data()
-    {
-        Zend_Loader::loadClass("Bral_Util_EffetsPotion");
-        Zend_Loader::loadClass("Bral_Util_Effets");
-        $this->view->potions = Bral_Util_EffetsPotion::calculPotionBraldun($this->view->user, false);
-        $this->view->effets = Bral_Util_Effets::calculEffetBraldun($this->view->user, false);
-        $this->view->nom_interne = $this->getNomInterne();
-    }
+	private function data()
+	{
+		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+		Zend_Loader::loadClass("Bral_Util_Effets");
+		$this->view->potions = Bral_Util_EffetsPotion::calculPotionBraldun($this->view->user, false);
+		$this->view->effets = Bral_Util_Effets::calculEffetBraldun($this->view->user, false);
+		$this->view->nom_interne = $this->getNomInterne();
+	}
 }

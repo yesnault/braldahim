@@ -10,7 +10,8 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Util_Poids {
+class Bral_Util_Poids
+{
 
 	const POIDS_CASTARS = 0.001;
 
@@ -34,6 +35,7 @@ class Bral_Util_Poids {
 	const POIDS_TABAC = 0;
 	const POIDS_BIERE = 0.3;
 
-	function __construct() {
+	function __construct()
+	{
 	}
 }

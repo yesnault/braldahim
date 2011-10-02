@@ -5,9 +5,11 @@
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  * Copyright: see http://www.braldahim.com/sources
  */
-class AdministrationbatchController extends Zend_Controller_Action {
+class AdministrationbatchController extends Zend_Controller_Action
+{
 
-	function init() {
+	function init()
+	{
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
@@ -20,11 +22,13 @@ class AdministrationbatchController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 	}
 
-	function indexAction() {
+	function indexAction()
+	{
 		$this->render();
 	}
 
-	public function batchsAction() {
+	public function batchsAction()
+	{
 		Zend_Loader::loadClass("Batch");
 		Zend_Loader::loadClass("Bral_Batchs_Batch");
 		$batchTable = new Batch();
@@ -46,7 +50,8 @@ class AdministrationbatchController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	public function logsAction() {
+	public function logsAction()
+	{
 		$utilisateur = exec('whoami');
 
 		Zend_Loader::loadClass('Zend_Filter');
@@ -77,13 +82,13 @@ class AdministrationbatchController extends Zend_Controller_Action {
 		if ($this->_request->isPost()) {
 			$fichierChoisi = $this->_request->getPost('fichier');
 			if (!in_array($fichierChoisi, $fichiers)) {
-				throw new Zend_Exception("logsAction Valeur invalide : fichier=".$fichier);
+				throw new Zend_Exception("logsAction Valeur invalide : fichier=" . $fichier);
 			}
 			$commandeChoisie = $this->_request->getPost('commande');
 			if (!in_array($commandeChoisie, $commandes)) {
-				throw new Zend_Exception("logsAction Valeur invalide : commande=".$commandeChoisie);
+				throw new Zend_Exception("logsAction Valeur invalide : commande=" . $commandeChoisie);
 			}
-			$fichier = $this->view->config->log->repertoire."/".$fichierChoisi;
+			$fichier = $this->view->config->log->repertoire . "/" . $fichierChoisi;
 			if ($commandeChoisie == "grep") {
 				$recherche = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost('recherche'));
 				$cmd = "grep $recherche $fichier";
@@ -92,7 +97,7 @@ class AdministrationbatchController extends Zend_Controller_Action {
 				$cmd = "tail -$recherche $fichier";
 			}
 		}
-	
+
 		$this->view->commandeChoisie = $commandeChoisie;
 		$this->view->commandes = $commandes;
 		$this->view->fichierChoisi = $fichierChoisi;

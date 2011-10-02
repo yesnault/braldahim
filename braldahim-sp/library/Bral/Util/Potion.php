@@ -10,7 +10,8 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Util_Potion {
+class Bral_Util_Potion
+{
 
 	const HISTORIQUE_CREATION_ID = 1;
 	const HISTORIQUE_UTILISER_ID = 2;
@@ -18,8 +19,9 @@ class Bral_Util_Potion {
 	const HISTORIQUE_VENDRE_ID = 4;
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
 
-	public static function getNomType($typePotion) {
-		switch($typePotion) {
+	public static function getNomType($typePotion)
+	{
+		switch ($typePotion) {
 			case "potion":
 				return "Potion";
 				break;
@@ -30,12 +32,13 @@ class Bral_Util_Potion {
 				return "Vernis enchanteur";
 				break;
 			default:
-				throw new Zend_Exception("Bral_Util_Potion::getNomType typePotion invalide id:".$typePotion);
+				throw new Zend_Exception("Bral_Util_Potion::getNomType typePotion invalide id:" . $typePotion);
 				break;
 		}
 	}
 
-	public static function insertHistorique($idTypeHistoriquePotion, $idPotion, $details) {
+	public static function insertHistorique($idTypeHistoriquePotion, $idPotion, $details)
+	{
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 
@@ -51,10 +54,11 @@ class Bral_Util_Potion {
 		$historiquePotionTable->insert($data);
 	}
 
-	public static function prepareTabPotions($potions) {
+	public static function prepareTabPotions($potions)
+	{
 
 		$tabPotions = null;
-		foreach($potions as $p) {
+		foreach ($potions as $p) {
 			$tabPotions[] = array(
 				"id_potion" => $p["id_potion"],
 				"id_type_potion" => $p["id_type_potion"],

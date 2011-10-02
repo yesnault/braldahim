@@ -8,72 +8,72 @@
 abstract class Bral_Carnet_Carnet
 {
 
-    protected $reloadInterface = false;
+	protected $reloadInterface = false;
 
-    function __construct($nomSysteme, $request, $view, $action)
-    {
-        $this->view = $view;
-        $this->request = $request;
-        $this->action = $action;
-        $this->nom_systeme = $nomSysteme;
+	function __construct($nomSysteme, $request, $view, $action)
+	{
+		$this->view = $view;
+		$this->request = $request;
+		$this->action = $action;
+		$this->nom_systeme = $nomSysteme;
 
-        $this->prepareCommun();
+		$this->prepareCommun();
 
-        switch ($this->action) {
-            case "ask" :
-                $this->prepareFormulaire();
-                break;
-            case "do":
-                $this->prepareResultat();
-                break;
-            default:
-                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
-        }
-    }
+		switch ($this->action) {
+			case "ask" :
+				$this->prepareFormulaire();
+				break;
+			case "do":
+				$this->prepareResultat();
+				break;
+			default:
+				throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+		}
+	}
 
-    abstract function prepareCommun();
+	abstract function prepareCommun();
 
-    abstract function prepareFormulaire();
+	abstract function prepareFormulaire();
 
-    abstract function prepareResultat();
+	abstract function prepareResultat();
 
-    function getNomInterne()
-    {
-        return "carnet_html";
-    }
+	function getNomInterne()
+	{
+		return "carnet_html";
+	}
 
-    function getIdEchoppeCourante()
-    {
-        return false;
-    }
+	function getIdEchoppeCourante()
+	{
+		return false;
+	}
 
-    public function getIdChampCourant()
-    {
-        return false;
-    }
+	public function getIdChampCourant()
+	{
+		return false;
+	}
 
-    public function getTablesHtmlTri()
-    {
-        return false;
-    }
+	public function getTablesHtmlTri()
+	{
+		return false;
+	}
 
-    function render()
-    {
-        switch ($this->action) {
-            case "ask":
-                return $this->view->render("carnet/" . $this->nom_systeme . "_formulaire.phtml");
-                break;
-            case "do":
-                $this->view->reloadInterface = $this->reloadInterface;
-                return $this->view->render("carnet/" . $this->nom_systeme . "_resultat.phtml");
-                break;
-            default:
-                throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
-        }
-    }
+	function render()
+	{
+		switch ($this->action) {
+			case "ask":
+				return $this->view->render("carnet/" . $this->nom_systeme . "_formulaire.phtml");
+				break;
+			case "do":
+				$this->view->reloadInterface = $this->reloadInterface;
+				return $this->view->render("carnet/" . $this->nom_systeme . "_resultat.phtml");
+				break;
+			default:
+				throw new Zend_Exception(get_class($this) . "::action invalide :" . $this->action);
+		}
+	}
 
-    public function getListBoxRefresh()
-    {
-        return null;
-    }
+	public function getListBoxRefresh()
+	{
+		return null;
+	}
 }

@@ -8,29 +8,29 @@
 class Bral_Box_Communaute_Arbre extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Arbre";
-    }
+	function getTitreOnglet()
+	{
+		return "Arbre";
+	}
 
-    function getNomInterne()
-    {
-        return "box_communaute_arbre";
-    }
+	function getNomInterne()
+	{
+		return "box_communaute_arbre";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/communaute/arbre.phtml");
-    }
+	function render()
+	{
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/communaute/arbre.phtml");
+	}
 }

@@ -8,29 +8,29 @@
 class Bral_Box_Cockpit extends Bral_Box_Box
 {
 
-    function getTitreOnglet()
-    {
-        return "Cockpit";
-    }
+	function getTitreOnglet()
+	{
+		return "Cockpit";
+	}
 
-    function getNomInterne()
-    {
-        return "box_cockpit";
-    }
+	function getNomInterne()
+	{
+		return "box_cockpit";
+	}
 
-    function getChargementInBoxes()
-    {
-        return false;
-    }
+	function getChargementInBoxes()
+	{
+		return false;
+	}
 
-    function setDisplay($display)
-    {
-        $this->view->display = $display;
-    }
+	function setDisplay($display)
+	{
+		$this->view->display = $display;
+	}
 
-    function render()
-    {
-        $this->view->nom_interne = $this->getNomInterne();
-        return $this->view->render("interface/cockpit.phtml");
-    }
+	function render()
+	{
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/cockpit.phtml");
+	}
 }
