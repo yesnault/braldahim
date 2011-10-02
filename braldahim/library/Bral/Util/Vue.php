@@ -259,6 +259,15 @@ class Bral_Util_Vue
                             }
                         }
 
+                        if ($crevasses != null) {
+                            foreach ($crevasses as $c) {
+                                if ($display_x == $c['x_crevasse'] && $display_y == $c['y_crevasse']) {
+                                    $tabCrevasses[] = array('id_crevasse' => $c['id_crevasse']);
+                                    $nom_systeme_environnement = $nom_systeme_environnement . '-' . 'crevasse';
+                                }
+                            }
+                        }
+
 
                         $tableau["Cases"][] = array("X" => $display_x, "Y" => $display_y, "Fond" => $nom_systeme_environnement);
 
@@ -350,7 +359,7 @@ class Bral_Util_Vue
                     "Sexe" => substr($b['sexe_braldun'], 0, 1),
                     "KO" => ($b['est_ko_braldun'] == 'oui'),
                     "Intangible" => ($b['est_intangible_braldun'] == "oui"),
-                    "Camp" => $b['soule_camp_braldun']."",
+                    "Camp" => $b['soule_camp_braldun'] . "",
                     "IdCommunauté" => $b['id_fk_communaute_braldun'],
                 );
 
@@ -398,7 +407,7 @@ class Bral_Util_Vue
                     "Y" => $r['y_element_rune'],
                     'Type' => 'rune',
                     'Quantité' => 1,
-                    'Label' => ' rune n°(' . $r['id_rune_element_rune'] . ')',
+                    'Label' => ' rune n°' . $r['id_rune_element_rune'],
                     'IdType' => 0,
                 );
 
@@ -473,7 +482,7 @@ class Bral_Util_Vue
                     "X" => $m['x_monstre'],
                     "Y" => $m['y_monstre'],
                     "Id" => $m['id_monstre'],
-                    'Nom' => $m['nom_type_monstre'] .' n°'.$m['id_monstre'],
+                    'Nom' => $m['nom_type_monstre'] . ' n°' . $m['id_monstre'],
                     'Taille' => $m_taille,
                     'Niveau' => $m['niveau_monstre'],
                     'IdType' => $m['id_type_monstre'],
@@ -514,7 +523,7 @@ class Bral_Util_Vue
                     "Y" => $p['y_element_aliment'],
                     'Type' => 'aliment',
                     'Quantité' => 1,
-                    'Label' => $p['nom_type_aliment'] . '(' . $p['nom_type_qualite'] . ') n°' . $p['id_element_aliment'],
+                    'Label' => $p['nom_type_aliment'] . ' (' . $p['nom_type_qualite'] . ') n°' . $p['id_element_aliment'],
                     'IdType' => $p['id_type_aliment'],
                 );
             }
@@ -528,7 +537,7 @@ class Bral_Util_Vue
                     "Y" => $p['y_element_graine'],
                     'Type' => 'graine',
                     'Quantité' => $p['quantite_element_graine'],
-                    'Label' => $p['quantite_element_graine']. ' graine'.Bral_Util_String::getPluriel($p['quantite_element_graine']). ' '.$p['nom_type_graine'],
+                    'Label' => $p['quantite_element_graine'] . ' graine' . Bral_Util_String::getPluriel($p['quantite_element_graine']) . ' ' . $p['prefix_type_graine'] . $p['nom_type_graine'],
                     'IdType' => $p['id_type_graine'],
                 );
             }
@@ -536,12 +545,19 @@ class Bral_Util_Vue
 
         if ($elementsIngredients != null) {
             foreach ($elementsIngredients as $p) {
+
+                if ($p['quantite_element_ingredient'] > 1) {
+                    $label = $p['quantite_element_ingredient'] . " " . $p["nom_pluriel_type_ingredient"];
+                } else {
+                    $label = $p['quantite_element_ingredient'] . " " . $p["nom_type_ingredient"];
+                }
+
                 $tableau["Vues"][0]["Objets"][] = array(
                     "X" => $p['x_element_ingredient'],
                     "Y" => $p['y_element_ingredient'],
                     'Type' => 'ingrédient',
                     'Quantité' => $p['quantite_element_ingredient'],
-                    'Label' => $p['quantite_element_ingredient']. " ". $p['nom_type_ingredient'],
+                    'Label' => $label,
                     'IdType' => $p['id_type_ingredient'],
                 );
             }
@@ -555,7 +571,7 @@ class Bral_Util_Vue
                         "Y" => $m['y_element_minerai'],
                         'Type' => 'minerai',
                         'Quantité' => $m['quantite_brut_element_minerai'],
-                        'Label' => $m['quantite_brut_element_minerai']. ' minerai'.Bral_Util_String::getPluriel($m['quantite_brut_element_minerai']).' '.$m['nom_type_minerai'],
+                        'Label' => $m['quantite_brut_element_minerai'] . ' minerai' . Bral_Util_String::getPluriel($m['quantite_brut_element_minerai']) . ' ' . $m['prefix_type_minerai'] . $m['nom_type_minerai'],
                         'IdType' => $m['id_type_minerai'],
                     );
                 }
@@ -566,7 +582,7 @@ class Bral_Util_Vue
                         "Y" => $m['y_element_minerai'],
                         'Type' => 'lingot',
                         'Quantité' => $m['quantite_lingots_element_minerai'],
-                        'Label' => $m['quantite_lingots_element_minerai']. ' lingot'.Bral_Util_String::getPluriel($m['quantite_brut_element_minerai']).' '.$m['nom_type_minerai'],
+                        'Label' => $m['quantite_lingots_element_minerai'] . ' lingot' . Bral_Util_String::getPluriel($m['quantite_lingots_element_minerai']) . ' ' . $m['prefix_type_minerai'] . $m['nom_type_minerai'],
                         'IdType' => $m['id_type_minerai'],
                     );
                 }
@@ -576,7 +592,7 @@ class Bral_Util_Vue
         if ($elementsPartieplantes != null) {
             foreach ($elementsPartieplantes as $m) {
                 if ($m['quantite_element_partieplante'] > 0) {
-                    $label = $m['quantite_element_partieplante']. ' '.$m['nom_type_partieplante'] . Bral_Util_String::getPluriel($m['quantite_element_partieplante'])." " .$m['prefix_type_plante']. $m['nom_type_plante'] . ' (plante brute)';
+                    $label = $m['quantite_element_partieplante'] . ' ' . $m['nom_type_partieplante'] . Bral_Util_String::getPluriel($m['quantite_element_partieplante']) . " " . $m['prefix_type_plante'] . $m['nom_type_plante'] . ' (plante brute)';
 
                     $tableau["Vues"][0]["Objets"][] = array(
                         "X" => $m['x_element_partieplante'],
@@ -590,7 +606,7 @@ class Bral_Util_Vue
                 }
 
                 if ($m['quantite_preparee_element_partieplante'] > 0) {
-                    $label = $m['quantite_preparee_element_partieplante']. ' '.$m['nom_type_partieplante'] . Bral_Util_String::getPluriel($m['quantite_preparee_element_partieplante'])." " .$m['prefix_type_plante']. $m['nom_type_plante'] . ' (plante préparée)';
+                    $label = $m['quantite_preparee_element_partieplante'] . ' ' . $m['nom_type_partieplante'] . Bral_Util_String::getPluriel($m['quantite_preparee_element_partieplante']) . " " . $m['prefix_type_plante'] . $m['nom_type_plante'] . ' (plante préparée)';
 
                     $tableau["Vues"][0]["Objets"][] = array(
                         "X" => $m['x_element_partieplante'],
@@ -612,7 +628,7 @@ class Bral_Util_Vue
                         "Y" => $m['y_element_tabac'],
                         'Type' => 'tabac',
                         'Quantité' => $m['quantite_feuille_element_tabac'],
-                        'Label' => $m['quantite_feuille_element_tabac']. " Feuille".Bral_Util_String::getPluriel($m['quantite_feuille_element_tabac']). " ". $m['nom_court_type_tabac'],
+                        'Label' => $m['quantite_feuille_element_tabac'] . " Feuille" . Bral_Util_String::getPluriel($m['quantite_feuille_element_tabac']) . " " . $m['nom_court_type_tabac'],
                         'IdType' => $m['id_type_tabac'],
                     );
 
@@ -622,12 +638,9 @@ class Bral_Util_Vue
 
         if ($souleMatch != null) {
             foreach ($souleMatch as $s) {
-                if ($display_x == $s['x_ballon_soule_match'] && $display_y == $s['y_ballon_soule_match']) {
-                    $tabBallons[] = array('est_ballon_present' => true);
-                }
                 $tableau["Vues"][0]["Objets"][] = array(
                     "X" => $s['x_ballon_soule_match'],
-                    "Y" => $s['x_ballon_soule_match'],
+                    "Y" => $s['y_ballon_soule_match'],
                     'Type' => 'ballon',
                     'Quantité' => 1,
                     'Label' => 'Ballon de soule',
@@ -648,7 +661,7 @@ class Bral_Util_Vue
                     "X" => $c['x_monstre'],
                     "Y" => $c['y_monstre'],
                     "Id" => $c['id_monstre'],
-                    'Nom' => $c['nom_type_monstre']. 'n°'.$c['id_monstre'],
+                    'Nom' => $c['nom_type_monstre'] . ' n°' . $c['id_monstre'],
                     'Taille' => $c_taille,
                     'Niveau' => $c['niveau_monstre'],
                     'IdType' => $c['id_type_monstre'],
@@ -666,25 +679,12 @@ class Bral_Util_Vue
         }
 
         /*
-
-                    if ($crevasses != null) {
-                        foreach ($crevasses as $c) {
-                            if ($display_x == $c['x_crevasse'] && $display_y == $c['y_crevasse']) {
-                                $tabCrevasses[] = array('id_crevasse' => $c['id_crevasse']);
-                            }
-                        }
-                    }
-
                     if ($nids != null) {
                         foreach ($nids as $n) {
                             if ($display_x == $n['x_nid'] && $display_y == $n['y_nid']) {
                                 $tabNids[] = array('id_nid' => $n['id_nid'], 'nom_nid' => $n['nom_nid_type_monstre']);
                             }
                         }
-                    }
-
-                    if (count($tabCrevasses) >= 1) {
-                        $css .= '-crevasse';
                     }
 
                 if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
@@ -707,7 +707,6 @@ class Bral_Util_Vue
             }
         }
         */
-
 
         $view->estSurLieu = $estSurLieu;
         $view->estSurEchoppe = $estSurEchoppe;
