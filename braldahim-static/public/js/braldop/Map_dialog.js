@@ -1,29 +1,29 @@
 Map.prototype.openDialog = function(startingRectInCanvas, title, content) {
 	this.dialopIsOpen = true;
 	var $canvas = $(this.canvas);
-	var $document = $(document);
-	var docWidth = $(document).width();
-	var docHeight = $(document).height();
+	var $win = $(window);
+	var winWidth = $(window).width();
+	var winHeight = $(window).height();
 	var width = $canvas.width();
 	if (width>400) width=400;
 	var wx = $canvas.offset().left+this.pointerScreenX;
 	var wy = $canvas.offset().top+this.pointerScreenY;
 	var maxHeight;
-	if (wx<docWidth/2) {
+	if (wx<winWidth/2) {
 		this.$dialog.css('left', (wx+40)+'px');
-		this.$dialog.css('right', (docWidth-wx-width)+'px');
+		this.$dialog.css('right', (winWidth-wx-width)+'px');
 	} else {
-		this.$dialog.css('right', (docWidth-wx+40)+'px');
+		this.$dialog.css('right', (winWidth-wx+40)+'px');
 		this.$dialog.css('left', (wx-width)+'px');
 	}
-	if (wy<docHeight/2) {
-		maxHeight = docHeight-wy-90;
+	if (wy<winHeight/2) {
+		maxHeight = winHeight-wy-90;
 		this.$dialog.css('top', (wy-20)+'px');
 		this.$dialog.css('bottom', '');
 	} else {
 		maxHeight = wy-90;
 		this.$dialog.css('top', '');
-		this.$dialog.css('bottom', (docHeight-wy+20)+'px');
+		this.$dialog.css('bottom', (winHeight-wy+20)+'px');
 	}
 	var html = [];
 	var h=0;
