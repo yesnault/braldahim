@@ -27,6 +27,8 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.displayFog = true;
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
+	this.fogImg = null;
+	this.fogContext = null;
 	this.recomputeCanvasPosition();
 	var _this = this;
 	this.photoSatelliteOK = false;
@@ -128,11 +130,12 @@ Map.prototype.recomputeCanvasPosition = function() {
 	this.canvas.height = this.screenRect.h;
 	this.originX = (this.screenRect.w/2)/this.zoom;
 	this.originY = (this.screenRect.h/2)/this.zoom;
+	this.fogImg = null;
+	this.fogContext = null;
 }
 
-
 // l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
-// Les champs dans le nom commence par une minuscule sont définis localement et
+// Les champs dont le nom commence par une minuscule sont définis localement et
 //  ceux dont le nom commence par une majuscule proviennent du serveur (cette norme
 //  est valable sur toute la hiérarchie des objets de mapData).
 // Les données sont copiées dans une structure qui donne un accès par les coordonnées des cases.
@@ -181,30 +184,68 @@ Map.prototype.setData = function(mapData) {
 	console.log("carte compilée");
 }
 
+// dessine le brouillard de guerre
 Map.prototype.drawFog = function() {
-	var c = this.context;
-	var hasVue = false;
-	c.beginPath();
-	c.moveTo(0, 0);
-	c.lineTo(this.screenRect.w, 0);
-	c.lineTo(this.screenRect.w, this.screenRect.h);
-	c.lineTo(0, this.screenRect.h);
-	c.closePath();
-	if (this.mapData.Vues) {
-		var radius = this.zoom/6;
-		for (var i=this.mapData.Vues.length; i-->0;) {
-			var vue = this.mapData.Vues[i];
-			if (vue.active && vue.Z==this.z) {
-				hasVue = true;
-				var hole = new Rect();
-				hole.x = this.zoom*(this.originX+vue.XMin);
-				hole.y = this.zoom*(this.originY-vue.YMin+1);
-				hole.w = this.zoom*(this.originX+vue.XMax+1) - hole.x;
-				hole.h = - (this.zoom*(this.originY-vue.YMax) - hole.y);
-				hole.y -= hole.h;
-				if (!Rect_intersect(hole, this.screenRect)) {
-					continue;
+	var alwaysUseNewFog = true; // je teste...
+	if (this.mapData.Vues.length>1 || alwaysUseNewFog) {
+		//> Cette méthode gère correctement tous les cas, en particulier celui de l'intersection de plusieurs vues,
+		//  mais elle est lente sur Firefox.
+		var r = 0.07; // on utilise une image plus petite pour le brouillard, pour améliorer les perfs et rendre flou
+		var rw = this.canvas.width*r;
+		var rh = this.canvas.height*r;
+		var rz = this.zoom*r;
+		if (!this.fogContext) {
+			this.fogImg = document.createElement('canvas');
+			this.fogImg.width = rw;
+			this.fogImg.height = rh;
+			this.fogContext = this.fogImg.getContext('2d');
+		}
+		var c = this.fogContext;
+		c.globalCompositeOperation = 'source-over';
+		c.clearRect(0, 0, rw, rh);
+		c.fillStyle = "rgba(0, 0, 0, 0.5)";
+		c.fillRect(0, 0, rw, rh);
+		if (this.mapData.Vues) {
+			for (var i=this.mapData.Vues.length; i-->0;) {
+				var vue = this.mapData.Vues[i];
+				if (vue.active && vue.Z==this.z) {
+					//var hole = holes[i];
+					var hole = new Rect();
+					hole.x = rz*(this.originX+vue.XMin);
+					hole.y = rz*(this.originY-vue.YMin+1);
+					hole.w = rz*(this.originX+vue.XMax+1) - hole.x;
+					hole.h = - (rz*(this.originY-vue.YMax) - hole.y);
+					hole.y -= hole.h;
+					if (!Rect_intersect(hole, this.screenRect)) {
+						continue;
+					}
+					if (!hole) continue;
+					c.clearRect(hole.x, hole.y, hole.w, hole.h);
 				}
+			}
+		}
+		this.context.drawImage(this.fogImg, 0, 0, this.screenRect.w, this.screenRect.h);
+	} else {
+		//> On utilise une méthode différente s'il n'y a qu'une seule vue car la méthode compatible
+		//  avec plusieurs vues est lente sur Firefox.
+		var c = this.context;
+		c.beginPath();
+		c.moveTo(0, 0);
+		c.lineTo(this.screenRect.w, 0);
+		c.lineTo(this.screenRect.w, this.screenRect.h);
+		c.lineTo(0, this.screenRect.h);
+		c.closePath();
+		var radius = this.zoom/6;
+		var vue = this.mapData.Vues[0];
+		if (vue.active && vue.Z==this.z) {
+			hasVue = true;
+			var hole = new Rect();
+			hole.x = this.zoom*(this.originX+vue.XMin);
+			hole.y = this.zoom*(this.originY-vue.YMin+1);
+			hole.w = this.zoom*(this.originX+vue.XMax+1) - hole.x;
+			hole.h = - (this.zoom*(this.originY-vue.YMax) - hole.y);
+			hole.y -= hole.h;
+			if (Rect_intersect(hole, this.screenRect)) {
 				c.moveTo(hole.x, hole.y+radius);
 				c.arcTo(hole.x, hole.y+hole.h, hole.x+radius, hole.y+hole.h, radius);
 				c.arcTo(hole.x+hole.w, hole.y+hole.h, hole.x+hole.w, hole.y+radius, radius);
@@ -212,12 +253,11 @@ Map.prototype.drawFog = function() {
 				c.arcTo(hole.x, hole.y, hole.x, hole.y+radius, radius);
 			}
 		}
-	}
-	if (hasVue) {
-		c.fillStyle = "rgba(100, 100, 100, 0.4)";
+		c.fillStyle = "rgba(100, 100, 100, 0.5)";
 		c.fill();
 	}
 }
+
 // redessine la page. Peut-être appelée de n'importe quel contexte, y compris depuis une méthode de dessin (pour par exemple faire une animation)
 Map.prototype.redraw = function() {
 	if (this.drawInProgress) {
@@ -264,9 +304,9 @@ Map.prototype.redraw = function() {
 					var vue = this.mapData.Vues[i];
 					if (vue.active && vue.Z==this.z) this.drawVue(vue, xMin, xMax, yMin, yMax);
 				}
-			}
-			if (this.displayFog) {
-				this.drawFog();
+				if (this.displayFog) {
+					this.drawFog();
+				}
 			}
 			if (this.mapData.Villes && this.zoom<=60) {
 				for (var i=this.mapData.Villes.length; i-->0;) {

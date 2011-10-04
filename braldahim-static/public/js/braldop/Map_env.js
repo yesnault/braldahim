@@ -69,7 +69,8 @@ Map.prototype.initTiles = function() {
 		'braldun_feminin', 'braldun_feminin-a', 'braldun_feminin-b', 'braldun_masculin', 'braldun_masculin-a', 'braldun_masculin-b',
 		'bralduns_feminin', 'bralduns_feminin-a', 'bralduns_feminin-b', 'bralduns_feminin-combat',
 		'bralduns_masculin', 'bralduns_masculin-a', 'bralduns_masculin-b', 'bralduns_masculin-combat',
-		'bralduns_masculin_feminin', 'bralduns_masculin_feminin-a', 'bralduns_masculin_feminin-b', 'bralduns_masculin_feminin-combat'
+		'bralduns_masculin_feminin', 'bralduns_masculin_feminin-a', 'bralduns_masculin_feminin-b', 'bralduns_masculin_feminin-combat',
+		'braldunKo'
 	];
 	for (var i=0; i<typeImgBralduns.length; i++) {
 		var key = typeImgBralduns[i];
@@ -96,6 +97,7 @@ Map.prototype.initTiles = function() {
 	(this.imgObjets['tabac-3'] = new Image()).src = baseTilesUrl + "type_tabac/type_tabac_3.png";
 	(this.imgObjets['lingot'] = new Image()).src = baseTilesUrl + "type_minerai/type_minerai_1_p.png";
 	(this.imgObjets['minerai'] = new Image()).src = baseTilesUrl + "type_minerai/type_minerai_1.png";
+	(this.imgObjets['nid'] = new Image()).src = baseTilesUrl + "vue/nid.png";
 	for (var i=1; i<=5; i++) (this.imgObjets['plante-'+i] = new Image()).src = baseTilesUrl + "type_partieplante/type_partieplante_"+i+".png";
 	for (var i=1; i<=27; i++) (this.imgObjets['potion-'+i] = new Image()).src = baseTilesUrl + "type_potion/type_potion_"+i+".png";
 	for (var i=1; i<=27; i++) (this.imgObjets['aliment-'+i] = new Image()).src = baseTilesUrl + "type_aliment/type_aliment_"+i+".png";

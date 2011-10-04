@@ -2686,9 +2686,9 @@ td.champ2d.jachere {
 #racine {
     display: inline;
     float: left;
-    margin-left: 30px;
-    margin-right: 30px;
-    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 99%;
 }
 
 #box_cockpit {
@@ -3775,17 +3775,9 @@ div.box {
 /*********** BRALDOP *********/
 #layer_list {
     position: relative;
-    background-color: transparent;
-    box-shadow: 0 3px 6px #666;
-    padding: 0;
-    left: 5px;
     top: 5px;
-    bottom: 5px;
-    width: 500px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    overflow: auto;
+    vertical-align: top;
+    display:inline-block;
 }
 
 #map {
@@ -3793,7 +3785,7 @@ div.box {
     background-color: white;
     box-shadow: 0 3px 6px #666;
     padding: 0px;
-    left: 0px;
+    left: 10px;
     top: 5px;
     bottom: 5px;
     right: 5px;
@@ -3803,8 +3795,10 @@ div.box {
     -moz-user-select: none;
     user-select: none;
     -webkit-user-select: none;
-     width: 880px;
-     height: 600px;
+     width: 720px;
+     height: 620px;
+    z-index: 8;
+    display:inline-block;
 }
 #map_dialog {
 	position: fixed;
@@ -3849,9 +3843,10 @@ a.layer[selected] {
     padding: 3px;
     background-color: rgba(250, 250, 250, 0.6);
     z-index: 10;
-    position: fixed;
-    bottom: 20;
-    left: 240;
+    bottom: 20px;
+    width:200px;
+    position:relative;
+    color:#1F2614;
 }
 
 .error {

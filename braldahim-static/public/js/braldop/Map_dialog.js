@@ -72,7 +72,7 @@ Map.prototype.openCellDialog = function(x, y) {
 			html[h++] = '<table>';
 			for (var ib=0; ib<cellVue.bralduns.length; ib++) {
 				var b = cellVue.bralduns[ib];
-				var key = b.Sexe=='f' ? 'braldun_feminin' : 'braldun_masculin';
+				var key = b.KO ? 'braldunKo' : ( b.Sexe=='f' ? 'braldun_feminin' : 'braldun_masculin' );
 				if (b.Camp.length) key += '-'+b.Camp;
 				html[h++] = '<tr><td>';
 				html[h++] = '<img src="'+this.imgBralduns[key].src+'">';

@@ -648,6 +648,19 @@ class Bral_Util_Vue
 			}
 		}
 
+		if ($nids != null) {
+			foreach ($nids as $n) {
+				$tableau["Vues"][0]["Objets"][] = array(
+					"X" => $n['x_nid'],
+					"Y" => $n['y_nid'],
+					'Type' => 'nid',
+					'Quantité' => 1,
+					'Label' => $n['nom_nid_type_monstre'],
+					'IdType' => 0,
+				);
+			}
+		}
+
 		if ($cadavres != null) {
 			foreach ($cadavres as $c) {
 				if ($c['genre_type_monstre'] == 'feminin') {
@@ -678,34 +691,27 @@ class Bral_Util_Vue
 		}
 
 		/*
-							if ($nids != null) {
-								foreach ($nids as $n) {
-									if ($display_x == $n['x_nid'] && $display_y == $n['y_nid']) {
-										$tabNids[] = array('id_nid' => $n['id_nid'], 'nom_nid' => $n['nom_nid_type_monstre']);
-									}
-								}
-							}
 
-						if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
-							$view->centre_environnement = $nom_environnement;
-						}
+					  if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
+						  $view->centre_environnement = $nom_environnement;
+					  }
 
-						if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
-							$tabMarcher['case'] = null;
-						} else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
-							$tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
-							$tabMarcher['general'] = $marcher;
-						} else {
-							$tabMarcher['case'] = null;
-						}
+					  if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
+						  $tabMarcher['case'] = null;
+					  } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
+						  $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
+						  $tabMarcher['general'] = $marcher;
+					  } else {
+						  $tabMarcher['case'] = null;
+					  }
 
-						$tableau[] = $tab;
-						if ($change_level) {
-							$change_level = false;
-						}
-					}
-				}
-				*/
+					  $tableau[] = $tab;
+					  if ($change_level) {
+						  $change_level = false;
+					  }
+				  }
+			  }
+			  */
 
 		$view->estSurLieu = $estSurLieu;
 		$view->estSurEchoppe = $estSurEchoppe;

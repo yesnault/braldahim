@@ -176,7 +176,7 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 							cell.zones[0].push(img);
 						}
 						//-- zone 2 : braldun KO
-						if (nbBraldunsKO) cell.zones[2].push(this.img_braldun_ko);
+						if (nbBraldunsKO) cell.zones[2].push(this.imgBralduns['braldunKo']);
 						//-- zone 2 : cadavre
 						if (cell.cadavres.length) {
 							cell.zones[2].push(this.imgCadavre);
@@ -197,7 +197,7 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 								if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
 								else if (o.Type=="ballon"||o.Type=="buisson") dest = cell.zones[1];
 								var img;
-								if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine") img = this.imgObjets[o.Type+'-'+o.IdType];
+								if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine"||o.Type=="équipement"||o.Type=="munition") img = this.imgObjets[o.Type+'-'+o.IdType];
 								else img = this.imgObjets[o.Type];
 								if (img) {
 									dest.push(img);
@@ -238,6 +238,7 @@ Map.prototype.drawVue = function(vue, xMin, xMax, yMin, yMax) {
 								for (var ib=0; ib<cell.bralduns.length; ib++) {
 									var b = cell.bralduns[ib];
 									var s = '  '+b.Prénom+' '+b.Nom+' (niv.'+b.Niveau+')'
+									if (b.KO) s += ' KO';
 									if (b.IdCommunauté>0) s += ' ' +this.mapData.Communautés[b.IdCommunauté].Nom;
 									this.bubbleText.push(s);
 								}
