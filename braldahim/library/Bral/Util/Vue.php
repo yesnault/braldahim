@@ -143,8 +143,6 @@ class Bral_Util_Vue
 		$eaux = $eauTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
 		$bosquetTable = new Bosquet();
 		$bosquets = $bosquetTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
-		$regionTable = new Region();
-		$regions = $regionTable->findAll();
 		$routeTable = new Route();
 		$routes = $routeTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
 		$souleMatchTable = new SouleMatch();
@@ -157,7 +155,8 @@ class Bral_Util_Vue
 			unset($tunnelTable);
 		}
 		$villeTable = new Ville();
-		$villes = $villeTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max);
+		$villes = $villeTable->findAllWithRegion();
+		
 		unset($villeTable);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
@@ -328,15 +327,28 @@ class Bral_Util_Vue
 		}
 
 
-		if ($regions != null) {
-			foreach ($regions as $r) {
+		if ($villes != null) {
+			foreach ($villes as $v) {
 				//	$region = array('nom' => $r['nom_region'], 'description' => $r['description_region'], 'est_pvp_region' => $r['est_pvp_region']);
-				$tableau["Régions"][] = array('id' => $r["id_region"], "Nom" => $r['nom_region'],
-					"XMin" => $r['x_min_region'],
-					"XMax" => $r['x_max_region'],
-					"YMin" => $r['y_min_region'],
-					"YMax" => $r['y_max_region'],
-					"EstPvp" => $r['est_pvp_region'],);
+				$tableau["Régions"][$v["id_region"]-1] = array(
+					'id' => $v["id_region"],
+					"Nom" => $v['nom_region'],
+					"XMin" => $v['x_min_region'],
+					"XMax" => $v['x_max_region'],
+					"YMin" => $v['y_min_region'],
+					"YMax" => $v['y_max_region'],
+					"EstPvp" => ($v['est_pvp_region'] == "oui"),
+				);
+
+				$tableau["Villes"][] = array(
+					'id' => $v["id_ville"],
+					"Nom" => $v['nom_ville'],
+					'EstCapitale' => $v["est_capitale_ville"],
+					'XMin' => $v["x_min_ville"],
+					'XMax' => $v["x_max_ville"],
+					'YMin' => $v["y_min_ville"],
+					'YMax' => $v["y_max_ville"],
+				);
 			}
 		}
 
