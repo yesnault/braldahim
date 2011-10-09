@@ -189,6 +189,12 @@ Map.prototype.setData = function(mapData) {
 	for (var i=this.mapData.Vues.length; i-->0;) {
 		this.compileVue(this.mapData.Vues[i]);
 	}
+	// s'il y a des actions, on appelle la méthode addAction
+	if (mapData.Actions) {
+		for (var i=mapData.Actions.length; i-->0;) {
+			this.addAction(mapData.Actions[i]);
+		}
+	}
 	//console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
 }
 
@@ -516,6 +522,7 @@ Map.prototype.naturalRectToScreenRect = function(naturalRect, screenRect) {
 
 // permet de spécifier un callback pour une clef
 // - 'profondeur' : appelé en cas de changement de profondeur. L'argument de la méthode sera la profondeur z
+// - 'action' : appelé en cas d'action, avec pour paramètre l'action
 Map.prototype.setCallback = function(key, f) {
 	this.callbacks[key] = f;
 }

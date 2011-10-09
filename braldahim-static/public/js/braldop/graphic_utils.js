@@ -79,6 +79,8 @@ function computeAngle(c, a) {
  * Si aucune dimension n'est fournie, alors on dessine à la taille naturelle de l'image.
  */
 function drawCenteredImage(c, img, cx, cy, w, h) {
+	cx = Math.round(cx);
+	cy = Math.round(cy);
 	if (!img.width) return; // image non chargée
 	if (w) {
 		if (!h) h = w*img.height/img.width;

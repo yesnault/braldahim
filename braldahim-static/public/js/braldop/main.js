@@ -19,6 +19,19 @@ function fetchMap(callback) {
     httpRequest.send();
 }
 
+
+function initBraldopCallback(map) {
+    map.setCallback("Marcher", function(a) {
+        console.log('Action Marcher:');
+        console.log(a);
+        actionMarcher(a);
+    });
+}
+
+function actionMarcher(action) {
+    alert('Developpement en cours. Action Marcher PA:'+ action.PA);
+}
+
 function initBraldop() {
     map = new Map("map_canvas", "posmark", "map_dialog");
     fetchMap(function(msg) {
@@ -82,4 +95,5 @@ function initBraldop() {
         map.redraw();
     }, 1000);
 
+    initBraldopCallback(map);
 }

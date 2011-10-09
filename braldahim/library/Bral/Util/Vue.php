@@ -156,7 +156,7 @@ class Bral_Util_Vue
 		}
 		$villeTable = new Ville();
 		$villes = $villeTable->findAllWithRegion();
-		
+
 		unset($villeTable);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
@@ -172,8 +172,11 @@ class Bral_Util_Vue
 				   * $marcher = null;
 				   * if ($view->estVueEtendue === false && $view->user->administrationvue == false) {
 					  $utilMarcher = new Bral_Util_Marcher();
-					  $marcher = $utilMarcher->calcul($view->user);
+					  		$marcher = $utilMarcher->calcul($view->user);
 				  }*/
+
+		$utilMarcher = new Bral_Util_Marcher();
+		$marcher = $utilMarcher->calcul($view->user);
 
 		$estSurLieu = false;
 		$estSurEchoppe = false;
@@ -186,6 +189,19 @@ class Bral_Util_Vue
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i++) {
 				$display_x = $i;
 				$display_y = $j;
+
+				if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
+					//rien
+				} else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
+					$marcherCase = $marcher['tableauValidationXY'][$display_x][$display_y];
+					$tableau["Actions"][] = array(
+						'Type' => 'Marcher',
+						'Acteur' => $view->user->id_braldun,
+						'X' => $display_x,
+						'Y' => $display_y,
+						'PA' => $marcher["nb_pa"],
+					);
+				}
 
 				foreach ($zones as $z) {
 					if ($display_x >= $z['x_min_zone'] &&
@@ -330,7 +346,7 @@ class Bral_Util_Vue
 		if ($villes != null) {
 			foreach ($villes as $v) {
 				//	$region = array('nom' => $r['nom_region'], 'description' => $r['description_region'], 'est_pvp_region' => $r['est_pvp_region']);
-				$tableau["Régions"][$v["id_region"]-1] = array(
+				$tableau["Régions"][$v["id_region"] - 1] = array(
 					'id' => $v["id_region"],
 					"Nom" => $v['nom_region'],
 					"XMin" => $v['x_min_region'],
@@ -702,28 +718,29 @@ class Bral_Util_Vue
 			}
 		}
 
+
 		/*
 
-					  if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
-						  $view->centre_environnement = $nom_environnement;
-					  }
+							  if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
+								  $view->centre_environnement = $nom_environnement;
+							  }
 
-					  if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
-						  $tabMarcher['case'] = null;
-					  } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
-						  $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
-						  $tabMarcher['general'] = $marcher;
-					  } else {
-						  $tabMarcher['case'] = null;
-					  }
+							  if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
+								  $tabMarcher['case'] = null;
+							  } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
+								  $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
+								  $tabMarcher['general'] = $marcher;
+							  } else {
+								  $tabMarcher['case'] = null;
+							  }
 
-					  $tableau[] = $tab;
-					  if ($change_level) {
-						  $change_level = false;
+							  $tableau[] = $tab;
+							  if ($change_level) {
+								  $change_level = false;
+							  }
+						  }
 					  }
-				  }
-			  }
-			  */
+					  */
 
 		$view->estSurLieu = $estSurLieu;
 		$view->estSurEchoppe = $estSurEchoppe;
