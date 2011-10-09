@@ -1491,18 +1491,19 @@ function affDetails(x, y, z) {
 
 function tableauTriable(id) {
 
-	$('#'+id).dataTable({
-		"bJQueryUI": true,
-		"oLanguage": {
-			"sLengthMenu": "Afficher _MENU_ éléments",
-			"sZeroRecords": "Aucun résultat - désolé",
-			"sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
-			"sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
-			"sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
-			"sSearch": "Filtre",
-
-		}
-	});
+    if (id != "idLotsTable") {
+        $('#'+id).dataTable({
+            "bJQueryUI": true,
+            "oLanguage": {
+                "sLengthMenu": "Afficher _MENU_ éléments",
+                "sZeroRecords": "Aucun résultat - désolé",
+                "sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+                "sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
+                "sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
+                "sSearch": "Filtre"
+            }
+        });
+    }
 
 	if (id == "idCompetencesTable" && $('#'+id).exists()) {
 		if ($('#filtre-competenceCourant').val() != '') {
@@ -1513,6 +1514,23 @@ function tableauTriable(id) {
 		$('#'+id).dataTable().fnSort([ [1,'asc'] ]);
 	}
 
+    if (id == "idLotsTable" && $('#'+id).exists()) {
+        $('#'+id).dataTable({
+            "bJQueryUI": true,
+            "oLanguage": {
+                "sLengthMenu": "Afficher _MENU_ éléments",
+                "sZeroRecords": "Aucun résultat - désolé",
+                "sInfo": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+                "sInfoEmpty": "Affichage de 0 à 0 sur 0 records",
+                "sInfoFiltered": "(Filtre sur un total de _MAX_ éléments)",
+                "sSearch": "Filtre"
+            },
+            "aaSorting": [[ 0, "desc" ]],
+            "aoColumnDefs": [
+                        { "bVisible": false, "aTargets": [ 1 ] },
+                    ]
+        });
+    }
 }
 
 function isDataTable ( nTable )
