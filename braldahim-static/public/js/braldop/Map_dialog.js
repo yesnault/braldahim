@@ -65,7 +65,14 @@ Map.prototype.openCellDialog = function(x, y) {
 		empty = true;
 	}
 	var cellVue = this.getCellVueVisible(x, y);
-	if (cellVue) {		
+	if (cellVue) {
+		if (cellVue.action) {
+			empty = false;
+			var t = this.typesActions[cellVue.action.Type];
+			html[h++] = '<table><tr><td>';
+			if (t.iconeCase) html[h++] = '<img hspace=5 vspace=2 src="'+t.iconeCase.src+'">'; // le hspace et le vspace là sont paresseux, on changera si plusieurs actions ont des icônes
+			html[h++] = '</td><td><a href="javascript:mapDoAction('+cellVue.action.key+');">'+t.nom+'</a></td><td>('+cellVue.action.PA+' PA)</td></tr></table>';
+		}
 		if (cellVue.bralduns.length) {
 			empty = false;
 			html[h++] = "<b>Braldûns :</b>";

@@ -57,6 +57,10 @@ function initBraldop() {
         map.displayFog = this.checked;
         map.redraw();
     });
+    $('#layer_grid').attr('checked', map.displayGrid).change(function(){
+   		map.displayGrid=this.checked;
+   		map.redraw();
+   	});
 
     $('#btnCentrer').bind('click', function() {
         map.zoom = 64;
