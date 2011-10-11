@@ -131,6 +131,7 @@ class Bral_Util_Vue
 		$bralduns = $braldunTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position, -1, true, true);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
+		$lieuxVilles = $lieuxTable->findAllLieuAvecVille();
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->selectVue($view->x_min, $view->y_min, $view->x_max, $view->y_max, $view->z_position);
 		$nidTable = new Nid();
@@ -332,16 +333,28 @@ class Bral_Util_Vue
 									$estLimiteVille = false;
 									*/
 
-				$tableau["LieuxVilles"][] = array("Id" => $l['id_lieu'],
+
+				$tableau["Vues"][0]["Lieux"][] = array(
 					"Nom" => $l['nom_lieu'],
 					"IdTypeLieu" => $l['id_type_lieu'],
 					"X" => $l['x_lieu'],
-					"Y" => $l['y_lieu']
+					"Y" => $l['y_lieu'],
+					"Z" => $l['z_lieu'],
 				);
-
 			}
 		}
 
+		if ($lieuxVilles != null) {
+			foreach ($lieuxVilles as $l) {
+				$tableau["LieuxVilles"][] = array(
+					"Nom" => $l['nom_lieu'],
+					"IdTypeLieu" => $l['id_type_lieu'],
+					"X" => $l['x_lieu'],
+					"Y" => $l['y_lieu'],
+					"Z" => $l['z_lieu'],
+				);
+			}
+		}
 
 		if ($villes != null) {
 			foreach ($villes as $v) {

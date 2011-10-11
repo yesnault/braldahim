@@ -1,49 +1,27 @@
 // parcoure les vues affichées pour trouver les bralduns visibles sur la case x,y.
 Map.prototype.getBralduns = function(x, y) {
-	if (this.mapData.Vues) {
-		for (var i=this.mapData.Vues.length; i-->0;) {
-			var vue = this.mapData.Vues[i];
-			if (vue.active) {
-				var cell = getCellVue(vue, x, y);
-				if (cell) {
-					return cell.bralduns;
-				}
-			}
-		}
+	var cell = this.getCellVue(x, y);
+	if (cell) {
+		return cell.bralduns;
 	}
 	return [];
 }
 
-// renvoie la première cellule de vue trouvée (en ne cherchant que parmi les vues affichées)
-Map.prototype.getCellVueVisible = function(x, y) {
-	if (this.mapData.Vues) {
-		for (var i=this.mapData.Vues.length; i-->0;) {
-			var vue = this.mapData.Vues[i];
-			if (vue.active && x>=vue.XMin && x<=vue.XMax && y>=vue.YMin && y<=vue.YMax) {
-				var cell = getCellVue(vue, x, y);
-				if (cell) {
-					return cell;
-				}
-			}
-		}
-	}
-	return null;
-}
 
 // renvoie la cellule de la vue ou null (hors vue ou vide)
 // Attention : cette méthode ne vérifie pas que x et y sont dans la portée de la vue : le faire avant
-function getCellVue(vue, x, y) {
-	var W = vue.XMax-vue.XMin+1;
-	var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
-	//~ console.log('('+x+','+y+') -> '+index);
-	return vue.matrix ? vue.matrix[index] : null;
+Map.prototype.getCellVue = function(x, y) {
+	return this.matriceVues[this.getIndex(x, y)];
+}
+
+Map.prototype.cleanCellVue = function(x, y) {
+	delete this.matriceVues[this.getIndex(x, y)];
 }
 
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
-function getCellVueCreate(vue, x, y) {
-	var W = vue.XMax-vue.XMin+1;
-	var index = ((x-vue.XMin)%W)+(W*(y-vue.YMin));
-	var cell = vue.matrix[index];
+Map.prototype.getCellVueCreate = function(x, y) {
+	var index = this.getIndex(x, y);
+	var cell = this.matriceVues[index];
 	if (!cell) {
 		cell = {};
 		cell.bralduns = [];
@@ -53,7 +31,7 @@ function getCellVueCreate(vue, x, y) {
 		cell.nbBraldunsFémininsNonKO=0; 
 		cell.nbBraldunsMasculinsNonKO=0;
 		cell.zones = [[], [], [], []]; // 4 zones : haut-gauche, centre, bas-gauche et bas-droit (haut-droit n'est pas géré dans la vue et correspond au lieu)
-		vue.matrix[index] = cell;
+		this.matriceVues[index] = cell;
 	}
 	return cell;
 }
@@ -97,150 +75,174 @@ Map.prototype.drawIcons = function(c, sx, sy, icons, hover) {
 	}
 }
 
-Map.prototype.compileVue = function(vue) {
-	vue.matrix = [];
-	for (ib in vue.Bralduns) {
-		var b = vue.Bralduns[ib];
-		var cell = getCellVueCreate(vue, b.X, b.Y)
-		cell.bralduns.push(b);
-	}
-	for (io in vue.Objets) {
-		var o = vue.Objets[io];
-		var cell = getCellVueCreate(vue, o.X, o.Y);
-		cell.objets.push(o);
-	}
-	for (io in vue.Monstres) {
-		var o = vue.Monstres[io];
-		var cell = getCellVueCreate(vue, o.X, o.Y);
-		cell.monstres.push(o);
-	}
-	for (io in vue.Cadavres) {
-		var o = vue.Cadavres[io];
-		var cell = getCellVueCreate(vue, o.X, o.Y);
-		cell.cadavres.push(o);
-	}
-	//> pour chaque cellule on construit les tableaux d'images par zones
-	for (var x=vue.XMin; x<=vue.XMax; x++) {
-		for (var y=vue.YMin; y<=vue.YMax; y++) {
-			var cell = getCellVue(vue, x, y);
-			if (cell) {
-				//-- zone 0 : bralduns
-				if (cell.bralduns.length) {
-					var hasBraldunsCampA = false;
-					var hasBraldunsCampB = false;
-					var nbBraldunsFémininsNonKO=0; 
-					var nbBraldunsMasculinsNonKO=0;
-					var nbBraldunsKO=0;
-					for (var i=0; i<cell.bralduns.length; i++) {
-						var b = cell.bralduns[i];
-						if (b.KO) {
-							nbBraldunsKO++;
-						} else {
-							if (b.Sexe=='f') nbBraldunsFémininsNonKO++;
-							else nbBraldunsMasculinsNonKO++;
-							if (b.Camp=='a') hasBraldunsCampA=true;
-							else if (b.Camp=='b') hasBraldunsCampB=true;
-						}
-					}
-					if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>0) {
-						var key = 'braldun';
-						if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>1) key+='s';
-						if (nbBraldunsMasculinsNonKO>0) key += '_masculin';
-						if (nbBraldunsFémininsNonKO>0) key += '_feminin';
-						if (hasBraldunsCampA && hasBraldunsCampB) key += '-combat';
-						else if (hasBraldunsCampA) key += '-a';
-						else if (hasBraldunsCampB) key += '-b';
-						var img = this.imgBralduns[key];
-						if (img) cell.zones[0].push(img);
-						else console.log("pas d'image de braldun pour la clé '" +key+"'");
-					}
+// construit l'objet matriceVues qui contient les infos de toutes les vues visibles
+Map.prototype.compileLesVues = function() {
+    console.log("On compile");
+
+	this.matricesVuesParZ = {};
+	for (var iv=0; iv<this.mapData.Vues.length; iv++) {
+		var vue = this.mapData.Vues[iv];
+		if (!vue.active) continue;
+		this.matriceVues = this.matricesVuesParZ[vue.Z];
+		if (!this.matriceVues) {
+			this.matriceVues = {};
+			this.matricesVuesParZ[vue.Z] = this.matriceVues;
+		}
+		if (iv>0) {
+			// on nettoie la zone en vue (les vues ont été triées par date auparavant)
+			for (x=vue.XMin; x<=vue.XMax; x++) {
+				for (y=vue.YMin; y<=vue.YMax; y++) {
+					this.cleanCellVue(x, y);
 				}
-				//-- zone 0 : monstres
-				if (cell.monstres.length) {
-					var nbByType = {};
-					var nbTypes=0;
-					for (var i=cell.monstres.length; i-->0;) {
-						var t = cell.monstres[i].IdType;
-						if (nbByType[t]) {
-							nbByType[t]++;
-						} else {
-							nbByType[t] = 1;
-							nbTypes++;
-						}
-					}
-					if (nbTypes==1 && cell.monstres.length==2) {
-						var imgBase = this.imgMonstres[t];
-						var img = imgBase ? imgBase.a : this.imgMonstreInconnu;
-						cell.zones[0].push(img);
-						cell.zones[0].push(img);
-					} else if (nbTypes==1 && cell.monstres.length==3) {
-						var imgBase = this.imgMonstres[t];
-						if (imgBase) {
-							cell.zones[0].push(imgBase.b);
-							cell.zones[0].push(imgBase.a);
-						} else {
-							cell.zones[0].push(this.imgMonstreInconnu);
-							cell.zones[0].push(this.imgMonstreInconnu);
-						}
-					} else if (nbTypes<3) {
-						for (t in nbByType) {
-							var imgBase = this.imgMonstres[t];
-							cell.zones[0].push(imgBase ? (nbByType[t]==1 ? imgBase.a : imgBase.b) : this.imgMonstreInconnu);
-						}
-					} else {
-						cell.zones[0].push(this.imgMultiMonstres);
-					}
-				}
-				//-- zone 2 : braldun KO
-				if (nbBraldunsKO) cell.zones[2].push(this.imgBralduns['braldunKo']);
-				//-- zone 2 : cadavre
-				if (cell.cadavres.length) {
-					cell.zones[2].push(this.imgCadavre);
-				}
-				//-- zones 1, 2 et 3 : objets, triés suivant leur type et orientés dans l'une des deux zones
-				if (cell.objets.length) {
-					for (var i=0; i<cell.objets.length; i++) {
-						var o = cell.objets[i];
-						var typeDéjàPrésent = false;
-						for (var j=0; j<i; j++) {
-							if (o.Type==cell.objets[j].Type) {
-								typeDéjàPrésent = true;
-								break;
+			}
+		}
+		for (ib in vue.Bralduns) {
+			var b = vue.Bralduns[ib];
+			var cell = this.getCellVueCreate(b.X, b.Y)
+			cell.bralduns.push(b);
+		}
+		for (io in vue.Objets) {
+			var o = vue.Objets[io];
+			var cell = this.getCellVueCreate(o.X, o.Y);
+			cell.objets.push(o);
+		}
+		for (io in vue.Monstres) {
+			var o = vue.Monstres[io];
+			var cell = this.getCellVueCreate(o.X, o.Y);
+			cell.monstres.push(o);
+		}
+		for (io in vue.Cadavres) {
+			var o = vue.Cadavres[io];
+			var cell = this.getCellVueCreate(o.X, o.Y);
+			cell.cadavres.push(o);
+		}
+		//> on ajoute les actions aux cellules
+		if (vue.actions) {
+			for (var i=0; i<vue.actions.length; i++) {
+				var a = vue.actions[i];
+				var cell = this.getCellVueCreate(a.X, a.Y);
+				cell.action = a; // une action max par case pour l'instant
+				cell.zones[1].push(this.typesActions[a.Type].iconeCase);
+			}
+		}
+		//> pour chaque cellule on construit les tableaux d'images par zones
+		for (var x=vue.XMin; x<=vue.XMax; x++) {
+			for (var y=vue.YMin; y<=vue.YMax; y++) {
+				var cell = this.getCellVue(x, y);
+				if (cell) {
+					//-- zone 0 : bralduns
+					if (cell.bralduns.length) {
+						var hasBraldunsCampA = false;
+						var hasBraldunsCampB = false;
+						var nbBraldunsFémininsNonKO=0; 
+						var nbBraldunsMasculinsNonKO=0;
+						var nbBraldunsKO=0;
+						for (var i=0; i<cell.bralduns.length; i++) {
+							var b = cell.bralduns[i];
+							if (b.KO) {
+								nbBraldunsKO++;
+							} else {
+								if (b.Sexe=='f') nbBraldunsFémininsNonKO++;
+								else nbBraldunsMasculinsNonKO++;
+								if (b.Camp=='a') hasBraldunsCampA=true;
+								else if (b.Camp=='b') hasBraldunsCampB=true;
 							}
 						}
-						if (typeDéjàPrésent) continue;
-						var dest = cell.zones[3];
-						if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
-						else if (o.Type=="ballon"||o.Type=="buisson") dest = cell.zones[1];
-						var img;
-						if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine"||o.Type=="équipement"||o.Type=="munition") img = this.imgObjets[o.Type+'-'+o.IdType];
-						else img = this.imgObjets[o.Type];
-						if (img) {
-							dest.push(img);
+						if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>0) {
+							var key = 'braldun';
+							if (nbBraldunsFémininsNonKO+nbBraldunsMasculinsNonKO>1) key+='s';
+							if (nbBraldunsMasculinsNonKO>0) key += '_masculin';
+							if (nbBraldunsFémininsNonKO>0) key += '_feminin';
+							if (hasBraldunsCampA && hasBraldunsCampB) key += '-combat';
+							else if (hasBraldunsCampA) key += '-a';
+							else if (hasBraldunsCampB) key += '-b';
+							var img = this.imgBralduns[key];
+							if (img) cell.zones[0].push(img);
+							else console.log("pas d'image de braldun pour la clé '" +key+"'");
+						}
+					}
+					//-- zone 0 : monstres
+					if (cell.monstres.length) {
+						var nbByType = {};
+						var nbTypes=0;
+						for (var i=cell.monstres.length; i-->0;) {
+							var t = cell.monstres[i].IdType;
+							if (nbByType[t]) {
+								nbByType[t]++;
+							} else {
+								nbByType[t] = 1;
+								nbTypes++;
+							}
+						}
+						if (nbTypes==1 && cell.monstres.length==2) {
+							var imgBase = this.imgMonstres[t];
+							var img = imgBase ? imgBase.a : this.imgMonstreInconnu;
+							cell.zones[0].push(img);
+							cell.zones[0].push(img);
+						} else if (nbTypes==1 && cell.monstres.length==3) {
+							var imgBase = this.imgMonstres[t];
+							if (imgBase) {
+								cell.zones[0].push(imgBase.b);
+								cell.zones[0].push(imgBase.a);
+							} else {
+								cell.zones[0].push(this.imgMonstreInconnu);
+								cell.zones[0].push(this.imgMonstreInconnu);
+							}
+						} else if (nbTypes<3) {
+							for (t in nbByType) {
+								var imgBase = this.imgMonstres[t];
+								cell.zones[0].push(imgBase ? (nbByType[t]==1 ? imgBase.a : imgBase.b) : this.imgMonstreInconnu);
+							}
 						} else {
-							console.log("pas d'image pour cet objet :");
-							console.log(o);
+							cell.zones[0].push(this.imgMultiMonstres);
+						}
+					}
+					//-- zone 2 : braldun KO
+					if (nbBraldunsKO) cell.zones[2].push(this.imgBralduns['braldunKo']);
+					//-- zone 2 : cadavre
+					if (cell.cadavres.length) {
+						cell.zones[2].push(this.imgCadavre);
+					}
+					//-- zones 1, 2 et 3 : objets, triés suivant leur type et orientés dans l'une des deux zones
+					if (cell.objets.length) {
+						for (var i=0; i<cell.objets.length; i++) {
+							var o = cell.objets[i];
+							var typeDéjàPrésent = false;
+							for (var j=0; j<i; j++) {
+								if (o.Type==cell.objets[j].Type) {
+									typeDéjàPrésent = true;
+									break;
+								}
+							}
+							if (typeDéjàPrésent) continue;
+							var dest = cell.zones[3];
+							if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
+							else if (o.Type=="ballon"||o.Type=="buisson") dest = cell.zones[1];
+							var img;
+							if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine"||o.Type=="équipement"||o.Type=="munition") img = this.imgObjets[o.Type+'-'+o.IdType];
+							else img = this.imgObjets[o.Type];
+							if (img) {
+								dest.push(img);
+							} else {
+								console.log("pas d'image pour cet objet :");
+								console.log(o);
+							}
 						}
 					}
 				}
 			}
 		}
-	}
+	}	
 }
 
 
 // dessine la vue d'un Braldun (la partie intersectant this.xMin, this.xMax, etc.)
-Map.prototype.drawVue = function(vue) {
+Map.prototype.dessineLesVues = function() {
 	var c = this.context;
 		
-	//> on dessine les trucs en vue
-	var xMin = Math.max(this.xMin, vue.XMin);
-	var xMax = Math.min(this.xMax, vue.XMax);
-	var yMin = Math.max(this.yMin, vue.YMin);
-	var yMax = Math.min(this.yMax, vue.YMax);
-	for (var x=xMin; x<=xMax; x++) {
-		for (var y=yMin; y<=yMax; y++) {
-			var cell = getCellVue(vue, x, y);
+	for (var x=this.xMin; x<=this.xMax; x++) {
+		for (var y=this.yMin; y<=this.yMax; y++) {
+			var cell = this.getCellVue(x, y);
 			if (cell) {
 				var hover = (this.pointerX==x && this.pointerY==y);
 				var d = this.zoom*0.25;
@@ -301,6 +303,5 @@ Map.prototype.drawVue = function(vue) {
 				}
 			}
 		}
-		
 	}
 }

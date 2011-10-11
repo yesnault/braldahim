@@ -29,7 +29,7 @@ function initBraldopCallback(map) {
 }
 
 function actionMarcher(action) {
-    alert('Developpement en cours. Action Marcher PA:'+ action.PA);
+    alert('Developpement en cours. Action Marcher PA:' + action.PA);
 }
 
 function initBraldop() {
@@ -47,11 +47,20 @@ function initBraldop() {
             html += '</select>';
         }
         $('#choix_profondeur').html(html);
-        
+
+        html = "";
+        if (msg.Vues) {
+            for (i in msg.Vues) {
+                var v = msg.Vues[i];
+                v.active = true; // on active par défaut les vues
+            }
+        }
+        $('#view_table tbody').html(html);
         map.setCallback('profondeur', function(z) {
             $('#select_profondeur').val(z);
         });
 
+        map.compileLesVues(); // en raison de leur activation
         map.redraw();
         setTimeout(function() {
             map.redraw();
@@ -70,10 +79,10 @@ function initBraldop() {
         map.displayFog = this.checked;
         map.redraw();
     });
-    $('#layer_grid').attr('checked', map.displayGrid).change(function(){
-   		map.displayGrid=this.checked;
-   		map.redraw();
-   	});
+    $('#layer_grid').attr('checked', map.displayGrid).change(function() {
+        map.displayGrid = this.checked;
+        map.redraw();
+    });
 
     $('#btnCentrer').bind('click', function() {
         map.zoom = 64;
@@ -92,6 +101,7 @@ function initBraldop() {
             v.active = true; //this.checked;
             map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
         }
+
         map.redraw();
     }, 1000);
 

@@ -90,7 +90,13 @@ Map.prototype.changeProfondeur = function(z) {
 		this.couche = newCouche;
 		this.z = z;
 	}
+	this.matriceVues = this.matricesVuesParZ[this.z];
 	this.updatePosDiv();
+}
+
+// calcule l'index 2D de la cellule
+Map.prototype.getIndex = function(x, y) {
+	return ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
 }
 
 // centre l'écran sur la case de coordonnées (x, y, z)
@@ -106,8 +112,7 @@ Map.prototype.goto = function(x, y, z) {
 
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
 Map.prototype.getCellCreate = function(couche, x, y) {
-	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
-	//console.log("("+x+","+y+") -> "+index);
+	var index = this.getIndex(x, y);
 	var cell = couche.matrix[index];
 	if (!cell) {
 		cell = {};
@@ -117,8 +122,7 @@ Map.prototype.getCellCreate = function(couche, x, y) {
 }
 // renvoie une cellule (en la créant si nécessaire, ne pas utiliser cette méthode en simple lecture)
 Map.prototype.getCell = function(couche, x, y) {
-	var index = ((x+this.W)%(2*this.W))+2*this.W*(y+this.W);
-	return couche.matrix[index];
+	return couche.matrix[this.getIndex(x, y)];
 }
 
 Map.prototype.recomputeCanvasPosition = function() {
@@ -145,8 +149,10 @@ Map.prototype.recomputeCanvasPosition = function() {
 // Les données sont copiées dans une structure qui donne un accès par les coordonnées des cases.
 Map.prototype.setData = function(mapData) {
 	this.mapData = mapData;
-	//console.log("carte reçue");
-	//var startTime = (new Date()).getTime();
+	this.matricesVuesParZ = {};
+	this.matricesVuesParZ[0]={};
+	console.log("carte reçue");
+	var startTime = (new Date()).getTime();
 	this.z = 0; // on va basculer forcément sur la couche zéro
 	this.couche = null; 
 	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
@@ -174,11 +180,21 @@ Map.prototype.setData = function(mapData) {
 				this.getCellCreate(couche, o.X, o.Y).échoppe=o;
 			}
 		}
+		if (couche.Lieux) {
+			for (var i=couche.Lieux.length; i-->0;) {
+				var o = couche.Lieux[i];
+				this.getCellCreate(couche, o.X, o.Y).lieu=o;
+			}
+		}
 	}
 	if (!this.couche) {
 		console.log('Pas de couche zéro !');
 		return;
 	}
+	if (!this.mapData.Vues) this.mapData.Vues=[];
+	this.mapData.Vues.sort(function(a, b) {
+		return a.Time-b.Time;
+	});
 	//  les lieux de ville (pour l'instant ?) n'ont pas de profondeur explicite mais ne concerne que la surface. On les met dans la couche zéro
 	if (this.mapData.LieuxVilles) {
 		for (var i=this.mapData.LieuxVilles.length; i-->0;) {
@@ -186,16 +202,32 @@ Map.prototype.setData = function(mapData) {
 			this.getCellCreate(this.couche, o.X, o.Y).lieu=o;
 		}
 	}
-	for (var i=this.mapData.Vues.length; i-->0;) {
-		this.compileVue(this.mapData.Vues[i]);
-	}
-	// s'il y a des actions, on appelle la méthode addAction
 	if (mapData.Actions) {
-		for (var i=mapData.Actions.length; i-->0;) {
-			this.addAction(mapData.Actions[i]);
+		for (var ia=mapData.Actions.length; ia-->0;) {
+			var a = mapData.Actions[ia];
+			a.key = this.actions.length; // on donne à l'action une clef pour la retrouver plus facilement
+			this.actions.push(a);
+			// on ajoute les actions à la vue (trouvée par l'acteur)
+			var vue;
+			if (this.mapData.Vues) {
+				for (var i=this.mapData.Vues.length; i-->0;) {
+					if (this.mapData.Vues[i].Voyeur==a.Acteur) {
+						vue = this.mapData.Vues[i];
+						break;
+					}
+				}
+			}
+			if (!vue) {
+				console.log('Vue non trouvée pour action');
+				continue;
+			}
+			if (!vue.actions) vue.actions = [];
+			vue.actions.push(a);
 		}
 	}
-	//console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
+	this.compileLesVues();
+	this.matriceVues = this.matricesVuesParZ[0];
+	console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
 }
 
 // dessine le brouillard de guerre
@@ -332,12 +364,7 @@ Map.prototype.redraw = function() {
 			}
 			if (this.mapData.Vues) {
 				if (this.zoom>30) {
-					for (var i=this.mapData.Vues.length; i-->0;) {
-						var vue = this.mapData.Vues[i];
-						if (vue.active && vue.Z==this.z) {
-							this.drawVue(vue);
-						}
-					}
+					this.dessineLesVues();
 				}
 				if (this.displayFog) {
 					this.drawFog();
@@ -453,16 +480,9 @@ Map.prototype.objectOn = function(x,y) {
 	if (this.zoom<10) return null;
 	var cell = this.getCell(this.couche, this.pointerX, this.pointerY);
 	if (cell && (cell.champ||cell.échoppe||cell.lieu)) return cell;
-	if (this.mapData.Vues) {
-		for (var i=this.mapData.Vues.length; i-->0;) {
-			var vue = this.mapData.Vues[i];
-			if (vue.active && vue.Z==this.z) {
-				var cell = getCellVue(vue, x, y);
-				if (cell) {
-					return cell;
-				}
-			}
-		}
+	var cell = this.getCellVue(x, y);
+	if (cell) {
+		return cell;
 	}
 	return null;
 }

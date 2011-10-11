@@ -64,7 +64,7 @@ Map.prototype.openCellDialog = function(x, y) {
 	} else {
 		empty = true;
 	}
-	var cellVue = this.getCellVueVisible(x, y);
+	var cellVue = this.getCellVue(x, y);
 	if (cellVue) {
 		if (cellVue.action) {
 			empty = false;
