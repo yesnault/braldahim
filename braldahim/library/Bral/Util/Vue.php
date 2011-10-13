@@ -462,7 +462,7 @@ class Bral_Util_Vue
 					"Z" => $p['z_palissade'],
 					"Portail" => ($p["est_portail_palissade"] == "oui"),
 					"Destructible" => ($p['est_destructible_palissade'] == "oui"),
-					"TimeFin" => $p["date_fin_palissade"],
+					"TimeFin" => Bral_Util_ConvertDate::get_epoch_mysql_datetime($p["date_fin_palissade"]),
 				);
 			}
 		}
