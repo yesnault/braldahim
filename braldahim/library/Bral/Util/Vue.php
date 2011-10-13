@@ -263,20 +263,6 @@ class Bral_Util_Vue
 							}
 						}
 
-						if ($palissades != null) {
-							foreach ($palissades as $p) {
-								if ($display_x == $p['x_palissade'] && $display_y == $p['y_palissade']) {
-									//$tabPalissades[] = array('id_palissade' => $p['id_palissade'], 'est_destructible_palissade' => $p['est_destructible_palissade'], 'est_portail_palissade' => $p['est_portail_palissade'], 'date_fin_palissade' => $p["date_fin_palissade"]);
-									//TODO Afficher les infos sur la palissade sur la vue
-									if ($p['est_portail_palissade'] == "oui") {
-										$nom_systeme_environnement = "portail";
-									} else {
-										$nom_systeme_environnement = "palissade";
-									}
-								}
-							}
-						}
-
 						if ($crevasses != null) {
 							foreach ($crevasses as $c) {
 								if ($display_x == $c['x_crevasse'] && $display_y == $c['y_crevasse']) {
@@ -292,7 +278,6 @@ class Bral_Util_Vue
 				}
 			}
 		}
-
 
 		if ($echoppes != null) {
 			foreach ($echoppes as $e) {
@@ -381,6 +366,7 @@ class Bral_Util_Vue
 			}
 		}
 
+
 		$tabCommunaute = null;
 		if ($bralduns != null) {
 			foreach ($bralduns as $b) {
@@ -464,6 +450,19 @@ class Bral_Util_Vue
 					'Quantité' => 1,
 					'Label' => $b['nom_type_buisson'],
 					'IdType' => $b['id_type_buisson'],
+				);
+			}
+		}
+
+		if ($palissades != null) {
+			foreach ($palissades as $p) {
+				$tableau["Couches"][0]["Palissades"][] = array(
+					"X" => $p['x_palissade'],
+					"Y" => $p['y_palissade'],
+					"Z" => $p['z_palissade'],
+					"Portail" => ($p["est_portail_palissade"] == "oui"),
+					"Destructible" => ($p['est_destructible_palissade'] == "oui"),
+					"TimeFin" => $p["date_fin_palissade"],
 				);
 			}
 		}

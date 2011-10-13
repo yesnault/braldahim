@@ -8,8 +8,10 @@ var B_LEFT = 1<<3;
 
 // initialise le système de palissades
 Map.prototype.initPalissades = function() {
-	(this.imgTroncPalissade = new Image()).src = 'img/tronc-palissade.png';
-	(this.imgCadenasPalissade = new Image()).src = 'img/cadenas.png';
+    var baseTilesUrl = "http://static.braldahim.com/images/";
+    
+	(this.imgTroncPalissade = new Image()).src = baseTilesUrl + 'vue/tronc-palissade.png';
+	(this.imgCadenasPalissade = new Image()).src = baseTilesUrl + 'vue/cadenas.png';
 	this.imagesPalissades = [];
 }
 

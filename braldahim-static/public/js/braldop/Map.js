@@ -7,6 +7,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.initTypesActions();
 	this.callbacks = {};
 	this.initTiles();
+	this.initPalissades();
 	this.screenRect = new Rect();
 	this.rect = new Rect(); // le rectangle englobant le contenu que l'on veut montrer
 	this.originX=0; // coin haut gauche de la grotte au centre de l'écran
@@ -27,6 +28,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.displayRégions = false;
 	this.displayFog = true;
 	this.displayGrid = false;
+	this.displayExperimentation = false;
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
 	this.fogImg = null;
@@ -151,8 +153,8 @@ Map.prototype.setData = function(mapData) {
 	this.mapData = mapData;
 	this.matricesVuesParZ = {};
 	this.matricesVuesParZ[0]={};
-	console.log("carte reçue");
-	var startTime = (new Date()).getTime();
+	//console.log("carte reçue");
+	//var startTime = (new Date()).getTime();
 	this.z = 0; // on va basculer forcément sur la couche zéro
 	this.couche = null; 
 	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
@@ -184,6 +186,29 @@ Map.prototype.setData = function(mapData) {
 			for (var i=couche.Lieux.length; i-->0;) {
 				var o = couche.Lieux[i];
 				this.getCellCreate(couche, o.X, o.Y).lieu=o;
+			}
+		}
+		if (couche.Palissades) {
+			for (var i=couche.Palissades.length; i-->0;) {
+				var o = couche.Palissades[i];
+				o.sides = 0;
+				this.getCellCreate(couche, o.X, o.Y).palissade=o; 
+			}
+			// deuxième passe : on indique sur chaque case de palissade ses voisins
+			for (var i=couche.Palissades.length; i-->0;) {
+				var p = couche.Palissades[i];
+				var c;
+				var nb=0;
+				if ((c=this.getCell(couche, p.X+1, p.Y))&&(c.palissade)) {p.sides |= B_RIGHT; nb++;}
+				if ((c=this.getCell(couche, p.X-1, p.Y))&&(c.palissade)) {p.sides |= B_LEFT; nb++;}
+				if ((c=this.getCell(couche, p.X, p.Y+1))&&(c.palissade)) {p.sides |= B_TOP; nb++;}
+				if ((c=this.getCell(couche, p.X, p.Y-1))&&(c.palissade)) {p.sides |= B_BOTTOM; nb++;}
+				if (nb==1) { // on va essayer de deviner, le cas échéant, comment ça se prolonge dans le brouillard
+					if ((p.sides&B_LEFT)&&(!this.getCell(couche, p.X+1, p.Y))) p.sides|=B_RIGHT;
+					else if ((p.sides&B_TOP)&&(!this.getCell(couche, p.X, p.Y-1))) p.sides|=B_BOTTOM;
+					else if ((p.sides&B_RIGHT)&&(!this.getCell(couche, p.X-1, p.Y))) p.sides|=B_LEFT;
+					else if ((p.sides&B_BOTTOM)&&(!this.getCell(couche, p.X, p.Y+1))) p.sides|=B_TOP;
+				}
 			}
 		}
 	}
@@ -227,7 +252,7 @@ Map.prototype.setData = function(mapData) {
 	}
 	this.compileLesVues();
 	this.matriceVues = this.matricesVuesParZ[0];
-	console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
+	//console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
 }
 
 // dessine le brouillard de guerre
@@ -345,7 +370,7 @@ Map.prototype.redraw = function() {
 				screenRect.w = this.zoom;
 				screenRect.h = this.zoom;
 				for (var x=this.xMin; x<=this.xMax; x++) {
-					for (var y=this.yMin; y<=this.yMax; y++) {
+					for (var y=this.yMax; y>=this.yMin; y--) { // on balaie en commencant par le haut de l'écran (plus "loin" en perspective)
 						var cell = this.getCell(this.couche, x, y);
 						if (cell) {
 							screenRect.x = this.zoom*(this.originX+x);
@@ -361,6 +386,21 @@ Map.prototype.redraw = function() {
 			}
 			if (this.zoom>15 && this.displayGrid) {
 				this.drawGrid();
+			}
+			if (this.zoom>4) {
+				var screenRect = new Rect();
+				screenRect.w = this.zoom;
+				screenRect.h = this.zoom;
+				for (var x=this.xMin; x<=this.xMax; x++) {
+					for (var y=this.yMax; y>=this.yMin; y--) { // on balaie en commencant par le haut de l'écran (plus "loin" en perspective)
+						var cell = this.getCell(this.couche, x, y);
+						if (cell && cell.palissade) {
+							screenRect.x = this.zoom*(this.originX+x);
+							screenRect.y = this.zoom*(this.originY-y);
+							this.drawPalissade(screenRect, cell.palissade, hover);
+						}
+					}
+				}
 			}
 			if (this.mapData.Vues) {
 				if (this.zoom>30) {
