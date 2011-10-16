@@ -44,7 +44,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch
 		$contenu = "id_braldun;prenom_braldun;nom_braldun;niveau_braldun;sexe_braldun;";
 		$contenu .= "nb_ko_braldun;nb_braldun_ko_braldun;nb_plaque_braldun;nb_braldun_plaquage_braldun;";
 		$contenu .= "nb_monstre_kill_braldun;id_fk_mere_braldun;id_fk_pere_braldun;id_fk_communaute_braldun;";
-		$contenu .= "id_fk_rang_communaute_braldun;url_blason_braldun;url_avatar_braldun;est_pnj_braldun";
+		$contenu .= "id_fk_rang_communaute_braldun;url_blason_braldun;url_avatar_braldun;est_pnj_braldun;";
+		$contenu .= "points_gredin_braldun;points_redresseur_braldun;points_distinctions_braldun";
 
 		$contenu .= PHP_EOL;
 
@@ -66,7 +67,10 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch
 				$contenu .= $h["id_fk_rang_communaute_braldun"] . ';';
 				$contenu .= $h["url_blason_braldun"] . ';';
 				$contenu .= $h["url_avatar_braldun"] . ';';
-				$contenu .= $h["est_pnj_braldun"];
+				$contenu .= $h["est_pnj_braldun"] . ';';
+				$contenu .= $h["points_gredin_braldun"] . ';';
+				$contenu .= $h["points_redresseur_braldun"] . ';';
+				$contenu .= $h["points_distinctions_braldun"];
 
 				$contenu .= PHP_EOL;
 			}
