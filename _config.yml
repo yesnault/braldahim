@@ -1,2 +1,23 @@
 permalink: pretty
-static_url: http://static.braldahim.com
+static_url: http://static.braldahim.local
+
+safe: true
+auto: false
+server: false
+server_port: 4000
+base_url: /
+
+future: true
+lsi: false
+pygments: true
+markdown: kramdown
+permalink: /:title/
+
+kramdown:
+  auto_ids: true,
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  use_coderay: false
+  
+  

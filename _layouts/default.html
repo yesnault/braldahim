@@ -1,66 +1,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta http-equiv="Cache-Control" content="no-cache" />
-	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
 	<title>Braldahim - Règles - {{ page.title }}</title>
 	{% if page.description %}
- 		<meta name="description" content="{{ page.description }}" />
- 	{% endif %}
-	<meta name="description" content="Braldahim - Jeu Web - Bralduns" />
-	<meta name="keywords" content="jeu web, Semi-Homme, Braldûns, MMO, rôle, aventure" />
-	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE" />
-	<link href="{{ site.static_url }}/css/braldahim.css?3" media="screen" rel="Stylesheet" type="text/css" />
-	<link href="{{ site.static_url }}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link  href="{{ site.static_url }}/css/braldahim3-theme/jquery-ui-1.8.12.custom.css" type="text/css" rel="stylesheet" />
+		<meta name="description" content="{{ page.description }}"/>
+	{% endif %}
+	<meta name="description" content="Braldahim - Jeu Web - Bralduns"/>
+	<meta name="keywords" content="jeu web, Semi-Homme, Braldûns, MMO, rôle, aventure"/>
+	<meta name="google-site-verification" content="JGiMjwxO6P5guSoUuKQiOwNrk8_WpxSujtsrsC1P6CE"/>
+	<link href="{{ site.static_url }}/css/braldahim.css?3" media="screen" rel="Stylesheet" type="text/css"/>
+	<link href="{{ site.static_url }}/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+	<link href="{{ site.static_url }}/css/braldahim3-theme/jquery-ui-1.8.12.custom.css" type="text/css"
+		  rel="stylesheet"/>
 
-    <script type="text/javascript" src="{{ site.static_url }}/js/jquery.tools.min-1.2.5.js"></script>
-    <script type="text/javascript" src="{{ site.static_url }}/js/jquery-ui-1.8.12.custom.min.js"></script>
+	<script type="text/javascript" src="{{ site.static_url }}/js/jquery.tools.min-1.2.5.js"></script>
+	<script type="text/javascript" src="{{ site.static_url }}/js/jquery-ui-1.8.12.custom.min.js"></script>
 	<script type="text/javascript" src="{{ site.static_url }}/js/jquery.cycle.all-2.99.min.js"></script>
 	<script type="text/javascript" src="{{ site.static_url }}/js/jquery.lightbox-0.5.min.js"></script>
 
 	<script type="text/javascript" src="{{ site.static_url }}/js/braldahim.js?2"></script>
-    <script type="text/javascript" src="{{ site.static_url }}/js/jquery.dataTables.js"></script>
-	<script type="text/javascript" src="{{ site.static_url }}/js/allDhtmlx_001.js"></script>
+	<script type="text/javascript" src="{{ site.static_url }}/js/jquery.dataTables.js"></script>
 
-	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
+	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique"
+		  href="http://feeds.braldahim.com/braldahim-chronique"/>
 
 	<style type="text/css">
-	@font-face {
-	    font-family: "Cardinal";
-	    font-style: normal;
-	    font-weight: normal;
-	    src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
-	}
+		@font-face {
+			font-family: "Cardinal";
+			font-style: normal;
+			font-weight: normal;
+			src: local("☺"), url("/fonts/Cardinal.ttf") format("truetype");
+		}
 	</style>
 
 </head>
 <body>
-	<input type="hidden" name="urlStatique" id="urlStatique" value="{{ site.static_url }}"/>
+<input type="hidden" name="urlStatique" id="urlStatique" value="{{ site.static_url }}"/>
 
-	<div id="box_warning" class="box_warning" style="display: none"></div>
-
-	<?php include("headerDiv.phtml")?>
-	<div id="header">
+<div id="header">
 	<div id="frisetopa">
 		<h1>&nbsp;</h1>
 	</div>
 	<div id="frisetop">
-	<script type="text/javascript" language="Javascript" src="{{ site.static_url }}/index/menu"></script>
+		<script type="text/javascript" language="Javascript" src="{{ site.static_url }}/index/menu"></script>
 	</div>
 	<div id="frisebot">
 	</div>
-	</div>
+</div>
 
-	<div id="page">
-		<div id="wrapper">
+<div id="page">
+	<div id="wrapper">
 		<div class="contenu">
 			{{ content }}
 			<br/><br/>
 		</div>
-		</div>
 	</div>
-	<script type="text/javascript" language="Javascript" src="{{ site.static_url }}/index/footer"></script>
-	<?php echo $this->render("footer.phtml"); ?>
+</div>
+<script type="text/javascript" language="Javascript" src="{{ site.static_url }}/index/footer"></script>
+
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	var pageTracker = _gat._getTracker("XXX");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+</script>
 </body>
 </html>
