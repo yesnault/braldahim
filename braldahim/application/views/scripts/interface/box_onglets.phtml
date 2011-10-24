@@ -8,7 +8,8 @@
     <span id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?><?php echo $premier?>' onclick='Javascript:my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>", "interface"); '>
       &nbsp;<?php echo $onglet["titre"] ?>&nbsp;
     </span>
-  <?php $premier = ""; 
+  <?php $premier = "";
   	endforeach; ?>
+	<div style="margin-bottom:5px"></div>
   <?php echo $this->data ?>
 </div>

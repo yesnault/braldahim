@@ -967,7 +967,6 @@ td.authTable {
     border-style: solid;
     border-color: #000000;
     border-width: 1px;
-    margin: 0px;
     margin-left: 1px;
     color: #F2F2F2;
     text-align: center;
@@ -975,10 +974,16 @@ td.authTable {
 
     font: 0.9em/.0 arial, verdana, sans-serif;
 
-    border-radius: 10px 10px 2px 2px; /* en css3 lui m√™me */
-    -moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
-    -webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome‚Ä¶ */
-    -khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror‚Ä¶ */
+    border-radius: 10px 10px 2px 2px; /* en css3 */
+    -moz-border-radius: 10px 10px 2px 2px; /* pour Gecko : Firefox, Epiphany‚*/
+    -webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome */
+    -khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror*/
+
+    padding-left:25px;
+    padding-top:5px;
+    padding-bottom:5px;
+    background-repeat: no-repeat;
+    background-size: 24px auto;
 }
 
 .onglet.actif {
@@ -1001,6 +1006,28 @@ td.authTable {
     text-align: center;
     z-index: 10;
     background: none repeat scroll 0% 0%;
+}
+
+#onglet_box_interface {
+    background-image: url('/images/cockpit/icone_carte.png');
+}
+#onglet_box_echoppes {
+    background-image: url('/images/cockpit/icone_echoppe.png');
+}
+#onglet_box_champs{
+    background-image: url('/images/vue/champ.png');
+}
+#onglet_box_evenements{
+    background-image: url('/images/cockpit/icone_danger.png');
+}
+#onglet_box_communaute{
+    background-image: url('/images/vue/famille.png');
+}
+#onglet_box_soule{
+    background-image: url('/images/divers/ballon.png');
+}
+#onglet_box_quetes{
+    background-image: url('/images/cockpit/icone_contrat.png');
 }
 
 /* ************************************************ */
