@@ -79,6 +79,14 @@ body {
 	background: none;
 }
 
+#onglet_box_interface,#onglet_box_interfacetest, #onglet_box_echoppes, #onglet_box_champs,
+#onglet_box_evenements,
+#onglet_box_communaute,
+#onglet_box_soule,
+#onglet_box_quetes {
+    background-image:none;
+}
+
 tr.table_liste0.hhover:hover,tr.table_liste1.hhover:hover {
 	background: none;
 }
