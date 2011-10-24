@@ -36,6 +36,9 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.fogContext = null;
 	this.recomputeCanvasPosition();
 	var _this = this;
+	var onready = function(){_this.compileLesVues();_this.redraw();};
+	this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements.png', onready);
+	this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes.png', onready);
 	this.photoSatelliteOK = false;
 	this.photoSatellite.src = "http://static.braldahim.com/images/sources/harilinn/braldahim_carte4.png";
 	this.photoSatellite.onload = function(){
@@ -153,8 +156,6 @@ Map.prototype.setData = function(mapData) {
 	this.mapData = mapData;
 	this.matricesVuesParZ = {};
 	this.matricesVuesParZ[0]={};
-	//console.log("carte reçue");
-	//var startTime = (new Date()).getTime();
 	this.z = 0; // on va basculer forcément sur la couche zéro
 	this.couche = null; 
 	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
@@ -252,81 +253,45 @@ Map.prototype.setData = function(mapData) {
 	}
 	this.compileLesVues();
 	this.matriceVues = this.matricesVuesParZ[0];
-	//console.log("carte compilée en " + ((new Date()).getTime()-startTime) + " ms");
 }
 
 // dessine le brouillard de guerre
 Map.prototype.drawFog = function() {
-	var alwaysUseNewFog = true; // je teste...
-	if (this.mapData.Vues.length>1 || alwaysUseNewFog) {
-		//> Cette méthode gère correctement tous les cas, en particulier celui de l'intersection de plusieurs vues,
-		//  mais elle est lente sur Firefox.
-		var r = 0.07; // on utilise une image plus petite pour le brouillard, pour améliorer les perfs et rendre flou
-		var rw = this.canvas.width*r;
-		var rh = this.canvas.height*r;
-		var rz = this.zoom*r;
-		if (!this.fogContext) {
-			this.fogImg = document.createElement('canvas');
-			this.fogImg.width = rw;
-			this.fogImg.height = rh;
-			this.fogContext = this.fogImg.getContext('2d');
-		}
-		var c = this.fogContext;
-		c.globalCompositeOperation = 'source-over';
-		c.clearRect(0, 0, rw, rh);
-		c.fillStyle = "rgba(0, 0, 0, 0.5)";
-		c.fillRect(0, 0, rw, rh);
-		if (this.mapData.Vues) {
-			for (var i=this.mapData.Vues.length; i-->0;) {
-				var vue = this.mapData.Vues[i];
-				if (vue.active && vue.Z==this.z) {
-					//var hole = holes[i];
-					var hole = new Rect();
-					hole.x = rz*(this.originX+vue.XMin);
-					hole.y = rz*(this.originY-vue.YMin+1);
-					hole.w = rz*(this.originX+vue.XMax+1) - hole.x;
-					hole.h = - (rz*(this.originY-vue.YMax) - hole.y);
-					hole.y -= hole.h;
-					if (!Rect_intersect(hole, this.screenRect)) {
-						continue;
-					}
-					if (!hole) continue;
-					c.clearRect(hole.x, hole.y, hole.w, hole.h);
-				}
-			}
-		}
-		this.context.drawImage(this.fogImg, 0, 0, this.screenRect.w, this.screenRect.h);
-	} else {
-		//> On utilise une méthode différente s'il n'y a qu'une seule vue car la méthode compatible
-		//  avec plusieurs vues est lente sur Firefox.
-		var c = this.context;
-		c.beginPath();
-		c.moveTo(0, 0);
-		c.lineTo(this.screenRect.w, 0);
-		c.lineTo(this.screenRect.w, this.screenRect.h);
-		c.lineTo(0, this.screenRect.h);
-		c.closePath();
-		var radius = this.zoom/6;
-		var vue = this.mapData.Vues[0];
-		if (vue.active && vue.Z==this.z) {
-			hasVue = true;
-			var hole = new Rect();
-			hole.x = this.zoom*(this.originX+vue.XMin);
-			hole.y = this.zoom*(this.originY-vue.YMin+1);
-			hole.w = this.zoom*(this.originX+vue.XMax+1) - hole.x;
-			hole.h = - (this.zoom*(this.originY-vue.YMax) - hole.y);
-			hole.y -= hole.h;
-			if (Rect_intersect(hole, this.screenRect)) {
-				c.moveTo(hole.x, hole.y+radius);
-				c.arcTo(hole.x, hole.y+hole.h, hole.x+radius, hole.y+hole.h, radius);
-				c.arcTo(hole.x+hole.w, hole.y+hole.h, hole.x+hole.w, hole.y+radius, radius);
-				c.arcTo(hole.x+hole.w, hole.y, hole.x+radius, hole.y, radius);
-				c.arcTo(hole.x, hole.y, hole.x, hole.y+radius, radius);
-			}
-		}
-		c.fillStyle = "rgba(100, 100, 100, 0.5)";
-		c.fill();
+	var r = 0.07; // on utilise une image plus petite pour le brouillard, pour améliorer les perfs et rendre flou
+	var rw = this.canvas.width*r;
+	var rh = this.canvas.height*r;
+	var rz = this.zoom*r;
+	if (!this.fogContext) {
+		this.fogImg = document.createElement('canvas');
+		this.fogImg.width = rw;
+		this.fogImg.height = rh;
+		this.fogContext = this.fogImg.getContext('2d');
 	}
+	var c = this.fogContext;
+	c.globalCompositeOperation = 'source-over';
+	c.clearRect(0, 0, rw, rh);
+	c.fillStyle = "rgba(0, 0, 0, 0.5)";
+	c.fillRect(0, 0, rw, rh);
+	if (this.mapData.Vues) {
+		for (var i=this.mapData.Vues.length; i-->0;) {
+			var vue = this.mapData.Vues[i];
+			if (vue.active && vue.Z==this.z) {
+				//var hole = holes[i];
+				var hole = new Rect();
+				hole.x = rz*(this.originX+vue.XMin);
+				hole.y = rz*(this.originY-vue.YMin+1);
+				hole.w = rz*(this.originX+vue.XMax+1) - hole.x;
+				hole.h = - (rz*(this.originY-vue.YMax) - hole.y);
+				hole.y -= hole.h;
+				if (!Rect_intersect(hole, this.screenRect)) {
+					continue;
+				}
+				if (!hole) continue;
+				c.clearRect(hole.x, hole.y, hole.w, hole.h);
+			}
+		}
+	}
+	this.context.drawImage(this.fogImg, 0, 0, this.screenRect.w, this.screenRect.h);
 }
 
 // dessine la grille
@@ -351,6 +316,10 @@ Map.prototype.redraw = function() {
 	}
 	this.redrawStacked = false;
 	try {
+		if (!(this.spritesVueTypes.ready&&this.spritesEnv.ready)) {
+			//~ console.log('not ready for drawing');
+			return;
+		}
 		this.drawInProgress = true;
 		this.context.fillStyle="#343";
 		this.context.fillRect(0, 0, this.screenRect.w, this.screenRect.h);
@@ -377,9 +346,9 @@ Map.prototype.redraw = function() {
 							screenRect.y = this.zoom*(this.originY-y);
 							var hover = this.zoom>20 && this.pointerX==x && this.pointerY==y;
 							if (cell.fond) this.drawFond(screenRect, cell.fond);
-							if (cell.champ) this.drawLieu(screenRect, cell.champ, this.champImg, hover);
-							else if (cell.échoppe) this.drawLieu(screenRect, cell.échoppe, this.echoppeImg[cell.échoppe.Métier], hover);
-							else if (cell.lieu) this.drawLieu(screenRect, cell.lieu, this.placeImg[cell.lieu.IdTypeLieu], hover);
+							if (cell.champ) this.drawLieu(screenRect, cell.champ, this.spritesVueTypes.get('champ'), hover);
+							else if (cell.échoppe) this.drawLieu(screenRect, cell.échoppe, this.spritesVueTypes.get(cell.échoppe.Métier), hover);
+							else if (cell.lieu) this.drawLieu(screenRect, cell.lieu, this.spritesVueTypes.get(this.typesBatiments[cell.lieu.IdTypeLieu]), hover);
 						}
 					}
 				}

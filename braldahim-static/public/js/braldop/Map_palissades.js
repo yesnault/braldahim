@@ -4,12 +4,13 @@ var B_TOP = 1;
 var B_RIGHT = 1<<1;
 var B_BOTTOM = 1<<2;
 var B_LEFT = 1<<3;
+var B_PORTAIL = 1<<4;
 
 
 // initialise le système de palissades
 Map.prototype.initPalissades = function() {
     var baseTilesUrl = "http://static.braldahim.com/images/";
-    
+
 	(this.imgTroncPalissade = new Image()).src = baseTilesUrl + 'vue/tronc-palissade.png';
 	(this.imgCadenasPalissade = new Image()).src = baseTilesUrl + 'vue/cadenas.png';
 	this.imagesPalissades = [];
@@ -18,8 +19,8 @@ Map.prototype.initPalissades = function() {
 // construit une image, dont la taille peut varier, destinée à être centrée
 // L'image construite est adaptée à la résolution 64 et doit donc être scalée
 //  pour tout autre résolution.
-Map.prototype.getImagePalissade = function(sides) {
-	var img = this.imagesPalissades[sides];
+Map.prototype.getImagePalissade = function(key) {
+	var img = this.imagesPalissades[key];
 	if (img) return img;
 	if (!this.imgTroncPalissade.width) return null;
 	var marge = 38; // marge pour le dépassement en dehors de la case
@@ -32,9 +33,10 @@ Map.prototype.getImagePalissade = function(sides) {
 	var r = 0.75;
 	var lt = this.imgTroncPalissade.width*r; // largeur tronc
 	var ht = this.imgTroncPalissade.height*r;
-	switch(sides) {
+	switch(key) {
 		
 		case B_LEFT|B_RIGHT:
+		case B_LEFT|B_RIGHT|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var by = cy-ht+lt/2;
 		var bx = marge;
@@ -46,7 +48,8 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 		
 		case B_LEFT|B_BOTTOM:
-		var nbt = Math.ceil(64/lt)*Math.PI/4;
+		case B_LEFT|B_BOTTOM|B_PORTAIL:
+		var nbt = Math.ceil((64*Math.PI)/(4*lt));
 		var angle = Math.PI*1.5;
 		for (var i=0; i<=nbt; i++) {
 			angle += Math.PI*0.5/nbt;
@@ -57,6 +60,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 
 		case B_TOP|B_BOTTOM:
+		case B_TOP|B_BOTTOM|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var bx = cx-lt*0.5;
 		var by = marge;
@@ -68,7 +72,8 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 				
 		case B_TOP|B_RIGHT:
-		var nbt = Math.ceil(64/lt)*Math.PI/4;
+		case B_TOP|B_RIGHT|B_PORTAIL:
+		var nbt = Math.ceil((64*Math.PI)/(4*lt));
 		var angle = Math.PI;
 		for (var i=0; i<=nbt; i++) {
 			var bx = marge+(1+Math.cos(angle)*0.5)*64;
@@ -79,7 +84,8 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 
 		case B_TOP|B_LEFT:
-		var nbt = Math.ceil(64/lt)*Math.PI/4;
+		case B_TOP|B_LEFT|B_PORTAIL:
+		var nbt = Math.ceil((64*Math.PI)/(4*lt));
 		var angle = 0;
 		for (var i=0; i<=nbt; i++) {
 			var bx = marge+Math.cos(angle)*32;
@@ -90,7 +96,8 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 
 		case B_RIGHT|B_BOTTOM:
-		var nbt = Math.ceil(64/lt)*Math.PI/4;
+		case B_RIGHT|B_BOTTOM|B_PORTAIL:
+		var nbt = Math.ceil((64*Math.PI)/(4*lt));
 		var angle = Math.PI*1.5;
 		for (var i=0; i<=nbt; i++) {
 			var bx = marge+(1+Math.cos(angle)*0.5)*64;
@@ -101,6 +108,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 		
 		case B_LEFT:
+		case B_LEFT|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var by = cy-ht+lt/2;
 		var bx = marge;
@@ -112,6 +120,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 		
 		case B_RIGHT:
+		case B_RIGHT|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var by = cy-ht+lt/2;
 		var bx = cx;
@@ -123,6 +132,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 		
 		case B_TOP:
+		case B_TOP|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var bx = cx-lt*0.5;
 		var by = marge;
@@ -134,6 +144,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		break;
 		
 		case B_BOTTOM:
+		case B_BOTTOM|B_PORTAIL:
 		var nbt = Math.ceil(64/lt);
 		var bx = cx-lt*0.5;
 		var by = cy;
@@ -150,7 +161,7 @@ Map.prototype.getImagePalissade = function(sides) {
 		c.drawImage(this.imgTroncPalissade, cx-lt/2, cy+lt/2-ht, lt, ht);
 	}
 	
-	this.imagesPalissades[sides] = img;
+	this.imagesPalissades[key] = img;
 	return img;
 }
 
@@ -158,7 +169,9 @@ Map.prototype.drawPalissade = function(screenRect, palissade, hover) {
 	var c = this.context;
 	var cx = screenRect.x+0.5*screenRect.w;
 	var cy = screenRect.y+0.5*screenRect.h;
-	var img = this.getImagePalissade(palissade.sides);
+	var key = palissade.sides;
+	if (palissade.Portail) key |= B_PORTAIL;
+	var img = this.getImagePalissade(key);
 	if (img) {
 		if (this.zoom==64) {
 			drawCenteredImage(c, img, cx, cy);

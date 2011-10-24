@@ -19,14 +19,16 @@
 <?php endif;?>
 <link href="<?php echo $this->config->url->static?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-<?php $versionCss = "64"; ?>
-<?php $versionJs = "111"; ?>
+<?php $versionCss = "65"; ?>
+<?php $versionJs = "113"; ?>
 
 <?php if ($this->config->general->production == 1) : ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/css/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/css/braldahim.css?<?php echo $versionCss?>" />
 <?php endif;?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-environnements.css?<?php echo $versionCss?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-vuetypes.css?<?php echo $versionCss?>" />
 <link rel="apple-touch-icon" href="<?php echo $this->config->url->static?>/images/mobile/icone-braldahim.png"/>
 <link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 
@@ -37,11 +39,12 @@
 <script type="text/javascript" src="<?php echo $this->config->url->static?>/js/jquery.dataTables.js?<?php echo $versionJs?>"></script>
 
 <?php if ($this->user && $this->user->est_testeur_vue_braldun == "oui") : ?>
-	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/util.js"></script>
-	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/graphic_utils.js"></script>
-	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Point.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/util.js?<?php echo $versionJs?>"></script>
+	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/graphic_utils.js?<?php echo $versionJs?>"></script>
+	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Point.js?<?php echo $versionJs?>"></script>
 
 	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Rect.js?<?php echo $versionJs?>"></script>
+	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/SpriteSet.js?<?php echo $versionJs?>"></script>
 	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Map.js?<?php echo $versionJs?>"></script>
 	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Map_action.js?<?php echo $versionJs?>"></script>
 	<script type="text/javascript" src="<?php echo $this->config->url->static?>/js/braldop/Map_bubble.js?<?php echo $versionJs?>"></script>

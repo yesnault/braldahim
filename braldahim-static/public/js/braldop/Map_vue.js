@@ -67,18 +67,61 @@ Map.prototype.drawIcons = function(c, sx, sy, icons, hover) {
 	if (this.zoom!=64) imgh=this.zoom*0.35;
 	if (hover) {
 		for (var i=x.length; i-->0;) {
-			drawCenteredImage(c, this.getOutlineImg(icons[i]), x[i], y[i], null, imgh?imgh+4:null);
+			if (icons[i]) {
+				drawCenteredImage(c, this.getOutlineImg(icons[i]), x[i], y[i], null, imgh?imgh+4:null);
+			} else {
+				//~ console.log('image nulle');
+			}
 		}
 	}
 	for (var i=0; i<x.length; i++) {
-		drawCenteredImage(c, icons[i], x[i], y[i], null, imgh?imgh+4:null);
+		if (icons[i]) {
+			drawCenteredImage(c, icons[i], x[i], y[i], null, imgh?imgh+4:null);
+		} else {
+			//~ console.log('image nulle');
+		}
+	}
+}
+
+Map.prototype.getObjectImgKey = function(o) {
+	switch (o.Type) {
+
+		case "aliment":
+		case "graine":
+		case "minerai":
+		case "munition":
+		case "potion":
+		case "tabac":
+			return o.Type+'_'+o.IdType;	
+
+		case "équipement":
+			return 'equipement_'+o.IdType;	
+		case "ingrédient":
+			return 'ingredient_'+o.IdType;
+		case "lingot":
+			return 'minerai_'+o.IdType+'_p';	
+		case "plante":
+			return 'partieplante_'+o.IdType;	
+
+		case "castar":
+			return 'castars';
+		case "rune":
+			return 'runes';
+
+		default:
+			return o.Type;
 	}
 }
 
 // construit l'objet matriceVues qui contient les infos de toutes les vues visibles
 Map.prototype.compileLesVues = function() {
+	if (!(this.spritesVueTypes.ready&&this.spritesEnv.ready)) {
+		//~ console.log('not ready for compilation');
+		return;
+	}
 	this.matricesVuesParZ = {};
 	this.matriceVues = {};
+	//~ var nn=0, zz=1, tt=2; // pour tests affichage points gredin et points redresseur
 	for (var iv=0; iv<this.mapData.Vues.length; iv++) {
 		var vue = this.mapData.Vues[iv];
 		if (!vue.active) continue;
@@ -97,6 +140,8 @@ Map.prototype.compileLesVues = function() {
 		}
 		for (ib in vue.Bralduns) {
 			var b = vue.Bralduns[ib];
+			//~ b.PointsGredin = ((nn++)%3)*((zz++)%3)*((tt++)%5)*((tt++)%11);
+			//~ b.PointsRedresseur = ((nn++)%7)*((zz++)%7)*((tt++)%3);
 			var cell = this.getCellVueCreate(b.X, b.Y)
 			cell.bralduns.push(b);
 		}
@@ -155,17 +200,18 @@ Map.prototype.compileLesVues = function() {
 							if (hasBraldunsCampA && hasBraldunsCampB) key += '-combat';
 							else if (hasBraldunsCampA) key += '-a';
 							else if (hasBraldunsCampB) key += '-b';
-							var img = this.imgBralduns[key];
+							var img = this.spritesVueTypes.get(key);
 							if (img) cell.zones[0].push(img);
-							else console.log("pas d'image de braldun pour la clé '" +key+"'");
+							//~ else console.log("pas d'image de braldun pour la clé '" +key+"'");
 						}
 					}
 					//-- zone 0 : monstres
 					if (cell.monstres.length) {
 						var nbByType = {};
 						var nbTypes=0;
+						var t;
 						for (var i=cell.monstres.length; i-->0;) {
-							var t = cell.monstres[i].IdType;
+							t = cell.monstres[i].IdType;
 							if (nbByType[t]) {
 								nbByType[t]++;
 							} else {
@@ -174,35 +220,27 @@ Map.prototype.compileLesVues = function() {
 							}
 						}
 						if (nbTypes==1 && cell.monstres.length==2) {
-							var imgBase = this.imgMonstres[t];
-							var img = imgBase ? imgBase.a : this.imgMonstreInconnu;
+							var img = this.spritesVueTypes.get('monstre_'+t+'a', 'monstre');
 							cell.zones[0].push(img);
 							cell.zones[0].push(img);
 						} else if (nbTypes==1 && cell.monstres.length==3) {
-							var imgBase = this.imgMonstres[t];
-							if (imgBase) {
-								cell.zones[0].push(imgBase.b);
-								cell.zones[0].push(imgBase.a);
-							} else {
-								cell.zones[0].push(this.imgMonstreInconnu);
-								cell.zones[0].push(this.imgMonstreInconnu);
-							}
+							cell.zones[0].push(this.spritesVueTypes.get('monstre_'+t+'b', 'monstres'));
+							cell.zones[0].push(this.spritesVueTypes.get('monstre_'+t+'a', 'monstre'));
 						} else if (nbTypes<3) {
 							for (t in nbByType) {
-								var imgBase = this.imgMonstres[t];
-								cell.zones[0].push(imgBase ? (nbByType[t]==1 ? imgBase.a : imgBase.b) : this.imgMonstreInconnu);
+								cell.zones[0].push(nbByType[t]==1 ? this.spritesVueTypes.get('monstre_'+t+'a', 'monstre') : this.spritesVueTypes.get('monstre_'+t+'b', 'monstres'));
 							}
 						} else {
-							cell.zones[0].push(this.imgMultiMonstres);
+							cell.zones[0].push(this.spritesVueTypes.get('monstres'));
 						}
 					}
 					//-- zone 2 : braldun KO
 					if (nbBraldunsKO>0) {
-						cell.zones[2].push(this.imgBralduns['braldunKo']);
+						cell.zones[2].push(this.spritesVueTypes.get('braldunko'));
 					}
 					//-- zone 2 : cadavre
 					if (cell.cadavres.length) {
-						cell.zones[2].push(this.imgCadavre);
+						cell.zones[2].push(this.spritesVueTypes.get('cadavre'));
 					}
 					//-- zones 1, 2 et 3 : objets, triés suivant leur type et orientés dans l'une des deux zones
 					if (cell.objets.length) {
@@ -219,14 +257,11 @@ Map.prototype.compileLesVues = function() {
 							var dest = cell.zones[3];
 							if (o.Type=='castar'||o.Type=='rune') dest = cell.zones[2];
 							else if (o.Type=="ballon"||o.Type=="buisson") dest = cell.zones[1];
-							var img;
-							if (o.Type=="tabac"||o.Type=="plante"||o.Type=="potion"||o.Type=="aliment"||o.Type=="graine"||o.Type=="équipement"||o.Type=="munition") img = this.imgObjets[o.Type+'-'+o.IdType];
-							else img = this.imgObjets[o.Type];
+							var img = this.spritesVueTypes.get(this.getObjectImgKey(o));
 							if (img) {
 								dest.push(img);
 							} else {
-								console.log("pas d'image pour cet objet :");
-								console.log(o);
+								console.log("pas d'image pour cet objet :", o);
 							}
 						}
 					}

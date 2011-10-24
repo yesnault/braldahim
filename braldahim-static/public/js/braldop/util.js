@@ -24,3 +24,11 @@ function formatDate(timestamp) {
 	var d = new Date(timestamp);
 	return d.getDate()+"/"+(d.getMonth()<9?("0"+(d.getMonth()+1)):(d.getMonth()+1))+" "+d.getHours()+"h"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
 }
+
+function StringEndsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function StringContains(str, suffix) {
+    return str.indexOf(suffix, 0) !== -1;
+}
