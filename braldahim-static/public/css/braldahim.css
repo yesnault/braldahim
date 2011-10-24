@@ -979,11 +979,6 @@ td.authTable {
     -webkit-border-radius: 10px 10px 2px 2px; /* pour Webkit : Safari, Chrome */
     -khtml-border-radius: 10px 10px 2px 2px; /* pour Khtml : Konqueror*/
 
-    padding-left:25px;
-    padding-top:5px;
-    padding-bottom:5px;
-    background-repeat: no-repeat;
-    background-size: 24px auto;
 }
 
 .onglet.actif {
@@ -1008,8 +1003,24 @@ td.authTable {
     background: none repeat scroll 0% 0%;
 }
 
-#onglet_box_interface {
+#onglet_box_interface,
+#onglet_box_echoppes,
+#onglet_box_champs,
+#onglet_box_evenements,
+#onglet_box_communaute,
+#onglet_box_soule,
+#onglet_box_quetes,
+#onglet_box_interfacetest{
+    padding-left:25px;
+    padding-top:5px;
+    padding-bottom:5px;
+    background-repeat: no-repeat;
+    background-size: 24px auto;
+}
+
+#onglet_box_interface,#onglet_box_interfacetest {
     background-image: url('/images/cockpit/icone_carte.png');
+
 }
 #onglet_box_echoppes {
     background-image: url('/images/cockpit/icone_echoppe.png');
