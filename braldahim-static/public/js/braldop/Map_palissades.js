@@ -10,9 +10,9 @@ var B_PORTAIL = 1<<4;
 // initialise le système de palissades
 Map.prototype.initPalissades = function() {
     var baseTilesUrl = "http://static.braldahim.com/images/";
+    (this.imgTroncPalissade = new Image()).src = baseTilesUrl + 'vue/tronc-palissade.png';
+    (this.imgCadenasPalissade = new Image()).src = baseTilesUrl + 'vue/cadenas.png';
 
-	(this.imgTroncPalissade = new Image()).src = baseTilesUrl + 'vue/tronc-palissade.png';
-	(this.imgCadenasPalissade = new Image()).src = baseTilesUrl + 'vue/cadenas.png';
 	this.imagesPalissades = [];
 }
 
@@ -35,18 +35,6 @@ Map.prototype.getImagePalissade = function(key) {
 	var ht = this.imgTroncPalissade.height*r;
 	switch(key) {
 		
-		case B_LEFT|B_RIGHT:
-		case B_LEFT|B_RIGHT|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var by = cy-ht+lt/2;
-		var bx = marge;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt; i++) {
-			c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by, lt, ht);
-			bx += lta;
-		}
-		break;
-		
 		case B_LEFT|B_BOTTOM:
 		case B_LEFT|B_BOTTOM|B_PORTAIL:
 		var nbt = Math.ceil((64*Math.PI)/(4*lt));
@@ -58,19 +46,7 @@ Map.prototype.getImagePalissade = function(key) {
 			c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by+lt/2-ht, lt, ht);
 		}
 		break;
-
-		case B_TOP|B_BOTTOM:
-		case B_TOP|B_BOTTOM|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var bx = cx-lt*0.5;
-		var by = marge;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt; i++) {
-			c.drawImage(this.imgTroncPalissade, bx, by+lt/2-ht, lt, ht);
-			by += lta;
-		}
-		break;
-				
+						
 		case B_TOP|B_RIGHT:
 		case B_TOP|B_RIGHT|B_PORTAIL:
 		var nbt = Math.ceil((64*Math.PI)/(4*lt));
@@ -106,59 +82,53 @@ Map.prototype.getImagePalissade = function(key) {
 			angle -= Math.PI*0.5/nbt;
 		}
 		break;
-		
-		case B_LEFT:
-		case B_LEFT|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var by = cy-ht+lt/2;
-		var bx = marge;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt/2; i++) {
-			c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by, lt, ht);
-			bx += lta;
-		}
-		break;
-		
-		case B_RIGHT:
-		case B_RIGHT|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var by = cy-ht+lt/2;
-		var bx = cx;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt/2; i++) {
-			c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by, lt, ht);
-			bx += lta;
-		}
-		break;
-		
-		case B_TOP:
-		case B_TOP|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var bx = cx-lt*0.5;
-		var by = marge;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt/2; i++) {
-			c.drawImage(this.imgTroncPalissade, bx, by+lt/2-ht, lt, ht);
-			by += lta;
-		}
-		break;
-		
-		case B_BOTTOM:
-		case B_BOTTOM|B_PORTAIL:
-		var nbt = Math.ceil(64/lt);
-		var bx = cx-lt*0.5;
-		var by = cy;
-		var lta = 64/nbt;
-		for (var i=0; i<=nbt/2; i++) {
-			c.drawImage(this.imgTroncPalissade, bx, by+lt/2-ht, lt, ht);
-			by += lta;
-		}
-		break;
-				
 
 		case 0: // case de palissade isolée
-		default:
 		c.drawImage(this.imgTroncPalissade, cx-lt/2, cy+lt/2-ht, lt, ht);
+
+		default:
+		// on va dessiner des demi-segments vers le centre
+		if (key&B_TOP) {
+			var nbt = Math.ceil(64/lt);
+			var bx = cx-lt*0.5;
+			var by = marge;
+			var lta = 64/nbt;
+			for (var i=0; i<=nbt/2; i++) {
+				c.drawImage(this.imgTroncPalissade, bx, by+lt/2-ht, lt, ht);
+				by += lta;
+			}
+		}
+		if (key&B_LEFT) {
+			var nbt = Math.ceil(64/lt);
+			var by = cy-ht+lt/2;
+			var bx = marge;
+			var lta = 64/nbt;
+			for (var i=0; i<=nbt/2; i++) {
+				c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by, lt, ht);
+				bx += lta;
+			}
+		}
+		if (key&B_RIGHT) {
+			var nbt = Math.ceil(64/lt);
+			var by = cy-ht+lt/2;
+			var bx = cx;
+			var lta = 64/nbt;
+			for (var i=0; i<=nbt/2; i++) {
+				c.drawImage(this.imgTroncPalissade, bx-lt*0.5, by, lt, ht);
+				bx += lta;
+			}
+		}
+		if (key&B_BOTTOM) {
+			var nbt = Math.ceil(64/lt);
+			var bx = cx-lt*0.5;
+			var by = cy;
+			var lta = 64/nbt;
+			for (var i=0; i<=nbt/2; i++) {
+				c.drawImage(this.imgTroncPalissade, bx, by+lt/2-ht, lt, ht);
+				by += lta;
+			}
+		}
+
 	}
 	
 	this.imagesPalissades[key] = img;
