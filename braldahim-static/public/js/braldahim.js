@@ -382,7 +382,8 @@ function _display_box(type, box, data) {
 		if ($("#loaded_box_vue").val() != "1") {
 			_get_('/interface/load/?box=box_vue');
 		}
-		_get_('/interface/load/?box=box_competences');
+		//_get_('/interface/load/?box=box_competences');
+        construitMenuActions();
 	} else if ($("#racine").exists() && ( box == 'box_effets' || box == 'box_carnet'  || box == 'box_lieu' || box == 'box_carte'
 		|| box == 'box_titres' || box == 'box_messagerie'
 			|| box == 'box_laban' || box == 'box_charrette' || box == 'box_coffre'
@@ -451,7 +452,7 @@ function _display_box(type, box, data) {
 
 	if (box == "box_cockpit") {
 		prepareCockpit();
-	} else if (box == 'box_interfacetest') {
+	} else if (box == 'box_vue') {
 		initBraldop();
 	}
 

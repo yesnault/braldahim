@@ -1010,7 +1010,9 @@ td.authTable {
 #onglet_box_communaute,
 #onglet_box_soule,
 #onglet_box_quetes,
-#onglet_box_interfacetest{
+#onglet_box_laban,
+#onglet_box_charrette,
+#onglet_box_coffre{
     padding-left:25px;
     padding-top:5px;
     padding-bottom:5px;
@@ -1040,7 +1042,15 @@ td.authTable {
 #onglet_box_quetes{
     background-image: url('/images/cockpit/icone_contrat.png');
 }
-
+#onglet_box_laban {
+    background-image: url('/images/cockpit/laban.png');
+}
+#onglet_box_charrette {
+    background-image: url('/images/cockpit/charrette.png');
+}
+#onglet_box_coffre {
+    background-image: url('/images/cockpit/coffre.png');
+}
 /* ************************************************ */
 /* ********************* Message ****************** */
 /* ************************************************ */
@@ -2725,16 +2735,16 @@ td.champ2d.jachere {
     display: inline;
     float: left;
     margin-left: 10px;
-    margin-right: 10px;
-    width: 99%;
+    width: 70%;
 }
 
 #box_cockpit {
-    margin-top: 0px;
-    margin-left: 0px;
-    width: auto;
+    display: inline;
     float: left;
-    text-align: center;
+    top: 150px;
+    width: 280px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #table_cockpit .tdcockpit {
@@ -2770,6 +2780,7 @@ td.champ2d.jachere {
 #tourCockpit {
     margin-left: 0px;
     margin-top: 0px;
+    text-align:center;
 }
 
 #box_cockpit table td {
@@ -3818,6 +3829,23 @@ div.box {
     display:inline-block;
 }
 
+#map_settings {
+	position: absolute;
+	left: 15px;
+	top: 5px;
+	border-radius: 15px;
+	z-index: 40;
+	background: transparent;
+	padding: 5px;
+}
+#map_settings img {
+	margin-left: 3px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	cursor: pointer;
+}
+
+
 #map {
     position: relative;
     background-color: white;
@@ -3833,7 +3861,6 @@ div.box {
     -moz-user-select: none;
     user-select: none;
     -webkit-user-select: none;
-     width: 720px;
      height: 620px;
     z-index: 8;
     display:inline-block;
@@ -3855,6 +3882,44 @@ div.box {
 }
 #map_dialog a:hover {
 	color: yellow;
+}
+
+#menu_actions {
+	width: 300px;
+	z-index:4;
+}
+div.titre_liste {
+	padding: 3px;
+	background-color: #1F2614;
+	margin-top: 6px;
+	margin-left:2px;
+	margin-right:2px;
+	border-width:thin;
+	border-top-style:solid;
+	border-color: #252;
+	border-left-style:solid;
+	border-right-style:solid;
+	font-weight: bold;
+	cursor: pointer;
+}
+div.liste {
+	margin-left:2px;
+	margin-right:2px;
+	background-color: #31401A;
+	border-color: #31401A;
+	border-bottom-style:solid;
+	border-left-style:solid;
+	border-right-style:solid;
+	border-width:thin;
+}
+div.liste a {
+	display: block;
+	color: #F2F2F2;
+	border-top-style:dotted;
+	border-color: #1F2614;
+	border-width:thin;
+	padding: 3px;
+	text-decoration: none;
 }
 
 a.layer {

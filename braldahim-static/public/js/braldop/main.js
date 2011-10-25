@@ -95,6 +95,27 @@ function initBraldop() {
         map.redraw();
     });
 
+    $('#goto').click(function() {
+        if (map.zoom < 32) map.zoom = 32;
+        //map.goto(parseInt($(this).attr('x')), parseInt($(this).attr('y')), parseInt($(this).attr('z')));
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+    });
+    $('#icon_grid').click(function() {
+        map.displayGrid = !map.displayGrid;
+        map.redraw();
+    });
+
+    $('#menu_actions').delegate('img.étoile', 'click',
+        function() {
+            var id = parseInt($(this).attr('id_action'));
+            actions[id].Favorite = !actions[id].Favorite;
+        }).delegate('.titre_liste', 'click', function() {
+            var tag = $(this).text();
+            var isVisible = $('.liste[tag="' + tag + '"]').is(':visible');
+            $('.liste').hide('fast');
+            if (!isVisible) $('.liste[tag="' + tag + '"]').show('fast');
+        });
+
     setTimeout(function() {
         for (i in map.mapData.Vues) {
             var v = map.mapData.Vues[i];
@@ -106,4 +127,47 @@ function initBraldop() {
     }, 1000);
 
     initBraldopCallback(map);
+}
+
+
+function construitMenuActions() {
+
+    $.getJSON('/interface/competencesjson?time=' + (new Date().getTime()) + "&dateAuth=" + $('#dateAuth').val(), function(data) {
+
+        var listesActions = {};
+        var tags = [];
+        listesActions["Favorites"] = [];
+        tags.push("Favorites");
+
+        $.each(data, function(key, val) {
+            var action = val;
+
+            action.id = key;
+            if (action.favorite) listesActions["Favorites"].push(action);
+            if (!listesActions[action.type]) {
+                listesActions[action.type] = [];
+                tags.push(action.type);
+            }
+            listesActions[action.type].push(action);
+        });
+
+        var html = '<br /><center><b>Mes Actions</b></center>';
+        for (var it in tags) {
+            var tag = tags[it];
+            var liste = listesActions[tag];
+            html += '<div class=titre_liste>' + tag + '</div>';
+            html += '<div class=liste tag="' + tag + '">';
+            for (var ia = 0; ia < liste.length; ia++) {
+                var action = liste[ia];
+                html += '<a><img class="étoile" id_action=' + action.id + ' src="http://static.braldahim.com/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/> ' + action.pa_texte + ' PA - ' + action.nom + '</a>';
+            }
+            html += '</div>';
+        }
+        console.log(html);
+        $('#menu_actions').html(html);
+        $('.liste').hide();
+        $('.liste[tag="Favorites"]').show();
+    });
+
+
 }
