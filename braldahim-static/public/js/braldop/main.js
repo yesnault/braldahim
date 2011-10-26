@@ -1,8 +1,9 @@
 /**
  * Contenu de map.html.
  */
-var map = null
-var actions = null
+var map = null;
+var actions = {};
+var tagEnCours = "Favorites";
 
 function fetchMap(callback) {
     var httpRequest = new XMLHttpRequest();
@@ -109,7 +110,7 @@ function initBraldop() {
     $('#menu_actions').delegate('img.étoile', 'click',
         function() {
             var id = parseInt($(this).attr('id_action'));
-            //actions[id].Favorite = !actions[id].Favorite;
+            actions[id].favorite = !actions[id].favorite;
             $('#valeur_1-competencefavorite').val(id);
             _get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorite', 'competencefavorite');
             construitMenuActions();
@@ -120,10 +121,10 @@ function initBraldop() {
                 _get_('/competences/doaction?caction=ask_competence_' + actions[id].nom_systeme);
             }
         }).delegate('.titre_liste', 'click', function() {
-            var tag = $(this).text();
-            var isVisible = $('.liste[tag="' + tag + '"]').is(':visible');
+            tagEnCours = $(this).text();
+            var isVisible = $('.liste[tag="' + tagEnCours + '"]').is(':visible');
             $('.liste').hide('fast');
-            if (!isVisible) $('.liste[tag="' + tag + '"]').show('fast');
+            if (!isVisible) $('.liste[tag="' + tagEnCours + '"]').show('fast');
         });
 
     setTimeout(function() {
@@ -140,52 +141,55 @@ function initBraldop() {
 }
 
 
-function construitMenuActions() {
-
+function getActions() {
     $.getJSON('/interface/competencesjson?time=' + (new Date().getTime()) + "&dateAuth=" + $('#dateAuth').val(), function(data) {
-
-        var listesActions = {};
-        var tags = [];
-        listesActions["Favorites"] = [];
-        tags.push("Favorites");
         actions = {};
-
         $.each(data, function(key, val) {
             var action = val;
-
-            action.id = key;
-            if (action.favorite) listesActions["Favorites"].push(action);
-            if (!listesActions[action.type]) {
-                listesActions[action.type] = [];
-                tags.push(action.type);
-            }
-            listesActions[action.type].push(action);
-            actions[key] = val;
+            actions[action.id_competence] = action;
         });
+        construitMenuActions();
+    });
+}
 
-        var html = '<br /><center><b>Mes Actions</b></center>';
-        for (var it in tags) {
-            var tag = tags[it];
-            var liste = listesActions[tag];
-            html += '<div class=titre_liste>' + tag + '</div>';
-            html += '<div class=liste tag="' + tag + '">';
+function construitMenuActions() {
 
-            for (var ia = 0; ia < liste.length; ia++) {
-                var action = liste[ia];
-                html += '<span>';
-                html += '<img class="étoile" id_action="' + action.id + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
+    var listesActions = {};
+    var tags = [];
+    listesActions["Favorites"] = [];
+    tags.push("Favorites");
 
-                html += ' <a href="#" class="action '+ (action.active ? 'active' : 'inactive') +' "  id_action="' + action.id + '" title="'+(action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
-                html += action.pa_texte + ' PA - ' + action.nom + '</a>';
-                html += '</span>';
-            }
-            html += '</div>';
+    $.each(actions, function(key, action) {
+        if (action.favorite) listesActions["Favorites"].push(action);
+        if (!listesActions[action.type]) {
+            listesActions[action.type] = [];
+            tags.push(action.type);
         }
-        console.log(html);
-        $('#menu_actions').html(html);
-        $('.liste').hide();
-        $('.liste[tag="Favorites"]').show();
+        listesActions[action.type].push(action);
     });
 
+    var html = '<br /><center><b>Mes Actions</b></center>';
+    for (var it in tags) {
+        var tag = tags[it];
+        var liste = listesActions[tag];
+        html += '<div class=titre_liste>' + tag + '</div>';
+        html += '<div class=liste tag="' + tag + '">';
+
+        for (var ia = 0; ia < liste.length; ia++) {
+            var action = liste[ia];
+            html += '<span>';
+            html += '<img class="étoile" id_action="' + action.id_competence + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
+
+            html += ' <a href="#" class="action ' + (action.active ? 'active' : 'inactive') + ' "  id_action="' + action.id_competence + '" title="' + (action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
+            html += action.pa_texte + ' PA - ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
+            html += '</a>';
+            html += '</span>';
+        }
+        html += '</div>';
+    }
+    //console.log(html);
+    $('#menu_actions').html(html);
+    $('.liste').hide();
+    $('.liste[tag="' + tagEnCours + '"]').show();
 
 }

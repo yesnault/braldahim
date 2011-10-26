@@ -1003,6 +1003,10 @@ td.authTable {
     background: none repeat scroll 0% 0%;
 }
 
+.bral_box {
+    min-height:300px;
+}
+
 #onglet_box_interface,
 #onglet_box_echoppes,
 #onglet_box_champs,
@@ -2739,6 +2743,14 @@ td.champ2d.jachere {
 }
 
 #box_cockpit {
+    display: inline;
+    float: left;
+    top: 150px;
+    width: 280px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#menu_actions {
     display: inline;
     float: left;
     top: 150px;

@@ -23,22 +23,17 @@ class Bral_Util_Competences
 
 		if ($favoritesRowset != null) {
 			foreach ($favoritesRowset as $f) {
-				$tabFavorites[$f["id_competence"]] = $f["id_competence"];
+				$tabFavorites[$f["nom_systeme_competence"]] = $f["nom_systeme_competence"];
 			}
 		}
 
-		$tabCompetences = null;
+		$tabCompetences = array();
+		foreach (Bral_Util_Registre::get('competencesBasiques') as $key => $val) {
+			$val["favorite"] = array_key_exists($key, $tabFavorites);
+			$val["active"] = ($view->user->pa_braldun >= $val["pa_utilisation"]);
+			$tabCompetences[$key] = $val;
+		}
 
-		/*
-		 *
-		 * TODO
-		$tabCompetences["basiques"] = array(
-			//"nom_onglet" => "Compétences Basiques",
-			"nom_onglet" => "Basique",
-			"nom_systeme_onglet" => "basiques",
-			"competences" => Bral_Util_Registre::get('competencesBasiques')
-		);
-		*/
 
 		Zend_Loader::loadClass("BraldunsCompetences");
 		Zend_Loader::loadClass("BraldunsMetiers");
@@ -50,7 +45,7 @@ class Bral_Util_Competences
 			if ($c["type_competence"] == "commun") {
 				$pa_texte = $c["pa_utilisation_competence"];
 
-				$tabCompetences[$c["id_fk_competence_hcomp"]] = array(
+				$tabCompetences[$c["nom_systeme_competence"]] = array(
 					"id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
@@ -65,15 +60,6 @@ class Bral_Util_Competences
 			}
 		}
 
-		/*
-		 * TODO
-		$tabCompetences["soule"] = array(
-			"nom_onglet" => "Match de Soule",
-			"nom_systeme_onglet" => "soule",
-			"competences" => Bral_Util_Registre::get('competencesSoule')
-		);
-
-		*/
 		$braldunsMetiersTable = new BraldunsMetiers();
 		$braldunsMetierRowset = $braldunsMetiersTable->findMetiersByBraldunId($view->user->id_braldun);
 
@@ -91,7 +77,8 @@ class Bral_Util_Competences
 						$pa_texte = "2 ou 4";
 					}
 
-					$tabCompetences[$c["id_fk_competence_hcomp"]] = array("id_competence" => $c["id_fk_competence_hcomp"],
+					$tabCompetences[$c["nom_systeme_competence"]] = array(
+						"id_competence" => $c["id_fk_competence_hcomp"],
 						"nom" => $c["nom_competence"],
 						"pa_utilisation" => $c["pa_utilisation_competence"],
 						"pa_texte" => $pa_texte,
@@ -106,13 +93,11 @@ class Bral_Util_Competences
 			}
 		}
 
-		/*
-		"Nom" => 'Attaquer une palissade',
-					"PA" => 4,
-					"Active" => true,
-					"Favorite" => true,
-					"Tag" => 'Basiques'
-		*/
+		foreach (Bral_Util_Registre::get('competencesSoule') as $key => $val) {
+			$val["favorite"] = array_key_exists($key, $tabFavorites);
+			$val["active"] = ($view->user->pa_braldun >= $val["pa_utilisation"]);
+			$tabCompetences[$key] = $val;
+		}
 
 		return $tabCompetences;
 	}

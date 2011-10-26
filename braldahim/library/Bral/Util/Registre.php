@@ -45,41 +45,35 @@ class Bral_Util_Registre
 				$pa_texte = "0 ou 1";
 			}
 
-			$tab[$c->id_competence]["nom"] = $c->nom_competence;
-			$tab[$c->id_competence]["nom_systeme"] = $c->nom_systeme_competence;
-			$tab[$c->id_competence]["description"] = $c->description_competence;
-			$tab[$c->id_competence]["niveau_requis"] = $c->niveau_requis_competence;
-			$tab[$c->id_competence]["pi_cout"] = $c->pi_cout_competence;
-			$tab[$c->id_competence]["px_gain"] = $c->px_gain_competence;
-			$tab[$c->id_competence]["balance_faim"] = $c->balance_faim_competence;
-			$tab[$c->id_competence]["pourcentage_max"] = $c->pourcentage_max_competence;
-			$tab[$c->id_competence]["pa_utilisation"] = $c->pa_utilisation_competence;
-			$tab[$c->id_competence]["pa_texte"] = $pa_texte;
-			$tab[$c->id_competence]["pa_manquee"] = $c->pa_manquee_competence;
-			$tab[$c->id_competence]["type_competence"] = $c->type_competence;
-			$tab[$c->id_competence]["id_fk_metier_competence"] = $c->id_fk_metier_competence;
+			$tab[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
+			$tab[$c->nom_systeme_competence]["nom"] = $c->nom_competence;
+			$tab[$c->nom_systeme_competence]["nom_systeme"] = $c->nom_systeme_competence;
+			$tab[$c->nom_systeme_competence]["description"] = $c->description_competence;
+			$tab[$c->nom_systeme_competence]["niveau_requis"] = $c->niveau_requis_competence;
+			$tab[$c->nom_systeme_competence]["pi_cout"] = $c->pi_cout_competence;
+			$tab[$c->nom_systeme_competence]["px_gain"] = $c->px_gain_competence;
+			$tab[$c->nom_systeme_competence]["balance_faim"] = $c->balance_faim_competence;
+			$tab[$c->nom_systeme_competence]["pourcentage_max"] = $c->pourcentage_max_competence;
+			$tab[$c->nom_systeme_competence]["pa_utilisation"] = $c->pa_utilisation_competence;
+			$tab[$c->nom_systeme_competence]["pourcentage"] = false;
+			$tab[$c->nom_systeme_competence]["pa_texte"] = $pa_texte;
+			$tab[$c->nom_systeme_competence]["pa_manquee"] = $c->pa_manquee_competence;
+			$tab[$c->nom_systeme_competence]["type_competence"] = $c->type_competence;
+			$tab[$c->nom_systeme_competence]["id_fk_metier_competence"] = $c->id_fk_metier_competence;
+			$tab[$c->nom_systeme_competence]["favorite"] = false;
+			$tab[$c->nom_systeme_competence]["active"] = false;
+			$tab[$c->nom_systeme_competence]["type"] = $c->type_competence;
 
 			//$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 
 			if ($c->type_competence == 'basic' || $c->type_competence == 'soule') {
-				$tabCompetence = array
-				("id_competence" => $c->id_competence,
-					"nom" => $c->nom_competence,
-					"nom_systeme" => $c->nom_systeme_competence,
-					"description" => $c->description_competence,
-					"pa_utilisation" => $c->pa_utilisation_competence,
-					"pa_texte" => $pa_texte,
-					"type_competence" => $c->type_competence,
-					"pourcentage_max" => $c->pourcentage_max_competence,
-					"id_fk_metier_competence" => null,
-					"balance_faim" => $c->balance_faim_competence,
-					"px_gain" => $c->px_gain_competence,
-					"pourcentage_init" => 100,
-				);
 				if ($c->type_competence == 'basic') {
-					$tabBasiques[] = $tabCompetence;
+					$tab[$c->nom_systeme_competence]["type"] = "Basiques";
+					$tabBasiques[$c->nom_systeme_competence] = $tab[$c->nom_systeme_competence];
 				} elseif ($c->type_competence == 'soule') {
-					$tabSoule[] = $tabCompetence;
+					$tab[$c->nom_systeme_competence]["type"] = "Soule";
+					$tabSoule[$c->nom_systeme_competence] = $tab[$c->nom_systeme_competence];
+
 				}
 
 			}

@@ -48,6 +48,6 @@ class Bral_Interfaceaction_Competencefavorite extends Bral_Interfaceaction_Inter
 
 	function getListBoxRefresh()
 	{
-		return array("box_competences");
+		return array();
 	}
 }
