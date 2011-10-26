@@ -2,6 +2,7 @@
  * Contenu de map.html.
  */
 var map = null
+var actions = null
 
 function fetchMap(callback) {
     var httpRequest = new XMLHttpRequest();
@@ -108,7 +109,16 @@ function initBraldop() {
     $('#menu_actions').delegate('img.étoile', 'click',
         function() {
             var id = parseInt($(this).attr('id_action'));
-            actions[id].Favorite = !actions[id].Favorite;
+            //actions[id].Favorite = !actions[id].Favorite;
+            $('#valeur_1-competencefavorite').val(id);
+            _get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorite', 'competencefavorite');
+            construitMenuActions();
+        }).delegate('a.action', 'click',
+        function() {
+            var id = parseInt($(this).attr('id_action'));
+            if (actions[id].active) {
+                _get_('/competences/doaction?caction=ask_competence_' + actions[id].nom_systeme);
+            }
         }).delegate('.titre_liste', 'click', function() {
             var tag = $(this).text();
             var isVisible = $('.liste[tag="' + tag + '"]').is(':visible');
@@ -138,6 +148,7 @@ function construitMenuActions() {
         var tags = [];
         listesActions["Favorites"] = [];
         tags.push("Favorites");
+        actions = {};
 
         $.each(data, function(key, val) {
             var action = val;
@@ -149,6 +160,7 @@ function construitMenuActions() {
                 tags.push(action.type);
             }
             listesActions[action.type].push(action);
+            actions[key] = val;
         });
 
         var html = '<br /><center><b>Mes Actions</b></center>';
@@ -157,9 +169,15 @@ function construitMenuActions() {
             var liste = listesActions[tag];
             html += '<div class=titre_liste>' + tag + '</div>';
             html += '<div class=liste tag="' + tag + '">';
+
             for (var ia = 0; ia < liste.length; ia++) {
                 var action = liste[ia];
-                html += '<a><img class="étoile" id_action=' + action.id + ' src="http://static.braldahim.com/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/> ' + action.pa_texte + ' PA - ' + action.nom + '</a>';
+                html += '<span>';
+                html += '<img class="étoile" id_action="' + action.id + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
+
+                html += ' <a href="#" class="action '+ (action.active ? 'active' : 'inactive') +' "  id_action="' + action.id + '" title="'+(action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
+                html += action.pa_texte + ' PA - ' + action.nom + '</a>';
+                html += '</span>';
             }
             html += '</div>';
         }

@@ -3912,7 +3912,7 @@ div.liste {
 	border-right-style:solid;
 	border-width:thin;
 }
-div.liste a {
+div.liste span {
 	display: block;
 	color: #F2F2F2;
 	border-top-style:dotted;
@@ -3920,6 +3920,18 @@ div.liste a {
 	border-width:thin;
 	padding: 3px;
 	text-decoration: none;
+}
+
+div.liste span a {
+	text-decoration: none;
+}
+
+.inactive {
+    color: #1F2614;
+}
+
+div.liste span img {
+    cursor: pointer;
 }
 
 a.layer {
