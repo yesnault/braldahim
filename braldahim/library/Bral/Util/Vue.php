@@ -193,7 +193,11 @@ class Bral_Util_Vue
 
 				if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
 					//rien
-				} else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
+				} else if ($marcher != null && $marcher['tableauValidationXY'] != null
+					&& array_key_exists($display_x, $marcher['tableauValidationXY'])
+					&& array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])
+					&& $marcher['tableauValidationXY'][$display_x][$display_y]["valid"]
+				) {
 					$marcherCase = $marcher['tableauValidationXY'][$display_x][$display_y];
 					$tableau["Actions"][] = array(
 						'Type' => 'Marcher',
@@ -201,6 +205,7 @@ class Bral_Util_Vue
 						'X' => $display_x,
 						'Y' => $display_y,
 						'PA' => $marcher["nb_pa"],
+						'Offset' => $marcherCase["offset"],
 					);
 				}
 
@@ -281,6 +286,7 @@ class Bral_Util_Vue
 
 		if ($echoppes != null) {
 			foreach ($echoppes as $e) {
+
 				if ($e['sexe_braldun'] == 'feminin') {
 					$nom_metier = $e['nom_feminin_metier'];
 				} else {
@@ -295,6 +301,10 @@ class Bral_Util_Vue
 					"IdBraldun" => $e['id_braldun'],
 					"NomCompletBraldun" => $e['prenom_braldun'] . " " . $e['nom_braldun'],
 				);
+
+				if ($view->user->x_braldun == $e['x_echoppe'] && $view->user->y_braldun == $e['y_echoppe']) {
+					self::addAction($tableau, "Lieu", $view->user, $e['x_echoppe'], $e['y_echoppe']);
+				}
 			}
 		}
 
@@ -326,6 +336,10 @@ class Bral_Util_Vue
 					"Y" => $l['y_lieu'],
 					"Z" => $l['z_lieu'],
 				);
+
+				if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
+					addAction($tableau, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu']);
+				}
 			}
 		}
 
@@ -759,6 +773,18 @@ class Bral_Util_Vue
 		$view->estSurChamp = $estSurChamp;
 
 		return $tableau;
+	}
+
+	private static function addAction(&$tableau, $type, $user, $x, $y)
+	{
+
+		$tableau["Actions"][] = array(
+			'Type' => $type,
+			'Acteur' => $user->id_braldun,
+			'X' => $x,
+			'Y' => $y,
+			'PA' => 0,
+		);
 	}
 
 	private static function addElement(&$tableau, $rowset, $type, $libelle, $colonne, $pluriel)

@@ -21,17 +21,25 @@ function fetchMap(callback) {
     httpRequest.send();
 }
 
-
 function initBraldopCallback(map) {
     map.setCallback("Marcher", function(a) {
         console.log('Action Marcher:');
         console.log(a);
         actionMarcher(a);
     });
+    map.setCallback("Lieu", function(a) {
+        console.log('Action Lieu:');
+        console.log(a);
+        actionLieu(a);
+    });
 }
 
 function actionMarcher(action) {
-    alert('Developpement en cours. Action Marcher PA:' + action.PA);
+    _get_('/competences/doaction?caction=do_competence_marcher&valeur_1=' + action.Offset);
+}
+
+function actionLieu(action) {
+    _get_('/interface/load/?box=box_lieu');
 }
 
 function initBraldop() {

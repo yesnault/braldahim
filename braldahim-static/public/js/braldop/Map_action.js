@@ -23,6 +23,7 @@ Map.prototype.initTypesActions = function() {
 	}
 	this.typesActions = [];
 	this.typesActions['Marcher'] = {nom:'Marcher', iconeCase:icon('vue/pas')};
+    this.typesActions['Lieu'] = {nom:'Entrer dans le lieu', iconeCase:false};
 	this.actions = []; // un tableau de toutes les actions
 }
 
