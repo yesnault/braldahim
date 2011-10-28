@@ -12,6 +12,17 @@ Points d'influence de la communauté : <?php echo $this->communaute["points_comm
 	Seuls les tenanciers, adjoints et gestionnaires peuvent initialiser ou améliorer un bâtiment.<br />
 	Une fois initialisé ou amélioré, chaque Braldûn de la communauté peut participer à la construction en allant sur le bâtiment
 	et utiliser l'action Construire (onglet Lieu).<br />
+
+	<img src="<?php echo $this->config->url->static?>/images/cockpit/icone_danger.png"> Les bâtiments ont un coût d'entretien
+
+	<ul>
+		<li>A chaque nouvelle lune, les bâtiments doivent être entretenus.</li>
+		<li>Le coup d'entretien d'un bâtiment dépend de son niveau :  => Niveau du bâtiment * 100 castars.</li>
+		<li>Si l'entretien est KO (pas assez de castars dans le coffre de la communauté) : -1 sur le niveau du bâtiment. </li>
+		<li>Si niveau d'un bâtiment retombe à 0, il est automatiquement supprimé, ainsi que ses dépendances.</li>
+	</ul>
+
+<br /><br />
 	
 	 <?php if ($this->user->rangCommunaute <= Bral_Util_Communaute::ID_RANG_TENANCIER) : ?>
 	 Vous avez les droits de Tenancier. Depuis ce hall, vous pouvez construire
