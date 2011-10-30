@@ -402,6 +402,8 @@ class Bral_Util_Vue
 					"Intangible" => ($b['est_intangible_braldun'] == "oui"),
 					"Camp" => $b['soule_camp_braldun'] . "",
 					"IdCommunauté" => $b['id_fk_communaute_braldun'],
+					"PointsGredin" => $b['points_gredin_braldun'],
+					"PointsRedresseur" => $b['points_redresseur_braldun'],
 				);
 
 				if ($b['id_fk_communaute_braldun'] != null) {

@@ -3887,6 +3887,23 @@ div.box {
 	color: white;
 	z-index: 10;
 }
+#map_dialog .pointsGredin {
+    background-color: #CC2121;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    margin-left: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+#map_dialog .pointsRedresseur {
+    background-color: #21CC21;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    margin-left: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 .dialog_title {
 	font-weight: bold;
 }
