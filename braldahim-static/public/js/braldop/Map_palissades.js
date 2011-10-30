@@ -85,6 +85,7 @@ Map.prototype.getImagePalissade = function(key) {
 
 		case 0: // case de palissade isolée
 		c.drawImage(this.imgTroncPalissade, cx-lt/2, cy+lt/2-ht, lt, ht);
+		break;
 
 		default:
 		// on va dessiner des demi-segments vers le centre

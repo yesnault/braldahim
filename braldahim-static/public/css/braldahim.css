@@ -3873,7 +3873,8 @@ div.box {
     -moz-user-select: none;
     user-select: none;
     -webkit-user-select: none;
-     height: 620px;
+    height: 620px;
+    width:100%;
     z-index: 8;
     display:inline-block;
 }

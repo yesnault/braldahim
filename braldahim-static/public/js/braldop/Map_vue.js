@@ -88,6 +88,7 @@ Map.prototype.getObjectImgKey = function(o) {
 
 		case "aliment":
 		case "graine":
+		case "materiel":
 		case "minerai":
 		case "munition":
 		case "potion":

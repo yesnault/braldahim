@@ -28,6 +28,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.displayRégions = false;
 	this.displayFog = true;
 	this.displayGrid = false;
+	this.displayALot = false; // si true alors on se fiche un peu de la lenteur du dessin, y compris à basse résolution
 	this.displayExperimentation = false;
 	this.$dialog = $('#'+dialogId);
 	this.dialopIsOpen = false;
@@ -37,8 +38,8 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.recomputeCanvasPosition();
 	var _this = this;
 	var onready = function(){_this.compileLesVues();_this.redraw();};
-	this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements.png', onready);
-	this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes.png', onready);
+    this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements.png', onready);
+   	this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes.png', onready);
 	this.photoSatelliteOK = false;
 	this.photoSatellite.src = "http://static.braldahim.com/images/sources/harilinn/braldahim_carte4.png";
 	this.photoSatellite.onload = function(){
@@ -80,7 +81,10 @@ function Map(canvasId, posmarkid, dialogId) {
 }
 
 Map.prototype.updatePosDiv = function() {
-	this.posmarkdiv.innerHTML='Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY+' &nbsp; Z='+this.z;
+	var html = 'Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY+' &nbsp; Z='+this.z;
+	var cell = this.getCell(this.couche, this.pointerX, this.pointerY);
+	if (cell) html += ' ' + cell.fond;
+	this.posmarkdiv.innerHTML=html;
 }
 
 Map.prototype.changeProfondeur = function(z) {
@@ -162,6 +166,8 @@ Map.prototype.setData = function(mapData) {
 		var couche = this.mapData.Couches[ic];
 		if (couche.Z==0) this.couche = couche;
 		couche.matrix = {};//new Array(); // todo benchmarker pour comparer les effets en ram et cpu de la version map et de la version table
+		couche.fond = new Image();
+		//couche.fond.src = "couche"+couche.Z+".png";
 		if (couche.Cases) {
 			for (var i=couche.Cases.length; i-->0;) {
 				var o = couche.Cases[i];
@@ -334,7 +340,24 @@ Map.prototype.redraw = function() {
 			this.yMin = -Math.floor(this.screenRect.h/this.zoom-this.originY);
 			this.yMax = Math.ceil(this.originY);
 
-			if (this.zoom>1) {
+			if (this.xMin<-800) {
+				this.xMin=-800;
+				if (this.xMax<-800) this.xMax=-800;
+			}
+			if (this.xMax>800) {
+				this.xMax=800;
+				if (this.xMin>800) this.xMin=800;
+			}
+			if (this.yMin<-500) {
+				this.yMin=-500;
+				if (this.yMax<-500) this.xMax=-500;
+			}
+			if (this.yMax>500) {
+				this.yMax=500;
+				if (this.yMin>500) this.yMin=500;
+			}
+
+			if (this.zoom>2) {
 				var screenRect = new Rect();
 				screenRect.w = this.zoom;
 				screenRect.h = this.zoom;
@@ -352,6 +375,14 @@ Map.prototype.redraw = function() {
 						}
 					}
 				}
+			} else if (this.couche.fond.width) {
+				var sw = this.xMax-this.xMin;
+				var sh = this.yMax-this.yMin;
+				this.context.drawImage(
+					this.couche.fond,
+					this.xMin+800, 500-this.yMax, sw, sh,
+					this.zoom*(this.originX+this.xMin), this.zoom*(this.originY-this.yMax), this.zoom*sw, this.zoom*sh
+				);
 			}
 			if (this.zoom>15 && this.displayGrid) {
 				this.drawGrid();

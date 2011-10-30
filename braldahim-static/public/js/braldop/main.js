@@ -44,6 +44,7 @@ function actionLieu(action) {
 
 function initBraldop() {
     map = new Map("map_canvas", "posmark", "map_dialog");
+    map.displayGrid = true;
     fetchMap(function(msg) {
         map.setData(msg);
         //> on batit le menu de choix de la profondeur
@@ -131,8 +132,10 @@ function initBraldop() {
         }).delegate('.titre_liste', 'click', function() {
             tagEnCours = $(this).text();
             var isVisible = $('.liste[tag="' + tagEnCours + '"]').is(':visible');
-            $('.liste').hide('fast');
-            if (!isVisible) $('.liste[tag="' + tagEnCours + '"]').show('fast');
+            if (!isVisible) {
+                $('.liste').hide('fast');
+                $('.liste[tag="' + tagEnCours + '"]').show('fast');
+            }
         });
 
     setTimeout(function() {

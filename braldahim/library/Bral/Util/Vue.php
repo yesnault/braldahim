@@ -338,7 +338,7 @@ class Bral_Util_Vue
 				);
 
 				if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
-					addAction($tableau, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu']);
+					self::addAction($tableau, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu']);
 				}
 			}
 		}
@@ -548,7 +548,7 @@ class Bral_Util_Vue
 				$tableau["Vues"][0]["Objets"][] = array(
 					"X" => $e['x_element_materiel'],
 					"Y" => $e['y_element_materiel'],
-					'Type' => 'matériel',
+					'Type' => 'materiel',
 					'Quantité' => 1,
 					'Label' => $e['nom_type_materiel'] . ' n°' . $e['id_element_materiel'],
 					'IdType' => $e['id_type_materiel'],
