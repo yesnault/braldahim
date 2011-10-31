@@ -28,6 +28,7 @@ Map.prototype.getCellVueCreate = function(x, y) {
 		cell.cadavres = [];
 		cell.objets = [];
 		cell.monstres = [];
+        cell.actions = [];
 		cell.nbBraldunsFémininsNonKO=0; 
 		cell.nbBraldunsMasculinsNonKO=0;
 		cell.zones = [[], [], [], []]; // 4 zones : haut-gauche, centre, bas-gauche et bas-droit (haut-droit n'est pas géré dans la vue et correspond au lieu)
@@ -123,6 +124,7 @@ Map.prototype.compileLesVues = function() {
 	this.matricesVuesParZ = {};
 	this.matriceVues = {};
 	//~ var nn=0, zz=1, tt=2; // pour tests affichage points gredin et points redresseur
+    if (!this.mapData) return; // contournement non compris, cela vaut null parfois. Evite une exception en dessus
 	for (var iv=0; iv<this.mapData.Vues.length; iv++) {
 		var vue = this.mapData.Vues[iv];
 		if (!vue.active) continue;
@@ -166,8 +168,10 @@ Map.prototype.compileLesVues = function() {
 			for (var i=0; i<vue.actions.length; i++) {
 				var a = vue.actions[i];
 				var cell = this.getCellVueCreate(a.X, a.Y);
-				cell.action = a; // une action max par case pour l'instant
-				cell.zones[1].push(this.typesActions[a.Type].iconeCase);
+				cell.actions.push(a); // pour la popup, plusieurs actions possibles
+                if (this.typesActions[a.Type].isIconeMap) { // affichage de l'icône ou non sur la case
+                    cell.zones[1].push(this.typesActions[a.Type].icone);
+                }
 			}
 		}
 		//> pour chaque cellule on construit les tableaux d'images par zones

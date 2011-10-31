@@ -4,15 +4,12 @@
  *  X
  *  Y
  *  Z : optionnel car implicitement le z du braldun
- *  IdBraldun : id, le cas échéant, de la cible s'il s'agit d'un braldun
- *  IdMonstre :  id, le cas échéant, de la cible s'il s'agit d'un monstre
  *  PA : coût en PA
- * 
- * 
+ *
  * Champs du type d'action :
  *  nom
- *  iconeCase : optionnel, à afficher sur la case où l'action est disponible
- *  icone
+ *  icone: optionnel, à afficher dans la popup où l'action est disponible
+ *  iconeCase : affichage de l'icone sur la case ou non
  */
 
 Map.prototype.initTypesActions = function() {
@@ -22,8 +19,9 @@ Map.prototype.initTypesActions = function() {
 		return img;
 	}
 	this.typesActions = [];
-	this.typesActions['Marcher'] = {nom:'Marcher', iconeCase:icon('vue/pas')};
-    this.typesActions['Lieu'] = {nom:'Entrer dans le lieu', iconeCase:icon('vue/pas')};
+	this.typesActions['Marcher'] = {nom:'Marcher', icone:icon('vue/pas'), isIconeMap:true};
+    this.typesActions['Lieu'] = {nom:'Entrer dans le lieu', icone:icon('vue/pas'), isIconeMap:true};
+    this.typesActions['Transbahuter'] = {nom:'Transbahuter', icone:icon('vue/laban'), isIconeMap:false};
 	this.actions = []; // un tableau de toutes les actions
 }
 

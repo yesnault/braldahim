@@ -36,7 +36,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, abbr, add
 }
 
 #c-nav ul {
-    list-style-type : none;
+    list-style-type: none;
 }
 
 #c-nav {
@@ -470,34 +470,32 @@ div.tip hr, div.tipf hr {
     height: 1px;
 }
 
-.button
-{
-        display: inline-block;
-        white-space: nowrap;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#85946d), to(#41591c));
-        background-image: -webkit-linear-gradient(top, #85946d, #41591c);
-        background-image: -moz-linear-gradient(top, #85946d, #41591c);
-        background-image: -ms-linear-gradient(top, #85946d, #41591c);
-        background-image: -o-linear-gradient(top, #85946ds, #41591c);
-        background-image: linear-gradient(top, #85946d, #41591c);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#85946d', EndColorStr='#41591c');
-        border: 1px solid #1F2614;
-        padding: 0 1.5em;
-        margin: 0.5em;
-        font: bold 12px/2em Helvetica;
-        text-decoration: none;
-        color: #1F2614;
-        text-shadow: 0 0.1px 0 rgba(133,148,109,.8);
-        -moz-border-radius: .2em;
-        -webkit-border-radius: .2em;
-        border-radius: .2em;
-     /*   -moz-box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);
-        -webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);
-        box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);*/
+.button {
+    display: inline-block;
+    white-space: nowrap;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#85946d), to(#41591c));
+    background-image: -webkit-linear-gradient(top, #85946d, #41591c);
+    background-image: -moz-linear-gradient(top, #85946d, #41591c);
+    background-image: -ms-linear-gradient(top, #85946d, #41591c);
+    background-image: -o-linear-gradient(top, #85946ds, #41591c);
+    background-image: linear-gradient(top, #85946d, #41591c);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#85946d', EndColorStr = '#41591c');
+    border: 1px solid #1F2614;
+    padding: 0 1.5em;
+    margin: 0.5em;
+    font: bold 12px/2em Helvetica;
+    text-decoration: none;
+    color: #1F2614;
+    text-shadow: 0 0.1px 0 rgba(133, 148, 109, .8);
+    -moz-border-radius: .2em;
+    -webkit-border-radius: .2em;
+    border-radius: .2em;
+    /*   -moz-box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);
+            -webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);
+            box-shadow: 0 0 1px 1px rgba(0,0,0,.8) inset, 0 1px 0 rgba(0,0,0,.3);*/
 }
 
-.button:hover
-{
+.button:hover {
     color: #1F2614;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#85946d), to(#85946d));
     background-image: -webkit-linear-gradient(top, #85946d, #85946d);
@@ -505,133 +503,115 @@ div.tip hr, div.tipf hr {
     background-image: -ms-linear-gradient(top, #85946d, #85946d);
     background-image: -o-linear-gradient(top, #85946d, #85946d);
     background-image: linear-gradient(top, #85946d, #85946d);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#85946d', EndColorStr='#85946d');
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#85946d', EndColorStr = '#85946d');
 }
 
-.button:active
-{
-        -moz-box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-        -webkit-box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-        box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-        position: relative;
-        top: 1px;
+.button:active {
+    -moz-box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    -webkit-box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    position: relative;
+    top: 1px;
 }
 
-.button:focus
-{
-        outline:5px;
-    -moz-box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-           -webkit-box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-           box-shadow: 0 0 4px 2px rgba(31,38,20,.3) inset;
-           position: relative;
-           top: 1px;
+.button:focus {
+    outline: 5px;
+    -moz-box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    -webkit-box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    box-shadow: 0 0 4px 2px rgba(31, 38, 20, .3) inset;
+    position: relative;
+    top: 1px;
 }
 
-.button:before
-{
-        background: #1f2614;
-        background: rgba(0,0,0,.1);
-        float: left;
-        width: 1em;
-        text-align: center;
-        font-size: 1.5em;
-        margin: 0 1em 0 -1em;
-        padding: 0 .2em;
-        -moz-box-shadow: 1px 0 0 rgba(0,0,0,.5), 2px 0 0 rgba(255,255,255,.5);
-        -webkit-box-shadow: 1px 0 0 rgba(0,0,0,.5), 2px 0 0 rgba(255,255,255,.5);
-        box-shadow: 1px 0 0 rgba(0,0,0,.5), 2px 0 0 rgba(255,255,255,.5);
-        -moz-border-radius: .15em 0 0 .15em;
-        -webkit-border-radius: .15em 0 0 .15em;
-        border-radius: .15em 0 0 .15em;
-        pointer-events: none;
+.button:before {
+    background: #1f2614;
+    background: rgba(0, 0, 0, .1);
+    float: left;
+    width: 1em;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 1em 0 -1em;
+    padding: 0 .2em;
+    -moz-box-shadow: 1px 0 0 rgba(0, 0, 0, .5), 2px 0 0 rgba(255, 255, 255, .5);
+    -webkit-box-shadow: 1px 0 0 rgba(0, 0, 0, .5), 2px 0 0 rgba(255, 255, 255, .5);
+    box-shadow: 1px 0 0 rgba(0, 0, 0, .5), 2px 0 0 rgba(255, 255, 255, .5);
+    -moz-border-radius: .15em 0 0 .15em;
+    -webkit-border-radius: .15em 0 0 .15em;
+    border-radius: .15em 0 0 .15em;
+    pointer-events: none;
 }
-
 
 /* Hexadecimal entities for the icons */
 
-.add:before
-{
-        content: "\271A";
+.add:before {
+    content: "\271A";
 }
 
-.edit:before
-{
-        content: "\270E";
+.edit:before {
+    content: "\270E";
 }
 
-.delete:before
-{
-        content: "\2718";
+.delete:before {
+    content: "\2718";
 }
 
-.save:before
-{
-        content: "\2714";
+.save:before {
+    content: "\2714";
 }
 
-.email:before
-{
-        content: "\2709";
+.email:before {
+    content: "\2709";
 }
 
-.like:before
-{
-        content: "\2764";
+.like:before {
+    content: "\2764";
 }
 
-.next:before
-{
-        content: "\279C";
+.next:before {
+    content: "\279C";
 }
 
-.star:before
-{
-        content: "\2605";
+.star:before {
+    content: "\2605";
 }
 
-.spark:before
-{
-        content: "\2737";
+.spark:before {
+    content: "\2737";
 }
 
-.play:before
-{
-        content: "\25B6";
+.play:before {
+    content: "\25B6";
 }
 
 /* Buttons and inputs */
-button.button, input.button
-{
-        cursor: pointer;
-        overflow: visible; /* removes extra side spacing in IE */
+button.button, input.button {
+    cursor: pointer;
+    overflow: visible; /* removes extra side spacing in IE */
 }
 
 /* removes extra inner spacing in Firefox */
-button::-moz-focus-inner
-{
-  border: 0;
-  padding: 0;
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
 }
 
 /* If line-height can't be modified, then fix Firefox spacing with padding */
- input::-moz-focus-inner
-{
-  padding: .4em;
+input::-moz-focus-inner {
+    padding: .4em;
 }
 
 /* The disabled styles */
-.button[disabled], .button[disabled]:hover, .button.disabled, .button.disabled:hover
-{
+.button[disabled], .button[disabled]:hover, .button.disabled, .button.disabled:hover {
     background: #31401A;
-        /*background: #eee;
-        color: #aaa;
-        border-color: #aaa;
-        cursor: default;
-        text-shadow: none;
-        position: static;
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;*/
+    /*background: #eee;
+            color: #aaa;
+            border-color: #aaa;
+            cursor: default;
+            text-shadow: none;
+            position: static;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;*/
 }
 
 /*
@@ -748,21 +728,17 @@ td.authTable {
 }
 
 .box_chargement {
-    position: absolute;
+    position: fixed;
     width: 200px;
     height: 40px;
     margin-left: -110px;
-    margin-top: -100px;
+    top: 0px;
     text-align: center;
     border-width: 0px;
     font-weight: bold;
-    z-index: 1000;
+    z-index: 2000;
     color: #F2F2F2;
-    background-color: #1F2614;
-    border-radius: 10px; /* en css3 lui m√™me */
-    -moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
-    -webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
-    -khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
+    background-color: #900;
 }
 
 .box_action {
@@ -1004,7 +980,7 @@ td.authTable {
 }
 
 .bral_box {
-    min-height:300px;
+    min-height: 300px;
 }
 
 #onglet_box_interface,
@@ -1016,45 +992,55 @@ td.authTable {
 #onglet_box_quetes,
 #onglet_box_laban,
 #onglet_box_charrette,
-#onglet_box_coffre{
-    padding-left:25px;
-    padding-top:5px;
-    padding-bottom:5px;
+#onglet_box_coffre {
+    padding-left: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-repeat: no-repeat;
     background-size: 24px auto;
 }
 
-#onglet_box_interface,#onglet_box_interfacetest {
+#onglet_box_interface, #onglet_box_interfacetest {
     background-image: url('/images/cockpit/icone_carte.png');
 
 }
+
 #onglet_box_echoppes {
     background-image: url('/images/cockpit/icone_echoppe.png');
 }
-#onglet_box_champs{
+
+#onglet_box_champs {
     background-image: url('/images/vue/champ.png');
 }
-#onglet_box_evenements{
+
+#onglet_box_evenements {
     background-image: url('/images/cockpit/icone_danger.png');
 }
-#onglet_box_communaute{
+
+#onglet_box_communaute {
     background-image: url('/images/vue/famille.png');
 }
-#onglet_box_soule{
+
+#onglet_box_soule {
     background-image: url('/images/divers/ballon.png');
 }
-#onglet_box_quetes{
+
+#onglet_box_quetes {
     background-image: url('/images/cockpit/icone_contrat.png');
 }
+
 #onglet_box_laban {
     background-image: url('/images/cockpit/laban.png');
 }
+
 #onglet_box_charrette {
     background-image: url('/images/cockpit/charrette.png');
 }
+
 #onglet_box_coffre {
     background-image: url('/images/cockpit/coffre.png');
 }
+
 /* ************************************************ */
 /* ********************* Message ****************** */
 /* ************************************************ */
@@ -1558,7 +1544,7 @@ td.table_liste {
     height: 100%;
     background-color: #999999;
     position: absolute;
-    z-index: 500;
+    z-index: 1001;
     top: 0px;
     left: 0px;
 }
@@ -1568,7 +1554,7 @@ td.table_liste {
     width: 300px;
     left: 50%;
     top: 20%;
-    z-index: 750;
+    z-index: 1002;
 }
 
 .modal {
@@ -2750,6 +2736,7 @@ td.champ2d.jachere {
     margin-left: 10px;
     margin-right: 10px;
 }
+
 #menu_actions {
     display: inline;
     float: left;
@@ -2792,7 +2779,7 @@ td.champ2d.jachere {
 #tourCockpit {
     margin-left: 0px;
     margin-top: 0px;
-    text-align:center;
+    text-align: center;
 }
 
 #box_cockpit table td {
@@ -3838,25 +3825,25 @@ div.box {
     position: relative;
     top: 5px;
     vertical-align: top;
-    display:inline-block;
+    display: inline-block;
 }
 
 #map_settings {
-	position: absolute;
-	left: 15px;
-	top: 5px;
-	border-radius: 15px;
-	z-index: 40;
-	background: transparent;
-	padding: 5px;
-}
-#map_settings img {
-	margin-left: 3px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	cursor: pointer;
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    border-radius: 15px;
+    z-index: 40;
+    background: transparent;
+    padding: 5px;
 }
 
+#map_settings img {
+    margin-left: 3px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
 
 #map {
     position: relative;
@@ -3865,7 +3852,7 @@ div.box {
     padding: 0px;
     left: 10px;
     top: 5px;
-    bottom: 5px;
+    bottom: 15px;
     right: 5px;
     border-style: solid;
     border-width: 1px;
@@ -3874,19 +3861,21 @@ div.box {
     user-select: none;
     -webkit-user-select: none;
     height: 620px;
-    width:100%;
+    width: 100%;
     z-index: 8;
-    display:inline-block;
+    display: inline-block;
 }
+
 #map_dialog {
-	position: fixed;
-	background-color : rgba(0, 50, 0, 0.8);
-	border-radius: 5px;
-	padding: 5px;
-	display: none;
-	color: white;
-	z-index: 10;
+    position: fixed;
+    background-color: rgba(0, 50, 0, 0.8);
+    border-radius: 5px;
+    padding: 5px;
+    display: none;
+    color: white;
+    z-index: 10;
 }
+
 #map_dialog .pointsGredin {
     background-color: #CC2121;
     border-radius: 3px 3px 3px 3px;
@@ -3895,6 +3884,7 @@ div.box {
     padding-left: 2px;
     padding-right: 2px;
 }
+
 #map_dialog .pointsRedresseur {
     background-color: #21CC21;
     border-radius: 3px 3px 3px 3px;
@@ -3905,55 +3895,60 @@ div.box {
 }
 
 .dialog_title {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 #map_dialog td, #map_dialog a {
-	color: white;
+    color: white;
 }
+
 #map_dialog a:hover {
-	color: yellow;
+    color: yellow;
 }
 
 #menu_actions {
-	width: 300px;
-	z-index:4;
+    width: 300px;
+    z-index: 4;
 }
+
 div.titre_liste {
-	padding: 3px;
-	background-color: #1F2614;
-	margin-top: 6px;
-	margin-left:2px;
-	margin-right:2px;
-	border-width:thin;
-	border-top-style:solid;
-	border-color: #252;
-	border-left-style:solid;
-	border-right-style:solid;
-	font-weight: bold;
-	cursor: pointer;
+    padding: 3px;
+    background-color: #1F2614;
+    margin-top: 6px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-width: thin;
+    border-top-style: solid;
+    border-color: black;
+    border-left-style: solid;
+    border-right-style: solid;
+    font-weight: bold;
+    cursor: pointer;
 }
+
 div.liste {
-	margin-left:2px;
-	margin-right:2px;
-	background-color: #31401A;
-	border-color: #31401A;
-	border-bottom-style:solid;
-	border-left-style:solid;
-	border-right-style:solid;
-	border-width:thin;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: #31401A;
+    border-color: #31401A;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-width: thin;
 }
+
 div.liste span {
-	display: block;
-	color: #F2F2F2;
-	border-top-style:dotted;
-	border-color: #1F2614;
-	border-width:thin;
-	padding: 3px;
-	text-decoration: none;
+    display: block;
+    color: #F2F2F2;
+    border-top-style: dotted;
+    border-color: #1F2614;
+    border-width: thin;
+    padding: 3px;
+    text-decoration: none;
 }
 
 div.liste span a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .inactive {
@@ -3989,11 +3984,46 @@ a.layer[selected] {
     background-color: rgba(250, 250, 250, 0.6);
     z-index: 10;
     bottom: 20px;
-    width:200px;
-    position:relative;
-    color:#1F2614;
+    width: 200px;
+    position: relative;
+    color: #1F2614;
 }
 
 .error {
     color: red;
+}
+
+#poignee_blabla {
+    bottom: 0;
+    width: 100px;
+    height: 16px;
+    background-color: #900;
+    border-radius: 10px 10px 0 0;
+    z-index: 10;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#poignee_fermeture_blabla {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#tiroir_blabla {
+    display: none;
+    position: fixed;
+    left: 50px;
+    bottom: 0;
+    width: 600px;
+    height: 640px;
+    background-color: #31401A;
+    border-radius: 10px 10px 0 0;
+    border-color: #1F2614;
+    border-style: solid;
+    border-width: 1pt 1px;
+    z-index: 100;
+    padding: 8px;
+    overflow: auto;
 }

@@ -66,13 +66,18 @@ Map.prototype.openCellDialog = function(x, y) {
 	}
 	var cellVue = this.getCellVue(x, y);
 	if (cellVue) {
-		if (cellVue.action) {
-			empty = false;
-			var t = this.typesActions[cellVue.action.Type];
-			html[h++] = '<table><tr><td>';
-			if (t.iconeCase) html[h++] = '<img hspace=5 vspace=2 src="'+t.iconeCase.src+'">'; // le hspace et le vspace là sont paresseux, on changera si plusieurs actions ont des icônes
-			html[h++] = '</td><td><a href="javascript:mapDoAction('+cellVue.action.key+');">'+t.nom+'</a></td><td>('+cellVue.action.PA+' PA)</td></tr></table>';
-		}
+        if (cellVue.actions.length) {
+            empty = false;
+            html[h++] = '<table>';
+            for (var ia=cellVue.actions.length; ia-->0;) {
+                var a = cellVue.actions[ia];
+                var t = this.typesActions[a.Type];
+                html[h++] = '<tr><td>';
+                if (t.icone) html[h++] = '<img hspace=5 vspace=2 src="'+t.icone.src+'">'; // le hspace et le vspace là sont paresseux, on changera si plusieurs actions ont des icônes
+                html[h++] = '</td><td><a href="javascript:mapDoAction('+a.key+');">'+t.nom+'</a></td><td>('+a.PA+' PA)</td></tr>';
+            }
+            html[h++] = '</table>';
+        }
 		if (cellVue.bralduns.length) {
 			empty = false;
 			html[h++] = "<b>Braldûns :</b>";
@@ -90,7 +95,7 @@ Map.prototype.openCellDialog = function(x, y) {
 				if (b.PointsGredin) html[h++] = '<span class=pointsGredin>'+b.PointsGredin+'</span>';
 				if (b.PointsRedresseur) html[h++] = '<span class=pointsRedresseur>'+b.PointsRedresseur+'</span>';
 				html[h++] = '</td></tr>';
-			}		
+			}
 			html[h++] = '</table>';
 		}
 		if (cellVue.monstres.length) {
@@ -131,9 +136,9 @@ Map.prototype.openCellDialog = function(x, y) {
 				html[h++] = '</td><td>';
 				html[h++] = '  '+o.Label;
 				html[h++] = '</td></tr>';
-			}		
+			}
 			html[h++] = '</table>';
-			
+
 		}
 	}
 	if (empty) html[h++] = "<i>Il n'y a rien ici</i>";

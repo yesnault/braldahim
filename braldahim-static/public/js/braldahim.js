@@ -1,3 +1,9 @@
+var actions = {};
+var tagEnCours = "Favorites";
+var actionInit = false;
+
+initBlabla();
+
 function _get_specifique_(url, valeurs) {
     var sep = '&';
     if ($('#dateAuth')) {
@@ -456,6 +462,8 @@ function _display_box(type, box, data) {
         prepareCockpit();
     } else if (box == 'box_vue') {
         initBraldop();
+    } else if (box == 'box_competences') { // pour version mobile
+        loadJson("box_competences");
     }
 
 }
@@ -717,7 +725,103 @@ function messagerie(nbMessageNonLu) {
 }
 
 function loadBox(nomSysteme) {
-    _get_('/interface/load/?box=' + nomSysteme);
+    if (nomSysteme == "box_vue" && $("#loaded_box_vue").val() == "1") {
+        initBraldopFecth();
+    } else {
+        _get_('/interface/load/?box=' + nomSysteme);
+    }
+}
+
+function initBlabla() {
+    $('#poignee_blabla').click(function() {
+        $(this).hide();
+        $('#tiroir_blabla').show('fast');
+    });
+    $('#poignee_fermeture_blabla').click(function() {
+        $('#tiroir_blabla').hide('fast');
+        $('#poignee_blabla').show('fast');
+    });
+}
+/********** ACTIONS *********/
+function initActions() {
+    if (!actionInit) {
+        $('#menu_actions').delegate('img.étoile', 'click',
+            function() {
+                var id = parseInt($(this).attr('id_action'));
+                actions[id].favorite = !actions[id].favorite;
+                $('#valeur_1-competencefavorite').val(id);
+                _get_('/interfaceaction/doaction?caction=do_interfaceaction_competencefavorite', 'competencefavorite');
+                construitMenuActions();
+            }).delegate('a.action', 'click',
+            function() {
+                var id = parseInt($(this).attr('id_action'));
+                if (actions[id].active) {
+                    _get_('/competences/doaction?caction=ask_competence_' + actions[id].nom_systeme);
+                }
+            }).delegate('.titre_liste', 'click', function() {
+                tagEnCours = $(this).text();
+                var isVisible = $('.liste[tag="' + tagEnCours + '"]').is(':visible');
+                if (!isVisible) {
+                    $('.liste').hide('fast');
+                    $('.liste[tag="' + tagEnCours + '"]').show('fast');
+                }
+            });
+        actionInit = true;
+    }
+}
+
+function getActions() {
+    initActions();
+    $.getJSON('/interface/competencesjson?time=' + (new Date().getTime()) + "&dateAuth=" + $('#dateAuth').val(), function(data) {
+        actions = {};
+        $.each(data, function(key, val) {
+            var action = val;
+            actions[action.id_competence] = action;
+        });
+        construitMenuActions();
+    });
+}
+
+function construitMenuActions() {
+
+    var listesActions = {};
+    var tags = [];
+    listesActions["Favorites"] = [];
+    tags.push("Favorites");
+
+    $.each(actions, function(key, action) {
+        if (action.favorite) listesActions["Favorites"].push(action);
+        if (!listesActions[action.type]) {
+            listesActions[action.type] = [];
+            tags.push(action.type);
+        }
+        listesActions[action.type].push(action);
+    });
+
+    var html = '<br /><center><b>Mes Actions</b></center>';
+    for (var it in tags) {
+        var tag = tags[it];
+        var liste = listesActions[tag];
+        html += '<div class=titre_liste>' + tag + '</div>';
+        html += '<div class=liste tag="' + tag + '">';
+
+        for (var ia = 0; ia < liste.length; ia++) {
+            var action = liste[ia];
+            html += '<span>';
+            html += '<img class="étoile" id_action="' + action.id_competence + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
+
+            html += ' <a href="#" class="action ' + (action.active ? 'active' : 'inactive') + ' "  id_action="' + action.id_competence + '" title="' + (action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
+            html += action.pa_texte + ' PA - ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
+            html += '</a>';
+            html += '</span>';
+        }
+        html += '</div>';
+    }
+    //console.log(html);
+    $('#menu_actions').html(html);
+    $('.liste').hide();
+    $('.liste[tag="' + tagEnCours + '"]').show();
+
 }
 
 function loadJson(nomSysteme) {
@@ -1565,95 +1669,95 @@ function isDataTable(nTable) {
 /** *********** */
 /** *********** */
 
-    (function($) {
+(function($) {
 
-        $.fn.splashScreen = function(settings) {
+    $.fn.splashScreen = function(settings) {
 
-            // Providing default options:
+        // Providing default options:
 
-            settings = $.extend({
-                textLayers:[],
-                textShowTime:2000,
-                textTopOffset:00
-            }, settings);
+        settings = $.extend({
+            textLayers:[],
+            textShowTime:2000,
+            textTopOffset:00
+        }, settings);
 
-            var promoIMG = this;
+        var promoIMG = this;
 
-            // Creating the splashScreen div.
-            // The rest of the styling is in splashscreen.css
+        // Creating the splashScreen div.
+        // The rest of the styling is in splashscreen.css
 
-            var splashScreen = $('<div>', {
-                id:'splashScreen',
+        var splashScreen = $('<div>', {
+            id:'splashScreen',
+            css:{
+                backgroundImage:promoIMG.css('backgroundImage'),
+                backgroundPosition:'center ' + promoIMG.offset().top + 'px',
+                height:$(document).height()
+            }
+        });
+
+        $('body').append(splashScreen);
+
+        splashScreen.click(function() {
+            splashScreen.fadeOut('slow');
+        });
+
+        // Binding a custom event for changing the current visible text
+        // according
+        // to the contents of the textLayers array (passed as a parameter)
+
+        splashScreen.bind('changeText', function(e, newID) {
+
+            // If the image that we want to show is
+            // within the boundaries of the array:
+
+            if (settings.textLayers[newID]) {
+                showText(newID);
+            }
+            else {
+                splashScreen.click();
+            }
+        });
+
+        splashScreen.trigger('changeText', 0);
+
+        // Extracting the functionality into a
+        // separate function for convenience.
+
+        function showText(id) {
+            var text = $('<img>', {
+                src:settings.textLayers[id],
                 css:{
-                    backgroundImage:promoIMG.css('backgroundImage'),
-                    backgroundPosition:'center ' + promoIMG.offset().top + 'px',
-                    height:$(document).height()
+                    marginTop:promoIMG.offset().top + settings.textTopOffset
                 }
-            });
+            }).hide();
 
-            $('body').append(splashScreen);
+            text.load(function() {
 
-            splashScreen.click(function() {
-                splashScreen.fadeOut('slow');
-            });
-
-            // Binding a custom event for changing the current visible text
-            // according
-            // to the contents of the textLayers array (passed as a parameter)
-
-            splashScreen.bind('changeText', function(e, newID) {
-
-                // If the image that we want to show is
-                // within the boundaries of the array:
-
-                if (settings.textLayers[newID]) {
-                    showText(newID);
+                if (id == 0) {
+                    text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow', function() {
+                        text.remove();
+                        splashScreen.trigger('changeText', [id + 1]);
+                    });
                 }
                 else {
-                    splashScreen.click();
+                    text.fadeIn('slow');
+                    splashScreen.delay(settings.textShowTime).click();
                 }
+                // text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
+
+                /*
+                 * .fadeOut('slow',function(){ text.remove();
+                 * splashScreen.trigger('changeText',[id+1]); });
+                 */
             });
 
-            splashScreen.trigger('changeText', 0);
-
-            // Extracting the functionality into a
-            // separate function for convenience.
-
-            function showText(id) {
-                var text = $('<img>', {
-                    src:settings.textLayers[id],
-                    css:{
-                        marginTop:promoIMG.offset().top + settings.textTopOffset
-                    }
-                }).hide();
-
-                text.load(function() {
-
-                    if (id == 0) {
-                        text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow', function() {
-                            text.remove();
-                            splashScreen.trigger('changeText', [id + 1]);
-                        });
-                    }
-                    else {
-                        text.fadeIn('slow');
-                        splashScreen.delay(settings.textShowTime).click();
-                    }
-                    // text.fadeIn('slow').delay(settings.textShowTime).fadeOut('slow',function(){
-
-                    /*
-                     * .fadeOut('slow',function(){ text.remove();
-                     * splashScreen.trigger('changeText',[id+1]); });
-                     */
-                });
-
-                splashScreen.append(text);
-            }
-
-            return this;
+            splashScreen.append(text);
         }
 
-    })(jQuery);
+        return this;
+    }
+
+})(jQuery);
 
 
 jQuery.fn.exists = function() {

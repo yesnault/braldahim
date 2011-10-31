@@ -431,12 +431,12 @@ class Bral_Util_Vue
 
 		if ($elements != null) {
 			foreach ($elements as $e) {
-				self::addElement($tableau, $e, 'peau', 'peau', 'quantite_peau_element', 'x');
-				self::addElement($tableau, $e, 'cuir', 'cuir', 'quantite_cuir_element', 's');
-				self::addElement($tableau, $e, 'fourrure', 'fourrure', 'quantite_fourrure_element', 's');
-				self::addElement($tableau, $e, 'planche', 'planche', 'quantite_planche_element', 's');
-				self::addElement($tableau, $e, 'rondin', 'rondin', 'quantite_rondin_element', 's');
-				self::addElement($tableau, $e, 'castar', 'castar', 'quantite_castar_element', 's');
+				self::addElement($tableau, $e, 'peau', 'peau', 'quantite_peau_element', 'x', $view);
+				self::addElement($tableau, $e, 'cuir', 'cuir', 'quantite_cuir_element', 's', $view);
+				self::addElement($tableau, $e, 'fourrure', 'fourrure', 'quantite_fourrure_element', 's', $view);
+				self::addElement($tableau, $e, 'planche', 'planche', 'quantite_planche_element', 's', $view);
+				self::addElement($tableau, $e, 'rondin', 'rondin', 'quantite_rondin_element', 's', $view);
+				self::addElement($tableau, $e, 'castar', 'castar', 'quantite_castar_element', 's', $view);
 			}
 		}
 
@@ -453,7 +453,7 @@ class Bral_Util_Vue
 					'Label' => ' rune n°' . $r['id_rune_element_rune'],
 					'IdType' => 0,
 				);
-
+				self::addActionTransbahuter($view, $tableau, $r['x_element_rune'], $r['y_element_rune']);
 			}
 		}
 
@@ -499,6 +499,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_munition'],
 					);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_munition'], $m['y_element_munition']);
 				}
 			}
 		}
@@ -555,6 +556,7 @@ class Bral_Util_Vue
 					'Label' => $e['nom_type_materiel'] . ' n°' . $e['id_element_materiel'],
 					'IdType' => $e['id_type_materiel'],
 				);
+				self::addActionTransbahuter($view, $tableau, $e['x_element_materiel'], $e['y_element_materiel']);
 			}
 		}
 
@@ -568,6 +570,7 @@ class Bral_Util_Vue
 					'Label' => Bral_Util_Potion::getNomType($p['type_potion']) . ' n°' . $p['id_element_potion'],
 					'IdType' => $p['id_type_potion'],
 				);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_potion'], $p['y_element_potion']);
 			}
 		}
 
@@ -581,6 +584,7 @@ class Bral_Util_Vue
 					'Label' => $p['nom_type_aliment'] . ' (' . $p['nom_type_qualite'] . ') n°' . $p['id_element_aliment'],
 					'IdType' => $p['id_type_aliment'],
 				);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_aliment'], $p['y_element_aliment']);
 			}
 		}
 
@@ -595,6 +599,7 @@ class Bral_Util_Vue
 					'Label' => $p['quantite_element_graine'] . ' graine' . Bral_Util_String::getPluriel($p['quantite_element_graine']) . ' ' . $p['prefix_type_graine'] . $p['nom_type_graine'],
 					'IdType' => $p['id_type_graine'],
 				);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_graine'], $p['y_element_graine']);
 			}
 		}
 
@@ -615,6 +620,8 @@ class Bral_Util_Vue
 					'Label' => $label,
 					'IdType' => $p['id_type_ingredient'],
 				);
+
+				self::addActionTransbahuter($view, $tableau, $p['x_element_ingredient'], $p['y_element_ingredient']);
 			}
 		}
 
@@ -629,6 +636,7 @@ class Bral_Util_Vue
 						'Label' => $m['quantite_brut_element_minerai'] . ' minerai' . Bral_Util_String::getPluriel($m['quantite_brut_element_minerai']) . ' ' . $m['prefix_type_minerai'] . $m['nom_type_minerai'],
 						'IdType' => $m['id_type_minerai'],
 					);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai']);
 				}
 
 				if ($m['quantite_lingots_element_minerai'] > 0) {
@@ -640,6 +648,8 @@ class Bral_Util_Vue
 						'Label' => $m['quantite_lingots_element_minerai'] . ' lingot' . Bral_Util_String::getPluriel($m['quantite_lingots_element_minerai']) . ' ' . $m['prefix_type_minerai'] . $m['nom_type_minerai'],
 						'IdType' => $m['id_type_minerai'],
 					);
+
+					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai']);
 				}
 			}
 		}
@@ -657,7 +667,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_partieplante'],
 					);
-
+					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante']);
 				}
 
 				if ($m['quantite_preparee_element_partieplante'] > 0) {
@@ -671,6 +681,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_partieplante'],
 					);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante']);
 				}
 			}
 		}
@@ -686,7 +697,7 @@ class Bral_Util_Vue
 						'Label' => $m['quantite_feuille_element_tabac'] . " Feuille" . Bral_Util_String::getPluriel($m['quantite_feuille_element_tabac']) . " " . $m['nom_court_type_tabac'],
 						'IdType' => $m['id_type_tabac'],
 					);
-
+					self::addActionTransbahuter($view, $tableau, $m['x_element_tabac'], $m['y_element_tabac']);
 				}
 			}
 		}
@@ -789,7 +800,13 @@ class Bral_Util_Vue
 		);
 	}
 
-	private static function addElement(&$tableau, $rowset, $type, $libelle, $colonne, $pluriel)
+	private static function addActionTransbahuter($view, &$tableau, $x, $y) {
+		if ($view->user->x_braldun == $x && $view->user->y_braldun == $y) {
+			self::addAction($tableau, "Transbahuter", $view->user, $x, $y);
+		}
+	}
+
+	private static function addElement(&$tableau, $rowset, $type, $libelle, $colonne, $pluriel, $view)
 	{
 		if ($rowset[$colonne] > 0) {
 			$tableau["Vues"][0]["Objets"][] = array(
@@ -800,6 +817,8 @@ class Bral_Util_Vue
 				'Label' => $rowset[$colonne] . ' ' . $libelle . Bral_Util_String::getPluriel($rowset[$colonne], $pluriel),
 				'IdType' => 0,
 			);
+
+			self::addActionTransbahuter($view, $tableau, $rowset['x_element'], $rowset['y_element']);
 		}
 	}
 }

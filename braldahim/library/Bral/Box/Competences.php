@@ -10,12 +10,25 @@ class Bral_Box_Competences extends Bral_Box_Box
 
 	function __construct($request, $view, $interne)
 	{
+		$this->_request = $request;
+		$this->view = $view;
+		$this->view->affichageInterne = $interne;
+
+		$this->chargementInBoxes = false;
 		$this->nomInterne = "box_competences";
+		$this->render = "interface/competences.phtml";
+
+		$this->titreOnglet = '<span class="titrea textalic titreasized">Action !</span>';
 	}
 
 	function getTitreOnglet()
 	{
-		return null;
+		return $this->titreOnglet;
+	}
+
+	function getChargementInBoxes()
+	{
+		return $this->chargementInBoxes;
 	}
 
 	function getNomInterne()
@@ -30,5 +43,12 @@ class Bral_Box_Competences extends Bral_Box_Box
 
 	function render()
 	{
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render($this->render);
+	}
+
+	public function getTablesHtmlTri()
+	{
+		return null;
 	}
 }

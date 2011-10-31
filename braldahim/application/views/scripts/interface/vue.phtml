@@ -3,7 +3,7 @@
 	<input type="hidden" id="positionX" value="<?php echo $this->user->x_braldun ?>"/>
 	<input type="hidden" id="positionY" value="<?php echo $this->user->y_braldun ?>"/>
 
-	<div class="verte" style="position: relative; margin-right:10px">
+	<div class="verte" style="position: relative; margin:10px">
 
 		<!--
 		<div id=layer_list>
@@ -27,5 +27,13 @@
 		</div>
 
 	</div>
+
+	<?php if (!Zend_Registry::get("estMobile")) : ?>
+		<div id=poignee_blabla>&#x25b2; Blabla !</div>
+		<div id=tiroir_blabla>
+			<div id=poignee_fermeture_blabla>&#x25bc; Blabla !</div>
+			<div id=box_blabla></div>
+		</div>
+	<?php endif; ?>
 
 <?php include("box_bottom.phtml") ?>
