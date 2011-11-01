@@ -3831,11 +3831,12 @@ div.box {
 #map_settings {
     position: absolute;
     left: 15px;
-    top: 5px;
+    top: 8px;
     border-radius: 15px;
     z-index: 40;
     background: transparent;
     padding: 5px;
+    background: url("http://static.braldahim.com/images/layout/fond.jpg") repeat-x scroll 0 0 #4C712C;
 }
 
 #map_settings img {
