@@ -3997,16 +3997,19 @@ a.layer[selected] {
 }
 
 #poignee_blabla {
-    bottom: 0;
-    width: 100px;
-    height: 16px;
-    border-radius: 10px 10px 0 0;
     background-color: #31401A;
-    z-index: 10;
-    padding: 4px;
-    text-align: center;
+    border-radius: 10px 10px 0 0;
+    bottom: 0;
     cursor: pointer;
     font-weight: bold;
+    height: 16px;
+    padding: 4px;
+    position: fixed;
+    left: 100px;
+    text-align: center;
+    width: 100px;
+    z-index: 10;
+
 }
 
 .blablaNouveaux {
