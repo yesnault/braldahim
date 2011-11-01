@@ -25,7 +25,7 @@ function Map(canvasId, posmarkid, dialogId) {
     this.photoSatellite = new Image();
     this.displayPhotoSatellite = true;
     this.displayRégions = false;
-    this.displayFog = false;
+    this.displayFog = true;
     this.displayGrid = false;
     this.displayALot = false; // si true alors on se fiche un peu de la lenteur du dessin, y compris à basse résolution
     this.displayExperimentation = false;

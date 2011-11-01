@@ -345,13 +345,15 @@ class Bral_Util_Vue
 
 		if ($lieuxVilles != null) {
 			foreach ($lieuxVilles as $l) {
-				$tableau["LieuxVilles"][] = array(
-					"Nom" => $l['nom_lieu'],
-					"IdTypeLieu" => $l['id_type_lieu'],
-					"X" => $l['x_lieu'],
-					"Y" => $l['y_lieu'],
-					"Z" => $l['z_lieu'],
-				);
+				if ($view->user->z_braldun == $l['z_lieu']) {
+					$tableau["LieuxVilles"][] = array(
+						"Nom" => $l['nom_lieu'],
+						"IdTypeLieu" => $l['id_type_lieu'],
+						"X" => $l['x_lieu'],
+						"Y" => $l['y_lieu'],
+						"Z" => $l['z_lieu'],
+					);
+				}
 			}
 		}
 
@@ -800,7 +802,8 @@ class Bral_Util_Vue
 		);
 	}
 
-	private static function addActionTransbahuter($view, &$tableau, $x, $y) {
+	private static function addActionTransbahuter($view, &$tableau, $x, $y)
+	{
 		if ($view->user->x_braldun == $x && $view->user->y_braldun == $y) {
 			self::addAction($tableau, "Transbahuter", $view->user, $x, $y);
 		}
