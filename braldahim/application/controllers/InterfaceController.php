@@ -349,13 +349,27 @@ class InterfaceController extends Zend_Controller_Action
 	{
 		Zend_Loader::loadClass('Bral_Util_Vue');
 		$this->view->json = Bral_Util_Vue::getJsonData($this->view);
-		echo $this->view->render("interface/cartejson.phtml");
+		echo $this->view->render("interface/json.phtml");
 	}
 
 	public function competencesjsonAction()
 	{
 		Zend_Loader::loadClass('Bral_Util_Competences');
 		$this->view->json = Bral_Util_Competences::getJsonData($this->view);
-		echo $this->view->render("interface/competencesjson.phtml");
+		echo $this->view->render("interface/json.phtml");
+	}
+
+	public function blablajsonAction()
+	{
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		$this->view->json = Bral_Util_Blabla::getJsonData($this->view);
+		echo $this->view->render("interface/json.phtml");
+	}
+
+	public function blablacountjsonAction()
+	{
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		$this->view->json = Bral_Util_Blabla::getJsonCount($this->view);
+		echo $this->view->render("interface/json.phtml");
 	}
 }

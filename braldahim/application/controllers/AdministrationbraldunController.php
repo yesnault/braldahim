@@ -165,6 +165,7 @@ class AdministrationbraldunController extends Zend_Controller_Action
 				// activation du tour
 
 				Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
+				Zend_Auth::getInstance()->getIdentity()->dateConnexion = date("Y-m-d H:i:s");
 				Zend_Auth::getInstance()->getIdentity()->initialCall = true;
 				Zend_Auth::getInstance()->getIdentity()->activation = $activation;
 				Zend_Auth::getInstance()->getIdentity()->gardiennage = false;

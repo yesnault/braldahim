@@ -2,8 +2,6 @@ var actions = {};
 var tagEnCours = "Favorites";
 var actionInit = false;
 
-initBlabla();
-
 function _get_specifique_(url, valeurs) {
     var sep = '&';
     if ($('#dateAuth')) {
@@ -464,6 +462,8 @@ function _display_box(type, box, data) {
         initBraldop();
     } else if (box == 'box_competences') { // pour version mobile
         loadJson("box_competences");
+    } else if (box == 'box_blabla') {
+        loadJson("box_blabla");
     }
 
 }
@@ -732,16 +732,44 @@ function loadBox(nomSysteme) {
     }
 }
 
+/********** Blabla **********/
 function initBlabla() {
     $('#poignee_blabla').click(function() {
         $(this).hide();
+        getBlabla();
         $('#tiroir_blabla').show('fast');
+        $('#nbBlablaNouveaux').html('');
+        $('#poignee_blabla').removeClass('blablaNouveaux');
     });
     $('#poignee_fermeture_blabla').click(function() {
         $('#tiroir_blabla').hide('fast');
         $('#poignee_blabla').show('fast');
     });
+    getBlablaCount();
 }
+
+function getBlablaCount() {
+    $.getJSON('/interface/blablacountjson?time=' + (new Date().getTime()) + "&dateAuth=" + $('#dateAuth').val(), function(data) {
+        if (data.nbNouveaux > 0) {
+            $('#nbBlablaNouveaux').html('(' + data.nbNouveaux + ')');
+            $('#poignee_blabla').addClass('blablaNouveaux');
+        }
+    });
+}
+
+function getBlabla() {
+    $.getJSON('/interface/blablajson?time=' + (new Date().getTime()) + "&dateAuth=" + $('#dateAuth').val(), function(data) {
+        var html = '';
+        $.each(data.messages, function(key, blabla) {
+            html += '<i title="le ' + blabla.date + ' en ' + blabla.x + ' / ' + blabla.y + '">' + blabla.braldun + '</i><br />';
+            html += blabla.message + '&nbsp;';
+            html += '<p class="a">~</p>';
+        });
+        if (html == '') html = 'Aucun message';
+        $('#blabla_messages').html(html);
+    });
+}
+
 /********** ACTIONS *********/
 function initActions() {
     if (!actionInit) {
@@ -827,6 +855,8 @@ function construitMenuActions() {
 function loadJson(nomSysteme) {
     if (nomSysteme == "box_competences") {
         getActions();
+    } else if (nomSysteme == "box_blabla") {
+        getBlabla();
     }
 }
 

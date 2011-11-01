@@ -29,7 +29,7 @@ function initBraldopCallback(map) {
     });
     map.setCallback("Transbahuter", function(a) {
         actionTransbahuter(a);
-      });
+    });
 }
 
 function actionMarcher(action) {
@@ -46,37 +46,37 @@ function actionTransbahuter(action) {
 
 function initBraldopFecth() {
     fetchMap(function(msg) {
-            map.setData(msg);
-            //> on batit le menu de choix de la profondeur
-            var html = ''
-            if (msg.Couches) {
-                html += 'Profondeur : <select id=select_profondeur>';
-                for (var i = 0; i < msg.Couches.length; i++) {
-                    var z = msg.Couches[i].Z;
-                    html += '<option value=' + z + '>' + z + '</option>';
-                }
-                html += '</select>';
+        map.setData(msg);
+        //> on batit le menu de choix de la profondeur
+        var html = ''
+        if (msg.Couches) {
+            html += 'Profondeur : <select id=select_profondeur>';
+            for (var i = 0; i < msg.Couches.length; i++) {
+                var z = msg.Couches[i].Z;
+                html += '<option value=' + z + '>' + z + '</option>';
             }
-            $('#choix_profondeur').html(html);
+            html += '</select>';
+        }
+        $('#choix_profondeur').html(html);
 
-            html = "";
-            if (msg.Vues) {
-                for (i in msg.Vues) {
-                    var v = msg.Vues[i];
-                    v.active = true; // on active par défaut les vues
-                }
+        html = "";
+        if (msg.Vues) {
+            for (i in msg.Vues) {
+                var v = msg.Vues[i];
+                v.active = true; // on active par défaut les vues
             }
-            $('#view_table tbody').html(html);
-            map.setCallback('profondeur', function(z) {
-                $('#select_profondeur').val(z);
-            });
-
-            map.compileLesVues(); // en raison de leur activation
-            map.redraw();
-            setTimeout(function() {
-                map.redraw();
-            }, 1000); // contournement de bug pas compris
+        }
+        $('#view_table tbody').html(html);
+        map.setCallback('profondeur', function(z) {
+            $('#select_profondeur').val(z);
         });
+
+        map.compileLesVues(); // en raison de leur activation
+        map.redraw();
+        setTimeout(function() {
+            map.redraw();
+        }, 1000); // contournement de bug pas compris
+    });
 }
 
 function initBraldop() {

@@ -3997,13 +3997,17 @@ a.layer[selected] {
     bottom: 0;
     width: 100px;
     height: 16px;
-    background-color: #900;
     border-radius: 10px 10px 0 0;
+    background-color: #31401A;
     z-index: 10;
     padding: 4px;
     text-align: center;
     cursor: pointer;
     font-weight: bold;
+}
+
+.blablaNouveaux {
+    background-color: #900!important;
 }
 
 #poignee_fermeture_blabla {
