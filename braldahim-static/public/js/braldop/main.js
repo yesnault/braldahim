@@ -104,7 +104,7 @@ function initBraldop() {
     $('#btnCentrer').bind('click', function() {
         map.zoom = 64;
         map.redraw();
-        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()), parseInt($("#positionZ").val()));
     });
 
     $('#select_profondeur').live('change', function() {
@@ -115,7 +115,7 @@ function initBraldop() {
     $('#goto').click(function() {
         if (map.zoom < 32) map.zoom = 32;
         //map.goto(parseInt($(this).attr('x')), parseInt($(this).attr('y')), parseInt($(this).attr('z')));
-        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
     });
     $('#icon_grid').click(function() {
         map.displayGrid = !map.displayGrid;
@@ -126,7 +126,7 @@ function initBraldop() {
         for (i in map.mapData.Vues) {
             var v = map.mapData.Vues[i];
             v.active = true; //this.checked;
-            map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+            map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
         }
 
         map.redraw();

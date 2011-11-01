@@ -183,7 +183,7 @@ class Bral_Util_Vue
 		$estSurEchoppe = false;
 		$estSurChamp = false;
 
-		$tableau["Couches"][$positionZ]["Z"] = $positionZ;
+		$tableau["Couches"][0]["Z"] = $positionZ;
 		$tableau["Vues"][0]["Z"] = $positionZ;
 
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j--) {
@@ -277,7 +277,7 @@ class Bral_Util_Vue
 							}
 						}
 
-						$tableau["Couches"][$positionZ]["Cases"][] = array("X" => $display_x, "Y" => $display_y, "Fond" => $nom_systeme_environnement);
+						$tableau["Couches"][0]["Cases"][] = array("X" => $display_x, "Y" => $display_y, "Fond" => $nom_systeme_environnement);
 						break;
 					}
 				}
