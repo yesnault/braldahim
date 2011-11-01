@@ -538,8 +538,10 @@ Map.prototype.mouseMove = function(e) {
 	this.pointerY = -Math.floor(mouseY/this.zoom-this.originY);
 	this.updatePosDiv();
 	if (this.mouseIsDown) {
-        this.$dialog.hide();
-        this.dialogIsOpen = false;
+        if (this.dialogIsOpen) {
+            this.$dialog.hide();
+            this.dialogIsOpen = false;
+        }
 		var dx = (mouseX-this.dragStartPageX)/this.zoom;
 		var dy = (mouseY-this.dragStartPageY)/this.zoom;
 		this.originX = this.dragStartOriginX + dx;
