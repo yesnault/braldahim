@@ -8,6 +8,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, abbr, add
     #vertical-align: baseline;
 }
 
+html {    overflow-y: scroll; }
+
 #main-cycle-container {
     height: auto;
     position: absolute;
