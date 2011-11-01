@@ -56,7 +56,7 @@ class Bral_Util_Blabla
 		Zend_Loader::loadClass("Bral_Util_Lien");
 
 		$blablaTable = new Blabla();
-		$tab = null;
+		$tab = array();
 		$retour = array();
 
 		$x = $view->user->x_braldun;

@@ -80,7 +80,7 @@ function initBraldopFecth() {
 }
 
 function initBraldop() {
-    map = new Map("map_canvas", "posmark", "map_dialog");
+    map = new Map("map_canvas", "posmark");
     map.displayGrid = true;
     initBraldopFecth();
 

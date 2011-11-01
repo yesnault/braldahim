@@ -1,6 +1,7 @@
 var actions = {};
 var tagEnCours = "Favorites";
 var actionInit = false;
+var blablaInit = false;
 
 function _get_specifique_(url, valeurs) {
     var sep = '&';
@@ -705,7 +706,6 @@ function ouvrirWin(url, titre) {
     window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
 
-
 function box_warning(data) {
     $('#box_warning').show();
     $('#box_warning').html(data);
@@ -735,8 +735,12 @@ function loadBox(nomSysteme) {
 /********** Blabla **********/
 function initBlabla() {
     $('#poignee_blabla').click(function() {
+        if (!blablaInit) {
+            _get_('/interface/load/?box=box_blabla');
+        } else {
+            getBlabla();
+        }
         $(this).hide();
-        getBlabla();
         $('#tiroir_blabla').show('fast');
         $('#nbBlablaNouveaux').html('');
         $('#poignee_blabla').removeClass('blablaNouveaux');
@@ -745,6 +749,7 @@ function initBlabla() {
         $('#tiroir_blabla').hide('fast');
         $('#poignee_blabla').show('fast');
     });
+
     getBlablaCount();
 }
 
@@ -856,7 +861,7 @@ function loadJson(nomSysteme) {
     if (nomSysteme == "box_competences") {
         getActions();
     } else if (nomSysteme == "box_blabla") {
-       getBlabla();
+        getBlabla();
     }
 }
 

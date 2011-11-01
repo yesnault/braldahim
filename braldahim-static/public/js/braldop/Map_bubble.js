@@ -28,6 +28,5 @@ Map.prototype.drawBubble =  function() {
 	for (var i=0; i<this.bubbleText.length; i++) {
 		c.fillText(this.bubbleText[i], x, y);
 		y += lh;
-	}
-	
+	}	
 }

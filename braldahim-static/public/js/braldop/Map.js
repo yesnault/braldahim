@@ -30,8 +30,6 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.displayGrid = false;
 	this.displayALot = false; // si true alors on se fiche un peu de la lenteur du dessin, y compris à basse résolution
 	this.displayExperimentation = false;
-	this.$dialog = $('#'+dialogId);
-	this.dialopIsOpen = false;
 	this.fogImg = null;
 	this.actionsParBraldun = {};
 	this.fogContext = null;
@@ -329,7 +327,6 @@ Map.prototype.redraw = function() {
 		this.drawInProgress = true;
 		this.context.fillStyle="#343";
 		this.context.fillRect(0, 0, this.screenRect.w, this.screenRect.h);
-		this.bubbleText = [];
 		if (this.mapData) {
 			if (this.displayPhotoSatellite && this.photoSatelliteOK) {
 				this.naturalRectToScreenRect(this.photoSatelliteRect, this.photoSatelliteScreenRect);
@@ -420,10 +417,6 @@ Map.prototype.redraw = function() {
 					this.drawRégion(this.mapData.Régions[i]);
 				}
 			}
-			if (this.bubbleText.length>0 && !this.dialopIsOpen) {
-				this.bubbleText.splice(0, 0, this.pointerX+','+this.pointerY);
-				this.drawBubble();
-			}
 		}
 	} finally {
 		this.drawInProgress = false;
@@ -489,9 +482,13 @@ Map.prototype.mouseDown = function(e) {
 }
 Map.prototype.mouseUp = function(e) {
 	this.mouseIsDown = false;
-	if (this.dialopIsOpen) {
-		this.$dialog.hide();
-		this.dialopIsOpen = false;
+	if (this.dialogIsOpen) {
+		if (this.dialogIsFixed) {
+			this.$dialog.hide();
+			this.dialogIsOpen = false;
+		} else {
+			this.fixDialog();
+		}
 		return;
 	}
 	var mouseX = e.offsetX; // Chrome
@@ -500,9 +497,9 @@ Map.prototype.mouseUp = function(e) {
 		mouseX = e.layerX; // FF
 		mouseY = e.layerY; // FF
 	}
-	if (Math.abs(mouseX-this.dragStartPageX)<5 && Math.abs(mouseY-this.dragStartPageY)<5 && this.hoverObject) {
-		this.openCellDialog(this.pointerX, this.pointerY);
-	}
+	//~ if (Math.abs(mouseX-this.dragStartPageX)<5 && Math.abs(mouseY-this.dragStartPageY)<5 && this.hoverObject) {
+		//~ this.openCellDialog(this.pointerX, this.pointerY, true);
+	//~ }
 	this.redraw();
 }
 
@@ -519,7 +516,7 @@ Map.prototype.mouseLeave = function(e) {
 Map.prototype.objectOn = function(x,y) {
 	if (this.zoom<10) return null;
 	var cell = this.getCell(this.couche, this.pointerX, this.pointerY);
-	if (cell && (cell.champ||cell.échoppe||cell.lieu)) return cell;
+	if (cell && (cell.champ||cell.échoppe||cell.lieu||cell.palissade)) return cell;
 	var cell = this.getCellVue(x, y);
 	if (cell) {
 		return cell;
@@ -546,10 +543,16 @@ Map.prototype.mouseMove = function(e) {
 		this.originX = this.dragStartOriginX + dx;
 		this.originY = this.dragStartOriginY + dy;
 		this.redraw();		
-	} else {
+	} else if (!(this.dialogIsOpen&&this.dialogIsFixed)){
 		var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
 		if (newHoverObject!=this.hoverObject) {
 			this.hoverObject = newHoverObject;
+			if (newHoverObject) {
+				this.openCellDialog(this.pointerX, this.pointerY, false);
+			} else if (this.dialogIsOpen) {
+				this.$dialog.hide();
+				this.dialogIsOpen = false;
+			}
 			this.redraw();
 		}
 	}
