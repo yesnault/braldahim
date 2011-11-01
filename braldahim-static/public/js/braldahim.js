@@ -517,11 +517,14 @@ function prepareCockpit() {
 function revealModal(divID) {
     // window.onscroll = function () { $(divID).style.top =
     // document.body.scrollTop; };
+    $("#box_chargement").slideDown();
     $(divID).show();
 }
 
 function hideModal(divID) {
-    $(divID).hide();
+    $("#box_chargement").slideUp('fast', function() {
+        $(divID).hide();
+    });
 }
 
 function boutonCockpit(box) {

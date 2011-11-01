@@ -75,7 +75,7 @@ html {    overflow-y: scroll; }
 #menuhead {
     position: relative;
 
-    z-index: 1000;
+    z-index: 998;
     align: left;
     margin-left: auto;
     margin-right: auto;
@@ -739,8 +739,11 @@ td.authTable {
     border-width: 0px;
     font-weight: bold;
     z-index: 2000;
-    color: #F2F2F2;
-    background-color: #900;
+    color: #1F2614;
+    background-color: #F9EDBE;
+    border-color: #1F2614;
+    border-radius: 2px 2px 2px 2px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .box_action {
@@ -4008,7 +4011,7 @@ a.layer[selected] {
     left: 450px;
     text-align: center;
     width: 100px;
-    z-index: 10;
+    z-index: 9999;
 
 }
 
@@ -4027,13 +4030,13 @@ a.layer[selected] {
     left: 300px;
     bottom: 0;
     width: 600px;
-    height: 640px;
+    height: 440px;
     background-color: #31401A;
     border-radius: 10px 10px 0 0;
     border-color: #1F2614;
     border-style: solid;
     border-width: 1pt 1px;
-    z-index: 100;
+    z-index: 9999;
     padding: 8px;
     overflow: auto;
 }
