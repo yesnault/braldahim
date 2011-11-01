@@ -462,7 +462,7 @@ function _display_box(type, box, data) {
         initBraldop();
     } else if (box == 'box_competences') { // pour version mobile
         loadJson("box_competences");
-    } else if (box == 'box_blabla') {
+    } else if (box == 'box_blabla') {// pour version mobile
         loadJson("box_blabla");
     }
 
@@ -856,7 +856,7 @@ function loadJson(nomSysteme) {
     if (nomSysteme == "box_competences") {
         getActions();
     } else if (nomSysteme == "box_blabla") {
-        getBlabla();
+       getBlabla();
     }
 }
 

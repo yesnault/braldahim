@@ -134,5 +134,4 @@ function initBraldop() {
 
     initBraldopCallback(map);
     initBlabla();
-    _get_('/interface/load/?box=box_blabla');
 }
