@@ -19,10 +19,13 @@ function atoi(s) {
 	return parseInt(s);
 }
 
-function formatDate(timestamp) {
+function formatDate(timestamp, withYear) {
 	if (timestamp==0) return "";
 	var d = new Date(timestamp);
-	return d.getDate()+"/"+(d.getMonth()<9?("0"+(d.getMonth()+1)):(d.getMonth()+1))+" "+d.getHours()+"h"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
+	var s = d.getDate()+"/"+(d.getMonth()<9?("0"+(d.getMonth()+1)):(d.getMonth()+1))
+	if (withYear) s+='/'+d.getFullYear();
+	s +=" "+d.getHours()+"h"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
+	return s;
 }
 
 function StringEndsWith(str, suffix) {

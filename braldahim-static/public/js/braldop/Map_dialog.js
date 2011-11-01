@@ -1,5 +1,14 @@
-Map.prototype.openDialog = function(startingRectInCanvas, title, content) {
-	this.dialopIsOpen = true;
+Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed) {
+	if (!this.$dialog) {
+		this.$dialog = $('<div id=map_dialog><span id=map_dialog_title></span><hr><div id=map_dialog_content></div><hr><span id=map_dialog_footer></span></div>');
+		this.$dialog.prependTo('body');
+		this.$dialogTitle = this.$dialog.find('#map_dialog_title');
+		this.$dialogContent = this.$dialog.find('#map_dialog_content');
+		this.$dialogContent.css('overflow', 'auto');
+		this.$dialogFooter = this.$dialog.find('#map_dialog_footer');
+	}
+	this.dialogIsOpen = true;
+	this.dialogIsFixed = fixed;
 	var $canvas = $(this.canvas);
 	var $win = $(window);
 	var winWidth = $(window).width();
@@ -25,22 +34,19 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content) {
 		this.$dialog.css('top', '');
 		this.$dialog.css('bottom', (winHeight-wy+20)+'px');
 	}
-	var html = [];
-	var h=0;
-	html[h++] = '<span class=dialog_title>';
-	html[h++] = title;
-	html[h++] = '</span><hr>';
-	html[h++] = '<div id=dialog_content></div>';
-	html[h++] = '<hr><small>Cliquez pour fermer ce menu</small>';
-	this.$dialog.html(html.join(''));
+	this.$dialogTitle.html(title);
+	this.$dialogContent.css('max-height', maxHeight);
+	this.$dialogContent.html(content);
+	this.$dialogFooter.html(fixed ? 'Cliquez pour fermer ce menu' : 'Cliquez pour fixer ce menu');
 	this.$dialog.show();
-	$content = $('#dialog_content');
-	$content.css('max-height', maxHeight);
-	$content.css('overflow', 'auto');
-	$content.html(content);
 }
 
-Map.prototype.openCellDialog = function(x, y) {
+Map.prototype.fixDialog = function() {
+	this.dialogIsFixed = true;
+	this.$dialogFooter.html('Cliquez pour fermer ce menu');
+}
+
+Map.prototype.openCellDialog = function(x, y, fixed) {
 	var cell = this.getCell(this.couche, x, y);
 	var screenRect = new Rect();
 	screenRect.w = this.zoom;
@@ -50,7 +56,15 @@ Map.prototype.openCellDialog = function(x, y) {
 	var html = [];
 	var h=0;
 	var empty = false;
-	if (cell.champ) {
+	if (cell.palissade) {
+		empty = false;
+		html[h++] = "<b>Palissade";
+		if (!cell.palissade.Destructible) html[h++] = " indestructible";
+		html[h++] = "</b>";
+		if (cell.palissade.Destructible && cell.palissade.DateFin) {
+			html[h++] = ' (date de fin : ' + formatDate(cell.palissade.DateFin*1000, true) + ')';
+		}
+	} else if (cell.champ) {
 		html[h++] = '<table><tr><td><span class="champ"/></td><td>';
 		html[h++] = 'Champ de <a target=winprofil href="http://jeu.braldahim.com/voir/braldun/?braldun='+cell.champ.IdBraldun+'&direct=profil">'+cell.champ.NomCompletBraldun+'</a></td></tr></table>';
 		html[h++] = '</td></tr></table>';
@@ -66,12 +80,17 @@ Map.prototype.openCellDialog = function(x, y) {
 	}
 	var cellVue = this.getCellVue(x, y);
 	if (cellVue) {
-		if (cellVue.action) {
+		if (cellVue.actions.length) {
 			empty = false;
-			var t = this.typesActions[cellVue.action.Type];
-			html[h++] = '<table><tr><td>';
-			if (t.iconeCase) html[h++] = '<img hspace=5 vspace=2 src="'+t.iconeCase.src+'">'; // le hspace et le vspace là sont paresseux, on changera si plusieurs actions ont des icônes
-			html[h++] = '</td><td><a href="javascript:mapDoAction('+cellVue.action.key+');">'+t.nom+'</a></td><td>('+cellVue.action.PA+' PA)</td></tr></table>';
+			html[h++] = '<table>';
+			for (var ia=cellVue.actions.length; ia-->0;) {
+				var a = cellVue.actions[ia];
+				var t = this.typesActions[a.Type];
+				html[h++] = '<tr><td>';
+				if (t.icone) html[h++] = '<img hspace=5 vspace=2 src="'+t.icone.src+'">'; // le hspace et le vspace là sont paresseux, on changera si plusieurs actions ont des icônes
+				html[h++] = '</td><td><a href="javascript:mapDoAction('+a.key+');">'+t.nom+'</a></td><td>('+a.PA+' PA)</td></tr>';
+			}
+			html[h++] = '</table>';
 		}
 		if (cellVue.bralduns.length) {
 			empty = false;
@@ -90,7 +109,7 @@ Map.prototype.openCellDialog = function(x, y) {
 				if (b.PointsGredin) html[h++] = '<span class=pointsGredin>'+b.PointsGredin+'</span>';
 				if (b.PointsRedresseur) html[h++] = '<span class=pointsRedresseur>'+b.PointsRedresseur+'</span>';
 				html[h++] = '</td></tr>';
-			}		
+			}
 			html[h++] = '</table>';
 		}
 		if (cellVue.monstres.length) {
@@ -131,11 +150,10 @@ Map.prototype.openCellDialog = function(x, y) {
 				html[h++] = '</td><td>';
 				html[h++] = '  '+o.Label;
 				html[h++] = '</td></tr>';
-			}		
+			}
 			html[h++] = '</table>';
-			
 		}
 	}
 	if (empty) html[h++] = "<i>Il n'y a rien ici</i>";
-	this.openDialog(screenRect, x+","+y, html.join(''));
+	this.openDialog(screenRect, x+","+y, html.join(''), fixed);
 }

@@ -19,6 +19,7 @@ class Bral_Util_BralSession
 		$user = Zend_Auth::getInstance()->getIdentity();
 
 		$dateAuth = $user->dateAuth;
+		$dateConnexion = $user->dateConnexion;
 		$activation = $user->activation;
 		$gardiennage = $user->gardiennage;
 		$gardeEnCours = $user->gardeEnCours;
@@ -47,6 +48,7 @@ class Bral_Util_BralSession
 			$auth->getStorage()->write($braldun);
 			Zend_Auth::getInstance()->getIdentity()->initialCall = false;
 			Zend_Auth::getInstance()->getIdentity()->dateAuth = $dateAuth;
+			Zend_Auth::getInstance()->getIdentity()->dateConnexion = $dateConnexion;
 			Zend_Auth::getInstance()->getIdentity()->activation = $activation;
 			Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
 			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;

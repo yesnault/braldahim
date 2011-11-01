@@ -129,6 +129,7 @@ class GardiennageController extends Zend_Controller_Action
 						$sessionTable->insertOrUpdate($data);
 
 						Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
+						Zend_Auth::getInstance()->getIdentity()->dateConnexion = date("Y-m-d H:i:s");
 						Zend_Auth::getInstance()->getIdentity()->initialCall = true;
 						Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('activation_tour_gardiennage')) == 'oui');
 						Zend_Auth::getInstance()->getIdentity()->gardiennage = false;

@@ -1,7 +1,8 @@
 /**
  * Contenu de map.html.
  */
-var map = null
+var map = null;
+
 
 function fetchMap(callback) {
     var httpRequest = new XMLHttpRequest();
@@ -19,21 +20,31 @@ function fetchMap(callback) {
     httpRequest.send();
 }
 
-
 function initBraldopCallback(map) {
     map.setCallback("Marcher", function(a) {
-        console.log('Action Marcher:');
-        console.log(a);
         actionMarcher(a);
+    });
+    map.setCallback("Lieu", function(a) {
+        actionLieu(a);
+    });
+    map.setCallback("Transbahuter", function(a) {
+        actionTransbahuter(a);
     });
 }
 
 function actionMarcher(action) {
-    alert('Developpement en cours. Action Marcher PA:' + action.PA);
+    _get_('/competences/doaction?caction=do_competence_marcher&valeur_1=' + action.Offset);
 }
 
-function initBraldop() {
-    map = new Map("map_canvas", "posmark", "map_dialog");
+function actionLieu(action) {
+    _get_('/interface/load/?box=box_lieu');
+}
+
+function actionTransbahuter(action) {
+    _get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=1');
+}
+
+function initBraldopFecth() {
     fetchMap(function(msg) {
         map.setData(msg);
         //> on batit le menu de choix de la profondeur
@@ -66,6 +77,12 @@ function initBraldop() {
             map.redraw();
         }, 1000); // contournement de bug pas compris
     });
+}
+
+function initBraldop() {
+    map = new Map("map_canvas", "posmark");
+    map.displayGrid = true;
+    initBraldopFecth();
 
     $('#layer_satellite').attr('checked', map.displayPhotoSatellite).change(function() {
         map.displayPhotoSatellite = this.checked;
@@ -95,6 +112,16 @@ function initBraldop() {
         map.redraw();
     });
 
+    $('#goto').click(function() {
+        if (map.zoom < 32) map.zoom = 32;
+        //map.goto(parseInt($(this).attr('x')), parseInt($(this).attr('y')), parseInt($(this).attr('z')));
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()));
+    });
+    $('#icon_grid').click(function() {
+        map.displayGrid = !map.displayGrid;
+        map.redraw();
+    });
+
     setTimeout(function() {
         for (i in map.mapData.Vues) {
             var v = map.mapData.Vues[i];
@@ -106,4 +133,5 @@ function initBraldop() {
     }, 1000);
 
     initBraldopCallback(map);
+    initBlabla();
 }

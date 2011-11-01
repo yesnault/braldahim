@@ -1,60 +1,60 @@
 body {
-	font: 15px arial, verdana, sans-serif;
-	background: #41591C;
-	letter-spacing: 0pt;
-	background-position: center top;
-	margin: 0;
+    font: 15px arial, verdana, sans-serif;
+    background: #41591C;
+    letter-spacing: 0pt;
+    background-position: center top;
+    margin: 0;
 }
 
 input {
-	margin: 2px 2pt;
-	background: #6A8C20 none repeat-x scroll center top;
-	color: #791E1E;
-	font: 13px arial, verdana, sans-serif;
-	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
-	margin: 6px 0 0 0;
+    margin: 2px 2pt;
+    background: #6A8C20 none repeat-x scroll center top;
+    color: #791E1E;
+    font: 13px arial, verdana, sans-serif;
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    margin: 6px 0 0 0;
     padding: 14px 14px 14px 14px;
-	width: auto !important;
-	border: 1px solid #666666;
+    width: auto !important;
+    border: 1px solid #666666;
 }
 
-.button{
+.button {
     padding: 14px 14px 14px 14px;
     margin: 2px 2pt;
 }
 
 .box_authentification_mobile {
-	width: auto;
-	height: 400px;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	position:relative;
-	
+    width: auto;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    position: relative;
+
     margin-left: 0px;
     margin-right: 0px;
     top: 0%;
 }
 
 #wrappermobile {
-	background:#41591C;
-	height:auto;
-	min-height:480px;
-	margin-top: 0px;
-	width:auto;
+    background: #41591C;
+    height: auto;
+    min-height: 480px;
+    margin-top: 0px;
+    width: auto;
 }
 
 #frisetopvidemobile {
-	background:#41591C;
+    background: #41591C;
 }
 
 .titre {
-	padding: 10px;	
+    padding: 10px;
 }
 
 .onglet {
-	font: 20px arial, verdana, sans-serif;
-	margin:0px;
+    font: 20px arial, verdana, sans-serif;
+    margin: 0px;
     padding: 8px;
     font-weight: bold;
     list-style: none;
@@ -70,50 +70,62 @@ input {
 }
 
 .boite_m {
-	margin-top: 5px;
-	width: auto;
+    margin-top: 5px;
+    width: auto;
 }
 
-.inner { /* exterieur de boite */
-	padding: 0pt 0.5px;
+.inner {
+    /* exterieur de boite */
+    padding: 0pt 0.5px;
 }
 
 #BB_window {
-		width: 100%;
-	min-width:50px;
+    width: 100%;
+    min-width: 50px;
 }
 
 .box_action {
-	width: 100%;
-	min-width:50px;
+    width: 100%;
+    min-width: 50px;
 }
 
 .box_informations {
-	width: 100%;
-	min-width:50px;
+    width: 100%;
+    min-width: 50px;
 }
 
-.box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration {
-	width: auto;
+.box_inscription, .box_perdu, .box_parametres, .box_gardiennage, .box_administration {
+    width: auto;
 }
 
-.barre_faim,.barre_vie, .barre_niveau, .barre_poids {
-	width: 150px;
+.barre_faim, .barre_vie, .barre_niveau, .barre_poids {
+    width: 150px;
 }
 
-.barre_tour_sommeil, .barre_tour_eveil  {
-	width:37.5px;
+.barre_tour_sommeil, .barre_tour_eveil {
+    width: 37.5px;
 }
 
 .barre_tour_activite {
-	width: 75px;
+    width: 75px;
 }
 
 .pointsdistinctions {
-	right: 200px;
-	top: 0;	
+    right: 200px;
+    top: 0;
 }
 
 #navigation h3.head {
-	padding: 20px;	
+    padding: 20px;
+}
+
+div.liste span, div.titre_liste {
+    font: bold 20px arial, verdana, sans-serif;
+    list-style: none outside none;
+    margin: 0;
+    padding: 8px;
+}
+
+#menu_actions {
+    width: 98%;
 }

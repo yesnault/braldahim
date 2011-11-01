@@ -124,6 +124,7 @@ class AuthController extends Zend_Controller_Action
 					$auth->getStorage()->write($braldun);
 					// activation du tour
 					Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
+					Zend_Auth::getInstance()->getIdentity()->dateConnexion = date("Y-m-d H:i:s");
 					Zend_Auth::getInstance()->getIdentity()->initialCall = true;
 
 					Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');

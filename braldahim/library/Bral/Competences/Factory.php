@@ -24,12 +24,9 @@ class Bral_Competences_Factory
 
 		// On regarde si c'est une competence basique
 		$competencesBasiques = Bral_Util_Registre::get('competencesBasiques');
-		foreach ($competencesBasiques as $c) {
-			if ($c["nom_systeme"] == $nomSystemeCompetence) {
-				$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
-				$competence = $c;
-				break;
-			}
+		if (array_key_exists($nomSystemeCompetence, $competencesBasiques)) {
+			$competence = $competencesBasiques[$nomSystemeCompetence];
+			$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
 		}
 
 		if ($view->user->activation == false) {
@@ -39,12 +36,9 @@ class Bral_Competences_Factory
 		// On regarde si c'est une competence de soule
 		if ($construct == null) {
 			$competencesSoule = Bral_Util_Registre::get('competencesSoule');
-			foreach ($competencesSoule as $c) {
-				if ($c["nom_systeme"] == $nomSystemeCompetence) {
-					$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
-					$competence = $c;
-					break;
-				}
+			if (array_key_exists($nomSystemeCompetence, $competencesSoule)) {
+				$competence = $competencesSoule[$nomSystemeCompetence];
+				$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
 			}
 		}
 
@@ -59,7 +53,7 @@ class Bral_Competences_Factory
 			foreach ($braldunCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {
 					$construct = "Bral_Competences_" . Bral_Util_String::firstToUpper($nomSystemeCompetence);
-					$competence = $competences[$c["id_competence"]];
+					$competence = $competences[$nomSystemeCompetence];
 					$braldunCompetence = $c;
 					break;
 				}

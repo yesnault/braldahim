@@ -184,10 +184,6 @@ class InterfaceController extends Zend_Controller_Action
 
 			$this->addBox(Bral_Box_Factory::getInterface($this->_request, $this->view, true), $boite_c);
 
-			if ($this->view->user->est_testeur_vue_braldun == 'oui' && !$this->view->estMobile) {
-				$this->addBox(Bral_Box_Factory::getInterfacetest($this->_request, $this->view, true), $boite_c);
-			}
-
 			if ($this->view->estMobile) {
 				$this->addBox(Bral_Box_Factory::getBlabla($this->_request, $this->view, false), $boite_c);
 				$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), $boite_c);
@@ -203,16 +199,15 @@ class InterfaceController extends Zend_Controller_Action
 
 			$this->addBox(Bral_Box_Factory::getChamps($this->_request, $this->view, false), $boite_c);
 
-			if ($this->view->estMobile) {
-				$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
-				$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
-				$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
-			}
 			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), $boite_c);
 			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), $boite_c);
 
 			$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), $boite_c);
+
+			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), $boite_c);
+			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), $boite_c);
 
 			if ($this->view->estMobile) {
 				$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), $boite_c);
@@ -354,6 +349,27 @@ class InterfaceController extends Zend_Controller_Action
 	{
 		Zend_Loader::loadClass('Bral_Util_Vue');
 		$this->view->json = Bral_Util_Vue::getJsonData($this->view);
-		echo $this->view->render("interface/cartejson.phtml");
+		echo $this->view->render("interface/json.phtml");
+	}
+
+	public function competencesjsonAction()
+	{
+		Zend_Loader::loadClass('Bral_Util_Competences');
+		$this->view->json = Bral_Util_Competences::getJsonData($this->view);
+		echo $this->view->render("interface/json.phtml");
+	}
+
+	public function blablajsonAction()
+	{
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		$this->view->json = Bral_Util_Blabla::getJsonData($this->view);
+		echo $this->view->render("interface/json.phtml");
+	}
+
+	public function blablacountjsonAction()
+	{
+		Zend_Loader::loadClass('Bral_Util_Blabla');
+		$this->view->json = Bral_Util_Blabla::getJsonCount($this->view);
+		echo $this->view->render("interface/json.phtml");
 	}
 }

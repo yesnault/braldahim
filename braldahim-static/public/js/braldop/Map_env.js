@@ -80,8 +80,6 @@ Map.prototype.drawLieu = function(screenRect, lieu, img, hover) {
 	if (img) {
 		if (hover) {
 			drawCenteredImage(c, this.getOutlineImg(img), cx, cy, imgw?imgw+4:null, null);
-			this.bubbleText.push(lieu.Nom);
-			if (lieu.détails) this.bubbleText.push("  "+lieu.détails);
 		}
 		drawCenteredImage(c, img, cx, cy, imgw);
 	} else {

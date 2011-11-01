@@ -1,108 +1,49 @@
 <?php Zend_Loader::loadClass('Bral_Helper_Profil'); ?>
 
-<table id="table_cockpit">
-	<tr>
-		<td class="tdcockpit">
-			<button class="butPersonnage " title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");'
-					title="Personnage">
-				<?php if (Zend_Registry::get("estWork")) : ?>
+<button class="butPersonnage " title="Personnage" onclick='Javascript:boutonCockpit("box_personnage");'
+		title="Personnage">
+	<?php if (Zend_Registry::get("estWork")) : ?>
 
-				<?php else: ?>
-				<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>_grand.png'/>
-				<?php endif;?>
+	<?php else: ?>
+	<img src='<?php echo $this->config->url->static?>/images/vue/braldun_<?php echo $this->user->sexe_braldun ?>_grand.png'/>
+	<?php endif;?>
 
-				<table cellspacing="0px" cellpadding="0px">
-					<tr>
-						<td nowrap>
-							<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef, $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
-						</td>
-						<td nowrap>&nbsp;
-							<?php echo $this->user->pv_restant_braldun ?>
-							/<?php echo ($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
-						</td>
-						<td>&nbsp;
-							<?php echo $this->user->balance_faim_braldun?> %
-						</td>
-					</tr>
-				</table>
-			</button>
-		</td>
-		<td class="tdcockpit" style="min-width:230px">
-			<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">
-				Effets
-			</button>
-			<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">
-				Carnet
-			</button>
-			<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");'
-					title="Carnet">&nbsp;</button>
-			<br/><br/>
-			<?php $s = ''; if ($this->user->pa_braldun > 1): $s = 's'; endif;?>	<?php echo $this->user->pa_braldun?>
-			Point<?php echo $s?> d'Action restant<?php echo $s?>
-			<div id="tourCockpit">
-				<?php echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
-			</div>
-		</td>
-		<td class="tdcockpit">
+	<table cellspacing="0px" cellpadding="0px">
+		<tr>
+			<td nowrap>
+				<?php echo Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_braldun, $this->config->game->pv_base, $this->user->vigueur_base_braldun, $this->config->game->pv_max_coef, $this->user->pv_max_bm_braldun, $this->user->duree_prochain_tour_braldun, false, true)?>
+			</td>
+			<td nowrap>&nbsp;
+				<?php echo $this->user->pv_restant_braldun ?>
+				/<?php echo ($this->config->game->pv_base + ($this->user->vigueur_base_braldun * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_braldun) ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_braldun, $this->user->force_bbdf_braldun, true)?>
+			</td>
+			<td>&nbsp;
+				<?php echo $this->user->balance_faim_braldun?> %
+			</td>
+		</tr>
+	</table>
+</button>
 
-		</td>
-		<td class="tdcockpit">
+<button class="butEffets" title="Effets" onclick='Javascript:boutonCockpit("box_effets");' title="Effets">
+	Effets
+</button>
+<button class="butCarnet" title="Carnet" onclick='Javascript:boutonCockpit("box_carnet");' title="Carnet">
+	Carnet
+</button>
+<button class="butMessagerie" title="Messagerie" onclick='Javascript:boutonCockpit("box_messagerie");'
+		title="Carnet">&nbsp;</button>
+<br/><br/>
 
-		</td>
-		<td class="tdcockpit">
+<div id="tourCockpit">
+	<?php $s = ''; if ($this->user->pa_braldun > 1): $s = 's'; endif;?>	<?php echo $this->user->pa_braldun?>
+	Point<?php echo $s?> d'Action restant<?php echo $s?>
+	<?php echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
+</div>
 
-		</td>
-		<td class="tdcockpit">
-			<table>
-				<tr>
-					<td colspan="3">
-						<div class="titrea textalic titreasized">Ressources</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button class="butLaban" title="Laban" onclick='Javascript:boutonCockpit("box_laban");'
-								title="Laban">
-							<?php if (Zend_Registry::get("estWork")) : ?>
-							Laban
-							<?php else: ?>
-							<img src='<?php echo $this->config->url->static?>/images/cockpit/laban.png'/>
-							<?php endif;?>
-						</button>
-					</td>
-					<td>
-						<button class="butCharrette" title="Charrette"
-								onclick='Javascript:boutonCockpit("box_charrette");' title="Charrette">
-							<?php if (Zend_Registry::get("estWork")) : ?>
-							Charrette
-							<?php else: ?>
-							<img src='<?php echo $this->config->url->static?>/images/cockpit/charrette.png'/>
-							<?php endif;?>
-						</button>
-					</td>
-					<td>
-						<button class="butCoffre" title="Coffre" onclick='Javascript:boutonCockpit("box_coffre");'
-								title="Coffre">
-							<?php if (Zend_Registry::get("estWork")) : ?>
-							Coffre
-							<?php else: ?>
-							<img src='<?php echo $this->config->url->static?>/images/cockpit/coffre.png'/>
-							<?php endif;?>
-						</button>
-					</td>
-				</tr>
-			</table>
-		</td>
-
-		<td class="tdcockpit">
-			<?php //echo $this->render("/annonces/speciale.phtml") ?>
-		</td>
-	</tr>
-</table>
-
+<?php //echo $this->render("/annonces/speciale.phtml") ?>
 

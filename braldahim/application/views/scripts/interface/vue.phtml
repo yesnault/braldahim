@@ -1,32 +1,38 @@
 <?php include("box_header.phtml") ?>
 
-<?php if ($this->estVueEtendue == false): 
-		include('vue/titre_vue.phtml'); 
-	else :
-		?><div class="titre textalic textsizea">Ma Vue &Eacute;tendue</div>
-		<div class="titre textalic textsizef">
-		<?php echo $this->vue_nb_cases ?> case<?php if ($this->vue_nb_cases > 1): echo "s"; endif; ?>
-		aux alentours
-		</div><?php
-	endif;
-?>
-<div class="box_contenu1 textalic">
-<?php if (Zend_Registry::get("estWork")) : ?>
-	<input type='button' class='button' value='Afficher / Cacher la vue et ses images' onclick="switch2div('vueFoo', 'vueTableWrapper');">
-	<div id='vueFoo'>Vue Cachée</div>
-<?php endif;?>
-  <table align="center" id="vueTableWrapper" class="vueTableWrapper" width='100%'>
-  	<tr>
-  		<td valign="top" align="center">
-		<?php if ($this->user->z_braldun != 0) : ?>
-			<div class="textalic textsizee">
-				<b>Vous êtes au niveau z:<?php echo $this->user->z_braldun?></b>
-			</div>
-		<?php endif;?>  		
-		<?php include('vue/damier.phtml'); ?>
-		</td>
-  	</tr>
-  </table>
-</div>
+	<input type="hidden" id="positionX" value="<?php echo $this->user->x_braldun ?>"/>
+	<input type="hidden" id="positionY" value="<?php echo $this->user->y_braldun ?>"/>
+
+	<div class="verte" style="position: relative; margin:10px">
+
+		<!--
+		<div id=layer_list>
+			<input type=checkbox id="layer_satellite"><label for=layer_satellite>Photo Satellite</label><br/>
+			<input type=checkbox id="layer_régions"><label for=layer_régions>Régions</label><br/>
+			<input type=checkbox id="layer_fog"><label for=layer_fog>Brouillard de guerre</label><br/>
+			<input type=checkbox id=layer_grid><label for=layer_grid>Grille</label><br>
+			<span id=choix_profondeur></span><br/>
+			<button id="btnCentrer" class="button">Centrer</button>
+		</div>
+		-->
+
+		<div id=map>
+			<canvas id=map_canvas></canvas>
+			<span id=posmark>-</span>
+		</div>
+		<div id=map_settings>
+			<img id=goto src=<?php echo $this->config->url->static?>/images/cockpit/player_target.png>
+			<br><img id=icon_grid src=<?php echo $this->config->url->static?>/images/cockpit/icon_grid.png>
+		</div>
+
+	</div>
+
+	<?php if (!Zend_Registry::get("estMobile")) : ?>
+		<div id=poignee_blabla>&#x25b2; Blabla ! <span id=nbBlablaNouveaux></span></div>
+		<div id=tiroir_blabla>
+			<div id=poignee_fermeture_blabla>&#x25bc; Blabla !</div>
+			<div id=box_blabla></div>
+		</div>
+	<?php endif; ?>
 
 <?php include("box_bottom.phtml") ?>

@@ -28,6 +28,7 @@ Map.prototype.getCellVueCreate = function(x, y) {
 		cell.cadavres = [];
 		cell.objets = [];
 		cell.monstres = [];
+		cell.actions = [];
 		cell.nbBraldunsFémininsNonKO=0; 
 		cell.nbBraldunsMasculinsNonKO=0;
 		cell.zones = [[], [], [], []]; // 4 zones : haut-gauche, centre, bas-gauche et bas-droit (haut-droit n'est pas géré dans la vue et correspond au lieu)
@@ -88,6 +89,7 @@ Map.prototype.getObjectImgKey = function(o) {
 
 		case "aliment":
 		case "graine":
+		case "materiel":
 		case "minerai":
 		case "munition":
 		case "potion":
@@ -122,6 +124,7 @@ Map.prototype.compileLesVues = function() {
 	this.matricesVuesParZ = {};
 	this.matriceVues = {};
 	//~ var nn=0, zz=1, tt=2; // pour tests affichage points gredin et points redresseur
+    if (!this.mapData) return; // contournement non compris, cela vaut null parfois. Evite une exception en dessus
 	for (var iv=0; iv<this.mapData.Vues.length; iv++) {
 		var vue = this.mapData.Vues[iv];
 		if (!vue.active) continue;
@@ -165,8 +168,10 @@ Map.prototype.compileLesVues = function() {
 			for (var i=0; i<vue.actions.length; i++) {
 				var a = vue.actions[i];
 				var cell = this.getCellVueCreate(a.X, a.Y);
-				cell.action = a; // une action max par case pour l'instant
-				cell.zones[1].push(this.typesActions[a.Type].iconeCase);
+				cell.actions.push(a); // pour la popup, plusieurs actions possibles
+				if (this.typesActions[a.Type].isIconeMap) { // affichage de l'icône ou non sur la case
+					cell.zones[1].push(this.typesActions[a.Type].icone);
+				}
 			}
 		}
 		//> pour chaque cellule on construit les tableaux d'images par zones
@@ -287,55 +292,7 @@ Map.prototype.dessineLesVues = function() {
 				if (cell.zones[2].length>0) this.drawIcons(c, cx+d, cy+3*d, cell.zones[2], hover);
 				if (cell.zones[3].length>0) this.drawIcons(c, cx+3*d, cy+3*d, cell.zones[3], hover);
 				if (cell.zones[1].length>0) this.drawIcons(c, cx+2*d, cy+2*d, cell.zones[1], hover);
-				if (hover) { // remplissage de la bulle du hover
-					if (cell.bralduns.length) {
-						if (cell.bralduns.length>5) {
-							this.bubbleText.push('Plein de Bralduns ('+cell.bralduns.length+')');
-						} else {
-							this.bubbleText.push('Bralduns :');
-							for (var ib=0; ib<cell.bralduns.length; ib++) {
-								var b = cell.bralduns[ib];
-								var s = '  '+b.Prénom+' '+b.Nom+' (niv.'+b.Niveau+')'
-								if (b.KO) s += ' KO';
-								if (b.IdCommunauté>0) s += ' ' +this.mapData.Communautés[b.IdCommunauté].Nom;
-								this.bubbleText.push(s);
-							}
-						}
-					}
-					if (cell.monstres.length) {
-						if (cell.monstres.length>5) {
-							this.bubbleText.push('Plein de monstres ('+cell.monstres.length+')');
-						} else {
-							this.bubbleText.push('Monstres :');
-							for (var ib=0; ib<cell.monstres.length; ib++) {
-								var o = cell.monstres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille+(o.Gibier?' (gibier)':''));
-							}
-						}
-					}
-					if (cell.cadavres.length) {
-						if (cell.cadavres.length>3) {
-							this.bubbleText.push('Plein de cadavres ('+cell.cadavres.length+')');
-						} else {
-							this.bubbleText.push('Cadavres :');
-							for (var ib=0; ib<cell.cadavres.length; ib++) {
-								var o = cell.cadavres[ib];
-								this.bubbleText.push('  '+o.Nom+' '+o.Taille);
-							}
-						}
-					}
-					if (cell.objets.length) { // les buissons sont considérés "au sol"
-						if (cell.objets.length>5) {
-							this.bubbleText.push("Plein d'objets au sol");
-						} else {
-							this.bubbleText.push('Au sol :');
-							for (var ib=0; ib<cell.objets.length; ib++) {
-								var o = cell.objets[ib];
-								this.bubbleText.push('  '+o.Label);
-							}
-						}
-					}
-				}
+
 			}
 		}
 	}

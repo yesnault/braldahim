@@ -13,44 +13,22 @@
 				Ils sont automatiquement supprimés au bout de 3 jours et vous pouvez envoyer jusqu'à <?php echo $this->nb_messages_max?> messages par tour de jeu.<br />
 				<br />
 				Le blabla est destiné à l'échange de messages "Role Play" ou tactiques, merci de <a href="/Parametres/contacter">contacter un enquêteur</a> pour tout abus constaté.<br />
-				Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.<br />
+				Toute "insulte gratuite" ou propos discriminants seront censurés sans préavis.<br /><br />
 			</li>
 		</ul>
 	</li>
 </ul>
 
-<!-- <span onclick="Javascript:_get_('/interface/load/?box=box_blabla');" class="alabel">Rafraîchir</span> -->
+<span onclick="Javascript:_get_('/interface/load/?box=box_blabla');" class="alabel">Rafraîchir</span>
 
-<table style="width:100%;">
-	<tr >
-   		<td>
-   		<?php if ($this->nouveauPossible) : ?>
-			<button type="button" class='button edit' name="nouveau_msg" id="nouveau_msg" onClick="$('#divBlablaMessage-body').toggle()">Nouveau</button>
-			<div id="divBlablaMessage-body" style="display:none">
-				<?php include("nouveau.phtml")?>
-			</div>
-		<?php else: ?>
-	   	Vous avez déjà envoyé <?php echo $this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
-	   	Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.
-	   	<?php endif;?>
-		</td>
-   	</tr>
+<?php if ($this->nouveauPossible) : ?>
+	<button type="button" class='button edit' name="nouveau_msg" id="nouveau_msg" onClick="$('#divBlablaMessage-body').toggle()">Nouveau</button>
+	<div id="divBlablaMessage-body" style="display:none">
+		<?php include("nouveau.phtml")?>
+	</div>
+<?php else: ?>
+Vous avez déjà envoyé <?php echo $this->user->nb_tour_blabla_braldun?> messages pendant votre tour.<br />
+Vous ne pouvez pas en envoyer d'avantage, il faut attendre votre prochain tour.<br /><br />
+<?php endif;?>
 
-  <?php if (count($this->blablaMessages) > 0): ?>
-	<tbody>
-  	<?php  
-  	foreach($this->blablaMessages as $e): ?>
-  		<tr>
-  			<td style='text-align:left'><i title='le <?php echo $e["date"]?> en <?php echo $e["x"]?> / <?php echo $e["y"]?>'><?php echo $e["braldun"]?></i><br />
-	  		<?php echo Bral_Util_BBParser::bbcodeReplace($e["message"], false);?>&nbsp;
-	  		<p class="a">~</p>
-	  		</td>
-  		</tr>
-  	<?php endforeach; ?>
-  	</tbody>
-   <?php else: ?>
-   	<tr class="table_liste">
-   		<td>Aucun message</td>
-   	</tr>
-<?php endif; ?>
-</table>
+<div id="blabla_messages"></div>

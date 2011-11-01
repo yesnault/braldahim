@@ -144,7 +144,11 @@ class Bral_Controller_Action extends Zend_Controller_Action
 					$xml_entry = new Bral_Xml_Entry();
 					$refreshHtmlTable = false;
 					// || $boxToRefresh[$i] == "box_laban"
-					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule" || $boxToRefresh[$i] == "box_quete") {
+					if ($boxToRefresh[$i] == "box_competences") {
+						$xml_entry->set_type("load_json");
+						$nomInterne = $boxToRefresh[$i];
+						$xml_entry->set_data("foo");
+					} else if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule" || $boxToRefresh[$i] == "box_quete") {
 						$xml_entry->set_type("load_box");
 
 						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
