@@ -329,7 +329,7 @@ class Bral_Util_Vue
 									*/
 
 
-				$tableau["Vues"][0]["Lieux"][] = array(
+				$tableau["Couches"][0]["Lieux"][] = array(
 					"Nom" => $l['nom_lieu'],
 					"IdTypeLieu" => $l['id_type_lieu'],
 					"X" => $l['x_lieu'],
