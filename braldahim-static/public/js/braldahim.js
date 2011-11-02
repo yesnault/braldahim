@@ -621,6 +621,7 @@ function my_switch(box, conteneur, controleur) {
         $("#loaded_" + box).val(1);
         _get_('/' + controleur + '/load/?box=' + box);
     }
+    map.closeDialog();
 }
 
 // Switch pour afficher un div et en cacher un autre

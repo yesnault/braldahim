@@ -500,8 +500,7 @@ Map.prototype.mouseUp = function(e) {
     this.mouseIsDown = false;
     if (this.dialogIsOpen) {
         if (this.dialogIsFixed) {
-            this.$dialog.hide();
-            this.dialogIsOpen = false;
+            this.closeDialog();
         } else {
             this.fixDialog();
         }
