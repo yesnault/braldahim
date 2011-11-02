@@ -54,7 +54,7 @@ class Bral_Util_Competences
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"pourcentage_init" => $c["pourcentage_init_competence"],
 					"type" => "Communes",
-					"favorite" => array_key_exists($c["id_fk_competence_hcomp"], $tabFavorites),
+					"favorite" => array_key_exists($c["nom_systeme_competence"], $tabFavorites),
 					"active" => ($view->user->pa_braldun >= $c["pa_utilisation_competence"]),
 				);
 			}
@@ -86,7 +86,7 @@ class Bral_Util_Competences
 						"nom_systeme" => $c["nom_systeme_competence"],
 						"pourcentage_init" => $c["pourcentage_init_competence"],
 						"type" => "Métier : " . $nom_metier,
-						"favorite" => array_key_exists($c["id_fk_competence_hcomp"], $tabFavorites),
+						"favorite" => array_key_exists($c["nom_systeme_competence"], $tabFavorites),
 						"active" => ($view->user->pa_braldun >= $c["pa_utilisation_competence"]),
 					);
 				}
