@@ -74,7 +74,7 @@ Map.prototype.openCellDialog = function(x, y, fixed) {
 		html[h++] = cell.échoppe.Métier+' : <a target=winprofil href="http://jeu.braldahim.com/voir/braldun/?braldun='+cell.échoppe.IdBraldun+'&direct=profil">'+cell.échoppe.NomCompletBraldun+'</a></td></tr></table>';
 		html[h++] = '</td></tr></table>';
 	} else if (cell.lieu) {
-		html[h++] = '<table><tr><td><span class="'+this.typesBatiments[cell.lieu.IdTypeLieu]+'"/></td><td> '+cell.lieu.Nom+'</td></tr></table>';
+		html[h++] = '<table><tr><td><span class="lieu_'+cell.lieu.IdTypeLieu+'"/></td><td> '+cell.lieu.Nom+'</td></tr></table>';
 	} else {
 		empty = true;
 	}

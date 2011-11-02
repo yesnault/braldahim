@@ -5,7 +5,6 @@ function Map(canvasId, posmarkid, dialogId) {
     this.posmarkdiv = document.getElementById(posmarkid);
     this.initTypesActions();
     this.callbacks = {};
-    this.initTiles();
     this.initPalissades();
     this.screenRect = new Rect();
     this.rect = new Rect(); // le rectangle englobant le contenu que l'on veut montrer
@@ -386,7 +385,7 @@ Map.prototype.redraw = function() {
                             if (cell.fond) this.drawFond(screenRect, cell.fond);
                             if (cell.champ) this.drawLieu(screenRect, cell.champ, this.spritesVueTypes.get('champ'), hover);
                             else if (cell.échoppe) this.drawLieu(screenRect, cell.échoppe, this.spritesVueTypes.get(cell.échoppe.Métier), hover);
-                            else if (cell.lieu) this.drawLieu(screenRect, cell.lieu, this.spritesVueTypes.get(this.typesBatiments[cell.lieu.IdTypeLieu]), hover);
+                            else if (cell.lieu) this.drawLieu(screenRect, cell.lieu, this.spritesVueTypes.get('lieu_' + cell.lieu.IdTypeLieu), hover);
                         }
                     }
                 }

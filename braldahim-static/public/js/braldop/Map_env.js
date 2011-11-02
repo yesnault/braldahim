@@ -1,46 +1,4 @@
 
-Map.prototype.initTiles = function() {
-	this.typesBatiments = []; // fait le lien entre le type numérique du batiment et le type chaine
-	this.typesBatiments[1] = "mairie";
-	this.typesBatiments[2] = "centreformation";
-	this.typesBatiments[3] = "gare";
-	this.typesBatiments[4] = "hopital";
-	this.typesBatiments[5] = "bibliotheque";
-	this.typesBatiments[6] = "academie";
-	this.typesBatiments[7] = "banque";
-	this.typesBatiments[8] = "joaillier";
-	this.typesBatiments[9] = "auberge";
-	this.typesBatiments[10] = "bbois";
-	this.typesBatiments[11] = "bpartieplantes";
-	this.typesBatiments[12] = "bminerais";
-	this.typesBatiments[13] = "tabatiere";
-	this.typesBatiments[14] = "notaire";
-	this.typesBatiments[15] = "quete";
-	this.typesBatiments[16] = "echangeurrune";
-	this.typesBatiments[17] = "assembleur";
-	this.typesBatiments[18] = "bpeaux";
-	this.typesBatiments[19] = "hotel";
-	this.typesBatiments[20] = "postedegarde";
-	this.typesBatiments[21] = "entreegrotte";
-	this.typesBatiments[22] = "escaliers";
-	this.typesBatiments[23] = "lieumythique";
-	this.typesBatiments[24] = "ruine";
-	this.typesBatiments[25] = "tribunal";
-	this.typesBatiments[26] = "contrat";
-	this.typesBatiments[27] = "maisonpnj";
-	this.typesBatiments[28] = "minee";
-	this.typesBatiments[29] = "puits";
-	this.typesBatiments[30] = "hall";
-	this.typesBatiments[31] = "grenier";
-	this.typesBatiments[32] = "temple";
-	this.typesBatiments[33] = "marche";
-	this.typesBatiments[34] = "infirmerie";
-	this.typesBatiments[35] = "baraquement";
-	this.typesBatiments[36] = "tribune";
-	this.typesBatiments[37] = "atelier";
-	this.typesBatiments[38] = "haltegare";
-}
-
 // cette méthode est imparfaite : elle ne crée pas réellement un contour
 Map.prototype.getOutlineImg = function(img) {
 	if (!img.outline) {
