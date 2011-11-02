@@ -72,9 +72,11 @@ function initBraldopFecth() {
         });
 
         map.compileLesVues(); // en raison de leur activation
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
         map.redraw();
         setTimeout(function() {
             map.redraw();
+            map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
         }, 1000); // contournement de bug pas compris
     });
 }
@@ -82,6 +84,7 @@ function initBraldopFecth() {
 function initBraldop() {
     map = new Map("map_canvas", "posmark");
     map.displayGrid = true;
+    map.displayFog = false;
     initBraldopFecth();
 
     $('#layer_satellite').attr('checked', map.displayPhotoSatellite).change(function() {
@@ -120,6 +123,10 @@ function initBraldop() {
     $('#icon_grid').click(function() {
         map.displayGrid = !map.displayGrid;
         map.redraw();
+    });
+
+    $(window).resize(function() {
+            map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
     });
 
     setTimeout(function() {
