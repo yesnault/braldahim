@@ -47,8 +47,10 @@ Map.prototype.fixDialog = function() {
 }
 
 Map.prototype.closeDialog = function() {
-	this.$dialog.hide();
-	this.dialogIsOpen = false;
+	if (this.dialogIsOpen) {
+		this.$dialog.hide();
+		this.dialogIsOpen = false;
+	}
 }
 
 Map.prototype.openCellDialog = function(x, y, fixed) {

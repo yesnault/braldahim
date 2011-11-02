@@ -622,6 +622,11 @@ function my_switch(box, conteneur, controleur) {
         _get_('/' + controleur + '/load/?box=' + box);
     }
     map.closeDialog();
+    if (box == "box_interface") {
+        map.recomputeCanvasPosition();
+        map.redraw();
+        map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()),  parseInt($("#positionZ").val()));
+    }
 }
 
 // Switch pour afficher un div et en cacher un autre
