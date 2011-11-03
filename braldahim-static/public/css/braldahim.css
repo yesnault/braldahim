@@ -3843,8 +3843,8 @@ div.box {
 
 #map_settings {
     position: absolute;
-    left: 15px;
-    top: 8px;
+    left: 5px;
+    top: 27px;
     border-radius: 15px;
     z-index: 40;
     padding: 5px;
@@ -3861,7 +3861,6 @@ div.box {
 #map {
     position: relative;
     background-color: white;
-    box-shadow: 0 3px 6px #666;
     padding: 0px;
     top: 5px;
     bottom: 15px;
