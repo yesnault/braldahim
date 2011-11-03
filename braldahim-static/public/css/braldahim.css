@@ -2742,7 +2742,7 @@ td.champ2d.jachere {
     display: inline;
     float: left;
     top: 150px;
-    width: 280px;
+    width: 260px;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -2751,7 +2751,7 @@ td.champ2d.jachere {
     display: inline;
     float: left;
     top: 150px;
-    width: 280px;
+    width: 26%;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -3915,11 +3915,6 @@ div.box {
 
 #map_dialog a:hover {
     color: yellow;
-}
-
-#menu_actions {
-    width: 300px;
-    z-index: 4;
 }
 
 div.titre_liste {
