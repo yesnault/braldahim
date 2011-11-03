@@ -998,11 +998,13 @@ td.authTable {
 #onglet_box_laban,
 #onglet_box_charrette,
 #onglet_box_coffre {
-    padding-left: 25px;
-    padding-top: 5px;
+    padding-left: 35px;
+    padding-top: 8px;
     padding-bottom: 5px;
     background-repeat: no-repeat;
-    background-size: 24px auto;
+    background-size: 26px auto;
+	height:40px;
+	background-position: 8px 50%;
 }
 
 #onglet_box_interface, #onglet_box_interfacetest {
@@ -1032,14 +1034,17 @@ td.authTable {
 
 #onglet_box_quetes {
     background-image: url('/images/cockpit/icone_contrat.png');
+	background-size: 20px auto;
 }
 
 #onglet_box_laban {
     background-image: url('/images/cockpit/laban.png');
+	background-size: 30px auto;
 }
 
 #onglet_box_charrette {
     background-image: url('/images/cockpit/charrette.png');
+	background-size: 35px auto;
 }
 
 #onglet_box_coffre {
