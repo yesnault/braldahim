@@ -6,7 +6,8 @@
   foreach($this->onglets as $onglet) : ?>
   	<input type='hidden' id='loaded_<?php echo $onglet["nom"] ?>' value='<?php echo $onglet["chargementInBoxes"] ?>'>
     <span id='onglet_<?php echo $onglet["nom"] ?>' class='onglet <?php echo $onglet["css"] ?><?php echo $premier?>' onclick='Javascript:my_switch("<?php echo $onglet["nom"] ?>","<?php echo $this->conteneur ?>", "interface"); ' title='<?php echo $onglet["titre"] ?>'>
-      &nbsp;&nbsp;
+      &nbsp;<?php if ($this->conteneur != "boite_c") : echo $onglet["titre"] ; endif;?>&nbsp;
+
     </span>
   <?php $premier = "";
   	endforeach; ?>

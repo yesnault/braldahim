@@ -43,6 +43,7 @@
 	<?php $s = ''; if ($this->user->pa_braldun > 1): $s = 's'; endif;?>	<?php echo $this->user->pa_braldun?>
 	Point<?php echo $s?> d'Action restant<?php echo $s?>
 	<?php echo Bral_Helper_Profil::afficheBarreTour($this->user, true) ?>
+	<span title="Date limite d'action">DLA</span> : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('<b>H:i:s</b> \l\e d/m/y',$this->user->date_fin_tour_braldun);?>
 </div>
 
 <?php //echo $this->render("/annonces/speciale.phtml") ?>

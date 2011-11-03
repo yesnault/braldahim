@@ -948,7 +948,7 @@ td.authTable {
     border-style: solid;
     border-color: #000000;
     border-width: 1px;
-    margin-left: 1px;
+    margin-left: 4px;
     color: #F2F2F2;
     text-align: center;
     padding-left: 1px;
@@ -963,8 +963,8 @@ td.authTable {
 }
 
 .onglet.actif {
-    background-color: #1F2614;
-    border-bottom-color: transparent;
+	background: transparent;
+	border-bottom: 1px dotted #1F2614;
 }
 
 .onglet.inactif {
@@ -1343,14 +1343,17 @@ td.authTable {
     /* exterieur de boite */
     padding: 5pt 10px;
     /**AJOUT**/
-    border-radius: 10px; /* en css3 lui m√™me */
-    -moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany‚Ä¶ */
-    -webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome‚Ä¶ */
-    -khtml-border-radius: 10px; /* pour Khtml : Konqueror‚Ä¶ */
+    /*border-radius: 10px;
+	*/
     padding: 1pt 10px;
-    border-color: #1F2614;
+/*    border-color: #1F2614;
     border-style: solid;
     border-width: 1pt 1px;
+
+	border-color: #1F2614;
+	border-top-style: solid;
+	border-width: 1pt 1px;
+	*/
     display: block;
     background: transparent repeat-x scroll 0pt 0%;
 }
@@ -3844,9 +3847,8 @@ div.box {
     top: 8px;
     border-radius: 15px;
     z-index: 40;
-    background: transparent;
     padding: 5px;
-    background: url("http://static.braldahim.com/images/layout/fond.jpg") repeat-x scroll 0 0 #4C712C;
+    background: url("/images/layout/fond.jpg") repeat-x scroll 0 0 #4C712C;
 }
 
 #map_settings img {
@@ -3861,7 +3863,6 @@ div.box {
     background-color: white;
     box-shadow: 0 3px 6px #666;
     padding: 0px;
-    left: 10px;
     top: 5px;
     bottom: 15px;
     right: 5px;
@@ -3875,6 +3876,7 @@ div.box {
     width: 100%;
     z-index: 8;
     display: inline-block;
+	margin-left: -2px;
 }
 
 #map_dialog {
