@@ -1,5 +1,5 @@
 
-// quelques constantes, que je déplacerai peut-être
+// quelques constantes
 var B_TOP = 1;
 var B_RIGHT = 1<<1;
 var B_BOTTOM = 1<<2;
@@ -22,12 +22,12 @@ Map.prototype.initPalissades = function() {
 Map.prototype.getImagePalissade = function(key) {
 	var img = this.imagesPalissades[key];
 	if (img) return img;
-	if (!this.imgTroncPalissade.width) return null;
+	var imgTronc = (key&B_INDESTRUCTIBLE) ? this.imgTroncPalissadeIndestructible : this.imgTroncPalissade;
+	if (!imgTronc.width) return null;
 	var marge = 41; // marge pour le dépassement en dehors de la case
 	img = document.createElement('canvas');
 	img.width = 64+2*marge;
 	img.height = 64+2*marge;
-	var imgTronc = (key&B_INDESTRUCTIBLE) ? this.imgTroncPalissadeIndestructible : this.imgTroncPalissade;
 	
 	var c = img.getContext('2d');
 	var cx = img.width/2;
@@ -134,7 +134,7 @@ Map.prototype.getImagePalissade = function(key) {
 	return img;
 }
 
-Map.prototype.drawPalissade = function(screenRect, palissade, hover) {
+Map.prototype.drawPalissade = function(screenRect, palissade) {
 	var c = this.context;
 	var cx = screenRect.x+0.5*screenRect.w;
 	var cy = screenRect.y+0.5*screenRect.h;

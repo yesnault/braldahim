@@ -91,7 +91,6 @@ Rect.prototype.makePath = function(c, radius) {
 /**
  * dessine le rectangle avec un trou dedans (un autre rectangle).
  * On ne le vérifie pas mais hole doit être strictement à l'intérieur de this.
- * Le rayon concerne
  * 
  * On utilise la technique du "Opposite Winding"
 */

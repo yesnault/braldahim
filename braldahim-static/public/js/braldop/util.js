@@ -8,16 +8,6 @@ function getUrlParameter(name, defaultValue) {
 	else return results[1];
 }
 
-// remplace la fonction parseInt, trop capricieuse ( parseInt("05")==5 mais parseInt("08")==0 )
-function atoi(s) {
-	if (!s) return undefined;
-	s = s.trim();
-	while(s.charAt(0)=='0' || s.charAt(0)==':') {
-		s = s.substring(1, s.length);
-		if (s.length==0) return 0;
-	 }
-	return parseInt(s);
-}
 
 function formatDate(timestamp, withYear) {
 	if (timestamp==0) return "";

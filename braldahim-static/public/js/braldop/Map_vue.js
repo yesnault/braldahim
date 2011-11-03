@@ -1,15 +1,5 @@
-// parcoure les vues affichées pour trouver les bralduns visibles sur la case x,y.
-Map.prototype.getBralduns = function(x, y) {
-	var cell = this.getCellVue(x, y);
-	if (cell) {
-		return cell.bralduns;
-	}
-	return [];
-}
 
-
-// renvoie la cellule de la vue ou null (hors vue ou vide)
-// Attention : cette méthode ne vérifie pas que x et y sont dans la portée de la vue : le faire avant
+// renvoie une cellule de vue ou null (en dehors de toutes les vues ou vide)
 Map.prototype.getCellVue = function(x, y) {
 	return this.matriceVues[this.getIndex(x, y)];
 }
@@ -37,7 +27,7 @@ Map.prototype.getCellVueCreate = function(x, y) {
 	return cell;
 }
 
-// dessine de 1 à 5 icônes sur ou autour d'un point de l'écran
+// dessine de 1 à 5 icônes sur ou autour d'un point de l'écran (à distance dépendant du zoom actuel)
 Map.prototype.drawIcons = function(c, sx, sy, icons, hover) {
 	var x=[]; var y=[];
 	switch (icons.length) {
@@ -87,31 +77,32 @@ Map.prototype.drawIcons = function(c, sx, sy, icons, hover) {
 Map.prototype.getObjectImgKey = function(o) {
 	switch (o.Type) {
 
-		case "aliment":
-		case "graine":
-		case "materiel":
-		case "minerai":
-		case "munition":
-		case "potion":
-		case "tabac":
-			return o.Type+'_'+o.IdType;	
+	case "aliment":
+	case "graine":
+	case "materiel":
+	case "minerai":
+	case "munition":
+	case "potion":
+	case "tabac":
+		return o.Type+'_'+o.IdType;	
 
-		case "équipement":
-			return 'equipement_'+o.IdType;	
-		case "ingrédient":
-			return 'ingredient_'+o.IdType;
-		case "lingot":
-			return 'minerai_'+o.IdType+'_p';	
-		case "plante":
-			return 'partieplante_'+o.IdType;	
+	case "équipement":
+		return 'equipement_'+o.IdType;	
+	case "ingrédient":
+		return 'ingredient_'+o.IdType;
+	case "lingot":
+		return 'minerai_'+o.IdType+'_p';	
+	case "plante":
+		return 'partieplante_'+o.IdType;	
 
-		case "castar":
-			return 'castars';
-		case "rune":
-			return 'runes';
+	case "castar":
+		return 'castars';
+	case "rune":
+		return 'runes';
 
-		default:
-			return o.Type;
+	default:
+		return o.Type;
+		
 	}
 }
 
@@ -123,8 +114,7 @@ Map.prototype.compileLesVues = function() {
 	}
 	this.matricesVuesParZ = {};
 	this.matriceVues = {};
-	//~ var nn=0, zz=1, tt=2; // pour tests affichage points gredin et points redresseur
-    if (!this.mapData) return; // contournement non compris, cela vaut null parfois. Evite une exception en dessus
+	if (!this.mapData) return; // contournement non compris, cela vaut null parfois. Evite une exception en dessus
 	for (var iv=0; iv<this.mapData.Vues.length; iv++) {
 		var vue = this.mapData.Vues[iv];
 		if (!vue.active) continue;
@@ -143,8 +133,6 @@ Map.prototype.compileLesVues = function() {
 		}
 		for (ib in vue.Bralduns) {
 			var b = vue.Bralduns[ib];
-			//~ b.PointsGredin = ((nn++)%3)*((zz++)%3)*((tt++)%5)*((tt++)%11);
-			//~ b.PointsRedresseur = ((nn++)%7)*((zz++)%7)*((tt++)%3);
 			var cell = this.getCellVueCreate(b.X, b.Y)
 			cell.bralduns.push(b);
 		}
@@ -288,11 +276,10 @@ Map.prototype.dessineLesVues = function() {
 				var d = this.zoom*0.25;
 				var cx = this.zoom*(this.originX+x);
 				var cy = this.zoom*(this.originY-y);
-				if (cell.zones[0].length>0) this.drawIcons(c, cx+d, cy+d, cell.zones[0], hover);
-				if (cell.zones[2].length>0) this.drawIcons(c, cx+d, cy+3*d, cell.zones[2], hover);
-				if (cell.zones[3].length>0) this.drawIcons(c, cx+3*d, cy+3*d, cell.zones[3], hover);
-				if (cell.zones[1].length>0) this.drawIcons(c, cx+2*d, cy+2*d, cell.zones[1], hover);
-
+				if (cell.zones[0].length) this.drawIcons(c, cx+d, cy+d, cell.zones[0], hover);
+				if (cell.zones[2].length) this.drawIcons(c, cx+d, cy+3*d, cell.zones[2], hover);
+				if (cell.zones[3].length) this.drawIcons(c, cx+3*d, cy+3*d, cell.zones[3], hover);
+				if (cell.zones[1].length) this.drawIcons(c, cx+2*d, cy+2*d, cell.zones[1], hover);
 			}
 		}
 	}

@@ -185,6 +185,7 @@ class Bral_Util_Vue
 
 		$tableau["Couches"][0]["Z"] = $positionZ;
 		$tableau["Vues"][0]["Z"] = $positionZ;
+		$tabActions = array();
 
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j--) {
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i++) {
@@ -303,7 +304,7 @@ class Bral_Util_Vue
 				);
 
 				if ($view->user->x_braldun == $e['x_echoppe'] && $view->user->y_braldun == $e['y_echoppe']) {
-					self::addAction($tableau, "Lieu", $view->user, $e['x_echoppe'], $e['y_echoppe']);
+					self::addAction($tabActions, "Lieu", $view->user, $e['x_echoppe'], $e['y_echoppe'], 0);
 				}
 			}
 		}
@@ -338,7 +339,7 @@ class Bral_Util_Vue
 				);
 
 				if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
-					self::addAction($tableau, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu']);
+					self::addAction($tabActions, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu'], 1);
 				}
 			}
 		}
@@ -433,12 +434,12 @@ class Bral_Util_Vue
 
 		if ($elements != null) {
 			foreach ($elements as $e) {
-				self::addElement($tableau, $e, 'peau', 'peau', 'quantite_peau_element', 'x', $view);
-				self::addElement($tableau, $e, 'cuir', 'cuir', 'quantite_cuir_element', 's', $view);
-				self::addElement($tableau, $e, 'fourrure', 'fourrure', 'quantite_fourrure_element', 's', $view);
-				self::addElement($tableau, $e, 'planche', 'planche', 'quantite_planche_element', 's', $view);
-				self::addElement($tableau, $e, 'rondin', 'rondin', 'quantite_rondin_element', 's', $view);
-				self::addElement($tableau, $e, 'castar', 'castar', 'quantite_castar_element', 's', $view);
+				self::addElement($tableau, $tabActions, $e, 'peau', 'peau', 'quantite_peau_element', 'x', $view);
+				self::addElement($tableau, $tabActions, $e, 'cuir', 'cuir', 'quantite_cuir_element', 's', $view);
+				self::addElement($tableau, $tabActions, $e, 'fourrure', 'fourrure', 'quantite_fourrure_element', 's', $view);
+				self::addElement($tableau, $tabActions, $e, 'planche', 'planche', 'quantite_planche_element', 's', $view);
+				self::addElement($tableau, $tabActions, $e, 'rondin', 'rondin', 'quantite_rondin_element', 's', $view);
+				self::addElement($tableau, $tabActions, $e, 'castar', 'castar', 'quantite_castar_element', 's', $view);
 			}
 		}
 
@@ -759,30 +760,7 @@ class Bral_Util_Vue
 			}
 		}
 
-
-		/*
-
-							  if ($view->centre_x == $display_x && $view->centre_y == $display_y) {
-								  $view->centre_environnement = $nom_environnement;
-							  }
-
-							  if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
-								  $tabMarcher['case'] = null;
-							  } else if ($marcher != null && $marcher['tableauValidationXY'] != null && array_key_exists($display_x, $marcher['tableauValidationXY']) && array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])) {
-								  $tabMarcher['case'] = $marcher['tableauValidationXY'][$display_x][$display_y];
-								  $tabMarcher['general'] = $marcher;
-							  } else {
-								  $tabMarcher['case'] = null;
-							  }
-
-							  $tableau[] = $tab;
-							  if ($change_level) {
-								  $change_level = false;
-							  }
-						  }
-					  }
-					  */
-
+		self::prepareJsonAction($tableau, $tabActions);
 		$view->estSurLieu = $estSurLieu;
 		$view->estSurEchoppe = $estSurEchoppe;
 		$view->estSurChamp = $estSurChamp;
@@ -790,26 +768,34 @@ class Bral_Util_Vue
 		return $tableau;
 	}
 
-	private static function addAction(&$tableau, $type, $user, $x, $y)
-	{
+	private static function prepareJsonAction(&$tableau, $tabActions) {
+		if (count($tabActions) <= 0) return;
 
-		$tableau["Actions"][] = array(
+		foreach($tabActions as $action) {
+			$tableau["Actions"][] = $action;
+		}
+
+	}
+
+	private static function addAction(&$tabActions, $type, $user, $x, $y, $pa)
+	{
+		$tabActions[$type] = array(
 			'Type' => $type,
 			'Acteur' => $user->id_braldun,
 			'X' => $x,
 			'Y' => $y,
-			'PA' => 0,
+			'PA' => $pa,
 		);
 	}
 
-	private static function addActionTransbahuter($view, &$tableau, $x, $y)
+	private static function addActionTransbahuter($view, &$tabActions, $x, $y)
 	{
 		if ($view->user->x_braldun == $x && $view->user->y_braldun == $y) {
-			self::addAction($tableau, "Transbahuter", $view->user, $x, $y);
+			self::addAction($tabActions, "Transbahuter", $view->user, $x, $y, 1);
 		}
 	}
 
-	private static function addElement(&$tableau, $rowset, $type, $libelle, $colonne, $pluriel, $view)
+	private static function addElement(&$tableau, &$tabActions, $rowset, $type, $libelle, $colonne, $pluriel, $view)
 	{
 		if ($rowset[$colonne] > 0) {
 			$tableau["Vues"][0]["Objets"][] = array(
@@ -821,7 +807,7 @@ class Bral_Util_Vue
 				'IdType' => 0,
 			);
 
-			self::addActionTransbahuter($view, $tableau, $rowset['x_element'], $rowset['y_element']);
+			self::addActionTransbahuter($view, $tabActions, $rowset['x_element'], $rowset['y_element']);
 		}
 	}
 }

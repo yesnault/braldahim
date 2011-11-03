@@ -1,3 +1,9 @@
+// un "dialogue" est une fenêtre, définie en html (i.e. pas dans le canvas) qui peut être fonctionnellement
+//  - une bulle (décrivant l'objet sous la souris)
+//  - un menu (si fixed est true)
+// Un fichier css doit définir le style graphique. Les styles de positionnement et dimensions sont définis automatiquemtn
+// par la méthode openDialog en fonction de la position de la souris dans le canvas.
+
 Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed) {
 	if (!this.$dialog) {
 		this.$dialog = $('<div id=map_dialog><span id=map_dialog_title></span><hr><div id=map_dialog_content></div><hr><span id=map_dialog_footer></span></div>');
@@ -41,6 +47,8 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed)
 	this.$dialog.show();
 }
 
+// transforme un dialog déjà ouvert et à l'état de bulle en menu (signifie simplement qu'il ne
+//  sera normalement pas fermé par Map.js au déplacement de la souris)
 Map.prototype.fixDialog = function() {
 	this.dialogIsFixed = true;
 	this.$dialogFooter.html('Cliquez pour fermer ce menu');
@@ -71,6 +79,7 @@ Map.prototype.openCellDialog = function(x, y, fixed) {
 		if (cell.palissade.Destructible && cell.palissade.DateFin) {
 			html[h++] = ' (date de fin : ' + formatDate(cell.palissade.DateFin*1000, true) + ')';
 		}
+		html[h++] = '<br>';
 	} else if (cell.champ) {
 		html[h++] = '<table><tr><td><span class="champ"/></td><td>';
 		html[h++] = 'Champ de <a target=winprofil href="http://jeu.braldahim.com/voir/braldun/?braldun='+cell.champ.IdBraldun+'&direct=profil">'+cell.champ.NomCompletBraldun+'</a></td></tr></table>';
@@ -126,7 +135,7 @@ Map.prototype.openCellDialog = function(x, y, fixed) {
 			for (var ib=0; ib<cellVue.monstres.length; ib++) {
 				var o = cellVue.monstres[ib];
 				html[h++] = '<tr><td>';
-				html[h++] = '<span class="'+this.spritesVueTypes.css('monstre_'+o.IdType+'a')+'"/>';
+				html[h++] = '<span class="'+this.spritesVueTypes.css('monstre_'+o.IdType+'a', 'monstre')+'"/>';
 				html[h++] = '</td><td><a target=winprofil href="http://jeu.braldahim.com/voir/monstre/?monstre='+o.Id+'">'+o.Nom+' '+o.Taille+'</a>';
 				html[h++] = '</td></tr>';
 			}

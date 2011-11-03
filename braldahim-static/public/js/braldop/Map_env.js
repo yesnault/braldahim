@@ -1,4 +1,57 @@
 
+Map.prototype.initEnv = function() {
+	//> petite base de données des environnements
+	this.environnements = {};
+	this.environnements['plaine'] = {PA:1, distance:2, vue:6};
+	this.environnements['montagne'] = {PA:2, distance:1, vue:5};
+	this.environnements['marais'] = {PA:2, distance:1, vue:5};
+	this.environnements['gazon'] = {PA:1, distance:1, vue:6};
+	this.environnements['chenes'] = {PA:1, distance:1, vue:4};
+	this.environnements['erables'] = {PA:1, distance:1, vue:4};
+	this.environnements['hetres'] = {PA:1, distance:1, vue:4};
+	this.environnements['peupliers'] = {PA:1, distance:1, vue:4};
+	this.environnements['lac'] = {PA:0, distance:0, vue:6};
+	this.environnements['peuprofonde'] = {PA:3, distance:1, vue:6};
+	this.environnements['profonde'] = {PA:0, distance:0, vue:6};
+	this.environnements['mer'] = {PA:0, distance:0, vue:6};
+	this.environnements['caverne'] = {PA:1, distance:1, vue:2};
+	this.environnements['caverne-crevasse'] = {PA:1, distance:1, vue:2};
+	this.environnements['tunnel'] = {PA:1, distance:1, vue:2};
+	this.environnements['pave'] = {PA:1, distance:3, vue:6};
+	this.environnements['route'] = {PA:1, distance:3, vue:6};
+	this.environnements['mine'] = {PA:1, distance:1, vue:2};
+	
+	for (var key in this.environnements) this.environnements[key].nom=key;
+	this.environnements['chenes'].nom='chênes';
+	this.environnements['erables'].nom='érables';
+	this.environnements['hetres'].nom='hêtres';
+	this.environnements['pave'].nom='pavés';
+	this.environnements['caverne-crevasse'].nom='crevasse';
+	
+	var balisés = {};
+	for (var key in this.environnements) {
+		var e = this.environnements[key];
+		var kb = key+'-gr';
+		if (key=='caverne-crevasse') kb='caverne-gr-crevasse';
+		balisés[kb] = {PA:1, distance:3, vue:e.vue, nom:e.nom+' avec balise'};
+	}
+	for (var key in balisés) this.environnements[key]=balisés[key];
+	
+	for (var key in this.environnements) {
+		var e = this.environnements[key];
+		e.description = 'déplacement : ';
+		if (e.distance==0) {
+			e.description = 'infranchissable';
+		} else {
+			e.description = 'déplacement : '+e.distance+' case';
+			if (e.distance>1) e.description += 's';
+			e.description += ' pour '+e.PA+' PA';
+		}
+		e.description += ', vue : '+e.vue;
+	}
+	
+}
+
 // cette méthode est imparfaite : elle ne crée pas réellement un contour
 Map.prototype.getOutlineImg = function(img) {
 	if (!img.outline) {

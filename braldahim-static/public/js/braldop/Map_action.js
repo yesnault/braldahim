@@ -9,13 +9,13 @@
  * Champs du type d'action :
  *  nom
  *  icone: optionnel, à afficher dans la popup où l'action est disponible
- *  iconeCase : affichage de l'icone sur la case ou non
+ *  isIconeMap : affichage de l'icone sur la case ou non
  */
 
 Map.prototype.initTypesActions = function() {
 	var icon = function(s) {
 		var img = new Image();
-		img.src="http://static.braldahim.com/images/"+s+".png";
+		img.src="http://static.braldahim.com/images/"+s+".png"; // todo : on pourrait passer par les sprites pour optimiser
 		return img;
 	}
 	this.typesActions = [];

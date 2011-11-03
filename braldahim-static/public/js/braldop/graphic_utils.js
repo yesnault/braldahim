@@ -1,5 +1,5 @@
 /*
-contient des fonctions graphiques utilitaires
+contient des fonctions graphiques utilitaires pour le dessin sur un canvas
 
 */
 
