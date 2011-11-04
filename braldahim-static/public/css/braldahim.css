@@ -74,8 +74,6 @@ html {    overflow-y: scroll; }
 
 #menuhead {
     position: relative;
-
-    z-index: 998;
     align: left;
     margin-left: auto;
     margin-right: auto;
@@ -141,6 +139,7 @@ nav ul {
 
 #nav-main a:hover, #nav-main a:focus, #nav-main > ul > li:hover a {
     color: #F2F2F2;
+	z-index: 998;
 }
 
 #nav-main > ul > li {
@@ -215,6 +214,10 @@ li.leaf, li.expanded, li.collapsed {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+li.expanded > ul.menu{
+	z-index: 998;
 }
 
 .block ul {
@@ -2953,7 +2956,6 @@ body > #boite_b {
     cursor: pointer;
     position: absolute;
     top: 50px;
-    z-index: 1000;
 }
 
 .box_inscription, .box_perdu, .box_parametres, .box_gardiennage, .box_administration {
@@ -3885,7 +3887,7 @@ div.box {
     padding: 5px;
     display: none;
     color: white;
-    z-index: 10;
+    z-index: 30;
 }
 
 #map_dialog .pointsGredin {
