@@ -50,7 +50,7 @@ function Map(canvasId, posmarkid, dialogId) {
 		_this.photoSatelliteRect.y = 0.5*psh - 27; // dernier nombre : ajustement manuel
 		_this.photoSatelliteRect.w = psw;
 		_this.photoSatelliteRect.h = psh;
-		_this.photoSatelliteScreenRect = new Rect();		
+		_this.photoSatelliteScreenRect = new Rect();
 		_this.photoSatelliteOK = true;
 		_this.redraw();
 	};
@@ -152,7 +152,7 @@ Map.prototype.setData = function(mapData) {
 	this.matricesVuesParZ = {};
 	this.matricesVuesParZ[0]={};
 	this.z = 0; // on va basculer forcément sur la couche zéro
-	this.couche = null; 
+	this.couche = null;
 	for (var ic=0; ic<this.mapData.Couches.length; ic++) {
 		var couche = this.mapData.Couches[ic];
 		//if (couche.Z==0)
@@ -189,7 +189,7 @@ Map.prototype.setData = function(mapData) {
 			for (var i=couche.Palissades.length; i-->0;) {
 				var o = couche.Palissades[i];
 				o.sides = 0;
-				this.getCellCreate(couche, o.X, o.Y).palissade=o; 
+				this.getCellCreate(couche, o.X, o.Y).palissade=o;
 			}
 			// deuxième passe : on indique sur chaque case de palissade ses voisins
 			for (var i=couche.Palissades.length; i-->0;) {
@@ -321,7 +321,7 @@ Map.prototype.redraw = function() {
 				this.naturalRectToScreenRect(this.photoSatelliteRect, this.photoSatelliteScreenRect);
 				this.photoSatelliteScreenRect.drawImage(this.context, this.photoSatellite);
 			}
-			
+
 			// un carambar au premier qui pourra me réduire le paragraphe qui suit sans diminuer les perfs
 			this.xMin = Math.floor(-this.originX);
 			this.xMax = Math.ceil(this.screenRect.w/this.zoom-this.originX);
@@ -412,7 +412,7 @@ Map.prototype.redraw = function() {
 		this.drawInProgress = false;
 	}
 	if (this.redrawStacked) {
-		setTimeout(this.redraw, 40); 
+		setTimeout(this.redraw, 40);
 	}
 }
 Map.prototype.mouseWheel = function(e) {
@@ -451,7 +451,7 @@ Map.prototype.mouseWheel = function(e) {
 		mouseX = e.layerX; // FF
 		mouseY = e.layerY; // FF
 	}
-	this.originX += (mouseX)*zr; 
+	this.originX += (mouseX)*zr;
 	this.originY += (mouseY)*zr;
 	this.updatePosDiv();
 	this.hoverObject = null;
@@ -531,7 +531,7 @@ Map.prototype.mouseMove = function(e) {
 		var dy = (mouseY-this.dragStartPageY)/this.zoom;
 		this.originX = this.dragStartOriginX + dx;
 		this.originY = this.dragStartOriginY + dy;
-		this.redraw();		
+		this.redraw();
 	} else if (!(this.dialogIsOpen&&this.dialogIsFixed)){
 		this.updatePosDiv();
 		var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
@@ -554,12 +554,12 @@ Map.prototype.naturalToScreen = function(naturalPoint, screenPoint) {
 };
 
 Map.prototype.screenToNatural = function(screenPoint, naturalPoint) {
-	naturalPoint.x = screenPoint.x/this.zoom - this.originX;	
+	naturalPoint.x = screenPoint.x/this.zoom - this.originX;
 	naturalPoint.y = screenPoint.y/this.zoom - this.originY;
 };
 
 Map.prototype.screenRectToNaturalRect = function(screenRect, naturalRect) {
-	naturalRect.x = screenRect.x/this.zoom - this.originX;	
+	naturalRect.x = screenRect.x/this.zoom - this.originX;
 	naturalRect.y = screenRect.y/this.zoom - this.originY;
 	naturalRect.w = screenRect.w/this.zoom;
 	naturalRect.h = screenRect.h/this.zoom;

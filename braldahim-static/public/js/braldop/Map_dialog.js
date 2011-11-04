@@ -32,11 +32,11 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed)
 		this.$dialog.css('left', (wx-width)+'px');
 	}
 	if (wy<winHeight/2) {
-		maxHeight = winHeight-wy-90;
+		maxHeight = winHeight-wy-190;
 		this.$dialog.css('top', (wy-20)+'px');
 		this.$dialog.css('bottom', '');
 	} else {
-		maxHeight = wy-90;
+		maxHeight = wy-190;
 		this.$dialog.css('top', '');
 		this.$dialog.css('bottom', (winHeight-wy+20)+'px');
 	}

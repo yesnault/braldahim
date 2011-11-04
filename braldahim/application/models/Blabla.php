@@ -11,7 +11,7 @@ class Blabla extends Zend_Db_Table
 	protected $_name = 'blabla';
 	protected $_primary = array('id_blabla');
 
-	public function countByPositionAndDate($x, $y, $z, $nbCases, $date)
+	public function countByPositionAndDate($x, $y, $z, $nbCases, $date, $withoutIdBraldun)
 	{
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -23,6 +23,7 @@ class Blabla extends Zend_Db_Table
 		$select->where('z_blabla = ?', intval($z));
 		$select->where('est_censure_blabla = ?', 'non');
 		$select->where('date_blabla > ?', $date);
+		$select->where('id_braldun <> ?', $withoutIdBraldun);
 		$select->order('id_blabla desc');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);

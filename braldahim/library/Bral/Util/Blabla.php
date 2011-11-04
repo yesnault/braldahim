@@ -40,7 +40,7 @@ class Bral_Util_Blabla
 		if ($vue_nb_cases < 0) {
 			$vue_nb_cases = 0;
 		}
-		$nombre = $blablaTable->countByPositionAndDate($view->user->x_braldun, $view->user->y_braldun, $view->user->z_braldun, $vue_nb_cases, $view->user->dateConnexion);
+		$nombre = $blablaTable->countByPositionAndDate($view->user->x_braldun, $view->user->y_braldun, $view->user->z_braldun, $vue_nb_cases, $view->user->dateConnexion, $view->user->id_braldun);
 		$retour["nbNouveaux"] = $nombre;
 		return $retour;
 	}
