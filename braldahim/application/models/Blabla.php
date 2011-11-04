@@ -23,7 +23,7 @@ class Blabla extends Zend_Db_Table
 		$select->where('z_blabla = ?', intval($z));
 		$select->where('est_censure_blabla = ?', 'non');
 		$select->where('date_blabla > ?', $date);
-		$select->where('id_braldun <> ?', $withoutIdBraldun);
+		$select->where('id_fk_braldun_blabla <> ?', $withoutIdBraldun);
 		$select->order('id_blabla desc');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
