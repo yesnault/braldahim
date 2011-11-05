@@ -4,7 +4,7 @@
 // Un fichier css doit définir le style graphique. Les styles de positionnement et dimensions sont définis automatiquemtn
 // par la méthode openDialog en fonction de la position de la souris dans le canvas.
 
-Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed) {
+Map.prototype.openDialog = function(title, content, fixed) {
 	if (!this.$dialog) {
 		this.$dialog = $('<div id=map_dialog><span id=map_dialog_title></span><hr><div id=map_dialog_content></div><hr><span id=map_dialog_footer></span></div>');
 		this.$dialog.prependTo('body');
@@ -17,12 +17,13 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed)
 	this.dialogIsFixed = fixed;
 	var $canvas = $(this.canvas);
 	var $win = $(window);
-	var winWidth = $(window).width();
-	var winHeight = $(window).height();
+	var winWidth = $win.width();
+	var winHeight = $win.height();
+	var $doc = $(document);
 	var width = $canvas.width();
 	if (width>440) width=440;
-	var wx = $canvas.offset().left+this.pointerScreenX;
-	var wy = $canvas.offset().top+this.pointerScreenY;
+	var wx = $canvas.offset().left+this.pointerScreenX-$doc.scrollLeft();
+	var wy = $canvas.offset().top+this.pointerScreenY-$doc.scrollTop();
 	var maxHeight;
 	if (wx<winWidth/2) {
 		this.$dialog.css('left', (wx+40)+'px');
@@ -32,11 +33,11 @@ Map.prototype.openDialog = function(startingRectInCanvas, title, content, fixed)
 		this.$dialog.css('left', (wx-width)+'px');
 	}
 	if (wy<winHeight/2) {
-		maxHeight = winHeight-wy-190;
+		maxHeight = winHeight-wy-90;
 		this.$dialog.css('top', (wy-20)+'px');
 		this.$dialog.css('bottom', '');
 	} else {
-		maxHeight = wy-190;
+		maxHeight = wy-90;
 		this.$dialog.css('top', '');
 		this.$dialog.css('bottom', (winHeight-wy+20)+'px');
 	}
@@ -171,5 +172,5 @@ Map.prototype.openCellDialog = function(x, y, fixed) {
 		}
 	}
 	if (empty) html[h++] = "<i>Il n'y a rien ici</i>";
-	this.openDialog(screenRect, x+","+y, html.join(''), fixed);
+	this.openDialog(x+","+y, html.join(''), fixed);
 }
