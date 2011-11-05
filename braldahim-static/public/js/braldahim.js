@@ -826,7 +826,6 @@ function getActions() {
 }
 
 function construitMenuActions() {
-console.log('construitMenuActions enter');
 	var listesActions = {};
 	var tags = [];
 	listesActions["Favorites"] = [];
@@ -871,7 +870,6 @@ console.log('construitMenuActions enter');
 
 	$('#actions_onoff').attr('checked', displayAllActions).change(function() {
 		displayAllActions = this.checked;
-		console.log("DISPLAY:" + displayAllActions);
 		$('#actions_onoff_label .ui-button-text').html((displayAllActions ? 'Toutes' : 'Actives'));
 		construitMenuActions();
     });
