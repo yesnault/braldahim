@@ -809,6 +809,11 @@ function initActions() {
 						$('.liste[tag="' + tagEnCours + '"]').show('fast');
 					}
 				});
+		$('#actions_onoff').click(function() {
+			displayAllActions = displayAllActions ? false : true;
+			$('#actions_onoff').html((displayAllActions ? 'Toutes mes actions' : 'Mes actions actives'));
+			construitMenuActions();
+		});
 		actionInit = true;
 	}
 }
@@ -865,14 +870,6 @@ function construitMenuActions() {
 	$('#liste_actions').html(html);
 	$('.liste').hide();
 	$('.liste[tag="' + tagEnCours + '"]').show();
-
-	$( "#actions_onoff" ).button();
-
-	$('#actions_onoff').attr('checked', displayAllActions).change(function() {
-		displayAllActions = this.checked;
-		$('#actions_onoff_label .ui-button-text').html((displayAllActions ? 'Toutes' : 'Actives'));
-		construitMenuActions();
-    });
 
 	$('#clear_action').click(function(){
 		$('#actionneur').val('');

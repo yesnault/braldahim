@@ -2771,8 +2771,10 @@ td.champ2d.jachere {
 	cursor: pointer;
 }
 
-#actions_onoff_label {
-	font-size: 0.8em!important;
+#actions_onoff {
+	text-align:center;
+	font-weight: bold;
+	cursor:pointer;
 }
 
 #table_cockpit .tdcockpit {
