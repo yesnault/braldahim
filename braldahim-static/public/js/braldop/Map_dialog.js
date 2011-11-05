@@ -12,6 +12,12 @@ Map.prototype.openDialog = function(title, content, fixed) {
 		this.$dialogContent = this.$dialog.find('#map_dialog_content');
 		this.$dialogContent.css('overflow', 'auto');
 		this.$dialogFooter = this.$dialog.find('#map_dialog_footer');
+		this.$dialogContent.mouseenter(function(){
+			$('body').css('overflow','hidden');
+		});
+		this.$dialogContent.mouseleave(function(){
+			$('body').css('overflow','auto');
+		});
 	}
 	this.dialogIsOpen = true;
 	this.dialogIsFixed = fixed;

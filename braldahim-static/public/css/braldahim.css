@@ -2748,18 +2748,31 @@ td.champ2d.jachere {
     display: inline;
     float: left;
     top: 150px;
-    width: 260px;
-    margin-left: 10px;
-    margin-right: 10px;
+    width: 26%;
 }
 
 #menu_actions {
     display: inline;
     float: left;
     top: 150px;
-    width: 26%;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+#actionneur {
+
+}
+#clear_action {
+	max-height: 23px;
+	vertical-align:middle;
+	margin-top:-4px;
+	margin-bottom:-2px;
+	display: none;
+	cursor: pointer;
+}
+
+#actions_onoff_label {
+	font-size: 0.8em!important;
 }
 
 #table_cockpit .tdcockpit {
@@ -3920,7 +3933,7 @@ div.box {
     color: yellow;
 }
 
-div.titre_liste {
+div.titre_liste, #titre_resultats_recherche {
     padding: 3px;
     background-color: #1F2614;
     margin-top: 6px;
@@ -3935,7 +3948,7 @@ div.titre_liste {
     cursor: pointer;
 }
 
-div.liste {
+div.liste, #resultats_recherche {
     margin-left: 2px;
     margin-right: 2px;
     background-color: #31401A;
@@ -3946,7 +3959,7 @@ div.liste {
     border-width: thin;
 }
 
-div.liste span {
+div.liste span, #resultats_recherche span {
     display: block;
     color: #F2F2F2;
     border-top-style: dotted;

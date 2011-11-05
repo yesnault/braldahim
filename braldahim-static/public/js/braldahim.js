@@ -2,6 +2,7 @@ var actions = {};
 var tagEnCours = "Favorites";
 var actionInit = false;
 var blablaInit = false;
+var displayAllActions = true;
 
 function _get_specifique_(url, valeurs) {
 	var sep = '&';
@@ -825,7 +826,7 @@ function getActions() {
 }
 
 function construitMenuActions() {
-
+console.log('construitMenuActions enter');
 	var listesActions = {};
 	var tags = [];
 	listesActions["Favorites"] = [];
@@ -840,7 +841,8 @@ function construitMenuActions() {
 		listesActions[action.type].push(action);
 	});
 
-	var html = '<br /><center><b>Mes Actions</b></center>';
+	var html = '';
+
 	for (var it in tags) {
 		var tag = tags[it];
 		var liste = listesActions[tag];
@@ -849,9 +851,9 @@ function construitMenuActions() {
 
 		for (var ia = 0; ia < liste.length; ia++) {
 			var action = liste[ia];
+			if (!displayAllActions && !action.active) continue;
 			html += '<span>';
 			html += '<img class="étoile" id_action="' + action.id_competence + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
-
 			html += ' <a href="#" class="action ' + (action.active ? 'active' : 'inactive') + ' "  id_action="' + action.id_competence + '" title="' + (action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
 			html += action.pa_texte + ' PA - ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
 			html += '</a>';
@@ -860,9 +862,50 @@ function construitMenuActions() {
 		html += '</div>';
 	}
 	//console.log(html);
-	$('#menu_actions').html(html);
+
+	$('#liste_actions').html(html);
 	$('.liste').hide();
 	$('.liste[tag="' + tagEnCours + '"]').show();
+
+	$( "#actions_onoff" ).button();
+
+	$('#actions_onoff').attr('checked', displayAllActions).change(function() {
+		displayAllActions = this.checked;
+		console.log("DISPLAY:" + displayAllActions);
+		$('#actions_onoff_label .ui-button-text').html((displayAllActions ? 'Toutes' : 'Actives'));
+		construitMenuActions();
+    });
+
+	$('#clear_action').click(function(){
+		$('#actionneur').val('');
+		$('#resultats_recherche').html('');
+	});
+
+	$('#actionneur').keyup(function(){
+		var résultats = [];
+		var pat = $(this).val().trim().toLowerCase();
+		if (pat.length>0) {
+			$('#clear_action').show();
+			$.each(actions, function (key, action) {
+				if (action.nom.toLowerCase().indexOf(pat)==0) résultats.push(action);
+				if (String(action.pa_texte).toLowerCase().indexOf(pat)==0) résultats.push(action);
+			});
+		} else {
+			$('#clear_action').hide();
+		}
+		var html = '';
+		for (var i=0; i<résultats.length; i++) {
+			var action = résultats[i];
+			if (!displayAllActions && !action.active) continue;
+			html += '<span>';
+			html += '<img class="étoile" id_action="' + action.id_competence + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
+			html += ' <a href="#" class="action ' + (action.active ? 'active' : 'inactive') + ' "  id_action="' + action.id_competence + '" title="' + (action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
+			html += action.pa_texte + ' PA - ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
+			html += '</a>';
+			html += '</span>';
+		}
+		$('#resultats_recherche').html(html);
+	});
 
 }
 
