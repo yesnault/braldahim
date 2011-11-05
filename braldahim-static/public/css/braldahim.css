@@ -2753,10 +2753,7 @@ td.champ2d.jachere {
 
 #menu_actions {
     display: inline;
-    float: left;
     top: 150px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 #actionneur {
