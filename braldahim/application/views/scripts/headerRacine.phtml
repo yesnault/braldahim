@@ -7,6 +7,9 @@
 	<div id="wrapper">
 	<div id="racine" class="box_racine"></div>
 	<div id="box_cockpit"></div>
+	<?php if ($this->controleur == "interface"): ?>
+		<?php include('interface/menu_actions.phtml'); ?>
+	<?php endif; ?>
 <?php endif; ?>
 	<input type='hidden' id='nb_valeurs-competencefavorite' name='nb_valeurs-competencefavorite' value='1'>
 	<input type='hidden' id='valeur_1-competencefavorite' name='valeur_1-competencefavorite' value='-1'><br/>

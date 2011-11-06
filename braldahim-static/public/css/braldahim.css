@@ -2744,7 +2744,7 @@ td.champ2d.jachere {
     width: 70%;
 }
 
-#box_cockpit {
+#box_cockpit, #menu_actions {
     display: inline;
     float: left;
     top: 150px;
