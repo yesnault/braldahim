@@ -226,18 +226,19 @@ li.expanded > ul.menu{
 }
 
 #footer {
- /*   background: none repeat-x scroll 0 0 #1F2614;
+   background: none repeat-x scroll 0 0 #1F2614;
     bottom: 0;
     float: left;
     overflow: hidden;
     padding: 43px 0 120px;
     position: relative;
     width: 100%;
-*/
-	background: none repeat-x scroll 0 0 #1F2614;
-	position: absolute;
- top: 800px;
+
+/*	background: none repeat-x scroll 0 0 #1F2614;
+ top: 20px;
+	position: relative;
  width: 100%;
+ */
 }
 
 #links {
@@ -2830,6 +2831,7 @@ td.champ2d.jachere {
 
 #boite_c {
     margin-top: 10px;
+	height: 760px;
 }
 
 body > #boite_b {
