@@ -226,13 +226,18 @@ li.expanded > ul.menu{
 }
 
 #footer {
-    background: none repeat-x scroll 0 0 #1F2614;
+ /*   background: none repeat-x scroll 0 0 #1F2614;
     bottom: 0;
     float: left;
     overflow: hidden;
     padding: 43px 0 120px;
     position: relative;
     width: 100%;
+*/
+	background: none repeat-x scroll 0 0 #1F2614;
+	position: absolute;
+ top: 800px;
+ width: 100%;
 }
 
 #links {
@@ -2746,15 +2751,19 @@ td.champ2d.jachere {
 }
 
 #box_cockpit, #menu_actions {
-    display: inline;
-    float: left;
-    top: 150px;
-    width: 26%;
+	bottom: 0;
+ position: absolute;
+ right: 0;
+ top: 150px;
+ width: 300px;
 }
 
 #menu_actions {
-    display: inline;
-    top: 150px;
+ bottom: 0;
+ position: absolute;
+ right: 0;
+ top: 310px;
+ width: 300px;
 }
 
 #actionneur {
@@ -3859,7 +3868,7 @@ div.box {
 #map_settings {
     position: absolute;
     left: 5px;
-    top: 17px;
+    top: 140px;
     border-radius: 15px;
     z-index: 40;
     padding: 5px;
@@ -3874,23 +3883,17 @@ div.box {
 }
 
 #map {
-    position: relative;
-    background-color: white;
-    padding: 0px;
-    top: 5px;
-    bottom: 15px;
-    right: 5px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    -moz-user-select: none;
-    user-select: none;
-    -webkit-user-select: none;
-    height: 620px;
-    width: 100%;
-    z-index: 8;
-    display: inline-block;
-	margin-left: -2px;
+	-moz-user-select: none;
+ border-color: #225522;
+ border-right: thin solid #225522;
+ border-top: thin solid #225522;
+ border-width: thin;
+ height: 800px;
+ left: 0;
+ padding: 0;
+ position: absolute;
+ right: 300px;
+
 }
 
 #map_dialog {
