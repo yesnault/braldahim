@@ -82,8 +82,10 @@ function initBraldopFecth() {
 }
 
 function initBraldop() {
+	if (localStorage['grid'] == '') {
+		localStorage['grid'] = "true";
+	}
     map = new Map("map_canvas", "posmark");
-    map.displayGrid = true;
     map.displayFog = false;
     initBraldopFecth();
 
@@ -122,6 +124,7 @@ function initBraldop() {
     });
     $('#icon_grid').click(function() {
         map.displayGrid = !map.displayGrid;
+		localStorage['grid']=''+map.displayGrid;
         map.redraw();
     });
 

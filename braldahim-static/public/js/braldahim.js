@@ -1,5 +1,4 @@
 var actions = {};
-var tagEnCours = "Favorites";
 var actionInit = false;
 var blablaInit = false;
 var displayAllActions = true;
@@ -788,6 +787,16 @@ function getBlabla() {
 /********** ACTIONS *********/
 function initActions() {
 	if (!actionInit) {
+
+		if (localStorage['displayAllActions'] == '') {
+			localStorage['displayAllActions'] ='' + displayAllActions ;
+		}
+		if (localStorage['tagEnCours'] == '') {
+			localStorage['tagEnCours'] = "Favorites";
+		}
+
+		displayAllActions = localStorage['displayAllActions'] =='true';
+
 		$('#menu_actions').delegate('img.étoile', 'click',
 				function () {
 					var id = parseInt($(this).attr('id_action'));
@@ -802,16 +811,17 @@ function initActions() {
 						_get_('/competences/doaction?caction=ask_competence_' + actions[id].nom_systeme);
 					}
 				}).delegate('.titre_liste', 'click', function () {
-					tagEnCours = $(this).text();
-					var isVisible = $('.liste[tag="' + tagEnCours + '"]').is(':visible');
+					localStorage['tagEnCours'] = $(this).text();
+					var isVisible = $('.liste[tag="' + localStorage['tagEnCours'] + '"]').is(':visible');
 					$('.liste').hide('fast');
 					if (!isVisible) {
-						$('.liste[tag="' + tagEnCours + '"]').show('fast');
+						$('.liste[tag="' + localStorage['tagEnCours'] + '"]').show('fast');
 					}
 				});
+
 		$('#actions_onoff').click(function() {
 			displayAllActions = displayAllActions ? false : true;
-			$('#actions_onoff').html((displayAllActions ? 'Toutes mes actions' : 'Mes actions actives'));
+			localStorage['displayAllActions'] = ''+displayAllActions;
 			construitMenuActions();
 		});
 		actionInit = true;
@@ -835,6 +845,8 @@ function construitMenuActions() {
 	var tags = [];
 	listesActions["Favorites"] = [];
 	tags.push("Favorites");
+
+	$('#actions_onoff').html((displayAllActions ? 'Toutes mes actions' : 'Mes actions actives'));
 
 	$.each(actions, function (key, action) {
 		if (action.favorite) listesActions["Favorites"].push(action);
@@ -869,7 +881,7 @@ function construitMenuActions() {
 
 	$('#liste_actions').html(html);
 	$('.liste').hide();
-	$('.liste[tag="' + tagEnCours + '"]').show();
+	$('.liste[tag="' + localStorage['tagEnCours'] + '"]').show();
 
 	$('#clear_action').click(function(){
 		$('#actionneur').val('');
