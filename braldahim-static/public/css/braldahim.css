@@ -207,6 +207,7 @@ ul.menu {
 
 ul.menu li {
     margin: 0;
+	z-index: 998;
 }
 
 li.leaf, li.expanded, li.collapsed {
@@ -217,7 +218,7 @@ li.leaf, li.expanded, li.collapsed {
 }
 
 li.expanded > ul.menu{
-	z-index: 998;
+	z-index: 998!important;
 }
 
 .block ul {
