@@ -789,13 +789,13 @@ function initActions() {
 	if (!actionInit) {
 
 		if (localStorage['displayAllActions'] == '') {
-			localStorage['displayAllActions'] ='' + displayAllActions ;
+			localStorage['displayAllActions'] = '' + displayAllActions;
 		}
 		if (localStorage['tagEnCours'] == '') {
 			localStorage['tagEnCours'] = "Favorites";
 		}
 
-		displayAllActions = localStorage['displayAllActions'] =='true';
+		displayAllActions = localStorage['displayAllActions'] == 'true';
 
 		$('#menu_actions').delegate('img.étoile', 'click',
 				function () {
@@ -819,9 +819,9 @@ function initActions() {
 					}
 				});
 
-		$('#actions_onoff').click(function() {
+		$('#actions_onoff').click(function () {
 			displayAllActions = displayAllActions ? false : true;
-			localStorage['displayAllActions'] = ''+displayAllActions;
+			localStorage['displayAllActions'] = '' + displayAllActions;
 			construitMenuActions();
 		});
 		actionInit = true;
@@ -883,25 +883,25 @@ function construitMenuActions() {
 	$('.liste').hide();
 	$('.liste[tag="' + localStorage['tagEnCours'] + '"]').show();
 
-	$('#clear_action').click(function(){
+	$('#clear_action').click(function () {
 		$('#actionneur').val('');
 		$('#resultats_recherche').html('');
 	});
 
-	$('#actionneur').keyup(function(){
+	$('#actionneur').keyup(function () {
 		var résultats = [];
 		var pat = $(this).val().trim().toLowerCase();
-		if (pat.length>0) {
+		if (pat.length > 0) {
 			$('#clear_action').show();
 			$.each(actions, function (key, action) {
-				if (action.nom.toLowerCase().indexOf(pat)==0) résultats.push(action);
-				if (String(action.pa_texte).toLowerCase().indexOf(pat)==0) résultats.push(action);
+				if (action.nom.toLowerCase().indexOf(pat) == 0) résultats.push(action);
+				if (String(action.pa_texte).toLowerCase().indexOf(pat) == 0) résultats.push(action);
 			});
 		} else {
 			$('#clear_action').hide();
 		}
 		var html = '';
-		for (var i=0; i<résultats.length; i++) {
+		for (var i = 0; i < résultats.length; i++) {
 			var action = résultats[i];
 			if (!displayAllActions && !action.active) continue;
 			html += '<span>';
