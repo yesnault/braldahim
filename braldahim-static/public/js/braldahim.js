@@ -804,8 +804,8 @@ function initActions() {
 				}).delegate('.titre_liste', 'click', function () {
 					tagEnCours = $(this).text();
 					var isVisible = $('.liste[tag="' + tagEnCours + '"]').is(':visible');
+					$('.liste').hide('fast');
 					if (!isVisible) {
-						$('.liste').hide('fast');
 						$('.liste[tag="' + tagEnCours + '"]').show('fast');
 					}
 				});
