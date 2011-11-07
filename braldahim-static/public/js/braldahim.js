@@ -1727,6 +1727,7 @@ function tableauTriable(id) {
 	if (id == "idLotsTable" && $('#' + id).exists()) {
 		$('#' + id).dataTable({
 			"bJQueryUI":true,
+            "bPaginate":false,
 			"oLanguage":{
 				"sLengthMenu":"Afficher _MENU_ éléments",
 				"sZeroRecords":"Aucun résultat - désolé",
