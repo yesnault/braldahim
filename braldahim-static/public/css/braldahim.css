@@ -998,6 +998,12 @@ td.authTable {
     min-height: 300px;
 }
 
+.bral_box > .inner {
+    min-height: 300px;
+	height: 800px;
+	overflow: auto;
+}
+
 #onglet_box_interface,
 #onglet_box_echoppes,
 #onglet_box_champs,
