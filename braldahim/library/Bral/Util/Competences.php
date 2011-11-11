@@ -44,13 +44,17 @@ class Bral_Util_Competences
 		foreach ($braldunCompetences as $c) {
 			if ($c["type_competence"] == "commun") {
 				$pa_texte = $c["pa_utilisation_competence"];
+				$pourcentage = false;
+				if ($c["pourcentage_init_competence"] < 100) {
+					$pourcentage = Bral_Util_Commun::getPourcentage($c, $view->config);
+				}
 
 				$tabCompetences[$c["nom_systeme_competence"]] = array(
 					"id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
 					"pa_texte" => $pa_texte,
-					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $view->config),
+					"pourcentage" => $pourcentage,
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"pourcentage_init" => $c["pourcentage_init_competence"],
 					"type" => "Communes",
@@ -76,13 +80,17 @@ class Bral_Util_Competences
 					if ($c["nom_systeme_competence"] == "cuisiner") {
 						$pa_texte = "2 ou 4";
 					}
+					$pourcentage = false;
+					if ($c["pourcentage_init_competence"] < 100) {
+						$pourcentage = Bral_Util_Commun::getPourcentage($c, $view->config);
+					}
 
 					$tabCompetences[$c["nom_systeme_competence"]] = array(
 						"id_competence" => $c["id_fk_competence_hcomp"],
 						"nom" => $c["nom_competence"],
 						"pa_utilisation" => $c["pa_utilisation_competence"],
 						"pa_texte" => $pa_texte,
-						"pourcentage" => Bral_Util_Commun::getPourcentage($c, $view->config),
+						"pourcentage" => $pourcentage,
 						"nom_systeme" => $c["nom_systeme_competence"],
 						"pourcentage_init" => $c["pourcentage_init_competence"],
 						"type" => "Métier : " . $nom_metier,
