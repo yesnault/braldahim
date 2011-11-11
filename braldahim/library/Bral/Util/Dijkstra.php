@@ -86,7 +86,7 @@ class Bral_Util_Dijkstra
 		$yMax = $this->yPosition + $this->nbCasesLargeur;
 
 		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
-		$eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, false);
+		$eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, true);
 		$tunnels = null;
 		if ($zone["est_mine_zone"] == "oui" && $controleTunnel) {
 			$tunnels = $tunnelTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
@@ -96,7 +96,6 @@ class Bral_Util_Dijkstra
 			$crevasses = $crevasseTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 		}
 
-
 		$numero = -1;
 		for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
 			for ($i = -$this->nbCases; $i <= $this->nbCases; $i++) {
@@ -104,6 +103,7 @@ class Bral_Util_Dijkstra
 				$y = $this->yPosition + $j;
 				$numero++;
 				$this->tabPalissadesEauxTunnels[$numero] = 1;
+				$avecEaux = false;
 				foreach ($palissades as $p) {
 					if ($p["x_palissade"] == $x && $p["y_palissade"] == $y || ($this->xPortail != null && $this->yPortail != null && $i >= -1 && $i <= 1 && $j >= -1 && $j <= 1)) {
 						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
@@ -122,12 +122,22 @@ class Bral_Util_Dijkstra
 				}
 				foreach ($eaux as $e) {
 					if ($e["x_eau"] == $x && $e["y_eau"] == $y) {
-						$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+						$avecEaux = true;
+						if ($e["type_eau"] != "peuprofonde") {
+							$this->tabPalissadesEauxTunnels[$numero] = $this->infiniteDistance;
+						}
 						break;
 					}
 				}
+
 				if ($zone["est_mine_zone"] == "oui") { // dans une mine
-					$tunnelOk = false;
+					if ($avecEaux) {
+						$tunnelOk = true;
+					} else {
+						// S'il n'y a pas d'eau
+						$tunnelOk = false;
+					}
+
 					if ($tunnels != null) {
 						foreach ($tunnels as $t) {
 							if ($t["x_tunnel"] == $x && $t["y_tunnel"] == $y) { // tunnel trouvé

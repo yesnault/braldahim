@@ -52,6 +52,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence
 		$y_min = $this->view->user->y_braldun - $this->distance;
 		$y_max = $this->view->user->y_braldun + $this->distance;
 
+		Zend_Loader::loadClass('Eau');
+		$eauTable = new Eau();
+		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_braldun);
+
 		Zend_Loader::loadClass("Filon");
 		$filonTable = new Filon();
 
@@ -68,6 +72,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence
 				$y = $this->view->user->y_braldun + $j;
 				$tabTunnels[$x][$y] = false;
 				$tabTunnelsPossibles[$x][$y] = false;
+				$tabEaux[$x][$y] = false;
 				if (count($zones) > 1) { // s'il y a plus de 2 zones, on fait un contrôle
 					$tabZones[$x][$y] = false;
 				} else {
@@ -78,6 +83,10 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence
 
 		foreach ($tunnels as $t) {
 			$tabTunnels[$t["x_tunnel"]][$t["y_tunnel"]] = true;
+		}
+
+		foreach($eaux as $e) {
+			$tabEaux[$e["x_eau"]][$e["y_eau"]] = true;
 		}
 
 		if (count($zones) > 1) { // s'il y a plus de 2 zones, on fait un contrôle
@@ -115,7 +124,6 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence
 			}
 		}
 
-
 		$this->distance = 1;
 		for ($j = $this->distance; $j >= -$this->distance; $j--) {
 			$change_level = true;
@@ -131,7 +139,7 @@ class Bral_Competences_Creuser extends Bral_Competences_Competence
 				$tunnelTrouve = false;
 				$valid = false;
 
-				if ($tabZones[$x][$y] === true && $tabTunnelsPossibles[$x][$y] === true && $tabTunnels[$x][$y] === false) {
+				if ($tabZones[$x][$y] === true && $tabTunnelsPossibles[$x][$y] === true && $tabTunnels[$x][$y] === false && $tabEaux[$x][$y] === false) {
 					$valid = true;
 				}
 
