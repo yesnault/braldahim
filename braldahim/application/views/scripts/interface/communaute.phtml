@@ -3,47 +3,49 @@
 
 <?php if ($this->affichageInterne == true) : ?>
  
-	 <div class="titrea textalia titreasizec">Ma Communaut&eacute;
-		<?php if ($this->communaute != null) : ?>
-			: 
-		<label class='alabel' onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>	
-		<?php echo $this->communaute["nom_communaute"];
-			
-			if ($this->communaute["x_communaute"] != null && $this->communaute["y_communaute"] != null) :
-				echo ', ';
-				echo 'Hall en '.$this->communaute["x_communaute"].', '.$this->communaute["y_communaute"];
-			endif; ?>
-		<?php endif; ?>
+	<div class="titrea textalia titreasizec">Ma Communaut&eacute;
+	<?php if ($this->communaute != null) : ?>
+		:
+		<label class='alabel'
+			   onclick='ouvrirWin("/voir/communaute/?communaute=<?php echo $this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?php echo $this->communaute["id_communaute"] ?>");'>
+			<?php echo $this->communaute["nom_communaute"]; ?>
 		</label>
-	 </div>
-	 
-	 <div class="contenuC">
-     <div class="box_contenu1 textalic">
-     
-     <?php if ($this->communaute["x_communaute"] == null || $this->communaute["y_communaute"] == null) : ?>
-     	Vous n'avez pas de Hall de Communauté.
-     	Pour en construire un, cherchez une ruine...<br /><br />
-     <?php endif; ?>
-     
-     
-  	<?php if ($this->communaute != null) : ?>
-  		<?php if ($this->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
-  			<?php include("box_onglets.phtml") ?>
-  		<?php else: ?>
-  			En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
-  		<?php endif; ?>
-  	<?php else : ?>
-  		Vous ne faites pas partie d'une communaut&eacute;. <br /><br />
-  		Vous pouvez vous rendre dans une mairie pour rentrer dans une communaut&eacute;.
-  	<?php endif; ?>
-  	
-  	<br />
-  </div>
-   </div>
-<?php else: ?>
-	Chargement en cours
-	<br /><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif" />
-<?php endif; ?>
+		<?php endif; ?>
+	</div>
+
+	<div class="titre textalia titreasizee">
+		<?php if ($this->communaute["x_communaute"] != null && $this->communaute["y_communaute"] != null) :
+		echo 'Hall en ' . $this->communaute["x_communaute"] . ', ' . $this->communaute["y_communaute"];
+		endif; ?>
+	</div>
+
+		<div class="contenuC">
+			<div class="box_contenu1 textalic">
+
+				<?php if ($this->communaute["x_communaute"] == null || $this->communaute["y_communaute"] == null) : ?>
+				Vous n'avez pas de Hall de Communauté.
+				Pour en construire un, cherchez une ruine...<br/><br/>
+				<?php endif; ?>
+
+
+				<?php if ($this->communaute != null) : ?>
+				<?php if ($this->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU) : ?>
+					<?php include("box_onglets.phtml") ?>
+					<?php else: ?>
+					En tant que nouveau membre, vous n'avez pas encore accès à toutes les informations de la communauté.
+					<?php endif; ?>
+				<?php else : ?>
+				Vous ne faites pas partie d'une communaut&eacute;. <br/><br/>
+				Vous pouvez vous rendre dans une mairie pour rentrer dans une communaut&eacute;.
+				<?php endif; ?>
+
+				<br/>
+			</div>
+		</div>
+		<?php else: ?>
+		Chargement en cours
+		<br/><img src="<?php echo $this->config->url->static?>/images/divers/loader.gif"/>
+		<?php endif; ?>
 
 </div>
 <?php include("box_bottom.phtml") ?>

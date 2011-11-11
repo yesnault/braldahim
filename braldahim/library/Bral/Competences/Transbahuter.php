@@ -676,7 +676,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 			$tab[] = 'box_echoppe';
 		}
 
-		if (array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
+		if ($this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU
+			&& array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
 			|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
 			|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))
 		) {

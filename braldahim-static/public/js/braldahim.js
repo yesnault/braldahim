@@ -272,19 +272,11 @@ function showResponse(reponse) {
 	// Box erreur
 	if (display_erreur) {
 		ouvreBralBox("erreur");
-	} else {
-		if ($("#erreur")) {
-			$("#erreur").hide();
-		}
 	}
 
 	// Box erreur catch
 	if (display_erreur_catch) {
 		ouvreBralBox("erreur_catch");
-	} else {
-		if ($("#erreur_catch")) {
-			$("#erreur_catch").hide();
-		}
 	}
 
 	hideModal('#modalPage');
