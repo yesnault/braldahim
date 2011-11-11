@@ -3,6 +3,9 @@ body {
 	color: #666666;
 }
 
+.titre {
+	text-shadow:none;
+}
 .titrea, .pointsdistinctions, #nav-main > ul > li, table.table_liste, thead.table_liste, tfoot.table_liste {
 	font: 13px arial, verdana, sans-serif;
 	font-weight: normal;
@@ -83,7 +86,10 @@ body {
 #onglet_box_evenements,
 #onglet_box_communaute,
 #onglet_box_soule,
-#onglet_box_quetes {
+#onglet_box_quetes,
+#onglet_box_laban,
+#onglet_box_charrette,
+#onglet_box_coffre {
     background-image:none;
 }
 
@@ -239,4 +245,13 @@ tr.table_liste0:hover, tr.table_liste1:hover  {
 }
 #twtr-widget-1 .twtr-new-results, #twtr-widget-1 .twtr-results-inner, #twtr-widget-1 .twtr-timeline {
     background: none repeat scroll 0 0 #FFFFFF !important;
+}
+
+
+#map, div.titre_liste, #titre_resultats_recherche , div.liste span, #resultats_recherche span, div.liste, #resultats_recherche,  #map_settings, #poignee_blabla, #box_chargement {
+	background: none;
+}
+
+#map_dialog {
+	background-color:#C0C0C0 !important;
 }

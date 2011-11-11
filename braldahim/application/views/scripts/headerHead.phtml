@@ -19,16 +19,22 @@
 <?php endif;?>
 <link href="<?php echo $this->config->url->static?>/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-<?php $versionCss = "91"; ?>
-<?php $versionJs = "137"; ?>
+<?php $versionCss = "92"; ?>
+<?php $versionJs = "138"; ?>
 
 <?php if ($this->config->general->production == 1) : ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/css/mini.css?<?php echo $versionCss?>" />
 <?php else: ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->static?>/css/braldahim.css?<?php echo $versionCss?>" />
 <?php endif;?>
+
+<?php if (Zend_Registry::get("estWork")) : ?>
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-environnements-work.css?<?php echo $versionCss?>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-vuetypes-work.css?<?php echo $versionCss?>" />
+<?php else: ?>
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-environnements.css?<?php echo $versionCss?>" />
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->config->url->jeu?>/css/sprites-vuetypes.css?<?php echo $versionCss?>" />
+<?php endif; ?>
 <link rel="apple-touch-icon" href="<?php echo $this->config->url->static?>/images/mobile/icone-braldahim.png"/>
 <link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://feeds.braldahim.com/braldahim-chronique" />
 

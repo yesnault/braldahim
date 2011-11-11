@@ -22,3 +22,9 @@
 <?php else:?>
 <input type="hidden" id="estMobile" value="false">
 <?php endif;?>
+
+<?php if (Zend_Registry::get("estWork")) : ?>
+<input type="hidden" id="estWork" value="true">
+<?php else:?>
+<input type="hidden" id="estWork" value="false">
+<?php endif;?>

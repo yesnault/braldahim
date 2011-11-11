@@ -36,10 +36,17 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.recomputeCanvasPosition();
 	var _this = this;
 	var onready = function(){_this.compileLesVues();_this.redraw();};
-	this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements.png', onready);
-	this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes.png', onready);
+	if ($("#estWork").val() == "true") {
+		this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements-work.png', onready);
+		this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes-work.png', onready);
+		this.photoSatellite.src = "http://static.braldahim.com/images/sources/harilinn/braldahim_carte4-work.png";
+	} else {
+		this.spritesEnv = new SpriteSet('/images/sprites/sprites-environnements.png', onready);
+		this.spritesVueTypes = new SpriteSet('/images/sprites/sprites-vuetypes.png', onready);
+		this.photoSatellite.src = "http://static.braldahim.com/images/sources/harilinn/braldahim_carte4.png";
+	}
 	this.photoSatelliteOK = false;
-	this.photoSatellite.src = "http://static.braldahim.com/images/sources/harilinn/braldahim_carte4.png";
+
 	this.photoSatellite.onload = function(){
 		_this.photoSatelliteRect = new Rect();
 		var ps = _this.photoSatellite;
