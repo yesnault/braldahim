@@ -105,36 +105,36 @@
 	endforeach;
 	
 	$js = "
-		val1 = 'valeur_4';
-		val2 = 'valeur_5';
+		val1 = '#valeur_4';
+		val2 = '#valeur_5';
 		if (this.name == 'valeur_4') {
-			val1 = 'valeur_3';
-			val2 = 'valeur_5';
+			val1 = '#valeur_3';
+			val2 = '#valeur_5';
 		}
 		if (this.name == 'valeur_5') {
-			val1 = 'valeur_3';
-			val2 = 'valeur_4';
+			val1 = '#valeur_3';
+			val2 = '#valeur_4';
 		}
 		
-		if ($(val1).value == this.value) {
+		if ($(val1).val() == this.value) {
 			$(val1).selectedIndex = 0;
 		}
-		if ($(val2).value == this.value) {
+		if ($(val2).val() == this.value) {
 			$(val2).selectedIndex = 0;
 		}
 		
-		nomHiddenType = 'hiddenIngredientIdType-' + this.value;
-		nomHiddenQuantite = 'hiddenIngredientQuantite-' + this.value;
+		nomHiddenType = '#hiddenIngredientIdType-' + this.value;
+		nomHiddenQuantite = '#hiddenIngredientQuantite-' + this.value;
 		
 		if (this.name != 'valeur_5') {
-			nomHiddenCout = 'hiddenCout-' + $('#valeur_2').val() + '-' + $(nomHiddenType).val();
-			if (parseInt($(nomHiddenQuantite).value) < parseInt($(nomHiddenCout).value)) {
+ 			nomHiddenCout = '#hiddenCout-' + $('#valeur_2').val() + '-' + $(nomHiddenType).val();
+			if (parseInt($(nomHiddenQuantite).val()) < parseInt($(nomHiddenCout).val())) {
 				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
 				this.selectedIndex = 0;
 			}
 		} else {
-			nomHiddenCout = 'hiddenCout-' + $('#valeur_2').val() + '--1';
-			if (parseInt($(nomHiddenQuantite).value) < parseInt($(nomHiddenCout).value)) {
+			nomHiddenCout = '#hiddenCout-' + $('#valeur_2').val() + '--1';
+			if (parseInt($(nomHiddenQuantite).val()) < parseInt($(nomHiddenCout).val())) {
 				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
 				this.selectedIndex = 0;
 			}
