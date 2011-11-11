@@ -69,8 +69,8 @@ class Bral_Palmares_Superbralduns extends Bral_Palmares_Box
 			$min = 30;
 			$max = 39;
 		} elseif ($this->view->filtre == 5) {
-			$min = 30;
-			$max = 39;
+			$min = 40;
+			$max = 40;
 		} else {
 			$min = 0;
 			$max = 10;
