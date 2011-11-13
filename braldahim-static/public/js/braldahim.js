@@ -617,7 +617,7 @@ function my_switch(box, conteneur, controleur) {
 	if (box == "box_interface") {
 		map.recomputeCanvasPosition();
 		map.redraw();
-		map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()), parseInt($("#positionZ").val()));
+		centrerVue();
 	}
 }
 

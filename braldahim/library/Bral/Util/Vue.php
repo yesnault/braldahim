@@ -52,10 +52,18 @@ class Bral_Util_Vue
 
 	private static function prepare(&$view)
 	{
-		$x = $view->user->x_braldun;
-		$y = $view->user->y_braldun;
-		$z = $view->user->z_braldun;
-		$bm = $view->user->vue_bm_braldun;
+
+		if ($view->user->administrationvue === true && $view->user->administrationvueDonnees != null) {
+			$x = $view->user->administrationvueDonnees['x_position'];
+			$y = $view->user->administrationvueDonnees['y_position'];
+			$z = $view->user->administrationvueDonnees['z_position'];
+			$bm = 10;
+		} else {
+			$x = $view->user->x_braldun;
+			$y = $view->user->y_braldun;
+			$z = $view->user->z_braldun;
+			$bm = $view->user->vue_bm_braldun;
+		}
 
 		$view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z) + $bm;
 		if ($view->vue_nb_cases < 0) {
@@ -168,16 +176,12 @@ class Bral_Util_Vue
 		$centre_y_min = $view->y_min;
 		$centre_y_max = $view->y_max;
 		$positionZ = $view->user->z_braldun;
+		$marcher = null;
 
-		/*
-				   * $marcher = null;
-				   * if ($view->estVueEtendue === false && $view->user->administrationvue == false) {
-					  $utilMarcher = new Bral_Util_Marcher();
-					  		$marcher = $utilMarcher->calcul($view->user);
-				  }*/
-
-		$utilMarcher = new Bral_Util_Marcher();
-		$marcher = $utilMarcher->calcul($view->user);
+		if ($view->user->administrationvue == false) {
+			$utilMarcher = new Bral_Util_Marcher();
+			$marcher = $utilMarcher->calcul($view->user);
+		}
 
 		$estSurLieu = false;
 		$estSurEchoppe = false;
@@ -192,12 +196,19 @@ class Bral_Util_Vue
 				$display_x = $i;
 				$display_y = $j;
 
+				if ($view->user->administrationvue === true) {
+					self::addAction($tabActions, "AdminLieu", $view->user, $display_x, $display_y, $positionZ, 0, "AdminLieu" . $display_x . $display_y);
+					self::addAction($tabActions, "AdminEau", $view->user, $display_x, $display_y, $positionZ, 0, "AdminEau" . $display_x . $display_y);
+					self::addAction($tabActions, "AdminRoute", $view->user, $display_x, $display_y, $positionZ, 0, "AdminRoute" . $display_x . $display_y);
+					self::addAction($tabActions, "AdminPalissade", $view->user, $display_x, $display_y, $positionZ, 0, "AdminPalissade" . $display_x . $display_y);
+				}
+
 				if ($view->user->x_braldun == $display_x && $view->user->y_braldun == $display_y) {
 					//rien
 				} else if ($marcher != null && $marcher['tableauValidationXY'] != null
-					&& array_key_exists($display_x, $marcher['tableauValidationXY'])
-					&& array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])
-					&& $marcher['tableauValidationXY'][$display_x][$display_y]["valid"]
+						&& array_key_exists($display_x, $marcher['tableauValidationXY'])
+						&& array_key_exists($display_y, $marcher['tableauValidationXY'][$display_x])
+						&& $marcher['tableauValidationXY'][$display_x][$display_y]["valid"]
 				) {
 					$marcherCase = $marcher['tableauValidationXY'][$display_x][$display_y];
 					$tableau["Actions"][] = array(
@@ -205,6 +216,7 @@ class Bral_Util_Vue
 						'Acteur' => $view->user->id_braldun,
 						'X' => $display_x,
 						'Y' => $display_y,
+						'Z' => $positionZ,
 						'PA' => $marcher["nb_pa"],
 						'Offset' => $marcherCase["offset"],
 					);
@@ -212,9 +224,9 @@ class Bral_Util_Vue
 
 				foreach ($zones as $z) {
 					if ($display_x >= $z['x_min_zone'] &&
-						$display_x <= $z['x_max_zone'] &&
-						$display_y >= $z['y_min_zone'] &&
-						$display_y <= $z['y_max_zone']
+							$display_x <= $z['x_max_zone'] &&
+							$display_y >= $z['y_min_zone'] &&
+							$display_y <= $z['y_max_zone']
 					) {
 						$nom_zone = $z['nom_zone'];
 						$description_zone = $z['description_zone'];
@@ -304,7 +316,7 @@ class Bral_Util_Vue
 				);
 
 				if ($view->user->x_braldun == $e['x_echoppe'] && $view->user->y_braldun == $e['y_echoppe']) {
-					self::addAction($tabActions, "Lieu", $view->user, $e['x_echoppe'], $e['y_echoppe'], 0);
+					self::addAction($tabActions, "Lieu", $view->user, $e['x_echoppe'], $e['y_echoppe'], $e['z_echoppe'], 0);
 				}
 			}
 		}
@@ -339,7 +351,7 @@ class Bral_Util_Vue
 				);
 
 				if ($view->user->x_braldun == $l['x_lieu'] && $view->user->y_braldun == $l['y_lieu']) {
-					self::addAction($tabActions, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu'], 1);
+					self::addAction($tabActions, "Lieu", $view->user, $l['x_lieu'], $l['y_lieu'], $l['z_lieu'], 1);
 				}
 			}
 		}
@@ -456,7 +468,7 @@ class Bral_Util_Vue
 					'Label' => ' rune n°' . $r['id_rune_element_rune'],
 					'IdType' => 0,
 				);
-				self::addActionTransbahuter($view, $tableau, $r['x_element_rune'], $r['y_element_rune']);
+				self::addActionTransbahuter($view, $tableau, $r['x_element_rune'], $r['y_element_rune'], $r['z_element_rune']);
 			}
 		}
 
@@ -502,7 +514,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_munition'],
 					);
-					self::addActionTransbahuter($view, $tableau, $m['x_element_munition'], $m['y_element_munition']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_munition'], $m['y_element_munition'], $m['z_element_munition']);
 				}
 			}
 		}
@@ -559,7 +571,7 @@ class Bral_Util_Vue
 					'Label' => $e['nom_type_materiel'] . ' n°' . $e['id_element_materiel'],
 					'IdType' => $e['id_type_materiel'],
 				);
-				self::addActionTransbahuter($view, $tableau, $e['x_element_materiel'], $e['y_element_materiel']);
+				self::addActionTransbahuter($view, $tableau, $e['x_element_materiel'], $e['y_element_materiel'], $e['z_element_materiel']);
 			}
 		}
 
@@ -573,7 +585,7 @@ class Bral_Util_Vue
 					'Label' => Bral_Util_Potion::getNomType($p['type_potion']) . ' n°' . $p['id_element_potion'],
 					'IdType' => $p['id_type_potion'],
 				);
-				self::addActionTransbahuter($view, $tableau, $p['x_element_potion'], $p['y_element_potion']);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_potion'], $p['y_element_potion'], $p['z_element_potion']);
 			}
 		}
 
@@ -587,7 +599,7 @@ class Bral_Util_Vue
 					'Label' => $p['nom_type_aliment'] . ' (' . $p['nom_type_qualite'] . ') n°' . $p['id_element_aliment'],
 					'IdType' => $p['id_type_aliment'],
 				);
-				self::addActionTransbahuter($view, $tableau, $p['x_element_aliment'], $p['y_element_aliment']);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_aliment'], $p['y_element_aliment'], $p['z_element_aliment']);
 			}
 		}
 
@@ -602,7 +614,7 @@ class Bral_Util_Vue
 					'Label' => $p['quantite_element_graine'] . ' graine' . Bral_Util_String::getPluriel($p['quantite_element_graine']) . ' ' . $p['prefix_type_graine'] . $p['nom_type_graine'],
 					'IdType' => $p['id_type_graine'],
 				);
-				self::addActionTransbahuter($view, $tableau, $p['x_element_graine'], $p['y_element_graine']);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_graine'], $p['y_element_graine'], $p['z_element_graine']);
 			}
 		}
 
@@ -624,7 +636,7 @@ class Bral_Util_Vue
 					'IdType' => $p['id_type_ingredient'],
 				);
 
-				self::addActionTransbahuter($view, $tableau, $p['x_element_ingredient'], $p['y_element_ingredient']);
+				self::addActionTransbahuter($view, $tableau, $p['x_element_ingredient'], $p['y_element_ingredient'], $p['z_element_ingredient']);
 			}
 		}
 
@@ -639,7 +651,7 @@ class Bral_Util_Vue
 						'Label' => $m['quantite_brut_element_minerai'] . ' minerai' . Bral_Util_String::getPluriel($m['quantite_brut_element_minerai']) . ' ' . $m['prefix_type_minerai'] . $m['nom_type_minerai'],
 						'IdType' => $m['id_type_minerai'],
 					);
-					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai'], $m['z_element_minerai']);
 				}
 
 				if ($m['quantite_lingots_element_minerai'] > 0) {
@@ -652,7 +664,7 @@ class Bral_Util_Vue
 						'IdType' => $m['id_type_minerai'],
 					);
 
-					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_minerai'], $m['y_element_minerai'], $m['z_element_minerai']);
 				}
 			}
 		}
@@ -670,7 +682,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_partieplante'],
 					);
-					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante'], $m['z_element_partieplante']);
 				}
 
 				if ($m['quantite_preparee_element_partieplante'] > 0) {
@@ -684,7 +696,7 @@ class Bral_Util_Vue
 						'Label' => $label,
 						'IdType' => $m['id_type_partieplante'],
 					);
-					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_partieplante'], $m['y_element_partieplante'], $m['z_element_partieplante']);
 				}
 			}
 		}
@@ -700,7 +712,7 @@ class Bral_Util_Vue
 						'Label' => $m['quantite_feuille_element_tabac'] . " Feuille" . Bral_Util_String::getPluriel($m['quantite_feuille_element_tabac']) . " " . $m['nom_court_type_tabac'],
 						'IdType' => $m['id_type_tabac'],
 					);
-					self::addActionTransbahuter($view, $tableau, $m['x_element_tabac'], $m['y_element_tabac']);
+					self::addActionTransbahuter($view, $tableau, $m['x_element_tabac'], $m['y_element_tabac'], $m['z_element_tabac']);
 				}
 			}
 		}
@@ -768,30 +780,35 @@ class Bral_Util_Vue
 		return $tableau;
 	}
 
-	private static function prepareJsonAction(&$tableau, $tabActions) {
+	private static function prepareJsonAction(&$tableau, $tabActions)
+	{
 		if (count($tabActions) <= 0) return;
 
-		foreach($tabActions as $action) {
+		foreach ($tabActions as $action) {
 			$tableau["Actions"][] = $action;
 		}
 
 	}
 
-	private static function addAction(&$tabActions, $type, $user, $x, $y, $pa)
+	private static function addAction(&$tabActions, $type, $user, $x, $y, $z, $pa, $key = null)
 	{
-		$tabActions[$type] = array(
+		if ($key == null) {
+			$key = $type;
+		}
+		$tabActions[$key] = array(
 			'Type' => $type,
 			'Acteur' => $user->id_braldun,
 			'X' => $x,
 			'Y' => $y,
+			'Z' => $z,
 			'PA' => $pa,
 		);
 	}
 
-	private static function addActionTransbahuter($view, &$tabActions, $x, $y)
+	private static function addActionTransbahuter($view, &$tabActions, $x, $y, $z)
 	{
-		if ($view->user->x_braldun == $x && $view->user->y_braldun == $y) {
-			self::addAction($tabActions, "Transbahuter", $view->user, $x, $y, 1);
+		if ($view->user->x_braldun == $x && $view->user->y_braldun == $y && $view->user->z_braldun == $z) {
+			self::addAction($tabActions, "Transbahuter", $view->user, $x, $y, $z, 1);
 		}
 	}
 
@@ -801,13 +818,14 @@ class Bral_Util_Vue
 			$tableau["Vues"][0]["Objets"][] = array(
 				"X" => $rowset['x_element'],
 				"Y" => $rowset['y_element'],
+				"Z" => $rowset['z_element'],
 				'Type' => $type,
 				'Quantité' => $rowset[$colonne],
 				'Label' => $rowset[$colonne] . ' ' . $libelle . Bral_Util_String::getPluriel($rowset[$colonne], $pluriel),
 				'IdType' => 0,
 			);
 
-			self::addActionTransbahuter($view, $tabActions, $rowset['x_element'], $rowset['y_element']);
+			self::addActionTransbahuter($view, $tabActions, $rowset['x_element'], $rowset['y_element'], $rowset['z_element']);
 		}
 	}
 }

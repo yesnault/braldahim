@@ -4,6 +4,40 @@
 	<input type="hidden" id="positionY" value="<?php echo $this->user->y_braldun ?>"/>
 	<input type="hidden" id="positionZ" value="<?php echo $this->user->z_braldun ?>"/>
 
+	<?php if ($this->user->administrationvue == true) : ?>
+		<div style="text-align:right">
+		<b>Administration par la vue activée.</b><br/>
+		Ville :
+		<select name='administrationvue_ville' id="administrationvue_ville"
+				onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
+			<option value="-1" selected>Choisissez une ville</option>
+			<?php foreach ($this->administrationVilles as $v) : ?>
+			<option value="<?php echo $v["id_ville"]?>"><?php echo $v["id_ville"]?> : <?php echo $v["nom_ville"]?></option>
+			<?php endforeach; ?>
+		</select><br/>
+
+		Lieux :
+		<select name='administrationvue_lieu' id="administrationvue_lieu"
+				onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
+			<option value="-1" selected>Choisissez un lieu</option>
+			<?php foreach ($this->administrationLieux as $l) : ?>
+			<option value="<?php echo $l["id_lieu"]?>"><?php echo $l["id_lieu"]?> : <?php echo $l["nom_lieu"]?>
+				(<?php echo $l["x_lieu"]?>,<?php echo $l["y_lieu"]?>)
+			</option>
+			<?php endforeach; ?>
+		</select><br/>
+
+		X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?php echo $this->centre_x ?>"
+				 required>
+		Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?php echo $this->centre_y ?>"
+				 required>
+		Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3"
+				 value="<?php echo $this->z_position ?>" required>
+		<input type="button" class='button' value="Se Positionner"
+			   onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('#administrationvue_x').val() + 'h' + $('#administrationvue_y').val() + 'h' + $('#administrationvue_z').val());"/>
+</div>
+	<?php endif; ?>
+
 	<div class="verte">
 
 		<!--
@@ -13,7 +47,6 @@
 			<input type=checkbox id="layer_fog"><label for=layer_fog>Brouillard de guerre</label><br/>
 			<input type=checkbox id=layer_grid><label for=layer_grid>Grille</label><br>
 			<span id=choix_profondeur></span><br/>
-			<button id="btnCentrer" class="button">Centrer</button>
 		</div>
 		-->
 

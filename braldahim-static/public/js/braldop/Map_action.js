@@ -20,8 +20,12 @@ Map.prototype.initTypesActions = function() {
 	}
 	this.typesActions = [];
 	this.typesActions['Marcher'] = {nom:'Marcher', icone:icon('vue/pas'), isIconeMap:true};
-	this.typesActions['Lieu'] = {nom:'Entrer dans le lieu', icone:icon('vue/pas'), isIconeMap:true};
+	this.typesActions['Lieu'] = {nom:'Entrer dans le lieu', icone:icon('vue/pas'), isIconeMap:false};
 	this.typesActions['Transbahuter'] = {nom:'Transbahuter', icone:icon('vue/laban'), isIconeMap:false};
+	this.typesActions['AdminLieu'] = {nom:'AdminLieu', icone:icon('cockpit/icone_danger'), isIconeMap:false};
+	this.typesActions['AdminEau'] = {nom:'AdminEau', icone:icon('cockpit/icone_danger'), isIconeMap:false};
+	this.typesActions['AdminRoute'] = {nom:'AdminRoute', icone:icon('cockpit/icone_danger'), isIconeMap:false};
+	this.typesActions['AdminPalissade'] = {nom:'AdminPalissade', icone:icon('cockpit/icone_danger'), isIconeMap:false};
 	this.actions = []; // un tableau de toutes les actions
 }
 
