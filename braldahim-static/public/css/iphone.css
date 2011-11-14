@@ -129,3 +129,7 @@ div.liste span, div.titre_liste {
 #menu_actions {
     width: 98%;
 }
+
+#map {
+	right:0px;
+}
