@@ -613,8 +613,8 @@ function my_switch(box, conteneur, controleur) {
 		$("#loaded_" + box).val(1);
 		_get_('/' + controleur + '/load/?box=' + box);
 	}
-	map.closeDialog();
-	if (box == "box_interface") {
+	if (map) map.closeDialog();
+	if (map && box == "box_interface") {
 		map.recomputeCanvasPosition();
 		map.redraw();
 		centrerVue();
