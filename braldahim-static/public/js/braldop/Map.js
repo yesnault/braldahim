@@ -3,7 +3,7 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.canvas = document.getElementById(canvasId);
 	this.context = this.canvas.getContext("2d");
 	this.context.mozImageSmoothingEnabled = false; // contourne un bug de FF qui rend floues les images même à taille naturelle
-	this.posmarkdiv = document.getElementById(posmarkid);
+	this.$posmarkdiv = $('#'+posmarkid);
 	this.initTypesActions();
 	this.callbacks = {};
 	this.initPalissades();
@@ -66,14 +66,15 @@ function Map(canvasId, posmarkid, dialogId) {
 	this.canvas.addEventListener("mouseup", function(e) {_this.mouseUp(e)}, false);
 	$(this.canvas).mouseleave(function(e) {_this.mouseLeave(e)}); // l'événement mouseleave n'est pas standard (IE only), on passe par jquery qui l'émule dans les autres browsers
 	this.canvas.addEventListener("mousemove", function(e) {_this.mouseMove(e)}, false);
-	this.canvas.addEventListener("DOMMouseScroll", function(e) {e.preventDefault(), _this.mouseWheel(e)}, false); // firefox
-	this.canvas.onmousewheel = function(e) {e.preventDefault(), _this.mouseWheel(e)}; // chrome
+	this.canvas.addEventListener("DOMMouseScroll", function(e) {e.preventDefault(); _this.mouseWheel(e)}, false); // firefox
+	this.canvas.onmousewheel = function(e) {e.preventDefault(); _this.mouseWheel(e)}; // chrome
 	$(window).resize(function(){
 		_this.recomputeCanvasPosition();
 		_this.redraw();
 	});
 	currentMap = this;
 }
+
 
 Map.prototype.updatePosDiv = function() {
 	//~ var html = 'Zoom='+this.zoom+' &nbsp; X='+this.pointerX+' &nbsp; Y='+this.pointerY+' &nbsp; Z='+this.z;
@@ -84,7 +85,7 @@ Map.prototype.updatePosDiv = function() {
 		if (env) html += ' ' + env.nom + ', ' + env.description;
 		else console.log('env inconnu : ' + cell.fond); // notons qu'on a des undefined quand il n'y a pas de terrain sous des palissades par exemple
 	}
-	this.posmarkdiv.innerHTML=html;
+	this.$posmarkdiv.html(html);
 }
 
 Map.prototype.changeProfondeur = function(z) {
@@ -134,6 +135,8 @@ Map.prototype.getCell = function(couche, x, y) {
 	return couche.matrix[this.getIndex(x, y)];
 }
 
+// appelée initialement et en cas de redimensionnement, cette fonction réadapte le canvas et d'autres trucs
+// en fonction de ses nouvelles position et dimension
 Map.prototype.recomputeCanvasPosition = function() {
 	var pos = $(this.canvas).offset();
 	this.screenRect = new Rect();
@@ -147,6 +150,8 @@ Map.prototype.recomputeCanvasPosition = function() {
 	this.originY = (this.screenRect.h/2)/this.zoom;
 	this.fogImg = null;
 	this.fogContext = null;
+	// on repositionne la postmarkdiv
+	//this.$posmarkdiv.css({left:pos.left+3, top:pos.top+3});
 }
 
 // l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
@@ -497,12 +502,9 @@ Map.prototype.mouseUp = function(e) {
 	}
 	this.redraw();
 }
-
 Map.prototype.mouseLeave = function(e) {
 	this.mouseIsDown = false;
-	this.hoverObject = null;
 	if (this.dialogIsOpen && !this.dialogIsFixed) this.closeDialog();
-	this.redraw();
 }
 
 // renvoie un "objet" à la position (x,y) dans le référetiel Braldahim :
@@ -528,29 +530,34 @@ Map.prototype.mouseMove = function(e) {
 	}
 	this.pointerScreenX = mouseX;
 	this.pointerScreenY = mouseY;
-	this.pointerX = Math.floor(mouseX/this.zoom-this.originX);
-	this.pointerY = -Math.floor(mouseY/this.zoom-this.originY);
-	if (this.mouseIsDown) {
-		if (this.dialogIsOpen) {
-			this.closeDialog();
-		}
-		var dx = (mouseX-this.dragStartPageX)/this.zoom;
-		var dy = (mouseY-this.dragStartPageY)/this.zoom;
-		this.originX = this.dragStartOriginX + dx;
-		this.originY = this.dragStartOriginY + dy;
-		this.redraw();		
-	} else if (!(this.dialogIsOpen&&this.dialogIsFixed)){
-		this.updatePosDiv();
-		var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
-		if (newHoverObject!=this.hoverObject) {
-			this.hoverObject = newHoverObject;
-			if (newHoverObject) {
-				this.openCellDialog(this.pointerX, this.pointerY, false);
-			} else if (this.dialogIsOpen) {
-				this.$dialog.hide();
-				this.dialogIsOpen = false;
+	if (this.dialogIsOpen&&this.dialogIsFixed) {
+		// menu ouvert : on ne fait pas grand chose et surtout on ne met pas à jour la position
+		// de la souris dans le référentiel de la carte
+	} else {
+		this.pointerX = Math.floor(mouseX/this.zoom-this.originX);
+		this.pointerY = -Math.floor(mouseY/this.zoom-this.originY);
+		if (this.mouseIsDown) {
+			if (this.dialogIsOpen) {
+				this.closeDialog();
 			}
-			this.redraw();
+			var dx = (mouseX-this.dragStartPageX)/this.zoom;
+			var dy = (mouseY-this.dragStartPageY)/this.zoom;
+			this.originX = this.dragStartOriginX + dx;
+			this.originY = this.dragStartOriginY + dy;
+			this.redraw();		
+		} else {
+			this.updatePosDiv();
+			var newHoverObject = this.objectOn(this.pointerX, this.pointerY);
+			if (newHoverObject!=this.hoverObject) {
+				this.hoverObject = newHoverObject;
+				if (newHoverObject) {
+					this.openCellDialog(this.pointerX, this.pointerY, false);
+				} else if (this.dialogIsOpen) {
+					this.$dialog.hide();
+					this.dialogIsOpen = false;
+				}
+				this.redraw();
+			}
 		}
 	}
 }
