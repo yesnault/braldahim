@@ -50,6 +50,7 @@ input {
 
 .titre {
     padding: 10px;
+	text-shadow:none;
 }
 
 .onglet {
