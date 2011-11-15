@@ -173,9 +173,5 @@ function initBraldop() {
 
 function centrerVue() {
 	if (map.zoom < 32) map.zoom = 32;
-	if ($("#administrationvue_x").length && $("#administrationvue_y").length && $("#administrationvue_z").length) {
-		map.goto(parseInt($("#administrationvue_x").val()), parseInt($("#administrationvue_y").val()), parseInt($("#administrationvue_z").val()));
-	} else {
-		map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()), parseInt($("#positionZ").val()));
-	}
+	map.goto(parseInt($("#positionX").val()), parseInt($("#positionY").val()), parseInt($("#positionZ").val()));
 }

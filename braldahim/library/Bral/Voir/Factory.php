@@ -85,9 +85,4 @@ class Bral_Voir_Factory
 		return new Bral_Voir_Monstre($request, $view);
 	}
 
-	static function getVue($request, $view)
-	{
-		Zend_Loader::loadClass("Bral_Voir_Vue");
-		return new Bral_Voir_Vue($request, $view);
-	}
 }

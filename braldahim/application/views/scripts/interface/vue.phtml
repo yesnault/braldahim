@@ -1,62 +1,59 @@
 <?php include("box_header.phtml") ?>
 
-	<input type="hidden" id="positionX" value="<?php echo $this->user->x_braldun ?>"/>
-	<input type="hidden" id="positionY" value="<?php echo $this->user->y_braldun ?>"/>
-	<input type="hidden" id="positionZ" value="<?php echo $this->user->z_braldun ?>"/>
+<input type="hidden" id="positionX" value=""/>
+<input type="hidden" id="positionY" value=""/>
+<input type="hidden" id="positionZ" value=""/>
 
-	<?php if ($this->user->administrationvue == true) : ?>
-		<div style="text-align:right">
-		<b>Administration par la vue activée.</b><br/>
-		Ville :
-		<select name='administrationvue_ville' id="administrationvue_ville"
-				onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
-			<option value="-1" selected>Choisissez une ville</option>
-			<?php foreach ($this->administrationVilles as $v) : ?>
-			<option value="<?php echo $v["id_ville"]?>"><?php echo $v["id_ville"]?> : <?php echo $v["nom_ville"]?></option>
-			<?php endforeach; ?>
-		</select><br/>
+<?php if ($this->user->administrationvue == true) : ?>
+<div style="text-align:right">
+	<b>Administration par la vue activée.</b><br/>
+	Ville :
+	<select name='administrationvue_ville' id="administrationvue_ville"
+			onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
+		<option value="-1" selected>Choisissez une ville</option>
+		<?php foreach ($this->administrationVilles as $v) : ?>
+		<option value="<?php echo $v["id_ville"]?>"><?php echo $v["id_ville"]?> : <?php echo $v["nom_ville"]?></option>
+		<?php endforeach; ?>
+	</select><br/>
 
-		Lieux :
-		<select name='administrationvue_lieu' id="administrationvue_lieu"
-				onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
-			<option value="-1" selected>Choisissez un lieu</option>
-			<?php foreach ($this->administrationLieux as $l) : ?>
-			<option value="<?php echo $l["id_lieu"]?>"><?php echo $l["id_lieu"]?> : <?php echo $l["nom_lieu"]?>
-				(<?php echo $l["x_lieu"]?>,<?php echo $l["y_lieu"]?>)
-			</option>
-			<?php endforeach; ?>
-		</select><br/>
+	Lieux :
+	<select name='administrationvue_lieu' id="administrationvue_lieu"
+			onchange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
+		<option value="-1" selected>Choisissez un lieu</option>
+		<?php foreach ($this->administrationLieux as $l) : ?>
+		<option value="<?php echo $l["id_lieu"]?>"><?php echo $l["id_lieu"]?> : <?php echo $l["nom_lieu"]?>
+			(<?php echo $l["x_lieu"]?>,<?php echo $l["y_lieu"]?>)
+		</option>
+		<?php endforeach; ?>
+	</select><br/>
 
-		X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="<?php echo $this->centre_x ?>"
-				 required>
-		Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="<?php echo $this->centre_y ?>"
-				 required>
-		Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3"
-				 value="<?php echo $this->z_position ?>" required>
-		<input type="button" class='button' value="Se Positionner"
-			   onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('#administrationvue_x').val() + 'h' + $('#administrationvue_y').val() + 'h' + $('#administrationvue_z').val());"/>
+	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3" value="" required>
+	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3" value="" required>
+	Z:<input type="text" id="administrationvue_z" name="administrationvue_z" size="3" value="" required>
+	<input type="button" class='button' value="Se Positionner"
+		   onclick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xyz_position=' + $('#administrationvue_x').val() + 'h' + $('#administrationvue_y').val() + 'h' + $('#administrationvue_z').val());"/>
 </div>
-	<?php endif; ?>
+<?php endif; ?>
 
-	<div class="verte">
+<div class="verte">
 
-		<div id=map>
-			<canvas id=map_canvas></canvas>
-			<span id=posmark>-</span>
-		</div>
-		<div id=map_settings>
-			<img id=goto src=<?php echo $this->config->url->static?>/images/cockpit/player_target.png>
-			<br><img id=icon_grid src=<?php echo $this->config->url->static?>/images/cockpit/icon_grid.png>
-		</div>
-
+	<div id=map>
+		<canvas id=map_canvas></canvas>
+		<span id=posmark>-</span>
+	</div>
+	<div id=map_settings>
+		<img id=goto src=<?php echo $this->config->url->static?>/images/cockpit/player_target.png>
+		<br><img id=icon_grid src=<?php echo $this->config->url->static?>/images/cockpit/icon_grid.png>
 	</div>
 
-	<?php if (!Zend_Registry::get("estMobile")) : ?>
-		<div id=poignee_blabla>&#x25b2; Blabla ! <span id=nbBlablaNouveaux></span></div>
-		<div id=tiroir_blabla>
-			<div id=poignee_fermeture_blabla>&#x25bc; Blabla !</div>
-			<div id=box_blabla></div>
-		</div>
-	<?php endif; ?>
+</div>
+
+<?php if (!Zend_Registry::get("estMobile")) : ?>
+<div id=poignee_blabla>&#x25b2; Blabla ! <span id=nbBlablaNouveaux></span></div>
+<div id=tiroir_blabla>
+	<div id=poignee_fermeture_blabla>&#x25bc; Blabla !</div>
+	<div id=box_blabla></div>
+</div>
+<?php endif; ?>
 
 <?php include("box_bottom.phtml") ?>

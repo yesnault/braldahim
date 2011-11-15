@@ -4069,20 +4069,3 @@ a.layer[selected] {
     padding: 8px;
     overflow: auto;
 }
-
-
-#loading {
-	position: fixed;
-	top: 30%;
-	left: 20%;
-	right: 20%;
-	height: 204px;
-	border-radius: 20px;
-	background: rgba(30, 70, 10, 0.5);
-	color: #FAFA34;
-	z-index: 11000;
-	padding: 20px;
-	text-align: center;
-	font-size: 30px;
-	font-weight: bold;
-}

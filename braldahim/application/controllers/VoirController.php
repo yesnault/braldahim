@@ -95,12 +95,6 @@ class VoirController extends Zend_Controller_Action
 		$this->render();
 	}
 
-	function vueAction()
-	{
-		$voir = Bral_Voir_Factory::getVue($this->_request, $this->view);
-		echo $voir->render();
-	}
-
 	function doactionAction()
 	{
 		$xml_entry = new Bral_Xml_Entry();

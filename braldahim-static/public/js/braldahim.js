@@ -426,7 +426,7 @@ function _display_box(type, box, data) {
 
 	if ($('#' + box)) {
 		if (box == "box_vue" && map) {
-			console.log("Pas de rechargement de la vue");
+			// console.log("Pas de rechargement de la vue");
 		} else {
 			$('#' + box).html(data);
 		}
