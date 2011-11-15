@@ -105,4 +105,93 @@ class Bral_Util_Potion
 
 		return false;
 	}
+
+    public static function determineBonusMalusVernis ( $caracteristique, $bmType, $potion )
+	{
+        $valeur = 0;
+		if ($caracteristique == "VUE") {
+			$type = "A";
+		} else if ($caracteristique == "ARM") {
+			$type = "B";
+		} else if ($caracteristique == "POIDS") {
+			$type = "C";
+		} else if ($caracteristique == "AGI") {
+			$type = "D";
+		} else if ($caracteristique == "FOR") {
+			$type = "D";
+		} else if ($caracteristique == "SAG") {
+			$type = "D";
+		} else if ($caracteristique == "VIG") {
+			$type = "D";
+		} else if ($caracteristique == "ATT") {
+			$type = "D";
+		} else if ($caracteristique == "DEG") {
+			$type = "D";
+		} else if ($caracteristique == "DEF") {
+			$type = "D";
+		}
+
+		if ($type == "A") {
+			if ($bmType == "malus") {
+				$valeur = -1;
+			} else {
+				$valeur = 1;
+			}
+		} elseif ($type == "B") {
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = -$potion["niveau"] - 3;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -$potion["niveau"] - 2;
+				} else {
+					$valeur = -$potion["niveau"] - 1;
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = $potion["niveau"] - 1;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = $potion["niveau"];
+				} else {
+					$valeur = $potion["niveau"] + 1;
+				}
+			}
+		} elseif ($type == "C") { // poids
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = 0.2 * $potion["niveau"];
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = 0.1 * $potion["niveau"];
+				} else {
+					$valeur = 0;
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = 0;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -0.1 * $potion["niveau"];
+				} else {
+					$valeur = -0.2 * $potion["niveau"];
+				}
+			}
+		} elseif ($type == "D") {
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = -$potion["niveau"] - 3;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -$potion["niveau"] - 2;
+				} else {
+					$valeur = -$potion["niveau"] - 1;
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = $potion["niveau"] - 1;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = $potion["niveau"];
+				} else {
+					$valeur = $potion["niveau"] + 1;
+				}
+			}
+		}
+        return $valeur;
+    }
 }

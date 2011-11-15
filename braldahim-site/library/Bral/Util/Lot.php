@@ -700,6 +700,7 @@ class Bral_Util_Lot
 				'nom' => $e['nom_type_potion'],
 				'id_potion' => $e['id_lot_potion'],
 				'qualite' => $e['nom_type_qualite'],
+                'nom_systeme_type_qualite' => $e['nom_systeme_type_qualite'],
 				'niveau' => $e['niveau_potion'],
 				'caracteristique' => $e['caract_type_potion'],
 				'bm_type' => $e['bm_type_potion'],

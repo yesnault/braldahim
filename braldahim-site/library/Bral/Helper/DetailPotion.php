@@ -28,7 +28,7 @@ class Bral_Helper_DetailPotion
 	{
 		$text = htmlspecialchars($p["nom"]) . " de qualit&eacute; " . htmlspecialchars($p["qualite"]) . "<br />";
 
-		$text .= "<label class=\'alabel\' onclick=ouvHistoP(" . $p["id_potion"] . ")>Voir l\'historique</label><br />";
+		$text .= "<label class='alabel' onclick=ouvHistoP(" . $p["id_potion"] . ")>Voir l'historique</label><br />";
 
 		$text .= "<br />";
 		$text .= $p["nom_type"] . " n&deg; " . $p["id_potion"] . "<br />";
@@ -36,9 +36,11 @@ class Bral_Helper_DetailPotion
 		$text .= "Poids : " . Bral_Util_Poids::POIDS_POTION . " Kg<br />";
 		if ($p["bm_type"] != null) {
 			$text .= "<br /> Apporte un " . $p["bm_type"];
+            $text .= " ".Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique"], $p["bm_type"], $p );
 			$text .= " sur la caract&eacute;ristique " . $p["caracteristique"];
 			if ($p["bm2_type"] != null) {
 				$text .= "<br /> et un " . $p["bm2_type"];
+                $text .= " ".Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique2"], $p["bm2_type"], $p );
 				$text .= " sur la caract&eacute;ristique " . $p["caracteristique2"];
 			}
 			$text .= ".<br />";
