@@ -150,8 +150,6 @@ Map.prototype.recomputeCanvasPosition = function() {
 	this.originY = (this.screenRect.h/2)/this.zoom;
 	this.fogImg = null;
 	this.fogContext = null;
-	// on repositionne la postmarkdiv
-	//this.$posmarkdiv.css({left:pos.left+3, top:pos.top+3});
 }
 
 // l'objet passé, reçu en json, devient le fournisseur des données de carte et de vue.
@@ -326,9 +324,13 @@ Map.prototype.redraw = function() {
 	this.redrawStacked = false;
 	try {
 		this.drawInProgress = true;
-		this.context.fillStyle="#343";
-		this.context.fillRect(0, 0, this.screenRect.w, this.screenRect.h);
+		if (this.onload) {
+			this.onload();
+			this.onload = null;
+		}
 		if (this.mapData) {
+			this.context.fillStyle="#343";
+			this.context.fillRect(0, 0, this.screenRect.w, this.screenRect.h);
 			if (this.displayPhotoSatellite && this.photoSatelliteOK) {
 				this.naturalRectToScreenRect(this.photoSatelliteRect, this.photoSatelliteScreenRect);
 				this.photoSatelliteScreenRect.drawImage(this.context, this.photoSatellite);

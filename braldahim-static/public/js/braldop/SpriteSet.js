@@ -38,7 +38,7 @@ function SpriteSet(src, onReady) {
 SpriteSet.prototype.get = function(key, alternateKey) {
 	var img = this.sprites[key];
 	if (img) return img;
-	if (key!=key.toLowerCase('Clef non en minuscule : ' + key));
+	if (key!=key.toLowerCase()) console.log('Clef non en minuscule : ' + key);
 	if (!this.cssRules) return;
 	if (!this.globalImage.width) {
 		console.log('image globale non initialisée');

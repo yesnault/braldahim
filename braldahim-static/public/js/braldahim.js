@@ -425,7 +425,11 @@ function _display_box(type, box, data) {
 	}
 
 	if ($('#' + box)) {
-		$('#' + box).html(data);
+		if (box == "box_vue" && map) {
+			console.log("Pas de rechargement de la vue");
+		} else {
+			$('#' + box).html(data);
+		}
 		$("#loaded_" + box).val(1);
 	}
 
@@ -452,7 +456,11 @@ function _display_box(type, box, data) {
 	if (box == "box_cockpit") {
 		prepareCockpit();
 	} else if (box == 'box_vue') {
-		initBraldop();
+		if (!map) {
+			initBraldop();
+		} else {
+			initBraldopFetch();
+		}
 	} else if (box == 'box_competences') { // pour version mobile
 		loadJson("box_competences");
 	} else if (box == 'box_blabla') {// pour version mobile

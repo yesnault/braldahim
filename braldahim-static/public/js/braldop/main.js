@@ -72,7 +72,7 @@ function actionAdminPalissade(action) {
 	_get_('/administrationajax/doaction?caction=ask_administrationajax_insererpalissade&xyz_palissade=' + action.X + "h" + action.Y + "h" + action.Z);
 }
 
-function initBraldopFecth() {
+function initBraldopFetch() {
 	fetchMap(function (msg) {
 		map.setData(msg);
 		//> on batit le menu de choix de la profondeur
@@ -85,6 +85,11 @@ function initBraldopFecth() {
 			}
 			html += '</select>';
 		}
+
+		$("#positionX").val(msg.Position.X);
+		$("#positionY").val(msg.Position.Y);
+		$("#positionZ").val(msg.Position.Z);
+
 		$('#choix_profondeur').html(html);
 
 		html = "";
@@ -100,6 +105,7 @@ function initBraldopFecth() {
 		});
 
 		map.compileLesVues(); // en raison de leur activation
+
 		centrerVue();
 		map.redraw();
 		setTimeout(function () {
@@ -115,7 +121,7 @@ function initBraldop() {
 	}
 	map = new Map("map_canvas", "posmark");
 	map.displayFog = false;
-	initBraldopFecth();
+	initBraldopFetch();
 
 	$('#layer_satellite').attr('checked', map.displayPhotoSatellite).change(function () {
 		map.displayPhotoSatellite = this.checked;

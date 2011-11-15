@@ -777,6 +777,12 @@ class Bral_Util_Vue
 		$view->estSurEchoppe = $estSurEchoppe;
 		$view->estSurChamp = $estSurChamp;
 
+		$tableau["Position"] = array(
+			'X' => $view->centre_x,
+			'Y' => $view->centre_y,
+			'Z' => $view->z_position = $z,
+		);
+
 		return $tableau;
 	}
 
