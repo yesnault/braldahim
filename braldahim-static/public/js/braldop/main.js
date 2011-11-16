@@ -74,6 +74,10 @@ function actionAdminPalissade(action) {
 
 function initBraldopFetch() {
 	fetchMap(function (msg) {
+		$("#positionX").val(msg.Position.X);
+		$("#positionY").val(msg.Position.Y);
+		$("#positionZ").val(msg.Position.Z);
+
 		map.setData(msg);
 		//> on batit le menu de choix de la profondeur
 		var html = ''
@@ -85,10 +89,6 @@ function initBraldopFetch() {
 			}
 			html += '</select>';
 		}
-
-		$("#positionX").val(msg.Position.X);
-		$("#positionY").val(msg.Position.Y);
-		$("#positionZ").val(msg.Position.Z);
 
 		$('#choix_profondeur').html(html);
 

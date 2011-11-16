@@ -780,7 +780,7 @@ class Bral_Util_Vue
 		$tableau["Position"] = array(
 			'X' => $view->centre_x,
 			'Y' => $view->centre_y,
-			'Z' => $view->z_position = $z,
+			'Z' => $view->z_position,
 		);
 
 		return $tableau;
