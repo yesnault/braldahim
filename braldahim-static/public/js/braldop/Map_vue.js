@@ -1,7 +1,11 @@
 
 // renvoie une cellule de vue ou null (en dehors de toutes les vues ou vide)
 Map.prototype.getCellVue = function(x, y) {
-	return this.matriceVues[this.getIndex(x, y)];
+	if (this.matriceVues) {
+		return this.matriceVues[this.getIndex(x, y)];
+	} else {
+		return null;
+	}
 }
 
 Map.prototype.cleanCellVue = function(x, y) {
