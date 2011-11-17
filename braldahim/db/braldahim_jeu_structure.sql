@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le : Sam 18 Juin 2011 à 18:41
+-- Généré le : Jeu 17 Novembre 2011 à 21:37
 -- Version du serveur: 5.1.56
--- Version de PHP: 5.3.4
+-- Version de PHP: 5.3.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `abus` (
   `est_regle_abus` enum('oui','non') NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id_abus`),
   KEY `id_fk_braldun_abus` (`id_fk_braldun_abus`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `aliment` (
   KEY `id_fk_type_aliment` (`id_fk_type_aliment`),
   KEY `id_fk_type_qualite_aliment` (`id_fk_type_qualite_aliment`),
   KEY `id_fk_effet_braldun_aliment` (`id_fk_effet_braldun_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `ancien_braldun` (
   `date_creation_ancien_braldun` datetime NOT NULL,
   PRIMARY KEY (`id_ancien_braldun`),
   UNIQUE KEY `id_braldun_ancien_braldun_2` (`id_braldun_ancien_braldun`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Tables des Anciens Braldûns' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tables des Anciens Braldûns' AUTO_INCREMENT=572 ;
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `batch` (
   `etat_batch` varchar(10) NOT NULL,
   `message_batch` mediumtext,
   PRIMARY KEY (`id_batch`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=195719 ;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `blabla` (
   PRIMARY KEY (`id_blabla`),
   KEY `id_fk_braldun_blabla` (`id_fk_braldun_blabla`),
   KEY `x_blabla` (`x_blabla`,`y_blabla`,`z_blabla`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4064 ;
 
 -- --------------------------------------------------------
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `bosquet` (
   PRIMARY KEY (`id_bosquet`),
   KEY `id_fk_type_bosquet_bosquet` (`id_fk_type_bosquet_bosquet`),
   KEY `idx_x_bosquet_y_bosquet` (`x_bosquet`,`y_bosquet`,`z_bosquet`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=186955 ;
 
 -- --------------------------------------------------------
 
@@ -151,95 +151,7 @@ CREATE TABLE IF NOT EXISTS `bougrie` (
   `texte_bougrie` mediumtext NOT NULL,
   `regle_bougrie` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`id_bougrie`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `boutique_bois`
---
-
-CREATE TABLE IF NOT EXISTS `boutique_bois` (
-  `id_boutique_bois` int(11) NOT NULL AUTO_INCREMENT,
-  `date_achat_boutique_bois` datetime NOT NULL,
-  `id_fk_lieu_boutique_bois` int(11) NOT NULL,
-  `id_fk_braldun_boutique_bois` int(11) NOT NULL,
-  `quantite_rondin_boutique_bois` int(11) NOT NULL,
-  `prix_unitaire_boutique_bois` int(11) NOT NULL,
-  `id_fk_region_boutique_bois` int(11) NOT NULL,
-  `action_boutique_bois` enum('reprise','vente') NOT NULL,
-  PRIMARY KEY (`id_boutique_bois`),
-  KEY `id_fk_braldun_boutique_bois` (`id_fk_braldun_boutique_bois`),
-  KEY `id_fk_lieu_boutique_bois` (`id_fk_lieu_boutique_bois`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `boutique_minerai`
---
-
-CREATE TABLE IF NOT EXISTS `boutique_minerai` (
-  `id_boutique_minerai` int(11) NOT NULL AUTO_INCREMENT,
-  `date_achat_boutique_minerai` datetime NOT NULL,
-  `id_fk_type_boutique_minerai` int(11) NOT NULL,
-  `id_fk_lieu_boutique_minerai` int(11) NOT NULL,
-  `id_fk_braldun_boutique_minerai` int(11) NOT NULL,
-  `quantite_brut_boutique_minerai` int(11) NOT NULL DEFAULT '0',
-  `prix_unitaire_boutique_minerai` int(11) NOT NULL,
-  `id_fk_region_boutique_minerai` int(11) NOT NULL,
-  `action_boutique_minerai` enum('reprise','vente') NOT NULL,
-  PRIMARY KEY (`id_boutique_minerai`),
-  KEY `id_fk_lieu_laban_minerai` (`id_fk_lieu_boutique_minerai`),
-  KEY `id_fk_braldun_boutique_minerai` (`id_fk_braldun_boutique_minerai`),
-  KEY `id_fk_region_boutique_minerai` (`id_fk_region_boutique_minerai`),
-  KEY `id_fk_type_boutique_minerai` (`id_fk_type_boutique_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `boutique_partieplante`
---
-
-CREATE TABLE IF NOT EXISTS `boutique_partieplante` (
-  `id_boutique_partieplante` int(11) NOT NULL AUTO_INCREMENT,
-  `date_achat_boutique_partieplante` datetime NOT NULL,
-  `id_fk_type_boutique_partieplante` int(11) NOT NULL,
-  `id_fk_type_plante_boutique_partieplante` int(11) NOT NULL,
-  `id_fk_lieu_boutique_partieplante` int(11) NOT NULL,
-  `id_fk_braldun_boutique_partieplante` int(11) NOT NULL,
-  `quantite_brut_boutique_partieplante` int(11) NOT NULL,
-  `prix_unitaire_boutique_partieplante` int(11) NOT NULL,
-  `id_fk_region_boutique_partieplante` int(11) NOT NULL,
-  `action_boutique_partieplante` enum('reprise','vente') NOT NULL,
-  PRIMARY KEY (`id_boutique_partieplante`),
-  KEY `id_fk_type_plante_boutique_partieplante` (`id_fk_type_plante_boutique_partieplante`),
-  KEY `id_fk_lieu_boutique_partieplante` (`id_fk_lieu_boutique_partieplante`),
-  KEY `id_fk_braldun_boutique_partieplante` (`id_fk_braldun_boutique_partieplante`),
-  KEY `id_fk_region_boutique_partieplante` (`id_fk_region_boutique_partieplante`),
-  KEY `id_fk_type_boutique_partieplante` (`id_fk_type_boutique_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `boutique_peau`
---
-
-CREATE TABLE IF NOT EXISTS `boutique_peau` (
-  `id_boutique_peau` int(11) NOT NULL AUTO_INCREMENT,
-  `date_achat_boutique_peau` datetime NOT NULL,
-  `id_fk_lieu_boutique_peau` int(11) NOT NULL,
-  `id_fk_braldun_boutique_peau` int(11) NOT NULL,
-  `quantite_peau_boutique_peau` int(11) NOT NULL,
-  `prix_unitaire_boutique_peau` int(11) NOT NULL,
-  `id_fk_region_boutique_peau` int(11) NOT NULL,
-  `action_boutique_peau` enum('reprise','vente') NOT NULL,
-  PRIMARY KEY (`id_boutique_peau`),
-  KEY `id_fk_braldun_boutique_peau` (`id_fk_braldun_boutique_peau`),
-  KEY `id_fk_lieu_boutique_peau` (`id_fk_lieu_boutique_peau`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 -- --------------------------------------------------------
 
@@ -262,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `boutique_tabac` (
   KEY `id_fk_braldun_boutique_tabac` (`id_fk_braldun_boutique_tabac`),
   KEY `id_fk_region_boutique_tabac` (`id_fk_region_boutique_tabac`),
   KEY `id_fk_type_boutique_tabac` (`id_fk_type_boutique_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=305 ;
 
 -- --------------------------------------------------------
 
@@ -383,6 +295,7 @@ CREATE TABLE IF NOT EXISTS `braldun` (
   `nb_tour_blabla_braldun` mediumint(9) NOT NULL DEFAULT '0',
   `est_partage_communaute_butin_braldun` enum('oui','non') NOT NULL DEFAULT 'non',
   `id_fk_lieu_resurrection_braldun` int(11) DEFAULT NULL,
+  `est_testeur_vue_braldun` enum('oui','non') NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id_braldun`),
   UNIQUE KEY `email_braldun` (`email_braldun`),
   KEY `id_fk_communaute_braldun` (`id_fk_communaute_braldun`),
@@ -394,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `braldun` (
   KEY `id_fk_region_creation_braldun` (`id_fk_region_creation_braldun`),
   KEY `est_pnj_braldun` (`est_pnj_braldun`),
   KEY `x_braldun` (`x_braldun`,`y_braldun`,`z_braldun`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Tables des Braldûns' AUTO_INCREMENT=681 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Tables des Braldûns' AUTO_INCREMENT=813 ;
 
 -- --------------------------------------------------------
 
@@ -410,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_cdm` (
   PRIMARY KEY (`id_fk_braldun_hcdm`,`id_fk_monstre_hcdm`,`id_fk_taille_monstre_hcdm`),
   KEY `id_fk_type_monstre_hcdm` (`id_fk_type_monstre_hcdm`),
   KEY `id_fk_taille_monstre_hcdm` (`id_fk_taille_monstre_hcdm`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -429,20 +342,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_competences` (
   `nb_tour_restant_malus_tabac_hcomp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_braldun_hcomp`,`id_fk_competence_hcomp`),
   KEY `id_fk_competence_hcomp` (`id_fk_competence_hcomp`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `bralduns_competences_favories`
---
-
-CREATE TABLE IF NOT EXISTS `bralduns_competences_favories` (
-  `id_fk_braldun_hcompf` int(11) NOT NULL DEFAULT '0',
-  `id_fk_competence_hcompf` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id_fk_braldun_hcompf`,`id_fk_competence_hcompf`),
-  KEY `id_fk_competence_hcompf` (`id_fk_competence_hcompf`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -455,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_competences_favorites` (
   `id_fk_competence_hcompf` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_braldun_hcompf`,`id_fk_competence_hcompf`),
   KEY `id_fk_competence_hcompf` (`id_fk_competence_hcompf`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -473,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_distinction` (
   PRIMARY KEY (`id_hdistinction`),
   KEY `id_fk_braldun_hdistinction` (`id_fk_braldun_hdistinction`),
   KEY `id_fk_type_distinction_hdistinction` (`id_fk_type_distinction_hdistinction`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=862 ;
 
 -- --------------------------------------------------------
 
@@ -486,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_equipement` (
   `id_fk_braldun_hequipement` int(11) NOT NULL,
   PRIMARY KEY (`id_equipement_hequipement`),
   KEY `id_fk_braldun_hequipement` (`id_fk_braldun_hequipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -501,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_metiers` (
   `date_apprentissage_hmetier` date NOT NULL,
   PRIMARY KEY (`id_fk_braldun_hmetier`,`id_fk_metier_hmetier`),
   KEY `id_fk_metier_hmetier` (`id_fk_metier_hmetier`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -514,7 +414,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_roles` (
   `id_fk_role_hroles` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_braldun_hroles`,`id_fk_role_hroles`),
   KEY `id_fk_role_hroles` (`id_fk_role_hroles`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -529,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `bralduns_titres` (
   `date_acquis_htitre` date NOT NULL,
   PRIMARY KEY (`id_fk_braldun_htitre`,`id_fk_type_htitre`,`niveau_acquis_htitre`),
   KEY `id_fk_type_htitre` (`id_fk_type_htitre`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -548,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `buisson` (
   PRIMARY KEY (`id_buisson`),
   UNIQUE KEY `idx_x_buisson_y_buisson` (`x_buisson`,`y_buisson`,`z_buisson`),
   KEY `id_fk_type_buisson_buisson` (`id_fk_type_buisson_buisson`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=119930 ;
 
 -- --------------------------------------------------------
 
@@ -566,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `butin` (
   PRIMARY KEY (`id_butin`),
   KEY `id_fk_braldun_butin` (`id_fk_braldun_butin`),
   KEY `x_butin` (`x_butin`,`y_butin`,`z_butin`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4792 ;
 
 -- --------------------------------------------------------
 
@@ -579,7 +479,7 @@ CREATE TABLE IF NOT EXISTS `butin_partage` (
   `id_fk_autorise_butin_partage` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_braldun_butin_partage`,`id_fk_autorise_butin_partage`),
   KEY `id_fk_autorise_butin_partage` (`id_fk_autorise_butin_partage`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -593,7 +493,7 @@ CREATE TABLE IF NOT EXISTS `carnet` (
   `texte_carnet` mediumtext NOT NULL,
   PRIMARY KEY (`id_carnet`,`id_fk_braldun_carnet`),
   KEY `id_fk_braldun_carnet` (`id_fk_braldun_carnet`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -622,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `champ` (
   KEY `id_fk_braldun_champ` (`id_fk_braldun_champ`),
   KEY `x_champ` (`x_champ`,`y_champ`,`z_champ`),
   KEY `id_fk_type_graine_champ` (`id_fk_type_graine_champ`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=123 ;
 
 -- --------------------------------------------------------
 
@@ -641,7 +541,7 @@ CREATE TABLE IF NOT EXISTS `champ_taupe` (
   `date_entretien_champ_taupe` datetime DEFAULT NULL,
   PRIMARY KEY (`id_champ_taupe`),
   UNIQUE KEY `id_fk_champ_taupe_2` (`id_fk_champ_taupe`,`x_champ_taupe`,`y_champ_taupe`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13547 ;
 
 -- --------------------------------------------------------
 
@@ -674,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `charrette` (
   PRIMARY KEY (`id_charrette`),
   UNIQUE KEY `id_fk_braldun_charrette` (`id_fk_braldun_charrette`),
   KEY `x_charrette` (`x_charrette`,`y_charrette`,`z_charrette`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -687,7 +587,7 @@ CREATE TABLE IF NOT EXISTS `charrette_aliment` (
   `id_fk_charrette_aliment` int(11) NOT NULL,
   PRIMARY KEY (`id_charrette_aliment`),
   KEY `id_fk_charrette_aliment` (`id_fk_charrette_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -700,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `charrette_equipement` (
   `id_fk_charrette_equipement` int(11) NOT NULL,
   PRIMARY KEY (`id_charrette_equipement`),
   KEY `id_fk_charrette_equipement` (`id_fk_charrette_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -714,7 +614,7 @@ CREATE TABLE IF NOT EXISTS `charrette_graine` (
   `quantite_charrette_graine` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_charrette_graine`,`id_fk_charrette_graine`),
   KEY `id_fk_charrette_graine` (`id_fk_charrette_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -728,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `charrette_ingredient` (
   `quantite_charrette_ingredient` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_charrette_ingredient`,`id_fk_charrette_ingredient`),
   KEY `id_fk_charrette_ingredient` (`id_fk_charrette_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -741,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `charrette_materiel` (
   `id_fk_charrette_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id_charrette_materiel`),
   KEY `id_fk_charrette_materiel` (`id_fk_charrette_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -752,8 +652,9 @@ CREATE TABLE IF NOT EXISTS `charrette_materiel` (
 CREATE TABLE IF NOT EXISTS `charrette_materiel_assemble` (
   `id_charrette_materiel_assemble` int(11) NOT NULL,
   `id_materiel_materiel_assemble` int(11) NOT NULL,
-  PRIMARY KEY (`id_charrette_materiel_assemble`,`id_materiel_materiel_assemble`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_charrette_materiel_assemble`,`id_materiel_materiel_assemble`),
+  KEY `id_materiel_materiel_assemble` (`id_materiel_materiel_assemble`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -768,7 +669,7 @@ CREATE TABLE IF NOT EXISTS `charrette_minerai` (
   `quantite_lingots_charrette_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_charrette_minerai`,`id_fk_charrette_minerai`),
   KEY `id_fk_charrette_minerai` (`id_fk_charrette_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -782,7 +683,7 @@ CREATE TABLE IF NOT EXISTS `charrette_munition` (
   `quantite_charrette_munition` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_charrette_munition`,`id_fk_charrette_munition`),
   KEY `id_fk_charrette_munition` (`id_fk_charrette_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -795,7 +696,7 @@ CREATE TABLE IF NOT EXISTS `charrette_partage` (
   `id_fk_braldun_charrette_partage` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_charrette_partage`,`id_fk_braldun_charrette_partage`),
   KEY `id_fk_braldun_charrette_partage` (`id_fk_braldun_charrette_partage`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -812,7 +713,7 @@ CREATE TABLE IF NOT EXISTS `charrette_partieplante` (
   PRIMARY KEY (`id_fk_type_charrette_partieplante`,`id_fk_type_plante_charrette_partieplante`,`id_fk_charrette_partieplante`),
   KEY `id_fk_type_plante_charrette_partieplante` (`id_fk_type_plante_charrette_partieplante`),
   KEY `id_fk_charrette_partieplante` (`id_fk_charrette_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -825,7 +726,7 @@ CREATE TABLE IF NOT EXISTS `charrette_potion` (
   `id_fk_charrette_potion` int(11) NOT NULL,
   PRIMARY KEY (`id_charrette_potion`),
   KEY `id_fk_charrette_potion` (`id_fk_charrette_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -838,7 +739,7 @@ CREATE TABLE IF NOT EXISTS `charrette_rune` (
   `id_rune_charrette_rune` int(11) NOT NULL,
   PRIMARY KEY (`id_rune_charrette_rune`),
   KEY `id_fk_charrette_rune` (`id_fk_charrette_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -852,7 +753,7 @@ CREATE TABLE IF NOT EXISTS `charrette_tabac` (
   `quantite_feuille_charrette_tabac` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_charrette_tabac`,`id_fk_charrette_tabac`),
   KEY `id_fk_charrette_tabac` (`id_fk_charrette_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -874,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `coffre` (
   PRIMARY KEY (`id_coffre`),
   KEY `id_fk_communaute_coffre` (`id_fk_communaute_coffre`),
   KEY `id_fk_braldun_coffre` (`id_fk_braldun_coffre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=710 ;
 
 -- --------------------------------------------------------
 
@@ -887,7 +788,7 @@ CREATE TABLE IF NOT EXISTS `coffre_aliment` (
   `id_fk_coffre_coffre_aliment` int(11) NOT NULL,
   PRIMARY KEY (`id_coffre_aliment`),
   KEY `id_fk_coffre_coffre_aliment` (`id_fk_coffre_coffre_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -900,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `coffre_equipement` (
   `id_fk_coffre_coffre_equipement` int(11) NOT NULL,
   PRIMARY KEY (`id_coffre_equipement`),
   KEY `id_fk_coffre_coffre_equipement` (`id_fk_coffre_coffre_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -914,7 +815,7 @@ CREATE TABLE IF NOT EXISTS `coffre_graine` (
   `id_fk_coffre_coffre_graine` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_coffre_graine`,`id_fk_coffre_coffre_graine`),
   KEY `id_fk_coffre_coffre_graine` (`id_fk_coffre_coffre_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -928,7 +829,7 @@ CREATE TABLE IF NOT EXISTS `coffre_ingredient` (
   `id_fk_coffre_coffre_ingredient` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_coffre_ingredient`,`id_fk_coffre_coffre_ingredient`),
   KEY `id_fk_coffre_coffre_ingredient` (`id_fk_coffre_coffre_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -941,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `coffre_materiel` (
   `id_fk_coffre_coffre_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id_coffre_materiel`),
   KEY `id_fk_coffre_coffre_materiel` (`id_fk_coffre_coffre_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -956,7 +857,7 @@ CREATE TABLE IF NOT EXISTS `coffre_minerai` (
   `id_fk_coffre_coffre_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_coffre_minerai`,`id_fk_coffre_coffre_minerai`),
   KEY `id_fk_coffre_coffre_minerai` (`id_fk_coffre_coffre_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -970,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `coffre_munition` (
   `id_fk_coffre_coffre_munition` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_coffre_munition`,`id_fk_coffre_coffre_munition`),
   KEY `id_fk_coffre_coffre_munition` (`id_fk_coffre_coffre_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -987,7 +888,7 @@ CREATE TABLE IF NOT EXISTS `coffre_partieplante` (
   PRIMARY KEY (`id_fk_type_coffre_partieplante`,`id_fk_type_plante_coffre_partieplante`,`id_fk_coffre_coffre_partieplante`),
   KEY `id_fk_type_plante_coffre_partieplante` (`id_fk_type_plante_coffre_partieplante`),
   KEY `id_fk_coffre_coffre_partieplante` (`id_fk_coffre_coffre_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1000,7 +901,7 @@ CREATE TABLE IF NOT EXISTS `coffre_potion` (
   `id_fk_coffre_coffre_potion` int(11) NOT NULL,
   PRIMARY KEY (`id_coffre_potion`),
   KEY `id_fk_coffre_coffre_potion` (`id_fk_coffre_coffre_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1013,7 +914,7 @@ CREATE TABLE IF NOT EXISTS `coffre_rune` (
   `id_fk_coffre_coffre_rune` int(11) NOT NULL,
   PRIMARY KEY (`id_rune_coffre_rune`),
   KEY `id_fk_coffre_coffre_rune` (`id_fk_coffre_coffre_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1027,7 +928,7 @@ CREATE TABLE IF NOT EXISTS `coffre_tabac` (
   `id_fk_coffre_coffre_tabac` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_coffre_tabac`,`id_fk_coffre_coffre_tabac`),
   KEY `id_fk_coffre_coffre_tabac` (`id_fk_coffre_coffre_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1049,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `communaute` (
   `points_communaute` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_communaute`),
   UNIQUE KEY `id_fk_braldun_createur_communaute` (`id_fk_braldun_gestionnaire_communaute`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -1079,7 +980,7 @@ CREATE TABLE IF NOT EXISTS `competence` (
   KEY `id_fk_metier_competence` (`id_fk_metier_competence`),
   KEY `id_fk_type_tabac_competence` (`id_fk_type_tabac_competence`),
   KEY `ordre_competence` (`ordre_competence`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
 
 -- --------------------------------------------------------
 
@@ -1099,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `contrat` (
   PRIMARY KEY (`id_contrat`),
   KEY `id_fk_braldun_contrat` (`id_fk_braldun_contrat`),
   KEY `id_fk_cible_braldun_contrat` (`id_fk_cible_braldun_contrat`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -1116,7 +1017,7 @@ CREATE TABLE IF NOT EXISTS `couple` (
   PRIMARY KEY (`id_fk_m_braldun_couple`,`id_fk_f_braldun_couple`),
   UNIQUE KEY `id_fk_f_braldun_couple` (`id_fk_f_braldun_couple`),
   UNIQUE KEY `id_fk_m_braldun_couple` (`id_fk_m_braldun_couple`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1129,7 +1030,7 @@ CREATE TABLE IF NOT EXISTS `creation_bosquets` (
   `id_fk_environnement_creation_bosquets` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_bosquet_creation_bosquets`,`id_fk_environnement_creation_bosquets`),
   KEY `id_fk_environnement_creation_filons` (`id_fk_environnement_creation_bosquets`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1142,7 +1043,7 @@ CREATE TABLE IF NOT EXISTS `creation_buissons` (
   `id_fk_environnement_creation_buissons` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_buisson_creation_buissons`,`id_fk_environnement_creation_buissons`),
   KEY `id_fk_environnement_creation_buissons` (`id_fk_environnement_creation_buissons`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1155,7 +1056,7 @@ CREATE TABLE IF NOT EXISTS `creation_minerais` (
   `id_fk_environnement_creation_minerais` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_minerai_creation_minerais`,`id_fk_environnement_creation_minerais`),
   KEY `id_fk_environnement_creation_filons` (`id_fk_environnement_creation_minerais`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1169,7 +1070,7 @@ CREATE TABLE IF NOT EXISTS `creation_nid` (
   `nb_monstres_ville_creation_nid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_fk_zone_creation_nid`,`id_fk_type_monstre_creation_nid`),
   KEY `id_fk_type_monstre_creation_nid` (`id_fk_type_monstre_creation_nid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1182,7 +1083,7 @@ CREATE TABLE IF NOT EXISTS `creation_plantes` (
   `id_fk_environnement_creation_plantes` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_plante_creation_plantes`,`id_fk_environnement_creation_plantes`),
   KEY `id_fk_environnement_creation_plantes` (`id_fk_environnement_creation_plantes`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1200,7 +1101,7 @@ CREATE TABLE IF NOT EXISTS `crevasse` (
   PRIMARY KEY (`id_crevasse`),
   UNIQUE KEY `x_crevasse` (`x_crevasse`,`y_crevasse`,`z_crevasse`),
   KEY `id_fk_donjon_crevasse` (`id_fk_donjon_crevasse`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
 
 -- --------------------------------------------------------
 
@@ -1219,7 +1120,7 @@ CREATE TABLE IF NOT EXISTS `donjon` (
   KEY `id_fk_region_donjon` (`id_fk_region_donjon`),
   KEY `id_fk_pnj_donjon` (`id_fk_pnj_donjon`),
   KEY `id_fk_distinction_donjon` (`id_fk_distinction_donjon`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -1233,7 +1134,7 @@ CREATE TABLE IF NOT EXISTS `donjon_braldun` (
   `date_inscription_donjon_braldun` datetime DEFAULT NULL,
   PRIMARY KEY (`id_fk_braldun_donjon_braldun`,`id_fk_equipe_donjon_braldun`),
   KEY `id_fk_equipe_donjon_braldun` (`id_fk_equipe_donjon_braldun`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1250,7 +1151,7 @@ CREATE TABLE IF NOT EXISTS `donjon_crevasse` (
   PRIMARY KEY (`id_donjon_crevasse`),
   UNIQUE KEY `x_donjon_crevasse` (`x_donjon_crevasse`,`y_donjon_crevasse`,`z_donjon_crevasse`),
   KEY `id_fk_donjon_donjon_crevasse` (`id_fk_donjon_crevasse`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Creation des crevasses pour les donjons' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Creation des crevasses pour les donjons' AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
@@ -1272,7 +1173,7 @@ CREATE TABLE IF NOT EXISTS `donjon_equipe` (
   PRIMARY KEY (`id_donjon_equipe`),
   KEY `id_fk_donjon_equipe` (`id_fk_donjon_equipe`),
   KEY `id_fk_braldun_meneur_equipe` (`id_fk_braldun_meneur_equipe`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1293,7 +1194,7 @@ CREATE TABLE IF NOT EXISTS `donjon_nid` (
   KEY `id_fk_type_monstre_donjon_nid` (`id_fk_type_monstre_donjon_nid`),
   KEY `id_fk_donjon_nid` (`id_fk_donjon_nid`),
   KEY `id_fk_zone_nid_donjon_nid` (`id_fk_zone_nid_donjon_nid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 -- --------------------------------------------------------
 
@@ -1315,7 +1216,7 @@ CREATE TABLE IF NOT EXISTS `donjon_palissade` (
   PRIMARY KEY (`id_donjon_palissade`),
   UNIQUE KEY `xy_donjon_palissade` (`x_donjon_palissade`,`y_donjon_palissade`,`z_donjon_palissade`),
   KEY `id_fk_donjon_palissade` (`id_fk_donjon_palissade`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -1331,7 +1232,7 @@ CREATE TABLE IF NOT EXISTS `eau` (
   `type_eau` enum('peuprofonde','profonde','lac','mer') NOT NULL,
   PRIMARY KEY (`id_eau`),
   UNIQUE KEY `x_eau` (`x_eau`,`y_eau`,`z_eau`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=213577 ;
 
 -- --------------------------------------------------------
 
@@ -1360,7 +1261,7 @@ CREATE TABLE IF NOT EXISTS `echoppe` (
   KEY `id_fk_braldun_echoppe` (`id_fk_braldun_echoppe`),
   KEY `id_fk_metier_echoppe` (`id_fk_metier_echoppe`),
   KEY `x_echoppe` (`x_echoppe`,`y_echoppe`,`z_echoppe`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
 
 -- --------------------------------------------------------
 
@@ -1375,7 +1276,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_aliment` (
   PRIMARY KEY (`id_echoppe_aliment`),
   KEY `id_fk_echoppe_echoppe_aliment` (`id_fk_echoppe_echoppe_aliment`),
   KEY `date_echoppe_aliment` (`date_echoppe_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1390,7 +1291,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_equipement` (
   PRIMARY KEY (`id_echoppe_equipement`),
   KEY `id_fk_echoppe_echoppe_equipement` (`id_fk_echoppe_echoppe_equipement`),
   KEY `date_echoppe_equipement` (`date_echoppe_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1404,7 +1305,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_graine` (
   `quantite_arriere_echoppe_graine` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_echoppe_graine`,`id_fk_echoppe_echoppe_graine`),
   KEY `id_fk_echoppe_echoppe_graine` (`id_fk_echoppe_echoppe_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1418,7 +1319,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_ingredient` (
   `quantite_arriere_echoppe_ingredient` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_echoppe_ingredient`,`id_fk_echoppe_echoppe_ingredient`),
   KEY `id_fk_echoppe_echoppe_ingredient` (`id_fk_echoppe_echoppe_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1433,7 +1334,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_materiel` (
   PRIMARY KEY (`id_echoppe_materiel`),
   KEY `id_fk_echoppe_echoppe_materiel` (`id_fk_echoppe_echoppe_materiel`),
   KEY `date_echoppe_materiel` (`date_echoppe_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1448,7 +1349,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_minerai` (
   `quantite_lingots_echoppe_minerai` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_echoppe_minerai`,`id_fk_echoppe_echoppe_minerai`),
   KEY `id_fk_echoppe_echoppe_minerai` (`id_fk_echoppe_echoppe_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1462,7 +1363,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_munition` (
   `id_fk_echoppe_echoppe_munition` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_echoppe_munition`,`id_fk_echoppe_echoppe_munition`),
   KEY `id_fk_echoppe_echoppe_munition` (`id_fk_echoppe_echoppe_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1479,7 +1380,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_partieplante` (
   PRIMARY KEY (`id_fk_type_echoppe_partieplante`,`id_fk_type_plante_echoppe_partieplante`,`id_fk_echoppe_echoppe_partieplante`),
   KEY `id_fk_type_plante_echoppe_partieplante` (`id_fk_type_plante_echoppe_partieplante`),
   KEY `id_fk_echoppe_echoppe_partieplante` (`id_fk_echoppe_echoppe_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1494,7 +1395,7 @@ CREATE TABLE IF NOT EXISTS `echoppe_potion` (
   PRIMARY KEY (`id_echoppe_potion`),
   KEY `id_fk_echoppe_potion` (`id_fk_echoppe_echoppe_potion`),
   KEY `date_echoppe_potion` (`date_echoppe_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1513,7 +1414,7 @@ CREATE TABLE IF NOT EXISTS `effet_braldun` (
   `texte_calcule_effet_braldun` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_effet_braldun`),
   KEY `id_fk_braldun_cible_effet_braldun` (`id_fk_braldun_cible_effet_braldun`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17854 ;
 
 -- --------------------------------------------------------
 
@@ -1530,7 +1431,7 @@ CREATE TABLE IF NOT EXISTS `effet_monstre` (
   `caract_effet_monstre` enum('FOR','AGI','VIG','SAG','PV','BBDF','VUE','ARM','POIDS','ATT','DEG','DEF') NOT NULL,
   PRIMARY KEY (`id_effet_monstre`),
   KEY `id_fk_monstre_cible_effet_monstre` (`id_fk_monstre_cible_effet_monstre`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43583 ;
 
 -- --------------------------------------------------------
 
@@ -1541,8 +1442,9 @@ CREATE TABLE IF NOT EXISTS `effet_monstre` (
 CREATE TABLE IF NOT EXISTS `effet_mot_f` (
   `id_fk_braldun_effet_mot_f` int(11) NOT NULL,
   `id_fk_type_monstre_effet_mot_f` int(11) NOT NULL,
-  PRIMARY KEY (`id_fk_braldun_effet_mot_f`,`id_fk_type_monstre_effet_mot_f`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_fk_braldun_effet_mot_f`,`id_fk_type_monstre_effet_mot_f`),
+  KEY `id_fk_type_monstre_effet_mot_f` (`id_fk_type_monstre_effet_mot_f`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1559,7 +1461,7 @@ CREATE TABLE IF NOT EXISTS `effet_potion_braldun` (
   PRIMARY KEY (`id_effet_potion_braldun`),
   KEY `id_fk_braldun_cible_effet_potion_braldun` (`id_fk_braldun_cible_effet_potion_braldun`),
   KEY `id_fk_braldun_lanceur_effet_potion_braldun` (`id_fk_braldun_lanceur_effet_potion_braldun`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1576,7 +1478,7 @@ CREATE TABLE IF NOT EXISTS `effet_potion_monstre` (
   PRIMARY KEY (`id_effet_potion_monstre`),
   KEY `id_fk_monstre_cible_effet_potion_monstre` (`id_fk_monstre_cible_effet_potion_monstre`),
   KEY `id_fk_braldun_lanceur_effet_potion_monstre` (`id_fk_braldun_lanceur_effet_potion_monstre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=505 ;
 
 -- --------------------------------------------------------
 
@@ -1600,7 +1502,7 @@ CREATE TABLE IF NOT EXISTS `element` (
   PRIMARY KEY (`id_element`),
   UNIQUE KEY `x_element` (`x_element`,`y_element`,`z_element`,`id_fk_butin_element`),
   KEY `id_fk_butin_element` (`id_fk_butin_element`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7108 ;
 
 -- --------------------------------------------------------
 
@@ -1618,7 +1520,7 @@ CREATE TABLE IF NOT EXISTS `element_aliment` (
   PRIMARY KEY (`id_element_aliment`),
   KEY `x_element_aliment` (`x_element_aliment`,`y_element_aliment`,`z_element_aliment`),
   KEY `id_fk_butin_element_aliment` (`id_fk_butin_element_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1636,7 +1538,7 @@ CREATE TABLE IF NOT EXISTS `element_equipement` (
   PRIMARY KEY (`id_element_equipement`),
   KEY `x_element_equipement` (`x_element_equipement`,`y_element_equipement`,`z_element_equipement`),
   KEY `id_fk_butin_element_equipement` (`id_fk_butin_element_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1654,7 +1556,7 @@ CREATE TABLE IF NOT EXISTS `element_graine` (
   `id_fk_butin_element_graine` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_fk_type_element_graine`,`x_element_graine`,`y_element_graine`,`z_element_graine`),
   KEY `id_fk_butin_element_graine` (`id_fk_butin_element_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1672,7 +1574,7 @@ CREATE TABLE IF NOT EXISTS `element_ingredient` (
   `id_fk_butin_element_ingredient` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_fk_type_element_ingredient`,`x_element_ingredient`,`y_element_ingredient`,`z_element_ingredient`),
   KEY `id_fk_butin_element_ingredient` (`id_fk_butin_element_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1690,7 +1592,7 @@ CREATE TABLE IF NOT EXISTS `element_materiel` (
   PRIMARY KEY (`id_element_materiel`),
   KEY `x_element_materiel` (`x_element_materiel`,`y_element_materiel`,`z_element_materiel`),
   KEY `id_fk_butin_element_materiel` (`id_fk_butin_element_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1709,7 +1611,7 @@ CREATE TABLE IF NOT EXISTS `element_minerai` (
   `id_fk_butin_element_minerai` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_fk_type_element_minerai`,`x_element_minerai`,`y_element_minerai`,`z_element_minerai`),
   KEY `id_fk_butin_element_minerai` (`id_fk_butin_element_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1728,7 +1630,7 @@ CREATE TABLE IF NOT EXISTS `element_munition` (
   PRIMARY KEY (`x_element_munition`,`y_element_munition`,`id_fk_type_element_munition`,`z_element_munition`),
   KEY `id_fk_type_element_munition` (`id_fk_type_element_munition`),
   KEY `id_fk_butin_element_munition` (`id_fk_butin_element_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1749,7 +1651,7 @@ CREATE TABLE IF NOT EXISTS `element_partieplante` (
   PRIMARY KEY (`id_fk_type_element_partieplante`,`id_fk_type_plante_element_partieplante`,`x_element_partieplante`,`y_element_partieplante`,`z_element_partieplante`),
   KEY `id_fk_type_plante_element_partieplante` (`id_fk_type_plante_element_partieplante`),
   KEY `id_fk_butin_element_partieplante` (`id_fk_butin_element_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1767,7 +1669,7 @@ CREATE TABLE IF NOT EXISTS `element_potion` (
   PRIMARY KEY (`id_element_potion`),
   KEY `x_element_potion` (`x_element_potion`,`y_element_potion`,`z_element_potion`),
   KEY `id_fk_butin_element_potion` (`id_fk_butin_element_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1785,7 +1687,7 @@ CREATE TABLE IF NOT EXISTS `element_rune` (
   PRIMARY KEY (`id_rune_element_rune`),
   KEY `x_element_rune` (`x_element_rune`,`y_element_rune`,`z_element_rune`),
   KEY `id_fk_butin_element_rune` (`id_fk_butin_element_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1803,7 +1705,7 @@ CREATE TABLE IF NOT EXISTS `element_tabac` (
   `id_fk_butin_element_tabac` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_fk_type_element_tabac`,`x_element_tabac`,`y_element_tabac`,`z_element_tabac`),
   KEY `id_fk_butin_element_tabac` (`id_fk_butin_element_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1820,7 +1722,7 @@ CREATE TABLE IF NOT EXISTS `enquete` (
   `etat_enquete` enum('ouvert','en-cours','clos') NOT NULL DEFAULT 'ouvert',
   PRIMARY KEY (`id_enquete`),
   KEY `id_fk_braldun_enquete` (`id_fk_braldun_enquete`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -1836,7 +1738,7 @@ CREATE TABLE IF NOT EXISTS `environnement` (
   `image_environnement` varchar(100) NOT NULL,
   `est_quete_environnement` enum('oui','non') NOT NULL DEFAULT 'oui',
   PRIMARY KEY (`id_environnement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -1866,7 +1768,7 @@ CREATE TABLE IF NOT EXISTS `equipement` (
   KEY `id_fk_mot_runique_equipement` (`id_fk_mot_runique_equipement`),
   KEY `id_fk_region_equipement` (`id_fk_region_equipement`),
   KEY `id_fk_recette_equipement` (`id_fk_recette_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1892,7 +1794,7 @@ CREATE TABLE IF NOT EXISTS `equipement_bonus` (
   `vernis_bm_degat_equipement_bonus` int(11) DEFAULT NULL,
   `vernis_bm_defense_equipement_bonus` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_equipement_bonus`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1906,7 +1808,7 @@ CREATE TABLE IF NOT EXISTS `equipement_rune` (
   `ordre_equipement_rune` int(11) NOT NULL,
   PRIMARY KEY (`id_equipement_rune`,`id_rune_equipement_rune`),
   KEY `id_rune_equipement_rune` (`id_rune_equipement_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1934,7 +1836,7 @@ CREATE TABLE IF NOT EXISTS `etape` (
   KEY `id_fk_quete_etape` (`id_fk_quete_etape`),
   KEY `id_fk_type_etape` (`id_fk_type_etape`),
   KEY `id_fk_braldun_etape` (`id_fk_braldun_etape`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8030 ;
 
 -- --------------------------------------------------------
 
@@ -1961,7 +1863,7 @@ CREATE TABLE IF NOT EXISTS `evenement` (
   KEY `date_evenement` (`date_evenement`),
   KEY `id_fk_soule_match_evenement` (`id_fk_soule_match_evenement`),
   KEY `id_fk_type_evenement` (`id_fk_type_evenement`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=662487 ;
 
 -- --------------------------------------------------------
 
@@ -1980,7 +1882,7 @@ CREATE TABLE IF NOT EXISTS `evenement_communaute` (
   KEY `idx_id_communaute_evenement_communaute` (`id_fk_communaute_evenement_communaute`),
   KEY `date_evenement_communaute` (`date_evenement_communaute`),
   KEY `id_fk_type_evenement_communaute` (`id_fk_type_evenement_communaute`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=499 ;
 
 -- --------------------------------------------------------
 
@@ -1998,7 +1900,7 @@ CREATE TABLE IF NOT EXISTS `filature` (
   PRIMARY KEY (`id_filature`),
   KEY `id_fk_braldun_filature` (`id_fk_braldun_filature`),
   KEY `id_fk_cible_braldun_filature` (`id_fk_cible_braldun_filature`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -2019,7 +1921,7 @@ CREATE TABLE IF NOT EXISTS `filature_action` (
   KEY `x_min_filature_action` (`x_min_filature_action`,`x_max_filature_action`,`y_min_filature_action`,`y_max_filature_action`),
   KEY `id_fk_filature_action` (`id_fk_filature_action`),
   KEY `id_fk_braldun_filature_action` (`id_fk_braldun_filature_action`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -2038,7 +1940,7 @@ CREATE TABLE IF NOT EXISTS `filon` (
   PRIMARY KEY (`id_filon`),
   KEY `id_fk_type_minerai_filon` (`id_fk_type_minerai_filon`),
   KEY `idx_x_filon_y_filon` (`x_filon`,`y_filon`,`z_filon`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=299429 ;
 
 -- --------------------------------------------------------
 
@@ -2057,7 +1959,7 @@ CREATE TABLE IF NOT EXISTS `gardiennage` (
   PRIMARY KEY (`id_gardiennage`),
   KEY `id_gardien_gardiennage` (`id_fk_gardien_gardiennage`),
   KEY `id_fk_braldun_gardiennage` (`id_fk_braldun_gardiennage`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=205 ;
 
 -- --------------------------------------------------------
 
@@ -2085,7 +1987,7 @@ CREATE TABLE IF NOT EXISTS `groupe_monstre` (
   KEY `id_fk_braldun_cible_groupe_monstre` (`id_fk_braldun_cible_groupe_monstre`),
   KEY `date_a_jouer_groupe_monstre` (`date_a_jouer_groupe_monstre`),
   KEY `date_fin_tour_groupe_monstre` (`date_fin_tour_groupe_monstre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10258 ;
 
 -- --------------------------------------------------------
 
@@ -2102,7 +2004,7 @@ CREATE TABLE IF NOT EXISTS `historique_equipement` (
   PRIMARY KEY (`id_historique_equipement`),
   KEY `id_fk_historique_equipement` (`id_fk_historique_equipement`),
   KEY `id_fk_type_historique_equipement` (`id_fk_type_historique_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6278 ;
 
 -- --------------------------------------------------------
 
@@ -2117,7 +2019,7 @@ CREATE TABLE IF NOT EXISTS `historique_filature` (
   `details_historique_filature` varchar(1000) NOT NULL,
   PRIMARY KEY (`id_historique_filature`),
   KEY `id_fk_filature_historique_filature` (`id_fk_filature_historique_filature`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=78 ;
 
 -- --------------------------------------------------------
 
@@ -2134,7 +2036,7 @@ CREATE TABLE IF NOT EXISTS `historique_materiel` (
   PRIMARY KEY (`id_historique_materiel`),
   KEY `id_fk_historique_materiel` (`id_fk_historique_materiel`),
   KEY `id_fk_type_historique_materiel` (`id_fk_type_historique_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5948 ;
 
 -- --------------------------------------------------------
 
@@ -2151,7 +2053,7 @@ CREATE TABLE IF NOT EXISTS `historique_potion` (
   PRIMARY KEY (`id_historique_potion`),
   KEY `id_fk_historique_potion` (`id_fk_historique_potion`),
   KEY `id_fk_type_historique_potion` (`id_fk_type_historique_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1831 ;
 
 -- --------------------------------------------------------
 
@@ -2168,7 +2070,7 @@ CREATE TABLE IF NOT EXISTS `historique_rune` (
   PRIMARY KEY (`id_historique_rune`),
   KEY `id_fk_historique_rune` (`id_fk_type_historique_rune`),
   KEY `id_fk_historique_rune_2` (`id_fk_historique_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13092 ;
 
 -- --------------------------------------------------------
 
@@ -2180,7 +2082,7 @@ CREATE TABLE IF NOT EXISTS `ids_aliment` (
   `id_ids_aliment` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_aliment` datetime NOT NULL,
   PRIMARY KEY (`id_ids_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25980 ;
 
 -- --------------------------------------------------------
 
@@ -2192,7 +2094,7 @@ CREATE TABLE IF NOT EXISTS `ids_coffre` (
   `id_ids_coffre` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_coffre` datetime NOT NULL,
   PRIMARY KEY (`id_ids_coffre`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2204,7 +2106,7 @@ CREATE TABLE IF NOT EXISTS `ids_equipement` (
   `id_ids_equipement` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_equipement` datetime NOT NULL,
   PRIMARY KEY (`id_ids_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1551 ;
 
 -- --------------------------------------------------------
 
@@ -2216,7 +2118,7 @@ CREATE TABLE IF NOT EXISTS `ids_lot` (
   `id_ids_lot` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_lot` datetime NOT NULL,
   PRIMARY KEY (`id_ids_lot`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=927 ;
 
 -- --------------------------------------------------------
 
@@ -2228,7 +2130,7 @@ CREATE TABLE IF NOT EXISTS `ids_materiel` (
   `id_ids_materiel` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_materiel` datetime NOT NULL,
   PRIMARY KEY (`id_ids_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=569 ;
 
 -- --------------------------------------------------------
 
@@ -2240,7 +2142,7 @@ CREATE TABLE IF NOT EXISTS `ids_potion` (
   `id_ids_potion` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_potion` datetime NOT NULL,
   PRIMARY KEY (`id_ids_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=749 ;
 
 -- --------------------------------------------------------
 
@@ -2252,7 +2154,7 @@ CREATE TABLE IF NOT EXISTS `ids_rune` (
   `id_ids_rune` int(11) NOT NULL AUTO_INCREMENT,
   `date_creation_ids_rune` datetime NOT NULL,
   PRIMARY KEY (`id_ids_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3035 ;
 
 -- --------------------------------------------------------
 
@@ -2271,7 +2173,7 @@ CREATE TABLE IF NOT EXISTS `info_jeu` (
   `lien_wiki_info_jeu` varchar(200) NOT NULL,
   PRIMARY KEY (`id_info_jeu`),
   KEY `est_sur_accueil_info_jeu` (`est_sur_accueil_info_jeu`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=222 ;
 
 -- --------------------------------------------------------
 
@@ -2284,7 +2186,7 @@ CREATE TABLE IF NOT EXISTS `jetable` (
   `nom_jetable` varchar(40) NOT NULL,
   PRIMARY KEY (`id_jetable`),
   UNIQUE KEY `nom_jetable` (`nom_jetable`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
 
 -- --------------------------------------------------------
 
@@ -2302,7 +2204,7 @@ CREATE TABLE IF NOT EXISTS `laban` (
   `quantite_castar_laban` int(11) NOT NULL DEFAULT '0',
   `quantite_rondin_laban` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_braldun_laban`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2315,7 +2217,7 @@ CREATE TABLE IF NOT EXISTS `laban_aliment` (
   `id_fk_braldun_laban_aliment` int(11) NOT NULL,
   PRIMARY KEY (`id_laban_aliment`),
   KEY `id_fk_braldun_laban_aliment` (`id_fk_braldun_laban_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2328,7 +2230,7 @@ CREATE TABLE IF NOT EXISTS `laban_equipement` (
   `id_fk_braldun_laban_equipement` int(11) NOT NULL,
   PRIMARY KEY (`id_laban_equipement`),
   KEY `id_fk_braldun_laban_equipement` (`id_fk_braldun_laban_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2342,7 +2244,7 @@ CREATE TABLE IF NOT EXISTS `laban_graine` (
   `quantite_laban_graine` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_laban_graine`,`id_fk_braldun_laban_graine`),
   KEY `id_fk_braldun_laban_graine` (`id_fk_braldun_laban_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2356,7 +2258,7 @@ CREATE TABLE IF NOT EXISTS `laban_ingredient` (
   `quantite_laban_ingredient` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_laban_ingredient`,`id_fk_braldun_laban_ingredient`),
   KEY `id_fk_braldun_laban_ingredient` (`id_fk_braldun_laban_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2369,7 +2271,7 @@ CREATE TABLE IF NOT EXISTS `laban_materiel` (
   `id_fk_braldun_laban_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id_laban_materiel`),
   KEY `laban_materiel_ibfk_2` (`id_fk_braldun_laban_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2384,7 +2286,7 @@ CREATE TABLE IF NOT EXISTS `laban_minerai` (
   `quantite_lingots_laban_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_laban_minerai`,`id_fk_braldun_laban_minerai`),
   KEY `id_fk_braldun_laban_minerai` (`id_fk_braldun_laban_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2398,7 +2300,7 @@ CREATE TABLE IF NOT EXISTS `laban_munition` (
   `quantite_laban_munition` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_laban_munition`,`id_fk_braldun_laban_munition`),
   KEY `id_fk_braldun_laban_munition` (`id_fk_braldun_laban_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2415,7 +2317,7 @@ CREATE TABLE IF NOT EXISTS `laban_partieplante` (
   PRIMARY KEY (`id_fk_type_laban_partieplante`,`id_fk_type_plante_laban_partieplante`,`id_fk_braldun_laban_partieplante`),
   KEY `id_fk_type_plante_laban_partieplante` (`id_fk_type_plante_laban_partieplante`),
   KEY `id_fk_braldun_laban_partieplante` (`id_fk_braldun_laban_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2428,7 +2330,7 @@ CREATE TABLE IF NOT EXISTS `laban_potion` (
   `id_fk_braldun_laban_potion` int(11) NOT NULL,
   PRIMARY KEY (`id_laban_potion`),
   KEY `id_fk_braldun_laban_potion` (`id_fk_braldun_laban_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2443,7 +2345,7 @@ CREATE TABLE IF NOT EXISTS `laban_rune` (
   PRIMARY KEY (`id_rune_laban_rune`),
   KEY `id_fk_braldun_laban_rune` (`id_fk_braldun_laban_rune`),
   KEY `id_fk_braldun_identification_laban_rune` (`id_fk_braldun_identification_laban_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2457,7 +2359,7 @@ CREATE TABLE IF NOT EXISTS `laban_tabac` (
   `quantite_feuille_laban_tabac` int(11) DEFAULT '0',
   PRIMARY KEY (`id_fk_type_laban_tabac`,`id_fk_braldun_laban_tabac`),
   KEY `id_fk_braldun_laban_tabac` (`id_fk_braldun_laban_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2489,7 +2391,7 @@ CREATE TABLE IF NOT EXISTS `lieu` (
   KEY `id_fk_type_lieu` (`id_fk_type_lieu`),
   KEY `id_fk_ville_lieu` (`id_fk_ville_lieu`),
   KEY `id_fk_communaute_lieu` (`id_fk_communaute_lieu`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1551 ;
 
 -- --------------------------------------------------------
 
@@ -2522,7 +2424,7 @@ CREATE TABLE IF NOT EXISTS `lot` (
   KEY `id_fk_echoppe_lot` (`id_fk_echoppe_lot`),
   KEY `id_fk_type_lot` (`id_fk_type_lot`),
   KEY `id_fk_vendeur_braldun_lot` (`id_fk_vendeur_braldun_lot`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=925 ;
 
 -- --------------------------------------------------------
 
@@ -2535,7 +2437,7 @@ CREATE TABLE IF NOT EXISTS `lot_aliment` (
   `id_fk_lot_lot_aliment` int(11) NOT NULL,
   PRIMARY KEY (`id_lot_aliment`),
   KEY `id_fk_lot_lot_aliment` (`id_fk_lot_lot_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2548,7 +2450,7 @@ CREATE TABLE IF NOT EXISTS `lot_equipement` (
   `id_fk_lot_lot_equipement` int(11) NOT NULL,
   PRIMARY KEY (`id_lot_equipement`),
   KEY `id_fk_lot_lot_equipement` (`id_fk_lot_lot_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2562,7 +2464,7 @@ CREATE TABLE IF NOT EXISTS `lot_graine` (
   `id_fk_lot_lot_graine` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lot_graine`,`id_fk_lot_lot_graine`),
   KEY `id_fk_lot_lot_graine` (`id_fk_lot_lot_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2587,7 +2489,7 @@ CREATE TABLE IF NOT EXISTS `lot_historique` (
   `details_lot_historique` varchar(5000) DEFAULT NULL,
   `destination_lot_historique` varchar(200) NOT NULL,
   PRIMARY KEY (`id_lot_historique`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=927 ;
 
 -- --------------------------------------------------------
 
@@ -2601,7 +2503,7 @@ CREATE TABLE IF NOT EXISTS `lot_ingredient` (
   `id_fk_lot_lot_ingredient` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lot_ingredient`,`id_fk_lot_lot_ingredient`),
   KEY `id_fk_lot_lot_ingredient` (`id_fk_lot_lot_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2614,7 +2516,7 @@ CREATE TABLE IF NOT EXISTS `lot_materiel` (
   `id_fk_lot_lot_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id_lot_materiel`),
   KEY `id_fk_lot_lot_materiel` (`id_fk_lot_lot_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2629,7 +2531,7 @@ CREATE TABLE IF NOT EXISTS `lot_minerai` (
   `id_fk_lot_lot_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lot_minerai`,`id_fk_lot_lot_minerai`),
   KEY `id_fk_lot_lot_minerai` (`id_fk_lot_lot_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2643,7 +2545,7 @@ CREATE TABLE IF NOT EXISTS `lot_munition` (
   `id_fk_lot_lot_munition` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lot_munition`,`id_fk_lot_lot_munition`),
   KEY `id_fk_lot_lot_munition` (`id_fk_lot_lot_munition`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2660,7 +2562,7 @@ CREATE TABLE IF NOT EXISTS `lot_partieplante` (
   PRIMARY KEY (`id_fk_type_lot_partieplante`,`id_fk_type_plante_lot_partieplante`,`id_fk_lot_lot_partieplante`),
   KEY `id_fk_type_plante_lot_partieplante` (`id_fk_type_plante_lot_partieplante`),
   KEY `id_fk_lot_lot_partieplante` (`id_fk_lot_lot_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2673,7 +2575,7 @@ CREATE TABLE IF NOT EXISTS `lot_potion` (
   `id_fk_lot_lot_potion` int(11) NOT NULL,
   PRIMARY KEY (`id_lot_potion`),
   KEY `id_fk_lot_lot_potion` (`id_fk_lot_lot_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2687,7 +2589,7 @@ CREATE TABLE IF NOT EXISTS `lot_prix_graine` (
   `prix_lot_prix_graine` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_lot_prix_graine`,`id_fk_lot_prix_graine`),
   KEY `id_fk_lot_prix_graine` (`id_fk_lot_prix_graine`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2701,7 +2603,7 @@ CREATE TABLE IF NOT EXISTS `lot_prix_ingredient` (
   `prix_lot_prix_ingredient` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_lot_prix_ingredient`,`id_fk_lot_prix_ingredient`),
   KEY `id_fk_lot_prix_ingredient` (`id_fk_lot_prix_ingredient`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2716,7 +2618,7 @@ CREATE TABLE IF NOT EXISTS `lot_prix_minerai` (
   `prix_lot_prix_minerai` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_fk_type_lot_prix_minerai`,`id_fk_lot_prix_minerai`,`type_prix_minerai`),
   KEY `id_fk_lot_prix_minerai` (`id_fk_lot_prix_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2733,7 +2635,7 @@ CREATE TABLE IF NOT EXISTS `lot_prix_partieplante` (
   PRIMARY KEY (`id_fk_type_lot_prix_partieplante`,`id_fk_type_plante_lot_prix_partieplante`,`id_fk_lot_prix_partieplante`,`type_prix_partieplante`),
   KEY `id_fk_type_plante_lot_prix_partieplante` (`id_fk_type_plante_lot_prix_partieplante`),
   KEY `id_fk_lot_prix_partieplante` (`id_fk_lot_prix_partieplante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2746,7 +2648,7 @@ CREATE TABLE IF NOT EXISTS `lot_rune` (
   `id_fk_lot_lot_rune` int(11) NOT NULL,
   PRIMARY KEY (`id_rune_lot_rune`),
   KEY `id_fk_lot_lot_rune` (`id_fk_lot_lot_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2760,7 +2662,7 @@ CREATE TABLE IF NOT EXISTS `lot_tabac` (
   `id_fk_lot_lot_tabac` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lot_tabac`,`id_fk_lot_lot_tabac`),
   KEY `id_fk_lot_lot_tabac` (`id_fk_lot_lot_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2773,7 +2675,7 @@ CREATE TABLE IF NOT EXISTS `materiel` (
   `id_fk_type_materiel` int(11) NOT NULL,
   PRIMARY KEY (`id_materiel`),
   KEY `id_fk_recette_materiel` (`id_fk_type_materiel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2789,7 +2691,7 @@ CREATE TABLE IF NOT EXISTS `mcompetence` (
   `type_mcompetence` enum('fuite','prereperage','reperage','attaque','deplacement','riposte','end') NOT NULL DEFAULT 'attaque',
   PRIMARY KEY (`id_mcompetence`),
   UNIQUE KEY `nom_mcompetence` (`nom_mcompetence`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
 -- --------------------------------------------------------
 
@@ -2813,7 +2715,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `toread_totrash_datum` (`toread`,`totrash`),
   KEY `totrash_totrashdate` (`totrash`),
   KEY `fromid` (`fromid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=216459 ;
 
 -- --------------------------------------------------------
 
@@ -2829,7 +2731,7 @@ CREATE TABLE IF NOT EXISTS `messagerie_contacts` (
   `userids` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=209 ;
 
 -- --------------------------------------------------------
 
@@ -2847,7 +2749,7 @@ CREATE TABLE IF NOT EXISTS `metier` (
   `construction_echoppe_metier` enum('oui','non') NOT NULL DEFAULT 'non',
   `niveau_min_metier` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_metier`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -2922,7 +2824,7 @@ CREATE TABLE IF NOT EXISTS `monstre` (
   KEY `idx_x_monstre_y_monstre` (`x_monstre`,`y_monstre`,`z_monstre`),
   KEY `id_fk_zone_nid_monstre` (`id_fk_zone_nid_monstre`),
   KEY `id_fk_donjon_monstre` (`id_fk_donjon_monstre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=175015 ;
 
 -- --------------------------------------------------------
 
@@ -2951,7 +2853,7 @@ CREATE TABLE IF NOT EXISTS `mot_runique` (
   `effet_mot_runique` varchar(300) NOT NULL,
   PRIMARY KEY (`id_mot_runique`),
   UNIQUE KEY `nom_systeme_mot_runique` (`nom_systeme_mot_runique`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
@@ -2977,7 +2879,7 @@ CREATE TABLE IF NOT EXISTS `nid` (
   KEY `x_nid` (`x_nid`,`y_nid`,`z_nid`),
   KEY `nb_monstres_restants_nid` (`nb_monstres_restants_nid`),
   KEY `id_fk_donjon_nid` (`id_fk_donjon_nid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30005 ;
 
 -- --------------------------------------------------------
 
@@ -2990,7 +2892,7 @@ CREATE TABLE IF NOT EXISTS `nom` (
   `nom` varchar(20) NOT NULL,
   PRIMARY KEY (`id_nom`),
   UNIQUE KEY `nom` (`nom`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
 
 -- --------------------------------------------------------
 
@@ -3020,7 +2922,7 @@ CREATE TABLE IF NOT EXISTS `palissade` (
   UNIQUE KEY `xy_palissade` (`x_palissade`,`y_palissade`,`z_palissade`),
   KEY `date_fin_palissade` (`date_fin_palissade`),
   KEY `id_fk_donjon_palissade` (`id_fk_donjon_palissade`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=310671 ;
 
 -- --------------------------------------------------------
 
@@ -3037,7 +2939,7 @@ CREATE TABLE IF NOT EXISTS `partage` (
   PRIMARY KEY (`id_partage`),
   KEY `id_fk_braldun_declarant_partage` (`id_fk_braldun_declarant_partage`),
   KEY `id_fk_braldun_partage_partage` (`id_fk_braldun_declare_partage`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 -- --------------------------------------------------------
 
@@ -3052,7 +2954,7 @@ CREATE TABLE IF NOT EXISTS `petit_equipement` (
   PRIMARY KEY (`id_petit_equipement`),
   UNIQUE KEY `nom_petit_equipement` (`nom_petit_equipement`),
   KEY `id_fk_metier_petit_equipement` (`id_fk_metier_petit_equipement`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 -- --------------------------------------------------------
 
@@ -3073,7 +2975,7 @@ CREATE TABLE IF NOT EXISTS `plante` (
   PRIMARY KEY (`id_plante`),
   KEY `id_fk_type_plante` (`id_fk_type_plante`),
   KEY `idx_x_plante_y_plante` (`x_plante`,`y_plante`,`z_plante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=109839 ;
 
 -- --------------------------------------------------------
 
@@ -3090,7 +2992,7 @@ CREATE TABLE IF NOT EXISTS `potion` (
   PRIMARY KEY (`id_potion`),
   KEY `id_fk_type_potion` (`id_fk_type_potion`),
   KEY `id_fk_type_qualite_potion` (`id_fk_type_qualite_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3103,7 +3005,7 @@ CREATE TABLE IF NOT EXISTS `prenom_interdit` (
   `texte_prenom_interdit` varchar(30) NOT NULL,
   PRIMARY KEY (`id_prenom_interdit`),
   UNIQUE KEY `texte_prenom_interdit` (`texte_prenom_interdit`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
 
 -- --------------------------------------------------------
 
@@ -3122,7 +3024,7 @@ CREATE TABLE IF NOT EXISTS `quete` (
   PRIMARY KEY (`id_quete`),
   UNIQUE KEY `id_fk_lieu_quete_2` (`id_fk_lieu_quete`,`id_fk_braldun_quete`),
   KEY `id_fk_braldun_quete` (`id_fk_braldun_quete`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1098 ;
 
 -- --------------------------------------------------------
 
@@ -3138,7 +3040,7 @@ CREATE TABLE IF NOT EXISTS `rang_communaute` (
   `description_rang_communaute` varchar(200) NOT NULL,
   PRIMARY KEY (`id_rang_communaute`),
   KEY `id_fk_communaute_rang_communaute` (`id_fk_communaute_rang_communaute`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=221 ;
 
 -- --------------------------------------------------------
 
@@ -3152,7 +3054,7 @@ CREATE TABLE IF NOT EXISTS `recette_aliments` (
   `quantite_recette_aliments` float NOT NULL,
   PRIMARY KEY (`id_fk_type_aliment_recette_aliments`,`id_fk_type_ingredient_recette_aliments`),
   KEY `id_fk_type_ingredient_recette_aliment` (`id_fk_type_ingredient_recette_aliments`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3165,7 +3067,7 @@ CREATE TABLE IF NOT EXISTS `recette_aliments_potions` (
   `id_fk_type_potion_recette_aliments_potions` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_aliment_recette_aliments_potions`,`id_fk_type_potion_recette_aliments_potions`),
   KEY `id_fk_type_potion_recette_aliments_potions` (`id_fk_type_potion_recette_aliments_potions`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3180,7 +3082,7 @@ CREATE TABLE IF NOT EXISTS `recette_cout` (
   `fourrure_recette_cout` int(11) NOT NULL,
   `planche_recette_cout` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_equipement_recette_cout`,`niveau_recette_cout`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3195,7 +3097,7 @@ CREATE TABLE IF NOT EXISTS `recette_cout_minerai` (
   `quantite_recette_cout_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_equipement_recette_cout_minerai`,`id_fk_type_recette_cout_minerai`,`niveau_recette_cout_minerai`),
   KEY `id_fk_type_recette_cout_minerai` (`id_fk_type_recette_cout_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3223,7 +3125,7 @@ CREATE TABLE IF NOT EXISTS `recette_equipements` (
   PRIMARY KEY (`id_recette_equipement`),
   UNIQUE KEY `id_fk_type_recette_equipement` (`id_fk_type_recette_equipement`,`niveau_recette_equipement`,`id_fk_type_qualite_recette_equipement`),
   KEY `id_fk_type_emplacement_recette_equipement` (`id_fk_type_emplacement_recette_equipement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=865 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=865 ;
 
 -- --------------------------------------------------------
 
@@ -3237,7 +3139,7 @@ CREATE TABLE IF NOT EXISTS `recette_materiel_cout` (
   `fourrure_recette_materiel_cout` int(11) NOT NULL,
   `planche_recette_materiel_cout` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_materiel_recette_materiel_cout`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3251,7 +3153,7 @@ CREATE TABLE IF NOT EXISTS `recette_materiel_cout_minerai` (
   `quantite_lingot_recette_materiel_cout_minerai` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_materiel_recette_materiel_cout_minerai`,`id_fk_type_recette_materiel_cout_minerai`),
   KEY `id_fk_type_recette_materiel_cout_minerai` (`id_fk_type_recette_materiel_cout_minerai`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3267,7 +3169,7 @@ CREATE TABLE IF NOT EXISTS `recette_materiel_cout_plante` (
   PRIMARY KEY (`id_fk_type_materiel_recette_materiel_cout_plante`,`id_fk_type_plante_recette_materiel_cout_plante`,`id_fk_type_partieplante_recette_materiel_cout_plante`),
   KEY `id_fk_type_plante_recette_materiel_cout_plante` (`id_fk_type_plante_recette_materiel_cout_plante`),
   KEY `id_fk_type_partieplante_recette_materiel_cout_plante` (`id_fk_type_partieplante_recette_materiel_cout_plante`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3283,7 +3185,7 @@ CREATE TABLE IF NOT EXISTS `recette_potions` (
   PRIMARY KEY (`id_fk_type_potion_recette_potion`,`id_fk_type_plante_recette_potion`,`id_fk_type_partieplante_recette_potion`),
   KEY `id_fk_type_plante_recette_potion` (`id_fk_type_plante_recette_potion`),
   KEY `id_fk_type_partieplante_recette_potion` (`id_fk_type_partieplante_recette_potion`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3296,7 +3198,7 @@ CREATE TABLE IF NOT EXISTS `recette_vernis` (
   `id_fk_type_partieplante_recette_vernis` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_potion_recette_vernis`,`id_fk_type_partieplante_recette_vernis`),
   KEY `id_fk_type_partieplante_recette_vernis` (`id_fk_type_partieplante_recette_vernis`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3339,7 +3241,7 @@ CREATE TABLE IF NOT EXISTS `ref_monstre` (
   PRIMARY KEY (`id_ref_monstre`),
   UNIQUE KEY `id_fk_type_taille_ref_monstre` (`id_fk_type_ref_monstre`,`id_fk_taille_ref_monstre`),
   KEY `id_fk_taille_ref_monstre` (`id_fk_taille_ref_monstre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=153 ;
 
 -- --------------------------------------------------------
 
@@ -3359,7 +3261,7 @@ CREATE TABLE IF NOT EXISTS `region` (
   `est_pvp_region` enum('oui','non') CHARACTER SET latin1 NOT NULL DEFAULT 'non',
   `id_fk_distinction_quete_region` int(11) NOT NULL,
   PRIMARY KEY (`id_region`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -3373,7 +3275,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `nom_role` varchar(20) NOT NULL,
   PRIMARY KEY (`id_role`),
   UNIQUE KEY `nom_systeme_role` (`nom_systeme_role`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -3401,7 +3303,7 @@ CREATE TABLE IF NOT EXISTS `route` (
   KEY `id_fk_type_qualite_route` (`id_fk_type_qualite_route`),
   KEY `id_fk_numero_route` (`id_fk_numero_route`),
   KEY `id_fk_echoppe_route` (`id_fk_echoppe_route`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=105032 ;
 
 -- --------------------------------------------------------
 
@@ -3419,7 +3321,7 @@ CREATE TABLE IF NOT EXISTS `route_numero` (
   PRIMARY KEY (`id_route_numero`),
   KEY `id_fk_gare_capitale_route_numero` (`id_fk_gare_capitale_route_numero`),
   KEY `id_fk_gare_province_route_numero` (`id_fk_gare_province_route_numero`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -3433,7 +3335,7 @@ CREATE TABLE IF NOT EXISTS `rune` (
   `est_identifiee_rune` enum('oui','non') NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id_rune`),
   KEY `id_fk_type_rune` (`id_fk_type_rune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3456,7 +3358,7 @@ CREATE TABLE IF NOT EXISTS `script` (
   PRIMARY KEY (`id_script`),
   KEY `type_script` (`type_script`),
   KEY `id_fk_braldun_script_2` (`id_fk_braldun_script`,`date_debut_script`,`type_script`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=180429 ;
 
 -- --------------------------------------------------------
 
@@ -3472,7 +3374,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   PRIMARY KEY (`id_fk_braldun_session`),
   UNIQUE KEY `id_php_session` (`id_php_session`),
   KEY `date_derniere_action_session` (`date_derniere_action_session`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3487,7 +3389,7 @@ CREATE TABLE IF NOT EXISTS `sondage` (
   `date_fin_sondage` datetime NOT NULL,
   `etat_sondage` enum('NON_DEBUTE','EN_COURS','TERMINE') NOT NULL DEFAULT 'NON_DEBUTE',
   PRIMARY KEY (`id_sondage`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -3513,7 +3415,7 @@ CREATE TABLE IF NOT EXISTS `sondage_reponse` (
   `reponse_10_sondage_reponse` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id_sondage_reponse`),
   KEY `id_fk_sondage_reponse` (`id_fk_sondage_reponse`,`id_fk_braldun_sondage_reponse`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=163 ;
 
 -- --------------------------------------------------------
 
@@ -3537,7 +3439,7 @@ CREATE TABLE IF NOT EXISTS `soule_equipe` (
   PRIMARY KEY (`id_soule_equipe`),
   KEY `id_fk_braldun_soule_equipe` (`id_fk_braldun_soule_equipe`),
   KEY `id_fk_match_soule_equipe` (`id_fk_match_soule_equipe`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=248 ;
 
 -- --------------------------------------------------------
 
@@ -3560,9 +3462,10 @@ CREATE TABLE IF NOT EXISTS `soule_match` (
   `px_equipea_soule_match` int(11) NOT NULL,
   `px_equipeb_soule_match` int(11) NOT NULL,
   `html_fin_soule_match` longtext,
+  `est_saison_soule_match` enum('oui','non') DEFAULT NULL,
   PRIMARY KEY (`id_soule_match`),
   KEY `id_fk_terrain_soule_match` (`id_fk_terrain_soule_match`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -3580,7 +3483,7 @@ CREATE TABLE IF NOT EXISTS `soule_message` (
   PRIMARY KEY (`id_soule_message`),
   KEY `id_fk_match_soule_message` (`id_fk_match_soule_message`),
   KEY `id_fk_braldun_soule_message` (`id_fk_braldun_soule_message`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1184 ;
 
 -- --------------------------------------------------------
 
@@ -3593,7 +3496,7 @@ CREATE TABLE IF NOT EXISTS `soule_nom_equipe` (
   `nom_soule_nom_equipe` varchar(200) NOT NULL,
   PRIMARY KEY (`id_soule_nom_equipe`),
   UNIQUE KEY `nom_soule_nom_equipe` (`nom_soule_nom_equipe`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
@@ -3614,7 +3517,7 @@ CREATE TABLE IF NOT EXISTS `soule_terrain` (
   PRIMARY KEY (`id_soule_terrain`),
   UNIQUE KEY `nom_systeme_soule_terrain` (`nom_systeme_soule_terrain`),
   UNIQUE KEY `niveau_soule_terrain` (`niveau_soule_terrain`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -3630,7 +3533,7 @@ CREATE TABLE IF NOT EXISTS `stats_distinction` (
   `niveau_braldun_stats_distinction` int(11) NOT NULL,
   PRIMARY KEY (`id_stats_distinction`),
   UNIQUE KEY `id_braldun_stats_distinction` (`id_fk_braldun_stats_distinction`,`mois_stats_distinction`,`niveau_braldun_stats_distinction`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=95790 ;
 
 -- --------------------------------------------------------
 
@@ -3647,7 +3550,7 @@ CREATE TABLE IF NOT EXISTS `stats_experience` (
   `niveau_braldun_stats_experience` int(11) NOT NULL,
   PRIMARY KEY (`id_stats_experience`),
   UNIQUE KEY `id_braldun_stats_experience` (`id_fk_braldun_stats_experience`,`mois_stats_experience`,`niveau_braldun_stats_experience`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7310 ;
 
 -- --------------------------------------------------------
 
@@ -3666,7 +3569,7 @@ CREATE TABLE IF NOT EXISTS `stats_fabricants` (
   PRIMARY KEY (`id_stats_fabricants`),
   UNIQUE KEY `id_fk_braldun_stats_fabricants` (`id_fk_braldun_stats_fabricants`,`niveau_braldun_stats_fabricants`,`mois_stats_fabricants`,`id_fk_metier_stats_fabricants`),
   KEY `id_fk_metier_stats_fabricants` (`id_fk_metier_stats_fabricants`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1082 ;
 
 -- --------------------------------------------------------
 
@@ -3684,7 +3587,7 @@ CREATE TABLE IF NOT EXISTS `stats_mots_runiques` (
   PRIMARY KEY (`id_stats_mots_runiques`),
   UNIQUE KEY `id_fk_mot_runique_stats_mots_runiques` (`id_fk_mot_runique_stats_mots_runiques`,`mois_stats_mots_runiques`,`id_fk_type_piece_stats_mots_runiques`,`niveau_piece_stats_mots_runiques`),
   KEY `id_fk_type_piece_stats_mots_runiques` (`id_fk_type_piece_stats_mots_runiques`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -3705,7 +3608,7 @@ CREATE TABLE IF NOT EXISTS `stats_recolteurs` (
   `nb_graines_stats_recolteurs` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_stats_recolteurs`),
   UNIQUE KEY `id_fk_braldun_stats_recolteurs` (`id_fk_braldun_stats_recolteurs`,`mois_stats_recolteurs`,`niveau_braldun_stats_recolteurs`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3263 ;
 
 -- --------------------------------------------------------
 
@@ -3724,7 +3627,7 @@ CREATE TABLE IF NOT EXISTS `stats_reputation` (
   `points_redresseur_total_stats_reputation` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_stats_reputation`),
   UNIQUE KEY `id_braldun_stats_reputation` (`id_fk_braldun_stats_reputation`,`mois_stats_reputation`,`niveau_braldun_stats_reputation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=86589 ;
 
 -- --------------------------------------------------------
 
@@ -3742,7 +3645,7 @@ CREATE TABLE IF NOT EXISTS `stats_routes` (
   PRIMARY KEY (`id_stats_routes`),
   UNIQUE KEY `id_fk_braldun_stats_routes` (`id_fk_braldun_stats_routes`,`niveau_braldun_stats_routes`,`mois_stats_routes`,`id_fk_metier_stats_routes`),
   KEY `id_fk_metier_stats_routes` (`id_fk_metier_stats_routes`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=668 ;
 
 -- --------------------------------------------------------
 
@@ -3758,7 +3661,7 @@ CREATE TABLE IF NOT EXISTS `stats_runes` (
   PRIMARY KEY (`id_stats_runes`),
   UNIQUE KEY `mois_stats_runes` (`mois_stats_runes`,`id_fk_type_rune_stats_runes`),
   KEY `id_fk_type_rune_stats_runes` (`id_fk_type_rune_stats_runes`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=190 ;
 
 -- --------------------------------------------------------
 
@@ -3779,7 +3682,7 @@ CREATE TABLE IF NOT EXISTS `stock_tabac` (
   UNIQUE KEY `unique` (`date_stock_tabac`,`id_fk_type_stock_tabac`,`id_fk_region_stock_tabac`),
   KEY `stock_tabac_ibfk_3` (`id_fk_type_stock_tabac`),
   KEY `stock_tabac_ibfk_4` (`id_fk_region_stock_tabac`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15445 ;
 
 -- --------------------------------------------------------
 
@@ -3796,7 +3699,7 @@ CREATE TABLE IF NOT EXISTS `taille_monstre` (
   PRIMARY KEY (`id_taille_monstre`),
   UNIQUE KEY `nom_taille_f_monstre` (`nom_taille_f_monstre`),
   UNIQUE KEY `nom_taille_m_monstre` (`nom_taille_m_monstre`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -3811,7 +3714,7 @@ CREATE TABLE IF NOT EXISTS `testeur` (
   `nom_testeur` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_testeur`),
   UNIQUE KEY `email_testeur` (`email_testeur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=127 ;
 
 -- --------------------------------------------------------
 
@@ -3828,7 +3731,7 @@ CREATE TABLE IF NOT EXISTS `tunnel` (
   `est_eboulable_tunnel` enum('oui','non') NOT NULL DEFAULT 'oui',
   PRIMARY KEY (`id_tunnel`),
   KEY `x_tunnel` (`x_tunnel`,`y_tunnel`,`z_tunnel`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=81689 ;
 
 -- --------------------------------------------------------
 
@@ -3845,7 +3748,7 @@ CREATE TABLE IF NOT EXISTS `type_aliment` (
   `type_bbdf_type_aliment` enum('simple','double','double_ameliore','triple','quadruple','quintuple') DEFAULT 'simple',
   `type_type_aliment` enum('manger','boire') NOT NULL DEFAULT 'manger',
   PRIMARY KEY (`id_type_aliment`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 -- --------------------------------------------------------
 
@@ -3860,7 +3763,7 @@ CREATE TABLE IF NOT EXISTS `type_bosquet` (
   `description_type_bosquet` varchar(200) NOT NULL,
   `nb_creation_type_bosquet` int(11) NOT NULL,
   PRIMARY KEY (`id_type_bosquet`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -3875,7 +3778,7 @@ CREATE TABLE IF NOT EXISTS `type_buisson` (
   `description_type_buisson` varchar(200) NOT NULL,
   `nb_creation_type_buisson` int(11) NOT NULL,
   PRIMARY KEY (`id_type_buisson`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -3890,7 +3793,7 @@ CREATE TABLE IF NOT EXISTS `type_categorie` (
   `ordre_type_categorie` smallint(6) NOT NULL,
   PRIMARY KEY (`id_type_categorie`),
   UNIQUE KEY `nom_systeme_categorie` (`nom_systeme_type_categorie`,`nom_type_categorie`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -3904,7 +3807,7 @@ CREATE TABLE IF NOT EXISTS `type_dependance` (
   `niveau_type_dependance` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_lieu_type_dependance`,`id_fk_type_lieu_enfant_type_dependance`),
   KEY `id_fk_type_lieu_enfant_type_dependance` (`id_fk_type_lieu_enfant_type_dependance`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3922,7 +3825,7 @@ CREATE TABLE IF NOT EXISTS `type_distinction` (
   PRIMARY KEY (`id_type_distinction`),
   UNIQUE KEY `id_fk_lieu_type_distinction` (`id_fk_lieu_type_distinction`),
   KEY `id_fk_type_categorie_distinction` (`id_fk_type_categorie_distinction`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=118 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=123 ;
 
 -- --------------------------------------------------------
 
@@ -3938,7 +3841,7 @@ CREATE TABLE IF NOT EXISTS `type_emplacement` (
   `est_equipable_type_emplacement` enum('oui','non') NOT NULL DEFAULT 'oui',
   PRIMARY KEY (`id_type_emplacement`),
   KEY `nom_systeme_type_emplacement` (`nom_systeme_type_emplacement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -3969,7 +3872,7 @@ CREATE TABLE IF NOT EXISTS `type_equipement` (
   KEY `id_fk_type_munition_type_equipement` (`id_fk_type_munition_type_equipement`),
   KEY `id_fk_type_ingredient_base_type_equipement` (`id_fk_type_ingredient_base_type_equipement`),
   KEY `id_fk_donjon_type_equipement` (`id_fk_donjon_type_equipement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 -- --------------------------------------------------------
 
@@ -3986,7 +3889,7 @@ CREATE TABLE IF NOT EXISTS `type_etape` (
   PRIMARY KEY (`id_type_etape`),
   UNIQUE KEY `nom_systeme_type_etape` (`nom_systeme_type_etape`),
   KEY `est_metier_type_etape` (`est_metier_type_etape`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -3999,7 +3902,7 @@ CREATE TABLE IF NOT EXISTS `type_etape_metier` (
   `id_fk_metier_type_etape_metier` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_etape_type_etape_metier`,`id_fk_metier_type_etape_metier`),
   KEY `id_fk_metier_type_etape_metier` (`id_fk_metier_type_etape_metier`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4012,7 +3915,7 @@ CREATE TABLE IF NOT EXISTS `type_evenement` (
   `nom_type_evenement` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_evenement`),
   UNIQUE KEY `nom_type_evenement` (`nom_type_evenement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -4025,7 +3928,7 @@ CREATE TABLE IF NOT EXISTS `type_evenement_communaute` (
   `nom_type_evenement_communaute` varchar(60) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id_type_evenement_communaute`),
   UNIQUE KEY `nom_type_evenement_communaute` (`nom_type_evenement_communaute`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -4046,7 +3949,7 @@ CREATE TABLE IF NOT EXISTS `type_graine` (
   PRIMARY KEY (`id_type_graine`),
   KEY `id_fk_type_ingredient_type_graine` (`id_fk_type_ingredient_type_graine`),
   KEY `id_fk_type_tabac_type_graine` (`id_fk_type_tabac_type_graine`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -4062,7 +3965,7 @@ CREATE TABLE IF NOT EXISTS `type_groupe_monstre` (
   `repeuplement_type_groupe_monstre` enum('oui','non') NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id_type_groupe_monstre`),
   UNIQUE KEY `nom_groupe_monstre` (`nom_groupe_monstre`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -4075,7 +3978,7 @@ CREATE TABLE IF NOT EXISTS `type_historique_equipement` (
   `nom_type_historique_equipement` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_historique_equipement`),
   UNIQUE KEY `nom_type_historique_equipement` (`nom_type_historique_equipement`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -4088,7 +3991,7 @@ CREATE TABLE IF NOT EXISTS `type_historique_materiel` (
   `nom_type_historique_materiel` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_historique_materiel`),
   UNIQUE KEY `nom_type_historique_materiel` (`nom_type_historique_materiel`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -4101,7 +4004,7 @@ CREATE TABLE IF NOT EXISTS `type_historique_potion` (
   `nom_type_historique_potion` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_historique_potion`),
   UNIQUE KEY `nom_type_historique_potion` (`nom_type_historique_potion`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -4114,7 +4017,7 @@ CREATE TABLE IF NOT EXISTS `type_historique_rune` (
   `nom_type_historique_rune` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_historique_rune`),
   UNIQUE KEY `nom_type_historique_rune` (`nom_type_historique_rune`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -4126,14 +4029,16 @@ CREATE TABLE IF NOT EXISTS `type_ingredient` (
   `id_type_ingredient` int(11) NOT NULL AUTO_INCREMENT,
   `nom_systeme_type_ingredient` varchar(20) NOT NULL,
   `nom_type_ingredient` varchar(20) NOT NULL,
+  `nom_pluriel_type_ingredient` varchar(30) DEFAULT NULL,
   `id_fk_type_minerai_ingredient` int(11) DEFAULT NULL,
   `id_fk_type_graine_ingredient` int(11) DEFAULT NULL,
   `est_cuisinier_type_ingredient` enum('oui','non') NOT NULL DEFAULT 'oui',
   `poids_unitaire_type_ingredient` float DEFAULT NULL,
   PRIMARY KEY (`id_type_ingredient`),
   UNIQUE KEY `nom_systeme_type_ingredient` (`nom_systeme_type_ingredient`,`nom_type_ingredient`),
-  KEY `id_fk_type_minerai_ingredient` (`id_fk_type_minerai_ingredient`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+  KEY `id_fk_type_minerai_ingredient` (`id_fk_type_minerai_ingredient`),
+  KEY `id_fk_type_graine_ingredient` (`id_fk_type_graine_ingredient`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -4153,7 +4058,7 @@ CREATE TABLE IF NOT EXISTS `type_lieu` (
   `id_fk_type_lieu_communaute_type_lieu` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_type_lieu`),
   KEY `id_fk_type_lieu_communaute_type_lieu` (`id_fk_type_lieu_communaute_type_lieu`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 -- --------------------------------------------------------
 
@@ -4166,7 +4071,7 @@ CREATE TABLE IF NOT EXISTS `type_lieu_communaute` (
   `nom_systeme_type_lieu_communaute` varchar(20) NOT NULL,
   `nom_type_lieu_communaute` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_lieu_communaute`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -4179,7 +4084,7 @@ CREATE TABLE IF NOT EXISTS `type_lot` (
   `nom_systeme_type_lot` varchar(50) NOT NULL,
   PRIMARY KEY (`id_type_lot`),
   UNIQUE KEY `nom_systeme_type_lot` (`nom_systeme_type_lot`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -4204,7 +4109,7 @@ CREATE TABLE IF NOT EXISTS `type_materiel` (
   PRIMARY KEY (`id_type_materiel`),
   UNIQUE KEY `nom_type_materiel_2` (`nom_type_materiel`),
   UNIQUE KEY `nom_systeme_type_materiel` (`nom_systeme_type_materiel`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -4217,7 +4122,7 @@ CREATE TABLE IF NOT EXISTS `type_materiel_assemble` (
   `id_supplement_type_materiel_assemble` int(11) NOT NULL,
   PRIMARY KEY (`id_base_type_materiel_assemble`,`id_supplement_type_materiel_assemble`),
   KEY `id_supplement_type_materiel_assemble` (`id_supplement_type_materiel_assemble`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4231,7 +4136,7 @@ CREATE TABLE IF NOT EXISTS `type_message` (
   `nom_type_message` varchar(30) NOT NULL,
   PRIMARY KEY (`id_type_message`),
   UNIQUE KEY `nom_systeme_type_message` (`nom_systeme_type_message`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -4245,8 +4150,9 @@ CREATE TABLE IF NOT EXISTS `type_minerai` (
   `nom_systeme_type_minerai` varchar(10) NOT NULL,
   `description_type_minerai` varchar(200) NOT NULL,
   `nb_creation_type_minerai` int(11) NOT NULL,
+  `prefix_type_minerai` varchar(3) NOT NULL DEFAULT 'de ',
   PRIMARY KEY (`id_type_minerai`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -4261,9 +4167,10 @@ CREATE TABLE IF NOT EXISTS `type_monstre` (
   `id_fk_type_groupe_monstre` int(11) NOT NULL,
   `nom_nid_type_monstre` varchar(30) NOT NULL DEFAULT 'Nid',
   `description_type_monstre` mediumtext CHARACTER SET utf8,
+  `est_dans_quete_type_monstre` enum('oui','non') NOT NULL DEFAULT 'oui',
   PRIMARY KEY (`id_type_monstre`),
   KEY `id_fk_type_groupe_monstre` (`id_fk_type_groupe_monstre`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
@@ -4277,7 +4184,7 @@ CREATE TABLE IF NOT EXISTS `type_monstre_mcompetence` (
   `ordre_type_monstre_mcompetence` int(11) NOT NULL,
   PRIMARY KEY (`id_fk_type_monstre_mcompetence`,`id_fk_mcompetence_type_monstre_mcompetence`),
   KEY `id_fk_mcompetence_type_monstre_mcompetence` (`id_fk_mcompetence_type_monstre_mcompetence`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -4291,7 +4198,7 @@ CREATE TABLE IF NOT EXISTS `type_munition` (
   `nom_type_munition` varchar(15) NOT NULL,
   `nom_pluriel_type_munition` varchar(15) NOT NULL,
   PRIMARY KEY (`id_type_munition`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -4305,7 +4212,7 @@ CREATE TABLE IF NOT EXISTS `type_partieplante` (
   `nom_systeme_type_partieplante` varchar(10) NOT NULL,
   `description_type_partieplante` varchar(200) NOT NULL,
   PRIMARY KEY (`id_type_partieplante`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -4319,7 +4226,7 @@ CREATE TABLE IF NOT EXISTS `type_piece` (
   `nom_type_piece` varchar(20) NOT NULL,
   PRIMARY KEY (`id_type_piece`),
   UNIQUE KEY `nom_systeme_type_piece` (`nom_systeme_type_piece`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -4339,8 +4246,13 @@ CREATE TABLE IF NOT EXISTS `type_plante` (
   `id_fk_partieplante3_type_plante` int(11) DEFAULT NULL,
   `id_fk_partieplante4_type_plante` int(11) DEFAULT NULL,
   `nb_creation_type_plante` int(11) NOT NULL,
-  PRIMARY KEY (`id_type_plante`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+  PRIMARY KEY (`id_type_plante`),
+  KEY `id_fk_environnement_type_plante` (`id_fk_environnement_type_plante`),
+  KEY `id_fk_partieplante1_type_plante` (`id_fk_partieplante1_type_plante`),
+  KEY `id_fk_partieplante2_type_plante` (`id_fk_partieplante2_type_plante`),
+  KEY `id_fk_partieplante3_type_plante` (`id_fk_partieplante3_type_plante`),
+  KEY `id_fk_partieplante4_type_plante` (`id_fk_partieplante4_type_plante`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -4362,9 +4274,8 @@ CREATE TABLE IF NOT EXISTS `type_potion` (
   `bm2_type_potion` enum('bonus','malus') DEFAULT NULL,
   PRIMARY KEY (`id_type_potion`),
   UNIQUE KEY `nom_type_potion` (`nom_type_potion`),
-  KEY `id_fk_type_ingredient_base_type_potion` (`id_fk_type_ingredient_type_potion`),
   KEY `id_fk_type_ingredient_type_potion` (`id_fk_type_ingredient_type_potion`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 -- --------------------------------------------------------
 
@@ -4379,7 +4290,7 @@ CREATE TABLE IF NOT EXISTS `type_qualite` (
   `nom_aliment_type_qualite` varchar(10) NOT NULL,
   PRIMARY KEY (`id_type_qualite`),
   KEY `nom_systeme_type_qualite` (`nom_systeme_type_qualite`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -4392,7 +4303,7 @@ CREATE TABLE IF NOT EXISTS `type_rang_communaute` (
   `nom_type_rang_communaute` varchar(10) NOT NULL,
   `description_type_rang_communaute` varchar(500) NOT NULL,
   PRIMARY KEY (`id_type_rang_communaute`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -4410,7 +4321,7 @@ CREATE TABLE IF NOT EXISTS `type_rune` (
   `image_type_rune` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id_type_rune`),
   UNIQUE KEY `nom_type_rune` (`nom_type_rune`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -4425,7 +4336,7 @@ CREATE TABLE IF NOT EXISTS `type_tabac` (
   `nom_systeme_type_tabac` varchar(10) NOT NULL,
   `description_type_tabac` varchar(200) NOT NULL,
   PRIMARY KEY (`id_type_tabac`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -4441,7 +4352,7 @@ CREATE TABLE IF NOT EXISTS `type_titre` (
   `description_type_titre` varchar(10) NOT NULL,
   PRIMARY KEY (`id_type_titre`),
   UNIQUE KEY `nom_systeme_type_titre` (`nom_systeme_type_titre`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -4456,7 +4367,7 @@ CREATE TABLE IF NOT EXISTS `type_unite` (
   `nom_pluriel_type_unite` varchar(10) NOT NULL,
   PRIMARY KEY (`id_type_unite`),
   UNIQUE KEY `nom_systeme_type_unite` (`nom_systeme_type_unite`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -4478,7 +4389,7 @@ CREATE TABLE IF NOT EXISTS `ville` (
   `est_reliee_ville` enum('oui','non') NOT NULL,
   PRIMARY KEY (`id_ville`),
   KEY `id_fk_region_ville` (`id_fk_region_ville`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -4504,7 +4415,7 @@ CREATE TABLE IF NOT EXISTS `zone` (
   KEY `id_fk_environnement_zone` (`id_fk_environnement_zone`),
   KEY `z_zone` (`z_zone`),
   KEY `id_fk_donjon_zone` (`id_fk_donjon_zone`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7607 ;
 
 -- --------------------------------------------------------
 
@@ -4525,7 +4436,1297 @@ CREATE TABLE IF NOT EXISTS `zone_nid` (
   `est_mine_zone_nid` enum('oui','non') NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id_zone_nid`),
   KEY `id_fk_donjon_zone_nid` (`id_fk_donjon_zone_nid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=155 ;
+
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `aliment`
+--
+ALTER TABLE `aliment`
+  ADD CONSTRAINT `aliment_ibfk_1` FOREIGN KEY (`id_fk_type_aliment`) REFERENCES `type_aliment` (`id_type_aliment`),
+  ADD CONSTRAINT `aliment_ibfk_2` FOREIGN KEY (`id_fk_type_qualite_aliment`) REFERENCES `type_qualite` (`id_type_qualite`),
+  ADD CONSTRAINT `aliment_ibfk_3` FOREIGN KEY (`id_fk_effet_braldun_aliment`) REFERENCES `effet_braldun` (`id_effet_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `blabla`
+--
+ALTER TABLE `blabla`
+  ADD CONSTRAINT `blabla_ibfk_1` FOREIGN KEY (`id_fk_braldun_blabla`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `bosquet`
+--
+ALTER TABLE `bosquet`
+  ADD CONSTRAINT `bosquet_ibfk_1` FOREIGN KEY (`id_fk_type_bosquet_bosquet`) REFERENCES `type_bosquet` (`id_type_bosquet`);
+
+--
+-- Contraintes pour la table `braldun`
+--
+ALTER TABLE `braldun`
+  ADD CONSTRAINT `braldun_ibfk_1` FOREIGN KEY (`id_fk_rang_communaute_braldun`) REFERENCES `rang_communaute` (`id_rang_communaute`) ON DELETE SET NULL,
+  ADD CONSTRAINT `braldun_ibfk_2` FOREIGN KEY (`id_fk_region_creation_braldun`) REFERENCES `region` (`id_region`);
+
+--
+-- Contraintes pour la table `bralduns_cdm`
+--
+ALTER TABLE `bralduns_cdm`
+  ADD CONSTRAINT `bralduns_cdm_ibfk_1` FOREIGN KEY (`id_fk_braldun_hcdm`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_cdm_ibfk_2` FOREIGN KEY (`id_fk_type_monstre_hcdm`) REFERENCES `type_monstre` (`id_type_monstre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `bralduns_competences`
+--
+ALTER TABLE `bralduns_competences`
+  ADD CONSTRAINT `bralduns_competences_ibfk_1` FOREIGN KEY (`id_fk_braldun_hcomp`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_competences_ibfk_2` FOREIGN KEY (`id_fk_competence_hcomp`) REFERENCES `competence` (`id_competence`);
+
+--
+-- Contraintes pour la table `bralduns_competences_favorites`
+--
+ALTER TABLE `bralduns_competences_favorites`
+  ADD CONSTRAINT `bralduns_competences_favorites_ibfk_1` FOREIGN KEY (`id_fk_competence_hcompf`) REFERENCES `competence` (`id_competence`),
+  ADD CONSTRAINT `bralduns_competences_favorites_ibfk_2` FOREIGN KEY (`id_fk_braldun_hcompf`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `bralduns_distinction`
+--
+ALTER TABLE `bralduns_distinction`
+  ADD CONSTRAINT `bralduns_distinction_ibfk_1` FOREIGN KEY (`id_fk_braldun_hdistinction`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_distinction_ibfk_2` FOREIGN KEY (`id_fk_type_distinction_hdistinction`) REFERENCES `type_distinction` (`id_type_distinction`);
+
+--
+-- Contraintes pour la table `bralduns_equipement`
+--
+ALTER TABLE `bralduns_equipement`
+  ADD CONSTRAINT `bralduns_equipement_ibfk_2` FOREIGN KEY (`id_fk_braldun_hequipement`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_equipement_ibfk_3` FOREIGN KEY (`id_equipement_hequipement`) REFERENCES `equipement` (`id_equipement`);
+
+--
+-- Contraintes pour la table `bralduns_metiers`
+--
+ALTER TABLE `bralduns_metiers`
+  ADD CONSTRAINT `bralduns_metiers_ibfk_1` FOREIGN KEY (`id_fk_braldun_hmetier`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_metiers_ibfk_2` FOREIGN KEY (`id_fk_metier_hmetier`) REFERENCES `metier` (`id_metier`);
+
+--
+-- Contraintes pour la table `bralduns_roles`
+--
+ALTER TABLE `bralduns_roles`
+  ADD CONSTRAINT `bralduns_roles_ibfk_1` FOREIGN KEY (`id_fk_braldun_hroles`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_roles_ibfk_2` FOREIGN KEY (`id_fk_role_hroles`) REFERENCES `role` (`id_role`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `bralduns_titres`
+--
+ALTER TABLE `bralduns_titres`
+  ADD CONSTRAINT `bralduns_titres_ibfk_2` FOREIGN KEY (`id_fk_braldun_htitre`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bralduns_titres_ibfk_3` FOREIGN KEY (`id_fk_type_htitre`) REFERENCES `type_titre` (`id_type_titre`);
+
+--
+-- Contraintes pour la table `buisson`
+--
+ALTER TABLE `buisson`
+  ADD CONSTRAINT `buisson_ibfk_1` FOREIGN KEY (`id_fk_type_buisson_buisson`) REFERENCES `type_buisson` (`id_type_buisson`);
+
+--
+-- Contraintes pour la table `butin`
+--
+ALTER TABLE `butin`
+  ADD CONSTRAINT `butin_ibfk_1` FOREIGN KEY (`id_fk_braldun_butin`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `butin_partage`
+--
+ALTER TABLE `butin_partage`
+  ADD CONSTRAINT `butin_partage_ibfk_1` FOREIGN KEY (`id_fk_braldun_butin_partage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `butin_partage_ibfk_2` FOREIGN KEY (`id_fk_autorise_butin_partage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `carnet`
+--
+ALTER TABLE `carnet`
+  ADD CONSTRAINT `carnet_ibfk_1` FOREIGN KEY (`id_fk_braldun_carnet`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `champ`
+--
+ALTER TABLE `champ`
+  ADD CONSTRAINT `champ_ibfk_1` FOREIGN KEY (`id_fk_braldun_champ`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `champ_ibfk_2` FOREIGN KEY (`id_fk_type_graine_champ`) REFERENCES `type_graine` (`id_type_graine`);
+
+--
+-- Contraintes pour la table `champ_taupe`
+--
+ALTER TABLE `champ_taupe`
+  ADD CONSTRAINT `champ_taupe_ibfk_1` FOREIGN KEY (`id_fk_champ_taupe`) REFERENCES `champ` (`id_champ`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette`
+--
+ALTER TABLE `charrette`
+  ADD CONSTRAINT `charrette_ibfk_2` FOREIGN KEY (`id_charrette`) REFERENCES `ids_materiel` (`id_ids_materiel`),
+  ADD CONSTRAINT `charrette_ibfk_3` FOREIGN KEY (`id_fk_braldun_charrette`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_aliment`
+--
+ALTER TABLE `charrette_aliment`
+  ADD CONSTRAINT `charrette_aliment_ibfk_1` FOREIGN KEY (`id_charrette_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_aliment_ibfk_2` FOREIGN KEY (`id_fk_charrette_aliment`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_equipement`
+--
+ALTER TABLE `charrette_equipement`
+  ADD CONSTRAINT `charrette_equipement_ibfk_16` FOREIGN KEY (`id_charrette_equipement`) REFERENCES `equipement` (`id_equipement`),
+  ADD CONSTRAINT `charrette_equipement_ibfk_17` FOREIGN KEY (`id_fk_charrette_equipement`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_graine`
+--
+ALTER TABLE `charrette_graine`
+  ADD CONSTRAINT `charrette_graine_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_graine`) REFERENCES `type_graine` (`id_type_graine`),
+  ADD CONSTRAINT `charrette_graine_ibfk_2` FOREIGN KEY (`id_fk_charrette_graine`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_ingredient`
+--
+ALTER TABLE `charrette_ingredient`
+  ADD CONSTRAINT `charrette_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `charrette_ingredient_ibfk_2` FOREIGN KEY (`id_fk_charrette_ingredient`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_materiel`
+--
+ALTER TABLE `charrette_materiel`
+  ADD CONSTRAINT `charrette_materiel_ibfk_4` FOREIGN KEY (`id_fk_charrette_materiel`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_materiel_ibfk_5` FOREIGN KEY (`id_charrette_materiel`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_materiel_assemble`
+--
+ALTER TABLE `charrette_materiel_assemble`
+  ADD CONSTRAINT `charrette_materiel_assemble_ibfk_6` FOREIGN KEY (`id_charrette_materiel_assemble`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_materiel_assemble_ibfk_7` FOREIGN KEY (`id_materiel_materiel_assemble`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_minerai`
+--
+ALTER TABLE `charrette_minerai`
+  ADD CONSTRAINT `charrette_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_minerai`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `charrette_minerai_ibfk_2` FOREIGN KEY (`id_fk_charrette_minerai`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_munition`
+--
+ALTER TABLE `charrette_munition`
+  ADD CONSTRAINT `charrette_munition_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_munition`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `charrette_munition_ibfk_2` FOREIGN KEY (`id_fk_charrette_munition`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_partage`
+--
+ALTER TABLE `charrette_partage`
+  ADD CONSTRAINT `charrette_partage_ibfk_1` FOREIGN KEY (`id_fk_charrette_partage`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_partage_ibfk_2` FOREIGN KEY (`id_fk_braldun_charrette_partage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_partieplante`
+--
+ALTER TABLE `charrette_partieplante`
+  ADD CONSTRAINT `charrette_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `charrette_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_charrette_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `charrette_partieplante_ibfk_3` FOREIGN KEY (`id_fk_charrette_partieplante`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_potion`
+--
+ALTER TABLE `charrette_potion`
+  ADD CONSTRAINT `charrette_potion_ibfk_6` FOREIGN KEY (`id_fk_charrette_potion`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_potion_ibfk_7` FOREIGN KEY (`id_charrette_potion`) REFERENCES `potion` (`id_potion`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_rune`
+--
+ALTER TABLE `charrette_rune`
+  ADD CONSTRAINT `charrette_rune_ibfk_4` FOREIGN KEY (`id_fk_charrette_rune`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE,
+  ADD CONSTRAINT `charrette_rune_ibfk_5` FOREIGN KEY (`id_rune_charrette_rune`) REFERENCES `rune` (`id_rune`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `charrette_tabac`
+--
+ALTER TABLE `charrette_tabac`
+  ADD CONSTRAINT `charrette_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_charrette_tabac`) REFERENCES `type_tabac` (`id_type_tabac`),
+  ADD CONSTRAINT `charrette_tabac_ibfk_2` FOREIGN KEY (`id_fk_charrette_tabac`) REFERENCES `charrette` (`id_charrette`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre`
+--
+ALTER TABLE `coffre`
+  ADD CONSTRAINT `coffre_ibfk_1` FOREIGN KEY (`id_fk_braldun_coffre`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_ibfk_2` FOREIGN KEY (`id_fk_communaute_coffre`) REFERENCES `communaute` (`id_communaute`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_aliment`
+--
+ALTER TABLE `coffre_aliment`
+  ADD CONSTRAINT `coffre_aliment_ibfk_1` FOREIGN KEY (`id_coffre_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_aliment_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_aliment`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_equipement`
+--
+ALTER TABLE `coffre_equipement`
+  ADD CONSTRAINT `coffre_equipement_ibfk_1` FOREIGN KEY (`id_coffre_equipement`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_equipement_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_equipement`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_graine`
+--
+ALTER TABLE `coffre_graine`
+  ADD CONSTRAINT `coffre_graine_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_graine`) REFERENCES `type_graine` (`id_type_graine`),
+  ADD CONSTRAINT `coffre_graine_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_graine`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_ingredient`
+--
+ALTER TABLE `coffre_ingredient`
+  ADD CONSTRAINT `coffre_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `coffre_ingredient_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_ingredient`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_materiel`
+--
+ALTER TABLE `coffre_materiel`
+  ADD CONSTRAINT `coffre_materiel_ibfk_1` FOREIGN KEY (`id_coffre_materiel`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_materiel_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_materiel`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_minerai`
+--
+ALTER TABLE `coffre_minerai`
+  ADD CONSTRAINT `coffre_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_minerai`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `coffre_minerai_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_minerai`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_munition`
+--
+ALTER TABLE `coffre_munition`
+  ADD CONSTRAINT `coffre_munition_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_munition`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `coffre_munition_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_munition`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_partieplante`
+--
+ALTER TABLE `coffre_partieplante`
+  ADD CONSTRAINT `coffre_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `coffre_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_coffre_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `coffre_partieplante_ibfk_3` FOREIGN KEY (`id_fk_coffre_coffre_partieplante`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_potion`
+--
+ALTER TABLE `coffre_potion`
+  ADD CONSTRAINT `coffre_potion_ibfk_1` FOREIGN KEY (`id_coffre_potion`) REFERENCES `potion` (`id_potion`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_potion_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_potion`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_rune`
+--
+ALTER TABLE `coffre_rune`
+  ADD CONSTRAINT `coffre_rune_ibfk_1` FOREIGN KEY (`id_rune_coffre_rune`) REFERENCES `rune` (`id_rune`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_rune_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_rune`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `coffre_tabac`
+--
+ALTER TABLE `coffre_tabac`
+  ADD CONSTRAINT `coffre_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_coffre_tabac`) REFERENCES `type_tabac` (`id_type_tabac`),
+  ADD CONSTRAINT `coffre_tabac_ibfk_2` FOREIGN KEY (`id_fk_coffre_coffre_tabac`) REFERENCES `coffre` (`id_coffre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `communaute`
+--
+ALTER TABLE `communaute`
+  ADD CONSTRAINT `communaute_ibfk_1` FOREIGN KEY (`id_fk_braldun_gestionnaire_communaute`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `competence`
+--
+ALTER TABLE `competence`
+  ADD CONSTRAINT `competence_ibfk_1` FOREIGN KEY (`id_fk_metier_competence`) REFERENCES `metier` (`id_metier`),
+  ADD CONSTRAINT `competence_ibfk_2` FOREIGN KEY (`id_fk_type_tabac_competence`) REFERENCES `type_tabac` (`id_type_tabac`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `contrat`
+--
+ALTER TABLE `contrat`
+  ADD CONSTRAINT `contrat_ibfk_1` FOREIGN KEY (`id_fk_braldun_contrat`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contrat_ibfk_2` FOREIGN KEY (`id_fk_cible_braldun_contrat`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `creation_bosquets`
+--
+ALTER TABLE `creation_bosquets`
+  ADD CONSTRAINT `creation_bosquets_ibfk_3` FOREIGN KEY (`id_fk_type_bosquet_creation_bosquets`) REFERENCES `type_bosquet` (`id_type_bosquet`),
+  ADD CONSTRAINT `creation_bosquets_ibfk_4` FOREIGN KEY (`id_fk_environnement_creation_bosquets`) REFERENCES `environnement` (`id_environnement`);
+
+--
+-- Contraintes pour la table `creation_buissons`
+--
+ALTER TABLE `creation_buissons`
+  ADD CONSTRAINT `creation_buissons_ibfk_1` FOREIGN KEY (`id_fk_type_buisson_creation_buissons`) REFERENCES `type_buisson` (`id_type_buisson`),
+  ADD CONSTRAINT `creation_buissons_ibfk_2` FOREIGN KEY (`id_fk_environnement_creation_buissons`) REFERENCES `environnement` (`id_environnement`);
+
+--
+-- Contraintes pour la table `creation_minerais`
+--
+ALTER TABLE `creation_minerais`
+  ADD CONSTRAINT `creation_minerais_ibfk_1` FOREIGN KEY (`id_fk_type_minerai_creation_minerais`) REFERENCES `type_minerai` (`id_type_minerai`) ON DELETE CASCADE,
+  ADD CONSTRAINT `creation_minerais_ibfk_2` FOREIGN KEY (`id_fk_environnement_creation_minerais`) REFERENCES `environnement` (`id_environnement`) ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `creation_nid`
+--
+ALTER TABLE `creation_nid`
+  ADD CONSTRAINT `creation_nid_ibfk_1` FOREIGN KEY (`id_fk_zone_creation_nid`) REFERENCES `zone_nid` (`id_zone_nid`),
+  ADD CONSTRAINT `creation_nid_ibfk_2` FOREIGN KEY (`id_fk_type_monstre_creation_nid`) REFERENCES `type_monstre` (`id_type_monstre`);
+
+--
+-- Contraintes pour la table `creation_plantes`
+--
+ALTER TABLE `creation_plantes`
+  ADD CONSTRAINT `creation_plantes_ibfk_1` FOREIGN KEY (`id_fk_type_plante_creation_plantes`) REFERENCES `type_plante` (`id_type_plante`) ON DELETE CASCADE,
+  ADD CONSTRAINT `creation_plantes_ibfk_2` FOREIGN KEY (`id_fk_environnement_creation_plantes`) REFERENCES `environnement` (`id_environnement`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `crevasse`
+--
+ALTER TABLE `crevasse`
+  ADD CONSTRAINT `crevasse_ibfk_1` FOREIGN KEY (`id_fk_donjon_crevasse`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `donjon`
+--
+ALTER TABLE `donjon`
+  ADD CONSTRAINT `donjon_ibfk_1` FOREIGN KEY (`id_fk_lieu_donjon`) REFERENCES `lieu` (`id_lieu`),
+  ADD CONSTRAINT `donjon_ibfk_2` FOREIGN KEY (`id_fk_region_donjon`) REFERENCES `region` (`id_region`),
+  ADD CONSTRAINT `donjon_ibfk_3` FOREIGN KEY (`id_fk_pnj_donjon`) REFERENCES `braldun` (`id_braldun`),
+  ADD CONSTRAINT `donjon_ibfk_4` FOREIGN KEY (`id_fk_distinction_donjon`) REFERENCES `type_distinction` (`id_type_distinction`);
+
+--
+-- Contraintes pour la table `donjon_braldun`
+--
+ALTER TABLE `donjon_braldun`
+  ADD CONSTRAINT `donjon_braldun_ibfk_1` FOREIGN KEY (`id_fk_braldun_donjon_braldun`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `donjon_braldun_ibfk_2` FOREIGN KEY (`id_fk_equipe_donjon_braldun`) REFERENCES `donjon_equipe` (`id_donjon_equipe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `donjon_crevasse`
+--
+ALTER TABLE `donjon_crevasse`
+  ADD CONSTRAINT `donjon_crevasse_ibfk_1` FOREIGN KEY (`id_fk_donjon_crevasse`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `donjon_equipe`
+--
+ALTER TABLE `donjon_equipe`
+  ADD CONSTRAINT `donjon_equipe_ibfk_1` FOREIGN KEY (`id_fk_donjon_equipe`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE,
+  ADD CONSTRAINT `donjon_equipe_ibfk_2` FOREIGN KEY (`id_fk_braldun_meneur_equipe`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `donjon_nid`
+--
+ALTER TABLE `donjon_nid`
+  ADD CONSTRAINT `donjon_nid_ibfk_1` FOREIGN KEY (`id_fk_donjon_nid`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE,
+  ADD CONSTRAINT `donjon_nid_ibfk_2` FOREIGN KEY (`id_fk_type_monstre_donjon_nid`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `donjon_nid_ibfk_3` FOREIGN KEY (`id_fk_zone_nid_donjon_nid`) REFERENCES `zone_nid` (`id_zone_nid`);
+
+--
+-- Contraintes pour la table `donjon_palissade`
+--
+ALTER TABLE `donjon_palissade`
+  ADD CONSTRAINT `donjon_palissade_ibfk_1` FOREIGN KEY (`id_fk_donjon_palissade`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe`
+--
+ALTER TABLE `echoppe`
+  ADD CONSTRAINT `echoppe_ibfk_1` FOREIGN KEY (`id_fk_braldun_echoppe`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_ibfk_2` FOREIGN KEY (`id_fk_metier_echoppe`) REFERENCES `metier` (`id_metier`);
+
+--
+-- Contraintes pour la table `echoppe_aliment`
+--
+ALTER TABLE `echoppe_aliment`
+  ADD CONSTRAINT `echoppe_aliment_ibfk_1` FOREIGN KEY (`id_echoppe_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_aliment_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_aliment`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_equipement`
+--
+ALTER TABLE `echoppe_equipement`
+  ADD CONSTRAINT `echoppe_equipement_ibfk_1` FOREIGN KEY (`id_echoppe_equipement`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_equipement_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_equipement`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_graine`
+--
+ALTER TABLE `echoppe_graine`
+  ADD CONSTRAINT `echoppe_graine_ibfk_1` FOREIGN KEY (`id_fk_type_echoppe_graine`) REFERENCES `type_graine` (`id_type_graine`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_graine_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_graine`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_ingredient`
+--
+ALTER TABLE `echoppe_ingredient`
+  ADD CONSTRAINT `echoppe_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_echoppe_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `echoppe_ingredient_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_ingredient`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_materiel`
+--
+ALTER TABLE `echoppe_materiel`
+  ADD CONSTRAINT `echoppe_materiel_ibfk_1` FOREIGN KEY (`id_echoppe_materiel`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_materiel_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_materiel`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_minerai`
+--
+ALTER TABLE `echoppe_minerai`
+  ADD CONSTRAINT `echoppe_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_echoppe_minerai`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `echoppe_minerai_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_minerai`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_munition`
+--
+ALTER TABLE `echoppe_munition`
+  ADD CONSTRAINT `echoppe_munition_ibfk_1` FOREIGN KEY (`id_fk_type_echoppe_munition`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `echoppe_munition_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_munition`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_partieplante`
+--
+ALTER TABLE `echoppe_partieplante`
+  ADD CONSTRAINT `echoppe_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_echoppe_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `echoppe_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_echoppe_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `echoppe_partieplante_ibfk_3` FOREIGN KEY (`id_fk_echoppe_echoppe_partieplante`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `echoppe_potion`
+--
+ALTER TABLE `echoppe_potion`
+  ADD CONSTRAINT `echoppe_potion_ibfk_1` FOREIGN KEY (`id_echoppe_potion`) REFERENCES `potion` (`id_potion`) ON DELETE CASCADE,
+  ADD CONSTRAINT `echoppe_potion_ibfk_2` FOREIGN KEY (`id_fk_echoppe_echoppe_potion`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `effet_braldun`
+--
+ALTER TABLE `effet_braldun`
+  ADD CONSTRAINT `effet_braldun_ibfk_1` FOREIGN KEY (`id_fk_braldun_cible_effet_braldun`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `effet_monstre`
+--
+ALTER TABLE `effet_monstre`
+  ADD CONSTRAINT `effet_monstre_ibfk_1` FOREIGN KEY (`id_fk_monstre_cible_effet_monstre`) REFERENCES `monstre` (`id_monstre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `effet_mot_f`
+--
+ALTER TABLE `effet_mot_f`
+  ADD CONSTRAINT `effet_mot_f_ibfk_1` FOREIGN KEY (`id_fk_braldun_effet_mot_f`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `effet_mot_f_ibfk_2` FOREIGN KEY (`id_fk_type_monstre_effet_mot_f`) REFERENCES `type_monstre` (`id_type_monstre`);
+
+--
+-- Contraintes pour la table `effet_potion_braldun`
+--
+ALTER TABLE `effet_potion_braldun`
+  ADD CONSTRAINT `effet_potion_braldun_ibfk_8` FOREIGN KEY (`id_fk_braldun_cible_effet_potion_braldun`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `effet_potion_braldun_ibfk_9` FOREIGN KEY (`id_fk_braldun_lanceur_effet_potion_braldun`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `effet_potion_monstre`
+--
+ALTER TABLE `effet_potion_monstre`
+  ADD CONSTRAINT `effet_potion_monstre_ibfk_1` FOREIGN KEY (`id_fk_braldun_lanceur_effet_potion_monstre`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `effet_potion_monstre_ibfk_2` FOREIGN KEY (`id_fk_monstre_cible_effet_potion_monstre`) REFERENCES `monstre` (`id_monstre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `element`
+--
+ALTER TABLE `element`
+  ADD CONSTRAINT `element_ibfk_1` FOREIGN KEY (`id_fk_butin_element`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_aliment`
+--
+ALTER TABLE `element_aliment`
+  ADD CONSTRAINT `element_aliment_ibfk_2` FOREIGN KEY (`id_element_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE,
+  ADD CONSTRAINT `element_aliment_ibfk_3` FOREIGN KEY (`id_fk_butin_element_aliment`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_equipement`
+--
+ALTER TABLE `element_equipement`
+  ADD CONSTRAINT `element_equipement_ibfk_7` FOREIGN KEY (`id_fk_butin_element_equipement`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL,
+  ADD CONSTRAINT `element_equipement_ibfk_8` FOREIGN KEY (`id_element_equipement`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `element_graine`
+--
+ALTER TABLE `element_graine`
+  ADD CONSTRAINT `element_graine_ibfk_1` FOREIGN KEY (`id_fk_butin_element_graine`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL,
+  ADD CONSTRAINT `element_graine_ibfk_2` FOREIGN KEY (`id_fk_type_element_graine`) REFERENCES `type_graine` (`id_type_graine`);
+
+--
+-- Contraintes pour la table `element_ingredient`
+--
+ALTER TABLE `element_ingredient`
+  ADD CONSTRAINT `element_ingredient_ibfk_1` FOREIGN KEY (`id_fk_butin_element_ingredient`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL,
+  ADD CONSTRAINT `element_ingredient_ibfk_2` FOREIGN KEY (`id_fk_type_element_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`);
+
+--
+-- Contraintes pour la table `element_materiel`
+--
+ALTER TABLE `element_materiel`
+  ADD CONSTRAINT `element_materiel_ibfk_1` FOREIGN KEY (`id_fk_butin_element_materiel`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_minerai`
+--
+ALTER TABLE `element_minerai`
+  ADD CONSTRAINT `element_minerai_ibfk_2` FOREIGN KEY (`id_fk_type_element_minerai`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `element_minerai_ibfk_3` FOREIGN KEY (`id_fk_butin_element_minerai`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_munition`
+--
+ALTER TABLE `element_munition`
+  ADD CONSTRAINT `element_munition_ibfk_1` FOREIGN KEY (`id_fk_type_element_munition`) REFERENCES `type_munition` (`id_type_munition`) ON DELETE CASCADE,
+  ADD CONSTRAINT `element_munition_ibfk_2` FOREIGN KEY (`id_fk_butin_element_munition`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_partieplante`
+--
+ALTER TABLE `element_partieplante`
+  ADD CONSTRAINT `element_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_element_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `element_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_element_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `element_partieplante_ibfk_3` FOREIGN KEY (`id_fk_butin_element_partieplante`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_potion`
+--
+ALTER TABLE `element_potion`
+  ADD CONSTRAINT `element_potion_ibfk_1` FOREIGN KEY (`id_fk_butin_element_potion`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_rune`
+--
+ALTER TABLE `element_rune`
+  ADD CONSTRAINT `element_rune_ibfk_1` FOREIGN KEY (`id_fk_butin_element_rune`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `element_tabac`
+--
+ALTER TABLE `element_tabac`
+  ADD CONSTRAINT `element_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_element_tabac`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `element_tabac_ibfk_2` FOREIGN KEY (`id_fk_butin_element_tabac`) REFERENCES `butin` (`id_butin`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `equipement`
+--
+ALTER TABLE `equipement`
+  ADD CONSTRAINT `equipement_ibfk_1` FOREIGN KEY (`id_fk_recette_equipement`) REFERENCES `recette_equipements` (`id_recette_equipement`),
+  ADD CONSTRAINT `equipement_ibfk_2` FOREIGN KEY (`id_fk_mot_runique_equipement`) REFERENCES `mot_runique` (`id_mot_runique`),
+  ADD CONSTRAINT `equipement_ibfk_3` FOREIGN KEY (`id_fk_region_equipement`) REFERENCES `region` (`id_region`);
+
+--
+-- Contraintes pour la table `equipement_bonus`
+--
+ALTER TABLE `equipement_bonus`
+  ADD CONSTRAINT `equipement_bonus_ibfk_1` FOREIGN KEY (`id_equipement_bonus`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `equipement_rune`
+--
+ALTER TABLE `equipement_rune`
+  ADD CONSTRAINT `equipement_rune_ibfk_1` FOREIGN KEY (`id_equipement_rune`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE,
+  ADD CONSTRAINT `equipement_rune_ibfk_2` FOREIGN KEY (`id_rune_equipement_rune`) REFERENCES `rune` (`id_rune`);
+
+--
+-- Contraintes pour la table `etape`
+--
+ALTER TABLE `etape`
+  ADD CONSTRAINT `etape_ibfk_1` FOREIGN KEY (`id_fk_quete_etape`) REFERENCES `quete` (`id_quete`) ON DELETE CASCADE,
+  ADD CONSTRAINT `etape_ibfk_2` FOREIGN KEY (`id_fk_type_etape`) REFERENCES `type_etape` (`id_type_etape`),
+  ADD CONSTRAINT `etape_ibfk_3` FOREIGN KEY (`id_fk_braldun_etape`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_fk_braldun_evenement`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `evenement_ibfk_2` FOREIGN KEY (`id_fk_type_evenement`) REFERENCES `type_evenement` (`id_type_evenement`),
+  ADD CONSTRAINT `evenement_ibfk_3` FOREIGN KEY (`id_fk_soule_match_evenement`) REFERENCES `soule_match` (`id_soule_match`) ON DELETE CASCADE,
+  ADD CONSTRAINT `evenement_ibfk_4` FOREIGN KEY (`id_fk_monstre_evenement`) REFERENCES `monstre` (`id_monstre`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `evenement_communaute`
+--
+ALTER TABLE `evenement_communaute`
+  ADD CONSTRAINT `evenement_communaute_ibfk_1` FOREIGN KEY (`id_fk_communaute_evenement_communaute`) REFERENCES `communaute` (`id_communaute`) ON DELETE CASCADE,
+  ADD CONSTRAINT `evenement_communaute_ibfk_2` FOREIGN KEY (`id_fk_type_evenement_communaute`) REFERENCES `type_evenement_communaute` (`id_type_evenement_communaute`);
+
+--
+-- Contraintes pour la table `filature`
+--
+ALTER TABLE `filature`
+  ADD CONSTRAINT `filature_ibfk_1` FOREIGN KEY (`id_fk_braldun_filature`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `filature_ibfk_2` FOREIGN KEY (`id_fk_cible_braldun_filature`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `filature_action`
+--
+ALTER TABLE `filature_action`
+  ADD CONSTRAINT `filature_action_ibfk_1` FOREIGN KEY (`id_fk_braldun_filature_action`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `filature_action_ibfk_2` FOREIGN KEY (`id_fk_filature_action`) REFERENCES `filature` (`id_filature`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `filon`
+--
+ALTER TABLE `filon`
+  ADD CONSTRAINT `filon_ibfk_1` FOREIGN KEY (`id_fk_type_minerai_filon`) REFERENCES `type_minerai` (`id_type_minerai`);
+
+--
+-- Contraintes pour la table `gardiennage`
+--
+ALTER TABLE `gardiennage`
+  ADD CONSTRAINT `gardiennage_ibfk_1` FOREIGN KEY (`id_fk_gardien_gardiennage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `gardiennage_ibfk_2` FOREIGN KEY (`id_fk_braldun_gardiennage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `groupe_monstre`
+--
+ALTER TABLE `groupe_monstre`
+  ADD CONSTRAINT `groupe_monstre_ibfk_1` FOREIGN KEY (`id_fk_type_groupe_monstre`) REFERENCES `type_groupe_monstre` (`id_type_groupe_monstre`),
+  ADD CONSTRAINT `groupe_monstre_ibfk_2` FOREIGN KEY (`id_fk_braldun_cible_groupe_monstre`) REFERENCES `braldun` (`id_braldun`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `historique_equipement`
+--
+ALTER TABLE `historique_equipement`
+  ADD CONSTRAINT `historique_equipement_ibfk_1` FOREIGN KEY (`id_fk_type_historique_equipement`) REFERENCES `type_equipement` (`id_type_equipement`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `historique_filature`
+--
+ALTER TABLE `historique_filature`
+  ADD CONSTRAINT `historique_filature_ibfk_1` FOREIGN KEY (`id_fk_filature_historique_filature`) REFERENCES `filature` (`id_filature`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `historique_materiel`
+--
+ALTER TABLE `historique_materiel`
+  ADD CONSTRAINT `historique_materiel_ibfk_2` FOREIGN KEY (`id_fk_type_historique_materiel`) REFERENCES `type_materiel` (`id_type_materiel`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `historique_potion`
+--
+ALTER TABLE `historique_potion`
+  ADD CONSTRAINT `historique_potion_ibfk_2` FOREIGN KEY (`id_fk_type_historique_potion`) REFERENCES `type_potion` (`id_type_potion`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `historique_rune`
+--
+ALTER TABLE `historique_rune`
+  ADD CONSTRAINT `historique_rune_ibfk_2` FOREIGN KEY (`id_fk_type_historique_rune`) REFERENCES `type_rune` (`id_type_rune`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban`
+--
+ALTER TABLE `laban`
+  ADD CONSTRAINT `laban_ibfk_1` FOREIGN KEY (`id_fk_braldun_laban`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_aliment`
+--
+ALTER TABLE `laban_aliment`
+  ADD CONSTRAINT `laban_aliment_ibfk_1` FOREIGN KEY (`id_laban_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_aliment_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_aliment`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_equipement`
+--
+ALTER TABLE `laban_equipement`
+  ADD CONSTRAINT `laban_equipement_ibfk_1` FOREIGN KEY (`id_laban_equipement`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_equipement_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_equipement`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_graine`
+--
+ALTER TABLE `laban_graine`
+  ADD CONSTRAINT `laban_graine_ibfk_1` FOREIGN KEY (`id_fk_type_laban_graine`) REFERENCES `type_graine` (`id_type_graine`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_graine_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_graine`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_ingredient`
+--
+ALTER TABLE `laban_ingredient`
+  ADD CONSTRAINT `laban_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_laban_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_ingredient_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_ingredient`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_materiel`
+--
+ALTER TABLE `laban_materiel`
+  ADD CONSTRAINT `laban_materiel_ibfk_1` FOREIGN KEY (`id_laban_materiel`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_materiel_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_materiel`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_minerai`
+--
+ALTER TABLE `laban_minerai`
+  ADD CONSTRAINT `laban_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_laban_minerai`) REFERENCES `type_minerai` (`id_type_minerai`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_minerai_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_minerai`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_munition`
+--
+ALTER TABLE `laban_munition`
+  ADD CONSTRAINT `laban_munition_ibfk_1` FOREIGN KEY (`id_fk_type_laban_munition`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `laban_munition_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_munition`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_partieplante`
+--
+ALTER TABLE `laban_partieplante`
+  ADD CONSTRAINT `laban_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_plante_laban_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `laban_partieplante_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_partieplante`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_potion`
+--
+ALTER TABLE `laban_potion`
+  ADD CONSTRAINT `laban_potion_ibfk_1` FOREIGN KEY (`id_laban_potion`) REFERENCES `potion` (`id_potion`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_potion_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_potion`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_rune`
+--
+ALTER TABLE `laban_rune`
+  ADD CONSTRAINT `laban_rune_ibfk_1` FOREIGN KEY (`id_rune_laban_rune`) REFERENCES `rune` (`id_rune`) ON DELETE CASCADE,
+  ADD CONSTRAINT `laban_rune_ibfk_2` FOREIGN KEY (`id_fk_braldun_identification_laban_rune`) REFERENCES `braldun` (`id_braldun`) ON DELETE SET NULL,
+  ADD CONSTRAINT `laban_rune_ibfk_3` FOREIGN KEY (`id_fk_braldun_laban_rune`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `laban_tabac`
+--
+ALTER TABLE `laban_tabac`
+  ADD CONSTRAINT `laban_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_laban_tabac`) REFERENCES `type_tabac` (`id_type_tabac`),
+  ADD CONSTRAINT `laban_tabac_ibfk_2` FOREIGN KEY (`id_fk_braldun_laban_tabac`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lieu`
+--
+ALTER TABLE `lieu`
+  ADD CONSTRAINT `lieu_ibfk_1` FOREIGN KEY (`id_fk_type_lieu`) REFERENCES `type_lieu` (`id_type_lieu`),
+  ADD CONSTRAINT `lieu_ibfk_2` FOREIGN KEY (`id_fk_ville_lieu`) REFERENCES `ville` (`id_ville`),
+  ADD CONSTRAINT `lieu_ibfk_3` FOREIGN KEY (`id_fk_communaute_lieu`) REFERENCES `communaute` (`id_communaute`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot`
+--
+ALTER TABLE `lot`
+  ADD CONSTRAINT `lot_ibfk_1` FOREIGN KEY (`id_fk_type_lot`) REFERENCES `type_lot` (`id_type_lot`),
+  ADD CONSTRAINT `lot_ibfk_2` FOREIGN KEY (`id_fk_vendeur_braldun_lot`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_ibfk_3` FOREIGN KEY (`id_fk_communaute_lot`) REFERENCES `communaute` (`id_communaute`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_ibfk_4` FOREIGN KEY (`id_fk_echoppe_lot`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_aliment`
+--
+ALTER TABLE `lot_aliment`
+  ADD CONSTRAINT `lot_aliment_ibfk_1` FOREIGN KEY (`id_fk_lot_lot_aliment`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_aliment_ibfk_2` FOREIGN KEY (`id_lot_aliment`) REFERENCES `aliment` (`id_aliment`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_equipement`
+--
+ALTER TABLE `lot_equipement`
+  ADD CONSTRAINT `lot_equipement_ibfk_1` FOREIGN KEY (`id_fk_lot_lot_equipement`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_equipement_ibfk_2` FOREIGN KEY (`id_lot_equipement`) REFERENCES `equipement` (`id_equipement`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_graine`
+--
+ALTER TABLE `lot_graine`
+  ADD CONSTRAINT `lot_graine_ibfk_1` FOREIGN KEY (`id_fk_type_lot_graine`) REFERENCES `type_graine` (`id_type_graine`),
+  ADD CONSTRAINT `lot_graine_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_graine`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_ingredient`
+--
+ALTER TABLE `lot_ingredient`
+  ADD CONSTRAINT `lot_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_lot_ingredient`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `lot_ingredient_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_ingredient`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_materiel`
+--
+ALTER TABLE `lot_materiel`
+  ADD CONSTRAINT `lot_materiel_ibfk_1` FOREIGN KEY (`id_lot_materiel`) REFERENCES `materiel` (`id_materiel`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_materiel_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_materiel`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_minerai`
+--
+ALTER TABLE `lot_minerai`
+  ADD CONSTRAINT `lot_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_lot_minerai`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `lot_minerai_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_minerai`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_munition`
+--
+ALTER TABLE `lot_munition`
+  ADD CONSTRAINT `lot_munition_ibfk_1` FOREIGN KEY (`id_fk_type_lot_munition`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `lot_munition_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_munition`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_partieplante`
+--
+ALTER TABLE `lot_partieplante`
+  ADD CONSTRAINT `lot_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_plante_lot_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `lot_partieplante_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_partieplante`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_partieplante_ibfk_3` FOREIGN KEY (`id_fk_type_lot_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`);
+
+--
+-- Contraintes pour la table `lot_potion`
+--
+ALTER TABLE `lot_potion`
+  ADD CONSTRAINT `lot_potion_ibfk_1` FOREIGN KEY (`id_lot_potion`) REFERENCES `potion` (`id_potion`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_potion_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_potion`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_prix_graine`
+--
+ALTER TABLE `lot_prix_graine`
+  ADD CONSTRAINT `lot_prix_graine_ibfk_1` FOREIGN KEY (`id_fk_type_lot_prix_graine`) REFERENCES `type_lot` (`id_type_lot`),
+  ADD CONSTRAINT `lot_prix_graine_ibfk_2` FOREIGN KEY (`id_fk_lot_prix_graine`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_prix_ingredient`
+--
+ALTER TABLE `lot_prix_ingredient`
+  ADD CONSTRAINT `lot_prix_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_lot_prix_ingredient`) REFERENCES `type_lot` (`id_type_lot`),
+  ADD CONSTRAINT `lot_prix_ingredient_ibfk_2` FOREIGN KEY (`id_fk_lot_prix_ingredient`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_prix_minerai`
+--
+ALTER TABLE `lot_prix_minerai`
+  ADD CONSTRAINT `lot_prix_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_lot_prix_minerai`) REFERENCES `type_lot` (`id_type_lot`),
+  ADD CONSTRAINT `lot_prix_minerai_ibfk_2` FOREIGN KEY (`id_fk_lot_prix_minerai`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_prix_partieplante`
+--
+ALTER TABLE `lot_prix_partieplante`
+  ADD CONSTRAINT `lot_prix_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_lot_prix_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `lot_prix_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_lot_prix_partieplante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `lot_prix_partieplante_ibfk_3` FOREIGN KEY (`id_fk_lot_prix_partieplante`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_rune`
+--
+ALTER TABLE `lot_rune`
+  ADD CONSTRAINT `lot_rune_ibfk_1` FOREIGN KEY (`id_rune_lot_rune`) REFERENCES `rune` (`id_rune`) ON DELETE CASCADE,
+  ADD CONSTRAINT `lot_rune_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_rune`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `lot_tabac`
+--
+ALTER TABLE `lot_tabac`
+  ADD CONSTRAINT `lot_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_lot_tabac`) REFERENCES `type_tabac` (`id_type_tabac`),
+  ADD CONSTRAINT `lot_tabac_ibfk_2` FOREIGN KEY (`id_fk_lot_lot_tabac`) REFERENCES `lot` (`id_lot`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `materiel`
+--
+ALTER TABLE `materiel`
+  ADD CONSTRAINT `materiel_ibfk_1` FOREIGN KEY (`id_fk_type_materiel`) REFERENCES `type_materiel` (`id_type_materiel`);
+
+--
+-- Contraintes pour la table `messagerie_contacts`
+--
+ALTER TABLE `messagerie_contacts`
+  ADD CONSTRAINT `messagerie_contacts_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `monstre`
+--
+ALTER TABLE `monstre`
+  ADD CONSTRAINT `monstre_ibfk_1` FOREIGN KEY (`id_fk_type_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `monstre_ibfk_2` FOREIGN KEY (`id_fk_taille_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`),
+  ADD CONSTRAINT `monstre_ibfk_3` FOREIGN KEY (`id_fk_groupe_monstre`) REFERENCES `groupe_monstre` (`id_groupe_monstre`) ON DELETE CASCADE,
+  ADD CONSTRAINT `monstre_ibfk_4` FOREIGN KEY (`id_fk_zone_nid_monstre`) REFERENCES `zone_nid` (`id_zone_nid`),
+  ADD CONSTRAINT `monstre_ibfk_5` FOREIGN KEY (`id_fk_donjon_monstre`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE,
+  ADD CONSTRAINT `monstre_ibfk_6` FOREIGN KEY (`id_fk_braldun_cible_monstre`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `nid`
+--
+ALTER TABLE `nid`
+  ADD CONSTRAINT `nid_ibfk_1` FOREIGN KEY (`id_fk_zone_nid`) REFERENCES `zone_nid` (`id_zone_nid`),
+  ADD CONSTRAINT `nid_ibfk_2` FOREIGN KEY (`id_fk_type_monstre_nid`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `nid_ibfk_3` FOREIGN KEY (`id_fk_donjon_nid`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `palissade`
+--
+ALTER TABLE `palissade`
+  ADD CONSTRAINT `palissade_ibfk_1` FOREIGN KEY (`id_fk_donjon_palissade`) REFERENCES `donjon` (`id_donjon`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `partage`
+--
+ALTER TABLE `partage`
+  ADD CONSTRAINT `partage_ibfk_1` FOREIGN KEY (`id_fk_braldun_declarant_partage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `partage_ibfk_2` FOREIGN KEY (`id_fk_braldun_declare_partage`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `petit_equipement`
+--
+ALTER TABLE `petit_equipement`
+  ADD CONSTRAINT `petit_equipement_ibfk_1` FOREIGN KEY (`id_fk_metier_petit_equipement`) REFERENCES `metier` (`id_metier`);
+
+--
+-- Contraintes pour la table `plante`
+--
+ALTER TABLE `plante`
+  ADD CONSTRAINT `plante_ibfk_1` FOREIGN KEY (`id_fk_type_plante`) REFERENCES `type_plante` (`id_type_plante`);
+
+--
+-- Contraintes pour la table `potion`
+--
+ALTER TABLE `potion`
+  ADD CONSTRAINT `potion_ibfk_1` FOREIGN KEY (`id_fk_type_potion`) REFERENCES `type_potion` (`id_type_potion`),
+  ADD CONSTRAINT `potion_ibfk_2` FOREIGN KEY (`id_fk_type_qualite_potion`) REFERENCES `type_qualite` (`id_type_qualite`);
+
+--
+-- Contraintes pour la table `quete`
+--
+ALTER TABLE `quete`
+  ADD CONSTRAINT `quete_ibfk_1` FOREIGN KEY (`id_fk_lieu_quete`) REFERENCES `lieu` (`id_lieu`),
+  ADD CONSTRAINT `quete_ibfk_2` FOREIGN KEY (`id_fk_braldun_quete`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `rang_communaute`
+--
+ALTER TABLE `rang_communaute`
+  ADD CONSTRAINT `rang_communaute_ibfk_1` FOREIGN KEY (`id_fk_communaute_rang_communaute`) REFERENCES `communaute` (`id_communaute`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `recette_aliments`
+--
+ALTER TABLE `recette_aliments`
+  ADD CONSTRAINT `recette_aliments_ibfk_1` FOREIGN KEY (`id_fk_type_aliment_recette_aliments`) REFERENCES `type_aliment` (`id_type_aliment`),
+  ADD CONSTRAINT `recette_aliments_ibfk_2` FOREIGN KEY (`id_fk_type_ingredient_recette_aliments`) REFERENCES `type_ingredient` (`id_type_ingredient`);
+
+--
+-- Contraintes pour la table `recette_aliments_potions`
+--
+ALTER TABLE `recette_aliments_potions`
+  ADD CONSTRAINT `recette_aliments_potions_ibfk_1` FOREIGN KEY (`id_fk_type_aliment_recette_aliments_potions`) REFERENCES `type_aliment` (`id_type_aliment`),
+  ADD CONSTRAINT `recette_aliments_potions_ibfk_2` FOREIGN KEY (`id_fk_type_potion_recette_aliments_potions`) REFERENCES `type_potion` (`id_type_potion`);
+
+--
+-- Contraintes pour la table `recette_cout`
+--
+ALTER TABLE `recette_cout`
+  ADD CONSTRAINT `recette_cout_ibfk_1` FOREIGN KEY (`id_fk_type_equipement_recette_cout`) REFERENCES `type_equipement` (`id_type_equipement`);
+
+--
+-- Contraintes pour la table `recette_cout_minerai`
+--
+ALTER TABLE `recette_cout_minerai`
+  ADD CONSTRAINT `recette_cout_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_equipement_recette_cout_minerai`) REFERENCES `type_equipement` (`id_type_equipement`),
+  ADD CONSTRAINT `recette_cout_minerai_ibfk_2` FOREIGN KEY (`id_fk_type_recette_cout_minerai`) REFERENCES `type_minerai` (`id_type_minerai`);
+
+--
+-- Contraintes pour la table `recette_equipements`
+--
+ALTER TABLE `recette_equipements`
+  ADD CONSTRAINT `recette_equipements_ibfk_1` FOREIGN KEY (`id_fk_type_recette_equipement`) REFERENCES `type_equipement` (`id_type_equipement`),
+  ADD CONSTRAINT `recette_equipements_ibfk_2` FOREIGN KEY (`id_fk_type_emplacement_recette_equipement`) REFERENCES `type_emplacement` (`id_type_emplacement`);
+
+--
+-- Contraintes pour la table `recette_materiel_cout`
+--
+ALTER TABLE `recette_materiel_cout`
+  ADD CONSTRAINT `recette_materiel_cout_ibfk_1` FOREIGN KEY (`id_fk_type_materiel_recette_materiel_cout`) REFERENCES `type_materiel` (`id_type_materiel`);
+
+--
+-- Contraintes pour la table `recette_materiel_cout_minerai`
+--
+ALTER TABLE `recette_materiel_cout_minerai`
+  ADD CONSTRAINT `recette_materiel_cout_minerai_ibfk_1` FOREIGN KEY (`id_fk_type_materiel_recette_materiel_cout_minerai`) REFERENCES `type_materiel` (`id_type_materiel`),
+  ADD CONSTRAINT `recette_materiel_cout_minerai_ibfk_2` FOREIGN KEY (`id_fk_type_recette_materiel_cout_minerai`) REFERENCES `type_minerai` (`id_type_minerai`);
+
+--
+-- Contraintes pour la table `recette_materiel_cout_plante`
+--
+ALTER TABLE `recette_materiel_cout_plante`
+  ADD CONSTRAINT `recette_materiel_cout_plantes_ibfk_6` FOREIGN KEY (`id_fk_type_materiel_recette_materiel_cout_plante`) REFERENCES `type_materiel` (`id_type_materiel`),
+  ADD CONSTRAINT `recette_materiel_cout_plantes_ibfk_7` FOREIGN KEY (`id_fk_type_plante_recette_materiel_cout_plante`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `recette_materiel_cout_plantes_ibfk_8` FOREIGN KEY (`id_fk_type_partieplante_recette_materiel_cout_plante`) REFERENCES `type_partieplante` (`id_type_partieplante`);
+
+--
+-- Contraintes pour la table `recette_potions`
+--
+ALTER TABLE `recette_potions`
+  ADD CONSTRAINT `recette_potions_ibfk_6` FOREIGN KEY (`id_fk_type_potion_recette_potion`) REFERENCES `type_potion` (`id_type_potion`),
+  ADD CONSTRAINT `recette_potions_ibfk_7` FOREIGN KEY (`id_fk_type_plante_recette_potion`) REFERENCES `type_plante` (`id_type_plante`),
+  ADD CONSTRAINT `recette_potions_ibfk_8` FOREIGN KEY (`id_fk_type_partieplante_recette_potion`) REFERENCES `type_partieplante` (`id_type_partieplante`);
+
+--
+-- Contraintes pour la table `recette_vernis`
+--
+ALTER TABLE `recette_vernis`
+  ADD CONSTRAINT `recette_vernis_ibfk_2` FOREIGN KEY (`id_fk_type_potion_recette_vernis`) REFERENCES `type_potion` (`id_type_potion`),
+  ADD CONSTRAINT `recette_vernis_ibfk_3` FOREIGN KEY (`id_fk_type_partieplante_recette_vernis`) REFERENCES `type_partieplante` (`id_type_partieplante`);
+
+--
+-- Contraintes pour la table `ref_monstre`
+--
+ALTER TABLE `ref_monstre`
+  ADD CONSTRAINT `ref_monstre_ibfk_1` FOREIGN KEY (`id_fk_type_ref_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `ref_monstre_ibfk_2` FOREIGN KEY (`id_fk_taille_ref_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`);
+
+--
+-- Contraintes pour la table `route`
+--
+ALTER TABLE `route`
+  ADD CONSTRAINT `route_ibfk_1` FOREIGN KEY (`id_fk_braldun_route`) REFERENCES `braldun` (`id_braldun`) ON DELETE SET NULL,
+  ADD CONSTRAINT `route_ibfk_2` FOREIGN KEY (`id_fk_type_qualite_route`) REFERENCES `type_qualite` (`id_type_qualite`),
+  ADD CONSTRAINT `route_ibfk_3` FOREIGN KEY (`id_fk_numero_route`) REFERENCES `route_numero` (`id_route_numero`),
+  ADD CONSTRAINT `route_ibfk_4` FOREIGN KEY (`id_fk_echoppe_route`) REFERENCES `echoppe` (`id_echoppe`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `route_numero`
+--
+ALTER TABLE `route_numero`
+  ADD CONSTRAINT `route_numero_ibfk_1` FOREIGN KEY (`id_fk_gare_capitale_route_numero`) REFERENCES `lieu` (`id_lieu`),
+  ADD CONSTRAINT `route_numero_ibfk_2` FOREIGN KEY (`id_fk_gare_province_route_numero`) REFERENCES `lieu` (`id_lieu`);
+
+--
+-- Contraintes pour la table `rune`
+--
+ALTER TABLE `rune`
+  ADD CONSTRAINT `rune_ibfk_1` FOREIGN KEY (`id_fk_type_rune`) REFERENCES `type_rune` (`id_type_rune`);
+
+--
+-- Contraintes pour la table `script`
+--
+ALTER TABLE `script`
+  ADD CONSTRAINT `script_ibfk_1` FOREIGN KEY (`id_fk_braldun_script`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `session`
+--
+ALTER TABLE `session`
+  ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`id_fk_braldun_session`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `sondage_reponse`
+--
+ALTER TABLE `sondage_reponse`
+  ADD CONSTRAINT `sondage_reponse_ibfk_1` FOREIGN KEY (`id_fk_sondage_reponse`) REFERENCES `sondage` (`id_sondage`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `soule_equipe`
+--
+ALTER TABLE `soule_equipe`
+  ADD CONSTRAINT `soule_equipe_ibfk_1` FOREIGN KEY (`id_fk_match_soule_equipe`) REFERENCES `soule_match` (`id_soule_match`) ON DELETE CASCADE,
+  ADD CONSTRAINT `soule_equipe_ibfk_2` FOREIGN KEY (`id_fk_braldun_soule_equipe`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `soule_match`
+--
+ALTER TABLE `soule_match`
+  ADD CONSTRAINT `soule_match_ibfk_1` FOREIGN KEY (`id_fk_terrain_soule_match`) REFERENCES `soule_terrain` (`id_soule_terrain`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `soule_message`
+--
+ALTER TABLE `soule_message`
+  ADD CONSTRAINT `soule_message_ibfk_1` FOREIGN KEY (`id_fk_match_soule_message`) REFERENCES `soule_match` (`id_soule_match`) ON DELETE CASCADE,
+  ADD CONSTRAINT `soule_message_ibfk_2` FOREIGN KEY (`id_fk_braldun_soule_message`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_distinction`
+--
+ALTER TABLE `stats_distinction`
+  ADD CONSTRAINT `stats_distinction_ibfk_1` FOREIGN KEY (`id_fk_braldun_stats_distinction`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_experience`
+--
+ALTER TABLE `stats_experience`
+  ADD CONSTRAINT `stats_experience_ibfk_1` FOREIGN KEY (`id_fk_braldun_stats_experience`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_fabricants`
+--
+ALTER TABLE `stats_fabricants`
+  ADD CONSTRAINT `stats_fabricants_ibfk_1` FOREIGN KEY (`id_fk_braldun_stats_fabricants`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stats_fabricants_ibfk_2` FOREIGN KEY (`id_fk_metier_stats_fabricants`) REFERENCES `metier` (`id_metier`);
+
+--
+-- Contraintes pour la table `stats_mots_runiques`
+--
+ALTER TABLE `stats_mots_runiques`
+  ADD CONSTRAINT `stats_mots_runiques_ibfk_1` FOREIGN KEY (`id_fk_mot_runique_stats_mots_runiques`) REFERENCES `mot_runique` (`id_mot_runique`),
+  ADD CONSTRAINT `stats_mots_runiques_ibfk_2` FOREIGN KEY (`id_fk_type_piece_stats_mots_runiques`) REFERENCES `type_piece` (`id_type_piece`);
+
+--
+-- Contraintes pour la table `stats_recolteurs`
+--
+ALTER TABLE `stats_recolteurs`
+  ADD CONSTRAINT `stats_recolteurs_ibfk_1` FOREIGN KEY (`id_fk_braldun_stats_recolteurs`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_reputation`
+--
+ALTER TABLE `stats_reputation`
+  ADD CONSTRAINT `stats_reputation_ibfk_1` FOREIGN KEY (`id_fk_braldun_stats_reputation`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_routes`
+--
+ALTER TABLE `stats_routes`
+  ADD CONSTRAINT `stats_routes_ibfk_1` FOREIGN KEY (`id_fk_metier_stats_routes`) REFERENCES `metier` (`id_metier`),
+  ADD CONSTRAINT `stats_routes_ibfk_2` FOREIGN KEY (`id_fk_braldun_stats_routes`) REFERENCES `braldun` (`id_braldun`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `stats_runes`
+--
+ALTER TABLE `stats_runes`
+  ADD CONSTRAINT `stats_runes_ibfk_1` FOREIGN KEY (`id_fk_type_rune_stats_runes`) REFERENCES `type_rune` (`id_type_rune`);
+
+--
+-- Contraintes pour la table `stock_tabac`
+--
+ALTER TABLE `stock_tabac`
+  ADD CONSTRAINT `stock_tabac_ibfk_1` FOREIGN KEY (`id_fk_type_stock_tabac`) REFERENCES `type_tabac` (`id_type_tabac`),
+  ADD CONSTRAINT `stock_tabac_ibfk_2` FOREIGN KEY (`id_fk_region_stock_tabac`) REFERENCES `region` (`id_region`);
+
+--
+-- Contraintes pour la table `type_dependance`
+--
+ALTER TABLE `type_dependance`
+  ADD CONSTRAINT `type_dependance_ibfk_1` FOREIGN KEY (`id_fk_type_lieu_enfant_type_dependance`) REFERENCES `type_lieu` (`id_type_lieu`);
+
+--
+-- Contraintes pour la table `type_distinction`
+--
+ALTER TABLE `type_distinction`
+  ADD CONSTRAINT `type_distinction_ibfk_1` FOREIGN KEY (`id_fk_type_categorie_distinction`) REFERENCES `type_categorie` (`id_type_categorie`),
+  ADD CONSTRAINT `type_distinction_ibfk_2` FOREIGN KEY (`id_fk_lieu_type_distinction`) REFERENCES `lieu` (`id_lieu`);
+
+--
+-- Contraintes pour la table `type_equipement`
+--
+ALTER TABLE `type_equipement`
+  ADD CONSTRAINT `type_equipement_ibfk_1` FOREIGN KEY (`id_fk_type_munition_type_equipement`) REFERENCES `type_munition` (`id_type_munition`),
+  ADD CONSTRAINT `type_equipement_ibfk_2` FOREIGN KEY (`id_fk_type_piece_type_equipement`) REFERENCES `type_piece` (`id_type_piece`),
+  ADD CONSTRAINT `type_equipement_ibfk_3` FOREIGN KEY (`id_fk_type_ingredient_base_type_equipement`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `type_equipement_ibfk_4` FOREIGN KEY (`id_fk_donjon_type_equipement`) REFERENCES `donjon` (`id_donjon`);
+
+--
+-- Contraintes pour la table `type_etape_metier`
+--
+ALTER TABLE `type_etape_metier`
+  ADD CONSTRAINT `type_etape_metier_ibfk_1` FOREIGN KEY (`id_fk_etape_type_etape_metier`) REFERENCES `type_etape` (`id_type_etape`),
+  ADD CONSTRAINT `type_etape_metier_ibfk_2` FOREIGN KEY (`id_fk_metier_type_etape_metier`) REFERENCES `metier` (`id_metier`);
+
+--
+-- Contraintes pour la table `type_graine`
+--
+ALTER TABLE `type_graine`
+  ADD CONSTRAINT `type_graine_ibfk_1` FOREIGN KEY (`id_fk_type_ingredient_type_graine`) REFERENCES `type_ingredient` (`id_type_ingredient`),
+  ADD CONSTRAINT `type_graine_ibfk_2` FOREIGN KEY (`id_fk_type_tabac_type_graine`) REFERENCES `type_tabac` (`id_type_tabac`);
+
+--
+-- Contraintes pour la table `type_ingredient`
+--
+ALTER TABLE `type_ingredient`
+  ADD CONSTRAINT `type_ingredient_ibfk_1` FOREIGN KEY (`id_fk_type_minerai_ingredient`) REFERENCES `type_minerai` (`id_type_minerai`),
+  ADD CONSTRAINT `type_ingredient_ibfk_2` FOREIGN KEY (`id_fk_type_graine_ingredient`) REFERENCES `type_graine` (`id_type_graine`);
+
+--
+-- Contraintes pour la table `type_lieu`
+--
+ALTER TABLE `type_lieu`
+  ADD CONSTRAINT `type_lieu_ibfk_1` FOREIGN KEY (`id_fk_type_lieu_communaute_type_lieu`) REFERENCES `type_lieu_communaute` (`id_type_lieu_communaute`);
+
+--
+-- Contraintes pour la table `type_materiel_assemble`
+--
+ALTER TABLE `type_materiel_assemble`
+  ADD CONSTRAINT `type_materiel_assemble_ibfk_1` FOREIGN KEY (`id_base_type_materiel_assemble`) REFERENCES `type_materiel` (`id_type_materiel`),
+  ADD CONSTRAINT `type_materiel_assemble_ibfk_2` FOREIGN KEY (`id_supplement_type_materiel_assemble`) REFERENCES `type_materiel` (`id_type_materiel`);
+
+--
+-- Contraintes pour la table `type_monstre`
+--
+ALTER TABLE `type_monstre`
+  ADD CONSTRAINT `type_monstre_ibfk_1` FOREIGN KEY (`id_fk_type_groupe_monstre`) REFERENCES `type_groupe_monstre` (`id_type_groupe_monstre`);
+
+--
+-- Contraintes pour la table `type_monstre_mcompetence`
+--
+ALTER TABLE `type_monstre_mcompetence`
+  ADD CONSTRAINT `type_monstre_mcompetence_ibfk_1` FOREIGN KEY (`id_fk_type_monstre_mcompetence`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `type_monstre_mcompetence_ibfk_2` FOREIGN KEY (`id_fk_mcompetence_type_monstre_mcompetence`) REFERENCES `mcompetence` (`id_mcompetence`);
+
+--
+-- Contraintes pour la table `type_plante`
+--
+ALTER TABLE `type_plante`
+  ADD CONSTRAINT `type_plante_ibfk_1` FOREIGN KEY (`id_fk_partieplante1_type_plante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `type_plante_ibfk_2` FOREIGN KEY (`id_fk_partieplante2_type_plante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `type_plante_ibfk_3` FOREIGN KEY (`id_fk_partieplante3_type_plante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `type_plante_ibfk_4` FOREIGN KEY (`id_fk_partieplante4_type_plante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `type_plante_ibfk_5` FOREIGN KEY (`id_fk_environnement_type_plante`) REFERENCES `environnement` (`id_environnement`);
+
+--
+-- Contraintes pour la table `type_potion`
+--
+ALTER TABLE `type_potion`
+  ADD CONSTRAINT `type_potion_ibfk_1` FOREIGN KEY (`id_fk_type_ingredient_type_potion`) REFERENCES `type_ingredient` (`id_type_ingredient`);
+
+--
+-- Contraintes pour la table `ville`
+--
+ALTER TABLE `ville`
+  ADD CONSTRAINT `ville_ibfk_1` FOREIGN KEY (`id_fk_region_ville`) REFERENCES `region` (`id_region`);
+
+--
+-- Contraintes pour la table `zone`
+--
+ALTER TABLE `zone`
+  ADD CONSTRAINT `zone_ibfk_1` FOREIGN KEY (`id_fk_environnement_zone`) REFERENCES `environnement` (`id_environnement`),
+  ADD CONSTRAINT `zone_ibfk_2` FOREIGN KEY (`id_fk_donjon_zone`) REFERENCES `donjon` (`id_donjon`);
+
+--
+-- Contraintes pour la table `zone_nid`
+--
+ALTER TABLE `zone_nid`
+  ADD CONSTRAINT `zone_nid_ibfk_1` FOREIGN KEY (`id_fk_donjon_zone_nid`) REFERENCES `donjon` (`id_donjon`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
