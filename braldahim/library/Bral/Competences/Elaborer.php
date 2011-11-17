@@ -553,7 +553,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence
 		$dataFabricants["id_fk_braldun_stats_fabricants"] = $this->view->user->id_braldun;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbPotions;
-		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
+		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau * $this->view->nbPotions;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = Bral_Util_Metier::METIER_APOTHICAIRE_ID;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
