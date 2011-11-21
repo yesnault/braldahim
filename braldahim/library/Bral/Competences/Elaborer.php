@@ -33,10 +33,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence
 		$idEchoppe = -1;
 		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-				$e["nom_systeme_metier"] == self::NOM_METIER &&
-				$e["x_echoppe"] == $this->view->user->x_braldun &&
-				$e["y_echoppe"] == $this->view->user->y_braldun &&
-				$e["z_echoppe"] == $this->view->user->z_braldun
+					$e["nom_systeme_metier"] == self::NOM_METIER &&
+					$e["x_echoppe"] == $this->view->user->x_braldun &&
+					$e["y_echoppe"] == $this->view->user->y_braldun &&
+					$e["z_echoppe"] == $this->view->user->z_braldun
 			) {
 				$this->view->elaborerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
@@ -245,9 +245,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence
 				$ressourcesOk = false;
 				$cout = $k + 1;
 				if ($typePotionCourante["nom_systeme_type_ingredient"] == "anga" ||
-					$typePotionCourante["nom_systeme_type_ingredient"] == "galvorn" ||
-					$typePotionCourante["nom_systeme_type_ingredient"] == "mithril" ||
-					$typePotionCourante["nom_systeme_type_ingredient"] == "tambe"
+						$typePotionCourante["nom_systeme_type_ingredient"] == "galvorn" ||
+						$typePotionCourante["nom_systeme_type_ingredient"] == "mithril" ||
+						$typePotionCourante["nom_systeme_type_ingredient"] == "tambe"
 				) {
 					$nom = $typePotionCourante["nom_type_ingredient"] . " : " . ($k + 1) . " lingots";
 					foreach ($minerais as $m) {
@@ -406,8 +406,8 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence
 		foreach ($this->view->cout[$niveau] as $c) {
 			if ($c["id_type_partieplante"] == $idTypePartiePlante || ($estIngredient3 && $c["id_type_partieplante"] == -1)) {
 				if (!isset($this->view->tabPartiePlantes[$idTypePartiePlante]) ||
-					!isset($this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]) ||
-					$this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]["quantite_preparees"] < intval($c["cout"])
+						!isset($this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]) ||
+						$this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]["quantite_preparees"] < intval($c["cout"])
 				) {
 					throw new Zend_Exception(get_class($this) . " Elaborer invalide calculCoutElaborerVernisDb 1 N:" . $niveau . " coef:" . $coef . " idT" . $idTypePartiePlante . " idP" . $idTypePlante . " cout:" . $c["cout"]);
 				}
@@ -469,8 +469,8 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence
 		$chance_c = 0.125 * $maitrise + 3.75;
 
 		/*
-				   * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
-				   */
+		* Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
+		*/
 		$n = (($this->view->user->sagesse_bm_braldun + $this->view->user->sagesse_bbdf_braldun) / 2) + 1;
 
 		if ($n < 1) $n = 1;
