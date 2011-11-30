@@ -36,7 +36,6 @@ class AdministrationsqlbatchController extends Zend_Controller_Action
 				 $this->eauCreation(-11);
 				 $this->eauCreation(-12);
 				 $this->eauCreation(-13);*/
-		$this->routeVisible();
 		$this->render();
 	}
 
@@ -465,31 +464,6 @@ class AdministrationsqlbatchController extends Zend_Controller_Action
 	function md5Action()
 	{
 		$this->render();
-	}
-
-	function routeVisible()
-	{
-		Zend_Loader::loadClass("Route");
-		$routeTable = new Route();
-
-		Zend_Loader::loadClass("Palissade");
-		$palissadeTable = new Palissade();
-
-		$palissades = $palissadeTable->fetchAll();
-
-		foreach ($palissades as $palissade) {
-			$data = array(
-				"est_visible_route" => "oui",
-			);
-			$where = "x_route > ".$palissades["x_palissade"] -2;
-			$where = "and x_route < ".$palissades["y_palissade"] + 2;
-			$where = "and y_route > ".$palissades["x_palissade"] -2;
-			$where = "and y_route < ".$palissades["y_palissade"] + 2;
-			$where = "and z_route < ".$palissades["z_palissade"];
-
-			$routeTable->udpate($data, $where);
-		}
-
 	}
 
 	function eauCreation($z)
