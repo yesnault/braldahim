@@ -35,12 +35,14 @@ class Bral_Helper_DetailPotion
 		$text .= "Niveau : " . $p["niveau"] . "<br />";
 		$text .= "Poids : " . Bral_Util_Poids::POIDS_POTION . " Kg<br />";
 		if ($p["bm_type"] != null) {
+            $bm1 = Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique"], $p["bm_type"], $p );
 			$text .= "<br /> Apporte un " . $p["bm_type"];
-            $text .= " ".Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique"], $p["bm_type"], $p );
+            $text .= ($bm1>0) ? " +$bm1" : " $bm1";
 			$text .= " sur la caract&eacute;ristique " . $p["caracteristique"];
 			if ($p["bm2_type"] != null) {
+                $bm2 = Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique2"], $p["bm2_type"], $p );
 				$text .= "<br /> et un " . $p["bm2_type"];
-                $text .= " ".Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique2"], $p["bm2_type"], $p );
+                $text .= ($bm2>0) ? " +$bm2" : " $bm2";
 				$text .= " sur la caract&eacute;ristique " . $p["caracteristique2"];
 			}
 			$text .= ".<br />";
