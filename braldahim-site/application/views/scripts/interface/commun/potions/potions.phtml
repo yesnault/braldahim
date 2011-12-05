@@ -30,9 +30,9 @@
 			  		<?php if ($p["bm_type"] == null) : ?>
 			  			État équipement
 			  		<?php else :?>
-				  		<?php echo $p["bm_type"] ?> <?php echo $p["caracteristique"] ?>
+				  		<?php echo $p["bm_type"] ?> <?php echo $p["caracteristique"] ?> (<?php $bm1 = Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique"], $p["bm_type"], $p ); echo ($bm1>0) ? " +$bm1" : " $bm1"; ?>)
 				  		<?php if ($p["bm2_type"] != null) : ?>
-				  			<br /><?php echo $p["bm2_type"] ?> <?php echo $p["caracteristique2"] ?>
+				  			<br /><?php echo $p["bm2_type"] ?> <?php echo $p["caracteristique2"] ?> (<?php $bm2 = Bral_Util_Potion::determineBonusMalusVernis ( $p["caracteristique2"], $p["bm2_type"], $p ); echo ($bm2>0) ? " +$bm2" : " $bm2"; ?>)
 				  		<?php endif;?>
 			  		<?php endif;?>
 			  		</td>
