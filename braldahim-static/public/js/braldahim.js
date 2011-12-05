@@ -907,7 +907,7 @@ function construitMenuActions() {
 			html += '<span>';
 			html += '<img class="étoile" id_action="' + action.id_competence + '" src="' + $('#urlStatique').val() + '/images/layout/etoile_' + (action.favorite ? 'pleine' : 'vide') + '.png" height=14/>';
 			html += ' <a href="#" class="action ' + (action.active ? 'active' : 'inactive') + ' "  id_action="' + action.id_competence + '" title="' + (action.active ? "" : "Vous n\'avez pas assez de PA" ) + '">';
-			html += action.pa_texte + ' PA - ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
+			html += action.pa_texte + ' PA : ' + action.nom + (action.pourcentage ? ' - ' + action.pourcentage + '%' : '');
 			html += '</a>';
 			html += '</span>';
 		}
