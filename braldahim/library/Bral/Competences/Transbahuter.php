@@ -47,7 +47,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 
 		$labanCharretteSolPossible = true;
 
-
 		if (intval($this->request->get('valeur_1')) == self::ID_ENDROIT_MON_COFFRE || intval($this->request->get('valeur_1')) == self::ID_ENDROIT_HALL_LIEU) {
 			$lieu = new Lieu();
 			$lieux = $lieu->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
@@ -859,8 +858,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 			case self::ID_ENDROIT_ELEMENT :
 			case self::ID_ENDROIT_MON_COFFRE:
 			case self::ID_ENDROIT_CHARRETTE :
-			default:
 				parent::calculNbPa();
+				break;
+			default:
+				$this->view->nb_pa = 0;
 				break;
 		}
 

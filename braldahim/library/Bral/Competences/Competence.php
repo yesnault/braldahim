@@ -134,12 +134,13 @@ abstract class Bral_Competences_Competence
 
 	protected function calculNbPa()
 	{
-		if ($this->view->user->pa_braldun - $this->competence["pa_utilisation"] < 0) {
+		$nb_pa = 1;
+		if ($this->view->user->pa_braldun - $nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
-		$this->view->nb_pa = $this->competence["pa_utilisation"];
+		$this->view->nb_pa = $nb_pa;
 	}
 
 	protected function ameliorationCompetenceMetier()
