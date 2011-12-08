@@ -37,7 +37,7 @@ class Route extends Zend_Db_Table
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $estVisible = 'oui')
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $estVisible = 'oui', $avecBalise = true)
 	{
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -49,6 +49,9 @@ class Route extends Zend_Db_Table
 			->where('z_route = ?', $z);
 		if ($estVisible != "toutes") {
 			$select->where('est_visible_route = ?', $estVisible);
+		}
+		if (!$avecBalise) {
+			$select->where('type_route not like ?', "balise");
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
