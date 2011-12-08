@@ -134,13 +134,12 @@ abstract class Bral_Competences_Competence
 
 	protected function calculNbPa()
 	{
-		$nb_pa = 1;
-		if ($this->view->user->pa_braldun - $nb_pa < 0) {
+		if ($this->view->user->pa_braldun - $this->competence["pa_utilisation"] < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
-		$this->view->nb_pa = $nb_pa;
+		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
 
 	protected function ameliorationCompetenceMetier()
@@ -632,10 +631,10 @@ abstract class Bral_Competences_Competence
 		$idEchoppe = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-				$e["nom_systeme_metier"] == $metier &&
-				$e["x_echoppe"] == $this->view->user->x_braldun &&
-				$e["y_echoppe"] == $this->view->user->y_braldun &&
-				$e["z_echoppe"] == $this->view->user->z_braldun
+					$e["nom_systeme_metier"] == $metier &&
+					$e["x_echoppe"] == $this->view->user->x_braldun &&
+					$e["y_echoppe"] == $this->view->user->y_braldun &&
+					$e["z_echoppe"] == $this->view->user->z_braldun
 			) {
 				$this->view->estSurEchoppe = true;
 				$idEchoppe = $e["id_echoppe"];
