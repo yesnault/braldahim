@@ -91,6 +91,9 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script
 
 		Zend_Loader::loadClass("Bral_Util_Commun");
 		$vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z_position) + $bm;
+		if ($vue_nb_cases < 0) {
+			$vue_nb_cases = 0;
+		}
 		$x_min = $x - $vue_nb_cases;
 		$x_max = $x + $vue_nb_cases;
 		$y_min = $y - $vue_nb_cases;

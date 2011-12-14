@@ -70,7 +70,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence
 		$champs = $champTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
 
 		$routeTable = new Route();
-		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun, 'oui', false);
 
 		$nidTable = new Nid();
 		$nids = $nidTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_braldun);
@@ -292,6 +292,14 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence
 		$palissadeTable = new Palissade();
 		$palissadeTable->insert($data);
 		unset($palissadeTable);
+
+		// S'il y a une balise, on la supprime
+		$routeTable = new Route();
+		$where = "x_route = ".$x;
+		$where .= " AND y_route = ".$y;
+		$where .= " AND z_route = ".$this->view->user->z_braldun;
+		$where .= " AND type_route not like 'balise'";
+		$routeTable->delete($where);
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();

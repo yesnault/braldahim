@@ -1567,16 +1567,13 @@ class Bral_Util_Quete
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Braldun " . $braldun->id_braldun . " - Bral_Util_Quete::calculEtapeConstruireParam1et2 - param1:" . $etape["param_1_etape"] . " param2:" . $etape["param_2_etape"]);
 
-		Zend_Loader::loadClass("Bral_Util_Metier");
-		$idMetierCourant = Bral_Util_Metier::getIdMetierCourant($braldun);
-
-		if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE) {
+		if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE) {
 			Bral_Util_Log::quete()->trace("Braldun " . $braldun->id_braldun . " - Bral_Util_Quete::calculEtapeConstruireParam1 - A");
 			$retour = true;
-		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_CUISINIER && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_CUISINIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CUISINER) {
+		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_CUISINIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CUISINER) {
 			Bral_Util_Log::quete()->trace("Braldun " . $braldun->id_braldun . " - Bral_Util_Quete::calculEtapeConstruireParam1 - B");
 			$retour = true;
-		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_BUCHERON && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_BUCHERON && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_MONTERPALISSADE) {
+		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_BUCHERON && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_MONTERPALISSADE) {
 			Bral_Util_Log::quete()->trace("Braldun " . $braldun->id_braldun . " - Bral_Util_Quete::calculEtapeConstruireParam1 - C");
 			$retour = true;
 		} else {

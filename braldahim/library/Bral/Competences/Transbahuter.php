@@ -47,7 +47,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 
 		$labanCharretteSolPossible = true;
 
-
 		if (intval($this->request->get('valeur_1')) == self::ID_ENDROIT_MON_COFFRE || intval($this->request->get('valeur_1')) == self::ID_ENDROIT_HALL_LIEU) {
 			$lieu = new Lieu();
 			$lieux = $lieu->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
@@ -55,8 +54,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 			// Si l'on choisit un coffre en source et que l'on n'est pas sur une banque ou sur un hall
 			// laban / charrette et Sol sont des destinations impossibles
 			if (count($lieux) == 0 || (count($lieux) == 1
-				&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_BANQUE
-				&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_HALL)
+					&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_BANQUE
+					&& $lieux[0]['id_type_lieu'] != TypeLieu::ID_TYPE_HALL)
 			) {
 				$labanCharretteSolPossible = false;
 			}
@@ -353,8 +352,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 					$estDepart = true;
 				} else {
 					if ($c['est_partage_communaute_charrette'] == 'oui' &&
-						$c['id_fk_communaute_braldun'] == $this->view->user->id_fk_communaute_braldun &&
-						$this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU
+							$c['id_fk_communaute_braldun'] == $this->view->user->id_fk_communaute_braldun &&
+							$this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU
 					) { // bralduns de la communaute
 						$estDepart = true;
 					}
@@ -443,10 +442,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 		}
 
 		if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN
-			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
-			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
-			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
-			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN
+				|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
+				|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
+				|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
+				|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_LABAN_BRALDUN
 		) {
 			$idBraldunDestinataire = Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_3'));
 			$this->view->id_braldun_destinataire = null;
@@ -470,7 +469,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 				}
 
 				if ($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
-					|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
+						|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
 				) {
 					$this->view->id_braldun_destinataire_lot = $idBraldunDestinataire;
 				}
@@ -560,11 +559,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 		}
 
 		if ($endroitDepart['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitDepart['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
-			|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
+				|| $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE
 		) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
 			if ($this->view->id_braldun_destinataire != $this->view->user->id_braldun &&
-				($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE)
+					($endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_COFFRE_BRALDUN || $endroitArrivee['id_type_endroit'] == self::ID_ENDROIT_MON_COFFRE)
 			) {
 				$messageCible = $this->view->user->prenom_braldun . ' ' . $this->view->user->nom_braldun . ' a transbahuté ces éléments dans votre coffre : ' . PHP_EOL;
 				$messageCible .= $this->view->elementsRetires;
@@ -677,9 +676,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 		}
 
 		if ($this->view->user->rangCommunaute < Bral_Util_Communaute::ID_RANG_NOUVEAU
-			&& array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
-			|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
-			|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))
+				&& array_key_exists(self::ID_ENDROIT_HALL_LIEU, $this->view->tabEndroit)
+				|| (array_key_exists(self::ID_ENDROIT_COFFRE_COMMUNAUTE, $this->view->tabEndroit))
+				|| (array_key_exists(self::ID_ENDROIT_RESERVATION_COMMUNAUTE, $this->view->tabEndroit))
 		) {
 			$tab[] = 'box_communaute_coffre';
 			$tab[] = 'box_communaute_evenements';
@@ -727,8 +726,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 		$this->idLot = null;
 
 		if ($arrivee['id_type_endroit'] == self::ID_ENDROIT_ECHOPPE_ETAL
-			|| $arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL
-			|| $arrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
+				|| $arrivee['id_type_endroit'] == self::ID_ENDROIT_HOTEL
+				|| $arrivee['id_type_endroit'] == self::ID_ENDROIT_RESERVATION_COMMUNAUTE
 		) {
 			$this->idLot = $this->deposeTypeLot($arrivee);
 		}
@@ -859,8 +858,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 			case self::ID_ENDROIT_ELEMENT :
 			case self::ID_ENDROIT_MON_COFFRE:
 			case self::ID_ENDROIT_CHARRETTE :
-			default:
 				parent::calculNbPa();
+				break;
+			default:
+				$this->view->nb_pa = 0;
 				break;
 		}
 
@@ -934,8 +935,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeEquipements($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}
@@ -1114,9 +1115,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function prepareTypeRunes($depart, $idTypeDepart)
 	{
 		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 
 			Zend_Loader::loadClass($depart . 'Rune');
@@ -1175,13 +1176,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeRunes($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 			return;
 		}
@@ -1397,7 +1398,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 		}
 
 		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
-			&& $this->view->idEchoppe == null
+				&& $this->view->idEchoppe == null
 		) { // echoppe cuisinier calcule dans prepare{
 			return;
 		}
@@ -1539,8 +1540,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function prepareTypeAliments($depart, $idTypeDepart)
 	{
 		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 
 			Zend_Loader::loadClass($depart . 'Aliment');
@@ -1600,11 +1601,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeAliments($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}
@@ -1734,8 +1735,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function prepareTypeMunitions($depart, $idTypeDepart)
 	{
 		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 
 			Zend_Loader::loadClass($depart . 'Munition');
@@ -1799,11 +1800,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeMunitions($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}
@@ -2356,8 +2357,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 				if ($depart == 'Charrette' && $this->view->a_panneau === false && ($this->view->nbelement > 0 || ($nbBrutes > 0 && $nbPreparees > 0))) {
 					$this->view->panneau = false;
 					$this->view->elementsNonRetiresPanneau .= $this->view->partieplantes[$indice]['nom_plante'] . ' : ';
-					$this->view->elementsNonRetiresPanneau .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' brute' . $sbrute;
-					$this->view->elementsNonRetiresPanneau .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' préparée' . $spreparee;
+					$this->view->elementsNonRetiresPanneau .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $sbrute . ' brute' . $sbrute;
+					$this->view->elementsNonRetiresPanneau .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $spreparee . ' préparée' . $spreparee;
 					$this->view->elementsNonRetiresPanneau .= ', ';
 				}
 
@@ -2369,8 +2370,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 						$this->view->poidsOk = false;
 						$poidsOk = false;
 						$this->view->elementsNonRetiresPoids .= $this->view->partieplantes[$indice]['nom_plante'] . ' : ';
-						$this->view->elementsNonRetiresPoids .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' brute' . $sbrute;
-						$this->view->elementsNonRetiresPoids .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' préparée' . $spreparee;
+						$this->view->elementsNonRetiresPoids .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $sbrute . ' brute' . $sbrute;
+						$this->view->elementsNonRetiresPoids .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $spreparee . ' préparée' . $spreparee;
 						$this->view->elementsNonRetiresPoids .= ', ';
 					}
 				}
@@ -2519,8 +2520,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 					$arriveePartiePlanteTable->insertOrUpdate($data);
 					unset ($arriveePartiePlanteTable);
 					$this->view->elementsRetires .= $this->view->partieplantes[$indice]['nom_plante'] . ' : ';
-					$this->view->elementsRetires .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' brute' . $sbrute;
-					$this->view->elementsRetires .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . ' préparée' . $spreparee;
+					$this->view->elementsRetires .= $nbBrutes . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $sbrute . ' brute' . $sbrute;
+					$this->view->elementsRetires .= ' et ' . $nbPreparees . ' ' . $this->view->partieplantes[$indice]['nom_type'] . $spreparee . ' préparée' . $spreparee;
 					$this->view->elementsRetires .= ', ';
 				}
 			}
@@ -2531,9 +2532,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	{
 
 		if ($idTypeDepart != self::ID_ENDROIT_ECHOPPE_CAISSE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
-			$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ATELIER &&
+				$idTypeDepart != self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 
 			Zend_Loader::loadClass($depart . 'Tabac');
@@ -2590,13 +2591,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeTabac($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
-			$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+				$idTypeDepart == self::ID_ENDROIT_ECHOPPE_ETAL ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
 		) {
 			return;
 		}
@@ -2811,8 +2812,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	private function deposeTypeMateriel($depart, $arrivee, $idTypeDepart, $idTypeArrivee)
 	{
 		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}
@@ -3020,10 +3021,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	{
 
 		if ($idTypeDepart == self::ID_ENDROIT_ECHOPPE_CAISSE
-			|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
-			|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE
-			|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
-			|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_MATIERE_PREMIERE
+				|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE
+				|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL
+				|| $idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}
@@ -3544,8 +3545,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 			}
 
 			if ($tabAutres['nb_castar'] != 0 || $tabAutres['nb_peau'] != 0 ||
-				$tabAutres['nb_cuir'] != 0 || $tabAutres['nb_fourrure'] != 0 ||
-				$tabAutres['nb_planche'] != 0 || $tabAutres['nb_rondin'] != 0
+					$tabAutres['nb_cuir'] != 0 || $tabAutres['nb_fourrure'] != 0 ||
+					$tabAutres['nb_planche'] != 0 || $tabAutres['nb_rondin'] != 0
 			) {
 				$this->view->deposerOk = true;
 
@@ -3565,8 +3566,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence
 	{
 
 		if ($idTypeArrivee == self::ID_ENDROIT_ECHOPPE_CAISSE ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL ||
-			$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ETAL ||
+				$idTypeArrivee == self::ID_ENDROIT_ECHOPPE_ATELIER
 		) {
 			return;
 		}

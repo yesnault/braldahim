@@ -631,10 +631,10 @@ abstract class Bral_Competences_Competence
 		$idEchoppe = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_fk_braldun_echoppe"] == $this->view->user->id_braldun &&
-				$e["nom_systeme_metier"] == $metier &&
-				$e["x_echoppe"] == $this->view->user->x_braldun &&
-				$e["y_echoppe"] == $this->view->user->y_braldun &&
-				$e["z_echoppe"] == $this->view->user->z_braldun
+					$e["nom_systeme_metier"] == $metier &&
+					$e["x_echoppe"] == $this->view->user->x_braldun &&
+					$e["y_echoppe"] == $this->view->user->y_braldun &&
+					$e["z_echoppe"] == $this->view->user->z_braldun
 			) {
 				$this->view->estSurEchoppe = true;
 				$idEchoppe = $e["id_echoppe"];
