@@ -38,7 +38,7 @@ Afficher :
                                title="Cliquez pour voir le profil"><?php echo $lot['prenom_braldun_vendeur'] ?> <?php echo $lot['nom_braldun_vendeur'] ?>
                                 (<?php echo $lot['id_fk_vendeur_braldun_lot'] ?>)</a>
                     <?php if ($lot['echoppe'] != null) : ?>
-                        <?php //Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] , y:<?php echo $lot['echoppe']['y_echoppe']<br />?>
+                        <br/><br/>Échoppe en x:<?php echo $lot['echoppe']['x_echoppe'] ?>, y:<?php echo $lot['echoppe']['y_echoppe']?>
                     <?php endif;?>
                 </td>
                 <td class="table_liste">
