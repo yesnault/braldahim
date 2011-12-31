@@ -449,7 +449,7 @@ class AdministrationsqlbatchController extends Zend_Controller_Action
 			$detailsBot .= PHP_EOL . "Je vous invite à boire un coup pour fêter cette fin d'année et la nouvelle année qui commence." . PHP_EOL . PHP_EOL;
 			$detailsBot .= "Hum, je vois que vous avez déjà mangé correctement. Jetez-donc un oeil à votre laban je crois qu'il y a une surprise !" . PHP_EOL . PHP_EOL;
 
-			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=1422]Retrouvez plus d'informations sur le forum.[/url]" . PHP_EOL . PHP_EOL;
+			$detailsBot .= "[url=http://forum.braldahim.com/viewtopic.php?f=9&t=1423]Retrouvez plus d'informations sur le forum.[/url]" . PHP_EOL . PHP_EOL;
 
 			$detailsBot .= "A la votre,";
 
