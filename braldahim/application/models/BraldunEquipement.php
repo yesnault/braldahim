@@ -92,10 +92,12 @@ class BraldunEquipement extends Zend_Db_Table
 			->from('type_piece')
 			->from('recette_equipements')
 			->from('equipement')
+            ->from('equipement_bonus')
 			->where('id_equipement = id_equipement_hequipement')
 			->where('id_fk_recette_equipement = id_recette_equipement')
 			->where('id_fk_type_recette_equipement = id_type_equipement')
 			->where('id_fk_type_piece_type_equipement = id_type_piece')
+            ->where('id_equipement = id_equipement_bonus')
 			->where('id_fk_braldun_hequipement = ?', intval($idBraldun))
 			->where('nom_systeme_type_piece = ?', $nomTypePiece);
 
