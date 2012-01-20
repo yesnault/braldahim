@@ -14,6 +14,7 @@ class Bral_Helper_Profil
 
 	public static function afficheBarreNiveau($niveau_braldun, $px_perso_braldun)
 	{
+        Zend_Loader::loadClass('Bral_Util_Niveau');
 		$niveauCourantPx = ($niveau_braldun) * 5;
 		$niveauSuivantPx = ($niveau_braldun + 1) * 5;
 		$pourcentage = (($px_perso_braldun * 100) / $niveauSuivantPx);
@@ -23,23 +24,30 @@ class Bral_Helper_Profil
 			$s = "s";
 		}
 		$texte = "Vous avez " . $px_perso_braldun . " PX Perso" . $s . ".<br />";
-		$texte .= "Pour passer au niveau " . ($niveau_braldun + 1) . ", il vous faut ";
 
-		if (($niveauSuivantPx - $px_perso_braldun) > 0) {
-			$s = "";
-			if (($niveauSuivantPx) > 1) {
-				$s = "s";
-			}
-			$texte .= " " . $niveauSuivantPx . " PX Perso" . $s . ".<br />";
-			$s = "";
-			if (($niveauSuivantPx - $px_perso_braldun) > 1) {
-				$s = "s";
-			}
-			$texte .= "Il vous manque donc " . ($niveauSuivantPx - $px_perso_braldun) . " PX Perso" . $s . ".<br />";
-		} else {
-			$texte .= " 0 PX Perso.<br />";
-			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br />";
-		}
+        if ($niveau_braldun < Bral_Util_Niveau::NIVEAU_MAX) {
+            $texte .= "Pour passer au niveau " . ($niveau_braldun + 1) . ", il vous faut ";
+
+            if (($niveauSuivantPx - $px_perso_braldun) > 0) {
+                $s = "";
+                if (($niveauSuivantPx) > 1) {
+                    $s = "s";
+                }
+                $texte .= " " . $niveauSuivantPx . " PX Perso" . $s . ".<br />";
+                $s = "";
+                if (($niveauSuivantPx - $px_perso_braldun) > 1) {
+                    $s = "s";
+                }
+                $texte .= "Il vous manque donc " . ($niveauSuivantPx - $px_perso_braldun) . " PX Perso" . $s . ".<br />";
+            } else {
+                $texte .= " 0 PX Perso.<br />";
+                $texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br />";
+            }
+        }
+        else {
+            $texte .= "Vous avez atteint le niveau maximum, vous ne pouvez donc plus monter de niveau mais vous pouvez toujours gagner des PX et les investir dans des compétences !";
+            $pourcentage = 100;
+        }
 
 		$largeur = $pourcentage;
 
