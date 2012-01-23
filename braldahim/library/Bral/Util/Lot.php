@@ -879,6 +879,7 @@ class Bral_Util_Lot
 		self::transfertLotPartieplante($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination, $preSuffixe);
 		self::transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::transfertLotRune($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
+		self::transfertLotTabac($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination);
 		self::calculHistorique($idLot, $destination, $idBraldunAcheteur);
 
 		self::supprimeLot($idLot);
@@ -1190,6 +1191,36 @@ class Bral_Util_Lot
 
 		$where = 'id_fk_lot_lot_minerai = ' . intval($idLot);
 		$lotMineraiTable->delete($where);
+	}
+
+
+	private static function transfertLotTabac($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
+	{
+		Zend_Loader::loadClass('LotTabac');
+
+		$lotTabacTable = new LotTabac();
+		$lots = $lotTabacTable->findByIdLot($idLot);
+
+		if ($lots == null || count($lots) < 1) {
+			return;
+		}
+
+		$table = $nomTable . 'Tabac';
+		Zend_Loader::loadClass($table);
+		$tabacTable = new $table();
+
+		foreach ($lots as $lot) {
+			$data = array(
+				'quantite_feuille_' . $suffixe1 . '_tabac' => $lot['quantite_feuille_lot_tabac'],
+				'id_fk_type_' . $suffixe1 . '_tabac' => $lot['id_fk_type_lot_tabac'],
+				'id_fk_' . $suffixe2 . $suffixe1 . '_tabac' => $idDestination,
+			);
+
+			$tabacTable->insertOrUpdate($data);
+		}
+
+		$where = 'id_fk_lot_lot_tabac = ' . intval($idLot);
+		$lotTabacTable->delete($where);
 	}
 
 	private static function transfertLotPotion($idLot, $nomTable, $suffixe1, $suffixe2, $idDestination)
