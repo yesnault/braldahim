@@ -255,7 +255,7 @@ class Bral_Util_Marcher
 			$this->nb_pa = 1;
 		}
 
-		if ($estSurEau) {
+		if ($estSurEau && !$estSurRoute) {
 			// 2 PA + 1 Pa si charrette + 1 PA/tranche de 10Kg porté (équipé +laban)
 			Zend_Loader::loadClass("Charrette");
 			$charretteTable = new Charrette();

@@ -28,6 +28,8 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence
 
 		if (count($equipementPorteRowset) > 0) {
 			$armeTirPortee = true;
+            $this->view->bm_attaque = $equipementPorteRowset[0]["attaque_equipement"] + $equipementPorteRowset[0]["vernis_bm_attaque_equipement_bonus"];
+            $this->view->bm_degat = $equipementPorteRowset[0]["degat_equipement"] + $equipementPorteRowset[0]["vernis_bm_degat_equipement_bonus"];
 			//on verifie qu'il a des munitions et que ce sont les bonnes
 			$labanMunition = new LabanMunition();
 			$munitionPorteRowset = $labanMunition->findByIdBraldun($this->view->user->id_braldun);
@@ -263,10 +265,10 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence
 		$jetAttaquant = Bral_Util_De::getLanceDe6($nbDe);
 		$jetAttaquantDetails = $nbDe . "D6";
 
-		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $braldun->bm_attaque_braldun;
+		$jetAttaquant = $jetAttaquant + $braldun->agilite_bm_braldun + $braldun->agilite_bbdf_braldun + $this->view->bm_attaque;
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bm_braldun);
 		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->agilite_bbdf_braldun);
-		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($braldun->bm_attaque_braldun);
+		$jetAttaquantDetails .= Bral_Util_String::getSigneValeur($this->view->bm_attaque);
 
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
@@ -291,10 +293,10 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence
 
 		//$details = "Jet AGI:".$jetDegAgi." Jet SAG:".$jetDegSag.". ";
 
-		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag) / 2);
-		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag) / 2);
+		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag) / 2) + $this->view->bm_degat;
+		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag) / 2) + $this->view->bm_degat;
 
-		$jetDetailsNonCritique = "(" . $nbDeAgi . "D6 + " . $nbDeSag . "D6)/2";
+		$jetDetailsNonCritique = "(" . $nbDeAgi . "D6 + " . $nbDeSag . "D6)/2 + " . $this->view->bm_degat;
 		$jetDetailsCritique = $coefCritique . "x" . $jetDetailsNonCritique;
 
 		$jetDegat["critiquedetails"] = $jetDetailsCritique;
