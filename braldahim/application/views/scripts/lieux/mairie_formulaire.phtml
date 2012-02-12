@@ -45,7 +45,7 @@
 <br />
 <?php if ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
 	<?php if ($this->braldunAvecCommunaute == true) : ?>
-	<input type='button' class='button' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
+	<input type='button' class='button' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', 'lieu_mairie');" />
 	<?php else : ?>
 	<input type='button' class='button' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', 'lieu_mairie', true);"  disabled>
 	<input type='button' class='button' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onclick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', 'lieu_mairie');"  disabled>
