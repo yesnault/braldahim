@@ -23,6 +23,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule
 		Zend_Loader::loadClass('SouleEquipe');
 		Zend_Loader::loadClass('SouleMatch');
 		Zend_Loader::loadClass('SouleTerrain');
+        Zend_Loader::loadClass('Bral_Util_Niveau');
 
 		$this->view->inscriptionPossible = false;
 
@@ -71,6 +72,9 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule
 	{
 
 		$this->niveauTerrainBraldun = floor($this->view->user->niveau_braldun / 10);
+        if ($this->view->user->niveau_braldun == Bral_Util_Niveau::NIVEAU_MAX) {
+            $this->niveauTerrainBraldun = $this->niveauTerrainBraldun - 1;
+        }
 
 		$souleTerrainTable = new SouleTerrain();
 		$terrainRowset = $souleTerrainTable->findByNiveau($this->niveauTerrainBraldun);

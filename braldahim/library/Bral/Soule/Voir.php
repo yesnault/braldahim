@@ -33,6 +33,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule
 		Zend_Loader::loadClass('SouleEquipe');
 		Zend_Loader::loadClass('SouleMatch');
 		Zend_Loader::loadClass('SouleTerrain');
+        Zend_Loader::loadClass('Bral_Util_Niveau');
 
 		if ($this->request->get("id_terrain") != "") {
 			$this->idTerrainEnCours = Bral_Util_Controle::getValeurIntVerif($this->request->get("id_terrain"));
@@ -44,6 +45,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule
 		}
 
 		$this->niveauTerrainBraldun = floor($this->view->user->niveau_braldun / 10);
+        if ($this->view->user->niveau_braldun == Bral_Util_Niveau::NIVEAU_MAX) {
+            $this->niveauTerrainBraldun = $this->niveauTerrainBraldun - 1;
+        }
 
 		$souleTerrainTable = new SouleTerrain();
 		$terrainRowset = $souleTerrainTable->findByIdTerrain($this->idTerrainEnCours);
