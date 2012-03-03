@@ -15,4 +15,15 @@ class TailleMonstre extends Zend_Db_Table
 	const ID_TAILLE_GRAND = 3;
 	const ID_TAILLE_GIGANTESQUE = 4;
 	const ID_TAILLE_BOSS = 5;
+
+    public function fetchAllQuete()
+	{
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('taille_monstre', '*')
+			->where('est_dans_quete_taille_monstre = ?', "oui");
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }

@@ -255,7 +255,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu
 		if (Bral_Util_Quete::ETAPE_TUER_PARAM3_TAILLE == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("TailleMonstre");
 			$tailleMonstreTable = new TailleMonstre();
-			$tailles = $tailleMonstreTable->fetchAll();
+			$tailles = $tailleMonstreTable->fetchAllQuete();
 			$deTaille = Bral_Util_De::get_de_specifique(0, count($tailles) - 1);
 			$dataTypeEtape["param4"] = $tailles[$deTaille]["id_taille_monstre"];
 			$dataTypeEtape["libelle_etape"] .= " de taille " . $tailles[$deTaille]["nom_taille_f_monstre"];
