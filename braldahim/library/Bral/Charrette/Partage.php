@@ -78,7 +78,6 @@ class Bral_Charrette_Partage extends Bral_Charrette_Charrette
 		}
 
 		$this->calculPartage($partageCommunaute, $partageBralduns);
-		$this->calculBalanceFaim();
 		$this->setEstEvenementAuto(false);
 		$this->setEstAvecPa(false);
 	}

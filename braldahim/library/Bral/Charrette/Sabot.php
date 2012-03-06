@@ -70,7 +70,6 @@ class Bral_Charrette_Sabot extends Bral_Charrette_Charrette
 		$chiffre_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
 
 		$this->calculSabot($chiffre_1, $chiffre_2, $chiffre_3, $chiffre_4);
-		$this->calculBalanceFaim();
 		$this->setEstEvenementAuto(false);
 		$this->setEstAvecPa(false);
 	}
