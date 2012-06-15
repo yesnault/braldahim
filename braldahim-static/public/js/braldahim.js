@@ -93,10 +93,10 @@ function _get_(url, nomAction, encode) {
 		for (i = 1; i <= nb_valeurs; i++) {
 			var nom = '#valeur_' + i + suffixe;
 			var elem = $(nom);
-			if ($(nom) && elem[0].type == "radio") {
+			if ($(nom) && typeof(elem[0]) != "undefined" && elem[0].type == "radio") {
 				ajout = $("input[type=radio][name=valeur_" + i + suffixe + "]:checked").attr("value");
 				valeurs = valeurs + sep + "valeur_" + i + "=" + ajout;
-			} else if (elem[0].type == "select-multiple") {
+			} else if (typeof(elem[0]) != "undefined" && elem[0].type == "select-multiple") {
 				for (j = 0; j <= elem[0].options.length - 1; j++) {
 					if (elem[0].options[j].selected) {
 						valeurs = valeurs + sep + "valeur_" + i + "[]=" + elem[0].options[j].value;
