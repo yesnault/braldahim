@@ -127,6 +127,33 @@ class Bral_Util_Charrette
 		return $retour;
 	}
 
+    public static function majDurabiliteActuelleCharrette($idCharrette, $idMateriel)
+	{
+        Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Materiel");
+
+		$charretteTable = new Charrette();
+		$charrettes = $charretteTable->findByIdCharrette($idCharrette);
+		$nb = count($charrettes);
+
+        if ($nb == 1) {
+			$charrette = $charrettes[0];
+			$materielTable = new Materiel();
+			$materiel = $materielTable->findByIdMaterielWithDetails($idMateriel);
+
+            if (count($materiel)>0) {
+
+            $data = array(
+				"durabilite_actuelle_charrette" => $charrette["durabilite_actuelle_charrette"] + $materiel[0]["durabilite_type_materiel"]
+			);
+
+			$where = "id_charrette = " . $charrette["id_charrette"];
+			$charretteTable->update($data, $where);
+            }
+
+        }
+    }
+
 	public static function calculAmeliorationsCharrette($idBraldun)
 	{
 		Zend_Loader::loadClass("Charrette");
