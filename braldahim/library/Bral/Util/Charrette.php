@@ -143,12 +143,17 @@ class Bral_Util_Charrette
 
             if (count($materiel)>0) {
 
-            $data = array(
-				"durabilite_actuelle_charrette" => $charrette["durabilite_actuelle_charrette"] + $materiel[0]["durabilite_type_materiel"]
-			);
+                $durabiliteActuelle = $charrette["durabilite_actuelle_charrette"] + $materiel[0]["durabilite_type_materiel"];
+                if ($durabiliteActuelle > $charrette["durabilite_max_charrette"]) {
+                    $durabiliteActuelle = $charrette["durabilite_max_charrette"];
+                }
 
-			$where = "id_charrette = " . $charrette["id_charrette"];
-			$charretteTable->update($data, $where);
+                $data = array(
+                    "durabilite_actuelle_charrette" => $durabiliteActuelle
+                );
+
+                $where = "id_charrette = " . $charrette["id_charrette"];
+                $charretteTable->update($data, $where);
             }
 
         }
