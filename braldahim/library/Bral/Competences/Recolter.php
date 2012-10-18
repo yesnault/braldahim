@@ -270,7 +270,8 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_tabac"] = $this->view->charrette["id_charrette"];
 		} elseif ($idDestination == "sol") {
-			// rien
+			$data["x_element_tabac"] = $this->view->user->x_braldun;
+			$data["y_element_tabac"] = $this->view->user->y_braldun;
 		} else {
 			$data["id_fk_braldun_laban_tabac"] = $this->view->user->id_braldun;
 		}

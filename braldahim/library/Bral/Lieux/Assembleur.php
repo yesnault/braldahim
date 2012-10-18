@@ -285,6 +285,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu
 
 		Zend_Loader::loadClass("Bral_Util_Charrette");
 		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_braldun);
+        Bral_Util_Charrette::majDurabiliteActuelleCharrette($materielBase["id_materiel"],$materielAAssembler["id_materiel"]);
 	}
 
 	private function supprimeMaterielAAsembler($materielAAssembler)
