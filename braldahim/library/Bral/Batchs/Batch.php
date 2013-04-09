@@ -18,7 +18,7 @@ abstract class Bral_Batchs_Batch
 	/* Nombre de jours que l'on garde tous resultats, hors ok dans la table batch. */
 	const PURGE_NB_JOUR_TOUS = 30;
 
-	const PURGE_BRALDUN_SUPPRESSION_NBJOURS = 30;
+	const PURGE_BRALDUN_SUPPRESSION_NBJOURS = 90;
 
 	/* Nombre de rappel avant la suppression, duree en jours. */
 	const PURGE_BRALDUN_PREVENTION_NBJOURS = 4;
