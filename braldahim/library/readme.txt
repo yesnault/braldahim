@@ -1,10 +1,9 @@
-Il faut dé-zipper dans ce répertoire la version courante du Zend Framework.
+Il faut d√©-zipper dans ce r√©pertoire la version courante du Zend Framework.
 
-Il est disponible à l'adresse suivante : http://framework.zend.com/download
+Il est disponible √† l'adresse suivante : http://framework.zend.com/download
 
-Après avoir dé-zipper l'archive, on doit se retrouver avec les répertoires :
+Apr√®s avoir d√©-zipper l'archive, on doit se retrouver avec les r√©pertoires :
  library/Bral
- library/Zend (contenant les répertoires Acl, Auth, etc...)
+ library/Zend (contenant les r√©pertoires Acl, Auth, etc...)
  
-Il ne faut pas mettre sous Subversion le fichier library/Zend.php et le répertoire library/Zend.
-Ils sont d'ailleurs mis avec une properties svn:ignore.
+Il ne faut pas mettre sous Git le r√©pertoire library/Zend.
